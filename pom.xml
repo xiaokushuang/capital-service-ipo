@@ -281,11 +281,19 @@
 				<targetPath>../webapp/WEB-INF</targetPath>
 				<filtering>true</filtering>
 			</resource>
+			<resource>
+				<directory>src/main/webapp</directory>
+				<targetPath>META-INF/resources</targetPath>
+				<includes>
+					<include>**/**</include>
+				</includes>
+			</resource>
 		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>1.4.2.RELEASE</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -316,66 +324,66 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	
+
 	<profiles>
-        <profile>
-            <id>dev</id>
-            <properties>
-                <profiles.active>dev</profiles.active>
-            </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <filters>
-                    <filter>src/main/resources/application-dev.properties</filter>
-                </filters>
-            </build>
-        </profile>
-        <profile>
-            <id>test</id>
-            <properties>
-                <profiles.active>test</profiles.active>
-            </properties>
-            <build>
-                <filters>
-                    <filter>src/main/resources/application-test.properties</filter>
-                </filters>
-            </build>
-        </profile>
-        <profile>
-            <id>prepub</id>
-            <properties>
-                <profiles.active>prepub</profiles.active>
-            </properties>
-            <build>
-                <filters>
-                    <filter>src/main/resources/application-prepub.properties</filter>
-                </filters>
-            </build>
-        </profile>
-        <profile>
-            <id>prepub-sz</id>
-            <properties>
-                <profiles.active>prepub-sz</profiles.active>
-            </properties>
-            <build>
-                <filters>
-                    <filter>src/main/resources/application-prepub-sz.properties</filter>
-                </filters>
-            </build>
-        </profile>
-        <profile>
-            <id>prod</id>
-            <properties>
-                <profiles.active>prod</profiles.active>
-            </properties>
-            <build>
-                <filters>
-                    <filter>src/main/resources/application-prod.properties</filter>
-                </filters>
-            </build>
-        </profile>
-    </profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<profiles.active>dev</profiles.active>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<filters>
+					<filter>src/main/resources/application-dev.properties</filter>
+				</filters>
+			</build>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<profiles.active>test</profiles.active>
+			</properties>
+			<build>
+				<filters>
+					<filter>src/main/resources/application-test.properties</filter>
+				</filters>
+			</build>
+		</profile>
+		<profile>
+			<id>prepub</id>
+			<properties>
+				<profiles.active>prepub</profiles.active>
+			</properties>
+			<build>
+				<filters>
+					<filter>src/main/resources/application-prepub.properties</filter>
+				</filters>
+			</build>
+		</profile>
+		<profile>
+			<id>prepub-sz</id>
+			<properties>
+				<profiles.active>prepub-sz</profiles.active>
+			</properties>
+			<build>
+				<filters>
+					<filter>src/main/resources/application-prepub-sz.properties</filter>
+				</filters>
+			</build>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<profiles.active>prod</profiles.active>
+			</properties>
+			<build>
+				<filters>
+					<filter>src/main/resources/application-prod.properties</filter>
+				</filters>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
