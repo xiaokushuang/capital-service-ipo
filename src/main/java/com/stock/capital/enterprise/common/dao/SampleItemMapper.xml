@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.capital.enterprise.common.dao.SampleItemMapper" >
+  <resultMap id="BaseResultMap" type="com.stock.capital.enterprise.common.entity.SampleItem" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="sample_id" property="sampleId" jdbcType="VARCHAR" />
+    <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+    <result column="item_type" property="itemType" jdbcType="VARCHAR" />
+    <result column="item_date" property="itemDate" jdbcType="DATE" />
+    <result column="item_time" property="itemTime" jdbcType="TIMESTAMP" />
+    <result column="item_checkbox" property="itemCheckbox" jdbcType="VARCHAR" />
+    <result column="item_radiobutton" property="itemRadiobutton" jdbcType="VARCHAR" />
+    <result column="item_num_int" property="itemNumInt" jdbcType="INTEGER" />
+    <result column="item_num_double" property="itemNumDouble" jdbcType="DECIMAL" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sample_id, item_name, item_type, item_date, item_time, item_checkbox, item_radiobutton, 
+    item_num_int, item_num_double, create_user, create_time, update_user, update_time, 
+    status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.stock.capital.enterprise.common.entity.SampleItemExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sample_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sample_item
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sample_item
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.stock.capital.enterprise.common.entity.SampleItemExample" >
+    delete from sample_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.stock.capital.enterprise.common.entity.SampleItem" >
+    <selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE" >
+      SELECT CONCAT(uuid_short(),'')
+    </selectKey>
+    insert into sample_item (id, sample_id, item_name, 
+      item_type, item_date, item_time, 
+      item_checkbox, item_radiobutton, item_num_int, 
+      item_num_double, create_user, create_time, 
+      update_user, update_time, status
+      )
+    values (#{id,jdbcType=VARCHAR}, #{sampleId,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, 
+      #{itemType,jdbcType=VARCHAR}, #{itemDate,jdbcType=DATE}, #{itemTime,jdbcType=TIMESTAMP}, 
+      #{itemCheckbox,jdbcType=VARCHAR}, #{itemRadiobutton,jdbcType=VARCHAR}, #{itemNumInt,jdbcType=INTEGER}, 
+      #{itemNumDouble,jdbcType=DECIMAL}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.stock.capital.enterprise.common.entity.SampleItem" >
+    <selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE" >
+      SELECT CONCAT(uuid_short(),'')
+    </selectKey>
+    insert into sample_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
+      <if test="sampleId != null" >
+        sample_id,
+      </if>
+      <if test="itemName != null" >
+        item_name,
+      </if>
+      <if test="itemType != null" >
+        item_type,
+      </if>
+      <if test="itemDate != null" >
+        item_date,
+      </if>
+      <if test="itemTime != null" >
+        item_time,
+      </if>
+      <if test="itemCheckbox != null" >
+        item_checkbox,
+      </if>
+      <if test="itemRadiobutton != null" >
+        item_radiobutton,
+      </if>
+      <if test="itemNumInt != null" >
+        item_num_int,
+      </if>
+      <if test="itemNumDouble != null" >
+        item_num_double,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=VARCHAR},
+      <if test="sampleId != null" >
+        #{sampleId,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null" >
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemType != null" >
+        #{itemType,jdbcType=VARCHAR},
+      </if>
+      <if test="itemDate != null" >
+        #{itemDate,jdbcType=DATE},
+      </if>
+      <if test="itemTime != null" >
+        #{itemTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="itemCheckbox != null" >
+        #{itemCheckbox,jdbcType=VARCHAR},
+      </if>
+      <if test="itemRadiobutton != null" >
+        #{itemRadiobutton,jdbcType=VARCHAR},
+      </if>
+      <if test="itemNumInt != null" >
+        #{itemNumInt,jdbcType=INTEGER},
+      </if>
+      <if test="itemNumDouble != null" >
+        #{itemNumDouble,jdbcType=DECIMAL},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.stock.capital.enterprise.common.entity.SampleItemExample" resultType="java.lang.Integer" >
+    select count(*) from sample_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sample_item
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sampleId != null" >
+        sample_id = #{record.sampleId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemName != null" >
+        item_name = #{record.itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemType != null" >
+        item_type = #{record.itemType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemDate != null" >
+        item_date = #{record.itemDate,jdbcType=DATE},
+      </if>
+      <if test="record.itemTime != null" >
+        item_time = #{record.itemTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.itemCheckbox != null" >
+        item_checkbox = #{record.itemCheckbox,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemRadiobutton != null" >
+        item_radiobutton = #{record.itemRadiobutton,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemNumInt != null" >
+        item_num_int = #{record.itemNumInt,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemNumDouble != null" >
+        item_num_double = #{record.itemNumDouble,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createUser != null" >
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null" >
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sample_item
+    set id = #{record.id,jdbcType=VARCHAR},
+      sample_id = #{record.sampleId,jdbcType=VARCHAR},
+      item_name = #{record.itemName,jdbcType=VARCHAR},
+      item_type = #{record.itemType,jdbcType=VARCHAR},
+      item_date = #{record.itemDate,jdbcType=DATE},
+      item_time = #{record.itemTime,jdbcType=TIMESTAMP},
+      item_checkbox = #{record.itemCheckbox,jdbcType=VARCHAR},
+      item_radiobutton = #{record.itemRadiobutton,jdbcType=VARCHAR},
+      item_num_int = #{record.itemNumInt,jdbcType=INTEGER},
+      item_num_double = #{record.itemNumDouble,jdbcType=DECIMAL},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stock.capital.enterprise.common.entity.SampleItem" >
+    update sample_item
+    <set >
+      <if test="sampleId != null" >
+        sample_id = #{sampleId,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null" >
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemType != null" >
+        item_type = #{itemType,jdbcType=VARCHAR},
+      </if>
+      <if test="itemDate != null" >
+        item_date = #{itemDate,jdbcType=DATE},
+      </if>
+      <if test="itemTime != null" >
+        item_time = #{itemTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="itemCheckbox != null" >
+        item_checkbox = #{itemCheckbox,jdbcType=VARCHAR},
+      </if>
+      <if test="itemRadiobutton != null" >
+        item_radiobutton = #{itemRadiobutton,jdbcType=VARCHAR},
+      </if>
+      <if test="itemNumInt != null" >
+        item_num_int = #{itemNumInt,jdbcType=INTEGER},
+      </if>
+      <if test="itemNumDouble != null" >
+        item_num_double = #{itemNumDouble,jdbcType=DECIMAL},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stock.capital.enterprise.common.entity.SampleItem" >
+    update sample_item
+    set sample_id = #{sampleId,jdbcType=VARCHAR},
+      item_name = #{itemName,jdbcType=VARCHAR},
+      item_type = #{itemType,jdbcType=VARCHAR},
+      item_date = #{itemDate,jdbcType=DATE},
+      item_time = #{itemTime,jdbcType=TIMESTAMP},
+      item_checkbox = #{itemCheckbox,jdbcType=VARCHAR},
+      item_radiobutton = #{itemRadiobutton,jdbcType=VARCHAR},
+      item_num_int = #{itemNumInt,jdbcType=INTEGER},
+      item_num_double = #{itemNumDouble,jdbcType=DECIMAL},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
