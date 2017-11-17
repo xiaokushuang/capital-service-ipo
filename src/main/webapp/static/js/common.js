@@ -30,9 +30,7 @@ $(document).ready(function() {
 	if (self.frameElement) {
 		try{
 			$("body").prop("class", "theme-" + top.window.currentTheme);
-		}catch(e){
-			console.log('ie拒绝访问');
-		}
+		}catch(e){}
 		
 	}
 	// 验证组件初始化
