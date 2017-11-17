@@ -28,7 +28,12 @@ $(document).ready(function() {
 	})
 	// 设置弹出画面的主题
 	if (self.frameElement) {
-		$("body").prop("class", "theme-" + top.window.currentTheme);
+		try{
+			$("body").prop("class", "theme-" + top.window.currentTheme);
+		}catch(e){
+			console.log('ie拒绝访问');
+		}
+		
 	}
 	// 验证组件初始化
 	$.validator.setDefaults({
