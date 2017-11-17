@@ -27,12 +27,12 @@ $(document).ready(function() {
 		$(this).parents('.dataBox').find('input').datetimepicker('show');
 	})
 	// 设置弹出画面的主题
-	if (self.frameElement) {
-		try{
-			$("body").prop("class", "theme-" + top.window.currentTheme);
-		}catch(e){}
-		
-	}
+//	if (self.frameElement) {
+//		try{
+//			$("body").prop("class", "theme-" + top.window.currentTheme);
+//		}catch(e){}
+//		
+//	}
 	// 验证组件初始化
 	$.validator.setDefaults({
 		focusCleanup : true,
