@@ -19,7 +19,6 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration;
 import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.web.client.RestTemplate;
 
@@ -115,7 +114,7 @@ public class RootConfigurer {
         DefaultCookieSerializer defaultCookieSerializer = new DefaultCookieSerializer();
         defaultCookieSerializer.setCookieMaxAge(-1);
         defaultCookieSerializer.setCookiePath("/");
-        defaultCookieSerializer.setCookieName("example");
+        defaultCookieSerializer.setCookieName("ipo");
         defaultCookieSerializer.setUseHttpOnlyCookie(true);
         return defaultCookieSerializer;
     }
