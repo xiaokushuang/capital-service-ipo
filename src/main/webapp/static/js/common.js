@@ -1,22 +1,19 @@
 // 上下文
 var contextPath = null;
+//定时器
+var timersHeight;
 // 提交flag
 var submitFlag = false;
 // 迁移前保存提示flag
 var saveBeforeMovePage = "";
+//显示中的iframe
+var iframeShow;
+//警告标志位
+var warning = false;
 // 所有页面初始化事件
 $(document).ready(function() {
 	//禁止右键
     $(document).bind("contextmenu", function () { return false; });
-	//显示信披时间历史
-	$(document).on('mouseenter','.popMsgs',function(e){
-		$(this).find('i').popover({title: "拟披露日期变更记录", html: true, content: $(this).find('div').html(), placement: "auto right"});
-		$(this).find('i').popover("show");
-	})
-	$(document).on('mouseleave','.popMsgs',function(e){
-		$('.popMsgs').find('i').popover('hide');
-	})
-	
 	$(document).on("click", "input[input-type='datetimepicker']", function() {// 1165需求
 		$(this).datetimepicker('show');
 	});
@@ -27,12 +24,9 @@ $(document).ready(function() {
 		$(this).parents('.dataBox').find('input').datetimepicker('show');
 	})
 	// 设置弹出画面的主题
-//	if (self.frameElement) {
-//		try{
-//			$("body").prop("class", "theme-" + top.window.currentTheme);
-//		}catch(e){}
-//		
-//	}
+	if (self.frameElement) {
+		$("body").prop("class", "theme-" + top.window.currentTheme);
+	}
 	// 验证组件初始化
 	$.validator.setDefaults({
 		focusCleanup : true,
@@ -139,7 +133,131 @@ $(document).ready(function() {
 //	$('[data-ellipsis="true"]').on('click.zui.Ellipsis',function(e){
 //		alert(1)
 //	})
+	//阻止空格默认事件
+	$(document).on('keyup',function(e){
+		var arr = e.target.className.split(' '),result=true;
+		if(e.keyCode==32){
+			arr.map(function(obj,idx){
+				if(obj.trim()=='btn'){
+					result = false;
+				}
+			})
+		}
+		return result;
+	})
+	/**
+	 * 监听每个带有独立window的页面message变化
+	 * */
+	window.addEventListener('message',function(e){
+		if(e.data['type']=='times'){//type==times表示计算高度的方法
+			setIframeHeightAndStyle(e)
+		}
+		if(e.data['type']=='function'){//type==function表示要调用其他域iframe的js方法
+			messageEvent(e)
+		}
+		
+	});
+	/**
+	 * 监听每个带有独立window的页面message变化
+	 * */
+	if (self == top) { //判断在顶层window
+		timersHeight = setInterval(function(){//算高定时器
+			if(window.frames.length>=0&&(!!selectIframe())){
+				selectIframe().contentWindow.postMessage({bodyClass:document.body.className,type:'times'},'*');
+			}
+		},1000)
+	}
+	setTimeout(function(){
+		if(!!selectIframe()){
+			if(!(!!selectIframe().style.height)){
+				console.warn('No message from a subpage,by:yanchangkun')
+			}
+		}
+	},5000)
 });
+/**
+ * 查找显示的iframe
+ * */
+function selectIframe(win){
+	var dom,rule=[];
+	if(window.frames.length>0){//判断是否存在iframe
+		$('.tab-pane',win).each(function(idx,obj){
+			if($(obj).css('display')!=='none'){
+				if(rule[0]!=obj){
+					rule.push(obj)
+				}
+			}
+		})
+		if(rule.length>1){
+			if(warning==false){
+				warning = true;
+				console.warn('The layout of the page is not reasonable,by:yanchangkun')
+			}
+		}
+		if(rule.length>0&&rule.length<2){
+			if(self==top){
+				if(typeof timers!='undefined'){//清楚一些定时器
+	                clearInterval(timers)
+	            }
+				if(!!reHeightTimer){//清楚模块的定时器
+	                clearInterval(reHeightTimer);
+	                reHeightTimer = false;
+	            }
+			}
+			return $(rule[0]).find('iframe')[0];
+		}
+	}
+}
+/**
+ * iframe算高及传递风格样式
+ * */
+function setIframeHeightAndStyle(e){
+	if (self != top){//第二层和第三层
+		if(self.parent==top){//第二层
+			if(document.body.className != e.data['bodyClass']){
+				document.body.className = e.data['bodyClass'];
+			}
+			if(window.frames.length>=0&&!!selectIframe()){
+				selectIframe().contentWindow.postMessage({bodyClass:document.body.className,type:'times'},'*');
+				selectIframe().style.height = e.data['height']+'px';
+			}
+			window.parent.postMessage({height:document.body.offsetHeight,type:'times'},'*');
+		}else{//第三层只监听来的值传到父级，并设置bodyclass
+			if(document.body.className != e.data['bodyClass']){
+				document.body.className = e.data['bodyClass'];
+			}
+			window.parent.postMessage({height:document.body.offsetHeight,type:'times'},'*');
+		}
+	}else{//第一层设置高度
+		selectIframe().style.height = (e.data['height']>500?e.data['height']:500)+'px';
+	}
+}
+/**
+ * iframe传值
+ * 
+ * @param win <Dom>
+ * 		iframe.contentWindow or window.parent 对象
+ * @param func <Function>
+ * 		要执行的方法名
+ * @param param <Array>
+ * 		传给方法的参数
+ * */
+function iframeDoMessage(win,func,param){
+	win.postMessage({
+		type:'function',
+		func:func,
+		param:param
+	},'*')
+}
+/**
+ * message监听传来的值
+ * 
+ * @param e 
+ * 		message监听默认参数
+ * */
+function messageEvent(e){
+	window[e.data['func']].apply(this,e.data['param'])
+}
 function getAjaxGlobalSettings() {
 	// 设置ajax全局请求参数
 	var ajaxSettings = {
@@ -403,6 +521,7 @@ function movePage(sUrl, parameters) {
 	}
 }
 
+
 /**
  * 页面跳转回调
  * 
@@ -418,6 +537,25 @@ function movePageCallBack(sUrl, parameters) {
 	var context = new Object();
 	context.dataType = ajaxSettings.dataType;
 	context.htmlArea = $("#main");
+	ajaxSettings.context = context;
+	$.ajax(ajaxSettings);
+}
+
+/**
+ * 监管端首页跳转
+ * by yanchangkun
+ * @param sUrl
+ *            跳转URL
+ */
+function movePageCallBackForSup(sUrl, parameters) {
+	saveBeforeMovePage = "";
+	var ajaxSettings = getAjaxGlobalSettings();
+	ajaxSettings.url = contextPath + sUrl;
+	ajaxSettings.dataType = "html";
+	ajaxSettings.data = parameters;
+	var context = new Object();
+	context.dataType = ajaxSettings.dataType;
+	context.htmlArea = window.parent.$("#main");
 	ajaxSettings.context = context;
 	$.ajax(ajaxSettings);
 }
@@ -631,6 +769,10 @@ function viewFile(sFileId, sFromCloud, sFavouriteFlag,pathKey) {
  *            从云端取文件
  */
 function pptviewFile(sFileId, id,releaseStatus,sFromCloud, sFavouriteFlag) {
+	if (sFileId == null || sFileId == undefined || sFileId == 'null') {
+		popMsg("文件不存在");
+		return;
+	}
 	if(releaseStatus=="1"){
 		var url = contextPath + "/pptfileview?fileId=" + sFileId + "&id=" + id + "&releaseStatus=" + releaseStatus;;
 		if (sFromCloud) {
@@ -878,11 +1020,64 @@ function popWin(title, url, data, width, height, callBack, paraCallBack, cancelC
 			iframeWin.popCallBack = callBack;
 			iframeWin.paraCallBack = paraCallBack;
 			$("#popwinform").remove();
+
 		},
 		cancel : cancelCallBack
 	});
 	return index;
 }
+//  demand 2491 lanyuxin 2017-12-14 begin
+/**
+ * 弹出页面无关闭窗口
+ * 
+ * @param title
+ *            标题
+ * @param url
+ *            画面地址
+ * @param data
+ *            画面参数
+ * @param width
+ *            宽
+ * @param height
+ *            高
+ * @param callBack
+ *            回调函数
+ * @param paraCallBack
+ *            回调参数
+ *            
+ */
+function popWinHideClose(title, url, data, width, height, callBack, paraCallBack, cancelCallBack) {
+	height = setPopWinHeight(height);// 设置弹出窗口高度 by hanwei
+	var pUrl = contextPath + url;
+	$("#popwinform").remove();
+	var popWinForm = "<form id='popwinform' method='post' action='" + pUrl + "' target='' style='display:none;'>";
+	if (data != null && data != undefined && data != "") {
+		$.each(data, function(name, value) {
+			popWinForm = popWinForm + "<input type='hidden' name='" + name + "' value='" + value + "'>";
+		});
+	}
+	popWinForm = popWinForm + "</form>";
+	$("body").append(popWinForm);
+	
+	var index = layer.open({
+		type : 2,
+		title : title,
+		area : [width, height],
+		content : pUrl,
+		closeBtn: false,
+		success : function(layero, index) {
+			var iframeWin = window[layero.find('iframe')[0]['name']];
+			iframeWin.popCallBack = callBack;
+			iframeWin.paraCallBack = paraCallBack;
+			$("#popwinform").remove();
+//			$(".layui-layer-setwin").hide();
+		}
+//	,
+//		cancel : cancelCallBack
+	});
+	return index;
+}
+//demand 2491 lanyuxin 2017-12-14 end
 /**
  * 弹出全屏窗口
  * 
@@ -1236,8 +1431,14 @@ function banBackSpace(e){
     var flag2 = ev.keyCode == 8 && t != "password" && t != "text" && t != "textarea";    
     //判断会议管理   div没有disable属性
     var flag3 = ev.keyCode == 8 && obj.getAttribute('contenteditable') == null;
-    if ((flag2 || flag1) && flag3)   
-        event.returnValue = false;//这里如果写 return false 无法实现效果   
+    if ((flag2 || flag1) && flag3) {
+		if (event.preventDefault) {
+			event.preventDefault();
+	    } else {
+	    	event.returnValue = false;
+	    }
+    }
+        //event.returnValue = false;//这里如果写 return false 无法实现效果   
 }
 
 
@@ -1317,11 +1518,19 @@ function GetRequestParam(resUrl) {
 function dataRangePickerInit(dateRange, startDate, endDate, sumbitFun, clearFun, params) {
 	dateRange.prop('readonly','true')
 	var dateRangeParent = dateRange.parent();
+	//Bug5848 给startDate加val,否则获取不到日期,而是得到object类型
 	var startDateTmp = startDate;
+	if(typeof startDate == "object" && getValue(startDate) != ''){
+		startDateTmp = startDate.val();
+	}
 	if (!startDateTmp) {
 		startDateTmp = moment();
 	}
+	//Bug5848 给endDate加val
 	var endDateTmp = endDate;
+	if(typeof endDate == "object" && getValue(endDate) != ''){
+		endDateTmp = endDate.val();
+	}
 	if (!endDateTmp) {
 		endDateTmp = moment();
 	}
@@ -1331,6 +1540,12 @@ function dataRangePickerInit(dateRange, startDate, endDate, sumbitFun, clearFun,
 			opens = params.opens;
 		}
 	}
+	
+	//本会计年度&&上一会计年度
+	var nows = new Date();
+	nows.setDate(1);
+	nows.setMonth(0);
+	
 	var options = {
 		//autoUpdateInput : true,
 		startDate : startDateTmp,
@@ -1348,13 +1563,18 @@ function dataRangePickerInit(dateRange, startDate, endDate, sumbitFun, clearFun,
 		timePickerIncrement : 60, // 时间的增量，单位为分钟
 		timePicker12Hour : false, // 是否使用12小时制来显示时间
 		//autoUpdateInput : false,// 自动更新input值
+		
+		
+		
 		ranges : {
 			'今天' : [moment().startOf('day'), moment()],
 			'明天' : [moment().add('days', 1).startOf('day'), moment().add('days', 1).endOf('day')],
 			'最近3天' : [moment().subtract('days', 2), moment()],
 			'最近一周' : [moment().subtract('days', 6), moment()],
 			'最近一月' : [moment().subtract('months', 1), moment()],
-			'最近一年' : [moment().subtract('years', 1), moment()]
+			'最近一年' : [moment().subtract('years', 1), moment()],
+			'本会计年度':[moment(nows), moment()],
+			'上一会计年度':[moment(nows).subtract('years', 1), moment(nows).subtract('days',1)]
 		},
 		opens : opens, // 日期选择框的弹出位置
 		alwaysShowCalendars : true,
@@ -1503,6 +1723,7 @@ function setSelFileto(obj, callback, disabledCallback) {
 		check.addClass('disableds')
 		disabledCallback && disabledCallback();
 	}
+	check.change();
 }
 // 1165需求 全选功能
 function selectAllto(obj) {
@@ -1645,5 +1866,30 @@ function popoverHot(flag){
 	return content;
 }
 
+//页面加载回掉函数
+var reHeightTimer;
+var componentDidMount = false;
+function paperLoad(){
+	if(!componentDidMount){
+		$('#myTab>li').eq(0).addClass('active').siblings().removeClass('active');
+		$($('#myTab>li').eq(0).find('a').attr('href')).addClass('active').addClass('in').siblings().removeClass('active').removeClass('in');
+		return
+	}else{
+		return componentDidMount()
+	}
+	
+}
 
-
+//url中search解析
+function getQueryString() {   
+    var url = window.location.search; 
+    var theRequest = new Object();   
+    if (url.indexOf("?") != -1) {   
+       var str = url.substr(1);   
+       strs = str.split("&");   
+       for(var i = 0; i < strs.length; i ++) {
+          theRequest[strs[i].split("=")[0]]=decodeURI(strs[i].split("=")[1]); 
+       }   
+    }   
+    return theRequest;   
+ }
