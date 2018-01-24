@@ -23,10 +23,6 @@ $(document).ready(function() {
 	$(document).on("click", ".add-on-garden i", function() {// 1165需求
 		$(this).parents('.dataBox').find('input').datetimepicker('show');
 	})
-	// 设置弹出画面的主题
-	if (self.frameElement) {
-		$("body").prop("class", "theme-" + top.window.currentTheme);
-	}
 	// 验证组件初始化
 	$.validator.setDefaults({
 		focusCleanup : true,
