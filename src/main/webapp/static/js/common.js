@@ -10,8 +10,15 @@ var saveBeforeMovePage = "";
 var iframeShow;
 //警告标志位
 var warning = false;
+//访问令牌
+var accessToken = null;
 // 所有页面初始化事件
 $(document).ready(function() {
+	var queryStringValue = getQueryString("access_token");
+	if (queryStringValue == null) {
+		queryStringValue = getQueryString("accessToken");
+	}
+	accessToken = queryStringValue;
 	//禁止右键
     $(document).bind("contextmenu", function () { return false; });
 	$(document).on("click", "input[input-type='datetimepicker']", function() {// 1165需求
@@ -279,6 +286,7 @@ function getAjaxGlobalSettings() {
  *            XMLHttpRqeust对象
  */
 function globalAjaxBeforeSend(xhr) {
+	xhr.setRequestHeader("Authorization", accessToken);
 	// 加遮罩
 	var index = addLoading();
 	xhr.layerIndex = index;
@@ -1888,4 +1896,21 @@ function getQueryString() {
        }   
     }   
     return theRequest;   
- }
+}
+
+/**
+ * 获取url中的参数
+ * @param paramName 参数名
+ * @returns
+ */
+function getQueryString(paramName) {
+  var reg = new RegExp("(^|&)" + paramName + "=([^&]*)(&|$)", "i");
+  var result = window.location.search.substr(1).match(reg);
+  if (result != null) {
+    return decodeURIComponent(result[2]);
+  } else {
+    return null;
+  }
+}
+
+
