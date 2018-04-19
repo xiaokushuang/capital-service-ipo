@@ -13,17 +13,15 @@
         </encoder>
     </appender>
 
-	<springProfile name="dev,test">
-	    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-	        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-	            <fileNamePattern>${log.home}/%d{yyyy-MM-dd}.log</fileNamePattern>
-	            <maxHistory>60</maxHistory>
-	        </rollingPolicy>
-	        <encoder charset="UTF-8">
-	            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %X{X-Request-ID} %logger %M - %msg%n</pattern>
-	        </encoder>
-	    </appender>
-    </springProfile>
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.home}/%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder charset="UTF-8">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %X{X-Request-ID} %logger %M - %msg%n</pattern>
+        </encoder>
+    </appender>
     
     <springProfile name="prepub-sz,prepub,prod">
 	    <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
