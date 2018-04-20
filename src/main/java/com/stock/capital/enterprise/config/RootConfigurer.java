@@ -46,7 +46,7 @@ public class RootConfigurer {
     }
 
     @Bean
-    @LoadBalanced
+//    @LoadBalanced
     public RestTemplate restTemplate() {
         PoolingHttpClientConnectionManager poolingHttpClientConnectionManager = new PoolingHttpClientConnectionManager();
         poolingHttpClientConnectionManager.setMaxTotal(10);
