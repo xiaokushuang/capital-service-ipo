@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.core.Ordered;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -68,7 +69,7 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
     @Bean(name = "exceptionResolver")
     public ContentNegotiatingExceptionResolver contentNegotiatingExceptionResolver() {
         ContentNegotiatingExceptionResolver contentNegotiatingExceptionResolver = new ContentNegotiatingExceptionResolver();
-        contentNegotiatingExceptionResolver.setOrder(1);
+        contentNegotiatingExceptionResolver.setOrder(Ordered.HIGHEST_PRECEDENCE);
         contentNegotiatingExceptionResolver.setDefaultErrorView("error/500");
         contentNegotiatingExceptionResolver.setNotFoundErrorView("error/404");
         contentNegotiatingExceptionResolver.setExceptionAttribute("exception");

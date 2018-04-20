@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration debug="true" scan="true">
+
+	<springProperty scope="context" name="log.level" source="log.level" defaultValue=""/>
+	<springProperty scope="context" name="log.appender" source="log.appender" defaultValue=""/>
+	<springProperty scope="context" name="log.home" source="log.home" defaultValue=""/>
+	<springProperty scope="context" name="log.stash.addresses" source="log.stash.addresses" defaultValue=""/>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="UTF-8">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %X{X-Request-ID} %logger %M - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+	<springProfile name="dev,test">
+	    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+	            <fileNamePattern>${log.home}/%d{yyyy-MM-dd}.log</fileNamePattern>
+	            <maxHistory>60</maxHistory>
+	        </rollingPolicy>
+	        <encoder charset="UTF-8">
+	            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %X{X-Request-ID} %logger %M - %msg%n</pattern>
+	        </encoder>
+	    </appender>
+    </springProfile>
+    
+    <springProfile name="prepub-sz,prepub,prod">
+	    <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+			<destination>${log.stash.addresses}</destination>
+			<keepAliveDuration>5 minutes</keepAliveDuration>
+			<reconnectionDelay>1 second</reconnectionDelay>
+			<writeBufferSize>16384</writeBufferSize>
+			<encoder class="net.logstash.logback.encoder.LogstashEncoder">
+				<includeCallerData>true</includeCallerData>
+				<includeMdcKeyName>X-Request-ID</includeMdcKeyName>
+				<customFields>{"type":"jetty_log","program":"ipo"}
+				</customFields>
+			</encoder>
+		</appender>
+	</springProfile>
+	
+    <root level="${log.level}">
+        <appender-ref ref="console" />
+        <appender-ref ref="${log.appender}" />
+    </root>
+
+    <logger name="org.eclipse.jetty" level="WARN"></logger>
+    <logger name="org.springframework" level="WARN"></logger>
+    <!--<logger name="org.springframework.security" level="DEBUG"></logger> -->
+    <!--<logger name="org.springframework.session" level="DEBUG"></logger> -->
+    <logger name="com.netflix" level="INFO"></logger>
+    <logger name="org.dozer" level="WARN"></logger>
+    <logger name="org.hibernate" level="WARN"></logger>
+    <logger name="org.mybatis" level="WARN"></logger>
+    <logger name="org.apache" level="WARN"></logger>
+<!--     <logger name="org.apache.http" level="DEBUG"></logger> -->
+
+</configuration>
