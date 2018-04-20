@@ -52,6 +52,6 @@
     <logger name="org.hibernate" level="WARN"></logger>
     <logger name="org.mybatis" level="WARN"></logger>
     <logger name="org.apache" level="WARN"></logger>
-    <!--<logger name="org.apache.http" level="DEBUG"></logger> -->
+    <logger name="org.apache.http" level="DEBUG"></logger>
 
 </configuration>
