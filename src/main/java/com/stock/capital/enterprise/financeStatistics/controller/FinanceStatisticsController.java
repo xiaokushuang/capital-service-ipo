@@ -31,7 +31,10 @@ public class FinanceStatisticsController extends BaseController {
     @Autowired
     private FinaceDataService finaceDataService;
 
-    @Value("#{app['api.baseUrl']}")
+    /**
+     * 接口地址前缀
+     */
+    @Value("${api.baseUrl}")
     private String apiBaseUrl;
 
     /**

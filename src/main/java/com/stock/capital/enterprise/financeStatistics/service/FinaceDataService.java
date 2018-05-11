@@ -32,7 +32,7 @@ public class FinaceDataService extends BaseService {
     /**
      * 接口地址前缀
      */
-    @Value("#{app['api.baseUrl']}")
+    @Value("${api.baseUrl}")
     private String apiBaseUrl;
     
     /**
