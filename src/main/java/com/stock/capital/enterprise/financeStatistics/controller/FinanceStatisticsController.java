@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -46,7 +47,7 @@ public class FinanceStatisticsController extends BaseController {
      */
     @RequestMapping(value = "getChartForFinanceData")
     @ResponseBody
-    public JsonResponse<List<Map<String, Object>>> getChartForFinanceData(FinanceDataDto dto) {
+    public JsonResponse<List<Map<String, Object>>> getChartForFinanceData(@RequestBody FinanceDataDto dto) {
         Map<String, String> map = finaceDataService.getDateMap(dto);
         List<Map<String, Object>> data = finaceDataService.getResearchStatisticsDataForSecurity(map);
         JsonResponse<List<Map<String, Object>>> result = new JsonResponse<List<Map<String, Object>>>();
