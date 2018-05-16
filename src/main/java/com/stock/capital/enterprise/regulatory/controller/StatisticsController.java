@@ -9,10 +9,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.stock.capital.enterprise.regulatory.dto.StatisticsCompanyDto;
+import com.stock.capital.enterprise.regulatory.dto.StatisticsParamDto;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto;
 import com.stock.capital.enterprise.regulatory.service.StatisticsService;
 import com.stock.core.controller.BaseController;
 import com.stock.core.dto.JsonResponse;
+import com.stock.core.util.JsonUtil;
+
 @Controller
 @RequestMapping("regulatory_statistics")
 public class StatisticsController extends BaseController {
@@ -39,6 +43,21 @@ public class StatisticsController extends BaseController {
     @RequestMapping(value = "refinanceInit", method = RequestMethod.GET)
     public ModelAndView refinanceInit() {
         ModelAndView mv = new ModelAndView("regulatory/refinanceStatistics");
+        return mv;
+    }
+    
+    /**
+     * IPO在审项目数据查询
+     *
+     * @return
+     */
+    @RequestMapping(value = "ipoQueryInit", method = RequestMethod.GET)
+    public ModelAndView ipoQueryInit() {
+        ModelAndView mv = new ModelAndView("regulatory/ipoQueryStatistics");
+        mv.addObject("belongsPlateList", JsonUtil.toJsonNoNull(statisticsService.getCodeAndName("IPODATA_BELONG_PLATE")));
+        mv.addObject("areaList", JsonUtil.toJsonNoNull(statisticsService.getAreaList()));
+        mv.addObject("industryList", JsonUtil.toJsonNoNull(statisticsService.getIndustryList()));
+        mv.addObject("statisticsParamDto", new StatisticsParamDto());
         return mv;
     }
 
@@ -157,6 +176,32 @@ public class StatisticsController extends BaseController {
         JsonResponse<String> response = new JsonResponse<String>();
         response.setResult(statisticsService.getRefinanceLastTime());
         return response;
+    }
+    
+    /**
+     * IPO在审项目数据查询
+     *
+     * @return response（JSON格式）
+     */
+    @RequestMapping(value = "/getIPOAreaDataStts", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResponse<List<StatisticsResultDto>> getIPOAreaDataStts(StatisticsParamDto statisticsParamDto) {
+        JsonResponse<List<StatisticsResultDto>> response = new JsonResponse<List<StatisticsResultDto>>();
+        response.setResult(statisticsService.getIPOAreaDataStts(statisticsParamDto));
+        return response;
+    }
+    
+    /**
+     * 在审项目数据明细
+     *
+     * @return
+     */
+    @RequestMapping(value = "viewAreaDetail")
+    public ModelAndView viewAreaDetail(StatisticsParamDto statisticsParamDto) {
+        ModelAndView mv = new ModelAndView("regulatory/viewAreaDetail");
+        List<StatisticsCompanyDto> companyList = statisticsService.queryAreaDetail(statisticsParamDto);
+        mv.addObject("companyList",companyList);
+        return mv;
     }
 
 }

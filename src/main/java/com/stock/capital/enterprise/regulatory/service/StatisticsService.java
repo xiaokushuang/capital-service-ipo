@@ -7,10 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import com.alibaba.druid.util.StringUtils;
+import com.stock.capital.enterprise.regulatory.dto.StatisticsCompanyDto;
+import com.stock.capital.enterprise.regulatory.dto.StatisticsParamDto;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto;
 import com.stock.core.dto.JsonResponse;
+import com.stock.core.dto.OptionDto;
+import com.stock.core.dto.TreeDto;
 import com.stock.core.rest.RestClient;
 import com.stock.core.service.BaseService;
 import com.stock.core.util.DateUtil;
@@ -162,6 +168,63 @@ public class StatisticsService extends BaseService {
             response = DateUtil.getDateStr(updateTime, DateUtil.YYYY_MM_DD_ZH);
         }
         return response;
+    }
+
+    public List<StatisticsResultDto> getIPOAreaDataStts(StatisticsParamDto statisticsParamDto) {
+        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
+        };
+        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+        parameters.add("belongsPlate", statisticsParamDto.getBelongsPlate());
+        parameters.add("industry", statisticsParamDto.getIndustry());
+        parameters.add("registAddr", statisticsParamDto.getRegistAddr());
+        String ipoOrder = "";
+        if(org.apache.commons.lang3.StringUtils.isNotBlank(statisticsParamDto.getIpoOrder())){
+            ipoOrder = statisticsParamDto.getIpoOrder();
+        }
+        parameters.add("ipoOrder", ipoOrder);
+        String url = apiBaseUrl + "regulatory_statistics/getIPOAreaDataStts";
+        List<StatisticsResultDto> response = restClient.post(url, parameters, responseType).getResult();
+        return response;
+    }
+
+    public List<OptionDto> getCodeAndName(String codeNo) {
+        ParameterizedTypeReference<JsonResponse<List<OptionDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<OptionDto>>>() {
+        };
+        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+        parameters.add("codeNo", codeNo);
+        String url = apiBaseUrl + "regulatory_statistics/getCodeAndName";
+        List<OptionDto> list = restClient.post(url, parameters, responseType).getResult();
+        return list;
+    }
+
+    public List<OptionDto> getAreaList() {
+        ParameterizedTypeReference<JsonResponse<List<OptionDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<OptionDto>>>() {
+        };
+        String url = apiBaseUrl + "regulatory_statistics/getAreaList";
+        List<OptionDto> list = restClient.post(url, "", responseType).getResult();
+        return list;
+    }
+
+    public List<TreeDto> getIndustryList() {
+        ParameterizedTypeReference<JsonResponse<List<TreeDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<TreeDto>>>() {
+        };
+        String url = apiBaseUrl + "declareInfo/postDeclareIndexIndustry";
+        List<TreeDto> list = restClient.post(url, null, responseType).getResult();
+        return list;
+    }
+
+    public List<StatisticsCompanyDto> queryAreaDetail(StatisticsParamDto statisticsParamDto) {
+        ParameterizedTypeReference<JsonResponse<List<StatisticsCompanyDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsCompanyDto>>>() {
+        };
+        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+        parameters.add("registAddr", statisticsParamDto.getRegistAddr());
+        parameters.add("lastUpadteTime", statisticsParamDto.getLastUpadteTime());
+        parameters.add("belongsPlate", statisticsParamDto.getBelongsPlate());
+        parameters.add("industry", statisticsParamDto.getIndustry());
+        parameters.add("approveStatus", statisticsParamDto.getApproveStatus());
+        String url = apiBaseUrl + "regulatory_statistics/queryAreaDetail";
+        List<StatisticsCompanyDto> list = restClient.post(url, parameters, responseType).getResult();
+        return list;
     }
 
 }
