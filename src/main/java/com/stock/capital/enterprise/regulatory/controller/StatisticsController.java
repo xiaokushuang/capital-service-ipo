@@ -1,7 +1,11 @@
 package com.stock.capital.enterprise.regulatory.controller;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,13 +13,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.common.collect.Maps;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsCompanyDto;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsParamDto;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto;
 import com.stock.capital.enterprise.regulatory.service.StatisticsService;
 import com.stock.core.controller.BaseController;
 import com.stock.core.dto.JsonResponse;
+import com.stock.core.dto.OptionDto;
+import com.stock.core.util.DateUtil;
 import com.stock.core.util.JsonUtil;
+import com.stock.core.web.DownloadView;
 
 @Controller
 @RequestMapping("regulatory_statistics")
@@ -55,8 +63,25 @@ public class StatisticsController extends BaseController {
     public ModelAndView ipoQueryInit() {
         ModelAndView mv = new ModelAndView("regulatory/ipoQueryStatistics");
         mv.addObject("belongsPlateList", JsonUtil.toJsonNoNull(statisticsService.getCodeAndName("IPODATA_BELONG_PLATE")));
-        mv.addObject("areaList", JsonUtil.toJsonNoNull(statisticsService.getAreaList()));
-        mv.addObject("industryList", JsonUtil.toJsonNoNull(statisticsService.getIndustryList()));
+        //地区特殊处理
+        List<OptionDto> areaList = statisticsService.getAreaList();
+        for (int i = 0; i < areaList.size(); i++) {
+            if(areaList != null && StringUtils.isNotBlank(areaList.get(i).getLabel())){
+                //地区特殊处理
+                if ("深圳市".equals(areaList.get(i).getLabel())
+                        || "大连市".equals(areaList.get(i).getLabel())
+                        || "宁波市".equals(areaList.get(i).getLabel())
+                        || "厦门市".equals(areaList.get(i).getLabel())
+                        || "青岛市".equals(areaList.get(i).getLabel())) {
+                    areaList.get(i).setLabel(areaList.get(i).getLabel().replace("市", ""));
+                } else{
+                    areaList.get(i).setLabel(statisticsService.changeAreaName(areaList.get(i).getLabel()));
+                } 
+            }
+        }
+        mv.addObject("areaList", JsonUtil.toJsonNoNull(areaList));
+        //行业处理——待定
+//        mv.addObject("industryList", JsonUtil.toJsonNoNull(statisticsService.getIndustryList()));
         mv.addObject("statisticsParamDto", new StatisticsParamDto());
         return mv;
     }
@@ -201,7 +226,30 @@ public class StatisticsController extends BaseController {
         ModelAndView mv = new ModelAndView("regulatory/viewAreaDetail");
         List<StatisticsCompanyDto> companyList = statisticsService.queryAreaDetail(statisticsParamDto);
         mv.addObject("companyList",companyList);
+        mv.addObject("statisticsParamDto",statisticsParamDto);
         return mv;
     }
+    
+    /**
+     * 
+     * Excel导出--ipo在审数据明细
+      * @throws IOException 
+     * 
+     */
+     @RequestMapping(value = "ipoDetailExport")
+     public ModelAndView ipoDetailExport(StatisticsParamDto statisticsParamDto) throws IOException{
+         ModelAndView mv = new ModelAndView();
+         mv.setView(new DownloadView());
+         Map<String, Object> fileInfo = Maps.newHashMap();
+         String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMdd");
+         fileInfo.put("fileName", "IPO在审项目数据明细_"+ timeStr+".xls");
+         fileInfo.put("fileType", "application/vnd.ms-excel");
+         // 从文件服务器下载文件
+         fileInfo.put("fileBytes", statisticsService.ipoDetailExport(statisticsParamDto));
+         mv.addObject(DownloadView.EXPORT_FILE, fileInfo.get("fileBytes"));
+         mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
+         mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.STREAM);
+         return mv;
+     }
 
 }

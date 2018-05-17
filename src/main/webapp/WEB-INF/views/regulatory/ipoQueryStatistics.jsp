@@ -114,8 +114,8 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, 
                         <input type="hidden" name="registAddr" />
                     </div>
                     <div class="col-md-3 no-padding-r">
-                        <input id="industry" json-data='${industryList}' type="text" class="form-control t-select" placeholder="请选择行业" style="background-color: #fff;"/> 
-                        <input type="hidden" name="industry" />
+                        <%-- <input id="industry" json-data='${industryList}' type="text" class="form-control t-select" placeholder="请选择行业" style="background-color: #fff;"/> 
+                        <input type="hidden" name="industry" /> --%>
                     </div>
                     <div class="col-md-3 no-padding-r" align="right">
                         <span id="clearAllOptions" class="btn btn-4 btn-bny">清空条件</span>
@@ -140,7 +140,7 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, 
                             <th class="sorting" data-sort-name="endYet" style="width: 10%; text-align: center;border-right: 1px solid #fff !important;">中止审查</th>
                             <th class="sorting" data-sort-name="processing" style="width: 13%; text-align: center;border-right: 1px solid #fff !important;">已上发审会，暂缓表决</th>
                             <th class="sorting" data-sort-name="passed" style="width: 10%; text-align: center;border-right: 1px solid #fff !important;">已通过发审会</th>
-                            <th style="width: 10%; text-align: center;">合计</th>
+                            <th class="sorting" data-sort-name="areaCount" style="width: 10%; text-align: center;">合计</th>
                             <!-- <th style="width: 7%; text-align: center;">最近一周</th>
                             <th style="width: 7%; text-align: center;">2018年</th> -->
                         </tr>

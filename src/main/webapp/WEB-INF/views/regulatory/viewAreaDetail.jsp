@@ -48,20 +48,26 @@ table tbody tr td.left {
 </head>
 <body style="background-color: white;">
     <div class="panel-body regulatory-model">
-        <!-- <div class="col-md-12">
-            <div class="sub-title">IPO地域详情</div>
-        </div> -->
+        <div class="col-md-12" style="text-align: right;padding-bottom: 5px;">
+            <input type="button" id="exportDetail" class="btn btn-6 btn-default" style="margin-top: -5px;" value="导出excel">
+        </div>
+        <form:form modelAttribute="statisticsParamDto" id="statisticsParamForm">
+            <form:hidden path="registAddr"/>
+            <form:hidden path="lastUpadteTime"/>
+            <form:hidden path="belongsPlate"/>
+            <form:hidden path="approveStatus"/>
+        </form:form>
         <div class="col-md-12 cart-bottom-table">
             <table id="ipoAreaDetail" class="dataTable">
                 <thead>
-                    <tr role="row" style="background: #E8E8E8;">
+                    <tr role="row" style="background: #a0adb5; color: #fff;">
                             <th style="width: 4%; text-align: center;">序号</th>
                             <th style="width: 15%; text-align: center;">申报企业</th>
-                            <th style="width: 5%; text-align: center;">注册地</th>
+                            <th style="width: 8%; text-align: center;">注册地</th>
                             <th style="width: 10%; text-align: center;">所属行业</th>
                             <th style="width: 10%; text-align: center;">拟上市地</th>
                             <th style="width: 10%; text-align: center;">保荐机构</th>
-                            <th style="width: 16%; text-align: center;">会计师事务所</th>
+                            <th style="width: 13%; text-align: center;">会计师事务所</th>
                             <th style="width: 10%; text-align: center;">律师事务所</th>
                             <th style="width: 10%; text-align: center;">审核状态</th>
                             <th style="width: 10%; text-align: center;">是否已参加抽查<br>抽签或现场检查</th>
@@ -73,7 +79,16 @@ table tbody tr td.left {
                             <tr>
                                 <td>${status.index + 1}</td>
                                 <td>${cl.appCompany}</td>
-                                <td>${cl.registAddr}</td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${cl.registAddr == '广东'}">广东<br>(不含深圳)</c:when>
+                                        <c:when test="${cl.registAddr == '辽宁'}">辽宁<br>(不含大连)</c:when>
+                                        <c:when test="${cl.registAddr == '浙江'}">浙江<br>(不含宁波)</c:when>
+                                        <c:when test="${cl.registAddr == '福建'}">福建<br>(不含厦门)</c:when>
+                                        <c:when test="${cl.registAddr == '山东'}">山东<br>(不含青岛)</c:when>
+                                        <c:otherwise>${cl.registAddr}</c:otherwise>
+                                    </c:choose>
+                                </td>
                                 <td>${cl.industry}</td>
                                 <td>${cl.ipoAreaLabel}</td>
                                 <td>${cl.recommendOrg}</td>
