@@ -119,7 +119,7 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, 
                     </div>
                     <div class="col-md-3 no-padding-r" align="right">
                         <span id="clearAllOptions" class="btn btn-4 btn-bny">清空条件</span>
-                        <span id="btnQuery" class="btn btn-primary">查询</span>
+                        <!-- <span id="btnQuery" class="btn btn-primary">查询</span> -->
                     </div>
                 </div>
             </form:form>
