@@ -33,7 +33,7 @@ function areaDataSttsCallBack(d) {
 function areaDataSetting(lst) {
 	var tbody = $('#ipoAreaDetail tbody');
 	var str = '';
-	if(lst != null && lst.length > 0){
+	if(lst != null && lst.length > 1){
 		// 截止日期设置
 		var updateTimeStr = '*统计数据截止至 ' 
 			+ lst[0].lastUpadteTime.split("-")[0]+"年"
@@ -56,19 +56,18 @@ function areaDataSetting(lst) {
 					+ '</tr>';
 		}
 		//拼接tbody合计行
-		if(lst.length > 1){
-			str = str + '<tr>' 
+		var sumIndex = lst.length - 1;
+		str = str + '<tr>' 
 			+ '<td class="count_bgc"></td>' 
 			+ '<td class="count_bgc">合计</td>' 
-			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[i].lastUpadteTime+'\',\'00\')">' + lst[i].applied + '</a></td>'  
-			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[i].lastUpadteTime+'\',\'01\')">' + lst[i].reviewed + '</a></td>'  
-			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[i].lastUpadteTime+'\',\'02\')">' + lst[i].preUpdate + '</a></td>'  
-			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[i].lastUpadteTime+'\',\'04\')">' + lst[i].endYet + '</a></td>'  
-			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[i].lastUpadteTime+'\',\'07\')">' + lst[i].processing + '</a></td>'  
-			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[i].lastUpadteTime+'\',\'03\')">' + lst[i].passed + '</a></td>'  
-			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[i].lastUpadteTime+'\',\'\')">' + lst[i].areaCount + '</a></td>' 
-		+ '</tr>';
-		}
+			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'00\')">' + lst[sumIndex].applied + '</a></td>'  
+			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'01\')">' + lst[sumIndex].reviewed + '</a></td>'  
+			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'02\')">' + lst[sumIndex].preUpdate + '</a></td>'  
+			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'04\')">' + lst[sumIndex].endYet + '</a></td>'  
+			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'07\')">' + lst[sumIndex].processing + '</a></td>'  
+			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'03\')">' + lst[sumIndex].passed + '</a></td>'  
+			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'\')">' + lst[sumIndex].areaCount + '</a></td>' 
+			+ '</tr>';
 	} else{
 		//增加终止审查后切记变更colspan值
 		str = '<tr><td colspan="9">暂无数据</td></tr>'
@@ -192,5 +191,5 @@ function viewAreaDetail(registAddr,lastUpadteTime,approveStatus){
 				  belongsPlate: $('input[name="belongsPlate"]').val(),
 				  industry: $('input[name="industry"]').val()
 				};
-	popWin("在审项目数据明细","/regulatory_statistics/viewAreaDetail",param,"95%","550px");
+	popWin("在审项目数据明细","/regulatory_statistics/viewAreaDetail?access_token="+accessToken, param,"95%","550px");
 }
