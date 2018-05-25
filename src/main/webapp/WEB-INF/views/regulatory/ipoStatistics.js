@@ -33,6 +33,8 @@ function reviewingSttsCallBack(d) {
 function chartSetting(lst) {
 	// 设置数据
 	var labels = ['沪主板', '中小板', '创业板']; // 横坐标标签
+	// 细分业务标签
+	var itemLabel = [];
 	var series = [];
 	for (var i = 0; i < lst.length; i++) {
 		if ((lst[i].hzbCount > 0 || lst[i].zxbCount > 0 || lst[i].cybCount > 0) && i < lst.length - 1) {
@@ -55,12 +57,18 @@ function chartSetting(lst) {
 				data : value
 			};
 			series.push(tmp);
+			// 细分业务标签
+			itemLabel.push(lst[i].label);
 		}
 	}
 	// 设置柱状图
 	myChart.clear();
 	var option = {
 		calculable : false,
+		legend: { // 细分业务标签
+			top: 'top',
+	        data: itemLabel
+	    },
 		tooltip : {
 			trigger : 'axis',
 			axisPointer : { // 坐标轴指示器，坐标轴触发有效
@@ -83,7 +91,7 @@ function chartSetting(lst) {
 			}
 		},
 		grid : {
-			top : '3%',
+			top : '5%',
 			left : '1%',
 			right : '4%',
 			bottom : '3%',
