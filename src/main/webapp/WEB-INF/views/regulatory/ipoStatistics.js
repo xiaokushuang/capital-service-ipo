@@ -1,23 +1,39 @@
 //# sourceURL=ipoStatistics.js
 var myChart;
-var myChartColor = ['#C03533', '#2F4553', '#91C7AF', '#F6A631'];
+//需求4399 2018/5/24 by liuh Start
+//var myChartColor = ['#C03533', '#2F4553', '#91C7AF', '#F6A631'];
+var myChartColor = ['#ca2428', '#2e444e', '#7ccbab', '#ffa128', '#227d99', '', '', '#ff5f3a'];
 $(document).ready(function() {
 	eChartInit();
 	dataInit();
 	pageInit();
+	
+	tSelectDataInit();
 });
 // 数据获取初始化
 function dataInit() {
 	// IPO在审项目数据统计
 	ajaxData('/regulatory_statistics/getIPOReviewingStts', null, reviewingSttsCallBack);
 	// 保荐机构统计
-	ajaxData('/regulatory_statistics/getIPORecommendOrgStts', null, recommendOrgTableSetting);
+//	ajaxData('/regulatory_statistics/getIPORecommendOrgStts', null, recommendOrgTableSetting);
 	// 会计师事务所统计
-	ajaxData('/regulatory_statistics/getIPOAccountantOfficeStts', null, accountantOfficeTableSetting);
+//	ajaxData('/regulatory_statistics/getIPOAccountantOfficeStts', null, accountantOfficeTableSetting);
 	// 律师事务所统计
-	ajaxData('/regulatory_statistics/getIPOLawFirmStts', null, lawFirmTableSetting);
+//	ajaxData('/regulatory_statistics/getIPOLawFirmStts', null, lawFirmTableSetting);
 	// 截止日期
 	ajaxData('/regulatory_statistics/getIPOLastTime', null, updateTimeSetting);
+	
+	// tab页点击事件
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+		//iframeObj = e.target;
+		if(e.target.hash == "#tab1"){
+			$("#recommendOrg").dataTable().api().columns.adjust();
+		} else if(e.target.hash == "#tab2") {
+			$("#lawsfirm").dataTable().api().columns.adjust();
+		} else {
+			$("#accountantOffice").dataTable().api().columns.adjust();
+		}
+	})
 }
 function reviewingSttsCallBack(d) {
 	// 设置柱状图
@@ -42,7 +58,8 @@ function chartSetting(lst) {
 				stack : lst[i].label,
 				itemStyle : {
 					normal : {
-						color : myChartColor[i % 4]
+//						color : myChartColor[i % 4]
+						color : myChartColor[i]
 					},
 					label : {
 						show : true
@@ -110,11 +127,14 @@ function reviewTableSetting(lst) {
 	var tbody = $('#review tbody');
 	for (var i = 0; i < lst.length; i++) {
 		if (lst[i].hzbCount > 0 || lst[i].zxbCount > 0 || lst[i].cybCount > 0) {
+			var backgroud = '';
 			var label = '<td class="left">' + lst[i].label + '</td>';
 			if (i == lst.length - 1) {
 				label = '<td style="text-align: center;">' + lst[i].label + '</td>';
+				backgroud = 'style="background: #E8E8E8;"';
 			}
-			var str = '<tr>' + label + '<td>' + lst[i].hzbCount + '</td>' + '<td>' + lst[i].zxbCount + '</td>' + '<td>' + lst[i].cybCount + '</td>' + '</tr>';
+			var total = lst[i].hzbCount + lst[i].zxbCount + lst[i].cybCount;
+			var str = '<tr '+ backgroud +'>' + label + '<td>' + lst[i].hzbCount + '</td>' + '<td>' + lst[i].zxbCount + '</td>' + '<td>' + lst[i].cybCount + '</td>' + '<td>' + total + '</td>' +'</tr>';
 			tbody.append(str);
 		}
 	}
@@ -174,3 +194,87 @@ function eChartInit() {
 	// 自适应
 	window.onresize = myChart.resize;
 }
+
+function search(){
+	ajaxTableQuery("recommendOrg", "/regulatory_statistics/getIPORecommendOrgStts", $("#queryForm").formSerialize());
+	ajaxTableQuery("lawsfirm", "/regulatory_statistics/getIPOLawFirmStts", $("#queryForm").formSerialize());
+	ajaxTableQuery("accountantOffice", "/regulatory_statistics/getIPOAccountantOfficeStts", $("#queryForm").formSerialize());
+}
+
+//序号
+function renderColumnIndex(data, type, row, meta) {
+	return meta.row+1;
+}
+
+//下拉多选初始化
+function tSelectDataInit() {
+	var tSelectOptions1 = {
+			customCallBack : tSelectCustomCallBack,
+			submitCallBack : tSelectSubmitCallBack,
+			id : 'value',
+			pid : '',
+			name : 'label',
+			value : 'label',
+			grade : 1,
+			// resultType : 'children',
+			style : {},
+			allCheck : true
+	};
+	var tSelectOptions2 = {
+			customCallBack : tSelectCustomCallBack,
+			submitCallBack : tSelectSubmitCallBack,
+			id : 'id',
+			pid : 'parentId',
+			name : 'name',
+			value : 'name',
+			grade : 2,
+			resultType : 'children',
+			style : {},
+			allCheck : true
+		};
+	$('#registAddr').tselectInit(null, tSelectOptions1);
+	$('#industry').tselectInit(null, tSelectOptions2);
+}
+//下拉框自定义方法
+function tSelectCustomCallBack(t) {
+	
+}
+
+function tSelectSubmitCallBack(t, d) {
+	var newValue = changeAreaParam(d.value);
+	$('input[name="' + t.attr('id') + '"]').val(newValue);
+	search();
+}
+
+//地区特殊处理
+function changeAreaParam(listArea){
+	var newArea = '';
+	var newAreaList = '';
+	if(listArea != null && listArea != ''){
+		var areaArr = listArea.split(",");
+		for (var i = 0; i < areaArr.length; i++) {
+			if(areaArr[i] != ''){
+				if(areaArr[i] == "广东(不含深圳)"){
+					newArea = "广东";
+				} else if(areaArr[i] == "辽宁(不含大连)"){
+					newArea = "辽宁";
+				} else if(areaArr[i] == "浙江(不含宁波)"){
+					newArea = "浙江";
+				} else if(areaArr[i] == "福建(不含厦门)"){
+					newArea = "福建";
+				} else if(areaArr[i] == "山东(不含青岛)"){
+					newArea = "山东";
+				} else{
+					newArea = areaArr[i];
+				}
+			}
+			if(newAreaList == ''){
+				newAreaList = newArea;
+			}else{
+				newAreaList = newAreaList + "," + newArea;
+			}
+		}
+	}
+	return newAreaList;
+}
+//需求4399 2018/5/24 by liuh end
