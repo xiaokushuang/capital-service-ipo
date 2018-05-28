@@ -104,9 +104,9 @@ table tbody tr td.left {
         <div class="col-md-12 no-padding">
             <hr style="margin: 20px 15px;" />
         </div>
-        <div class="col-md-12 no-padding" style="margin-left: 20px;">
-            <p id="updateTime" style="font-size: 12px; color: #909090;"></p>
-        </div>
+<!--         <div class="col-md-12 no-padding" style="margin-left: 20px;"> -->
+<!--             <p id="updateTime" style="font-size: 12px; color: #909090;"></p> -->
+<!--         </div> -->
     </div>
 </body>
 </html>

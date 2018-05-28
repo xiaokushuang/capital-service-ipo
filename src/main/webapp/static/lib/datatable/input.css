@@ -1,0 +1,14 @@
+@CHARSET "UTF-8";
+.paging_input {
+    margin: 0;
+    white-space: nowrap;
+    text-align: right;
+    float: right;
+}
+.paginate_input{
+    width:50px;
+    margin-top:5px;
+}
+.dataTables_processing{
+    z-index: 9;
+}
