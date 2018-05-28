@@ -175,7 +175,7 @@ table tbody tr td.left {
             <div class="tab-content">
                 <div  class="tab-pane fade in active" id="tab1">
                     <div class="table-primary">
-                        <e:grid id="recommendOrg" action="/regulatory_statistics/getIPORecommendOrgStts"
+                        <e:grid id="recommendOrg" action="/regulatory_statistics/getIPORecommendOrgStts?access_token=${access_token}"
                              cssClass="table table-striped table-hover" defaultPageSize="20"> 
                              <e:gridColumn label="序号" renderColumn="renderColumnIndex" 
                                        orderable="false" cssClass="text-center" cssStyle="width:10%"/> 
@@ -196,7 +196,7 @@ table tbody tr td.left {
                 </div>
                 <div class="tab-pane fade" id="tab2">
                     <div class="table-primary">
-                        <e:grid id="lawsfirm" action="/regulatory_statistics/getIPOLawFirmStts"
+                        <e:grid id="lawsfirm" action="/regulatory_statistics/getIPOLawFirmStts?access_token=${access_token}"
                             cssClass="table table-striped table-hover" defaultPageSize="20">
                             <e:gridColumn label="序号" renderColumn="renderColumnIndex"
                                       orderable="false" cssClass="text-center" cssStyle="width:10%"/>
@@ -217,7 +217,7 @@ table tbody tr td.left {
                 </div>
                 <div class="tab-pane fade" id="tab3">
                     <div class="table-primary">
-                        <e:grid id="accountantOffice" action="/regulatory_statistics/getIPOAccountantOfficeStts"
+                        <e:grid id="accountantOffice" action="/regulatory_statistics/getIPOAccountantOfficeStts?access_token=${access_token}"
                             cssClass="table table-striped table-hover" defaultPageSize="20">
                             <e:gridColumn label="序号" renderColumn="renderColumnIndex"
                                       orderable="false" cssClass="text-center" cssStyle="width:10%"/>

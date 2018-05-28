@@ -44,7 +44,7 @@ public class StatisticsController extends BaseController {
      * @return
      */
     @RequestMapping(value = "ipoInit", method = RequestMethod.GET)
-    public ModelAndView ipoInit() {
+    public ModelAndView ipoInit(String access_token) {
         ModelAndView mv = new ModelAndView("regulatory/ipoStatistics");
         //需求4399 2018/5/24 by liuh Start
         List<OptionDto> areaList = statisticsService.getAreaList();
@@ -68,6 +68,7 @@ public class StatisticsController extends BaseController {
         mv.addObject("industrySelectList", JsonUtil.toJsonNoNull(statisticsService.getIndustryList()));
         //需求4399 2018/5/24 by liuh end
         mv.addObject("statisticsParamDto", new StatisticsParamDto());
+        mv.addObject("access_token", access_token);
         return mv;
     }
 
