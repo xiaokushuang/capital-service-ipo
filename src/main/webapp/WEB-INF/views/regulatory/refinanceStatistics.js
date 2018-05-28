@@ -15,7 +15,7 @@ function dataInit() {
 	// 发行监管部再融资审核保荐机构保荐企业数量
 	ajaxData('/regulatory_statistics/getRefinanceRecommendOrgStts', null, recommendOrgTableSetting);
 	// 截止日期
-	ajaxData('/regulatory_statistics/getRefinanceLastTime', null, updateTimeSetting);
+//	ajaxData('/regulatory_statistics/getRefinanceLastTime', null, updateTimeSetting);
 }
 function refinanceSttsCallBack(d) {
 	// 设置柱状图

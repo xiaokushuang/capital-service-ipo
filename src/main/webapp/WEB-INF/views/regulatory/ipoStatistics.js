@@ -23,7 +23,7 @@ function dataInit() {
 	// 律师事务所统计
 //	ajaxData('/regulatory_statistics/getIPOLawFirmStts', null, lawFirmTableSetting);
 	// 截止日期
-	ajaxData('/regulatory_statistics/getIPOLastTime', null, updateTimeSetting);
+//	ajaxData('/regulatory_statistics/getIPOLastTime', null, updateTimeSetting);
 	
 	// tab页点击事件
 	$('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
