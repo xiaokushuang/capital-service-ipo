@@ -78,6 +78,7 @@ table tbody tr td.left {
                 </tbody>
             </table>
         </div>
+        <div id="ipoHistoryChart" class="col-md-5 no-padding-vr" style="height: 220px;" align="center"></div>
         <div class="col-md-12 no-padding">
             <hr style="margin: 20px 15px;" />
         </div>

@@ -3,8 +3,10 @@ var myChart;
 //需求4399 2018/5/24 by liuh Start
 //var myChartColor = ['#C03533', '#2F4553', '#91C7AF', '#F6A631'];
 var myChartColor = ['#ca2428', '#2e444e', '#7ccbab', '#ffa128', '#227d99', '', '', '#ff5f3a'];
+var myHistoryChart;
 $(document).ready(function() {
 	eChartInit();
+	historyEChartInit();
 	dataInit();
 	pageInit();
 	
@@ -34,6 +36,8 @@ function dataInit() {
 			$("#accountantOffice").dataTable().api().columns.adjust();
 		}
 	})
+	// IPO在审项目数据统计-历史
+	ajaxData('/regulatory_statistics/getIPOHistory', null, historyCallBack);
 }
 function reviewingSttsCallBack(d) {
 	// 设置柱状图
@@ -45,6 +49,8 @@ function reviewingSttsCallBack(d) {
 function chartSetting(lst) {
 	// 设置数据
 	var labels = ['沪主板', '中小板', '创业板']; // 横坐标标签
+	// 细分业务标签
+	var itemLabel = [];
 	var series = [];
 	for (var i = 0; i < lst.length; i++) {
 		if ((lst[i].hzbCount > 0 || lst[i].zxbCount > 0 || lst[i].cybCount > 0) && i < lst.length - 1) {
@@ -68,12 +74,18 @@ function chartSetting(lst) {
 				data : value
 			};
 			series.push(tmp);
+			// 细分业务标签
+			itemLabel.push(lst[i].label);
 		}
 	}
 	// 设置柱状图
 	myChart.clear();
 	var option = {
 		calculable : false,
+		legend: { // 细分业务标签
+			top: 'top',
+	        data: itemLabel
+	    },
 		tooltip : {
 			trigger : 'axis',
 			axisPointer : { // 坐标轴指示器，坐标轴触发有效
@@ -96,7 +108,7 @@ function chartSetting(lst) {
 			}
 		},
 		grid : {
-			top : '3%',
+			top : '5%',
 			left : '1%',
 			right : '4%',
 			bottom : '3%',
@@ -278,3 +290,186 @@ function changeAreaParam(listArea){
 	return newAreaList;
 }
 //需求4399 2018/5/24 by liuh end
+//IPO在审项目数据-历史统计-大数据面积图-处理返回结果
+function historyCallBack(result) {
+	var grabUpdateTime = [];// 数据抓取表格中第二行数据的截至日期
+	var hzbCount = [];// 00上海证券交易所
+	var zxbCount = [];// 02深圳证券交易所(中小板)
+	var cybCount = [];// 03深圳证券交易所(创业板)
+	var totalCount = [];// 批次合计
+	for (var prop in result) {
+		grabUpdateTime.push(result[prop].value.replaceAll('-','/'));
+		hzbCount.push(result[prop].hzbCount);
+		zxbCount.push(result[prop].zxbCount);
+		cybCount.push(result[prop].cybCount);
+		totalCount.push(result[prop].totalCount);
+	};
+	historyChartSetting(grabUpdateTime,hzbCount,zxbCount,cybCount,totalCount);
+}
+
+// ipo历史统计图初始化
+function historyEChartInit() {
+	// 大数量面积图
+	myHistoryChart = echarts.init(document.getElementById('ipoHistoryChart'));
+	myHistoryChart.clear();
+	// 自适应
+	window.onresize = myHistoryChart.resize;
+	// 模板图
+	var historyOption = {
+		    backgroundColor: 'white',
+		    tooltip: {
+		        trigger: 'axis',
+		        position: function (pt) {
+		            return [pt[0], '10%'];
+		        }
+		    },
+		    title: {
+		        left: 'center',
+		        text: 'IPO再审企业统计',
+		    },
+		    legend: {
+		        right: 'right',
+		        top: 'center',
+		        data:['合计','沪主板','中小板','创业板']
+		    },
+		    toolbox: {
+		        show: true,
+		        feature: {
+		            dataZoom: {
+		                yAxisIndex: 'none'
+		            },
+		            restore: {},
+		            saveAsImage: {}
+		        }
+		    },
+		    xAxis: {
+		        type: 'category',
+		        boundaryGap: false,
+		        data: []
+		    },
+		    yAxis: {
+		    	show: 'true',
+		        type: 'value',
+		        boundaryGap: [0, 0]
+		    },
+		    dataZoom: [{
+		        type: 'inside',
+		        start: 0,
+		        end: 10
+		    }, {
+		        start: 0,
+		        end: 10,
+		        handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+		        handleSize: '80%',
+		        handleStyle: {
+		            color: '#fff',
+		            shadowBlur: 3,
+		            shadowColor: 'rgba(0, 0, 0, 0.6)',
+		            shadowOffsetX: 2,
+		            shadowOffsetY: 2
+		        }
+		    }],
+		    series: [
+		        {
+		            name:'合计',
+		            type:'line',
+		            smooth:true,
+		            symbol: 'diamond',
+		            sampling: 'average',
+		            itemStyle: {
+		                normal: {
+		                    color: 'red'
+		                }
+		            },
+		            areaStyle: {
+		                normal: {
+		                    color: 'red'
+		                }
+		            },
+		            data: []
+		        },     	
+		        {
+		            name:'沪主板',
+		            type:'line',
+		            smooth:true,
+		            symbol: 'circle',
+		            sampling: 'average',
+		            itemStyle: {
+		                normal: {
+		                    color: 'rgba(181,195,52,1)'
+		                }
+		            },
+		            areaStyle: {
+		                normal: {
+		                    color: 'rgba(181,195,52,1)'
+		                }
+		            },
+		            data: []
+		        },
+		        {
+		            name:'中小板',
+		            type:'line',
+		            smooth:true,
+		            symbol: 'rect',
+		            sampling: 'average',
+		            itemStyle: {
+		                normal: {
+		                    color: 'green'
+		                }
+		            },
+		            areaStyle: {
+		                normal: {
+		                    color: 'green'
+		                }
+		            },
+		            data: []
+		        },
+		        {
+		            name:'创业板',
+		            type:'line',
+		            smooth:true,
+		            symbol: 'triangle',
+		            sampling: 'average',
+		            itemStyle: {
+		                normal: {
+		                    color: 'rgba(252,206,16,0.5)'
+		                }
+		            },
+		            areaStyle: {
+		                normal: {
+		                    color: 'rgba(252,206,16,0.5)'
+		                }
+		            },
+		            data: []
+		        },
+		    ]
+		};
+	myHistoryChart.setOption(historyOption);
+}
+
+function historyChartSetting(grabUpdateTime,hzbCount,zxbCount,cybCount,totalCount) {
+	myHistoryChart.setOption({
+        xAxis: {
+            data: grabUpdateTime
+        },
+        // 根据名字对应到相应的系列
+	    series: [
+					{
+					    name:'合计',
+					    data: totalCount
+					},
+			        {
+			            name:'沪主板',
+			            data: hzbCount
+			        },
+			        {
+			            name:'中小板',
+			            data: zxbCount
+			        },
+			        {
+			            name:'创业板',
+			            data: cybCount
+			        }
+			    ]
+    });
+}

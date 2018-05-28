@@ -128,6 +128,19 @@ public class StatisticsController extends BaseController {
 
     //需求4399 2018/5/24 by liuh Start
     /**
+     * IPO在审项目数据统计-历史
+     *
+     * @return response（JSON格式）
+     */
+    @RequestMapping(value = "/getIPOHistory", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResponse<List<StatisticsResultDto>> getIPOReviewingStts() {
+        JsonResponse<List<StatisticsResultDto>> response = new JsonResponse<List<StatisticsResultDto>>();
+        response.setResult(statisticsService.getIPOHistory());
+        return response;
+    }
+
+    /**
      * IPO保荐机构统计
      *
      * @return response（JSON格式）

@@ -67,6 +67,20 @@ public class StatisticsService extends BaseService {
 
     //需求4399 2018/5/24 by liuh Start
     /**
+     * IPO在审项目数据统计-历史
+     *
+     * @param
+     * @return
+     */
+    public List<StatisticsResultDto> getIPOHistory() {
+        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
+        };
+        String url = apiBaseUrl + "regulatory_statistics/getIPOHistory";
+        List<StatisticsResultDto> response = restClient.post(url, "", responseType).getResult();
+        return response;
+    }
+
+    /**
      * IPO保荐机构统计
      *
      * @param letterId
