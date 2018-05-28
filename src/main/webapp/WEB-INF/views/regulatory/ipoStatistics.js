@@ -182,10 +182,10 @@ function commonTableSetting(tbody, lst) {
 	}
 }
 // 截止日期设置
-function updateTimeSetting(d) {
-	var str = '*统计数据截止至 ' + d;
-	$('#updateTime').html(str);
-}
+//function updateTimeSetting(d) {
+//	var str = '*统计数据截止至 ' + d;
+//	$('#updateTime').html(str);
+//}
 // 页面控件初始化
 function pageInit() {
 	//

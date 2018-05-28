@@ -35,11 +35,11 @@ function areaDataSetting(lst) {
 	var str = '';
 	if(lst != null && lst.length > 1){
 		// 截止日期设置
-		var updateTimeStr = '*统计数据截止至 ' 
-			+ lst[0].lastUpadteTime.split("-")[0]+"年"
-			+ lst[0].lastUpadteTime.split("-")[1]+"月"
-			+ lst[0].lastUpadteTime.split("-")[2]+"日";
-		$('#updateTime').html(updateTimeStr);
+//		var updateTimeStr = '*统计数据截止至 ' 
+//			+ lst[0].lastUpadteTime.split("-")[0]+"年"
+//			+ lst[0].lastUpadteTime.split("-")[1]+"月"
+//			+ lst[0].lastUpadteTime.split("-")[2]+"日";
+//		$('#updateTime').html(updateTimeStr);
 		//拼接tbody
 		for (var i = 0; i < lst.length - 1; i++) {
 			var index = i-0+1;

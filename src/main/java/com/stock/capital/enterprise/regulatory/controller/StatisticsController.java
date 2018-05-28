@@ -21,6 +21,7 @@ import com.stock.capital.enterprise.regulatory.dto.StatisticsCompanyDto;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsParamDto;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto;
 import com.stock.capital.enterprise.regulatory.service.StatisticsService;
+import com.stock.core.Constant;
 import com.stock.core.controller.BaseController;
 import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.OptionDto;
@@ -163,14 +164,14 @@ public class StatisticsController extends BaseController {
         //行业
         condition.put("industry", dto.getIndustry());
         
-        QueryInfo<Map<String, Object>> queryInfo = new QueryInfo<Map<String, Object>>();
+        QueryInfo<Map<String, Object>> queryInfo = commonSearch(condition);
         queryInfo.setOrderByName(orderColumn);
         queryInfo.setOrderByOrder(orderByOrder);
         queryInfo.setPageSize(Integer.parseInt(pageSize));
         queryInfo.setStartRow(Integer.parseInt(startRow));
 
-        queryInfo.setCondition(condition);
-        getRequest().getSession().setAttribute(getRequest().getRequestURI(), queryInfo);
+//        queryInfo.setCondition(condition);
+//        getRequest().getSession().setAttribute(getRequest().getRequestURI(), queryInfo);
         
         Page<StatisticsResultDto> page = statisticsService.getIPORecommendOrgStts(queryInfo);
        
@@ -220,14 +221,14 @@ public class StatisticsController extends BaseController {
         //行业
         condition.put("industry", dto.getIndustry());
         
-        QueryInfo<Map<String, Object>> queryInfo = new QueryInfo<Map<String, Object>>();
+        QueryInfo<Map<String, Object>> queryInfo = commonSearch(condition);
         queryInfo.setOrderByName(orderColumn);
         queryInfo.setOrderByOrder(orderByOrder);
         queryInfo.setPageSize(Integer.parseInt(pageSize));
         queryInfo.setStartRow(Integer.parseInt(startRow));
 
-        queryInfo.setCondition(condition);
-        getRequest().getSession().setAttribute(getRequest().getRequestURI(), queryInfo);
+//        queryInfo.setCondition(condition);
+//        getRequest().getSession().setAttribute(getRequest().getRequestURI(), queryInfo);
         
         Page<StatisticsResultDto> page = statisticsService.getIPOAccountantOfficeStts(queryInfo);
        
@@ -277,14 +278,14 @@ public class StatisticsController extends BaseController {
         //行业
         condition.put("industry", dto.getIndustry());
         
-        QueryInfo<Map<String, Object>> queryInfo = new QueryInfo<Map<String, Object>>();
+        QueryInfo<Map<String, Object>> queryInfo = commonSearch(condition);
         queryInfo.setOrderByName(orderColumn);
         queryInfo.setOrderByOrder(orderByOrder);
         queryInfo.setPageSize(Integer.parseInt(pageSize));
         queryInfo.setStartRow(Integer.parseInt(startRow));
 
-        queryInfo.setCondition(condition);
-        getRequest().getSession().setAttribute(getRequest().getRequestURI(), queryInfo);
+//        queryInfo.setCondition(condition);
+//        getRequest().getSession().setAttribute(getRequest().getRequestURI(), queryInfo);
         
         Page<StatisticsResultDto> page = statisticsService.getIPOLawFirmStts(queryInfo);
        
@@ -418,5 +419,5 @@ public class StatisticsController extends BaseController {
          mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.STREAM);
          return mv;
      }
-
+     
 }

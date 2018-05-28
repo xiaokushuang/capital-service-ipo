@@ -86,7 +86,7 @@ public class StatisticsService extends BaseService {
      * @param letterId
      * @return
      */
-    public Page<StatisticsResultDto> getIPORecommendOrgStts(@RequestBody QueryInfo<Map<String, Object>> queryInfo) {
+    public Page<StatisticsResultDto> getIPORecommendOrgStts(QueryInfo<Map<String, Object>> queryInfo) {
 //        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
 //        };
 //        MultiValueMap<String, String> parameter = new LinkedMultiValueMap<String, String>();
@@ -106,7 +106,7 @@ public class StatisticsService extends BaseService {
      * @param letterId
      * @return
      */
-    public Page<StatisticsResultDto> getIPOAccountantOfficeStts(@RequestBody QueryInfo<Map<String, Object>> queryInfo) {
+    public Page<StatisticsResultDto> getIPOAccountantOfficeStts(QueryInfo<Map<String, Object>> queryInfo) {
 //        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
 //        };
 //        String url = apiBaseUrl + "regulatory_statistics/getIPOAccountantOfficeStts";
@@ -128,7 +128,7 @@ public class StatisticsService extends BaseService {
      * @param letterId
      * @return
      */
-    public Page<StatisticsResultDto> getIPOLawFirmStts(@RequestBody QueryInfo<Map<String, Object>> queryInfo) {
+    public Page<StatisticsResultDto> getIPOLawFirmStts(QueryInfo<Map<String, Object>> queryInfo) {
 //        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
 //        };
 //        String url = apiBaseUrl + "regulatory_statistics/getIPOLawFirmStts";
