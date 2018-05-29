@@ -376,7 +376,7 @@ function historyEChartInit() {
 		    dataZoom: [{
 		        type: 'inside',
 		        start: 0,
-		        end: 10
+		        end: 100
 		    }, {
 		        start: 0,
 		        end: 10,
@@ -399,12 +399,12 @@ function historyEChartInit() {
 		            sampling: 'average',
 		            itemStyle: {
 		                normal: {
-		                    color: 'red'
+		                    color: myChartColor[0]
 		                }
 		            },
 		            areaStyle: {
 		                normal: {
-		                    color: 'red'
+		                    color: myChartColor[0]
 		                }
 		            },
 		            data: []
@@ -417,12 +417,12 @@ function historyEChartInit() {
 		            sampling: 'average',
 		            itemStyle: {
 		                normal: {
-		                    color: 'rgba(181,195,52,1)'
+		                    color: myChartColor[1]
 		                }
 		            },
 		            areaStyle: {
 		                normal: {
-		                    color: 'rgba(181,195,52,1)'
+		                    color: myChartColor[1]
 		                }
 		            },
 		            data: []
@@ -435,12 +435,12 @@ function historyEChartInit() {
 		            sampling: 'average',
 		            itemStyle: {
 		                normal: {
-		                    color: 'green'
+		                    color: myChartColor[2]
 		                }
 		            },
 		            areaStyle: {
 		                normal: {
-		                    color: 'green'
+		                    color: myChartColor[2]
 		                }
 		            },
 		            data: []
@@ -453,12 +453,12 @@ function historyEChartInit() {
 		            sampling: 'average',
 		            itemStyle: {
 		                normal: {
-		                    color: 'rgba(252,206,16,0.5)'
+		                    color: myChartColor[3]
 		                }
 		            },
 		            areaStyle: {
 		                normal: {
-		                    color: 'rgba(252,206,16,0.5)'
+		                    color: myChartColor[3]
 		                }
 		            },
 		            data: []
