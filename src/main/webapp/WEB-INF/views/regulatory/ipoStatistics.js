@@ -360,7 +360,7 @@ function historyEChartInit() {
 			grid : {
 				left : '10%',
 				right : '16%',
-				bottom : '16%',
+				bottom : '18%',
 				containLabel : true
 			},
 		    xAxis: {
