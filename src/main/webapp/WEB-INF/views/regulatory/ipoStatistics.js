@@ -368,28 +368,28 @@ function historyEChartInit() {
 		    title: {
 		        top: '10px',
 		        left: 'center',
-		        text: 'IPO再审企业统计',
+		        text: 'IPO在审企业统计',
 		    },
 		    legend: {
 		        top: '35px',
-		        data:['合计','沪主板','中小板','创业板']
+		        data:['合计','沪主板','创业板','中小板']
 		    },
-		    toolbox: {
-		    	top: '10px',
-		    	right: '5px',
-		        show: true,
-		        feature: {
-		            dataZoom: {
-		                yAxisIndex: 'none'
-		            },
-		            restore: {},
-		            saveAsImage: {}
-		        }
-		    },
+//		    toolbox: {
+//		    	top: '10px',
+//		    	right: '5px',
+//		        show: true,
+//		        feature: {
+//		            dataZoom: {
+//		                yAxisIndex: 'none'
+//		            },
+//		            restore: {},
+//		            saveAsImage: {}
+//		        }
+//		    },
 			grid : {
-				left : '10px',
-				right : '32px',
-				bottom : '15%',
+				left : '3px',
+				right : '30px',
+				bottom : '40px',
 				containLabel : true
 			},
 		    xAxis: {
@@ -457,7 +457,7 @@ function historyEChartInit() {
 		            data: []
 		        },
 		        {
-		            name:'中小板',
+		            name:'创业板',
 		            type:'line',
 		            smooth:true,
 		            symbol: 'rect',
@@ -475,7 +475,7 @@ function historyEChartInit() {
 		            data: []
 		        },
 		        {
-		            name:'创业板',
+		            name:'中小板',
 		            type:'line',
 		            smooth:true,
 		            symbol: 'triangle',
