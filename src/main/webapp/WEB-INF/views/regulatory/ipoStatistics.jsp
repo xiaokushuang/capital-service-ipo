@@ -54,6 +54,9 @@ table tbody tr td.left {
     text-align: left;
     padding-left: 10px;
 }
+.t-select-view{
+    height:300px !important;
+}
 </style>
 </head>
 <body style="background-color: white;">
@@ -151,15 +154,18 @@ table tbody tr td.left {
         <div class="col-md-12" style="padding-left: 10px;">
             <form:form action="" modelAttribute="statisticsParamDto" id="queryForm">
                 <div class="row" style="padding: 10px 10px;">
-                    <label class="control-label col-md-1">项目公司所属行业</label>
-                    <div class="col-md-3 no-padding-r">
+                    <label class="control-label col-md-2 no-padding-r">项目公司所属行业</label>
+                    <div class="col-md-3 no-padding-r" style="margin-left:-50px;">
                         <input id="industry" json-data='${industrySelectList}' type="text" class="form-control t-select" placeholder="请选择行业" style="background-color: #fff;"/> 
                         <input type="hidden" name="industry" />
                     </div>
-                    <label class="control-label col-md-1">项目公司注册地</label>
-                    <div class="col-md-3 no-padding-r">
+                    <label class="control-label col-md-2 no-padding-r">项目公司注册地</label>
+                    <div class="col-md-3 no-padding-r" style="margin-left:-60px;">
                         <input id="registAddr" json-data='${areaList}' type="text" class="form-control t-select" placeholder="请选择注册地" style="background-color: #fff;"/> 
                         <input type="hidden" name="registAddr" />
+                    </div>
+                    <div class="col-md-3 no-padding-r" align="right">
+                        <span id="clearAllOption" class="btn btn-4 btn-bny">清空条件</span>
                     </div>
                 </div>
             </form:form>
@@ -189,7 +195,7 @@ table tbody tr td.left {
                                            cssClass="text-center" cssStyle="width:10%"/> 
                              <e:gridColumn label="合计" displayColumn="totalCount" orderColumn="4" 
                                           cssClass="text-center" cssStyle="width:10%"/> 
-                             <e:gridColumn label="市场占比" displayColumn="percent" orderColumn="5"
+                             <e:gridColumn label="市场占比" renderColumn="renderColumnPercent" orderColumn="5"
                                           cssClass="text-center" cssStyle="width:10%"/>
                         </e:grid>
                    </div>
@@ -210,7 +216,7 @@ table tbody tr td.left {
                                           cssClass="text-center" cssStyle="width:10%"/>
                             <e:gridColumn label="合计" displayColumn="totalCount" orderColumn="4"
                                           cssClass="text-center" cssStyle="width:10%"/>
-                            <e:gridColumn label="市场占比" displayColumn="percent" orderColumn="5"
+                            <e:gridColumn label="市场占比" renderColumn="renderColumnPercent" orderColumn="5"
                                           cssClass="text-center" cssStyle="width:10%"/>
                         </e:grid>
                    </div>
@@ -231,7 +237,7 @@ table tbody tr td.left {
                                           cssClass="text-center" cssStyle="width:10%"/>
                             <e:gridColumn label="合计" displayColumn="totalCount" orderColumn="4"
                                           cssClass="text-center" cssStyle="width:10%"/>
-                            <e:gridColumn label="市场占比" displayColumn="percent" orderColumn="5"
+                            <e:gridColumn label="市场占比" renderColumn="renderColumnPercent" orderColumn="5"
                                           cssClass="text-center" cssStyle="width:10%"/>
                         </e:grid>
                     </div>

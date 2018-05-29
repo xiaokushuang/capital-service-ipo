@@ -11,6 +11,15 @@ $(document).ready(function() {
 	pageInit();
 	
 	tSelectDataInit();
+	
+	// 清空
+	$("#clearAllOption").click(function() {
+		$('.t-select').tselectClear();
+		document.getElementById("queryForm").reset();
+		$('input[name="registAddr"]').val('');
+		$('input[name="industry"]').val('');
+		search();
+	});
 });
 // 数据获取初始化
 function dataInit() {
@@ -219,6 +228,11 @@ function search(){
 //序号
 function renderColumnIndex(data, type, row, meta) {
 	return meta.row+1;
+}
+
+//市场占比
+function renderColumnPercent(data, type, row, meta) {
+	return data.percent + "%";
 }
 
 //下拉多选初始化
