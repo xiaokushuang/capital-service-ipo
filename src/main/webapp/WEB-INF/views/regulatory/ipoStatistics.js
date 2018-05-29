@@ -358,9 +358,9 @@ function historyEChartInit() {
 		        }
 		    },
 			grid : {
-				left : '8%',
+				left : '10%',
 				right : '16%',
-				bottom : '15%',
+				bottom : '16%',
 				containLabel : true
 			},
 		    xAxis: {
