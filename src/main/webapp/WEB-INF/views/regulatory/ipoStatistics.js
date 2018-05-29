@@ -368,7 +368,7 @@ function historyEChartInit() {
 		    title: {
 		        top: '10px',
 		        left: 'center',
-		        text: 'IPO再审企业统计',
+		        text: 'IPO在审企业统计',
 		    },
 		    legend: {
 		        top: '35px',
