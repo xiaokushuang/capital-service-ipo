@@ -238,6 +238,7 @@ table tbody tr td.left {
                 </div>
             </div>
         </div>
+        <input type="hidden" id="tokenValue" value="${access_token}">
 <!--         <div class="col-md-12 no-padding"> -->
 <!--             <hr style="margin: 20px 15px;" /> -->
 <!--         </div> -->
