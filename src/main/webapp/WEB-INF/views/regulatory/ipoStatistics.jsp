@@ -164,9 +164,9 @@ table tbody tr td.left {
                         <input id="registAddr" json-data='${areaList}' type="text" class="form-control t-select" placeholder="请选择注册地" style="background-color: #fff;"/> 
                         <input type="hidden" name="registAddr" />
                     </div>
-                    <div class="col-md-3 no-padding-r" align="right">
-                        <span id="clearAllOption" class="btn btn-4 btn-bny">清空条件</span>
-                    </div>
+<!--                     <div class="col-md-3 no-padding-r" align="right"> -->
+<!--                         <span id="clearAllOption" class="btn btn-4 btn-bny">清空条件</span> -->
+<!--                     </div> -->
                 </div>
             </form:form>
         </div>
@@ -244,6 +244,8 @@ table tbody tr td.left {
                 </div>
             </div>
         </div>
+        <div id="hiddenDiv" style="height:90px;">
+         </div>
         <input type="hidden" id="tokenValue" value="${access_token}">
 <!--         <div class="col-md-12 no-padding"> -->
 <!--             <hr style="margin: 20px 15px;" /> -->

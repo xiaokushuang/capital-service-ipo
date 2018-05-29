@@ -20,6 +20,8 @@ $(document).ready(function() {
 		$('input[name="industry"]').val('');
 		search();
 	});
+	
+	$("#hiddenDiv").hide();
 });
 // 数据获取初始化
 function dataInit() {
@@ -223,6 +225,19 @@ function search(){
 			,$("#queryForm").formSerialize()+'&access_token='+$('#tokenValue').val());
 	ajaxTableQuery("accountantOffice", "/regulatory_statistics/getIPOAccountantOfficeStts"
 			, $("#queryForm").formSerialize()+'&access_token='+$('#tokenValue').val());
+	calculationHeight();
+}
+
+//数据少时,增加页面高度,让下拉框显示全
+function calculationHeight(){
+	var recommendOrgLength = $("#recommendOrg > tbody").find("tr").length;
+	var lawsfirmLength = $("#lawsfirm > tbody").find("tr").length;
+	var accountantOfficeLength = $("#accountantOffice > tbody").find("tr").length;
+	if(recommendOrgLength <= '5' || lawsfirmLength <= '5' || accountantOfficeLength <= '5') {
+		$("#hiddenDiv").show();
+	} else {
+		$("#hiddenDiv").hide();
+	}
 }
 
 //序号
