@@ -322,20 +322,31 @@ function historyEChartInit() {
 		    backgroundColor: 'white',
 		    tooltip: {
 		        trigger: 'axis',
-		        position: function (pt) {
-		            return [pt[0], '10%'];
-		        }
+		        confine: true,
+		        formatter : function(params) {
+					var tar = params[0];
+					var str = '<p style="margin-top:10px;">' + tar.name + '</p>';
+					str = str + '<p style="text-align:left;">';
+					for (var i = 0; i < params.length; i++) {
+						tar = params[i];
+						str = str + '<span style="background:' + tar.color + '; margin-right: 10px;">&nbsp;&nbsp;</span>';
+						str = str + tar.seriesName + '数量：' + tar.value + '<br/>';
+					}
+					str = str + '</p>';
+					return str;
+				}
 		    },
 		    title: {
+		        top: '10px',
 		        left: 'center',
 		        text: 'IPO再审企业统计',
 		    },
 		    legend: {
-		        right: 'right',
-		        top: 'center',
+		        top: '35px',
 		        data:['合计','沪主板','中小板','创业板']
 		    },
 		    toolbox: {
+		    	top: '10px',
 		        show: true,
 		        feature: {
 		            dataZoom: {
@@ -345,6 +356,12 @@ function historyEChartInit() {
 		            saveAsImage: {}
 		        }
 		    },
+			grid : {
+				left : '8%',
+				right : '15%',
+				bottom : '15%',
+				containLabel : true
+			},
 		    xAxis: {
 		        type: 'category',
 		        boundaryGap: false,
