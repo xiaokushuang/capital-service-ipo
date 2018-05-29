@@ -372,8 +372,8 @@ function historyEChartInit() {
 		        }
 		    },
 			grid : {
-				left : '55px',
-				right : '90px',
+				left : '10px',
+				right : '32px',
 				bottom : '15%',
 				containLabel : true
 			},
