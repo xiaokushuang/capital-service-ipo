@@ -347,6 +347,7 @@ function historyEChartInit() {
 		    },
 		    toolbox: {
 		    	top: '10px',
+		    	right: '5px',
 		        show: true,
 		        feature: {
 		            dataZoom: {
@@ -358,7 +359,7 @@ function historyEChartInit() {
 		    },
 			grid : {
 				left : '8%',
-				right : '15%',
+				right : '16%',
 				bottom : '15%',
 				containLabel : true
 			},
