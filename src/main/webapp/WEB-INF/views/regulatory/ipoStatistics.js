@@ -374,18 +374,18 @@ function historyEChartInit() {
 		        top: '35px',
 		        data:['合计','沪主板','创业板','中小板']
 		    },
-		    toolbox: {
-		    	top: '10px',
-		    	right: '5px',
-		        show: true,
-		        feature: {
-		            dataZoom: {
-		                yAxisIndex: 'none'
-		            },
-		            restore: {},
-		            saveAsImage: {}
-		        }
-		    },
+//		    toolbox: {
+//		    	top: '10px',
+//		    	right: '5px',
+//		        show: true,
+//		        feature: {
+//		            dataZoom: {
+//		                yAxisIndex: 'none'
+//		            },
+//		            restore: {},
+//		            saveAsImage: {}
+//		        }
+//		    },
 			grid : {
 				left : '3px',
 				right : '30px',
