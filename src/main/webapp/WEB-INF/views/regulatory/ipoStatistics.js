@@ -262,7 +262,7 @@ function tSelectDataInit() {
 			grade : 1,
 			// resultType : 'children',
 			style : {
-				tMaxHeight : 280
+				tMaxHeight : 260
 			},
 			allCheck : true
 	};
@@ -276,7 +276,7 @@ function tSelectDataInit() {
 			grade : 2,
 			resultType : 'children',
 			style : {
-				tMaxHeight : 280
+				tMaxHeight : 260
 			},
 			allCheck : true
 		};
