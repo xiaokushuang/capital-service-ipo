@@ -54,9 +54,9 @@ table tbody tr td.left {
     text-align: left;
     padding-left: 10px;
 }
-.t-select-view{
-    height:300px !important;
-}
+/* .t-select-view{ */
+/*     height:300px !important; */
+/* } */
 </style>
 </head>
 <body style="background-color: white;">
