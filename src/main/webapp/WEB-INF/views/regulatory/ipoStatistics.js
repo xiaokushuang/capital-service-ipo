@@ -261,9 +261,7 @@ function tSelectDataInit() {
 			value : 'label',
 			grade : 1,
 			// resultType : 'children',
-			style : {
-				tMaxHeight : 260
-			},
+			style : {},	
 			allCheck : true
 	};
 	var tSelectOptions2 = {
@@ -275,9 +273,7 @@ function tSelectDataInit() {
 			value : 'name',
 			grade : 2,
 			resultType : 'children',
-			style : {
-				tMaxHeight : 260
-			},
+			style : {},			
 			allCheck : true
 		};
 	$('#registAddr').tselectInit(null, tSelectOptions1);
