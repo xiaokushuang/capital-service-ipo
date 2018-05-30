@@ -2,7 +2,7 @@
 var myChart;
 //需求4399 2018/5/24 by liuh Start
 //var myChartColor = ['#C03533', '#2F4553', '#91C7AF', '#F6A631'];
-var myChartColor = ['#ca2428', '#2e444e', '#7ccbab', '#ffa128', '#227d99', '', '', '#ff5f3a'];
+var myChartColor = ['#ca2428', '#2e444e', '#7ccbab', '#ffa128', '#227d99', '', '#ff5f3a'];
 var myHistoryChart;
 $(document).ready(function() {
 	eChartInit();
