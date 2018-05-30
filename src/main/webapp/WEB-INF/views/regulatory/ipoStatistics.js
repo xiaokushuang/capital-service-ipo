@@ -361,7 +361,7 @@ function historyEChartInit() {
 		    title: {
 		        top: '10px',
 		        left: 'center',
-		        text: 'IPO在审企业统计',
+		        text: 'IPO在审企业合计数变化情况',
 		    },
 		    legend: {
 		        top: '35px',
