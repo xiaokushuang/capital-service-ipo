@@ -21,7 +21,7 @@ $(document).ready(function() {
 		search();
 	});
 	
-	$("#hiddenDiv").hide();
+//	$("#hiddenDiv").hide();
 });
 // 数据获取初始化
 function dataInit() {
@@ -225,7 +225,7 @@ function search(){
 			,$("#queryForm").formSerialize()+'&access_token='+$('#tokenValue').val());
 	ajaxTableQuery("accountantOffice", "/regulatory_statistics/getIPOAccountantOfficeStts"
 			, $("#queryForm").formSerialize()+'&access_token='+$('#tokenValue').val());
-	calculationHeight();
+//	calculationHeight();
 }
 
 //数据少时,增加页面高度,让下拉框显示全
@@ -261,7 +261,9 @@ function tSelectDataInit() {
 			value : 'label',
 			grade : 1,
 			// resultType : 'children',
-			style : {},
+			style : {
+				tMaxHeight : 280
+			},
 			allCheck : true
 	};
 	var tSelectOptions2 = {
@@ -273,7 +275,9 @@ function tSelectDataInit() {
 			value : 'name',
 			grade : 2,
 			resultType : 'children',
-			style : {},
+			style : {
+				tMaxHeight : 280
+			},
 			allCheck : true
 		};
 	$('#registAddr').tselectInit(null, tSelectOptions1);
