@@ -220,7 +220,7 @@ function eChartInit() {
 
 function search(){
 	ajaxTableQuery("recommendOrg", "/regulatory_statistics/getIPORecommendOrgStts"
-			,$("#queryForm").formSerialize()+'&access_token='+$('#tokenValue').val());
+			,$("#queryForm").formSerialize());
 	ajaxTableQuery("lawsfirm", "/regulatory_statistics/getIPOLawFirmStts"
 			,$("#queryForm").formSerialize()+'&access_token='+$('#tokenValue').val());
 	ajaxTableQuery("accountantOffice", "/regulatory_statistics/getIPOAccountantOfficeStts"
