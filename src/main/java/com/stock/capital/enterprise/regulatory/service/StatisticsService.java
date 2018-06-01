@@ -3,6 +3,7 @@ package com.stock.capital.enterprise.regulatory.service;
 import java.io.ByteArrayInputStream;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -19,6 +20,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.alibaba.druid.util.StringUtils;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsCompanyDto;
@@ -26,10 +28,13 @@ import com.stock.capital.enterprise.regulatory.dto.StatisticsParamDto;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto;
 import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.OptionDto;
+import com.stock.core.dto.QueryInfo;
 import com.stock.core.dto.TreeDto;
 import com.stock.core.rest.RestClient;
 import com.stock.core.service.BaseService;
 import com.stock.core.util.DateUtil;
+import com.stock.core.dto.Page;
+import com.google.common.collect.Lists;
 
 @Service
 public class StatisticsService extends BaseService {
@@ -60,18 +65,39 @@ public class StatisticsService extends BaseService {
         return response;
     }
 
+    //需求4399 2018/5/24 by liuh Start
+    /**
+     * IPO在审项目数据统计-历史
+     *
+     * @param
+     * @return
+     */
+    public List<StatisticsResultDto> getIPOHistory() {
+        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
+        };
+        String url = apiBaseUrl + "regulatory_statistics/getIPOHistory";
+        List<StatisticsResultDto> response = restClient.post(url, "", responseType).getResult();
+        return response;
+    }
+
     /**
      * IPO保荐机构统计
      *
      * @param letterId
      * @return
      */
-    public List<StatisticsResultDto> getIPORecommendOrgStts() {
-        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
-        };
+    public Page<StatisticsResultDto> getIPORecommendOrgStts(QueryInfo<Map<String, Object>> queryInfo) {
+//        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
+//        };
+//        MultiValueMap<String, String> parameter = new LinkedMultiValueMap<String, String>();
+//        parameter.add("registAddr", dto.getRegistAddr());
+//        parameter.add("industry", dto.getIndustry());
+//        List<StatisticsResultDto> response = restClient.post(url, parameter, responseType).getResult();
         String url = apiBaseUrl + "regulatory_statistics/getIPORecommendOrgStts";
-        List<StatisticsResultDto> response = restClient.post(url, "", responseType).getResult();
-        return response;
+        ParameterizedTypeReference<JsonResponse<Page<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<Page<StatisticsResultDto>>>() {
+        };
+        Page<StatisticsResultDto> page = restClient.post(url, queryInfo, responseType).getResult();
+        return page;
     }
 
     /**
@@ -80,12 +106,20 @@ public class StatisticsService extends BaseService {
      * @param letterId
      * @return
      */
-    public List<StatisticsResultDto> getIPOAccountantOfficeStts() {
-        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
-        };
+    public Page<StatisticsResultDto> getIPOAccountantOfficeStts(QueryInfo<Map<String, Object>> queryInfo) {
+//        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
+//        };
+//        String url = apiBaseUrl + "regulatory_statistics/getIPOAccountantOfficeStts";
+//        MultiValueMap<String, String> parameter = new LinkedMultiValueMap<String, String>();
+//        parameter.add("registAddr", dto.getRegistAddr());
+//        parameter.add("industry", dto.getIndustry());
+//        List<StatisticsResultDto> response = restClient.post(url, parameter, responseType).getResult();
+//        return response;
         String url = apiBaseUrl + "regulatory_statistics/getIPOAccountantOfficeStts";
-        List<StatisticsResultDto> response = restClient.post(url, "", responseType).getResult();
-        return response;
+        ParameterizedTypeReference<JsonResponse<Page<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<Page<StatisticsResultDto>>>() {
+        };
+        Page<StatisticsResultDto> page = restClient.post(url, queryInfo, responseType).getResult();
+        return page;
     }
 
     /**
@@ -94,13 +128,22 @@ public class StatisticsService extends BaseService {
      * @param letterId
      * @return
      */
-    public List<StatisticsResultDto> getIPOLawFirmStts() {
-        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
-        };
+    public Page<StatisticsResultDto> getIPOLawFirmStts(QueryInfo<Map<String, Object>> queryInfo) {
+//        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
+//        };
+//        String url = apiBaseUrl + "regulatory_statistics/getIPOLawFirmStts";
+//        MultiValueMap<String, String> parameter = new LinkedMultiValueMap<String, String>();
+//        parameter.add("registAddr", dto.getRegistAddr());
+//        parameter.add("industry", dto.getIndustry());
+//        List<StatisticsResultDto> response = restClient.post(url, parameter, responseType).getResult();
+//        return response;
         String url = apiBaseUrl + "regulatory_statistics/getIPOLawFirmStts";
-        List<StatisticsResultDto> response = restClient.post(url, "", responseType).getResult();
-        return response;
+        ParameterizedTypeReference<JsonResponse<Page<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<Page<StatisticsResultDto>>>() {
+        };
+        Page<StatisticsResultDto> page = restClient.post(url, queryInfo, responseType).getResult();
+        return page;
     }
+    //需求4399 2018/5/24 by liuh end
 
     /**
      * IPO最新一期日期获取
@@ -348,5 +391,5 @@ public class StatisticsService extends BaseService {
         }
         return resultName;
     }
-
+    
 }

@@ -149,9 +149,9 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, 
                 </tbody>
             </table>
         </div>
-        <div class="col-md-12 no-padding" style="margin-left: 20px;">
-            <p id="updateTime" style="font-size: 12px; color: #909090;"></p>
-        </div>
+<!--         <div class="col-md-12 no-padding" style="margin-left: 20px;"> -->
+<!--             <p id="updateTime" style="font-size: 12px; color: #909090;"></p> -->
+<!--         </div> -->
     </div>
 </body>
 </html>

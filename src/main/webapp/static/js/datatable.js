@@ -3,16 +3,16 @@ $(document).ready(function() {
 	// 默认设置
 	$.extend( $.fn.dataTable.defaults, {
 		searching: false,
-		pagingType: "full",
+		pagingType: "input",
 		scrollX: true,
 		scrollY: false,
-		dom: "rt<'table-footer clearfix'<'DT-label col-xs-5'i><'DT-per-page col-xs-3'l><'DT-pagination col-xs-4'p>>",
+		dom: "rt<'table-footer clearfix'<'DT-label col-xs-4'i><'DT-per-page col-xs-3'l><'DT-pagination col-xs-5'p>>",
 		orderMulti: false,
+		order: [],
+		lengthMenu: [[ 10, 20, 50, 100 ],['10','20','50','100']],
 		ajax: {
 			data:initDataTableParam
 		},
-		order: [],
-		lengthMenu: [[ 10, 20, 50, 100 ],['10','20','50','100']],
 		language: {
 			"sProcessing": "处理中...",
 			"sLengthMenu": "每页显示 _MENU_ 项数据",
@@ -20,7 +20,7 @@ $(document).ready(function() {
 			"sInfo": "显示第 _START_ 至 _END_ 项数据，共 _TOTAL_ 项",
 			"sInfoEmpty": "显示第 0 至 0 项数据，共 0 项",
 			"sInfoFiltered": "(由 _MAX_ 项结果过滤)",
-			
+
 			"sInfoPostFix": "",
 			"sSearch": "搜索:",
 			"sUrl": "",
@@ -37,7 +37,8 @@ $(document).ready(function() {
 				"sSortAscending": ": 以升序排列此列",
 				"sSortDescending": ": 以降序排列此列"
 			}
-		}
+		},
+		pageLength: 20
 	});
 	// 绑定datatable事件
 	$(document).on("preXhr.dt", preXhrEventListener)
@@ -47,9 +48,10 @@ $(document).ready(function() {
 		.on("xhr.dt",xhrEventListener);
 
 	$('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-		$($(this).attr('href')).find('.table-primary table').css('width','100%')
-		$($(this).attr('href')).find('.table-primary table').dataTable().api().columns.adjust();
-
+		if ($($(this).attr('href')).find('.no-egrid').length < 0) {
+			$($(this).attr('href')).find('.table-primary table').css('width','100%')
+			$($(this).attr('href')).find('.table-primary table').dataTable().api().columns.adjust();
+		}
 	})
 });
 /**
@@ -74,17 +76,35 @@ function xhrEventListener(e,settings,json,xhr){
  * @param data
  */
 function preXhrEventListener(e, setting, data) {
+	var tempOrderByName;
+	var tempOrderByOrder;
 	if (setting.serverQueryType != undefined || setting.serverQueryType != null) {
 		data.toPageState = setting.serverQueryType;
 	} else if ($(e.target).data("query_refresh") == true && data.draw != 1) {
 		data.toPageState = "refresh";
 	} else if ($(e.target).data("query_click") != true && data.draw != 1) {
-		data.toPageState = "order";
+		/*data.toPageState = "order";
 		var order = $(e.target).dataTable().api().order();
 		var columnIndex = order[0][0];
 		var columnName = setting.aoColumns[columnIndex].data["orderColumn"];
 		data.orderByName = columnName;
-		data.orderByOrder = order[0][1].toUpperCase();
+		data.orderByOrder = order[0][1].toUpperCase();*/
+		if(e.currentTarget.activeElement.nodeName != 'INPUT'){
+			data.toPageState = "order";
+			var order = $(e.target).dataTable().api().order();
+			var columnIndex = order[0][0];
+			var columnName = setting.aoColumns[columnIndex].data["orderColumn"];
+			data.orderByName = columnName;
+			tempOrderByName = columnName
+			data.orderByOrder = order[0][1].toUpperCase();
+			tempOrderByOrder = order[0][1].toUpperCase();
+		}else{
+			data.orderByName = tempOrderByName;
+			data.orderByOrder = tempOrderByOrder;
+			//修复 输入页码跳页 查询没有带条件 Wang Guili && Gerry  需求1226产生的问题
+			data.toPageState = 'page';
+		}
+		
 	} else if (data.draw == 1 && setting.oInit.toPageState != undefined) {
 		data.toPageState = setting.oInit.toPageState;
 	}
@@ -93,7 +113,7 @@ function preXhrEventListener(e, setting, data) {
 	}
 	setting.serverQueryType = null;
 	$(e.target).data("query_click", null);
-	//$(e.target).data("query_condition", null);
+	$(e.target).data("query_condition", null);
 	$(e.target).data("query_refresh", null);
 }
 /**
@@ -120,7 +140,7 @@ function drawEventListener(e, setting) {
 	$('[data-ellipsis="true"]').Ellipsis({
 		maxLine: 2
 	})
-	dataTableLoadAfter();
+	dataTableLoadAfter(e);
 }
 /**
  * 分页监听
@@ -159,8 +179,14 @@ function dataTableLoadAfter() {
  */
 function ajaxPostTableQuery(tableId, url, queryInfo) {
 	// 区分是否用户重新查询
+	if ( queryInfo && typeof queryInfo !== "string" ) {
+		queryInfo = $.param(queryInfo);
+	}
 	$("#"+tableId).data("query_click", true);
 	$("#"+tableId).data("query_condition", queryInfo);
+	if ($("#"+tableId).dataTable().api().settings()[0] != undefined && $("#"+tableId).dataTable().api().settings()[0].aaSorting != undefined) {
+		$("#"+tableId).dataTable().api().settings()[0].aaSorting=[];
+	}
 	$("#"+tableId).dataTable().api().ajax.url(contextPath+url).load();
 	$("#"+tableId).dataTable().api().columns.adjust();
 }

@@ -79,18 +79,13 @@ public class FinanceStatisticsController extends BaseController {
      */
     @RequestMapping(value = "financeSearchData")
     @ResponseBody
-    public Map<String, Object> financeSearchData(FinanceParamDto financeParamDto, int draw) {
-        String startRow = getRequest().getParameter("start");
-        String pageSize = getRequest().getParameter("length");
-        String orderColumn = getRequest().getParameter("order[0][column]");
-        String orderByOrder = getRequest().getParameter("order[0][dir]");
-
+    public JsonResponse<Page<FinanceIndexDto>> financeSearchData(@RequestBody QueryInfo<FinanceParamDto> queryInfo) {
         Map<String, String> condition = Maps.newHashMap();
         String conditionsStr = "index_type_t: \"finance\"";
 
         // 证券公司代码
-        if (StringUtils.isNotEmpty(financeParamDto.getCompanyCodeSearch())) {
-            conditionsStr += "AND finance_securitycode_t:*" + financeParamDto.getCompanyCodeSearch() + "*";
+        if (StringUtils.isNotEmpty(queryInfo.getCondition().getCompanyCodeSearch())) {
+            conditionsStr += "AND finance_securitycode_t:*" + queryInfo.getCondition().getCompanyCodeSearch() + "*";
             // String companyCode = StringUtils.EMPTY;
             // Pattern pattern = Pattern.compile("\\d+");
             // Matcher matcher = pattern.matcher(financeParamDto.getCompanyCodeSearch());
@@ -104,70 +99,58 @@ public class FinanceStatisticsController extends BaseController {
         }
 
         // 所属板块
-        conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, financeParamDto.getStockBoardSelect(),
+        conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, queryInfo.getCondition().getStockBoardSelect(),
                 "finance_belongplate_t");
 
         // 所在地区
-        conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, financeParamDto.getAreaSelect(),
+        conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, queryInfo.getCondition().getAreaSelect(),
                 "finance_citycode_t");
 
         // 所属行业
-        String financeIndCode = "finance_indtypecode" + financeParamDto.getFinanceIndustry() + "_t";
-        if (StringUtils.isNotEmpty(financeParamDto.getFinanceIndustry())) {
-            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, financeParamDto.getFinanceIndustry(),
+        String financeIndCode = "finance_indtypecode" + queryInfo.getCondition().getFinanceIndustry() + "_t";
+        if (StringUtils.isNotEmpty(queryInfo.getCondition().getFinanceIndustry())) {
+            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getCondition().getFinanceIndustry(),
                     financeIndCode, false, false, false);
         }
 
         // 依据日期
         conditionsStr = SolrSearchUtil.transDateStrToConditionStr(conditionsStr.toString(),
-                financeParamDto.getFinanceDate(), "finance_startdate_dt");
+                queryInfo.getCondition().getFinanceDate(), "finance_startdate_dt");
 
         // 融资方式
-        conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, financeParamDto.getFinancingMode(),
+        conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, queryInfo.getCondition().getFinancingMode(),
                 "finance_finatype_t");
 
-        // 排序顺序
-        String orderby = "DESC,DESC";
-        // 排序顺序
-        if (StringUtils.isNotEmpty(orderByOrder)) {
-            orderby = orderByOrder;
-        }
-
-        String orderName = "finance_startdate_dt , finance_sumfina_d";
-        // 排序根据
-        if ("1".equals(orderColumn)) {// 公司代码
-            orderName = "finance_securitycode_t";
-        } else if ("2".equals(orderColumn)) {// 融资日期
-            orderName = "finance_startdate_dt";
-        } else if ("6".equals(orderColumn)) {// 融资金额
-            orderName = "finance_sumfina_d";
-        }
+//        // 排序顺序
+//        String orderby = "DESC,DESC";
+//        // 排序顺序
+//        if (StringUtils.isNotEmpty(queryInfo.getOrderByOrder())) {
+//            orderby = queryInfo.getOrderByOrder();
+//        }
+//
+//        String orderName = "finance_startdate_dt , finance_sumfina_d";
+//        // 排序根据
+//        if ("1".equals(queryInfo.getOrderByName())) {// 公司代码
+//            orderName = "finance_securitycode_t";
+//        } else if ("2".equals(queryInfo.getOrderByName())) {// 融资日期
+//            orderName = "finance_startdate_dt";
+//        } else if ("6".equals(queryInfo.getOrderByName())) {// 融资金额
+//            orderName = "finance_sumfina_d";
+//        }
 
         // 处理关键字的检索条件
         condition.put(Constant.SEARCH_CONDIATION, conditionsStr);
+        
+        QueryInfo<Map<String, String>> query = commonSearch(condition);
 
-        QueryInfo<Map<String, String>> queryInfo = commonSearch(condition);
-        queryInfo.setOrderByName(orderName);
-        queryInfo.setOrderByOrder(orderby);
-        queryInfo.setPageSize(Integer.parseInt(pageSize));
-        queryInfo.setStartRow(Integer.parseInt(startRow));
+        queryInfo.setOrderByName(queryInfo.getOrderByName());
+        queryInfo.setOrderByOrder(queryInfo.getOrderByOrder());
 
         // 全文检索
-        FacetResult<FinanceIndexDto> facetResult = finaceDataService.searchFinanceRecordList(queryInfo);
-        Page<FinanceIndexDto> page = facetResult.getPage();
-        List<FinanceIndexDto> resultList = Lists.newArrayList();
-        int total = 0;
-        if (page != null) {
-            resultList = page.getData();
-            total = page.getTotal();
-        }
+        FacetResult<FinanceIndexDto> facetResult = finaceDataService.searchFinanceRecordList(query);
+        JsonResponse<Page<FinanceIndexDto>> response = new JsonResponse<>();
+        response.setResult(facetResult.getPage());
 
-        // 设定table返回值
-        Map<String, Object> response = Maps.newHashMap();
-        response.put("draw", draw);
-        response.put("recordsTotal", total);
-        response.put("recordsFiltered", total);
-        response.put("data", resultList);
         return response;
     }
 }
