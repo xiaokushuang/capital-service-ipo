@@ -51,7 +51,7 @@ function areaDataSetting(lst) {
 						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'01\',\'unit\')">' + lst[i].reviewed + '</td>' 
 						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'02\',\'unit\')">' + lst[i].preUpdate + '</td>' 
 						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'04\',\'unit\')">' + lst[i].endYet + '</td>' 
-						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'07\',\'unit\')">' + lst[i].processing + '</td>' 
+						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'06\',\'unit\')">' + lst[i].processing + '</td>' 
 						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'03\',\'unit\')">' + lst[i].passed + '</td>' 
 						+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'\',\'area\')">' + lst[i].areaCount + '</a></td>' 
 					+ '</tr>';
@@ -65,7 +65,7 @@ function areaDataSetting(lst) {
 			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'01\',\'approve\')">' + lst[sumIndex].reviewed + '</a></td>'  
 			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'02\',\'approve\')">' + lst[sumIndex].preUpdate + '</a></td>'  
 			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'04\',\'approve\')">' + lst[sumIndex].endYet + '</a></td>'  
-			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'07\',\'approve\')">' + lst[sumIndex].processing + '</a></td>'  
+			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'06\',\'approve\')">' + lst[sumIndex].processing + '</a></td>'  
 			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'03\',\'approve\')">' + lst[sumIndex].passed + '</a></td>'  
 			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'\',\'all\')">' + lst[sumIndex].areaCount + '</a></td>' 
 			+ '</tr>';
@@ -204,7 +204,7 @@ function viewAreaDetail(registAddr,lastUpadteTime,approveStatus,viewType){
 	        break;
 	        case '04': appLabel = approveStatus.replace("04", "中止审查");
 	        break;
-	        case '07': appLabel = approveStatus.replace("07", "已上发审会，暂缓表决");
+	        case '06': appLabel = approveStatus.replace("06", "已提交发审会讨论，暂缓表决");
 	        break;
 	        case '03': appLabel = approveStatus.replace("03", "已通过发审会");
 	        break;
