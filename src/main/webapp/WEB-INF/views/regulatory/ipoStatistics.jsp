@@ -180,7 +180,7 @@ table tbody tr td.left {
         <div class="panel-body" >
             <div class="tab-content">
                 <div  class="tab-pane fade in active" id="tab1">
-                    <div class="table-primary">
+                    <div class="table-primary" style="min-height:900px">
                         <e:grid id="recommendOrg" action="/regulatory_statistics/getIPORecommendOrgStts?access_token=${access_token}"
                              cssClass="table table-striped table-hover" defaultPageSize="20"> 
                              <e:gridColumn label="序号" renderColumn="renderColumnIndex" 
@@ -201,7 +201,7 @@ table tbody tr td.left {
                    </div>
                 </div>
                 <div class="tab-pane fade" id="tab2">
-                    <div class="table-primary">
+                    <div class="table-primary" style="min-height:900px">
                         <e:grid id="lawsfirm" action="/regulatory_statistics/getIPOLawFirmStts?access_token=${access_token}"
                             cssClass="table table-striped table-hover" defaultPageSize="20">
                             <e:gridColumn label="序号" renderColumn="renderColumnIndex"
@@ -222,7 +222,7 @@ table tbody tr td.left {
                    </div>
                 </div>
                 <div class="tab-pane fade" id="tab3">
-                    <div class="table-primary">
+                    <div class="table-primary" style="min-height:900px">
                         <e:grid id="accountantOffice" action="/regulatory_statistics/getIPOAccountantOfficeStts?access_token=${access_token}"
                             cssClass="table table-striped table-hover" defaultPageSize="20">
                             <e:gridColumn label="序号" renderColumn="renderColumnIndex"
@@ -244,8 +244,8 @@ table tbody tr td.left {
                 </div>
             </div>
         </div>
-        <div id="hiddenDiv" style="height:90px;">
-         </div>
+<!--         <div id="hiddenDiv" style="height:90px;"> -->
+<!--          </div> -->
         <input type="hidden" id="tokenValue" value="${access_token}">
 <!--         <div class="col-md-12 no-padding"> -->
 <!--             <hr style="margin: 20px 15px;" /> -->

@@ -166,7 +166,9 @@ public class StatisticsController extends BaseController {
         condition.put("industry", dto.getIndustry());
         
         QueryInfo<Map<String, Object>> queryInfo = commonSearch(condition);
-        queryInfo.setOrderByName(orderColumn);
+        if(StringUtils.isNotEmpty(orderColumn)) {
+            queryInfo.setOrderByName(orderColumn);
+        } 
         queryInfo.setOrderByOrder(orderByOrder);
         queryInfo.setPageSize(Integer.parseInt(pageSize));
         queryInfo.setStartRow(Integer.parseInt(startRow));
@@ -223,7 +225,9 @@ public class StatisticsController extends BaseController {
         condition.put("industry", dto.getIndustry());
         
         QueryInfo<Map<String, Object>> queryInfo = commonSearch(condition);
-        queryInfo.setOrderByName(orderColumn);
+        if(StringUtils.isNotEmpty(orderColumn)) {
+            queryInfo.setOrderByName(orderColumn);
+        }
         queryInfo.setOrderByOrder(orderByOrder);
         queryInfo.setPageSize(Integer.parseInt(pageSize));
         queryInfo.setStartRow(Integer.parseInt(startRow));
@@ -280,7 +284,9 @@ public class StatisticsController extends BaseController {
         condition.put("industry", dto.getIndustry());
         
         QueryInfo<Map<String, Object>> queryInfo = commonSearch(condition);
-        queryInfo.setOrderByName(orderColumn);
+        if(StringUtils.isNotEmpty(orderColumn)) {
+            queryInfo.setOrderByName(orderColumn);
+        }
         queryInfo.setOrderByOrder(orderByOrder);
         queryInfo.setPageSize(Integer.parseInt(pageSize));
         queryInfo.setStartRow(Integer.parseInt(startRow));

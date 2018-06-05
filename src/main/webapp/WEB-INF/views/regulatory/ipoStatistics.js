@@ -2,7 +2,7 @@
 var myChart;
 //需求4399 2018/5/24 by liuh Start
 //var myChartColor = ['#C03533', '#2F4553', '#91C7AF', '#F6A631'];
-var myChartColor = ['#ca2428', '#2e444e', '#7ccbab', '#ffa128', '#227d99', '', '', '#ff5f3a'];
+var myChartColor = ['#ca2428', '#2e444e', '#7ccbab', '#ffa128', '#227d99', '', '#ff5f3a'];
 var myHistoryChart;
 $(document).ready(function() {
 	eChartInit();
@@ -21,8 +21,14 @@ $(document).ready(function() {
 		search();
 	});
 	
-	$("#hiddenDiv").hide();
 });
+
+function initDataTableParam(d){
+	return $.extend( {}, d, {
+	        "access_token": $('#tokenValue').val()
+	      } );
+}
+
 // 数据获取初始化
 function dataInit() {
 	// IPO在审项目数据统计
@@ -225,19 +231,6 @@ function search(){
 			,$("#queryForm").formSerialize()+'&access_token='+$('#tokenValue').val());
 	ajaxTableQuery("accountantOffice", "/regulatory_statistics/getIPOAccountantOfficeStts"
 			, $("#queryForm").formSerialize()+'&access_token='+$('#tokenValue').val());
-	calculationHeight();
-}
-
-//数据少时,增加页面高度,让下拉框显示全
-function calculationHeight(){
-	var recommendOrgLength = $("#recommendOrg > tbody").find("tr").length;
-	var lawsfirmLength = $("#lawsfirm > tbody").find("tr").length;
-	var accountantOfficeLength = $("#accountantOffice > tbody").find("tr").length;
-	if(recommendOrgLength <= '5' || lawsfirmLength <= '5' || accountantOfficeLength <= '5') {
-		$("#hiddenDiv").show();
-	} else {
-		$("#hiddenDiv").hide();
-	}
 }
 
 //序号
@@ -261,7 +254,7 @@ function tSelectDataInit() {
 			value : 'label',
 			grade : 1,
 			// resultType : 'children',
-			style : {},
+			style : {},	
 			allCheck : true
 	};
 	var tSelectOptions2 = {
@@ -273,7 +266,7 @@ function tSelectDataInit() {
 			value : 'name',
 			grade : 2,
 			resultType : 'children',
-			style : {},
+			style : {},			
 			allCheck : true
 		};
 	$('#registAddr').tselectInit(null, tSelectOptions1);
@@ -368,28 +361,28 @@ function historyEChartInit() {
 		    title: {
 		        top: '10px',
 		        left: 'center',
-		        text: 'IPO再审企业统计',
+		        text: 'IPO在审企业合计数变化情况',
 		    },
 		    legend: {
 		        top: '35px',
-		        data:['合计','沪主板','中小板','创业板']
+		        data:['合计','沪主板','创业板','中小板']
 		    },
-		    toolbox: {
-		    	top: '10px',
-		    	right: '5px',
-		        show: true,
-		        feature: {
-		            dataZoom: {
-		                yAxisIndex: 'none'
-		            },
-		            restore: {},
-		            saveAsImage: {}
-		        }
-		    },
+//		    toolbox: {
+//		    	top: '10px',
+//		    	right: '5px',
+//		        show: true,
+//		        feature: {
+//		            dataZoom: {
+//		                yAxisIndex: 'none'
+//		            },
+//		            restore: {},
+//		            saveAsImage: {}
+//		        }
+//		    },
 			grid : {
-				left : '10px',
-				right : '32px',
-				bottom : '15%',
+				left : '3px',
+				right : '30px',
+				bottom : '40px',
 				containLabel : true
 			},
 		    xAxis: {
@@ -457,7 +450,7 @@ function historyEChartInit() {
 		            data: []
 		        },
 		        {
-		            name:'中小板',
+		            name:'创业板',
 		            type:'line',
 		            smooth:true,
 		            symbol: 'rect',
@@ -475,7 +468,7 @@ function historyEChartInit() {
 		            data: []
 		        },
 		        {
-		            name:'创业板',
+		            name:'中小板',
 		            type:'line',
 		            smooth:true,
 		            symbol: 'triangle',
