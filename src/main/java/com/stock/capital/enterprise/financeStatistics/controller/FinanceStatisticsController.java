@@ -64,7 +64,7 @@ public class FinanceStatisticsController extends BaseController {
      */
     @RequestMapping(value = "getChartForBondData")
     @ResponseBody
-    public JsonResponse<List<Map<String, Object>>> getChartForBondData(FinanceDataDto dto) {
+    public JsonResponse<List<Map<String, Object>>> getChartForBondData(@RequestBody FinanceDataDto dto) {
         Map<String, String> map = finaceDataService.getDateMap(dto);
         List<Map<String, Object>> data = finaceDataService.getResearchStatisticsDataForBond(map);
         JsonResponse<List<Map<String, Object>>> result = new JsonResponse<List<Map<String, Object>>>();
