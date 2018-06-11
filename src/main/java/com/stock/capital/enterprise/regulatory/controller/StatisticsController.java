@@ -417,7 +417,7 @@ public class StatisticsController extends BaseController {
          mv.setView(new DownloadView());
          Map<String, Object> fileInfo = Maps.newHashMap();
          String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMdd");
-         fileInfo.put("fileName", "IPO在审项目数据明细_"+ timeStr+".xls");
+         fileInfo.put("fileName", "IPO在审项目数据明细_"+ timeStr+".xlsx");
          fileInfo.put("fileType", "application/vnd.ms-excel");
          // 从文件服务器下载文件
          fileInfo.put("fileBytes", statisticsService.ipoDetailExport(statisticsParamDto));

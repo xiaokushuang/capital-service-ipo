@@ -19,6 +19,11 @@ $(document).ready(function() {
 		reductionSortStyle();
 		search();
 	});
+	
+	//获取当前年份
+	var date=new Date;
+	var year=date.getFullYear(); 
+	$("#ipoAreaDetail thead tr:eq(1)").find("th").eq(8).html(year+"年");
 });
 // 数据获取初始化
 function dataInit() {
@@ -51,9 +56,11 @@ function areaDataSetting(lst) {
 						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'01\',\'unit\')">' + lst[i].reviewed + '</td>' 
 						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'02\',\'unit\')">' + lst[i].preUpdate + '</td>' 
 						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'04\',\'unit\')">' + lst[i].endYet + '</td>' 
-						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'07\',\'unit\')">' + lst[i].processing + '</td>' 
+						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'06\',\'unit\')">' + lst[i].processing + '</td>' 
 						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'03\',\'unit\')">' + lst[i].passed + '</td>' 
-						+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'\',\'area\')">' + lst[i].areaCount + '</a></td>' 
+						+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'\',\'area\')">' + lst[i].areaCount + '</a></td>'
+						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'99\',\'unit\')">' + lst[i].weekStopYet + '</td>' 
+						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'05\',\'unit\')">' + lst[i].stopYet + '</td>' 
 					+ '</tr>';
 		}
 		//拼接tbody合计行
@@ -65,9 +72,11 @@ function areaDataSetting(lst) {
 			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'01\',\'approve\')">' + lst[sumIndex].reviewed + '</a></td>'  
 			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'02\',\'approve\')">' + lst[sumIndex].preUpdate + '</a></td>'  
 			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'04\',\'approve\')">' + lst[sumIndex].endYet + '</a></td>'  
-			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'07\',\'approve\')">' + lst[sumIndex].processing + '</a></td>'  
+			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'06\',\'approve\')">' + lst[sumIndex].processing + '</a></td>'  
 			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'03\',\'approve\')">' + lst[sumIndex].passed + '</a></td>'  
-			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'\',\'all\')">' + lst[sumIndex].areaCount + '</a></td>' 
+			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'\',\'all\')">' + lst[sumIndex].areaCount + '</a></td>'
+			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'99\',\'approve\')">' + lst[sumIndex].weekStopYet + '</a></td>'  
+			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'05\',\'approve\')">' + lst[sumIndex].stopYet + '</a></td>'
 			+ '</tr>';
 	} else{
 		//增加终止审查后切记变更colspan值
@@ -204,9 +213,13 @@ function viewAreaDetail(registAddr,lastUpadteTime,approveStatus,viewType){
 	        break;
 	        case '04': appLabel = approveStatus.replace("04", "中止审查");
 	        break;
-	        case '07': appLabel = approveStatus.replace("07", "已上发审会，暂缓表决");
+	        case '06': appLabel = approveStatus.replace("06", "已上发审会，暂缓表决");
 	        break;
 	        case '03': appLabel = approveStatus.replace("03", "已通过发审会");
+	        break;
+	        case '05': appLabel = approveStatus.replace("05", "终止审查");
+	        break;
+	        case '99': appLabel = approveStatus.replace("99", "终止审查:最近一周");
 	        break;
 		}
 	}
