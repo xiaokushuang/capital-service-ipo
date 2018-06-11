@@ -77,6 +77,10 @@ public class StatisticsResultDto implements Serializable {
      * 数据截止时间
      */
     private String lastUpadteTime;
+    
+    private String weekStopYet;//最近一周 终止审查
+    
+    private String stopYet;//终止审查
 
     public String getValue() {
         return value;
@@ -212,6 +216,22 @@ public class StatisticsResultDto implements Serializable {
 
     public void setLastUpadteTime(String lastUpadteTime) {
         this.lastUpadteTime = lastUpadteTime;
+    }
+
+    public String getWeekStopYet() {
+        return weekStopYet;
+    }
+
+    public void setWeekStopYet(String weekStopYet) {
+        this.weekStopYet = weekStopYet;
+    }
+
+    public String getStopYet() {
+        return stopYet;
+    }
+
+    public void setStopYet(String stopYet) {
+        this.stopYet = stopYet;
     }
 
 }
