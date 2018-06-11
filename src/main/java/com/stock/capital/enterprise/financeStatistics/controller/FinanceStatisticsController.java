@@ -6,17 +6,23 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.cache.Cache;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.stock.capital.enterprise.common.service.CommonService;
+import com.stock.capital.enterprise.declare.service.DeclareService;
 import com.stock.capital.enterprise.financeStatistics.dto.FinanceDataDto;
 import com.stock.capital.enterprise.financeStatistics.dto.FinanceIndexDto;
 import com.stock.capital.enterprise.financeStatistics.dto.FinanceParamDto;
+import com.stock.capital.enterprise.financeStatistics.dto.Param;
 import com.stock.capital.enterprise.financeStatistics.service.FinaceDataService;
+import com.stock.capital.enterprise.regulatory.service.ViolationService;
 import com.stock.core.Constant;
 import com.stock.core.controller.BaseController;
 import com.stock.core.dto.FacetResult;
@@ -24,6 +30,7 @@ import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.Page;
 import com.stock.core.dto.QueryInfo;
 import com.stock.core.search.SolrSearchUtil;
+import com.stock.core.util.JsonUtil;
 
 @Controller
 @RequestMapping("financeStatistics")
@@ -31,7 +38,18 @@ public class FinanceStatisticsController extends BaseController {
 
     @Autowired
     private FinaceDataService finaceDataService;
+    
+    @Autowired
+    private CommonService commonService; 
+ 
+    @Autowired
+    private ViolationService violationService; 
+    
+    @Autowired
+  	private CacheManager cacheManager;
 
+    @Autowired
+    private DeclareService declareService;
     /**
      * 接口地址前缀
      */
@@ -153,4 +171,64 @@ public class FinanceStatisticsController extends BaseController {
 
         return response;
     }
+    
+    
+    /**
+	 * 根据参数返回所需List
+	 * 
+	 * 
+	 * 
+	 */
+    @RequestMapping(value = "getStockBoardList")
+    @ResponseBody
+    public Map<String, Object> getStockBoardList(@RequestBody Param params) {  
+    	  // 设定table返回值
+        Map<String, Object> response = Maps.newHashMap(); 
+    	 String param = params.getParam();
+    	 response.put("data", JsonUtil.toJsonNoNull(violationService.getStockBoardList())); 
+//    	 if(param!=null&&!param.equals("")){
+//    		 if(param.equals("stockBoardList")){
+//    			// 板块信息
+//    			 response.put("data", JsonUtil.toJsonNoNull(violationService.getStockBoardList()));
+//    			 return response;
+//        	 }else if(param.equals("provincesList")){
+//        		// 所在地区 
+//        		 response.put("data", JsonUtil.toJsonNoNull(commonService.getProvincesList()));
+//    			 return response;
+//        	 }else if(param.equals("financeIndustry")){ 
+//        		// 证监会行业分类
+//        		 Cache cache =  cacheManager.getCache(Constant.DEFAULT_CACHE); 
+//		        @SuppressWarnings("unchecked")
+//		        List<Map<String, String>> itemsObject = (List<Map<String, String>>) cache.get("Paramch_Name", List.class);
+//		        response.put("data", JsonUtil.toJsonNoNull(itemsObject));
+//        	 } 
+//    	 }else{ 
+//    		 return response;
+//    	 }
+    	 return response;
+    }
+    @RequestMapping(value = "getProvincesList")
+    @ResponseBody
+    public Map<String, Object> getProvincesList() {  
+    	  // 设定table返回值
+        Map<String, Object> response = Maps.newHashMap(); 
+    	  
+    	 response.put("data", JsonUtil.toJsonNoNull(commonService.getProvincesList()));
+    	 
+    	 return response;
+    }
+    @RequestMapping(value = "getFinanceList")
+    @ResponseBody
+    public Map<String, Object> getFinanceList() {  
+    	  // 设定table返回值
+        Map<String, Object> response = Maps.newHashMap();   
+    	 Cache cache =  cacheManager.getCache(Constant.DEFAULT_CACHE); 
+    	System.out.println(apiBaseUrl); 
+        @SuppressWarnings("unchecked")
+        List<Map<String, String>> itemsObject = (List<Map<String, String>>) cache.get("Paramch_Name", List.class);
+        response.put("data", JsonUtil.toJsonNoNull(itemsObject));
+ 
+    	 return response;
+    } 
+    
 }
