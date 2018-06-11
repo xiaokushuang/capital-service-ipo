@@ -67,7 +67,7 @@ public class DeclareController extends BaseController {
   	  // 设定table返回值
         Map<String, Object> response = Maps.newHashMap();   
     	  
-        response.put("data", JsonUtil.toJson(declareService.getDeclareType(param.getParam())));
+        response.put("data",  declareService.getDeclareType(param.getParam()));
  
     	 return response; 
     }

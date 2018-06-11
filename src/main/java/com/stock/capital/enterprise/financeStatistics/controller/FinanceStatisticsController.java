@@ -185,7 +185,7 @@ public class FinanceStatisticsController extends BaseController {
     	  // 设定table返回值
         Map<String, Object> response = Maps.newHashMap(); 
     	 String param = params.getParam();
-    	 response.put("data", JsonUtil.toJsonNoNull(violationService.getStockBoardList())); 
+    	 response.put("data", violationService.getStockBoardList()); 
 //    	 if(param!=null&&!param.equals("")){
 //    		 if(param.equals("stockBoardList")){
 //    			// 板块信息
@@ -213,7 +213,7 @@ public class FinanceStatisticsController extends BaseController {
     	  // 设定table返回值
         Map<String, Object> response = Maps.newHashMap(); 
     	  
-    	 response.put("data", JsonUtil.toJsonNoNull(commonService.getProvincesList()));
+    	 response.put("data",commonService.getProvincesList() );//JsonUtil.toJsonNoNull(commonService.getProvincesList())
     	 
     	 return response;
     }
@@ -226,7 +226,7 @@ public class FinanceStatisticsController extends BaseController {
     	System.out.println(apiBaseUrl); 
         @SuppressWarnings("unchecked")
         List<Map<String, String>> itemsObject = (List<Map<String, String>>) cache.get("Paramch_Name", List.class);
-        response.put("data", JsonUtil.toJsonNoNull(itemsObject));
+        response.put("data", itemsObject);
  
     	 return response;
     } 
