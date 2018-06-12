@@ -204,6 +204,8 @@ function viewAreaDetail(registAddr,lastUpadteTime,approveStatus,viewType){
 				};
 	var appLabel = '';
 	if(approveStatus != null && approveStatus != ''){
+		var date=new Date;
+		var year=date.getFullYear(); 
 		switch (approveStatus) {
 	        case '00': appLabel = approveStatus.replace("00", "已受理");
 	        break;
@@ -217,9 +219,9 @@ function viewAreaDetail(registAddr,lastUpadteTime,approveStatus,viewType){
 	        break;
 	        case '03': appLabel = approveStatus.replace("03", "已通过发审会");
 	        break;
-	        case '05': appLabel = approveStatus.replace("05", "终止审查");
+	        case '05': appLabel = approveStatus.replace("05", year + "年终止审查");
 	        break;
-	        case '99': appLabel = approveStatus.replace("99", "终止审查:最近一周");
+	        case '99': appLabel = approveStatus.replace("99", "最近一周终止审查");
 	        break;
 		}
 	}
