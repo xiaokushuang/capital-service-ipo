@@ -71,4 +71,20 @@ public class DeclareController extends BaseController {
  
     	 return response; 
     }
+    /**
+     * 公告小助手
+     * 
+     * @return 获取某个分类的详细信息
+     */
+    @RequestMapping(value = "TableData", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> TableData(@RequestBody Param param) {
+    	
+  	  // 设定table返回值
+        Map<String, Object> response = Maps.newHashMap();   
+    	  
+        response.put("data",  declareService.getDeclareType(param.getParam()));
+ 
+    	 return response; 
+    }
 }

@@ -94,40 +94,7 @@ export default {
                         obj.children=temp;
                     }           
                 }       
-            }
-            // if(state == 1){ 
-            //     var temp = [];
-            //     for(var i in result){  
-            //         if(result[i].children&&result[i].children.length>0){
-            //             var obj = result[i].children;
-            //             var temp1 = [];
-            //             for(var k in obj){
-            //                 if(obj[k].children&&obj[k].children.length>0){  
-            //                     var temp2 = []; 
-            //                     for(var j in obj[k].children){
-            //                         if( obj[k].children[j].isofen == 1){ 
-            //                             temp2.push(obj[k].children[j]);
-            //                         } 
-            //                     }  
-            //                     obj[k].children = temp2; 
-            //                     if(obj[k].children&&obj[k].children.length>0){
-            //                     temp1.push(obj[k]);
-            //                     } 
-            //                 }else{
-            //                     if(obj[k].isofen == 1){
-            //                         temp1.push(obj[k]);
-            //                     }
-            //                 }
-            //                 }
-                        
-            //               result[i].children = temp1;  
-            //              if(result[i].children&&result[i].children.length>0){
-            //                  temp.push(result[i]);
-            //              } 
-            //         }          
-            //     } 
-            //      return temp;
-            // } 
+            } 
             return result;
           }
            //将树状结构的数据按常用类型过滤 
