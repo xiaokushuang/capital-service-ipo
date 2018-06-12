@@ -1,0 +1,183 @@
+//鼠标放上出现下划线
+.navigator {
+  height: 64px;
+  line-height: 64px;
+  background: #304156;
+  color: #bfcbd9; //#409eff #bfcbd9
+
+  .hamburger-container {
+    display: inline-block;
+    margin: 0 10px;
+  }
+  .application-title {
+    display: inline-block;
+    margin: 0 10px;
+  }
+
+  // 主菜单
+  .menu-container {
+    cursor: context-menu;
+    height: 64px;
+    font-size: 14px;
+    .menu-bar {
+      height: 64px;
+      display: inline-block;
+      text-align: center;
+      margin: 0 10px;
+      max-width: 120px;
+      overflow: hidden;
+      color: #fff;
+      font-size: 14px;
+      i {
+        margin-right: 5px;
+      }
+      &:hover {
+        // color: #409eff;
+      }
+    }
+
+    .menu-pop-container {
+      display: none;
+      position: absolute;
+      width: 100%;
+      line-height: 28px;
+      top: 64px;
+      left: 0;
+      padding: 40px 0;
+      background: #304156;
+      z-index: 10001;
+      opacity: 0.90;
+      filter: alpha(opacity=90);
+      -moz-opacity: 0.90;
+      -khtml-opacity: 0.90;
+      .group {
+        padding: 0 10px;
+        .title {
+          width: 100px;
+          border-bottom: 1px solid;
+          color: #409eff;
+          margin-left: 20px;
+        }
+        .list {
+          padding: 0;
+          fieldset {
+            border: 1px dashed #bfcbd9;
+            padding: 10px;
+            legend {
+              padding: 0 10px;
+              color: #bfcbd9;
+            }
+            a {
+              color: #fff;
+              &.router-link-active {
+                color: #409eff;
+              }
+              &:hover {
+                color: #409eff;
+              }
+            }
+          }
+        }
+      }
+    }
+    &:hover .menu-pop-container {
+      display: block;
+      animation: pop-show 0.3s;
+    }
+  }
+
+  // 系统菜单
+  .sys-menu-container {
+    text-align: right;
+    .el-tooltip {
+      display: inline-block;
+      margin: 0 5px;
+    }
+    .avatar-wrapper {
+      .user-avatar {
+        width: 22px;
+        height: 22px;
+        position: relative;
+        vertical-align: -5px;
+      }
+      .el-icon-caret-bottom {
+        color: #bfcbd9;
+      }
+    }
+
+    .system-menu-bar {
+      cursor: context-menu;
+      &.el-row {
+        position: unset;
+      }
+      .system-menu-pop-container {
+        display: none;
+        position: absolute;
+        font-size: 14px;
+        text-align: left;
+        line-height: 28px;
+        top: 64px;
+        right: 0;
+        padding: 40px 0;
+        background: #304156;
+        z-index: 10002;
+        opacity: 0.90;
+        filter: alpha(opacity=90);
+        -moz-opacity: 0.90;
+        -khtml-opacity: 0.90;
+        .group {
+          width: auto;
+          box-sizing: border-box;
+          float: left;
+          margin: 0 20px;
+          .title {
+            width: 100px;
+            border-bottom: 1px solid;
+            color: #409eff;
+          }
+          .list {
+            padding: 10px 0;
+            a {
+              color: #fff;
+              &.router-link-active {
+                color: #409eff;
+              }
+              &:hover {
+                color: #409eff;
+              }
+            }
+          }
+        }
+      }
+      &:hover .system-menu-pop-container {
+        display: block;
+        animation: pop-show 0.3s;
+      }
+    }
+  }
+
+  @keyframes pop-show {
+    0% {
+      top: 0;
+      opacity: 0.10;
+      filter: alpha(opacity=10);
+      -moz-opacity: 0.10;
+      -khtml-opacity: 0.10;
+    }
+    40% {
+      top: 64px;
+      opacity: 0.40;
+      filter: alpha(opacity=40);
+      -moz-opacity: 0.40;
+      -khtml-opacity: 0.40;
+    }
+    100% {
+      top: 64px;
+      opacity: 0.90;
+      filter: alpha(opacity=90);
+      -moz-opacity: 0.90;
+      -khtml-opacity: 0.90;
+    }
+  }
+
+}
