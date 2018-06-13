@@ -1,8 +1,13 @@
 package com.stock.capital.enterprise.declare.controller;
 
  
+import java.util.List;
 import java.util.Map; 
  
+
+
+
+
 
 
 
@@ -25,9 +30,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.collect.Maps;  
 import com.stock.capital.enterprise.common.service.CommonService;
+import com.stock.capital.enterprise.declare.dto.DeclareFileDto;
+import com.stock.capital.enterprise.declare.dto.NoticeHelperDto;
 import com.stock.capital.enterprise.declare.service.DeclareService;
 import com.stock.capital.enterprise.financeStatistics.dto.Param;
 import com.stock.core.controller.BaseController; 
+import com.stock.core.dto.JsonResponse;
 import com.stock.core.rest.RestClient; 
 import com.stock.core.util.JsonUtil; 
 
@@ -87,4 +95,44 @@ public class DeclareController extends BaseController {
  
     	 return response; 
     }
+    
+    /**
+     * 公告小助手数据
+     * 
+     * @param typeId
+     *            业务分类id
+     * @param typeName
+     *            业务分类名
+     * @return
+     */
+    @RequestMapping(value = "getHelperData", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResponse<NoticeHelperDto> getHelperData(@RequestBody Param param) { 
+        NoticeHelperDto dto = declareService.getHelperData(param.getTypeId(),param.getTypeName());
+        JsonResponse<NoticeHelperDto> response = new JsonResponse<NoticeHelperDto>();
+        response.setResult(dto);
+        return response;
+    }
+
+  /**
+     * 根据业务类型取得模板文件
+     * 
+     * @param typeId
+     *            业务id
+     * @param typeName
+     *            业务名称
+     * @param declareTypeNo
+     *            业务分类编号
+     * @return 模板文件列表
+     */
+    @RequestMapping(value = "getTempalteFile", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResponse<List<DeclareFileDto>> getTempalteFile(String typeId, String typeName, String declareTypeNo) {
+        List<DeclareFileDto> templareList = declareService.getTempalteFile(typeId, typeName, declareTypeNo);
+        JsonResponse<List<DeclareFileDto>> jsonRes = new JsonResponse<List<DeclareFileDto>>();
+        jsonRes.setResult(templareList);
+        return jsonRes;
+    }
+    
+    
 }
