@@ -13,7 +13,7 @@
         <el-col :span="2">
             <span>时间选择：</span>
         </el-col>
-        <el-col :span="12" id="listA">
+        <el-col :span="10" id="listA">
             <a @click="activeFun(0)" :class="{active:flag==0}" href="javascript:void(0)">近半年</a>
             <a @click="activeFun(1)" :class="{active:flag==1}" href="javascript:void(0)">近一年</a>
             <a @click="activeFun(2)" :class="{active:flag==2}" href="javascript:void(0)">近三年</a>
@@ -47,11 +47,11 @@
         <el-col :span="8" class="chart">
             <div class="fullDiv_border">
                 <el-tabs v-model="activeName" @tab-click="handleClick">
-                    <el-tab-pane label="全部" name="fourth">
+                    <el-tab-pane label="全部" name="first">
                         <div rightTable>
                            <el-table
                                 ref="table0"
-                                :data="tableData"
+                                :data="tableData1"
                                 max-height="440"
                                 style="width: 100%">
                                 <el-table-column align="center" label="日期" min-width="190px">
@@ -63,24 +63,28 @@
                                 <el-table-column align="center" label="金额（亿元）"  min-width="120px">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.dataSum.length==0">0.0000</span>
-                                        <span v-else>{{scope.row.dataSum | andDate}}</span>
+                                        <span v-else  v-for='(o,i) in scope.row.dataSum' :key="i">
+                                            <span>{{o.value}}</span>
+                                        </span>
                                     </template>
                                 </el-table-column>
 
                                 <el-table-column align="center" label="数量"  min-width="60px">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.dataSum.length==0">0</span>
-                                        <span v-else>{{scope.row.dataNum.number}}</span>
+                                        <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
+                                            <span>{{o.num}}</span>
+                                        </span>
                                     </template>
                                 </el-table-column>
                             </el-table>
                         </div>
                     </el-tab-pane>
-                    <el-tab-pane label="IPO" name="first" >
+                    <el-tab-pane label="IPO" name="second">
                         <div rightTable>
                            <el-table
                                 ref="table1"
-                                :data="tableData"
+                                :data="tableData2"
                                 max-height="440"
                                 style="width: 100%">
                                 <el-table-column align="center" label="日期" min-width="190px">
@@ -92,7 +96,7 @@
                                 <el-table-column align="center" label="金额（亿元）"  min-width="120px">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.dataSum.length==0">0.0000</span>
-                                        <span v-else v-for='(o,i) in scope.row.dataSum'>
+                                        <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
                                             <span v-if="o.name=='001'">{{o.value}}</span>
                                         </span>
                                     </template>
@@ -101,7 +105,7 @@
                                 <el-table-column align="center" label="数量"  min-width="60px">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.dataSum.length==0">0</span>
-                                        <span v-else v-for='(o,i) in scope.row.dataSum'>
+                                        <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
                                             <span v-if="o.name=='001'">{{o.num}}</span>
                                         </span>
                                     </template>
@@ -109,11 +113,11 @@
                             </el-table>
                         </div>
                     </el-tab-pane>
-                    <el-tab-pane label="增发" name="second">
+                    <el-tab-pane label="增发" name="third">
                         <div rightTable>
                            <el-table
                                 ref="table2"
-                                :data="tableData"
+                                :data="tableData3"
                                 max-height="440"
                                 style="width: 100%">
                                 <el-table-column align="center" label="日期" min-width="190px">
@@ -125,7 +129,7 @@
                                 <el-table-column align="center" label="金额（亿元）"  min-width="120px">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.dataSum.length==0">0.0000</span>
-                                        <span v-else v-for='(o,i) in scope.row.dataSum'>
+                                        <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
                                             <span v-if="o.name=='002'">{{o.value}}</span>
                                         </span>
                                     </template>
@@ -134,7 +138,7 @@
                                 <el-table-column align="center" label="数量"  min-width="60px">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.dataSum.length==0">0</span>
-                                        <span v-else v-for='(o,i) in scope.row.dataSum'>
+                                        <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
                                             <span v-if="o.name=='002'">{{o.num}}</span>
                                         </span>
                                     </template>
@@ -142,11 +146,11 @@
                             </el-table>
                         </div>
                     </el-tab-pane>
-                    <el-tab-pane label="配股" name="third">
+                    <el-tab-pane label="配股" name="fourth">
                         <div rightTable>
                            <el-table
                                 ref="table3"
-                                :data="dataAll"
+                                :data="tableData4"
                                 max-height="440"
                                 style="width: 100%">
                                 <el-table-column align="center" label="日期" min-width="190px">
@@ -158,9 +162,8 @@
                                 <el-table-column align="center" label="金额（亿元）"  min-width="120px">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.dataSum.length==0">0.0000</span>
-                                        <span v-else v-for='(o,i) in scope.row.dataSum'>
+                                        <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
                                             <span v-if="o.name=='003'">{{o.value}}</span>
-                                            <!-- <span v-else-if="o.name=='003'&&(!!o.value)">0.0000</span> -->
                                         </span>
                                     </template>
                                 </el-table-column>
@@ -168,16 +171,14 @@
                                 <el-table-column align="center" label="数量"  min-width="60px">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.dataSum.length==0">0</span>
-                                        <span v-else v-for='(o,i) in scope.row.dataSum'>
+                                        <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
                                             <span v-if="o.name=='003'">{{o.num}}</span>
-                                            <!-- <span v-else-if="o.name=='003'&&(!!o.num)">0</span> -->
                                         </span>
                                     </template>
                                 </el-table-column>
                             </el-table>
                         </div>
                     </el-tab-pane>
-
                 </el-tabs>
             </div>
         </el-col>
@@ -199,6 +200,7 @@ export default {
     return {
       value5: "",
       flag: 1,
+      tab: "001",
       activeName: "first",
       param: {
         countType: "",
@@ -239,7 +241,6 @@ export default {
     },
     //选项卡点击触发事件
     handleClick(tab, event) {
-      //console.log(tab.index, event);
       this.$nextTick(() => {
         //选项卡动作结束后，从新计算table列宽
         this.$refs[`table${tab.index}`].doLayout();
@@ -251,7 +252,7 @@ export default {
         if (flag) {
           this.param.countType = 1;
           this.param.chartType = 1;
-          this.param.type = 'ipodata1';
+          this.param.type = "ipodata1";
         }
         this.$store.dispatch("ipoGet", this.param).then(() => {});
       }
@@ -259,23 +260,96 @@ export default {
   },
   computed: {
     ...mapGetters(["getIpo1"]),
-    dataAll() {
-      //全部选项过滤掉不带有003的选项
-      var datas = [];
+    // 全部选项计算数据
+    tableData1() {
+      var middle = [];
+      this.tableData.map((obj, idx) => {
+        if (obj.dataSum.length > 1) {
+          var valuec = {};
+          valuec.dataSum = [{ value: 0, num: 0, date: "" }];
+          valuec.dataSum;
+          valuec["value"] = 0;
+          valuec["num"] = 0;
+          obj.dataSum.map((o, i) => {
+            valuec.dataSum[0]["value"] += Number(o.value);
+            valuec.dataSum[0]["num"] += Number(o.num);
+          });
+          valuec.date = obj.date;
+          middle.push(valuec);
+        } else {
+          middle.push(obj);
+        }
+      });
+      return middle;
+    },
+    // 过滤ipo
+    tableData2() {
+      var middle1 = [];
       this.tableData.map((obj, idx) => {
         if (obj.dataSum.length != 0) {
           var a = false;
+          if (obj.length == 0) {
+            a = true
+          }
           obj.dataSum.map((o, i) => {
-            if (o.name == "003" && o.value && o.num) {
-              a = true;
+            if (o.name == "001" && o.value && o.num) {
+              a = true
             }
           });
           if (a) {
-            datas.push(obj);
+            middle1.push(obj);
           }
+        } else {
+            middle1.push(obj);
         }
       });
-      return datas;
+      return middle1;
+    },
+    // 过滤增发
+    tableData3() {
+      var middle2 = [];
+      this.tableData.map((obj, idx) => {
+        if (obj.dataSum.length != 0) {
+          var a = false;
+          if (obj.length == 0) {
+            a = true
+          }
+          obj.dataSum.map((o, i) => {
+            if (o.name == "002" && o.value && o.num) {
+              a = true
+            }
+          });
+          if (a) {
+            middle2.push(obj);
+          }
+        } else {
+            middle2.push(obj);
+        }
+      });
+      return middle2;
+    },
+    // 过滤配股
+    tableData4() {
+      var middle3 = [];
+      this.tableData.map((obj, idx) => {
+        if (obj.dataSum.length != 0) {
+          var a = false;
+          if (obj.length == 0) {
+            a = true
+          }
+          obj.dataSum.map((o, i) => {
+            if (o.name == "003" && o.value && o.num) {
+              a = true
+            }
+          });
+          if (a) {
+            middle3.push(obj);
+          }
+        } else {
+            middle3.push(obj);
+        }
+      });
+      return middle3;
     }
   },
   mounted() {
@@ -288,9 +362,21 @@ export default {
       if (n == null) {
         this.dateSelect = "";
         this.chartOne(true);
-        for(let i =0; i< document.getElementById('listA').getElementsByTagName('a').length;i++) {
-          if (document.getElementById('listA').getElementsByTagName('a')[i].classList.contains("active") === false) {
-            document.getElementById('listA').getElementsByTagName('a')[1].classList.add("active")
+        for (
+          let i = 0;
+          i < document.getElementById("listA").getElementsByTagName("a").length;
+          i++
+        ) {
+          if (
+            document
+              .getElementById("listA")
+              .getElementsByTagName("a")
+              [i].classList.contains("active") === false
+          ) {
+            document
+              .getElementById("listA")
+              .getElementsByTagName("a")[1]
+              .classList.add("active");
           }
         }
         return false;
@@ -307,9 +393,22 @@ export default {
           this.param.dateSelect = start + " 至 " + end;
           // console.log(this.param)
           this.chartOne(false);
-          for(let i =0; i< document.getElementById('listA').getElementsByTagName('a').length;i++) {
-            if (document.getElementById('listA').getElementsByTagName('a')[i].classList.contains("active") === true) {
-              document.getElementById('listA').getElementsByTagName('a')[i].classList.remove("active")
+          for (
+            let i = 0;
+            i <
+            document.getElementById("listA").getElementsByTagName("a").length;
+            i++
+          ) {
+            if (
+              document
+                .getElementById("listA")
+                .getElementsByTagName("a")
+                [i].classList.contains("active") === true
+            ) {
+              document
+                .getElementById("listA")
+                .getElementsByTagName("a")
+                [i].classList.remove("active");
             }
           }
         } else {
