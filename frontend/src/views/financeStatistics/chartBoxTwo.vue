@@ -9,7 +9,7 @@
         </el-col>
     </el-row>
     <!-- 时间选项 -->
-    <el-row class="list">
+    <el-row class="list" :gutter="20">
         <el-col :span="2">
             <span>时间选择：</span>
         </el-col>
@@ -33,6 +33,16 @@
                 end-placeholder="结束日期"
                 :picker-options="pickerOptions2">
             </el-date-picker>
+        </el-col>
+        <el-col :span='4'>
+            <el-select v-model="code_value" placeholder="" size='small full' @change="selectClass">
+              <el-option
+                v-for="item in getSFClass"
+                :key="item.code_value"
+                :label="item.code_name"
+                :value="item.code_value">
+              </el-option>
+            </el-select>
         </el-col>
     </el-row>
     <!-- 图表部分 -->
@@ -186,6 +196,7 @@ export default {
   data() {
     return {
       value5: "",
+      code_value: "001",
       flag: 1,
       activeName: "first",
       param: {
@@ -229,6 +240,13 @@ export default {
       this.param.industrySelect = "001";
       this.chartTwo(false);
     },
+    selectClass(val) {
+      this.param.countType = 1;
+      this.param.chartType = 2;
+      this.param.industrySelect = val;
+      this.param.type = "ipodata2";
+      this.$store.dispatch("ipoGet", this.param).then()
+    },
     //选项卡点击触发事件
     handleClick(tab, event) {
       // console.log(tab.index, event);
@@ -248,6 +266,10 @@ export default {
         }
         this.$store.dispatch("ipoGet", this.param).then(() => {});
       }
+    },
+    // 分类
+    classGet() {
+      this.$store.dispatch("ipoSFClassGet").then();
     },
     //饼状图点击事件 IPO 增发 配股
     clickClass(value, $event) {
@@ -276,7 +298,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getIpo2"]),
+    ...mapGetters(["getIpo2","getSFClass"]),
     data0(){
         return this.tableData.length>0?this.tableData[0].dataSum:[]
     },
@@ -293,6 +315,7 @@ export default {
   mounted() {
     //页面加载完成时刷新echart图表
     this.chartTwo(true);
+    this.classGet(true);
   },
   watch: {
     value5(n, o) {

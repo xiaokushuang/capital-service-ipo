@@ -168,7 +168,11 @@ export default {
     // 地区数据递归树形结构
     regionTree(list) {
       for(var i = 0; i < list.length; i++){
-        if(list[i].parent_id == list.id){
+        for(var j = 0; j< list.length; j++){
+          debugger
+          if(list[j].parentId == list[i].id){
+            list[j].push(list[i])
+          }
         }
       }
     },
