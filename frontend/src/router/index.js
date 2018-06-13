@@ -68,6 +68,12 @@ export const constantRouterMap = [
         component: _import('financeStatistics/companyBox'),
         name: 'companyContrast',
         meta: { title: '公司对比', icon: 'dashboard', noCache: true }
+      }, 
+      {
+        path: 'noticeHelper',
+        component: _import('declare/noticeHelper'),
+        name: 'noticeHelper',
+        meta: {title: 'noticeHelper', icon: 'dashboard', noCache: true}
       }
     ]
   },
