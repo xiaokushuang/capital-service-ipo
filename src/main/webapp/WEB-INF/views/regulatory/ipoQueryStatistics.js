@@ -19,6 +19,11 @@ $(document).ready(function() {
 		reductionSortStyle();
 		search();
 	});
+	
+	//获取当前年份
+	var date=new Date;
+	var year=date.getFullYear(); 
+	$("#ipoAreaDetail thead tr:eq(1)").find("th").eq(8).html(year+"年");
 });
 // 数据获取初始化
 function dataInit() {
@@ -53,7 +58,9 @@ function areaDataSetting(lst) {
 						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'04\',\'unit\')">' + lst[i].endYet + '</td>' 
 						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'06\',\'unit\')">' + lst[i].processing + '</td>' 
 						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'03\',\'unit\')">' + lst[i].passed + '</td>' 
-						+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'\',\'area\')">' + lst[i].areaCount + '</a></td>' 
+						+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'\',\'area\')">' + lst[i].areaCount + '</a></td>'
+						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'99\',\'unit\')">' + lst[i].weekStopYet + '</td>' 
+						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'05\',\'unit\')">' + lst[i].stopYet + '</td>' 
 					+ '</tr>';
 		}
 		//拼接tbody合计行
@@ -67,7 +74,9 @@ function areaDataSetting(lst) {
 			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'04\',\'approve\')">' + lst[sumIndex].endYet + '</a></td>'  
 			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'06\',\'approve\')">' + lst[sumIndex].processing + '</a></td>'  
 			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'03\',\'approve\')">' + lst[sumIndex].passed + '</a></td>'  
-			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'\',\'all\')">' + lst[sumIndex].areaCount + '</a></td>' 
+			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'\',\'all\')">' + lst[sumIndex].areaCount + '</a></td>'
+			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'99\',\'approve\')">' + lst[sumIndex].weekStopYet + '</a></td>'  
+			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'05\',\'approve\')">' + lst[sumIndex].stopYet + '</a></td>'
 			+ '</tr>';
 	} else{
 		//增加终止审查后切记变更colspan值
@@ -195,6 +204,8 @@ function viewAreaDetail(registAddr,lastUpadteTime,approveStatus,viewType){
 				};
 	var appLabel = '';
 	if(approveStatus != null && approveStatus != ''){
+		var date=new Date;
+		var year=date.getFullYear(); 
 		switch (approveStatus) {
 	        case '00': appLabel = approveStatus.replace("00", "已受理");
 	        break;
@@ -207,6 +218,10 @@ function viewAreaDetail(registAddr,lastUpadteTime,approveStatus,viewType){
 	        case '06': appLabel = approveStatus.replace("06", "已提交发审会讨论，暂缓表决");
 	        break;
 	        case '03': appLabel = approveStatus.replace("03", "已通过发审会");
+	        break;
+	        case '05': appLabel = approveStatus.replace("05", year + "年终止审查");
+	        break;
+	        case '99': appLabel = approveStatus.replace("99", "最近一周终止审查");
 	        break;
 		}
 	}
