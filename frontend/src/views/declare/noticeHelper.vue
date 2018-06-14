@@ -1,18 +1,18 @@
 <template> 
 <div>
-    <!-- 图表部分 -->
-    <el-row :gutter="20" class="h100">
-        <!-- 图表 -->
+    <!-- 左侧条件选择栏 -->
+    <el-row :gutter="20" class="h100"> 
         <el-col :span="6" class="chart" style="position:relative"> 
             <div class = "innnerbox">
              <el-row style="margin:0;padding:0"> 
              <p style="font-size:18px "> 公告类别选择</p>
              </el-row>
+             <!-- 关键词查询 -->
             <el-input style="width:120px;margin-left:5px;margin-right:0;"
             placeholder="关键词"
             v-model="filterText">
             </el-input> 
-            <el-button style="height:36px;margin-left:-5px;margin-top:-3px;margin-right:0" icon="el-icon-search" circle></el-button>  
+            <el-button style="height:36px;margin-left:-5px;margin-top:-3px;margin-right:0" icon="el-icon-search" circle @click="searchText"></el-button>  
             <el-select v-model="value" placeholder="请选择" class = "text_search" style="margin-left:15px" @change = "Stataechange">
                 <el-option
                 v-for="item in options"
@@ -20,72 +20,75 @@
                 :label="item.label"
                 :value="item.value">
                 </el-option>
-            </el-select>
-
+            </el-select> 
+            <!-- 结构树 -->
             <el-tree
             style=" margin-top:10px"
             class="filter-tree"
+            node-key="id"
             :data="data4"
             :props="defaultProps"
             :filter-node-method="filterNode"
-             @node-click="handleNodeClick"
+            :default-expand-all="treeExpand"
+             @node-click="handleNodeClick" 
             ref="tree2">
             </el-tree>
             </div>
         </el-col>
         <!-- 右侧选项卡和table -->
-        <el-col :span="17" class="chart">
+        <el-col :span="18" class="chart">
             <div class="">
                 <el-tabs v-model="activeName" @tab-click="handleClick" style="margin:0 0 15px" >
                     <el-tab-pane label="信息披露文件" name="fourth" > 
-                     <el-table ref="multipleTable" :data="tableDataComputed" border style="width: 100%" max-height="400" sortable="custom" 
+                     <el-table ref="multipleTable" :data="tableDataComputed" border style="width: 100%"   sortable="custom" row-key="id" 
                         @select="sortChange" @selection-change="handleSelectionChange" size="medium">
-                    <el-table-column prop="isNess"   label="选择" width="70" checked = true>
+                    <el-table-column prop="mast"   label="选择" width="70">
                       <template slot-scope="scope">
-                              <el-checkbox :checked="scope.row.isNess==1"></el-checkbox> 
-                            </template> 
+                        <div>
+                          <div v-if="scope.row.mast==1">
+                              <el-checkbox checked></el-checkbox>
+                          </div>
+                          <div v-else>
+                              <el-checkbox></el-checkbox>
+                          </div>
+                        </div>
+                      </template> 
                     </el-table-column><!--多选，不要删了--> 
                         <el-table-column type="index" label="序号" width="70" ></el-table-column>
-                        <el-table-column prop="name" label="文件" min-width="315"  ></el-table-column>
-                        <el-table-column prop="firstName" label="登报" min-width="70"  >
+                        <el-table-column prop="fileTitle" label="文件" min-width="315"  ></el-table-column>
+                        <el-table-column prop="newspaper" label="登报" min-width="70"  >
                             <template slot-scope="scope">
-                              <el-checkbox :checked="scope.row.firstName" disabled></el-checkbox> 
+                              <el-checkbox :checked="scope.row.newspaper==1" disabled></el-checkbox> 
                             </template> 
                         </el-table-column>
-                        <el-table-column prop="lastName" label="上网" min-width="70"  >
+                        <el-table-column prop="internet" label="上网" min-width="70"  >
                             <template slot-scope="scope">
-                              <el-checkbox :checked="scope.row.lastName"  disabled ></el-checkbox> 
+                              <el-checkbox :checked="scope.row.internet==1"  disabled ></el-checkbox> 
                             </template> 
                         </el-table-column>
-                        <el-table-column prop="qweq" label="报备" min-width="70"  >
+                        <el-table-column prop="filing" label="报备" min-width="70"  >
                             <template slot-scope="scope">
-                              <el-checkbox :checked="scope.row.qweq" disabled></el-checkbox> 
+                              <el-checkbox :checked="scope.row.filing==1" disabled></el-checkbox> 
                             </template> 
                         </el-table-column>
-                        <el-table-column prop="qwe" label="必备" min-width="70"  >
+                        <el-table-column prop="mast" label="必备" min-width="70"  >
                             <template slot-scope="scope">
-                              <el-checkbox :checked="scope.row.qwe" disabled></el-checkbox> 
+                              <el-checkbox :checked="scope.row.mast==1" disabled></el-checkbox> 
                             </template>  
                         </el-table-column>
-                        <el-table-column prop="totalName" label="所属公告类别" min-width="220"  ></el-table-column> 
+                        <el-table-column prop="typeName" label="所属公告类别" min-width="220"  >
+                            <template slot-scope="scope"> 
+                              {{scope.row.declareTypeNo}} {{scope.row.typeName}}
+                            </template> 
+                        </el-table-column> 
                     </el-table> 
-                       <input type="button" id="btnExpand" class="btn-primary  form-control" :value="btnText" @click="btnExpand()" />
+                       <input type="button" id="btnExpand" class="btn-primary  btn-label" :value="btnText" @click="btnExpand()" />
                     </el-tab-pane>
                     <el-tab-pane label="披露要点" name="first" style="padding:0;">
                       <div class = "collapse">
                          <el-collapse v-model="activeNames" @change="handleChange" >
                           <el-collapse-item :title="titlename"  name="1"  >
-                           <p>1、如有个别董事对半年度报告内容的真实性、准确性和完整性无法保证或存在异议，应完整披露有关董事声明和理由</p>
-
-                            <p>2、存在控股股东或者其关联方非经营性占用上市公司资金的，应在半年报中详细披露。情节严重的（标准见《股票上市规则》第13.3.2条），应当按照《股票上市规则》第13.3.4条的规定向深交所报告、提交董事会意见并公告，同时披露股票交易可能被实行其他风险警示情形的风险提示公告</p>
-
-                            <p>3、存在会计差错更正的，需同时选择会计差错更正公告类别。存在重大会计差错更正追溯调整情形的，应按照证监会《编报规则第19号―财务信息的更正及相关披露》的要求，在半年度报告披露之前或同时，以临时公告的形式予以披露，并提交董事会、监事会和独立董事的书面意见和会计师事务所的专项说明，主要内容应包括会计差错更正的性质、原因、合规性、会计处理方法及对本年度财务状况和经营成果的影响金额，涉及追溯调整的，还应说明对以往各年度财务状况和经营成果的影响金额等</p>
-
-                            <p>4、关注分红、追送、业绩补偿等承诺的履行情况</p>
-
-                            <p>5、商业银行、保险公司、证券公司、从事房地产开发业务的公司，应执行中国证监会制定的特殊行业（业务）信息披露特别规定</p>
-
-                           <p> 6、半年度报告中如有下一期业绩预告的，请选择相应业绩预告公告类别</p>
+                             <p v-for="(item,index)  in ponder" v-html="index+1 +','+item"></p>  
                           </el-collapse-item> 
                          </el-collapse>
                       </div>  
@@ -93,23 +96,7 @@
                     <el-tab-pane label="报批材料" name="second">
                            <el-collapse v-model="activeNames" @change="handleChange">
                           <el-collapse-item :title="titlename" name="1">
-                           <p> 1、应提交的文件请见《主板信息披露业务备忘录第1号——定期报告披露相关事宜》之附件4</p>
-
-                            <p>2、半年报全文及摘要</p>
-
-                            <p>3、董事会决议及其公告稿（如董事会仅审议本次半年报一项议案且无投反对票或弃权票情形的，可免于公告）</p>
-
-                            <p>4、董事、高管人员签署的书面确认文件</p>
-
-                            <p>5、独立董事关于控股股东及其他关联方占用公司资金、公司对外担保情况的专项说明和独立意见</p>
-
-                           <p>6、监事会以决议方式形成的书面审核意见及公告稿（如监事会决议仅含审议本次半年报一项议案且无投反对票或弃权票情形的，可免于公告）</p>
-
-                            <p>7、由公司法定代表人、主管会计工作的负责人、会计机构负责人（会计主管人员）签字并盖章的财务报告或审计报告（如经审计）</p>
-
-                            <p>8、内幕信息知情人登记档案</p>
-
-                            <p>9、载有本次半年报的Word文件、PDF文件和财务数据的报送系统生成文件（公司应当使用“深交所上市公司定期报告制作系统全文版X.X”或以上版本的软件制作该文件，如有更新版本须及时升级）</p>
+                            <p v-for="(item,index)  in material" v-html="index+1 +','+item"></p> 
                           </el-collapse-item>
                           </el-collapse>
                     </el-tab-pane>
@@ -117,16 +104,28 @@
                          <el-collapse v-model="activeNames" @change="handleChange">
                           <el-collapse-item :title="titlename" name="1">
                             <div class = "lawbox">
-                               <el-table ref="multipleTable" :data="tableDataComputed" border style="width: 100%" max-height="400" sortable="custom" 
+                               <el-table ref="multipleTable" :data="lawData" border style="width: 100%"   sortable="custom" 
                                   @select="sortChange" @selection-change="handleSelectionChange" size="medium">
                                   <!-- 序号	法规名称	颁布时间	法律位阶	发文单位	重要性 -->
-                                  <el-table-column type="index"  label="序号" width="70"> </el-table-column><!--多选，不要删了--> 
-                                  <el-table-column prop="name" label="法规名称" width="350"  sortable></el-table-column>
-                                  <el-table-column prop="name" label="颁布时间" min-width="70"  sortable></el-table-column>
-                                  <el-table-column prop="firstName" label="法律位阶" min-width="70" sortable></el-table-column>
-                                  <el-table-column prop="lastName" label="发文单位" min-width="70"  sortable> </el-table-column>
-                                  <el-table-column prop="qweq" label="重要性" min-width="100"  sortable> </el-table-column> 
+                                  <el-table-column type="index"  label="序号" width="60"> </el-table-column><!--多选，不要删了--> 
+                                  <el-table-column prop="lawName" label="法规名称" min-width="330"  sortable>
+                                    <template slot-scope="scope">
+                                      <p v-if="scope.row.count ==0">
+                                        {{scope.row.lawName}} 
+                                        <a href="javascript:void(0)" onclick="showLawDetail()"><font color="#0000E3">(条文阅读)</font></a>  
+                                      </p>
+                                      <p v-else>
+                                         {{scope.row.lawName}} 
+                                        <a href="javascript:void(0)" onclick="showLawDetail()"><font color="#0000E3">(精准阅读{{scope.row.count}}条)</font></a>  
+                                      </p> 
+                                    </template> 
+                                  </el-table-column>
+                                  <el-table-column prop="published" label="颁布时间" min-width="80"  sortable></el-table-column>
+                                  <el-table-column prop="lawStatus" label="法律位阶" min-width="80" sortable></el-table-column>
+                                  <el-table-column prop="sourceDepartment" label="发文单位" min-width="100" > </el-table-column>
+                                  <el-table-column prop="qweq" label="重要性" min-width="80"  sortable> </el-table-column>  
                                </el-table> 
+                               <papers ref="paper" @searchTable="search" ></papers>
                              </div>  
                           </el-collapse-item>
                           </el-collapse>
@@ -147,34 +146,20 @@
 </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from "vuex"; 
+import papers from "@/views/components-demo/papers"
 export default {
+   components: {  papers  },
     data() {
     return {
+      lawData:[],
+      material:"",
+      ponder:"",
       btnText : "展开查看更多",
-      titlename:"半年度报告",
+      treeExpand:false,
+      titlename:"",
       ofenFlag:0,  
-      tableData:[{ 
-        name:"年中报告",
-        firstName :true,
-        totalName:"010501 半年度报告",
-        isNess:1
-      },{ 
-        name:"年中报告",
-        firstName :false,
-        totalName:"010501 半年度报告",
-        isNess:1
-      },{ 
-        name:"年中报告111",
-        firstName :true,
-        totalName:"010501 半年度报告",
-         isNess:0
-      },{ 
-        name:"年中报告111",
-        firstName :true,
-        totalName:"010501 半年度报告",
-         isNess:0
-      }],
+      tableData:[],
       options: [
         {
           value: 0,
@@ -202,23 +187,26 @@ export default {
     };
   },
   watch: {
-    filterText(val) {
-      this.$refs.tree2.filter(val);
-    },
+    // filterText(val) {
+    //   this.$refs.tree2.filter(val) 
+    //       this.treeExpand = false 
+    // },
     data2(n, o) {
       console.log(n);
     }
   },
   computed:{
-       //...mapGetters(["getDeclare"]),
+      ...mapGetters(["getTableData"]),
+      ...mapGetters(["getFileDatas"]),
+      //tab1信息披露文件表格选择查看更多时的数据过滤
       tableDataComputed(){
-        if(this.btnText == '展开查看更多'){ 
-          return this.tableData.filter(data =>data.isNess ==1);
-        }else{
-          return this.tableData;
-        }
-        
+          if(this.btnText == '展开查看更多'){  
+            return this.tableData.filter(data =>data.mast =="1");
+          }else{
+            return this.tableData;
+          } 
        },
+       //左侧结构树选择常用和全部时进行数据过滤
       data4(){
            var array = [];
            console.log("递归获取树形结构"); 
@@ -237,6 +225,8 @@ export default {
                     obj.label = data[i].showTypeName;
                     obj.pid = data[i].parentId;
                     obj.isofen = data[i].oftenFlag;
+                    obj.declareTypeName = data[i].declareTypeName;
+                    obj.declareTypeNo = data[i].declareTypeNo;
                     result.push(obj);
                     temp = fn(data,data[i].id);           
                     if(temp.length>0){
@@ -250,6 +240,7 @@ export default {
           function fn_2(result){ 
                 var temp = [];
                 for(var i in result){  
+                   //从一级父节点判断是否为常用或存在子节点，符合此条件将子集做递归判断，直至过滤为叶子节点为常用的树形结构
                     if((result[i].children&&result[i].children.length>0)||result[i].isofen == 1){
                         var obj = result[i].children;  
                           result[i].children = fn_2(obj);
@@ -265,23 +256,46 @@ export default {
        
   } ,
   methods: { 
-    sortChange(){
-          console.log("123");
-           console.log(this.$refs.multipleTable);
+    searchText(){   
+      this.$refs.tree2.filter(this.filterText); 
+       // console.log(this.$refs.tree2.store);
+      // var node = this.$refs.tree2.store._getAllNodes().filter(item=>item.expanded == true)
+      // console.log(node); 
+      // this.$refs.tree2.store._getAllNodes().map(
+      //   function(x){ 
+      //   x.expanded = false;
+      //   return x.id;
+      //   }  
+      // )
+      // node.map(function(x){ 
+      //   x.expanded = true;
+      //   return x.id;
+      //   }) 
     },
+    //表格search
+    search(data){
+      console.log(data)
+    },
+    //排序改变
+    sortChange(){
+      console.log("123");
+      console.log(this.$refs.multipleTable);
+    },
+    //点选发生改变
     handleSelectionChange(){
 
     },
+    //Collapse 折叠面板发生改变
     handleChange(val) {
         console.log(val);
     },
+    //全部-常用点选发生改变
     Stataechange(){
 
     },
 // console.log(fn(data , 0));
     //展开公告
-    btnExpand(){ 
-      debugger;
+    btnExpand(){  
       if(this.btnText == '展开查看更多'){
     	//$("#filesN").show(); 
       this.btnText = '显示必备';
@@ -292,24 +306,43 @@ export default {
     handleClick(){
 
     },
+    //为叶子节点添加点击事件
     handleNodeClick(data, node, index) { 
       if (node.isLeaf) {
-        this.ztreeClick("", node.data.id);  
+        this.ztreeClick(node.data.declareTypeName, node.data.id,node.data.declareTypeNo);  
       }
     },
-    filterNode(value, data) {
-        
-      let nodes = this.$refs.tree2.getCheckedKeys();
-      debugger;
+    filterNode(value, data) { 
+      let nodes = this.$refs.tree2.getCheckedKeys(); 
       if (!value) return true;
       return data.label.indexOf(value) !== -1;
     },
-    ztreeClick(a, b) {
+    //点击叶子节点后   调取接口 并更新数据
+    ztreeClick(a, b,c) {
       console.log(b);
       this.formSubmit.id = b; 
        console.log( "单击后获取数据");
-     this.$store.dispatch("ipoGet", this.param).then(() => {});
-     
+        let param = {}; 
+        param.typeId = b;
+        param.typeName = a; 
+        let fileparam = {};
+        fileparam.typeId = b;
+        fileparam.typeName = a;
+        fileparam.declareTypeNo = c;
+     this.$store.dispatch("getTableData", param).then(() => { 
+          console.log(param)
+          this.titlename = param.data.typeName;
+          this.ponder = param.data.ponder;
+          this.material= param.data.material; 
+          this.lawData = param.data.lawRule;
+     });
+     this.$store.dispatch("getfilesData", fileparam).then(() => {  
+          console.log("获取文件列表")
+          console.log(fileparam);
+          this.tableData = fileparam.data;
+     });
+      
+         
     },
     //ajax请求数据
     chartOne(flag) {
@@ -329,13 +362,10 @@ export default {
     console.log("获取接口数据");
     let param = {};
     param.declare_tree = [];  
-    this.$store.dispatch("getDeclare", param).then(() => {
-      //  console.log(param.data.data);
+    this.$store.dispatch("getDeclare", param).then(() => { 
         this.data3 = param.data.data;
-    });
-   
-  },
-
+    }); 
+  }, 
 };
 </script>
 
@@ -443,8 +473,13 @@ export default {
   text-align: left;
   line-height: 22px;  
 } 
+ 
 .lawbox  .el-table__header thead tr>th {
     padding: 0px;
+}
+ 
+.lawbox  .el-table--medium td  {
+    padding: 10px;
 }
  .el-table thead tr th {
     background: #fff;
@@ -461,25 +496,6 @@ th {
    text-align: left;
   line-height: 22px; 
 }
-.form-control {
-  display: block;
-  width: 100%;
-  height: 34px;
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 1.42857143;
- 
-  color: #fff;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #ccc; 
-  border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-}
 .btn-primary:hover {
     color: #fff;
     border-color: #43b0d0;
@@ -490,14 +506,23 @@ th {
     background-repeat: repeat-x;
 }
 .btn-primary{
+    color: #fff;
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
     border-color: #0087a7;
     border-bottom-color: #0087a7;
     background: #0087a7;
     background-image: -webkit-linear-gradient(top,#1c2233 0,#0087a7 100%);
     background-image: linear-gradient(to bottom,#0087a7 0,#0087a7 100%);
     background-repeat: repeat-x;
-}
+} 
 .table tbody>tr>td { 
     vertical-align: middle;
 }
+.el-collapse-item__content {
+    padding-bottom: 10px; 
+} 
 </style>
