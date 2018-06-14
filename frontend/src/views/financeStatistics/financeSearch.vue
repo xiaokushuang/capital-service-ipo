@@ -1,45 +1,14 @@
 
 <template>
   <div class="container">
-      <!-- 搜索框开始 -->
-      <!-- <el-row :gutter="16">
-        <el-col :span='8'>
-            <el-select ref="selectTreeIndex" v-model="formLabelAlign.type" placeholder="下拉多选框"  
-            size="small full" @visible-change="calls">
-              <el-option :label="formLabelAlign.type" :value="formLabelAlign.type" >
-                <el-tree :data="data2" show-checkbox node-key="id" ref="tree" highlight-current 
-                @check-change="handleNodeClick2" :props="defaultProps"></el-tree>  
-              </el-option>
-              <el-col :span="24" class='selectFull'>
-                <el-button type="primary" size="mini" @click="sure">确定</el-button>
-                <el-button  size="mini" @click="clear">清空</el-button>
-              </el-col>
-            </el-select>
-        </el-col>
-        <el-col :span='8'>
-            <el-date-picker size='small' v-model="formLabelAlign.date" type="datetimerange" 
-            :picker-options="pickerOptions2" range-separator="至" start-placeholder="开始日期" 
-            end-placeholder="结束日期" align="right">
-            </el-date-picker>
-        </el-col>
-        <el-col :span='8'>
-            <el-select size="small full" v-model="formLabelAlign.autocomplate" filterable remote reserve-keyword 
-            placeholder="autocomplate异步搜索下拉" :remote-method="remoteMethod" :loading="loading">
-              <el-option v-for="item in options4" :key="item.value" :label="item.label" 
-              :value="item.value"></el-option>
-            </el-select>
-        </el-col>
-      </el-row> -->
-
-      <!-- 输入框类第二行 -->
-      <el-row :gutter="16">
+      <el-row :gutter="24">
         <el-col :span='8'>
             <el-select v-model="code_value" placeholder="" size='small full'>
               <el-option
                 v-for="item in getSFClass"
                 :key="item.code_value"
                 :label="item.code_name"
-                :value="item.code_value" @check-change="selectClass">
+                :value="item.code_value">
               </el-option>
             </el-select>
         </el-col>
@@ -56,24 +25,38 @@
               </el-col>
             </el-select>
         </el-col>
-        <!-- <el-col :span='8'>
+        <el-col :span='8'>
+          <el-select ref="selectCheckbox" placeholder="市场板块" size='small full' v-model="formLabelAlign.plate" @visible-change="calls">
+            <el-option :label="formLabelAlign.plate" :value="formLabelAlign.plate" >
+              <el-checkbox v-for="item in getPlateInfo" :label="item.label" :key="item.value">{{item.label}}</el-checkbox>
+            </el-option>
+            <el-col :span="24" class='selectFull'>
+              <el-button type="primary" size="mini" @click="sure">确定</el-button>
+              <el-button  size="mini" @click="clear">清空</el-button>
+            </el-col>
+          </el-select>
+        </el-col>
+      </el-row>
+      <el-row :gutter="24">
+        <el-col :span='8'>
+            <el-input size='small full' v-model="formLabelAlign.input1"  placeholder="融资方式"></el-input>
+        </el-col>
+        <el-col :span='8'>
+            <el-input size='small full' v-model="formLabelAlign.input2"  placeholder="请输入公司代码"></el-input>
+        </el-col>
+        <el-col :span='8'>
             <el-date-picker size='small' v-model="formLabelAlign.date2" type="datetimerange" 
             :picker-options="pickerOptions2" range-separator="至" start-placeholder="开始日期" 
             end-placeholder="结束日期" align="right">
             </el-date-picker>
         </el-col>
-        <el-col :span='8'> 
-        </el-col>-->
       </el-row>
-
-      <!-- <el-row :gutter="16">
+      <el-row :gutter="16">
           <el-col class='text-right'>
-            <el-button type="primary">立即创建</el-button>
-            <el-button>取消</el-button>
+            <el-button>清空</el-button>
+            <el-button type="primary" @click="seaarch">查询</el-button>
           </el-col>
-      </el-row> -->
-
-
+      </el-row>
       <!-- table开始 -->
       <el-row :gutter="20">
         <el-col :span="24">
@@ -112,9 +95,13 @@ export default {
       formLabelAlign: {
         relatedParty: "",
         type: "",
+        plate: "",
         autocomplate: [],
         date: "",
-        date2: ""
+        date2: "",
+        input1: "",
+        input2: "",
+        code_value: ""
       },
       selectSpace: [],
 
@@ -124,6 +111,8 @@ export default {
       options4: [], //autocomplate的数据list
       loading: false,
       code_value: "001",
+      plate_value: "",
+      selectPlate: "",
       //单选下拉数据
       //table数据
       tableData: [],
@@ -136,11 +125,18 @@ export default {
     this.dataGet(true);
     this.classGet(true);
     this.regionGet(true);
+    this.plateGet(true);
   },
   methods: {
-    selectClass(value) {
-      alert(1);
-      console.log(value);
+    seaarch() {
+      this.formLabelAlign = {
+        code_value: this.code_value,
+        date2: this.formLabelAlign.date2,
+        input1: this.formLabelAlign.input1,
+        input2: this.formLabelAlign.input2,
+        plate: this.formLabelAlign.plate
+      }
+      console.log(this.formLabelAlign)
     },
     // 表格接口
     dataGet() {
@@ -165,16 +161,42 @@ export default {
         this.regionTree(this.getSFCRegion);
       });
     },
+    // 板块信息
+    plateGet() {
+      let param = {
+        param1: "123"
+      };
+      this.$store.dispatch("ipoPlateInfoGet", param).then();
+    },
     // 地区数据递归树形结构
     regionTree(list) {
-      for(var i = 0; i < list.length; i++){
-        for(var j = 0; j< list.length; j++){
-          debugger
-          if(list[j].parentId == list[i].id){
-            list[j].push(list[i])
+      var city = []
+      var k = 0 
+      // for (var i = 0; i < list.length; i++) {
+      //   if (list[i].parentId == 0) {
+      //     cityP.push(list[i])
+      //   }
+      // }
+      // for (var j = 0; j < list.length; j++) {
+      //   for (var z = 0; z < cityP.length; z++){
+      //     if (cityP[j].id == list[z].parentId) {
+      //       list[j][]
+      //       // cityC.push(list[z])
+      //       // debugger
+      //       // console.log(cityC)
+      //       // cityP[j].push(cityC)
+      //     }
+      //   }    
+      // }
+      for (var i = 0; i < list.length; i++) {
+        for (var j = 0; j < list.length; j++) {
+          if(list[i].id == list[j].parentId) {
+            list[i][j] = city[k]
+            k++
           }
         }
       }
+      console.log(city)
     },
     //下拉菜单method
     handleNodeClick2(data, node, component) {
@@ -195,6 +217,7 @@ export default {
       //查询
       this.selectSpace = this.$refs.tree.getCheckedNodes();
       this.$refs.selectTreeIndex.handleClose(); //关闭下拉框
+      this.$refs.selectCheckbox.handleClose(); //关闭下拉框
     },
     clear() {
       //下拉清空
@@ -252,7 +275,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getSearchIpo", "getSFClass", "getSFCRegion"])
+    ...mapGetters([
+      "getSearchIpo",
+      "getSFClass",
+      "getSFCRegion",
+      "getPlateInfo"
+    ])
   },
   watch: {},
 

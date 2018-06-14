@@ -13,6 +13,9 @@ import {
 import {
   SFCRegion
 } from '@/api/ipo'
+import {
+  plateInfo
+} from '@/api/ipo'
 import * as auth from '@/utils/auth'
 
 const ipo = {
@@ -25,7 +28,8 @@ const ipo = {
     ipoBondData3: [],
     ipoSearchData: [],
     ipoSFClass: [],
-    ipoRegion: []
+    ipoRegion: [],
+    ipoPlateInfo: []
   },
 
   mutations: {
@@ -39,6 +43,12 @@ const ipo = {
       state[code.type] = code.data
     },
     SET_IPO_SFCLASS: (state, code) => {
+      state[code.type] = code.data
+    },
+    SET_IPO_SFREGION: (state, code) => {
+      state[code.type] = code.data
+    },
+    SET_IPO_PLATE: (state, code) => {
       state[code.type] = code.data
     }
   },
@@ -136,6 +146,7 @@ const ipo = {
         })
       })
     },
+    // 行业分类
     ipoSFClassGet({
       commit
     }, order) {
@@ -169,6 +180,7 @@ const ipo = {
         })
       })
     },
+    // 所有地区
     ipoSFCRegionGet({
       commit
     }, order) {
@@ -179,7 +191,7 @@ const ipo = {
           // console.log(response)
           if (typeof param.data === 'object') {
             param.type = 'ipoRegion'
-            commit('SET_IPO_SFCLASS', param)
+            commit('SET_IPO_SFREGION', param)
             // console.log(5)
             // console.log(param.data)
           }
@@ -198,7 +210,39 @@ const ipo = {
           reject(error)
         })
       })
-    }
+    },
+    // 板块信息
+    ipoPlateInfoGet({
+      commit
+    }, param) {
+      return new Promise((resolve, reject) => {
+        const type = param.type
+        param.data = null
+        plateInfo(param).then((response) => {
+          // console.log(response)
+          param.data = response.data.data
+          if (typeof param.data === 'object') {
+            param.type = 'ipoPlateInfo'
+            commit('SET_IPO_PLATE', param)
+            // console.log(6)
+            // console.log(param.data)
+          }
+          resolve()
+        }).catch((error) => {
+          console.log(error)
+          if (error && error.response && error.response.status === 401) {
+            if (error.response.data && error.response.data.message) {
+              Message({
+                message: error.response.data.message,
+                type: 'error',
+                duration: 5 * 1000
+              })
+            }
+          }
+          reject(error)
+        })
+      })
+    },
   },
   getters: {
     getIpo1: state => state.ipodata1,
@@ -209,7 +253,8 @@ const ipo = {
     getBondIpo3: state => state.ipoBondData3,
     getSearchIpo: state => state.ipoSearchData,
     getSFClass: state => state.ipoSFClass,
-    getSFCRegion: state => state.ipoRegion
+    getSFCRegion: state => state.ipoRegion,
+    getPlateInfo: state => state.ipoPlateInfo
   }
 }
 
