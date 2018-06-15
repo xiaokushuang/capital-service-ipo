@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-
+// 证券
 export function searchformeary(param) {
   return request({
     url: `/ipo/financeStatistics/getChartForFinanceData`,
@@ -7,7 +7,7 @@ export function searchformeary(param) {
     data: param
   })
 }
-
+// 债券
 export function searchBond(param) {
   return request({
     url: `/ipo/financeStatistics/getChartForBondData`,
@@ -15,18 +15,26 @@ export function searchBond(param) {
     data: param
   })
 }
-
+// 行业分类
 export function SFClassification() {
   return request({
     url: `/ipo/financeStatistics/getFinanceList`,
     method: 'post'
   })
 }
-
+// 所有地区
 export function SFCRegion() {
   return request({
     url: `/ipo/financeStatistics/getProvincesList`,
     method: 'post'
+  })
+}
+// 板块信息
+export function plateInfo(param) {
+  return request({
+    url: `/ipo/financeStatistics/getStockBoardList`,
+    method: 'post',
+    data: param
   })
 }
 
