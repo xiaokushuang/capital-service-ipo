@@ -138,7 +138,7 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, 
                             <th class="sorting" data-sort-name="reviewed" style="width: 10%; text-align: center;border-right: 1px solid #fff !important;">已反馈</th>
                             <th class="sorting" data-sort-name="preUpdate" style="width: 10%; text-align: center;border-right: 1px solid #fff !important;">预先披露更新</th>
                             <th class="sorting" data-sort-name="endYet" style="width: 10%; text-align: center;border-right: 1px solid #fff !important;">中止审查</th>
-                            <th class="sorting" data-sort-name="processing" style="width: 13%; text-align: center;border-right: 1px solid #fff !important;">已提交发审会讨论，暂缓表决</th>
+                            <th class="sorting" data-sort-name="processing" style="width: 15%; text-align: center;border-right: 1px solid #fff !important;">已提交发审会讨论，暂缓表决</th>
                             <th class="sorting" data-sort-name="passed" style="width: 10%; text-align: center;border-right: 1px solid #fff !important;">已通过发审会</th>
                             <th class="sorting" data-sort-name="areaCount" style="width: 10%; text-align: center;border-right: 1px solid #fff !important;">合计</th>
                             <th class="sorting" data-sort-name="weekStopYet" style="width: 7%; text-align: center;border-right: 1px solid #fff !important;">最近一周</th>
