@@ -74,6 +74,12 @@ export const constantRouterMap = [
         component: _import('declare/noticeHelper'),
         name: 'noticeHelper',
         meta: {title: 'noticeHelper', icon: 'dashboard', noCache: true}
+      }, 
+      {
+        path: 'mergersCase',
+        component: _import('mergersCase/mergersCase'),
+        name: 'mergersCase',
+        meta: {title: 'mergersCase', icon: 'dashboard', noCache: true}
       }
     ]
   },

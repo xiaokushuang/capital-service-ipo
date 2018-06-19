@@ -85,7 +85,7 @@ const declare = {
                 const type = param.type
                 param.data = null 
                 getLawsByTable(param).then((res) => { 
-                    console.log(res) 
+                    console.log(res)  
                     param.data = res.data.result
                     commit('SET_LAWS_DATA', param)
                     resolve()

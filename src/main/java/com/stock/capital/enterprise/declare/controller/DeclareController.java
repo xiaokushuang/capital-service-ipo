@@ -164,17 +164,18 @@ public class DeclareController extends BaseController {
       // 相关法律法规获取
       String url = apiBaseUrl + "laws_manage/declareRelationLaw";
       MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+      ParameterizedTypeReference<List<DecalreRelationLawDto>> responseType1 = new ParameterizedTypeReference<List<DecalreRelationLawDto>>() {
+      };
       params.add("typeId", param.getTypeId());//${startRow}, ${pageSize} orderByOrder
+      List<DecalreRelationLawDto> lawRuletotal = restClient.post(url, params, responseType1);
       params.add("startRow", param.getFromPaper());
       params.add("pageSize", param.getLength());
       params.add("orderColumn", param.getOrderByName()); 
-      params.add("orderByOrder", param.getOrderByOrder());
-      ParameterizedTypeReference<List<DecalreRelationLawDto>> responseType1 = new ParameterizedTypeReference<List<DecalreRelationLawDto>>() {
-      };
+      params.add("orderByOrder", param.getOrderByOrder()); 
       List<DecalreRelationLawDto> lawRule = restClient.post(url, params, responseType1);
       LawTableDto ltd = new LawTableDto();
       ltd.setData(lawRule);
-      ltd.setTotal(lawRule.size());
+      ltd.setTotal(lawRuletotal.size());
       jsonRes.setResult(ltd);
         return jsonRes;
     }
