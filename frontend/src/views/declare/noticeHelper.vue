@@ -163,6 +163,7 @@ export default {
   components: { papers },
   data() {
     return {
+      total:0,
       typeId: "",
       isLose: false,
       lawData: [],
@@ -212,9 +213,10 @@ export default {
     }
   },
   computed: {
-    total() {
-      return this.lawDataCompute.length;
-    },
+    // total() {
+    //   console.log(this.lawDataCompute)
+    //   return this.lawDataCompute.length;
+    // },
     ...mapGetters(["getTableData"]),
     ...mapGetters(["getFileDatas"]),
     //tab1信息披露文件表格选择查看更多时的数据过滤
@@ -279,12 +281,13 @@ export default {
       }
     },
     lawDataCompute() {
-      if (this.isLose == false) {
-        return this.lawData.filter(
-          law => law.lawStatus != "1" && law.lawInvalid != null
-        );
+      if (this.isLose == false) { 
+        // return this.lawData.filter(
+        //   law => law.lawStatus != "1" && law.lawInvalid != null
+        // );
+         return this.lawData;
       } else {
-        console.log(this.lawData);
+        // console.log(this.lawData);
         return this.lawData;
       }
     }
@@ -314,7 +317,7 @@ export default {
       // orderByName: "published";
       // orderByOrder: "descending"; 
       let params = {};
-      params.fromPaper = data.fromPaper
+      params.fromPaper = data.fromPaper-1
       params.length =  data.length
       params.orderByName = data.orderByName
       params.orderByOrder = data.orderByOrder =='descending'?'DESC':'ASC'
@@ -322,7 +325,9 @@ export default {
       console.log(params);
       console.log("获取法规分页");
         this.$store.dispatch("getLawsData", params).then(() => {
-        this.lawData = params.data;
+          console.log(params.data.data);
+        this.lawData = params.data.data;
+        this.total = params.data.total;
       });
     },
 
@@ -389,10 +394,10 @@ export default {
         );
       }
     },
-    filterNode(value, data) {
+    filterNode(value, Treedata) {
       let nodes = this.$refs.tree2.getCheckedKeys();
       if (!value) return true;
-      return data.label.indexOf(value) !== -1;
+      return Treedata.label.indexOf(value) !== -1;
     },
     //点击叶子节点后   调取接口 并更新数据
     ztreeClick(a, b, c) {
@@ -411,6 +416,7 @@ export default {
         this.ponder = param.data.ponder;
         this.material = param.data.material;
         this.lawData = param.data.lawRule;
+        this.total = param.data.lawRule.length;
         this.typeId = param.typeId;
       });
       this.$store.dispatch("getfilesData", fileparam).then(() => {
@@ -435,7 +441,7 @@ export default {
     console.log("获取接口数据");
     let param = {};
     param.declare_tree = [];
-    this.$store.dispatch("getDeclare", param).then(() => {
+    this.$store.dispatch("getDeclare", param).then(() => { 
       this.data3 = param.data.data;
     });
   }
