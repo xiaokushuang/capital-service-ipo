@@ -14,9 +14,17 @@ import java.util.Map;
 
 
 
+
+
+
+
+
 import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod; 
@@ -30,7 +38,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.collect.Maps;  
 import com.stock.capital.enterprise.common.service.CommonService;
+import com.stock.capital.enterprise.declare.dto.DecalreRelationLawDto;
 import com.stock.capital.enterprise.declare.dto.DeclareFileDto;
+import com.stock.capital.enterprise.declare.dto.LawTableDto;
 import com.stock.capital.enterprise.declare.dto.NoticeHelperDto;
 import com.stock.capital.enterprise.declare.service.DeclareService;
 import com.stock.capital.enterprise.financeStatistics.dto.Param;
@@ -134,5 +144,38 @@ public class DeclareController extends BaseController {
         return jsonRes;
     }
     
-    
+    /**
+     * 获取法律table
+     * 
+     * @param typeId
+     *            业务id
+     * @param typeName
+     *            业务名称
+     * @param declareTypeNo
+     *            业务分类编号
+     * @return 模板文件列表
+     */
+    @RequestMapping(value = "getRelationLawTable", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResponse<LawTableDto> getRelationLawTable(@RequestBody Param param) {
+       
+      JsonResponse<LawTableDto> jsonRes = new JsonResponse<LawTableDto>(); 
+        
+      // 相关法律法规获取
+      String url = apiBaseUrl + "laws_manage/declareRelationLaw";
+      MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+      params.add("typeId", param.getTypeId());//${startRow}, ${pageSize} orderByOrder
+      params.add("startRow", param.getFromPaper());
+      params.add("pageSize", param.getLength());
+      params.add("orderColumn", param.getOrderByName()); 
+      params.add("orderByOrder", param.getOrderByOrder());
+      ParameterizedTypeReference<List<DecalreRelationLawDto>> responseType1 = new ParameterizedTypeReference<List<DecalreRelationLawDto>>() {
+      };
+      List<DecalreRelationLawDto> lawRule = restClient.post(url, params, responseType1);
+      LawTableDto ltd = new LawTableDto();
+      ltd.setData(lawRule);
+      ltd.setTotal(lawRule.size());
+      jsonRes.setResult(ltd);
+        return jsonRes;
+    }
 }

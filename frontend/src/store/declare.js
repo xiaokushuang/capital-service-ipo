@@ -1,12 +1,14 @@
 import { getZtree } from '@/api/declare'
 import { getData } from '@/api/declare'
 import { getFileData } from '@/api/declare'
+import { getLawsByTable } from '@/api/declare'
 import * as auth from '@/utils/auth'
 const declare = {
     state: {
         declare_tree: [],
         table_data:[],
-        file_data:[]
+        file_data:[],
+        law_data:[],
     },
 
     mutations: {
@@ -18,6 +20,9 @@ const declare = {
         },
         SET_FILE_DATAS:(state, code)=>{
             state.file_data = code.file_data
+        },
+        SET_LAWS_DATA:(state, code)=>{
+            state.file_data = code.law_data
         },
     },
 
@@ -73,11 +78,28 @@ const declare = {
                 })
             })
         },
+        getLawsData({
+            commit
+        }, param) {
+            return new Promise((resolve, reject) => {
+                const type = param.type
+                param.data = null 
+                getLawsByTable(param).then((res) => { 
+                    console.log(res) 
+                    param.data = res.data.result
+                    commit('SET_LAWS_DATA', param)
+                    resolve()
+                }).catch((error) => {
+                    reject(error)
+                })
+            })
+        },//
     },
     getters: {
         getDeclareData: state => state.declare_tree,
         getTableData:state => state.table_data,
         getFileDatas:state => state.file_data,
+        getLawsByTable:state => state.law_data,
     }
 }
 
