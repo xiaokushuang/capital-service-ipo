@@ -80,6 +80,12 @@ export const constantRouterMap = [
         component: _import('mergersCase/mergersCase'),
         name: 'mergersCase',
         meta: {title: 'mergersCase', icon: 'dashboard', noCache: true}
+      },
+      {
+        path: 'caseDetailsone',
+        component: _import('caseDetailsone/caseDetailsone'),
+        name: 'caseDetailsone',
+        meta: {title: 'caseDetailsone', icon: 'dashboard', noCache: true}
       }
     ]
   },
