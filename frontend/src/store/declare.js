@@ -13,16 +13,16 @@ const declare = {
 
     mutations: {
         SET_TREE_TYPE: (state, code) => {
-            state.declare_tree = code.declare_tree
+            state[code.type] = code.data
         },
         SET_TABLE_DATA:(state, code)=>{
-            state.table_data = code.table_data
+            state[code.type] = code.data
         },
         SET_FILE_DATAS:(state, code)=>{
-            state.file_data = code.file_data
+            state[code.type] = code.data
         },
         SET_LAWS_DATA:(state, code)=>{
-            state.file_data = code.law_data
+            state[code.type] = code.data
         },
     },
 
@@ -37,6 +37,7 @@ const declare = {
                    // console.log(res)
                     // param.data = res.data.result 
                     param.data = res.data
+                    param.type = "declare_tree"
                     commit('SET_TREE_TYPE', param)
                     resolve()
                 }).catch((error) => {
@@ -54,7 +55,8 @@ const declare = {
                    // console.log(res)
                     // param.data = res.data.result 
                     param.data = res.data.result
-                    commit('SET_TREE_TYPE', param)
+                    param.type = "table_data"
+                    commit('SET_TABLE_DATA', param)
                     resolve()
                 }).catch((error) => {
                     reject(error)
@@ -71,7 +73,8 @@ const declare = {
                     // console.log(res)
                     // param.data = res.data.result 
                     param.data = res.data.result
-                    commit('SET_TREE_TYPE', param)
+                    param.type = "file_data"
+                    commit('SET_FILE_DATAS', param)
                     resolve()
                 }).catch((error) => {
                     reject(error)
@@ -87,6 +90,7 @@ const declare = {
                 getLawsByTable(param).then((res) => { 
                     console.log(res)  
                     param.data = res.data.result
+                    param.type = "law_data"
                     commit('SET_LAWS_DATA', param)
                     resolve()
                 }).catch((error) => {
@@ -97,9 +101,9 @@ const declare = {
     },
     getters: {
         getDeclareData: state => state.declare_tree,
-        getTableData:state => state.table_data,
+        getTableData1:state => state.table_data,
         getFileDatas:state => state.file_data,
-        getLawsByTable:state => state.law_data,
+        getLawsDataToTab:state => state.law_data,
     }
 }
 

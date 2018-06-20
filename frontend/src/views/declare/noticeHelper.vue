@@ -39,7 +39,7 @@
         <el-col :span="18" class="chart">
             <div class="">
                 <el-tabs v-model="activeName" @tab-click="handleClick" style="margin:0 0 15px" >
-                    <el-tab-pane label="信息披露文件"  name="fourth" >  
+                    <el-tab-pane label="信息披露文件"  name="fourth" >   
                      <el-table ref="multipleTable" :data="tableDataComputed" border style="width: 100%"   sortable="custom" row-key="id" 
                         @sort-change="sortChange" @selection-change="handleSelectionChange" size="medium">
                     <el-table-column prop="mast"   label="选择" width="70">
@@ -217,14 +217,16 @@ export default {
     //   console.log(this.lawDataCompute)
     //   return this.lawDataCompute.length;
     // },
-    ...mapGetters(["getTableData"]),
+    ...mapGetters(["getTableData1"]),
     ...mapGetters(["getFileDatas"]),
+    ...mapGetters(["getDeclareData"]),
+    ...mapGetters(["getLawsDataToTab"]), 
     //tab1信息披露文件表格选择查看更多时的数据过滤
     tableDataComputed() {
       if (this.btnText == "展开查看更多") {
-        return this.tableData.filter(data => data.mast == "1");
+        return this.getFileDatas.filter(data => data.mast == "1");
       } else {
-        return this.tableData;
+        return this.getFileDatas;
       }
     },
     //左侧结构树选择常用和全部时进行数据过滤
@@ -311,11 +313,7 @@ export default {
     },
     //表格search
     search(data) {
-      console.log("获取table数据", data);
-      // fromPaper: 1;
-      // length: 10;
-      // orderByName: "published";
-      // orderByOrder: "descending"; 
+      console.log("获取table数据", data); 
       let params = {};
       params.fromPaper = data.fromPaper-1
       params.length =  data.length
@@ -325,7 +323,7 @@ export default {
       console.log(params);
       console.log("获取法规分页");
         this.$store.dispatch("getLawsData", params).then(() => {
-          console.log(params.data.data);
+        console.log(params.data.data);
         this.lawData = params.data.data;
         this.total = params.data.total;
       });
@@ -415,12 +413,13 @@ export default {
         this.titlename = param.data.typeName;
         this.ponder = param.data.ponder;
         this.material = param.data.material;
-        this.lawData = param.data.lawRule;
+        this.lawData = param.data.lawRule.slice(0,10);
+        // console.log( "法律法槼",param.data.lawRule);
         this.total = param.data.lawRule.length;
         this.typeId = param.typeId;
       });
       this.$store.dispatch("getfilesData", fileparam).then(() => {
-        this.tableData = fileparam.data;
+      //  this.tableData = fileparam.data;
       });
     },
     //ajax请求数据
