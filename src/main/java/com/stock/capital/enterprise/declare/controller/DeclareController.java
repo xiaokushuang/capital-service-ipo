@@ -1,23 +1,9 @@
 package com.stock.capital.enterprise.declare.controller;
 
  
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map; 
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+import java.util.Map;  
 
 import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.beans.factory.annotation.Value;
@@ -27,13 +13,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod; 
- 
-
-
-
-
-
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.collect.Maps;  
@@ -179,4 +159,30 @@ public class DeclareController extends BaseController {
       jsonRes.setResult(ltd);
         return jsonRes;
     }
+    
+    /**
+     * 获取地区和行业数据
+     * 
+     * @param typeId
+     *            业务id
+     * @param typeName
+     *            业务名称
+     * @param declareTypeNo
+     *            业务分类编号
+     * @return 模板文件列表
+     */
+    @RequestMapping(value = "getAreaAndIndustry", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResponse<Map> getAreaAndIndustry() { 
+    	 // 设定table返回值
+       Map<String, Object> response = Maps.newHashMap();   
+        // 所属行业 
+       response.put("industrySelectList", commonService.getIndustryList());
+        // 所在地区 
+       response.put("areaList", commonService.getProvincesList());
+        JsonResponse<Map> jsonRes = new JsonResponse<Map>(); 
+        jsonRes.setResult(response);
+        return jsonRes;
+    }
+    
 }

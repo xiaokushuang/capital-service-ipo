@@ -123,5 +123,13 @@ public class CommonService extends BaseService {
 		        };
 		        restClient.post(urls, param, responseType);
 		    }
+			public List<TreeDto> getIndustryList() {
+				 ParameterizedTypeReference<JsonResponse<List<TreeDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<TreeDto>>>() {
+			        };
+			        String url = apiBaseUrl + "declareInfo/postDeclareIndexIndustry";
+			        List<TreeDto> list = restClient.post(url, null, responseType).getResult();
+			        return list;
+			}
+		 
 
 }

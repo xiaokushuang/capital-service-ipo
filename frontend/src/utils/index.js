@@ -346,16 +346,16 @@ export function OneDimensionalDataVariableMultidimensionalData(datalist){
         return one;
     }
     //递归方法
-    function fns(one,data){
-        one.map(function(obj,idx){
-            data.map(function(o,i){
-                if(obj.id==o.parentId){
+    function fns(one,data){ 
+        one.map(function(obj,idx){ 
+            data.map(function(o,i){ 
+                if(obj.id==o.parentId){ 
                     var list = cloneObj(o);
                     list.children = [];
-                    obj.children.push(list)
-                    fns(obj.children,data)
+                    obj.children.push(list) 
                 }
             })
+            fns(obj.children,data)
         })
     }
     var middle = [].concat(datalist)
