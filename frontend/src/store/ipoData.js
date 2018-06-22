@@ -1,21 +1,7 @@
 import {
-  searchformeary
+  searchformeary, searchBond, searchIndex, SFClassification, SFCRegion, plateInfo, ipoDataOverview, ipoDataHistory
 } from '@/api/ipo'
-import {
-  searchBond
-} from '@/api/ipo'
-import {
-  searchIndex
-} from '@/api/ipo'
-import {
-  SFClassification
-} from '@/api/ipo'
-import {
-  SFCRegion
-} from '@/api/ipo'
-import {
-  plateInfo
-} from '@/api/ipo'
+import { MultidimensionalData } from "@/utils/index"
 import * as auth from '@/utils/auth'
 
 const ipo = {
@@ -29,28 +15,30 @@ const ipo = {
     ipoSearchData: [],
     ipoSFClass: [],
     ipoRegion: [],
-    ipoPlateInfo: []
+    ipoPlateInfo: [],
+    ipoDataOverview: [],
+    ipoDataHistory: []
   },
 
   mutations: {
     SET_IPO_TYPE: (state, code) => {
       state[code.type] = code.data
-    },
-    SET_IPO_BOND_TYPE: (state, code) => {
-      state[code.type] = code.data
-    },
-    SET_IPO_SEARCH: (state, code) => {
-      state[code.type] = code.data
-    },
-    SET_IPO_SFCLASS: (state, code) => {
-      state[code.type] = code.data
-    },
-    SET_IPO_SFREGION: (state, code) => {
-      state[code.type] = code.data
-    },
-    SET_IPO_PLATE: (state, code) => {
-      state[code.type] = code.data
     }
+    // SET_IPO_BOND_TYPE: (state, code) => {
+    //   state[code.type] = code.data
+    // },
+    // SET_IPO_SEARCH: (state, code) => {
+    //   state[code.type] = code.data
+    // },
+    // SET_IPO_SFCLASS: (state, code) => {
+    //   state[code.type] = code.data
+    // },
+    // SET_IPO_SFREGION: (state, code) => {
+    //   state[code.type] = code.data
+    // },
+    // SET_IPO_PLATE: (state, code) => {
+    //   state[code.type] = code.data
+    // }
   },
 
   actions: {
@@ -94,7 +82,7 @@ const ipo = {
           // console.log(response)
           param.data = response.data.result
           if (typeof param.data === 'object') {
-            commit('SET_IPO_BOND_TYPE', param)
+            commit('SET_IPO_TYPE', param)
             // console.log(2)
             // console.log(param.data)
           }
@@ -122,11 +110,11 @@ const ipo = {
         const type = param.type
         param.data = null
         searchIndex(param).then((response) => {
-          // console.log(response)
+            console.log("searech接口",response)
           param.data = response.data.result
           if (typeof param.data === 'object') {
             param.type = 'ipoSearchData'
-            commit('SET_IPO_SEARCH', param)
+            commit('SET_IPO_TYPE', param)
             // console.log(3)
             // console.log(param)
           }
@@ -160,7 +148,7 @@ const ipo = {
           // console.log(response)
           if (typeof param.data === 'object') {
             param.type = 'ipoSFClass'
-            commit('SET_IPO_SFCLASS', param)
+            commit('SET_IPO_TYPE', param)
             // console.log(4)
             // console.log(param)
           }
@@ -191,9 +179,10 @@ const ipo = {
           // console.log(response)
           if (typeof param.data === 'object') {
             param.type = 'ipoRegion'
-            commit('SET_IPO_SFREGION', param)
+            commit('SET_IPO_TYPE', param)
             // console.log(5)
             // console.log(param.data)
+            // console.log(MultidimensionalData(param.data))
           }
           resolve()
         }).catch((error) => {
@@ -223,7 +212,7 @@ const ipo = {
           param.data = response.data.data
           if (typeof param.data === 'object') {
             param.type = 'ipoPlateInfo'
-            commit('SET_IPO_PLATE', param)
+            commit('SET_IPO_TYPE', param)
             // console.log(6)
             // console.log(param.data)
           }
@@ -243,6 +232,70 @@ const ipo = {
         })
       })
     },
+    // ipo数据概述
+    ipoDataOverviewGet({
+      commit
+    }, order) {
+      return new Promise((resolve, reject) => {
+        const param = order || {}
+        ipoDataOverview(param).then((response) => {
+          param.data = response.data.result
+          // console.log(response)
+          if (typeof param.data === 'object') {
+            param.type = 'ipoDataOverview'
+            commit('SET_IPO_TYPE', param)
+            // console.log(5)
+            // console.log(param.data)
+            // console.log(MultidimensionalData(param.data))
+          }
+          resolve()
+        }).catch((error) => {
+          console.log(error)
+          if (error && error.response && error.response.status === 401) {
+            if (error.response.data && error.response.data.message) {
+              Message({
+                message: error.response.data.message,
+                type: 'error',
+                duration: 5 * 1000
+              })
+            }
+          }
+          reject(error)
+        })
+      })
+    },
+    // ipo数据历史
+    ipoDataHistoryGet({
+      commit
+    }, order) {
+      return new Promise((resolve, reject) => {
+        const param = order || {}
+        ipoDataHistory(param).then((response) => {
+          param.data = response.data.result
+          console.log(response)
+          if (typeof param.data === 'object') {
+            param.type = 'ipoDataHistory'
+            commit('SET_IPO_TYPE', param)
+            // console.log(5)
+            // console.log(param.data)
+            // console.log(MultidimensionalData(param.data))
+          }
+          resolve()
+        }).catch((error) => {
+          console.log(error)
+          if (error && error.response && error.response.status === 401) {
+            if (error.response.data && error.response.data.message) {
+              Message({
+                message: error.response.data.message,
+                type: 'error',
+                duration: 5 * 1000
+              })
+            }
+          }
+          reject(error)
+        })
+      })
+    }
   },
   getters: {
     getIpo1: state => state.ipodata1,
@@ -253,8 +306,18 @@ const ipo = {
     getBondIpo3: state => state.ipoBondData3,
     getSearchIpo: state => state.ipoSearchData,
     getSFClass: state => state.ipoSFClass,
-    getSFCRegion: state => state.ipoRegion,
-    getPlateInfo: state => state.ipoPlateInfo
+    getSFCRegion: state => {
+      return MultidimensionalData(state.ipoRegion)
+    },
+    getPlateInfo: state => state.ipoPlateInfo,
+    getDataOverInfo: state => {
+      state.ipoDataOverview.map((o, i) => {
+        var total = parseInt(o.hzbCount) + parseInt(o.zxbCount) + parseInt(o.cybCount)
+        o.totalAll = total
+      })
+      return state.ipoDataOverview
+    },
+    getDataHistory: state => state.ipoDataHistory
   }
 }
 

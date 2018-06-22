@@ -1,36 +1,26 @@
 package com.stock.capital.enterprise.declare.controller;
 
  
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map; 
- 
-
-
-
-
-
-
-
-
-
+import java.util.Map;  
 
 import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod; 
- 
-
-
-
-
-
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.collect.Maps;  
 import com.stock.capital.enterprise.common.service.CommonService;
+import com.stock.capital.enterprise.declare.dto.DecalreRelationLawDto;
 import com.stock.capital.enterprise.declare.dto.DeclareFileDto;
+import com.stock.capital.enterprise.declare.dto.LawTableDto;
 import com.stock.capital.enterprise.declare.dto.NoticeHelperDto;
 import com.stock.capital.enterprise.declare.service.DeclareService;
 import com.stock.capital.enterprise.financeStatistics.dto.Param;
@@ -134,5 +124,65 @@ public class DeclareController extends BaseController {
         return jsonRes;
     }
     
+    /**
+     * 获取法律table
+     * 
+     * @param typeId
+     *            业务id
+     * @param typeName
+     *            业务名称
+     * @param declareTypeNo
+     *            业务分类编号
+     * @return 模板文件列表
+     */
+    @RequestMapping(value = "getRelationLawTable", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResponse<LawTableDto> getRelationLawTable(@RequestBody Param param) {
+       
+      JsonResponse<LawTableDto> jsonRes = new JsonResponse<LawTableDto>(); 
+        
+      // 相关法律法规获取
+      String url = apiBaseUrl + "laws_manage/declareRelationLaw";
+      MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+      ParameterizedTypeReference<List<DecalreRelationLawDto>> responseType1 = new ParameterizedTypeReference<List<DecalreRelationLawDto>>() {
+      };
+      params.add("typeId", param.getTypeId());//${startRow}, ${pageSize} orderByOrder
+      List<DecalreRelationLawDto> lawRuletotal = restClient.post(url, params, responseType1);
+      params.add("startRow", param.getFromPaper());
+      params.add("pageSize", param.getLength());
+      params.add("orderColumn", param.getOrderByName()); 
+      params.add("orderByOrder", param.getOrderByOrder()); 
+      List<DecalreRelationLawDto> lawRule = restClient.post(url, params, responseType1);
+      LawTableDto ltd = new LawTableDto();
+      ltd.setData(lawRule);
+      ltd.setTotal(lawRuletotal.size());
+      jsonRes.setResult(ltd);
+        return jsonRes;
+    }
+    
+    /**
+     * 获取地区和行业数据
+     * 
+     * @param typeId
+     *            业务id
+     * @param typeName
+     *            业务名称
+     * @param declareTypeNo
+     *            业务分类编号
+     * @return 模板文件列表
+     */
+    @RequestMapping(value = "getAreaAndIndustry", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResponse<Map> getAreaAndIndustry() { 
+    	 // 设定table返回值
+       Map<String, Object> response = Maps.newHashMap();   
+        // 所属行业 
+       response.put("industrySelectList", commonService.getIndustryList());
+        // 所在地区 
+       response.put("areaList", commonService.getProvincesList());
+        JsonResponse<Map> jsonRes = new JsonResponse<Map>(); 
+        jsonRes.setResult(response);
+        return jsonRes;
+    }
     
 }

@@ -55,9 +55,9 @@ export default {
     }
   },
   computed:{
-        fromPaper(){//从多少条开始
+        fromPaper(){//从多少条开始 
             let star = (Math.ceil(this.submitData.length)*this.now_paper_number-Math.ceil(this.submitData.length))+1
-            if(star>=this.total){
+            if(star>this.total){
                 return this.total-Math.ceil(this.submitData.length)
             }else{
                 return star
@@ -94,7 +94,7 @@ export default {
     resize() {
       console.log('resize')
     },
-    search(a,b){//搜索
+    search(a,b){//搜索 
         if(arguments.length!=0){
             this.submitData.orderByName = a;
             this.submitData.orderByOrder = b;
@@ -131,7 +131,7 @@ export default {
         }
     },
     paper_chose(){//选择每页显示多少条
-        console.log(typeof Math.ceil(this.submitData.length))
+        // console.log(typeof Math.ceil(this.submitData.length))
         if((this.submitData.start+parseInt(Math.ceil(this.submitData.length)))==this.total){
             this.submitData.start = this.total-Math.ceil(this.submitData.length)
         }

@@ -27,6 +27,13 @@ export function getFileData(param) {
     }
   })
 }
+export function getLawsByTable(param) {
+  return request({
+    url: `/ipo/declare/getRelationLawTable`,//`/ipo/financeStatistics/getZtree`,
+    method: 'post' , 
+    data:param
+  })
+}
 export function TableData(param) {
   return request({
     url: `/ipo/declare/TableData`, 
