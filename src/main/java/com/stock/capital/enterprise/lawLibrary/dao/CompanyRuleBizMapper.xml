@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.capital.enterprise.lawLibrary.dao.CompanyRuleBizMapper" >
+  <resultMap id="BaseResultMap" type="com.stock.capital.enterprise.lawLibrary.dto.CompanyRuleDto" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="rule_no" property="ruleNo" jdbcType="VARCHAR" />
+    <result column="rule_name" property="ruleName" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="VARCHAR" />
+    <result column="class_no" property="classNo" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="effect_time" property="effectTime" jdbcType="TIMESTAMP" />
+    <result column="abandon_time" property="abandonTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="RulesListMap" type="com.stock.capital.enterprise.lawLibrary.dto.CompanyRuleDto" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="rule_no" property="ruleNo" jdbcType="VARCHAR" />
+    <result column="rule_name" property="ruleName" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="VARCHAR" />
+    <result column="class_no" property="classNo" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="effect_time" property="effectTime" jdbcType="TIMESTAMP" />
+    <result column="abandon_time" property="abandonTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="file_id" property="fileId" jdbcType="VARCHAR" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="now_date" property="nowDate" jdbcType="TIMESTAMP" />
+    <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="queryEnterpriseNoteLawIds"  resultType="String">
+  	SELECT DISTINCT law_id from law_notes
+  </select>
+   <select id="queryEnterpriseFavIds"  resultType="String">
+  	SELECT DISTINCT biz_id from favorite;
+  </select>
+  <update id="updateClassNoById" parameterType = "com.stock.capital.enterprise.lawLibrary.dto.CompanyRuleDto">
+  UPDATE COMPANY_RULE SET CLASS_NO = #{classNo} where ID = #{id}
+  </update>
+  <select id="queryCompanyRuleById" parameterType="String" resultType= "com.stock.capital.enterprise.lawLibrary.dto.CompanyRuleDto">
+  	SELECT a.ID as id,
+  		a.ORG_ID as orgId,
+		a.RULE_NO as ruleNo,
+		a.RULE_NAME as ruleName,
+		a.CLASS_NO as classNo,
+		b.class_name as className,
+		CURRENT_DATE() as now_date,
+		a.effect_time as effectTime,
+		a.abandon_time abandonTime,
+		a.publish_time publishTime,
+        <!--需求2177 2017/09/21 liuhuan START-->
+        a.meeting_name as meetingName,
+        a.update_explain as updateExplain
+        <!--需求2177 2017/09/21 liuhuan END-->
+		FROM COMPANY_RULE a left join company_rule_class b
+		on a.class_no = b.class_no
+		where a.id = #{ruleId}
+  </select>
+  <select id="queryRulesListAll" parameterType="com.stock.capital.enterprise.lawLibrary.dto.CompanyRuleDto" resultMap="RulesListMap">
+		SELECT a.ID,
+		a.RULE_NO,
+		a.RULE_NAME,
+		a.CLASS_NO,
+		ifnull(b.class_name," ") as class_name,
+		c.id as file_id,
+		CURRENT_DATE() as now_date,
+		a.effect_time,
+		a.abandon_time,
+		a.publish_time
+		FROM COMPANY_RULE a left join company_rule_class b
+		on a.class_no = b.class_no
+		, sa_attachment  c
+ 		where 
+ 		a.id = c.business_id 
+		order by a.create_time desc
+	</select>
+	<select id="querySearchRulesListAll" parameterType="com.stock.capital.enterprise.lawLibrary.dto.CompanyRuleDto" resultMap="RulesListMap">
+		SELECT a.ID,
+		a.RULE_NO,
+		a.RULE_NAME,
+		a.CLASS_NO,
+		b.class_name,
+		c.id as file_id,
+		CURRENT_DATE() as now_date,
+		a.effect_time,
+		a.abandon_time,
+		a.publish_time,
+		d.org_name
+		FROM COMPANY_RULE a left join company_rule_class b
+		on a.class_no = b.class_no
+		, sa_attachment  c,sa_org d
+ 		where 
+ 		a.id = c.business_id 
+ 		and 
+ 		a.org_id = d.id
+		order by a.create_time desc
+	</select>
+	<select id="querySearchRulesbyKeyWord" parameterType="com.stock.capital.enterprise.lawLibrary.dto.CompanyRuleDto" resultMap="RulesListMap">
+		SELECT a.ID,
+		a.RULE_NO,
+		a.RULE_NAME,
+		a.CLASS_NO,
+		b.class_name,
+		c.id as file_id,
+		CURRENT_DATE() as now_date,
+		a.effect_time,
+		a.abandon_time,
+		a.publish_time,
+		d.org_name
+		FROM COMPANY_RULE a left join company_rule_class b
+		on a.class_no = b.class_no
+		, sa_attachment  c,sa_org d
+ 		where 
+ 		a.id = c.business_id 
+ 		and 
+ 		a.org_id = d.id
+		 <if test="keyContent != null and keyContent !=''">
+            and a.rule_name LIKE CONCAT('%', #{keyContent}, '%')
+        </if>
+        <if test="keyAndContent != null and keyAndContent !=''">
+            and a.rule_name LIKE CONCAT('%', #{keyAndContent}, '%')
+        </if>
+        <if test="keyNotContent != null and keyNotContent !=''">
+            and a.rule_name not LIKE CONCAT('%', #{keyNotContent}, '%')
+        </if>
+		order by a.create_time desc
+	</select>
+	
+    <select id= "queryCompanyRuleAllPage" resultType= "com.stock.capital.enterprise.lawLibrary.dto.CompanyRuleDto" parameterType="com.stock.capital.enterprise.lawLibrary.dto.CompanyRuleDto">
+	    select
+        t.id,
+        t.ruleName as ruleName,
+        t.ruleNo as ruleNo,
+        t.publishTime as publishTime,
+        t.effectTime as effectTime,
+        t.abandonTime as abandonTime,
+        t.orgName as orgName,
+        t.fileId as fileId,
+        t.updateTime as updateTime
+        from 
+        (select 
+	    a.id,
+	    a.rule_name as ruleName,
+	    a.rule_no as ruleNo,
+	    a.publish_time as publishTime,
+	    a.effect_time as effectTime,
+	    a.abandon_time as abandonTime,
+	    b.org_name as orgName,
+	    c.id as fileId,
+        <!--需求2177 2017/09/21 liuhuan START-->
+        max(r.update_time) as updateTime
+	    from company_rule a LEFT JOIN sa_org b on a.org_id = b.id
+        left join  company_rule_update_record r on a.id = r.rule_id
+         , sa_attachment c
+	    <if test="classNo != null and classNo != ''">
+	    	,company_rule_class d
+	    </if>
+	    where
+	    c.business_id = a.id
+	    <if test="classNo != null and classNo != ''">
+	    and
+	    a.class_no = d.class_no
+	    and 
+	    d.status != 'D'
+	    </if>
+	    <if test="classNo != null and classNo != ''">
+	    	and d.class_tree like CONCAT('%',#{classNo},'%')
+	    </if>
+	    <if test="keyContent != null and keyContent !=''">
+            and a.rule_name LIKE CONCAT('%', #{keyContent}, '%')
+        </if>
+        <if test="keyAndContent != null and keyAndContent !=''">
+            and a.rule_name LIKE CONCAT('%', #{keyAndContent}, '%')
+        </if>
+        <if test="keyNotContent != null and keyNotContent !=''">
+            and a.rule_name not LIKE CONCAT('%', #{keyNotContent}, '%')
+        </if>
+        <if test="valid != null and valid == 1">
+        	and ((CURRENT_TIMESTAMP() &gt;= a.effect_time and a.abandon_time is null) or (CURRENT_TIMESTAMP() &gt;= a.effect_time AND CURRENT_TIMESTAMP() &lt;= a.abandon_time) or (a.effect_time is null and CURRENT_TIMESTAMP() &lt;= a.abandon_time) or(a.effect_time is null and a.abandon_time is null))
+        </if>
+        group by a.id) t
+        
+        <if test=" orderKey != null and orderKey == 'nameAsc'">
+            ORDER BY CONVERT(t.ruleName USING gbk)
+        </if>
+        <if test=" orderKey != null and orderKey == 'nameDesc'">
+            ORDER BY CONVERT(t.ruleName USING gbk) desc
+        </if>
+        <if test="orderKey != null and orderKey == 'publishDateDesc'">
+            order by t.publishTime desc
+        </if>
+        <if test="orderKey != null and orderKey == 'publishDateAsc'">
+            order by t.publishTime
+        </if>
+        <!--需求2177 2017/09/21 liuhuan END-->
+	    limit #{startRow},#{pageSize}
+    </select>
+    <select id="queryCompanyRuleAllPageCount" resultType="String" parameterType="com.stock.capital.enterprise.lawLibrary.dto.CompanyRuleDto">
+    	select count(1) 
+    	from company_rule a LEFT JOIN sa_org b on a.org_id = b.id , sa_attachment c
+	    <if test="classNo != null and classNo != ''">
+	    	,company_rule_class d
+	    </if>
+	    where
+	    c.business_id = a.id
+	    <if test="classNo != null and classNo != ''">
+	    and
+	    a.class_no = d.class_no
+	    and 
+	    d.status != 'D'
+	    </if>
+	    <if test="classNo != null and classNo != ''">
+	    	and d.class_tree like CONCAT('%',#{classNo},'%')
+	    </if>
+	    <if test="keyContent != null and keyContent !=''">
+            and a.rule_name LIKE CONCAT('%', #{keyContent}, '%')
+        </if>
+        <if test="keyAndContent != null and keyAndContent !=''">
+            and a.rule_name LIKE CONCAT('%', #{keyAndContent}, '%')
+        </if>
+        <if test="keyNotContent != null and keyNotContent !=''">
+            and a.rule_name not LIKE CONCAT('%', #{keyNotContent}, '%')
+        </if>
+        <if test="valid != null and valid == 1">
+        	and ((CURRENT_TIMESTAMP() &gt;= a.effect_time and a.abandon_time is null) or (CURRENT_TIMESTAMP() &gt;= a.effect_time AND CURRENT_TIMESTAMP() &lt;= a.abandon_time) or (a.effect_time is null and CURRENT_TIMESTAMP() &lt;= a.abandon_time) or(a.effect_time is null and a.abandon_time is null))
+        </if>
+    </select>
+    <select id="queryCompanyRuleNum" parameterType="com.stock.capital.enterprise.lawLibrary.dto.CompanyRuleDto" resultType="String">
+    	select COUNT(1) from company_rule a,company_rule_class d where a.class_no in (select class_no from company_rule_class where class_tree like CONCAT('%',#{treeClassNo}, '%'))
+    	and a.class_no = d.class_no
+	    and d.status != 'D'
+	    <if test="treeClassNo != null and treeClassNo != ''">
+	    	and d.class_tree like CONCAT('%',#{treeClassNo},'%')
+	    </if>
+    	<if test="keyContent != null and keyContent !=''">
+            and a.rule_name LIKE CONCAT('%', #{keyContent}, '%')
+        </if>
+        <if test="keyAndContent != null and keyAndContent !=''">
+            and a.rule_name LIKE CONCAT('%', #{keyAndContent}, '%')
+        </if>
+        <if test="keyNotContent != null and keyNotContent !=''">
+            and a.rule_name not LIKE CONCAT('%', #{keyNotContent}, '%')
+        </if>
+        <if test="valid != null and valid == 1">
+        	and ((CURRENT_TIMESTAMP() &gt;= a.effect_time and a.abandon_time is null) or (CURRENT_TIMESTAMP() &gt;= a.effect_time AND CURRENT_TIMESTAMP() &lt;= a.abandon_time) or (a.effect_time is null and CURRENT_TIMESTAMP() &lt;= a.abandon_time) or(a.effect_time is null and a.abandon_time is null))
+        </if>
+    </select>
+    <select id="queryAllFileNum" resultType="Integer" parameterType="com.stock.capital.enterprise.lawLibrary.dto.CompanyRuleDto">
+    	select count(1) from company_rule a 
+    	where
+    	1 = 1
+    	<if test="keyContent != null and keyContent !=''">
+            and a.rule_name LIKE CONCAT('%', #{keyContent}, '%')
+        </if>
+        <if test="keyAndContent != null and keyAndContent !=''">
+            and a.rule_name LIKE CONCAT('%', #{keyAndContent}, '%')
+        </if>
+        <if test="keyNotContent != null and keyNotContent !=''">
+            and a.rule_name not LIKE CONCAT('%', #{keyNotContent}, '%')
+        </if>
+        <if test="valid != null and valid == 1">
+        	and ((CURRENT_TIMESTAMP() &gt;= a.effect_time and a.abandon_time is null) or (CURRENT_TIMESTAMP() &gt;= a.effect_time AND CURRENT_TIMESTAMP() &lt;= a.abandon_time) or (a.effect_time is null and CURRENT_TIMESTAMP() &lt;= a.abandon_time) or(a.effect_time is null and a.abandon_time is null))
+        </if>
+    </select>
+    <select id="queryIsHaveFileByClass" resultType="String">
+    	select count(1) from company_rule where class_no = (select class_no from company_rule_class where id = #{id})
+    </select>
+    
+    <update id="updateByPrimaryKeySelective" parameterType="com.stock.capital.enterprise.lawLibrary.dto.CompanyRuleDto" >
+    update company_rule
+    <set >
+      <if test="ruleNo != null" >
+        rule_no = #{ruleNo,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleName != null" >
+        rule_name = #{ruleName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="classNo != null" >
+        class_no = #{classNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+        publish_time = #{publishTime,jdbcType=DATE},
+        effect_time = #{effectTime,jdbcType=DATE},
+        abandon_time = #{abandonTime,jdbcType=DATE},
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <delete id="deleteEnterpriseNotes" parameterType="Map">
+      delete from law_notes where law_id in
+      <foreach collection="lawIds" item="lawId" open="(" close=")" separator=",">
+            #{lawId}
+      </foreach>
+  </delete>
+  <delete id="deleteEnterpriseFavors" parameterType="Map">
+      delete from favorite where biz_id in
+      <foreach collection="lawIds" item="lawId" open="(" close=")" separator=",">
+            #{lawId}
+      </foreach>
+  </delete>
+  
+   	<select id="validateTagName" parameterType="Map" resultType="Integer">
+ 		Select count(id) From law_index_tag Where tag_name = #{tagName} and person_id = #{personId}
+  	</select>
+  	
+  	<select id="getMyTagList" parameterType="String" resultType="com.stock.core.dto.OptionDto">
+  		Select id as value,tag_name as label From law_index_tag where person_id = #{personId} 
+  	</select>
+   <!--需求2177 2017/09/25 by liuhuan START--> 
+  <select id="getUpdateRecordList" parameterType="String" resultType= "com.stock.capital.enterprise.common.entity.CompanyRuleUpdateRecord">
+    SELECT a.rule_id as id,
+           a.update_user as updateUser,
+           a.update_time as  updateTime,
+           a.modify_details as modifyDetails,
+           a.create_user as createUser
+    FROM company_rule_update_record a 
+    WHERE a.rule_id = #{id}
+    order by a.update_time desc
+  </select>
+  <!--需求2177 2017/09/25 by liuhuan END--> 
+  <!--需求2177 2017/11/06 by liuhuan START-->
+  <select id="getOrgName" parameterType="String" resultType= "String">
+    SELECT s.org_Name as orgName
+    FROM sa_org s
+    WHERE s.org_no = #{id}
+  </select>
+  <!--需求2177 2017/11/06 by liuhuan END-->
+</mapper>

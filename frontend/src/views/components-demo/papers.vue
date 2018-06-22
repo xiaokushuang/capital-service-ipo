@@ -2,12 +2,12 @@
   <div>
     <el-col :span="24" class="table-footer clearfix">
         <el-col :span="8" class="DT-label">
-            显示第 {{fromPaper +'至'+ toPaper}} 项数据，共 {{total}} 项
+            显示第 {{submitData.start +'至'+ toPaper}} 项数据，共 {{total}} 项
         </el-col>
         <el-col :span="6" class="DT-label">
             <label>
                 每页显示
-                <select v-model="submitData.paper_selected" @change="paper_chose" name="tableLength" class="form-control input-sm">
+                <select v-model="submitData.length" @change="paper_chose" name="tableLength" class="form-control input-sm">
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="50">50</option>
@@ -23,8 +23,8 @@
                 <span class="next paginate_button btn btn-default" :class="{disabled:disableRulesEnd}" @click="next()">下页</span>
                 <span class="last paginate_button btn btn-default" :class="{disabled:disableRulesEnd}" @click="lastPage()">末页</span>
                 <span class="paginate_of"> 第 </span>
-                <input class="paginate_input form-control" v-model="now_paper_number" type="text">
-                <span class="paginate_of"> 页，共 {{Math.ceil(total/this.submitData.paper_selected)}}页 </span>
+                <input class="paginate_input form-control" v-model="now_paper_number" @input="paperInput($event)" type="text">
+                <span class="paginate_of"> 页，共 {{Math.ceil(total/Math.ceil(this.submitData.length))}}页 </span>
             </div>
         </el-col>
     </el-col>
@@ -38,44 +38,63 @@ export default {
   components: {  },
   data(){
       return {
-          total:388,//总条数
-          now_paper_number:1,//当前地多少页
+          //total:388,//总条数
+          //now_paper_number:1,//当前地多少页
           submitData:{//需要提交的数据
-            paper_selected:10,//selected选择每页显示条数
+            start:1,
+            length:10,//selected选择每页显示条数
             orderByName:"",
             orderByOrder:"",
           }
       }
   },
+  props:{
+    total:{
+        type:Number,
+        default:10
+    }
+  },
   computed:{
-        fromPaper(){//从多少条开始
-            let star = (this.submitData.paper_selected*this.now_paper_number-this.submitData.paper_selected)+1
-            if(star>=this.total){
-                return this.total-this.submitData.paper_selected
+        fromPaper(){//从多少条开始 
+            let star = (Math.ceil(this.submitData.length)*this.now_paper_number-Math.ceil(this.submitData.length))+1
+            if(star>this.total){
+                return this.total-Math.ceil(this.submitData.length)
             }else{
                 return star
             }
         },
         toPaper(){//查到低多少条
-            let flg = this.fromPaper+(this.submitData.paper_selected-1)
-            if(flg>this.total){
+            if(this.submitData.start+Math.ceil(this.submitData.length)>=this.total){
                 return this.total
             }else{
-                return flg
+                return this.submitData.start+Math.ceil(this.submitData.length)-1
             }
         },
         disableRules(){//首页，上一页disable
-            return (this.total<=this.submitData.paper_selected||this.now_paper_number==1)
+            return (this.total<=Math.ceil(this.submitData.length)||this.now_paper_number==1)
         },
         disableRulesEnd(){//末页，下一页disable
-            return (this.total<=this.submitData.paper_selected||this.now_paper_number==Math.ceil(this.total/this.submitData.paper_selected))
+            return (this.total<=Math.ceil(this.submitData.length)||this.now_paper_number==Math.ceil(this.total/Math.ceil(this.submitData.length)))
+        },
+        now_paper_number:{//计算出来的页数
+            get:function(){
+                return Math.ceil(this.submitData.start/Math.ceil(this.submitData.length))
+            },
+            set:function(val){
+                if(val<=Math.ceil(this.total/Math.ceil(this.submitData.length))){
+                    this.submitData.start = (val-1)*Math.ceil(this.submitData.length)+1
+                }else{
+                    this.submitData.start = this.lastPage()
+                }
+                
+            }
         }
   },
   methods: {
     resize() {
       console.log('resize')
     },
-    search(a,b){//搜索
+    search(a,b){//搜索 
         if(arguments.length!=0){
             this.submitData.orderByName = a;
             this.submitData.orderByOrder = b;
@@ -83,37 +102,51 @@ export default {
         let data = this.submitData;
         data.fromPaper = this.fromPaper;
         console.log(`从${data.fromPaper}多少条开始查`)
-        console.log(`要查${data.paper_selected}条`)
+        console.log(`要查${data.length}条`)
         console.log(`按照${data.orderByName}字段排序`)
         console.log(`排序方式：${data.orderByOrder}`)
         this.$emit('searchTable',data)
     },
     firstPage(){//首页
-        this.now_paper_number = 1;
+        this.submitData.start = 1;
     },
     lastPage(){//最后一页
-        this.now_paper_number = Math.ceil(this.total/this.submitData.paper_selected)
+        var now;
+        if(this.total%Math.ceil(this.submitData.length)!=0){
+            now = (Math.ceil(this.total/Math.ceil(this.submitData.length))-1)*Math.ceil(this.submitData.length)
+        }else{
+            now = this.total-Math.ceil(this.submitData.length)
+        }
+        this.submitData.start = now+1
+        return this.submitData.start
     },
     pre(){//上一页
         if(this.now_paper_number>1){
-            this.now_paper_number--
+            this.submitData.start = this.submitData.start-Math.ceil(this.submitData.length)
         }
     },
     next(){//下一页
-        if(this.now_paper_number<Math.ceil(this.total/this.submitData.paper_selected)){
-            this.now_paper_number++
+        if(this.now_paper_number<Math.ceil(this.total/Math.ceil(this.submitData.length))){
+            this.submitData.start = this.submitData.start+Math.ceil(this.submitData.length)
         }
     },
     paper_chose(){//选择每页显示多少条
-        if((this.fromPaper+parseInt(this.submitData.paper_selected))==this.total){
-            this.now_paper_number = Math.ceil(this.total/this.submitData.paper_selected)
+        // console.log(typeof Math.ceil(this.submitData.length))
+        if((this.submitData.start+parseInt(Math.ceil(this.submitData.length)))==this.total){
+            this.submitData.start = this.total-Math.ceil(this.submitData.length)
         }
+        this.search();
+    },
+    paperInput(e){
+        // if(this.now_paper_number*Math.ceil(this.submitData.length)>=this.total){
+        //     this.submitData.start = (this.now_paper_number-1)*Math.ceil(this.submitData.length)
+        // }
     }
   },
   watch:{
       fromPaper(n,o){
           this.search();
-      }
+      },
   }
 }
 </script>

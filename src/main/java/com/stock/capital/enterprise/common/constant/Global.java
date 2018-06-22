@@ -40,4 +40,18 @@ public interface Global {
      */
     public static final String DECLARE_MATERIAL_TYPE = "0";
 
+    /**
+     * 股票代码
+     */
+    public static final String COMPANY_CODE = "companyCode";
+    
+    /**
+     * 收藏的来源——易董企业端
+     */
+    public static final String FAVOURITE_SOURCE_ENTERPRISE = "1";
+    
+    /**
+     * 公司ID
+     */
+    public static final String COMPANY_ID = "companyId";
 }

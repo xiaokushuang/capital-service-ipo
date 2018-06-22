@@ -110,7 +110,7 @@ const ipo = {
         const type = param.type
         param.data = null
         searchIndex(param).then((response) => {
-          // console.log(response)
+            console.log("searech接口",response)
           param.data = response.data.result
           if (typeof param.data === 'object') {
             param.type = 'ipoSearchData'
