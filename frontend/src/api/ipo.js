@@ -37,7 +37,20 @@ export function plateInfo(param) {
     data: param
   })
 }
-
+// ipo数据概览
+export function ipoDataOverview() {
+  return request({
+    url: `/ipo/regulatory_statistics/getIPOReviewingStts`,
+    method: 'post'
+  })
+}
+// ipo数据历史
+export function ipoDataHistory() {
+  return request({
+    url: `/ipo/regulatory_statistics/getIPOHistory`,
+    method: 'post'
+  })
+}
 export function searchIndex(param) {
   return request({
     url: `/ipo/financeStatistics/financeSearchData?financeIndustry=001`,
