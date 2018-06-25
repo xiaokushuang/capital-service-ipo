@@ -7,8 +7,9 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,12 +17,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.stock.capital.enterprise.common.constant.Global;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsCompanyDto;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsParamDto;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto;
 import com.stock.capital.enterprise.regulatory.service.StatisticsService;
-import com.stock.core.Constant;
 import com.stock.core.controller.BaseController;
 import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.OptionDto;
@@ -147,12 +146,21 @@ public class StatisticsController extends BaseController {
      *
      * @return response（JSON格式）
      */
-    @RequestMapping(value = "/getIPORecommendOrgStts", method = RequestMethod.POST)
+    @RequestMapping(value = "/getIPORecommendOrgStts", method = RequestMethod.POST, consumes= {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     @ResponseBody
-    public Map<String, Object> getIPORecommendOrgStts(StatisticsParamDto dto, int draw) {
-//        JsonResponse<List<StatisticsResultDto>> response = new JsonResponse<List<StatisticsResultDto>>();
-//        response.setResult(statisticsService.getIPORecommendOrgStts());
-//        return response;
+    public Map<String, Object> getIPORecommendOrgSttsForm(StatisticsParamDto dto, Integer draw) {
+        return getIPORecommendOrgStts(dto, draw);
+    }
+    
+    @RequestMapping(value = "/getIPORecommendOrgStts", method = RequestMethod.POST, consumes= {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @ResponseBody
+    public JsonResponse<Map<String, Object>> getIPORecommendOrgSttsJson(@RequestBody StatisticsParamDto dto) {
+        JsonResponse<Map<String, Object>> response = new JsonResponse<>();
+        response.setResult(getIPORecommendOrgStts(dto, null));
+        return response;
+    }
+    
+    private Map<String, Object> getIPORecommendOrgStts(StatisticsParamDto dto, Integer draw) {
         String startRow = getRequest().getParameter("start");
         String pageSize = getRequest().getParameter("length");
         // 排序列名字
@@ -199,9 +207,21 @@ public class StatisticsController extends BaseController {
      *
      * @return response（JSON格式）
      */
-    @RequestMapping(value = "/getIPOAccountantOfficeStts", method = RequestMethod.POST)
+    @RequestMapping(value = "/getIPOAccountantOfficeStts", method = RequestMethod.POST, consumes= {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     @ResponseBody
-    public Map<String, Object> getIPOAccountantOfficeStts(StatisticsParamDto dto, int draw) {
+    public Map<String, Object> getIPOAccountantOfficeSttsForm(StatisticsParamDto dto, Integer draw) {
+        return getIPOAccountantOfficeStts(dto, draw);
+    }
+    
+    @RequestMapping(value = "/getIPOAccountantOfficeStts", method = RequestMethod.POST, consumes= {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @ResponseBody
+    public JsonResponse<Map<String, Object>> getIPOAccountantOfficeSttsJson(@RequestBody StatisticsParamDto dto) {
+        JsonResponse<Map<String, Object>> response = new JsonResponse<>();
+        response.setResult(getIPOAccountantOfficeStts(dto, null));
+        return response;
+    }
+        
+    private Map<String, Object> getIPOAccountantOfficeStts(StatisticsParamDto dto, Integer draw) {
 //        JsonResponse<List<StatisticsResultDto>> response = new JsonResponse<List<StatisticsResultDto>>();
 //        response.setResult(statisticsService.getIPOAccountantOfficeStts());
 //        List<StatisticsResultDto> list = statisticsService.getIPOAccountantOfficeStts(dto);
@@ -258,9 +278,21 @@ public class StatisticsController extends BaseController {
      *
      * @return response（JSON格式）
      */
-    @RequestMapping(value = "/getIPOLawFirmStts", method = RequestMethod.POST)
+    @RequestMapping(value = "/getIPOLawFirmStts", method = RequestMethod.POST, consumes= {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     @ResponseBody
-    public Map<String, Object> getIPOLawFirmStts(StatisticsParamDto dto, int draw) {
+    public Map<String, Object> getIPOLawFirmSttsForm(StatisticsParamDto dto, Integer draw) {
+        return getIPOLawFirmStts(dto, draw);
+    }
+    
+    @RequestMapping(value = "/getIPOLawFirmStts", method = RequestMethod.POST, consumes= {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @ResponseBody
+    public JsonResponse<Map<String, Object>> getIPOLawFirmSttsJson(@RequestBody StatisticsParamDto dto) {
+        JsonResponse<Map<String, Object>> response = new JsonResponse<>();
+        response.setResult(getIPOLawFirmStts(dto, null));
+        return response;
+    }
+        
+    private Map<String, Object> getIPOLawFirmStts(StatisticsParamDto dto, Integer draw) {
 //        JsonResponse<List<StatisticsResultDto>> response = new JsonResponse<List<StatisticsResultDto>>();
 //        response.setResult(statisticsService.getIPOLawFirmStts());
 //        List<StatisticsResultDto> list = statisticsService.getIPOLawFirmStts(dto);
