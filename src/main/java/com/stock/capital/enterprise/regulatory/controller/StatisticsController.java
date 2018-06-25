@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -146,13 +145,13 @@ public class StatisticsController extends BaseController {
      *
      * @return response（JSON格式）
      */
-    @RequestMapping(value = "/getIPORecommendOrgStts", method = RequestMethod.POST, consumes= {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    @RequestMapping(value = "/getIPORecommendOrgStts", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> getIPORecommendOrgSttsForm(StatisticsParamDto dto, Integer draw) {
         return getIPORecommendOrgStts(dto, draw);
     }
     
-    @RequestMapping(value = "/getIPORecommendOrgStts", method = RequestMethod.POST, consumes= {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @RequestMapping(value = "/getIPORecommendOrgStts1", method = RequestMethod.POST)
     @ResponseBody
     public JsonResponse<Map<String, Object>> getIPORecommendOrgSttsJson(@RequestBody StatisticsParamDto dto) {
         JsonResponse<Map<String, Object>> response = new JsonResponse<>();
@@ -207,13 +206,13 @@ public class StatisticsController extends BaseController {
      *
      * @return response（JSON格式）
      */
-    @RequestMapping(value = "/getIPOAccountantOfficeStts", method = RequestMethod.POST, consumes= {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    @RequestMapping(value = "/getIPOAccountantOfficeStts", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> getIPOAccountantOfficeSttsForm(StatisticsParamDto dto, Integer draw) {
         return getIPOAccountantOfficeStts(dto, draw);
     }
     
-    @RequestMapping(value = "/getIPOAccountantOfficeStts", method = RequestMethod.POST, consumes= {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @RequestMapping(value = "/getIPOAccountantOfficeStts1", method = RequestMethod.POST)
     @ResponseBody
     public JsonResponse<Map<String, Object>> getIPOAccountantOfficeSttsJson(@RequestBody StatisticsParamDto dto) {
         JsonResponse<Map<String, Object>> response = new JsonResponse<>();
@@ -278,13 +277,13 @@ public class StatisticsController extends BaseController {
      *
      * @return response（JSON格式）
      */
-    @RequestMapping(value = "/getIPOLawFirmStts", method = RequestMethod.POST, consumes= {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    @RequestMapping(value = "/getIPOLawFirmStts", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> getIPOLawFirmSttsForm(StatisticsParamDto dto, Integer draw) {
         return getIPOLawFirmStts(dto, draw);
     }
     
-    @RequestMapping(value = "/getIPOLawFirmStts", method = RequestMethod.POST, consumes= {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    @RequestMapping(value = "/getIPOLawFirmStts1", method = RequestMethod.POST)
     @ResponseBody
     public JsonResponse<Map<String, Object>> getIPOLawFirmSttsJson(@RequestBody StatisticsParamDto dto) {
         JsonResponse<Map<String, Object>> response = new JsonResponse<>();
