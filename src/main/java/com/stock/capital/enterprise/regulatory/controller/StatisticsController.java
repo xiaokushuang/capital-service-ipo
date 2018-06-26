@@ -114,6 +114,39 @@ public class StatisticsController extends BaseController {
     }
 
     /**
+      * IPO在审项目数据查询(接口)
+      *
+      * @return
+      */
+     @RequestMapping(value = "ipoQuery", method = RequestMethod.POST)
+     @ResponseBody
+     public JsonResponse<Map> ipoQuery() { 
+ 	   Map<String, Object> response = Maps.newHashMap();   
+        // 所属行业 
+        response.put("belongsPlateList",statisticsService.getCodeAndName("IPODATA_BELONG_PLATE"));
+        // 所在地区  
+         //地区特殊处理
+         List<OptionDto> areaList = statisticsService.getAreaList();
+         for (int i = 0; i < areaList.size(); i++) {
+             if(areaList != null && StringUtils.isNotBlank(areaList.get(i).getLabel())){
+                 //地区特殊处理
+                 if ("深圳市".equals(areaList.get(i).getLabel())
+                         || "大连市".equals(areaList.get(i).getLabel())
+                         || "宁波市".equals(areaList.get(i).getLabel())
+                         || "厦门市".equals(areaList.get(i).getLabel())
+                         || "青岛市".equals(areaList.get(i).getLabel())) {
+                     areaList.get(i).setLabel(areaList.get(i).getLabel().replace("市", ""));
+                 } else{
+                     areaList.get(i).setLabel(statisticsService.changeAreaName(areaList.get(i).getLabel()));
+                 } 
+             }
+         }
+         response.put("areaList", areaList);
+         JsonResponse<Map> jsonRes = new JsonResponse<Map>(); 
+         jsonRes.setResult(response); 
+         return jsonRes;
+     }
+    /**
      * IPO在审项目数据统计
      *
      * @return response（JSON格式）
