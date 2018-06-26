@@ -148,18 +148,6 @@ public class StatisticsController extends BaseController {
     @RequestMapping(value = "/getIPORecommendOrgStts", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> getIPORecommendOrgSttsForm(StatisticsParamDto dto, Integer draw) {
-        return getIPORecommendOrgStts(dto, draw);
-    }
-    
-    @RequestMapping(value = "/getIPORecommendOrgStts1", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResponse<Map<String, Object>> getIPORecommendOrgSttsJson(@RequestBody StatisticsParamDto dto) {
-        JsonResponse<Map<String, Object>> response = new JsonResponse<>();
-        response.setResult(getIPORecommendOrgStts(dto, null));
-        return response;
-    }
-    
-    private Map<String, Object> getIPORecommendOrgStts(StatisticsParamDto dto, Integer draw) {
         String startRow = getRequest().getParameter("start");
         String pageSize = getRequest().getParameter("length");
         // 排序列名字
@@ -200,7 +188,16 @@ public class StatisticsController extends BaseController {
 
         return response;
     }
-
+    
+    @RequestMapping(value = "/getIPORecommendOrgStts1", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResponse<Page<StatisticsResultDto>> getIPORecommendOrgSttsJson(@RequestBody QueryInfo<Map<String, Object>> queryInfo) {
+        JsonResponse<Page<StatisticsResultDto>> response = new JsonResponse<>();
+        Page<StatisticsResultDto> page = statisticsService.getIPORecommendOrgStts(queryInfo);
+        response.setResult(page);
+        return response;
+    }
+    
     /**
      * IPO会计师事务所统计
      *
@@ -209,69 +206,66 @@ public class StatisticsController extends BaseController {
     @RequestMapping(value = "/getIPOAccountantOfficeStts", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> getIPOAccountantOfficeSttsForm(StatisticsParamDto dto, Integer draw) {
-        return getIPOAccountantOfficeStts(dto, draw);
+//        JsonResponse<List<StatisticsResultDto>> response = new JsonResponse<List<StatisticsResultDto>>();
+//      response.setResult(statisticsService.getIPOAccountantOfficeStts());
+//      List<StatisticsResultDto> list = statisticsService.getIPOAccountantOfficeStts(dto);
+//      // 设定table返回值
+//     Map<String, Object> response = Maps.newHashMap();
+//     response.put("draw", draw);
+//     response.put("recordsTotal", list.size());
+//     response.put("recordsFiltered", list.size());
+//     response.put("data", list);
+//     return response;
+      String startRow = getRequest().getParameter("start");
+      String pageSize = getRequest().getParameter("length");
+      // 排序列名字
+      String orderColumn = getRequest().getParameter("orderByName");
+      String orderByOrder = getRequest().getParameter("order[0][dir]");
+      
+      Map<String, Object> condition = Maps.newHashMap();
+      //地点
+      condition.put("registAddr", dto.getRegistAddr());
+      //行业
+      condition.put("industry", dto.getIndustry());
+      
+      QueryInfo<Map<String, Object>> queryInfo = commonSearch(condition);
+      if(StringUtils.isNotEmpty(orderColumn)) {
+          queryInfo.setOrderByName(orderColumn);
+      }
+      queryInfo.setOrderByOrder(orderByOrder);
+      queryInfo.setPageSize(Integer.parseInt(pageSize));
+      queryInfo.setStartRow(Integer.parseInt(startRow));
+
+//      queryInfo.setCondition(condition);
+//      getRequest().getSession().setAttribute(getRequest().getRequestURI(), queryInfo);
+      
+      Page<StatisticsResultDto> page = statisticsService.getIPOAccountantOfficeStts(queryInfo);
+     
+      List<StatisticsResultDto> list = Lists.newArrayList();
+      int total = 0;
+      if (page != null) {
+          list = page.getData();
+          total = page.getTotal();
+      }
+      // 设定table返回值
+      Map<String, Object> response = Maps.newHashMap();
+      response.put("draw", draw);
+      response.put("recordsTotal", total);
+      response.put("recordsFiltered", total);
+      response.put("data", list);
+
+      return response;
     }
     
     @RequestMapping(value = "/getIPOAccountantOfficeStts1", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResponse<Map<String, Object>> getIPOAccountantOfficeSttsJson(@RequestBody StatisticsParamDto dto) {
-        JsonResponse<Map<String, Object>> response = new JsonResponse<>();
-        response.setResult(getIPOAccountantOfficeStts(dto, null));
-        return response;
-    }
-        
-    private Map<String, Object> getIPOAccountantOfficeStts(StatisticsParamDto dto, Integer draw) {
-//        JsonResponse<List<StatisticsResultDto>> response = new JsonResponse<List<StatisticsResultDto>>();
-//        response.setResult(statisticsService.getIPOAccountantOfficeStts());
-//        List<StatisticsResultDto> list = statisticsService.getIPOAccountantOfficeStts(dto);
-//        // 设定table返回值
-//       Map<String, Object> response = Maps.newHashMap();
-//       response.put("draw", draw);
-//       response.put("recordsTotal", list.size());
-//       response.put("recordsFiltered", list.size());
-//       response.put("data", list);
-//       return response;
-        String startRow = getRequest().getParameter("start");
-        String pageSize = getRequest().getParameter("length");
-        // 排序列名字
-        String orderColumn = getRequest().getParameter("orderByName");
-        String orderByOrder = getRequest().getParameter("order[0][dir]");
-        
-        Map<String, Object> condition = Maps.newHashMap();
-        //地点
-        condition.put("registAddr", dto.getRegistAddr());
-        //行业
-        condition.put("industry", dto.getIndustry());
-        
-        QueryInfo<Map<String, Object>> queryInfo = commonSearch(condition);
-        if(StringUtils.isNotEmpty(orderColumn)) {
-            queryInfo.setOrderByName(orderColumn);
-        }
-        queryInfo.setOrderByOrder(orderByOrder);
-        queryInfo.setPageSize(Integer.parseInt(pageSize));
-        queryInfo.setStartRow(Integer.parseInt(startRow));
-
-//        queryInfo.setCondition(condition);
-//        getRequest().getSession().setAttribute(getRequest().getRequestURI(), queryInfo);
-        
+    public JsonResponse<Page<StatisticsResultDto>> getIPOAccountantOfficeSttsJson(@RequestBody QueryInfo<Map<String, Object>> queryInfo) {
+        JsonResponse<Page<StatisticsResultDto>> response = new JsonResponse<>();
         Page<StatisticsResultDto> page = statisticsService.getIPOAccountantOfficeStts(queryInfo);
-       
-        List<StatisticsResultDto> list = Lists.newArrayList();
-        int total = 0;
-        if (page != null) {
-            list = page.getData();
-            total = page.getTotal();
-        }
-        // 设定table返回值
-        Map<String, Object> response = Maps.newHashMap();
-        response.put("draw", draw);
-        response.put("recordsTotal", total);
-        response.put("recordsFiltered", total);
-        response.put("data", list);
-
+        response.setResult(page);
         return response;
     }
-
+        
     /**
      * IPO律师事务所统计
      *
@@ -280,68 +274,66 @@ public class StatisticsController extends BaseController {
     @RequestMapping(value = "/getIPOLawFirmStts", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> getIPOLawFirmSttsForm(StatisticsParamDto dto, Integer draw) {
-        return getIPOLawFirmStts(dto, draw);
+//      JsonResponse<List<StatisticsResultDto>> response = new JsonResponse<List<StatisticsResultDto>>();
+//      response.setResult(statisticsService.getIPOLawFirmStts());
+//      List<StatisticsResultDto> list = statisticsService.getIPOLawFirmStts(dto);
+//      // 设定table返回值
+//         Map<String, Object> response = Maps.newHashMap();
+//         response.put("draw", draw);
+//         response.put("recordsTotal", list.size());
+//         response.put("recordsFiltered", list.size());
+//         response.put("data", list);
+//      return response;
+      String startRow = getRequest().getParameter("start");
+      String pageSize = getRequest().getParameter("length");
+      // 排序列名字
+      String orderColumn = getRequest().getParameter("orderByName");
+      String orderByOrder = getRequest().getParameter("order[0][dir]");
+      
+      Map<String, Object> condition = Maps.newHashMap();
+      //地点
+      condition.put("registAddr", dto.getRegistAddr());
+      //行业
+      condition.put("industry", dto.getIndustry());
+      
+      QueryInfo<Map<String, Object>> queryInfo = commonSearch(condition);
+      if(StringUtils.isNotEmpty(orderColumn)) {
+          queryInfo.setOrderByName(orderColumn);
+      }
+      queryInfo.setOrderByOrder(orderByOrder);
+      queryInfo.setPageSize(Integer.parseInt(pageSize));
+      queryInfo.setStartRow(Integer.parseInt(startRow));
+
+//      queryInfo.setCondition(condition);
+//      getRequest().getSession().setAttribute(getRequest().getRequestURI(), queryInfo);
+      
+      Page<StatisticsResultDto> page = statisticsService.getIPOLawFirmStts(queryInfo);
+     
+      List<StatisticsResultDto> list = Lists.newArrayList();
+      int total = 0;
+      if (page != null) {
+          list = page.getData();
+          total = page.getTotal();
+      }
+      // 设定table返回值
+      Map<String, Object> response = Maps.newHashMap();
+      response.put("draw", draw);
+      response.put("recordsTotal", total);
+      response.put("recordsFiltered", total);
+      response.put("data", list);
+
+      return response;
     }
     
     @RequestMapping(value = "/getIPOLawFirmStts1", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResponse<Map<String, Object>> getIPOLawFirmSttsJson(@RequestBody StatisticsParamDto dto) {
-        JsonResponse<Map<String, Object>> response = new JsonResponse<>();
-        response.setResult(getIPOLawFirmStts(dto, null));
-        return response;
-    }
-        
-    private Map<String, Object> getIPOLawFirmStts(StatisticsParamDto dto, Integer draw) {
-//        JsonResponse<List<StatisticsResultDto>> response = new JsonResponse<List<StatisticsResultDto>>();
-//        response.setResult(statisticsService.getIPOLawFirmStts());
-//        List<StatisticsResultDto> list = statisticsService.getIPOLawFirmStts(dto);
-//        // 设定table返回值
-//           Map<String, Object> response = Maps.newHashMap();
-//           response.put("draw", draw);
-//           response.put("recordsTotal", list.size());
-//           response.put("recordsFiltered", list.size());
-//           response.put("data", list);
-//        return response;
-        String startRow = getRequest().getParameter("start");
-        String pageSize = getRequest().getParameter("length");
-        // 排序列名字
-        String orderColumn = getRequest().getParameter("orderByName");
-        String orderByOrder = getRequest().getParameter("order[0][dir]");
-        
-        Map<String, Object> condition = Maps.newHashMap();
-        //地点
-        condition.put("registAddr", dto.getRegistAddr());
-        //行业
-        condition.put("industry", dto.getIndustry());
-        
-        QueryInfo<Map<String, Object>> queryInfo = commonSearch(condition);
-        if(StringUtils.isNotEmpty(orderColumn)) {
-            queryInfo.setOrderByName(orderColumn);
-        }
-        queryInfo.setOrderByOrder(orderByOrder);
-        queryInfo.setPageSize(Integer.parseInt(pageSize));
-        queryInfo.setStartRow(Integer.parseInt(startRow));
-
-//        queryInfo.setCondition(condition);
-//        getRequest().getSession().setAttribute(getRequest().getRequestURI(), queryInfo);
-        
+    public JsonResponse<Page<StatisticsResultDto>> getIPOLawFirmSttsJson(@RequestBody QueryInfo<Map<String, Object>> queryInfo) {
+        JsonResponse<Page<StatisticsResultDto>> response = new JsonResponse<>();
         Page<StatisticsResultDto> page = statisticsService.getIPOLawFirmStts(queryInfo);
-       
-        List<StatisticsResultDto> list = Lists.newArrayList();
-        int total = 0;
-        if (page != null) {
-            list = page.getData();
-            total = page.getTotal();
-        }
-        // 设定table返回值
-        Map<String, Object> response = Maps.newHashMap();
-        response.put("draw", draw);
-        response.put("recordsTotal", total);
-        response.put("recordsFiltered", total);
-        response.put("data", list);
-
+        response.setResult(page);
         return response;
     }
+        
     //需求4399 2018/5/24 by liuh end
 
     /**
