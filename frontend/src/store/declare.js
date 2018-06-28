@@ -3,6 +3,7 @@ import { getData } from '@/api/declare'
 import { getFileData } from '@/api/declare'
 import { getLawsByTable } from '@/api/declare'
 import * as auth from '@/utils/auth'
+import { OneDimensionalDataVariableMultidimensionalData } from '@/utils/index'
 const declare = {
     state: {
         declare_tree: [],
@@ -12,7 +13,7 @@ const declare = {
     },
 
     mutations: {
-        SET_TREE_TYPE: (state, code) => {
+        SET_TREE_TYPE: (state, code) => { 
             state[code.type] = code.data
         },
         SET_TABLE_DATA:(state, code)=>{
@@ -35,9 +36,10 @@ const declare = {
                 param.data = null 
                 getZtree(param).then((res) => { 
                    // console.log(res)
-                    // param.data = res.data.result 
-                    param.data = res.data
-                    param.type = "declare_tree"
+                    // param.data = res.data.result   
+                      param.data = OneDimensionalDataVariableMultidimensionalData(res.data.data)
+                    // param.data =  res.data
+                    param.type = "declare_tree" 
                     commit('SET_TREE_TYPE', param)
                     resolve()
                 }).catch((error) => {

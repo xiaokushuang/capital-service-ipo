@@ -45,6 +45,17 @@ export const constantRouterMap = [
   //     }
   //   ]
   // }
+  {
+    path: '/ipoRefinance',
+    component: Layout,
+    redirect: '/ipoRefinance/ipoDataOverview',
+    children: [{
+      path: 'ipoDataOverview',
+      component: _import('ipoRefinance/ipoDataOverview'),
+      name: 'ipoDataOverview',
+      meta: { title: 'ipo数据概览', icon: 'ipoDataOverview', noCache: true }
+    }]
+  },
   {// financeStatistics/financeSearch
     path: '',
     component: Layout,
@@ -73,13 +84,7 @@ export const constantRouterMap = [
         path: 'noticeHelper',
         component: _import('declare/noticeHelper'),
         name: 'noticeHelper',
-        meta: {title: 'noticeHelper', icon: 'dashboard', noCache: true}
-      }, 
-      {
-        path: 'mergersCase',
-        component: _import('mergersCase/mergersCase'),
-        name: 'mergersCase',
-        meta: {title: 'mergersCase', icon: 'dashboard', noCache: true}
+        meta: {title: 'noticeHelper', icon: 'dashboard', noCache: true }
       }
     ]
   },

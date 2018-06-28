@@ -105,7 +105,7 @@ export function param(json) {
   return cleanArray(Object.keys(json).map(key => {
     if (json[key] === undefined) return ''
     return encodeURIComponent(key) + '=' +
-        encodeURIComponent(json[key])
+      encodeURIComponent(json[key])
   })).join('&')
 }
 
@@ -172,40 +172,39 @@ export function toggleClass(element, className) {
   element.className = classString
 }
 
-export const pickerOptions = [
-  {
-    text: '今天',
-    onClick(picker) {
-      const end = new Date()
-      const start = new Date(new Date().toDateString())
-      end.setTime(start.getTime())
-      picker.$emit('pick', [start, end])
-    }
-  }, {
-    text: '最近一周',
-    onClick(picker) {
-      const end = new Date(new Date().toDateString())
-      const start = new Date()
-      start.setTime(end.getTime() - 3600 * 1000 * 24 * 7)
-      picker.$emit('pick', [start, end])
-    }
-  }, {
-    text: '最近一个月',
-    onClick(picker) {
-      const end = new Date(new Date().toDateString())
-      const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-      picker.$emit('pick', [start, end])
-    }
-  }, {
-    text: '最近三个月',
-    onClick(picker) {
-      const end = new Date(new Date().toDateString())
-      const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-      picker.$emit('pick', [start, end])
-    }
-  }]
+export const pickerOptions = [{
+  text: '今天',
+  onClick(picker) {
+    const end = new Date()
+    const start = new Date(new Date().toDateString())
+    end.setTime(start.getTime())
+    picker.$emit('pick', [start, end])
+  }
+}, {
+  text: '最近一周',
+  onClick(picker) {
+    const end = new Date(new Date().toDateString())
+    const start = new Date()
+    start.setTime(end.getTime() - 3600 * 1000 * 24 * 7)
+    picker.$emit('pick', [start, end])
+  }
+}, {
+  text: '最近一个月',
+  onClick(picker) {
+    const end = new Date(new Date().toDateString())
+    const start = new Date()
+    start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+    picker.$emit('pick', [start, end])
+  }
+}, {
+  text: '最近三个月',
+  onClick(picker) {
+    const end = new Date(new Date().toDateString())
+    const start = new Date()
+    start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+    picker.$emit('pick', [start, end])
+  }
+}]
 
 export function getTime(type) {
   if (type === 'start') {
@@ -282,85 +281,84 @@ export function GetDateDiff(startTime, endTime, diffType) {
   endTime = endTime.replace(/\-/g, "/");
   //将计算间隔类性字符转换为小写
   diffType = diffType.toLowerCase();
-  var sTime =new Date(startTime); //开始时间
-  var eTime =new Date(endTime); //结束时间
+  var sTime = new Date(startTime); //开始时间
+  var eTime = new Date(endTime); //结束时间
   //作为除数的数字
-  var timeType =1;
+  var timeType = 1;
   switch (diffType) {
-      case"second":
-          timeType =1000;
+    case "second":
+      timeType = 1000;
       break;
-      case"minute":
-          timeType =1000*60;
+    case "minute":
+      timeType = 1000 * 60;
       break;
-      case"hour":
-          timeType =1000*3600;
+    case "hour":
+      timeType = 1000 * 3600;
       break;
-      case"day":
-          timeType =1000*3600*24;
+    case "day":
+      timeType = 1000 * 3600 * 24;
       break;
-      default:
+    default:
       break;
   }
   return parseInt((eTime.getTime() - sTime.getTime()) / parseInt(timeType));
 }
 
 //深复制对象方法    
-var cloneObj = function (obj) {  
-  var newObj = {};  
-  if (obj instanceof Array) {  
-      newObj = [];  
-  }  
-  for (var key in obj) {  
-      var val = obj[key];  
-      //newObj[key] = typeof val === 'object' ? arguments.callee(val) : val; //arguments.callee 在哪一个函数中运行，它就代表哪个函数, 一般用在匿名函数中。  
-      newObj[key] = typeof val === 'object' ? cloneObj(val): val;  
-  }  
-  return newObj;  
+var cloneObj = function (obj) {
+  var newObj = {};
+  if (obj instanceof Array) {
+    newObj = [];
+  }
+  for (var key in obj) {
+    var val = obj[key];
+    //newObj[key] = typeof val === 'object' ? arguments.callee(val) : val; //arguments.callee 在哪一个函数中运行，它就代表哪个函数, 一般用在匿名函数中。  
+    newObj[key] = typeof val === 'object' ? cloneObj(val) : val;
+  }
+  return newObj;
 };
 
 
 /**
  * 1维数据改成多维数据
  * ${datalist} 数据
-*/
-export function OneDimensionalDataVariableMultidimensionalData(datalist){
-    //拿到第一层方法
-    function getOne(data){
-        var one = [],list;
-        data.map(function(obj,idx){
-            var flag = 0;
-            data.map(function(o,i){
-                if(obj.parentId==o.id){
-                    flag++
-                }
-                return o
-            })
-            if(flag==0){
-                list = cloneObj(obj)
-                list.children = [];
-                one.push(list)
-            }
-            return obj
-        })
-        return one;
-    }
-    //递归方法
-    function fns(one,data){
-        one.map(function(obj,idx){
-            data.map(function(o,i){
-                if(obj.id==o.parentId){
-                    var list = cloneObj(o);
-                    list.children = [];
-                    obj.children.push(list)
-                    fns(obj.children,data)
-                }
-            })
-        })
-    }
-    var middle = [].concat(datalist)
-    var one = getOne(middle);
-    fns(one,middle)
-    return one
+ */
+export function MultidimensionalData(datalist) {
+  // 拿到第一层方法
+  function getOne(data) {
+    var one = [],list
+    data.map(function (obj, idx) {
+      var flag = 0;
+      data.map(function (o, i) {
+        if (obj.parentId == o.id) {
+          flag++
+        }
+        return o
+      })
+      if (flag == 0) {
+        list = cloneObj(obj)
+        list.children = [];
+        one.push(list)
+      }
+      return obj
+    })
+    return one;
+  }
+  // 递归方法
+  function fns(one, data) {
+    one.map(function (obj, idx) {
+      data.map(function (o, i) {
+        if (obj.id == o.parentId) {
+          var list = cloneObj(o);
+          list.children = [];
+          obj.children.push(list)
+          fns(obj.children, data)
+        }
+      })
+    })
+  }
+  var middle = [].concat(datalist)
+  var one = getOne(middle);
+  fns(one, middle)
+  return one
 }
-

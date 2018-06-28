@@ -190,8 +190,14 @@ export default {
       data3: [],
       defaultProps: {
         children: "children",
-        label: "label"
+        // label: "label",
+        label:"showTypeName",
+        pid :"parentId",
+        isofen :"oftenFlag",
+        declareTypeName:"declareTypeName",
+        declareTypeNo:"declareTypeNo"
       },
+        
       formSubmit: {
         id: "",
         choseClass: 1
@@ -234,9 +240,11 @@ export default {
       var array = [];
       console.log("递归获取树形结构");
       if (this.value == 0) {
-        return fn(this.data3, "96210244698524059", 0);
+        // return fn(this.data3, "96210244698524059", 0);
+        return this.getDeclareData;
       } else {
-        return fn_2(fn(this.data3, "96210244698524059"));
+        // return fn_2(fn(this.data3, "96210244698524059"));
+        return fn_2(this.getDeclareData);
       }
       //将数据递归为树形结构
       function fn(data, pid, state) {
@@ -265,15 +273,35 @@ export default {
         var temp = [];
         for (var i in result) {
           //从一级父节点判断是否为常用或存在子节点，符合此条件将子集做递归判断，直至过滤为叶子节点为常用的树形结构
-          if (
+
+        //     children: "children", 
+        // label:"showTypeName",
+        // pid :"parentId",
+        // isofen :"oftenFlag",
+        // declareTypeName:"declareTypeName",
+        // declareTypeNo:"declareTypeNo"
+          // if (
+          //   (result[i].children && result[i].children.length > 0) ||
+          //   result[i].isofen == 1
+          // ) {
+          //   var obj = result[i].children;
+          //   result[i].children = fn_2(obj);
+          //   if (
+          //     (result[i].children && result[i].children.length > 0) ||
+          //     result[i].isofen == 1
+          //   ) {
+          //     temp.push(result[i]);
+          //   }
+          // }
+           if (
             (result[i].children && result[i].children.length > 0) ||
-            result[i].isofen == 1
+            result[i].oftenFlag == 1
           ) {
             var obj = result[i].children;
             result[i].children = fn_2(obj);
             if (
               (result[i].children && result[i].children.length > 0) ||
-              result[i].isofen == 1
+              result[i].oftenFlag == 1
             ) {
               temp.push(result[i]);
             }
@@ -441,7 +469,8 @@ export default {
     let param = {};
     param.declare_tree = [];
     this.$store.dispatch("getDeclare", param).then(() => { 
-      this.data3 = param.data.data;
+      
+      // this.data3 = param.data.data;
     });
   }
 };
