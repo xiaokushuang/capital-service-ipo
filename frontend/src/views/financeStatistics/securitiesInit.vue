@@ -4,7 +4,6 @@
     <chart-box-one></chart-box-one>
     <chart-box-two></chart-box-two>
     <chart-box-three></chart-box-three>
-    <chart-and-table></chart-and-table>
   </div>
 </template>
 

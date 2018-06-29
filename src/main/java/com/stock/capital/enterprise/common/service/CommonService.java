@@ -110,5 +110,26 @@ public class CommonService extends BaseService {
 			    }
 	//lanyuxin 2017-08-22 end
 				
-    
+				
+			/**
+		     * 处理用户搜索提示
+		     */
+		    public void dealWithSuggest(String suggestStr,String indexType) {
+		        MultiValueMap<String, String> param = new LinkedMultiValueMap<String, String>();
+		        param.add("suggestStr", suggestStr);
+		        param.add("indexType",indexType);
+		        String urls = apiBaseUrl + "common/dealWithSuggest";
+		        ParameterizedTypeReference<JsonResponse<Boolean>> responseType = new ParameterizedTypeReference<JsonResponse<Boolean>>() {
+		        };
+		        restClient.post(urls, param, responseType);
+		    }
+			public List<TreeDto> getIndustryList() {
+				 ParameterizedTypeReference<JsonResponse<List<TreeDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<TreeDto>>>() {
+			        };
+			        String url = apiBaseUrl + "declareInfo/postDeclareIndexIndustry";
+			        List<TreeDto> list = restClient.post(url, null, responseType).getResult();
+			        return list;
+			}
+		 
+
 }

@@ -13,9 +13,9 @@
             </el-select>
         </el-col>
         <el-col :span='8'>
-            <el-select ref="selectTreeIndex" v-model="formLabelAlign.type" placeholder="所在地区"  
+            <el-select ref="selectTreeIndex" v-model="formLabelAlign.city" placeholder="所在地区"  
             size="small full" @visible-change="calls">
-              <el-option :label="formLabelAlign.type" :value="formLabelAlign.type" >
+              <el-option :label="formLabelAlign.city" :value="formLabelAlign.city" >
                 <el-tree :data="getSFCRegion" show-checkbox node-key="id" ref="tree" highlight-current 
                 @check-change="handleNodeClick2" :props="defaultProps"></el-tree>  
               </el-option>
@@ -26,9 +26,11 @@
             </el-select>
         </el-col>
         <el-col :span='8'>
-          <el-select ref="selectCheckbox" placeholder="市场板块" size='small full' v-model="formLabelAlign.plate" @visible-change="calls">
-            <el-option :label="formLabelAlign.plate" :value="formLabelAlign.plate" >
-              <el-checkbox v-for="item in getPlateInfo" :label="item.label" :key="item.value">{{item.label}}</el-checkbox>
+          <el-select ref="selectCheckbox" v-model="formLabelAlign.plate" placeholder="市场板块" 
+          size='small full' @visible-change="calls">
+            <el-option :label="formLabelAlign.plate" :value="formLabelAlign.plate">
+                <el-tree :data="getPlateInfo" show-checkbox node-key="id" ref="treePlate" highlight-current 
+                @check-change="handleNodeClick3" :props="defaultPropss"></el-tree>
             </el-option>
             <el-col :span="24" class='selectFull'>
               <el-button type="primary" size="mini" @click="sure">确定</el-button>
@@ -53,7 +55,7 @@
       </el-row>
       <el-row :gutter="16">
           <el-col class='text-right'>
-            <el-button>清空</el-button>
+             <el-button  size="mini" @click="clear">清空</el-button>
             <el-button type="primary" @click="seaarch">查询</el-button>
           </el-col>
       </el-row>
@@ -92,18 +94,19 @@ export default {
         children: "children",
         label: "name"
       },
+      defaultPropss: {
+        label: "label"
+      },
       formLabelAlign: {
-        relatedParty: "",
-        type: "",
         plate: "",
-        autocomplate: [],
-        date: "",
         date2: "",
         input1: "",
         input2: "",
-        code_value: ""
+        code_value: "",
+        city: ""
       },
       selectSpace: [],
+      selectPlate: [],
 
       //双日历数据
 
@@ -134,9 +137,10 @@ export default {
         date2: this.formLabelAlign.date2,
         input1: this.formLabelAlign.input1,
         input2: this.formLabelAlign.input2,
-        plate: this.formLabelAlign.plate
-      }
-      console.log(this.formLabelAlign)
+        plate: this.formLabelAlign.plate,
+        city: this.formLabelAlign.city
+      };
+      console.log(this.formLabelAlign);
     },
     // 表格接口
     dataGet() {
@@ -157,9 +161,7 @@ export default {
     },
     // 地区
     regionGet() {
-      this.$store.dispatch("ipoSFCRegionGet").then(() => {
-        this.regionTree(this.getSFCRegion);
-      });
+      this.$store.dispatch("ipoSFCRegionGet").then(() => {});
     },
     // 板块信息
     plateGet() {
@@ -168,65 +170,48 @@ export default {
       };
       this.$store.dispatch("ipoPlateInfoGet", param).then();
     },
-    // 地区数据递归树形结构
-    regionTree(list) {
-      var city = []
-      var k = 0 
-      // for (var i = 0; i < list.length; i++) {
-      //   if (list[i].parentId == 0) {
-      //     cityP.push(list[i])
-      //   }
-      // }
-      // for (var j = 0; j < list.length; j++) {
-      //   for (var z = 0; z < cityP.length; z++){
-      //     if (cityP[j].id == list[z].parentId) {
-      //       list[j][]
-      //       // cityC.push(list[z])
-      //       // debugger
-      //       // console.log(cityC)
-      //       // cityP[j].push(cityC)
-      //     }
-      //   }    
-      // }
-      for (var i = 0; i < list.length; i++) {
-        for (var j = 0; j < list.length; j++) {
-          if(list[i].id == list[j].parentId) {
-            list[i][j] = city[k]
-            k++
-          }
-        }
-      }
-      console.log(city)
-    },
-    //下拉菜单method
-    handleNodeClick2(data, node, component) {
+    // 下拉菜单市场板块
+    handleNodeClick3(data, node, component) {
       //共三个参数，依次为：传递给 data 属性的数组中该节点所对应的对象、节点本身是否被选中、节点的子树中是否有被选中的节点
-
-      const nodeCheck = this.$refs.tree.getCheckedNodes(true); //通过 node 获取(光子节点)
+      const nodeCheck = this.$refs.treePlate.getCheckedNodes(true); //通过 node 获取(光子节点)
       let middle = "";
       nodeCheck.map((obj, idx) => {
         //拼接字符串
         middle += `,${obj.label}`;
-      });
-      this.formLabelAlign.type = middle.substr(1); //设置input里显示的文字，可扩展
-      //console.log(this.$refs.tree.getCheckedKeys(true));//通过 key 获取(光子节点)
+      })
+      this.formLabelAlign.plate = middle.substr(1); //设置input里显示的文字，可扩展
+    },
+    //下拉菜单城市
+    handleNodeClick2(data, node, component) {
+      //共三个参数，依次为：传递给 data 属性的数组中该节点所对应的对象、节点本身是否被选中、节点的子树中是否有被选中的节点
+      const nodeCheck = this.$refs.tree.getCheckedNodes(true); //通过 node 获取(光子节点)
+      let middle = "";
+      nodeCheck.map((obj, idx) => {
+        //拼接字符串
+        middle += `,${obj.name}`;
+      })
+      this.formLabelAlign.city = middle.substr(1); //设置input里显示的文字，可扩展
+      // console.log(this.$refs.tree.getCheckedKeys(true));//通过 key 获取(光子节点)
       //this.$refs.tree.setCheckedKeys([3]);//通过 key 设置
     },
     sure() {
       //下拉确定
       //查询
       this.selectSpace = this.$refs.tree.getCheckedNodes();
+      this.selectPlate = this.$refs.treePlate.getCheckedNodes();
       this.$refs.selectTreeIndex.handleClose(); //关闭下拉框
       this.$refs.selectCheckbox.handleClose(); //关闭下拉框
     },
     clear() {
       //下拉清空
       this.$refs.tree.setCheckedKeys([]); //清空选中
+      this.$refs.treePlate.setCheckedKeys([]); //清空选中
     },
     calls(data) {
       //下拉回复上次选项
       if (!data) {
         this.$refs.tree.setCheckedNodes(this.selectSpace); //通过node值设置默认选中
+        this.$refs.treePlate.setCheckedNodes(this.selectPlate); //通过node值设置默认选中
       }
     },
 
@@ -280,7 +265,29 @@ export default {
       "getSFClass",
       "getSFCRegion",
       "getPlateInfo"
-    ])
+    ]),
+    // 地区数据递归树形结构
+    // regionTree(getSFCRegion) {
+    //   var arr = this.getSFCRegion;
+    //   var province = [];
+    //   var cityAll = [];
+    //   arr.map((c, p) => {
+    //     if (c.parentId == 0) {
+    //       province.push(c);
+    //     }
+    //   });
+    //   province.map((obj, idx) => {
+    //     var list = [];
+    //     arr.map((o, i) => {
+    //       if (obj.id == o.parentId) {
+    //         list.push(o);
+    //         obj.children = list;
+    //       }
+    //     });
+    //     cityAll.push(obj);
+    //   });
+    //   return cityAll;
+    // }
   },
   watch: {},
 
@@ -288,5 +295,6 @@ export default {
 };
 </script>
 <style>
+.el-table__row{height:40px;}
 </style>
 

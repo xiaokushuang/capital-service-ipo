@@ -3,7 +3,7 @@
         a{{a | add}}
         <p @click="abc($event)">b{{b}}</p>
         <p>{{addvalue}}</p>
-        <input v-model="a"></input>
+        <input v-model="a"/>
     </div>
 </template>
 <script>

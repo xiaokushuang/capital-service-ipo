@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.capital.enterprise.common.dao.LawIndexTagMapper"> 
+  <resultMap id="BaseResultMap" type="com.stock.capital.enterprise.common.entity.LawIndexTag" > 
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="tag_name" property="tagName" jdbcType="VARCHAR" />
+    <result column="key_type" property="keyType" jdbcType="VARCHAR" />
+    <result column="key_content" property="keyContent" jdbcType="VARCHAR" />
+    <result column="key_and_content" property="keyAndContent" jdbcType="VARCHAR" />
+    <result column="key_not_content" property="keyNotContent" jdbcType="VARCHAR" />
+    <result column="company_search_code" property="companySearchCode" jdbcType="VARCHAR" />
+    <result column="person_id" property="personId" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="published_start_date" property="publishedStartDate" jdbcType="DATE" />
+    <result column="published_end_date" property="publishedEndDate" jdbcType="DATE" />
+    <result column="invalid_start_date" property="invalidStartDate" jdbcType="DATE" />
+    <result column="invalid_end_date" property="invalidEndDate" jdbcType="DATE" />
+    <result column="application_scope" property="applicationScope" jdbcType="VARCHAR" />
+    <result column="units" property="units" jdbcType="VARCHAR" />
+    <result column="flag" property="flag" jdbcType="VARCHAR" />
+    <result column="key_title" property="keyTitle" jdbcType="VARCHAR" />
+    <result column="key_and_title" property="keyAndTitle" jdbcType="VARCHAR" />
+    <result column="key_not_title" property="keyNotTitle" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, tag_name, key_type, key_content, key_and_content, key_not_content, company_search_code, 
+    person_id, company_id, published_start_date, published_end_date, invalid_start_date, 
+    invalid_end_date, application_scope, units, flag, key_title, key_and_title, key_not_title, 
+    create_user, create_time, update_user, update_time, status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.stock.capital.enterprise.common.entity.LawIndexTagExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from law_index_tag
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from law_index_tag
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from law_index_tag
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.stock.capital.enterprise.common.entity.LawIndexTagExample" >
+    delete from law_index_tag
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.stock.capital.enterprise.common.entity.LawIndexTag" >
+    <selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE" >
+      SELECT CONCAT(uuid_short(),'')
+    </selectKey>
+    insert into law_index_tag (id, tag_name, key_type, 
+      key_content, key_and_content, key_not_content, 
+      company_search_code, person_id, company_id, 
+      published_start_date, published_end_date, invalid_start_date, 
+      invalid_end_date, application_scope, units, 
+      flag, key_title, key_and_title, 
+      key_not_title, create_user, create_time, 
+      update_user, update_time, status
+      )
+    values (#{id,jdbcType=VARCHAR}, #{tagName,jdbcType=VARCHAR}, #{keyType,jdbcType=VARCHAR}, 
+      #{keyContent,jdbcType=VARCHAR}, #{keyAndContent,jdbcType=VARCHAR}, #{keyNotContent,jdbcType=VARCHAR}, 
+      #{companySearchCode,jdbcType=VARCHAR}, #{personId,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, 
+      #{publishedStartDate,jdbcType=DATE}, #{publishedEndDate,jdbcType=DATE}, #{invalidStartDate,jdbcType=DATE}, 
+      #{invalidEndDate,jdbcType=DATE}, #{applicationScope,jdbcType=VARCHAR}, #{units,jdbcType=VARCHAR}, 
+      #{flag,jdbcType=VARCHAR}, #{keyTitle,jdbcType=VARCHAR}, #{keyAndTitle,jdbcType=VARCHAR}, 
+      #{keyNotTitle,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.stock.capital.enterprise.common.entity.LawIndexTag" >
+    <selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE" >
+      SELECT CONCAT(uuid_short(),'')
+    </selectKey>
+    insert into law_index_tag
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
+      <if test="tagName != null" >
+        tag_name,
+      </if>
+      <if test="keyType != null" >
+        key_type,
+      </if>
+      <if test="keyContent != null" >
+        key_content,
+      </if>
+      <if test="keyAndContent != null" >
+        key_and_content,
+      </if>
+      <if test="keyNotContent != null" >
+        key_not_content,
+      </if>
+      <if test="companySearchCode != null" >
+        company_search_code,
+      </if>
+      <if test="personId != null" >
+        person_id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="publishedStartDate != null" >
+        published_start_date,
+      </if>
+      <if test="publishedEndDate != null" >
+        published_end_date,
+      </if>
+      <if test="invalidStartDate != null" >
+        invalid_start_date,
+      </if>
+      <if test="invalidEndDate != null" >
+        invalid_end_date,
+      </if>
+      <if test="applicationScope != null" >
+        application_scope,
+      </if>
+      <if test="units != null" >
+        units,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+      <if test="keyTitle != null" >
+        key_title,
+      </if>
+      <if test="keyAndTitle != null" >
+        key_and_title,
+      </if>
+      <if test="keyNotTitle != null" >
+        key_not_title,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=VARCHAR},
+      <if test="tagName != null" >
+        #{tagName,jdbcType=VARCHAR},
+      </if>
+      <if test="keyType != null" >
+        #{keyType,jdbcType=VARCHAR},
+      </if>
+      <if test="keyContent != null" >
+        #{keyContent,jdbcType=VARCHAR},
+      </if>
+      <if test="keyAndContent != null" >
+        #{keyAndContent,jdbcType=VARCHAR},
+      </if>
+      <if test="keyNotContent != null" >
+        #{keyNotContent,jdbcType=VARCHAR},
+      </if>
+      <if test="companySearchCode != null" >
+        #{companySearchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="personId != null" >
+        #{personId,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="publishedStartDate != null" >
+        #{publishedStartDate,jdbcType=DATE},
+      </if>
+      <if test="publishedEndDate != null" >
+        #{publishedEndDate,jdbcType=DATE},
+      </if>
+      <if test="invalidStartDate != null" >
+        #{invalidStartDate,jdbcType=DATE},
+      </if>
+      <if test="invalidEndDate != null" >
+        #{invalidEndDate,jdbcType=DATE},
+      </if>
+      <if test="applicationScope != null" >
+        #{applicationScope,jdbcType=VARCHAR},
+      </if>
+      <if test="units != null" >
+        #{units,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="keyTitle != null" >
+        #{keyTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="keyAndTitle != null" >
+        #{keyAndTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="keyNotTitle != null" >
+        #{keyNotTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.stock.capital.enterprise.common.entity.LawIndexTagExample" resultType="java.lang.Integer" >
+    select count(*) from law_index_tag
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update law_index_tag
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tagName != null" >
+        tag_name = #{record.tagName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keyType != null" >
+        key_type = #{record.keyType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keyContent != null" >
+        key_content = #{record.keyContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keyAndContent != null" >
+        key_and_content = #{record.keyAndContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keyNotContent != null" >
+        key_not_content = #{record.keyNotContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companySearchCode != null" >
+        company_search_code = #{record.companySearchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personId != null" >
+        person_id = #{record.personId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyId != null" >
+        company_id = #{record.companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publishedStartDate != null" >
+        published_start_date = #{record.publishedStartDate,jdbcType=DATE},
+      </if>
+      <if test="record.publishedEndDate != null" >
+        published_end_date = #{record.publishedEndDate,jdbcType=DATE},
+      </if>
+      <if test="record.invalidStartDate != null" >
+        invalid_start_date = #{record.invalidStartDate,jdbcType=DATE},
+      </if>
+      <if test="record.invalidEndDate != null" >
+        invalid_end_date = #{record.invalidEndDate,jdbcType=DATE},
+      </if>
+      <if test="record.applicationScope != null" >
+        application_scope = #{record.applicationScope,jdbcType=VARCHAR},
+      </if>
+      <if test="record.units != null" >
+        units = #{record.units,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flag != null" >
+        flag = #{record.flag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keyTitle != null" >
+        key_title = #{record.keyTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keyAndTitle != null" >
+        key_and_title = #{record.keyAndTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keyNotTitle != null" >
+        key_not_title = #{record.keyNotTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null" >
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null" >
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update law_index_tag
+    set id = #{record.id,jdbcType=VARCHAR},
+      tag_name = #{record.tagName,jdbcType=VARCHAR},
+      key_type = #{record.keyType,jdbcType=VARCHAR},
+      key_content = #{record.keyContent,jdbcType=VARCHAR},
+      key_and_content = #{record.keyAndContent,jdbcType=VARCHAR},
+      key_not_content = #{record.keyNotContent,jdbcType=VARCHAR},
+      company_search_code = #{record.companySearchCode,jdbcType=VARCHAR},
+      person_id = #{record.personId,jdbcType=VARCHAR},
+      company_id = #{record.companyId,jdbcType=VARCHAR},
+      published_start_date = #{record.publishedStartDate,jdbcType=DATE},
+      published_end_date = #{record.publishedEndDate,jdbcType=DATE},
+      invalid_start_date = #{record.invalidStartDate,jdbcType=DATE},
+      invalid_end_date = #{record.invalidEndDate,jdbcType=DATE},
+      application_scope = #{record.applicationScope,jdbcType=VARCHAR},
+      units = #{record.units,jdbcType=VARCHAR},
+      flag = #{record.flag,jdbcType=VARCHAR},
+      key_title = #{record.keyTitle,jdbcType=VARCHAR},
+      key_and_title = #{record.keyAndTitle,jdbcType=VARCHAR},
+      key_not_title = #{record.keyNotTitle,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stock.capital.enterprise.common.entity.LawIndexTag" >
+    update law_index_tag
+    <set >
+      <if test="tagName != null" >
+        tag_name = #{tagName,jdbcType=VARCHAR},
+      </if>
+      <if test="keyType != null" >
+        key_type = #{keyType,jdbcType=VARCHAR},
+      </if>
+      <if test="keyContent != null" >
+        key_content = #{keyContent,jdbcType=VARCHAR},
+      </if>
+      <if test="keyAndContent != null" >
+        key_and_content = #{keyAndContent,jdbcType=VARCHAR},
+      </if>
+      <if test="keyNotContent != null" >
+        key_not_content = #{keyNotContent,jdbcType=VARCHAR},
+      </if>
+      <if test="companySearchCode != null" >
+        company_search_code = #{companySearchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="personId != null" >
+        person_id = #{personId,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="publishedStartDate != null" >
+        published_start_date = #{publishedStartDate,jdbcType=DATE},
+      </if>
+      <if test="publishedEndDate != null" >
+        published_end_date = #{publishedEndDate,jdbcType=DATE},
+      </if>
+      <if test="invalidStartDate != null" >
+        invalid_start_date = #{invalidStartDate,jdbcType=DATE},
+      </if>
+      <if test="invalidEndDate != null" >
+        invalid_end_date = #{invalidEndDate,jdbcType=DATE},
+      </if>
+      <if test="applicationScope != null" >
+        application_scope = #{applicationScope,jdbcType=VARCHAR},
+      </if>
+      <if test="units != null" >
+        units = #{units,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="keyTitle != null" >
+        key_title = #{keyTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="keyAndTitle != null" >
+        key_and_title = #{keyAndTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="keyNotTitle != null" >
+        key_not_title = #{keyNotTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stock.capital.enterprise.common.entity.LawIndexTag" >
+    update law_index_tag
+    set tag_name = #{tagName,jdbcType=VARCHAR},
+      key_type = #{keyType,jdbcType=VARCHAR},
+      key_content = #{keyContent,jdbcType=VARCHAR},
+      key_and_content = #{keyAndContent,jdbcType=VARCHAR},
+      key_not_content = #{keyNotContent,jdbcType=VARCHAR},
+      company_search_code = #{companySearchCode,jdbcType=VARCHAR},
+      person_id = #{personId,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=VARCHAR},
+      published_start_date = #{publishedStartDate,jdbcType=DATE},
+      published_end_date = #{publishedEndDate,jdbcType=DATE},
+      invalid_start_date = #{invalidStartDate,jdbcType=DATE},
+      invalid_end_date = #{invalidEndDate,jdbcType=DATE},
+      application_scope = #{applicationScope,jdbcType=VARCHAR},
+      units = #{units,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=VARCHAR},
+      key_title = #{keyTitle,jdbcType=VARCHAR},
+      key_and_title = #{keyAndTitle,jdbcType=VARCHAR},
+      key_not_title = #{keyNotTitle,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.stock.capital.enterprise.common.entity.LawIndexTagExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from law_index_tag
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

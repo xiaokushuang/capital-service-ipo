@@ -1,4 +1,4 @@
-package com.stock.capital.enterprise.common.controller;
+ package com.stock.capital.enterprise.common.controller;
 
 import java.util.Locale;
 import java.util.Map;
@@ -74,13 +74,14 @@ public class ContentNegotiatingErrorController implements ErrorController {
      *
      */
     @RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView error(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView errorHtml(HttpServletRequest request, HttpServletResponse response) {
         RequestAttributes requestAttributes = new ServletRequestAttributes(request);
         Throwable exception = this.errorAttributes.getError(requestAttributes);
         HttpStatus status = getStatus(request);
         Map<String, Object> model = this.errorAttributes.getErrorAttributes(requestAttributes, false);
         ModelAndView modelAndView = errorViewResolver.resolveErrorView(request, status, model);
         logException(requestAttributes, exception, request);
+        response.setStatus(HttpStatus.OK.value());
         return modelAndView;
     }
 
@@ -95,16 +96,17 @@ public class ContentNegotiatingErrorController implements ErrorController {
      */
     @RequestMapping
     @ResponseBody
-    public JsonResponse<Object> error(HttpServletRequest request) {
+    public JsonResponse<Object> error(HttpServletRequest request, HttpServletResponse response) {
         RequestAttributes requestAttributes = new ServletRequestAttributes(request);
         Throwable exception = this.errorAttributes.getError(requestAttributes);
         logException(requestAttributes, exception, request);
         String errorCode = getErrorCode(exception);
         String errorMessage = getErrorMessage(exception, errorCode, request.getLocale());
-        JsonResponse<Object> response = new JsonResponse<>();
-        response.setErrorCode(errorCode);
-        response.setErrorMsg(errorMessage);
-        return response;
+        JsonResponse<Object> jsonResponse = new JsonResponse<>();
+        jsonResponse.setErrorCode(errorCode);
+        jsonResponse.setErrorMsg(errorMessage);
+        response.setStatus(HttpStatus.OK.value());
+        return jsonResponse;
     }
 
     /**

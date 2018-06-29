@@ -1,15 +1,15 @@
 
 <template>
   <div class='chart-container'>
-      <company-oto></company-oto>
+      <company-otp></company-otp>
   </div>
 </template>
 
 <script>
-import companyOto from './companyOto'
+import companyOtp from './companyOtp'
 export default {
   name: 'companyContrast',
-  components: { companyOto }
+  components: { companyOtp }
 
 }
 </script>
