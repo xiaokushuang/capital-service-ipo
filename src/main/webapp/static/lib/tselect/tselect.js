@@ -22,22 +22,33 @@
 //		//clickOtherEvent($(e.target))
 //	});
 //});
+//拦截器
+var nowTime = 0;
 //下拉框失去焦点事件
 function blurUp(obj){
-	if(typeof $(obj).attr('id')!='undefined'){
-		var select = $(obj).parent();
-	}else{
-		var select = $(obj).parents('.t-select-content');
-	}
-	var result = [];
-	setTimeout(function(){
-		result.push(child(select))
-		if(result[0]!=1){
-			$('.t-select').removeClass('active');
-			$('.t-select-table').slideUp('fast');
-			$.tSelectBlur(select.find('.t-select'));
+	if(nowTime==0){
+		nowTime++;
+		if(typeof $(obj).attr('id')!='undefined'){
+			var select = $(obj).parent();
+		}else{
+			var select = $(obj).parents('.t-select-content');
 		}
+		var result = [];
+		setTimeout(function(){
+			result.push(child(select))
+			if(result[0]!=1){
+				$('.t-select').removeClass('active');
+				$('.t-select-table').slideUp('fast');
+				$.tSelectBlur(select.find('.t-select'));
+			}
+		},50)
+	}else{
+		return
+	}
+	setTimeout(function(){
+		nowTime=0;
 	},50)
+	
 }
 //递归下拉框元素
 function child(select){
@@ -68,6 +79,30 @@ $(document).click(function(e){
 	} else {
 		$('.lawShare').hide('fast');
 	}
+	$('.lawShare').each(function(idx, obj) {
+		var flag = true;
+		$(obj).find("img").each(function(idx, obj){
+			if($(obj)[0] == t[0]){
+				flag = false;
+			}
+		})
+		if(flag){
+			if($(obj).find(".erweima_share").attr("style") != 'display:none'){
+				$(obj).find(".erweima_share").remove();
+				var str = '<div style="display:none" class="erweima_share" id="share"></div>';
+				$(str).appendTo($(obj));
+			}
+			if($(obj).find(".erweima_share1").attr("style") != 'display:none'){
+				$(obj).find(".erweima_share1").remove();
+				var str = '<div style="display:none" class="erweima_share1" id="share"></div>';
+				$(str).appendTo($(obj));
+			}
+		}
+	})
+	if (!t.parents('.Spandl').length > 0 && !(t.hasClass("wxShareAll")||t.hasClass("sharingdl"))) {
+		$('.Spandl').remove();
+	}
+	
 });
 //function clickOtherEvent(t) {
 //	if (t.parents('.t-select-content').length > 0) {
@@ -269,7 +304,9 @@ $(document).click(function(e){
 			if(newData.length > 1){
 				newData = uniquePay(newData,opts);
 			}
-			
+			if(searchData.length==0){
+				newData = data
+			}
 			tSelect.attr('selected-ids', $('#' + tSelectId + '_selected_cup').val());
 			$.tselectTableSetting(tSelect, newData, opts,false);
 			$.tSelectAdjust(tSelect);
@@ -279,6 +316,18 @@ $(document).click(function(e){
 			var tTable = tSelect.parent().find('.t-select-table');
 			var tView = tTable.children('.t-select-view');
 			var tCell = tView.children('.t-select-cell');
+			// 调整下拉菜单高度
+			tSelect.attr('maxHeight', tMaxHeight);
+//			if (tTable.height() < tMaxHeight) {
+//				tView.height(tTable.height());
+//				tTable.height(tTable.height() + 50);
+//			} else {
+//				tTable.height(tMaxHeight);
+//				tView.height(tMaxHeight - 50);
+//			}
+			
+			
+			
 			tCellOperation(opts,tSelect,tCell,checkBoxType,newData);
 			
 			newData = [];
@@ -371,15 +420,17 @@ $(document).click(function(e){
 
 				$('.t-select').removeClass(activeClass);
 				if (tTable.css('display') != 'none') {
-					tTable.slideUp('fast');
-					tSelect.removeClass(activeClass);
+					//tTable.slideUp('fast');
+					//tSelect.removeClass(activeClass);
 					tTable.trigger('blur')
 				} else {
 					tSelect.addClass(activeClass);
                 	// 调整下拉菜单宽高
                 	$.tSelectAdjust(tSelect);
-                	tTable.slideDown('fast');
+                	//tTable.slideDown('fast');
                 	tTable.trigger('focus')
+                	tSearch.val('');
+                	tSearch.trigger('input')
 				}
 				//2017/5/5 meijf end
            });
@@ -437,7 +488,7 @@ $(document).click(function(e){
 		}
 		// 调整下拉菜单高度
 		tSelect.attr('maxHeight', tMaxHeight);
-		if (tTable.height() < tMaxHeight) {
+		if ((tTable.height()+50) < tMaxHeight) {
 			tView.height(tTable.height());
 			tTable.height(tTable.height() + 50);
 		} else {
@@ -447,6 +498,8 @@ $(document).click(function(e){
 		// 添加点击事件
 		tSelect.off('click');
 		tSelect.click(function() {
+			tSearch.val('');
+			tSearch.trigger('input')
 			// 调整下拉菜单宽高
 			$.tSelectAdjust(tSelect);
 			// 展开下拉菜单
@@ -553,9 +606,9 @@ $(document).click(function(e){
 				// 取所有叶子节点
 				var chks = tTable.find("input[type='" + checkBoxType + "']:checked");
 				chks.each(function(idx, obj) {
-					if ($(obj).parents('.grade').eq(0).find('.grade').size() == 0) {
+					//if ($(obj).parents('.grade').eq(0).find('.grade').size() == 0) {
 						valStr += $(obj).val().replace(/\s+/g, "") + ',';
-					}
+					//}
 				});
 			} else {
 				// 默认都为取层级。父级选中只取父级；父级未选中，取选中子级。
@@ -601,7 +654,7 @@ $(document).click(function(e){
 			tCell.find('div.grade-0').show();
 			tCell.find('div.grade-0').find('.notparent').show();
 		}*/
-		tTable.find('.t-select-search').val('');
+		//tTable.find('.t-select-search').val('');
 		//tTable.find('.t-select-search').trigger("input");
 	
 		
@@ -647,7 +700,12 @@ $(document).click(function(e){
 				tTable.find('input[type="' + checkBoxType + '"][value="' + ids[i] + '"]').prop('checked', 'true');
 			}
 		}
-
+		//失去焦点刷新下拉列表，清空筛选
+//		var searchInput = tSelect.parent().find('.t-select-search');
+//		if(searchInput){
+//			searchInput.val('');
+//			searchInput.trigger('input')
+//		}
 	}
 
 	/**
@@ -940,82 +998,84 @@ $(document).click(function(e){
 	 * 解析数据类型-行转树
 	 */
 	$.tselectDataRowToTree = function(data, opts) {
-		var fathers = {};
-		var fathersIds = [];
-		var notRootIds = [];
-		var id = opts.id;
-		var pid = opts.pid;
-		var name = opts.name;
-		var value = opts.value;
-		// 设置共同父ID数组
-		for ( var i in data) {
-			if (!fathers[data[i][pid]]) {
-				fathers[data[i][pid]] = [];
-			}
-			fathers[data[i][pid]].push(data[i]);
-		}
-		// 识别非叶子节点
-		for ( var name in fathers) {
-			fathersIds.push(name);
-		}
-		// 设置根节点的子孙节点
-		for (var i = 0; i < data.length; i++) {
-			if (fathers[data[i][id]] != undefined) {
-				data[i].children = fathers[data[i][id]];
-			}
-		}
-		// 过滤叶子节点
-		for (var i = 0; i < data.length; i++) {
-			var tag = true;
-			for (var j = 0; j < fathersIds.length; j++) {
-				if (data[i][pid] == fathersIds[j]) {
-					tag = false;
-					break;
-				}
-			}
-			if (tag) {
-				data.splice(i, 1);
-				i--;
-			}
-		}
-		// 识别非根节点
-		for (var i = 0; i < data.length; i++) {
-			var tag = false;
-			for (var j = 0; j < data.length; j++) {
-				if (data[i][pid] == data[j][id]) {
-					tag = true;
-					break;
-				}
-			}
-			if (tag) {
-				notRootIds.push(data[i][id]);
-			}
-		}
-		// 删除非根节点
-		for (var i = 0; i < data.length; i++) {
-			var tag = false;
-			for (var j = 0; j < notRootIds.length; j++) {
-				if (data[i][id] == notRootIds[j]) {
-					tag = true;
-					break;
-				}
-			}
-			if (tag) {
-				data.splice(i, 1);
-				i--;
-			}
-		}
-		// 设置层级
-		levelSetting(data, 0);
-		function levelSetting(data, level) {
-			for ( var i in data) {
-				data[i].level = level;
-				if (data[i].children != undefined) {
-					levelSetting(data[i].children, level + 1);
-				}
-			}
-		}
-		return data;
+		//debugger;
+		return MultidimensionalData(data,opts.id,opts.pid)
+//		var fathers = {};
+//		var fathersIds = [];
+//		var notRootIds = [];
+//		var id = opts.id;
+//		var pid = opts.pid;
+//		var name = opts.name;
+//		var value = opts.value;
+//		// 设置共同父ID数组
+//		for ( var i in data) {
+//			if (!fathers[data[i][pid]]) {
+//				fathers[data[i][pid]] = [];
+//			}
+//			fathers[data[i][pid]].push(data[i]);
+//		}
+//		// 识别非叶子节点
+//		for ( var name in fathers) {
+//			fathersIds.push(name);
+//		}
+//		// 设置根节点的子孙节点
+//		for (var i = 0; i < data.length; i++) {
+//			if (fathers[data[i][id]] != undefined) {
+//				data[i].children = fathers[data[i][id]];
+//			}
+//		}
+//		// 过滤叶子节点
+//		for (var i = 0; i < data.length; i++) {
+//			var tag = true;
+//			for (var j = 0; j < fathersIds.length; j++) {
+//				if (data[i][pid] == fathersIds[j]) {
+//					tag = false;
+//					break;
+//				}
+//			}
+//			if (tag) {
+//				data.splice(i, 1);
+//				i--;
+//			}
+//		}
+//		// 识别非根节点
+//		for (var i = 0; i < data.length; i++) {
+//			var tag = false;
+//			for (var j = 0; j < data.length; j++) {
+//				if (data[i][pid] == data[j][id]) {
+//					tag = true;
+//					break;
+//				}
+//			}
+//			if (tag) {
+//				notRootIds.push(data[i][id]);
+//			}
+//		}
+//		// 删除非根节点
+//		for (var i = 0; i < data.length; i++) {
+//			var tag = false;
+//			for (var j = 0; j < notRootIds.length; j++) {
+//				if (data[i][id] == notRootIds[j]) {
+//					tag = true;
+//					break;
+//				}
+//			}
+//			if (tag) {
+//				data.splice(i, 1);
+//				i--;
+//			}
+//		}
+//		// 设置层级
+//		levelSetting(data, 0);
+//		function levelSetting(data, level) {
+//			for ( var i in data) {
+//				data[i].level = level;
+//				if (data[i].children != undefined) {
+//					levelSetting(data[i].children, level + 1);
+//				}
+//			}
+//		}
+//		return data;
 	}
 
 	/**
@@ -1239,5 +1299,75 @@ $(document).click(function(e){
 				}
 			});
 		});
-	}	
+	}
+	
+	
+	//深复制对象方法    
+	var cloneObj = function (obj) {
+	  var newObj = {};
+	  if (obj instanceof Array) {
+	    newObj = [];
+	  }
+	  for (var key in obj) {
+	    var val = obj[key];
+	    //newObj[key] = typeof val === 'object' ? arguments.callee(val) : val; //arguments.callee 在哪一个函数中运行，它就代表哪个函数, 一般用在匿名函数中。  
+	    newObj[key] = typeof val === 'object' ? cloneObj(val) : val;
+	  }
+	  return newObj;
+	};
+
+
+	/**
+	 * 1维数据改成多维数据
+	 * ${datalist} 数据
+	 */
+	function MultidimensionalData(datalist,id,parentId) {
+	  // 拿到第一层方法
+	  function getOne(datas) {
+	    var one = [],list
+	    datas.map(function (obj, idx) {
+	      var flag = 0;
+	      datas.map(function (o, i) {
+	        if (obj[parentId] == o[id]) {
+				  flag++
+	        }
+	      })
+	      if (flag == 0) {
+	        list = cloneObj(obj)
+	        list.children = [];
+	        list.level = 0;
+	        one.push(list)
+	      }
+	      return obj
+	    })
+	    return one;
+	  }
+	  // 递归方法
+	  function fns(one, data2,num) {
+	    one.map(function (obj, idx) {
+	      data2.map(function (o, i) {
+	        if (obj[id] == o[parentId]) {
+	          var list = cloneObj(o);
+	          list.children = [];
+	          list.level = num;
+	          var fg = true;
+	          obj.children.map(function(x,y){
+	        	  if(x[id]==list[id]){
+	        		  fg=false;
+	        	  }
+	          })
+	          if(fg){
+	        	  obj.children.push(list)
+	          }
+	          fns(obj.children, data2,num+1)
+	        }
+	      })
+	    })
+	  }
+	  var middle = [].concat(datalist)
+	  var one = getOne(middle);
+	  fns(one, middle,1)
+	  return one
+	}
+	
 })(jQuery);
