@@ -6,18 +6,11 @@
     </el-row>
     <!-- 时间选项 -->
     <el-row class="list">
-        <el-col :span="2">
-            <span>时间选择：</span>
-        </el-col>
-        <el-col :span="12">
-            <a @click="activeFun(0)" :class="{active:flag==0}" href="javascript:void(0)">近半年</a>
-            <a @click="activeFun(1)" :class="{active:flag==1}" href="javascript:void(0)">近一年</a>
-            <a @click="activeFun(2)" :class="{active:flag==2}" href="javascript:void(0)">近三年</a>
-            <a @click="activeFun(3)" :class="{active:flag==3}" href="javascript:void(0)">近五年</a>
-            <a @click="activeFun(4)" :class="{active:flag==4}" href="javascript:void(0)">近十年</a>
-        </el-col>
         <!-- 双日历 -->
-        <el-col :span="6">
+        <el-col :span="24">
+            <div style="width:1120px;margin:0 auto;">
+                1
+            </div>
             <!-- <el-date-picker
                 v-model="value5"
                 type="daterange"
@@ -31,51 +24,75 @@
             </el-date-picker> -->
         </el-col>
     </el-row>
-    <el-button @click.native="abc">添加公司</el-button>
+    
     <!-- 图表部分 -->
     <el-row :gutter="20" class="h100">
         <el-col :span="24" class="chart">
-            
-            <el-tabs v-model="activeName2" @tab-click="handleClick" tab-position="right" :span-method="objectSpanMethod">
-                <el-tab-pane label="图表模式"  name="first">
-                    <div class="fullDiv_border">
-                        <!-- 图表 -->
-                    <chart-and-table-demo id="companyOto" height='100%' width='100%' :chartData = "tableData"></chart-and-table-demo>
-                    <!-- {{chose}} -->
-                    <!-- <chart-two v-if="chose==1" height='100%' width='100%' id="two" :chartData = "getIpo"></chart-two> -->
-                </div>
-                </el-tab-pane>
-                <el-tab-pane label="表格模式" name="second">
-                    <el-table ref="multipleTable" max-height="600" border :span-method="objectSpanMethod" :row-class-name="tableRowClassName"
-                        @cell-mouse-leave="cellMouseLeave" @cell-mouse-enter="cellMouseEnter" :data="tableData" style="width: 100%;">
-                        <el-table-column prop="order_number" label="业务类别" align="center" min-width="100"></el-table-column>
-                        <el-table-column label="具体业务" align="left" min-width="100">
-                            <template slot-scope="scope">
-                                <div >
-                                <div class="info">
-                                    <div>
-                                        <div>{{scope.row.clothing_name}}</div>
+            <div style="width:1230px;margin:0 auto;">
+                <el-row>
+                    <el-col :span="24">
+                        <el-button @click.native="abc">添加公司</el-button>
+                    </el-col>
+                </el-row>
+                <el-tabs v-model="activeName2" @tab-click="handleClick" type="card" tab-position="top" :span-method="objectSpanMethod">
+                    <el-tab-pane label="图表模式"  name="first">
+                    </el-tab-pane>
+                    <el-tab-pane label="表格模式" name="second">
+                        <el-row :gutter="20">
+                            <el-col :span="8" align='right'>
+                                123123
+                            </el-col>
+                            <el-col :span="16">
+                                <div style="width:100%;border:1px solid #ccc">
+                                    <div style="width:20%;float:left;">
+                                        <el-select size="small full" v-model="formLabelAlign.autocomplate" filterable remote reserve-keyword 
+                                        placeholder="autocomplate异步搜索下拉" :remote-method="remoteMethod" :loading="loading">
+                                        <el-option v-for="item in options4" :key="item.value" :label="item.label" 
+                                        :value="item.value"></el-option>
+                                        </el-select>
                                     </div>
+                                    <div style="width:20%;float:left;">1</div>
+                                    <div style="width:20%;float:left;">1</div>
+                                    <div style="width:20%;float:left;">1</div>
+                                    <div style="width:20%;float:left;">1</div>
                                 </div>
-                                </div>
-                            </template>
-                        </el-table-column>
-                        </el-table-column>
-                        <el-table-column label="00001公司" align="left"  min-width="100">
-                            <template slot-scope="scope">
-                                <p>{{scope.row.price}}</p>
-                            </template>
-                        </el-table-column>
-                        <el-table-column v-for="(col,idx) in for_abckefgAll" :label="col.name" :key="col.name+idx" min-width="200" align="left" >
-                            <template slot-scope="scope">
-                                <p>{{col.data[scope.row.rowIndex]}}</p><!--[scope.row.rowIndex]-->
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                    <papers ref="paper" @searchTable="search" ></papers>
-                </el-tab-pane>
-                
-            </el-tabs>
+                            </el-col>
+                        </el-row>
+                        <el-table ref="multipleTable" max-height="600" border :span-method="objectSpanMethod" :row-class-name="tableRowClassName"
+                        @cell-mouse-leave="cellMouseLeave" @cell-mouse-enter="cellMouseEnter" :data="tableData" style="width:1230px;margin:0 auto;">
+                            <el-table-column prop="order_number" label="业务类别" align="center" min-width="60"></el-table-column>
+                            <el-table-column label="具体业务" align="left" min-width="100">
+                                <template slot-scope="scope">
+                                    <div >
+                                    <div class="info">
+                                        <div>
+                                            <div>{{scope.row.clothing_name}}</div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            </el-table-column>
+                            <el-table-column label="00001公司" align="left"  min-width="100">
+                                <template slot-scope="scope">
+                                    <p>{{scope.row.price}}</p>
+                                </template>
+                            </el-table-column>
+                            <el-table-column v-for="(col,idx) in otpData" :label="col.name" :key="col.keys" min-width="100" align="left" >
+                                <template slot-scope="scope">
+                                    <p>{{col.data[scope.row.rowIndex]}}</p><!--[scope.row.rowIndex]-->
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                        <papers ref="paper" @searchTable="search" ></papers>
+                    </el-tab-pane>
+                    
+                </el-tabs>
+                <div>
+                    
+                </div>
+            </div>
+            
         
             
         </el-col>
@@ -89,6 +106,8 @@
         </el-col>
         
     </el-row>
+    <!-- 实验antv -->
+    <!-- <mutiple></mutiple> -->
   </div>
 </template>
 
@@ -102,12 +121,13 @@ import chartBoxOne from './chartBoxOne'
 import chartTwo from '@/components/Charts/securitiesChartTwo'
 import chartAndTableDemo from '@/components/Charts/chartAndTableDemo'
 import Peity from 'vue-peity'
+import mutiple from '@/components/antv/mutiple'
 
 // import wTable from '@/components/DragDropComponent'
 export default {
   name: 'companyOto',
   mixins:[datepicker],
-  components: { chartAndTableDemo,papers,Peity },
+  components: { chartAndTableDemo,papers,Peity,mutiple },
   data(){
       return {
           value5:'',
@@ -118,6 +138,13 @@ export default {
               type:'',
               dateSelect:''
           },
+          formLabelAlign: {
+		        relatedParty: '',
+            type:'',
+            autocomplate:[],
+						date:'',
+						date2:''
+		    },
           //tableData:[],
           activeName2: 'second',
           data: [1, 2, 3, 2, 2],
@@ -380,12 +407,21 @@ export default {
         OrderIndexArr: [],
         hoverOrderArr: [],
         addTable:[],
-        for_abckefgAll:[
+        for_abckefgAll:[//摒弃不用了
             {
                 name:'00003公司',
                 data:[12,32,12,32,12,312313,123123,4324,5656,3123,123,3434,212312,123123]
             },
-        ]
+        ],
+        otpData:[
+            {name:'',data:[],sort:0,keys:'asdlfj'},
+            {name:'',data:[],sort:1,keys:'asldfjlaskdf'},
+            {name:'',data:[],sort:2,keys:'asldfkjasldfjkasjdf'},
+            {name:'',data:[],sort:3,keys:'asldfjkasljdf'},
+            {name:'',data:[],sort:4,keys:'asldfjkasljdf123'},
+        ],
+        options4: [],//autocomplate的数据list
+        loading: false,
       }
       
   },
@@ -407,12 +443,36 @@ export default {
       }
   },
   methods:{
-      abc(){
-          this.for_abckefgAll.push(
-            {
-                name:'00004公司',
-                data:[12,32,12,32,12,312313,123123,4324,5656,3123,123,3434,212312,123123]
+      remoteMethod(query) {//input拿到的value
+        const _this = this;
+        if (query !== '') {
+          //console.log(query)
+          this.loading = true;
+          this.$store.dispatch('complate',query).then((data)=>{//请求
+            _this.options4 = data.map(function(obj,idx){
+                return {label:obj.anchor,value:obj.writer}//做数据
             })
+            this.loading = false;
+          })
+        } else {
+          this.options4 = [];
+        }
+      },
+      abc(){
+        //   this.for_abckefgAll.push(
+        //     {
+        //         name:'00004公司',
+        //         data:[12,32,12,32,12,312313,123123,4324,5656,3123,123,3434,212312,123123]
+        //     })
+        for(var i=0;i<this.otpData.length;i++){
+            if(this.otpData[i].data.length==0){
+                console.log(this.otpData[i].data)
+                this.otpData[i].data=[12,32,12,32,12,312313,123123,4324,5656,3123,123,3434,212312,123123]
+                this.otpData[i].name = '对比公司名称'
+                console.log(this.otpData[i].data)
+                break;
+            }
+        }
       },
       getOrderNumber: function () {
         var OrderObj = {}
@@ -642,14 +702,14 @@ export default {
     color:#0285AC;
 }
 
-
-
 </style>
 <style>
     .el-table .success-row {
       background: #f5f7fa;
     }
-
+    .el-table--border td, .el-table--border th {
+        border-right: 1px solid #ebeef5!important;
+    }
 
     /* .el-table__header tr>th {
       background: #f8f8f8 !important;
