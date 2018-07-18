@@ -3,7 +3,7 @@
     <!-- 标题 -->
     <el-row :gutter="20" class="no-margin-tb">
         <el-col :span="14">
-            <h3 class="no-margin" style="line-height:32px;">债券发行地区分布图</h3>
+            <h3 class="no-margin" style="line-height:32px; margin-top:10px !important;">债券发行地区分布图</h3>
         </el-col>
         <el-col :span="6">
         </el-col>

@@ -65,89 +65,99 @@ export default {
         }
         return data;
       };
-      this.chart.setOption({
-        backgroundColor : '#fff',
-				tooltip : {
-					trigger : 'item',
-					formatter: function(a){
-						if(a['data'] != undefined){
-							if(a['data']['value'] != undefined && a['data']['num'] != undefined){
-								return (a['data']['name']  
-	                            +'</br>金额:'+a['data']['value']  
-	                     		+'</br>家数:'+a['data']['num']);
-							}else{
-								return (a['data']['name']  
-	                            +'</br>金额: 0'  
-	                     		+'</br>家数: 0');
-							}   
-						}
-                    },
-                    padding: [10,10,10,10],
-			        textStyle:{
-			        	align:'left'
-			        }
-				},
-				geo : {
-					map : 'china',
-					label : {
-						emphasis : {
-							show : false
-						}
-					},
-					roam : false,
-					selectedMode : 'single',
-					itemStyle : {
-						normal : {
-							areaColor : '#f6efa6',
-							borderColor : '#fff'
-						},
-						emphasis : {
-							areaColor : '#BD3B3A'
-						}
-					},
-				},
-				visualMap : {
-					min : 0,
-					max : 100000,
-					left : 'left',
-					top : 'bottom',
-					text : [ '高', '低' ], // 文本，默认为数值文本
-					calculable : true
-				},
-				series : [ {
-					type : 'effectScatter',
-					
-					coordinateSystem : 'geo',
-					symbolSize : function(val) {
-						return 20;
-					},
-					hoverAnimation : false,
-					label : {
-						normal : {
-							formatter : '{value}',
-							position : 'right',
-							show : true
-						}
-					},
-					itemStyle : {
-						normal : {
-							color : '#f9a183',
-						}
-					},
-					zlevel : 1,
-					roam : false,
-					tooltip : {
-						show : false
-					}
-				}, {
-					name : 'name',
-					type : 'map',
-					geoIndex : 0,
-					// tooltip: {show: false},
-					//data : data[0].dataSum
-					data: this.chartData[0].dataSum
-				}]
-      });
+      try {
+        this.chart.setOption({
+          backgroundColor: "#fff",
+          tooltip: {
+            trigger: "item",
+            formatter: function(a) {
+              if (a["data"] != undefined) {
+                if (
+                  a["data"]["value"] != undefined &&
+                  a["data"]["num"] != undefined
+                ) {
+                  return (
+                    a["data"]["name"] +
+                    "</br>金额:" +
+                    a["data"]["value"] +
+                    "</br>家数:" +
+                    a["data"]["num"]
+                  );
+                } else {
+                  return a["data"]["name"] + "</br>金额: 0" + "</br>家数: 0";
+                }
+              }
+            },
+            padding: [10, 10, 10, 10],
+            textStyle: {
+              align: "left"
+            }
+          },
+          geo: {
+            map: "china",
+            label: {
+              emphasis: {
+                show: false
+              }
+            },
+            roam: false,
+            selectedMode: "single",
+            itemStyle: {
+              normal: {
+                areaColor: "#f6efa6",
+                borderColor: "#fff"
+              },
+              emphasis: {
+                areaColor: "#BD3B3A"
+              }
+            }
+          },
+          visualMap: {
+            min: 0,
+            max: 100000,
+            left: "left",
+            top: "bottom",
+            text: ["高", "低"], // 文本，默认为数值文本
+            calculable: true
+          },
+          series: [
+            {
+              type: "effectScatter",
+
+              coordinateSystem: "geo",
+              symbolSize: function(val) {
+                return 20;
+              },
+              hoverAnimation: false,
+              label: {
+                normal: {
+                  formatter: "{value}",
+                  position: "right",
+                  show: true
+                }
+              },
+              itemStyle: {
+                normal: {
+                  color: "#f9a183"
+                }
+              },
+              zlevel: 1,
+              roam: false,
+              tooltip: {
+                show: false
+              }
+            },
+            {
+              name: "name",
+              type: "map",
+              geoIndex: 0,
+              // tooltip: {show: false},
+              //data : data[0].dataSum
+              data: this.chartData[0].dataSum
+            }
+          ]
+        });
+      } catch (e) {}
     }
   }
 };

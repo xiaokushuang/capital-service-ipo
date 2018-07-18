@@ -39,7 +39,7 @@
     <el-row :gutter="20" class="h100">
         <!-- 图表 -->
         <el-col :span="16" class="chart">
-            <div class="fullDiv_border">
+            <div class="fullDiv_border" style="padding-right:5px;">
                 <chart height='100%' width='100%' :chartData = "getIpo1"></chart>
             </div>
         </el-col>

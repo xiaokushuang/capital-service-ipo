@@ -65,6 +65,7 @@ export default {
         }
         return data;
       };
+      try{
       this.chart.setOption({
         backgroundColor: "#fff",
         tooltip: {
@@ -153,7 +154,8 @@ export default {
             data: this.chartData[0].dataSum
           }
         ]
-      });
+      })
+      } catch(e) {}
     }
   }
 };

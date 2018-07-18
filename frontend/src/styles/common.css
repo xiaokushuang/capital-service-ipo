@@ -144,6 +144,23 @@
 	background: #A0ADB5;
 	color:#fff;
 }
+.el-table thead .greyBg th {
+	background: #e8e8e8;
+    color:#000;
+    padding:0px;
+    border-top: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+.el-table thead .whiteBg th {
+	background: #fff;
+    color:#000;
+    padding:0px;
+    border-right: 1px solid #ddd;
+}
+
+.el-table .greyBg {
+    background: #e8e8e8;
+}
 ::-webkit-scrollbar-track-piece {
 	background-color:#f8f8f8;
 }
@@ -316,3 +333,4 @@ body{
 .el-table__header thead tr>th{
     padding:10px;
 }
+.el-col-2 span{font-family:"Microsoft YaHei";font-size:14px;}

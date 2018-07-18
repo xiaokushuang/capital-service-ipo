@@ -114,51 +114,53 @@ export default {
         }
         return data;
       };
-      this.chart.setOption({
-        title: {
-          text: "",
-          subtext: "",
-          x: "right"
-        },
-        tooltip: {
-          trigger: "item",
-          formatter: function(a) {
-            return (
-              a["data"]["name"] +
-              "</br>家数:" +
-              a["data"]["num"] +
-              "</br>金额:" +
-              a["data"]["value"] +
-              "(" +
-              a["percent"] +
-              "%)"
-            );
+      try {
+        this.chart.setOption({
+          title: {
+            text: "",
+            subtext: "",
+            x: "right"
           },
-          padding: [10, 10, 10, 10],
-          textStyle: {
-            align: "left"
-          }
-        },
-        series: [
-          {
-            name: "",
-            type: "pie",
-            radius: "55%",
-            center: ["50%", "50%"],
-            selectedMode: "single",
-            selectedOffset: 30,
-            clockwise: true,
-            data: this.chartData[0].dataSum,
-            itemStyle: {
-              emphasis: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)"
+          tooltip: {
+            trigger: "item",
+            formatter: function(a) {
+              return (
+                a["data"]["name"] +
+                "</br>家数:" +
+                a["data"]["num"] +
+                "</br>金额:" +
+                a["data"]["value"] +
+                "(" +
+                a["percent"] +
+                "%)"
+              );
+            },
+            padding: [10, 10, 10, 10],
+            textStyle: {
+              align: "left"
+            }
+          },
+          series: [
+            {
+              name: "",
+              type: "pie",
+              radius: "55%",
+              center: ["50%", "50%"],
+              selectedMode: "single",
+              selectedOffset: 30,
+              clockwise: true,
+              data: this.chartData[0].dataSum,
+              itemStyle: {
+                emphasis: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: "rgba(0, 0, 0, 0.5)"
+                }
               }
             }
-          }
-        ]
-      });
+          ]
+        });
+      } catch (e) {}
     }
   }
 };

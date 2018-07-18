@@ -56,6 +56,28 @@ export const constantRouterMap = [
       meta: { title: 'ipo数据概览', icon: 'ipoDataOverview', noCache: true }
     }]
   },
+  {
+    path: '/ipoRefinance',
+    component: Layout,
+    redirect: '/ipoRefinance/ipoDetailed',
+    children: [{
+      path: 'ipoDetailed',
+      component: _import('ipoRefinance/ipoDetailed'),
+      name: 'ipoDetailed',
+      meta: { title: 'ipo在审详细', icon: 'ipoDetailed', noCache: true }
+    }]
+  },
+  {
+    path: '/ipoRefinance',
+    component: Layout,
+    redirect: '/ipoRefinance/refinancing',
+    children: [{
+      path: 'refinancing',
+      component: _import('ipoRefinance/refinancing'),
+      name: 'refinancing',
+      meta: { title: '再融资', icon: 'refinancing', noCache: true }
+    }]
+  },
   {// financeStatistics/financeSearch
     path: '',
     component: Layout,

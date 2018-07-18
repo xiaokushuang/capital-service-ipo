@@ -65,20 +65,27 @@ export default {
       var arrNum = [];
       this.chartData.map(function(obj) {
         arrDate.push(obj.date);
-        if(obj.dataSum.length == 1){					
-					arr.push(obj.dataSum[0].value);
-					arrNum.push(obj.dataSum[0].num);
-					
-					var str = '<tr><td>'+obj.date+'</td><td>'+obj.dataSum[0].value+'</td><td>'+obj.dataSum[0].num+'</td></tr>'
-					// $('#bondTab1').append(str);
-				
-				}else{
-					arr.push(0);
-					arrNum.push(0);
-					
-					var str = '<tr><td>'+obj.date+'</td><td>0.0000</td><td>0</td></tr>'
-					// $('#bondTab1').append(str);
-				}
+        if (obj.dataSum.length == 1) {
+          arr.push(obj.dataSum[0].value);
+          arrNum.push(obj.dataSum[0].num);
+
+          var str =
+            "<tr><td>" +
+            obj.date +
+            "</td><td>" +
+            obj.dataSum[0].value +
+            "</td><td>" +
+            obj.dataSum[0].num +
+            "</td></tr>";
+          // $('#bondTab1').append(str);
+        } else {
+          arr.push(0);
+          arrNum.push(0);
+
+          var str =
+            "<tr><td>" + obj.date + "</td><td>0.0000</td><td>0</td></tr>";
+          // $('#bondTab1').append(str);
+        }
       });
 
       this.chart = echarts.init(document.getElementById(this.id));
@@ -89,6 +96,7 @@ export default {
         }
         return data;
       })();
+      try{
       this.chart.setOption({
         tooltip: {
           x: "left",
@@ -174,6 +182,7 @@ export default {
           }
         ]
       });
+      } catch(e) {}
     }
   }
 };

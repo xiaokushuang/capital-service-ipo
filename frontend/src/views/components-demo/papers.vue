@@ -52,7 +52,15 @@ export default {
     total:{
         type:Number,
         default:10
+    },
+    length1:{
+        type:Number,
+        default:10
     }
+
+  },
+  mounted(){
+      this.submitData.length = this.length1
   },
   computed:{
         fromPaper(){//从多少条开始 
