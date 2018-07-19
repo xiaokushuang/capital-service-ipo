@@ -57,7 +57,7 @@
             <!-- <el-input size='small full' v-model="formLabelAlign.input2"  placeholder="请输入公司代码"></el-input> -->
             <el-autocomplete size='small full' class="inline-input" v-model="state2" 
             :fetch-suggestions="querySearch" 
-            placeholder="请输入公司代码、简称、拼音" :trigger-on-focus="true" 
+            placeholder="请输入公司代码、简称、拼音" :trigger-on-focus="false" 
             @select="handleSelect">
               </el-autocomplete>
         </el-col>
@@ -185,7 +185,7 @@ export default {
     },
     selectCodeValue() {
       let param = {
-        start: 0,
+        // start: 0,
         length: 20,
         orderByName: "financeDate",
         orderByOrder: "asc",
@@ -204,9 +204,9 @@ export default {
       // data = this.getSearchIpo.data;
       // console.log("获取table数据", getSearchIpo);
       let params = {
-        fromPaper: data.fromPaper - 1,
-        start: 0,
-        length: data.length,
+        startRow: data.fromPaper - 1,
+        // start: 0,
+        pagesize: data.length,
         orderByName: "financeDate",
         orderByOrder: "asc",
         condition: {
@@ -233,9 +233,9 @@ export default {
         city: this.formLabelAlign.type
       };
       let params = {
-        fromPaper: data.fromPaper - 1,
-        start: 0,
-        length: data.length,
+        startRow: data.fromPaper - 1,
+        // start: 0,
+        pagesize: data.length,
         orderByName: "financeDate",
         orderByOrder: "asc",
         condition: {
@@ -259,7 +259,7 @@ export default {
     dataGet() {
       let param = {
         start: 0,
-        length: 20,
+        pagesize: 20,
         orderByName: "financeDate",
         orderByOrder: "asc",
         condition: {
