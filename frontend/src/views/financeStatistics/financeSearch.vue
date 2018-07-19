@@ -186,7 +186,7 @@ export default {
     selectCodeValue() {
       let param = {
         // start: 0,
-        length: 20,
+        pageSize: 20,
         orderByName: "financeDate",
         orderByOrder: "asc",
         condition: {
@@ -206,7 +206,7 @@ export default {
       let params = {
         startRow: data.fromPaper - 1,
         // start: 0,
-        pagesize: data.length,
+        pageSize: data.length,
         orderByName: "financeDate",
         orderByOrder: "asc",
         condition: {
@@ -235,7 +235,7 @@ export default {
       let params = {
         startRow: data.fromPaper - 1,
         // start: 0,
-        pagesize: data.length,
+        pageSize: data.length,
         orderByName: "financeDate",
         orderByOrder: "asc",
         condition: {
@@ -258,8 +258,8 @@ export default {
     // 表格接口
     dataGet() {
       let param = {
-        start: 0,
-        pagesize: 20,
+        startRow: 0,
+        pageSize: 20,
         orderByName: "financeDate",
         orderByOrder: "asc",
         condition: {
@@ -338,8 +338,8 @@ export default {
       this.$refs.selectCheckbox.handleClose(); //关闭下拉框
       this.$refs.selectCheckbox1.handleClose();
       let param = {
-        start: 0,
-        length: 20,
+        startRow: 0,
+        pageSize: 20,
         orderByName: "financeDate",
         orderByOrder: "asc",
         condition: {
@@ -367,8 +367,8 @@ export default {
       })
         .then(() => {
           let param = {
-            start: 0,
-            length: 20,
+            startRow: 0,
+            pageSize: 20,
             orderByName: "financeDate",
             orderByOrder: "asc",
             condition: {
