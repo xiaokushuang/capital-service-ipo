@@ -233,8 +233,7 @@ export default {
         city: this.formLabelAlign.type
       };
       let params = {
-        startRow: data.fromPaper - 1,
-        // start: 0,
+        startRow: data.startRow - 1,
         pageSize: data.length,
         orderByName: "financeDate",
         orderByOrder: "asc",
