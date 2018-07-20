@@ -127,7 +127,7 @@ public class FinanceDataController extends BaseController{
         condition.put(Constant.SEARCH_CONDIATION, conditionsStr);
 
         QueryInfo<Map<String, String>> query = commonSearch(condition);
-        if (StringUtils.isNotEmpty(queryInfo.getOrderByName())) {
+        /*if (StringUtils.isNotEmpty(queryInfo.getOrderByName())) {
             switch (queryInfo.getOrderByName()) {
                 case "financeDate":
                     query.setOrderByName("finance_startdate_dt");
@@ -141,8 +141,8 @@ public class FinanceDataController extends BaseController{
                 default:
                     break;
             }
-        }
-        //query.setOrderByName(queryInfo.getOrderByName());
+        }*/
+        query.setOrderByName("finance_startdate_dt");
         query.setOrderByOrder(queryInfo.getOrderByOrder());
         query.setPageSize(queryInfo.getPageSize());
         query.setStartRow(queryInfo.getStartRow());
