@@ -127,23 +127,28 @@ public class FinanceDataController extends BaseController{
         condition.put(Constant.SEARCH_CONDIATION, conditionsStr);
 
         QueryInfo<Map<String, String>> query = commonSearch(condition);
-        /*if (StringUtils.isNotEmpty(queryInfo.getOrderByName())) {
+        String orderByName = "finance_startdate_dt";
+        String orderByOrder = "desc";
+        if (StringUtils.isNotEmpty(queryInfo.getOrderByName())) {
             switch (queryInfo.getOrderByName()) {
                 case "financeDate":
-                    query.setOrderByName("finance_startdate_dt");
+                    orderByName = "finance_startdate_dt";
                     break;
                 case "securityName":
-                    query.setOrderByName("finance_securityname_t");
+                    orderByName = "finance_securityname_t";
                     break;
                 case "sumFina":
-                    query.setOrderByName("finance_sumfina_d");
+                    orderByName = "finance_sumfina_d";
                     break;
                 default:
                     break;
             }
-        }*/
-        query.setOrderByName("finance_startdate_dt");
-        query.setOrderByOrder(queryInfo.getOrderByOrder());
+        }
+        if (StringUtils.isNotEmpty(queryInfo.getOrderByOrder())) {
+            orderByOrder = queryInfo.getOrderByOrder();
+        }
+        query.setOrderByName(orderByName);
+        query.setOrderByOrder(orderByOrder);
         query.setPageSize(queryInfo.getPageSize());
         query.setStartRow(queryInfo.getStartRow());
         FacetResult<FinanceStatisticsIndexDto> facetResult = searchServer.searchWithFacet(
