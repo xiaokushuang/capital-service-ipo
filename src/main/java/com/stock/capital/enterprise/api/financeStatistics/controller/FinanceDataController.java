@@ -91,7 +91,7 @@ public class FinanceDataController extends BaseController{
      */
     @RequestMapping(value = "financeSearchData")
     @ResponseBody
-    public JsonResponse<Map<String, Object>> financeSearchApi(@RequestBody QueryInfo<FinanceParamDto> queryInfo) {
+    public JsonResponse<Page<FinanceStatisticsIndexDto>> financeSearchApi(@RequestBody QueryInfo<FinanceParamDto> queryInfo) {
         Map<String, String> condition = Maps.newHashMap();
         String conditionsStr = "index_type_t: \"finance\"";
 
@@ -135,7 +135,7 @@ public class FinanceDataController extends BaseController{
                     orderByName = "finance_startdate_dt";
                     break;
                 case "securityName":
-                    orderByName = "finance_securityname_t";
+                    orderByName = "finance_securitycode_t";
                     break;
                 case "sumFina":
                     orderByName = "finance_sumfina_d";
@@ -153,11 +153,11 @@ public class FinanceDataController extends BaseController{
         query.setStartRow(queryInfo.getStartRow());
         FacetResult<FinanceStatisticsIndexDto> facetResult = searchServer.searchWithFacet(
                 Global.FINANCE_INDEX_NAME, query, FinanceStatisticsIndexDto.class);
-        Map<String, Object> result = Maps.newHashMap();
-        result.put("total", facetResult.getPage().getTotal());
-        result.put("data",facetResult.getPage().getData());
-        JsonResponse<Map<String, Object>> response = new JsonResponse<>();
-        response.setResult(result);
+        Page<FinanceStatisticsIndexDto> page = new Page<>();
+        page.setData(facetResult.getPage().getData());
+        page.setTotal(facetResult.getPage().getTotal());
+        JsonResponse<Page<FinanceStatisticsIndexDto>> response = new JsonResponse<>();
+        response.setResult(page);
         return response;
     }
 
