@@ -157,12 +157,12 @@ table tbody tr td.left {
                     <label class="control-label col-md-2 no-padding-r">项目公司所属行业</label>
                     <div class="col-md-3 no-padding-r" style="margin-left:-50px;">
                         <input id="industry" json-data='${industrySelectList}' type="text" class="form-control t-select" placeholder="请选择行业" style="background-color: #fff;"/> 
-                        <input type="hidden" name="industry" />
+                        <input type="hidden" name="industry" id="industrySelect"/>
                     </div>
                     <label class="control-label col-md-2 no-padding-r">项目公司注册地</label>
                     <div class="col-md-3 no-padding-r" style="margin-left:-60px;">
                         <input id="registAddr" json-data='${areaList}' type="text" class="form-control t-select" placeholder="请选择注册地" style="background-color: #fff;"/> 
-                        <input type="hidden" name="registAddr" />
+                        <input type="hidden" name="registAddr" id="registAddrSelect"/>
                     </div>
 <!--                     <div class="col-md-3 no-padding-r" align="right"> -->
 <!--                         <span id="clearAllOption" class="btn btn-4 btn-bny">清空条件</span> -->

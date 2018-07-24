@@ -400,6 +400,8 @@ public class StatisticsService extends BaseService {
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
         parameters.add("label",statisticsParamDto.getLabel());
         parameters.add("quasiListedLand",statisticsParamDto.getQuasiListedLand());
+        parameters.add("industry",statisticsParamDto.getIndustry());
+        parameters.add("registAddr",statisticsParamDto.getRegistAddr());
         String url = apiBaseUrl + "regulatory_statistics/viewCommendDetail";
         List<StatisticsResultDto> list = restClient.post(url, parameters, responseType).getResult();
         return list;
@@ -411,6 +413,8 @@ public class StatisticsService extends BaseService {
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
         parameters.add("label",statisticsParamDto.getLabel());
         parameters.add("quasiListedLand",statisticsParamDto.getQuasiListedLand());
+        parameters.add("industry",statisticsParamDto.getIndustry());
+        parameters.add("registAddr",statisticsParamDto.getRegistAddr());
         String url = apiBaseUrl + "regulatory_statistics/viewLawDetail";
         List<StatisticsResultDto> list = restClient.post(url, parameters, responseType).getResult();
         return list;
@@ -422,6 +426,8 @@ public class StatisticsService extends BaseService {
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
         parameters.add("label",statisticsParamDto.getLabel());
         parameters.add("quasiListedLand",statisticsParamDto.getQuasiListedLand());
+        parameters.add("industry",statisticsParamDto.getIndustry());
+        parameters.add("registAddr",statisticsParamDto.getRegistAddr());
         String url = apiBaseUrl + "regulatory_statistics/viewAccountDetail";
         List<StatisticsResultDto> list = restClient.post(url, parameters, responseType).getResult();
         return list;
@@ -486,7 +492,15 @@ public class StatisticsService extends BaseService {
                 cell.setCellValue(comDtos.get(i).getBelongTrade());
                 cell.setCellStyle(conCenterStyle);
                 cell = row.createCell(3);
-                cell.setCellValue(comDtos.get(i).getQuasiListedLand());
+                if("00".equals(comDtos.get(i).getQuasiListedLand())){
+                	cell.setCellValue("上海证券交易所");
+                }else if("01".equals(comDtos.get(i).getQuasiListedLand())){
+                	cell.setCellValue("深圳证券交易所(主板)");
+                }else if("02".equals(comDtos.get(i).getQuasiListedLand())){
+                	cell.setCellValue("深圳证券交易所(中小板)");
+                }else if("03".equals(comDtos.get(i).getQuasiListedLand())){
+                	cell.setCellValue("深圳证券交易所(创业板)");
+                }
                 cell.setCellStyle(conCenterStyle);
                 cell = row.createCell(4);
                 cell.setCellValue(comDtos.get(i).getRecommendOrganization());
@@ -498,10 +512,26 @@ public class StatisticsService extends BaseService {
                 cell.setCellValue(comDtos.get(i).getLawFirm());
                 cell.setCellStyle(conCenterStyle);
                 cell = row.createCell(7);
-                cell.setCellValue(comDtos.get(i).getApproveStatus());
+                if("00".equals(comDtos.get(i).getApproveStatus())){
+                	cell.setCellValue("已受理");
+                }else if("01".equals(comDtos.get(i).getApproveStatus())){
+                	cell.setCellValue("已反馈");
+                }else if("02".equals(comDtos.get(i).getApproveStatus())){
+                	cell.setCellValue("预先披露更新");
+                }else if("03".equals(comDtos.get(i).getApproveStatus())){
+                	cell.setCellValue("已通过发审会");
+                }else if("04".equals(comDtos.get(i).getApproveStatus())){
+                	cell.setCellValue("中止审查");
+                }else if("05".equals(comDtos.get(i).getApproveStatus())){
+                	cell.setCellValue("终止审查");
+                }
                 cell.setCellStyle(conCenterStyle);
                 cell = row.createCell(8);
-                cell.setCellValue(comDtos.get(i).getHasedRandomInspection());
+                if("1".equals(comDtos.get(i).getHasedRandomInspection())){
+                	cell.setCellValue("是");
+                }else if("0".equals(comDtos.get(i).getHasedRandomInspection())){
+                	cell.setCellValue("否");
+                }
                 cell.setCellStyle(conCenterStyle);
             }
         }

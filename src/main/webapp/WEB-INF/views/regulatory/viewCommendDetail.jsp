@@ -52,8 +52,8 @@ table tbody tr td.left {
             <input type="button" id="exportDetail" class="btn btn-6 btn-default" style="margin-top: -5px;" value="导出excel">
         </div>
         <form:form modelAttribute="statisticsParamDto" id="statisticsParamForm">
-<%--             <form:hidden path="registAddr"/> --%>
-<%--             <form:hidden path="lastUpadteTime"/> --%>
+            <form:hidden path="registAddr"/>
+            <form:hidden path="industry"/>
             <form:hidden path="quasiListedLand"/>
             <form:hidden path="label"/>
         </form:form>

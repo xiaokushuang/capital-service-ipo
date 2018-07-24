@@ -4,8 +4,8 @@ $(document).ready(function() {
 	$("#exportDetail").click(function() {
 		var param = "&quasiListedLand="+$('#quasiListedLand').val()
 		+"&label="+$('#label').val()
-//		+"&belongsPlate="+$('#belongsPlate').val()
-//		+"&approveStatus="+$('#approveStatus').val()
+		+"&industry="+$('#industry').val()
+		+"&registAddr="+$('#registAddr').val()
 		+"&access_token="+accessToken;
 		window.open(contextPath + "/regulatory_statistics/ipoCommendDetailExport?flag=3"+param);
 	});

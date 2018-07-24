@@ -519,15 +519,15 @@ function historyChartSetting(grabUpdateTime,hzbCount,zxbCount,cybCount,totalCoun
 
 
 
-function hzbCountAllInfo(label,quasiListedLand) {
-	debugger;
-	var data = {
-			label : label,
-			quasiListedLand : quasiListedLand
-	};
-	var accessToken = $('#tokenValue').val();
-	popWin(label, "/regulatory_statistics/viewCommendDetail?access_token="+accessToken, data, "95%","98%");
-}
+//function hzbCountAllInfo(label,quasiListedLand) {
+//	debugger;
+//	var data = {
+//			label : label,
+//			quasiListedLand : quasiListedLand
+//	};
+//	var accessToken = $('#tokenValue').val();
+//	popWin(label, "/regulatory_statistics/viewCommendDetail?access_token="+accessToken, data, "95%","98%");
+//}
 
 /*--------------保荐机构------------------*/
 //查询当前保荐机构下所有沪主板公司
@@ -568,9 +568,13 @@ function renderColumnTotalCount(data, type, row, meta){
 
 function viewCommendDetail(label,quasiListedLand) {
 	debugger;
+	var industry = $("#industrySelect").val();
+	var registAddr = $("#registAddrSelect").val();
 	var data = {
 			label : label,
-			quasiListedLand : quasiListedLand
+			quasiListedLand : quasiListedLand,
+			industry : industry,
+			registAddr : registAddr
 	};
 	var accessToken = $('#tokenValue').val();
 	popWin(label, "/regulatory_statistics/viewCommendDetail?access_token="+accessToken, data, "95%","98%");
@@ -615,9 +619,13 @@ function renderColumnLawTotalCount(data, type, row, meta){
 
 function viewLawDetail(label,quasiListedLand) {
 	debugger;
+	var industry = $("#industrySelect").val();
+	var registAddr = $("#registAddrSelect").val();
 	var data = {
 			label : label,
-			quasiListedLand : quasiListedLand
+			quasiListedLand : quasiListedLand,
+			industry : industry,
+			registAddr : registAddr
 	};
 	var accessToken = $('#tokenValue').val();
 	popWin(label, "/regulatory_statistics/viewLawDetail?access_token="+accessToken, data, "95%","98%");
@@ -661,9 +669,14 @@ function renderColumnAccountTotalCount(data, type, row, meta){
 
 function viewAccountDetail(label,quasiListedLand) {
 	debugger;
+	var industry = $("#industrySelect").val();
+	var registAddr = $("#registAddrSelect").val();
 	var data = {
 			label : label,
-			quasiListedLand : quasiListedLand
+			quasiListedLand : quasiListedLand,
+			industry : industry,
+			registAddr : registAddr
+			
 	};
 	var accessToken = $('#tokenValue').val();
 	popWin(label, "/regulatory_statistics/viewAccountDetail?access_token="+accessToken, data, "95%","98%");
