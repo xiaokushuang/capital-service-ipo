@@ -1,4 +1,4 @@
-package com.stock.capital.enterprise.api.regulatory.dto;
+package com.stock.capital.enterprise.regulatory.dto;
 
 import java.io.Serializable;
 
@@ -42,6 +42,7 @@ public class ViolationDetailPersonDto implements Serializable {
     
     private String punishLevel;
     //by panqigeng bug 5237 END
+
     public String getId() {
         return id;
     }

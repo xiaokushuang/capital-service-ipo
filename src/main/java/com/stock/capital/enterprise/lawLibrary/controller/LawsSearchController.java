@@ -8,8 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import com.stock.capital.enterprise.api.regulatory.dto.ViolationParamDto;
-import com.stock.capital.enterprise.api.regulatory.service.ViolationService;
+import com.stock.capital.enterprise.regulatory.dto.ViolationParamDto;
+import com.stock.capital.enterprise.regulatory.service.ViolationService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

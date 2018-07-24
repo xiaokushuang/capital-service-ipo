@@ -1,10 +1,10 @@
-package com.stock.capital.enterprise.api.regulatory.dto;
+package com.stock.capital.enterprise.regulatory.dto;
 
 import java.io.Serializable;
 
-public class StatisticsCompanyDto implements Serializable{
+public class StatisticsCompanyDto implements Serializable {
 
-    private static final long serialVersionUID = 6786653836833856457L;
+    private static final long serialVersionUID = -3438195748656635789L;
     
     private String id;
     

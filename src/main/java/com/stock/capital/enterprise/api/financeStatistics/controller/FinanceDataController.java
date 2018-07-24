@@ -3,13 +3,13 @@ package com.stock.capital.enterprise.api.financeStatistics.controller;
 import com.google.common.collect.Maps;
 import com.stock.capital.enterprise.api.financeStatistics.dto.FinanceParamDto;
 import com.stock.capital.enterprise.api.financeStatistics.dto.FinanceStatisticsIndexDto;
-import com.stock.capital.enterprise.api.regulatory.service.ViolationService;
 import com.stock.capital.enterprise.common.constant.Global;
 import com.stock.capital.enterprise.api.financeStatistics.service.FinanceDataService;
 import com.stock.capital.enterprise.common.entity.Code;
 import com.stock.capital.enterprise.common.service.CommonService;
 import com.stock.capital.enterprise.api.financeStatistics.dto.FinanceDataDto;
 import com.stock.capital.enterprise.api.financeStatistics.dto.Param;
+import com.stock.capital.enterprise.regulatory.service.ViolationService;
 import com.stock.core.Constant;
 import com.stock.core.controller.BaseController;
 import com.stock.core.dto.FacetResult;
@@ -91,7 +91,7 @@ public class FinanceDataController extends BaseController{
      */
     @RequestMapping(value = "financeSearchData")
     @ResponseBody
-    public JsonResponse<Map<String, Object>> financeSearchApi(@RequestBody QueryInfo<FinanceParamDto> queryInfo) {
+    public JsonResponse<Page<FinanceStatisticsIndexDto>> financeSearchApi(@RequestBody QueryInfo<FinanceParamDto> queryInfo) {
         Map<String, String> condition = Maps.newHashMap();
         String conditionsStr = "index_type_t: \"finance\"";
 
@@ -127,32 +127,37 @@ public class FinanceDataController extends BaseController{
         condition.put(Constant.SEARCH_CONDIATION, conditionsStr);
 
         QueryInfo<Map<String, String>> query = commonSearch(condition);
-        /*if (StringUtils.isNotEmpty(queryInfo.getOrderByName())) {
+        String orderByName = "finance_startdate_dt";
+        String orderByOrder = "desc";
+        if (StringUtils.isNotEmpty(queryInfo.getOrderByName())) {
             switch (queryInfo.getOrderByName()) {
                 case "financeDate":
-                    query.setOrderByName("finance_startdate_dt");
+                    orderByName = "finance_startdate_dt";
                     break;
                 case "securityName":
-                    query.setOrderByName("finance_securityname_t");
+                    orderByName = "finance_securitycode_t";
                     break;
                 case "sumFina":
-                    query.setOrderByName("finance_sumfina_d");
+                    orderByName = "finance_sumfina_d";
                     break;
                 default:
                     break;
             }
-        }*/
-        query.setOrderByName("finance_startdate_dt");
-        query.setOrderByOrder(queryInfo.getOrderByOrder());
+        }
+        if (StringUtils.isNotEmpty(queryInfo.getOrderByOrder())) {
+            orderByOrder = queryInfo.getOrderByOrder();
+        }
+        query.setOrderByName(orderByName);
+        query.setOrderByOrder(orderByOrder);
         query.setPageSize(queryInfo.getPageSize());
         query.setStartRow(queryInfo.getStartRow());
         FacetResult<FinanceStatisticsIndexDto> facetResult = searchServer.searchWithFacet(
                 Global.FINANCE_INDEX_NAME, query, FinanceStatisticsIndexDto.class);
-        Map<String, Object> result = Maps.newHashMap();
-        result.put("total", facetResult.getPage().getTotal());
-        result.put("data",facetResult.getPage().getData());
-        JsonResponse<Map<String, Object>> response = new JsonResponse<>();
-        response.setResult(result);
+        Page<FinanceStatisticsIndexDto> page = new Page<>();
+        page.setData(facetResult.getPage().getData());
+        page.setTotal(facetResult.getPage().getTotal());
+        JsonResponse<Page<FinanceStatisticsIndexDto>> response = new JsonResponse<>();
+        response.setResult(page);
         return response;
     }
 

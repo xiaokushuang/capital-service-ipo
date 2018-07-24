@@ -1,4 +1,4 @@
-package com.stock.capital.enterprise.api.regulatory.dto;
+package com.stock.capital.enterprise.regulatory.dto;
 
 import java.io.Serializable;
 import java.util.List;
@@ -26,9 +26,10 @@ public class ViolationDetailDto implements Serializable {
     private String liveNodeLabel;
 
     private String adoptCondition;
+    
     //lanyuxin 2017-08-14 begin
     private String contentNohtml;
-    
+
     public String getContentNohtml() {
 		return contentNohtml;
 	}
@@ -36,15 +37,9 @@ public class ViolationDetailDto implements Serializable {
 	public void setContentNohtml(String contentNohtml) {
 		this.contentNohtml = contentNohtml;
 	}
-   
- 
 	//lanyuxin 2017-08-14 end
 
- 
-
-	
-
-	private List<ViolationDetailNodeDto> processNodeList;
+    private List<ViolationDetailNodeDto> processNodeList;
 
     private List<ViolationDetailPersonDto> personList;
 
