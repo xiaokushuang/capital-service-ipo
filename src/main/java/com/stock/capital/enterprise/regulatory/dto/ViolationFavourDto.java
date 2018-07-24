@@ -1,4 +1,4 @@
-package com.stock.capital.enterprise.api.regulatory.dto;
+package com.stock.capital.enterprise.regulatory.dto;
 
 import java.io.Serializable;
 
@@ -22,13 +22,21 @@ public class ViolationFavourDto implements Serializable {
 
     private String punishTypeLabel;
 
-    private String updateTime;
-
     private String releaseTime;
 
     private String favourTime;
+    
+  //lanyuxin 2017-08-01 begin  
+    private String content;
 
-    private String url;
+    public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+   //lanyuxin 2017-08-01 end
 
     public String getId() {
         return id;
@@ -108,22 +116,6 @@ public class ViolationFavourDto implements Serializable {
 
     public void setFavourTime(String favourTime) {
         this.favourTime = favourTime;
-    }
-
-    public String getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
 }

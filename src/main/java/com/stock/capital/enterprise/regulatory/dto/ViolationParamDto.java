@@ -1,4 +1,4 @@
-package com.stock.capital.enterprise.api.regulatory.dto;
+package com.stock.capital.enterprise.regulatory.dto;
 
 import java.io.Serializable;
 import java.util.List;

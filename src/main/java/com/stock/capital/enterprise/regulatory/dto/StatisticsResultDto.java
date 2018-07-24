@@ -1,4 +1,4 @@
-package com.stock.capital.enterprise.api.regulatory.dto;
+package com.stock.capital.enterprise.regulatory.dto;
 
 import java.io.Serializable;
 
@@ -37,11 +37,11 @@ public class StatisticsResultDto implements Serializable {
      * 比例
      */
     private double percent;
-    
     /**
      * 注册地
      */
     private String registAddr;
+    
     /**
      * 已受理
      */
@@ -68,6 +68,7 @@ public class StatisticsResultDto implements Serializable {
      * 已通过发审会
      */
     private double passed;
+    
     /**
      * 合计
      */
@@ -80,21 +81,6 @@ public class StatisticsResultDto implements Serializable {
     private String weekStopYet;//最近一周 终止审查
     
     private String stopYet;//终止审查
-    
-    //需求4439 2018/5/24 by liuh Start
-    /**
-     * 行业
-     */
-    private String belongTrade;
-    
-    public String getBelongTrade() {
-        return belongTrade;
-    }
-
-    public void setBelongTrade(String belongTrade) {
-        this.belongTrade = belongTrade;
-    }
-    //需求4439 2018/5/24 by liuh end
 
     public String getValue() {
         return value;

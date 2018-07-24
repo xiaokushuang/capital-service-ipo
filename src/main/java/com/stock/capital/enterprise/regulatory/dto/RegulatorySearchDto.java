@@ -1,16 +1,19 @@
-package com.stock.capital.enterprise.api.regulatory.dto;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
+package com.stock.capital.enterprise.regulatory.dto;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class RegulateinfoManageDto implements Serializable {
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+public class RegulatorySearchDto implements Serializable {
 
     private static final long serialVersionUID = -5283286219691106934L;
 
     private String id;
+
+    private String regulatoryId;
 
     private String infoTitle;
 
@@ -27,6 +30,10 @@ public class RegulateinfoManageDto implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date releaseTime;
+    
+    private String updateTime;
+
+    private Boolean isFavour;
 
     public String getId() {
         return id;
@@ -34,6 +41,14 @@ public class RegulateinfoManageDto implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getRegulatoryId() {
+        return regulatoryId;
+    }
+
+    public void setRegulatoryId(String regulatoryId) {
+        this.regulatoryId = regulatoryId;
     }
 
     public String getInfoTitle() {
@@ -90,6 +105,22 @@ public class RegulateinfoManageDto implements Serializable {
 
     public void setReleaseTime(Date releaseTime) {
         this.releaseTime = releaseTime;
+    }
+
+    public Boolean getIsFavour() {
+        return isFavour;
+    }
+
+    public void setIsFavour(Boolean isFavour) {
+        this.isFavour = isFavour;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
     }
 
 }
