@@ -132,7 +132,7 @@
 	padding:10px 0!important;
 }
 .el-input--small .el-input__inner{
-	height: 32px!important;
+	height: 30px!important;
 }
 .container{
 	padding:10px;
@@ -184,7 +184,7 @@
 }
 .el-button {
     display: inline-block;
-    padding: 6px 12px;
+    padding: 5px 12px;
     margin-bottom: 0;
     font-size: 14px;
     font-weight: 400;
@@ -334,3 +334,4 @@ body{
     padding:10px;
 }
 .el-col-2 span{font-family:"Microsoft YaHei";font-size:14px;}
+

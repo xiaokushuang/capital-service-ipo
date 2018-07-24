@@ -34,13 +34,19 @@ module.exports = {
         pathRewrite:{
           '^/enterprise/':'/'
         }
-    }
+    },
+    '/capital-cloud-api/':{
+        target:'localhost:8082',//'http://192.168.1.22:9080',
+        pathRewrite:{
+          '^/capital-cloud-api/':'/capital-cloud-api/'
+        }
+    },
 
     },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8082, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 9527, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: false,

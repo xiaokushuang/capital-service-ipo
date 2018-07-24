@@ -2,7 +2,8 @@ import request from '@/utils/request'
 
 export function companyByCode(param) {
   return request({
-    url: '192.168.1.22:8082/capital-cloud-api/company_info/portCloudCompanyByCode',
+    url: '/capital-cloud-api/company_info/portCloudCompanyInfo',
+    // url: '/capital-cloud-api/home/companyQuery',
     method: 'post',
     data: param
   })
@@ -161,7 +162,7 @@ export function testto(info) {
 
 export function financeSearchData(param) {
   return request({
-    url: "/ipo/financeSearchData/financeSearchData",
+    url: '/ipo/financeSearchData/financeSearchData',
     method: 'post',
     params: param
   })

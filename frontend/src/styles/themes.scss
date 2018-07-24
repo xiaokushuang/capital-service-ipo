@@ -1,0 +1,84 @@
+
+
+.theme-silver { //默认
+    background:#fff;
+    .nav-tabs>li.active>a,.theme-silver .nav-tabs>li.active>a:focus,.theme-silver .nav-tabs>li.active>a:hover {
+        font-size:14px;
+        color:#0087a7;
+        background:#f3f3f3;
+        border-bottom:2px solid #009ac0
+    }
+    .nav_tamp>li.hoverfor a{
+        background:#2A303C;
+    }
+    .nav_tamp>.enter>a, .nav_tamp>.enter>a>i{
+        color:#5DDEFD;
+    }
+}
+
+.theme-default { //黑色
+    background:#fff;
+    .nav-tabs>li.active>a,.theme-default .nav-tabs>li.active>a:focus,.theme-default .nav-tabs>li.active>a:hover {
+        background:#1d89cf;
+        border-bottom:2px solid #1a7ab9
+    }
+    .nav_tamp>.enter>a, .nav_tamp>.enter>a>i{
+        color:#389EE1;
+    }
+    .second-menu a, .three-list a:hover{
+        color:#389EE1;
+    }
+}
+.theme-asphalt { //青色
+    background:#fff;
+    .nav-tabs>li.active>a,.theme-asphalt .nav-tabs>li.active>a:focus,.theme-asphalt .nav-tabs>li.active>a:hover {
+        background:#52bdb4;
+        border-bottom:2px solid #44b2a8
+    }
+    .nav_tamp>.enter>a, .nav_tamp>.enter>a>i{
+        color:#4DD6BB;
+    }
+    .second-menu a, .three-list a:hover{
+        color:#4DD6BB;
+    }
+}
+.theme-purple-hills { //紫色
+    background:#fff;
+    .nav-tabs>li.active>a,.theme-purple-hills .nav-tabs>li.active>a:focus,.theme-purple-hills .nav-tabs>li.active>a:hover {
+        background:#857198;
+        border-bottom:2px solid #78658b
+    }
+    .nav_tamp>.enter>a, .nav_tamp>.enter>a>i{
+        color:#A88EE2;
+    }
+    .second-menu a, .three-list a:hover{
+        color:#A88EE2;
+    }
+}
+.theme-dust { //橘色
+    background:#fff;
+    .nav-tabs>li.active>a,.theme-dust .nav-tabs>li.active>a:focus,.theme-dust .nav-tabs>li.active>a:hover {
+        background:#7a6f6f;
+        border-bottom:2px solid #6d6363
+    }
+    .nav_tamp>.enter>a, .nav_tamp>.enter>a>i{
+        color:#f05d3d;
+    }
+    .second-menu a, .three-list a:hover{
+        color:#f05d3d;
+    }
+}
+.theme-frost { //蓝色
+    background:#fff;
+    .nav-tabs>li.active>a,.theme-frost .nav-tabs>li.active>a:focus,.theme-frost .nav-tabs>li.active>a:hover {
+        background:#3daacf;
+        border-bottom:2px solid #309dc2
+    }
+    .nav_tamp>.enter>a, .nav_tamp>.enter>a>i{
+        color:#50c6ee;
+    }
+    .second-menu a, .three-list a:hover{
+        color:#50c6ee;
+    }
+}
+

@@ -27,10 +27,10 @@
             </el-select>
         </el-col>
         <el-col :span='8'>
-          <el-select ref="selectCheckbox" v-model="formLabelAlign.plate" placeholder="市场板块" 
+          <el-select class="Hselect" ref="selectCheckbox" v-model="formLabelAlign.plate" placeholder="市场板块" 
           size='small full' @visible-change="calls">
             <el-option :label="formLabelAlign.plate" :value="formLabelAlign.plate">
-                <el-tree :data="getPlateInfo" show-checkbox node-key="value" ref="treePlate" highlight-current 
+                <el-tree id="teSelect" :data="getPlateInfo" show-checkbox node-key="value" ref="treePlate" highlight-current 
                 @check-change="handleNodeClick3" :props="defaultPropss"></el-tree>
             </el-option>
             <el-col :span="24" class='selectFull'>
@@ -44,7 +44,7 @@
         <el-col :span='8'>
             <el-select ref="selectCheckbox1" v-model="formLabelAlign.treeWay" placeholder="融资方式" size='small full' @change="selectCodeValue">
                 <el-option :label="formLabelAlign.treeWay" :value="formLabelAlign.treeWay">
-                  <el-tree :data="listData" show-checkbox node-key="value" ref="treeWay" highlight-current 
+                  <el-tree  id="teSelect"  :data="listData" show-checkbox node-key="value" ref="treeWay" highlight-current 
                   @check-change="handleNodeClick4" :props="defaultPropss"></el-tree>
               </el-option>
                 <el-col :span="24" class='selectFull'>
@@ -54,17 +54,16 @@
             </el-select>
         </el-col>
         <el-col :span='8'>
-            <!-- <el-input size='small full' v-model="formLabelAlign.input2"  placeholder="请输入公司代码"></el-input> -->
-            <el-autocomplete size='small full' class="inline-input" v-model="state2" 
-            :fetch-suggestions="querySearch" 
-            placeholder="请输入公司代码、简称、拼音" :trigger-on-focus="false" 
-            @select="handleSelect">
-              </el-autocomplete>
+            <el-select size="small full" v-model="formLabelAlign.autocomplate" filterable remote reserve-keyword 
+            placeholder="请输入公司代码、简称、拼音" :remote-method="remoteMethod" :loading="loading">
+              <el-option v-for="item in options4" :key="item.value" :label="item.label" 
+              :value="item.value"></el-option>
+            </el-select>
         </el-col>
         <el-col :span='8'>
-            <el-date-picker size='small' v-model="formLabelAlign.date2" type="daterange" 
+            <el-date-picker size='small' v-model="formLabelAlign.date" type="daterange" 
             :picker-options="pickerOptions2" range-separator="至" start-placeholder="开始日期" 
-            end-placeholder="结束日期" align="right" ref="date2">
+            end-placeholder="结束日期" align="right" ref="date">
             </el-date-picker>
         </el-col>
       </el-row>
@@ -80,14 +79,18 @@
           <el-table :data="getSearchIpo.data" border style="width: 100%" sortable="custom" 
           @sort-change="sortChange" @selection-change="handleSelectionChange" size="medium">
             <el-table-column align="center" type="index" label="序号" width="70px"></el-table-column>
-            <el-table-column align="center" prop="securityName" label="公司" min-width="140" sortable></el-table-column>
+            <el-table-column align="center" prop="securityName" label="公司" min-width="140" sortable>
+              <template slot-scope="scope">
+                <span>{{scope.row.securityCode}} {{scope.row.securityName}}</span>
+              </template>
+            </el-table-column>
             <el-table-column align="center" prop="financeDate" label="日期" min-width="225" sortable></el-table-column>
             <el-table-column align="center" prop="pIndName004" label="所属行业" min-width="140"></el-table-column>
             <el-table-column align="center" prop="cityName" label="所属地区" min-width="300"></el-table-column>
             <el-table-column align="center" prop="address" label="融资方式" min-width="140"></el-table-column>
             <el-table-column align="center" prop="sumFina" label="融资金额(亿元)" min-width="200" sortable></el-table-column>
           </el-table>
-          <papers ref="paper" @searchTable="searchTable" :total="total" :length1="length"></papers>
+          <papers ref="paper" @searchTable="searchTable" :total="total" :pageSize1="pageSize"></papers>
         </el-col>
       </el-row>
   </div>
@@ -109,7 +112,7 @@ export default {
       total: 0,
       typeId: "",
       lawData: "",
-      length: 20,
+      pageSize: 20,
       defaultProps: {
         children: "children",
         label: "name"
@@ -119,6 +122,7 @@ export default {
       },
       formLabelAlign: {
         plate: "",
+        date: "",
         data1: "",
         date2: "",
         treeWay: "",
@@ -127,9 +131,12 @@ export default {
         code_value: "001",
         code_name: "",
         city: "",
+        autocomplate: ""
       },
+      options4: [],//autocomplate的数据list
       selectSpace: [],
       selectPlate: [],
+      selectWay: [],
       listData: [{
         value : '001',
         label : 'IPO'
@@ -165,37 +172,47 @@ export default {
     this.classGet(true);
     this.regionGet(true);
     this.plateGet(true);
-    this.restaurants = this.companyByCode();
+    // this.companyByCode(true)
+    // this.restaurants = this.companyByCode()||[];
   },
   methods: {
     handleSelect(item) {
       console.log(item);
     },
-    querySearch(queryString, cb) {
-      var restaurants = this.restaurants;
-      var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
-      // 调用 callback 返回建议列表的数据
-      cb(results);
-    },
-    createFilter(queryString) {
-      return (restaurant) => {
-        console.log(restaurant)
-        return (restaurant.companyCode.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-      };
-    },
+    remoteMethod(query) {//input拿到的value
+        const _this = this;
+        if (query !== '') {
+          this.loading = true;
+          let param = {
+            // q: query,
+            // limit: 1000,
+            // timestamp: 1531814522431,
+            companyCode: query
+          }
+          this.loading = true;
+          this.$store.dispatch("companyByCodeGet", param).then((data)=>{//请求
+            _this.options4 = data.map(function(obj,idx){
+                return {label:obj.anchor,value:obj.writer}//做数据
+            })
+            this.loading = false;
+          })
+        } else {
+          this.options4 = [];
+        }
+      },
     selectCodeValue() {
       let param = {
         startRow: 0,
         pageSize: 20,
         orderByName: "financeDate",
-        orderByOrder: "asc",
+        orderByOrder: "desc",
         condition: {
           financeIndustry: this.formLabelAlign.code_value,
           areaSelect: this.formLabelAlign.city,
           stockBoardSelect: this.formLabelAlign.plate,
           financingMode: this.formLabelAlign.treeWay,
           companyCodeSearch: this.formLabelAlign.input2,
-          financeDate: this.formLabelAlign.date2
+          financeDate: this.formLabelAlign.date
         }
       };
       this.$store.dispatch("ipoSearchGet", param).then();
@@ -204,11 +221,11 @@ export default {
       // data = this.getSearchIpo.data;
       // console.log("获取table数据", getSearchIpo);
       let params = {
-        startRow: data.fromPaper - 1,
+        startRow: data.startRow - 1,
         // start: 0,
-        pageSize: data.length,
+        pageSize: data.pageSize,
         orderByName: "financeDate",
-        orderByOrder: "asc",
+        orderByOrder: "desc",
         condition: {
           financeIndustry: "001"
         }
@@ -221,10 +238,11 @@ export default {
     seaarch(data) {
       this.formLabelAlign = {
         code_value: this.formLabelAlign.code_value,
-        date1: moment(new Date(this.formLabelAlign.date2[0])).format(
+        date: this.formLabelAlign.date,
+        date1: moment(new Date(this.formLabelAlign.date[0])).format(
           "YYYY-MM-DD"
         ),
-        date2: moment(new Date(this.formLabelAlign.date2[1])).format(
+        date2: moment(new Date(this.formLabelAlign.date[1])).format(
           "YYYY-MM-DD"
         ),
         input1: this.formLabelAlign.input1,
@@ -233,10 +251,10 @@ export default {
         city: this.formLabelAlign.type
       };
       let params = {
-        startRow: data.startRow - 1,
-        pageSize: data.length,
+        startRow: 0,
+        pageSize: 20,
         orderByName: "financeDate",
-        orderByOrder: "asc",
+        orderByOrder: "desc",
         condition: {
           financeIndustry: "001",
           code_value: this.formLabelAlign.code_value,
@@ -260,7 +278,7 @@ export default {
         startRow: 0,
         pageSize: 20,
         orderByName: "financeDate",
-        orderByOrder: "asc",
+        orderByOrder: "desc",
         condition: {
           financeIndustry: "001"
         }
@@ -282,15 +300,15 @@ export default {
       };
       this.$store.dispatch("ipoPlateInfoGet", param);
     },
-    companyByCode() {
-      let param = {
-        q: 0,
-        limit: 1000,
-        timestamp: 1531814522431,
-        companyCode: 0
-      }
-      this.$store.dispatch("refinanceRecommendGet", param);
-    },
+    // companyByCode() {
+    //   let param = {
+    //     q: 0,
+    //     limit: 1000,
+    //     timestamp: 1531814522431,
+    //     companyCode: 0
+    //   }
+    //   this.$store.dispatch("companyByCodeGet", param);
+    // },
     // 下拉菜单市场板块
     handleNodeClick4(data, node, component) {
       //共三个参数，依次为：传递给 data 属性的数组中该节点所对应的对象、节点本身是否被选中、节点的子树中是否有被选中的节点
@@ -325,6 +343,7 @@ export default {
         //拼接字符串
         middle += `,${obj.name}`;
       });
+      console.log(middle)
       this.formLabelAlign.city = middle.substr(1); //设置input里显示的文字，可扩展
     },
     sure() {
@@ -332,7 +351,7 @@ export default {
       //查询
       this.selectSpace = this.$refs.tree.getCheckedNodes();
       this.selectPlate = this.$refs.treePlate.getCheckedNodes();
-      this.selectSpace = this.$refs.treeWay.getCheckedNodes();
+      this.selectWay = this.$refs.treeWay.getCheckedNodes();
       this.$refs.selectTreeIndex.handleClose(); //关闭下拉框
       this.$refs.selectCheckbox.handleClose(); //关闭下拉框
       this.$refs.selectCheckbox1.handleClose();
@@ -340,14 +359,14 @@ export default {
         startRow: 0,
         pageSize: 20,
         orderByName: "financeDate",
-        orderByOrder: "asc",
+        orderByOrder: "desc",
         condition: {
           financeIndustry: this.formLabelAlign.code_value,
           areaSelect: this.formLabelAlign.city,
           stockBoardSelect: this.formLabelAlign.plate,
           financingMode: this.formLabelAlign.input1,
           companyCodeSearch: this.formLabelAlign.input2,
-          financeDate: this.formLabelAlign.date2
+          financeDate: this.formLabelAlign.date
         }
       };
       this.$store.dispatch("ipoSearchGet", param).then();
@@ -369,7 +388,7 @@ export default {
             startRow: 0,
             pageSize: 20,
             orderByName: "financeDate",
-            orderByOrder: "asc",
+            orderByOrder: "desc",
             condition: {
               financeIndustry: "",
               code_value: "",
@@ -384,7 +403,7 @@ export default {
           this.$store.dispatch("ipoSearchGet", param).then(() => {
             this.$refs.tree.setCheckedKeys([]); //清空选中
             this.$refs.treePlate.setCheckedKeys([]); //清空选中
-            this.$refs.date2.setCheckedKeys([]);
+            this.$refs.date.setCheckedKeys([]);
             this.$refs.treeWay.setCheckedKeys([]);
           });
           this.formLabelAlign.code_name = "请选择";
@@ -398,25 +417,6 @@ export default {
         this.$refs.treePlate.setCheckedNodes(this.selectPlate); //通过node值设置默认选中
       }
     },
-    //autocomplate钩子
-    remoteMethod(query) {
-      //input拿到的value
-      const _this = this;
-      if (query !== "") {
-        //console.log(query)
-        this.loading = true;
-        this.$store.dispatch("complate", query).then(data => {
-          //请求
-          _this.options4 = data.map(function(obj, idx) {
-            return { label: obj.anchor, value: obj.writer }; //做数据
-          });
-          this.loading = false;
-        });
-      } else {
-        this.options4 = [];
-      }
-    },
-
     //table点击
     handleClick(row) {
       console.log(row);
@@ -492,5 +492,9 @@ export default {
 .el-table__row {
   height: 40px;
 }
+.el-table__header thead tr>th{padding:0px;height:42px}
+#teSelect .el-tree-node__content{float:left !important}
+.Hselect .el-scrollbar__wrap{min-height:205px;}
+.Hselect .el-select-dropdown__item.selected{height:140px;}
 </style>
 

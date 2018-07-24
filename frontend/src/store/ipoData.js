@@ -11,7 +11,12 @@ import {
   sponsorInstitution,
   ipoAreaData,
   ipoQuery,
-  lawOffice, accountFirm, refinanceApprove, refinanceApptype, refinanceRecommend, companyByCode
+  lawOffice,
+  accountFirm,
+  refinanceApprove,
+  refinanceApptype,
+  refinanceRecommend,
+  companyByCode
 } from '@/api/ipo'
 import {
   MultidimensionalData
@@ -563,20 +568,15 @@ const ipo = {
     },
     companyByCodeGet({
       commit
-    }, order) {
+    }, param) {
       return new Promise((resolve, reject) => {
-        const param = order || {}
-        // const type = param.type
-        // param.data = null
-        // debugger
+        const type = param.type
+        param.data = null
         companyByCode(param).then((response) => {
           param.data = response.data.result
-          // console.log(response)
           if (typeof param.data === 'object') {
             param.type = 'companyByCode'
             commit('SET_IPO_TYPE', param)
-            // console.log(4)
-            // console.log(param)
           }
           resolve()
         }).catch((error) => {

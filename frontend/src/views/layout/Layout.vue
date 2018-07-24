@@ -25,6 +25,7 @@
       }
     },
     created(){
+      let _this = this;
       //监听消息回复父级页面消息
       window.addEventListener('message',function(e){
           //console.log(document.body.offsetHeight)
@@ -33,7 +34,10 @@
               height:document.body.offsetHeight,
               //param:param
           },'*')
-          
+          if(e.data['type']=='times'){
+            // console.log(e.data.bodyClass)
+            e.data.bodyClass != undefined && _this.$store.commit('BODY_CLASS',e.data.bodyClass)
+          }
       });
     },
     mounted(){
