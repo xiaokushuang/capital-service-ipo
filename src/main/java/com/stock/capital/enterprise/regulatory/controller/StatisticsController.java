@@ -441,7 +441,7 @@ public class StatisticsController extends BaseController {
      */
     @RequestMapping(value = "/getIPOAreaDataStts", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResponse<List<StatisticsResultDto>> getIPOAreaDataStts(@RequestBody StatisticsParamDto statisticsParamDto) {
+    public JsonResponse<List<StatisticsResultDto>> getIPOAreaDataStts(StatisticsParamDto statisticsParamDto) {
         JsonResponse<List<StatisticsResultDto>> response = new JsonResponse<List<StatisticsResultDto>>();
         response.setResult(statisticsService.getIPOAreaDataStts(statisticsParamDto));
         return response;
