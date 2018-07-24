@@ -125,7 +125,7 @@ function chartSetting(lst) {
 			}
 		},
 		grid : {
-			top : '5%',
+			//top : '5%',标签过多换行重叠表格
 			left : '1%',
 			right : '4%',
 			bottom : '3%',
