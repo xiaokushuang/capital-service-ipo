@@ -66,6 +66,18 @@
     .table-primary thead th, .table-primary thead tr {
         background:#756c7e
     }
+    .table-primary .table-header {
+        background:#857198
+    }
+    .btn-primary.dropdown-toggle, .btn-primary.active, .btn-primary:active {
+        background:0 0;
+        background:#7b678e!important;
+        border-color:#615170;
+        border-bottom-color:#615170!important;
+        color:#fff;
+        -webkit-box-shadow:0 0 12px rgba(0,0,0,.1) inset;
+        box-shadow:0 0 12px rgba(0,0,0,.1) inset
+    }
 }
 .theme-dust { //橘色
     background:#fff;
