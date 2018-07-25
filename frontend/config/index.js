@@ -36,7 +36,7 @@ module.exports = {
         }
     },
     '/capital-cloud-api/':{
-        target:'localhost:8082',//'http://192.168.1.22:9080',
+        target:'http://127.0.0.1:8082',//'http://192.168.1.22:9080',
         pathRewrite:{
           '^/capital-cloud-api/':'/capital-cloud-api/'
         }

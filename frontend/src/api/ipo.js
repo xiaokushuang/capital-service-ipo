@@ -5,7 +5,7 @@ export function companyByCode(param) {
     url: '/capital-cloud-api/company_info/portCloudCompanyInfo',
     // url: '/capital-cloud-api/home/companyQuery',
     method: 'post',
-    data: param
+    params: param
   })
 }
 // 证券
@@ -27,23 +27,22 @@ export function searchBond(param) {
 // 行业分类
 export function SFClassification() {
   return request({
-    url: `/ipo/financeStatistics/getFinanceList`,
+    url: `/capital-cloud-api/commonOption/getFinanceList`,
     method: 'post'
   })
 }
 // 所有地区
 export function SFCRegion() {
   return request({
-    url: `/ipo/financeStatistics/getProvincesList`,
+    url: `/capital-cloud-api/commonOption/getProvincesList`,
     method: 'post'
   })
 }
 // 板块信息
-export function plateInfo(param) {
+export function plateInfo() {
   return request({
-    url: `/ipo/financeStatistics/getStockBoardList`,
-    method: 'post',
-    data: param
+    url: `/capital-cloud-api/commonOption/getStockBoardList`,
+    method: 'post'
   })
 }
 // ipo数据概览

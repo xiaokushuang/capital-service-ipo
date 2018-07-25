@@ -275,7 +275,7 @@ export default {
             valuec.dataSum[0]["num"] += Number(o.num);
           });
           valuec.date = obj.date;
-          console.log(valuec.dataSum)
+          valuec.dataSum[0]["value"] = valuec.dataSum[0]["value"].toFixed(4)
           middle.push(valuec);
         } else {
           middle.push(obj);

@@ -37,7 +37,7 @@ const ipo = {
     ipoSearchData: [],
     ipoSFClass: [],
     ipoRegion: [],
-    ipoPlateInfo: [],
+    plateInfo: [],
     ipoDataOverview: [],
     ipoDataHistory: [],
     projectBelong: [],
@@ -220,18 +220,18 @@ const ipo = {
     // 板块信息
     ipoPlateInfoGet({
       commit
-    }, param) {
+    }, order) {
       return new Promise((resolve, reject) => {
-        const type = param.type
-        param.data = null
+        const param = order || {}
         plateInfo(param).then((response) => {
-          // console.log(response)
           param.data = response.data.data
+          // console.log(response)
           if (typeof param.data === 'object') {
-            param.type = 'ipoPlateInfo'
+            param.type = 'plateInfo'
             commit('SET_IPO_TYPE', param)
-            // console.log(6)
+            // console.log(5)
             // console.log(param.data)
+            // console.log(MultidimensionalData(param.data))
           }
           resolve()
         }).catch((error) => {
@@ -578,7 +578,7 @@ const ipo = {
             param.type = 'companyByCode'
             commit('SET_IPO_TYPE', param)
           }
-          resolve()
+          resolve(response.data.result)
         }).catch((error) => {
           console.log(error)
           if (error && error.response && error.response.status === 401) {
@@ -640,7 +640,7 @@ const ipo = {
     getSFCRegion: state => {
       return MultidimensionalData(state.ipoRegion)
     },
-    getPlateInfo: state => state.ipoPlateInfo,
+    getPlateInfo: state => state.plateInfo,
     getDataOverInfo: state => {
       state.ipoDataOverview.map((o, i) => {
         var total = parseInt(o.hzbCount) + parseInt(o.zxbCount) + parseInt(o.cybCount)

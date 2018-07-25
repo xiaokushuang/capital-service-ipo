@@ -14,6 +14,9 @@
     .nav_tamp>.enter>a, .nav_tamp>.enter>a>i{
         color:#5DDEFD;
     }
+    .table-primary thead th, .table-primary thead tr {
+        background:#A0ADB5
+    }
 }
 
 .theme-default { //黑色
@@ -28,6 +31,9 @@
     .second-menu a, .three-list a:hover{
         color:#389EE1;
     }
+    .table-primary thead th, .table-primary thead tr {
+        background:#2175ac
+    }
 }
 .theme-asphalt { //青色
     background:#fff;
@@ -40,6 +46,9 @@
     }
     .second-menu a, .three-list a:hover{
         color:#4DD6BB;
+    }
+    .table-primary thead th, .table-primary thead tr {
+        background:#4ca49d
     }
 }
 .theme-purple-hills { //紫色
@@ -54,6 +63,9 @@
     .second-menu a, .three-list a:hover{
         color:#A88EE2;
     }
+    .table-primary thead th, .table-primary thead tr {
+        background:#756c7e
+    }
 }
 .theme-dust { //橘色
     background:#fff;
@@ -67,6 +79,9 @@
     .second-menu a, .three-list a:hover{
         color:#f05d3d;
     }
+    .table-primary thead th, .table-primary thead tr {
+        background:#656565
+    }
 }
 .theme-frost { //蓝色
     background:#fff;
@@ -79,6 +94,9 @@
     }
     .second-menu a, .three-list a:hover{
         color:#50c6ee;
+    }
+    .table-primary thead th, .table-primary thead tr {
+        background:#3995b5
     }
 }
 
