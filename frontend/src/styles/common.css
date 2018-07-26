@@ -335,3 +335,6 @@ body{
 }
 .el-col-2 span{font-family:"Microsoft YaHei";font-size:14px;}
 
+.el-table .cell {
+    line-height: 20px!important;
+}

@@ -56,7 +56,7 @@
         <el-col :span='8'>
             <el-select size="small full" v-model="formLabelAlign.autocomplate" filterable remote reserve-keyword 
             placeholder="请输入公司代码、简称、拼音" :remote-method="remoteMethod" :loading="loading" @change="selectAChange">
-              <el-option v-for="item in options4" :key="item.name"  :value="item.code">{{item.code}} {{item.name}}
+              <el-option v-for="item in options4" :key="item.name"  :value="item.name">{{item.code}} {{item.name}}
               </el-option>
             </el-select>
         </el-col>
@@ -263,7 +263,8 @@ export default {
       this.$store.dispatch("ipoSearchGet", param).then();
     },
     selectAChange(e) {
-      console.log(this.formLabelAlign.autocomplate)
+      // console.log(window.event.target.innerText)
+      this.formLabelAlign.autocomplate = window.event.target.innerText
     },
     searchTable(data) {
       // data = this.getSearchIpo.data;

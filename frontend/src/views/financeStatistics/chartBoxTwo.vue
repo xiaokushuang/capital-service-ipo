@@ -66,7 +66,7 @@
                                 ref="table0"
                                 :data="data0"
                                 max-height="440"
-                                style="width: 100%">
+                                style="width: 100%;">
                                 <el-table-column align="center" label="行业" min-width="190px">
                                     <template slot-scope="scope">
                                         <span>{{scope.row.name}}</span>
@@ -420,4 +420,5 @@ export default {
   color: #333333;
   border: 1px solid #d5d5d5;
 }
+
 </style>

@@ -1,7 +1,7 @@
 body {
   background-color: #FFFFFF;
   color: #000000;
-  font-family: Helvetica,Microsoft YaHei,Hiragino Sans GB,WenQuanYi Micro Hei,sans-serif;
+  font-family: Microsoft YaHei,Helvetica,Hiragino Sans GB,WenQuanYi Micro Hei,sans-serif;
   font-size: 14px;
   scrollbar-3dlight-color: #F0F0EE;
   scrollbar-arrow-color: #676662;
@@ -15,7 +15,7 @@ body {
 
 td,
 th {
-  font-family: Helvetica,Microsoft YaHei,Hiragino Sans GB,WenQuanYi Micro Hei,sans-serif;
+  font-family: Microsoft YaHei,Helvetica,Hiragino Sans GB,WenQuanYi Micro Hei,sans-serif;
   font-size: 14px
 }
 
