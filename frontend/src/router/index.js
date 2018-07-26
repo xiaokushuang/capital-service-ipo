@@ -101,26 +101,32 @@ export const constantRouterMap = [
         component: _import('financeStatistics/companyBox'),
         name: 'companyContrast',
         meta: { title: '公司对比', icon: 'dashboard', noCache: true }
-      }, 
+      },
       {
         path: 'noticeHelper',
         component: _import('declare/noticeHelper'),
         name: 'noticeHelper',
-        meta: {title: 'noticeHelper', icon: 'dashboard', noCache: true }
+        meta: { title: 'noticeHelper', icon: 'dashboard', noCache: true }
+      },
+      {
+        path: 'securitiesBond',
+        component: _import('financeBond/securitiesBond'),
+        name: 'securitiesBond',
+        meta: { title: '债券发行', icon: 'securitiesBond', noCache: true }
       }
     ]
-  },
-  {
-    path: '/financeBond',
-    component: Layout,
-    redirect: '/financeBond/securitiesBond',
-    children: [{
-      path: 'securitiesBond',
-      component: _import('financeBond/securitiesBond'),
-      name: 'securitiesBond',
-      meta: { title: '债券发行', icon: 'securitiesBond', noCache: true }
-    }]
   }
+  // {
+  //   path: '/financeBond',
+  //   component: Layout,
+  //   redirect: '/financeBond/securitiesBond',
+  //   children: [{
+  //     path: 'securitiesBond',
+  //     component: _import('financeBond/securitiesBond'),
+  //     name: 'securitiesBond',
+  //     meta: { title: '债券发行', icon: 'securitiesBond', noCache: true }
+  //   }]
+  // }
 ]
 
 export default new Router(
@@ -128,7 +134,8 @@ export default new Router(
     // mode: 'history', // require service support
     scrollBehavior: () => ({ y: 0 }),
     routes: constantRouterMap,
-    mode: 'history'
+    mode: 'history',
+    base:'/ui/ipo/'
   }
 )
 

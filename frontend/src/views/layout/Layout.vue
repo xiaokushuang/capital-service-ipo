@@ -47,7 +47,7 @@
       chartOne(){
           if(this.$route.query!="undefined"){
               //if(getToken()=='undefined'){
-                setToken(this.$route.query['token'])
+                setToken(this.$route.query['access_token'])
               //}
           }
       }

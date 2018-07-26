@@ -284,6 +284,9 @@ export default {
       });
     },
     seaarch(data) {
+      if(this.formLabelAlign.date == null) {
+        this.formLabelAlign.date = []
+      }
       this.formLabelAlign = {
         code_value: this.formLabelAlign.code_value,
         date: this.formLabelAlign.date,
@@ -305,7 +308,7 @@ export default {
         orderByName: "financeDate",
         orderByOrder: "desc",
         condition: {
-          financeIndustry: "001",
+          // financeIndustry: "001",
           financeIndustry: this.formLabelAlign.code_value,
           financeDate:
             this.formLabelAlign.date1 +
@@ -319,8 +322,8 @@ export default {
           areaSelect: this.formLabelAlign.type,
           companyCodeSearch: this.formLabelAlign.autocomplate
         }
-      };
-      this.$store.dispatch("ipoSearchGet", params);
+      }
+      this.$store.dispatch("ipoSearchGet", params)
     },
     // 表格接口
     dataGet() {
