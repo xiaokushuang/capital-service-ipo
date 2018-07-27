@@ -3,7 +3,7 @@ import { getData } from '@/api/declare'
 import { getFileData } from '@/api/declare'
 import { getLawsByTable } from '@/api/declare'
 import * as auth from '@/utils/auth'
-import { OneDimensionalDataVariableMultidimensionalData } from '@/utils/index'
+import { MultidimensionalData } from '@/utils/index'
 const declare = {
     state: {
         declare_tree: [],

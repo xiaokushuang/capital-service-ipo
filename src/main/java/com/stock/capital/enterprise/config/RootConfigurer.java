@@ -31,6 +31,8 @@ import com.stock.core.misc.CodeListBean;
 import com.stock.core.misc.EventBusFactoryBean;
 import com.stock.core.misc.StaticListBean;
 import com.stock.core.rest.RestClient;
+import com.stock.core.search.SearchServer;
+import com.stock.core.search.SolrSearchServer;
 
 @Configuration
 public class RootConfigurer {
@@ -99,6 +101,11 @@ public class RootConfigurer {
     @Bean
     public LogEventListener logEventListener() {
         return new LogEventListener();
+    }
+    
+    @Bean
+    public SearchServer searchServer() {
+        return new SolrSearchServer();
     }
 
     @Bean

@@ -1,8 +1,9 @@
 package com.stock.capital.enterprise.common.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Code {
+public class Code implements Serializable {
     private String id;
 
     private String codeNo;
@@ -21,6 +22,8 @@ public class Code {
 
     private String version;
 
+    private String type;
+
     private String companyId;
 
     private String createUser;
@@ -32,6 +35,8 @@ public class Code {
     private Date updateTime;
 
     private String status;
+
+    private static final long serialVersionUID = 1L;
 
     public String getId() {
         return id;
@@ -103,6 +108,14 @@ public class Code {
 
     public void setVersion(String version) {
         this.version = version == null ? null : version.trim();
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type == null ? null : type.trim();
     }
 
     public String getCompanyId() {

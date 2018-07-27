@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stock.capital.enterprise.common.dao.LetterReturnMapper">
+  <resultMap id="BaseResultMap" type="com.stock.capital.enterprise.common.entity.LetterReturn">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="return_remark" jdbcType="VARCHAR" property="returnRemark" />
+    <result column="letter_id" jdbcType="VARCHAR" property="letterId" />
+    <result column="letter_person" jdbcType="VARCHAR" property="letterPerson" />
+    <result column="return_date" jdbcType="TIMESTAMP" property="returnDate" />
+    <result column="return_status" jdbcType="VARCHAR" property="returnStatus" />
+    <result column="company_id" jdbcType="VARCHAR" property="companyId" />
+    <result column="label_status" jdbcType="VARCHAR" property="labelStatus" />
+    <result column="sort" jdbcType="VARCHAR" property="sort" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, return_remark, letter_id, letter_person, return_date, return_status, company_id, 
+    label_status, sort, create_user, create_time, update_user, update_time, status
+  </sql>
+  <select id="selectByExample" parameterType="com.stock.capital.enterprise.common.entity.LetterReturnExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sa_letter_return
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sa_letter_return
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sa_letter_return
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.stock.capital.enterprise.common.entity.LetterReturnExample">
+    delete from sa_letter_return
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.stock.capital.enterprise.common.entity.LetterReturn">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      SELECT CONCAT(uuid_short(),'')
+    </selectKey>
+    insert into sa_letter_return (id, return_remark, letter_id, 
+      letter_person, return_date, return_status, 
+      company_id, label_status, sort, 
+      create_user, create_time, update_user, 
+      update_time, status)
+    values (#{id,jdbcType=VARCHAR}, #{returnRemark,jdbcType=VARCHAR}, #{letterId,jdbcType=VARCHAR}, 
+      #{letterPerson,jdbcType=VARCHAR}, #{returnDate,jdbcType=TIMESTAMP}, #{returnStatus,jdbcType=VARCHAR}, 
+      #{companyId,jdbcType=VARCHAR}, #{labelStatus,jdbcType=VARCHAR}, #{sort,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.stock.capital.enterprise.common.entity.LetterReturn">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      SELECT CONCAT(uuid_short(),'')
+    </selectKey>
+    insert into sa_letter_return
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      <if test="returnRemark != null">
+        return_remark,
+      </if>
+      <if test="letterId != null">
+        letter_id,
+      </if>
+      <if test="letterPerson != null">
+        letter_person,
+      </if>
+      <if test="returnDate != null">
+        return_date,
+      </if>
+      <if test="returnStatus != null">
+        return_status,
+      </if>
+      <if test="companyId != null">
+        company_id,
+      </if>
+      <if test="labelStatus != null">
+        label_status,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=VARCHAR},
+      <if test="returnRemark != null">
+        #{returnRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="letterId != null">
+        #{letterId,jdbcType=VARCHAR},
+      </if>
+      <if test="letterPerson != null">
+        #{letterPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="returnDate != null">
+        #{returnDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returnStatus != null">
+        #{returnStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="labelStatus != null">
+        #{labelStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.stock.capital.enterprise.common.entity.LetterReturnExample" resultType="java.lang.Long">
+    select count(*) from sa_letter_return
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sa_letter_return
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.returnRemark != null">
+        return_remark = #{record.returnRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.letterId != null">
+        letter_id = #{record.letterId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.letterPerson != null">
+        letter_person = #{record.letterPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.returnDate != null">
+        return_date = #{record.returnDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.returnStatus != null">
+        return_status = #{record.returnStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyId != null">
+        company_id = #{record.companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.labelStatus != null">
+        label_status = #{record.labelStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sort != null">
+        sort = #{record.sort,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sa_letter_return
+    set id = #{record.id,jdbcType=VARCHAR},
+      return_remark = #{record.returnRemark,jdbcType=VARCHAR},
+      letter_id = #{record.letterId,jdbcType=VARCHAR},
+      letter_person = #{record.letterPerson,jdbcType=VARCHAR},
+      return_date = #{record.returnDate,jdbcType=TIMESTAMP},
+      return_status = #{record.returnStatus,jdbcType=VARCHAR},
+      company_id = #{record.companyId,jdbcType=VARCHAR},
+      label_status = #{record.labelStatus,jdbcType=VARCHAR},
+      sort = #{record.sort,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stock.capital.enterprise.common.entity.LetterReturn">
+    update sa_letter_return
+    <set>
+      <if test="returnRemark != null">
+        return_remark = #{returnRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="letterId != null">
+        letter_id = #{letterId,jdbcType=VARCHAR},
+      </if>
+      <if test="letterPerson != null">
+        letter_person = #{letterPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="returnDate != null">
+        return_date = #{returnDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returnStatus != null">
+        return_status = #{returnStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="labelStatus != null">
+        label_status = #{labelStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stock.capital.enterprise.common.entity.LetterReturn">
+    update sa_letter_return
+    set return_remark = #{returnRemark,jdbcType=VARCHAR},
+      letter_id = #{letterId,jdbcType=VARCHAR},
+      letter_person = #{letterPerson,jdbcType=VARCHAR},
+      return_date = #{returnDate,jdbcType=TIMESTAMP},
+      return_status = #{returnStatus,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=VARCHAR},
+      label_status = #{labelStatus,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.stock.capital.enterprise.common.entity.LetterReturnExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sa_letter_return
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

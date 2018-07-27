@@ -132,7 +132,7 @@
 	padding:10px 0!important;
 }
 .el-input--small .el-input__inner{
-	height: 32px!important;
+	height: 30px!important;
 }
 .container{
 	padding:10px;
@@ -143,6 +143,23 @@
 .el-table thead tr th {
 	background: #A0ADB5;
 	color:#fff;
+}
+.el-table thead .greyBg th {
+	background: #e8e8e8;
+    color:#000;
+    padding:0px;
+    border-top: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+.el-table thead .whiteBg th {
+	background: #fff;
+    color:#000;
+    padding:0px;
+    border-right: 1px solid #ddd;
+}
+
+.el-table .greyBg {
+    background: #e8e8e8;
 }
 ::-webkit-scrollbar-track-piece {
 	background-color:#f8f8f8;
@@ -167,7 +184,7 @@
 }
 .el-button {
     display: inline-block;
-    padding: 6px 12px;
+    padding: 5px 12px;
     margin-bottom: 0;
     font-size: 14px;
     font-weight: 400;
@@ -315,4 +332,9 @@ body{
 }
 .el-table__header thead tr>th{
     padding:10px;
+}
+.el-col-2 span{font-family:"Microsoft YaHei";font-size:14px;}
+
+.el-table .cell {
+    line-height: 20px!important;
 }

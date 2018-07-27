@@ -20,7 +20,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.alibaba.druid.util.StringUtils;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsCompanyDto;
@@ -34,7 +33,6 @@ import com.stock.core.rest.RestClient;
 import com.stock.core.service.BaseService;
 import com.stock.core.util.DateUtil;
 import com.stock.core.dto.Page;
-import com.google.common.collect.Lists;
 
 @Service
 public class StatisticsService extends BaseService {

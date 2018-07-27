@@ -26,6 +26,14 @@ import 'babel-polyfill'
 // import vueScrollwatch from "vue-scrollwatch"
 // Vue.use(vueScrollwatch)
 
+
+import VueMoment from 'vue-moment'
+import moment from 'moment-timezone'
+ 
+Vue.use(VueMoment,{
+    moment
+})
+
 Vue.use(Element, {
   size: 'medium', // set element-ui default size
   i18n: (key, value) => i18n.t(key, value)

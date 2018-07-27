@@ -34,7 +34,6 @@ import com.stock.capital.enterprise.common.entity.LawIndexTag;
 import com.stock.capital.enterprise.lawLibrary.dto.SearchDto;
 import com.stock.capital.enterprise.lawLibrary.dto.SearchLawsDTO;
 import com.stock.capital.enterprise.lawLibrary.dto.StatisticLawDto;
-import com.stock.capital.enterprise.regulatory.service.ViolationService;
 import com.stock.core.dto.FacetResult;
 import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.OptionDto;
@@ -60,8 +59,8 @@ public class LawsSearchService extends BaseService {
     
     @Value("${site.baseUrl}")
     private String siteBaseUrl;
-    @Autowired
-    private ViolationService bs;
+   /* @Autowired
+    private ViolationService bs;*/
     // 2017/02/28 需求1452 by wangchao END
     
     @Autowired

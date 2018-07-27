@@ -34,9 +34,9 @@ export function generateRoutes() {
   })
 }
 
-export function testto(info){
+export function testto(info) {
   return request({
-    url:`/htrt/testto?data=${info}`,
-    method:'get'
+    url: `/htrt/testto?data=${info}`,
+    method: 'get'
   })
 }

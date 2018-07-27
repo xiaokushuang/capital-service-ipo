@@ -1,4 +1,4 @@
-package com.stock.capital.enterprise.financeStatistics.dto;
+package com.stock.capital.enterprise.api.financeStatistics.dto;
 
 import java.io.Serializable;
 import java.util.Date;

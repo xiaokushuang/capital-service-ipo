@@ -3,7 +3,7 @@
     <!-- 标题 -->
     <el-row :gutter="20" class="no-margin-tb">
         <el-col :span="14">
-            <h3 class="no-margin" style="line-height:32px;">证券发行行业分布图</h3>
+            <h3 class="no-margin" style="line-height:32px;margin-top:10px !important;">证券发行行业分布图</h3>
         </el-col>
         <el-col :span="6">
         </el-col>
@@ -66,7 +66,7 @@
                                 ref="table0"
                                 :data="data0"
                                 max-height="440"
-                                style="width: 100%">
+                                style="width: 100%;">
                                 <el-table-column align="center" label="行业" min-width="190px">
                                     <template slot-scope="scope">
                                         <span>{{scope.row.name}}</span>
@@ -420,4 +420,5 @@ export default {
   color: #333333;
   border: 1px solid #d5d5d5;
 }
+
 </style>

@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stock.capital.enterprise.common.dao.AttachmentMapper">
+  <resultMap id="BaseResultMap" type="com.stock.capital.enterprise.common.entity.Attachment">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="rela_id" jdbcType="VARCHAR" property="relaId" />
+    <result column="att_name" jdbcType="VARCHAR" property="attName" />
+    <result column="att_no" jdbcType="VARCHAR" property="attNo" />
+    <result column="att_url" jdbcType="VARCHAR" property="attUrl" />
+    <result column="business_id" jdbcType="VARCHAR" property="businessId" />
+    <result column="business_type" jdbcType="VARCHAR" property="businessType" />
+    <result column="sub_type" jdbcType="VARCHAR" property="subType" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="size" jdbcType="BIGINT" property="size" />
+    <result column="document_type" jdbcType="VARCHAR" property="documentType" />
+    <result column="download_cnt" jdbcType="INTEGER" property="downloadCnt" />
+    <result column="phone_download_cnt" jdbcType="INTEGER" property="phoneDownloadCnt" />
+    <result column="company_id" jdbcType="VARCHAR" property="companyId" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, rela_id, att_name, att_no, att_url, business_id, business_type, sub_type, version, 
+    size, document_type, download_cnt, phone_download_cnt, company_id, create_user, create_time, 
+    update_user, update_time, status
+  </sql>
+  <select id="selectByExample" parameterType="com.stock.capital.enterprise.common.entity.AttachmentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sa_attachment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sa_attachment
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sa_attachment
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.stock.capital.enterprise.common.entity.AttachmentExample">
+    delete from sa_attachment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.stock.capital.enterprise.common.entity.Attachment">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      SELECT CONCAT(uuid_short(),'')
+    </selectKey>
+    insert into sa_attachment (id, rela_id, att_name, 
+      att_no, att_url, business_id, 
+      business_type, sub_type, version, 
+      size, document_type, download_cnt, 
+      phone_download_cnt, company_id, create_user, 
+      create_time, update_user, update_time, 
+      status)
+    values (#{id,jdbcType=VARCHAR}, #{relaId,jdbcType=VARCHAR}, #{attName,jdbcType=VARCHAR}, 
+      #{attNo,jdbcType=VARCHAR}, #{attUrl,jdbcType=VARCHAR}, #{businessId,jdbcType=VARCHAR}, 
+      #{businessType,jdbcType=VARCHAR}, #{subType,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, 
+      #{size,jdbcType=BIGINT}, #{documentType,jdbcType=VARCHAR}, #{downloadCnt,jdbcType=INTEGER}, 
+      #{phoneDownloadCnt,jdbcType=INTEGER}, #{companyId,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.stock.capital.enterprise.common.entity.Attachment">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      SELECT CONCAT(uuid_short(),'')
+    </selectKey>
+    insert into sa_attachment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      <if test="relaId != null">
+        rela_id,
+      </if>
+      <if test="attName != null">
+        att_name,
+      </if>
+      <if test="attNo != null">
+        att_no,
+      </if>
+      <if test="attUrl != null">
+        att_url,
+      </if>
+      <if test="businessId != null">
+        business_id,
+      </if>
+      <if test="businessType != null">
+        business_type,
+      </if>
+      <if test="subType != null">
+        sub_type,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="size != null">
+        size,
+      </if>
+      <if test="documentType != null">
+        document_type,
+      </if>
+      <if test="downloadCnt != null">
+        download_cnt,
+      </if>
+      <if test="phoneDownloadCnt != null">
+        phone_download_cnt,
+      </if>
+      <if test="companyId != null">
+        company_id,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=VARCHAR},
+      <if test="relaId != null">
+        #{relaId,jdbcType=VARCHAR},
+      </if>
+      <if test="attName != null">
+        #{attName,jdbcType=VARCHAR},
+      </if>
+      <if test="attNo != null">
+        #{attNo,jdbcType=VARCHAR},
+      </if>
+      <if test="attUrl != null">
+        #{attUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="businessId != null">
+        #{businessId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessType != null">
+        #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="subType != null">
+        #{subType,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        #{size,jdbcType=BIGINT},
+      </if>
+      <if test="documentType != null">
+        #{documentType,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadCnt != null">
+        #{downloadCnt,jdbcType=INTEGER},
+      </if>
+      <if test="phoneDownloadCnt != null">
+        #{phoneDownloadCnt,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.stock.capital.enterprise.common.entity.AttachmentExample" resultType="java.lang.Long">
+    select count(*) from sa_attachment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sa_attachment
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.relaId != null">
+        rela_id = #{record.relaId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attName != null">
+        att_name = #{record.attName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attNo != null">
+        att_no = #{record.attNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attUrl != null">
+        att_url = #{record.attUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessId != null">
+        business_id = #{record.businessId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessType != null">
+        business_type = #{record.businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subType != null">
+        sub_type = #{record.subType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=VARCHAR},
+      </if>
+      <if test="record.size != null">
+        size = #{record.size,jdbcType=BIGINT},
+      </if>
+      <if test="record.documentType != null">
+        document_type = #{record.documentType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.downloadCnt != null">
+        download_cnt = #{record.downloadCnt,jdbcType=INTEGER},
+      </if>
+      <if test="record.phoneDownloadCnt != null">
+        phone_download_cnt = #{record.phoneDownloadCnt,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyId != null">
+        company_id = #{record.companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sa_attachment
+    set id = #{record.id,jdbcType=VARCHAR},
+      rela_id = #{record.relaId,jdbcType=VARCHAR},
+      att_name = #{record.attName,jdbcType=VARCHAR},
+      att_no = #{record.attNo,jdbcType=VARCHAR},
+      att_url = #{record.attUrl,jdbcType=VARCHAR},
+      business_id = #{record.businessId,jdbcType=VARCHAR},
+      business_type = #{record.businessType,jdbcType=VARCHAR},
+      sub_type = #{record.subType,jdbcType=VARCHAR},
+      version = #{record.version,jdbcType=VARCHAR},
+      size = #{record.size,jdbcType=BIGINT},
+      document_type = #{record.documentType,jdbcType=VARCHAR},
+      download_cnt = #{record.downloadCnt,jdbcType=INTEGER},
+      phone_download_cnt = #{record.phoneDownloadCnt,jdbcType=INTEGER},
+      company_id = #{record.companyId,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stock.capital.enterprise.common.entity.Attachment">
+    update sa_attachment
+    <set>
+      <if test="relaId != null">
+        rela_id = #{relaId,jdbcType=VARCHAR},
+      </if>
+      <if test="attName != null">
+        att_name = #{attName,jdbcType=VARCHAR},
+      </if>
+      <if test="attNo != null">
+        att_no = #{attNo,jdbcType=VARCHAR},
+      </if>
+      <if test="attUrl != null">
+        att_url = #{attUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="businessId != null">
+        business_id = #{businessId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessType != null">
+        business_type = #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="subType != null">
+        sub_type = #{subType,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        size = #{size,jdbcType=BIGINT},
+      </if>
+      <if test="documentType != null">
+        document_type = #{documentType,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadCnt != null">
+        download_cnt = #{downloadCnt,jdbcType=INTEGER},
+      </if>
+      <if test="phoneDownloadCnt != null">
+        phone_download_cnt = #{phoneDownloadCnt,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stock.capital.enterprise.common.entity.Attachment">
+    update sa_attachment
+    set rela_id = #{relaId,jdbcType=VARCHAR},
+      att_name = #{attName,jdbcType=VARCHAR},
+      att_no = #{attNo,jdbcType=VARCHAR},
+      att_url = #{attUrl,jdbcType=VARCHAR},
+      business_id = #{businessId,jdbcType=VARCHAR},
+      business_type = #{businessType,jdbcType=VARCHAR},
+      sub_type = #{subType,jdbcType=VARCHAR},
+      version = #{version,jdbcType=VARCHAR},
+      size = #{size,jdbcType=BIGINT},
+      document_type = #{documentType,jdbcType=VARCHAR},
+      download_cnt = #{downloadCnt,jdbcType=INTEGER},
+      phone_download_cnt = #{phoneDownloadCnt,jdbcType=INTEGER},
+      company_id = #{companyId,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.stock.capital.enterprise.common.entity.AttachmentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sa_attachment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

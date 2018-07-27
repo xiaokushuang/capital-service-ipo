@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stock.capital.enterprise.common.dao.LabelRtnFileMapper">
+  <resultMap id="BaseResultMap" type="com.stock.capital.enterprise.common.entity.LabelRtnFile">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="letterrtn_id" jdbcType="VARCHAR" property="letterrtnId" />
+    <result column="file_id" jdbcType="VARCHAR" property="fileId" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="sort" jdbcType="VARCHAR" property="sort" />
+    <result column="mark_flag" jdbcType="VARCHAR" property="markFlag" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, letterrtn_id, file_id, file_name, sort, mark_flag, update_user, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.stock.capital.enterprise.common.entity.LabelRtnFileExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from label_rtn_file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from label_rtn_file
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from label_rtn_file
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.stock.capital.enterprise.common.entity.LabelRtnFileExample">
+    delete from label_rtn_file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.stock.capital.enterprise.common.entity.LabelRtnFile">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      SELECT CONCAT(uuid_short(),'')
+    </selectKey>
+    insert into label_rtn_file (id, letterrtn_id, file_id, 
+      file_name, sort, mark_flag, 
+      update_user, update_time)
+    values (#{id,jdbcType=VARCHAR}, #{letterrtnId,jdbcType=VARCHAR}, #{fileId,jdbcType=VARCHAR}, 
+      #{fileName,jdbcType=VARCHAR}, #{sort,jdbcType=VARCHAR}, #{markFlag,jdbcType=VARCHAR}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.stock.capital.enterprise.common.entity.LabelRtnFile">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      SELECT CONCAT(uuid_short(),'')
+    </selectKey>
+    insert into label_rtn_file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      <if test="letterrtnId != null">
+        letterrtn_id,
+      </if>
+      <if test="fileId != null">
+        file_id,
+      </if>
+      <if test="fileName != null">
+        file_name,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="markFlag != null">
+        mark_flag,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=VARCHAR},
+      <if test="letterrtnId != null">
+        #{letterrtnId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileId != null">
+        #{fileId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="markFlag != null">
+        #{markFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.stock.capital.enterprise.common.entity.LabelRtnFileExample" resultType="java.lang.Long">
+    select count(*) from label_rtn_file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update label_rtn_file
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.letterrtnId != null">
+        letterrtn_id = #{record.letterrtnId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileId != null">
+        file_id = #{record.fileId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileName != null">
+        file_name = #{record.fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sort != null">
+        sort = #{record.sort,jdbcType=VARCHAR},
+      </if>
+      <if test="record.markFlag != null">
+        mark_flag = #{record.markFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update label_rtn_file
+    set id = #{record.id,jdbcType=VARCHAR},
+      letterrtn_id = #{record.letterrtnId,jdbcType=VARCHAR},
+      file_id = #{record.fileId,jdbcType=VARCHAR},
+      file_name = #{record.fileName,jdbcType=VARCHAR},
+      sort = #{record.sort,jdbcType=VARCHAR},
+      mark_flag = #{record.markFlag,jdbcType=VARCHAR},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stock.capital.enterprise.common.entity.LabelRtnFile">
+    update label_rtn_file
+    <set>
+      <if test="letterrtnId != null">
+        letterrtn_id = #{letterrtnId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileId != null">
+        file_id = #{fileId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="markFlag != null">
+        mark_flag = #{markFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stock.capital.enterprise.common.entity.LabelRtnFile">
+    update label_rtn_file
+    set letterrtn_id = #{letterrtnId,jdbcType=VARCHAR},
+      file_id = #{fileId,jdbcType=VARCHAR},
+      file_name = #{fileName,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=VARCHAR},
+      mark_flag = #{markFlag,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.stock.capital.enterprise.common.entity.LabelRtnFileExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from label_rtn_file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

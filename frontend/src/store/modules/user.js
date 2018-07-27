@@ -29,12 +29,16 @@ const user = {
       articlePlatform: []
     },
     routename: '',
-    routeTitle: '首页'
+    routeTitle: '首页',
+    bodyClass:'theme-silver'
   },
 
   mutations: {
     SET_CODE: (state, code) => {
       state.code = code
+    },
+    BODY_CLASS: (state,bodyClass)=>{
+      state.bodyClass = bodyClass;
     },
     SET_ACCESS_TOKEN: (state, token) => {
       state.accessToken = token
@@ -198,6 +202,9 @@ const user = {
         })
       })
     }
+  },
+  getters: {
+    getBodyClass: state => state.bodyClass
   }
 }
 
