@@ -91,27 +91,13 @@ table tbody tr td.left {
                                 </td>
                                 <td>${cl.belongTrade}</td>
                                 <td>
-                                	<c:choose>
-                                        <c:when test="${cl.quasiListedLand == '00'}">上海证券交易所</c:when>
-                                        <c:when test="${cl.quasiListedLand == '01'}">深圳证券交易所(主板)</c:when>
-                                        <c:when test="${cl.quasiListedLand == '02'}">深圳证券交易所(中小板)</c:when>
-                                        <c:when test="${cl.quasiListedLand == '03'}">深圳证券交易所(创业板)</c:when>
-                                        <c:otherwise>${cl.quasiListedLand}</c:otherwise>
-                                    </c:choose>
+                                	${cl.quasiListedLand}
                                 </td>
                                 <td>${cl.recommendOrganization}</td>
                                 <td>${cl.accountantOffice}</td>
                                 <td>${cl.lawFirm}</td>
                                 <td>
-                                	<c:choose>
-                                        <c:when test="${cl.approveStatus == '00'}">已受理</c:when>
-                                        <c:when test="${cl.approveStatus == '01'}">已反馈</c:when>
-                                        <c:when test="${cl.approveStatus == '02'}">预先披露更新</c:when>
-                                        <c:when test="${cl.approveStatus == '03'}">已通过发审会</c:when>
-                                        <c:when test="${cl.approveStatus == '04'}">中止审查</c:when>
-                                        <c:when test="${cl.approveStatus == '05'}">终止审查</c:when>
-                                        <c:otherwise>${cl.approveStatus}</c:otherwise>
-                                    </c:choose>
+                                	${cl.approveStatus}
                                 </td>
                                 <td>
                                 	<c:choose>
