@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -25,6 +26,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsCompanyDto;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsParamDto;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto;
+//import com.stock.capital.enterprise.regulatory.dto.StatisticsParamDto;
 import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.OptionDto;
 import com.stock.core.dto.QueryInfo;
@@ -390,4 +392,164 @@ public class StatisticsService extends BaseService {
         return resultName;
     }
     
+    public List<StatisticsResultDto> queryCommendDetail(StatisticsParamDto statisticsParamDto) {
+        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
+        };
+        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+        parameters.add("label",statisticsParamDto.getLabel());
+        parameters.add("quasiListedLand",statisticsParamDto.getQuasiListedLand());
+        parameters.add("industry",statisticsParamDto.getIndustry());
+        parameters.add("registAddr",statisticsParamDto.getRegistAddr());
+        String url = apiBaseUrl + "regulatory_statistics/viewCommendDetail";
+        List<StatisticsResultDto> list = restClient.post(url, parameters, responseType).getResult();
+        return list;
+    }
+    
+    public List<StatisticsResultDto> queryLawDetail(StatisticsParamDto statisticsParamDto) {
+        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
+        };
+        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+        parameters.add("label",statisticsParamDto.getLabel());
+        parameters.add("quasiListedLand",statisticsParamDto.getQuasiListedLand());
+        parameters.add("industry",statisticsParamDto.getIndustry());
+        parameters.add("registAddr",statisticsParamDto.getRegistAddr());
+        String url = apiBaseUrl + "regulatory_statistics/viewLawDetail";
+        List<StatisticsResultDto> list = restClient.post(url, parameters, responseType).getResult();
+        return list;
+    }
+    
+    public List<StatisticsResultDto> queryAccountDetail(StatisticsParamDto statisticsParamDto) {
+        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
+        };
+        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+        parameters.add("label",statisticsParamDto.getLabel());
+        parameters.add("quasiListedLand",statisticsParamDto.getQuasiListedLand());
+        parameters.add("industry",statisticsParamDto.getIndustry());
+        parameters.add("registAddr",statisticsParamDto.getRegistAddr());
+        String url = apiBaseUrl + "regulatory_statistics/viewAccountDetail";
+        List<StatisticsResultDto> list = restClient.post(url, parameters, responseType).getResult();
+        return list;
+    }
+    
+    public ByteArrayInputStream ipoCommendDetailExport(StatisticsParamDto statisticsParamDto , String flag) {
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        List<StatisticsResultDto> comDtos = new ArrayList<StatisticsResultDto>();
+        if("1".equals(flag)){
+        	comDtos = queryCommendDetail(statisticsParamDto);
+	  	}else if("2".equals(flag)){
+	  		comDtos = queryLawDetail(statisticsParamDto);
+	  	}else if("3".equals(flag)){
+	  		comDtos = queryAccountDetail(statisticsParamDto);
+	  	}
+        HSSFSheet sheet = workbook.createSheet("Sheet1");
+        HSSFRow row = null;
+        HSSFCellStyle cellStyle = workbook.createCellStyle();
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
+        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        cellStyle.setWrapText(true);
+        HSSFFont f = workbook.createFont();
+        f.setFontHeightInPoints((short) 12);
+        f.setBold(true);
+        cellStyle.setFont(f);
+        HSSFCellStyle cs = workbook.createCellStyle();
+        cs.setWrapText(true);
+        HSSFCell cell = null;
+        cell = sheet.createRow(0).createCell((int) 0);
+        cell.setCellValue("URL Link");
+        // 内容居中
+        HSSFCellStyle conCenterStyle = workbook.createCellStyle();
+        conCenterStyle.setAlignment(HorizontalAlignment.CENTER);
+        conCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        conCenterStyle.setWrapText(true);   
+        // 设置标题
+        row = sheet.createRow(0);
+        row.setHeight((short) 600);
+        //  协会机构不显示排行
+        String[] titles = new String[] {"申报企业","注册地","所属行业","拟上市地","保荐机构","会计师事务所","律师事务所","审核状态","是否已参加抽查\r\n抽签或现场检查"};
+        for (int i = 0; i < 9; i++) {
+            sheet.setDefaultColumnStyle(i, cs);
+            cell = row.createCell(i);
+            cell.setCellStyle(cellStyle);
+            cell.setCellValue(titles[i]);
+        }
+        row = sheet.createRow(1);
+        row.setHeight((short) 600);
+        
+        if (comDtos != null && comDtos.size() > 0) {
+            // 设置内容
+            for (int i = 0; i < comDtos.size(); i++) {
+                row = sheet.createRow(i+1);
+                row.setHeight((short) 600);
+                cell = row.createCell(0);
+                cell.setCellValue(comDtos.get(i).getAppCompany());
+                cell.setCellStyle(conCenterStyle);
+                cell = row.createCell(1);
+                cell.setCellValue(changeAreaName(comDtos.get(i).getRegistAddr()));
+                cell.setCellStyle(conCenterStyle);
+                cell = row.createCell(2);
+                cell.setCellValue(comDtos.get(i).getBelongTrade());
+                cell.setCellStyle(conCenterStyle);
+                cell = row.createCell(3);
+                if("00".equals(comDtos.get(i).getQuasiListedLand())){
+                	cell.setCellValue("上海证券交易所");
+                }else if("01".equals(comDtos.get(i).getQuasiListedLand())){
+                	cell.setCellValue("深圳证券交易所(主板)");
+                }else if("02".equals(comDtos.get(i).getQuasiListedLand())){
+                	cell.setCellValue("深圳证券交易所(中小板)");
+                }else if("03".equals(comDtos.get(i).getQuasiListedLand())){
+                	cell.setCellValue("深圳证券交易所(创业板)");
+                }
+                cell.setCellStyle(conCenterStyle);
+                cell = row.createCell(4);
+                cell.setCellValue(comDtos.get(i).getRecommendOrganization());
+                cell.setCellStyle(conCenterStyle);
+                cell = row.createCell(5);
+                cell.setCellValue(comDtos.get(i).getAccountantOffice());
+                cell.setCellStyle(conCenterStyle);
+                cell = row.createCell(6);
+                cell.setCellValue(comDtos.get(i).getLawFirm());
+                cell.setCellStyle(conCenterStyle);
+                cell = row.createCell(7);
+                if("00".equals(comDtos.get(i).getApproveStatus())){
+                	cell.setCellValue("已受理");
+                }else if("01".equals(comDtos.get(i).getApproveStatus())){
+                	cell.setCellValue("已反馈");
+                }else if("02".equals(comDtos.get(i).getApproveStatus())){
+                	cell.setCellValue("预先披露更新");
+                }else if("03".equals(comDtos.get(i).getApproveStatus())){
+                	cell.setCellValue("已通过发审会");
+                }else if("04".equals(comDtos.get(i).getApproveStatus())){
+                	cell.setCellValue("中止审查");
+                }else if("05".equals(comDtos.get(i).getApproveStatus())){
+                	cell.setCellValue("终止审查");
+                }
+                cell.setCellStyle(conCenterStyle);
+                cell = row.createCell(8);
+                if("1".equals(comDtos.get(i).getHasedRandomInspection())){
+                	cell.setCellValue("是");
+                }else if("0".equals(comDtos.get(i).getHasedRandomInspection())){
+                	cell.setCellValue("否");
+                }
+                cell.setCellStyle(conCenterStyle);
+            }
+        }
+        sheet.setColumnWidth(0, 6000);
+        sheet.setColumnWidth(1, 4000);
+        sheet.setColumnWidth(2, 6000);
+        sheet.setColumnWidth(3, 6000);
+        sheet.setColumnWidth(4, 6000);
+        sheet.setColumnWidth(5, 5000);
+        sheet.setColumnWidth(6, 6000);
+        sheet.setColumnWidth(7, 6000);
+        sheet.setColumnWidth(8, 6000);
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        try {
+            workbook.write(os);
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ByteArrayInputStream(os.toByteArray());
+    }
 }

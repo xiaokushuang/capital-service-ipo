@@ -157,12 +157,12 @@ table tbody tr td.left {
                     <label class="control-label col-md-2 no-padding-r">项目公司所属行业</label>
                     <div class="col-md-3 no-padding-r" style="margin-left:-50px;">
                         <input id="industry" json-data='${industrySelectList}' type="text" class="form-control t-select" placeholder="请选择行业" style="background-color: #fff;"/> 
-                        <input type="hidden" name="industry" />
+                        <input type="hidden" name="industry" id="industrySelect"/>
                     </div>
                     <label class="control-label col-md-2 no-padding-r">项目公司注册地</label>
                     <div class="col-md-3 no-padding-r" style="margin-left:-60px;">
                         <input id="registAddr" json-data='${areaList}' type="text" class="form-control t-select" placeholder="请选择注册地" style="background-color: #fff;"/> 
-                        <input type="hidden" name="registAddr" />
+                        <input type="hidden" name="registAddr" id="registAddrSelect"/>
                     </div>
 <!--                     <div class="col-md-3 no-padding-r" align="right"> -->
 <!--                         <span id="clearAllOption" class="btn btn-4 btn-bny">清空条件</span> -->
@@ -187,13 +187,13 @@ table tbody tr td.left {
                                        orderable="false" cssClass="text-center" cssStyle="width:10%"/> 
                              <e:gridColumn label="保荐机构" displayColumn="label" 
                                            orderable="false" cssClass="text-left" cssStyle="width:40%"/> 
-                             <e:gridColumn label="沪主板" displayColumn="hzbCount" orderColumn="1" 
+                             <e:gridColumn label="沪主板" renderColumn="renderColumnhzbCount" orderColumn="1" 
                                            cssClass="text-center" cssStyle="width:10%"/> 
-                             <e:gridColumn label="中小板" displayColumn="zxbCount" orderColumn="2" 
+                             <e:gridColumn label="中小板" renderColumn="renderColumnzxbCount"  orderColumn="2" 
                                           cssClass="text-center" cssStyle="width:10%"/> 
-                             <e:gridColumn label="创业板" displayColumn="cybCount" orderColumn="3" 
+                             <e:gridColumn label="创业板" renderColumn="renderColumncybCount"  orderColumn="3" 
                                            cssClass="text-center" cssStyle="width:10%"/> 
-                             <e:gridColumn label="合计" displayColumn="totalCount" orderColumn="4" 
+                             <e:gridColumn label="合计" renderColumn="renderColumnTotalCount" orderColumn="4" 
                                           cssClass="text-center" cssStyle="width:10%"/> 
                              <e:gridColumn label="市场占比" renderColumn="renderColumnPercent" orderColumn="5"
                                           cssClass="text-center" cssStyle="width:10%"/>
@@ -208,13 +208,13 @@ table tbody tr td.left {
                                       orderable="false" cssClass="text-center" cssStyle="width:10%"/>
                             <e:gridColumn label="律师事务所" displayColumn="label"
                                           orderable="false" cssClass="text-left" cssStyle="width:40%"/>
-                            <e:gridColumn label="沪主板" displayColumn="hzbCount" orderColumn="1"
+                            <e:gridColumn label="沪主板" renderColumn="renderColumnLawhzbCount" orderColumn="1"
                                           cssClass="text-center" cssStyle="width:10%"/>
-                            <e:gridColumn label="中小板" displayColumn="zxbCount" orderColumn="2"
+                            <e:gridColumn label="中小板" renderColumn="renderColumnLawzxbCount" orderColumn="2"
                                           cssClass="text-center" cssStyle="width:10%"/>
-                            <e:gridColumn label="创业板" displayColumn="cybCount" orderColumn="3"
+                            <e:gridColumn label="创业板" renderColumn="renderColumnLawcybCount" orderColumn="3"
                                           cssClass="text-center" cssStyle="width:10%"/>
-                            <e:gridColumn label="合计" displayColumn="totalCount" orderColumn="4"
+                            <e:gridColumn label="合计" renderColumn="renderColumnLawTotalCount" orderColumn="4"
                                           cssClass="text-center" cssStyle="width:10%"/>
                             <e:gridColumn label="市场占比" renderColumn="renderColumnPercent" orderColumn="5"
                                           cssClass="text-center" cssStyle="width:10%"/>
@@ -229,13 +229,13 @@ table tbody tr td.left {
                                       orderable="false" cssClass="text-center" cssStyle="width:10%"/>
                             <e:gridColumn label="会计师事务所" displayColumn="label"
                                           orderable="false" cssClass="text-left" cssStyle="width:40%"/>
-                            <e:gridColumn label="沪主板" displayColumn="hzbCount" orderColumn="1"
+                            <e:gridColumn label="沪主板" renderColumn="renderColumnAccounthzbCount" orderColumn="1"
                                           cssClass="text-center" cssStyle="width:10%"/>
-                            <e:gridColumn label="中小板" displayColumn="zxbCount" orderColumn="2"
+                            <e:gridColumn label="中小板" renderColumn="renderColumnAccountzxbCount" orderColumn="2"
                                           cssClass="text-center" cssStyle="width:10%"/>
-                            <e:gridColumn label="创业板" displayColumn="cybCount" orderColumn="3"
+                            <e:gridColumn label="创业板" renderColumn="renderColumnAccountcybCount" orderColumn="3"
                                           cssClass="text-center" cssStyle="width:10%"/>
-                            <e:gridColumn label="合计" displayColumn="totalCount" orderColumn="4"
+                            <e:gridColumn label="合计" renderColumn="renderColumnAccountTotalCount" orderColumn="4"
                                           cssClass="text-center" cssStyle="width:10%"/>
                             <e:gridColumn label="市场占比" renderColumn="renderColumnPercent" orderColumn="5"
                                           cssClass="text-center" cssStyle="width:10%"/>
