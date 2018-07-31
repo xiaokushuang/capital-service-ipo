@@ -30,9 +30,9 @@
         <el-row>
             <el-table id="refinance2" class="refinance greyBg" :data="tableRe" style="width:100%" border sortable="custom" size="medium" :header-row-class-name="bgFunction" :row-class-name="tableRowClassName">
                 <el-table-column label="序号" align="center" prop="num" width="65px"></el-table-column>
-                <el-table-column label="保荐机构" align="left" min-width="450px">
+                <el-table-column label="保荐机构"  min-width="450px">
                     <template slot-scope="scope">
-                        <span style="float:left">{{scope.row.label}}</span>
+                        <span>{{scope.row.label}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="深主板" align="center" prop="szbCount" min-width="130px"></el-table-column>
@@ -151,7 +151,9 @@ export default {
   },
   methods: {
     bgFunction(row, rowIndex) {
-      return "greyBg";
+      if (rowIndex === 0) {
+        return "greyBg";
+      }
     },
     wihteFunction(row, rowIndex) {
         return "whiteBg"
@@ -196,8 +198,9 @@ table tbody tr td {
 .el-table .bg {
   background: #e8e8e8 !important;
 }
-.el-table .hjRow {
+.el-table .greyBg {
   background: #e8e8e8 !important;
+  text-align: center !important
 }
 .el-table--enable-row-transition .el-table__body td {
   border-right: 1px solid #ebeef5;
@@ -211,7 +214,7 @@ table tbody tr td {
 .el-table--border th:first-child .cell {
   padding: 5px;
 }
-.greyBg:nth-child(2) td .cell span{ float:none !important}
+.el-table__header thead tr > th{padding:0px; background: #e8e8e8 !important;color:#000;text-align: center !important}
 </style>
 
     
