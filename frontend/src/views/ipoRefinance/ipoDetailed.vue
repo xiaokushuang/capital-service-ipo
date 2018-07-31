@@ -8,6 +8,7 @@
             <el-col :span="6">
             </el-col>
         </el-row>
+        <!-- 板块 -->
         <el-row :gutter="20">
             <el-col :span="6">
                 <el-select ref="selectCheckbox1" v-model="selectValue.classly" placeholder="请选择板块" size='small full'>
@@ -21,6 +22,7 @@
                     </el-col>
                 </el-select>
             </el-col>
+            <!-- 注册地 -->
             <el-col :span="6">
                 <el-select ref="selectCheckbox2" v-model="selectValue.areaList" placeholder="请选择注册地" size='small full'>
                     <el-option :label="selectValue.areaList" :value="selectValue.areaList">
@@ -37,27 +39,28 @@
                 <el-button size="mini" @click="clearAll">清空条件</el-button>
             </el-col>
         </el-row>
+        <!-- table -->
         <el-row>
-            <el-table id="ipoDetail" :data="getIpoAreaData" style="width:100%" border sortable="custom" size="medium" :row-class-name="tableRowClassName">
-                <el-table-column label="序号" align="center"  type="index" width="65px" style="border-right:1px solid #fff"></el-table-column>
-                <el-table-column label="注册地" align="center" width="105px">
+            <el-table id="ipoDetail" :data="tableRe" style="width:100%" border sortable="custom" size="medium" :row-class-name="tableRowClassName">
+                <el-table-column label="序号" align="center"  prop="num" width="68px" style="border-right:1px solid #fff"></el-table-column>
+                <el-table-column label="注册地" align="center" width="107px">
                     <template slot-scope="scope">
                         <span v-if="scope.row.registAddr == ''">合计</span>
                         <span v-else>{{scope.row.registAddr}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="在审情况" align="center"  prop="registAddr" width="945px">
+                <el-table-column label="在审情况" align="center"  prop="registAddr" width="970px">
                     <el-table-column align="center" style="height:54px;" prop="applied" border="true" label="已受理" sortable width="130px"></el-table-column>
-                    <el-table-column align="center" prop="reviewed" label="已反馈" sortable width="130px"></el-table-column>
-                    <el-table-column align="center" prop="preUpdate" label="预先披露更新" sortable width="130px"></el-table-column>
-                    <el-table-column align="center" prop="endYet" label="中止查询" sortable width="130px"></el-table-column>
-                    <el-table-column align="center" prop="processing" label="已提交发审会讨论，暂缓表决" sortable width="168px"></el-table-column>
-                    <el-table-column align="center" prop="passed" label="已通过发审会" sortable width="130px"></el-table-column>
-                    <el-table-column align="center" prop="areaCount" label="合计" sortable width="130px" ></el-table-column>
+                    <el-table-column align="center" prop="reviewed" label="已反馈" sortable width="132px"></el-table-column>
+                    <el-table-column align="center" prop="preUpdate" label="预先披露更新" sortable width="132px"></el-table-column>
+                    <el-table-column align="center" prop="endYet" label="中止查询" sortable width="132px"></el-table-column>
+                    <el-table-column align="center" prop="processing" label="已提交发审会讨论，暂缓表决" sortable width="196px"></el-table-column>
+                    <el-table-column align="center" prop="passed" label="已通过发审会" sortable width="132px"></el-table-column>
+                    <el-table-column align="center" prop="areaCount" label="合计" sortable width="132px" :class-name="heightStyle"></el-table-column>
                 </el-table-column>
-                <el-table-column label="终止审查" align="center" prop="registAddr" width="180px">
-                    <el-table-column align="center" prop="weekStopYet" label="最近一周" sortable width="90px"></el-table-column>
-                    <el-table-column align="center" prop="stopYet" label="2018年" sortable width="90px"></el-table-column>
+                <el-table-column label="终止审查" align="center" prop="registAddr" width="158px">
+                    <el-table-column align="center" prop="weekStopYet" label="最近一周" sortable width="93px"></el-table-column>
+                    <el-table-column align="center" prop="stopYet" label="2018年" sortable width="85px"></el-table-column>
                 </el-table-column>
             </el-table>
         </el-row>
@@ -91,7 +94,8 @@ export default {
         belongsPlate: "",
         areaList: "",
         classly: ""
-      }
+      },
+      heightStyle: "heightStyle"
     };
   },
   mounted() {
@@ -99,7 +103,63 @@ export default {
     this.ipoDataPort(true);
   },
   computed: {
-    ...mapGetters(["getIpoAreaData", "getIpoQuery"])
+    ...mapGetters(["getIpoAreaData", "getIpoQuery"]),
+    tableRe() {
+      var middle = [];
+      this.getIpoAreaData.map((obj, idx) => {
+        // debugger
+        var valuec = {};
+        valuec = [{
+          applied: "",
+          areaCount: "",
+          cybCount: "",
+          endYet: "",
+          hzbCount: "",
+          label: "",
+          lastUpadteTime: null,
+          passed: "",
+          percent: "",
+          preUpdate: "",
+          processing: "",
+          registAddr: null,
+          reviewed: "",
+          stopYet: null,
+          szbCount: "",
+          totalCount: "",
+          value: null,
+          weekStopYet: null,
+          zxbCount: "",
+          num: ""
+        }];
+        valuec;
+        valuec.applied = obj.applied;
+        valuec.areaCount = obj.areaCount;
+        valuec.cybCount = obj.cybCount;
+        valuec.endYet = obj.endYet;
+        valuec.hzbCount = obj.hzbCount;
+        valuec.label = obj.label;
+        valuec.lastUpadteTime = obj.lastUpadteTime;
+        valuec.passed = obj.passed;
+        valuec.percent = obj.percent;
+        valuec.preUpdate = obj.preUpdate;
+        valuec.processing = obj.processing;
+        valuec.registAddr = obj.registAddr;
+        valuec.reviewed = obj.reviewed;
+        valuec.stopYet = obj.stopYet;
+        valuec.szbCount = obj.szbCount;
+        valuec.totalCount = obj.totalCount;
+        valuec.value = obj.value;
+        valuec.weekStopYet = obj.weekStopYet;
+        valuec.zxbCount = obj.zxbCount;
+        if (idx+1 == this.getIpoAreaData.length) {
+          valuec.num = ""
+        }else {
+          valuec.num = idx+1;
+        }
+        middle.push(valuec);
+      });
+      return middle;
+    }
   },
   methods: {
     sure() {
@@ -202,13 +262,14 @@ export default {
   padding: 1px;
   border-right: 1px solid #fff;
 }
-.el-table thead {
-  height: 87px;
+.el-table:first-child tr{
+  height: 33px !important;
 }
 .el-table--border td {
   height: 30px;
   line-height: 30px;
   border-right: 1px solid #ddd;
+  border-bottom:  1px solid #ddd;
 }
 .el-table .cell,
 .el-table th div,
@@ -219,5 +280,10 @@ export default {
 .el-table .warning-row {
   background: #e8e8e8 !important;
 }
-.table thead th{padding:6px !important;}
+.el-table thead tr th {
+    font-weight: normal;
+}
+.heightStyle{background: #e8e8e8}
+.greyBg td div span{ float:none !important}
+/* .table thead th{padding:6px !important;} */
 </style>

@@ -167,7 +167,7 @@ export default {
         min-height: 39px;
         position: relative;
         border-bottom: 1px solid #e4e4e4;
-        border-top: 1px solid #e4e4e4;
+        /* border-top: 1px solid #e4e4e4; */
         line-height: 20px;
         padding: 6px 15px 0 15px;
             padding-right: 15px;
