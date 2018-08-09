@@ -45,17 +45,39 @@ export const constantRouterMap = [
   //     }
   //   ]
   // }
-  {
-    path: '/ipoRefinance',
-    component: Layout,
-    redirect: '/ipoRefinance/ipoDataOverview',
-    children: [{
-      path: 'ipoDataOverview',
-      component: _import('ipoRefinance/ipoDataOverview'),
-      name: 'ipoDataOverview',
-      meta: { title: 'ipo数据概览', icon: 'ipoDataOverview', noCache: true }
-    }]
-  },
+  // {
+  //   path: '/ipoRefinance',
+  //   component: Layout,
+  //   redirect: '/ipoRefinance/ipoDataOverview',
+  //   children: [{
+  //     path: 'ipoDataOverview',
+  //     component: _import('ipoRefinance/ipoDataOverview'),
+  //     name: 'ipoDataOverview',
+  //     meta: { title: 'ipo数据概览', icon: 'ipoDataOverview', noCache: true }
+  //   }]
+  // },
+  // {
+  //   path: '/ipoRefinance',
+  //   component: Layout,
+  //   redirect: '/ipoRefinance/ipoDetailed',
+  //   children: [{
+  //     path: 'ipoDetailed',
+  //     component: _import('ipoRefinance/ipoDetailed'),
+  //     name: 'ipoDetailed',
+  //     meta: { title: 'ipo在审详细', icon: 'ipoDetailed', noCache: true }
+  //   }]
+  // },
+  // {
+  //   path: '/ipoRefinance',
+  //   component: Layout,
+  //   redirect: '/ipoRefinance/refinancing',
+  //   children: [{
+  //     path: 'refinancing',
+  //     component: _import('ipoRefinance/refinancing'),
+  //     name: 'refinancing',
+  //     meta: { title: '再融资', icon: 'refinancing', noCache: true }
+  //   }]
+  // },
   {// financeStatistics/financeSearch
     path: '',
     component: Layout,
@@ -79,26 +101,50 @@ export const constantRouterMap = [
         component: _import('financeStatistics/companyBox'),
         name: 'companyContrast',
         meta: { title: '公司对比', icon: 'dashboard', noCache: true }
-      }, 
+      },
       {
         path: 'noticeHelper',
         component: _import('declare/noticeHelper'),
         name: 'noticeHelper',
-        meta: {title: 'noticeHelper', icon: 'dashboard', noCache: true }
+        meta: { title: 'noticeHelper', icon: 'dashboard', noCache: true }
+      },
+      {
+        path: 'securitiesBond',
+        component: _import('financeBond/securitiesBond'),
+        name: 'securitiesBond',
+        meta: { title: '债券发行', icon: 'securitiesBond', noCache: true }
+      },
+      {
+        path: 'ipoDataOverview',
+        component: _import('ipoRefinance/ipoDataOverview'),
+        name: 'ipoDataOverview',
+        meta: { title: 'ipo数据概览', icon: 'ipoDataOverview', noCache: true }
+      },
+      {
+        path: 'ipoDetailed',
+        component: _import('ipoRefinance/ipoDetailed'),
+        name: 'ipoDetailed',
+        meta: { title: 'ipo在审详细', icon: 'ipoDetailed', noCache: true }
+      },
+      {
+        path: 'refinancing',
+        component: _import('ipoRefinance/refinancing'),
+        name: 'refinancing',
+        meta: { title: '再融资', icon: 'refinancing', noCache: true }
       }
     ]
-  },
-  {
-    path: '/financeBond',
-    component: Layout,
-    redirect: '/financeBond/securitiesBond',
-    children: [{
-      path: 'securitiesBond',
-      component: _import('financeBond/securitiesBond'),
-      name: 'securitiesBond',
-      meta: { title: '债券发行', icon: 'securitiesBond', noCache: true }
-    }]
   }
+  // {
+  //   path: '/financeBond',
+  //   component: Layout,
+  //   redirect: '/financeBond/securitiesBond',
+  //   children: [{
+  //     path: 'securitiesBond',
+  //     component: _import('financeBond/securitiesBond'),
+  //     name: 'securitiesBond',
+  //     meta: { title: '债券发行', icon: 'securitiesBond', noCache: true }
+  //   }]
+  // }
 ]
 
 export default new Router(
@@ -106,7 +152,8 @@ export default new Router(
     // mode: 'history', // require service support
     scrollBehavior: () => ({ y: 0 }),
     routes: constantRouterMap,
-    mode: 'history'
+    mode: 'history',
+    base:'/ui/ipo/'
   }
 )
 

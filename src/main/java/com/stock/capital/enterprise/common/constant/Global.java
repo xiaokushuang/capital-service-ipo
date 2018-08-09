@@ -54,4 +54,56 @@ public interface Global {
      * 公司ID
      */
     public static final String COMPANY_ID = "companyId";
+
+    /**
+     * 违规案列TypeCode
+     */
+    public static final String INDEX_MODULE_VIOLATE = "03";
+
+    /**
+     * 收藏的类型——法规
+     */
+    public static final String FAVOURITE_TYPE_LAWS = "0";
+    /**
+     * 收藏的类型——资讯
+     */
+    public static final String FAVOURITE_TYPE_NEWS = "1";
+    /**
+     * 收藏的类型——问题
+     */
+    public static final String FAVOURITE_TYPE_QUESTION = "2";
+    /**
+     * 收藏的类型——监管信息
+     */
+    public static final String FAVOURITE_TYPE_REGULATORY = "3";
+    /**
+     * 收藏的类型——违规案例
+     */
+    public static final String FAVOURITE_TYPE_VIOLATION = "4";
+    /**
+     * 收藏的来源——官网价值法库
+     */
+    public static final String FAVOURITE_SOURCE_SITE = "0";
+    /**
+     * 收藏的来源——易董APP
+     */
+    public static final String FAVOURITE_SOURCE_ENTERPRISE_APP = "2";
+
+    /**
+     * 监管信息索引名称
+     */
+    public static final String REGULATORY_INDEX_NAME = "regulatory";
+
+    /**
+     * 违规案例索引名称
+     */
+    public static final String VIOLATION_INDEX_NAME = "violation";
+    /**
+     * 处罚明细索引名称
+     */
+    public static final String PUNISHMENT_INDEX_NAME = "punishment";
+    /**
+     * 证券融资查询索引名称
+     */
+    public static final String FINANCE_INDEX_NAME = "finance";
 }

@@ -23,7 +23,7 @@ import com.stock.capital.enterprise.declare.dto.DeclareFileDto;
 import com.stock.capital.enterprise.declare.dto.LawTableDto;
 import com.stock.capital.enterprise.declare.dto.NoticeHelperDto;
 import com.stock.capital.enterprise.declare.service.DeclareService;
-import com.stock.capital.enterprise.financeStatistics.dto.Param;
+import com.stock.capital.enterprise.api.financeStatistics.dto.Param;
 import com.stock.core.controller.BaseController; 
 import com.stock.core.dto.JsonResponse;
 import com.stock.core.rest.RestClient; 

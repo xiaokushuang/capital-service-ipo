@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stock.capital.enterprise.common.dao.RegulateinfoManageMapper">
+  <resultMap id="BaseResultMap" type="com.stock.capital.enterprise.common.entity.RegulateinfoManage">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="info_title" jdbcType="VARCHAR" property="infoTitle" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="info_source" jdbcType="VARCHAR" property="infoSource" />
+    <result column="release_time" jdbcType="TIMESTAMP" property="releaseTime" />
+    <result column="publish_flag" jdbcType="VARCHAR" property="publishFlag" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="file_flag" jdbcType="VARCHAR" property="fileFlag" />
+    <result column="company_id" jdbcType="VARCHAR" property="companyId" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="browseNum" jdbcType="DECIMAL" property="browsenum" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.stock.capital.enterprise.common.entity.RegulateinfoManage">
+    <result column="info_content" jdbcType="LONGVARCHAR" property="infoContent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, info_title, author, info_source, release_time, publish_flag, url, file_flag, 
+    company_id, create_user, create_time, update_user, update_time, status, browseNum
+  </sql>
+  <sql id="Blob_Column_List">
+    info_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.stock.capital.enterprise.common.entity.RegulateinfoManageExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from regulateinfo_manage
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.stock.capital.enterprise.common.entity.RegulateinfoManageExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from regulateinfo_manage
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from regulateinfo_manage
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from regulateinfo_manage
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.stock.capital.enterprise.common.entity.RegulateinfoManageExample">
+    delete from regulateinfo_manage
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.stock.capital.enterprise.common.entity.RegulateinfoManage">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      SELECT CONCAT(uuid_short(),'')
+    </selectKey>
+    insert into regulateinfo_manage (id, info_title, author, 
+      info_source, release_time, publish_flag, 
+      url, file_flag, company_id, 
+      create_user, create_time, update_user, 
+      update_time, status, browseNum, 
+      info_content)
+    values (#{id,jdbcType=VARCHAR}, #{infoTitle,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
+      #{infoSource,jdbcType=VARCHAR}, #{releaseTime,jdbcType=TIMESTAMP}, #{publishFlag,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{fileFlag,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{browsenum,jdbcType=DECIMAL}, 
+      #{infoContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.stock.capital.enterprise.common.entity.RegulateinfoManage">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      SELECT CONCAT(uuid_short(),'')
+    </selectKey>
+    insert into regulateinfo_manage
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      <if test="infoTitle != null">
+        info_title,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="infoSource != null">
+        info_source,
+      </if>
+      <if test="releaseTime != null">
+        release_time,
+      </if>
+      <if test="publishFlag != null">
+        publish_flag,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="fileFlag != null">
+        file_flag,
+      </if>
+      <if test="companyId != null">
+        company_id,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="browsenum != null">
+        browseNum,
+      </if>
+      <if test="infoContent != null">
+        info_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=VARCHAR},
+      <if test="infoTitle != null">
+        #{infoTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="infoSource != null">
+        #{infoSource,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseTime != null">
+        #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publishFlag != null">
+        #{publishFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="fileFlag != null">
+        #{fileFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="browsenum != null">
+        #{browsenum,jdbcType=DECIMAL},
+      </if>
+      <if test="infoContent != null">
+        #{infoContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.stock.capital.enterprise.common.entity.RegulateinfoManageExample" resultType="java.lang.Long">
+    select count(*) from regulateinfo_manage
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update regulateinfo_manage
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.infoTitle != null">
+        info_title = #{record.infoTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.author != null">
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.infoSource != null">
+        info_source = #{record.infoSource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.releaseTime != null">
+        release_time = #{record.releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.publishFlag != null">
+        publish_flag = #{record.publishFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null">
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileFlag != null">
+        file_flag = #{record.fileFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyId != null">
+        company_id = #{record.companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.browsenum != null">
+        browseNum = #{record.browsenum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.infoContent != null">
+        info_content = #{record.infoContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update regulateinfo_manage
+    set id = #{record.id,jdbcType=VARCHAR},
+      info_title = #{record.infoTitle,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      info_source = #{record.infoSource,jdbcType=VARCHAR},
+      release_time = #{record.releaseTime,jdbcType=TIMESTAMP},
+      publish_flag = #{record.publishFlag,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      file_flag = #{record.fileFlag,jdbcType=VARCHAR},
+      company_id = #{record.companyId,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=VARCHAR},
+      browseNum = #{record.browsenum,jdbcType=DECIMAL},
+      info_content = #{record.infoContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update regulateinfo_manage
+    set id = #{record.id,jdbcType=VARCHAR},
+      info_title = #{record.infoTitle,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      info_source = #{record.infoSource,jdbcType=VARCHAR},
+      release_time = #{record.releaseTime,jdbcType=TIMESTAMP},
+      publish_flag = #{record.publishFlag,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      file_flag = #{record.fileFlag,jdbcType=VARCHAR},
+      company_id = #{record.companyId,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=VARCHAR},
+      browseNum = #{record.browsenum,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stock.capital.enterprise.common.entity.RegulateinfoManage">
+    update regulateinfo_manage
+    <set>
+      <if test="infoTitle != null">
+        info_title = #{infoTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="infoSource != null">
+        info_source = #{infoSource,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseTime != null">
+        release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publishFlag != null">
+        publish_flag = #{publishFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="fileFlag != null">
+        file_flag = #{fileFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="browsenum != null">
+        browseNum = #{browsenum,jdbcType=DECIMAL},
+      </if>
+      <if test="infoContent != null">
+        info_content = #{infoContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.stock.capital.enterprise.common.entity.RegulateinfoManage">
+    update regulateinfo_manage
+    set info_title = #{infoTitle,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      info_source = #{infoSource,jdbcType=VARCHAR},
+      release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      publish_flag = #{publishFlag,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      file_flag = #{fileFlag,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      browseNum = #{browsenum,jdbcType=DECIMAL},
+      info_content = #{infoContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stock.capital.enterprise.common.entity.RegulateinfoManage">
+    update regulateinfo_manage
+    set info_title = #{infoTitle,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      info_source = #{infoSource,jdbcType=VARCHAR},
+      release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      publish_flag = #{publishFlag,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      file_flag = #{fileFlag,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      browseNum = #{browsenum,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="com.stock.capital.enterprise.common.entity.RegulateinfoManageExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from regulateinfo_manage
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleWithRowbounds" parameterType="com.stock.capital.enterprise.common.entity.RegulateinfoManageExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from regulateinfo_manage
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -125,7 +125,7 @@ function chartSetting(lst) {
 			}
 		},
 		grid : {
-			top : '5%',
+			//top : '5%',标签过多换行重叠表格
 			left : '1%',
 			right : '4%',
 			bottom : '3%',
@@ -515,4 +515,169 @@ function historyChartSetting(grabUpdateTime,hzbCount,zxbCount,cybCount,totalCoun
 			        }
 			    ]
     });
+}
+
+
+
+//function hzbCountAllInfo(label,quasiListedLand) {
+//	debugger;
+//	var data = {
+//			label : label,
+//			quasiListedLand : quasiListedLand
+//	};
+//	var accessToken = $('#tokenValue').val();
+//	popWin(label, "/regulatory_statistics/viewCommendDetail?access_token="+accessToken, data, "95%","98%");
+//}
+
+/*--------------保荐机构------------------*/
+//查询当前保荐机构下所有沪主板公司
+function renderColumnhzbCount(data, type, row, meta){
+    var operationStr = "";
+    var quasiListedLand = "00";
+    	operationStr += '<a href="javascript:void(0)" onclick="viewCommendDetail(\'' + data.label
+		+ '\',\'' + quasiListedLand+ '\')">' + data.hzbCount + '</a>';
+    	return operationStr;
+}
+
+//查询当前保荐机构下所有中小板公司
+function renderColumnzxbCount(data, type, row, meta){
+    var operationStr = "";
+    var quasiListedLand = "02";
+    	operationStr += '<a href="javascript:void(0)" onclick="viewCommendDetail(\'' + data.label
+		+ '\',\'' + quasiListedLand+ '\')">' + data.zxbCount + '</a>';
+    	return operationStr;
+}
+
+//查询当前保荐机构下所有创业板公司
+function renderColumncybCount(data, type, row, meta){
+    var operationStr = "";
+    var quasiListedLand = "03";
+    	operationStr += '<a href="javascript:void(0)" onclick="viewCommendDetail(\'' + data.label
+		+ '\',\'' + quasiListedLand+ '\')">' + data.cybCount + '</a>';
+    	return operationStr;
+}
+
+//查询当前保荐机构下所有公司
+function renderColumnTotalCount(data, type, row, meta){
+    var operationStr = "";
+    var quasiListedLand = "";
+    	operationStr += '<a href="javascript:void(0)" onclick="viewCommendDetail(\'' + data.label
+		+ '\',\'' + quasiListedLand+ '\')">' + data.totalCount + '</a>';
+    	return operationStr;
+}
+
+function viewCommendDetail(label,quasiListedLand) {
+	debugger;
+	var industry = $("#industrySelect").val();
+	var registAddr = $("#registAddrSelect").val();
+	var data = {
+			label : label,
+			quasiListedLand : quasiListedLand,
+			industry : industry,
+			registAddr : registAddr
+	};
+	var accessToken = $('#tokenValue').val();
+	popWin(label, "/regulatory_statistics/viewCommendDetail?access_token="+accessToken, data, "95%","98%");
+}
+
+/*--------------律师事务所------------------*/
+//查询当前律师事务所下所有沪主板公司
+function renderColumnLawhzbCount(data, type, row, meta){
+    var operationStr = "";
+    var quasiListedLand = "00";
+    	operationStr += '<a href="javascript:void(0)" onclick="viewLawDetail(\'' + data.label
+		+ '\',\'' + quasiListedLand+ '\')">' + data.hzbCount + '</a>';
+    	return operationStr;
+}
+
+//查询当前律师事务所下所有中小板公司
+function renderColumnLawzxbCount(data, type, row, meta){
+    var operationStr = "";
+    var quasiListedLand = "02";
+    	operationStr += '<a href="javascript:void(0)" onclick="viewLawDetail(\'' + data.label
+		+ '\',\'' + quasiListedLand+ '\')">' + data.zxbCount + '</a>';
+    	return operationStr;
+}
+
+//查询当前律师事务所下所有创业板公司
+function renderColumnLawcybCount(data, type, row, meta){
+    var operationStr = "";
+    var quasiListedLand = "03";
+    	operationStr += '<a href="javascript:void(0)" onclick="viewLawDetail(\'' + data.label
+		+ '\',\'' + quasiListedLand+ '\')">' + data.cybCount + '</a>';
+    	return operationStr;
+}
+
+//查询当前律师事务所下所有公司
+function renderColumnLawTotalCount(data, type, row, meta){
+    var operationStr = "";
+    var quasiListedLand = "";
+    	operationStr += '<a href="javascript:void(0)" onclick="viewLawDetail(\'' + data.label
+		+ '\',\'' + quasiListedLand+ '\')">' + data.totalCount + '</a>';
+    	return operationStr;
+}
+
+function viewLawDetail(label,quasiListedLand) {
+	debugger;
+	var industry = $("#industrySelect").val();
+	var registAddr = $("#registAddrSelect").val();
+	var data = {
+			label : label,
+			quasiListedLand : quasiListedLand,
+			industry : industry,
+			registAddr : registAddr
+	};
+	var accessToken = $('#tokenValue').val();
+	popWin(label, "/regulatory_statistics/viewLawDetail?access_token="+accessToken, data, "95%","98%");
+}
+/*--------------会计师事务所------------------*/
+//查询当前会计师事务所下所有沪主板公司
+function renderColumnAccounthzbCount(data, type, row, meta){
+  var operationStr = "";
+  var quasiListedLand = "00";
+  	operationStr += '<a href="javascript:void(0)" onclick="viewAccountDetail(\'' + data.label
+		+ '\',\'' + quasiListedLand+ '\')">' + data.hzbCount + '</a>';
+  	return operationStr;
+}
+
+//查询当前会计师事务所下所有中小板公司
+function renderColumnAccountzxbCount(data, type, row, meta){
+  var operationStr = "";
+  var quasiListedLand = "02";
+  	operationStr += '<a href="javascript:void(0)" onclick="viewAccountDetail(\'' + data.label
+		+ '\',\'' + quasiListedLand+ '\')">' + data.zxbCount + '</a>';
+  	return operationStr;
+}
+
+//查询当前会计师事务所下所有创业板公司
+function renderColumnAccountcybCount(data, type, row, meta){
+  var operationStr = "";
+  var quasiListedLand = "03";
+  	operationStr += '<a href="javascript:void(0)" onclick="viewAccountDetail(\'' + data.label
+		+ '\',\'' + quasiListedLand+ '\')">' + data.cybCount + '</a>';
+  	return operationStr;
+}
+
+//查询当前会计师事务所下所有公司
+function renderColumnAccountTotalCount(data, type, row, meta){
+  var operationStr = "";
+  var quasiListedLand = "";
+  	operationStr += '<a href="javascript:void(0)" onclick="viewAccountDetail(\'' + data.label
+		+ '\',\'' + quasiListedLand+ '\')">' + data.totalCount + '</a>';
+  	return operationStr;
+}
+
+function viewAccountDetail(label,quasiListedLand) {
+	debugger;
+	var industry = $("#industrySelect").val();
+	var registAddr = $("#registAddrSelect").val();
+	var data = {
+			label : label,
+			quasiListedLand : quasiListedLand,
+			industry : industry,
+			registAddr : registAddr
+			
+	};
+	var accessToken = $('#tokenValue').val();
+	popWin(label, "/regulatory_statistics/viewAccountDetail?access_token="+accessToken, data, "95%","98%");
 }

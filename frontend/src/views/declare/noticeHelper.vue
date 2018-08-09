@@ -480,7 +480,7 @@ export default {
 };
 </script>
 
-<style >
+<style scoped>
 .h40 {
   height: 40px;
 }

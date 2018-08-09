@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import com.stock.capital.enterprise.regulatory.dto.ViolationParamDto;
+import com.stock.capital.enterprise.regulatory.service.ViolationService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,8 +28,6 @@ import com.stock.capital.enterprise.lawLibrary.dto.SearchDto;
 import com.stock.capital.enterprise.lawLibrary.dto.SearchLawsDTO;
 import com.stock.capital.enterprise.lawLibrary.dto.StatisticLawDto;
 import com.stock.capital.enterprise.lawLibrary.service.LawsSearchService;
-import com.stock.capital.enterprise.regulatory.dto.ViolationParamDto;
-import com.stock.capital.enterprise.regulatory.service.ViolationService;
 import com.stock.core.Constant;
 import com.stock.core.controller.BaseController;
 import com.stock.core.dto.JsonResponse;

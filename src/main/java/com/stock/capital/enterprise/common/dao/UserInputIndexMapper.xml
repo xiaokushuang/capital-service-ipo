@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stock.capital.enterprise.common.dao.UserInputIndexMapper">
+  <resultMap id="BaseResultMap" type="com.stock.capital.enterprise.common.entity.UserInputIndex">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="input_index" jdbcType="VARCHAR" property="inputIndex" />
+    <result column="input_index_query" jdbcType="VARCHAR" property="inputIndexQuery" />
+    <result column="index_module" jdbcType="VARCHAR" property="indexModule" />
+    <result column="index_project" jdbcType="VARCHAR" property="indexProject" />
+    <result column="process_status" jdbcType="VARCHAR" property="processStatus" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, input_index, input_index_query, index_module, index_project, process_status, 
+    create_user, create_time, update_user, update_time, status
+  </sql>
+  <select id="selectByExample" parameterType="com.stock.capital.enterprise.common.entity.UserInputIndexExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_input_index
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_input_index
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from user_input_index
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.stock.capital.enterprise.common.entity.UserInputIndexExample">
+    delete from user_input_index
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.stock.capital.enterprise.common.entity.UserInputIndex">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      SELECT CONCAT(uuid_short(),'')
+    </selectKey>
+    insert into user_input_index (id, input_index, input_index_query, 
+      index_module, index_project, process_status, 
+      create_user, create_time, update_user, 
+      update_time, status)
+    values (#{id,jdbcType=VARCHAR}, #{inputIndex,jdbcType=VARCHAR}, #{inputIndexQuery,jdbcType=VARCHAR}, 
+      #{indexModule,jdbcType=VARCHAR}, #{indexProject,jdbcType=VARCHAR}, #{processStatus,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.stock.capital.enterprise.common.entity.UserInputIndex">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      SELECT CONCAT(uuid_short(),'')
+    </selectKey>
+    insert into user_input_index
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      <if test="inputIndex != null">
+        input_index,
+      </if>
+      <if test="inputIndexQuery != null">
+        input_index_query,
+      </if>
+      <if test="indexModule != null">
+        index_module,
+      </if>
+      <if test="indexProject != null">
+        index_project,
+      </if>
+      <if test="processStatus != null">
+        process_status,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=VARCHAR},
+      <if test="inputIndex != null">
+        #{inputIndex,jdbcType=VARCHAR},
+      </if>
+      <if test="inputIndexQuery != null">
+        #{inputIndexQuery,jdbcType=VARCHAR},
+      </if>
+      <if test="indexModule != null">
+        #{indexModule,jdbcType=VARCHAR},
+      </if>
+      <if test="indexProject != null">
+        #{indexProject,jdbcType=VARCHAR},
+      </if>
+      <if test="processStatus != null">
+        #{processStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.stock.capital.enterprise.common.entity.UserInputIndexExample" resultType="java.lang.Long">
+    select count(*) from user_input_index
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update user_input_index
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inputIndex != null">
+        input_index = #{record.inputIndex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inputIndexQuery != null">
+        input_index_query = #{record.inputIndexQuery,jdbcType=VARCHAR},
+      </if>
+      <if test="record.indexModule != null">
+        index_module = #{record.indexModule,jdbcType=VARCHAR},
+      </if>
+      <if test="record.indexProject != null">
+        index_project = #{record.indexProject,jdbcType=VARCHAR},
+      </if>
+      <if test="record.processStatus != null">
+        process_status = #{record.processStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update user_input_index
+    set id = #{record.id,jdbcType=VARCHAR},
+      input_index = #{record.inputIndex,jdbcType=VARCHAR},
+      input_index_query = #{record.inputIndexQuery,jdbcType=VARCHAR},
+      index_module = #{record.indexModule,jdbcType=VARCHAR},
+      index_project = #{record.indexProject,jdbcType=VARCHAR},
+      process_status = #{record.processStatus,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stock.capital.enterprise.common.entity.UserInputIndex">
+    update user_input_index
+    <set>
+      <if test="inputIndex != null">
+        input_index = #{inputIndex,jdbcType=VARCHAR},
+      </if>
+      <if test="inputIndexQuery != null">
+        input_index_query = #{inputIndexQuery,jdbcType=VARCHAR},
+      </if>
+      <if test="indexModule != null">
+        index_module = #{indexModule,jdbcType=VARCHAR},
+      </if>
+      <if test="indexProject != null">
+        index_project = #{indexProject,jdbcType=VARCHAR},
+      </if>
+      <if test="processStatus != null">
+        process_status = #{processStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stock.capital.enterprise.common.entity.UserInputIndex">
+    update user_input_index
+    set input_index = #{inputIndex,jdbcType=VARCHAR},
+      input_index_query = #{inputIndexQuery,jdbcType=VARCHAR},
+      index_module = #{indexModule,jdbcType=VARCHAR},
+      index_project = #{indexProject,jdbcType=VARCHAR},
+      process_status = #{processStatus,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.stock.capital.enterprise.common.entity.UserInputIndexExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_input_index
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

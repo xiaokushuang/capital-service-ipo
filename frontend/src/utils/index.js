@@ -327,39 +327,44 @@ export function MultidimensionalData(datalist) {
   // 拿到第一层方法
   function getOne(data) {
     var one = [],list
-    data.map(function (obj, idx) {
-      var flag = 0;
-      data.map(function (o, i) {
-        if (obj.parentId == o.id) {
+    data.map(function(obj, idx) {
+      var flag = 0
+      data.map(function(o, i) {
+        if (obj.parentId === o.id) {
           flag++
         }
         return o
       })
-      if (flag == 0) {
+      if (flag === 0) {
         list = cloneObj(obj)
-        list.children = [];
+        list.children = []
         one.push(list)
       }
       return obj
     })
-    return one;
+    return one
   }
   // 递归方法
   function fns(one, data) {
-    one.map(function (obj, idx) {
-      data.map(function (o, i) {
+    one.map(function(obj, idx) {
+      data.map(function(o, i) {
         if (obj.id == o.parentId) {
-          var list = cloneObj(o);
-          list.children = [];
+          var list = cloneObj(o)
+          list.children = []
           obj.children.push(list)
           fns(obj.children, data)
         }
       })
     })
   }
-  var middle = [].concat(datalist)
-  var one = getOne(middle);
-  fns(one, middle)
+  try {
+    var middle = [].concat(datalist)
+    var one = getOne(middle)
+    fns(one, middle)
+  } catch (e) {
+    console.warn('no data for exit')
+  }
+
   return one
 }
 
