@@ -1,5 +1,5 @@
 <template> 
-<div>
+<div class="chart-container">
     <!-- 左侧条件选择栏 -->
     <el-row :gutter="20" class="h100"> 
         <el-col :span="6" class="chart" style="position:relative"> 
@@ -128,7 +128,11 @@
                                     </template> 
                                   </el-table-column>
                                   <el-table-column prop="published" label="颁布时间" min-width="80"  sortable></el-table-column>
-                                  <el-table-column prop="lawStatus" label="法律位阶" min-width="80" sortable></el-table-column>
+                                  <el-table-column prop="typeName" label="法律位阶" min-width="80" sortable>
+                                    <template slot-scope="scope">
+                                      <span :title="scope.row.typeName">{{scope.row.typeName}}</span>
+                                    </template> 
+                                  </el-table-column>
                                   <el-table-column prop="sourceDepartment" label="发文单位" min-width="100" > </el-table-column>
                                   <el-table-column prop="lawStatus" label="重要性" min-width="80"  sortable>  
                                        <template slot-scope="scope">
@@ -141,14 +145,14 @@
                           </el-collapse-item>
                           </el-collapse>
                     </el-tab-pane>
-                    <el-tab-pane label="经验总结" name="fiveth">
+                    <!-- <el-tab-pane label="经验总结" name="fiveth">
                          <el-collapse v-model="activeNames" @change="handleChange">
                           <el-collapse-item title="一致性 Consistency" name="1">
                             <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
                             <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
                           </el-collapse-item>
                           </el-collapse>
-                    </el-tab-pane>
+                    </el-tab-pane> -->
                 </el-tabs>
                 <span style="font-size:12px;color:#333333;">*信披文件登报、上网、报备、 必备的勾选为易董结合实践提供的参考，实际操作以监管要求为准。</span>
             </div>
@@ -407,7 +411,7 @@ export default {
         param += "&jingdu=1";
       }
       // contextPath
-      // window.parent.open('https://999000.valueonline.cn/lawsearch/toLawClause?'+param);
+      window.parent.open('https://999000.valueonline.cn/lawsearch/toLawClause?'+param);
       // window.parent.open('http://www.baidu.com');
     },
     //为叶子节点添加点击事件
@@ -642,5 +646,30 @@ th {
 }
 .el-collapse-item__content {
   padding-bottom: 10px;
+}
+.chart-container .el-tabs__item.is-active {
+    color: #0086a7;
+}
+.chart-container .el-tabs__item:hover {
+    color:  #0086a7;
+    cursor: pointer;
+}
+
+.chart-container .el-tabs__item:hover {
+    color: #0086a7;
+    cursor: pointer;
+}
+.chart-container .el-tabs__active-bar{
+    background-color: #0086a7;
+}
+.chart-container .el-tabs__active-bar {
+    color:  #0086a7;
+}
+.chart-container .el-tabs__header{
+    padding-right: 12px;
+}
+/* ('el-tabs__active-bar')[0].style = 'width: 56px; transform: translateX(0px);' */
+.chart-container .el-tabs__active-bar{
+    width: 56px; transform: translateX(0px);
 }
 </style>

@@ -24,7 +24,7 @@ module.exports = {
       //     }
       // },
     '/ipo/':{
-        target:'http://192.168.1.22:9080',//'http://192.168.1.22:9080',
+        target:'http://192.168.1.22:9080',//'http://192.168.1.22:9080','localhost:8082',//
         pathRewrite:{
           '^/ipo/':'/ipo/'
         }
