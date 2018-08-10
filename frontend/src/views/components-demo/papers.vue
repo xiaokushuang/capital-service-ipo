@@ -60,7 +60,7 @@ export default {
 
   },
   mounted(){
-      this.submitData.pageSize = this.pageSize1
+    //   this.submitData.pageSize = this.pageSize1
   },
   computed:{
         fromPaper(){//从多少条开始 
@@ -93,6 +93,8 @@ export default {
                     this.submitData.startRow = (val-1)*Math.ceil(this.submitData.pageSize)+1
                 }else{
                     this.submitData.startRow = this.lastPage()
+                    this.submitData.startRow ++;
+                    this.submitData.startRow --;
                 }
                 
             }
@@ -167,7 +169,7 @@ export default {
         min-height: 39px;
         position: relative;
         border-bottom: 1px solid #e4e4e4;
-        border-top: 1px solid #e4e4e4;
+        /* border-top: 1px solid #e4e4e4; */
         line-height: 20px;
         padding: 6px 15px 0 15px;
             padding-right: 15px;

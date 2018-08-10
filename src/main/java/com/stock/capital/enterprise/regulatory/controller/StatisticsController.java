@@ -482,4 +482,90 @@ public class StatisticsController extends BaseController {
          return mv;
      }
      
+     /**
+      * 保荐机构数据明细
+      *
+      * @return
+      */
+     @RequestMapping(value = "viewCommendDetail")
+     public ModelAndView viewCommendDetail(StatisticsParamDto statisticsParamDto) {
+         ModelAndView mv = new ModelAndView("regulatory/viewCommendDetail");
+         List<StatisticsResultDto> companyList = statisticsService.queryCommendDetail(statisticsParamDto);
+         mv.addObject("companyList",companyList);
+         mv.addObject("statisticsParamDto",statisticsParamDto);
+         return mv;
+     }
+     
+     /**
+      * 律师事务所数据明细
+      *
+      * @return
+      */
+     @RequestMapping(value = "viewLawDetail")
+     public ModelAndView viewLawDetail(StatisticsParamDto statisticsParamDto) {
+         ModelAndView mv = new ModelAndView("regulatory/viewLawDetail");
+         List<StatisticsResultDto> companyList = statisticsService.queryLawDetail(statisticsParamDto);
+         mv.addObject("companyList",companyList);
+         mv.addObject("statisticsParamDto",statisticsParamDto);
+         return mv;
+     }
+     
+     /**
+      * 会计事务所数据明细
+      *
+      * @return
+      */
+     @RequestMapping(value = "viewAccountDetail")
+     public ModelAndView viewAccountDetail(StatisticsParamDto statisticsParamDto) {
+         ModelAndView mv = new ModelAndView("regulatory/viewAccountDetail");
+         List<StatisticsResultDto> companyList = statisticsService.queryAccountDetail(statisticsParamDto);
+         mv.addObject("companyList",companyList);
+         mv.addObject("statisticsParamDto",statisticsParamDto);
+         return mv;
+     }
+     
+     /**
+      * 
+      * Excel导出--ipo保荐机构/律师事务所/会计师事务所
+       * @throws IOException 
+      * 
+      */
+      @RequestMapping(value = "ipoCommendDetailExport")
+      public ModelAndView ipoCommendDetailExport(String flag , StatisticsParamDto statisticsParamDto) throws IOException{
+    	  ModelAndView mv = new ModelAndView();
+    	  if("1".equals(flag)){
+              mv.setView(new DownloadView());
+              Map<String, Object> fileInfo = Maps.newHashMap();
+              String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMdd");
+              fileInfo.put("fileName", "IPO保荐机构数据明细_"+ timeStr+".xls");
+              // 从文件服务器下载文件
+              fileInfo.put("fileBytes", statisticsService.ipoCommendDetailExport(statisticsParamDto,flag));
+              mv.addObject(DownloadView.EXPORT_FILE, fileInfo.get("fileBytes"));
+              mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
+              mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLS);
+    	  }else if("2".equals(flag)){
+              mv.setView(new DownloadView());
+              Map<String, Object> fileInfo = Maps.newHashMap();
+              String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMdd");
+              fileInfo.put("fileName", "IPO律师事务所数据明细_"+ timeStr+".xls");
+              // 从文件服务器下载文件
+              fileInfo.put("fileBytes", statisticsService.ipoCommendDetailExport(statisticsParamDto,flag));
+              mv.addObject(DownloadView.EXPORT_FILE, fileInfo.get("fileBytes"));
+              mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
+              mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLS);
+    	  }else if("3".equals(flag)){
+              mv.setView(new DownloadView());
+              Map<String, Object> fileInfo = Maps.newHashMap();
+              String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMdd");
+              fileInfo.put("fileName", "IPO会计师事务所数据明细_"+ timeStr+".xls");
+              // 从文件服务器下载文件
+              fileInfo.put("fileBytes", statisticsService.ipoCommendDetailExport(statisticsParamDto,flag));
+              mv.addObject(DownloadView.EXPORT_FILE, fileInfo.get("fileBytes"));
+              mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
+              mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLS);
+              
+    	  }
+    	  return mv;
+      }
+     
 }

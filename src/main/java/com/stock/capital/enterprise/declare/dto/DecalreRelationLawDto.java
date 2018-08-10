@@ -36,6 +36,38 @@ public class DecalreRelationLawDto implements Serializable {
 	private List<LawXmlStructureDetail> lawItemList;
 	
 	private String nodeId;
+	
+	private String lawGrade;
+	
+	private String typeName;
+	
+	private String typeId;
+	
+	
+
+	public String getLawGrade() {
+		return lawGrade;
+	}
+
+	public void setLawGrade(String lawGrade) {
+		this.lawGrade = lawGrade;
+	}
+
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
+
+	public String getTypeId() {
+		return typeId;
+	}
+
+	public void setTypeId(String typeId) {
+		this.typeId = typeId;
+	}
 
 	public String getLawId() {
 		return lawId;

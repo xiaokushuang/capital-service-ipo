@@ -367,3 +367,44 @@ export function MultidimensionalData(datalist) {
 
   return one
 }
+
+export function OneDimensionalDataVariableMultidimensionalData(datalist){
+// 拿到第一层方法
+function getOne(data){
+  var one = [],list;
+  data.map(function(obj,idx){
+      var flag = 0;
+      data.map(function(o,i){
+          if(obj.parentId==o.id){
+              flag++
+          }
+          return o
+      })
+      if(flag==0){
+          list = cloneObj(obj)
+          list.children = [];
+          one.push(list)
+      }
+      return obj
+  })
+  return one;
+}
+//递归方法
+function fns(one,data){ 
+  one.map(function(obj,idx){ 
+      data.map(function(o,i){ 
+          if(obj.id==o.parentId){ 
+              var list = cloneObj(o);
+              list.children = [];
+              // obj.name = obj.name.substr(0,obj.name.indexOf('(')==-1?obj.name.length:obj.name.indexOf('(')) 
+              obj.children.push(list) 
+          }
+      })
+      fns(obj.children,data)
+  })
+}
+var middle = [].concat(datalist)
+var one = getOne(middle); 
+fns(one,middle)
+return one
+}

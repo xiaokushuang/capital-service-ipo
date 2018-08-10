@@ -17,7 +17,27 @@ public class StatisticsParamDto implements Serializable {
     private String ipoOrder; //排序--查询条件
     
     private String approveStatus; //IPO审核状态--查询条件
+    
+    private String label;
+    
+    private String quasiListedLand;
+    
+    public String getLabel() {
+        return label;
+    }
 
+    public void setLabel(String label) {
+        this.label = label;
+    }
+    public String getQuasiListedLand() {
+        return quasiListedLand;
+    }
+
+    public void setQuasiListedLand(String quasiListedLand) {
+        this.quasiListedLand = quasiListedLand;
+    }
+
+    
     public String getLastUpadteTime() {
         return lastUpadteTime;
     }
@@ -66,5 +86,6 @@ public class StatisticsParamDto implements Serializable {
         this.approveStatus = approveStatus;
     }
 
+    
 }
 

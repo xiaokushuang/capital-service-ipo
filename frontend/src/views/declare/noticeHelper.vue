@@ -1,5 +1,5 @@
 <template> 
-<div>
+<div class="chart-container">
     <!-- 左侧条件选择栏 -->
     <el-row :gutter="20" class="h100"> 
         <el-col :span="6" class="chart" style="position:relative"> 
@@ -105,9 +105,9 @@
                           <el-collapse-item   name="1">
                                 <template slot="title">
                                  <span>{{titlename}} </span>
-                                 <div style="float:right;margin-right:80px;">
-                                 <input type="checkbox"  v-model="isLose"> 
-                                 包含已失效 
+                                 <div style="float:right;margin-right:80px;"  >
+                                 <input id = "checkin8" type="checkbox"  v-model="isLose" > 
+                                 <label for="checkin8">包含已失效 </label>
                                  </div>
                                 </template>
                             <div class = "lawbox">
@@ -115,7 +115,7 @@
                                   @sort-change="sortChangeA" @selection-change="handleSelectionChange" size="medium">
                                   <!-- 序号	法规名称	颁布时间	法律位阶	发文单位	重要性 -->
                                   <el-table-column type="index"  label="序号" width="60"> </el-table-column><!--多选，不要删了--> 
-                                  <el-table-column prop="lawName" label="法规名称" min-width="330"  sortable>
+                                  <el-table-column prop="lawName" label="法规名称" min-width="300"  sortable>
                                     <template slot-scope="scope">
                                       <p v-if="scope.row.count ==0">
                                         {{scope.row.lawName}} 
@@ -128,11 +128,15 @@
                                     </template> 
                                   </el-table-column>
                                   <el-table-column prop="published" label="颁布时间" min-width="80"  sortable></el-table-column>
-                                  <el-table-column prop="lawStatus" label="法律位阶" min-width="80" sortable></el-table-column>
+                                  <el-table-column prop="typeName" label="法律位阶" min-width="80" sortable>
+                                    <template slot-scope="scope">
+                                      <span :title="scope.row.typeName">{{scope.row.typeName}}</span>
+                                    </template> 
+                                  </el-table-column>
                                   <el-table-column prop="sourceDepartment" label="发文单位" min-width="100" > </el-table-column>
-                                  <el-table-column prop="lawStatus" label="重要性" min-width="80"  sortable>  
+                                  <el-table-column prop="lawGrade" label="重要性" min-width="120"  sortable>  
                                        <template slot-scope="scope">
-                                             <el-rate></el-rate> 
+                                             <el-rate :value="parseInt(scope.row.lawGrade)" disabled text-color="#ff9900"></el-rate> 
                                       </template> 
                                   </el-table-column>  
                                </el-table> 
@@ -141,14 +145,14 @@
                           </el-collapse-item>
                           </el-collapse>
                     </el-tab-pane>
-                    <el-tab-pane label="经验总结" name="fiveth">
+                    <!-- <el-tab-pane label="经验总结" name="fiveth">
                          <el-collapse v-model="activeNames" @change="handleChange">
                           <el-collapse-item title="一致性 Consistency" name="1">
                             <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
                             <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
                           </el-collapse-item>
                           </el-collapse>
-                    </el-tab-pane>
+                    </el-tab-pane> -->
                 </el-tabs>
                 <span style="font-size:12px;color:#333333;">*信披文件登报、上网、报备、 必备的勾选为易董结合实践提供的参考，实际操作以监管要求为准。</span>
             </div>
@@ -164,6 +168,7 @@ export default {
   data() {
     return {
       total:0,
+      temp:0,
       typeId: "",
       isLose: false,
       lawData: [],
@@ -312,12 +317,22 @@ export default {
     },
     lawDataCompute() {
       if (this.isLose == false) { 
-        // return this.lawData.filter(
-        //   law => law.lawStatus != "1" && law.lawInvalid != null
-        // );
-         return this.lawData;
+        this.temp = this.total;
+        this.total = this.lawData.filter(
+          law => law.lawStatus != "1" && law.lawInvalid != null
+        ).length;
+        console.log('111this.total ==',this.total);
+        return this.lawData.filter(
+          law => law.lawStatus != "1" && law.lawInvalid != null
+        );
+        this.$refs.declearPaper.submitData.startRow = 1
+
+        //  return this.lawData;
       } else {
+        this.total = this.temp ==0?this.total:this.temp
         // console.log(this.lawData);
+        // this.total = this.lawData.length
+        // console.log('this.total ==',this.total);
         return this.lawData;
       }
     }
@@ -341,19 +356,26 @@ export default {
     },
     //表格search
     search(data) {
+      // debugger
+      var form =  this.$refs.declearPaper.submitData
+     
+        // startRow:form.start-1,
+        // pageSize:form.length,
       console.log("获取table数据", data); 
       let params = {};
       params.fromPaper = data.fromPaper-1
-      params.length =  data.length
+      params.length =  form.pageSize
       params.orderByName = data.orderByName
       params.orderByOrder = data.orderByOrder =='descending'?'DESC':'ASC'
       params.typeId = this.typeId
       console.log(params);
       console.log("获取法规分页");
         this.$store.dispatch("getLawsData", params).then(() => {
-        console.log(params.data.data);
-        this.lawData = params.data.data;
-        this.total = params.data.total;
+          if(params.data){
+            console.log(params.data.data);
+            this.lawData = params.data.data;
+            this.total = params.data.total; 
+          } 
       });
     },
 
@@ -385,7 +407,7 @@ export default {
     },
     //Collapse 折叠面板发生改变
     handleChange(val) {
-      console.log(val);
+      // console.log(val);
     },
     //全部-常用点选发生改变
     Stataechange() {},
@@ -407,7 +429,7 @@ export default {
         param += "&jingdu=1";
       }
       // contextPath
-      // window.parent.open('https://999000.valueonline.cn/lawsearch/toLawClause?'+param);
+      window.parent.open('https://999000.valueonline.cn/lawsearch/toLawClause?'+param);
       // window.parent.open('http://www.baidu.com');
     },
     //为叶子节点添加点击事件
@@ -426,8 +448,8 @@ export default {
       return Treedata.label.indexOf(value) !== -1;
     },
     //点击叶子节点后   调取接口 并更新数据
-    ztreeClick(a, b, c) {
-      console.log(b);
+    ztreeClick(a, b, c) { 
+      console.log('b==',b);
       this.formSubmit.id = b;
       console.log("单击后获取数据");
       let param = {};
@@ -443,7 +465,8 @@ export default {
         this.material = param.data.material;
         this.lawData = param.data.lawRule.slice(0,10);
         // console.log( "法律法槼",param.data.lawRule);
-        this.total = param.data.lawRule.length;
+        // this.total = param.data.lawRule.length;
+        //  console.log('this.total =',this.total);
         this.typeId = param.typeId;
       });
       this.$store.dispatch("getfilesData", fileparam).then(() => {
@@ -476,7 +499,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style >
 .h40 {
   height: 40px;
 }
@@ -583,10 +606,10 @@ export default {
 .lawbox .el-table__header thead tr > th {
   padding: 0px;
 }
-
-.lawbox .el-table--medium td {
-  padding: 10px;
+.chart-container .el-table--medium td, .el-table--medium th {
+      padding: 10px; 
 }
+ 
 .el-table thead tr th {
   background: #fff;
   color: #333;
@@ -642,5 +665,30 @@ th {
 }
 .el-collapse-item__content {
   padding-bottom: 10px;
+}
+.chart-container .el-tabs__item.is-active {
+    color: #0086a7;
+}
+.chart-container .el-tabs__item:hover {
+    color:  #0086a7;
+    cursor: pointer;
+}
+
+.chart-container .el-tabs__item:hover {
+    color: #0086a7;
+    cursor: pointer;
+}
+.chart-container .el-tabs__active-bar{
+    background-color: #0086a7;
+}
+.chart-container .el-tabs__active-bar {
+    color:  #0086a7;
+}
+.chart-container .el-tabs__header{
+    padding-right: 12px;
+}
+/* ('el-tabs__active-bar')[0].style = 'width: 56px; transform: translateX(0px);' */
+.chart-container .el-tabs__active-bar{
+    width: 56px; transform: translateX(0px);
 }
 </style>

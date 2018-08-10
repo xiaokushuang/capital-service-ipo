@@ -81,6 +81,48 @@ public class StatisticsResultDto implements Serializable {
     private String weekStopYet;//最近一周 终止审查
     
     private String stopYet;//终止审查
+    
+    /**
+     * 行业
+     */
+    private String belongTrade;
+    /**
+     * 拟上市地
+     */
+    private String quasiListedLand;
+    /**
+     * 公司名称
+     */
+    private String appCompany;
+    /**
+     * 会计事务所名称
+     */
+    private String accountantOffice;
+    /**
+     * 律师事务所名称
+     */
+    private String lawFirm;
+    /**
+     * 审核状态
+     */
+    private String approveStatus;
+    /**
+     * 是否参加抽签
+     */
+    private String hasedRandomInspection;
+    /**
+     * 保荐机构
+     */
+    private String recommendOrganization;
+    
+    
+    public String getRecommendOrganization() {
+		return recommendOrganization;
+	}
+
+	public void setRecommendOrganization(String recommendOrganization) {
+		this.recommendOrganization = recommendOrganization;
+	}
 
     public String getValue() {
         return value;
@@ -234,4 +276,59 @@ public class StatisticsResultDto implements Serializable {
         this.stopYet = stopYet;
     }
 
+    public String getBelongTrade() {
+        return belongTrade;
+    }
+
+    public void setBelongTrade(String belongTrade) {
+        this.belongTrade = belongTrade;
+    }
+    
+    public String getQuasiListedLand() {
+		return quasiListedLand;
+	}
+
+	public void setQuasiListedLand(String quasiListedLand) {
+		this.quasiListedLand = quasiListedLand;
+	}
+
+	public String getAppCompany() {
+		return appCompany;
+	}
+
+	public void setAppCompany(String appCompany) {
+		this.appCompany = appCompany;
+	}
+
+	public String getAccountantOffice() {
+		return accountantOffice;
+	}
+
+	public void setAccountantOffice(String accountantOffice) {
+		this.accountantOffice = accountantOffice;
+	}
+
+	public String getLawFirm() {
+		return lawFirm;
+	}
+
+	public void setLawFirm(String lawFirm) {
+		this.lawFirm = lawFirm;
+	}
+
+	public String getApproveStatus() {
+		return approveStatus;
+	}
+
+	public void setApproveStatus(String approveStatus) {
+		this.approveStatus = approveStatus;
+	}
+
+	public String getHasedRandomInspection() {
+		return hasedRandomInspection;
+	}
+
+	public void setHasedRandomInspection(String hasedRandomInspection) {
+		this.hasedRandomInspection = hasedRandomInspection;
+	}
 }

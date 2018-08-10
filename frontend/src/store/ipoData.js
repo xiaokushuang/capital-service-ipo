@@ -49,12 +49,22 @@ const ipo = {
     refinanceApprove: [],
     refinanceApptype: [],
     refinanceRecommend: [],
-    companyByCode: []
+    companyByCode: [],
+    totalFloor: {
+      total1: 0,
+      total2: 0,
+      total3: 0
+    }
   },
 
   mutations: {
     SET_IPO_TYPE: (state, code) => {
       state[code.type] = code.data
+    },
+    SET_IPO_TYPE_TOTAL: (state, data) => {
+      var key = Object.keys(data)
+      state.totalFloor[key] = data[key]
+      console.log(state.totalFloor)
     }
   },
 
@@ -157,9 +167,6 @@ const ipo = {
     }, order) {
       return new Promise((resolve, reject) => {
         const param = order || {}
-        // const type = param.type
-        // param.data = null
-        // debugger
         SFClassification(param).then((response) => {
           param.data = response.data.data
           // console.log(response)
@@ -357,6 +364,7 @@ const ipo = {
           if (typeof param.data === 'object') {
             param.type = 'sponsorInstitution'
             commit('SET_IPO_TYPE', param)
+            commit('SET_IPO_TYPE_TOTAL', {'total1':param.data.total})
             // console.log(6)
             // console.log(param.data)
           }
@@ -381,9 +389,6 @@ const ipo = {
     }, order) {
       return new Promise((resolve, reject) => {
         const param = order || {}
-        // const type = param.type
-        // param.data = null
-        // debugger
         ipoQuery(param).then((response) => {
           param.data = response.data.result
           // console.log(response)
@@ -453,6 +458,7 @@ const ipo = {
           if (typeof param.data === 'object') {
             param.type = 'lawOffice'
             commit('SET_IPO_TYPE', param)
+            commit('SET_IPO_TYPE_TOTAL', { 'total2': param.data.total })
             // console.log(6)
             // console.log(param.data)
           }
@@ -483,7 +489,9 @@ const ipo = {
           if (typeof param.data === 'object') {
             param.type = 'accountFirm'
             commit('SET_IPO_TYPE', param)
+            commit('SET_IPO_TYPE_TOTAL', { 'total3': param.data.total })
           }
+          console.log('成功')
           resolve()
         }).catch((error) => {
           console.log(error)
@@ -505,9 +513,6 @@ const ipo = {
     }, order) {
       return new Promise((resolve, reject) => {
         const param = order || {}
-        // const type = param.type
-        // param.data = null
-        // debugger
         refinanceApprove(param).then((response) => {
           param.data = response.data.result
           // console.log(response)
@@ -538,9 +543,6 @@ const ipo = {
     }, order) {
       return new Promise((resolve, reject) => {
         const param = order || {}
-        // const type = param.type
-        // param.data = null
-        // debugger
         refinanceApptype(param).then((response) => {
           param.data = response.data.result
           // console.log(response)
@@ -666,7 +668,8 @@ const ipo = {
       return newArr
     },
     getRefinanceRecommend: state => state.refinanceRecommend,
-    getCompanyByCode: state => state.companyByCode
+    getCompanyByCode: state => state.companyByCode,
+    getTotalFloor: state => state.totalFloor
   }
 }
 

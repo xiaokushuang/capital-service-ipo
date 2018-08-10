@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- 标题 -->
-        <el-row :gutter="20" class="no-margin-tb">
+        <el-row :gutter="20" style="margin-left:0px; margin-right:0px;">
             <el-col :span="14">
                 <h3 class="no-margin" style="line-height:32px;">IPO在审项目数据统计</h3>
             </el-col>
@@ -9,16 +9,17 @@
             </el-col>
         </el-row>
         <!-- echart table -->
-        <el-row :gutter="20">
+        <el-row :gutter="20" style="margin-left:0px; margin-right:0px;">
             <el-col :span="14">
                 <div class="fullDiv_border">
                     <chart height='100%' width='100%' id="datasetChart" :chartData = "getDataOverInfo"></chart>
                 </div>
             </el-col>
+            <!-- 右部表 -->
             <el-col :span="10">
-                <div id="table1" style="height:330px">
-                    <el-table :data="getDataOverInfo" border style="width: 100%" max-height="400" size="medium" :row-class-name="tableRowClassName">
-                        <el-table-column align="left" label="" min-width="200px">
+                <div id="table1">
+                    <el-table :data="tableTop" border style="width: 100%" max-height="400" size="medium" :row-class-name="tableRowClassName">
+                        <el-table-column label="" min-width="200px">
                             <template slot-scope="scope">
                                 <span>{{scope.row.label}}</span>
                             </template>
@@ -38,20 +39,22 @@
                                 <span>{{scope.row.cybCount}}</span>
                             </template>
                         </el-table-column>
-                        <el-table-column align="center" label="合计" min-width="e">
+                        <el-table-column align="center" label="合计">
                             <template slot-scope="scope">
                                 <span>{{scope.row.totalAll}}</span>
                             </template>
                         </el-table-column>
                     </el-table>
                 </div>
-                <div style="height:250px;">
+                <!-- ipo再审企业合计数变化情况 -->
+                <div style="height:250px;marign-top:10px;">
                     <chart2 height='100%' width='100%' id="largeScaleChart" :chartData2 = "getDataHistory"></chart2>
                 </div>
             </el-col>
         </el-row>
         <el-row><div style="width:98%;border-bottom:1px solid #ddd;margin:0 auto;margin-bottom:10px;"></div></el-row>
-        <el-row :gutter="20">
+        <!-- 所属行业 -->
+        <el-row :gutter="20" style="margin-left:0px; margin-right:0px;">
             <el-col :span="3" style="line-height:30px"><span style="margin-left:20px;">项目所属行业</span></el-col>
             <el-col :span="6">
                 <el-select ref="selectCheckbox1" v-model="selectValue.industry" placeholder="请选择行业" size='small full'>
@@ -66,6 +69,7 @@
                     </el-col>
                 </el-select>
             </el-col>
+            <!-- 项目公司注册地 -->
             <el-col :span="3" style="line-height:30px"><span style="margin-left:20px;">项目公司注册地</span></el-col>
             <el-col :span="6">
                 <el-select ref="selectCheckbox2" v-model="selectValue.areaList" placeholder="请选择注册地" size='small full'>
@@ -81,74 +85,78 @@
                 </el-select>
             </el-col>
         </el-row>
+        <!-- 表格 -->
         <el-col class="chart">
             <div id="table2">
+              <!-- 保荐机构 -->
                 <el-tabs v-model="activeName">
                     <el-tab-pane label="保荐机构" name="first">
                         <div rightTable>
                            <el-table
                                 ref="table0"
-                                :data="getSponsorInstitution.data"
+                                :data="table1"
                                 border
                                 style="width:98%;margin:0 auto; border-right:1px solid #ddd;border-bottom:1px solid #ddd;">
-                                <el-table-column align="center" label="序号"  type="index"  width="130px" :class-name="borderStyle"></el-table-column>
-                                <el-table-column align="left" label="保荐机构" prop="label" width="512px"  :class-name="borderStyle"></el-table-column>
-                                <el-table-column align="center" label="沪主板" prop="hzbCount" width="130px" sortable :class-name="borderStyle"></el-table-column>
-                                <el-table-column align="center" label="中小板" prop="zxbCount" width="130px" sortable :class-name="borderStyle"></el-table-column>
-                                <el-table-column align="center" label="创业板" prop="cybCount" width="130px" sortable :class-name="borderStyle"></el-table-column>
-                                <el-table-column align="center" label="合计"  prop="totalCount" width="130px" sortable :class-name="borderStyle"></el-table-column>
-                                <el-table-column align="center" label="市场比" width="130px" sortable>
+                                <el-table-column align="center" label="序号" prop="num"  min-width="130px" :class-name="borderStyle"></el-table-column>
+                                <el-table-column label="保荐机构" prop="label" min-width="512px"  :class-name="borderStyleText"></el-table-column>
+                                <el-table-column align="center" label="沪主板" prop="hzbCount" min-width="130px" sortable :class-name="borderStyle"></el-table-column>
+                                <el-table-column align="center" label="中小板" prop="zxbCount" min-width="130px" sortable :class-name="borderStyle"></el-table-column>
+                                <el-table-column align="center" label="创业板" prop="cybCount" min-width="130px" sortable :class-name="borderStyle"></el-table-column>
+                                <el-table-column align="center" label="合计"  prop="totalCount" min-width="130px" sortable :class-name="borderStyle"></el-table-column>
+                                <el-table-column align="center" label="市场比" min-width="130px" sortable>
                                     <template slot-scope="scope">
                                         <span>{{scope.row.percent}}%</span>
                                     </template>
                                 </el-table-column>
                             </el-table>
                         </div>
-                        <papers ref="declearPaper" @searchTable="search1" :total="total" :length1="length"></papers>
+                        <papers ref="declearPaper1" @searchTable="search1" :total="getTotalFloor.total1" :pageSize1="pageSize" style="width:100%"></papers>
                     </el-tab-pane>
+                    <!-- 律师事务所 -->
                     <el-tab-pane label="律师事务所" name="second">
                         <div rightTable>
                            <el-table
                                 ref="table1"
-                                :data="getLowOffice.data"
+                                :data="table2"
                                 border
                                 style="width:98%;margin:0 auto; border-right:1px solid #ddd;border-bottom:1px solid #ddd;">
-                                <el-table-column align="center" label="序号" width="130px" type="index" :class-name="borderStyle"></el-table-column>
-                                <el-table-column label="律师事务所" width="512px" prop="label" align="left" :class-name="borderStyle"></el-table-column>
-                                <el-table-column align="center" label="沪主板" width="130px" prop="hzbCount" sortable :class-name="borderStyle"></el-table-column>
-                                <el-table-column align="center" label="中小板" width="130px" prop="zxbCount" sortable :class-name="borderStyle"></el-table-column>
-                                <el-table-column align="center" label="创业板" width="130px" prop="cybCount" sortable :class-name="borderStyle"></el-table-column>
-                                <el-table-column align="center" label="合计" width="130px" prop="totalCount" sortable :class-name="borderStyle"></el-table-column>
-                                <el-table-column align="center" label="市场比" width="130px" sortable>
+                                <el-table-column align="center" label="序号" min-width="130px" prop="num" :class-name="borderStyle"></el-table-column>
+                                <el-table-column label="律师事务所" min-width="512px" prop="label" align="left":class-name="borderStyleText"></el-table-column>
+                                <el-table-column align="center" label="沪主板" min-width="130px" prop="hzbCount" sortable :class-name="borderStyle"></el-table-column>
+                                <el-table-column align="center" label="中小板" min-width="130px" prop="zxbCount" sortable :class-name="borderStyle"></el-table-column>
+                                <el-table-column align="center" label="创业板" min-width="130px" prop="cybCount" sortable :class-name="borderStyle"></el-table-column>
+                                <el-table-column align="center" label="合计" min-width="130px" prop="totalCount" sortable :class-name="borderStyle"></el-table-column>
+                                <el-table-column align="center" label="市场比" min-width="130px" sortable>
                                     <template slot-scope="scope">
                                         <span>{{scope.row.percent}}%</span>
                                     </template>
                                 </el-table-column>
                             </el-table>
                         </div>
-                        <papers ref="declearPaper" @searchTable="search2" :total="total" :length1="length"></papers>
+                        <papers ref="declearPaper2" @searchTable="search2" :total="getTotalFloor.total2" :pageSize1="pageSize" style="width:100%"></papers>
                     </el-tab-pane>
+                    <!-- 会计事务所 -->
                     <el-tab-pane label="会计事务所" name="third">
                         <div rightTable>
                            <el-table
                                 ref="table2"
-                                :data="getAccountFirm.data"
+                                :data="table3"
                                 border
                                 style="width:98%;margin:0 auto; border-right:1px solid #ddd;border-bottom:1px solid #ddd;">
                                 <el-table-column align="center" label="序号" width="130px" type="index" :class-name="borderStyle"></el-table-column>
-                                <el-table-column label="会计事务所" width="512px" prop="label" align="left" :class-name="borderStyle"></el-table-column>
-                                <el-table-column align="center" label="沪主板" width="130px" prop="hzbCount" sortable :class-name="borderStyle"></el-table-column>
-                                <el-table-column align="center" label="中小板" width="130px" prop="zxbCount" sortable :class-name="borderStyle"></el-table-column>
-                                <el-table-column align="center" label="创业板" width="130px" prop="cybCount" sortable :class-name="borderStyle"></el-table-column>
-                                <el-table-column align="center" label="合计" width="130px" prop="totalCount" sortable :class-name="borderStyle"></el-table-column>
-                                <el-table-column align="center" label="市场比" width="130px" sortable>
+                                <el-table-column label="会计事务所" min-width="512px" prop="label" align="left" :class-name="borderStyleText"></el-table-column>
+                                <el-table-column align="center" label="沪主板" min-width="130px" prop="hzbCount" sortable :class-name="borderStyle"></el-table-column>
+                                <el-table-column align="center" label="中小板" min-width="130px" prop="zxbCount" sortable :class-name="borderStyle"></el-table-column>
+                                <el-table-column align="center" label="创业板" min-width="130px" prop="cybCount" sortable :class-name="borderStyle"></el-table-column>
+                                <el-table-column align="center" label="合计" min-width="130px" prop="totalCount" sortable :class-name="borderStyle"></el-table-column>
+                                <el-table-column align="center" label="市场比" min-width="130px" sortable>
                                     <template slot-scope="scope">
                                         <span>{{scope.row.percent}}%</span>
                                     </template>
                                 </el-table-column>
                             </el-table>
                         </div>
-                        <papers ref="declearPaper" @searchTable="search3" :total="total" :length1="length"></papers>
+                        <papers ref="declearPaper3" @searchTable="search3" :total="getTotalFloor.total3" :pageSize1="pageSize" style="width:100%"></papers>
                     </el-tab-pane>
                 </el-tabs>
             </div>
@@ -173,9 +181,12 @@ export default {
   data() {
     return {
       total: 0,
+      total1: 0,
+      total2: 0,
+      total3: 0,
       typeId: "",
       lawData: "",
-      length:20,
+      pageSize: 20,
       activeName: "first",
       defaultPropsIndustry: {
         children: "children",
@@ -213,12 +224,13 @@ export default {
         orderColumn: "",
         orderByOrder: ""
       },
-      borderStyle: "borderStyle"
+      borderStyle: "borderStyle",
+      borderStyleText: "borderStyleText"
     };
   },
   mounted() {
     //页面加载完成时刷新echart图表
-    this.ipoDataPort(true);
+    this.ipoDataPort(true)
   },
   computed: {
     ...mapGetters([
@@ -229,26 +241,92 @@ export default {
       "getLowOffice",
       "getAccountFirm",
       "getIpoQuery",
-      "declearPaper"
+      "declearPaper",
+      "getTotalFloor"
     ]),
+    // 保荐机构数据重组加入字段Num
+    table1() {
+      var middle1 = [];
+      if (Object.prototype.toString.call(this.getSponsorInstitution.data) === '[object Array]') {
+        this.getSponsorInstitution.data.map((obj, idx) => {
+          var valuec = {};
+          var data1 = Object.keys(obj);
+          data1.map((o,i)=>{
+            valuec[o]=obj[o]
+          });
+          valuec.num = idx+1;
+          middle1.push(valuec);
+        });
+        return middle1;
+      }
+    },
+    // 律师事务所数据重组加入字段Num
+    table2() {
+      var middle2 = [];
+      if (Object.prototype.toString.call(this.getLowOffice.data) === '[object Array]') {
+        console.log(this.getLowOffice.data)
+        this.getLowOffice.data.map((obj, idx) => {
+          var valued = {};
+          var data2 = Object.keys(obj);
+          data2.map((o,i)=>{
+            valued[o]=obj[o]
+          });
+          valued.num = idx+1;
+          middle2.push(valued);
+        });
+        return middle2;
+      }
+    },
+    // 会计事务所数据重组加入字段Num
+    table3() {
+      var middle3 = [];
+      if (Object.prototype.toString.call(this.getAccountFirm.data) === '[object Array]') {
+        var getAccountFirm = this.getAccountFirm.data;
+        getAccountFirm.map((obj, idx) => {
+          var valuee = {};
+          var data3 = Object.keys(obj);
+          data3.map((o,i)=>{
+            valuee[o]=obj[o]
+          });
+          valuee.num = idx+1;
+          middle3.push(valuee);
+        });
+        return middle3;
+      }
+    },
+    // 所属地区数据重组
     getAreaList(getProjectBelong) {
       let arr = this.getProjectBelong;
       let city = MultidimensionalData(arr.areaList);
       return city;
     },
+     // 所属行业数据重组
     getIndustry(getProjectBelong) {
       let arr = this.getProjectBelong;
       let industry = MultidimensionalData(arr.industrySelectList);
       return industry;
+    },
+    // 右表格数据重组
+    tableTop() {
+      var middle = []
+      this.getDataOverInfo.map((obj, idx) => {
+        if(obj.totalAll !== 0) {
+          console.log(obj)
+          middle.push(obj)
+        }
+      })
+      console.log(middle)
+      return middle
     }
   },
   watch: {},
   methods: {
+    // 保荐机构tab1 数据
     search1(data) {
       // console.log("获取table数据", data);
       this.param1 = {
-        startRow: data.fromPaper - 1,
-        pageSize: data.length,
+        startRow: data.startRow - 1,
+        pageSize: data.pageSize,
         orderColumn: "percent",
         orderByOrder: "desc",
         condition: {
@@ -256,16 +334,14 @@ export default {
           registAddr: this.selectValue.areaList
         }
       };
-      this.$store.dispatch("sponsorInstitutionGet", this.param1).then(() => {
-        this.lawData = this.getSponsorInstitution.data
-        this.total = this.getSponsorInstitution.total
-      }).catch(err => {});
+      this.$store.dispatch("sponsorInstitutionGet", this.param1)
     },
+    // 律师事务所tab2 数据
     search2(data) {
       // console.log("获取table数据", data);
       this.param2 = {
-        startRow: data.fromPaper - 1,
-        pageSize: data.length,
+        startRow: data.startRow - 1,
+        pageSize: data.pageSize,
         orderColumn: "percent",
         orderByOrder: "desc",
         condition: {
@@ -273,16 +349,14 @@ export default {
           registAddr: this.selectValue.areaList
         }
       };
-      this.$store.dispatch("lawOfficeGet", this.param2).then(() => {
-        this.lawData = this.lawOfficeGet.data
-        this.total = this.lawOfficeGet.total
-      }).catch(err => {});
+      this.$store.dispatch("lawOfficeGet", this.param2)
     },
+    // 会计事务所tab3 数据
     search3(data) {
       // console.log("获取table数据", data);
       this.param3 = {
-        startRow: data.fromPaper - 1,
-        pageSize: data.length,
+        startRow: data.startRow - 1,
+        pageSize: data.pageSize,
         orderColumn: "percent",
         orderByOrder: "desc",
         condition: {
@@ -290,10 +364,7 @@ export default {
           registAddr: this.selectValue.areaList
         }
       };
-      this.$store.dispatch("accountFirmGet", this.param3).then(() => {
-        this.lawData = this.accountFirmGet.data
-        this.total = this.accountFirmGet.total
-      }).catch(err => {});
+      this.$store.dispatch("accountFirmGet", this.param3)
     },
     clear() {
       //下拉清空
@@ -345,7 +416,7 @@ export default {
       this.$refs.selectCheckbox2.handleClose(); //关闭下拉框
     },
     tableRowClassName({ row, rowIndex }) {
-      if (rowIndex === this.getDataOverInfo.length - 1) {
+      if (rowIndex === this.tableTop.length - 1) {
         return "hjRow";
       }
       return "";
@@ -361,10 +432,7 @@ export default {
         condition: {}
       };
       this.$store.dispatch("sponsorInstitutionGet", param1).then(() => {
-        //   console.log(this.getSponsorInstitution.total)
-        // this.lawData = this.param1.data.lawRule.slice(0, 10);
         this.total = this.getSponsorInstitution.total
-        // this.typeId = param.typeId;
       });
       var param2 = {
         startRow: 0,
@@ -440,9 +508,16 @@ export default {
   border-right: 1px solid #ddd;
 }
 #table1 .el-table--enable-row-transition .el-table__body td {
-  height: 30px;
-  line-height: 30px;
+  height: 31px;
+  line-height: 31px;
   border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd !important;
+}
+.chart .el-table--enable-row-transition .el-table__body td {
+  height: 41px;
+  line-height: 41px;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd !important;
 }
 .el-table .hjRow {
   background: #e8e8e8 !important;
@@ -476,6 +551,13 @@ export default {
 }
 .borderStyle {
   border-right: 1px solid #ddd !important;
+}
+.borderStyleText {
+  border-right: 1px solid #ddd !important;
+  text-align: left !important;
+}
+.textLeft{
+  text-align: left !important
 }
 .el-tabs__active-bar {
   width: 146px !important;
