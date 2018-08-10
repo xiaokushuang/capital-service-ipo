@@ -172,6 +172,7 @@ export default {
       typeId: "",
       isLose: false,
       lawData: [],
+      lawDataAll: [],
       material: "",
       ponder: "",
       btnText: "展开查看更多",
@@ -318,22 +319,35 @@ export default {
     lawDataCompute() {
       if (this.isLose == false) { 
         this.temp = this.total;
-        this.total = this.lawData.filter(
+        this.total = this.lawDataAll.filter(
           law => law.lawStatus != "1" && law.lawInvalid != null
-        ).length;
-        console.log('111this.total ==',this.total);
-        return this.lawData.filter(
+        ).length; //selected选择每页显示条数
+        var start = 0,length = 10
+        if(this.$refs.declearPaper){
+            start =  this.$refs.declearPaper.submitData.startRow
+            length =  this.$refs.declearPaper.submitData.pageSize
+        }  
+        console.log('start and lenth ==',start+'  '+length);
+         debugger
+        return this.lawDataAll.filter(
           law => law.lawStatus != "1" && law.lawInvalid != null
-        );
-        this.$refs.declearPaper.submitData.startRow = 1
-
+        ).slice(start-1,start+parseInt(length)-1); 
         //  return this.lawData;
       } else {
+        // var start =  this.$refs.declearPaper.submitData.startRow
+        // var length =  this.$refs.declearPaper.submitData.pageSize
         this.total = this.temp ==0?this.total:this.temp
+         var start = 0,length = 10
+         if(this.$refs.declearPaper){
+            start =  this.$refs.declearPaper.submitData.startRow
+            length =  this.$refs.declearPaper.submitData.pageSize
+        } 
+         console.log('start and lenth ==',start+'  '+length);
         // console.log(this.lawData);
         // this.total = this.lawData.length
         // console.log('this.total ==',this.total);
-        return this.lawData;
+        debugger
+        return this.lawDataAll.slice(start-1,start+parseInt(length) -1); 
       }
     }
   },
@@ -375,6 +389,7 @@ export default {
             console.log(params.data.data);
             this.lawData = params.data.data;
             this.total = params.data.total; 
+            this.lawDataAll = params.data.dataAll;
           } 
       });
     },
@@ -444,8 +459,10 @@ export default {
     },
     filterNode(value, Treedata) {
       let nodes = this.$refs.tree2.getCheckedKeys();
+      debugger
       if (!value) return true;
-      return Treedata.label.indexOf(value) !== -1;
+      return Treedata.showTypeName.indexOf(value) !== -1;
+      // showTypeName
     },
     //点击叶子节点后   调取接口 并更新数据
     ztreeClick(a, b, c) { 
@@ -460,10 +477,12 @@ export default {
       fileparam.typeName = a;
       fileparam.declareTypeNo = c;
       this.$store.dispatch("getTableData", param).then(() => {
+        // debugger
         this.titlename = param.data.typeName;
         this.ponder = param.data.ponder;
         this.material = param.data.material;
         this.lawData = param.data.lawRule.slice(0,10);
+        this.lawDataAll = param.data.lawRule;
         // console.log( "法律法槼",param.data.lawRule);
         // this.total = param.data.lawRule.length;
         //  console.log('this.total =',this.total);
