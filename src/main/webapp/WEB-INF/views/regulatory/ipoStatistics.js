@@ -577,7 +577,7 @@ function viewCommendDetail(label,quasiListedLand) {
 			registAddr : registAddr
 	};
 	var accessToken = $('#tokenValue').val();
-	this.parent.popWin(label, "/regulatory_statistics/viewCommendDetail?access_token="+accessToken, data, "95%","98%");
+	popWin(label, "/regulatory_statistics/viewCommendDetail?access_token="+accessToken, data, "95%","98%");
 }
 
 /*--------------律师事务所------------------*/
@@ -628,7 +628,7 @@ function viewLawDetail(label,quasiListedLand) {
 			registAddr : registAddr
 	};
 	var accessToken = $('#tokenValue').val();
-	this.parent.popWin(label, "/regulatory_statistics/viewLawDetail?access_token="+accessToken, data, "95%","98%");
+	popWin(label, "/regulatory_statistics/viewLawDetail?access_token="+accessToken, data, "95%","98%");
 }
 /*--------------会计师事务所------------------*/
 //查询当前会计师事务所下所有沪主板公司
@@ -679,5 +679,5 @@ function viewAccountDetail(label,quasiListedLand) {
 			
 	};
 	var accessToken = $('#tokenValue').val();
-	this.parent.popWin(label, "/regulatory_statistics/viewAccountDetail?access_token="+accessToken, data, "95%","98%");
+	popWin(label, "/regulatory_statistics/viewAccountDetail?access_token="+accessToken, data, "95%","98%");
 }
