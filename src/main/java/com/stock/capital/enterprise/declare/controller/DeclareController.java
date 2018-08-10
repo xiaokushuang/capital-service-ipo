@@ -155,6 +155,7 @@ public class DeclareController extends BaseController {
       List<DecalreRelationLawDto> lawRule = restClient.post(url, params, responseType1);
       LawTableDto ltd = new LawTableDto();
       ltd.setData(lawRule);
+      ltd.setDataAll(lawRuletotal);
       ltd.setTotal(lawRuletotal.size());
       jsonRes.setResult(ltd);
         return jsonRes;

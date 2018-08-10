@@ -168,6 +168,7 @@ export default {
   data() {
     return {
       total:0,
+      temp:0,
       typeId: "",
       isLose: false,
       lawData: [],
@@ -316,19 +317,22 @@ export default {
     },
     lawDataCompute() {
       if (this.isLose == false) { 
+        this.temp = this.total;
         this.total = this.lawData.filter(
           law => law.lawStatus != "1" && law.lawInvalid != null
         ).length;
-        console.log('this.total ==',this.total);
+        console.log('111this.total ==',this.total);
         return this.lawData.filter(
           law => law.lawStatus != "1" && law.lawInvalid != null
         );
-        
+        this.$refs.declearPaper.submitData.startRow = 1
+
         //  return this.lawData;
       } else {
+        this.total = this.temp ==0?this.total:this.temp
         // console.log(this.lawData);
-        this.total = this.lawData.length
-        console.log('this.total ==',this.total);
+        // this.total = this.lawData.length
+        // console.log('this.total ==',this.total);
         return this.lawData;
       }
     }
@@ -352,7 +356,7 @@ export default {
     },
     //表格search
     search(data) {
-      debugger
+      // debugger
       var form =  this.$refs.declearPaper.submitData
      
         // startRow:form.start-1,
@@ -367,9 +371,11 @@ export default {
       console.log(params);
       console.log("获取法规分页");
         this.$store.dispatch("getLawsData", params).then(() => {
-        console.log(params.data.data);
-        this.lawData = params.data.data;
-        this.total = params.data.total; 
+          if(params.data){
+            console.log(params.data.data);
+            this.lawData = params.data.data;
+            this.total = params.data.total; 
+          } 
       });
     },
 
@@ -401,7 +407,7 @@ export default {
     },
     //Collapse 折叠面板发生改变
     handleChange(val) {
-      console.log(val);
+      // console.log(val);
     },
     //全部-常用点选发生改变
     Stataechange() {},

@@ -14,7 +14,27 @@ public class LawTableDto  implements Serializable {
 	
 	private List<DecalreRelationLawDto> data;
 
+	private List<DecalreRelationLawDto> dataAll;
+	
 	private int isLose;
+	
+	
+	public List<DecalreRelationLawDto> getDataAll() {
+		return dataAll;
+	}
+
+	public void setDataAll(List<DecalreRelationLawDto> dataAll) {
+		this.dataAll = dataAll;
+	}
+
+	public int getIsLose() {
+		return isLose;
+	}
+
+	public void setIsLose(int isLose) {
+		this.isLose = isLose;
+	}
+
 	public int getTotal() {
 		return total;
 	}
