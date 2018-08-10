@@ -145,7 +145,7 @@ public class DeclareController extends BaseController {
       String url = apiBaseUrl + "laws_manage/declareRelationLaw";
       MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
       ParameterizedTypeReference<List<DecalreRelationLawDto>> responseType1 = new ParameterizedTypeReference<List<DecalreRelationLawDto>>() {
-      };
+      }; 
       params.add("typeId", param.getTypeId());//${startRow}, ${pageSize} orderByOrder
       List<DecalreRelationLawDto> lawRuletotal = restClient.post(url, params, responseType1);
       params.add("startRow", param.getFromPaper());

@@ -105,9 +105,9 @@
                           <el-collapse-item   name="1">
                                 <template slot="title">
                                  <span>{{titlename}} </span>
-                                 <div style="float:right;margin-right:80px;">
-                                 <input type="checkbox"  v-model="isLose"> 
-                                 包含已失效 
+                                 <div style="float:right;margin-right:80px;"  >
+                                 <input id = "checkin8" type="checkbox"  v-model="isLose" > 
+                                 <label for="checkin8">包含已失效 </label>
                                  </div>
                                 </template>
                             <div class = "lawbox">
@@ -115,7 +115,7 @@
                                   @sort-change="sortChangeA" @selection-change="handleSelectionChange" size="medium">
                                   <!-- 序号	法规名称	颁布时间	法律位阶	发文单位	重要性 -->
                                   <el-table-column type="index"  label="序号" width="60"> </el-table-column><!--多选，不要删了--> 
-                                  <el-table-column prop="lawName" label="法规名称" min-width="330"  sortable>
+                                  <el-table-column prop="lawName" label="法规名称" min-width="300"  sortable>
                                     <template slot-scope="scope">
                                       <p v-if="scope.row.count ==0">
                                         {{scope.row.lawName}} 
@@ -134,9 +134,9 @@
                                     </template> 
                                   </el-table-column>
                                   <el-table-column prop="sourceDepartment" label="发文单位" min-width="100" > </el-table-column>
-                                  <el-table-column prop="lawStatus" label="重要性" min-width="80"  sortable>  
+                                  <el-table-column prop="lawGrade" label="重要性" min-width="120"  sortable>  
                                        <template slot-scope="scope">
-                                             <el-rate></el-rate> 
+                                             <el-rate :value="parseInt(scope.row.lawGrade)" disabled text-color="#ff9900"></el-rate> 
                                       </template> 
                                   </el-table-column>  
                                </el-table> 
@@ -316,12 +316,19 @@ export default {
     },
     lawDataCompute() {
       if (this.isLose == false) { 
-        // return this.lawData.filter(
-        //   law => law.lawStatus != "1" && law.lawInvalid != null
-        // );
-         return this.lawData;
+        this.total = this.lawData.filter(
+          law => law.lawStatus != "1" && law.lawInvalid != null
+        ).length;
+        console.log('this.total ==',this.total);
+        return this.lawData.filter(
+          law => law.lawStatus != "1" && law.lawInvalid != null
+        );
+        
+        //  return this.lawData;
       } else {
         // console.log(this.lawData);
+        this.total = this.lawData.length
+        console.log('this.total ==',this.total);
         return this.lawData;
       }
     }
@@ -345,10 +352,15 @@ export default {
     },
     //表格search
     search(data) {
+      debugger
+      var form =  this.$refs.declearPaper.submitData
+     
+        // startRow:form.start-1,
+        // pageSize:form.length,
       console.log("获取table数据", data); 
       let params = {};
       params.fromPaper = data.fromPaper-1
-      params.length =  data.length
+      params.length =  form.pageSize
       params.orderByName = data.orderByName
       params.orderByOrder = data.orderByOrder =='descending'?'DESC':'ASC'
       params.typeId = this.typeId
@@ -357,7 +369,7 @@ export default {
         this.$store.dispatch("getLawsData", params).then(() => {
         console.log(params.data.data);
         this.lawData = params.data.data;
-        this.total = params.data.total;
+        this.total = params.data.total; 
       });
     },
 
@@ -430,8 +442,8 @@ export default {
       return Treedata.label.indexOf(value) !== -1;
     },
     //点击叶子节点后   调取接口 并更新数据
-    ztreeClick(a, b, c) {
-      console.log(b);
+    ztreeClick(a, b, c) { 
+      console.log('b==',b);
       this.formSubmit.id = b;
       console.log("单击后获取数据");
       let param = {};
@@ -447,7 +459,8 @@ export default {
         this.material = param.data.material;
         this.lawData = param.data.lawRule.slice(0,10);
         // console.log( "法律法槼",param.data.lawRule);
-        this.total = param.data.lawRule.length;
+        // this.total = param.data.lawRule.length;
+        //  console.log('this.total =',this.total);
         this.typeId = param.typeId;
       });
       this.$store.dispatch("getfilesData", fileparam).then(() => {
@@ -480,7 +493,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style >
 .h40 {
   height: 40px;
 }
@@ -587,10 +600,10 @@ export default {
 .lawbox .el-table__header thead tr > th {
   padding: 0px;
 }
-
-.lawbox .el-table--medium td {
-  padding: 10px;
+.chart-container .el-table--medium td, .el-table--medium th {
+      padding: 10px; 
 }
+ 
 .el-table thead tr th {
   background: #fff;
   color: #333;

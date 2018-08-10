@@ -4,6 +4,7 @@ import { getFileData } from '@/api/declare'
 import { getLawsByTable } from '@/api/declare'
 import * as auth from '@/utils/auth'
 import { MultidimensionalData } from '@/utils/index'
+import { OneDimensionalDataVariableMultidimensionalData } from '@/utils/index'
 const declare = {
     state: {
         declare_tree: [],

@@ -60,7 +60,7 @@ export default {
 
   },
   mounted(){
-      this.submitData.pageSize = this.pageSize1
+    //   this.submitData.pageSize = this.pageSize1
   },
   computed:{
         fromPaper(){//从多少条开始 
@@ -93,6 +93,8 @@ export default {
                     this.submitData.startRow = (val-1)*Math.ceil(this.submitData.pageSize)+1
                 }else{
                     this.submitData.startRow = this.lastPage()
+                    this.submitData.startRow ++;
+                    this.submitData.startRow --;
                 }
                 
             }
