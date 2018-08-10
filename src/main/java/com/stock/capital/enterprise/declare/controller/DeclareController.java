@@ -147,11 +147,15 @@ public class DeclareController extends BaseController {
       ParameterizedTypeReference<List<DecalreRelationLawDto>> responseType1 = new ParameterizedTypeReference<List<DecalreRelationLawDto>>() {
       }; 
       params.add("typeId", param.getTypeId());//${startRow}, ${pageSize} orderByOrder
-      List<DecalreRelationLawDto> lawRuletotal = restClient.post(url, params, responseType1);
-      params.add("startRow", param.getFromPaper());
-      params.add("pageSize", param.getLength());
+      
       params.add("orderColumn", param.getOrderByName()); 
       params.add("orderByOrder", param.getOrderByOrder()); 
+      
+      List<DecalreRelationLawDto> lawRuletotal = restClient.post(url, params, responseType1);
+      
+      params.add("startRow", param.getFromPaper());
+      params.add("pageSize", param.getLength());
+      
       List<DecalreRelationLawDto> lawRule = restClient.post(url, params, responseType1);
       LawTableDto ltd = new LawTableDto();
       ltd.setData(lawRule);
