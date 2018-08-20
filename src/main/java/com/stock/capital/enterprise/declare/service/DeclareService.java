@@ -111,7 +111,7 @@ public class DeclareService extends BaseService {
         String url = apiBaseUrl + "declareInfo/postDeclareTypeTree";
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         //公司所属板块
-        params.add("companyCode", "00");
+        params.add("companyCode", stockBoard);
         ParameterizedTypeReference<List<DeclareTypeTreeDto>> responseType = new ParameterizedTypeReference<List<DeclareTypeTreeDto>>() {
         };
         List<DeclareTypeTreeDto> list =   restClient.post(url, params, responseType);
