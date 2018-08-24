@@ -22,6 +22,7 @@ import com.stock.capital.enterprise.declare.dto.DecalreRelationLawDto;
 import com.stock.capital.enterprise.declare.dto.DeclareFileDto;
 import com.stock.capital.enterprise.declare.dto.LawTableDto;
 import com.stock.capital.enterprise.declare.dto.NoticeHelperDto;
+import com.stock.capital.enterprise.declare.dto.argMap;
 import com.stock.capital.enterprise.declare.service.DeclareService;
 import com.stock.capital.enterprise.api.financeStatistics.dto.Param;
 import com.stock.core.controller.BaseController; 
@@ -60,12 +61,12 @@ public class DeclareController extends BaseController {
      */
     @RequestMapping(value = "getZtree", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> noticeHelper(@RequestBody Param param) {
+    public Map<String,Object> noticeHelper(@RequestBody argMap param) {
     	
   	  // 设定table返回值
         Map<String, Object> response = Maps.newHashMap();   
     	  
-        response.put("data",  declareService.getDeclareType(param.getParam()));
+        response.put("data",  declareService.getDeclareType(param.getStockBoard()));
  
     	 return response; 
     }
