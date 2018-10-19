@@ -234,7 +234,7 @@ function viewAreaDetail(registAddr,lastUpadteTime,approveStatus,viewType){
 	}else if('all' == viewType){
 		title = title;
 	}
-	popWin(title,"/regulatory_statistics/viewAreaDetail?access_token="+accessToken, param,"95%","450px");
+	popWin(title,"/regulatory_statistics/viewAreaDetail?access_token="+accessToken, param,"95%","98%");
 }
 
 //地区特殊处理
