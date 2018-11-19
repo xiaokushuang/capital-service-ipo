@@ -10,6 +10,13 @@ $(document).ready(function() {
 	tSelectDataInit();
 	// demand 5955 end
 });
+
+function initDataTableParam(d){
+	return $.extend( {}, d, {
+	        "access_token": $('#tokenValue').val()
+	      } );
+}
+
 // 数据获取初始化
 function dataInit() {
 	// 发行监管部再融资企业审核状态
