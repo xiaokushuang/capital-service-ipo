@@ -253,7 +253,7 @@ function changeAreaParam(listArea){
 
 function search(){
 	ajaxTableQuery("recommendOrg", "/regulatory_statistics/getRefinanceRecommendOrgStts1"
-			,$("#queryForm").formSerialize()+'&access_token='+$('#tokenValue').val());
+			,$("#queryForm").formSerialize());
 }
 
 //序号
