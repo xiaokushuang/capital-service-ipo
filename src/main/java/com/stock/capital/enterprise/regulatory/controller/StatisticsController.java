@@ -76,7 +76,7 @@ public class StatisticsController extends BaseController {
      * @return
      */
     @RequestMapping(value = "refinanceInit", method = RequestMethod.GET)
-    public ModelAndView refinanceInit() {
+    public ModelAndView refinanceInit(String access_token) {
         ModelAndView mv = new ModelAndView("regulatory/refinanceStatistics");
         // demand 5955 start
         List<OptionDto> areaList = statisticsService.getAreaList();
@@ -99,6 +99,7 @@ public class StatisticsController extends BaseController {
         //行业
         mv.addObject("industrySelectList", JsonUtil.toJsonNoNull(statisticsService.getIndustryList()));
         mv.addObject("statisticsParamDto", new StatisticsParamDto());
+        mv.addObject("access_token", access_token);
         // demand 5955 end
         return mv;
     }
