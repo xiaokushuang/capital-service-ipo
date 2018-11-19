@@ -61,16 +61,13 @@ table tbody tr td.left {
             <table id="ipoAreaDetail" class="dataTable">
                 <thead>
                     <tr role="row" style="background: #a0adb5; color: #fff;">
-                            <th style="width: 4%; text-align: center;">序号</th>
+                            <th style="width: 10%; text-align: center;">序号</th>
                             <th style="width: 15%; text-align: center;">申报企业</th>
-                            <th style="width: 8%; text-align: center;">注册地</th>
-                            <th style="width: 10%; text-align: center;">所属行业</th>
-                            <th style="width: 10%; text-align: center;">拟上市地</th>
-                            <th style="width: 10%; text-align: center;">保荐机构</th>
-                            <th style="width: 13%; text-align: center;">会计师事务所</th>
-                            <th style="width: 10%; text-align: center;">律师事务所</th>
-                            <th style="width: 10%; text-align: center;">审核状态</th>
-                            <th style="width: 10%; text-align: center;">是否已参加抽查<br>抽签或现场检查</th>
+                            <th style="width: 15%; text-align: center;">注册地</th>
+                            <th style="width: 15%; text-align: center;">所属行业</th>
+                            <th style="width: 15%; text-align: center;">拟上市地</th>
+                            <th style="width: 15%; text-align: center;">保荐机构</th>
+                            <th style="width: 15%; text-align: center;">审核状态</th>
                         </tr>
                 </thead>
                 <tbody>
@@ -94,17 +91,8 @@ table tbody tr td.left {
                                 	${cl.quasiListedLand}
                                 </td>
                                 <td>${cl.recommendOrganization}</td>
-                                <td>${cl.accountantOffice}</td>
-                                <td>${cl.lawFirm}</td>
                                 <td>
                                 	${cl.approveStatus}
-                                </td>
-                                <td>
-                                	<c:choose>
-                                        <c:when test="${cl.hasedRandomInspection == '1'}">是</c:when>
-                                        <c:when test="${cl.hasedRandomInspection == '0'}">否</c:when>
-                                        <c:otherwise>${cl.hasedRandomInspection}</c:otherwise>
-                                    </c:choose>
                                 </td>
                             </tr>
                         </c:forEach>
