@@ -54,7 +54,7 @@ table tbody tr td.left {
         <form:form modelAttribute="statisticsParamDto" id="statisticsParamForm">
             <form:hidden path="registAddr"/>
             <form:hidden path="industry"/>
-            <form:hidden path="quasiListedLand"/>
+            <form:hidden path="stockCode"/>
             <form:hidden path="label"/>
         </form:form>
         <div class="col-md-12 cart-bottom-table">
