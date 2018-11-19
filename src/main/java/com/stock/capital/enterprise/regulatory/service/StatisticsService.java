@@ -197,11 +197,11 @@ public class StatisticsService extends BaseService {
      * @param letterId
      * @return
      */
-    public List<StatisticsResultDto> getRefinanceRecommendOrgStts() {
-        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
+    public Page<StatisticsResultDto> getRefinanceRecommendOrgStts(QueryInfo<Map<String, Object>> queryInfo) {
+        ParameterizedTypeReference<JsonResponse<Page<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<Page<StatisticsResultDto>>>() {
         };
         String url = apiBaseUrl + "regulatory_statistics/getRefinanceRecommendOrgStts";
-        List<StatisticsResultDto> response = restClient.post(url, "", responseType).getResult();
+        Page<StatisticsResultDto> response = restClient.post(url, queryInfo, responseType).getResult();
         return response;
     }
 
@@ -400,6 +400,7 @@ public class StatisticsService extends BaseService {
         parameters.add("quasiListedLand",statisticsParamDto.getQuasiListedLand());
         parameters.add("industry",statisticsParamDto.getIndustry());
         parameters.add("registAddr",statisticsParamDto.getRegistAddr());
+        parameters.add("approveStatus",statisticsParamDto.getApproveStatus());
         String url = apiBaseUrl + "regulatory_statistics/viewCommendDetail";
         List<StatisticsResultDto> list = restClient.post(url, parameters, responseType).getResult();
         return list;
@@ -531,5 +532,19 @@ public class StatisticsService extends BaseService {
             e.printStackTrace();
         }
         return new ByteArrayInputStream(os.toByteArray());
+    }
+    
+    public List<StatisticsResultDto> queryRefinanceDetail(StatisticsParamDto statisticsParamDto) {
+        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
+        };
+        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+        parameters.add("label",statisticsParamDto.getLabel());
+        parameters.add("quasiListedLand",statisticsParamDto.getQuasiListedLand());
+        parameters.add("industry",statisticsParamDto.getIndustry());
+        parameters.add("registAddr",statisticsParamDto.getRegistAddr());
+        parameters.add("stockCode",statisticsParamDto.getStockCode());
+        String url = apiBaseUrl + "regulatory_statistics/queryRefinanceDetail";
+        List<StatisticsResultDto> list = restClient.post(url, parameters, responseType).getResult();
+        return list;
     }
 }

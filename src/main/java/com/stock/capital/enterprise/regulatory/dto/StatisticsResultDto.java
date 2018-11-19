@@ -331,4 +331,15 @@ public class StatisticsResultDto implements Serializable {
 	public void setHasedRandomInspection(String hasedRandomInspection) {
 		this.hasedRandomInspection = hasedRandomInspection;
 	}
+	
+	// demand 5955 板块信息
+	private String stockCode;
+
+        public String getStockCode() {
+	        return stockCode;
+        }
+
+        public void setStockCode(String stockCode) {
+	        this.stockCode = stockCode;
+        }
 }
