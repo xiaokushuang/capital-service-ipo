@@ -122,7 +122,7 @@ table tbody tr td.left {
         <div class="panel-body" >
             <div class="tab-content">
                 <div class="table-primary" style="min-height:900px">
-                    <e:grid id="recommendOrg" action="/regulatory_statistics/getRefinanceRecommendOrgStts1?access_token=${access_token}"
+                    <e:grid id="recommendOrg" action="/regulatory_statistics/getRefinanceRecommendOrgStts1"
                          cssClass="table table-striped table-hover" defaultPageSize="10"> 
                          <e:gridColumn label="序号" renderColumn="renderColumnIndex" 
                                    orderable="false" cssClass="text-center" cssStyle="width:10%"/> 
