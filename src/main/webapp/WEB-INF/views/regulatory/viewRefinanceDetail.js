@@ -1,4 +1,4 @@
-//# sourceURL=viewCommendDetail.js
+//# sourceURL=viewRefinanceDetail.js
 $(document).ready(function() {
 	//在审项目数据明细excel导出
 	$("#exportDetail").click(function() {
@@ -8,7 +8,7 @@ $(document).ready(function() {
 				+"&industry="+$('#industry').val()
 				+"&registAddr="+$('#registAddr').val()
 				+"&access_token="+accessToken;
-		window.open(contextPath + "/regulatory_statistics/ipoCommendDetailExport?flag=1"+param);
+		window.open(contextPath + "/regulatory_statistics/ipoCommendDetailExport?flag=1&detailType=refinance"+param);
 	});
 	
 })

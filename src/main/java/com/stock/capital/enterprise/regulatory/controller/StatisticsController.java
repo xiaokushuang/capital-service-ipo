@@ -555,8 +555,19 @@ public class StatisticsController extends BaseController {
       * 
       */
       @RequestMapping(value = "ipoCommendDetailExport")
-      public ModelAndView ipoCommendDetailExport(String flag , StatisticsParamDto statisticsParamDto) throws IOException{
+      public ModelAndView ipoCommendDetailExport(String flag , StatisticsParamDto statisticsParamDto, String detailType) throws IOException{
     	  ModelAndView mv = new ModelAndView();
+    	  if("refinance".equals(detailType)){
+              mv.setView(new DownloadView());
+              Map<String, Object> fileInfo = Maps.newHashMap();
+              String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMdd");
+              fileInfo.put("fileName", "IPO保荐机构数据明细_"+ timeStr+".xls");
+              // 从文件服务器下载文件
+              fileInfo.put("fileBytes", statisticsService.ipoRefinanceDetailExport(statisticsParamDto));
+              mv.addObject(DownloadView.EXPORT_FILE, fileInfo.get("fileBytes"));
+              mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
+              mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLS);
+    	  } else {
     	  if("1".equals(flag)){
               mv.setView(new DownloadView());
               Map<String, Object> fileInfo = Maps.newHashMap();
@@ -567,7 +578,7 @@ public class StatisticsController extends BaseController {
               mv.addObject(DownloadView.EXPORT_FILE, fileInfo.get("fileBytes"));
               mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
               mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLS);
-    	  }else if("2".equals(flag)){
+          }else if("2".equals(flag)){
               mv.setView(new DownloadView());
               Map<String, Object> fileInfo = Maps.newHashMap();
               String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMdd");
@@ -577,7 +588,7 @@ public class StatisticsController extends BaseController {
               mv.addObject(DownloadView.EXPORT_FILE, fileInfo.get("fileBytes"));
               mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
               mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLS);
-    	  }else if("3".equals(flag)){
+          }else if("3".equals(flag)){
               mv.setView(new DownloadView());
               Map<String, Object> fileInfo = Maps.newHashMap();
               String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMdd");
@@ -588,6 +599,7 @@ public class StatisticsController extends BaseController {
               mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
               mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLS);
               
+          }
     	  }
     	  return mv;
       }
