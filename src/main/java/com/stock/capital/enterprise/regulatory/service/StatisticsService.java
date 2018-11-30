@@ -197,11 +197,11 @@ public class StatisticsService extends BaseService {
      * @param letterId
      * @return
      */
-    public List<StatisticsResultDto> getRefinanceRecommendOrgStts() {
-        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
+    public Page<StatisticsResultDto> getRefinanceRecommendOrgStts(QueryInfo<Map<String, Object>> queryInfo) {
+        ParameterizedTypeReference<JsonResponse<Page<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<Page<StatisticsResultDto>>>() {
         };
         String url = apiBaseUrl + "regulatory_statistics/getRefinanceRecommendOrgStts";
-        List<StatisticsResultDto> response = restClient.post(url, "", responseType).getResult();
+        Page<StatisticsResultDto> response = restClient.post(url, queryInfo, responseType).getResult();
         return response;
     }
 
@@ -400,6 +400,7 @@ public class StatisticsService extends BaseService {
         parameters.add("quasiListedLand",statisticsParamDto.getQuasiListedLand());
         parameters.add("industry",statisticsParamDto.getIndustry());
         parameters.add("registAddr",statisticsParamDto.getRegistAddr());
+        parameters.add("approveStatus",statisticsParamDto.getApproveStatus());
         String url = apiBaseUrl + "regulatory_statistics/viewCommendDetail";
         List<StatisticsResultDto> list = restClient.post(url, parameters, responseType).getResult();
         return list;
@@ -522,6 +523,101 @@ public class StatisticsService extends BaseService {
         sheet.setColumnWidth(6, 6000);
         sheet.setColumnWidth(7, 6000);
         sheet.setColumnWidth(8, 6000);
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        try {
+            workbook.write(os);
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ByteArrayInputStream(os.toByteArray());
+    }
+    
+    public List<StatisticsResultDto> queryRefinanceDetail(StatisticsParamDto statisticsParamDto) {
+        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
+        };
+        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+        parameters.add("label",statisticsParamDto.getLabel());
+        parameters.add("quasiListedLand",statisticsParamDto.getQuasiListedLand());
+        parameters.add("industry",statisticsParamDto.getIndustry());
+        parameters.add("registAddr",statisticsParamDto.getRegistAddr());
+        parameters.add("stockCode",statisticsParamDto.getStockCode());
+        String url = apiBaseUrl + "regulatory_statistics/queryRefinanceDetail";
+        List<StatisticsResultDto> list = restClient.post(url, parameters, responseType).getResult();
+        return list;
+    }
+    
+    public ByteArrayInputStream ipoRefinanceDetailExport(StatisticsParamDto statisticsParamDto) {
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        List<StatisticsResultDto> comDtos = new ArrayList<StatisticsResultDto>();
+        comDtos = queryRefinanceDetail(statisticsParamDto);
+        HSSFSheet sheet = workbook.createSheet("Sheet1");
+        HSSFRow row = null;
+        HSSFCellStyle cellStyle = workbook.createCellStyle();
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
+        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        cellStyle.setWrapText(true);
+        HSSFFont f = workbook.createFont();
+        f.setFontHeightInPoints((short) 12);
+        f.setBold(true);
+        cellStyle.setFont(f);
+        HSSFCellStyle cs = workbook.createCellStyle();
+        cs.setWrapText(true);
+        HSSFCell cell = null;
+        cell = sheet.createRow(0).createCell((int) 0);
+        cell.setCellValue("URL Link");
+        // 内容居中
+        HSSFCellStyle conCenterStyle = workbook.createCellStyle();
+        conCenterStyle.setAlignment(HorizontalAlignment.CENTER);
+        conCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        conCenterStyle.setWrapText(true);   
+        // 设置标题
+        row = sheet.createRow(0);
+        row.setHeight((short) 600);
+        //  协会机构不显示排行
+        String[] titles = new String[] {"申报企业","注册地","所属行业","拟上市地","保荐机构","审核状态"};
+        for (int i = 0; i < 6; i++) {
+            sheet.setDefaultColumnStyle(i, cs);
+            cell = row.createCell(i);
+            cell.setCellStyle(cellStyle);
+            cell.setCellValue(titles[i]);
+        }
+        row = sheet.createRow(1);
+        row.setHeight((short) 600);
+        
+        if (comDtos != null && comDtos.size() > 0) {
+            // 设置内容
+            for (int i = 0; i < comDtos.size(); i++) {
+                row = sheet.createRow(i+1);
+                row.setHeight((short) 600);
+                cell = row.createCell(0);
+                cell.setCellValue(comDtos.get(i).getAppCompany());
+                cell.setCellStyle(conCenterStyle);
+                cell = row.createCell(1);
+                cell.setCellValue(changeAreaName(comDtos.get(i).getRegistAddr()));
+                cell.setCellStyle(conCenterStyle);
+                cell = row.createCell(2);
+                cell.setCellValue(comDtos.get(i).getBelongTrade());
+                cell.setCellStyle(conCenterStyle);
+                cell = row.createCell(3);
+                cell.setCellValue(comDtos.get(i).getQuasiListedLand());
+                cell.setCellStyle(conCenterStyle);
+                cell = row.createCell(4);
+                cell.setCellValue(comDtos.get(i).getRecommendOrganization());
+                cell.setCellStyle(conCenterStyle);
+                cell = row.createCell(5);
+                cell.setCellValue(comDtos.get(i).getApproveStatus());
+                cell.setCellStyle(conCenterStyle);
+                cell.setCellStyle(conCenterStyle);
+            }
+        }
+        sheet.setColumnWidth(0, 6000);
+        sheet.setColumnWidth(1, 4000);
+        sheet.setColumnWidth(2, 6000);
+        sheet.setColumnWidth(3, 6000);
+        sheet.setColumnWidth(4, 6000);
+        sheet.setColumnWidth(5, 6000);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         try {
             workbook.write(os);

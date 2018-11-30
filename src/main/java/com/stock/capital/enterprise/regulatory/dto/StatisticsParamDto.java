@@ -86,6 +86,15 @@ public class StatisticsParamDto implements Serializable {
         this.approveStatus = approveStatus;
     }
 
+    // demand 5955 所属板块
+    private String stockCode;
     
+    public String getStockCode() {
+        return stockCode;
+    }
+
+    public void setStockCode(String stockCode) {
+        this.stockCode = stockCode;
+    }
 }
 

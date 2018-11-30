@@ -76,8 +76,31 @@ public class StatisticsController extends BaseController {
      * @return
      */
     @RequestMapping(value = "refinanceInit", method = RequestMethod.GET)
-    public ModelAndView refinanceInit() {
+    public ModelAndView refinanceInit(String access_token) {
         ModelAndView mv = new ModelAndView("regulatory/refinanceStatistics");
+        // demand 5955 start
+        List<OptionDto> areaList = statisticsService.getAreaList();
+        for (int i = 0; i < areaList.size(); i++) {
+            if(areaList != null && StringUtils.isNotBlank(areaList.get(i).getLabel())){
+                //地区特殊处理
+                if ("深圳市".equals(areaList.get(i).getLabel())
+                        || "大连市".equals(areaList.get(i).getLabel())
+                        || "宁波市".equals(areaList.get(i).getLabel())
+                        || "厦门市".equals(areaList.get(i).getLabel())
+                        || "青岛市".equals(areaList.get(i).getLabel())) {
+                    areaList.get(i).setLabel(areaList.get(i).getLabel().replace("市", ""));
+                } else{
+                    areaList.get(i).setLabel(statisticsService.changeAreaName(areaList.get(i).getLabel()));
+                } 
+            }
+        }
+        //地区
+        mv.addObject("areaList", JsonUtil.toJsonNoNull(areaList));
+        //行业
+        mv.addObject("industrySelectList", JsonUtil.toJsonNoNull(statisticsService.getIndustryList()));
+        mv.addObject("statisticsParamDto", new StatisticsParamDto());
+        mv.addObject("access_token", access_token);
+        // demand 5955 end
         return mv;
     }
     
@@ -415,12 +438,13 @@ public class StatisticsController extends BaseController {
      */
     @RequestMapping(value = "/getRefinanceRecommendOrgStts", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResponse<List<StatisticsResultDto>> getRefinanceRecommendOrgStts(String companyCode) {
-        JsonResponse<List<StatisticsResultDto>> response = new JsonResponse<List<StatisticsResultDto>>();
-        response.setResult(statisticsService.getRefinanceRecommendOrgStts());
+    public JsonResponse<Page<StatisticsResultDto>> getRefinanceRecommendOrgStts(@RequestBody QueryInfo<Map<String, Object>> queryInfo) {
+        JsonResponse<Page<StatisticsResultDto>> response = new JsonResponse<>();
+        Page<StatisticsResultDto> page = statisticsService.getRefinanceRecommendOrgStts(queryInfo);
+        response.setResult(page);
         return response;
     }
-
+    
     /**
      * 再融资最新一期日期获取
      *
@@ -531,8 +555,19 @@ public class StatisticsController extends BaseController {
       * 
       */
       @RequestMapping(value = "ipoCommendDetailExport")
-      public ModelAndView ipoCommendDetailExport(String flag , StatisticsParamDto statisticsParamDto) throws IOException{
+      public ModelAndView ipoCommendDetailExport(String flag , StatisticsParamDto statisticsParamDto, String detailType) throws IOException{
     	  ModelAndView mv = new ModelAndView();
+    	  if("refinance".equals(detailType)){
+              mv.setView(new DownloadView());
+              Map<String, Object> fileInfo = Maps.newHashMap();
+              String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMdd");
+              fileInfo.put("fileName", "IPO保荐机构数据明细_"+ timeStr+".xls");
+              // 从文件服务器下载文件
+              fileInfo.put("fileBytes", statisticsService.ipoRefinanceDetailExport(statisticsParamDto));
+              mv.addObject(DownloadView.EXPORT_FILE, fileInfo.get("fileBytes"));
+              mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
+              mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLS);
+    	  } else {
     	  if("1".equals(flag)){
               mv.setView(new DownloadView());
               Map<String, Object> fileInfo = Maps.newHashMap();
@@ -543,7 +578,7 @@ public class StatisticsController extends BaseController {
               mv.addObject(DownloadView.EXPORT_FILE, fileInfo.get("fileBytes"));
               mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
               mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLS);
-    	  }else if("2".equals(flag)){
+          }else if("2".equals(flag)){
               mv.setView(new DownloadView());
               Map<String, Object> fileInfo = Maps.newHashMap();
               String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMdd");
@@ -553,7 +588,7 @@ public class StatisticsController extends BaseController {
               mv.addObject(DownloadView.EXPORT_FILE, fileInfo.get("fileBytes"));
               mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
               mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLS);
-    	  }else if("3".equals(flag)){
+          }else if("3".equals(flag)){
               mv.setView(new DownloadView());
               Map<String, Object> fileInfo = Maps.newHashMap();
               String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMdd");
@@ -564,8 +599,71 @@ public class StatisticsController extends BaseController {
               mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
               mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLS);
               
+          }
     	  }
     	  return mv;
       }
      
+      /**
+       * demand 5955 - 再融资-保荐机构数据明细
+       *
+       * @return
+       */
+      @RequestMapping(value = "queryRefinanceDetail")
+      public ModelAndView queryRefinanceDetail(StatisticsParamDto statisticsParamDto) {
+          ModelAndView mv = new ModelAndView("regulatory/viewRefinanceDetail");
+          List<StatisticsResultDto> companyList = statisticsService.queryRefinanceDetail(statisticsParamDto);
+          mv.addObject("companyList",companyList);
+          mv.addObject("statisticsParamDto",statisticsParamDto);
+          return mv;
+      }
+      
+      /**
+       * demand 5955 再融资表格查询
+       *
+       * @return response（JSON格式）
+       */
+      @RequestMapping(value = "/getRefinanceRecommendOrgStts1", method = RequestMethod.POST)
+      @ResponseBody
+      public Map<String, Object> getRefinanceRecommendOrgSttsForm(StatisticsParamDto dto, Integer draw) {
+          String startRow = getRequest().getParameter("start");
+          String pageSize = getRequest().getParameter("length");
+          // 排序列名字
+          String orderColumn = getRequest().getParameter("orderByName");
+          String orderByOrder = getRequest().getParameter("order[0][dir]");
+          
+          Map<String, Object> condition = Maps.newHashMap();
+          //地点
+          condition.put("registAddr", dto.getRegistAddr());
+          //行业
+          condition.put("industry", dto.getIndustry());
+          
+          QueryInfo<Map<String, Object>> queryInfo = commonSearch(condition);
+          if(StringUtils.isNotEmpty(orderColumn)) {
+              queryInfo.setOrderByName(orderColumn);
+          } 
+          queryInfo.setOrderByOrder(orderByOrder);
+          queryInfo.setPageSize(Integer.parseInt(pageSize));
+          queryInfo.setStartRow(Integer.parseInt(startRow));
+
+//          queryInfo.setCondition(condition);
+//          getRequest().getSession().setAttribute(getRequest().getRequestURI(), queryInfo);
+          
+          Page<StatisticsResultDto> page = statisticsService.getRefinanceRecommendOrgStts(queryInfo);
+         
+          List<StatisticsResultDto> list = Lists.newArrayList();
+          int total = 0;
+          if (page != null) {
+              list = page.getData();
+              total = page.getTotal();
+          }
+          // 设定table返回值
+          Map<String, Object> response = Maps.newHashMap();
+          response.put("draw", draw);
+          response.put("recordsTotal", total);
+          response.put("recordsFiltered", total);
+          response.put("data", list);
+
+          return response;
+      }
 }

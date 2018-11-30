@@ -54,6 +54,9 @@ table tbody tr td.left {
     text-align: left;
     padding-left: 10px;
 }
+.t-select-view {
+    height: 300px !important;
+}
 </style>
 </head>
 <body style="background-color: white;">
@@ -83,7 +86,23 @@ table tbody tr td.left {
         <div class="col-md-12 no-padding-hr">
             <div class="sub-title">发行监管部再融资审核保荐机构保荐企业数量</div>
         </div>
-        <div class="col-md-12 cart-bottom-table" style="margin-top: 10px;">
+        <div class="col-md-12" style="padding-left: 10px;">
+            <form:form action="" modelAttribute="statisticsParamDto" id="queryForm">
+                <div class="row" style="padding: 10px 10px;">
+                    <label class="control-label col-md-2 no-padding-r">项目公司所属行业</label>
+                    <div class="col-md-3 no-padding-r" style="margin-left:-50px;">
+                        <input id="industry" json-data='${industrySelectList}' type="text" class="form-control t-select" placeholder="请选择行业" style="background-color: #fff;"/> 
+                        <input type="hidden" name="industry" id="industrySelect"/>
+                    </div>
+                    <label class="control-label col-md-2 no-padding-r">项目公司注册地</label>
+                    <div class="col-md-3 no-padding-r" style="margin-left:-60px;">
+                        <input id="registAddr" json-data='${areaList}' type="text" class="form-control t-select" placeholder="请选择注册地" style="background-color: #fff;"/> 
+                        <input type="hidden" name="registAddr" id="registAddrSelect"/>
+                    </div>
+                </div>
+            </form:form>
+        </div>
+        <!-- <div class="col-md-12 cart-bottom-table" style="margin-top: 10px;">
             <table id="recommendOrg">
                 <thead>
                     <tr style="background: #E8E8E8;">
@@ -100,7 +119,37 @@ table tbody tr td.left {
                 <tbody>
                 </tbody>
             </table>
+        </div> -->
+        
+        
+        <div class="panel-body" >
+            <div class="tab-content">
+                <div class="table-primary" style="min-height:900px">
+                    <e:grid id="recommendOrg" action="/regulatory_statistics/getRefinanceRecommendOrgStts1?access_token=${access_token}"
+                         cssClass="table table-striped table-hover" defaultPageSize="10"> 
+                         <e:gridColumn label="序号" renderColumn="renderColumnIndex" 
+                                   orderable="false" cssClass="text-center" cssStyle="width:10%"/> 
+                         <e:gridColumn label="保荐机构" displayColumn="label"
+                                       orderable="false" cssClass="text-left" cssStyle="width:30%"/> 
+                         <e:gridColumn label="深主板" renderColumn="renderColumnszbCount" orderColumn="1"
+                                       cssClass="text-center" cssStyle="width:10%"/>
+                         <e:gridColumn label="沪主板" renderColumn="renderColumnhzbCount" orderColumn="2"
+                                       cssClass="text-center" cssStyle="width:10%"/> 
+                         <e:gridColumn label="中小板" renderColumn="renderColumnzxbCount" orderColumn="3"
+                                      cssClass="text-center" cssStyle="width:10%"/> 
+                         <e:gridColumn label="创业板" renderColumn="renderColumncybCount" orderColumn="4"
+                                       cssClass="text-center" cssStyle="width:10%"/> 
+                         <e:gridColumn label="合计" renderColumn="renderColumnTotalCount" orderColumn="5"
+                                      cssClass="text-center" cssStyle="width:10%"/> 
+                         <e:gridColumn label="比例" renderColumn="renderColumnPercent" orderColumn="6"
+                                      cssClass="text-center" cssStyle="width:10%"/>
+                    </e:grid>
+               </div>
+            </div>
         </div>
+        
+        
+        <input type="hidden" id="tokenValue" value="${access_token}">
         <div class="col-md-12 no-padding">
             <hr style="margin: 20px 15px;" />
         </div>
