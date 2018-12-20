@@ -644,8 +644,8 @@ public class StatisticsService extends BaseService {
     }
     
     //excel down
-    public InputStream exportExcel(String templatePath) throws IOException {
-        InputStream templateFile = new FileInputStream(templatePath);
+    public InputStream exportExcel(InputStream templateFile) throws IOException {
+        //InputStream templateFile = new FileInputStream(templatePath);
         XSSFWorkbook workbook = new XSSFWorkbook(templateFile);
         try {
 

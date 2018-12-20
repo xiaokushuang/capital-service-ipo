@@ -7,6 +7,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+import javax.servlet.ServletContext;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,6 +41,9 @@ public class StatisticsController extends BaseController {
     @Autowired
     private StatisticsService statisticsService;
     
+    @Resource
+	private ServletContext servletContext; 
+
     /**
      * IPO页面初始化
      *
@@ -675,11 +681,12 @@ public class StatisticsController extends BaseController {
       @RequestMapping("download")
       @ResponseBody
       public ModelAndView download(String access_token) {
-          String templatesPath = getRequest().getSession().getServletContext().getRealPath("/WEB-INF/templates/IPO在审项目数据.xlsx");
-          ModelAndView mv = new ModelAndView();
+          //String templatesPath = getRequest().getSession().getServletContext().getRealPath("/WEB-INF/templates/IPO在审项目数据.xlsx");
+    	  InputStream inputStream = servletContext.getResourceAsStream("/WEB-INF/templates/IPO在审项目数据.xlsx");
+    	  ModelAndView mv = new ModelAndView();
           try {
               mv.setView(new DownloadView());
-              InputStream is = statisticsService.exportExcel(templatesPath);
+              InputStream is = statisticsService.exportExcel(inputStream);
               mv.addObject(DownloadView.EXPORT_FILE, is);
               mv.addObject(DownloadView.EXPORT_FILE_NAME, "IPO在审项目数据.xlsx");
               mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLSX);
