@@ -674,7 +674,7 @@ public class StatisticsController extends BaseController {
       //excel down
       @RequestMapping("download")
       @ResponseBody
-      public ModelAndView download() {
+      public ModelAndView download(String access_token) {
           String templatesPath = getRequest().getSession().getServletContext().getRealPath("/WEB-INF/templates/IPO在审项目数据.xlsx");
           ModelAndView mv = new ModelAndView();
           try {
@@ -684,6 +684,7 @@ public class StatisticsController extends BaseController {
               mv.addObject(DownloadView.EXPORT_FILE_NAME, "IPO在审项目数据.xlsx");
               mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLSX);
               mv.addObject(DownloadView.EXPORT_FILE_SIZE, is.available());
+              mv.addObject("access_token", access_token);
           } catch (FileNotFoundException e) {
               e.printStackTrace();
           } catch (IOException e) {
