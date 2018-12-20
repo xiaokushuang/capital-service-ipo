@@ -293,6 +293,6 @@ function changeAreaResult(name){
 
 // excel down
 function excelImport(){
-	winOpen(contextPath + "/regulatory_statistics/download?access_token="+$("#tokenValue").val()+"&fileId=", "_blank");
+	winOpen(contextPath + "/regulatory_statistics/download?access_token="+$("#tokenValue").val(), "_blank");
 }
 
