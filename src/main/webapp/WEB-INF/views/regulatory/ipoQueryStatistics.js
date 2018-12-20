@@ -289,3 +289,10 @@ function changeAreaResult(name){
 	}
 	return resultName;
 }
+
+
+// excel down
+function excelImport(){
+	winOpen(contextPath + "/regulatory_statistics/download?fileId=", "_blank");
+}
+

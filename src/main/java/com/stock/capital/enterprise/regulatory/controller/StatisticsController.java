@@ -1,6 +1,8 @@
 package com.stock.capital.enterprise.regulatory.controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -665,5 +667,27 @@ public class StatisticsController extends BaseController {
           response.put("data", list);
 
           return response;
+      }
+      
+      
+      //excel down
+      @RequestMapping("download")
+      @ResponseBody
+      public ModelAndView download() {
+          String templatesPath = getRequest().getSession().getServletContext().getRealPath("/WEB-INF/templates/IPO在审项目数据.xlsx");
+          ModelAndView mv = new ModelAndView();
+          try {
+              mv.setView(new DownloadView());
+              InputStream is = statisticsService.exportExcel(templatesPath);
+              mv.addObject(DownloadView.EXPORT_FILE, is);
+              mv.addObject(DownloadView.EXPORT_FILE_NAME, "IPO在审项目数据.xlsx");
+              mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLSX);
+              mv.addObject(DownloadView.EXPORT_FILE_SIZE, is.available());
+          } catch (FileNotFoundException e) {
+              e.printStackTrace();
+          } catch (IOException e) {
+              e.printStackTrace();
+          }
+          return mv;
       }
 }

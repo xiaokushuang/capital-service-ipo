@@ -117,7 +117,9 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, 
                         <%-- <input id="industry" json-data='${industryList}' type="text" class="form-control t-select" placeholder="请选择行业" style="background-color: #fff;"/> 
                         <input type="hidden" name="industry" /> --%>
                     </div>
+                    
                     <div class="col-md-3 no-padding-r" align="right">
+                     <button type="button" class="btn btn-primary" id="download" title="导出excel" onclick="excelImport()">导出excel</button>
                         <span id="clearAllOptions" class="btn btn-4 btn-bny">清空条件</span>
                         <!-- <span id="btnQuery" class="btn btn-primary">查询</span> -->
                     </div>
