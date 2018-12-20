@@ -112,7 +112,7 @@ public class StatisticsController extends BaseController {
      * @return
      */
     @RequestMapping(value = "ipoQueryInit", method = RequestMethod.GET)
-    public ModelAndView ipoQueryInit() {
+    public ModelAndView ipoQueryInit(String access_token) {
         ModelAndView mv = new ModelAndView("regulatory/ipoQueryStatistics");
         mv.addObject("belongsPlateList", JsonUtil.toJsonNoNull(statisticsService.getCodeAndName("IPODATA_BELONG_PLATE")));
         //地区特殊处理
@@ -135,6 +135,7 @@ public class StatisticsController extends BaseController {
         //行业处理——待定
 //        mv.addObject("industryList", JsonUtil.toJsonNoNull(statisticsService.getIndustryList()));
         mv.addObject("statisticsParamDto", new StatisticsParamDto());
+        mv.addObject("access_token", access_token);
         return mv;
     }
 
