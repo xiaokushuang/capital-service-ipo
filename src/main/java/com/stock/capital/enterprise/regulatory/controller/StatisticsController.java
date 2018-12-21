@@ -680,13 +680,13 @@ public class StatisticsController extends BaseController {
       //excel down
       @RequestMapping("download")
       @ResponseBody
-      public ModelAndView download(String access_token) {
+      public ModelAndView download(String access_token,String belongsPlate,String registAddr) {
           //String templatesPath = getRequest().getSession().getServletContext().getRealPath("/WEB-INF/templates/IPO在审项目数据.xlsx");
     	  InputStream inputStream = servletContext.getResourceAsStream("/WEB-INF/templates/IPO在审项目数据.xlsx");
     	  ModelAndView mv = new ModelAndView();
           try {
               mv.setView(new DownloadView());
-              InputStream is = statisticsService.exportExcel(inputStream);
+              InputStream is = statisticsService.exportExcel(inputStream, belongsPlate, registAddr);
               mv.addObject(DownloadView.EXPORT_FILE, is);
               mv.addObject(DownloadView.EXPORT_FILE_NAME, "IPO在审项目数据.xlsx");
               mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLSX);

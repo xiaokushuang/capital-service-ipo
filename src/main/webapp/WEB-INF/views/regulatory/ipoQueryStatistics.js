@@ -293,6 +293,10 @@ function changeAreaResult(name){
 
 // excel down
 function excelImport(){
-	winOpen(contextPath + "/regulatory_statistics/download?access_token="+$("#tokenValue").val(), "_blank");
+	var belongsPlate = $('input[name="belongsPlate"]').val();
+	var registAddr =$('input[name="registAddr"]').val();
+	/*var industry =$('input[name="industry"]').val();
+	var ipoOrder =$('#ipoOrder').val();*/
+	winOpen(contextPath + "/regulatory_statistics/download?access_token="+$("#tokenValue").val()+"&belongsPlate="+belongsPlate+"&registAddr="+registAddr, "_blank");
 }
 

@@ -644,7 +644,7 @@ public class StatisticsService extends BaseService {
     }
     
     //excel down
-    public InputStream exportExcel(InputStream templateFile) throws IOException {
+    public InputStream exportExcel(InputStream templateFile,String belongsPlate,String registAddr) throws IOException {
         //InputStream templateFile = new FileInputStream(templatePath);
         XSSFWorkbook workbook = new XSSFWorkbook(templateFile);
         try {
@@ -670,17 +670,26 @@ public class StatisticsService extends BaseService {
         	cell.setCellValue(sdf.format(new Date())+"年");
         	
             StatisticsParamDto statisticsParamDto = new StatisticsParamDto();
+            statisticsParamDto.setBelongsPlate(belongsPlate);
+            statisticsParamDto.setRegistAddr(registAddr);
             List<StatisticsResultDto> lists = statisticsService.getIPOAreaDataStts(statisticsParamDto);
             
             int i =0;
             for(StatisticsResultDto dto : lists){
             	i ++;
             	rowNum ++;
-            	row = sheet.getRow(rowNum) == null ? sheet.createRow(rowNum) : sheet.getRow(rowNum);
-            	cell = row.getCell(0) == null ? row.createCell(0) : row.getCell(0);
-            	cell.setCellStyle(blackBorder);
-            	cell.setCellStyle(centerCellStyle);
-            	cell.setCellValue(i);
+            	if(org.apache.commons.lang3.StringUtils.isNotEmpty(dto.getRegistAddr())){
+	            	row = sheet.getRow(rowNum) == null ? sheet.createRow(rowNum) : sheet.getRow(rowNum);
+	            	cell = row.getCell(0) == null ? row.createCell(0) : row.getCell(0);
+	            	cell.setCellStyle(blackBorder);
+	            	cell.setCellStyle(centerCellStyle);
+	            	cell.setCellValue(i);
+            	}else{
+            		row = sheet.getRow(rowNum) == null ? sheet.createRow(rowNum) : sheet.getRow(rowNum);
+	            	cell = row.getCell(0) == null ? row.createCell(0) : row.getCell(0);
+	            	cell.setCellStyle(blackBorder);
+	            	cell.setCellStyle(centerCellStyle);
+            	}
             	
             	cell = row.getCell(1) == null ? row.createCell(1) : row.getCell(1);
             	cell.setCellStyle(blackBorder);
