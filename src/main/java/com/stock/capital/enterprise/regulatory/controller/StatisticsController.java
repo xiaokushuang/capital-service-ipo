@@ -1,9 +1,14 @@
 package com.stock.capital.enterprise.regulatory.controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.ServletContext;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +41,9 @@ public class StatisticsController extends BaseController {
     @Autowired
     private StatisticsService statisticsService;
     
+    @Resource
+	private ServletContext servletContext; 
+
     /**
      * IPO页面初始化
      *
@@ -110,7 +118,7 @@ public class StatisticsController extends BaseController {
      * @return
      */
     @RequestMapping(value = "ipoQueryInit", method = RequestMethod.GET)
-    public ModelAndView ipoQueryInit() {
+    public ModelAndView ipoQueryInit(String access_token) {
         ModelAndView mv = new ModelAndView("regulatory/ipoQueryStatistics");
         mv.addObject("belongsPlateList", JsonUtil.toJsonNoNull(statisticsService.getCodeAndName("IPODATA_BELONG_PLATE")));
         //地区特殊处理
@@ -133,6 +141,7 @@ public class StatisticsController extends BaseController {
         //行业处理——待定
 //        mv.addObject("industryList", JsonUtil.toJsonNoNull(statisticsService.getIndustryList()));
         mv.addObject("statisticsParamDto", new StatisticsParamDto());
+        mv.addObject("access_token", access_token);
         return mv;
     }
 
@@ -665,5 +674,29 @@ public class StatisticsController extends BaseController {
           response.put("data", list);
 
           return response;
+      }
+      
+      
+      //excel down
+      @RequestMapping("download")
+      @ResponseBody
+      public ModelAndView download(String access_token,String belongsPlate,String registAddr) {
+          //String templatesPath = getRequest().getSession().getServletContext().getRealPath("/WEB-INF/templates/IPO在审项目数据.xlsx");
+    	  InputStream inputStream = servletContext.getResourceAsStream("/WEB-INF/templates/IPO在审项目数据.xlsx");
+    	  ModelAndView mv = new ModelAndView();
+          try {
+              mv.setView(new DownloadView());
+              InputStream is = statisticsService.exportExcel(inputStream, belongsPlate, registAddr);
+              mv.addObject(DownloadView.EXPORT_FILE, is);
+              mv.addObject(DownloadView.EXPORT_FILE_NAME, "IPO在审项目数据.xlsx");
+              mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLSX);
+              mv.addObject(DownloadView.EXPORT_FILE_SIZE, is.available());
+              mv.addObject("access_token", access_token);
+          } catch (FileNotFoundException e) {
+              e.printStackTrace();
+          } catch (IOException e) {
+              e.printStackTrace();
+          }
+          return mv;
       }
 }

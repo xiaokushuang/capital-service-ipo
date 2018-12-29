@@ -1,6 +1,10 @@
 package com.stock.capital.enterprise.regulatory.service;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -13,8 +17,15 @@ import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -50,6 +61,9 @@ public class StatisticsService extends BaseService {
      */
     @Value("${api.baseUrl}")
     private String apiBaseUrl;
+    
+    @Autowired
+    private StatisticsService statisticsService;
 
     /**
      * IPO在审项目数据统计
@@ -627,5 +641,236 @@ public class StatisticsService extends BaseService {
             e.printStackTrace();
         }
         return new ByteArrayInputStream(os.toByteArray());
+    }
+    
+    //excel down
+    public InputStream exportExcel(InputStream templateFile,String belongsPlate,String registAddr) throws IOException {
+        //InputStream templateFile = new FileInputStream(templatePath);
+        XSSFWorkbook workbook = new XSSFWorkbook(templateFile);
+        try {
+
+            // 参数表
+            XSSFSheet sheet = workbook.getSheetAt(0);
+            workbook.setActiveSheet(0);
+            XSSFRow row = null;
+            XSSFCell cell = null;
+            // 黑边框
+            XSSFCellStyle blackBorder = blackBorderStyle(workbook);
+            // 文本居中
+            XSSFCellStyle centerCellStyle = blackBorderStyle(workbook);
+            centerCellStyle.setAlignment(HorizontalAlignment.CENTER);
+            
+            int rowNum = 0;
+            row = sheet.getRow(rowNum) == null ? sheet.createRow(rowNum) : sheet.getRow(rowNum);
+            
+            rowNum ++;
+            row = sheet.getRow(rowNum) == null ? sheet.createRow(rowNum) : sheet.getRow(rowNum);
+            cell = row.getCell(10) == null ? row.createCell(10) : row.getCell(10);
+        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        	cell.setCellValue(sdf.format(new Date())+"年");
+        	
+            StatisticsParamDto statisticsParamDto = new StatisticsParamDto();
+            statisticsParamDto.setBelongsPlate(belongsPlate);
+            statisticsParamDto.setRegistAddr(registAddr);
+            List<StatisticsResultDto> lists = statisticsService.getIPOAreaDataStts(statisticsParamDto);
+            
+            int i =0;
+            for(StatisticsResultDto dto : lists){
+            	i ++;
+            	rowNum ++;
+            	if(org.apache.commons.lang3.StringUtils.isNotEmpty(dto.getRegistAddr())){
+	            	row = sheet.getRow(rowNum) == null ? sheet.createRow(rowNum) : sheet.getRow(rowNum);
+	            	cell = row.getCell(0) == null ? row.createCell(0) : row.getCell(0);
+	            	cell.setCellStyle(blackBorder);
+	            	cell.setCellStyle(centerCellStyle);
+	            	cell.setCellValue(i);
+            	}else{
+            		row = sheet.getRow(rowNum) == null ? sheet.createRow(rowNum) : sheet.getRow(rowNum);
+	            	cell = row.getCell(0) == null ? row.createCell(0) : row.getCell(0);
+	            	cell.setCellStyle(blackBorder);
+	            	cell.setCellStyle(centerCellStyle);
+            	}
+            	
+            	cell = row.getCell(1) == null ? row.createCell(1) : row.getCell(1);
+            	cell.setCellStyle(blackBorder);
+            	cell.setCellStyle(centerCellStyle);
+            	if(org.apache.commons.lang3.StringUtils.isNotEmpty(dto.getRegistAddr())){
+            		cell.setCellValue(dto.getRegistAddr());
+            		if((dto.getRegistAddr().equals("广东"))){
+            			cell.setCellValue("广东(不含深圳)");
+            		}
+            		if((dto.getRegistAddr().equals("辽宁"))){
+            			cell.setCellValue("辽宁(不含大连)");
+            		}
+            		if((dto.getRegistAddr().equals("浙江"))){
+            			cell.setCellValue("浙江(不含宁波)");
+            		}
+            		if((dto.getRegistAddr().equals("福建"))){
+            			cell.setCellValue("福建(不含厦门)");
+            		}
+            		if((dto.getRegistAddr().equals("山东"))){
+            			cell.setCellValue("山东(不含青岛)");
+            		}
+            	}else{
+            		cell.setCellValue("合计");
+            	}
+            	
+            	/*if(name == "广东"){
+        			resultName = "广东(不含深圳)";
+        		} else if(name == "辽宁"){
+        			resultName = "辽宁(不含大连)";
+        		} else if(name == "浙江"){
+        			resultName = "浙江(不含宁波)";
+        		} else if(name == "福建"){
+        			resultName = "福建(不含厦门)";
+        		} else if(name == "山东"){
+        			resultName = "山东(不含青岛)";*/
+            	
+            	cell = row.getCell(2) == null ? row.createCell(2) : row.getCell(2);
+            	cell.setCellStyle(blackBorder);
+            	cell.setCellStyle(centerCellStyle);
+            	cell.setCellValue(dto.getApplied());
+            	
+            	cell = row.getCell(3) == null ? row.createCell(3) : row.getCell(3);
+            	cell.setCellStyle(blackBorder);
+            	cell.setCellStyle(centerCellStyle);
+            	cell.setCellValue(dto.getReviewed());
+            	
+            	cell = row.getCell(4) == null ? row.createCell(4) : row.getCell(4);
+            	cell.setCellStyle(blackBorder);
+            	cell.setCellStyle(centerCellStyle);
+            	cell.setCellValue(dto.getPreUpdate());
+            	
+            	cell = row.getCell(5) == null ? row.createCell(5) : row.getCell(5);
+            	cell.setCellStyle(blackBorder);
+            	cell.setCellStyle(centerCellStyle);
+            	cell.setCellValue(dto.getEndYet());
+            	
+            	cell = row.getCell(6) == null ? row.createCell(6) : row.getCell(6);
+            	cell.setCellStyle(blackBorder);
+            	cell.setCellStyle(centerCellStyle);
+            	cell.setCellValue(dto.getProcessing());
+            	
+            	cell = row.getCell(7) == null ? row.createCell(7) : row.getCell(7);
+            	cell.setCellStyle(blackBorder);
+            	cell.setCellStyle(centerCellStyle);
+            	cell.setCellValue(dto.getPassed());
+            	
+            	cell = row.getCell(8) == null ? row.createCell(8) : row.getCell(8);
+            	cell.setCellStyle(blackBorder);
+            	cell.setCellStyle(centerCellStyle);
+            	cell.setCellValue(dto.getAreaCount());
+            	
+            	cell = row.getCell(9) == null ? row.createCell(9) : row.getCell(9);
+            	cell.setCellStyle(blackBorder);
+            	cell.setCellStyle(centerCellStyle);
+            	cell.setCellValue(dto.getWeekStopYet());
+            	
+            	cell = row.getCell(10) == null ? row.createCell(10) : row.getCell(10);
+            	cell.setCellStyle(blackBorder);
+            	cell.setCellStyle(centerCellStyle);
+            	cell.setCellValue(dto.getStopYet());
+            	
+            }
+            
+            
+           /* rowNum ++;
+            row = sheet.getRow(rowNum) == null ? sheet.createRow(rowNum) : sheet.getRow(rowNum);
+            cell = row.getCell(0) == null ? row.createCell(0) : row.getCell(0);
+            cell.setCellStyle(blackBorder);
+            cell.setCellStyle(centerCellStyle);
+            cell.setCellValue(1);*/
+            
+           /* List excelList = new ArrayList<>();
+            if (excelList != null && excelList.size() >= 1) {*/
+                // 行复制
+               /* int starRow = 1;
+                // list size
+                int rows = 1;
+                sheet.shiftRows(starRow+1, sheet.getLastRowNum() + 2, 1, true, false);
+                starRow = starRow - 1;
+                for (int i = 0; i < rows+1; i++) {
+                    XSSFRow sourceRow = null;
+                    XSSFRow targetRow = null;
+                    XSSFCell sourceCell = null;
+                    XSSFCell targetCell = null;
+                    short m;
+
+                    // 隔行变色
+                    if ((i + 1) % 2 == 0) {
+                        starRow = starRow + 1;
+                        sourceRow = sheet.getRow(sheet.getLastRowNum()+1);
+                        targetRow = sheet.createRow(starRow + 1);
+                    } else {
+                        starRow = starRow + 1;
+                        sourceRow = sheet.getRow(1);
+                        targetRow = sheet.createRow(starRow + 1);
+                    }
+
+                    // 设定单元格的样式
+                    for (m = sourceRow.getFirstCellNum(); m < sourceRow.getLastCellNum(); m++) {
+                        sourceCell = sourceRow.getCell(m);
+                        targetCell = targetRow.createCell(m);
+                        targetCell.setCellStyle(sourceCell.getCellStyle());
+                        targetCell.setCellType(sourceCell.getCellTypeEnum());
+                    }
+
+                    
+                      targetRow.getCell(0).setCellValue(i+1);
+                      targetRow.getCell(0).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
+                    // 数据名称
+                    targetRow.getCell(1).setCellValue("注册地");
+                    targetRow.getCell(1).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
+					targetRow.getCell(2).setCellValue("已受理");
+					targetRow.getCell(2).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
+                    targetRow.getCell(3).setCellValue("已反馈");
+                    targetRow.getCell(3).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
+                    targetRow.getCell(4).setCellValue("预先披露更新");
+                    targetRow.getCell(4).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
+                    
+                    targetRow.getCell(5).setCellValue("中止审查");
+                    targetRow.getCell(5).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
+                    
+                    targetRow.getCell(6).setCellValue("已提交发审会讨论，暂缓表决");
+                    targetRow.getCell(6).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
+                    
+                    targetRow.getCell(7).setCellValue("已通过发审会");
+                    targetRow.getCell(7).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
+                    
+                    targetRow.getCell(8).setCellValue("合计");
+                    targetRow.getCell(8).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
+                    
+                    targetRow.getCell(9).setCellValue("最近一周");
+                    targetRow.getCell(9).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
+                    
+                    targetRow.getCell(10).setCellValue("2018年");
+                    targetRow.getCell(10).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
+                    
+                    targetRow.getCell(9).setCellValue("2018年");
+                    targetRow.getCell(9).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
+               // }
+                sheet.shiftRows(2, sheet.getLastRowNum(), -1);*/
+            //}
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            workbook.write(os);
+            os.flush();
+            os.close();
+            return new ByteArrayInputStream(os.toByteArray());
+        } finally {
+            workbook.close();
+        }
+    }
+    
+    private XSSFCellStyle blackBorderStyle(XSSFWorkbook workbook) {
+        XSSFCellStyle blackBorder = workbook.createCellStyle();
+        blackBorder.setBorderRight(BorderStyle.THIN);
+        blackBorder.setRightBorderColor(IndexedColors.BLACK.getIndex());
+        blackBorder.setBorderLeft(BorderStyle.THIN);
+        blackBorder.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+        blackBorder.setBorderTop(BorderStyle.THIN);
+        blackBorder.setTopBorderColor(IndexedColors.BLACK.getIndex());
+        blackBorder.setBorderBottom(BorderStyle.THIN);
+        blackBorder.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+        return blackBorder;
     }
 }

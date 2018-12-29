@@ -1914,3 +1914,19 @@ function getQueryString(paramName) {
 }
 
 
+function winOpen(url){
+	url = url||null;
+	/*top.evt.sub.recordTabChild = null;
+	top.evt.sub.recordType = 'open';
+	if(url!=null){
+		top.evt.sub.popTitle = url.split('?')[0];
+	}
+	evt_timer(url);
+	setHistory();
+	var data = top.evt.history;
+	SetCookie('evtSub',JSON.stringify([data[data.length-1]]))
+	top.evt.history.pop();*/
+	return window.open(url, "_blank")
+}
+
+
