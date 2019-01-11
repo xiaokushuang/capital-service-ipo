@@ -1,5 +1,6 @@
 package com.stock.capital.enterprise.config;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -9,6 +10,8 @@ import java.util.Set;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
@@ -17,6 +20,8 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -36,6 +41,20 @@ import com.stock.core.search.SolrSearchServer;
 
 @Configuration
 public class RootConfigurer {
+	
+	@Autowired
+    private Environment env;
+	
+	@Bean(name="app")
+    public PropertiesFactoryBean createPropertySourcesPlaceholderConfigurer() throws IOException {
+        ClassPathResource resource = new ClassPathResource("application.properties");
+        ClassPathResource envResource = new ClassPathResource("application-"+env.getActiveProfiles()[0]+".properties");
+        PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
+        propertiesFactoryBean.setLocation(resource);
+        propertiesFactoryBean.setLocation(envResource);
+        return propertiesFactoryBean;
+    }
+
 
     @Bean
     public CacheManager cacheManager() {
