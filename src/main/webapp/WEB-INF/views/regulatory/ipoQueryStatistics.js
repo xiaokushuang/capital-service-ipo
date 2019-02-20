@@ -234,7 +234,9 @@ function viewAreaDetail(registAddr,lastUpadteTime,approveStatus,viewType){
 	}else if('all' == viewType){
 		title = title;
 	}
-	popWin(title,"/regulatory_statistics/viewAreaDetail?access_token="+accessToken, param,"95%","98%");
+//	popWin(title,"/regulatory_statistics/viewAreaDetail?access_token="+accessToken, param,"95%","98%");
+	var url = window.location.href.split("/ipo")[0] + "/ipo/regulatory_statistics/viewAreaDetail?access_token="+accessToken;
+	iframeDoMessage(window.parent, 'popWinForMicro', [title, url, param, '95%', '98%']);
 }
 
 //地区特殊处理
