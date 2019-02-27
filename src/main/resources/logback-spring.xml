@@ -2,8 +2,8 @@
 
 <configuration debug="true" scan="true">
 
-	<springProperty scope="context" name="log.level" source="log.level" defaultValue=""/>
-	<springProperty scope="context" name="log.appender" source="log.appender" defaultValue=""/>
+	<springProperty scope="context" name="log.level" source="log.level" defaultValue="DEBUG"/>
+	<springProperty scope="context" name="log.appender" source="log.appender" defaultValue="file"/>
 	<springProperty scope="context" name="log.home" source="log.home" defaultValue=""/>
 	<springProperty scope="context" name="log.stash.addresses" source="log.stash.addresses" defaultValue=""/>
 
