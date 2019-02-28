@@ -73,3 +73,19 @@
      }
    }
  }
+//  公司概况表格样式修改
+ .companyProfile .el-table thead tr th{
+  background: #f2f2f2;
+  color: black;
+} 
+.companyProfile .el-table .cell {
+  line-height: 20px !important;
+  text-align: center;
+}
+.companyProfile .el-table tr {
+  background-color: #fff;
+  height: 40px;
+}
+.el-table--border td, .el-table--border th {
+  border-right: 1px solid #F2F2F2;
+}

@@ -1,11 +1,15 @@
 <template>
-  <div>111</div>
+    <div class="feedback">
+       feedback 
+    </div>
 </template>
 <script>
 export default {
-  
+    name:'feedback'
 }
 </script>
 <style scoped lang="scss">
 
 </style>
+
+

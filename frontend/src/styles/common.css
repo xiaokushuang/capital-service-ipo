@@ -135,7 +135,7 @@
 	height: 30px!important;
 }
 .container{
-	padding:10px;
+	/* padding:10px; */
 }
 .el-table--medium td, .el-table--medium th{
 	padding:0;

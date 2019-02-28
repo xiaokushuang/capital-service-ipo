@@ -25,7 +25,7 @@ const whiteList = ['/login', '/authredirect'] // no redirect whitelist
 router.beforeEach((to, from, next) => {
   NProgress.start() // start progress bar
   //if (getToken()) { // determine if there has token
-  console.log(to)
+  // console.log(to)
   store.dispatch('addVisitedViews', to)
   store.commit('SET_ROUTE_NAME', to.name) //tab菜单切换路由控制按钮状态
   store.commit('SET_ROUTE_TITLE', to.meta.title) //模块title存储store中供给AppMain获取
@@ -76,7 +76,7 @@ router.beforeEach((to, from, next) => {
     // }
 
     if (store.getters.addRouters.length === 0) { //临时没有权限的方法，上面注释的别删
-      console.log(store.getters.addRouters)
+      // console.log(store.getters.addRouters)
       store.dispatch('GenerateRoutes', {
         roles: 'admin'
       }).then(() => { // 根据roles权限生成可访问的路由表

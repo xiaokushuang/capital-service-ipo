@@ -38,3 +38,12 @@ export function updateArticle(data) {
     data
   })
 }
+  // 公司简介
+  export function fetchGqList(query) {
+    return request({
+      url: '/companyProfile/gqList',
+      method: 'get',
+      params: query
+    })
+  }
+

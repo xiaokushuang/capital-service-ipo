@@ -4,7 +4,9 @@ import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'font-awesome/css/font-awesome.min.css'
-
+// 引入echarts
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts 
 import '@/styles/index.scss' // global css
 import App from './App'
 import router from './router'
@@ -20,6 +22,9 @@ import './directives' // global directive
 import * as filters from './filters' // global filters
 import 'vue-orgchart/dist/style.min.css'
 import 'babel-polyfill'
+if(process.env.NODE_ENV === 'development'){
+  require('./mock')
+}
 // es6Promise .polyfill();
 
 // 滚动条锚点定位
