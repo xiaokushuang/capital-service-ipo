@@ -48,56 +48,28 @@ export default {
           proportion:'40'
           }
     ],
-    incomeCompositionTable: [{
-      date: '2016-05-03',
-      name: '王小虎',
-      province: '上海',
-      city: '普陀区',
-      address: '上海市普陀区金沙江路 1518 弄',
-      zip: 200333
-    }, {
-      date: '2016-05-02',
-      name: '王小虎',
-      province: '上海',
-      city: '普陀区',
-      address: '上海市普陀区金沙江路 1518 弄',
-      zip: 200333
-    }, {
-      date: '2016-05-04',
-      name: '王小虎',
-      province: '上海',
-      city: '普陀区',
-      address: '上海市普陀区金沙江路 1518 弄',
-      zip: 200333
-    }, {
-      date: '2016-05-01',
-      name: '王小虎',
-      province: '上海',
-      city: '普陀区',
-      address: '上海市普陀区金沙江路 1518 弄',
-      zip: 200333
-    }, {
-      date: '2016-05-08',
-      name: '王小虎',
-      province: '上海',
-      city: '普陀区',
-      address: '上海市普陀区金沙江路 1518 弄',
-      zip: 200333
-    }, {
-      date: '2016-05-06',
-      name: '王小虎',
-      province: '上海',
-      city: '普陀区',
-      address: '上海市普陀区金沙江路 1518 弄',
-      zip: 200333
-    }, {
-      date: '2016-05-07',
-      name: '王小虎',
-      province: '上海',
-      city: '普陀区',
-      address: '上海市普陀区金沙江路 1518 弄',
-      zip: 200333
-    }]
+    incomeCompositionTable: [
+    {
+      yewu: '宽带移动通信设备',
+      money: '26,232.99',
+      roportion: '76.65%',
+     }, 
+     {
+      yewu: '集成业务',
+      money: '26,232.99',
+      roportion: '76.65%',
+     }, 
+     {
+      yewu: '技术开发业务',
+      money: '26,232.99',
+      roportion: '76.65%',
+     }, 
+     {
+      yewu: '工程业务',
+      money: '26,232.99',
+      roportion: '76.65%',
+     }, 
+   ]
   ,
   MajorCompetitors:[
     {

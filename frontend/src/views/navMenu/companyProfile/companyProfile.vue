@@ -102,43 +102,64 @@
       <!-- table表格 -->
       <div class="incomeCompositionTable">
           <el-table
-    :data="incomeCompositionTableList"
-    style="width: 100%">
-    <el-table-column
-      prop="date"
-      label="日期"
-      width="150">
-    </el-table-column>
-    <el-table-column label="配送信息">
-      <el-table-column
-        prop="name"
-        label="姓名"
-        width="120">
-      </el-table-column>
-      <el-table-column label="地址">
-        <el-table-column
-          prop="province"
-          label="省份"
-          width="120">
-        </el-table-column>
-        <el-table-column
-          prop="city"
-          label="市区"
-          width="120">
-        </el-table-column>
-        <el-table-column
-          prop="address"
-          label="地址"
-          width="300">
-        </el-table-column>
-        <el-table-column
-          prop="zip"
-          label="邮编"
-          width="120">
-        </el-table-column>
-      </el-table-column>
-    </el-table-column>
-  </el-table>
+            show-summary
+            :summary-method="getSummaries"
+            :data="incomeCompositionTableList"
+            style="width: 100%;margin-top: 20px">
+            <el-table-column
+              prop="yewu"
+              label="主营业务"
+              width="123">
+            </el-table-column>
+              <el-table-column label="2017年1-6月">
+                <el-table-column
+                  prop="money"
+                  label="金额(万元)"
+                  width="100">
+                </el-table-column>
+                <el-table-column
+                  prop="roportion"
+                  label="占比"
+                  width="84">
+                </el-table-column>
+              </el-table-column>
+              <el-table-column label="2017年1-6月">
+                <el-table-column
+                  prop="money"
+                  label="金额(万元)"
+                  width="100">
+                </el-table-column>
+                <el-table-column
+                  prop="roportion"
+                  label="占比"
+                  width="84">
+                </el-table-column>
+              </el-table-column>
+              <el-table-column label="2017年1-6月">
+                <el-table-column
+                  prop="money"
+                  label="金额(万元)"
+                  width="100">
+                </el-table-column>
+                <el-table-column
+                  prop="roportion"
+                  label="占比"
+                  width="84">
+                </el-table-column>
+              </el-table-column>
+              <el-table-column label="2017年1-6月">
+                <el-table-column
+                  prop="money"
+                  label="金额(万元)"
+                  width="100">
+                </el-table-column>
+                <el-table-column
+                  prop="roportion"
+                  label="占比"
+                  width="84">
+                </el-table-column>
+              </el-table-column>
+          </el-table>
       </div>
     </div>
     <!-- 主要竞争对手简介 -->
@@ -169,8 +190,186 @@
                 margin-left:30px;
                 line-height: 22px;
                 width:70%">
-              <p>{{data.companyIntroduce}}</p>
+             <!-- <p class="moreText">{{data.companyIntroduce}}</p> -->
+             <p class="moreText">{{sliceText}}</p>
             </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- 报告期前五名供应商情况 -->
+    <div class="theTopFive">
+       <div class="title">
+        <span class="littleRectangle"></span>
+        <span class="titleText" id="reorganizationIntro">报告期前五名供应商情况</span>
+      </div>
+      <div class="theTopFiveSupplier">
+          <el-table
+            show-summary
+            :data="incomeCompositionTableList"
+            style="width: 100%;margin-top: 20px">
+            <el-table-column
+              fixed
+              prop="yewu"
+              label="排名"
+              width="70">
+            </el-table-column>
+            <el-table-column
+               fixed
+              prop="yewu"
+              label="公司"
+              width="130">
+            </el-table-column>
+              <el-table-column label="2017年1-6月">
+                <el-table-column
+                  prop="money"
+                  label="采购内容"
+                  width="100">
+                </el-table-column>
+                <el-table-column
+                  prop="money"
+                  label="金额(万元)"
+                  width="100">
+                </el-table-column>
+                <el-table-column
+                  prop="roportion"
+                  label="占比"
+                  width="84">
+                </el-table-column>
+              </el-table-column>
+              <el-table-column label="2017年1-6月">
+                <el-table-column
+                  prop="money"
+                  label="采购内容"
+                  width="100">
+                </el-table-column>
+                <el-table-column
+                  prop="money"
+                  label="金额(万元)"
+                  width="100">
+                </el-table-column>
+                <el-table-column
+                  prop="roportion"
+                  label="占比"
+                  width="84">
+                </el-table-column>
+              </el-table-column>
+              <el-table-column label="2017年1-6月">
+                <el-table-column
+                  prop="money"
+                  label="采购内容"
+                  width="100">
+                </el-table-column>
+                <el-table-column
+                  prop="money"
+                  label="金额(万元)"
+                  width="100">
+                </el-table-column>
+                <el-table-column
+                  prop="roportion"
+                  label="占比"
+                  width="84">
+                </el-table-column>
+              </el-table-column>
+              <el-table-column label="2017年1-6月">
+                <el-table-column
+                  prop="money"
+                  label="采购内容"
+                  width="100">
+                </el-table-column>
+                <el-table-column
+                  prop="money"
+                  label="金额(万元)"
+                  width="100">
+                </el-table-column>
+                <el-table-column
+                  prop="roportion"
+                  label="占比"
+                  width="84">
+                </el-table-column>
+              </el-table-column>
+              <el-table-column label="2017年1-6月">
+                <el-table-column
+                  prop="money"
+                  label="采购内容"
+                  width="100">
+                </el-table-column>
+                <el-table-column
+                  prop="money"
+                  label="金额(万元)"
+                  width="100">
+                </el-table-column>
+                <el-table-column
+                  prop="roportion"
+                  label="占比"
+                  width="84">
+                </el-table-column>
+              </el-table-column>
+          </el-table>
+      </div>
+    </div>
+    <!-- 募集资金运用 -->
+    <div class="raiseMoney">
+      <div class="title">
+        <span class="littleRectangle"></span>
+        <span class="titleText" id="reorganizationIntro">募集资金运用</span>
+      </div>
+    </div>
+    <!-- 中介机构 -->
+    <div class="IntermediaryInstitutions">
+      <div class="title">
+        <span class="littleRectangle"></span>
+        <span class="titleText" id="reorganizationIntro">中介机构</span>
+      </div>
+      <div class="InstitutionsDetail">
+        <ul>
+          <li class="clear InstitutionsDetailLi">
+              <div class="image l">
+                <img src="../../../assets/images/zhonjie.png" alt>
+              </div>
+              <div class="text l">
+                <div>
+                    <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
+                      font-style: normal; font-size: 16px; color: rgb(101, 106, 177);">立信会计师事务所(特殊普通合伙)</span>
+                    <span style="background:yellow;color:white;font-size: 12px;">已认证</span>
+                    <span style="color: #6633FF;font-size: 12px;">联系他</span>
+                </div>
+                 <ul>
+                    <li class="people">
+                      <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                      font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
+                      <span style="font-size:12px;color:black">郑西林、陈光耀</span>
+                    </li>
+                    <li class="people">
+                      <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                      font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
+                      <span style="font-size:12px;color:black">郑西林、陈光耀</span>
+                    </li>
+                    <li class="people">
+                      <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                      font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
+                      <span style="font-size:12px;color:black">郑西林、陈光耀</span>
+                    </li>
+                    <li class="people">
+                      <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                      font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
+                      <span style="font-size:12px;color:black">郑西林、陈光耀</span>
+                    </li>
+                    <li class="people">
+                      <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                      font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
+                      <span style="font-size:12px;color:black">郑西林、陈光耀</span>
+                    </li>
+                    <li class="people">
+                      <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                      font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
+                      <span style="font-size:12px;color:black">郑西林、陈光耀</span>
+                    </li>
+  
+   
+                  
+                 </ul>
+              </div>
           </li>
         </ul>
       </div>
@@ -179,6 +378,7 @@
 </template>
 
 <script>
+import $ from "jquery";
 import { getGqList } from "@/api/companyProfile";
 
 export default {
@@ -202,6 +402,18 @@ export default {
     this.drawBarChart();
     this.drawPieChart();
   },
+  computed: {
+    // 计算属性方法实现超过三行字数用...表示
+    sliceText() {
+      var moreLengthP = this.MajorCompetitors.length;
+      for (let i = 0; i < moreLengthP; i++) {
+        var moreP = this.MajorCompetitors[i].companyIntroduce;
+        var moreTextHtml = moreP.slice(0, 300) + "......";
+        console.log(moreTextHtml);
+      }
+      return moreTextHtml;
+    }
+  },
   methods: {
     //   moke模拟请求的数据
     getData() {
@@ -210,7 +422,6 @@ export default {
         this.gqTableList = res.data.gqTable;
         this.incomeCompositionTableList = res.data.incomeCompositionTable;
         this.MajorCompetitors = res.data.MajorCompetitors;
-        console.log(res.data);
       });
     },
     // 柱形图
@@ -264,7 +475,7 @@ export default {
             stack: "总量",
             label: {},
             data: [35000, 27000, 25200, 15000]
-          },   
+          },
           {
             name: "集成业务",
             type: "bar",
@@ -323,7 +534,9 @@ export default {
           }
         ]
       });
-    }
+    },
+    // 表格合计
+    getSummaries() {}
   }
 };
 </script>
@@ -446,6 +659,38 @@ export default {
     li:nth-of-type(even) {
       background: white;
     } //偶数
+  }
+}
+// 中介机构
+.InstitutionsDetail {
+  ul {
+    padding-left: 0;
+    width: 100%;
+    .InstitutionsDetailLi {
+      padding:20px;
+      width: 100%;
+      height: 130px;
+      background:#F0F0F0;
+      .image {
+        width: 10%;
+      }
+      .text {
+        width: 80%;
+        ul {
+          width: 100%;
+           margin-top: 10px;
+          // background:yellow;
+          display: flex;
+          flex-wrap: wrap;
+          li {
+           line-height:20px;
+            margin-right: 30px;
+            width: 45%;
+            // background:green;
+          }
+        }
+      }
+    }
   }
 }
 </style>
