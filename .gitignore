@@ -1,5 +1,6 @@
 /target/
 *.iml
 .idea/
+application.pid
 /frontend/package-lock.json
 /frontend/node_modules/
