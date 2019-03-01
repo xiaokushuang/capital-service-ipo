@@ -80,7 +80,7 @@
 } 
 .companyProfile .el-table .cell {
   line-height: 20px !important;
-  text-align: center;
+  // text-align: center;
 }
 .companyProfile .el-table tr {
   background-color: #fff;
@@ -88,4 +88,30 @@
 }
 .el-table--border td, .el-table--border th {
   border-right: 1px solid #F2F2F2;
+}
+.el-table thead tr th {
+  background: #f5f7fa;
+  color: #fff;
+}
+// 修改步骤天默认标题字体
+.el-step.is-vertical .el-step__title {
+  line-height: 24px;
+  padding-bottom: 8px;
+  font-family: 'PingFang-SC-Regular', 'PingFang SC';
+  font-weight: 400;
+  font-style: normal;
+  font-size: 12px !important;
+  color: #000000;
+}
+.el-step__icon {
+  align-items: center;
+  width: 22px;
+  height: 22px;
+  font-size: 14px;
+
+}
+.el-step__icon.is-text {
+  border-radius: 50%;
+  border: 1px solid;
+  border-color: inherit;
 }

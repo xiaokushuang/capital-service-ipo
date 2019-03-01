@@ -82,11 +82,11 @@
       </div>
       <!-- 股权股东表格 -->
       <el-table :data="gqTableList" style="width: 100%" stripe border>
-        <el-table-column prop="id" label="序号"></el-table-column>
+        <el-table-column prop="id" type="index" label="序号" align='center'></el-table-column>
         <el-table-column prop="name" label="股东名称"></el-table-column>
         <el-table-column prop="nature" label="股东性质"></el-table-column>
-        <el-table-column prop="num" label="持股数量（万股）"></el-table-column>
-        <el-table-column prop="proportion" label="持股比例"></el-table-column>
+        <el-table-column prop="num" label="持股数量（万股）" align='right'></el-table-column>
+        <el-table-column prop="proportion" label="持股比例" align='right'></el-table-column>
       </el-table>
     </div>
     <!-- 主营业务收入构成 -->
@@ -96,7 +96,9 @@
         <span class="titleText" id="reorganizationIntro">主营业务收入构成</span>
       </div>
       <div class="echart clear">
+        <!-- 柱形图 -->
         <div id="barChart" class="l" :style="{width: '400px', height: '300px'}"></div>
+        <!-- 饼图 -->
         <div id="pieChart" class="l" :style="{width: '400px', height: '300px'}"></div>
       </div>
       <!-- table表格 -->
@@ -111,7 +113,25 @@
               label="主营业务"
               width="123">
             </el-table-column>
+            <!-- <el-table-column label="股东名称" prop="controlsPosition" min-width="14%" align="left">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.name">{{scope.row.name}}</span>
+                        <span v-else>- -</span>
+                    </template>
+            </el-table-column> -->
               <el-table-column label="2017年1-6月">
+                <el-table-column
+                  prop="money"
+                  label="金额(万元)"
+                  width="100">
+                </el-table-column>
+                <el-table-column
+                  prop="roportion"
+                  label="占比"
+                  width="84">
+                </el-table-column>
+              </el-table-column>
+              <!-- <el-table-column label="2017年1-6月">
                 <el-table-column
                   prop="money"
                   label="金额(万元)"
@@ -145,20 +165,8 @@
                   prop="roportion"
                   label="占比"
                   width="84">
-                </el-table-column>
-              </el-table-column>
-              <el-table-column label="2017年1-6月">
-                <el-table-column
-                  prop="money"
-                  label="金额(万元)"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="roportion"
-                  label="占比"
-                  width="84">
-                </el-table-column>
-              </el-table-column>
+                </el-table-column> 
+               </el-table-column> -->
           </el-table>
       </div>
     </div>
@@ -314,6 +322,47 @@
         <span class="littleRectangle"></span>
         <span class="titleText" id="reorganizationIntro">募集资金运用</span>
       </div>
+      <div class="raiseMoneyTable">
+        <!-- 募集资金运用表格 -->
+          <el-table :data="raiseMoneyTableList" border show-summary style="width:100%;">
+            <el-table-column label="项目名称" align="left">
+                <template slot-scope="scope">
+                    <span v-if="scope.row.projectName">{{scope.row.projectName}}</span>
+                    <span v-else>- -</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="项目类型" align="center">
+                <template slot-scope="scope">
+                      <span v-if="scope.row.projectType">{{scope.row.projectType}}</span>
+                    <span v-else>- -</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="项目总投资(万元)" align="right">
+                <template slot-scope="scope">
+                      <span v-if="scope.row.xmz">{{scope.row.xmz}}</span>
+                    <span v-else>- -</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="拟投入募集资金金额（万元）" align="right">
+                <template slot-scope="scope">
+                      <span v-if="scope.row.ntr">{{scope.row.ntr}}</span>
+                    <span v-else>- -</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="占拟募集资金净额比例" align="right">
+                <template slot-scope="scope">
+                      <span v-if="scope.row.znm">{{scope.row.znm}}</span>
+                    <span v-else>- -</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="前期已投入资金金额（万元）" align="right">
+                <template slot-scope="scope">
+                      <span v-if="scope.row.qqy">{{scope.row.qqy}}</span>
+                    <span v-else>- -</span>
+                </template>
+            </el-table-column>
+        </el-table>
+      </div>
     </div>
     <!-- 中介机构 -->
     <div class="IntermediaryInstitutions">
@@ -365,9 +414,6 @@
                       font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
                       <span style="font-size:12px;color:black">郑西林、陈光耀</span>
                     </li>
-  
-   
-                  
                  </ul>
               </div>
           </li>
@@ -392,8 +438,12 @@ export default {
       gqNameList: [],
       gqTableList: [],
       incomeCompositionTableList: [],
-      MajorCompetitors: []
-    };
+      MajorCompetitors: [],
+      raiseMoneyTableList: [],
+      // 柱形图坐标数据
+      xAxis:[],
+      yAxis:{}
+     };
   },
   created() {
     this.getData();
@@ -409,7 +459,7 @@ export default {
       for (let i = 0; i < moreLengthP; i++) {
         var moreP = this.MajorCompetitors[i].companyIntroduce;
         var moreTextHtml = moreP.slice(0, 300) + "......";
-        console.log(moreTextHtml);
+        // console.log(moreTextHtml);
       }
       return moreTextHtml;
     }
@@ -422,6 +472,35 @@ export default {
         this.gqTableList = res.data.gqTable;
         this.incomeCompositionTableList = res.data.incomeCompositionTable;
         this.MajorCompetitors = res.data.MajorCompetitors;
+        this.raiseMoneyTableList = res.data.raiseMoneyTableList;
+        this.xAxis = res.data.zhuxing.xAxis;
+        this.yAxis = res.data.zhuxing.yAxis;
+        // console.log(this.xAxis)
+        // console.log(this.yAxis.length)
+        
+        // 动态获取柱形图数据
+        for(let i = 0 ;i<this.yAxis.length;i++){
+          for(let j = 0 ;j<this.yAxis[i].data.length;j++){
+
+            // console.log(this.yAxis[i].data[i])
+            // console.log(this.yAxis[j].name)
+              this.$echarts.init(document.getElementById("barChart")).setOption({
+                   xAxis: {
+                      data: this.xAxis
+                  },
+                  series: [{
+                      // 根据名字对应到相应的系列
+                      type: "bar",
+                      barWidth: "40%",
+                      stack: "总量",
+                      label: {},
+                      name: this.yAxis[i].name,
+                      data: this.yAxis[i].data
+                  }]
+                 
+               });
+          }
+         }
       });
     },
     // 柱形图
@@ -429,7 +508,14 @@ export default {
       let barChart = this.$echarts.init(document.getElementById("barChart"));
       // 绘制图表
       barChart.setOption({
-        title: { text: "最近3年主营业务趋势" },
+        title: {
+           text: "最近3年主营业务趋势",
+            textStyle:{
+              color: 'red',
+              fontWeight:'normal',
+              fontSize:16,
+            },
+        },
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -445,7 +531,7 @@ export default {
             0 // 左
           ],
           orient: "vertical",
-          x: "center", // 'center' | 'left' | {number},
+          // x: "center", // 'center' | 'left' | {number},
           // y: 'bottom', // 'center' | 'bottom' | {number}
           data: ["宽带移动通信设备", "集成业务", "技术开发业务", "工程业务"],
           itemWidth: 10, // 图例图形宽度
@@ -462,44 +548,22 @@ export default {
         },
         xAxis: {
           type: "category",
-          data: ["2014年7月", "2015年2月", "2016年3月", "2017年6月"]
+          data:[]
+          // data: this.xAxis
         },
         yAxis: {
           type: "value"
         },
         series: [
           {
-            name: "宽带移动通信设备",
+            // 根据名字对应到相应的系列
             type: "bar",
             barWidth: "40%",
             stack: "总量",
-            label: {},
-            data: [35000, 27000, 25200, 15000]
-          },
-          {
-            name: "集成业务",
-            type: "bar",
-            barWidth: "60%",
-            stack: "总量",
-            label: {},
-            data: [1620, 1532, 0, 400]
-          },
-          {
-            name: "技术开发业务",
-            type: "bar",
-            barWidth: "60%",
-            stack: "总量",
-            label: {},
-            data: [1500, 1800, 1000, 1500]
-          },
-          {
-            name: "工程业务",
-            type: "bar",
-            barWidth: "60%",
-            stack: "总量",
-            label: {},
-            data: [0, 0, 0, 954]
-          }
+            name: this.yAxis.name,
+            // data: this.yAxis.data
+            data:[]
+           }
         ]
       });
     },
@@ -509,8 +573,8 @@ export default {
       pieChart.setOption({
         title: { text: "2017年1-6月 _ 主营业务分布" },
         tooltip: {
-          // trigger: 'item',
-          // formatter: "{a} <br/>{b} : {c} ({d}%)"
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
         series: [
           {
@@ -667,10 +731,11 @@ export default {
     padding-left: 0;
     width: 100%;
     .InstitutionsDetailLi {
-      padding:20px;
-      width: 100%;
+      padding: 20px;
+      margin-left: 1%;
+      width: 98%;
       height: 130px;
-      background:#F0F0F0;
+      background: #f0f0f0;
       .image {
         width: 10%;
       }
@@ -678,12 +743,12 @@ export default {
         width: 80%;
         ul {
           width: 100%;
-           margin-top: 10px;
+          margin-top: 10px;
           // background:yellow;
           display: flex;
           flex-wrap: wrap;
           li {
-           line-height:20px;
+            line-height: 20px;
             margin-right: 30px;
             width: 45%;
             // background:green;
@@ -692,5 +757,9 @@ export default {
       }
     }
   }
+}
+.InstitutionsDetailLi:hover {
+  cursor: pointer;
+  box-shadow: darkgrey 0px 0px 6px 2px;
 }
 </style>

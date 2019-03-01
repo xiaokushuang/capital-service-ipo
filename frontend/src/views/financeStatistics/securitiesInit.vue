@@ -182,9 +182,9 @@
               </span>
             </el-row>
           </div>
-          <span style="padding: 0px;">
-            <!-- <right-module ref="rightModule" @statusButtonClick="statusButtonClick" :caseId="caseId"></right-module> -->
-          </span>
+          <div style="padding: 0px;">
+            <right-module></right-module>
+          </div>
         </el-col>
         <el-col :span="24">
           <!-- <a href="#top1"  title="回到顶部">11111</a> -->
@@ -216,7 +216,7 @@ import { b64DecodeUnicode } from "@/utils/index";
 // import caseDetailsTabFour from "../caseDetailsTabFour/caseDetailsTabFour";
 
 //进程树
-// import rightModule from '@/components/rightModule'
+import rightModule from '@/components/rightModule'
 import { mapGetters } from "vuex";
 import { METHODS } from "http";
 export default {
@@ -228,7 +228,7 @@ export default {
     feedback,
     result,
     issue,
-    // rightModule
+    rightModule
   },
   data() {
     return {

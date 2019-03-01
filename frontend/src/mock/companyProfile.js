@@ -85,8 +85,68 @@ export default {
     {
       companyId:'3322554',
       companyName:'公司简称',
-      companyIntroduce:'就窗库据的窗库的v库的聚集地鞠诗词鉴赏冯绍峰四季花城假数的'
+      companyIntroduce:'就窗库据的窗库的v库的聚集地鞠诗词鉴赏冯绍峰四季花城假数的',
+
+    }
+  ],
+  raiseMoneyTableList:[
+    {
+      projectName:'A',
+      projectType:'就卡及出口商的警察都是军事科技吃烧烤',
+      xmz:'1000',
+      ntr:'2000',
+      znm:'12%',
+      qqy:'2000'
+    },
+    {
+      projectName:'B',
+      projectType:'就卡及出口商的警察都是军事科技吃烧烤',
+      xmz:'1000',
+      ntr:'2000',
+      znm:'12%',
+      qqy:'2000'
+    },
+    {
+      projectName:'C',
+      projectType:'就卡及出口商的警察都是军事科技吃烧烤',
+      xmz:'1000',
+      ntr:'2000',
+      znm:'12%',
+      qqy:'2000'
+    },
+    {
+      projectName:'D',
+      projectType:'就卡及出口商的警察都是军事科技吃烧烤',
+      xmz:'1000',
+      ntr:'2000',
+      znm:'12%',
+      qqy:'2000'
+    },
+  ],
+  // 柱状图数据
+  zhuxing:{
+     // 柱状图横坐标数据
+  xAxis:["2014年7月", "2015年2月", "2016年3月", "2017年6月"],
+  // 柱状图纵坐标数据
+  yAxis: [
+    {
+      name: "宽带移动通信设备",
+      data: [35000, 27000, 25200, 15000]
+    },
+    {
+      name: "集成业务",
+      data: [1620, 1532, 0, 400]
+    },
+    {
+      name: "技术开发业务",
+      data: [1500, 1800, 1000, 1500]
+    },
+    {
+      name: "工程业务",
+      data: [0, 0, 0, 954]
     }
   ]
+  }
+ 
   }),
 }
