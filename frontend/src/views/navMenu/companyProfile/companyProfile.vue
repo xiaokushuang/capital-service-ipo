@@ -119,7 +119,7 @@
                         <span v-else>- -</span>
                     </template>
             </el-table-column> -->
-              <el-table-column label="2017年1-6月">
+              <el-table-column :label="yearsOne">
                 <el-table-column
                   prop="money"
                   label="金额(万元)"
@@ -131,7 +131,7 @@
                   width="84">
                 </el-table-column>
               </el-table-column>
-              <!-- <el-table-column label="2017年1-6月">
+              <el-table-column :label="yearsTwo">
                 <el-table-column
                   prop="money"
                   label="金额(万元)"
@@ -143,19 +143,7 @@
                   width="84">
                 </el-table-column>
               </el-table-column>
-              <el-table-column label="2017年1-6月">
-                <el-table-column
-                  prop="money"
-                  label="金额(万元)"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="roportion"
-                  label="占比"
-                  width="84">
-                </el-table-column>
-              </el-table-column>
-              <el-table-column label="2017年1-6月">
+              <el-table-column :label="yearsThree">
                 <el-table-column
                   prop="money"
                   label="金额(万元)"
@@ -166,7 +154,7 @@
                   label="占比"
                   width="84">
                 </el-table-column> 
-               </el-table-column> -->
+               </el-table-column>
           </el-table>
       </div>
     </div>
@@ -228,7 +216,7 @@
               label="公司"
               width="130">
             </el-table-column>
-              <el-table-column label="2017年1-6月">
+              <el-table-column :label="yearsOne">
                 <el-table-column
                   prop="money"
                   label="采购内容"
@@ -245,7 +233,7 @@
                   width="84">
                 </el-table-column>
               </el-table-column>
-              <el-table-column label="2017年1-6月">
+              <el-table-column :label="yearsTwo">
                 <el-table-column
                   prop="money"
                   label="采购内容"
@@ -262,7 +250,7 @@
                   width="84">
                 </el-table-column>
               </el-table-column>
-              <el-table-column label="2017年1-6月">
+              <el-table-column :label="yearsThree">
                 <el-table-column
                   prop="money"
                   label="采购内容"
@@ -279,40 +267,8 @@
                   width="84">
                 </el-table-column>
               </el-table-column>
-              <el-table-column label="2017年1-6月">
-                <el-table-column
-                  prop="money"
-                  label="采购内容"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="money"
-                  label="金额(万元)"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="roportion"
-                  label="占比"
-                  width="84">
-                </el-table-column>
-              </el-table-column>
-              <el-table-column label="2017年1-6月">
-                <el-table-column
-                  prop="money"
-                  label="采购内容"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="money"
-                  label="金额(万元)"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="roportion"
-                  label="占比"
-                  width="84">
-                </el-table-column>
-              </el-table-column>
+             
+            
           </el-table>
       </div>
     </div>
@@ -433,6 +389,9 @@ export default {
 
   data() {
     return {
+      yearsOne:"",
+      yearsTwo:"",
+      yearsThree:"",      
       isLogin: true,
       listLoading: false,
       gqNameList: [],
@@ -442,7 +401,65 @@ export default {
       raiseMoneyTableList: [],
       // 柱形图坐标数据
       xAxis:[],
-      yAxis:{}
+      yAxis:{},
+  
+      // zhudataList:[]
+      // 柱状图数据
+      zhudataList:[
+        {
+          name: '宽带移动通信设备',
+          type: 'bar',
+          barWidth:'40%',
+          stack: '总量',
+          label: {
+              normal: {
+                  show: true,
+                  position: 'insideRight'
+              }
+          },
+          data: [220, 182, 191, 234]
+      },
+      {
+          name: '宽信设备',
+          type: 'bar',
+          stack: '总量',
+          label: {
+              normal: {
+                  show: true,
+                  position: 'insideRight'
+              }
+          },
+          data: [220, 182, 191, 234]
+      },
+      ]
+        
+      
+      // dataOne:{
+      //   name: "宽带移动通信设备",
+      //   // data: [35000, 27000, 25200, 15000]
+      //       name: '宽带移动通信设备',
+      //       type: 'bar',
+      //       stack: '总量',
+      //       label: {
+      //           normal: {
+      //               show: true,
+      //               position: 'insideRight'
+      //           }
+      //       },
+      //       data: [220, 182, 191, 234, 290, 330, 310]
+      // },
+      // dataTwo:{
+      //   name: "集成业务",
+      //   data: [1620, 1532, 0, 400]
+      // },
+      // dataThree:{
+      //   name: "技术开发业务",
+      //   data: [1500, 1800, 1000, 1500]
+      // },
+      // dataFour:{ 
+      //   name: "工程业务",
+      //   data: [0, 0, 0, 954]
+      // },
      };
   },
   created() {
@@ -471,36 +488,48 @@ export default {
         this.gqNameList = res.data.gqjgName;
         this.gqTableList = res.data.gqTable;
         this.incomeCompositionTableList = res.data.incomeCompositionTable;
+        this. incomeCompositionTableList2 = res.data.incomeCompositionTable2;
+        this. incomeCompositionTableList3 = res.data.incomeCompositionTable3;
         this.MajorCompetitors = res.data.MajorCompetitors;
         this.raiseMoneyTableList = res.data.raiseMoneyTableList;
         this.xAxis = res.data.zhuxing.xAxis;
         this.yAxis = res.data.zhuxing.yAxis;
-        // console.log(this.xAxis)
+        // 柱图数据
+        this.zhudataList = res.data.zhudataList
+        console.log(this.zhudataList)
         // console.log(this.yAxis.length)
-        
-        // 动态获取柱形图数据
-        for(let i = 0 ;i<this.yAxis.length;i++){
-          for(let j = 0 ;j<this.yAxis[i].data.length;j++){
 
-            // console.log(this.yAxis[i].data[i])
-            // console.log(this.yAxis[j].name)
-              this.$echarts.init(document.getElementById("barChart")).setOption({
-                   xAxis: {
-                      data: this.xAxis
-                  },
-                  series: [{
-                      // 根据名字对应到相应的系列
-                      type: "bar",
-                      barWidth: "40%",
-                      stack: "总量",
-                      label: {},
-                      name: this.yAxis[i].name,
-                      data: this.yAxis[i].data
-                  }]
-                 
-               });
-          }
-         }
+        //循环不同年份  
+        for(let i=0 ; i<this.incomeCompositionTableList.length;i++){
+         this.yearsOne =  this.incomeCompositionTableList[i].years
+        }
+         for(let i=0 ; i<this.incomeCompositionTableList2.length;i++){
+         this.yearsTwo =  this.incomeCompositionTableList2[i].years
+         
+        }
+         for(let i=0 ; i<this.incomeCompositionTableList3.length;i++){
+         this.yearsThree =  this.incomeCompositionTableList3[i].years
+         
+        }
+        // 动态获取柱图数据
+        for(let i = 0 ;i<this.zhudataList.length;i++){
+          const projectdata = {           
+            name: '',
+            type: 'bar',
+            
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'insideRight'
+                }
+            },
+            data: []};
+
+         projectdata.name =  zhudataList[i].yListName
+         projectdata.data =  zhudataList[i].yList
+         this. zhudataList.push(projectdata);
+        }
       });
     },
     // 柱形图
@@ -548,23 +577,92 @@ export default {
         },
         xAxis: {
           type: "category",
-          data:[]
+          data:this.xAxis
           // data: this.xAxis
         },
         yAxis: {
-          type: "value"
+          type: "value",
+          // data:this.yAxis
         },
-        series: [
-          {
-            // 根据名字对应到相应的系列
-            type: "bar",
-            barWidth: "40%",
-            stack: "总量",
-            name: this.yAxis.name,
-            // data: this.yAxis.data
-            data:[]
-           }
-        ]
+        series:this.zhudataList
+        // [
+
+          
+        //   this.dataOne,
+        //   // this.dataTwo,
+        //   // this.dataThree,
+        //   // this.dataFour
+        //   // {
+        //     // 根据名字对应到相应的系列
+        //     // type: "bar",
+        //     // barWidth: "40%",
+        //     // stack: "总量",
+        //     // name: this.yAxis.name,
+        //     // data: this.yAxis
+            
+        //   //  }
+        //   // data: this.yAxis
+        // //    {
+        // //     name: '直接访问',
+        // //     type: 'bar',
+        // //     stack: '总量',
+        // //     label: {
+        // //         normal: {
+        // //             show: true,
+        // //             position: 'insideRight'
+        // //         }
+        // //     },
+        // //     data: this.dataOne
+        // // },
+        // // {
+        // //     name: '邮件营销',
+        // //     type: 'bar',
+        // //     stack: '总量',
+        // //     label: {
+        // //         normal: {
+        // //             show: true,
+        // //             position: 'insideRight'
+        // //         }
+        // //     },
+        // //     data: [120, 132, 101, 134, 90, 230, 210]
+        // // },
+        // // {
+        // //     name: '联盟广告',
+        // //     type: 'bar',
+        // //     stack: '总量',
+        // //     label: {
+        // //         normal: {
+        // //             show: true,
+        // //             position: 'insideRight'
+        // //         }
+        // //     },
+        // //     data: [220, 182, 191, 234, 290, 330, 310]
+        // // },
+        // // {
+        // //     name: '视频广告',
+        // //     type: 'bar',
+        // //     stack: '总量',
+        // //     label: {
+        // //         normal: {
+        // //             show: true,
+        // //             position: 'insideRight'
+        // //         }
+        // //     },
+        // //     data: [150, 212, 201, 154, 190, 330, 410]
+        // // },
+        // // {
+        // //     name: '搜索引擎',
+        // //     type: 'bar',
+        // //     stack: '总量',
+        // //     label: {
+        // //         normal: {
+        // //             show: true,
+        // //             position: 'insideRight'
+        // //         }
+        // //     },
+        // //     data: [820, 832, 901, 934, 1290, 1330, 1320]
+        // // }
+        // ]
       });
     },
     // 饼形图

@@ -16,7 +16,7 @@
     <div
       ref="titleHeader"
       id="titleHeader"
-      style="width: 100%;height: 140px;background: #859bf7;padding-top: 18px;"
+      style="width: 100%;height: 140px;padding-top: 18px;"
     >
       <div id="titleBody" ref="titleBody" style="{'width':'1200px','margin':' 0 auto'}">
         <div class="bottomContent">
@@ -531,6 +531,11 @@ export default {
   padding: 10px 0px 0px;
   width: 100%;
   /* height:85vh; */
+}
+// 头部背景图
+#titleHeader{
+  background:blue;
+  // background-image: url()
 }
 /* 头部文字标题 */
 .bottomContent {

@@ -18,6 +18,7 @@ export default {
           nature: '上海市1518 弄',
           num:'3',
           proportion:'40'
+          
         },
          {
           id: '2',
@@ -53,21 +54,79 @@ export default {
       yewu: '宽带移动通信设备',
       money: '26,232.99',
       roportion: '76.65%',
+      years:'2018'
      }, 
      {
       yewu: '集成业务',
       money: '26,232.99',
       roportion: '76.65%',
+      years:'2018'
      }, 
      {
       yewu: '技术开发业务',
       money: '26,232.99',
       roportion: '76.65%',
+      years:'2018'
      }, 
      {
       yewu: '工程业务',
       money: '26,232.99',
       roportion: '76.65%',
+      years:'2018'
+     }, 
+   ]
+  ,
+  incomeCompositionTable2: [
+    {
+      yewu: '宽带移动通信设备',
+      money: '66666666',
+      roportion: '76.65%',
+      years:'2019'
+     }, 
+     {
+      yewu: '集成业务',
+      money: '26,232.99',
+      roportion: '76.65%',
+      years:'2019'
+     }, 
+     {
+      yewu: '技术开发业务',
+      money: '26,232.99',
+      roportion: '76.65%',
+      years:'2019'
+     }, 
+     {
+      yewu: '工程业务',
+      money: '26,232.99',
+      roportion: '76.65%',
+      years:'2019'
+     }, 
+   ]
+  ,
+  incomeCompositionTable3: [
+    {
+      yewu: '宽带移动通信设备',
+      money: '7777777777',
+      roportion: '76.65%',
+      years:'2015'
+     }, 
+     {
+      yewu: '集成业务',
+      money: '26,232.99',
+      roportion: '76.65%',
+      years:'2015'
+     }, 
+     {
+      yewu: '技术开发业务',
+      money: '26,232.99',
+      roportion: '76.65%',
+      years:'2015'
+     }, 
+     {
+      yewu: '工程业务',
+      money: '26,232.99',
+      roportion: '76.65%',
+      years:'2015'
      }, 
    ]
   ,
@@ -128,25 +187,62 @@ export default {
      // 柱状图横坐标数据
   xAxis:["2014年7月", "2015年2月", "2016年3月", "2017年6月"],
   // 柱状图纵坐标数据
-  yAxis: [
-    {
+  // yAxis: [
+    dataOne:{
       name: "宽带移动通信设备",
       data: [35000, 27000, 25200, 15000]
     },
-    {
+    dataTwo:{
       name: "集成业务",
       data: [1620, 1532, 0, 400]
     },
-    {
+    dataThree:{
       name: "技术开发业务",
       data: [1500, 1800, 1000, 1500]
     },
-    {
+    dataFour:{ 
       name: "工程业务",
       data: [0, 0, 0, 954]
-    }
-  ]
-  }
- 
+    },
+      // yAxis: [
+
+  // ]
+  },
+  dataOne:[35000, 27000, 25200, 15000],
+  dataTwo:[1620, 1532, 0, 400],
+  dataThree: [1500, 1800, 1000, 1500],
+  dataFour: [0, 0, 0, 954],
+
+      // 柱状图数据
+      zhudataList:[
+        {
+          name: '宽带移动通信设备',
+          type: 'bar',
+          barWidth:'40%',
+          stack: '总量',
+          label: {
+              normal: {
+                  show: true,
+                  position: 'insideRight'
+              }
+          },
+          data: [220, 182, 191, 234]
+      },
+      {
+          name: '宽信设备',
+          type: 'bar',
+          stack: '总量',
+          label: {
+              normal: {
+                  show: true,
+                  position: 'insideRight'
+              }
+          },
+          data: [220, 182, 191, 234]
+      },
+      ]
+
   }),
+
+  
 }

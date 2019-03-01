@@ -1,11 +1,11 @@
 <template>
-<div v-loading="flagLoading" element-loading-text="给我一点时间" class="stepComponent" >
+<div class="stepComponent" >
     <div class="stepsTitle">
         <p style="font-size: 14px; color: #999999;">上市</p>
     </div>
     <div class="approvalProcess" >
         <el-steps :active="active" finish-status="success" direction="vertical" >
-           <el-step :title="item.label"  v-for="item in approvalProcessProject" :id="item.id">
+           <el-step :title="item.label"  v-for="item in approvalProcessProject" :id="item.id" :key="item.id">
             <template slot="description" >
                 <div class="step-row">
                     <span style="font-size: 12px; color: #999999;margin-right:10px;">{{item.date}}</span>
