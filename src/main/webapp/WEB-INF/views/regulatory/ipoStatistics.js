@@ -424,11 +424,12 @@ function historyEChartInit() {
 		                    color: myChartColor[0]
 		                }
 		            },
-		            areaStyle: {
-		                normal: {
-		                    color: myChartColor[0]
-		                }
-		            },
+	            //需求6844 面积图调整为线型图  by liuh 2019/2/21 Start
+//		            areaStyle: {
+//		                normal: {
+//		                    color: myChartColor[0]
+//		                }
+//		            },
 		            data: []
 		        },     	
 		        {
@@ -442,11 +443,11 @@ function historyEChartInit() {
 		                    color: myChartColor[1]
 		                }
 		            },
-		            areaStyle: {
-		                normal: {
-		                    color: myChartColor[1]
-		                }
-		            },
+//		            areaStyle: {
+//		                normal: {
+//		                    color: myChartColor[1]
+//		                }
+//		            },
 		            data: []
 		        },
 		        {
@@ -460,11 +461,11 @@ function historyEChartInit() {
 		                    color: myChartColor[2]
 		                }
 		            },
-		            areaStyle: {
-		                normal: {
-		                    color: myChartColor[2]
-		                }
-		            },
+//		            areaStyle: {
+//		                normal: {
+//		                    color: myChartColor[2]
+//		                }
+//		            },
 		            data: []
 		        },
 		        {
@@ -478,11 +479,12 @@ function historyEChartInit() {
 		                    color: myChartColor[3]
 		                }
 		            },
-		            areaStyle: {
-		                normal: {
-		                    color: myChartColor[3]
-		                }
-		            },
+//		            areaStyle: {
+//		                normal: {
+//		                    color: myChartColor[3]
+//		                }
+//		            },
+	          //需求6844 面积图调整为线型图  by liuh 2019/2/21 end
 		            data: []
 		        },
 		    ]
