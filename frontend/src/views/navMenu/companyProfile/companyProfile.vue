@@ -113,12 +113,6 @@
               label="主营业务"
               width="123">
             </el-table-column>
-            <!-- <el-table-column label="股东名称" prop="controlsPosition" min-width="14%" align="left">
-                    <template slot-scope="scope">
-                        <span v-if="scope.row.name">{{scope.row.name}}</span>
-                        <span v-else>- -</span>
-                    </template>
-            </el-table-column> -->
               <el-table-column :label="yearsOne">
                 <el-table-column
                   prop="money"
@@ -141,6 +135,9 @@
                   prop="roportion"
                   label="占比"
                   width="84">
+                  <template slot-scope="scope">
+                    {{scope.$index}}
+                  </template>
                 </el-table-column>
               </el-table-column>
               <el-table-column :label="yearsThree">
@@ -266,9 +263,7 @@
                   label="占比"
                   width="84">
                 </el-table-column>
-              </el-table-column>
-             
-            
+              </el-table-column>            
           </el-table>
       </div>
     </div>
@@ -397,13 +392,12 @@ export default {
       gqNameList: [],
       gqTableList: [],
       incomeCompositionTableList: [],
+      // incomeCompositionTableListAll:[],
       MajorCompetitors: [],
       raiseMoneyTableList: [],
       // 柱形图坐标数据
       xAxis:[],
       yAxis:{},
-  
-      // zhudataList:[]
       // 柱状图数据
       zhudataList:[
         {
@@ -431,35 +425,7 @@ export default {
           },
           data: [220, 182, 191, 234]
       },
-      ]
-        
-      
-      // dataOne:{
-      //   name: "宽带移动通信设备",
-      //   // data: [35000, 27000, 25200, 15000]
-      //       name: '宽带移动通信设备',
-      //       type: 'bar',
-      //       stack: '总量',
-      //       label: {
-      //           normal: {
-      //               show: true,
-      //               position: 'insideRight'
-      //           }
-      //       },
-      //       data: [220, 182, 191, 234, 290, 330, 310]
-      // },
-      // dataTwo:{
-      //   name: "集成业务",
-      //   data: [1620, 1532, 0, 400]
-      // },
-      // dataThree:{
-      //   name: "技术开发业务",
-      //   data: [1500, 1800, 1000, 1500]
-      // },
-      // dataFour:{ 
-      //   name: "工程业务",
-      //   data: [0, 0, 0, 954]
-      // },
+      ],
      };
   },
   created() {
@@ -490,13 +456,14 @@ export default {
         this.incomeCompositionTableList = res.data.incomeCompositionTable;
         this. incomeCompositionTableList2 = res.data.incomeCompositionTable2;
         this. incomeCompositionTableList3 = res.data.incomeCompositionTable3;
+        // this.incomeCompositionTableListAll = [...this.incomeCompositionTableList,...this.incomeCompositionTableList2,...this.incomeCompositionTable3]
         this.MajorCompetitors = res.data.MajorCompetitors;
         this.raiseMoneyTableList = res.data.raiseMoneyTableList;
         this.xAxis = res.data.zhuxing.xAxis;
         this.yAxis = res.data.zhuxing.yAxis;
         // 柱图数据
         this.zhudataList = res.data.zhudataList
-        console.log(this.zhudataList)
+        // console.log([...this.incomeCompositionTableList,...this.incomeCompositionTableList2,...this.incomeCompositionTable3])
         // console.log(this.yAxis.length)
 
         //循环不同年份  
@@ -511,6 +478,7 @@ export default {
          this.yearsThree =  this.incomeCompositionTableList3[i].years
          
         }
+        // debugger
         // 动态获取柱图数据
         for(let i = 0 ;i<this.zhudataList.length;i++){
           const projectdata = {           
