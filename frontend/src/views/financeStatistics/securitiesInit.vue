@@ -103,7 +103,7 @@
                 <div class="headClass">
                     <el-row>
                         <el-col :span="14">
-                            <span>重组进程</span>
+                            <span>IPO进程</span>
                         </el-col>
                         <span v-if="statusButtonFlag == '1'">
                             <el-col :span="5" style="text-align: right;">
@@ -238,7 +238,7 @@ export default {
       isActive: "1",
       tabBarWidth: "",
       tabBarOffset: "",
-      statusButtonFlag: "0",
+      statusButtonFlag: "1",
       expandAllflag: "0",
       flag: "1",
       activeName: "first",

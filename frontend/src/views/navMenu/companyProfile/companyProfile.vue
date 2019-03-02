@@ -106,7 +106,7 @@
           <el-table
             show-summary
             :summary-method="getSummaries"
-            :data="incomeCompositionTableList"
+            :data="incomeCompositionTableList1"
             style="width: 100%;margin-top: 20px">
             <el-table-column
               prop="yewu"
@@ -125,8 +125,8 @@
                   width="84">
                 </el-table-column>
               </el-table-column>
-              <el-table-column :label="yearsTwo">
-                <el-table-column
+               <el-table-column :label="yearsTwo"> 
+                 <el-table-column
                   prop="money"
                   label="金额(万元)"
                   width="100">
@@ -151,7 +151,7 @@
                   label="占比"
                   width="84">
                 </el-table-column> 
-               </el-table-column>
+               </el-table-column> 
           </el-table>
       </div>
     </div>
@@ -183,8 +183,9 @@
                 margin-left:30px;
                 line-height: 22px;
                 width:70%">
-             <!-- <p class="moreText">{{data.companyIntroduce}}</p> -->
-             <p class="moreText">{{sliceText}}</p>
+             <p class="moreText">{{data.companyIntroduce}}</p>
+             <!-- <p class="moreText">{{sliceText}}</p> -->
+             
             </div>
           </li>
         </ul>
@@ -199,7 +200,7 @@
       <div class="theTopFiveSupplier">
           <el-table
             show-summary
-            :data="incomeCompositionTableList"
+            :data="incomeCompositionTableList1"
             style="width: 100%;margin-top: 20px">
             <el-table-column
               fixed
@@ -391,7 +392,7 @@ export default {
       listLoading: false,
       gqNameList: [],
       gqTableList: [],
-      incomeCompositionTableList: [],
+      incomeCompositionTableList1: [],
       // incomeCompositionTableListAll:[],
       MajorCompetitors: [],
       raiseMoneyTableList: [],
@@ -423,7 +424,32 @@ export default {
                   position: 'insideRight'
               }
           },
-          data: [220, 182, 191, 234]
+          data: [120, 182, 191, 234]
+      },
+       {
+          name: '集成业务',
+          type: 'bar',
+          barWidth:'20%',
+          stack: '总量',
+          label: {
+              normal: {
+                  show: true,
+                  position: 'insideRight'
+              }
+          },
+          data: [200, 82, 191, 234]
+      },
+      {
+          name: '工程业务',
+          type: 'bar',
+          stack: '总量',
+          label: {
+              normal: {
+                  show: true,
+                  position: 'insideRight'
+              }
+          },
+          data: [220, 182, 191, 534]
       },
       ],
      };
@@ -437,15 +463,15 @@ export default {
   },
   computed: {
     // 计算属性方法实现超过三行字数用...表示
-    sliceText() {
-      var moreLengthP = this.MajorCompetitors.length;
-      for (let i = 0; i < moreLengthP; i++) {
-        var moreP = this.MajorCompetitors[i].companyIntroduce;
-        var moreTextHtml = moreP.slice(0, 300) + "......";
-        // console.log(moreTextHtml);
-      }
-      return moreTextHtml;
-    }
+    // sliceText() {
+    //   var moreLengthP = this.MajorCompetitors.length;
+    //   for (let i = 0; i < moreLengthP; i++) {
+    //     var moreP = this.MajorCompetitors[i].companyIntroduce;
+    //     var moreTextHtml = moreP.slice(0, 300) + "......";
+    //     console.log(moreTextHtml);
+    //   }
+    //   return moreTextHtml;
+    // }
   },
   methods: {
     //   moke模拟请求的数据
@@ -453,7 +479,7 @@ export default {
       getGqList("/companyProfile/gqList").then(res => {
         this.gqNameList = res.data.gqjgName;
         this.gqTableList = res.data.gqTable;
-        this.incomeCompositionTableList = res.data.incomeCompositionTable;
+        this.incomeCompositionTableList1 = res.data.incomeCompositionTable1;
         this. incomeCompositionTableList2 = res.data.incomeCompositionTable2;
         this. incomeCompositionTableList3 = res.data.incomeCompositionTable3;
         // this.incomeCompositionTableListAll = [...this.incomeCompositionTableList,...this.incomeCompositionTableList2,...this.incomeCompositionTable3]
@@ -467,8 +493,8 @@ export default {
         // console.log(this.yAxis.length)
 
         //循环不同年份  
-        for(let i=0 ; i<this.incomeCompositionTableList.length;i++){
-         this.yearsOne =  this.incomeCompositionTableList[i].years
+        for(let i=0 ; i<this.incomeCompositionTableList1.length;i++){
+         this.yearsOne =  this.incomeCompositionTableList1[i].years
         }
          for(let i=0 ; i<this.incomeCompositionTableList2.length;i++){
          this.yearsTwo =  this.incomeCompositionTableList2[i].years
@@ -480,24 +506,24 @@ export default {
         }
         // debugger
         // 动态获取柱图数据
-        for(let i = 0 ;i<this.zhudataList.length;i++){
-          const projectdata = {           
-            name: '',
-            type: 'bar',
+        // for(let i = 0 ;i<this.zhudataList.length;i++){
+        //   const projectdata = {           
+        //     name: '',
+        //     type: 'bar',
             
-            stack: '总量',
-            label: {
-                normal: {
-                    show: true,
-                    position: 'insideRight'
-                }
-            },
-            data: []};
+        //     stack: '总量',
+        //     label: {
+        //         normal: {
+        //             show: true,
+        //             position: 'insideRight'
+        //         }
+        //     },
+        //     data: []};
 
-         projectdata.name =  zhudataList[i].yListName
-         projectdata.data =  zhudataList[i].yList
-         this. zhudataList.push(projectdata);
-        }
+        //  projectdata.name =  zhudataList[i].yListName
+        //  projectdata.data =  zhudataList[i].yList
+        //  this. zhudataList.push(projectdata);
+        // }
       });
     },
     // 柱形图
@@ -530,7 +556,7 @@ export default {
           orient: "vertical",
           // x: "center", // 'center' | 'left' | {number},
           // y: 'bottom', // 'center' | 'bottom' | {number}
-          data: ["宽带移动通信设备", "集成业务", "技术开发业务", "工程业务"],
+          // data: ["宽带移动通信设备", "集成业务", "技术开发业务", "工程业务"],
           itemWidth: 10, // 图例图形宽度
           itemHeight: 10, // 图例图形高度
           textStyle: {
@@ -545,7 +571,7 @@ export default {
         },
         xAxis: {
           type: "category",
-          data:this.xAxis
+          data:["2014年7月", "2015年2月", "2016年3月", "2017年6月"],
           // data: this.xAxis
         },
         yAxis: {
@@ -827,5 +853,13 @@ export default {
 .InstitutionsDetailLi:hover {
   cursor: pointer;
   box-shadow: darkgrey 0px 0px 6px 2px;
+}
+// 多行省略号
+.moreText{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 </style>
