@@ -82,7 +82,11 @@
       </div>
       <!-- 股权股东表格 -->
       <el-table :data="gqTableList" style="width: 100%" stripe border>
-        <el-table-column prop="id" type="index" label="序号" align='center'></el-table-column>
+        <el-table-column type="index" label="序号" align='center'>
+           <template slot-scope="scope">
+                    {{scope.$index+1}}
+            </template>
+        </el-table-column>
         <el-table-column prop="name" label="股东名称"></el-table-column>
         <el-table-column prop="nature" label="股东性质"></el-table-column>
         <el-table-column prop="num" label="持股数量（万股）" align='right'></el-table-column>

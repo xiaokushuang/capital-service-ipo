@@ -1,6 +1,6 @@
 <template>
 <div v-loading="flagLoading" element-loading-text="给我一点时间" class="zdzc_css" style="margin-top:20px;">
-  <div  v-if="boxDataAll.length>0" v-for="boxDataItem in boxDataAll">
+  <div v-for="boxDataItem in boxDataAll" v-if="boxDataAll.length>0">
         <el-row style="margin-top:10px;padding-left:12px">
             <el-col :span="24" style="border-left:1px solid #0099cc;">
                <!-- 进程名 -->
@@ -8,7 +8,7 @@
                   <img src="../../assets/images/jinchengjian.png" alt="">
                   <p>{{boxDataItem.jcName}}</p>
                 </div>
-                <div class="right" v-for="(item,index) in boxDataItem.boxData" :key="item.sort">
+                <div class="right" v-for="(item,index) in boxDataItem.boxData" :key="item.sort" v-show="index == 0 || boxDataItem.showH" @click="handleSpreadBody($event,boxDataItem)">
                      <div class="border-box">
                         <span v-if="sortFlag == '0'">
                             <span :id="'sign' + item.sort" class="circle" v-if="boxDataItem.boxData.length">
@@ -43,12 +43,18 @@
                         <div style="margin-bottom: 24px;margin-top: 8px;">
                           <!-- 点击查看公告 -->
                             <span >
-                               <div href="#" @click="showAndHide('each' + item.sort,item, null)" class="moreNoticeCss" style="cursor: pointer;">查看公告</div>
+                               <!-- <div href="#" @click="showAndHide('each' + item.sort,item, null)" class="moreNoticeCss" style="cursor: pointer;">查看公告</div> -->
+                                <div @click="moreLetterClick" class="moreNoticeCss" style="cursor: pointer;">查看公告</div>
                             </span>
                           <!-- 点击查看公告后展示的内容 -->
 
                         </div>
                     </div>
+                </div>
+                <!-- 三个点展开全部 -->
+                <div>
+                   <p class="spread" @click="handleSpread($event,boxDataItem)" @mouseenter="handleMouseenterSpread(boxDataItem)" @mouseleave="handleMouseleaveSpread(boxDataItem)">...</p>
+                   <span class="spreadText" v-show="boxDataItem.isShowSpreadText">点击展开隐藏节点</span>
                 </div>
             </el-col>
         </el-row>
@@ -61,9 +67,14 @@
 
 <script>
 import Vue from "vue";
+import $ from "jquery";
 export default {
     data() {
         return {
+          // 鼠标移入展示文字
+            isShowSpreadText:false,
+          // 是否全部展开变量
+            isSpread:false,
             showLength: 10000,
             moreNoticeDailog: '',
             dialogVisible: false,
@@ -71,33 +82,42 @@ export default {
              boxDataAll:[
                 {
                     "jcName": "上市",
+                    "showH":false,
+                    isShowSpreadText:false,
                     "boxData":[
                         { sort:'0',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21'},
                         { sort:'1',processLabel: "割接方案会审",publishTime:'2018-08-07',chajitian:'21'},
                         { sort:'2',processLabel: "割接审批",publishTime:'2018-08-07',chajitian:'21'},
                         { sort:'3',processLabel: "审批成功",publishTime:'2018-08-07',chajitian:'21'},
                         { sort:'4',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21'},
-                    ]
+                    ],
+    
                 },
                 {
                     "jcName": "审核",
+                     "showH":false,
+                     isShowSpreadText:false,
                     "boxData":[
                         { sort:'5',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21'},
                         { sort:'6',processLabel: "割接方案会审",publishTime:'2018-08-07',chajitian:'21'},
                         { sort:'7',processLabel: "割接审批",publishTime:'2018-08-07',chajitian:'21'},
                         { sort:'8',processLabel: "审批成功",publishTime:'2018-08-07',chajitian:'21'},
                         { sort:'9',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21'},
-                    ]
+                    ],
+ 
                 },
                 {
                     "jcName": "辅导工作进程",
+                    "showH":false,
+                    isShowSpreadText:false,
                     "boxData":[
                         { sort:'10',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21'},
                         { sort:'11',processLabel: "割接方案会审",publishTime:'2018-08-07',chajitian:'21'},
                         { sort:'12',processLabel: "割接审批",publishTime:'2018-08-07',chajitian:'21'},
                         { sort:'13',processLabel: "审批成功",publishTime:'2018-08-07',chajitian:'21'},
                         { sort:'14',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21'},
-                    ]
+                    ],
+                    
                 },
              ],
             flagLoading: false,
@@ -122,6 +142,38 @@ export default {
 
     },
     methods: {
+      // 鼠标移入三个点
+      handleMouseenterSpread(param){
+        param.isShowSpreadText = true
+        // console.log($(".spread").length)
+        // for(let a = 0;a< $(".spread").length;a++){
+        //   let b = '点击展开隐藏节点'
+        //   $(".spread").eq(a).attr("title",b)
+        // }
+    //     var ev = ev || window.event;
+    // 　　var target = ev.target || ev.srcElement;
+    //     console.log(target)
+    //     var b = '点击展开隐藏节点'
+    //     target.attr("title",b)
+        // this.isShowSpreadText = true
+      },
+       // 鼠标移出三个点
+      handleMouseleaveSpread(param){
+        param.isShowSpreadText = false
+        // this.isShowSpreadText = false
+      },
+      // 点击展开隐藏方法
+        handleSpread(ev,param){
+            // param.showH =! param.showH
+            param.showH = true
+            // this.$fouceUpdata()
+        },
+        // 点击li循环体收起展开内容
+        handleSpreadBody(ev,param){
+            // param.showH =! param.showH
+            param.showH = false
+            // this.$fouceUpdata()
+        },
         expandAlltoC(exAllFlag) {
             this.boxData.map(obj => {
                 this.showAndHideParent('each' + obj.sort, exAllFlag,obj);
@@ -158,43 +210,19 @@ export default {
             }
             this.dialogVisible = true;
         },
-        moreLetterClick(obj) {
-            //查看更多公告/函件
-            // for()
-            this.id = obj.id,
-                this.processName = obj.processName,
-                this.caseMoreNoticeId = obj.caseId,
-                this.sort = obj.sort
-            let param = {
-                id: obj.id,
-                processName: obj.processName,
-                caseId: obj.caseId,
-                sort: obj.sort
-            }
-            if (this.$refs.moreNotice != undefined) {
-                this.$refs.moreNotice.flagLoading = true;
-                this.$refs.moreNotice.tableColumnData(param);
-            }
-            if (obj.processName == '011' || obj.processName == '020') {
-                this.moreNoticeDailog = '相关函件'
-            } else {
-                this.moreNoticeDailog = '相关公告'
-            }
-            this.dialogVisible = true;
+        moreLetterClick() {
+            //点击查看更多公告/函件
+           
         },
         showAndHideParent(obj, exAllFlag,item) {
             if (
                 exAllFlag == '0'
             ) {
-                document
-                    .getElementById(obj)
-                    .setAttribute("style", "display:none;");
+                document.getElementById(obj).setAttribute("style", "display:none;");
                 item.flag = 0;
 
             } else {
-                document
-                    .getElementById(obj)
-                    .setAttribute("style", "display:back;");
+                document .getElementById(obj).setAttribute("style", "display:back;");
                 item.flag = 1;
             }
         },
@@ -527,6 +555,32 @@ export default {
     left: 32px;
     position: relative;
 }
+}
+// 三个点展开样式
+.spread{
+  color:#0099cc;
+  font-size:20px;
+  float:right;
+  margin-right:50px;
+  cursor:pointer;
+}
+.spreadText{
+    font-weight: 400;
+    width: 109px;
+    height: 20px;
+    font-style: normal;
+    font-size: 13px;
+    color: #333333;
+    text-align: center;
+    border:1px solid rgba(228, 228, 228, 1);
+    position:relative;
+    left: 220px;
+    top: 45px;
+    border-radius:3px;
+    padding:2px;
+}
+.isHidden{
+  // visibility: hidden;
 }
 
 </style>
