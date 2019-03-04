@@ -6,3 +6,9 @@ export function getTableData() {
     method: 'get'
   })
 }
+export function getFifthGysTableData() {
+  return request({
+    url: '/demo/FifthGysTableData',
+    method: 'get'
+  })
+}

@@ -107,9 +107,11 @@
       </div>
       <!-- table表格 -->
       <div class="incomeCompositionTable">
+         <mainTable></mainTable>
+      </div>
+      <!-- <div class="incomeCompositionTable">
           <el-table
             show-summary
-            :summary-method="getSummaries"
             :data="incomeCompositionTableList1"
             style="width: 100%;margin-top: 20px">
             <el-table-column
@@ -157,7 +159,7 @@
                 </el-table-column> 
                </el-table-column> 
           </el-table>
-      </div>
+      </div> -->
     </div>
     <!-- 主要竞争对手简介 -->
     <div class="MajorCompetitors">
@@ -202,7 +204,9 @@
         <span class="titleText" id="reorganizationIntro">报告期前五名供应商情况</span>
       </div>
       <div class="theTopFiveSupplier">
-          <el-table
+        <!-- <mainTable></mainTable> -->
+        <!-- <fifthGysTable><fifthGysTable> -->
+          <!-- <el-table
             show-summary
             :data="incomeCompositionTableList1"
             style="width: 100%;margin-top: 20px">
@@ -269,7 +273,7 @@
                   width="84">
                 </el-table-column>
               </el-table-column>            
-          </el-table>
+          </el-table> -->
       </div>
     </div>
     <!-- 募集资金运用 -->
@@ -280,7 +284,7 @@
       </div>
       <div class="raiseMoneyTable">
         <!-- 募集资金运用表格 -->
-          <el-table :data="raiseMoneyTableList" border show-summary style="width:100%;">
+          <el-table :data="raiseMoneyTableList" border style="width:100%;" show-summary :summary-method="getSummaries">
             <el-table-column label="项目名称" align="left">
                 <template slot-scope="scope">
                     <span v-if="scope.row.projectName">{{scope.row.projectName}}</span>
@@ -293,29 +297,29 @@
                     <span v-else>- -</span>
                 </template>
             </el-table-column>
-            <el-table-column label="项目总投资(万元)" align="right">
-                <template slot-scope="scope">
+            <el-table-column label="项目总投资(万元)" align="right" prop="xmz">
+                <!-- <template slot-scope="scope">
                       <span v-if="scope.row.xmz">{{scope.row.xmz}}</span>
                     <span v-else>- -</span>
-                </template>
+                </template> -->
             </el-table-column>
-            <el-table-column label="拟投入募集资金金额（万元）" align="right">
-                <template slot-scope="scope">
+            <el-table-column label="拟投入募集资金金额（万元）" align="right" prop="ntr">
+                <!-- <template slot-scope="scope">
                       <span v-if="scope.row.ntr">{{scope.row.ntr}}</span>
                     <span v-else>- -</span>
-                </template>
+                </template> -->
             </el-table-column>
-            <el-table-column label="占拟募集资金净额比例" align="right">
-                <template slot-scope="scope">
+            <el-table-column label="占拟募集资金净额比例" align="right" prop="znm">
+                <!-- <template slot-scope="scope">
                       <span v-if="scope.row.znm">{{scope.row.znm}}</span>
                     <span v-else>- -</span>
-                </template>
+                </template> -->
             </el-table-column>
-            <el-table-column label="前期已投入资金金额（万元）" align="right">
-                <template slot-scope="scope">
+            <el-table-column label="前期已投入资金金额（万元）" align="right" prop="qqy">
+                <!-- <template slot-scope="scope">
                       <span v-if="scope.row.qqy">{{scope.row.qqy}}</span>
                     <span v-else>- -</span>
-                </template>
+                </template> -->
             </el-table-column>
         </el-table>
       </div>
@@ -382,81 +386,125 @@
 <script>
 import $ from "jquery";
 import { getGqList } from "@/api/companyProfile";
-
+// 导入主营业务收入构成表格
+import mainTable from "@/views/tables/mainTable";
+import fifthGysTable from "@/views/tables/fifthGysTable";
 export default {
   name: "companyProfile",
-  components: {},
+  components: {
+    mainTable,
+    fifthGysTable
+  },
 
   data() {
     return {
-      yearsOne:"",
-      yearsTwo:"",
-      yearsThree:"",      
+      tableData6: [
+         {
+      projectName:'A',
+      projectType:'就卡及出口商的警察都是军事科技吃烧烤',
+      xmz:'130',
+      ntr:'200',
+      znm:'52%',
+      qqy:'320'
+    },
+    {
+      projectName:'B',
+      projectType:'就卡及出口商的警察都是军事科技吃烧烤',
+      xmz:'200',
+      ntr:'400',
+      znm:'43%',
+      qqy:'200'
+    },
+    {
+      projectName:'C',
+      projectType:'就卡及出口商的警察都是军事科技吃烧烤',
+      xmz:'100',
+      ntr:'2300',
+      znm:'42%',
+      qqy:'2000'
+    },
+    {
+      projectName:'D',
+      projectType:'就卡及出口商的警察都是军事科技吃烧烤',
+      xmz:'160',
+      ntr:'700',
+      znm:'52%',
+      qqy:'430'
+    },
+      ],
+      yearsOne: "",
+      yearsTwo: "",
+      yearsThree: "",
       isLogin: true,
       listLoading: false,
       gqNameList: [],
       gqTableList: [],
       incomeCompositionTableList1: [],
-      // incomeCompositionTableListAll:[],
       MajorCompetitors: [],
       raiseMoneyTableList: [],
-      // 柱形图坐标数据
-      xAxis:[],
-      yAxis:{},
-      // 柱状图数据
-      zhudataList:[
+      // 饼状图数据
+      pieChartData: [
+        { value: 335, name: "49%" },
+        { value: 310, name: "23%" },
+        { value: 234, name: "67%" },
+        { value: 135, name: "54%" }
+      ],
+      // 柱状图数据x轴
+      zhudataListX: ["2014年7月", "2015年2月", "2016年3月", "2017年6月"],
+      // 柱状图数据y轴
+      zhudataListY: [
         {
-          name: '宽带移动通信设备',
-          type: 'bar',
-          barWidth:'40%',
-          stack: '总量',
+          name: "宽带移动通信设备",
+          type: "bar",
+          barWidth: "40%",
+          stack: "总量",
           label: {
-              normal: {
-                  show: true,
-                  position: 'insideRight'
-              }
+            normal: {
+              show: true,
+              position: "insideRight"
+            }
           },
           data: [220, 182, 191, 234]
-      },
-      {
-          name: '宽信设备',
-          type: 'bar',
-          stack: '总量',
+        },
+        {
+          name: "宽信设备",
+          type: "bar",
+          stack: "总量",
           label: {
-              normal: {
-                  show: true,
-                  position: 'insideRight'
-              }
+            normal: {
+              show: true,
+              position: "insideRight"
+            }
           },
           data: [120, 182, 191, 234]
-      },
-       {
-          name: '集成业务',
-          type: 'bar',
-          barWidth:'20%',
-          stack: '总量',
+        },
+        {
+          name: "集成业务",
+          type: "bar",
+          barWidth: "20%",
+          stack: "总量",
           label: {
-              normal: {
-                  show: true,
-                  position: 'insideRight'
-              }
+            normal: {
+              show: true,
+              position: "insideRight"
+            }
           },
           data: [200, 82, 191, 234]
-      },
-      {
-          name: '工程业务',
-          type: 'bar',
-          stack: '总量',
+        },
+        {
+          name: "工程业务",
+          type: "bar",
+          stack: "总量",
           label: {
-              normal: {
-                  show: true,
-                  position: 'insideRight'
-              }
+            normal: {
+              show: true,
+              position: "insideRight"
+            }
           },
           data: [220, 182, 191, 534]
-      },
-      ],
-     };
+        }
+      ]
+    };
   },
   created() {
     this.getData();
@@ -465,56 +513,66 @@ export default {
     this.drawBarChart();
     this.drawPieChart();
   },
-  computed: {
-    // 计算属性方法实现超过三行字数用...表示
-    // sliceText() {
-    //   var moreLengthP = this.MajorCompetitors.length;
-    //   for (let i = 0; i < moreLengthP; i++) {
-    //     var moreP = this.MajorCompetitors[i].companyIntroduce;
-    //     var moreTextHtml = moreP.slice(0, 300) + "......";
-    //     console.log(moreTextHtml);
-    //   }
-    //   return moreTextHtml;
-    // }
-  },
   methods: {
+    // 合计表格函数
+    getSummaries(param) {
+      const { columns, data } = param;
+      const sums = [];
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = "总计";
+          return;
+        }
+        if(index === 4){
+          // console.log(column)
+        }
+        const values = data.map(item => Number(item[column.property]));
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr);
+            if (!isNaN(value)) {
+              return prev + curr;
+            } else {
+              return prev;
+            }
+          }, 0);
+        }
+      });
+
+      return sums;
+    },
     //   moke模拟请求的数据
     getData() {
       getGqList("/companyProfile/gqList").then(res => {
         this.gqNameList = res.data.gqjgName;
         this.gqTableList = res.data.gqTable;
         this.incomeCompositionTableList1 = res.data.incomeCompositionTable1;
-        this. incomeCompositionTableList2 = res.data.incomeCompositionTable2;
-        this. incomeCompositionTableList3 = res.data.incomeCompositionTable3;
-        // this.incomeCompositionTableListAll = [...this.incomeCompositionTableList,...this.incomeCompositionTableList2,...this.incomeCompositionTable3]
+        this.incomeCompositionTableList2 = res.data.incomeCompositionTable2;
+        this.incomeCompositionTableList3 = res.data.incomeCompositionTable3;
         this.MajorCompetitors = res.data.MajorCompetitors;
         this.raiseMoneyTableList = res.data.raiseMoneyTableList;
         this.xAxis = res.data.zhuxing.xAxis;
         this.yAxis = res.data.zhuxing.yAxis;
         // 柱图数据
-        this.zhudataList = res.data.zhudataList
-        // console.log([...this.incomeCompositionTableList,...this.incomeCompositionTableList2,...this.incomeCompositionTable3])
-        // console.log(this.yAxis.length)
+        this.zhudataList = res.data.zhudataList;
 
-        //循环不同年份  
-        for(let i=0 ; i<this.incomeCompositionTableList1.length;i++){
-         this.yearsOne =  this.incomeCompositionTableList1[i].years
+        //循环不同年份
+        for (let i = 0; i < this.incomeCompositionTableList1.length; i++) {
+          this.yearsOne = this.incomeCompositionTableList1[i].years;
         }
-         for(let i=0 ; i<this.incomeCompositionTableList2.length;i++){
-         this.yearsTwo =  this.incomeCompositionTableList2[i].years
-         
+        for (let i = 0; i < this.incomeCompositionTableList2.length; i++) {
+          this.yearsTwo = this.incomeCompositionTableList2[i].years;
         }
-         for(let i=0 ; i<this.incomeCompositionTableList3.length;i++){
-         this.yearsThree =  this.incomeCompositionTableList3[i].years
-         
+        for (let i = 0; i < this.incomeCompositionTableList3.length; i++) {
+          this.yearsThree = this.incomeCompositionTableList3[i].years;
         }
         // debugger
         // 动态获取柱图数据
         // for(let i = 0 ;i<this.zhudataList.length;i++){
-        //   const projectdata = {           
+        //   const projectdata = {
         //     name: '',
         //     type: 'bar',
-            
+
         //     stack: '总量',
         //     label: {
         //         normal: {
@@ -532,39 +590,28 @@ export default {
     },
     // 柱形图
     drawBarChart() {
-      let barChart = this.$echarts.init(document.getElementById("barChart"));
+      var barChart = this.$echarts.init(document.getElementById("barChart"));
+      // 点击柱状图获取相应数据
+      barChart.on("click", function(params) {
+        console.log(params.name);
+        // console.log(params.name);
+        // console.log(params.value);
+      });
       // 绘制图表
       barChart.setOption({
         title: {
-           text: "最近3年主营业务趋势",
-            textStyle:{
-              color: 'red',
-              fontWeight:'normal',
-              fontSize:16,
-            },
+          text: "最近3年主营业务趋势",
+          textStyle: {
+            color: "black",
+            fontWeight: "normal",
+            fontSize: 16
+          }
         },
         tooltip: {
           trigger: "axis",
           axisPointer: {
             // 坐标轴指示器，坐标轴触发有效
             type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
-          }
-        },
-        legend: {
-          padding: [
-            200, // 上
-            0, // 右
-            5, // 下
-            0 // 左
-          ],
-          orient: "vertical",
-          // x: "center", // 'center' | 'left' | {number},
-          // y: 'bottom', // 'center' | 'bottom' | {number}
-          // data: ["宽带移动通信设备", "集成业务", "技术开发业务", "工程业务"],
-          itemWidth: 10, // 图例图形宽度
-          itemHeight: 10, // 图例图形高度
-          textStyle: {
-            color: "#333" // 图例文字颜色
           }
         },
         grid: {
@@ -575,92 +622,27 @@ export default {
         },
         xAxis: {
           type: "category",
-          data:["2014年7月", "2015年2月", "2016年3月", "2017年6月"],
-          // data: this.xAxis
+          // data:["2014年7月", "2015年2月", "2016年3月", "2017年6月"],
+          data: this.zhudataListX
         },
         yAxis: {
-          type: "value",
+          type: "value"
           // data:this.yAxis
         },
-        series:this.zhudataList
-        // [
-
-          
-        //   this.dataOne,
-        //   // this.dataTwo,
-        //   // this.dataThree,
-        //   // this.dataFour
-        //   // {
-        //     // 根据名字对应到相应的系列
-        //     // type: "bar",
-        //     // barWidth: "40%",
-        //     // stack: "总量",
-        //     // name: this.yAxis.name,
-        //     // data: this.yAxis
-            
-        //   //  }
-        //   // data: this.yAxis
-        // //    {
-        // //     name: '直接访问',
-        // //     type: 'bar',
-        // //     stack: '总量',
-        // //     label: {
-        // //         normal: {
-        // //             show: true,
-        // //             position: 'insideRight'
-        // //         }
-        // //     },
-        // //     data: this.dataOne
-        // // },
-        // // {
-        // //     name: '邮件营销',
-        // //     type: 'bar',
-        // //     stack: '总量',
-        // //     label: {
-        // //         normal: {
-        // //             show: true,
-        // //             position: 'insideRight'
-        // //         }
-        // //     },
-        // //     data: [120, 132, 101, 134, 90, 230, 210]
-        // // },
-        // // {
-        // //     name: '联盟广告',
-        // //     type: 'bar',
-        // //     stack: '总量',
-        // //     label: {
-        // //         normal: {
-        // //             show: true,
-        // //             position: 'insideRight'
-        // //         }
-        // //     },
-        // //     data: [220, 182, 191, 234, 290, 330, 310]
-        // // },
-        // // {
-        // //     name: '视频广告',
-        // //     type: 'bar',
-        // //     stack: '总量',
-        // //     label: {
-        // //         normal: {
-        // //             show: true,
-        // //             position: 'insideRight'
-        // //         }
-        // //     },
-        // //     data: [150, 212, 201, 154, 190, 330, 410]
-        // // },
-        // // {
-        // //     name: '搜索引擎',
-        // //     type: 'bar',
-        // //     stack: '总量',
-        // //     label: {
-        // //         normal: {
-        // //             show: true,
-        // //             position: 'insideRight'
-        // //         }
-        // //     },
-        // //     data: [820, 832, 901, 934, 1290, 1330, 1320]
-        // // }
-        // ]
+        series: this.zhudataListY
+        //   series: {
+        //     name: '宽带移动通信设备',
+        //     type: 'bar',
+        //     barWidth:'40%',
+        //     stack: '总量',
+        //     label: {
+        //         normal: {
+        //             show: true,
+        //             position: 'insideRight'
+        //         }
+        //     },
+        //     data: [220, 182, 191, 234]
+        // },
       });
     },
     // 饼形图
@@ -672,18 +654,37 @@ export default {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
+        legend: {
+          // padding: [
+          //   200, // 上
+          //   0, // 右
+          //   5, // 下
+          //   0 // 左
+          // ],
+          orient: "vertical",
+          x: "300", // 'center' | 'left' | {number},
+          y: "100", // 'center' | 'bottom' | {number}
+          // data: ["宽带移动通信设备", "集成业务", "技术开发业务", "工程业务"],
+          itemWidth: 10, // 图例图形宽度
+          itemHeight: 10, // 图例图形高度
+          textStyle: {
+            color: "#333" // 图例文字颜色
+          }
+        },
         series: [
           {
             name: "访问来源",
             type: "pie",
             radius: "55%",
             center: ["50%", "60%"],
-            data: [
-              { value: 335, name: "49%" },
-              { value: 310, name: "23%" },
-              { value: 234, name: "67%" },
-              { value: 135, name: "54%" }
-            ],
+            data: this.pieChartData,
+            //  [
+
+            // { value: 335, name: "49%" },
+            // { value: 310, name: "23%" },
+            // { value: 234, name: "67%" },
+            // { value: 135, name: "54%" }
+            // ],
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,
@@ -694,9 +695,7 @@ export default {
           }
         ]
       });
-    },
-    // 表格合计
-    getSummaries() {}
+    }
   }
 };
 </script>
@@ -856,14 +855,15 @@ export default {
 }
 .InstitutionsDetailLi:hover {
   cursor: pointer;
-  box-shadow: darkgrey 0px 0px 6px 2px;
+  // box-shadow: darkgrey 0px 0px 6px 2px;
+  box-shadow: 0 0px 28px -5px #ccc;
 }
 // 多行省略号
-.moreText{
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
+.moreText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 </style>

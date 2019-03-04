@@ -115,3 +115,8 @@
   border: 1px solid;
   border-color: inherit;
 }
+// 弹窗table样式
+.popWindow .el-table thead tr th {
+  background: rgba(242, 242, 242, 1);
+  color: black;
+}

@@ -1,14 +1,14 @@
 <template>
 <div v-loading="flagLoading" element-loading-text="给我一点时间" class="zdzc_css" style="margin-top:20px;">
-  <div v-for="boxDataItem in boxDataAll" v-if="boxDataAll.length>0">
+  <div class="allJincheng" v-for="boxDataItem in boxDataAll" v-if="boxDataAll.length>0" >
         <el-row style="margin-top:10px;padding-left:12px">
-            <el-col :span="24" style="border-left:1px solid #0099cc;">
+            <el-col :span="24" style="border-left:1px solid rgba(242, 242, 242, 1);">
                <!-- 进程名 -->
                 <div class="jincheng">
                   <img src="../../assets/images/jinchengjian.png" alt="">
                   <p>{{boxDataItem.jcName}}</p>
                 </div>
-                <div class="right" v-for="(item,index) in boxDataItem.boxData" :key="item.sort" v-show="index == 0 || boxDataItem.showH" @click="handleSpreadBody($event,boxDataItem)">
+                <div class="right" v-for="(item,index) in boxDataItem.boxData" :key="item.sort" v-show="index == 0 || boxDataItem.isSpread" @click="handleSpreadBody($event,boxDataItem)">
                      <div class="border-box">
                         <span v-if="sortFlag == '0'">
                             <span :id="'sign' + item.sort" class="circle" v-if="boxDataItem.boxData.length">
@@ -35,6 +35,7 @@
                             <span v-text='item.publishTime'></span>
                             &nbsp;&nbsp;
                             <span v-if="item.chajitian != undefined">距离上个进程{{item.chajitian}}天</span>
+                            <p class="gonggao" v-show="item.isShowGonggao" style="color:#0086A7;font-size:14px"><a href="#">{{item.gonggao}}</a></p>
                         </div>
                         <div :id="'each' + item.sort" style="display:none;">
                             <div :ref='item.sort' :class="'abc'+item.sort"></div>
@@ -44,18 +45,56 @@
                           <!-- 点击查看公告 -->
                             <span >
                                <!-- <div href="#" @click="showAndHide('each' + item.sort,item, null)" class="moreNoticeCss" style="cursor: pointer;">查看公告</div> -->
-                                <div @click="moreLetterClick" class="moreNoticeCss" style="cursor: pointer;">查看公告</div>
+                                <div @click.stop="letterClick(item)" class="moreNoticeCss" style="cursor: pointer;" v-if="item.showGonggaoText">查看公告</div>
+                                <!-- <div @click.stop="moreLetterClick(item)" class="moreNoticeCss" style="cursor: pointer;" v-if="item.showMoreGonggaoText">查看更多公告</div> -->
+                                <div @click="dialogTableVisible = true" class="moreNoticeCss" style="cursor: pointer;" v-if="item.showMoreGonggaoText">查看更多公告</div>
                             </span>
-                          <!-- 点击查看公告后展示的内容 -->
-
+                         
+                             <!-- 点击查看更多公告内容弹窗 -->
+                            <div class="popWindow">
+                                <el-dialog title="招股公告_相关公告" :visible.sync="dialogTableVisible">
+                                    <el-table
+                                        ref="multipleTable"
+                                        :data="tableData3"
+                                        tooltip-effect="dark"
+                                        style="width: 100%"
+                                        @selection-change="handleSelectionChange">
+                                        <el-table-column
+                                        type="selection" 
+                                        width="55">
+                                        </el-table-column>
+                                        <el-table-column
+                                        label="公告日期"                                  
+                                        width="120">
+                                        <template slot-scope="scope">{{ scope.row.date }}</template>
+                                        </el-table-column>
+                                        <el-table-column
+                                        prop="name"
+                                        label="公告名称"
+                                        width="120">
+                                        </el-table-column>
+                                        <el-table-column
+                                        
+                                            label="操作"
+                                        >
+                                            <template slot-scope="scope">
+                                                <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+                                                <el-button type="text" size="small">编辑</el-button>
+                                            </template>
+                                        </el-table-column>
+                                    </el-table>
+                                    <button class="DownloadAnnouncement">下载所选公告</button>
+                                </el-dialog>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <!-- 三个点展开全部 -->
                 <div>
-                   <p class="spread" @click="handleSpread($event,boxDataItem)" @mouseenter="handleMouseenterSpread(boxDataItem)" @mouseleave="handleMouseleaveSpread(boxDataItem)">...</p>
+                   <p class="spread" @click="handleSpread($event,boxDataItem)" @mouseenter="handleMouseenterSpread(boxDataItem)" @mouseleave="handleMouseleaveSpread(boxDataItem)" >...</p>
                    <span class="spreadText" v-show="boxDataItem.isShowSpreadText">点击展开隐藏节点</span>
                 </div>
+               
             </el-col>
         </el-row>
     </div>
@@ -71,10 +110,45 @@ import $ from "jquery";
 export default {
     data() {
         return {
+            // 弹窗多选数组
+              multipleSelection: [],
+            //   弹窗table数据
+              tableData3: [{
+                date: '2016-05-03',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                date: '2016-05-02',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                date: '2016-05-04',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                date: '2016-05-01',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                date: '2016-05-08',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                date: '2016-05-06',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                date: '2016-05-07',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1518 弄'
+                }],
+                dialogTableVisible: false,
+                showGonggao:true,
+                showMoreGonggao:false,
           // 鼠标移入展示文字
-            isShowSpreadText:false,
+            // isShowSpreadText:false,
           // 是否全部展开变量
-            isSpread:false,
+            // isSpread:false,
             showLength: 10000,
             moreNoticeDailog: '',
             dialogVisible: false,
@@ -82,40 +156,40 @@ export default {
              boxDataAll:[
                 {
                     "jcName": "上市",
-                    "showH":false,
+                    "isSpread":false,
                     isShowSpreadText:false,
                     "boxData":[
-                        { sort:'0',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21'},
-                        { sort:'1',processLabel: "割接方案会审",publishTime:'2018-08-07',chajitian:'21'},
-                        { sort:'2',processLabel: "割接审批",publishTime:'2018-08-07',chajitian:'21'},
-                        { sort:'3',processLabel: "审批成功",publishTime:'2018-08-07',chajitian:'21'},
-                        { sort:'4',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21'},
+                        { sort:'0',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
+                        { sort:'1',processLabel: "割接方案会审",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
+                        { sort:'2',processLabel: "割接审批",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
+                        { sort:'3',processLabel: "审批成功",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
+                        { sort:'4',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
                     ],
     
                 },
                 {
                     "jcName": "审核",
-                     "showH":false,
+                     "isSpread":false,
                      isShowSpreadText:false,
                     "boxData":[
-                        { sort:'5',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21'},
-                        { sort:'6',processLabel: "割接方案会审",publishTime:'2018-08-07',chajitian:'21'},
-                        { sort:'7',processLabel: "割接审批",publishTime:'2018-08-07',chajitian:'21'},
-                        { sort:'8',processLabel: "审批成功",publishTime:'2018-08-07',chajitian:'21'},
-                        { sort:'9',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21'},
+                        { sort:'5',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
+                        { sort:'6',processLabel: "割接方案会审",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
+                        { sort:'7',processLabel: "割接审批",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
+                        { sort:'8',processLabel: "审批成功",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
+                        { sort:'9',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
                     ],
  
                 },
                 {
                     "jcName": "辅导工作进程",
-                    "showH":false,
+                    "isSpread":false,
                     isShowSpreadText:false,
                     "boxData":[
-                        { sort:'10',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21'},
-                        { sort:'11',processLabel: "割接方案会审",publishTime:'2018-08-07',chajitian:'21'},
-                        { sort:'12',processLabel: "割接审批",publishTime:'2018-08-07',chajitian:'21'},
-                        { sort:'13',processLabel: "审批成功",publishTime:'2018-08-07',chajitian:'21'},
-                        { sort:'14',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21'},
+                        { sort:'10',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
+                        { sort:'11',processLabel: "割接方案会审",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
+                        { sort:'12',processLabel: "割接审批",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
+                        { sort:'13',processLabel: "审批成功",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
+                        { sort:'14',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
                     ],
                     
                 },
@@ -142,36 +216,35 @@ export default {
 
     },
     methods: {
+        // 弹窗多选框
+    handleSelectionChange(val) {
+        this.multipleSelection = val;
+      },
       // 鼠标移入三个点
       handleMouseenterSpread(param){
         param.isShowSpreadText = true
-        // console.log($(".spread").length)
-        // for(let a = 0;a< $(".spread").length;a++){
-        //   let b = '点击展开隐藏节点'
-        //   $(".spread").eq(a).attr("title",b)
-        // }
-    //     var ev = ev || window.event;
-    // 　　var target = ev.target || ev.srcElement;
-    //     console.log(target)
-    //     var b = '点击展开隐藏节点'
-    //     target.attr("title",b)
-        // this.isShowSpreadText = true
       },
        // 鼠标移出三个点
       handleMouseleaveSpread(param){
         param.isShowSpreadText = false
         // this.isShowSpreadText = false
       },
-      // 点击展开隐藏方法
+      // 点击三个点展开隐藏方法
         handleSpread(ev,param){
-            // param.showH =! param.showH
-            param.showH = true
+            // param.isSpread =! param.isSpread
+            param.isSpread = true;
             // this.$fouceUpdata()
+            // param.showGonggaoText = true;
+            // param.showMoreGonggaoText = false;
         },
         // 点击li循环体收起展开内容
         handleSpreadBody(ev,param){
-            // param.showH =! param.showH
-            param.showH = false
+            // param.isSpread =! param.isSpread
+            param.isSpread = false;
+            param.showGonggaoText = true;
+            param.showMoreGonggaoText = false;
+            console.log( param.showGonggaoText)
+            console.log( param.showMoreGonggaoText)
             // this.$fouceUpdata()
         },
         expandAlltoC(exAllFlag) {
@@ -210,9 +283,18 @@ export default {
             }
             this.dialogVisible = true;
         },
-        moreLetterClick() {
+        // 点击查看公告
+        letterClick(param) {
+            param.isShowGonggao = true
+            param.showGonggaoText = false;
+            param.showMoreGonggaoText = true;
+            // $('.moreNoticeCss').html('查看更多公告')
             //点击查看更多公告/函件
            
+        },
+        // 点击查看更多公告
+        moreLetterClick(){
+
         },
         showAndHideParent(obj, exAllFlag,item) {
             if (
@@ -429,7 +511,14 @@ export default {
 
 .right {
     width: 100%;
-    float: left;
+    float: left; 
+    padding-top:10px;
+}
+.right:hover {
+    cursor: pointer;
+    width: 100%;
+    float: left; 
+    box-shadow:  0 0px 28px -5px #ccc;
 }
 
 .border-box {
@@ -579,8 +668,28 @@ export default {
     border-radius:3px;
     padding:2px;
 }
-.isHidden{
-  // visibility: hidden;
+.allJincheng{
+    border-bottom:1px solid rgba(242, 242, 242, 1);
+    border-top:1px solid rgba(242, 242, 242, 1);
 }
-
+.DownloadAnnouncement{
+    width: 109px;
+    height: 30px;
+    margin-top:20px;
+    margin-left:30px;
+    background: inherit;
+    background-color: rgba(255, 255, 255, 0);
+    box-sizing: border-box;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(202, 202, 202, 1);
+    border-radius: 2px;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    font-family: 'PingFang-SC-Regular', 'PingFang SC';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
+}
 </style>

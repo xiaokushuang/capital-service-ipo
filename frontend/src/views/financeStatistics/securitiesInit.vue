@@ -63,7 +63,12 @@
                                         <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFirstList.length - 1">|</span>
                                     </span>
                                 </div>
-                                <div id="title-second" class="title-body" v-show="isActive == '2'"><br/></div>
+                                <div id="title-second" class="title-body" v-show="isActive == '2'">
+                                  <span v-for="(item, index) in tabSecondList">
+                                        <a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveThird === item.id}, {'disabled': item.noClick}]" :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 3)">{{item.name}}</a>
+                                        <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabThreeList.length - 1">|</span>
+                                  </span>
+                                </div>
                                     <div id="title-third" class="title-body" v-show="isActive == '3'">
                                         <span v-for="(item, index) in tabThreeList">
                                         <a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveThird === item.id}, {'disabled': item.noClick}]" :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 3)">{{item.name}}</a>
@@ -176,7 +181,9 @@ export default {
       tabFirstList: [
         {
           id:'1',
-          name:'股权结构图'
+          name:'股权结构图',
+          // tabId: 'tab-first',
+          // noClick: false
         },
          {
           id:'2',
@@ -194,6 +201,19 @@ export default {
           id:'5',
           name:'中介机构'
         },
+      ],
+      tabSecondList:[
+         {
+          id:'1',
+          name:'财务报表数据',
+          // tabId: 'tab-first',
+          // noClick: false
+        },
+         {
+          id:'2',
+          name:'同行业毛利率对比'
+        },
+         
       ],
       tabThreeList: [
         {
@@ -252,6 +272,16 @@ export default {
       topHeight: ""
     };
   },
+  created(){
+        this.caseId = this.$route.query.caseId
+        this.allTime = this.$route.query.allTime
+        if(this.$route.query.isActive){
+          this.isActive = this.$route.query.isActive
+        }
+        let param = {
+            caseId: this.caseId
+        }
+  },
   methods: {
     statusButtonClick(data) {
       this.statusButtonFlag = data;
@@ -274,114 +304,93 @@ export default {
         this.$refs.comshow.changeCart();
       }
     },
-    onTabClick(isActive, event) {
-      let that = this;
-      this.isActive = isActive;
-      if (isActive === "1" || isActive === "4") {
-        this.tabBarWidth = event.currentTarget.offsetWidth - 20;
-      } else {
-        this.tabBarWidth = event.currentTarget.offsetWidth - 40;
-      }
-      if (isActive != "1") {
-        this.tabBarOffset = event.currentTarget.offsetLeft + 20;
-      } else {
-        this.tabBarOffset = event.currentTarget.offsetLeft;
-      }
-      let targetList;
-      setTimeout(function() {
-        switch (isActive) {
-          case "1":
-            targetList = document.getElementById("title-first").children;
-            let firstFlag = 0;
-            for (let i = 0; i < targetList.length; i++) {
-              if (
-                that.itemActiveFirst + "caseDetails" ===
-                targetList[i].children[0].getAttribute("id")
-              ) {
-                document.documentElement.scrollTop =
-                  document.getElementById(that.itemActiveFirst).offsetTop +
-                  document.getElementById("titleHeader").offsetHeight +
-                  56;
-                firstFlag = 1;
-              }
+      onTabClick(isActive, event) {
+            let that = this
+            this.isActive = isActive;
+            if (isActive === '1' || isActive === '4') {
+                this.tabBarWidth = event.currentTarget.offsetWidth - 20;
+            } else {
+                this.tabBarWidth = event.currentTarget.offsetWidth - 40;
             }
-            if (firstFlag === 0) {
-              var scrollhight =
-                document.getElementById("titleHeader").offsetHeight + 56;
-              if (document.documentElement.scrollTop > scrollhight) {
-                document.documentElement.scrollTop = scrollhight;
-              }
+            if (isActive != '1') {
+                this.tabBarOffset = event.currentTarget.offsetLeft + 20;
+            } else {
+                this.tabBarOffset = event.currentTarget.offsetLeft;
             }
-            break;
-          case "2":
-            targetList = document.getElementById("title-second").children;
-            let secondFlag = 0;
-            // 第二tab页暂不需要锚点定位先注掉
-            /*for (let i = 0; i< targetList.length; i ++) {
+            let targetList
+            setTimeout(function () {
+                switch (isActive) {
+                    case '1':
+                        targetList = document.getElementById('title-first').children;
+                        let firstFlag = 0;
+                        for (let i = 0; i < targetList.length; i++) {
+                            if ((that.itemActiveFirst + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
+                                document.documentElement.scrollTop = document.getElementById(that.itemActiveFirst).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
+                                firstFlag = 1;
+                            }
+                        }
+                        if (firstFlag === 0) {
+                            var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
+                            if (document.documentElement.scrollTop > scrollhight) {
+                                document.documentElement.scrollTop = scrollhight;
+                            }
+                        }
+                        break
+                    case '2':
+                        targetList = document.getElementById('title-second').children;
+                        let secondFlag = 0;
+                        // 第二tab页暂不需要锚点定位先注掉
+                        /*for (let i = 0; i< targetList.length; i ++) {
                           if ((that.itemActiveSecond + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
                             document.documentElement.scrollTop = document.getElementById(that.itemActiveSecond).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
                             secondFlag = 1;
                           }
                         }*/
-            if (secondFlag === 0) {
-              var scrollhight =
-                document.getElementById("titleHeader").offsetHeight + 56;
-              if (document.documentElement.scrollTop > scrollhight) {
-                document.documentElement.scrollTop = scrollhight;
-              }
-            }
-            break;
-          case "3":
-            targetList = document.getElementById("title-third").children;
-            let thirdFlag = 0;
-            for (let i = 0; i < targetList.length; i++) {
-              if (
-                that.itemActiveThird + "caseDetails" ===
-                targetList[i].children[0].getAttribute("id")
-              ) {
-                document.documentElement.scrollTop =
-                  document.getElementById(that.itemActiveThird).offsetTop +
-                  document.getElementById("titleHeader").offsetHeight +
-                  56;
-                thirdFlag = 1;
-              }
-            }
-            if (thirdFlag === 0) {
-              var scrollhight =
-                document.getElementById("titleHeader").offsetHeight + 56;
-              if (document.documentElement.scrollTop > scrollhight) {
-                document.documentElement.scrollTop = scrollhight;
-              }
-            }
-            break;
-          case "4":
-            targetList = document.getElementById("title-fourth").children;
-            let fourthFlag = 0;
-            for (let i = 0; i < targetList.length; i++) {
-              if (
-                that.itemActiveFourth + "caseDetails" ===
-                targetList[i].children[0].getAttribute("id")
-              ) {
-                document.documentElement.scrollTop =
-                  document.getElementById(that.itemActiveFourth).offsetTop +
-                  document.getElementById("titleHeader").offsetHeight +
-                  56;
-                fourthFlag = 1;
-              }
-            }
-            if (fourthFlag === 0) {
-              var scrollhight =
-                document.getElementById("titleHeader").offsetHeight + 56;
-              if (document.documentElement.scrollTop > scrollhight) {
-                document.documentElement.scrollTop = scrollhight;
-              }
-            }
-            break;
-          default:
-            break;
-        }
-      }, 100);
-    },
+                        if (secondFlag === 0) {
+                            var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
+                            if (document.documentElement.scrollTop > scrollhight) {
+                                document.documentElement.scrollTop = scrollhight;
+                            }
+                        }
+                        break
+                    case '3':
+                        targetList = document.getElementById('title-third').children;
+                        let thirdFlag = 0
+                        for (let i = 0; i < targetList.length; i++) {
+                            if ((that.itemActiveThird + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
+                                document.documentElement.scrollTop = document.getElementById(that.itemActiveThird).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
+                                thirdFlag = 1;
+                            }
+                        }
+                        if (thirdFlag === 0) {
+                            var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
+                            if (document.documentElement.scrollTop > scrollhight) {
+                                document.documentElement.scrollTop = scrollhight;
+                            }
+                        }
+                        break
+                    case '4':
+                        targetList = document.getElementById('title-fourth').children;
+                        let fourthFlag = 0
+                        for (let i = 0; i < targetList.length; i++) {
+                            if ((that.itemActiveFourth + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
+                                document.documentElement.scrollTop = document.getElementById(that.itemActiveFourth).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
+                                fourthFlag = 1
+                            }
+                        }
+                        if (fourthFlag === 0) {
+                            var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
+                            if (document.documentElement.scrollTop > scrollhight) {
+                                document.documentElement.scrollTop = scrollhight;
+                            }
+                        }
+                        break
+                    default:
+                        break
+                }
+            }, 100);
+
+        },
     handleScroll() {
       let scrollTop =
         window.parent.pageYOffset ||
@@ -425,24 +434,22 @@ export default {
       }
     },
     jump(param, num) {
-      document.documentElement.scrollTop =
-        document.getElementById(param).offsetTop +
-        document.getElementById("titleHeader").offsetHeight +
-        56;
-      switch (num) {
-        case 1:
-          this.itemActiveFirst = param;
-          break;
-        case 3:
-          this.itemActiveThird = param;
-          break;
-        case 4:
-          this.itemActiveFourth = param;
-          break;
-        default:
-          break;
-      }
-    },
+            console.log(document.getElementById(param+ 'caseDetails').offsetTop)
+            document.documentElement.scrollTop = document.getElementById(param+ 'caseDetails').offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
+            switch (num) {
+                case 1:
+                    this.itemActiveFirst = param;
+                    break
+                case 3:
+                    this.itemActiveThird = param;
+                    break
+                case 4:
+                    this.itemActiveFourth = param;
+                    break
+                default:
+                    break
+            }
+        },
     styleInit() {
       var h1 = this.$refs.titleHeader.offsetHeight;
       var h2 = this.$refs.titleBody.offsetHeight;

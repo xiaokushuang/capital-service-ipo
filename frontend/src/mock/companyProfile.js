@@ -152,34 +152,34 @@ export default {
     {
       projectName:'A',
       projectType:'就卡及出口商的警察都是军事科技吃烧烤',
-      xmz:'1000',
-      ntr:'2000',
-      znm:'12%',
-      qqy:'2000'
+      xmz:'130',
+      ntr:'200',
+      znm:'52%',
+      qqy:'320'
     },
     {
       projectName:'B',
       projectType:'就卡及出口商的警察都是军事科技吃烧烤',
-      xmz:'1000',
-      ntr:'2000',
-      znm:'12%',
-      qqy:'2000'
+      xmz:'200',
+      ntr:'400',
+      znm:'43%',
+      qqy:'200'
     },
     {
       projectName:'C',
       projectType:'就卡及出口商的警察都是军事科技吃烧烤',
-      xmz:'1000',
-      ntr:'2000',
-      znm:'12%',
+      xmz:'100',
+      ntr:'2300',
+      znm:'42%',
       qqy:'2000'
     },
     {
       projectName:'D',
       projectType:'就卡及出口商的警察都是军事科技吃烧烤',
-      xmz:'1000',
-      ntr:'2000',
-      znm:'12%',
-      qqy:'2000'
+      xmz:'160',
+      ntr:'700',
+      znm:'52%',
+      qqy:'430'
     },
   ],
   // 柱状图数据
