@@ -4,6 +4,7 @@ import articleAPI from './article'
 import remoteSearchAPI from './remoteSearch'
 import transactionAPI from './transaction'
 import companyProfileAPI from './companyProfile'
+import tableDemo from './tableDemo'
 // 登录相关
 Mock.mock(/\/login\/login/, 'post', loginAPI.loginByUsername)
 Mock.mock(/\/login\/logout/, 'post', loginAPI.logout)
@@ -25,4 +26,8 @@ Mock.mock(/\/transaction\/list/, 'get', transactionAPI.getList)
 // 公司简介相关
 Mock.mock(/\/companyProfile\/gqList/, 'get', companyProfileAPI.getGqList)
 Mock.mock(/\/companyProfile\/gqTable/, 'get', companyProfileAPI.getGqTable)
+
+// 表格demo
+Mock.mock(/\/demo\/tableData/, 'get', tableDemo.getTableData)
+
 export default Mock

@@ -131,7 +131,13 @@ export const constantRouterMap = [
         component: _import('ipoRefinance/refinancing'),
         name: 'refinancing',
         meta: { title: '再融资', icon: 'refinancing', noCache: true }
+      },
+      {
+        path: 'tableDemo',
+        component: _import('demos/demo1'),
+        name: 'tableDemo'
       }
+
     ]
   }
   // {
@@ -153,7 +159,7 @@ export default new Router(
     scrollBehavior: () => ({ y: 0 }),
     routes: constantRouterMap,
     mode: 'history',
-    base:'/ui/ipo/'
+    base: '/ui/ipo/'
   }
 )
 
