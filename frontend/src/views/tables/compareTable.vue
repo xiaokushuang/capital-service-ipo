@@ -39,9 +39,9 @@ export default {
   methods: {
     initTableData() {
       getCompareTableData().then(response => {
-        this.tableTitle = response.data.compareList[0]
+       this.tableTitle = response.data.compareList[0]
         this.tableContent = response.data.compareList.slice(1)
-      })
+      }) 
     },
     // 非空判断
     isNotEmpty(param) {

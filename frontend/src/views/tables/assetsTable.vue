@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- table1 -->
     <el-table
       border
       style="width: 100%">
@@ -10,49 +11,162 @@
       </el-table-column>
       <el-table-column
         prop=""
-        label="year 1">
+       :label="tableTitle.year1">
       </el-table-column>
       <el-table-column
         prop=""
-        label="year 2">
+        :label="tableTitle.year2">
       </el-table-column>
       <el-table-column
         prop=""
-        label="year 3">
+        :label="tableTitle.year3">
+      </el-table-column>
+       <el-table-column
+        prop=""
+        :label="tableTitle.year4">
       </el-table-column>
       <el-table-column
         prop=""
         label="趋势">
       </el-table-column>
     </el-table>
-
-    <!-- <el-table
-      :data="assetsList"
-      :span-method="arraySpanMethod"
+    <p style=" 
+    font-weight: 700;
+    line-height: 11px;
+    font-style: normal;
+    font-size: 14px;
+    text-align: left">资产类项目：</p>
+    <el-table
+      class="table2"
+     :data="tableContent"
       border
       style="width: 100%">
-      <el-table-column
-        prop="id"
-        label="项目"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="amount1"
-        label="year 1">
-      </el-table-column>
-      <el-table-column
-        prop="amount2"
-        label="year 2">
-      </el-table-column>
-      <el-table-column
-        prop="amount3"
-        label="year 3">
-      </el-table-column>
-      <el-table-column
-        prop="name"
-        label="趋势">
-      </el-table-column>
-    </el-table> -->
+       <el-table-column prop="project" align="left"  class-name="table_cell" label="占比" width="184">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.project) ? scope.row.project : '- -'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="count1" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.count1) ? scope.row.count1 : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="count2" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.count2) ? scope.row.count2 : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="count3" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.count3) ? scope.row.count3 : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="count4" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.count4) ? scope.row.count4 : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>@</span>
+            <!-- <span>{{isNotEmpty(scope.row.count4) ? scope.row.count4 : '- -'}}</span> -->
+          </template>
+        </el-table-column>
+     
+    </el-table>
+     <p style=" 
+    font-weight: 700;
+    line-height: 11px;
+    font-style: normal;
+    font-size: 14px;
+    text-align: left">负债类项目：</p>
+    <el-table
+      class="table2"
+     :data="tableContent"
+      border
+      style="width: 100%">
+       <el-table-column prop="project" align="left"  class-name="table_cell" label="占比" width="184">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.project) ? scope.row.project : '- -'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="count1" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.count1) ? scope.row.count1 : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="count2" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.count2) ? scope.row.count2 : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="count3" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.count3) ? scope.row.count3 : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="count4" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.count4) ? scope.row.count4 : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span @click="handleShowChart(scope.$index, scope.row)">@</span>
+            <!-- <span>{{isNotEmpty(scope.row.count4) ? scope.row.count4 : '- -'}}</span> -->
+          </template>
+        </el-table-column>
+     
+    </el-table>
+     <p style=" 
+    font-weight: 700;
+    line-height: 11px;
+    font-style: normal;
+    font-size: 14px;
+    text-align: left"> 权益类项目：</p>
+     <el-table
+      class="table2"
+     :data="tableContent"
+      border
+      style="width: 100%">
+       <el-table-column prop="project" align="left"  class-name="table_cell" label="占比" width="184">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.project) ? scope.row.project : '- -'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="count1" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.count1) ? scope.row.count1 : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="count2" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.count2) ? scope.row.count2 : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="count3" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.count3) ? scope.row.count3 : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="count4" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.count4) ? scope.row.count4 : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>@</span>
+            <!-- <span>{{isNotEmpty(scope.row.count4) ? scope.row.count4 : '- -'}}</span> -->
+          </template>
+        </el-table-column>
+     
+    </el-table>
+    <!-- 点击放大镜弹出的折线图 -->
+    <el-dialog title="收货地址" :visible.sync="dialogTableVisible">
+       
+    </el-dialog>
+
   </div>
 </template>
 
@@ -60,65 +174,43 @@
 import { getAssetsTableData } from '@/api/tableDemo'
   export default {
     data() {
-      return {
-        assetsList: [
-            
-        {
-          id: '12987122',
-          name: '王小虎',
-          amount1: '234',
-          amount2: '3.2',
-          amount3: 10
-        }, {
-          id: '12987123',
-          name: '王小虎',
-          amount1: '165',
-          amount2: '4.43',
-          amount3: 12
-        }, {
-          id: '12987124',
-          name: '王小虎',
-          amount1: '324',
-          amount2: '1.9',
-          amount3: 9
-        }, {
-          id: '12987125',
-          name: '王小虎',
-          amount1: '621',
-          amount2: '2.2',
-          amount3: 17
-        }, {
-          id: '12987126',
-          name: '王小虎',
-          amount1: '539',
-          amount2: '4.1',
-          amount3: 15
-        }]
-      };
+    return {
+      tableTitle: null,
+      tableContent: null
+    }
+  },
+    mounted() {
+      this.initTableData()
     },
     methods: {
-      // arraySpanMethod({ row, column, rowIndex, columnIndex }) {
-      //   // if (rowIndex % 2 === 0) {
-      //   //   if (columnIndex === 0) {
-      //   //     return [1, 5];
-      //   //   } else if (columnIndex === 1) {
-      //   //     return [0, 0];
-      //   //   }
-      //   // }
-      //    if (columnIndex === 0) {
-      //     if (rowIndex % 2 === 0) {
-      //       return {
-      //         rowspan: 2,
-      //         colspan: 1
-      //       };
-      //     } else {
-      //       return {
-      //         rowspan: 0,
-      //         colspan: 0
-      //       };
-      //     }
-      //   }
-      // }
+      // 初始化数据
+      initTableData() {
+        getAssetsTableData().then(response => {
+          this.tableTitle = response.data.assetsList[0]
+          this.tableContent = response.data.assetsList.slice(1)
+        })
+      },
+      // 非空判断
+      isNotEmpty(param) {
+        // debugger
+        if (param != null && param !== undefined && param !== '' && param !== 'null' && param !== 'undefined') {
+          return true
+        } else {
+          return false
+        }
+      },
+      // 点击放大镜弹出折线图
+      handleShowChart(i,r){
+        console.log(r)
       }
+    },
+    computed: {
+
+    }
     }
 </script>
+<style scoped lang="scss">
+.table2{
+  background: #f5f7fa;
+}
+</style>

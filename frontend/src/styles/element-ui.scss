@@ -139,3 +139,13 @@
   width: 100%;
   height: 100%;
 }
+// 财务信息合并单元格将表头display:none
+.table2.el-table thead {
+  display: none;
+  color: #303133;
+  font-weight: normal;
+}
+.el-table tr {
+  background-color: #fff;
+  height: 40px;
+}

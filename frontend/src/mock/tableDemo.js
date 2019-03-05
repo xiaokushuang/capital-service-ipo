@@ -96,58 +96,26 @@ export default{
     return { khDataList }
   },
   getAssetsTableData: () => {
-    // assetsList.push(Mock.mock({
-    //   // rank: '排名',
-    //   // company:'公司',
-    //   year1: '2017年1-6月',
-    //   year2: '2016年1-6月',
-    //   year3: '2015年1-6月',
-    //   year4: '2015年1-6月',
-    //    }))
-    // for (let i = 0; i < 3; i++) {
-    //   assetsList.push(Mock.mock({
-    //     project: '@ctitle(5,8)',
-    //     count1: '@float(100,10000,2,2)',
-    //     count2: '@float(100,10000,2,2)',
-    //     count3: '@float(100,10000,2,2)',
-    //     count4: '@float(100,10000,2,2)',
-    //     count5: '@float(100,10000,2,2)',
+    assetsList.push(Mock.mock({
+      // rank: '排名',
+      // company:'公司',
+      year1: '2017年1-6月',
+      year2: '2016年1-6月',
+      year3: '2015年1-6月',
+      year4: '2014年1-6月',
+       }))
+    for (let i = 0; i < 3; i++) {
+      assetsList.push(Mock.mock({
+        project: '@ctitle(5,8)',
+        count1: '@float(100,10000,2,2)',
+        count2: '@float(100,10000,2,2)',
+        count3: '@float(100,10000,2,2)',
+        count4: '@float(100,10000,2,2)',
+        count5: '@float(100,10000,2,2)',
        
-    //     }))
-    // }
-    // return { assetsList }
-    assetsList: [{
-      id: '12987122',
-      name: '王小虎',
-      amount1: '234',
-      amount2: '3.2',
-      amount3: 10
-    }, {
-      id: '12987123',
-      name: '王小虎',
-      amount1: '165',
-      amount2: '4.43',
-      amount3: 12
-    }, {
-      id: '12987124',
-      name: '王小虎',
-      amount1: '324',
-      amount2: '1.9',
-      amount3: 9
-    }, {
-      id: '12987125',
-      name: '王小虎',
-      amount1: '621',
-      amount2: '2.2',
-      amount3: 17
-    }, {
-      id: '12987126',
-      name: '王小虎',
-      amount1: '539',
-      amount2: '4.1',
-      amount3: 15
-    }]
-    
+        }))
+    }
+    return { assetsList }
   },
   getCompareTableData: () => {
     compareList.push(Mock.mock({
