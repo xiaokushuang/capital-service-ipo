@@ -1,8 +1,8 @@
 <template>
   <div class="table-class">
     <el-table :data="tableContent" border style="width: 100%;margin-top: 20px" show-summary>
-      <el-table-column prop="rank" align="center" class-name="table_cell" :label="tableTitle.rank" width="156"></el-table-column>
-      <el-table-column prop="company" align="center" class-name="table_cell" :label="tableTitle.company" width="156"></el-table-column>
+      <el-table-column fixed prop="rank" align="center" class-name="table_cell" label="排名" width="50"></el-table-column>
+      <el-table-column fixed prop="company" align="center" class-name="table_cell" label="公司" width="150"></el-table-column>
       <el-table-column :label="tableTitle.year1" header-align="center">
         <el-table-column prop="content1" align="right"  class-name="table_cell" label="采购内容" width="117">
           <template slot-scope="scope">
@@ -75,8 +75,8 @@ export default {
     initTableData() {
       getFifthGysTableData().then(response => {
           console.log(response)
-        this.tableTitle = response.data.result[0]
-        this.tableContent = response.data.result.slice(1)
+        this.tableTitle = response.data.dataList[0]
+        this.tableContent = response.data.dataList.slice(1)
       })
     },
     // 非空判断

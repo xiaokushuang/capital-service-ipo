@@ -73,7 +73,7 @@
     <div class="ownershipStructure" style="margin-top:40px">
       <div class="title">
         <span class="littleRectangle"></span>
-        <span class="titleText" id="reorganizationIntro">股权结构图</span>
+        <span class="titleText" id="ownershipStructureChart">股权结构图</span>
         <span v-for="(item,index) in gqNameList" class="hongkuang">{{item}}</span>
       </div>
       <!-- 图片 -->
@@ -97,7 +97,7 @@
     <div class="incomeComposition">
       <div class="title">
         <span class="littleRectangle"></span>
-        <span class="titleText" id="reorganizationIntro">主营业务收入构成</span>
+        <span class="titleText" id="mainBusinessIncomeComposition">主营业务收入构成</span>
       </div>
       <div class="echart clear">
         <!-- 柱形图 -->
@@ -165,7 +165,7 @@
     <div class="MajorCompetitors">
       <div class="title">
         <span class="littleRectangle"></span>
-        <span class="titleText" id="reorganizationIntro">主要竞争对手简介</span>
+        <span class="titleText" id="profileOfMajorCompetitors">主要竞争对手简介</span>
       </div>
       <div class="competitorContent">
         <ul class="competitorUl">
@@ -197,90 +197,26 @@
         </ul>
       </div>
     </div>
-    <!-- 报告期前五名供应商情况 -->
+    <!-- 报告期主要供应商及客户情况 -->
     <div class="theTopFive">
        <div class="title">
         <span class="littleRectangle"></span>
-        <span class="titleText" id="reorganizationIntro">报告期前五名供应商情况</span>
+        <span class="titleText" id="majorSuppliers">报告期主要供应商及客户情况</span>
       </div>
       <div class="theTopFiveSupplier">
-        <!-- <mainTable></mainTable> -->
-        <!-- <fifthGysTable><fifthGysTable> -->
-          <!-- <el-table
-            show-summary
-            :data="incomeCompositionTableList1"
-            style="width: 100%;margin-top: 20px">
-            <el-table-column
-              fixed
-              prop="yewu"
-              label="排名"
-              width="70">
-            </el-table-column>
-            <el-table-column
-               fixed
-              prop="yewu"
-              label="公司"
-              width="130">
-            </el-table-column>
-              <el-table-column :label="yearsOne">
-                <el-table-column
-                  prop="money"
-                  label="采购内容"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="money"
-                  label="金额(万元)"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="roportion"
-                  label="占比"
-                  width="84">
-                </el-table-column>
-              </el-table-column>
-              <el-table-column :label="yearsTwo">
-                <el-table-column
-                  prop="money"
-                  label="采购内容"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="money"
-                  label="金额(万元)"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="roportion"
-                  label="占比"
-                  width="84">
-                </el-table-column>
-              </el-table-column>
-              <el-table-column :label="yearsThree">
-                <el-table-column
-                  prop="money"
-                  label="采购内容"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="money"
-                  label="金额(万元)"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="roportion"
-                  label="占比"
-                  width="84">
-                </el-table-column>
-              </el-table-column>            
-          </el-table> -->
+        <p>报告期前五名供应商情况</p>
+        <fifthGysTable></fifthGysTable>
+      </div>
+       <div class="theTopFiveKh">
+        <p>报告期前五名客户情况</p>
+        <fifthKhTable></fifthKhTable>
       </div>
     </div>
     <!-- 募集资金运用 -->
     <div class="raiseMoney">
       <div class="title">
         <span class="littleRectangle"></span>
-        <span class="titleText" id="reorganizationIntro">募集资金运用</span>
+        <span class="titleText" id="utilizationOfRaisedFunds">募集资金运用</span>
       </div>
       <div class="raiseMoneyTable">
         <!-- 募集资金运用表格 -->
@@ -298,37 +234,46 @@
                 </template>
             </el-table-column>
             <el-table-column label="项目总投资(万元)" align="right" prop="xmz">
-                <!-- <template slot-scope="scope">
+                <template slot-scope="scope">
                       <span v-if="scope.row.xmz">{{scope.row.xmz}}</span>
                     <span v-else>- -</span>
-                </template> -->
+                </template>
             </el-table-column>
             <el-table-column label="拟投入募集资金金额（万元）" align="right" prop="ntr">
-                <!-- <template slot-scope="scope">
+                <template slot-scope="scope">
                       <span v-if="scope.row.ntr">{{scope.row.ntr}}</span>
                     <span v-else>- -</span>
-                </template> -->
+                </template>
             </el-table-column>
             <el-table-column label="占拟募集资金净额比例" align="right" prop="znm">
-                <!-- <template slot-scope="scope">
+                <template slot-scope="scope">
                       <span v-if="scope.row.znm">{{scope.row.znm}}</span>
                     <span v-else>- -</span>
-                </template> -->
+                </template>
             </el-table-column>
             <el-table-column label="前期已投入资金金额（万元）" align="right" prop="qqy">
-                <!-- <template slot-scope="scope">
+                <template slot-scope="scope">
                       <span v-if="scope.row.qqy">{{scope.row.qqy}}</span>
                     <span v-else>- -</span>
-                </template> -->
+                </template>
             </el-table-column>
         </el-table>
+        <p class="shuoming" style="font-family: 'PingFang-SC-Regular', 'PingFang SC';
+            font-weight: 400;
+            font-style: normal;
+            color: #666666;
+            font-size:14px;
+            line-height:20px; 
+            text-align: left;">
+            说明：本次募集资金到位前，公司拟以自筹资金和银行借款先行实施；募集资金到位后，公司将用募集资金置换已投入的资金。如果实际募集资金净额不足以完成上述投资项目，不足部分公司将自筹解决。
+        </p>
       </div>
     </div>
     <!-- 中介机构 -->
     <div class="IntermediaryInstitutions">
       <div class="title">
         <span class="littleRectangle"></span>
-        <span class="titleText" id="reorganizationIntro">中介机构</span>
+        <span class="titleText" id="intermediaryInstitutions">中介机构</span>
       </div>
       <div class="InstitutionsDetail">
         <ul>
@@ -389,11 +334,13 @@ import { getGqList } from "@/api/companyProfile";
 // 导入主营业务收入构成表格
 import mainTable from "@/views/tables/mainTable";
 import fifthGysTable from "@/views/tables/fifthGysTable";
+import fifthKhTable from "@/views/tables/fifthKhTable";
 export default {
   name: "companyProfile",
   components: {
     mainTable,
-    fifthGysTable
+    fifthGysTable,
+    fifthKhTable
   },
 
   data() {

@@ -120,3 +120,22 @@
   background: rgba(242, 242, 242, 1);
   color: black;
 }
+.el-table th>.cell {
+  color: black;
+  position: relative;
+  word-wrap: normal;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+// 财务信息合并单元格将空白数据display:none
+.assetsTable1 .el-table__empty-block {
+  display: none;
+  position: relative;
+  min-height: 60px;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}

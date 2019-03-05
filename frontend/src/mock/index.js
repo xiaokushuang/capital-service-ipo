@@ -29,5 +29,10 @@ Mock.mock(/\/companyProfile\/gqTable/, 'get', companyProfileAPI.getGqTable)
 
 // 表格demo
 Mock.mock(/\/demo\/tableData/, 'get', tableDemo.getTableData)
-Mock.mock(/\/demo\/getFifthGysTableData/, 'get', tableDemo.getFifthGysTableData)
+Mock.mock(/\/demo\/fifthGysTableData/, 'get', tableDemo.getFifthGysTableData)
+Mock.mock(/\/demo\/fifthKhTableData/, 'get', tableDemo.getFifthKhTableData)
+Mock.mock(/\/demo\/assetsTableData/, 'get', tableDemo.getAssetsTableData)
+Mock.mock(/\/demo\/compareTableData/, 'get', tableDemo.getCompareTableData)
+
+
 export default Mock

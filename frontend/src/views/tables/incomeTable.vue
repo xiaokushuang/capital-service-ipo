@@ -1,17 +1,15 @@
 <template>
-  <div class='chart-container'>
-      ds 
-  </div>
+    <div>1111111</div>
 </template>
-
 <script>
 
 export default {
-  name: 'zxChart',
+  name: 'incomeTable',
+  
 }
 </script>
 
 <style scoped lang="scss">
- 
+
 </style>
 
