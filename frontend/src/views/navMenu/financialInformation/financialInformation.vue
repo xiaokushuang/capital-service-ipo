@@ -27,7 +27,7 @@
             </div>
             <div class="chartTable">
                 <p style="font-family:'PingFang-SC-Regular', 'PingFang SC';font-weight:400;color:#666666;">报告期内，本公司与可比上市公司<span style="font-family:'PingFang-SC-Medium', 'PingFang SC Medium', 'PingFang SC';font-weight:500;color:'black'"> 工程施工业务</span> 毛利率比较 :</p>
-                <div class="zxChart">
+                <div class="zxChart" style="height:300px;width:100%">
                     <zxChart></zxChart>
                 </div>
                 <div class="table">
@@ -42,7 +42,9 @@ import assetsTable from "@/views/tables/assetsTable";
 import incomeTable from "@/views/tables/incomeTable";
 import zxChart from "@/components/Charts/zxChart";
 import compareTable from "@/views/tables/compareTable";
-
+// zxChart代码
+import echarts from 'echarts'
+import { getAssetsTableData } from '@/api/tableDemo'
 export default {
     name:'financialInformation',
     components: {
@@ -51,6 +53,7 @@ export default {
         zxChart,
         compareTable
     },
+
 }
 </script>
 <style scoped lang="scss">

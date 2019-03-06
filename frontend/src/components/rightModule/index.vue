@@ -243,8 +243,8 @@ export default {
             param.isSpread = false;
             param.showGonggaoText = true;
             param.showMoreGonggaoText = false;
-            console.log( param.showGonggaoText)
-            console.log( param.showMoreGonggaoText)
+            // console.log( param.showGonggaoText)
+            // console.log( param.showMoreGonggaoText)
             // this.$fouceUpdata()
         },
         expandAlltoC(exAllFlag) {

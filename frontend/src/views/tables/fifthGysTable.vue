@@ -74,7 +74,7 @@ export default {
   methods: {
     initTableData() {
       getFifthGysTableData().then(response => {
-          console.log(response)
+          // console.log(response)
         this.tableTitle = response.data.dataList[0]
         this.tableContent = response.data.dataList.slice(1)
       })

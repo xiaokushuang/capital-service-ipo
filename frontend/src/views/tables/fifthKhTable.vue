@@ -74,8 +74,8 @@ export default {
   methods: {
     initTableData() {
       getFifthKhTableData().then(response => {
-        console.log(response)
         this.tableTitle = response.data.khDataList[0]
+        // console.log(this.tableTitle)
         this.tableContent = response.data.khDataList.slice(1)
       })
     },

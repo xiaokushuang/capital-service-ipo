@@ -6,20 +6,76 @@
 
 <script>
 import echarts from 'echarts'
-
+import { getAssetsTableData } from '@/api/tableDemo'
 export default {
  
   data() {
     return {
+        zxChart:null,
+        zxChartY:[],
+        zxChartX:[]
+  
     }
   },
-  mounted() {
-    this.initChart()
+  created(){
+    //   请求数据
+    this.initTableData()
   },
+  mounted() {
+
+  },
+  updated() {
+
+  },
+beforeDestroy() {
+    if (!this.zxChart) {
+    return
+    }
+    this.zxChart.dispose()
+    this.zxChart = null
+},
   methods: {
-    initChart() {
-      let zxChart = echarts.init(document.getElementById('zxChart'))
-       zxChart.setOption({
+     // 初始化数据
+      initTableData() {
+        getAssetsTableData().then(response => {
+        //   this.tableTitle = response.data.assetsList[0]
+        //   this.tableContent = response.data.assetsList.slice(1)
+            if(response.data.assetsList.length > 0){
+                // 如果请求到数据之后再初始化折线图
+                // console.log(response.data.assetsList[0])
+                // console.log(response.data.assetsList.slice(1))
+                 this.initChart(response.data.assetsList)
+                //  console.log(this.zxChartX)
+                //  console.log(this.zxChartY)
+            }else {
+            alert(response.data.errorMsg)
+          }
+        })
+      },
+    //   初始化折线图
+    initChart(dataList) {
+       const _self = this
+        if (this.zxChart) {
+          this.zxChart.dispose()
+          this.zxChart = null
+        }
+      this.zxChart = echarts.init(document.getElementById('zxChart'))
+    //  循环获取数据
+      for (var i = 0; i < dataList.slice(1).length; i++) {
+        //    console.log(dataList.slice(1)[i].project)
+          this.zxChartY.push(
+                                {
+                                    name:dataList.slice(1)[i].project,
+                                    type:'line',
+                                    stack: '总量',
+                                    data:[dataList.slice(1)[i].count1,dataList.slice(1)[i].count2,dataList.slice(1)[i].count3,dataList.slice(1)[i].count4,]
+                                },
+                             )
+                             
+            this.zxChartX = [dataList[0].year1,dataList[0].year2,dataList[0].year3,dataList[0].year4,]
+           
+      }
+       this.zxChart.setOption({
            title: {
                 text: ''
             },
@@ -27,7 +83,6 @@ export default {
                 trigger: 'axis'
             },
             legend: {
-                // data:['百花帮月','企业3','平均值','企业2','企业1']
             },
             grid: {
                 left: '3%',
@@ -37,8 +92,7 @@ export default {
             },
             xAxis: {
                 type: 'category',
-                // boundaryGap: false,
-                data: ['2017年6月','2016年6月','2015年6月']
+                data:this.zxChartX
             },
            yAxis:[
                 {
@@ -47,38 +101,7 @@ export default {
                     }
                 }
             ],
-            series: [
-                {
-                    name:'百花帮月',
-                    type:'line',
-                    stack: '总量',
-                    data:[12, 13, 10]
-                },
-                {
-                    name:'企业3',
-                    type:'line',
-                    stack: '总量',
-                    data:[20, 1, 18]
-                },
-                {
-                    name:'平均值',
-                    type:'line',
-                    stack: '总量',
-                    data:[15, 32, 1]
-                },
-                {
-                    name:'企业2',
-                    type:'line',
-                    stack: '总量',
-                    data:[39, 30, 20]
-                },
-                {
-                    name:'企业1',
-                    type:'line',
-                    stack: '总量',
-                    data:[10, 30, 20]
-                }
-            ]
+            series: this.zxChartY
       })
     }
   }

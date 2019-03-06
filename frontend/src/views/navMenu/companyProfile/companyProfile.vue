@@ -100,10 +100,11 @@
         <span class="titleText" id="mainBusinessIncomeComposition">主营业务收入构成</span>
       </div>
       <div class="echart clear">
+        <barOrPieChart></barOrPieChart>
         <!-- 柱形图 -->
-        <div id="barChart" class="l" :style="{width: '400px', height: '300px'}"></div>
+        <!-- <div id="barChart" class="l" :style="{width: '400px', height: '300px'}"></div> -->
         <!-- 饼图 -->
-        <div id="pieChart" class="l" :style="{width: '400px', height: '300px'}"></div>
+        <!-- <div id="pieChart" class="l" :style="{width: '400px', height: '300px'}"></div> -->
       </div>
       <!-- table表格 -->
       <div class="incomeCompositionTable">
@@ -335,16 +336,21 @@ import { getGqList } from "@/api/companyProfile";
 import mainTable from "@/views/tables/mainTable";
 import fifthGysTable from "@/views/tables/fifthGysTable";
 import fifthKhTable from "@/views/tables/fifthKhTable";
+// 导入柱形图和饼图
+import barOrPieChart from "@/components/Charts/barOrPieChart";
+
 export default {
   name: "companyProfile",
   components: {
     mainTable,
     fifthGysTable,
-    fifthKhTable
+    fifthKhTable,
+    barOrPieChart
   },
 
   data() {
     return {
+      dianjizhuzi:false,
       tableData6: [
          {
       projectName:'A',
@@ -390,6 +396,8 @@ export default {
       MajorCompetitors: [],
       raiseMoneyTableList: [],
       // 饼状图数据
+      // 饼状图标题
+      pieChartTitle:'',
       pieChartData: [
         { value: 335, name: "49%" },
         { value: 310, name: "23%" },
@@ -457,8 +465,8 @@ export default {
     this.getData();
   },
   mounted() {
-    this.drawBarChart();
-    this.drawPieChart();
+    // this.drawBarChart();
+    // this.drawPieChart();
   },
   methods: {
     // 合计表格函数
@@ -502,17 +510,16 @@ export default {
         this.yAxis = res.data.zhuxing.yAxis;
         // 柱图数据
         this.zhudataList = res.data.zhudataList;
-
         //循环不同年份
-        for (let i = 0; i < this.incomeCompositionTableList1.length; i++) {
-          this.yearsOne = this.incomeCompositionTableList1[i].years;
-        }
-        for (let i = 0; i < this.incomeCompositionTableList2.length; i++) {
-          this.yearsTwo = this.incomeCompositionTableList2[i].years;
-        }
-        for (let i = 0; i < this.incomeCompositionTableList3.length; i++) {
-          this.yearsThree = this.incomeCompositionTableList3[i].years;
-        }
+        // for (let i = 0; i < this.incomeCompositionTableList1.length; i++) {
+        //   this.yearsOne = this.incomeCompositionTableList1[i].years;
+        // }
+        // for (let i = 0; i < this.incomeCompositionTableList2.length; i++) {
+        //   this.yearsTwo = this.incomeCompositionTableList2[i].years;
+        // }
+        // for (let i = 0; i < this.incomeCompositionTableList3.length; i++) {
+        //   this.yearsThree = this.incomeCompositionTableList3[i].years;
+        // }
         // debugger
         // 动态获取柱图数据
         // for(let i = 0 ;i<this.zhudataList.length;i++){
@@ -535,114 +542,117 @@ export default {
         // }
       });
     },
-    // 柱形图
-    drawBarChart() {
-      var barChart = this.$echarts.init(document.getElementById("barChart"));
-      // 点击柱状图获取相应数据
-      barChart.on("click", function(params) {
-        console.log(params.name);
-        // console.log(params.name);
-        // console.log(params.value);
-      });
-      // 绘制图表
-      barChart.setOption({
-        title: {
-          text: "最近3年主营业务趋势",
-          textStyle: {
-            color: "black",
-            fontWeight: "normal",
-            fontSize: 16
-          }
-        },
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
-          }
-        },
-        grid: {
-          left: "3%",
-          right: "4%",
-          bottom: "3%",
-          containLabel: true
-        },
-        xAxis: {
-          type: "category",
-          // data:["2014年7月", "2015年2月", "2016年3月", "2017年6月"],
-          data: this.zhudataListX
-        },
-        yAxis: {
-          type: "value"
-          // data:this.yAxis
-        },
-        series: this.zhudataListY
-        //   series: {
-        //     name: '宽带移动通信设备',
-        //     type: 'bar',
-        //     barWidth:'40%',
-        //     stack: '总量',
-        //     label: {
-        //         normal: {
-        //             show: true,
-        //             position: 'insideRight'
-        //         }
-        //     },
-        //     data: [220, 182, 191, 234]
-        // },
-      });
-    },
-    // 饼形图
-    drawPieChart() {
-      let pieChart = this.$echarts.init(document.getElementById("pieChart"));
-      pieChart.setOption({
-        title: { text: "2017年1-6月 _ 主营业务分布" },
-        tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        legend: {
-          // padding: [
-          //   200, // 上
-          //   0, // 右
-          //   5, // 下
-          //   0 // 左
-          // ],
-          orient: "vertical",
-          x: "300", // 'center' | 'left' | {number},
-          y: "100", // 'center' | 'bottom' | {number}
-          // data: ["宽带移动通信设备", "集成业务", "技术开发业务", "工程业务"],
-          itemWidth: 10, // 图例图形宽度
-          itemHeight: 10, // 图例图形高度
-          textStyle: {
-            color: "#333" // 图例文字颜色
-          }
-        },
-        series: [
-          {
-            name: "访问来源",
-            type: "pie",
-            radius: "55%",
-            center: ["50%", "60%"],
-            data: this.pieChartData,
-            //  [
+    // // 柱形图
+    // drawBarChart() {
+    //   var barChart = this.$echarts.init(document.getElementById("barChart"));
+    //   // 点击柱状图获取相应数据
+    //   barChart.on("click", function(params) {
+    //     // console.log(params.name);
+    //     this.dianjizhuzi = true
+    //     this.pieChartTitle = params.name
+    //     console.log(this.pieChartTitle);
+    //   });
+    //   // 绘制图表
+    //   barChart.setOption({
+    //     title: {
+    //       text: "最近3年主营业务趋势",
+    //       textStyle: {
+    //         color: "black",
+    //         fontWeight: "normal",
+    //         fontSize: 16
+    //       }
+    //     },
+    //     tooltip: {
+    //       trigger: "axis",
+    //       axisPointer: {
+    //         // 坐标轴指示器，坐标轴触发有效
+    //         type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+    //       }
+    //     },
+    //     grid: {
+    //       left: "3%",
+    //       right: "4%",
+    //       bottom: "3%",
+    //       containLabel: true
+    //     },
+    //     xAxis: {
+    //       type: "category",
+    //       // data:["2014年7月", "2015年2月", "2016年3月", "2017年6月"],
+    //       data: this.zhudataListX
+    //     },
+    //     yAxis: {
+    //       type: "value"
+    //       // data:this.yAxis
+    //     },
+    //     series: this.zhudataListY
+    //     //   series: {
+    //     //     name: '宽带移动通信设备',
+    //     //     type: 'bar',
+    //     //     barWidth:'40%',
+    //     //     stack: '总量',
+    //     //     label: {
+    //     //         normal: {
+    //     //             show: true,
+    //     //             position: 'insideRight'
+    //     //         }
+    //     //     },
+    //     //     data: [220, 182, 191, 234]
+    //     // },
+    //   });
+    // },
+    // // 饼形图
+    // drawPieChart() {
+    //   let pieChart = this.$echarts.init(document.getElementById("pieChart"));
+    //   pieChart.setOption({
+    //     // title: { text: this.pieChartTitle+" _ 主营业务分布" },
+    //     title: { text: this.dianjizhuzi?this.pieChartTitle:this.zhudataListX[3]+" _ 主营业务分布" },
+        
+    //     tooltip: {
+    //       trigger: "item",
+    //       formatter: "{a} <br/>{b} : {c} ({d}%)"
+    //     },
+    //     legend: {
+    //       // padding: [
+    //       //   200, // 上
+    //       //   0, // 右
+    //       //   5, // 下
+    //       //   0 // 左
+    //       // ],
+    //       orient: "vertical",
+    //       x: "300", // 'center' | 'left' | {number},
+    //       y: "100", // 'center' | 'bottom' | {number}
+    //       // data: ["宽带移动通信设备", "集成业务", "技术开发业务", "工程业务"],
+    //       itemWidth: 10, // 图例图形宽度
+    //       itemHeight: 10, // 图例图形高度
+    //       textStyle: {
+    //         color: "#333" // 图例文字颜色
+    //       }
+    //     },
+    //     series: [
+    //       {
+    //         name: "访问来源",
+    //         type: "pie",
+    //         radius: "55%",
+    //         center: ["50%", "60%"],
+    //         data: this.pieChartData,
+    //         //  [
 
-            // { value: 335, name: "49%" },
-            // { value: 310, name: "23%" },
-            // { value: 234, name: "67%" },
-            // { value: 135, name: "54%" }
-            // ],
-            itemStyle: {
-              emphasis: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)"
-              }
-            }
-          }
-        ]
-      });
-    }
+    //         // { value: 335, name: "49%" },
+    //         // { value: 310, name: "23%" },
+    //         // { value: 234, name: "67%" },
+    //         // { value: 135, name: "54%" }
+    //         // ],
+    //         itemStyle: {
+    //           emphasis: {
+    //             shadowBlur: 10,
+    //             shadowOffsetX: 0,
+    //             shadowColor: "rgba(0, 0, 0, 0.5)"
+    //           }
+    //         }
+    //       }
+    //     ]
+    //   });
+    // }
   }
 };
 </script>

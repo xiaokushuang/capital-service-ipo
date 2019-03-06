@@ -1,7 +1,11 @@
 <template>
   <div class="table-class">
     <el-table :data="tableContent" border style="width: 100%;margin-top: 20px" show-summary>
-      <el-table-column prop="yewu" align="center" class-name="table_cell" :label="tableTitle.yewu" width="156"></el-table-column>
+      <el-table-column align="center" class-name="table_cell" :label="tableTitle.yewu" width="156">
+         <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.yewu) ? scope.row.yewu : '- -'}}</span>
+          </template>
+      </el-table-column>
       <el-table-column :label="tableTitle.year1" header-align="center">
         <el-table-column prop="count1" align="right"  class-name="table_cell" label="金额(万元)" width="117">
           <template slot-scope="scope">

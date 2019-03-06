@@ -11,23 +11,28 @@
       </el-table-column>
       <el-table-column
         prop=""
-       :label="tableTitle.year1">
+       :label="tableTitle.year1?tableTitle.year1:''"
+       align="center">
       </el-table-column>
       <el-table-column
         prop=""
-        :label="tableTitle.year2">
+        :label="tableTitle.year2?tableTitle.year2:''"
+        align="center">
       </el-table-column>
       <el-table-column
         prop=""
-        :label="tableTitle.year3">
+        :label="tableTitle.year3?tableTitle.year3:''"
+        align="center">
       </el-table-column>
        <el-table-column
         prop=""
-        :label="tableTitle.year4">
+        :label="tableTitle.year4?tableTitle.year4:''"
+        align="center">
       </el-table-column>
       <el-table-column
         prop=""
-        label="趋势">
+        label="趋势"
+        align="center">
       </el-table-column>
     </el-table>
     <p style=" 
@@ -68,7 +73,7 @@
         </el-table-column>
          <el-table-column prop="" align="center"  class-name="table_cell" label="占比" width="135">
           <template slot-scope="scope">
-            <span>@</span>
+            <span @click="handleShowChart(scope.$index, scope.row)"><i class="el-icon-search"></i></span>
             <!-- <span>{{isNotEmpty(scope.row.count4) ? scope.row.count4 : '- -'}}</span> -->
           </template>
         </el-table-column>
@@ -112,7 +117,8 @@
         </el-table-column>
          <el-table-column prop="" align="center"  class-name="table_cell" label="占比" width="135">
           <template slot-scope="scope">
-            <span @click="handleShowChart(scope.$index, scope.row)">@</span>
+            <span @click="handleShowChart(scope.$index, scope.row)"><i class="el-icon-search"></i></span>             
+           
             <!-- <span>{{isNotEmpty(scope.row.count4) ? scope.row.count4 : '- -'}}</span> -->
           </template>
         </el-table-column>
@@ -156,15 +162,15 @@
         </el-table-column>
          <el-table-column prop="" align="center"  class-name="table_cell" label="占比" width="135">
           <template slot-scope="scope">
-            <span>@</span>
+            <span @click="handleShowChart(scope.$index, scope.row)"><i class="el-icon-search"></i></span>           
             <!-- <span>{{isNotEmpty(scope.row.count4) ? scope.row.count4 : '- -'}}</span> -->
           </template>
         </el-table-column>
      
     </el-table>
     <!-- 点击放大镜弹出的折线图 -->
-    <el-dialog title="收货地址" :visible.sync="dialogTableVisible">
-       
+    <el-dialog :title="this.zxChartData?'公司最近三年'  +this.zxChartData.project+'_趋势':''" :visible.sync="dialogChartVisible">
+       <tanZxChart :zxChartData = "this.zxChartData"></tanZxChart>
     </el-dialog>
 
   </div>
@@ -172,15 +178,26 @@
 
 <script>
 import { getAssetsTableData } from '@/api/tableDemo'
+import tanZxChart  from '@/components/Charts/tanZxChart'
   export default {
     data() {
     return {
       tableTitle: null,
-      tableContent: null
+      tableContent: null,
+      // 控制弹窗是否展示
+      dialogChartVisible: false,
+      zxChartData:null
     }
   },
-    mounted() {
+    components:{
+      tanZxChart
+    },
+    creatsd(){
       this.initTableData()
+    },
+    mounted() {
+    },
+    updated(){
     },
     methods: {
       // 初始化数据
@@ -201,11 +218,9 @@ import { getAssetsTableData } from '@/api/tableDemo'
       },
       // 点击放大镜弹出折线图
       handleShowChart(i,r){
-        console.log(r)
+        this.zxChartData = r
+        this.dialogChartVisible = true;
       }
-    },
-    computed: {
-
     }
     }
 </script>
