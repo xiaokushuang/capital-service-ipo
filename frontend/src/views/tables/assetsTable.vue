@@ -170,6 +170,7 @@
     </el-table>
     <!-- 点击放大镜弹出的折线图 -->
     <el-dialog :title="this.zxChartData?'公司最近三年'  +this.zxChartData.project+'_趋势':''" :visible.sync="dialogChartVisible">
+        <!-- <div class="className" id="tanZxChart" style="height:300px;width:100%"></div> -->
        <tanZxChart :zxChartData = "this.zxChartData"></tanZxChart>
     </el-dialog>
 
@@ -177,11 +178,18 @@
 </template>
 
 <script>
+// 引入点击放大镜弹出来的表头年限数据
 import { getAssetsTableData } from '@/api/tableDemo'
+import echarts from 'echarts'
 import tanZxChart  from '@/components/Charts/tanZxChart'
   export default {
     data() {
     return {
+      // 弹窗
+        tableTitle:null,
+        zxChartX:[],
+        zxChartY:[],
+        tanZxChart:null,
       tableTitle: null,
       tableContent: null,
       // 控制弹窗是否展示
@@ -192,10 +200,15 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
     components:{
       tanZxChart
     },
-    creatsd(){
+    created(){
       this.initTableData()
+       
+    },
+    beforeDestroy () {
+      // this.zxChartData = null
     },
     mounted() {
+      console.log(document.getElementById('tanZxChart'))
     },
     updated(){
     },
@@ -205,8 +218,41 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
         getAssetsTableData().then(response => {
           this.tableTitle = response.data.assetsList[0]
           this.tableContent = response.data.assetsList.slice(1)
+           this.initChart()
         })
       },
+      initChart() {
+       this.tanZxChart = echarts.init(document.getElementById('tanZxChart'))
+       this.tanZxChart.setOption({
+           title: {
+                text: 'jkjkjkj'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                 data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                // data:this.zxChartX
+            },
+            yAxis: {
+                      type: 'value'
+                    },
+            // series:this.zxChartY
+             series: [{
+                  data: [820, 932, 901, 934, 1290, 1330, 1320],
+                  type: 'line'
+              }]
+      })
+    },
       // 非空判断
       isNotEmpty(param) {
         // debugger
@@ -219,7 +265,19 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
       // 点击放大镜弹出折线图
       handleShowChart(i,r){
         this.zxChartData = r
+        // console.log(this.zxChartData)
         this.dialogChartVisible = true;
+        this.zxChartX =[this.tableTitle.year1,this.tableTitle.year2,this.tableTitle.year3,this.tableTitle.year4]
+        this.zxChartY = [
+                       {
+                            name:this.zxChartData.project,
+                            type:'line',
+                            data:[this.zxChartData.count1, this.zxChartData.count2, this.zxChartData.count3,this.zxChartData.count4,this.zxChartData.count5]
+                        },
+                    ]
+           console.log(this.zxChartY)
+           console.log(this.zxChartX)
+          //  this.initChart()
       }
     }
     }

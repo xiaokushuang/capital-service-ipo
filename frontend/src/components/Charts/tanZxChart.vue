@@ -18,32 +18,8 @@ export default {
     }
   },
   created(){
-       this.initChart()
        this.initTableData()
-       
-       this.zxChartY = [
-                       {
-                            name:this.zxChartData.project,
-                            type:'line',
-                            data:[this.zxChartData.count1, this.zxChartData.count2, this.zxChartData.count3,this.zxChartData.count4,this.zxChartData.count5]
-                        },
-                    ]
-       
-  },
-  beforeUpdate(){
-      console.log(this.zxChartData)
-      this.zxChartY = [
-                       {
-                            name:this.zxChartData.project,
-                            type:'line',
-                            data:[this.zxChartData.count1, this.zxChartData.count2, this.zxChartData.count3,this.zxChartData.count4,this.zxChartData.count5]
-                        },
-                    ]
-  },
-  mounted() {
-    // this.initChart()
-    this.initTableData()
-   
+    //    console.log(this.zxChartData)
   },
   props:["zxChartData"],
   methods: {
@@ -66,24 +42,12 @@ export default {
             },
             xAxis: {
                 type: 'category',
-                // boundaryGap: false,
-                // data:[this.tableTitle.year1,this.tableTitle.year2,this.tableTitle.year3,this.tableTitle.year4]
-                data: ["2017年1-6月", "2016年1-6月", "2015年1-6月", "2014年1-6月"]
-                // data:this.zxChartX
+                data:this.zxChartX
             },
             yAxis: {
                       type: 'value'
                     },
             series:this.zxChartY
-               
-           
-            // series: [
-            //     {
-            //         name:'百花帮月',
-            //         type:'line',
-            //         data:[12, 13, 10]
-            //     },
-            // ]
       })
     },
      // 初始化数据
@@ -93,19 +57,16 @@ export default {
           this.tableTitle = response.data.assetsList[0]
         //   console.log(this.tableTitle)
           this.zxChartX =[this.tableTitle.year1,this.tableTitle.year2,this.tableTitle.year3,this.tableTitle.year4]
-        //    console.log(this.zxChartX)
-        //   this.tableContent = response.data.assetsList.slice(1)
+           this.zxChartY = [
+                       {
+                            name:this.zxChartData.project,
+                            type:'line',
+                            data:[this.zxChartData.count1, this.zxChartData.count2, this.zxChartData.count3,this.zxChartData.count4,this.zxChartData.count5]
+                        },
+                    ]
+           console.log(this.zxChartY)
         this.initChart()
         })
-      },
-      // 非空判断
-      isNotEmpty(param) {
-        // debugger
-        if (param != null && param !== undefined && param !== '' && param !== 'null' && param !== 'undefined') {
-          return true
-        } else {
-          return false
-        }
       },
   }
 }

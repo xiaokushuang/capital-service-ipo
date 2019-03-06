@@ -68,7 +68,7 @@ export default {
       tableContent: null
     }
   },
-  mounted() {
+  created() {
     this.initTableData()
   },
   methods: {
