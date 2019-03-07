@@ -8,6 +8,7 @@
 <script>
 import echarts from 'echarts'
 import { getTableData } from '@/api/tableDemo'
+// import { getMarketData } from "@/api/companyProfile";
 export default {
   data() {
     return {
@@ -42,18 +43,17 @@ export default {
      // 初始化数据
       initTableData() {
         getTableData().then(response => {
-            if(response.data.result.length > 0){
-                // 如果请求到数据之后再初始化折线图
+          // console.log(response.data.result)
+          if(response.data.result){
+            // 如果请求到数据之后再初始化折线图
                  this.initBarChart(response.data.result)
                  this.initPieChart(response.data.result)
-            }else {
-            alert(response.data.errorMsg)
-          }
+            }
         })
       },
        //   初始化柱状图
     initBarChart(dataList) {
-
+      // console.log(dataList)
        const _self = this
         if (this.barChart) {
           this.barChart.dispose()
@@ -77,21 +77,23 @@ export default {
         // console.log(this.pieChartTitle);
       });
     //  循环获取数据
-      for (var i = 0; i < dataList.slice(1).length; i++) {
-          this.lengendData = dataList.slice(1)[i].yewu
-           console.log(this.lengendData)
+      for (var i = 0; i < dataList.mainIncomeInfoList.length; i++) {
+          this.lengendData = dataList.mainIncomeInfoList.businessName
+          //  console.log(dataList.mainIncomeInfoList.length)
           this.barChartY.push(
                                 {
-                                    name:dataList.slice(1)[i].yemu,
+                                    name:dataList.mainIncomeInfoList[i].businessName,
                                     type:'bar',
                                     barWidth:'50%',
                                     stack: '总量',
-                                    data:[dataList.slice(1)[i].count3,dataList.slice(1)[i].count2,dataList.slice(1)[i].count1]
+                                    data:[dataList.mainIncomeInfoList[i].thirdYearAmount,dataList.mainIncomeInfoList[i].secondYearAmount,dataList.mainIncomeInfoList[i].firstYearAmount ]
                                 },
                              )
             
                }              
-            this.barChartX = [dataList[0].year3,dataList[0].year2,dataList[0].year1]
+            // this.barChartX = [dataList[0].year3,dataList[0].year2,dataList[0].year1]
+            this.barChartX = [dataList.thirdYearForIncome,dataList.secondYearForIncome,dataList.onePeriodForIncome]
+            console.log(this.barChartY)
             this.pieChartTitle = this.barChartX[2]
             // console.log(this.pieChartTitle);
            
@@ -147,7 +149,7 @@ export default {
     },
     // 饼形图
     initPieChart(dataList) {
-        console.log(dataList)
+        console.log(dataList.mainIncomeInfoList)
          const _self = this
         if (this.pieChart) {
           this.pieChart.dispose()
@@ -155,11 +157,11 @@ export default {
         }
        this.pieChart = this.$echarts.init(document.getElementById("pieChart"));
         //  循环获取数据
-      for (var i = 0; i < dataList.slice(1).length; i++) {
+      for (var i = 0; i < dataList.mainIncomeInfoList.length; i++) {
           this.pieData.push(
                      {  
-                        value: [dataList.slice(1)[i].count1], 
-                        name: [dataList.slice(1)[i].ratio1]
+                        value: [dataList.mainIncomeInfoList[i].thirdYearAmount], 
+                        name: [dataList.mainIncomeInfoList[i].thirdYearRatio]
                      },
                          )
             

@@ -4,6 +4,7 @@ const dataList = []
 const khDataList = []
 const assetsList = []
 const compareList = []
+const issueMoneyList = []
 export default{
   getTableData: () => {
     result.push(Mock.mock({
@@ -134,6 +135,16 @@ export default{
         }))
     }
     return { compareList }
+  },
+  getIssueMoneyTableData: () => {
+    for (let i = 0; i < 3; i++) {
+      issueMoneyList.push(Mock.mock({
+        costDetail: '@ctitle(5,8)',
+        money: /[1-9]{2}\.[0-9]{2}/,
+        proportion: /[1-9]{2}\.[0-9]{2}/,
+        }))
+    }
+    return { issueMoneyList }
   },
 
 

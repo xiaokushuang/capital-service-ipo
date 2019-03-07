@@ -1,44 +1,44 @@
 <template>
   <div class="table-class">
-    <el-table :data="tableContent" border style="width: 100%;margin-top: 20px" show-summary>
-      <el-table-column align="center" class-name="table_cell" :label="tableTitle.yewu" width="156">
+    <el-table :data="mainTableList.mainIncomeInfoList" border style="width: 100%;margin-top: 20px" show-summary>
+      <el-table-column align="center" class-name="table_cell" label="主营业务" width="156">
          <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.yewu) ? scope.row.yewu : '- -'}}</span>
+            <span>{{isNotEmpty(scope.row.businessName) ? scope.row.businessName : '- -'}}</span>
           </template>
       </el-table-column>
-      <el-table-column :label="tableTitle.year1" header-align="center">
-        <el-table-column prop="count1" align="right"  class-name="table_cell" label="金额(万元)" width="117">
+      <el-table-column :label="mainTableList.thirdYearForIncome" header-align="center">
+        <el-table-column prop="onePeriodAmount" align="right"  class-name="table_cell" label="金额(万元)" width="117">
           <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.count1) ? scope.row.count1 : '- -'}}</span>
+            <span>{{isNotEmpty(scope.row.onePeriodAmount) ? scope.row.onePeriodAmount : '- -'}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="ratio1" align="right"  class-name="table_cell" label="占比" width="117">
+        <el-table-column prop="onePeriodRatio" align="right"  class-name="table_cell" label="占比（%）" width="117">
           <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.ratio1) ? scope.row.ratio1 : '- -'}}</span>
-          </template>
-        </el-table-column>
-      </el-table-column>
-      <el-table-column :label="tableTitle.year2" header-align="center">
-        <el-table-column prop="count2" align="right"  class-name="table_cell" label="金额(万元)" width="117">
-          <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.count2) ? scope.row.count2 : '- -'}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="ratio2" align="right"  class-name="table_cell" label="占比" width="117">
-          <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.ratio2) ? scope.row.ratio2 : '- -'}}</span>
+            <span>{{isNotEmpty(scope.row.onePeriodRatio) ? scope.row.onePeriodRatio : '- -'}}</span>
           </template>
         </el-table-column>
       </el-table-column>
-      <el-table-column :label="tableTitle.year3" header-align="center">
-        <el-table-column prop="count3" align="right"  class-name="table_cell" label="金额(万元)" width="117">
+      <el-table-column :label="mainTableList.secondYearForIncome" header-align="center">
+        <el-table-column prop="secondYearAmount" align="right"  class-name="table_cell" label="金额(万元)" width="117">
           <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.count3) ? scope.row.count3 : '- -'}}</span>
+            <span>{{isNotEmpty(scope.row.secondYearAmount) ? scope.row.secondYearAmount : '- -'}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="ratio3" align="right"  class-name="table_cell" label="占比" width="117">
+        <el-table-column prop="secondYearRatio" align="right"  class-name="table_cell" label="占比（%）" width="117">
           <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.ratio3) ? scope.row.ratio3 : '- -'}}</span>
+            <span>{{isNotEmpty(scope.row.secondYearRatio) ? scope.row.secondYearRatio : '- -'}}</span>
+          </template>
+        </el-table-column>
+      </el-table-column>
+      <el-table-column :label="mainTableList.firstYearForIncome" header-align="center">
+        <el-table-column prop="thirdYearAmount" align="right"  class-name="table_cell" label="金额(万元)" width="117">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.thirdYearAmount) ? scope.row.thirdYearAmount : '- -'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="thirdYearRatio" align="right"  class-name="table_cell" label="占比（%）" width="117">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.thirdYearRatio) ? scope.row.thirdYearRatio : '- -'}}</span>
           </template>
         </el-table-column>
       </el-table-column>
@@ -52,8 +52,7 @@ export default {
   name: 'mainTable',
   data() {
     return {
-      tableTitle: null,
-      tableContent: null
+      mainTableList:null
     }
   },
   created() {
@@ -62,8 +61,10 @@ export default {
   methods: {
     initTableData() {
       getTableData().then(response => {
-        this.tableTitle = response.data.result[0]
-        this.tableContent = response.data.result.slice(1)
+        console.log(response.data.result)
+        this.mainTableList = response.data.result
+        // this.tableTitle = response.data.result[0]
+        // this.tableContent = response.data.result.slice(1)
       })
     },
     // 非空判断

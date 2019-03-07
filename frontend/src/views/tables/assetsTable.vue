@@ -208,7 +208,7 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
       // this.zxChartData = null
     },
     mounted() {
-      console.log(document.getElementById('tanZxChart'))
+      // console.log(document.getElementById('tanZxChart'))
     },
     updated(){
     },
@@ -275,8 +275,8 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
                             data:[this.zxChartData.count1, this.zxChartData.count2, this.zxChartData.count3,this.zxChartData.count4,this.zxChartData.count5]
                         },
                     ]
-           console.log(this.zxChartY)
-           console.log(this.zxChartX)
+          //  console.log(this.zxChartY)
+          //  console.log(this.zxChartX)
           //  this.initChart()
       }
     }

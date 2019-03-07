@@ -33,6 +33,7 @@ Mock.mock(/\/demo\/fifthGysTableData/, 'get', tableDemo.getFifthGysTableData)
 Mock.mock(/\/demo\/fifthKhTableData/, 'get', tableDemo.getFifthKhTableData)
 Mock.mock(/\/demo\/assetsTableData/, 'get', tableDemo.getAssetsTableData)
 Mock.mock(/\/demo\/compareTableData/, 'get', tableDemo.getCompareTableData)
-
+Mock.mock(/\/demo\/issueMoneyTableData/, 'get', tableDemo.getIssueMoneyTableData)
+Mock.mock(/\/demo\/resultList/, 'get', tableDemo.getResultList)
 
 export default Mock

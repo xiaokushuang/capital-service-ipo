@@ -64,7 +64,7 @@ export default {
                             data:[this.zxChartData.count1, this.zxChartData.count2, this.zxChartData.count3,this.zxChartData.count4,this.zxChartData.count5]
                         },
                     ]
-           console.log(this.zxChartY)
+          //  console.log(this.zxChartY)
         this.initChart()
         })
       },

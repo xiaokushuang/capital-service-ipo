@@ -66,7 +66,7 @@
                                 <div id="title-second" class="title-body" v-show="isActive == '2'">
                                   <span v-for="(item, index) in tabSecondList">
                                         <a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveThird === item.id}, {'disabled': item.noClick}]" :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 3)">{{item.name}}</a>
-                                        <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabThreeList.length - 1">|</span>
+                                        <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabSecondList.length - 1">|</span>
                                   </span>
                                 </div>
                                     <div id="title-third" class="title-body" v-show="isActive == '3'">
@@ -79,6 +79,12 @@
                                         <span v-for="(item, index) in tabFourthList">
                                         <a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveFourth === item.id}, {'disabled': item.noClick}]" :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 4)">{{item.name}}</a>
                                         <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFourthList.length - 1">|</span>
+                                        </span>
+                                    </div>
+                                    <div id="title-fourth" class="title-body" v-show="isActive == '5'">
+                                        <span v-for="(item, index) in tabFifthList">
+                                        <a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveFourth === item.id}, {'disabled': item.noClick}]" :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 4)">{{item.name}}</a>
+                                        <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFifthList.length - 1">|</span>
                                         </span>
                                     </div>
                                 </div>
@@ -216,42 +222,19 @@ export default {
          
       ],
       tabThreeList: [
-        {
-          id:'1',
-          name:'股权结构图'
-        },
-         {
-          id:'2',
-          name:'主营业务收入构成'
-        },
-         {
-          id:'3',
-          name:'前五名供应商及用户'
-        },
+       
       ],
       tabFourthList: [
         
-        {
-          id:'1',
-          name:'前五名供应商及用户'
-        },
-         {
-          id:'2',
-          name:'募集资金运用'
-        },
-         {
-          id:'3',
-          name:'中介机构'
-        },
       ],
-      tabSixList: [
+      tabFifthList: [
          {
           id:'1',
-          name:'主营业务收入构成'
+          name:'发行数据'
         },
          {
           id:'2',
-          name:'前五名供应商及用户'
+          name:'发行费用'
         },
        
       ],
@@ -423,10 +406,7 @@ export default {
             this.tabThreeList = param;
             break;
           case "tab-five":
-            this.tabFourthList = param;
-            break;
-          case "tab-six":
-            this.tabSixList = param;
+            this.tabFifthList = param;
             break;
           default:
             break;

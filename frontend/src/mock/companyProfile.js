@@ -3,14 +3,202 @@ import { param2Obj } from '@/utils'
 
 export default {
   getGqList: () => ({
-    gqjgName:[
-    'VIE架构',
-    '国有股东',
-    '三类股东',
-    '以类股东',
-    'VIE架构',
-    '国有股东',
-    '三类股东',],
+    "errorCode": null,
+    "errorMsg": null,
+    "result": {
+      "id": "97952444247174457",
+      "companyZhName": "安徽扬子地板股份有限公司安",
+      "companyName": "扬子地板",
+      "companyCode": "A16263",
+      "addrProv": "北京",
+      "addrCity": "北京市",
+      "addrArea": "朝阳区",
+      "registeredAssets": 12121212,
+      "actualController": "雷响,张俊娥",
+      "controlShareholder": "雷响",
+      "companyNature": "国有企业",
+      "majorBusinesses": "从事强化复合地板",
+      "otherMarketInfoList": [
+        {
+          "id": "1106725448773162051",
+          "bid": "97952444247174457",
+          "marketType": "全国中小企业股份统",
+          "companyCode": "00000122222",
+          "companyName": "平安银行111111111111111",
+          "listTime": "2019-02-03",
+          "delistTime": "2019-03-02"
+        },
+        {
+          "id": "1106725448773162052",
+          "bid": "97952444247174457",
+          "marketType": "香港联合交易所",
+          "companyCode": "000002",
+          "companyName": "万科A",
+          "listTime": "2019-01-30",
+          "delistTime": "2019-03-10"
+        },
+        {
+          "id": "1106725448773162053",
+          "bid": "97952444247174457",
+          "marketType": "全国中小企业统",
+          "companyCode": "",
+          "companyName": "",
+          "listTime": "2019-03-05",
+          "delistTime": "2019-03-28"
+        },
+        {
+          "id": "1106725448773162054",
+          "bid": "97952444247174457",
+          "marketType": "测试资本市场",
+          "companyCode": "",
+          "companyName": "",
+          "listTime": null,
+          "delistTime": null
+        },
+        {
+          "id": "1106725448773162055",
+          "bid": "97952444247174457",
+          "marketType": "美国纽约证所",
+          "companyCode": "",
+          "companyName": "",
+          "listTime": "2019-03-05",
+          "delistTime": "2019-03-24"
+        }
+      ],
+      "structureLabel": "测试1,测试101,测试2",
+      "structureUrl": "../../../assets/images/structure.png",
+      "shareHolderList": [
+        {
+          "id": "1106725448773162057",
+          "bid": "97952444247174457",
+          "personType": null,
+          "personName": "小陈1",
+          "shareHolderNature": "员工持股平台",
+          "shareNum": 1212,
+          "shareRatio": 99.02
+        },
+        {
+          "id": "1106725448773162058",
+          "bid": "97952444247174457",
+          "personType": null,
+          "personName": "小王1111",
+          "shareHolderNature": "信托计划",
+          "shareNum": 12,
+          "shareRatio": 0.98
+        }
+      ],
+      "onePeriodForIncome": null,
+      "thirdYearForIncome": null,
+      "secondYearForIncome": null,
+      "firstYearForIncome": null,
+      "mainIncomeInfoList": null,
+      "mainCompetitorInfoList": [
+        {
+          "id": "1106725448771726811",
+          "bid": "97952444247174457",
+          "companyCode": "000002",
+          "companyName": "万科111111111111111111111111111111111111111111111111",
+          "situation": "测试11"
+        },
+        {
+          "id": "1106725448771726812",
+          "bid": "97952444247174457",
+          "companyCode": "6000036",
+          "companyName": "招商银行1111111111111111111111111111111111111111111111",
+          "situation": ""
+        },
+        {
+          "id": "1106725448771726813",
+          "bid": "97952444247174457",
+          "companyCode": "300104",
+          "companyName": "乐视网11111111111111111111111111111111111111111111111",
+          "situation": ""
+        },
+        {
+          "id": "1106725448771726814",
+          "bid": "97952444247174457",
+          "companyCode": "000001000001000001000001000001",
+          "companyName": "平安银行1111111111111111111111111111111111111111111111",
+          "situation": ""
+        }
+      ],
+      "firstYearForSupplier": "2016-12-31",
+      "secondYearForSupplier": "2017-12-31",
+      "thirdYearForSupplier": "2018-12-31",
+      "onePeriodForSupplier": "2019-03-01",
+      "supplierInfoList": [
+        {
+          "id": "1106725448771726822",
+          "bid": "97952444247174457",
+          "companyCode": null,
+          "companyName": "测试111111111111111111111111111111111111111111111111",
+          "firstYearContent": "",
+          "firstYearAmount": null,
+          "firstYearRatio": null,
+          "secondYearContent": "",
+          "secondYearAmount": null,
+          "secondYearRatio": null,
+          "thirdYearContent": "111111111111111111111111111",
+          "thirdYearAmount": null,
+          "thirdYearRatio": null,
+          "onePeriodContent": "测试222",
+          "onePeriodAmount": null,
+          "onePeriodRatio": null,
+          "reportPeriod": "2019-03-01",
+          "mainType": "1"
+        },
+        {
+          "id": "1106725448771726823",
+          "bid": "97952444247174457",
+          "companyCode": null,
+          "companyName": "1",
+          "firstYearContent": "",
+          "firstYearAmount": null,
+          "firstYearRatio": null,
+          "secondYearContent": "",
+          "secondYearAmount": null,
+          "secondYearRatio": null,
+          "thirdYearContent": "",
+          "thirdYearAmount": null,
+          "thirdYearRatio": null,
+          "onePeriodContent": "1",
+          "onePeriodAmount": null,
+          "onePeriodRatio": null,
+          "reportPeriod": "2019-03-01",
+          "mainType": "1"
+        }
+      ],
+      "firstYearForCustomer": "2016-12-31",
+      "secondYearForCustomer": "2017-12-31",
+      "thirdYearForCustomer": "2018-12-31",
+      "onePeriodForCustomer": "2019-02-27",
+      "customerInfoList": [
+        {
+          "id": "1106725448771726824",
+          "bid": "97952444247174457",
+          "companyCode": null,
+          "companyName": "大公司",
+          "firstYearContent": "嗯嗯",
+          "firstYearAmount": 1000,
+          "firstYearRatio": 22,
+          "secondYearContent": "好呀",
+          "secondYearAmount": 3,
+          "secondYearRatio": 3,
+          "thirdYearContent": "呀呀",
+          "thirdYearAmount": 2,
+          "thirdYearRatio": 12,
+          "onePeriodContent": "啊啊",
+          "onePeriodAmount": 1,
+          "onePeriodRatio": 22,
+          "reportPeriod": "2019-02-27",
+          "mainType": "2"
+        }
+      ],
+      "investItemList": null,
+      "intermediaryOrgList": null
+    },
+    "success": true,
+
     gqTable:[
         {
           id: '1',
@@ -49,87 +237,7 @@ export default {
           proportion:'40'
           }
     ],
-    incomeCompositionTable1: [
-    {
-      yewu: '宽带移动通信设备',
-      money: '26,232.99',
-      roportion: '76.65%',
-      years:'2018'
-     }, 
-     {
-      yewu: '集成业务',
-      money: '26,232.99',
-      roportion: '76.65%',
-      years:'2018'
-     }, 
-     {
-      yewu: '技术开发业务',
-      money: '26,232.99',
-      roportion: '76.65%',
-      years:'2018'
-     }, 
-     {
-      yewu: '工程业务',
-      money: '26,232.99',
-      roportion: '76.65%',
-      years:'2018'
-     }, 
-   ]
-  ,
-  incomeCompositionTable2: [
-    {
-      yewu: '宽带移动通信设备',
-      money: '66666666',
-      roportion: '76.65%',
-      years:'2019'
-     }, 
-     {
-      yewu: '集成业务',
-      money: '26,232.99',
-      roportion: '76.65%',
-      years:'2019'
-     }, 
-     {
-      yewu: '技术开发业务',
-      money: '26,232.99',
-      roportion: '76.65%',
-      years:'2019'
-     }, 
-     {
-      yewu: '工程业务',
-      money: '26,232.99',
-      roportion: '76.65%',
-      years:'2019'
-     }, 
-   ]
-  ,
-  incomeCompositionTable3: [
-    {
-      yewu: '宽带移动通信设备',
-      money: '7777777777',
-      roportion: '76.65%',
-      years:'2015'
-     }, 
-     {
-      yewu: '集成业务',
-      money: '26,232.99',
-      roportion: '76.65%',
-      years:'2015'
-     }, 
-     {
-      yewu: '技术开发业务',
-      money: '26,232.99',
-      roportion: '76.65%',
-      years:'2015'
-     }, 
-     {
-      yewu: '工程业务',
-      money: '26,232.99',
-      roportion: '76.65%',
-      years:'2015'
-     }, 
-   ]
-  ,
+
   MajorCompetitors:[
     {
       companyId:'112233',
@@ -182,66 +290,7 @@ export default {
       qqy:'430'
     },
   ],
-  // 柱状图数据
-  zhuxing:{
-     // 柱状图横坐标数据
-  xAxis:["2014年7月", "2015年2月", "2016年3月", "2017年6月"],
-  // 柱状图纵坐标数据
-  // yAxis: [
-    dataOne:{
-      name: "宽带移动通信设备",
-      data: [35000, 27000, 25200, 15000]
-    },
-    dataTwo:{
-      name: "集成业务",
-      data: [1620, 1532, 0, 400]
-    },
-    dataThree:{
-      name: "技术开发业务",
-      data: [1500, 1800, 1000, 1500]
-    },
-    dataFour:{ 
-      name: "工程业务",
-      data: [0, 0, 0, 954]
-    },
-      // yAxis: [
-
-  // ]
-  },
-  dataOne:[35000, 27000, 25200, 15000],
-  dataTwo:[1620, 1532, 0, 400],
-  dataThree: [1500, 1800, 1000, 1500],
-  dataFour: [0, 0, 0, 954],
-
-      // 柱状图数据
-      zhudataList:[
-        {
-          name: '宽带移动通信设备',
-          type: 'bar',
-          barWidth:'40%',
-          stack: '总量',
-          label: {
-              normal: {
-                  show: true,
-                  position: 'insideRight'
-              }
-          },
-          data: [220, 182, 191, 234]
-      },
-      {
-          name: '宽信设备',
-          type: 'bar',
-          stack: '总量',
-          label: {
-              normal: {
-                  show: true,
-                  position: 'insideRight'
-              }
-          },
-          data: [220, 182, 191, 234]
-      },
-      ]
-
+ 
   }),
 
   
