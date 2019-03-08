@@ -1,13 +1,13 @@
 <template>
   <div class="table-class">
-    <el-table :data="supplierCustomerList.supplierInfoList" border style="width: 100%;margin-top: 20px" show-summary>
+    <el-table :data="supplierCustomerList.customerInfoList" border style="width: 100%;margin-top: 20px" show-summary>
       <el-table-column fixed align="center" class-name="table_cell" label="排名" width="50">
          <template slot-scope="scope">
            {{scope.$index+1}}
           </template>
       </el-table-column>
       <el-table-column fixed prop="companyName" align="center" class-name="table_cell" label="公司" width="150"></el-table-column>
-      <el-table-column :label="supplierCustomerList.firstYearForSupplier" header-align="center">
+      <el-table-column :label="supplierCustomerList.firstYearForCustomer" header-align="center">
         <el-table-column align="right"  class-name="table_cell" label="交易情况" width="117">
           <template slot-scope="scope">
             <span>{{isNotEmpty(scope.row.firstYearContent) ? scope.row.firstYearContent : '- -'}}</span>
@@ -24,7 +24,7 @@
           </template>
         </el-table-column>
       </el-table-column>
-      <el-table-column :label="supplierCustomerList.secondYearForSupplier" header-align="center">
+      <el-table-column :label="supplierCustomerList.secondYearForCustomer" header-align="center">
         <el-table-column align="right"  class-name="table_cell" label="交易情况" width="117">
           <template slot-scope="scope">
             <span>{{isNotEmpty(scope.row.secondYearContent) ? scope.row.secondYearContent : '- -'}}</span>
@@ -41,7 +41,7 @@
           </template>
         </el-table-column>
       </el-table-column>
-      <el-table-column :label="supplierCustomerList.thirdYearForSupplier" header-align="center">
+      <el-table-column :label="supplierCustomerList.thirdYearForCustomer" header-align="center">
         <el-table-column align="right"  class-name="table_cell" label="交易情况" width="117">
           <template slot-scope="scope">
             <span>{{isNotEmpty(scope.row.thirdYearContent ) ? scope.row.thirdYearContent  : '- -'}}</span>

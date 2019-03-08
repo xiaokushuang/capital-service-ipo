@@ -17,7 +17,7 @@ export function getGqTable(query) {
 // IPO公司概览返回类
 export function getCaseDetail() {
   var query = {
-    id:'97952444247174457'
+    id:'97952444248336801'
   }
   return request({
     url: '/ipo/api/companyOverview/caseDetail',
@@ -28,7 +28,7 @@ export function getCaseDetail() {
 // 资本市场接口描述
 export function getMarketData() {
   var query = {
-    id:'97952444247174457'
+    id:'97952444248336801'
   }
   return request({
     url: '/ipo/api/companyOverview/marketData',
@@ -39,7 +39,7 @@ export function getMarketData() {
 // 股东信息接口描述
 export function getShareHolderData() {
   var query = {
-    id:'97952444247174457'
+    id:'97952444248336801'
   }
   return request({
     url: '/ipo/api/companyOverview/shareHolderData',
@@ -50,7 +50,7 @@ export function getShareHolderData() {
 // 主要竞争对手接口描述
 export function getCompetitorData() {
   var query = {
-    id:'97952444247174457'
+    id:'97952444248336801'
   }
   return request({
     url: '/ipo/api/companyOverview/competitorData',

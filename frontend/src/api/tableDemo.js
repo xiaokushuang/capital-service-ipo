@@ -9,7 +9,7 @@ import request from '@/utils/request'
 // 主营业务收入构成
 export function getTableData() {
   var query = {
-    id:'97952444247174457'
+    id:'97952444248336801'
   }
   return request({
     url: '/ipo/api/companyOverview/incomeData',
@@ -20,7 +20,7 @@ export function getTableData() {
 // 报告期主要供应商及客户接口描述
 export function getSupplierCustomerData() {
   var query = {
-    id:'97952444247174457'
+    id:'97952444248336801'
   }
   return request({
     url: '/ipo/api/companyOverview/supplierCustomerData',

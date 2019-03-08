@@ -149,3 +149,13 @@
   background-color: #fff;
   height: 40px;
 }
+// 委员弹出框标题样式
+.result .el-dialog__title {
+  font-family: 'Microsoft Tai Le Negreta', 'Microsoft Tai Le';
+  font-weight: 700;
+  font-style: normal;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.847058823529412);
+  text-align: left;
+  line-height: 24px;
+}
