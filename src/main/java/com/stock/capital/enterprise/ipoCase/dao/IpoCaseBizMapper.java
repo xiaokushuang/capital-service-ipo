@@ -1,8 +1,10 @@
 package com.stock.capital.enterprise.ipoCase.dao;
 
 import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
+import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
+import com.stock.capital.enterprise.ipoCase.dto.MainIncomeInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerInfoDto;
 import java.util.List;
@@ -20,5 +22,10 @@ public interface IpoCaseBizMapper {
 
     List<SupplierCustomerInfoDto> getSupplierOrCustomerData(
         @Param("bid") String bid, @Param("mainType") String mainType);
+
+    List<MainIncomeInfoDto> getIncomeData(String bid);
+
+    List<IntermediaryOrgDto> getIntermediaryOrgData(
+        @Param("bid") String bid, @Param("validFlag") String validFlag);
 
 }
