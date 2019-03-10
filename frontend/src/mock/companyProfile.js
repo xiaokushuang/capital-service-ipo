@@ -199,99 +199,195 @@ export default {
     },
     "success": true,
 
-    gqTable:[
-        {
-          id: '1',
-          name: '王小虎',
-          nature: '上海市1518 弄',
-          num:'3',
-          proportion:'40'
-          
-        },
-         {
-          id: '2',
-          name: '王小虎',
-          nature: '上海江路 1518 弄',
-          num:'3',
-          proportion:'40'
-        },
-         {
-          id: '3',
-          name: '王小虎',
-          nature: '上海市普路 1518 弄',
-          num:'3',
-          proportion:'40'
-        }, 
-        { 
+    gqTable: [
+      {
+        id: '1',
+        name: '王小虎',
+        nature: '上海市1518 弄',
+        num: '3',
+        proportion: '40'
+
+      },
+      {
+        id: '2',
+        name: '王小虎',
+        nature: '上海江路 1518 弄',
+        num: '3',
+        proportion: '40'
+      },
+      {
+        id: '3',
+        name: '王小虎',
+        nature: '上海市普路 1518 弄',
+        num: '3',
+        proportion: '40'
+      },
+      {
         id: '4',
         name: '王小虎',
         nature: '上海市普陀区金',
-        num:'3',
-        proportion:'40'
-        },
-        { 
-          id: '5',
-          name: '王小虎',
-          nature: '上海市普陀18 弄',
-          num:'3',
-          proportion:'40'
-          }
+        num: '3',
+        proportion: '40'
+      },
+      {
+        id: '5',
+        name: '王小虎',
+        nature: '上海市普陀18 弄',
+        num: '3',
+        proportion: '40'
+      }
     ],
 
-  MajorCompetitors:[
-    {
-      companyId:'112233',
-      companyName:'温室股份',
-      companyIntroduce:'就冯绍峰四季数据的窗库的v库的聚集地鞠诗词鉴赏冯绍峰四季花城假数据的窗库的v库的聚集地鞠诗词鉴赏冯绍峰四季花城假数据的和进程就窗库的v库的聚集地鞠诗词鉴赏冯绍峰四季花城假数据的窗库的v库的聚集地鞠诗词鉴赏冯绍峰四季花城假数据的窗库的v库的聚集地鞠诗词鉴赏冯绍峰四季花城假数据的窗库的v库的聚集地鞠诗词鉴赏冯绍峰四季花城假数据的和进程'
-    },
-    {
-      companyId:'134123',
-      companyName:'河南牧原',
-      companyIntroduce:'就四季花四季花城假数据的窗库的v库的v库的聚集地鞠诗词鉴赏冯绍峰四季花城v库的聚集地鞠诗词鉴赏冯绍峰四季花城v库的聚集地鞠诗词鉴赏冯绍峰四季花城库的v库峰四季花城假数据的窗库的v库的聚集地鞠诗词鉴赏冯绍峰四季花城假数据的窗库的v库的聚集地鞠诗词鉴赏冯绍峰四季花城假数据的窗库的v库的聚集地鞠诗词鉴赏冯城假数据的和进程'
-    },
-    {
-      companyId:'3322554',
-      companyName:'公司简称',
-      companyIntroduce:'就窗库据的窗库的v库的聚集地鞠v库的聚集地鞠诗词鉴赏冯绍峰四季花城v库的聚集地鞠诗词鉴赏冯绍峰四季花城v库的聚集地鞠诗词鉴赏冯绍峰四季花城v库的聚集地鞠诗词鉴赏冯绍峰四季花城v库的聚集地鞠诗词鉴赏冯绍峰四季花城诗词鉴赏冯绍峰四季花城假数的',
+    MajorCompetitors: [
+      {
+        companyId: '112233',
+        companyName: '温室股份',
+        companyIntroduce: '就冯绍峰四季数据的窗库的v库的聚集地鞠诗词鉴赏冯绍峰四季花城假数据的窗库的v库的聚集地鞠诗词鉴赏冯绍峰四季花城假数据的和进程就窗库的v库的聚集地鞠诗词鉴赏冯绍峰四季花城假数据的窗库的v库的聚集地鞠诗词鉴赏冯绍峰四季花城假数据的窗库的v库的聚集地鞠诗词鉴赏冯绍峰四季花城假数据的窗库的v库的聚集地鞠诗词鉴赏冯绍峰四季花城假数据的和进程'
+      },
+      {
+        companyId: '134123',
+        companyName: '河南牧原',
+        companyIntroduce: '就四季花四季花城假数据的窗库的v库的v库的聚集地鞠诗词鉴赏冯绍峰四季花城v库的聚集地鞠诗词鉴赏冯绍峰四季花城v库的聚集地鞠诗词鉴赏冯绍峰四季花城库的v库峰四季花城假数据的窗库的v库的聚集地鞠诗词鉴赏冯绍峰四季花城假数据的窗库的v库的聚集地鞠诗词鉴赏冯绍峰四季花城假数据的窗库的v库的聚集地鞠诗词鉴赏冯城假数据的和进程'
+      },
+      {
+        companyId: '3322554',
+        companyName: '公司简称',
+        companyIntroduce: '就窗库据的窗库的v库的聚集地鞠v库的聚集地鞠诗词鉴赏冯绍峰四季花城v库的聚集地鞠诗词鉴赏冯绍峰四季花城v库的聚集地鞠诗词鉴赏冯绍峰四季花城v库的聚集地鞠诗词鉴赏冯绍峰四季花城v库的聚集地鞠诗词鉴赏冯绍峰四季花城诗词鉴赏冯绍峰四季花城假数的',
 
-    }
-  ],
-  raiseMoneyTableList:[
-    {
-      projectName:'A',
-      projectType:'就卡及出口商的警察都是军事科技吃烧烤',
-      xmz:'130',
-      ntr:'200',
-      znm:'52%',
-      qqy:'320'
-    },
-    {
-      projectName:'B',
-      projectType:'就卡及出口商的警察都是军事科技吃烧烤',
-      xmz:'200',
-      ntr:'400',
-      znm:'43%',
-      qqy:'200'
-    },
-    {
-      projectName:'C',
-      projectType:'就卡及出口商的警察都是军事科技吃烧烤',
-      xmz:'100',
-      ntr:'2300',
-      znm:'42%',
-      qqy:'2000'
-    },
-    {
-      projectName:'D',
-      projectType:'就卡及出口商的警察都是军事科技吃烧烤',
-      xmz:'160',
-      ntr:'700',
-      znm:'52%',
-      qqy:'430'
-    },
-  ],
- 
+      }
+    ],
+    raiseMoneyTableList: [
+      {
+        projectName: 'A',
+        projectType: '就卡及出口商的警察都是军事科技吃烧烤',
+        xmz: '130',
+        ntr: '200',
+        znm: '52%',
+        qqy: '320'
+      },
+      {
+        projectName: 'B',
+        projectType: '就卡及出口商的警察都是军事科技吃烧烤',
+        xmz: '200',
+        ntr: '400',
+        znm: '43%',
+        qqy: '200'
+      },
+      {
+        projectName: 'C',
+        projectType: '就卡及出口商的警察都是军事科技吃烧烤',
+        xmz: '100',
+        ntr: '2300',
+        znm: '42%',
+        qqy: '2000'
+      },
+      {
+        projectName: 'D',
+        projectType: '就卡及出口商的警察都是军事科技吃烧烤',
+        xmz: '160',
+        ntr: '700',
+        znm: '52%',
+        qqy: '430'
+      },
+    ],
+
+  }),
+  getIntermediaryOrgDataList: () => ({
+      "errorCode": null,
+      "errorMsg": null,
+      "result":
+      {
+        "lawyers":
+          [{
+            "id": "1106725448774206720",
+
+            "bid": "97952444248336801",
+
+            "intermediaryType": "3",
+
+
+            "orgType": null,
+
+            "orgName": "北京市金诚律师事务所",
+            "orgCode": "10011370",
+            "validFlag": "1",
+            "representPerson": null,
+            "agentPerson": "", "assistPerson": null
+          }],
+        "assets":
+          [{
+            "id": "1106725448774206723",
+            "bid": "97952444248336801",
+            "intermediaryType": "5",
+            "orgType": null,
+            "orgName": "银信资产评估有限公司",
+            "orgCode": "10084107",
+            "validFlag": "1",
+            "representPerson": null,
+            "agentPerson": "", "assistPerson": null
+          }],
+        "sponsors":
+
+
+          [{
+            "id": "1106725448774206719",
+
+            "bid": "97952444248336801",
+
+            "intermediaryType": "1",
+
+            "orgType": null,
+
+            "orgName": "华泰证券股份有限公司",
+            "orgCode": "10004828",
+            "validFlag": "1",
+            "representPerson": "",
+            "agentPerson": "", "assistPerson": ""
+          }],
+        "accounts":
+          [{
+            "id": "1106725448774206721",
+
+
+            "bid": "97952444248336801",
+
+
+            "intermediaryType": "4",
+
+
+            "orgType": null,
+
+
+            "orgName": "北京立信恒通会计师事务所有限公司",
+
+            "orgCode": "10690505",
+
+            "validFlag": "1",
+
+            "representPerson": null, "agentPerson": "",
+            "assistPerson": null
+          }],
+        "securitys":
+
+
+          [{
+            "id": "1106725448774206722",
+
+            "bid": "97952444248336801",
+
+            "intermediaryType": "2",
+
+            "orgType": null,
+
+            "orgName": "中信建投(国际)证券有限公司",
+            "orgCode": "10351426",
+            "validFlag": "0",
+            "representPerson": null,
+            "agentPerson": "", "assistPerson": null
+          }]
+      },
+      "success": true
   }),
 
-  
 }
+ 

@@ -268,7 +268,8 @@
       </div>
     </div>
     <!-- 中介机构 -->
-    <div class="IntermediaryInstitutions">
+    <IntermediaryInstitutions></IntermediaryInstitutions>
+    <!-- <div class="IntermediaryInstitutions">
       <div class="title">
         <span class="littleRectangle"></span>
         <span class="titleText" id="intermediaryInstitutions">中介机构</span>
@@ -322,7 +323,7 @@
           </li>
         </ul>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -339,14 +340,16 @@ import fifthGysTable from "@/views/tables/fifthGysTable";
 import fifthKhTable from "@/views/tables/fifthKhTable";
 // 导入柱形图和饼图
 import barOrPieChart from "@/components/Charts/barOrPieChart";
-
+// 导入中介机构
+import IntermediaryInstitutions from "@/views/navMenu/companyProfile/components/IntermediaryInstitutions"
 export default {
   name: "companyProfile",
   components: {
     mainTable,
     fifthGysTable,
     fifthKhTable,
-    barOrPieChart
+    barOrPieChart,
+    IntermediaryInstitutions
   },
 
   data() {

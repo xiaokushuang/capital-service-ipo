@@ -265,7 +265,7 @@ export default {
     },
     initTableData() {
       getResultList().then(res => {
-        console.log(res);
+        // console.log(res);
       });
     },
     // 非空判断

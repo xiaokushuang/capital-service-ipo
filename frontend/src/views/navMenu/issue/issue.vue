@@ -146,7 +146,7 @@ export default {
     initTableData() {
       getIssueMoneyTableData().then(res => {
           this.issueMoneyTableData = res.data.issueMoneyList
-          console.log(this.issueMoneyTableData)
+          // console.log(this.issueMoneyTableData)
       }) 
     },
     // 非空判断

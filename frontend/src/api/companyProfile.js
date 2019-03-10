@@ -58,3 +58,11 @@ export function getCompetitorData() {
     params: query
   })
 }
+// 中介机构接口
+export function getIntermediaryOrgDataList(query) {
+  return request({
+    url: '/companyProfile/intermediaryOrgDataList',
+    method: 'get',
+    params: query
+  })
+}
