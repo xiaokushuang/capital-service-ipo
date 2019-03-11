@@ -64,8 +64,39 @@ export default {
         zxChart,
         compareTable
     },
+    created(){
+        this.getPosition()
+    },
+    methods:{
+        getPosition(){
+           //返回父组件用于锚点定位头
+                let titleList = [];
+                let financialStatementData = {
+                    id: 'financialStatementData',
+                    name: '主要财务数据',
+                    notes: '',
+                    important: false,
+                    tabId: 'tab-second',
+                    noClick: false
+                }
+                let comparison = {
+                    id: 'comparison',
+                    name: '同行业毛利率对比',
+                    notes: '',
+                    important: false,
+                    tabId: 'tab-second',
+                    noClick: false
+                }              
+                titleList.push(financialStatementData)
+                titleList.push(comparison)
+                this.$emit('headCallBack', titleList);
+            //返回父组件用于锚点定位尾
+     }
+    }
+    
 
 }
+ 
 </script>
 <style scoped lang="scss">
 .l {

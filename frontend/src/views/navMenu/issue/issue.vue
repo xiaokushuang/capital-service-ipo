@@ -4,7 +4,7 @@
         <div class="issueData">
              <div class="title">
                 <span class="littleRectangle"></span>
-                <span class="titleText" id="financialStatementData">发行数据</span>
+                <span class="titleText" id="distributionData">发行数据</span>
             </div>
             <!-- table1 -->
              <el-row style="margin-bottom: 30px;padding: 0 12px;">
@@ -114,7 +114,7 @@
         <div class="issueMoney">
              <div class="title">
                 <span class="littleRectangle"></span>
-                <span class="titleText" id="financialStatementData">发行费用</span>
+                <span class="titleText" id="distributionCosts">发行费用</span>
             </div>
             <!-- table2 -->
              <el-table :data="issueMoneyTableData" style="width: 100%" stripe border show-summary>
@@ -141,12 +141,36 @@ export default {
   },
    created() {
     this.initTableData()
+    this.getPosition()
   },
   methods: {
+     getPosition(){
+           //返回父组件用于锚点定位头
+                let titleList = [];
+                let distributionData = {
+                    id: 'distributionData',
+                    name: '发行数据',
+                    notes: '',
+                    important: false,
+                    tabId: 'tab-fifth',
+                    noClick: false
+                }
+                let distributionCosts = {
+                    id: 'distributionCosts',
+                    name: '发行费用',
+                    notes: '',
+                    important: false,
+                    tabId: 'tab-fifth',
+                    noClick: false
+                }              
+                titleList.push(distributionCosts)
+                titleList.push(distributionData)
+                this.$emit('headCallBack', titleList);
+            //返回父组件用于锚点定位尾
+     },
     initTableData() {
       getIssueMoneyTableData().then(res => {
-          this.issueMoneyTableData = res.data.issueMoneyList
-          // console.log(this.issueMoneyTableData)
+          this.issueMoneyTableData = res.data.issueMoneyList;
       }) 
     },
     // 非空判断

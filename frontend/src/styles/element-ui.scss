@@ -275,3 +275,7 @@
   -webkit-box-shadow: none!important;
   box-shadow: none!important;
 }
+// 公司概要当前有无效下拉框
+.el-input--medium .el-input__inner {
+  height: 30px;
+}

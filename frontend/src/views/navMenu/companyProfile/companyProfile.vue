@@ -268,62 +268,13 @@
       </div>
     </div>
     <!-- 中介机构 -->
-    <IntermediaryInstitutions></IntermediaryInstitutions>
-    <!-- <div class="IntermediaryInstitutions">
+    <div class="IntermediaryInstitutions">
       <div class="title">
         <span class="littleRectangle"></span>
         <span class="titleText" id="intermediaryInstitutions">中介机构</span>
       </div>
-      <div class="InstitutionsDetail">
-        <ul>
-          <li class="clear InstitutionsDetailLi">
-              <div class="image l">
-                <img src="../../../assets/images/zhonjie.png" alt>
-              </div>
-              <div class="text l">
-                <div>
-                    <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
-                      font-style: normal; font-size: 16px; color: rgb(101, 106, 177);">立信会计师事务所(特殊普通合伙)</span>
-                    <span style="background:yellow;color:white;font-size: 12px;">已认证</span>
-                    <span style="color: #6633FF;font-size: 12px;">联系他</span>
-                </div>
-                 <ul>
-                    <li class="people">
-                      <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                      font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
-                      <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                    </li>
-                    <li class="people">
-                      <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                      font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
-                      <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                    </li>
-                    <li class="people">
-                      <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                      font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
-                      <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                    </li>
-                    <li class="people">
-                      <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                      font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
-                      <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                    </li>
-                    <li class="people">
-                      <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                      font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
-                      <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                    </li>
-                    <li class="people">
-                      <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                      font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
-                      <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                    </li>
-                 </ul>
-              </div>
-          </li>
-        </ul>
-      </div>
-    </div> -->
+      <IntermediaryInstitutions></IntermediaryInstitutions>
+    </div>
   </div>
 </template>
 
@@ -386,37 +337,11 @@ export default {
   },
   created() {
     this.getData();
+    this.getPosition()
   },
   mounted() {
   },
   methods: {
-    // 合计表格函数
-    getSummaries(param) {
-      const { columns, data } = param;
-      const sums = [];
-      columns.forEach((column, index) => {
-        if (index === 0) {
-          sums[index] = "总计";
-          return;
-        }
-        if(index === 4){
-          // console.log(column)
-        }
-        const values = data.map(item => Number(item[column.property]));
-        if (!values.every(value => isNaN(value))) {
-          sums[index] = values.reduce((prev, curr) => {
-            const value = Number(curr);
-            if (!isNaN(value)) {
-              return prev + curr;
-            } else {
-              return prev;
-            }
-          }, 0);
-        }
-      });
-
-      return sums;
-    },
     //   moke模拟请求的数据
     getData() {
       getCaseDetail().then(res => {
@@ -454,7 +379,60 @@ export default {
         console.log(res.data.result)
         this.MajorCompetitors = res.data.result
       })
+         
     },
+    //返回父组件用于锚点定位头
+         getPosition() {
+                let titleList = [];
+                let ownershipStructureChart = {
+                    id: 'ownershipStructureChart',
+                    name: '股权结构图',
+                    notes: '',
+                    important: false,
+                    tabId: 'tab-first',
+                    noClick: false
+                }
+                let mainBusinessIncomeComposition = {
+                    id: 'mainBusinessIncomeComposition',
+                    name: '主营业务收入构成',
+                    notes: '',
+                    important: false,
+                    tabId: 'tab-first',
+                    noClick: false
+                }
+                let majorSuppliers = {
+                    id: 'majorSuppliers',
+                    name: '前五名供应商及用户',
+                    notes: '',
+                    important: false,
+                    tabId: 'tab-first',
+                    noClick: false
+                }
+                let utilizationOfRaisedFunds = {
+                    id: 'utilizationOfRaisedFunds',
+                    name: '募集资金运用',
+                    notes: '',
+                    important: false,
+                    tabId: 'tab-first',
+                    noClick: false
+                }
+                let intermediaryInstitutions = {
+                    id: 'intermediaryInstitutions',
+                    name: '中介机构',
+                    notes: '',
+                    important: false,
+                    tabId: 'tab-first',
+                    noClick: false
+                }
+               
+                titleList.push(ownershipStructureChart)
+                titleList.push(mainBusinessIncomeComposition)
+                titleList.push(majorSuppliers)
+                titleList.push(utilizationOfRaisedFunds)
+                titleList.push(intermediaryInstitutions)
+                this.$emit('headCallBack', titleList);
+         }
+            //返回父组件用于锚点定位尾
    
   }
 };

@@ -1,10 +1,6 @@
 <template>
     <div>
        <div class="IntermediaryInstitutions">
-            <div class="title">
-                <span class="littleRectangle"></span>
-                <span class="titleText" id="intermediaryInstitutions">中介机构</span>
-            </div>
             <!-- 筛选 -->
             <el-select v-model="agentState" placeholder="请选择" style="margin-left:16px;width:120px">
                 <el-option v-for="item in options" :label="item.label" :value="item.value">

@@ -5,33 +5,6 @@
                 <div style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共两轮反馈：</div>
                 <el-tabs v-model="activeName" @tab-click="handleClick" >
                         <el-tab-pane label="第一次反馈意见" name="first" style="font-size: 14px;color: #777777;">
-                            <!-- <div style="background-color: rgba(250, 250, 250, 1);">
-                                <div class="firstLabel" >
-                                    <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px">
-                                        <li v-for="item in feedbackFirtLabelList" class="l firstLabelFocus" style="background-color: rgba(250, 250, 250, 1);margin-right:10px;margin-bottom:10px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);border:none">
-                                            <span>{{item.name}}</span>
-                                            <span>({{item.num}})</span>
-                                        </li>
-                                    </ul>
-                                   <ul class="clear" style="padding:0px 25px;margin-top:0px">
-                                        <li v-for="item in feedbackSecondLabelList" class="l secondLabelFocus" style="margin-right:10px;margin-bottom:10px;background: inherit;
-                                            background-color: rgba(245, 245, 245, 1);
-                                            box-sizing: border-box;
-                                            border-width: 1px;
-                                            border-style: solid;
-                                            border-color: rgba(217, 217, 217, 1);
-                                            border-radius: 3px;
-                                            -moz-box-shadow: none;
-                                            -webkit-box-shadow: none;
-                                            box-shadow: none;
-                                            color: rgba(0, 0, 0, 0.647058823529412);
-                                            padding:3px">
-                                            <span>{{item.name}}</span>
-                                            <span>({{item.num}})</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div> -->
                             <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;">
                                 <div class="firstLabel" >
                                     <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px">
@@ -201,6 +174,7 @@ export default {
       radio: "",
       checkboxGroup: [],
       cities: [],
+      activeName: 'first',
       feedbackFirtLabelList: [
         {
           name: "财务处理及分红",

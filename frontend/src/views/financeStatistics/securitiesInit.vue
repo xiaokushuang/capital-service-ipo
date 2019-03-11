@@ -48,45 +48,42 @@
                                     <div class="el-tabs__nav-scroll">
                                         <div class="el-tabs__nav">
                                             <div class="el-tabs__active-bar is-top" :style="{width: tabBarWidth + 'px', transform: 'translateX(' + tabBarOffset + 'px)'}"></div>
-                                            <div id="tab-first" style="padding-left: 0" ref="tab-first" aria-controls="pane-first" :class="['el-tabs__item is-top', {'is-active': isActive === '1'}]" @click="onTabClick('1', $event)">公司概要</div>
+                                            <div id="tab-first"  ref="tab-first"  aria-controls="pane-first"  :class="['el-tabs__item is-top', {'is-active': isActive === '1'}]" @click="onTabClick('1', $event)" style="padding-left: 0">公司概要</div>
                                             <div id="tab-second" ref="tab-second" aria-controls="pane-second" :class="['el-tabs__item is-top', {'is-active': isActive === '2'}]" @click="onTabClick('2', $event)">财务信息</div>
-                                            <div id="tab-third" ref="tab-third" aria-controls="pane-third" :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]" @click="onTabClick('3', $event)">反馈意见</div>
-                                            <div id="tab-fourth" style="padding-right: 0" ref="tab-fourth" aria-controls="pane-fourth" :class="['el-tabs__item is-top', {'is-active': isActive === '4'}]" @click="onTabClick('4', $event)">审核结果及关注问题</div>
-                                            <div id="tab-fifth"   ref="tab-fifth"   aria-controls="pane-fifth"  :class="['el-tabs__item is-top', {'is-active': isActive === '5'}]" @click="onTabClick('5', $event)">发行概况</div>
+                                            <div id="tab-third"  ref="tab-third"  aria-controls="pane-third"  :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]" @click="onTabClick('3', $event)">反馈意见</div>
+                                            <div id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" :class="['el-tabs__item is-top', {'is-active': isActive === '4'}]" @click="onTabClick('4', $event)" style="padding-right: 0">审核结果及关注问题</div>
+                                            <div id="tab-fifth"  ref="tab-fifth"  aria-controls="pane-fifth"  :class="['el-tabs__item is-top', {'is-active': isActive === '5'}]" @click="onTabClick('5', $event)">发行概况</div>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- 菜单栏下面的小分类 -->
+                                <!-- 1 -->
                                 <div id="title-first" class="title-body" v-show="isActive == '1'">
                                     <span v-for="(item, index) in tabFirstList">
                                         <a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveFirst === item.id}, {'disabled': item.noClick}]" :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 1)">{{item.name}}</a>
                                         <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFirstList.length - 1">|</span>
                                     </span>
                                 </div>
+                                <!-- 2 -->
                                 <div id="title-second" class="title-body" v-show="isActive == '2'">
                                   <span v-for="(item, index) in tabSecondList">
-                                        <a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveThird === item.id}, {'disabled': item.noClick}]" :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 3)">{{item.name}}</a>
+                                        <a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveSecond === item.id}, {'disabled': item.noClick}]" :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 2)">{{item.name}}</a>
                                         <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabSecondList.length - 1">|</span>
                                   </span>
                                 </div>
-                                    <div id="title-third" class="title-body" v-show="isActive == '3'">
-                                        <span v-for="(item, index) in tabThreeList">
-                                        <a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveThird === item.id}, {'disabled': item.noClick}]" :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 3)">{{item.name}}</a>
-                                        <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabThreeList.length - 1">|</span>
-                                        </span>
-                                    </div>
-                                    <div id="title-fourth" class="title-body" v-show="isActive == '4'">
-                                        <span v-for="(item, index) in tabFourthList">
-                                        <a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveFourth === item.id}, {'disabled': item.noClick}]" :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 4)">{{item.name}}</a>
-                                        <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFourthList.length - 1">|</span>
-                                        </span>
-                                    </div>
-                                    <div id="title-fourth" class="title-body" v-show="isActive == '5'">
-                                        <span v-for="(item, index) in tabFifthList">
-                                        <a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveFourth === item.id}, {'disabled': item.noClick}]" :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 4)">{{item.name}}</a>
-                                        <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFifthList.length - 1">|</span>
-                                        </span>
-                                    </div>
+                                <!-- 3 -->
+                                <div id="title-third" class="title-body" v-show="isActive == '3'"><br/>
+                                </div>
+                                <!-- 4 -->
+                                <div id="title-fourth" class="title-body" v-show="isActive == '4'"><br/>
+                                </div>
+                                <!-- 5 -->
+                                <div id="title-fifth" class="title-body" v-show="isActive == '5'">
+                                    <span v-for="(item, index) in tabFifthList">
+                                    <a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveFifth === item.id}, {'disabled': item.noClick}]" :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 5)">{{item.name}}</a>
+                                    <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFifthList.length - 1">|</span>
+                                    </span>
+                                </div>
                                 </div>
                             </div>
                             <!-- 点击不同菜单展示不同下面内容 -->
@@ -184,6 +181,7 @@ export default {
       itemActiveSecond: "",
       itemActiveThird: "",
       itemActiveFourth: "",
+      itemActiveFifth: "",
       tabFirstList: [
         {
           id:'1',
@@ -211,7 +209,7 @@ export default {
       tabSecondList:[
          {
           id:'1',
-          name:'财务报表数据',
+          name:'主要财务数据',
           // tabId: 'tab-first',
           // noClick: false
         },
@@ -322,13 +320,13 @@ export default {
                     case '2':
                         targetList = document.getElementById('title-second').children;
                         let secondFlag = 0;
-                        // 第二tab页暂不需要锚点定位先注掉
-                        /*for (let i = 0; i< targetList.length; i ++) {
+                        
+                        for (let i = 0; i< targetList.length; i ++) {
                           if ((that.itemActiveSecond + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
                             document.documentElement.scrollTop = document.getElementById(that.itemActiveSecond).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
                             secondFlag = 1;
                           }
-                        }*/
+                        }
                         if (secondFlag === 0) {
                             var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
                             if (document.documentElement.scrollTop > scrollhight) {
@@ -339,12 +337,13 @@ export default {
                     case '3':
                         targetList = document.getElementById('title-third').children;
                         let thirdFlag = 0
-                        for (let i = 0; i < targetList.length; i++) {
-                            if ((that.itemActiveThird + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
-                                document.documentElement.scrollTop = document.getElementById(that.itemActiveThird).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
-                                thirdFlag = 1;
-                            }
-                        }
+                        // 第三tab页暂不需要锚点定位先注掉
+                        // for (let i = 0; i < targetList.length; i++) {
+                        //     if ((that.itemActiveThird + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
+                        //         document.documentElement.scrollTop = document.getElementById(that.itemActiveThird).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
+                        //         thirdFlag = 1;
+                        //     }
+                        // }
                         if (thirdFlag === 0) {
                             var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
                             if (document.documentElement.scrollTop > scrollhight) {
@@ -355,13 +354,30 @@ export default {
                     case '4':
                         targetList = document.getElementById('title-fourth').children;
                         let fourthFlag = 0
-                        for (let i = 0; i < targetList.length; i++) {
-                            if ((that.itemActiveFourth + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
-                                document.documentElement.scrollTop = document.getElementById(that.itemActiveFourth).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
-                                fourthFlag = 1
+                        // 第四tab页暂不需要锚点定位先注掉
+                        // for (let i = 0; i < targetList.length; i++) {
+                        //     if ((that.itemActiveFourth + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
+                        //         document.documentElement.scrollTop = document.getElementById(that.itemActiveFourth).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
+                        //         fourthFlag = 1
+                        //     }
+                        // }
+                        if (fourthFlag === 0) {
+                            var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
+                            if (document.documentElement.scrollTop > scrollhight) {
+                                document.documentElement.scrollTop = scrollhight;
                             }
                         }
-                        if (fourthFlag === 0) {
+                        break
+                         case '5':
+                        targetList = document.getElementById('title-fifth').children;
+                        let fifthFlag = 0;
+                        for (let i = 0; i < targetList.length; i++) {
+                            if ((that.itemActiveFifth + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
+                                document.documentElement.scrollTop = document.getElementById(that.itemActiveFifth).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
+                                fifthFlag = 1;
+                            }
+                        }
+                        if (fifthFlag === 0) {
                             var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
                             if (document.documentElement.scrollTop > scrollhight) {
                                 document.documentElement.scrollTop = scrollhight;
@@ -402,10 +418,10 @@ export default {
           case "tab-first":
             this.tabFirstList = param;
             break;
-          case "tab-three":
-            this.tabThreeList = param;
+          case "tab-second":
+            this.tabSecondList = param;
             break;
-          case "tab-five":
+          case "tab-fifth":
             this.tabFifthList = param;
             break;
           default:
@@ -414,22 +430,38 @@ export default {
       }
     },
     jump(param, num) {
-            console.log(document.getElementById(param+ 'caseDetails').offsetTop)
-            document.documentElement.scrollTop = document.getElementById(param+ 'caseDetails').offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
+            document.documentElement.scrollTop = document.getElementById(param).offsetTop + document.getElementById('titleHeader').offsetHeight - 50 ;
             switch (num) {
                 case 1:
                     this.itemActiveFirst = param;
                     break
-                case 3:
-                    this.itemActiveThird = param;
+                case 2:
+                    this.itemActiveSecond = param;
                     break
-                case 4:
-                    this.itemActiveFourth = param;
+                case 5:
+                    this.itemActiveFifth = param;
                     break
                 default:
                     break
             }
         },
+    // jump(param, num) {
+    //         console.log(document.getElementById(param+ 'caseDetails').offsetTop)
+    //         document.documentElement.scrollTop = document.getElementById(param+ 'caseDetails').offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
+    //         switch (num) {
+    //             case 1:
+    //                 this.itemActiveFirst = param;
+    //                 break
+    //             case 3:
+    //                 this.itemActiveThird = param;
+    //                 break
+    //             case 4:
+    //                 this.itemActiveFourth = param;
+    //                 break
+    //             default:
+    //                 break
+    //         }
+    //     },
     styleInit() {
       var h1 = this.$refs.titleHeader.offsetHeight;
       var h2 = this.$refs.titleBody.offsetHeight;
