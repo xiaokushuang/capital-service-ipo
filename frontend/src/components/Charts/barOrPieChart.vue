@@ -17,9 +17,11 @@ export default {
       tableTitle: null,
       tableContent: null,
       barChartY : [],
+      barYY:[],
       barChartX : [],
       lengendData:[],
       pieData:[],
+      date:'',
       pieChartTitle:''
     }
   },
@@ -43,7 +45,6 @@ export default {
      // 初始化数据
       initTableData() {
         getTableData().then(response => {
-          // console.log(response.data.result)
           if(response.data.result){
             // 如果请求到数据之后再初始化折线图
                  this.initBarChart(response.data.result)
@@ -53,15 +54,39 @@ export default {
       },
        //   初始化柱状图
     initBarChart(dataList) {
-      // console.log(dataList)
        const _self = this
         if (this.barChart) {
           this.barChart.dispose()
           this.barChart = null
         }
       this.barChart = echarts.init(document.getElementById('barChart'))
-       // 点击柱状图获取相应数据
+      
+    //  循环获取柱状图数据
+      for (var i = 0; i < dataList.mainIncomeInfoList.length; i++) {
+          this.lengendData = dataList.mainIncomeInfoList.businessName
+          var a1 = dataList.mainIncomeInfoList[i].firstYearAmount
+          var a2 = dataList.mainIncomeInfoList[i].secondYearAmount;
+          var a3 = dataList.mainIncomeInfoList[i].thirdYearAmount;
+          this.barYY.push(a1)
+          this.barYY.push(a2)
+          this.barYY.push(a3)
+          this.barChartY.push(
+                            {
+                                name:dataList.mainIncomeInfoList[i].businessName,
+                                type:'bar',
+                                barWidth:'50%',
+                                stack: '总量',
+                                data:this.barYY,
+                            },
+                             )
+            
+               }      
+         this.barChartX = [dataList.firstYearForIncome,dataList.secondYearForIncome,dataList.thirdYearForIncome]
+         this.pieChartTitle = this.barChartX[2]
+   // 点击柱状图获取相应数据
       this.barChart.on("click", function(params) {
+        this.date = params.name
+        // console.log(this.date)
         //   绑定饼状图数据
         //  for (var i = 0; i < dataList.slice(1).length; i++) {
         //   this.pieData.push(
@@ -74,30 +99,8 @@ export default {
         //        }  
         // console.log(params);
         this.pieChartTitle = params.name
-        // console.log(this.pieChartTitle);
+        console.log(this.pieChartTitle);
       });
-    //  循环获取数据
-      for (var i = 0; i < dataList.mainIncomeInfoList.length; i++) {
-          this.lengendData = dataList.mainIncomeInfoList.businessName
-          //  console.log(dataList.mainIncomeInfoList.length)
-          this.barChartY.push(
-                                {
-                                    name:dataList.mainIncomeInfoList[i].businessName,
-                                    type:'bar',
-                                    barWidth:'50%',
-                                    stack: '总量',
-                                    data:[dataList.mainIncomeInfoList[i].thirdYearAmount,dataList.mainIncomeInfoList[i].secondYearAmount,dataList.mainIncomeInfoList[i].firstYearAmount ]
-                                },
-                             )
-            
-               }              
-            // this.barChartX = [dataList[0].year3,dataList[0].year2,dataList[0].year1]
-            this.barChartX = [dataList.thirdYearForIncome,dataList.secondYearForIncome,dataList.onePeriodForIncome]
-            console.log(this.barChartY)
-            this.pieChartTitle = this.barChartX[2]
-            // console.log(this.pieChartTitle);
-           
-      
        this.barChart.setOption({
            title: {
                 text: "最近3年主营业务趋势",
@@ -110,7 +113,6 @@ export default {
                 tooltip: {
                 trigger: "axis",
                 axisPointer: {
-                    // 坐标轴指示器，坐标轴触发有效
                     type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
                 }
                 },
@@ -121,15 +123,15 @@ export default {
                     //   5, // 下
                     //   0 // 左
                     // ],
-                    // orient: "vertical",
+                    orient: "vertical",
                     // x: "300", // 'center' | 'left' | {number},
-                    // y: "100", // 'center' | 'bottom' | {number}
+                    // y: "0", // 'center' | 'bottom' | {number}
                     data: this.lengendData,
-                    // itemWidth: 10, // 图例图形宽度
-                    // itemHeight: 10, // 图例图形高度
-                    // textStyle: {
-                    //     color: "#333" // 图例文字颜色
-                    // }
+                    itemWidth: 10, // 图例图形宽度
+                    itemHeight: 10, // 图例图形高度
+                    textStyle: {
+                        color: "#333" // 图例文字颜色
+                    }
                     },
                 grid: {
                 left: "3%",
@@ -149,24 +151,54 @@ export default {
     },
     // 饼形图
     initPieChart(dataList) {
-        console.log(dataList.mainIncomeInfoList)
+        // console.log(this.date)
          const _self = this
         if (this.pieChart) {
           this.pieChart.dispose()
           this.pieChart = null
         }
        this.pieChart = this.$echarts.init(document.getElementById("pieChart"));
-        //  循环获取数据
+        //  循环获取饼状图数据
       for (var i = 0; i < dataList.mainIncomeInfoList.length; i++) {
+        if(this.date==='2018-12-31'){
+              // 3
           this.pieData.push(
-                     {  
-                        value: [dataList.mainIncomeInfoList[i].thirdYearAmount], 
-                        name: [dataList.mainIncomeInfoList[i].thirdYearRatio]
-                     },
-                         )
-            
-               }  
+                            {  
+                                value: [dataList.mainIncomeInfoList[i].thirdYearAmount], 
+                                name: [dataList.mainIncomeInfoList[i].thirdYearRatio+'%']
+                            },
+                          )
+        }
+        if(this.date==='2017-12-31'){
+           // 2
+          this.pieData.push(
+          {  
+              value: [dataList.mainIncomeInfoList[i].secondYearAmount], 
+              name: [dataList.mainIncomeInfoList[i].secondYearRatio+'%']
+          },
+        )
+        }
+         if(this.date==='2016-12-31'){
+            // 1
+          this.pieData.push(
+                            {  
+                                value: [dataList.mainIncomeInfoList[i].firstYearAmount], 
+                                name: [dataList.mainIncomeInfoList[i].firstYearRatio+'%']
+                            },
+                          )
+         }
+         else{
+            this.pieData.push(
+                            {  
+                                value: [dataList.mainIncomeInfoList[i].thirdYearAmount], 
+                                name: [dataList.mainIncomeInfoList[i].thirdYearRatio+'%']
+                            },
+                          )
+         }
+      
+      }  
        this.pieChart.setOption({
+         
         title: { text: this.pieChartTitle+" _ 主营业务分布" },
         // title: { text: this.dianjizhuzi?this.pieChartTitle:this.zhudataListX[3]+" _ 主营业务分布" },
         
@@ -174,38 +206,13 @@ export default {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
-        // legend: {
-        //   // padding: [
-        //   //   200, // 上
-        //   //   0, // 右
-        //   //   5, // 下
-        //   //   0 // 左
-        //   // ],
-        //   orient: "vertical",
-        //   x: "300", // 'center' | 'left' | {number},
-        //   y: "100", // 'center' | 'bottom' | {number}
-        //   // data: ["宽带移动通信设备", "集成业务", "技术开发业务", "工程业务"],
-        //   itemWidth: 10, // 图例图形宽度
-        //   itemHeight: 10, // 图例图形高度
-        //   textStyle: {
-        //     color: "#333" // 图例文字颜色
-        //   }
-        // },
         series: [
           {
             name: "访问来源",
             type: "pie",
             radius: "55%",
             center: ["50%", "60%"],
-            // data: this.pieChartData,
             data:this.pieData,
-            // [
-
-            // { value: 335, name: "49%" },
-            // { value: 310, name: "23%" },
-            // { value: 234, name: "67%" },
-            // { value: 135, name: "54%" }
-            // ],
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,

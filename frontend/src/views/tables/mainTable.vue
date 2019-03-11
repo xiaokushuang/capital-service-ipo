@@ -7,14 +7,14 @@
           </template>
       </el-table-column>
       <el-table-column :label="mainTableList.thirdYearForIncome" header-align="center">
-        <el-table-column prop="onePeriodAmount" align="right"  class-name="table_cell" label="金额(万元)" width="117">
+        <el-table-column prop="thirdYearAmount" align="right"  class-name="table_cell" label="金额(万元)" width="117">
           <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.onePeriodAmount) ? scope.row.onePeriodAmount : '- -'}}</span>
+            <span>{{isNotEmpty(scope.row.thirdYearAmount) ? scope.row.thirdYearAmount : '- -'}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="onePeriodRatio" align="right"  class-name="table_cell" label="占比（%）" width="117">
+        <el-table-column prop="thirdYearRatio" align="right"  class-name="table_cell" label="占比（%）" width="117">
           <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.onePeriodRatio) ? scope.row.onePeriodRatio : '- -'}}</span>
+            <span>{{isNotEmpty(scope.row.thirdYearRatio) ? scope.row.thirdYearRatio : '- -'}}</span>
           </template>
         </el-table-column>
       </el-table-column>
@@ -31,14 +31,14 @@
         </el-table-column>
       </el-table-column>
       <el-table-column :label="mainTableList.firstYearForIncome" header-align="center">
-        <el-table-column prop="thirdYearAmount" align="right"  class-name="table_cell" label="金额(万元)" width="117">
+        <el-table-column prop="firstYearAmount" align="right"  class-name="table_cell" label="金额(万元)" width="117">
           <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.thirdYearAmount) ? scope.row.thirdYearAmount : '- -'}}</span>
+            <span>{{isNotEmpty(scope.row.firstYearAmount) ? scope.row.firstYearAmount : '- -'}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="thirdYearRatio" align="right"  class-name="table_cell" label="占比（%）" width="117">
+        <el-table-column prop="firstYearRatio" align="right"  class-name="table_cell" label="占比（%）" width="117">
           <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.thirdYearRatio) ? scope.row.thirdYearRatio : '- -'}}</span>
+            <span>{{isNotEmpty(scope.row.firstYearRatio) ? scope.row.firstYearRatio : '- -'}}</span>
           </template>
         </el-table-column>
       </el-table-column>

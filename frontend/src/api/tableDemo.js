@@ -1,22 +1,22 @@
 import request from '@/utils/request'
 
-// export function getTableData() {
-//   return request({
-//     url: '/demo/tableData',
-//     method: 'get'
-//   })
-// }
-// 主营业务收入构成
 export function getTableData() {
-  var query = {
-    id:'97952444248336801'
-  }
   return request({
-    url: '/ipo/api/companyOverview/incomeData',
-    method: 'get',
-    params: query
+    url: '/demo/tableData',
+    method: 'get'
   })
 }
+// 主营业务收入构成【柱状图饼图】
+// export function getTableData() {
+//   var query = {
+//     id:'97952444248336801'
+//   }
+//   return request({
+//     url: '/ipo/api/companyOverview/incomeData',
+//     method: 'get',
+//     params: query
+//   })
+// }
 // 报告期主要供应商及客户接口描述
 export function getSupplierCustomerData() {
   var query = {

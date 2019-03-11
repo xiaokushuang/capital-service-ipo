@@ -58,7 +58,7 @@ export function getCompetitorData() {
     params: query
   })
 }
-// 中介机构接口
+// 中介机构moke接口
 export function getIntermediaryOrgDataList(query) {
   return request({
     url: '/companyProfile/intermediaryOrgDataList',
@@ -66,3 +66,15 @@ export function getIntermediaryOrgDataList(query) {
     params: query
   })
 }
+
+// 中介机构接口
+// export function getIntermediaryOrgDataList(query) {
+//   var query = {
+//     id:'97952444248336801'
+//   }
+//   return request({
+//     url: '/ipo/api/companyOverview/intermediaryOrgData',
+//     method: 'get',
+//     params: query
+//   })
+// }
