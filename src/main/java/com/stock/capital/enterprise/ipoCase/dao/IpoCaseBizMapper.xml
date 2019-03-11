@@ -1,5 +1,170 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.stock.capital.enterprise.ipoCase.dao.IpoCaseBizMapper" >
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.capital.enterprise.ipoCase.dao.IpoCaseBizMapper">
+  <resultMap id="BaseResultMap" type="com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="company_zh_name" property="companyZhName" jdbcType="VARCHAR"/>
+    <result column="company_code" property="companyCode" jdbcType="VARCHAR"/>
+    <result column="company_name" property="companyName" jdbcType="VARCHAR"/>
+    <result column="ipo_plate" property="ipoPlate" jdbcType="VARCHAR"/>
+    <result column="addr_prov" property="addrProv" jdbcType="VARCHAR"/>
+    <result column="addr_city" property="addrCity" jdbcType="VARCHAR"/>
+    <result column="addr_area" property="addrArea" jdbcType="VARCHAR"/>
+    <result column="company_nature" property="companyNature" jdbcType="VARCHAR"/>
+    <result column="major_businesses" property="majorBusinesses" jdbcType="VARCHAR"/>
+    <result column="industry_csrc" property="industryCsrc" jdbcType="VARCHAR"/>
+    <result column="registered_assets" property="registeredAssets" jdbcType="DECIMAL"/>
+    <result column="structure_label" jdbcType="VARCHAR" property="structureLabel"/>
+    <result column="structure_url" property="structureUrl" jdbcType="VARCHAR"/>
+  </resultMap>
 
+  <resultMap id="SupCusResultMap"
+             type="com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerInfoDto">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="bid" property="bid" jdbcType="VARCHAR"/>
+    <result column="company_code" property="companyCode" jdbcType="VARCHAR"/>
+    <result column="company_name" property="companyName" jdbcType="VARCHAR"/>
+    <result column="first_year_content" property="firstYearContent" jdbcType="VARCHAR"/>
+    <result column="first_year_amount" property="firstYearAmount" jdbcType="DECIMAL"/>
+    <result column="first_year_ratio" property="firstYearRatio" jdbcType="DECIMAL"/>
+    <result column="second_year_content" property="secondYearContent" jdbcType="VARCHAR"/>
+    <result column="second_year_amount" property="secondYearAmount" jdbcType="DECIMAL"/>
+    <result column="second_year_ratio" property="secondYearRatio" jdbcType="DECIMAL"/>
+    <result column="third_year_content" property="thirdYearContent" jdbcType="VARCHAR"/>
+    <result column="third_year_amount" property="thirdYearAmount" jdbcType="DECIMAL"/>
+    <result column="third_year_ratio" property="thirdYearRatio" jdbcType="DECIMAL"/>
+    <result column="one_period_content" property="onePeriodContent" jdbcType="VARCHAR"/>
+    <result column="one_period_amount" property="onePeriodAmount" jdbcType="DECIMAL"/>
+    <result column="one_period_ratio" property="onePeriodRatio" jdbcType="DECIMAL"/>
+    <result column="report_period" property="reportPeriod" jdbcType="TIMESTAMP"/>
+    <result column="main_type" property="mainType" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  <select id="getIpoCaseDetail" parameterType="string" resultMap="BaseResultMap">
+    SELECT
+    ic.id,
+    ic.company_zh_name,
+    (SELECT mcl.label_name FROM maa_conf_label mcl WHERE mcl.label_code = 'IPO_PLATE' AND mcl.label_value = ic.ipo_plate) AS ipo_plate,
+    (SELECT group_concat(mcl1.label_name) FROM maa_conf_label mcl1 WHERE mcl1.label_code = 'INDUSTRY_CSRC_2012' AND find_in_set(mcl1.label_value,TRIM(LEADING '0' FROM ic.industry_csrc))) AS industry_csrc,
+    ic.company_name,
+    ic.company_code,
+    (SELECT p.area_name FROM provinces p WHERE p.area_no = ic.addr_prov) AS addr_prov,
+    (SELECT p.area_name FROM provinces p WHERE p.area_no = ic.addr_city) AS addr_city,
+    (SELECT p.area_name FROM provinces p WHERE p.area_no = ic.addr_area) AS addr_area,
+    CONVERT(ic.registered_assets,DECIMAL(18,2)) AS registered_assets,
+    (SELECT person_name FROM ipo_person_info WHERE bid = #{id} AND person_type = '1') AS actualController,
+    (SELECT person_name FROM ipo_person_info WHERE bid = #{id} AND person_type = '2') AS controlShareholder,
+    (SELECT group_concat(mcl2.label_name) FROM maa_conf_label mcl2 WHERE mcl2.label_code = 'REP_COMPANY_NATURE' AND find_in_set(mcl2.label_value,ic.company_nature)) AS company_nature,
+    ic.major_businesses,
+    (SELECT group_concat(mcl3.label_name) FROM maa_conf_label mcl3 WHERE mcl3.label_code = 'IPO_STRUCTURE_TYPE' AND find_in_set(mcl3.label_value,ic.structure_label)) AS structure_label,
+    ic.structure_url
+  FROM
+    ipo_case ic
+  WHERE
+    ic.id = #{id}
+   limit 1
+  </select>
+
+  <select id="getIpoShareData" parameterType="string"
+          resultType="com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto">
+    SELECT
+      t.id,
+      t.bid,
+      t.person_name AS personName,
+      t.shareName AS shareHolderNature,
+      CONVERT(t.share_num,DECIMAL(18,2)) AS shareNum,
+      CONVERT(t.share_num / t.sumNum * 100, DECIMAL(18,2)) AS shareRatio
+    FROM
+      (
+        SELECT
+          ipi.id,
+          ipi.bid,
+          ipi.person_name,
+          (
+            SELECT
+              mcl.label_name
+            FROM
+              maa_conf_label mcl
+            WHERE
+              mcl.label_code = 'IPO_SHAREHOLDER_NATURE'
+            AND mcl.label_value = ipi.share_holder_nature
+          ) AS shareName,
+          ipi.share_num,
+          (
+            SELECT
+              SUM(share_num)
+            FROM
+              ipo_person_info
+            WHERE
+              person_type = '3'
+            AND bid = #{bid}
+          ) AS sumNum
+        FROM
+          ipo_person_info ipi
+        WHERE
+          ipi.person_type = '3'
+        AND ipi.bid = #{bid}
+      ) t
+  </select>
+
+  <select id="getIpoMarketData" parameterType="string"
+          resultType="com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto">
+    SELECT id, bid, (SELECT mcl.label_name FROM maa_conf_label mcl WHERE mcl.label_code = 'IPO_CAPITAL_MARKET' AND mcl.label_value = market_type) AS marketType,
+     company_code AS companyCode, company_name AS companyName, list_time AS listTime, delist_time AS delistTime FROM ipo_other_market_info
+    WHERE bid = #{bid}
+  </select>
+
+  <select id="getIpoCompetitorData" parameterType="string"
+          resultType="com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto">
+    SELECT id, bid, company_code AS companyCode, company_name AS companyName, situation FROM ipo_main_competitor_info WHERE bid = #{bid}
+  </select>
+
+  <select id="getSupplierOrCustomerData" resultMap="SupCusResultMap">
+    SELECT id, bid, company_code, company_name, first_year_content, first_year_amount, first_year_ratio,
+    second_year_content, second_year_amount, second_year_ratio, third_year_content, third_year_amount,
+    third_year_ratio, one_period_content, one_period_amount, one_period_ratio, report_period,
+    main_type FROM ipo_supplier_customer_info WHERE bid = #{bid} AND main_type = #{mainType}
+  </select>
+
+  <select id="getIncomeData" parameterType="string"
+          resultType="com.stock.capital.enterprise.ipoCase.dto.MainIncomeInfoDto">
+     SELECT
+      id,
+      bid,
+      report_period AS reportPeriod,
+      business_name AS businessName,
+      CONVERT(one_period_amount,DECIMAL(18,2)) AS onePeriodAmount,
+      CONVERT(third_year_amount,DECIMAL(18,2)) AS thirdYearAmount,
+      CONVERT(second_year_amount,DECIMAL(18,2)) AS secondYearAmount,
+      CONVERT(first_year_amount,DECIMAL(18,2)) AS firstYearAmount,
+      CONVERT(one_period_amount/(SELECT SUM(one_period_amount) FROM ipo_main_income_info WHERE bid = #{bid})*100,DECIMAL(18,2)) AS onePeriodRatio,
+      CONVERT(third_year_amount/(SELECT SUM(third_year_amount) FROM ipo_main_income_info WHERE bid = #{bid})*100,DECIMAL(18,2)) AS thirdYearRatio,
+      CONVERT(second_year_amount/(SELECT SUM(second_year_amount) FROM ipo_main_income_info WHERE bid = #{bid})*100,DECIMAL(18,2)) AS secondYearRatio,
+      CONVERT(first_year_amount/(SELECT SUM(first_year_amount) FROM ipo_main_income_info WHERE bid = #{bid})*100,DECIMAL(18,2)) AS firstYearRatio
+    FROM
+      ipo_main_income_info
+    WHERE
+      bid = #{bid}
+  </select>
+
+  <select id="getIntermediaryOrgData" resultType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto">
+    SELECT
+      id,
+      bid,
+      intermediary_type AS intermediaryType,
+      org_name AS orgName,
+      org_code AS orgCode,
+      valid_flag AS validFlag,
+      represent_person AS representPerson,
+      agent_person AS agentPerson,
+      assist_person AS assistPerson
+    FROM
+      ipo_intermediary_org
+    WHERE
+      bid = #{bid}
+    <if test="validFlag != null and validFlag != ''">
+      AND valid_flag = #{validFlag}
+    </if>
+  </select>
 </mapper>

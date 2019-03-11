@@ -1,7 +1,10 @@
 package com.stock.capital.enterprise.ipoCase.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * CompanyOverviewVo.
@@ -10,117 +13,184 @@ import java.math.BigDecimal;
  * @version 0.0.1.
  * @serial 2019/3/5 : base version.
  */
-public class CompanyOverviewVo implements Serializable{
+@ApiModel("IPO公司概览返回类")
+public class CompanyOverviewVo implements Serializable {
 
-  private static final long serialVersionUID = -1251014733325978558L;
+    private static final long serialVersionUID = -1251014733325978558L;
 
-  private String companyZhName;// 公司名称
+    @ApiModelProperty("案例id")
+    private String id;// 案例id
 
-  private String ipoPlate; //上市板块
+    @ApiModelProperty("公司名称")
+    private String companyZhName;// 公司名称
 
-  private String industryCsrc; //所属行业(证监会)
+    @ApiModelProperty("上市板块")
+    private String ipoPlate; //上市板块
 
-  private String companyName;// 证券简称
+    @ApiModelProperty("所属行业(证监会)")
+    private String industryCsrc; //所属行业(证监会)
 
-  private String companyCode;// 证券代码
+    @ApiModelProperty("证券简称")
+    private String companyName;// 证券简称
 
-  private String address;// 注册地
+    @ApiModelProperty("证券代码")
+    private String companyCode;// 证券代码
 
-  private BigDecimal registeredAssets; //注册资本（万元）
+    @ApiModelProperty("注册地（省）")
+    private String addrProv;// 注册地（省）
 
-  private String actualController; //实际控制人
+    @ApiModelProperty("注册地（市）")
+    private String addrCity;// 注册地（市）
 
-  private String controlShareholder; //控股股东
+    @ApiModelProperty("注册地（区）")
+    private String addrArea;// 注册地（区）
 
-  private String companyNature;//企业性质
+    @ApiModelProperty("注册资本（万元）")
+    private BigDecimal registeredAssets; //注册资本（万元）
 
-  private String majorBusinesses; // 主营业务
+    @ApiModelProperty("实际控制人")
+    private String actualController; //实际控制人
 
-  public String getCompanyZhName() {
-    return companyZhName;
-  }
+    @ApiModelProperty("控股股东")
+    private String controlShareholder; //控股股东
 
-  public void setCompanyZhName(String companyZhName) {
-    this.companyZhName = companyZhName;
-  }
+    @ApiModelProperty("企业性质")
+    private String companyNature;//企业性质
 
-  public String getIpoPlate() {
-    return ipoPlate;
-  }
+    @ApiModelProperty("主营业务")
+    private String majorBusinesses; // 主营业务
 
-  public void setIpoPlate(String ipoPlate) {
-    this.ipoPlate = ipoPlate;
-  }
+    @ApiModelProperty("股权结构标签")
+    private String structureLabel; //股权结构标签
 
-  public String getIndustryCsrc() {
-    return industryCsrc;
-  }
+    @ApiModelProperty("股权结构图")
+    private String structureUrl; //股权结构图
 
-  public void setIndustryCsrc(String industryCsrc) {
-    this.industryCsrc = industryCsrc;
-  }
+    public String getId() {
+        return id;
+    }
 
-  public String getCompanyName() {
-    return companyName;
-  }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-  public void setCompanyName(String companyName) {
-    this.companyName = companyName;
-  }
+    public String getCompanyZhName() {
+        return companyZhName;
+    }
 
-  public String getCompanyCode() {
-    return companyCode;
-  }
+    public void setCompanyZhName(String companyZhName) {
+        this.companyZhName = companyZhName;
+    }
 
-  public void setCompanyCode(String companyCode) {
-    this.companyCode = companyCode;
-  }
+    public String getIpoPlate() {
+        return ipoPlate;
+    }
 
-  public String getAddress() {
-    return address;
-  }
+    public void setIpoPlate(String ipoPlate) {
+        this.ipoPlate = ipoPlate;
+    }
 
-  public void setAddress(String address) {
-    this.address = address;
-  }
+    public String getIndustryCsrc() {
+        return industryCsrc;
+    }
 
-  public BigDecimal getRegisteredAssets() {
-    return registeredAssets;
-  }
+    public void setIndustryCsrc(String industryCsrc) {
+        this.industryCsrc = industryCsrc;
+    }
 
-  public void setRegisteredAssets(BigDecimal registeredAssets) {
-    this.registeredAssets = registeredAssets;
-  }
+    public String getCompanyName() {
+        return companyName;
+    }
 
-  public String getActualController() {
-    return actualController;
-  }
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
 
-  public void setActualController(String actualController) {
-    this.actualController = actualController;
-  }
+    public String getCompanyCode() {
+        return companyCode;
+    }
 
-  public String getControlShareholder() {
-    return controlShareholder;
-  }
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
+    }
 
-  public void setControlShareholder(String controlShareholder) {
-    this.controlShareholder = controlShareholder;
-  }
+    public String getAddrProv() {
+        return addrProv;
+    }
 
-  public String getCompanyNature() {
-    return companyNature;
-  }
+    public void setAddrProv(String addrProv) {
+        this.addrProv = addrProv;
+    }
 
-  public void setCompanyNature(String companyNature) {
-    this.companyNature = companyNature;
-  }
+    public String getAddrCity() {
+        return addrCity;
+    }
 
-  public String getMajorBusinesses() {
-    return majorBusinesses;
-  }
+    public void setAddrCity(String addrCity) {
+        this.addrCity = addrCity;
+    }
 
-  public void setMajorBusinesses(String majorBusinesses) {
-    this.majorBusinesses = majorBusinesses;
-  }
+    public String getAddrArea() {
+        return addrArea;
+    }
+
+    public void setAddrArea(String addrArea) {
+        this.addrArea = addrArea;
+    }
+
+    public BigDecimal getRegisteredAssets() {
+        return registeredAssets;
+    }
+
+    public void setRegisteredAssets(BigDecimal registeredAssets) {
+        this.registeredAssets = registeredAssets;
+    }
+
+    public String getActualController() {
+        return actualController;
+    }
+
+    public void setActualController(String actualController) {
+        this.actualController = actualController;
+    }
+
+    public String getControlShareholder() {
+        return controlShareholder;
+    }
+
+    public void setControlShareholder(String controlShareholder) {
+        this.controlShareholder = controlShareholder;
+    }
+
+    public String getCompanyNature() {
+        return companyNature;
+    }
+
+    public void setCompanyNature(String companyNature) {
+        this.companyNature = companyNature;
+    }
+
+    public String getMajorBusinesses() {
+        return majorBusinesses;
+    }
+
+    public void setMajorBusinesses(String majorBusinesses) {
+        this.majorBusinesses = majorBusinesses;
+    }
+
+    public String getStructureLabel() {
+        return structureLabel;
+    }
+
+    public void setStructureLabel(String structureLabel) {
+        this.structureLabel = structureLabel;
+    }
+
+    public String getStructureUrl() {
+        return structureUrl;
+    }
+
+    public void setStructureUrl(String structureUrl) {
+        this.structureUrl = structureUrl;
+    }
 }
