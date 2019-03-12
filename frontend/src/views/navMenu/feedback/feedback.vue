@@ -419,6 +419,7 @@ export default {
   line-height: 46px;
   background: #f7f7f7;
   text-align: center;
+  cursor:pointer;
 }
 .checkbox {
   background: #fafafa;

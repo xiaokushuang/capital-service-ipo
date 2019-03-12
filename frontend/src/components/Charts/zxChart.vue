@@ -19,10 +19,11 @@ export default {
   },
   created(){
     //   请求数据
-    this.initTableData()
+    // this.initTableData()
+    // vm
   },
   mounted() {
-
+    this.initTableData()
   },
   updated() {
 

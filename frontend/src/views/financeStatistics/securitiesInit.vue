@@ -320,7 +320,7 @@ export default {
                     case '2':
                         targetList = document.getElementById('title-second').children;
                         let secondFlag = 0;
-                        
+                        // alert("111")
                         for (let i = 0; i< targetList.length; i ++) {
                           if ((that.itemActiveSecond + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
                             document.documentElement.scrollTop = document.getElementById(that.itemActiveSecond).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;

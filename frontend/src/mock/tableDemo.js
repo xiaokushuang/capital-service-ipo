@@ -44,7 +44,7 @@ export default{
         "secondYearAmount": 31,//2金额
         "secondYearRatio": 10,//2占比
         "thirdYearAmount": 21,//3金额
-        "thirdYearRatio": 38.89,//3占比
+        "thirdYearRatio": 18.9,//3占比
         "onePeriodAmount": 12,
         "onePeriodRatio": 33.33,
         "reportPeriod": "2019-03-14"
@@ -58,7 +58,7 @@ export default{
         "secondYearAmount": 23,
         "secondYearRatio": 10,
         "thirdYearAmount": 11,
-        "thirdYearRatio": 30.89,
+        "thirdYearRatio": 20.89,
         "onePeriodAmount": 12,
         "onePeriodRatio": 3.33,
         "reportPeriod": "2019-03-14"
@@ -72,7 +72,7 @@ export default{
         "secondYearAmount": 3,
         "secondYearRatio": 10,
         "thirdYearAmount": 21,
-        "thirdYearRatio": 38.89,
+        "thirdYearRatio": 8.89,
         "onePeriodAmount": 12,
         "onePeriodRatio": 33.33,
         "reportPeriod": "2019-03-14"
