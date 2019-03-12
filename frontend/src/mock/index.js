@@ -29,5 +29,13 @@ Mock.mock(/\/companyProfile\/gqTable/, 'get', companyProfileAPI.getGqTable)
 
 // 表格demo
 Mock.mock(/\/demo\/tableData/, 'get', tableDemo.getTableData)
+Mock.mock(/\/demo\/fifthGysTableData/, 'get', tableDemo.getFifthGysTableData)
+Mock.mock(/\/demo\/fifthKhTableData/, 'get', tableDemo.getFifthKhTableData)
+Mock.mock(/\/demo\/assetsTableData/, 'get', tableDemo.getAssetsTableData)
+Mock.mock(/\/demo\/compareTableData/, 'get', tableDemo.getCompareTableData)
+Mock.mock(/\/demo\/issueMoneyTableData/, 'get', tableDemo.getIssueMoneyTableData)
+Mock.mock(/\/demo\/resultList/, 'get', tableDemo.getResultList)
+// 中介机构
+Mock.mock(/\/companyProfile\/intermediaryOrgDataList/, 'get', companyProfileAPI.getIntermediaryOrgDataList)
 
 export default Mock

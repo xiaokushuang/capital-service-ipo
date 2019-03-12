@@ -1,6 +1,6 @@
 <template>
   <div class="table-class">
-    <el-table :data="tableContent" border style="width:100%;margin-bottom: 12px;">
+    <el-table :data="tableContent" border style="width:100%;margin-bottom: 12px;" show-summary>
       <el-table-column prop="item" align="center" class-name="table_cell" :label="tableTitle.item" width="52"></el-table-column>
       <el-table-column :label="tableTitle.year1" header-align="center">
         <el-table-column prop="count1" align="right"  class-name="table_cell" label="金额(万元)" width="100">
@@ -76,7 +76,7 @@ export default {
     },
     // 非空判断
     isNotEmpty(param) {
-      debugger
+      // debugger
       if (param != null && param !== undefined && param !== '' && param !== 'null' && param !== 'undefined') {
         return true
       } else {

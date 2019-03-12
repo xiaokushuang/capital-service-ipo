@@ -22,6 +22,7 @@ import './directives' // global directive
 import * as filters from './filters' // global filters
 import 'vue-orgchart/dist/style.min.css'
 import 'babel-polyfill'
+// moke开关
 if(process.env.NODE_ENV === 'development'){
   require('./mock')
 }

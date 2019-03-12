@@ -7,64 +7,64 @@
         <ul style="display:flex">
           <li>
             <span>拟上市板块</span>&nbsp;&nbsp;
-            <span style="color:black">创业板</span>
+            <span style="color:black">{{this.ipoPlate}}</span>
           </li>
           <li>
             <span>所属证监会</span>&nbsp;&nbsp;
-            <span style="color:black">-</span>
+            <span style="color:black">{{this.industryCsrc}}</span>
           </li>
           <li>
             <span>证券简称</span>&nbsp;&nbsp;
-            <span style="color:black">百邦科技</span>
+            <span style="color:black">{{this.companyName}}</span>
           </li>
           <li>
             <span>证券代码</span>&nbsp;&nbsp;
-            <span style="color:black">300736</span>
+            <span style="color:black">{{this.zhengquanCode}}</span>
           </li>
           <li>
             <span>注册地址</span>&nbsp;&nbsp;
-            <span style="color:black">北京市朝阳区</span>
+            <span style="color:black">{{this.addrProv}}{{this.addrCity}}{{this.addrArea}}</span>
           </li>
           <li>
             <span>注册资本</span>&nbsp;&nbsp;
-            <span style="color:black">4073.15万元</span>
+            <span style="color:black">{{this.registeredAssets}}万元</span>
           </li>
           <li>
             <span>实际控制人</span>&nbsp;&nbsp;
-            <span style="color:black">刘铁峰</span>
+            <span style="color:black">{{this.actualController}}</span>
           </li>
           <li>
             <span>控股股东</span>&nbsp;&nbsp;
-            <span style="color:black">达安世纪.月华忠诚</span>
+            <span style="color:black">{{this.controlShareholder}}</span>
           </li>
           <li>
             <span>企业性质</span>&nbsp;&nbsp;
-            <span style="color:black">民营企业</span>
+            <span style="color:black">{{this.companyNature}}</span>
           </li>
           <li>
             <span>主营业务</span>&nbsp;&nbsp;
-            <span style="color:black">手机售后服务.手机</span>
+            <span style="color:black">{{this.majorBusinesses}}</span>
           </li>
         </ul>
       </div>
       <div class="others" v-show="isLogin">
         <p style="color:black">登录其他资本市场</p>
-        <ul>
+        <ul v-for="item in otherMarketInfoList">
           <li>
             <span>资本市场</span>&nbsp;&nbsp;
-            <span style="color:black">刘铁峰</span>
+            <span style="color:black">{{item.marketType}}</span>
           </li>
           <li>
             <span>公司代码</span>&nbsp;&nbsp;
-            <span style="color:black">达安世纪</span>
+            <span style="color:black">{{item.companyCode}}</span>
           </li>
           <li>
             <span>上市日/挂牌日</span>&nbsp;&nbsp;
-            <span style="color:black">2018-02-02</span>
+            <span style="color:black">{{item.listTime}}</span>
           </li>
           <li>
             <span>退市日/摘牌日</span>&nbsp;&nbsp;
-            <span style="color:black">---</span>
+            <span style="color:black">{{item.delistTime }}</span>
           </li>
         </ul>
       </div>
@@ -73,45 +73,51 @@
     <div class="ownershipStructure" style="margin-top:40px">
       <div class="title">
         <span class="littleRectangle"></span>
-        <span class="titleText" id="reorganizationIntro">股权结构图</span>
-        <span v-for="(item,index) in gqNameList" class="hongkuang">{{item}}</span>
+        <span class="titleText" id="ownershipStructureChart">股权结构图</span>
+        <span v-for="(item,index) in structureLabel" class="hongkuang">{{item}}</span>
       </div>
       <!-- 图片 -->
       <div class="img">
-        <img src="../../../assets/images/structure.png" alt>
+        <!-- <img src="../../../assets/images/structure.png" alt> -->
+         <img :src="structureUrl" alt>
       </div>
       <!-- 股权股东表格 -->
       <el-table :data="gqTableList" style="width: 100%" stripe border>
-        <el-table-column prop="id" label="序号"></el-table-column>
-        <el-table-column prop="name" label="股东名称"></el-table-column>
-        <el-table-column prop="nature" label="股东性质"></el-table-column>
-        <el-table-column prop="num" label="持股数量（万股）"></el-table-column>
-        <el-table-column prop="proportion" label="持股比例"></el-table-column>
+        <el-table-column type="index" label="序号" align='center'>
+           <template slot-scope="scope">
+                    {{scope.$index+1}}
+            </template>
+        </el-table-column>
+        <el-table-column prop="personName" label="股东名称"></el-table-column>
+        <el-table-column prop="shareHolderNature" label="股东性质"></el-table-column>
+        <el-table-column prop="shareNum" label="持股数量（万股）" align='right'></el-table-column>
+        <el-table-column prop="shareRatio" label="持股比例" align='right'></el-table-column>
       </el-table>
     </div>
     <!-- 主营业务收入构成 -->
     <div class="incomeComposition">
       <div class="title">
         <span class="littleRectangle"></span>
-        <span class="titleText" id="reorganizationIntro">主营业务收入构成</span>
+        <span class="titleText" id="mainBusinessIncomeComposition">主营业务收入构成</span>
       </div>
       <div class="echart clear">
-        <div id="barChart" class="l" :style="{width: '400px', height: '300px'}"></div>
-        <div id="pieChart" class="l" :style="{width: '400px', height: '300px'}"></div>
+        <barOrPieChart></barOrPieChart>
       </div>
       <!-- table表格 -->
       <div class="incomeCompositionTable">
+         <mainTable></mainTable>
+      </div>
+      <!-- <div class="incomeCompositionTable">
           <el-table
             show-summary
-            :summary-method="getSummaries"
-            :data="incomeCompositionTableList"
+            :data="incomeCompositionTableList1"
             style="width: 100%;margin-top: 20px">
             <el-table-column
               prop="yewu"
               label="主营业务"
               width="123">
             </el-table-column>
-              <el-table-column label="2017年1-6月">
+              <el-table-column :label="yearsOne">
                 <el-table-column
                   prop="money"
                   label="金额(万元)"
@@ -123,7 +129,22 @@
                   width="84">
                 </el-table-column>
               </el-table-column>
-              <el-table-column label="2017年1-6月">
+               <el-table-column :label="yearsTwo"> 
+                 <el-table-column
+                  prop="money"
+                  label="金额(万元)"
+                  width="100">
+                </el-table-column>
+                <el-table-column
+                  prop="roportion"
+                  label="占比"
+                  width="84">
+                  <template slot-scope="scope">
+                    {{scope.$index}}
+                  </template>
+                </el-table-column>
+              </el-table-column>
+              <el-table-column :label="yearsThree">
                 <el-table-column
                   prop="money"
                   label="金额(万元)"
@@ -133,40 +154,16 @@
                   prop="roportion"
                   label="占比"
                   width="84">
-                </el-table-column>
-              </el-table-column>
-              <el-table-column label="2017年1-6月">
-                <el-table-column
-                  prop="money"
-                  label="金额(万元)"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="roportion"
-                  label="占比"
-                  width="84">
-                </el-table-column>
-              </el-table-column>
-              <el-table-column label="2017年1-6月">
-                <el-table-column
-                  prop="money"
-                  label="金额(万元)"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="roportion"
-                  label="占比"
-                  width="84">
-                </el-table-column>
-              </el-table-column>
+                </el-table-column> 
+               </el-table-column> 
           </el-table>
-      </div>
+      </div> -->
     </div>
     <!-- 主要竞争对手简介 -->
     <div class="MajorCompetitors">
       <div class="title">
         <span class="littleRectangle"></span>
-        <span class="titleText" id="reorganizationIntro">主要竞争对手简介</span>
+        <span class="titleText" id="profileOfMajorCompetitors">主要竞争对手简介</span>
       </div>
       <div class="competitorContent">
         <ul class="competitorUl">
@@ -180,7 +177,7 @@
                 text-align: center;
                 line-height: 14px;"
               >{{data.companyName}}</p>
-              <p style="color: #999999;font-size: 12px;text-align: center;">{{data.companyId}}</p>
+              <p style="color: #999999;font-size: 12px;text-align: center;">{{data.companyCode}}</p>
             </div>
             <div class="rightContent l" style=" font-family: 'PingFang-SC-Regular', 'PingFang SC';
                 font-weight: 400;
@@ -190,353 +187,253 @@
                 margin-left:30px;
                 line-height: 22px;
                 width:70%">
-             <!-- <p class="moreText">{{data.companyIntroduce}}</p> -->
-             <p class="moreText">{{sliceText}}</p>
+             <p class="moreText">{{data.situation}}</p>
+             <!-- <p class="moreText">{{sliceText}}</p> -->
+             
             </div>
           </li>
         </ul>
       </div>
     </div>
-    <!-- 报告期前五名供应商情况 -->
+    <!-- 报告期主要供应商及客户情况 -->
     <div class="theTopFive">
        <div class="title">
         <span class="littleRectangle"></span>
-        <span class="titleText" id="reorganizationIntro">报告期前五名供应商情况</span>
+        <span class="titleText" id="majorSuppliers">报告期主要供应商及客户情况</span>
       </div>
       <div class="theTopFiveSupplier">
-          <el-table
-            show-summary
-            :data="incomeCompositionTableList"
-            style="width: 100%;margin-top: 20px">
-            <el-table-column
-              fixed
-              prop="yewu"
-              label="排名"
-              width="70">
-            </el-table-column>
-            <el-table-column
-               fixed
-              prop="yewu"
-              label="公司"
-              width="130">
-            </el-table-column>
-              <el-table-column label="2017年1-6月">
-                <el-table-column
-                  prop="money"
-                  label="采购内容"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="money"
-                  label="金额(万元)"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="roportion"
-                  label="占比"
-                  width="84">
-                </el-table-column>
-              </el-table-column>
-              <el-table-column label="2017年1-6月">
-                <el-table-column
-                  prop="money"
-                  label="采购内容"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="money"
-                  label="金额(万元)"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="roportion"
-                  label="占比"
-                  width="84">
-                </el-table-column>
-              </el-table-column>
-              <el-table-column label="2017年1-6月">
-                <el-table-column
-                  prop="money"
-                  label="采购内容"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="money"
-                  label="金额(万元)"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="roportion"
-                  label="占比"
-                  width="84">
-                </el-table-column>
-              </el-table-column>
-              <el-table-column label="2017年1-6月">
-                <el-table-column
-                  prop="money"
-                  label="采购内容"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="money"
-                  label="金额(万元)"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="roportion"
-                  label="占比"
-                  width="84">
-                </el-table-column>
-              </el-table-column>
-              <el-table-column label="2017年1-6月">
-                <el-table-column
-                  prop="money"
-                  label="采购内容"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="money"
-                  label="金额(万元)"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="roportion"
-                  label="占比"
-                  width="84">
-                </el-table-column>
-              </el-table-column>
-          </el-table>
+        <p>报告期前五名供应商情况</p>
+        <fifthGysTable></fifthGysTable>
+      </div>
+       <div class="theTopFiveKh">
+        <p>报告期前五名客户情况</p>
+        <fifthKhTable></fifthKhTable>
       </div>
     </div>
     <!-- 募集资金运用 -->
     <div class="raiseMoney">
       <div class="title">
         <span class="littleRectangle"></span>
-        <span class="titleText" id="reorganizationIntro">募集资金运用</span>
+        <span class="titleText" id="utilizationOfRaisedFunds">募集资金运用</span>
+      </div>
+      <div class="raiseMoneyTable">
+        <!-- 募集资金运用表格 -->
+          <el-table :data="raiseMoneyTableList" border style="width:100%;" show-summary :summary-method="getSummaries">
+            <el-table-column label="项目名称" align="left">
+                <template slot-scope="scope">
+                    <span v-if="scope.row.projectName">{{scope.row.projectName}}</span>
+                    <span v-else>- -</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="项目类型" align="center">
+                <template slot-scope="scope">
+                      <span v-if="scope.row.projectType">{{scope.row.projectType}}</span>
+                    <span v-else>- -</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="项目总投资(万元)" align="right" prop="xmz">
+                <template slot-scope="scope">
+                      <span v-if="scope.row.xmz">{{scope.row.xmz}}</span>
+                    <span v-else>- -</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="拟投入募集资金金额（万元）" align="right" prop="ntr">
+                <template slot-scope="scope">
+                      <span v-if="scope.row.ntr">{{scope.row.ntr}}</span>
+                    <span v-else>- -</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="占拟募集资金净额比例" align="right" prop="znm">
+                <template slot-scope="scope">
+                      <span v-if="scope.row.znm">{{scope.row.znm}}</span>
+                    <span v-else>- -</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="前期已投入资金金额（万元）" align="right" prop="qqy">
+                <template slot-scope="scope">
+                      <span v-if="scope.row.qqy">{{scope.row.qqy}}</span>
+                    <span v-else>- -</span>
+                </template>
+            </el-table-column>
+        </el-table>
+        <p class="shuoming" style="font-family: 'PingFang-SC-Regular', 'PingFang SC';
+            font-weight: 400;
+            font-style: normal;
+            color: #666666;
+            font-size:14px;
+            line-height:20px; 
+            text-align: left;">
+            说明：本次募集资金到位前，公司拟以自筹资金和银行借款先行实施；募集资金到位后，公司将用募集资金置换已投入的资金。如果实际募集资金净额不足以完成上述投资项目，不足部分公司将自筹解决。
+        </p>
       </div>
     </div>
     <!-- 中介机构 -->
     <div class="IntermediaryInstitutions">
       <div class="title">
         <span class="littleRectangle"></span>
-        <span class="titleText" id="reorganizationIntro">中介机构</span>
+        <span class="titleText" id="intermediaryInstitutions">中介机构</span>
       </div>
-      <div class="InstitutionsDetail">
-        <ul>
-          <li class="clear InstitutionsDetailLi">
-              <div class="image l">
-                <img src="../../../assets/images/zhonjie.png" alt>
-              </div>
-              <div class="text l">
-                <div>
-                    <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
-                      font-style: normal; font-size: 16px; color: rgb(101, 106, 177);">立信会计师事务所(特殊普通合伙)</span>
-                    <span style="background:yellow;color:white;font-size: 12px;">已认证</span>
-                    <span style="color: #6633FF;font-size: 12px;">联系他</span>
-                </div>
-                 <ul>
-                    <li class="people">
-                      <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                      font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
-                      <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                    </li>
-                    <li class="people">
-                      <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                      font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
-                      <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                    </li>
-                    <li class="people">
-                      <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                      font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
-                      <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                    </li>
-                    <li class="people">
-                      <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                      font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
-                      <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                    </li>
-                    <li class="people">
-                      <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                      font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
-                      <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                    </li>
-                    <li class="people">
-                      <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                      font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
-                      <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                    </li>
-  
-   
-                  
-                 </ul>
-              </div>
-          </li>
-        </ul>
-      </div>
+      <IntermediaryInstitutions></IntermediaryInstitutions>
     </div>
   </div>
 </template>
 
 <script>
 import $ from "jquery";
-import { getGqList } from "@/api/companyProfile";
+import { getCaseDetail } from "@/api/companyProfile";
+import { getMarketData } from "@/api/companyProfile";
+import { getShareHolderData } from "@/api/companyProfile";
+import { getCompetitorData } from "@/api/companyProfile";
 
+// 导入主营业务收入构成表格
+import mainTable from "@/views/tables/mainTable";
+import fifthGysTable from "@/views/tables/fifthGysTable";
+import fifthKhTable from "@/views/tables/fifthKhTable";
+// 导入柱形图和饼图
+import barOrPieChart from "@/components/Charts/barOrPieChart";
+// 导入中介机构
+import IntermediaryInstitutions from "@/views/navMenu/companyProfile/components/IntermediaryInstitutions"
 export default {
   name: "companyProfile",
-  components: {},
+  components: {
+    mainTable,
+    fifthGysTable,
+    fifthKhTable,
+    barOrPieChart,
+    IntermediaryInstitutions
+  },
 
   data() {
     return {
       isLogin: true,
       listLoading: false,
-      gqNameList: [],
       gqTableList: [],
-      incomeCompositionTableList: [],
-      MajorCompetitors: []
+      incomeCompositionTableList1: [],
+      
+      raiseMoneyTableList: [],
+      // 接口
+      structureLabel: [],
+      structureUrl:'',
+      // 公司简介
+      id: "",//案例id
+      companyZhName:'',//公司名称
+      ipoPlate:'',//上市板块
+      industryCsrc:'',//所属行业(证监会) ,
+      companyName:'',//证券简称
+      zhengquanCode:'',//证券代码 
+      addrProv:'',//注册地（省）
+      addrCity:'',//注册地（市） 
+      addrArea:'',//注册地（区）
+      registeredAssets:'',//注册资本（万元）
+      actualController:'',//实际控制人
+      controlShareholder:'',//控股股东 
+      companyNature:'',//企业性质
+      majorBusinesses:'',//主营业务
+      //其他资本市场
+      otherMarketInfoList:[],//其他登陆市场
+      // 主要竞争者
+      MajorCompetitors: [],
     };
   },
   created() {
     this.getData();
+    this.getPosition()
   },
   mounted() {
-    this.drawBarChart();
-    this.drawPieChart();
-  },
-  computed: {
-    // 计算属性方法实现超过三行字数用...表示
-    sliceText() {
-      var moreLengthP = this.MajorCompetitors.length;
-      for (let i = 0; i < moreLengthP; i++) {
-        var moreP = this.MajorCompetitors[i].companyIntroduce;
-        var moreTextHtml = moreP.slice(0, 300) + "......";
-        console.log(moreTextHtml);
-      }
-      return moreTextHtml;
-    }
   },
   methods: {
     //   moke模拟请求的数据
     getData() {
-      getGqList("/companyProfile/gqList").then(res => {
-        this.gqNameList = res.data.gqjgName;
-        this.gqTableList = res.data.gqTable;
-        this.incomeCompositionTableList = res.data.incomeCompositionTable;
-        this.MajorCompetitors = res.data.MajorCompetitors;
+      getCaseDetail().then(res => {
+        // console.log(res.data.result)
+          this.structureLabel = res.data.result.structureLabel.split(',');
+          this.structureUrl = res.data.result.structureUrl
+          this.id = res.data.result.id//案例id
+          this.companyZhName = res.data.result.companyZhName//公司名称
+          this.ipoPlate = res.data.result.ipoPlate//上市板块
+          this.industryCsrc = res.data.result.industryCsrc//所属行业(证监会) ,
+          this.companyName = res.data.result.companyName//证券简称
+          this.zhengquanCode = res.data.result.companyCode//证券代码 
+          this.addrProv = res.data.result.addrProv//注册地（省）
+          this.addrCity = res.data.result.addrCity//注册地（市） 
+          this.addrArea = res.data.result.addrArea//注册地（区）
+          this.registeredAssets = res.data.result.registeredAssets//注册资本（万元）
+          this.actualController = res.data.result.actualController//实际控制人
+          this.controlShareholder = res.data.result.controlShareholder//控股股东 
+          this.companyNature = res.data.result.companyNature//企业性质
+          this.majorBusinesses = res.data.result.majorBusinesses//主营业务
+
+          // 旧
+        // this.gqTableList = res.data.gqTable;
+        // this.MajorCompetitors = res.data.MajorCompetitors;
+        // this.raiseMoneyTableList = res.data.raiseMoneyTableList;
       });
-    },
-    // 柱形图
-    drawBarChart() {
-      let barChart = this.$echarts.init(document.getElementById("barChart"));
-      // 绘制图表
-      barChart.setOption({
-        title: { text: "最近3年主营业务趋势" },
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
-          }
-        },
-        legend: {
-          padding: [
-            200, // 上
-            0, // 右
-            5, // 下
-            0 // 左
-          ],
-          orient: "vertical",
-          x: "center", // 'center' | 'left' | {number},
-          // y: 'bottom', // 'center' | 'bottom' | {number}
-          data: ["宽带移动通信设备", "集成业务", "技术开发业务", "工程业务"],
-          itemWidth: 10, // 图例图形宽度
-          itemHeight: 10, // 图例图形高度
-          textStyle: {
-            color: "#333" // 图例文字颜色
-          }
-        },
-        grid: {
-          left: "3%",
-          right: "4%",
-          bottom: "3%",
-          containLabel: true
-        },
-        xAxis: {
-          type: "category",
-          data: ["2014年7月", "2015年2月", "2016年3月", "2017年6月"]
-        },
-        yAxis: {
-          type: "value"
-        },
-        series: [
-          {
-            name: "宽带移动通信设备",
-            type: "bar",
-            barWidth: "40%",
-            stack: "总量",
-            label: {},
-            data: [35000, 27000, 25200, 15000]
-          },
-          {
-            name: "集成业务",
-            type: "bar",
-            barWidth: "60%",
-            stack: "总量",
-            label: {},
-            data: [1620, 1532, 0, 400]
-          },
-          {
-            name: "技术开发业务",
-            type: "bar",
-            barWidth: "60%",
-            stack: "总量",
-            label: {},
-            data: [1500, 1800, 1000, 1500]
-          },
-          {
-            name: "工程业务",
-            type: "bar",
-            barWidth: "60%",
-            stack: "总量",
-            label: {},
-            data: [0, 0, 0, 954]
-          }
-        ]
+      getMarketData().then(res=>{
+          this.otherMarketInfoList = res.data.result//其他登录市场
       });
+      getShareHolderData().then(res=>{
+        // console.log(res.data.result)
+        this.gqTableList = res.data.result
+      })
+      getCompetitorData().then(res=>{
+        console.log(res.data.result)
+        this.MajorCompetitors = res.data.result
+      })
+         
     },
-    // 饼形图
-    drawPieChart() {
-      let pieChart = this.$echarts.init(document.getElementById("pieChart"));
-      pieChart.setOption({
-        title: { text: "2017年1-6月 _ 主营业务分布" },
-        tooltip: {
-          // trigger: 'item',
-          // formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        series: [
-          {
-            name: "访问来源",
-            type: "pie",
-            radius: "55%",
-            center: ["50%", "60%"],
-            data: [
-              { value: 335, name: "49%" },
-              { value: 310, name: "23%" },
-              { value: 234, name: "67%" },
-              { value: 135, name: "54%" }
-            ],
-            itemStyle: {
-              emphasis: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)"
-              }
-            }
-          }
-        ]
-      });
-    },
-    // 表格合计
-    getSummaries() {}
+    //返回父组件用于锚点定位头
+         getPosition() {
+                let titleList = [];
+                let ownershipStructureChart = {
+                    id: 'ownershipStructureChart',
+                    name: '股权结构图',
+                    notes: '',
+                    important: false,
+                    tabId: 'tab-first',
+                    noClick: false
+                }
+                let mainBusinessIncomeComposition = {
+                    id: 'mainBusinessIncomeComposition',
+                    name: '主营业务收入构成',
+                    notes: '',
+                    important: false,
+                    tabId: 'tab-first',
+                    noClick: false
+                }
+                let majorSuppliers = {
+                    id: 'majorSuppliers',
+                    name: '前五名供应商及用户',
+                    notes: '',
+                    important: false,
+                    tabId: 'tab-first',
+                    noClick: false
+                }
+                let utilizationOfRaisedFunds = {
+                    id: 'utilizationOfRaisedFunds',
+                    name: '募集资金运用',
+                    notes: '',
+                    important: false,
+                    tabId: 'tab-first',
+                    noClick: false
+                }
+                let intermediaryInstitutions = {
+                    id: 'intermediaryInstitutions',
+                    name: '中介机构',
+                    notes: '',
+                    important: false,
+                    tabId: 'tab-first',
+                    noClick: false
+                }
+               
+                titleList.push(ownershipStructureChart)
+                titleList.push(mainBusinessIncomeComposition)
+                titleList.push(majorSuppliers)
+                titleList.push(utilizationOfRaisedFunds)
+                titleList.push(intermediaryInstitutions)
+                this.$emit('headCallBack', titleList);
+         }
+            //返回父组件用于锚点定位尾
+   
   }
 };
 </script>
@@ -667,10 +564,11 @@ export default {
     padding-left: 0;
     width: 100%;
     .InstitutionsDetailLi {
-      padding:20px;
-      width: 100%;
+      padding: 20px;
+      margin-left: 1%;
+      width: 98%;
       height: 130px;
-      background:#F0F0F0;
+      background: #f0f0f0;
       .image {
         width: 10%;
       }
@@ -678,12 +576,12 @@ export default {
         width: 80%;
         ul {
           width: 100%;
-           margin-top: 10px;
+          margin-top: 10px;
           // background:yellow;
           display: flex;
           flex-wrap: wrap;
           li {
-           line-height:20px;
+            line-height: 20px;
             margin-right: 30px;
             width: 45%;
             // background:green;
@@ -692,5 +590,18 @@ export default {
       }
     }
   }
+}
+.InstitutionsDetailLi:hover {
+  cursor: pointer;
+  // box-shadow: darkgrey 0px 0px 6px 2px;
+  box-shadow: 0 0px 28px -5px #ccc;
+}
+// 多行省略号
+.moreText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 </style>
