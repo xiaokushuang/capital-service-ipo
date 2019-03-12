@@ -9,7 +9,6 @@
             <collection property="proList" ofType="com.stock.capital.enterprise.ipoCase.dto.IpoProListDto">
                 <result column="process_type_code" property="progressType" jdbcType="VARCHAR"/>
                 <result column="label_name" property="progressName" jdbcType="VARCHAR"/>
-                <result column="pro_sort" property="proSort" jdbcType="VARCHAR"/>
                 <result column="iec_result" property="iecResult" jdbcType="VARCHAR"/>
                 <result column="process_time" property="processTime" jdbcType="VARCHAR"/>
                 <collection property="relaList"
@@ -19,7 +18,6 @@
                     <result column="relation_file_title" property="relationFileTitle"
                             jdbcType="VARCHAR"/>
                     <result column="table_sort" property="tableSort" jdbcType="VARCHAR"/>
-                    <result column="status" property="status" jdbcType="VARCHAR"/>
                     <result column="suffix" property="suffix" jdbcType="VARCHAR"/>
                     <result column="publish_time" property="publishTime" jdbcType="VARCHAR"/>
                 </collection>

@@ -1,14 +1,45 @@
 package com.stock.capital.enterprise.ipoCase.service;
 
 import com.stock.capital.enterprise.ipoCase.dao.IpoInvestItemMapper;
+import com.stock.capital.enterprise.ipoCase.dto.IpoInvestItemDto;
 import com.stock.core.service.BaseService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.util.List;
+
 @Service
 public class IpoInvestService extends BaseService {
     @Autowired
     private IpoInvestItemMapper ipoInvestItemMapper;
-//    public List<>
+
+    public List<IpoInvestItemDto> selectInvestItem(String id){
+        List<IpoInvestItemDto> investItemList = ipoInvestItemMapper.selectIpoInvestItem(id);
+        //创建一条数据统计合计
+        IpoInvestItemDto sumDto = new IpoInvestItemDto();
+        BigDecimal sumPlan = new BigDecimal("0");
+        BigDecimal sumTotal = new BigDecimal("0");
+        BigDecimal sumPre = new BigDecimal("0");
+        BigDecimal sumRate = new BigDecimal("0");
+        for(IpoInvestItemDto dto:investItemList){
+            BigDecimal rate = new BigDecimal("0");
+            rate = dto.getInvestPlan().divide(dto.getInvestPlanLimit());
+            dto.setInvestRate(rate.multiply(new BigDecimal("100"),new MathContext(2,RoundingMode.HALF_UP)));
+            sumPlan = sumPlan.add(dto.getInvestPlan());
+            sumTotal = sumTotal.add(dto.getInvestTotal());
+            sumPre = sumPre.add(dto.getInvestPre());
+            sumRate = sumRate.add(rate);
+        }
+        sumDto.setItemName("总计");
+        sumDto.setInvestTotal(sumTotal);
+        sumDto.setInvestPlan(sumPlan);
+        sumDto.setInvestPre(sumPre);
+        sumDto.setInvestRate(sumRate);
+        investItemList.add(sumDto);
+        return investItemList;
+    }
 }

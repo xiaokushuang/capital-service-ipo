@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,10 +25,10 @@ public class IpoProcessService extends BaseService {
 
     public TreeTypeProgressDto selectProcessList(String id) {
         TreeTypeProgressDto resultDto = ipoProcessMapper.selectProcessList(id);
-        List<IpoProgressDto> treeList = resultDto.getTreeList();
+        List<IpoProgressDto> treeList = resultDto == null?new ArrayList<>():resultDto.getTreeList();
         //循环计算距离上一个进程时间
         for (int i = 0; i < treeList.size(); i++) {
-            List<IpoProListDto> proList = treeList.get(i).getProList();
+            List<IpoProListDto> proList = treeList.get(i)==null?new ArrayList<>():treeList.get(i).getProList();
             for (int j = 0; j < proList.size(); j++) {
                 //如果不是发审会公告，即不是第一个树，则计算该树的第一个与上一个树的最后一个进程相差时间
                 if (i != 0 && j == 0) {

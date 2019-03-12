@@ -17,8 +17,8 @@ public class IpoProListDto implements Serializable {
     @ApiModelProperty("进程名称")
     private String progressName;
 
-    @ApiModelProperty("进程排序")
-    private Integer proSort;
+//    @ApiModelProperty("进程排序")
+//    private Integer proSort;
 
     @ApiModelProperty("进程时间")
     private String processTime;
@@ -46,14 +46,6 @@ public class IpoProListDto implements Serializable {
 
     public void setProgressName(String progressName) {
         this.progressName = progressName;
-    }
-
-    public Integer getProSort() {
-        return proSort;
-    }
-
-    public void setProSort(Integer proSort) {
-        this.proSort = proSort;
     }
 
     public List<IpoFileRelationDto> getRelaList() {

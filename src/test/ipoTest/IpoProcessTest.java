@@ -2,6 +2,7 @@ package ipoTest;
 
 import base.BaseTest;
 
+import com.stock.capital.enterprise.ipoCase.service.IpoInvestService;
 import com.stock.capital.enterprise.ipoCase.service.IpoProcessService;
 import com.stock.capital.enterprise.regulatory.service.StatisticsService;
 import org.junit.Test;
@@ -22,6 +23,8 @@ public class IpoProcessTest extends BaseTest {
     private StatisticsService statisticsService;
     @Resource
     private IpoProcessService ipoProcessService;
+    @Resource
+    private IpoInvestService ipoInvestService;
 
     @Test
     public void testSample() throws Exception {
@@ -30,6 +33,11 @@ public class IpoProcessTest extends BaseTest {
 //                .contentType(MediaType.APPLICATION_JSON))
 //                .andDo(print())
 //                .andReturn();
+    }
+
+    @Test
+    public void testInvestItem() throws Exception {
+        ipoInvestService.selectInvestItem("97952444248450232");
     }
 
     @Test

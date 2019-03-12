@@ -27,6 +27,10 @@ public class IpoInvestItemDto implements Serializable {
     private String itemTypeStr;
 
     @NumberFormat(pattern = "#,###,##0.0000")
+    @ApiModelProperty("拟募集资金最大净额")
+    private BigDecimal investPlanLimit;
+
+    @NumberFormat(pattern = "#,###,##0.0000")
     @ApiModelProperty("拟投入资金")
     private BigDecimal investPlan;
 
@@ -190,5 +194,13 @@ public class IpoInvestItemDto implements Serializable {
 
     public void setInvestRate(BigDecimal investRate) {
         this.investRate = investRate;
+    }
+
+    public BigDecimal getInvestPlanLimit() {
+        return investPlanLimit;
+    }
+
+    public void setInvestPlanLimit(BigDecimal investPlanLimit) {
+        this.investPlanLimit = investPlanLimit;
     }
 }

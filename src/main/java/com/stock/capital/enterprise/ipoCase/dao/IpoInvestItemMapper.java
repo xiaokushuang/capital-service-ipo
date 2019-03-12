@@ -12,5 +12,5 @@ public interface IpoInvestItemMapper {
     /**
      * 查询募集资金运用list
      */
-    public List<IpoInvestItemDto> selectIpoInvestItemDto();
+    public List<IpoInvestItemDto> selectIpoInvestItem(String id);
 }
