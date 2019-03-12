@@ -9,104 +9,92 @@
             <!-- table1 -->
              <el-row style="margin-bottom: 30px;padding: 0 12px;">
                 <el-col :span="24" :offset="0">
-                <el-row :gutter="24" class="simulation_table">
-                    <el-col :span="6" class="label"><span>每股面值</span></el-col>
-                    <el-col :span="6" class="value">
-                        12564
-                    <!-- <span>
-                        {{isNotEmpty(repCaseDetails.companyName) ? repCaseDetails.companyName : '- -' + '&nbsp;'}}
-                        {{isNotEmpty(repCaseDetails.companyCode) ? '(' + repCaseDetails.companyCode + ')' : '- -'}}
-                    </span> -->
-                    </el-col>
-                    <el-col :span="6" class="label"><span>发行价格</span></el-col>
-                     <el-col :span="6" class="value">12564 </el-col>
-                </el-row>
-                <el-row :gutter="24" class="simulation_table">
-                    <el-col :span="6" class="label"><span>发行数量总计</span></el-col>
-                    <el-col :span="6" class="value">
-                        12564
-                    <!-- <span>
-                        {{isNotEmpty(repCaseDetails.companyName) ? repCaseDetails.companyName : '- -' + '&nbsp;'}}
-                        {{isNotEmpty(repCaseDetails.companyCode) ? '(' + repCaseDetails.companyCode + ')' : '- -'}}
-                    </span> -->
-                    </el-col>
-                    <el-col :span="6" class="label"><span>占发行后总股本的比例</span></el-col>
-                     <el-col :span="6" class="value">12564 </el-col>
-                </el-row>
-                 <el-row :gutter="24" class="simulation_table">
-                    <el-col :span="6" class="label"><span>募集资金总额</span></el-col>
-                    <el-col :span="6" class="value">
-                        12564
-                    <!-- <span>
-                        {{isNotEmpty(repCaseDetails.companyName) ? repCaseDetails.companyName : '- -' + '&nbsp;'}}
-                        {{isNotEmpty(repCaseDetails.companyCode) ? '(' + repCaseDetails.companyCode + ')' : '- -'}}
-                    </span> -->
-                    </el-col>
-                    <el-col :span="6" class="label"><span>募集资金净额</span></el-col>
-                     <el-col :span="6" class="value">12564 </el-col>
-                </el-row>
                   <el-row :gutter="24" class="simulation_table">
-                    <el-col :span="6" class="label"><span>网上发行数量</span></el-col>
-                    <el-col :span="6" class="value">
-                        12564
-                    <!-- <span>
-                        {{isNotEmpty(repCaseDetails.companyName) ? repCaseDetails.companyName : '- -' + '&nbsp;'}}
-                        {{isNotEmpty(repCaseDetails.companyCode) ? '(' + repCaseDetails.companyCode + ')' : '- -'}}
-                    </span> -->
-                    </el-col>
-                    <el-col :span="6" class="label"><span>网下配售数量</span></el-col>
-                     <el-col :span="6" class="value">12564 </el-col>
-                </el-row>
+                      <el-col :span="6" class="label"><span>每股面值</span></el-col>
+                      <el-col :span="6" class="value">
+                          12564
+                      <!-- <span>
+                          {{isNotEmpty(repCaseDetails.companyName) ? repCaseDetails.companyName : '- -' + '&nbsp;'}}
+                          {{isNotEmpty(repCaseDetails.companyCode) ? '(' + repCaseDetails.companyCode + ')' : '- -'}}
+                      </span> -->
+                      </el-col>
+                      <el-col :span="6" class="label"><span>发行价格</span></el-col>
+                      <el-col :span="6" class="value">12564 </el-col>
+                  </el-row>
                   <el-row :gutter="24" class="simulation_table">
-                    <el-col :span="6" class="label"><span>老股东公开发售股份</span></el-col>
-                    <el-col :span="6" class="value">
-                        12564
-                    <!-- <span>
-                        {{isNotEmpty(repCaseDetails.companyName) ? repCaseDetails.companyName : '- -' + '&nbsp;'}}
-                        {{isNotEmpty(repCaseDetails.companyCode) ? '(' + repCaseDetails.companyCode + ')' : '- -'}}
-                    </span> -->
-                    </el-col>
-                    <el-col :span="6" class="label"><span>发行后每股收益</span></el-col>
+                      <el-col :span="6" class="label"><span>发行数量总计</span></el-col>
+                      <el-col :span="6" class="value">
+                          12564
+                      <!-- <span>
+                          {{isNotEmpty(repCaseDetails.companyName) ? repCaseDetails.companyName : '- -' + '&nbsp;'}}
+                          {{isNotEmpty(repCaseDetails.companyCode) ? '(' + repCaseDetails.companyCode + ')' : '- -'}}
+                      </span> -->
+                      </el-col>
+                      <el-col :span="6" class="label"><span>占发行后总股本的比例</span></el-col>
+                      <el-col :span="6" class="value">12564 </el-col>
+                  </el-row>
+                  <el-row :gutter="24" class="simulation_table">
+                      <el-col :span="6" class="label"><span>募集资金总额</span></el-col>
+                      <el-col :span="6" class="value">
+                          12564
+                      <!-- <span>
+                          {{isNotEmpty(repCaseDetails.companyName) ? repCaseDetails.companyName : '- -' + '&nbsp;'}}
+                          {{isNotEmpty(repCaseDetails.companyCode) ? '(' + repCaseDetails.companyCode + ')' : '- -'}}
+                      </span> -->
+                      </el-col>
+                      <el-col :span="6" class="label"><span>募集资金净额</span></el-col>
+                      <el-col :span="6" class="value">12564 </el-col>
+                  </el-row>
+                    <el-row :gutter="24" class="simulation_table">
+                      <el-col :span="6" class="label"><span>网上发行数量</span></el-col>
+                      <el-col :span="6" class="value">
+                          12564
+                      <!-- <span>
+                          {{isNotEmpty(repCaseDetails.companyName) ? repCaseDetails.companyName : '- -' + '&nbsp;'}}
+                          {{isNotEmpty(repCaseDetails.companyCode) ? '(' + repCaseDetails.companyCode + ')' : '- -'}}
+                      </span> -->
+                      </el-col>
+                      <el-col :span="6" class="label"><span>网下配售数量</span></el-col>
+                      <el-col :span="6" class="value">12564 </el-col>
+                  </el-row>
+                    <el-row :gutter="24" class="simulation_table">
+                      <el-col :span="6" class="label"><span>老股东公开发售股份</span></el-col>
+                      <el-col :span="6" class="value">
+                          12564
+                      <!-- <span>
+                          {{isNotEmpty(repCaseDetails.companyName) ? repCaseDetails.companyName : '- -' + '&nbsp;'}}
+                          {{isNotEmpty(repCaseDetails.companyCode) ? '(' + repCaseDetails.companyCode + ')' : '- -'}}
+                      </span> -->
+                      </el-col>
+                      <el-col :span="6" class="label"><span>发行后市盈率</span></el-col>
 
 
-                     <el-col :span="6" class="value">12564 </el-col>
-                </el-row>  
-                <el-row :gutter="24" class="simulation_table">
-                    <el-col :span="6" class="label"><span>发行后每股收益</span></el-col>
-                    <el-col :span="6" class="value">
-                        12564
-                    <!-- <span>
-                        {{isNotEmpty(repCaseDetails.companyName) ? repCaseDetails.companyName : '- -' + '&nbsp;'}}
-                        {{isNotEmpty(repCaseDetails.companyCode) ? '(' + repCaseDetails.companyCode + ')' : '- -'}}
-                    </span> -->
-                    </el-col>
-                    <el-col :span="6" class="label"><span>发行后每股收益</span></el-col>
-                     <el-col :span="6" class="value">12564 </el-col>
-                </el-row>
+                      <el-col :span="6" class="value">12564 </el-col>
+                  </el-row>  
                   <el-row :gutter="24" class="simulation_table">
-                    <el-col :span="6" class="label"><span>发行市盈率</span></el-col>
-                    <el-col :span="6" class="value">
-                        12564
-                    <!-- <span>
-                        {{isNotEmpty(repCaseDetails.companyName) ? repCaseDetails.companyName : '- -' + '&nbsp;'}}
-                        {{isNotEmpty(repCaseDetails.companyCode) ? '(' + repCaseDetails.companyCode + ')' : '- -'}}
-                    </span> -->
-                    </el-col>
-                    <el-col :span="6" class="label"><span>发行市盈率</span></el-col>
-                     <el-col :span="6" class="value">12564 </el-col>
-                </el-row>
-                  <el-row :gutter="24" class="simulation_table">
-                    <el-col :span="6" class="label"><span>发行方式</span></el-col>
-                    <el-col :span="6" class="value">
-                        12564
-                    <!-- <span>
-                        {{isNotEmpty(repCaseDetails.companyName) ? repCaseDetails.companyName : '- -' + '&nbsp;'}}
-                        {{isNotEmpty(repCaseDetails.companyCode) ? '(' + repCaseDetails.companyCode + ')' : '- -'}}
-                    </span> -->
-                    </el-col>
-                    <el-col :span="6" class="label"><span>承销方式</span></el-col>
-                     <el-col :span="6" class="value">12564 </el-col>
-                </el-row>
+                      <el-col :span="6" class="label"><span>发行前每股收益</span></el-col>
+                      <el-col :span="6" class="value">
+                          12564
+                      <!-- <span>
+                          {{isNotEmpty(repCaseDetails.companyName) ? repCaseDetails.companyName : '- -' + '&nbsp;'}}
+                          {{isNotEmpty(repCaseDetails.companyCode) ? '(' + repCaseDetails.companyCode + ')' : '- -'}}
+                      </span> -->
+                      </el-col>
+                      <el-col :span="6" class="label"><span>发行后每股收益</span></el-col>
+                      <el-col :span="6" class="value">12564 </el-col>
+                  </el-row>
+                    <el-row :gutter="24" class="simulation_table">
+                      <el-col :span="6" class="label"><span>发行方式</span></el-col>
+                      <el-col :span="6" class="value">
+                          12564
+                      <!-- <span>
+                          {{isNotEmpty(repCaseDetails.companyName) ? repCaseDetails.companyName : '- -' + '&nbsp;'}}
+                          {{isNotEmpty(repCaseDetails.companyCode) ? '(' + repCaseDetails.companyCode + ')' : '- -'}}
+                      </span> -->
+                      </el-col>
+                      <el-col :span="6" class="label"><span>承销方式</span></el-col>
+                      <el-col :span="6" class="value">12564 </el-col>
+                  </el-row>
                 </el-col>
             </el-row>
         </div>

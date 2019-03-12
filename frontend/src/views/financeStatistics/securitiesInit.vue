@@ -88,11 +88,13 @@
                             </div>
                             <!-- 点击不同菜单展示不同下面内容 -->
                             <div class="el-tabs__content">
+                              <!-- 动态加载tab -->
+                                <!-- <div :is="showTab"></div> -->
                                 <div id="pane-first" aria-labelledby="tab-first" class="el-tab-pane" v-show="isActive == '1'">
                                     <companyProfile :caseId="caseId" v-on:headCallBack="headCall"></companyProfile>
                                 </div>
                                 <div id="pane-second" aria-labelledby="tab-second" class="el-tab-pane" v-show="isActive == '2'">
-                                    <financialInformation :caseId="caseId" v-on:headCallBack="headCall"></financialInformation>
+                                    <financialInformation :caseId="caseId" v-on:headCallBack="headCall" ref="finance"></financialInformation>
                                 </div>
                                 <div id="pane-third" aria-labelledby="tab-third" class="el-tab-pane" v-show="isActive == '3'">
                                     <feedback :caseId="caseId" v-on:headCallBack="headCall"></feedback>
@@ -173,6 +175,13 @@ export default {
   },
   data() {
     return {
+      // 动态加载组件
+      // companyProfile:companyProfile,
+      // financialInformation:financialInformation,
+      // feedback:feedback,
+      // result:result,
+      // rightModule:rightModule,
+      // showTab:companyProfile,
       fixBody: "",
       headerFix: false,
       scrollTop: "",
@@ -320,6 +329,7 @@ export default {
                     case '2':
                         targetList = document.getElementById('title-second').children;
                         let secondFlag = 0;
+                        that.$refs.finance.creatEchart()
                         // alert("111")
                         for (let i = 0; i< targetList.length; i ++) {
                           if ((that.itemActiveSecond + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {

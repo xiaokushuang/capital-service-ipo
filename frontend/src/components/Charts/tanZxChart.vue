@@ -18,12 +18,13 @@ export default {
     }
   },
   created(){
-       this.initTableData()
-    //    console.log(this.zxChartData)
+       
+       
   },
   props:["zxChartData"],
   methods: {
     initChart() {
+      // console.log(this.zxChartData)
       let tanZxChart = echarts.init(document.getElementById('tanZxChart'))
        tanZxChart.setOption({
            title: {
@@ -51,23 +52,37 @@ export default {
       })
     },
      // 初始化数据
-      initTableData() {
-        getAssetsTableData().then(response => {
-            // 获取表头数据
-          this.tableTitle = response.data.assetsList[0]
-        //   console.log(this.tableTitle)
-          this.zxChartX =[this.tableTitle.year1,this.tableTitle.year2,this.tableTitle.year3,this.tableTitle.year4]
-           this.zxChartY = [
-                       {
-                            name:this.zxChartData.project,
-                            type:'line',
-                            data:[this.zxChartData.count1, this.zxChartData.count2, this.zxChartData.count3,this.zxChartData.count4,this.zxChartData.count5]
-                        },
-                    ]
-          //  console.log(this.zxChartY)
-        this.initChart()
-        })
-      },
+    initTableData() {
+      getAssetsTableData().then(response => {
+          // 获取表头数据
+        this.tableTitle = response.data.assetsList[0]
+      //   console.log(this.tableTitle)
+        this.zxChartX =[this.tableTitle.year1,this.tableTitle.year2,this.tableTitle.year3,this.tableTitle.year4]
+          this.zxChartY = [
+                      {
+                          name:this.zxChartData.project,
+                          type:'line',
+                          data:[this.zxChartData.count1, this.zxChartData.count2, this.zxChartData.count3,this.zxChartData.count4,this.zxChartData.count5]
+                      },
+                  ]
+        //  console.log(this.zxChartY)
+      this.initChart()
+      })
+    },
+  },
+  // 动态实时监听刷新折线图的数据
+  watch:{
+    zxChartData: {  
+　　　　handler(newValue, oldValue) {  
+        this.zxChartData = newValue
+　　　 　console.log(this.zxChartData)  
+        //折线图数据的初始化 
+        this.initTableData()
+　　　　},  
+
+　　　　deep: true,  //对象内部的属性监听，也叫深度监听
+       immediate: true //immediate表示在watch中首次绑定的时候，是否执行handler，值为true则表示在watch中声明的时候，就立即执行handler方法，值为false，则和一般使用watch一样，在数据发生变化的时候才执行handler
+　　}  
   }
 }
 </script>

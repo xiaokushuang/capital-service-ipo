@@ -46,7 +46,7 @@ export default {
       initTableData() {
         getTableData().then(response => {
           if(response.data.result){
-            // 如果请求到数据之后再初始化折线图
+            // 如果请求到数据之后再初始化柱形图
                  this.initBarChart(response.data.result)
                  this.initPieChart(response.data.result)
             }
@@ -63,21 +63,25 @@ export default {
       
     //  循环获取柱状图数据
       for (var i = 0; i < dataList.mainIncomeInfoList.length; i++) {
+        
           this.lengendData = dataList.mainIncomeInfoList.businessName
           var a1 = dataList.mainIncomeInfoList[i].firstYearAmount
           var a2 = dataList.mainIncomeInfoList[i].secondYearAmount;
           var a3 = dataList.mainIncomeInfoList[i].thirdYearAmount;
+          // console.log(a1)
+          // console.log(a2)
+          // console.log(a3)
           this.barYY.push(a1)
           this.barYY.push(a2)
           this.barYY.push(a3)
           this.barChartY.push(
-                            {
-                                name:dataList.mainIncomeInfoList[i].businessName,
-                                type:'bar',
-                                barWidth:'50%',
-                                stack: '总量',
-                                data:this.barYY,
-                            },
+                                {
+                                    name:dataList.mainIncomeInfoList[i].businessName,
+                                    type:'bar',
+                                    barWidth:'50%',
+                                    stack: '总量',
+                                    data:this.barYY,
+                                },
                              )
             
                }      
@@ -86,7 +90,15 @@ export default {
    // 点击柱状图获取相应数据
       this.barChart.on("click", function(params) {
         this.date = params.name
-        // console.log(this.date)
+        var series = this.getOption().series
+        console.log(series)
+        // console.log(series[0].name+":"+series[0].data[params.dataIndex])
+        // console.log(series[1].name+":"+series[1].data[params.dataIndex])
+        // console.log(series[2].name+":"+series[2].data[params.dataIndex])
+        // console.log(series[3].name+":"+series[3].data[params.dataIndex])
+        // this.initPieChart(response.data.result)
+        //  this.initPieChart(params)
+        // console.log(params)
         //   绑定饼状图数据
         //  for (var i = 0; i < dataList.slice(1).length; i++) {
         //   this.pieData.push(
