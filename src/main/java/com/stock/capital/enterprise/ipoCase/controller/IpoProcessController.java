@@ -15,7 +15,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
-@Api(tags = {"IPO进程接口类"},description = "IPO进程接口类描述")
+@Api(tags = {"IPO进程接口类"}, description = "IPO进程接口类描述")
 @RestController
 @RequestMapping("api/ipoProcess")
 public class IpoProcessController extends BaseController {
@@ -24,12 +24,12 @@ public class IpoProcessController extends BaseController {
 
     @ApiOperation(value = "ipo进程接口", notes = "根据caseId获取ipo进程")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "案例id", required = true, dataType = "String")
+            @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String")
     })
     @RequestMapping(value = "/selectProcessList", method = RequestMethod.GET)
-    public JsonResponse<TreeTypeProgressDto> selectProcessList(String id){
+    public JsonResponse<TreeTypeProgressDto> selectProcessList(String id) {
         JsonResponse<TreeTypeProgressDto> response = new JsonResponse<>();
-        TreeTypeProgressDto resultList =  ipoProcessService.selectProcessList(id);
+        TreeTypeProgressDto resultList = ipoProcessService.selectProcessList(id);
         response.setResult(resultList);
         return response;
     }
