@@ -10,17 +10,18 @@
                 <result column="process_type_code" property="progressType" jdbcType="VARCHAR"/>
                 <result column="label_name" property="progressName" jdbcType="VARCHAR"/>
                 <result column="pro_sort" property="proSort" jdbcType="VARCHAR"/>
+                <result column="iec_result" property="iecResult" jdbcType="VARCHAR"/>
+                <result column="process_time" property="processTime" jdbcType="VARCHAR"/>
                 <collection property="relaList"
                             ofType="com.stock.capital.enterprise.ipoCase.dto.IpoFileRelationDto">
                     <result column="id" property="id" jdbcType="VARCHAR"/>
                     <result column="relation_file_id" property="relaId" jdbcType="VARCHAR"/>
                     <result column="relation_file_title" property="relationFileTitle"
                             jdbcType="VARCHAR"/>
-                    <result column="process_time" property="publishTime" jdbcType="VARCHAR"/>
                     <result column="table_sort" property="tableSort" jdbcType="VARCHAR"/>
                     <result column="status" property="status" jdbcType="VARCHAR"/>
                     <result column="suffix" property="suffix" jdbcType="VARCHAR"/>
-                    <result column="iec_result" property="iecResult" jdbcType="VARCHAR"/>
+                    <result column="publish_time" property="publishTime" jdbcType="VARCHAR"/>
                 </collection>
             </collection>
         </collection>
@@ -37,6 +38,7 @@
             t1.relation_file_id,
             t3.title,
             date_format(t1.process_time,'%Y-%m-%d') process_time,
+            date_format(t1.process_time,'%Y-%m-%d') publish_time,
             t1.table_sort,
             t1.`status`,
             t3.suffix,
@@ -54,6 +56,6 @@
         <where>
             t1.bid = #{id}
         </where>
-            ORDER BY t1.tree_type_code,t1.pro_sort,t1.table_sort
+            ORDER BY t1.tree_type_code,t1.process_time,t1.table_sort
     </select>
 </mapper>

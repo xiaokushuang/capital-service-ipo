@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface IpoProcessMapper {
-    List<TreeTypeProgressDto> selectProcessList(String id);
+    TreeTypeProgressDto selectProcessList(String id);
 }

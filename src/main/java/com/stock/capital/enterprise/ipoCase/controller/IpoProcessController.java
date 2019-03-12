@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -29,9 +27,9 @@ public class IpoProcessController extends BaseController {
             @ApiImplicitParam(name = "id", value = "主表id", required = true, dataType = "String")
     })
     @RequestMapping(value = "/selectProcessList", method = RequestMethod.POST)
-    public JsonResponse<List<TreeTypeProgressDto>> selectProcessList(String id){
-        JsonResponse<List<TreeTypeProgressDto>> response = new JsonResponse<>();
-        List<TreeTypeProgressDto> resultList =  ipoProcessService.selectProcessList(id);
+    public JsonResponse<TreeTypeProgressDto> selectProcessList(String id){
+        JsonResponse<TreeTypeProgressDto> response = new JsonResponse<>();
+        TreeTypeProgressDto resultList =  ipoProcessService.selectProcessList(id);
         response.setResult(resultList);
         return response;
     }

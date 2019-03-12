@@ -21,7 +21,13 @@ public class IpoProListDto implements Serializable {
     private Integer proSort;
 
     @ApiModelProperty("进程时间")
-    private Integer processTime;
+    private String processTime;
+
+    @ApiModelProperty("审核结果")
+    private String iecResult;
+
+    @ApiModelProperty("距离上次进程时间")
+    private String lastDay;
 
     @ApiModelProperty("文件列表")
     private List<IpoFileRelationDto> relaList;
@@ -58,12 +64,28 @@ public class IpoProListDto implements Serializable {
         this.relaList = relaList;
     }
 
-    public Integer getProcessTime() {
+    public String getProcessTime() {
         return processTime;
     }
 
-    public void setProcessTime(Integer processTime) {
+    public void setProcessTime(String processTime) {
         this.processTime = processTime;
+    }
+
+    public String getIecResult() {
+        return iecResult;
+    }
+
+    public void setIecResult(String iecResult) {
+        this.iecResult = iecResult;
+    }
+
+    public String getLastDay() {
+        return lastDay;
+    }
+
+    public void setLastDay(String lastDay) {
+        this.lastDay = lastDay;
     }
 }
 
