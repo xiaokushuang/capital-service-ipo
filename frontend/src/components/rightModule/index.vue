@@ -107,6 +107,7 @@
 <script>
 import Vue from "vue";
 import $ from "jquery";
+import {getRightModuleData} from '@/api/rightModule'
 export default {
     data() {
         return {
@@ -209,6 +210,14 @@ export default {
     props: {
         caseId: String
     },
+    created(){
+         //   请求数据
+         this.flagLoading = false;
+         this.initTableData()
+     },
+    mounted() {
+
+    },
     components: {
 
     },
@@ -216,6 +225,13 @@ export default {
 
     },
     methods: {
+     // 初始化数据
+      initTableData() {
+        getRightModuleData().then(res => {
+            console.log('bbb')
+            console.log(res)
+        })
+      },
         // 弹窗多选框
     handleSelectionChange(val) {
         this.multipleSelection = val;
@@ -478,12 +494,6 @@ export default {
             }
         }
     },
-    created() {
-        this.flagLoading = false;
-    },
-    mounted() {
-    },
-    watch: {}
 };
 </script>
 
