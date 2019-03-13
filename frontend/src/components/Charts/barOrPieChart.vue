@@ -54,6 +54,7 @@ export default {
             var dataList = response.data.result
                  this.initBarChart(dataList);
                  debugger;
+                //  最开始初始化饼状图，默认传的是第三年的数据
                  this.initPieChart(dataList.mainIncomeInfoList,'','',dataList.thirdYearForIncome);
             }
         })
@@ -74,9 +75,6 @@ export default {
           var a1 = dataList.mainIncomeInfoList[i].firstYearAmount
           var a2 = dataList.mainIncomeInfoList[i].secondYearAmount;
           var a3 = dataList.mainIncomeInfoList[i].thirdYearAmount;
-          console.log(a1)
-          console.log(a2)
-          console.log(a3)
           this.barYY.push(a1)
           this.barYY.push(a2)
           this.barYY.push(a3)
@@ -94,11 +92,11 @@ export default {
          this.barChartX = [dataList.firstYearForIncome,dataList.secondYearForIncome,dataList.thirdYearForIncome]
    // 点击柱状图获取相应数据
       this.barChart.on("click", function(params) {
-        debugger
+        // debugger
+        // 获取整条柱子的信息
         var series = this.getOption().series
-        console.log(series)
+        // 点击柱子初始化饼状图
         _self.initPieChart(series,params.name,params.dataIndex,'');
-        console.log(this.pieChartTitle);
       });
        this.barChart.setOption({
            title: {
@@ -115,23 +113,7 @@ export default {
                     type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
                 }
                 },
-                 legend: {
-                    // padding: [
-                    //   200, // 上
-                    //   0, // 右
-                    //   5, // 下
-                    //   0 // 左
-                    // ],
-                    orient: "vertical",
-                    // x: "300", // 'center' | 'left' | {number},
-                    // y: "0", // 'center' | 'bottom' | {number}
-                    data: this.lengendData,
-                    itemWidth: 10, // 图例图形宽度
-                    itemHeight: 10, // 图例图形高度
-                    textStyle: {
-                        color: "#333" // 图例文字颜色
-                    }
-                    },
+                
                 grid: {
                 left: "3%",
                 right: "4%",
@@ -153,23 +135,27 @@ initPieChart(dataList,nameTempO,num,flag) {
   this.pieData = [];
   this.pieChart = this.$echarts.init(document.getElementById("pieChart"));
    var nameTemp = ''
+  //  用nameTempO这个标识来实现点击柱子切换标题
   if(nameTempO){
     nameTemp = nameTempO;
   }
-  debugger
+  // debugger
+  // 用flag这个标识来区别是【初始化的数据】的饼状图还是【点击切换】的饼状图
   if(flag){
+    // 默认饼状图展示最后一年的数据
     nameTemp = flag;
     for (var i = 0; i < dataList.length; i++) {
       var obj = {
         name:"",
         value:""
       };
-      debugger
+      // debugger
       obj.name = dataList[i].businessName
       obj.value = dataList[i].thirdYearAmount;
       this.pieData.push(obj);
     }
   }else{
+    // 点击柱子切换饼状图的数据源
     for (var i = 0; i < dataList.length; i++) {
       var obj = {
         name:"",
@@ -187,6 +173,24 @@ initPieChart(dataList,nameTempO,num,flag) {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
+         legend: {
+                    // padding: [
+                    //   200, // 上
+                    //   0, // 右
+                    //   5, // 下
+                    //   0 // 左
+                    // ],
+                    selectedMode:false,//取消图例上的点击事件
+                    orient: "vertical",
+                    x: "360", // 'center' | 'left' | {number},
+                    y: "200", // 'center' | 'bottom' | {number}
+                    data: this.lengendData,
+                    itemWidth: 10, // 图例图形宽度
+                    itemHeight: 10, // 图例图形高度
+                    textStyle: {
+                        color: "#333" // 图例文字颜色
+                    }
+                 },
         series: [
           {
             name: "访问来源",
@@ -206,84 +210,6 @@ initPieChart(dataList,nameTempO,num,flag) {
 			}
       this.pieChart.setOption(option)
 }
-
-
-
-    // initPieChart() {
-    //     // console.log(this.date)
-    //      const _self = this
-    //     if (this.pieChart) {
-    //       this.pieChart.dispose()
-    //       this.pieChart = null
-    //     }
-    //    this.pieChart = this.$echarts.init(document.getElementById("pieChart"));
-    //     //  循环获取饼状图数据
-    //   // for (var i = 0; i < dataList.mainIncomeInfoList.length; i++) {
-    //   //   if(this.date==='2018-12-31'){
-    //   //         // 3
-    //   //     this.pieData.push(
-    //   //                       {  
-    //   //                           value: [dataList.mainIncomeInfoList[i].thirdYearAmount], 
-    //   //                           name: [dataList.mainIncomeInfoList[i].thirdYearRatio+'%']
-    //   //                       },
-    //   //                     )
-    //   //   }
-    //   //   if(this.date==='2017-12-31'){
-    //   //      // 2
-    //   //     this.pieData.push(
-    //   //     {  
-    //   //         value: [dataList.mainIncomeInfoList[i].secondYearAmount], 
-    //   //         name: [dataList.mainIncomeInfoList[i].secondYearRatio+'%']
-    //   //     },
-    //   //   )
-    //   //   }
-    //   //    if(this.date==='2016-12-31'){
-    //   //       // 1
-    //   //     this.pieData.push(
-    //   //                       {  
-    //   //                           value: [dataList.mainIncomeInfoList[i].firstYearAmount], 
-    //   //                           name: [dataList.mainIncomeInfoList[i].firstYearRatio+'%']
-    //   //                       },
-    //   //                     )
-    //   //    }
-    //   //   //  else{
-    //   //       this.pieData.push(
-    //   //                       {  
-    //   //                           value: [dataList.mainIncomeInfoList[i].thirdYearAmount], 
-    //   //                           name: [dataList.mainIncomeInfoList[i].thirdYearRatio+'%']
-    //   //                       },
-    //   //                     )
-    //   //   //  }
-      
-    //   // }  
-    //    this.pieChart.setOption({
-         
-    //     title: { text: this.pieChartTitle+" _ 主营业务分布" },
-    //     // title: { text: this.dianjizhuzi?this.pieChartTitle:this.zhudataListX[3]+" _ 主营业务分布" },
-        
-    //     tooltip: {
-    //       trigger: "item",
-    //       formatter: "{a} <br/>{b} : {c} ({d}%)"
-    //     },
-    //     series: [
-    //       {
-    //         name: "访问来源",
-    //         type: "pie",
-    //         radius: "55%",
-    //         center: ["50%", "60%"],
-    //         data:this.pieData,
-    //         itemStyle: {
-    //           emphasis: {
-    //             shadowBlur: 10,
-    //             shadowOffsetX: 0,
-    //             shadowColor: "rgba(0, 0, 0, 0.5)"
-    //           }
-    //         }
-    //       }
-    //     ]
-    //   });
-    // }
- 
   }
 }
 </script>

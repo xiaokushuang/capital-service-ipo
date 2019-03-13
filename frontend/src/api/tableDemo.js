@@ -50,3 +50,17 @@ export function getIssueMoneyTableData() {
   })
   
 }
+// 发行情况
+export function getIssueData() {
+  return request({
+    url: '/issueData/IssueDataList',
+    method: 'get'
+  })
+}
+export function getIssueFeeData() {
+  return request({
+    url: '/issueFeeData/IssueFeeDataList',
+    method: 'get'
+  })
+}
+

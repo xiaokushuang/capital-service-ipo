@@ -215,6 +215,99 @@ export default{
     }
     return { issueMoneyList }
   },
+  getIssueData:()=>({
+      errorCode: null,
+      errorMsg: null,
+      result: {
+        parValue: 0.25,
+        issuePrice: 2,
+        shareIssued: 150000000,
+        issuedRatio: 7.69,
+        sumFina: 300000000,
+        netSumFina: 254384951,
+        exseNumBse: null,
+        issueMethod: "网上定价发行,市值申购,网下询价配售",
+        epsIssueB: null,
+        epsIssueA: 0.21,
+        peIssueA: 9.56,
+        shareIssueOn: 135000000,
+        sharePlaceOff: 15000000,
+        uwMethod: "余额包销"
+      },
+  success: true
+  }),
+  getIssueFeeData:()=>(
+    {
+      "errorCode": null,
+      "errorMsg": null,
+      "result": [
+        {
+          "id": "1106725448772811863",
+          "bid": "97952444247876378",
+          "feeType": "承销及保荐费用",
+          "feeAmount": 1,
+          "feeRatio": 10
+        },
+        {
+          "id": "1106725448772811864",
+          "bid": "97952444247876378",
+          "feeType": "承销费用",
+          "feeAmount": 1,
+          "feeRatio": 10
+        },
+        {
+          "id": "1106725448772811865",
+          "bid": "97952444247876378",
+          "feeType": "保荐费用",
+          "feeAmount": 1,
+          "feeRatio": 10
+        },
+        {
+          "id": "1106725448772811866",
+          "bid": "97952444247876378",
+          "feeType": "原股东承销费用",
+          "feeAmount": 1,
+          "feeRatio": 10
+        },
+        {
+          "id": "1106725448772811867",
+          "bid": "97952444247876378",
+          "feeType": "律师费用",
+          "feeAmount": 1,
+          "feeRatio": 10
+        },
+        {
+          "id": "1106725448772811868",
+          "bid": "97952444247876378",
+          "feeType": "审计费用",
+          "feeAmount": 1,
+          "feeRatio": 10
+        },
+        {
+          "id": "1106725448772811869",
+          "bid": "97952444247876378",
+          "feeType": "验资费用",
+          "feeAmount": 1,
+          "feeRatio": 10
+        },
+        {
+          "id": "1106725448772811870",
+          "bid": "97952444247876378",
+          "feeType": "评估费用",
+          "feeAmount": 1,
+          "feeRatio": 10
+        },
+        {
+          "id": "1106725448772811871",
+          "bid": "97952444247876378",
+          "feeType": "用于本次发行的信息披露费用",
+          "feeAmount": 1,
+          "feeRatio": 10
+        }
+      ],
+      "success": true
+    }
+  )
 
 
 }

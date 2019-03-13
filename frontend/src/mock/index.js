@@ -39,5 +39,10 @@ Mock.mock(/\/demo\/resultList/, 'get', tableDemo.getResultList)
 // 中介机构
 Mock.mock(/\/companyProfile\/intermediaryOrgDataList/, 'get', companyProfileAPI.getIntermediaryOrgDataList)
 // 进程树
-Mock.mock(/\/rightModule\/rightModuleDataList/, 'get', companyProfileAPI.getRightModuleData)
+Mock.mock(/\/rightModule\/rightModuleDataList/, 'get', rightModuleAPI.getRightModuleData)
+// 发行情况
+Mock.mock(/\/issueData\/IssueDataList/, 'get', tableDemo.getIssueData)
+Mock.mock(/\/issueFeeData\/IssueFeeDataList/, 'get', tableDemo.getIssueFeeData)
+
+
 export default Mock

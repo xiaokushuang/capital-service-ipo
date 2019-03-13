@@ -12,55 +12,55 @@
                   <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>每股面值</span></el-col>
                       <el-col :span="6" class="value">
-                          12564
+                          {{this.issueData.parValue}}
                       <!-- <span>
                           {{isNotEmpty(repCaseDetails.companyName) ? repCaseDetails.companyName : '- -' + '&nbsp;'}}
                           {{isNotEmpty(repCaseDetails.companyCode) ? '(' + repCaseDetails.companyCode + ')' : '- -'}}
                       </span> -->
                       </el-col>
                       <el-col :span="6" class="label"><span>发行价格</span></el-col>
-                      <el-col :span="6" class="value">12564 </el-col>
+                      <el-col :span="6" class="value"> {{this.issueData.issuePrice}} </el-col>
                   </el-row>
                   <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>发行数量总计</span></el-col>
                       <el-col :span="6" class="value">
-                          12564
+                          {{this.issueData.shareIssued}}
                       <!-- <span>
                           {{isNotEmpty(repCaseDetails.companyName) ? repCaseDetails.companyName : '- -' + '&nbsp;'}}
                           {{isNotEmpty(repCaseDetails.companyCode) ? '(' + repCaseDetails.companyCode + ')' : '- -'}}
                       </span> -->
                       </el-col>
                       <el-col :span="6" class="label"><span>占发行后总股本的比例</span></el-col>
-                      <el-col :span="6" class="value">12564 </el-col>
+                      <el-col :span="6" class="value">{{this.issueData.issuedRatio }} </el-col>
                   </el-row>
                   <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>募集资金总额</span></el-col>
                       <el-col :span="6" class="value">
-                          12564
+                          {{this.issueData.sumFina}}
                       <!-- <span>
                           {{isNotEmpty(repCaseDetails.companyName) ? repCaseDetails.companyName : '- -' + '&nbsp;'}}
                           {{isNotEmpty(repCaseDetails.companyCode) ? '(' + repCaseDetails.companyCode + ')' : '- -'}}
                       </span> -->
                       </el-col>
                       <el-col :span="6" class="label"><span>募集资金净额</span></el-col>
-                      <el-col :span="6" class="value">12564 </el-col>
+                      <el-col :span="6" class="value">{{this.issueData.netSumFina }} </el-col>
                   </el-row>
                     <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>网上发行数量</span></el-col>
                       <el-col :span="6" class="value">
-                          12564
+                          {{this.issueData.shareIssueOn}}
                       <!-- <span>
                           {{isNotEmpty(repCaseDetails.companyName) ? repCaseDetails.companyName : '- -' + '&nbsp;'}}
                           {{isNotEmpty(repCaseDetails.companyCode) ? '(' + repCaseDetails.companyCode + ')' : '- -'}}
                       </span> -->
                       </el-col>
                       <el-col :span="6" class="label"><span>网下配售数量</span></el-col>
-                      <el-col :span="6" class="value">12564 </el-col>
+                      <el-col :span="6" class="value">{{this.issueData.sharePlaceOff}} </el-col>
                   </el-row>
                     <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>老股东公开发售股份</span></el-col>
                       <el-col :span="6" class="value">
-                          12564
+                          {{this.issueData.exseNumBse}}
                       <!-- <span>
                           {{isNotEmpty(repCaseDetails.companyName) ? repCaseDetails.companyName : '- -' + '&nbsp;'}}
                           {{isNotEmpty(repCaseDetails.companyCode) ? '(' + repCaseDetails.companyCode + ')' : '- -'}}
@@ -69,31 +69,31 @@
                       <el-col :span="6" class="label"><span>发行后市盈率</span></el-col>
 
 
-                      <el-col :span="6" class="value">12564 </el-col>
+                      <el-col :span="6" class="value">{{this.issueData.peIssueA}} </el-col>
                   </el-row>  
                   <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>发行前每股收益</span></el-col>
                       <el-col :span="6" class="value">
-                          12564
+                          {{this.issueData.epsIssueB}}
                       <!-- <span>
                           {{isNotEmpty(repCaseDetails.companyName) ? repCaseDetails.companyName : '- -' + '&nbsp;'}}
                           {{isNotEmpty(repCaseDetails.companyCode) ? '(' + repCaseDetails.companyCode + ')' : '- -'}}
                       </span> -->
                       </el-col>
                       <el-col :span="6" class="label"><span>发行后每股收益</span></el-col>
-                      <el-col :span="6" class="value">12564 </el-col>
+                      <el-col :span="6" class="value">{{this.issueData.epsIssueA }} </el-col>
                   </el-row>
                     <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>发行方式</span></el-col>
                       <el-col :span="6" class="value">
-                          12564
+                          {{this.issueData.issueMethod}}
                       <!-- <span>
                           {{isNotEmpty(repCaseDetails.companyName) ? repCaseDetails.companyName : '- -' + '&nbsp;'}}
                           {{isNotEmpty(repCaseDetails.companyCode) ? '(' + repCaseDetails.companyCode + ')' : '- -'}}
                       </span> -->
                       </el-col>
                       <el-col :span="6" class="label"><span>承销方式</span></el-col>
-                      <el-col :span="6" class="value">12564 </el-col>
+                      <el-col :span="6" class="value">{{this.issueData.uwMethod}} </el-col>
                   </el-row>
                 </el-col>
             </el-row>
@@ -105,26 +105,30 @@
                 <span class="titleText" id="distributionCosts">发行费用</span>
             </div>
             <!-- table2 -->
-             <el-table :data="issueMoneyTableData" style="width: 100%" stripe border show-summary>
+             <el-table :data="issueFeeData" style="width: 100%" stripe border show-summary>
                 <el-table-column type="index" label="序号" align='center' width="117">
                 <template slot-scope="scope">
                             {{scope.$index+1}}
                 </template>
                 </el-table-column>
-                <el-table-column style="width:30%" prop="costDetail" label="费用明细" align='left'></el-table-column>
-                <el-table-column style="width:30%" prop="money" label="金额（人民币/万元）" align='right'></el-table-column>
-                <el-table-column style="width:30%" prop="proportion" label="占募集资金总额比例(%)" align='right'></el-table-column>
+                <el-table-column style="width:30%" prop="feeType" label="费用明细" align='left'></el-table-column>
+                <el-table-column style="width:30%" prop="feeAmount" label="金额（人民币/万元）" align='right'></el-table-column>
+                <el-table-column style="width:30%" prop="feeRatio" label="占募集资金总额比例(%)" align='right'></el-table-column>
             </el-table>
         </div>
     </div>
 </template>
 <script>
-import { getIssueMoneyTableData } from "@/api/tableDemo";
+import { getIssueData } from "@/api/tableDemo";
+import { getIssueFeeData } from "@/api/tableDemo";
+
 export default {
   name: "issue",
   data() {
       return{
-          issueMoneyTableData:[]
+      
+          issueFeeData:[],
+          issueData:[],
       }
   },
    created() {
@@ -157,9 +161,15 @@ export default {
             //返回父组件用于锚点定位尾
      },
     initTableData() {
-      getIssueMoneyTableData().then(res => {
-          this.issueMoneyTableData = res.data.issueMoneyList;
+       getIssueData().then(res => {
+         this.issueData = res.data.result
+          // console.log(this.issueData)
       }) 
+      getIssueFeeData().then(res=>{
+        console.log(res)
+        this.issueFeeData = res.data.result
+        console.log(this.issueFeeData)
+      })
     },
     // 非空判断
     isNotEmpty(param) {
