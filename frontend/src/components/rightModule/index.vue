@@ -38,10 +38,10 @@
                                         top: -20px;
                                         color: #14BCF5;
                                         padding:5px;
+                                        padding-right:5px;
                                         line-height:10px;
                                         display:inline-block;
-                                        background-size:cover;
-                                        background-repeat: no-repeat;
+                                        
                                         ">获通过</span>
                                     <span v-if="item.iecResult=='01'"
                                      :style={background:whtg} 
@@ -51,10 +51,11 @@
                                         top: -20px;
                                         color: #FE5461;
                                         padding:5px;
+                                        padding-right:5px;
                                         line-height:10px;
                                         display:inline-block;
-                                        background-size:cover;
-                                        background-repeat: no-repeat;
+                                       
+                                        
                                         ">未获通过</span>
                                     <span v-if="item.iecResult=='02'"
                                        :style={background:zhbj} 
@@ -64,10 +65,11 @@
                                         top: -20px;
                                         color: #FF9900;
                                         padding:5px;
+                                        padding-right:5px;
                                         line-height:10px;
                                         display:inline-block;
-                                        background-size:cover;
-                                        background-repeat: no-repeat;
+                                       background-size:100% 100%;
+                                        
                                        ">暂缓表决</span>
                                     <span v-if="item.iecResult=='03'"
                                      :style={background:qxsh} 
@@ -77,10 +79,10 @@
                                         top: -20px;
                                         color: #94A3B4;
                                         padding:5px;
+                                        padding-right:5px;
                                         line-height:10px;
                                         display:inline-block;
-                                        background-size:cover;
-                                        background-repeat: no-repeat;
+                                        background-size:100% 100%;
                                         ">取消审核</span>
                                 </div>
                                 <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
@@ -93,14 +95,18 @@
                                 <div v-if="item.flag==1&&item.relaList.length>1" style="margin-bottom: 24px;margin-top: 8px;">
                                     <span>
                                         <span>
-                                        <a href="#" @click.stop="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告</a>
+                                             <a v-if="boxDataItem.sandian" href="#" @click.stop="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告</a>
+                                             <a v-else href="#" @click.stop="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多审核意见</a>
                                         </span>
                                     </span>
                                 </div>
                                 <div  v-if="item.flag==0" style="margin-bottom: 24px;margin-top: 8px;"> 
                                     <span>  
                                         <span>
-                                            <div v-show="item.relaList.length>0" @click.stop="showAndHide(boxDataItem,'each' + item.sort,item, null)" href="#" class="moreNoticeCss" style="cursor: pointer;">查看公告</div>
+                                            <!-- 第一个进程展示的是‘查看公告’ -->
+                                            <div v-if="boxDataItem.sandian" v-show="item.relaList.length>0" @click.stop="showAndHide(boxDataItem,'each' + item.sort,item, null)" href="#" class="moreNoticeCss" style="cursor: pointer;">查看公告</div>
+                                            <!-- 第二个进程展示的是‘查看审核意见’ -->
+                                            <div v-else v-show="item.relaList.length>0" @click.stop="showAndHide(boxDataItem,'each' + item.sort,item, null)" href="#" class="moreNoticeCss" style="cursor: pointer;">查看审核意见</div>
                                         </span>
                                     </span>
                                 </div>
@@ -117,58 +123,28 @@
                         </div>
                         <!-- 点击查看更多公告内容弹窗 -->
                         <div class="popWindow">
-                            <el-dialog title="招股公告_相关公告" :visible.sync="dialogTableVisible">
-                                <el-table
-                                    ref="multipleTable"
-                                    :data="tableData3"
-                                    tooltip-effect="dark"
-                                    style="width: 100%"
-                                    @selection-change="handleSelectionChange">
-                                    <el-table-column
-                                    type="selection" 
-                                    width="55">
-                                    </el-table-column>
-                                    <el-table-column
-                                    label="公告日期"                                  
-                                    width="120">
-                                    <template slot-scope="scope">{{ scope.row.date }}</template>
-                                    </el-table-column>
-                                    <el-table-column
-                                    prop="name"
-                                    label="公告名称"
-                                    width="120">
-                                    </el-table-column>
-                                    <el-table-column
-                                    
-                                        label="操作"
-                                    >
-                                        <template slot-scope="scope">
-                                            <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-                                            <el-button type="text" size="small">编辑</el-button>
-                                        </template>
-                                    </el-table-column>
-                                </el-table>
-                                <button class="DownloadAnnouncement">下载所选公告</button>
+                             <el-dialog :title="moreNoticeDailog" :visible.sync="dialogVisible" :close-on-click-modal="false" width="73.5%" append-to-body id="moreNoticeDailog">
+                                <div style="background: #cccccc">
+                                    <moreNotice :moreNoticeList = "moreNoticeList"></moreNotice>
+                                    <!-- <moreNotice :id="id" :progressType="progressType" :caseMoreNoticeId="caseMoreNoticeId" :sort="sort" ref="moreNotice"></moreNotice> -->
+                                </div>
                             </el-dialog>
                         </div>
                     </el-col>
                 </el-row>
             </div>
-            <!-- <div v-else>
+            <div v-else>
                 <span>暂无数据</span>
-            </div> -->
-        </div>
-        <el-dialog :title="moreNoticeDailog" :visible.sync="dialogVisible" :close-on-click-modal="false" width="80%" append-to-body id="moreNoticeDailog">
-            <div style="background: #cccccc">
-                <!-- <moreNotice :id="id" :progressType="progressType" :caseMoreNoticeId="caseMoreNoticeId" :sort="sort" ref="moreNotice"></moreNotice> -->
             </div>
-        </el-dialog>
+        </div>
+      
     </div>
 </template>
 
 <script>
 import Vue from "vue";
 import $ from "jquery";
+import moreNotice from "./module/moreNotice"
 import {getRightModuleData} from '@/api/rightModule'
 export default {
     data() {
@@ -182,6 +158,8 @@ export default {
              treeList0:[],
              treeList:[],
              isSpread:false,
+            //  更多公告数据
+             moreNoticeList:[],
             //  图片路径
             zhbj:'url('+ require('../../assets/images/zhbj.png')+')',
             htg:'url('+ require('../../assets/images/htg.png')+')',
@@ -190,38 +168,7 @@ export default {
             //  spreadFlag:false,
             // 新加变量尾
 
-            // 弹窗多选数组
-              multipleSelection: [],
             //   弹窗table数据
-              tableData3: [{
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-08',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-06',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-07',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }],
                 dialogTableVisible: false,
                 showGonggao:true,
                 showMoreGonggao:false,
@@ -255,10 +202,10 @@ export default {
          this.initTableData()
      },
     mounted() {
-        console.log(this.isSpread)
+        // console.log(this.isSpread)
     },
     components: {
-
+        moreNotice
     },
     computed: {
 
@@ -275,10 +222,10 @@ export default {
         })
       },
         // 弹窗多选框
-    handleSelectionChange(val) {
+        handleSelectionChange(val) {
         this.multipleSelection = val;
       },
-      // 鼠标移入三个点
+       // 标移入三个点
       handleMouseenterSpread(){
         this.isShowSpreadText = true
       },
@@ -322,30 +269,33 @@ export default {
             this.boxData1.reverse();
         },
         moreNoticeClick(params,obj) {
-        // 点击查看更多公告不收起展开的内容
+            // 点击查看更多公告不收起展开的内容
              this.isSpread = true;
              params.spreadFlag = true;
-            //查看更多公告/函件
-            this.id = obj.id,
-                this.progressType = obj.progressType,
-                this.caseMoreNoticeId = obj.caseId,
-                this.sort = obj.sort
-            let param = {
-                id: obj.id,
-                progressType: obj.progressType,
-                caseId: obj.caseId,
-                sort: obj.sort
-            }
-            if (this.$refs.moreNotice != undefined) {
-                this.$refs.moreNotice.flagLoading = true;
-                this.$refs.moreNotice.tableColumnData(param);
-            }
-            if (obj.progressType == '011' || obj.progressType == '020') {
-                this.moreNoticeDailog = '相关审核意见'
-            } else {
-                this.moreNoticeDailog = '相关公告'
-            }
+            // 弹出更多公告 
             this.dialogVisible = true;
+            this.moreNoticeList = obj.relaList
+            console.log(this.moreNoticeList)
+            // this.id = obj.id,
+            // this.progressType = obj.progressType,
+            // this.caseMoreNoticeId = obj.caseId,
+            // this.sort = obj.sort
+            // let param = {
+            //     id: obj.id,
+            //     progressType: obj.progressType,
+            //     caseId: obj.caseId,
+            //     sort: obj.sort
+            // }
+            // if (this.$refs.moreNotice != undefined) {
+            //     this.$refs.moreNotice.flagLoading = true;
+            //     this.$refs.moreNotice.tableColumnData(param);
+            // }
+            // if (obj.progressType == '011' || obj.progressType == '020') {
+            //     this.moreNoticeDailog = '相关审核意见'
+            // } else {
+            //     this.moreNoticeDailog = '相关公告'
+            // }
+       
         },
         showAndHideParent(obj, exAllFlag,item) {
             if (
@@ -747,26 +697,6 @@ export default {
 .allJincheng{
     // border-bottom:1px solid rgba(242, 242, 242, 1);
     // border-top:1px solid rgba(242, 242, 242, 1);
-}
-.DownloadAnnouncement{
-    width: 109px;
-    height: 30px;
-    margin-top:20px;
-    margin-left:30px;
-    background: inherit;
-    background-color: rgba(255, 255, 255, 0);
-    box-sizing: border-box;
-    border-width: 1px;
-    border-style: solid;
-    border-color: rgba(202, 202, 202, 1);
-    border-radius: 2px;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    font-family: 'PingFang-SC-Regular', 'PingFang SC';
-    font-weight: 400;
-    font-style: normal;
-    font-size: 14px;
 }
 // 三个点展开样式
 .spread{
