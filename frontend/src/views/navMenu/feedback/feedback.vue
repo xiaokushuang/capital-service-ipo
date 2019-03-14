@@ -287,6 +287,9 @@ export default {
     };
   },
   methods: {
+    handleClick(){
+      
+    },
     packUp() {
       this.flag = false;
     },

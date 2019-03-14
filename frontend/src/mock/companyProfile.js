@@ -388,6 +388,73 @@ export default {
       },
       "success": true
   }),
-
+  getRaiseMoneyTableList: () => ({
+    "errorCode": null,
+  "errorMsg": null,
+  "result": [
+    {
+      "id": null,
+      "bid": null,
+      "itemName": "项目1",
+      "itemType": "02,03",
+      "itemTypeStr": "产品升级,生产技术改造",
+      "investPlanLimit": 23788.43,//拟募集资金最大净额 
+      "investPlan": 10000,//拟投入资金
+      "investTotal": 10000,//项目总投资
+      "investPre": 200,//前期已投入资金
+      "investRate": 18,//占拟募集资金净额比例
+      "investRateStr": "42.04%",//占拟募集资金净额比例字符串
+      "sortNo": null,//排序
+      "createUser": null,//创建人
+      "createTime": null,//创建时间
+      "updateUser": null,//修改人
+      "updateTime": null,//修改时间
+      "status": null,//状态
+      "editStatus": null// 编辑状态
+    },
+    {
+      "id": null,
+      "bid": null,
+      "itemName": "项目2",
+      "itemType": "05",
+      "itemTypeStr": "研发中心建设",
+      "investPlanLimit": 23788.43,
+      "investPlan": 10000,
+      "investTotal": 10000,
+      "investPre": 200,
+      "investRate": 23,
+      "investRateStr": "42.04%",
+      "sortNo": null,
+      "createUser": null,
+      "createTime": null,
+      "updateUser": null,
+      "updateTime": null,
+      "status": null,
+      "editStatus": null
+    },
+    {
+      "id": null,
+      "bid": null,
+      "itemName": "总计",
+      "itemType": null,
+      "itemTypeStr": null,
+      "investPlanLimit": null,
+      "investPlan": 20000,
+      "investTotal": 20000,
+      "investPre": 400,
+      "investRate": null,
+      "investRateStr": "84.08%",
+      "sortNo": null,
+      "createUser": null,
+      "createTime": null,
+      "updateUser": null,
+      "updateTime": null,
+      "status": null,
+      "editStatus": null
+    }
+  ],
+  "success": true,
+  "timestamp": 1552552554762
+  }),
 }
  

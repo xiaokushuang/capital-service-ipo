@@ -43,6 +43,7 @@ Mock.mock(/\/rightModule\/rightModuleDataList/, 'get', rightModuleAPI.getRightMo
 // 发行情况
 Mock.mock(/\/issueData\/IssueDataList/, 'get', tableDemo.getIssueData)
 Mock.mock(/\/issueFeeData\/IssueFeeDataList/, 'get', tableDemo.getIssueFeeData)
-
+// 募集资金
+Mock.mock(/\/companyProfile\/raiseMoneyTableList/, 'get', companyProfileAPI.getRaiseMoneyTableList)
 
 export default Mock

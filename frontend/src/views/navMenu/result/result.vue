@@ -259,6 +259,7 @@ export default {
     this.initTableData();
   },
   methods: {
+    handleClose(){},
     // 点击弹出详情方法
     handleMemberDetail(){
         this.dialogVisible = true
