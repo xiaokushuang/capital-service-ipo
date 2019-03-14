@@ -54,6 +54,7 @@
         <where>
             t1.bid = #{id}
         </where>
-            ORDER BY t1.tree_type_code,t1.process_time,t1.table_sort
+            ORDER BY t1.tree_type_code DESC,t1.process_time DESC,t1.process_type_code DESC,t1.table_sort DESC
+
     </select>
 </mapper>

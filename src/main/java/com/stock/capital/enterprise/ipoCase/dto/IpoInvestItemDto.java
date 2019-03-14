@@ -45,6 +45,9 @@ public class IpoInvestItemDto implements Serializable {
     @ApiModelProperty("占拟募集资金净额比例")
     private BigDecimal investRate;
 
+    @ApiModelProperty("占拟募集资金净额比例字符串")
+    private String investRateStr;
+
     @ApiModelProperty("排序")
     private Integer sortNo;
 
@@ -202,5 +205,13 @@ public class IpoInvestItemDto implements Serializable {
 
     public void setInvestPlanLimit(BigDecimal investPlanLimit) {
         this.investPlanLimit = investPlanLimit;
+    }
+
+    public String getInvestRateStr() {
+        return investRateStr;
+    }
+
+    public void setInvestRateStr(String investRateStr) {
+        this.investRateStr = investRateStr;
     }
 }
