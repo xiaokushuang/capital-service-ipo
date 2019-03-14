@@ -1,115 +1,132 @@
 <template>
-<div v-loading="flagLoading" element-loading-text="给我一点时间" class="zdzc_css" style="margin-top:20px;">
-  <div class="allJincheng" v-for="boxDataItem in boxDataAll" v-if="boxDataAll.length>0" >
-        <el-row style="margin-top:10px;padding-left:12px">
-            <el-col :span="24" style="border-left:1px solid rgba(242, 242, 242, 1);">
-               <!-- 进程名 -->
-                <div class="jincheng">
-                  <img src="../../assets/images/jinchengjian.png" alt="">
-                  <p>{{boxDataItem.jcName}}</p>
-                </div>
-                <div class="right" v-for="(item,index) in boxDataItem.boxData" :key="item.sort" v-show="index == 0 || boxDataItem.isSpread" @click="handleSpreadBody($event,boxDataItem)">
-                     <div class="border-box">
-                        <span v-if="sortFlag == '0'">
-                            <span :id="'sign' + item.sort" class="circle" v-if="boxDataItem.boxData.length">
-                              {{item.sort}}
-                              <!-- {{indexShowHidden && thisIndex == index ? '' : boxDataItem.boxData.length - index}} -->
-                            </span>
-                        </span>
-                        <span v-else>
-                            <span :id="'sign' + item.sort" class="circle" v-if="boxDataItem.boxData.length">
-                              {{item.sort}}
-                              <!-- {{indexShowHidden && thisIndex == index ? '' : index + 1}} -->
-                            </span>
-                        </span>
-                    </div>
-                    <div class="border-right">
-                        <div style="font-size: 16px; color: #333333;"
-                             v-text='item.processLabel'
-                             @click="showAndHide('each' + item.sort,item, 'title')"
-                             @mouseenter="onMouseOver('each' + item.sort, item, index)"
-                             @mouseleave="onMouseOut('each' + item.sort, item, index)"
-                             class="tinyHand">
+    <div v-loading="flagLoading" element-loading-text="给我一点时间" class="zdzc_css" style="margin-top:20px;">
+        <!-- <div class="allJincheng" v-for="boxDataItem in treeList" v-if="treeList.length>0" > -->
+            <div v-if="boxData.length>0">
+                <el-row style="margin-top:24px;padding-left:12px">
+                    <el-col :span="24" style="border-left:1px solid #0099cc;">
+                         <!-- 进程名 -->
+                        <div class="jincheng">
+                            <img src="../../assets/images/jinchengjian.png" alt="">
+                            <p v-if="treeList0.treeTypeCode == '01'">上市</p>
                         </div>
-                        <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
-                            <span v-text='item.publishTime'></span>
-                            &nbsp;&nbsp;
-                            <span v-if="item.chajitian != undefined">距离上个进程{{item.chajitian}}天</span>
-                            <p class="gonggao" v-show="item.isShowGonggao" style="color:#0086A7;font-size:14px"><a href="#">{{item.gonggao}}</a></p>
-                        </div>
-                        <div :id="'each' + item.sort" style="display:none;">
-                            <div :ref='item.sort' :class="'abc'+item.sort"></div>
-                        </div>
-                       
-                        <div style="margin-bottom: 24px;margin-top: 8px;">
-                          <!-- 点击查看公告 -->
-                            <span >
-                               <!-- <div href="#" @click="showAndHide('each' + item.sort,item, null)" class="moreNoticeCss" style="cursor: pointer;">查看公告</div> -->
-                                <div @click.stop="letterClick(item)" class="moreNoticeCss" style="cursor: pointer;" v-if="item.showGonggaoText">查看公告</div>
-                                <!-- <div @click.stop="moreLetterClick(item)" class="moreNoticeCss" style="cursor: pointer;" v-if="item.showMoreGonggaoText">查看更多公告</div> -->
-                                <div @click="dialogTableVisible = true" class="moreNoticeCss" style="cursor: pointer;" v-if="item.showMoreGonggaoText">查看更多公告</div>
-                            </span>
-                         
-                             <!-- 点击查看更多公告内容弹窗 -->
-                            <div class="popWindow">
-                                <el-dialog title="招股公告_相关公告" :visible.sync="dialogTableVisible">
-                                    <el-table
-                                        ref="multipleTable"
-                                        :data="tableData3"
-                                        tooltip-effect="dark"
-                                        style="width: 100%"
-                                        @selection-change="handleSelectionChange">
-                                        <el-table-column
-                                        type="selection" 
-                                        width="55">
-                                        </el-table-column>
-                                        <el-table-column
-                                        label="公告日期"                                  
-                                        width="120">
-                                        <template slot-scope="scope">{{ scope.row.date }}</template>
-                                        </el-table-column>
-                                        <el-table-column
-                                        prop="name"
-                                        label="公告名称"
-                                        width="120">
-                                        </el-table-column>
-                                        <el-table-column
-                                        
-                                            label="操作"
-                                        >
-                                            <template slot-scope="scope">
-                                                <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-                                                <el-button type="text" size="small">编辑</el-button>
-                                            </template>
-                                        </el-table-column>
-                                    </el-table>
-                                    <button class="DownloadAnnouncement">下载所选公告</button>
-                                </el-dialog>
+                        <div class="right" v-show="index == 0 || index == boxData.length-1  || isSpread" v-for="(item,index) in boxData"  :key="item.sort">
+                            <div class="border-box">
+                                <span v-if="sortFlag == '0'">
+                                    <span :id="'sign' + item.sort" class="circle" v-if="boxData.length">{{indexShowHidden && thisIndex == index ? '' : boxData.length - index}}</span>
+                                </span>
+                                
+                                <span v-else>
+                                    <span :id="'sign' + item.sort" class="circle" v-if="boxData.length">{{indexShowHidden && thisIndex == index ? '' : index + 1}}</span>
+                                </span>
+                            </div>
+                            <div class="border-right">
+                                <div style="font-size: 16px; color: #333333;"
+                                    v-text='item.progressName'
+                                    @click="showAndHide('each' + item.sort,item, 'title')"
+                                    @mouseenter="onMouseOver('each' + item.sort, item, index)"
+                                    @mouseleave="onMouseOut('each' + item.sort, item, index)"
+                                    class="tinyHand">
+                                </div>
+                                <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
+                                    <!-- <span v-if="item.progressType == '011' || item.progressType == '012'|| item.progressType == '020'  || item.progressType == '021'" v-text='letterPublishTime(item)'></span> -->
+                                    <span v-text='item.processTime'></span>
+                                    &nbsp;&nbsp;
+                                    <span v-if="item.lastDay != undefined">距离上个进程{{item.lastDay}}</span>
+                                    <p v-show="item.flag==1" class="gonggao"  style="color:#0086A7;font-size:14px"><a href="#">{{item.relaList[0].relationFileTitle}}</a></p>
+                                </div>
+                                <div v-if="item.flag==1&&item.relaList.length>1" style="margin-bottom: 24px;margin-top: 8px;">
+                                    <span>
+                                        <span>
+                                        <a href="#" @click="moreNoticeClick(item)" class="moreNoticeCss">查看更多公告</a>
+                                        </span>
+                                    </span>
+                                </div>
+                                <div  v-if="item.flag==0" style="margin-bottom: 24px;margin-top: 8px;"> 
+                                    <span>  
+                                        <span>
+                                            <div @click="showAndHide('each' + item.sort,item, null)" href="#" class="moreNoticeCss" style="cursor: pointer;">查看公告</div>
+                                        </span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <!-- 三个点展开全部 -->
-                <div>
-                   <p class="spread" @click="handleSpread($event,boxDataItem)" @mouseenter="handleMouseenterSpread(boxDataItem)" @mouseleave="handleMouseleaveSpread(boxDataItem)" >...</p>
-                   <span class="spreadText" v-show="boxDataItem.isShowSpreadText">点击展开隐藏节点</span>
-                </div>
-               
-            </el-col>
-        </el-row>
+                        <!-- 占位作用 -->
+                        <!-- <div class="math" style="visibility:hidden;white-space:nowrap;float:left;">1</div> -->
+                        <!-- 三个点展开全部 -->
+                        <div>
+                            <p class="spread" v-if="spreadFlag" @click="handlePackUp()" style="font-size:14px">收起</p>
+                            <p class="spread" v-else  @click="handleSpread()" @mouseenter="handleMouseenterSpread()" @mouseleave="handleMouseleaveSpread()" >...</p>
+                            <span class="spreadText" v-show="this.isShowSpreadText">点击展开隐藏节点</span>
+                        </div>
+                        
+                                <!-- 点击查看更多公告内容弹窗 -->
+                                <div class="popWindow">
+                                    <el-dialog title="招股公告_相关公告" :visible.sync="dialogTableVisible">
+                                        <el-table
+                                            ref="multipleTable"
+                                            :data="tableData3"
+                                            tooltip-effect="dark"
+                                            style="width: 100%"
+                                            @selection-change="handleSelectionChange">
+                                            <el-table-column
+                                            type="selection" 
+                                            width="55">
+                                            </el-table-column>
+                                            <el-table-column
+                                            label="公告日期"                                  
+                                            width="120">
+                                            <template slot-scope="scope">{{ scope.row.date }}</template>
+                                            </el-table-column>
+                                            <el-table-column
+                                            prop="name"
+                                            label="公告名称"
+                                            width="120">
+                                            </el-table-column>
+                                            <el-table-column
+                                            
+                                                label="操作"
+                                            >
+                                                <template slot-scope="scope">
+                                                    <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+                                                    <el-button type="text" size="small">编辑</el-button>
+                                                </template>
+                                            </el-table-column>
+                                        </el-table>
+                                        <button class="DownloadAnnouncement">下载所选公告</button>
+                                    </el-dialog>
+                                </div>
+                    </el-col>
+                </el-row>
+            </div>
+        <!-- </div> -->
+        <div v-else>
+            <span>暂无数据</span>
+        </div>
+        <el-dialog :title="moreNoticeDailog" :visible.sync="dialogVisible" :close-on-click-modal="false" width="80%" append-to-body id="moreNoticeDailog">
+            <div style="background: #cccccc">
+                <!-- <moreNotice :id="id" :progressType="progressType" :caseMoreNoticeId="caseMoreNoticeId" :sort="sort" ref="moreNotice"></moreNotice> -->
+            </div>
+        </el-dialog>
     </div>
-    <div v-else>
-        <span>暂无数据</span>
-    </div>
-</div>
 </template>
 
 <script>
 import Vue from "vue";
 import $ from "jquery";
+import {getRightModuleData} from '@/api/rightModule'
 export default {
     data() {
         return {
+            // 新加变量头
+             boxData:[],
+             treeTypeCode:'',
+             isShowSpreadText:'',
+             treeList0:[],
+             treeList:[],
+             isSpread:false,
+             spreadFlag:false,
+            // 新加变量尾
+
             // 弹窗多选数组
               multipleSelection: [],
             //   弹窗table数据
@@ -153,51 +170,11 @@ export default {
             moreNoticeDailog: '',
             dialogVisible: false,
             lableData: [],
-             boxDataAll:[
-                {
-                    "jcName": "上市",
-                    "isSpread":false,
-                    isShowSpreadText:false,
-                    "boxData":[
-                        { sort:'0',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
-                        { sort:'1',processLabel: "割接方案会审",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
-                        { sort:'2',processLabel: "割接审批",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
-                        { sort:'3',processLabel: "审批成功",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
-                        { sort:'4',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
-                    ],
-    
-                },
-                {
-                    "jcName": "审核",
-                     "isSpread":false,
-                     isShowSpreadText:false,
-                    "boxData":[
-                        { sort:'5',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
-                        { sort:'6',processLabel: "割接方案会审",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
-                        { sort:'7',processLabel: "割接审批",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
-                        { sort:'8',processLabel: "审批成功",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
-                        { sort:'9',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
-                    ],
- 
-                },
-                {
-                    "jcName": "辅导工作进程",
-                    "isSpread":false,
-                    isShowSpreadText:false,
-                    "boxData":[
-                        { sort:'10',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
-                        { sort:'11',processLabel: "割接方案会审",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
-                        { sort:'12',processLabel: "割接审批",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
-                        { sort:'13',processLabel: "审批成功",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
-                        { sort:'14',processLabel: "方案制定",publishTime:'2018-08-07',chajitian:'21','gonggao':'圳证监局关于对深圳市华股份有限公司的监管关注函',isShowGonggao:false,showGonggaoText:true,showMoreGonggaoText:false},
-                    ],
-                    
-                },
-             ],
+      
             flagLoading: false,
             //组件
             id: "",
-            processName: "",
+            progressType: "",
             caseMoreNoticeId: "",
             sort: "",
             sortFlag: '0',
@@ -209,6 +186,14 @@ export default {
     props: {
         caseId: String
     },
+    created(){
+         //   请求数据
+         this.flagLoading = false;
+         this.initTableData()
+     },
+    mounted() {
+        console.log(this.isSpread)
+    },
     components: {
 
     },
@@ -216,26 +201,49 @@ export default {
 
     },
     methods: {
+     // 初始化数据
+      initTableData() {
+        getRightModuleData().then(res => {
+            this.treeTypeCode = res.data.result.treeList[0].treeTypeCode
+            this.boxData = res.data.result.treeList[0].proList
+            this.treeList = res.data.result.treeList
+            this.treeList0 = res.data.result.treeList[0]
+            // this.isSpread = res.data.result.treeList[0].isSpread
+            // console.log(this.treeList0.isSpread)
+            this.isShowSpreadText = res.data.result.treeList[0].isShowSpreadText
+            // console.log(this.boxData.length)
+        })
+      },
         // 弹窗多选框
     handleSelectionChange(val) {
         this.multipleSelection = val;
       },
       // 鼠标移入三个点
-      handleMouseenterSpread(param){
-        param.isShowSpreadText = true
+      handleMouseenterSpread(){
+        this.isShowSpreadText = true
       },
        // 鼠标移出三个点
-      handleMouseleaveSpread(param){
-        param.isShowSpreadText = false
+      handleMouseleaveSpread(){
+        this.isShowSpreadText = false
         // this.isShowSpreadText = false
       },
       // 点击三个点展开隐藏方法
-        handleSpread(ev,param){
+        handleSpread(){
+            this.isSpread = true;
+            this.spreadFlag = true;
+            console.log(this.isSpread)
+            // console.log(this.treeList0.isSpread)
+            // console.log(this.treeList0.isSpread)
             // param.isSpread =! param.isSpread
-            param.isSpread = true;
+            // param.isSpread = true;
             // this.$fouceUpdata()
             // param.showGonggaoText = true;
             // param.showMoreGonggaoText = false;
+        },
+         // 点击收起隐藏方法
+        handlePackUp(){
+            this.isSpread = false;
+            this.spreadFlag = false;
         },
         // 点击li循环体收起展开内容
         handleSpreadBody(ev,param){
@@ -263,12 +271,12 @@ export default {
         moreNoticeClick(obj) {
             //查看更多公告/函件
             this.id = obj.id,
-                this.processName = obj.processName,
+                this.progressType = obj.progressType,
                 this.caseMoreNoticeId = obj.caseId,
                 this.sort = obj.sort
             let param = {
                 id: obj.id,
-                processName: obj.processName,
+                progressType: obj.progressType,
                 caseId: obj.caseId,
                 sort: obj.sort
             }
@@ -276,8 +284,8 @@ export default {
                 this.$refs.moreNotice.flagLoading = true;
                 this.$refs.moreNotice.tableColumnData(param);
             }
-            if (obj.processName == '011' || obj.processName == '020') {
-                this.moreNoticeDailog = '相关函件'
+            if (obj.progressType == '011' || obj.progressType == '020') {
+                this.moreNoticeDailog = '相关审核意见'
             } else {
                 this.moreNoticeDailog = '相关公告'
             }
@@ -309,26 +317,36 @@ export default {
             }
         },
         showAndHide(obj,item, type) {
-            if (
-                document.getElementById(obj).getAttribute("style") ===
-                "display:none;" ||
-                document.getElementById(obj).getAttribute("style") ===
-                "display: none;"
-            ) {
-                document.getElementById(obj).setAttribute("style", "display:back;");
-                if (type == 'title') {
-                  document.querySelector('#sign' + item.sort).className = 'circle fa fa-chevron-up'
-                }
-                item.flag = 1;
-            } else {
-                document.getElementById(obj).setAttribute("style", "display:none;");
-                if (type == 'title') {
-                  document.querySelector('#sign' + item.sort).className = 'circle fa fa-chevron-down'
-                }
-                item.flag = 0;
-            }
+            $('#sign' + item.sort).removeClass("fa fa-chevron-down");
+             $('#sign' + item.sort).addClass("fa fa-chevron-up");
+            item.flag = 1;
+             if (type == 'title'){
+            //  $('#sign' + item.sort).removeClass("fa fa-chevron-up");
+                item.flag = !item.flag; 
+                
+             }
+            // if (
+            //     document.getElementById(obj).getAttribute("style") ===
+            //     "display:none;" ||
+            //     document.getElementById(obj).getAttribute("style") ===
+            //     "display: none;"
+            // ) {
+            //     document.getElementById(obj).setAttribute("style", "display:back;");
+            //     if (type == 'title') {
+            //       document.querySelector('#sign' + item.sort).className = 'circle fa fa-chevron-up'
+            //     }
+            //     item.flag = 1;
+            // } else {
+            //     document.getElementById(obj).setAttribute("style", "display:none;");
+            //     if (type == 'title') {
+            //       document.querySelector('#sign' + item.sort).className = 'circle fa fa-chevron-down'
+            //     }
+            //     item.flag = 0;
+            // }
         },
         onMouseOver (obj, item, index) {
+        //   console.log($('#sign' + item.sort).className)
+          $('#sign' + item.sort).addClass("fa fa-chevron-down");
           this.indexShowHidden = true
           this.thisIndex = index
           if (document.querySelector('#' + obj).style.display == 'none') {
@@ -338,6 +356,7 @@ export default {
           }
         },
         onMouseOut (obj, item) {
+            $('#sign' + item.sort).removeClass("fa fa-chevron-down");
           this.indexShowHidden = false
           if (document.querySelector('#' + obj).style.display != 'none') {
             document.querySelector('#sign' + item.sort).className = 'circle'
@@ -378,7 +397,7 @@ export default {
             }
         },
         letterPublishTime(item) {
-            var temp = item.details;
+            var temp = item.relaList;
             for (var num = 0; num < temp.length; num++) {
                 var str = String(temp[num].relaId);
                 if (str.indexOf("letter") != -1) {
@@ -388,7 +407,7 @@ export default {
             return '';
         },
         letterLengthJun(item) {
-            var temp = item.details;
+            var temp = item.relaList;
             var count = 0;
             for (var num = 0; num < temp.length; num++) {
                 var str = String(temp[num].relaId);
@@ -403,7 +422,7 @@ export default {
             }
         },
         letterLengthJun2(item) {
-            var temp = item.details;
+            var temp = item.relaList;
             var count = 0;
             for (var num = 0; num < temp.length; num++) {
                 var str = String(temp[num].relaId);
@@ -418,7 +437,7 @@ export default {
             }
         },
         anLengthJun(item) {
-            var temp = item.details;
+            var temp = item.relaList;
             var count = 0;
             for (var num = 0; num < temp.length; num++) {
                 var str = String(temp[num].relaId);
@@ -433,7 +452,7 @@ export default {
             }
         },
         anLengthJun2(item) {
-            var temp = item.details;
+            var temp = item.relaList;
             var count = 0;
             for (var num = 0; num < temp.length; num++) {
                 var str = String(temp[num].relaId);
@@ -448,7 +467,7 @@ export default {
             }
         },
         LengthJun(item) {
-            var temp = item.details;
+            var temp = item.relaList;
             var count = 0;
             for (var num = 0; num < temp.length; num++) {
                 var str = String(temp[num].relaId);
@@ -463,7 +482,7 @@ export default {
             }
         },
         LengthJun2(item) {
-            var temp = item.details;
+            var temp = item.relaList;
             var count = 0;
             for (var num = 0; num < temp.length; num++) {
                 var str = String(temp[num].relaId);
@@ -478,12 +497,6 @@ export default {
             }
         }
     },
-    created() {
-        this.flagLoading = false;
-    },
-    mounted() {
-    },
-    watch: {}
 };
 </script>
 
@@ -648,7 +661,7 @@ export default {
 // 三个点展开样式
 .spread{
   color:#0099cc;
-  font-size:20px;
+  font-size:14px;
   float:right;
   margin-right:50px;
   cursor:pointer;
@@ -691,5 +704,44 @@ export default {
     font-weight: 400;
     font-style: normal;
     font-size: 14px;
+}
+// 三个点展开样式
+.spread{
+  color:#0099cc;
+  font-size:20px;
+  float:right;
+  margin-right:50px;
+  cursor:pointer;
+}
+.spreadText{
+    font-weight: 400;
+    width: 109px;
+    height: 20px;
+    font-style: normal;
+    font-size: 13px;
+    color: #333333;
+    text-align: center;
+    border:1px solid rgba(228, 228, 228, 1);
+    position:relative;
+    left: 220px;
+    top: 45px;
+    border-radius:3px;
+    padding:2px;
+}
+/* 进程名样式 */
+.jincheng {
+    position: relative;
+    top: -6px;
+    left: -11px;
+  p {
+    font-family: 'PingFang-SC-Regular', 'PingFang SC';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
+    color: #999999;
+    top: -31px;
+    left: 32px;
+    position: relative;
+    }
 }
 </style>

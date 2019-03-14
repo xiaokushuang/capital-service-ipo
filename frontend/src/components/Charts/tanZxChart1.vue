@@ -1,6 +1,6 @@
 <template>
     <div>
-         <div class="className" id="tanZxChart" style="height:300px;width:100%"></div>        
+         <div class="className" id="tanZxChart1" style="height:300px;width:100%"></div>        
     </div>
 </template>
 
@@ -9,7 +9,6 @@ import echarts from 'echarts'
 // 引入点击放大镜弹出来的表头年限数据
 import { getAssetsTableData } from '@/api/tableDemo'
 export default {
- 
   data() {
     return {
         tableTitle:null,
@@ -25,8 +24,8 @@ export default {
   methods: {
     initChart() {
       // console.log(this.zxChartData)
-      let tanZxChart = echarts.init(document.getElementById('tanZxChart'))
-       tanZxChart.setOption({
+      let tanZxChart1 = echarts.init(document.getElementById('tanZxChart1'))
+       tanZxChart1.setOption({
            title: {
                 text: ''
             },

@@ -4,6 +4,7 @@ import articleAPI from './article'
 import remoteSearchAPI from './remoteSearch'
 import transactionAPI from './transaction'
 import companyProfileAPI from './companyProfile'
+import rightModuleAPI from './rightModule'
 import tableDemo from './tableDemo'
 // 登录相关
 Mock.mock(/\/login\/login/, 'post', loginAPI.loginByUsername)
@@ -37,5 +38,11 @@ Mock.mock(/\/demo\/issueMoneyTableData/, 'get', tableDemo.getIssueMoneyTableData
 Mock.mock(/\/demo\/resultList/, 'get', tableDemo.getResultList)
 // 中介机构
 Mock.mock(/\/companyProfile\/intermediaryOrgDataList/, 'get', companyProfileAPI.getIntermediaryOrgDataList)
+// 进程树
+Mock.mock(/\/rightModule\/rightModuleDataList/, 'get', rightModuleAPI.getRightModuleData)
+// 发行情况
+Mock.mock(/\/issueData\/IssueDataList/, 'get', tableDemo.getIssueData)
+Mock.mock(/\/issueFeeData\/IssueFeeDataList/, 'get', tableDemo.getIssueFeeData)
+
 
 export default Mock

@@ -37,7 +37,7 @@
             <div class="chartTable">
                 <p style="font-family:'PingFang-SC-Regular', 'PingFang SC';font-weight:400;color:#666666;">报告期内，本公司与可比上市公司<span style="font-family:'PingFang-SC-Medium', 'PingFang SC Medium', 'PingFang SC';font-weight:500;color:'black'"> 工程施工业务</span> 毛利率比较 :</p>
                 <div class="zxChart" style="height:300px;width:100%">
-                    <zxChart></zxChart>
+                    <zxChart ref="zxChart"></zxChart>
                 </div>
                 <div class="table">
                     <compareTable></compareTable>
@@ -68,6 +68,9 @@ export default {
         this.getPosition()
     },
     methods:{
+        creatEchart(){
+            this.$refs.zxChart.initTableData()
+        },
         getPosition(){
            //返回父组件用于锚点定位头
                 let titleList = [];

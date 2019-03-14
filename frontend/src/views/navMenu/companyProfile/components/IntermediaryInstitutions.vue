@@ -285,7 +285,6 @@
                     <span style="color: rgb(25, 144, 254);font-size:14px;text-align:center;cursor:pointer" class="packUp" v-if="showMoreType" @click="packUpMoreType()">收起 <i class="el-icon-arrow-up"></i></span>
                     <span style="color: rgb(25, 144, 254);font-size:14px;text-align:center;cursor:pointer" class="spread" v-else @click="spreadMoreType()">更多中介机构 <i class="el-icon-arrow-down"></i></span>
                  </div>
-            
             </div>
         </div>
     </div>
@@ -323,15 +322,15 @@ export default {
                 [
                     {
                         label: "当前有效",
-                        value: 0
-                    },
-                    {
-                        label: "当前失效",
                         value: 1
                     },
                     {
+                        label: "当前失效",
+                        value: 0
+                    },
+                    {
                         label: "全部",
-                        value: 2
+                        value: ''
                     }
               ],
         }
@@ -340,20 +339,23 @@ export default {
         agentState(n, o) {
             switch (n) {
                 case 0:
-                    this.accounts = this.accountsValid;
-                    this.sponsors = this.sponsorsValid;
-                    this.securitys = this.securitysValid;
-                    this.lawyers = this.lawyersValid;
-                    this.assets = this.assetsValid;
-                    break;
-                case 1:
+                // 失效
                     this.accounts = this.accountsUnValid;
                     this.sponsors = this.sponsorsUnValid;
                     this.securitys = this.securitysUnValid;
                     this.lawyers = this.lawyersUnValid;
                     this.assets = this.assetsUnValid;
                     break;
+                case 1:
+                // 有效
+                    this.accounts = this.accountsValid;
+                    this.sponsors = this.sponsorsValid;
+                    this.securitys = this.securitysValid;
+                    this.lawyers = this.lawyersValid;
+                    this.assets = this.assetsValid;
+                    break;
                  default:
+                //  全部
                     this.accounts = this.accountsTotal;
                     this.sponsors = this.sponsorsTotal;
                     this.securitys = this.securitysTotal;
