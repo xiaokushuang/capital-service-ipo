@@ -63,4 +63,12 @@ export function getIssueFeeData() {
     method: 'get'
   })
 }
+// 资产与负债情况财务信息接口 
+export function getAssetsOrDebtData() {
+  return request({
+    url: '/finance/assetsOrDebtData',
+    method: 'get'
+  })
+}
+
 

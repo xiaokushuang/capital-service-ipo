@@ -165,7 +165,7 @@ export default {
   },
   methods: {
       tableList(){
-          debugger
+          // debugger
         //  let param = {
         // }
         this.$store.dispatch('getTableDataRequestRelated').then((data) => {
@@ -205,7 +205,7 @@ export default {
       },
     },
  created(){
-    debugger
+    // debugger
     this.tableList();
 },
 watch: {

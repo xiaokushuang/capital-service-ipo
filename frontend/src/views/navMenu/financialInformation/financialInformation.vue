@@ -18,7 +18,7 @@
             <div class="assets">
                 <p>资产与负债情况</p>
                 <div class="assetsTable1">
-                    <assetsTable></assetsTable>
+                    <assetsOrDebtTable></assetsOrDebtTable>
                 </div>
             </div>
             <div class="income">
@@ -47,19 +47,19 @@
     </div>
 </template>
 <script>
-import assetsTable from "@/views/tables/assetsTable";
+import assetsOrDebtTable from "@/views/tables/assetsOrDebtTable";
 import allAssetsTable from "@/views/tables/allAssetsTable";
 import incomeTable from "@/views/tables/incomeTable";
 import zxChart from "@/components/Charts/zxChart";
 import compareTable from "@/views/tables/compareTable";
 // zxChart代码
 import echarts from 'echarts'
-import { getAssetsTableData } from '@/api/tableDemo'
+// import { getAssetsTableData } from '@/api/tableDemo'
 export default {
     name:'financialInformation',
     components: {
         allAssetsTable,
-        assetsTable,
+        assetsOrDebtTable,
         incomeTable,
         zxChart,
         compareTable

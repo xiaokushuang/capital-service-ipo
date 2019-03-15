@@ -3,49 +3,60 @@
     <!-- 公司简介 -->
     <div class="companey">
       <div class="briefIntroduction">
-        <p style="color:black">北京花月帮科技股份有限公司</p>
-        <ul style="display:flex">
+        <p style="color: #333; font-weight: bold;font-size: 14px;">
+          北京花月帮科技股份有限公司
+        </p>
+        <ul style="display:flex;margin-bottom: 0;">
           <li>
-            <span>拟上市板块</span>&nbsp;&nbsp;
-            <span style="color:black">{{this.ipoPlate}}</span>
+            <span>拟上市板块</span>&nbsp;&nbsp;&nbsp;
+            <span style="color:#333333">风纪扣v的事实{{this.ipoPlate}}</span>
           </li>
           <li>
-            <span>所属证监会</span>&nbsp;&nbsp;
-            <span style="color:black">{{this.industryCsrc}}</span>
+            <span>所属证监局</span>&nbsp;&nbsp;
+            <span style="color:#333333">从v但是VS{{this.industryCsrc}}</span>
           </li>
           <li>
-            <span>证券简称</span>&nbsp;&nbsp;
-            <span style="color:black">{{this.companyName}}</span>
+            <span>注册资本</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span style="color:#333333">232334{{this.registeredAssets}}万元</span>
           </li>
           <li>
-            <span>证券代码</span>&nbsp;&nbsp;
-            <span style="color:black">{{this.zhengquanCode}}</span>
+            <span>证券简称</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span style="color:#333333">润肤乳是否{{this.companyName}}</span>
           </li>
           <li>
-            <span>注册地址</span>&nbsp;&nbsp;
-            <span style="color:black">{{this.addrProv}}{{this.addrCity}}{{this.addrArea}}</span>
+            <span>证券代码</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span style="color:#333333">非过热二热肥肉{{this.zhengquanCode}}</span>
           </li>
           <li>
-            <span>注册资本</span>&nbsp;&nbsp;
-            <span style="color:black">{{this.registeredAssets}}万元</span>
-          </li>
-          <li>
-            <span>实际控制人</span>&nbsp;&nbsp;
-            <span style="color:black">{{this.actualController}}</span>
-          </li>
-          <li>
-            <span>控股股东</span>&nbsp;&nbsp;
-            <span style="color:black">{{this.controlShareholder}}</span>
-          </li>
-          <li>
-            <span>企业性质</span>&nbsp;&nbsp;
-            <span style="color:black">{{this.companyNature}}</span>
-          </li>
-          <li>
-            <span>主营业务</span>&nbsp;&nbsp;
-            <span style="color:black">{{this.majorBusinesses}}</span>
+            <span>企业性质</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span style="color:#333333">个哥哥人为峰如果{{this.companyNature}}</span>
           </li>
         </ul>
+        <div>
+           
+          <li style="margin-bottom:10px">
+            <span>注册地址</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span style="color:#333333">封建快攻科尔几个克费恩过热个{{this.addrProv}}{{this.addrCity}}{{this.addrArea}}</span>
+          </li>
+          
+         
+          <li style="margin-bottom:10px">
+            <span>控股股东</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span style="color:#333333">割让给  个割让给如果额 儿歌工人{{this.controlShareholder}}</span>
+          </li>
+          <li style="margin-bottom:10px">
+            <span>实际控制人</span>&nbsp;&nbsp;&nbsp;
+            <span style="color:#333333">vdd个人发 肥肉  分 飞啊飞{{this.actualController}}</span>
+          </li>
+          <li style="margin-bottom:10px">
+            <span>主营业务</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="majorBusinesses" style="color:#333333;display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;">日个人附件二三季度开始接近kk健康计划和规范丰富的税收收入体育和环境很久很日个人附件二三季度开始接近kk健康计划和规范丰富的税收收入体育和环境很久很日个人附件二三季度开始接近kk健康计划和规范丰富的税收收入体育和环境很久很赴日个人附件二三季度开始接近kk健康计划和规范丰富日个人附件二三季度开始接近kk健康计划和规范丰富的税收收入体育和环境很久很日个人附件二三季度开始接近kk健康计划和规范丰富的税收收入体育和环境很久很的税收收入体育和环境很久很久飞机飞到是{{this.majorBusinesses}}</span>
+          </li>
+        </div>
+      
       </div>
       <div class="others" v-show="isLogin">
         <p style="color:black">登录其他资本市场</p>
@@ -496,7 +507,7 @@ export default {
   }
   .companey {
     width: 100%;
-    background: #fafafa;
+    background: #f7f7f7;
     font-family: "Arial Normal", "Arial";
     font-weight: 400;
     font-style: normal;
@@ -505,7 +516,7 @@ export default {
     text-align: left;
     line-height: normal;
     padding: 5px 10px;
-    margin-top: 35px;
+    margin-top: 32px;
     .briefIntroduction {
       border-bottom: 1px solid #ebebeb;
       ul {
@@ -514,7 +525,7 @@ export default {
         flex-wrap: wrap;
         padding-left: 0;
         li {
-          width: 25%;
+          width: 33.3%;
           margin-bottom: 10px;
         }
       }
@@ -606,5 +617,11 @@ export default {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+}
+
+.majorBusinesses:hover{
+  color:#333333;
+  cursor:pointer;
+  display:inline-block;
 }
 </style>

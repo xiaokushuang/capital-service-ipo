@@ -165,6 +165,7 @@ export default{
     }
     return { khDataList }
   },
+  // 财务信息表格接口
   getAssetsTableData: () => {
     assetsList.push(Mock.mock({
       // rank: '排名',
@@ -306,8 +307,139 @@ export default{
         }
       ],
       "success": true
+  }),
+  // 资产与负债情况财务信息接口 
+  getAssetsOrDebtData:()=>(
+    {
+      "errorCode": null,
+      "errorMsg": null,
+      "result": {
+        // "dateList": [
+        //   "2018-06-30",
+        //   "2017-12-31",
+        //   "2016-12-31",
+        //   "2015-12-31"
+        // ],
+        "dateList":{
+          year1: "2015-12-31",
+          year2: "2016-12-31",
+          year3: "2017-12-31",
+          year4: "2018-06-30",
+        },
+        "ipoDebtItemList": [
+          {
+            "itemName": "短期借款",
+            "firstYearValue": null,
+            "secondYearValue": "1301185.0000",
+            "thirdYearValue": null,
+            "forthYearValue": null
+          },
+          {
+            "itemName": "应付账款",
+            "firstYearValue": "10817184.5300",
+            "secondYearValue": "19983407.0600",
+            "thirdYearValue": null,
+            "forthYearValue": "23674387.0900"
+          },
+          {
+            "itemName": "应交税费",
+            "firstYearValue": "20783389.0900",
+            "secondYearValue": "29851986.7000",
+            "thirdYearValue": "36662794.9800",
+            "forthYearValue": "20826643.1800"
+          },
+          {
+            "itemName": "应付职工薪酬",
+            "firstYearValue": "101792442.3000",
+            "secondYearValue": "120922667.4300",
+            "thirdYearValue": "121408957.5300",
+            "forthYearValue": "122617379.3700"
+          }
+        ],
+        "ipoEquityItemList": [
+          {
+            "itemName": "实收资本（或股本）",
+            "firstYearValue": "157800000.0000",
+            "secondYearValue": "157800000.0000",
+            "thirdYearValue": "157800000.0000",
+            "forthYearValue": "210400000.0000"
+          },
+          {
+            "itemName": "资本公积",
+            "firstYearValue": "106801261.7400",
+            "secondYearValue": "106801261.7400",
+            "thirdYearValue": "106801261.7400",
+            "forthYearValue": "292085525.8900"
+          },
+          {
+            "itemName": "未分配利润",
+            "firstYearValue": "184506417.0100",
+            "secondYearValue": "227608940.2100",
+            "thirdYearValue": "282301466.2000",
+            "forthYearValue": "313858142.5000"
+          },
+          {
+            "itemName": "归属于母公司股东权益合计",
+            "firstYearValue": "490488604.3300",
+            "secondYearValue": "538172389.5300",
+            "thirdYearValue": "598657724.1100",
+            "forthYearValue": "868098664.5600"
+          }
+        ],
+        "ipoFinanceOverList": null,
+        "ipoProfitItemList": null,
+        "ipoCostItemList": null,
+        "ipoReturnOverList": null,
+        "ipoAssetItemList": [
+          {
+            "itemName": "货币资金",
+            "firstYearValue": "65950519.4300",
+            "secondYearValue": "102600325.3200",
+            "thirdYearValue": "173521390.0800",
+            "forthYearValue": "328584341.3200"
+          },
+          {
+            "itemName": "应收账款",
+            "firstYearValue": "255299815.3100",
+            "secondYearValue": "290992223.1100",
+            "thirdYearValue": "303240423.1600",
+            "forthYearValue": "291891890.0700"
+          },
+          {
+            "itemName": "其他应收款",
+            "firstYearValue": "12111262.0300",
+            "secondYearValue": "13509106.2600",
+            "thirdYearValue": "18866889.0400",
+            "forthYearValue": "20449870.6200"
+          },
+          {
+            "itemName": "存货",
+            "firstYearValue": null,
+            "secondYearValue": null,
+            "thirdYearValue": "893826.7200",
+            "forthYearValue": "675937.1700"
+          },
+          {
+            "itemName": "固定资产",
+            "firstYearValue": "212254627.3100",
+            "secondYearValue": "179100289.3000",
+            "thirdYearValue": "162870936.7400",
+            "forthYearValue": "156286606.9600"
+          },
+          {
+            "itemName": "无形资产",
+            "firstYearValue": "6717938.5100",
+            "secondYearValue": "8540940.6000",
+            "thirdYearValue": "8024967.7400",
+            "forthYearValue": "8770045.6800"
+          }
+        ]
+      },
+      "success": true,
+      "timestamp": 1552630782742
     }
   )
+  
 
 
 }
