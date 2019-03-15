@@ -1,5 +1,6 @@
 package com.stock.capital.enterprise.ipoCase.controller;
 
+import com.stock.capital.enterprise.ipoCase.dto.IndustryCompareRateDto;
 import com.stock.capital.enterprise.ipoCase.dto.IssueDataDto;
 import com.stock.capital.enterprise.ipoCase.dto.IssueFeeDto;
 import com.stock.capital.enterprise.ipoCase.service.IssueSituationService;
@@ -46,6 +47,19 @@ public class IpoCaseIssueApi {
     public JsonResponse<List<IssueFeeDto>> issueFeeData(@RequestParam("id") String id) {
         JsonResponse<List<IssueFeeDto>> response = new JsonResponse<>();
         response.setResult(issueSituationService.getIssueFeeData(id));
+        return response;
+    }
+
+    @ApiOperation(value = "同行业上市公司综合毛利率接口", notes = "同行业上市公司综合毛利率接口描述")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
+            dataType = "String")
+    })
+    @RequestMapping(value = "/industryRateData", method = RequestMethod.GET)
+    public JsonResponse<List<IndustryCompareRateDto>> industryRateData(
+        @RequestParam("id") String id) {
+        JsonResponse<List<IndustryCompareRateDto>> response = new JsonResponse<>();
+        response.setResult(issueSituationService.getIndustryRateData(id));
         return response;
     }
 }

@@ -1,6 +1,8 @@
 package com.stock.capital.enterprise.ipoCase.service;
 
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseIssueMapper;
+import com.stock.capital.enterprise.ipoCase.dao.IpoIndustryRateBizMapper;
+import com.stock.capital.enterprise.ipoCase.dto.IndustryCompareRateDto;
 import com.stock.capital.enterprise.ipoCase.dto.IssueDataDto;
 import com.stock.capital.enterprise.ipoCase.dto.IssueFeeDto;
 import com.stock.core.dao.DynamicDataSourceHolder;
@@ -14,6 +16,9 @@ public class IssueSituationService extends BaseService {
 
     @Autowired
     private IpoCaseIssueMapper ipoCaseIssueMapper;
+
+    @Autowired
+    private IpoIndustryRateBizMapper ipoIndustryRateBizMapper;
 
     /**
      * 发行数据
@@ -38,5 +43,23 @@ public class IssueSituationService extends BaseService {
         return ipoCaseIssueMapper.getIssueFeeData(id);
     }
 
-
+    /**
+     * 同行业上市公司综合毛利率
+     *
+     * @param id 案例id
+     * @return list
+     */
+    public List<IndustryCompareRateDto> getIndustryRateData(String id) {
+        List<IndustryCompareRateDto> industryCompareRateList =
+            ipoIndustryRateBizMapper.selectIndustryRateByBid(id);
+        if (industryCompareRateList != null && !industryCompareRateList.isEmpty()) {
+            for (IndustryCompareRateDto industryCompareRateDto : industryCompareRateList) {
+                int lastYear = Integer.valueOf(industryCompareRateDto.getReportPeriod());
+                industryCompareRateDto.setThirdYear(industryCompareRateDto.getReportPeriod() + "年");
+                industryCompareRateDto.setSecondYear((lastYear - 1) + "年");
+                industryCompareRateDto.setFirstYear((lastYear - 2) + "年");
+            }
+        }
+        return industryCompareRateList;
+    }
 }
