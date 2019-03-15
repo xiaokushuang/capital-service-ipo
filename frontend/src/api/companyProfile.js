@@ -78,3 +78,11 @@ export function getIntermediaryOrgDataList(query) {
 //     params: query
 //   })
 // }
+// 募集资金接口
+export function getRaiseMoneyTableList(query) {
+  return request({
+    url: '/companyProfile/raiseMoneyTableList',
+    method: 'get',
+    params: query
+  })
+}

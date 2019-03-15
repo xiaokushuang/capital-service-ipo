@@ -218,40 +218,40 @@
       </div>
       <div class="raiseMoneyTable">
         <!-- 募集资金运用表格 -->
-          <el-table :data="raiseMoneyTableList" border style="width:100%;" show-summary :summary-method="getSummaries">
+          <el-table :data="raiseMoneyTableList" border style="width:100%;">
             <el-table-column label="项目名称" align="left">
                 <template slot-scope="scope">
-                    <span v-if="scope.row.projectName">{{scope.row.projectName}}</span>
+                    <span v-if="scope.row.itemName">{{scope.row.itemName}}</span>
                     <span v-else>- -</span>
                 </template>
             </el-table-column>
             <el-table-column label="项目类型" align="center">
                 <template slot-scope="scope">
-                      <span v-if="scope.row.projectType">{{scope.row.projectType}}</span>
+                      <span v-if="scope.row.itemTypeStr">{{scope.row.itemTypeStr}}</span>
                     <span v-else>- -</span>
                 </template>
             </el-table-column>
-            <el-table-column label="项目总投资(万元)" align="right" prop="xmz">
+            <el-table-column label="项目总投资(万元)" align="right" prop="investTotal">
                 <template slot-scope="scope">
-                      <span v-if="scope.row.xmz">{{scope.row.xmz}}</span>
+                      <span v-if="scope.row.investTotal">{{scope.row.investTotal}}</span>
                     <span v-else>- -</span>
                 </template>
             </el-table-column>
-            <el-table-column label="拟投入募集资金金额（万元）" align="right" prop="ntr">
+            <el-table-column label="拟投入募集资金金额（万元）" align="right" prop="investPlan">
                 <template slot-scope="scope">
-                      <span v-if="scope.row.ntr">{{scope.row.ntr}}</span>
+                      <span v-if="scope.row.investPlan">{{scope.row.investPlan}}</span>
                     <span v-else>- -</span>
                 </template>
             </el-table-column>
-            <el-table-column label="占拟募集资金净额比例" align="right" prop="znm">
+            <el-table-column label="占拟募集资金净额比例" align="right" prop="investRateStr">
                 <template slot-scope="scope">
-                      <span v-if="scope.row.znm">{{scope.row.znm}}</span>
+                      <span v-if="scope.row.investRateStr">{{scope.row.investRateStr}}</span>
                     <span v-else>- -</span>
                 </template>
             </el-table-column>
-            <el-table-column label="前期已投入资金金额（万元）" align="right" prop="qqy">
+            <el-table-column label="前期已投入资金金额（万元）" align="right" prop="investPre">
                 <template slot-scope="scope">
-                      <span v-if="scope.row.qqy">{{scope.row.qqy}}</span>
+                      <span v-if="scope.row.investPre">{{scope.row.investPre}}</span>
                     <span v-else>- -</span>
                 </template>
             </el-table-column>
@@ -284,7 +284,7 @@ import { getCaseDetail } from "@/api/companyProfile";
 import { getMarketData } from "@/api/companyProfile";
 import { getShareHolderData } from "@/api/companyProfile";
 import { getCompetitorData } from "@/api/companyProfile";
-
+import { getRaiseMoneyTableList } from "@/api/companyProfile";
 // 导入主营业务收入构成表格
 import mainTable from "@/views/tables/mainTable";
 import fifthGysTable from "@/views/tables/fifthGysTable";
@@ -378,6 +378,9 @@ export default {
       getCompetitorData().then(res=>{
         console.log(res.data.result)
         this.MajorCompetitors = res.data.result
+      })
+      getRaiseMoneyTableList().then(res=>{
+        this.raiseMoneyTableList = res.data.result
       })
          
     },

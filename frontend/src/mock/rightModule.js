@@ -7,8 +7,14 @@ export default{
         "result": {
           "treeList": [
             {
-              "treeTypeCode": "01",//进程类型编码
+              // 自己加头
+              //控制只有第一个进程才有三个点
+              "sandian":true,
+              // 三个点控制展开
+              "spreadFlag":false,
               "isSpread":false,
+              // 自己加尾
+              "treeTypeCode": "01",//进程类型编码
               "proList": [//进程列表
                 {
                   "sort":"1",
@@ -18,7 +24,7 @@ export default{
                   "processTime": "2012-03-16",//进程时间
                   "iecResult": "02",//审核结果
                   "lastDay": 12,//距离上次进程时间
-                  "relaList": [//文件列表
+                  "relaList": [//公告列表
                     {
                       "id": "1106725448775241697",//id
                       "relaId": null,//关联文件ID
@@ -53,6 +59,22 @@ export default{
                       "publishTime": "2012-04-18",
                       "tableSort": 1,
                       "suffix": null
+                    },
+                    {
+                      "id": "1106725448775241697",//id
+                      "relaId": null,//关联文件ID
+                      "relationFileTitle": "2221111技撒赖吃撒了",//文件名
+                      "publishTime": "2012-03-16",//公告发布时间
+                      "tableSort": 1,//文件排序
+                      "suffix": null//文件后缀
+                    },
+                    {
+                      "id": "1106725448775241697",//id
+                      "relaId": null,//关联文件ID
+                      "relationFileTitle": "99999vdss赖吃撒了",//文件名
+                      "publishTime": "2012-03-16",//公告发布时间
+                      "tableSort": 1,//文件排序
+                      "suffix": null//文件后缀
                     }
                   ]
                 },
@@ -173,27 +195,26 @@ export default{
               ]
             },
             {
+              "sandian":false,
+              // 三个点控制展开
+              "spreadFlag":true,
               "treeTypeCode": "02",
               "isSpread":true,
               "proList": [
                 {
+                  "sort":"1",
+                  "flag":false,
                   "progressType": "11",
                   "progressName": "招股公告",
                   "processTime": "2018-05-08",
                   "iecResult": null,
                   "lastDay": "0",
-                  "relaList": [
-                    {
-                      "id": "1106725448775241684",
-                      "relaId": null,
-                      "relationFileTitle": null,
-                      "publishTime": "2018-05-08",
-                      "tableSort": 1,
-                      "suffix": null
-                    }
-                  ]
+                  "relaList": []
+                  
                 },
                 {
+                  "sort":"2",
+                  "flag":false,
                   "progressType": "12",
                   "progressName": "询价",
                   "processTime": "2018-05-08",
@@ -211,6 +232,8 @@ export default{
                   ]
                 },
                 {
+                  "sort":"3",
+                  "flag":false,
                   "progressType": "13",
                   "progressName": "路演",
                   "processTime": "2018-05-15",
@@ -228,6 +251,8 @@ export default{
                   ]
                 },
                 {
+                  "sort":"4",
+                  "flag":false,
                   "progressType": "14",
                   "progressName": "发行公告",
                   "processTime": "2018-05-15",
@@ -245,6 +270,8 @@ export default{
                   ]
                 },
                 {
+                  "sort":"5",
+                  "flag":false,
                   "progressType": "16",
                   "progressName": "申购",
                   "processTime": "2018-05-16",
@@ -262,6 +289,8 @@ export default{
                   ]
                 },
                 {
+                  "sort":"6",
+                  "flag":false,
                   "progressType": "17",
                   "progressName": "公布中签率",
                   "processTime": "2018-05-17",
@@ -271,7 +300,7 @@ export default{
                     {
                       "id": "1106725448775241689",
                       "relaId": null,
-                      "relationFileTitle": "加大科技撒赖吃撒了",
+                      "relationFileTitle": "加33333444撒赖吃撒了",
                       "publishTime": "2018-05-17",
                       "tableSort": 1,
                       "suffix": null
@@ -279,6 +308,8 @@ export default{
                   ]
                 },
                 {
+                  "sort":"7",
+                  "flag":false,
                   "progressType": "18",
                   "progressName": "公布中签号码",
                   "processTime": "2018-05-18",
@@ -296,7 +327,7 @@ export default{
                     {
                       "id": "1106725448775241690",
                       "relaId": null,
-                      "relationFileTitle": "飞机看附件二赖吃撒了",
+                      "relationFileTitle": "33333333件二赖吃撒了",
                       "publishTime": "2018-05-18",
                       "tableSort": 1,
                       "suffix": null
@@ -304,6 +335,8 @@ export default{
                   ]
                 },
                 {
+                  "sort":"8",
+                  "flag":false,
                   "progressType": "19",
                   "progressName": "上市",
                   "processTime": "2018-05-24",
@@ -313,7 +346,7 @@ export default{
                     {
                       "id": "1106725448775241691",
                       "relaId": null,
-                      "relationFileTitle": "加大科技撒赖吃撒了",
+                      "relationFileTitle": "3333333撒赖吃撒了",
                       "publishTime": "2018-05-24",
                       "tableSort": 1,
                       "suffix": null
