@@ -287,6 +287,13 @@ export default {
         this.flag = "1";
       }
       //时间排序
+      // if(sortType === '02'){
+      //   sortType = '01';
+      // }else {
+      //   sortType = '02';
+      // }
+      // this.$refs.rightModule.initTableData("id",sortType);
+      
       this.$refs.rightModule.sortTime("publishTime", sort);
     },
     handleClick() {

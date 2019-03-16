@@ -322,3 +322,11 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+// 表格头颜色和边框的颜色
+// .el-table thead tr th {
+//   background: #A0ADB5;
+//   // color: #fff;
+// }
+.el-table--border td, .el-table--border th {
+  border-right: 1px solid #e4e4e4;
+}

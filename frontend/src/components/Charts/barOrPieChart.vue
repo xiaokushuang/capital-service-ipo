@@ -102,7 +102,7 @@ export default {
            title: {
                 text: "最近3年主营业务趋势",
                 textStyle: {
-                    color: "black",
+                    color: "#333333",
                     fontWeight: "normal",
                     fontSize: 16
                 }
@@ -167,8 +167,17 @@ initPieChart(dataList,nameTempO,num,flag) {
     }
   }
   var option = {
-        title: { text: nameTemp+" _ 主营业务分布" },
-        // title: { text: this.dianjizhuzi?this.pieChartTitle:this.zhudataListX[3]+" _ 主营业务分布" },
+         title: {
+                text: "• "+nameTemp+" _ 主营业务分布",
+                textStyle: {
+                    color: "#333",
+                    fontWeight: "normal",
+                    fontSize: 14
+                },
+                left: 'center',
+                top:50,
+                // padding:'60%',
+         },
         tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -195,7 +204,7 @@ initPieChart(dataList,nameTempO,num,flag) {
           {
             name: "访问来源",
             type: "pie",
-            radius: "55%",
+            radius: "65%",
             center: ["50%", "60%"],
             data:this.pieData,
             itemStyle: {

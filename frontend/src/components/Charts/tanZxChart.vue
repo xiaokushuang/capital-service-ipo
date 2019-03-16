@@ -58,7 +58,7 @@ export default {
           // 获取表头数据
         this.tableTitle = response.data.result.dateList
       //   console.log(this.tableTitle)
-        this.zxChartX =[this.tableTitle.year1,this.tableTitle.year2,this.tableTitle.year3,this.tableTitle.year4]
+        this.zxChartX =[this.tableTitle.firstYearDate,this.tableTitle.secondYearValue,this.tableTitle.thirdYearValue,this.tableTitle.forthYearDate]
           this.zxChartY = [
                       {
                           name:this.zxChartData.itemName,

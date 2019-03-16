@@ -50,7 +50,8 @@
           </li>
           <li style="margin-bottom:10px">
             <span>主营业务</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span class="majorBusinesses" style="color:#333333;display: -webkit-box;
+            <span  @mouseenter="mouseOverMajorBusinesses()"
+                   class="majorBusinesses" style="color:#333333;display: -webkit-box;
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 2;
             overflow: hidden;">日个人附件二三季度开始接近kk健康计划和规范丰富的税收收入体育和环境很久很日个人附件二三季度开始接近kk健康计划和规范丰富的税收收入体育和环境很久很日个人附件二三季度开始接近kk健康计划和规范丰富的税收收入体育和环境很久很赴日个人附件二三季度开始接近kk健康计划和规范丰富日个人附件二三季度开始接近kk健康计划和规范丰富的税收收入体育和环境很久很日个人附件二三季度开始接近kk健康计划和规范丰富的税收收入体育和环境很久很的税收收入体育和环境很久很久飞机飞到是{{this.majorBusinesses}}</span>
@@ -94,7 +95,7 @@
       </div>
       <!-- 股权股东表格 -->
       <el-table :data="gqTableList" style="width: 100%" stripe border>
-        <el-table-column type="index" label="序号" align='center'>
+        <el-table-column type="index" label="序号" align='center' width="72px">
            <template slot-scope="scope">
                     {{scope.$index+1}}
             </template>
@@ -290,6 +291,8 @@
 </template>
 
 <script>
+ 
+      
 import $ from "jquery";
 import { getCaseDetail } from "@/api/companyProfile";
 import { getMarketData } from "@/api/companyProfile";
@@ -396,57 +399,61 @@ export default {
          
     },
     //返回父组件用于锚点定位头
-         getPosition() {
-                let titleList = [];
-                let ownershipStructureChart = {
-                    id: 'ownershipStructureChart',
-                    name: '股权结构图',
-                    notes: '',
-                    important: false,
-                    tabId: 'tab-first',
-                    noClick: false
-                }
-                let mainBusinessIncomeComposition = {
-                    id: 'mainBusinessIncomeComposition',
-                    name: '主营业务收入构成',
-                    notes: '',
-                    important: false,
-                    tabId: 'tab-first',
-                    noClick: false
-                }
-                let majorSuppliers = {
-                    id: 'majorSuppliers',
-                    name: '前五名供应商及用户',
-                    notes: '',
-                    important: false,
-                    tabId: 'tab-first',
-                    noClick: false
-                }
-                let utilizationOfRaisedFunds = {
-                    id: 'utilizationOfRaisedFunds',
-                    name: '募集资金运用',
-                    notes: '',
-                    important: false,
-                    tabId: 'tab-first',
-                    noClick: false
-                }
-                let intermediaryInstitutions = {
-                    id: 'intermediaryInstitutions',
-                    name: '中介机构',
-                    notes: '',
-                    important: false,
-                    tabId: 'tab-first',
-                    noClick: false
-                }
-               
-                titleList.push(ownershipStructureChart)
-                titleList.push(mainBusinessIncomeComposition)
-                titleList.push(majorSuppliers)
-                titleList.push(utilizationOfRaisedFunds)
-                titleList.push(intermediaryInstitutions)
-                this.$emit('headCallBack', titleList);
-         }
-            //返回父组件用于锚点定位尾
+    getPosition() {
+          let titleList = [];
+          let ownershipStructureChart = {
+              id: 'ownershipStructureChart',
+              name: '股权结构图',
+              notes: '',
+              important: false,
+              tabId: 'tab-first',
+              noClick: false
+          }
+          let mainBusinessIncomeComposition = {
+              id: 'mainBusinessIncomeComposition',
+              name: '主营业务收入构成',
+              notes: '',
+              important: false,
+              tabId: 'tab-first',
+              noClick: false
+          }
+          let majorSuppliers = {
+              id: 'majorSuppliers',
+              name: '前五名供应商及用户',
+              notes: '',
+              important: false,
+              tabId: 'tab-first',
+              noClick: false
+          }
+          let utilizationOfRaisedFunds = {
+              id: 'utilizationOfRaisedFunds',
+              name: '募集资金运用',
+              notes: '',
+              important: false,
+              tabId: 'tab-first',
+              noClick: false
+          }
+          let intermediaryInstitutions = {
+              id: 'intermediaryInstitutions',
+              name: '中介机构',
+              notes: '',
+              important: false,
+              tabId: 'tab-first',
+              noClick: false
+          }
+          
+          titleList.push(ownershipStructureChart)
+          titleList.push(mainBusinessIncomeComposition)
+          titleList.push(majorSuppliers)
+          titleList.push(utilizationOfRaisedFunds)
+          titleList.push(intermediaryInstitutions)
+          this.$emit('headCallBack', titleList);
+    },
+    // 鼠标移入主营业务加title
+    mouseOverMajorBusinesses(){
+       var b =  $(".majorBusinesses").text();
+        $(".majorBusinesses").attr("title",b)
+    },
    
   }
 };

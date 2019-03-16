@@ -200,7 +200,8 @@ export default {
             sort: "",
             sortFlag: '0',
             indexShowHidden: false,
-            thisIndex: ''
+            thisIndex: '',
+            sortType: '01'
         };
     },
     name: "rightModule",

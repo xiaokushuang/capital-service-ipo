@@ -47,4 +47,9 @@ Mock.mock(/\/issueFeeData\/IssueFeeDataList/, 'get', tableDemo.getIssueFeeData)
 Mock.mock(/\/companyProfile\/raiseMoneyTableList/, 'get', companyProfileAPI.getRaiseMoneyTableList)
 // .资产与负债情况财务信息接口 
 Mock.mock(/\/finance\/assetsOrDebtData/, 'get', tableDemo.getAssetsOrDebtData)
+// 收入与利润情况接口
+Mock.mock(/\/finance\/selectFinanceProfitList/, 'get', tableDemo.getSelectFinanceProfitList)
+// 财务总体情况接口
+Mock.mock(/\/finance\/selectFinanceOverList/, 'get', tableDemo.getSelectFinanceOverList)
+
 export default Mock
