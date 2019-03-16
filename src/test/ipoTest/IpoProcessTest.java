@@ -28,7 +28,7 @@ public class IpoProcessTest extends BaseTest {
 
     @Test
     public void testSample() throws Exception {
-        ipoProcessService.selectProcessList("97952444248599350");
+        ipoProcessService.selectProcessList("97952444248599350","02");
 //        mockMvc.perform(post("/regulatory_statistics/ipoQuery")
 //                .contentType(MediaType.APPLICATION_JSON))
 //                .andDo(print())

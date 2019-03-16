@@ -6,6 +6,7 @@ import com.stock.capital.enterprise.ipoCase.dto.IpoProgressDto;
 import com.stock.capital.enterprise.ipoCase.dto.TreeTypeProgressDto;
 import com.stock.core.service.BaseService;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class IpoProcessService extends BaseService {
     @Autowired
     private IpoProcessMapper ipoProcessMapper;
 
-    public TreeTypeProgressDto selectProcessList(String id) {
+    public TreeTypeProgressDto selectProcessList(String id,String sortType) {
         TreeTypeProgressDto resultDto = ipoProcessMapper.selectProcessList(id);
         List<IpoProgressDto> treeList = resultDto == null?new ArrayList<>():resultDto.getTreeList();
         //循环计算距离上一个进程时间
@@ -41,6 +42,15 @@ public class IpoProcessService extends BaseService {
                 if(j>0) {
                     String lastDay = getLastDays(proList.get(j).getProcessTime(), proList.get(j - 1).getProcessTime());
                     proList.get(j).setLastDay(lastDay);
+                }
+            }
+        }
+        //默认为正序，如果要求倒序序排序，则在计算完距离上个进程天数后，重新排序
+        if("02".equals(sortType) && CollectionUtils.isNotEmpty(treeList)){
+            treeList.sort((IpoProgressDto d1,IpoProgressDto d2) -> d2.getTreeTypeCode().compareTo(d1.getTreeTypeCode()));
+            for(IpoProgressDto dto:treeList){
+                if(CollectionUtils.isNotEmpty(dto.getProList())){
+                    dto.getProList().sort((IpoProListDto c1,IpoProListDto c2) -> c2.getProSort().compareTo(c1.getProSort()));
                 }
             }
         }

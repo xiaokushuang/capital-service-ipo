@@ -11,6 +11,7 @@
                 <result column="label_name" property="progressName" jdbcType="VARCHAR"/>
                 <result column="iec_result" property="iecResult" jdbcType="VARCHAR"/>
                 <result column="process_time" property="processTime" jdbcType="VARCHAR"/>
+                <result column="pro_sort" property="proSort" jdbcType="VARCHAR"/>
                 <collection property="relaList"
                             ofType="com.stock.capital.enterprise.ipoCase.dto.IpoFileRelationDto">
                     <result column="id" property="id" jdbcType="VARCHAR"/>
@@ -41,7 +42,8 @@
             t1.`status`,
             t3.suffix,
             t1.iec_result,
-            t1.relation_file_title
+            t1.relation_file_title,
+            t1.pro_sort
             FROM
             ipo_process t1
             LEFT JOIN maa_conf_label t2 ON t2.label_value = t1.process_type_code
@@ -54,7 +56,7 @@
         <where>
             t1.bid = #{id}
         </where>
-            ORDER BY t1.tree_type_code DESC,t1.process_time DESC,t1.process_type_code DESC,t1.table_sort DESC
+            ORDER BY t1.tree_type_code,t1.pro_sort,t1.process_type_code,t1.table_sort
 
     </select>
 </mapper>

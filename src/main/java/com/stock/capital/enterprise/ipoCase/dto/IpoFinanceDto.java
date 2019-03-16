@@ -11,17 +11,8 @@ public class IpoFinanceDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("第一年日期")
-    private String firstYearDate;
-
-    @ApiModelProperty("第二年日期")
-    private String secondYearDate;
-
-    @ApiModelProperty("第三年日期")
-    private String thirdYearDate;
-
-    @ApiModelProperty("第四年日期")
-    private String forthYearDate;
+    @ApiModelProperty("日期列表")
+    private IpoFinanceDateDto dateList;
 
     @ApiModelProperty("资产类项目列表")
     private List<IpoItemDto> IpoAssetItemList;
@@ -44,37 +35,12 @@ public class IpoFinanceDto implements Serializable {
     @ApiModelProperty("利润类项目列表")
     private List<IpoItemDto> IpoReturnOverList;
 
-
-    public String getFirstYearDate() {
-        return firstYearDate;
+    public IpoFinanceDateDto getDateList() {
+        return dateList;
     }
 
-    public void setFirstYearDate(String firstYearDate) {
-        this.firstYearDate = firstYearDate;
-    }
-
-    public String getSecondYearDate() {
-        return secondYearDate;
-    }
-
-    public void setSecondYearDate(String secondYearDate) {
-        this.secondYearDate = secondYearDate;
-    }
-
-    public String getThirdYearDate() {
-        return thirdYearDate;
-    }
-
-    public void setThirdYearDate(String thirdYearDate) {
-        this.thirdYearDate = thirdYearDate;
-    }
-
-    public String getForthYearDate() {
-        return forthYearDate;
-    }
-
-    public void setForthYearDate(String forthYearDate) {
-        this.forthYearDate = forthYearDate;
+    public void setDateList(IpoFinanceDateDto dateList) {
+        this.dateList = dateList;
     }
 
     public List<IpoItemDto> getIpoAssetItemList() {

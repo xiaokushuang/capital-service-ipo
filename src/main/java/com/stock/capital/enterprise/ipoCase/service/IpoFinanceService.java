@@ -1,6 +1,7 @@
 package com.stock.capital.enterprise.ipoCase.service;
 
 import com.stock.capital.enterprise.ipoCase.dao.IpoFinanceMapper;
+import com.stock.capital.enterprise.ipoCase.dto.IpoFinanceDateDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFinanceDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoItemDto;
 import com.stock.core.service.BaseService;
@@ -30,6 +31,7 @@ public class IpoFinanceService extends BaseService {
      */
     public IpoFinanceDto selectFinanceList(String id) {
         IpoFinanceDto resultDto = new IpoFinanceDto();
+        IpoFinanceDateDto dateDto = new IpoFinanceDateDto();
         //先查询主营业务收入构成里面的时间，确定三年一期时间
         Date forthYear = ipoFinanceMapper.getForthYear(id);
         //如果日期为空则说明没有填写主营收入
@@ -40,11 +42,12 @@ public class IpoFinanceService extends BaseService {
         Date thirdYear = getLastYearDate(forthYear);
         Date secondYear = getLastYearDate(thirdYear);
         Date firstYear = getLastYearDate(secondYear);
-        //获取时间列表
-        resultDto.setFirstYearDate(getDateStr(firstYear));
-        resultDto.setSecondYearDate(getDateStr(secondYear));
-        resultDto.setThirdYearDate(getDateStr(thirdYear));
-        resultDto.setForthYearDate(getDateStr(forthYear));
+        //存入时间列表
+        dateDto.setFirstYearDate(getDateStr(firstYear));
+        dateDto.setSecondYearDate(getDateStr(secondYear));
+        dateDto.setThirdYearDate(getDateStr(thirdYear));
+        dateDto.setForthYearDate(getDateStr(forthYear));
+        resultDto.setDateList(dateDto);
         //根据时间和id查询财务信息，三年一期的资产类项目
         List<IpoItemDto> forthItemList = ipoFinanceMapper.selectFinanceList(id, forthYear);
         List<IpoItemDto> thirdItemList = ipoFinanceMapper.selectFinanceList(id, thirdYear);
@@ -94,6 +97,7 @@ public class IpoFinanceService extends BaseService {
      */
     public IpoFinanceDto selectFinanceOverList(String id) {
         IpoFinanceDto resultDto = new IpoFinanceDto();
+        IpoFinanceDateDto dateDto = new IpoFinanceDateDto();
         //先查询主营业务收入构成里面的时间，确定三年一期时间
         Date forthYear = ipoFinanceMapper.getForthYear(id);
         //如果日期为空则说明没有填写主营收入
@@ -104,11 +108,12 @@ public class IpoFinanceService extends BaseService {
         Date thirdYear = getLastYearDate(forthYear);
         Date secondYear = getLastYearDate(thirdYear);
         Date firstYear = getLastYearDate(secondYear);
-        //插入时间
-        resultDto.setFirstYearDate(getDateStr(firstYear));
-        resultDto.setSecondYearDate(getDateStr(secondYear));
-        resultDto.setThirdYearDate(getDateStr(thirdYear));
-        resultDto.setForthYearDate(getDateStr(forthYear));
+        //存入时间
+        dateDto.setFirstYearDate(getDateStr(firstYear));
+        dateDto.setSecondYearDate(getDateStr(secondYear));
+        dateDto.setThirdYearDate(getDateStr(thirdYear));
+        dateDto.setForthYearDate(getDateStr(forthYear));
+        resultDto.setDateList(dateDto);
         //根据时间和id查询财务信息，三年一期的 财务总体情况
         List<IpoItemDto> forthItemList = ipoFinanceMapper.selectFinanceOverList(id, forthYear);
         List<IpoItemDto> thirdItemList = ipoFinanceMapper.selectFinanceOverList(id, thirdYear);
@@ -133,12 +138,15 @@ public class IpoFinanceService extends BaseService {
         sumEquityDto.setFirstYearValue(firstSumEquity);
         //将所有者权益合计行 放入第3位，前台页面不用排序
         forthItemList.add(2, sumEquityDto);
-        resultDto.setIpoFinanceOverList(forthItemList);
+        //移除财务信息中，三年一期全部为空的项目
+        List<IpoItemDto> allItemList = removeNullItem(forthItemList);
+        resultDto.setIpoFinanceOverList(allItemList);
         return resultDto;
     }
 
     public IpoFinanceDto selectFinanceProfitList(String id) {
         IpoFinanceDto resultDto = new IpoFinanceDto();
+        IpoFinanceDateDto dateDto = new IpoFinanceDateDto();
         Date forthYear = ipoFinanceMapper.getForthYear(id);
         //如果日期为空则说明没有填写主营收入
         if (forthYear == null) {
@@ -148,11 +156,12 @@ public class IpoFinanceService extends BaseService {
         Date thirdYear = getLastYearDate(forthYear);
         Date secondYear = getLastYearDate(thirdYear);
         Date firstYear = getLastYearDate(secondYear);
-        //插入时间
-        resultDto.setFirstYearDate(getDateStr(firstYear));
-        resultDto.setSecondYearDate(getDateStr(secondYear));
-        resultDto.setThirdYearDate(getDateStr(thirdYear));
-        resultDto.setForthYearDate(getDateStr(forthYear));
+        //存入时间
+        dateDto.setFirstYearDate(getDateStr(firstYear));
+        dateDto.setSecondYearDate(getDateStr(secondYear));
+        dateDto.setThirdYearDate(getDateStr(thirdYear));
+        dateDto.setForthYearDate(getDateStr(forthYear));
+        resultDto.setDateList(dateDto);
         //根据时间和id查询财务信息，三年一期的 收入类项目
         List<IpoItemDto> forthItemList = ipoFinanceMapper.selectFinanceProfitList(id, forthYear);
         List<IpoItemDto> thirdItemList = ipoFinanceMapper.selectFinanceProfitList(id, thirdYear);
@@ -166,7 +175,7 @@ public class IpoFinanceService extends BaseService {
         }
         //移除财务信息中，三年一期全部为空的项目
         List<IpoItemDto> profitItemList = removeNullItem(forthItemList);
-        resultDto.setIpoAssetItemList(profitItemList);
+        resultDto.setIpoProfitItemList(profitItemList);
         //查询三年一期的 成本类项目 财务信息你
         List<IpoItemDto> forthCostItemList = ipoFinanceMapper.selectCostFinanceList(id, forthYear);
         List<IpoItemDto> thirdCostItemList = ipoFinanceMapper.selectCostFinanceList(id, thirdYear);
@@ -179,7 +188,7 @@ public class IpoFinanceService extends BaseService {
         }
         //移除财务信息中，三年一期全部为空的项目
         List<IpoItemDto> costItemList = removeNullItem(forthCostItemList);
-        resultDto.setIpoDebtItemList(costItemList);
+        resultDto.setIpoCostItemList(costItemList);
         //查询三年一期的 利润类项目
         List<IpoItemDto> forthReturnItemList = ipoFinanceMapper.selectReturnItemList(id, forthYear);
         List<IpoItemDto> thirdReturnItemList = ipoFinanceMapper.selectReturnItemList(id, thirdYear);
@@ -192,7 +201,7 @@ public class IpoFinanceService extends BaseService {
         }
         //移除财务信息中，三年一期全部为空的项目
         List<IpoItemDto> returnItemList = removeNullItem(forthReturnItemList);
-        resultDto.setIpoDebtItemList(returnItemList);
+        resultDto.setIpoReturnOverList(returnItemList);
 
         return resultDto;
     }
