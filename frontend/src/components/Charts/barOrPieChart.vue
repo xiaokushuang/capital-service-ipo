@@ -53,7 +53,7 @@ export default {
             // 如果请求到数据之后再初始化柱形图
             var dataList = response.data.result
                  this.initBarChart(dataList);
-                 debugger;
+                //  debugger;
                 //  最开始初始化饼状图，默认传的是第三年的数据
                  this.initPieChart(dataList.mainIncomeInfoList,'','',dataList.thirdYearForIncome);
             }

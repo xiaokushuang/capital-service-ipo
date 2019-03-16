@@ -35,20 +35,20 @@
         <el-row :gutter="24" class="h100">
             <el-col :span="18" class="chart" style="padding:0 40px 0 0">
                 <div class='chart-container'>
-                    <div class="el-tabs el-tabs--top" style="margin: 0 0 15px;">
+                    <div class="el-tabs el-tabs--top" style="margin: 0 0 15px;width:100%">
                         <div id="headerTop" :class="['is-top title-fix', {'is-fixed': isFixed}]" :style="isFixed ? 'position: fixed; left: 0px; top: 0px;' : ''">
                           <!-- 吸顶效果 -->
                             <div v-if="isFixed" :style="{'height': '40px', 'margin-top': 'auto','margin-right': '40px', 'margin-bottom': 'auto', 'margin-left': clientLeft}">
                                 <span style="font-size: 20px;color: #333;display: block;margin-bottom: 10px;">IPO</span>
                                 <span style="font-size: 14px;color: #333;">IPO进程</span>
                             </div>
-                            <div>
+                            <div style="width:100%">
                               <!-- 菜单导航栏 -->
                                 <div class="el-tabs__nav-wrap is-top">
                                     <div class="el-tabs__nav-scroll">
                                         <div class="el-tabs__nav">
                                             <div class="el-tabs__active-bar is-top" :style="{width: tabBarWidth + 'px', transform: 'translateX(' + tabBarOffset + 'px)'}"></div>
-                                            <div id="tab-first"  ref="tab-first"  aria-controls="pane-first"  :class="['el-tabs__item is-top', {'is-active': isActive === '1'}]" @click="onTabClick('1', $event)" style="padding-left: 0">公司概要</div>
+                                            <div id="tab-first"  ref="tab-first"  aria-controls="pane-first"  :class="['el-tabs__item is-top', {'is-active': isActive === '1'}]" @click="onTabClick('1', $event)" style="padding-left: 0">公司概览</div>
                                             <div id="tab-second" ref="tab-second" aria-controls="pane-second" :class="['el-tabs__item is-top', {'is-active': isActive === '2'}]" @click="onTabClick('2', $event)">财务信息</div>
                                             <div id="tab-third"  ref="tab-third"  aria-controls="pane-third"  :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]" @click="onTabClick('3', $event)">反馈意见</div>
                                             <div id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" :class="['el-tabs__item is-top', {'is-active': isActive === '4'}]" @click="onTabClick('4', $event)" style="padding-right: 0">审核结果及关注问题</div>
@@ -584,7 +584,7 @@ export default {
 .bottomContent {
   width: 1200px;
   color: #fff;
-  margin: auto;
+  padding-left: 165px;
   p {
     font-size: 24px;
     line-height: 0;
@@ -602,7 +602,7 @@ export default {
     font-size: 12px;
     color: #fff;
     border-radius: 2px;
-    padding: 3px;
+    padding: 4.5px;
   }
 }
 .chart-container {

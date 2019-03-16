@@ -19,21 +19,33 @@
             <template slot-scope="scope">{{ scope.row.publishTime }}</template>
             </el-table-column>
             <el-table-column
+            style="color:#0099CC"
             prop="relationFileTitle"
             label="公告名称"
             align="left"
             width="600">
+            <template slot-scope="scope">
+              <span style=" color:#0099CC">
+                 <a v-if="scope.row.letterId!=''" @click="openLetterDetail(scope.row)">{{scope.row.relationFileTitle}}</a>
+                 <a v-else  @click="openUrl(scope.row)">{{scope.row.relationFileTitle}}</a>
+                <!-- {{ scope.row.relationFileTitle }} -->
+              </span>
+            </template>
+                
             </el-table-column>
             <el-table-column
-            prop="tableSort"
             label="操作"
             width="100"
             align="center"
             show-overflow-tooltip>
+            <template slot-scope="scope">
+              <i class="el-icon-download" style="font-size:20px"></i>
+            </template>
             </el-table-column>
         </el-table>
         <div class="downloadAnnouncement">
-            <span>下载所选公告</span>
+            <span class="downloadAnnouncementSpan" v-if="this.multipleSelection.length==0">下载所选公告</span>
+            <span class="downloadAnnouncementSpan" v-else style="border:1px solid #0099CC">下载所选公告<span style="color:#0099CC">{{this.multipleSelection.length}}</span></span>
         </div>
     </div>
 </template>
@@ -59,8 +71,43 @@ export default {
   },
     methods: {
       handleSelectionChange(val) {
+        // debugger
         this.multipleSelection = val;
-      }
+        console.log(this.multipleSelection.length)
+      },
+        openLetterDetail(v) {
+          // window.open(v.siteBaseUrl+"/letter/viewShare?letterId="+v.letterId)
+        },
+        openUrl(obj) {
+            //打开url
+            // var url = obj.infoUrl;
+            // var title = obj.relaName;
+            // if (
+            //     !(navigator.userAgent.indexOf("MSIE") >= 0) &&
+            //     navigator.userAgent.indexOf("Opera") < 0
+            // ) {
+            //     if (this.pdfBaseUrl != null && this.pdfBaseUrl != "") {
+            //         var _pdfBaseUrl = this.pdfBaseUrl;
+            //     }
+
+            //     if (
+            //         obj.infoUrl
+            //             .substring(obj.infoUrl.length - 4, obj.infoUrl.length)
+            //             .toLowerCase() == ".pdf" &&
+            //         _pdfBaseUrl
+            //     ) {
+            //         url =
+            //             _pdfBaseUrl +
+            //             "web/viewer.html?file=" +
+            //             _pdfBaseUrl +
+            //             "pdf/H2_" +
+            //             obj.relaId +
+            //             "_1.pdf&originTitle=" +
+            //             title;
+            //     }
+            // }
+            // window.open(encodeURI(url));
+        },
     }
 }
 </script>
@@ -68,14 +115,17 @@ export default {
 .downloadAnnouncement{
     width:100%;
     background:white;
-    span{
+    .downloadAnnouncementSpan{
         display:inline-block;
-        padding:2px;
+        padding:3px;
         margin-top:10px;
         margin-left:50px;
         border:1px solid rgba(202, 202, 202, 1);
         border-radius: 2px;
     }
+    // .el-table__row td:nth-child(3) {
+    //    color:#0099CC
+    // }
 }
 </style>
 
