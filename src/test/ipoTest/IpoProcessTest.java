@@ -2,6 +2,7 @@ package ipoTest;
 
 import base.BaseTest;
 
+import com.stock.capital.enterprise.ipoCase.service.IpoFinanceService;
 import com.stock.capital.enterprise.ipoCase.service.IpoInvestService;
 import com.stock.capital.enterprise.ipoCase.service.IpoProcessService;
 import com.stock.capital.enterprise.regulatory.service.StatisticsService;
@@ -25,6 +26,8 @@ public class IpoProcessTest extends BaseTest {
     private IpoProcessService ipoProcessService;
     @Resource
     private IpoInvestService ipoInvestService;
+    @Resource
+    private IpoFinanceService ipoFinanceService;
 
     @Test
     public void testSample() throws Exception {
@@ -41,9 +44,8 @@ public class IpoProcessTest extends BaseTest {
     }
 
     @Test
-    public void testService(){
-        statisticsService.getCodeAndName("IPODATA_BELONG_PLATE");
-
+    public void testSelectFinanceList() throws Exception {
+        ipoFinanceService.selectFinanceList("97952444248599350");
     }
 
     @Test
@@ -55,6 +57,5 @@ public class IpoProcessTest extends BaseTest {
     public void testSelectFinanceProfitList() throws Exception {
         ipoFinanceService.selectFinanceProfitList("97952444248599350");
     }
-
 
 }
