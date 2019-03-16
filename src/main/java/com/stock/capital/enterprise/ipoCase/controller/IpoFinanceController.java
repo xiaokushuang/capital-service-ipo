@@ -22,7 +22,7 @@ public class IpoFinanceController extends BaseController {
     @Autowired
     private IpoFinanceService ipoFinanceService;
 
-    @ApiOperation(value = "资产与负债情况财务信息接口", notes = "资产与负债情况财务信息接口描述")
+    @ApiOperation(value = "财务信息 资产与负债情况接口", notes = "资产与负债情况接口描述")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String")
     })
@@ -30,6 +30,30 @@ public class IpoFinanceController extends BaseController {
     public JsonResponse<IpoFinanceDto> selectFinanceList(String id) {
         JsonResponse<IpoFinanceDto> response = new JsonResponse<>();
         IpoFinanceDto ipoFinanceDto = ipoFinanceService.selectFinanceList(id);
+        response.setResult(ipoFinanceDto);
+        return response;
+    }
+
+    @ApiOperation(value = "财务信息 财务总体情况接口", notes = "财务总体情况接口描述")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String")
+    })
+    @RequestMapping(value = "/selectFinanceOverList", method = RequestMethod.GET)
+    public JsonResponse<IpoFinanceDto> selectFinanceOverList(String id) {
+        JsonResponse<IpoFinanceDto> response = new JsonResponse<>();
+        IpoFinanceDto ipoFinanceDto = ipoFinanceService.selectFinanceOverList(id);
+        response.setResult(ipoFinanceDto);
+        return response;
+    }
+
+    @ApiOperation(value = "财务信息 收入与利润情况接口", notes = "收入与利润情况接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String")
+    })
+    @RequestMapping(value = "/selectFinanceProfitList", method = RequestMethod.GET)
+    public JsonResponse<IpoFinanceDto> selectFinanceProfitList(String id) {
+        JsonResponse<IpoFinanceDto> response = new JsonResponse<>();
+        IpoFinanceDto ipoFinanceDto = ipoFinanceService.selectFinanceProfitList(id);
         response.setResult(ipoFinanceDto);
         return response;
     }

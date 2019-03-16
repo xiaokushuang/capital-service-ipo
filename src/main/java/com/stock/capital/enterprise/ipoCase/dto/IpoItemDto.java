@@ -1,6 +1,7 @@
 package com.stock.capital.enterprise.ipoCase.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,16 +15,16 @@ public class IpoItemDto implements Serializable {
     private String itemName;
 
     @ApiModelProperty("第一年财务数据")
-    private String firstYearValue;
+    private BigDecimal firstYearValue;
 
     @ApiModelProperty("第二年财务数据")
-    private String secondYearValue;
+    private BigDecimal secondYearValue;
 
     @ApiModelProperty("第三年期财务数据")
-    private String thirdYearValue;
+    private BigDecimal thirdYearValue;
 
     @ApiModelProperty("最近一期财务数据")
-    private String forthYearValue;
+    private BigDecimal forthYearValue;
 
     public String getItemName() {
         return itemName;
@@ -33,35 +34,35 @@ public class IpoItemDto implements Serializable {
         this.itemName = itemName;
     }
 
-    public String getFirstYearValue() {
+    public BigDecimal getFirstYearValue() {
         return firstYearValue;
     }
 
-    public void setFirstYearValue(String firstYearValue) {
+    public void setFirstYearValue(BigDecimal firstYearValue) {
         this.firstYearValue = firstYearValue;
     }
 
-    public String getSecondYearValue() {
+    public BigDecimal getSecondYearValue() {
         return secondYearValue;
     }
 
-    public void setSecondYearValue(String secondYearValue) {
+    public void setSecondYearValue(BigDecimal secondYearValue) {
         this.secondYearValue = secondYearValue;
     }
 
-    public String getThirdYearValue() {
+    public BigDecimal getThirdYearValue() {
         return thirdYearValue;
     }
 
-    public void setThirdYearValue(String thirdYearValue) {
+    public void setThirdYearValue(BigDecimal thirdYearValue) {
         this.thirdYearValue = thirdYearValue;
     }
 
-    public String getForthYearValue() {
+    public BigDecimal getForthYearValue() {
         return forthYearValue;
     }
 
-    public void setForthYearValue(String forthYearValue) {
+    public void setForthYearValue(BigDecimal forthYearValue) {
         this.forthYearValue = forthYearValue;
     }
 }

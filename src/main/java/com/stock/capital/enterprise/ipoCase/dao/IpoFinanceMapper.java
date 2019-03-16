@@ -30,4 +30,24 @@ public interface IpoFinanceMapper {
      * 查询财务信息 权益类项目
      */
     List<IpoItemDto> selectEquityItemList(@Param("id") String id, @Param("date") Date date);
+
+    /**
+     * 查询财务总体情况
+     */
+    List<IpoItemDto> selectFinanceOverList(@Param("id") String id, @Param("date") Date date);
+
+    /**
+     * 查询收入与利润情况
+     */
+    List<IpoItemDto> selectFinanceProfitList(@Param("id") String id, @Param("date") Date date);
+
+    /**
+     * 查询成本类项目财务情况
+     */
+    List<IpoItemDto> selectCostFinanceList(@Param("id") String id, @Param("date") Date date);
+
+    /**
+     * 查询利润类项目财务情况
+     */
+    List<IpoItemDto> selectReturnItemList(@Param("id") String id, @Param("date") Date date);
 }

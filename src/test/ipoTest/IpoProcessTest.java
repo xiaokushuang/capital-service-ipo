@@ -46,5 +46,15 @@ public class IpoProcessTest extends BaseTest {
 
     }
 
+    @Test
+    public void testSelectFinanceOverList() throws Exception {
+        ipoFinanceService.selectFinanceOverList("97952444248599350");
+    }
+
+    @Test
+    public void testSelectFinanceProfitList() throws Exception {
+        ipoFinanceService.selectFinanceProfitList("97952444248599350");
+    }
+
 
 }

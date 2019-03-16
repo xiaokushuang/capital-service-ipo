@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,6 +25,9 @@ public class IpoFinanceService extends BaseService {
     @Autowired
     private IpoFinanceMapper ipoFinanceMapper;
 
+    /**
+     * 财务信息 资产与负债情况
+     */
     public IpoFinanceDto selectFinanceList(String id) {
         IpoFinanceDto resultDto = new IpoFinanceDto();
         //先查询主营业务收入构成里面的时间，确定三年一期时间
@@ -36,14 +40,11 @@ public class IpoFinanceService extends BaseService {
         Date thirdYear = getLastYearDate(forthYear);
         Date secondYear = getLastYearDate(thirdYear);
         Date firstYear = getLastYearDate(secondYear);
-        List<Date> dateList = new ArrayList();
-        dateList.add(forthYear);
-        dateList.add(thirdYear);
-        dateList.add(secondYear);
-        dateList.add(firstYear);
         //获取时间列表
-        List<String> dateStrList = getDateStr(dateList);
-        resultDto.setDateList(dateStrList);
+        resultDto.setFirstYearDate(getDateStr(firstYear));
+        resultDto.setSecondYearDate(getDateStr(secondYear));
+        resultDto.setThirdYearDate(getDateStr(thirdYear));
+        resultDto.setForthYearDate(getDateStr(forthYear));
         //根据时间和id查询财务信息，三年一期的资产类项目
         List<IpoItemDto> forthItemList = ipoFinanceMapper.selectFinanceList(id, forthYear);
         List<IpoItemDto> thirdItemList = ipoFinanceMapper.selectFinanceList(id, thirdYear);
@@ -88,10 +89,112 @@ public class IpoFinanceService extends BaseService {
         return resultDto;
     }
 
-    public IpoFinanceDto selectFinanceOverList(String id){
-        IpoFinanceDto resultDot = new IpoFinanceDto();
+    /**
+     * 财务信息 财务总体情况
+     */
+    public IpoFinanceDto selectFinanceOverList(String id) {
+        IpoFinanceDto resultDto = new IpoFinanceDto();
+        //先查询主营业务收入构成里面的时间，确定三年一期时间
+        Date forthYear = ipoFinanceMapper.getForthYear(id);
+        //如果日期为空则说明没有填写主营收入
+        if (forthYear == null) {
+            return new IpoFinanceDto();
+        }
+        //计算前3年时间
+        Date thirdYear = getLastYearDate(forthYear);
+        Date secondYear = getLastYearDate(thirdYear);
+        Date firstYear = getLastYearDate(secondYear);
+        //插入时间
+        resultDto.setFirstYearDate(getDateStr(firstYear));
+        resultDto.setSecondYearDate(getDateStr(secondYear));
+        resultDto.setThirdYearDate(getDateStr(thirdYear));
+        resultDto.setForthYearDate(getDateStr(forthYear));
+        //根据时间和id查询财务信息，三年一期的 财务总体情况
+        List<IpoItemDto> forthItemList = ipoFinanceMapper.selectFinanceOverList(id, forthYear);
+        List<IpoItemDto> thirdItemList = ipoFinanceMapper.selectFinanceOverList(id, thirdYear);
+        List<IpoItemDto> secondItemList = ipoFinanceMapper.selectFinanceOverList(id, secondYear);
+        List<IpoItemDto> firstItemList = ipoFinanceMapper.selectFinanceOverList(id, firstYear);
+        //循环一年的 财务总体情况，因为查询顺序相同，直接用角标合并4年数据
+        for (int i = 0; i < forthItemList.size(); i++) {
+            forthItemList.get(i).setThirdYearValue(thirdItemList.get(i).getForthYearValue());
+            forthItemList.get(i).setSecondYearValue(secondItemList.get(i).getForthYearValue());
+            forthItemList.get(i).setFirstYearValue(firstItemList.get(i).getForthYearValue());
+        }
+        //计算所有者权益合计
+        IpoItemDto sumEquityDto = new IpoItemDto();
+        BigDecimal forthSumEquity = forthItemList.get(0).getForthYearValue().subtract(forthItemList.get(1).getForthYearValue());
+        BigDecimal thirdSumEquity = forthItemList.get(0).getThirdYearValue().subtract(forthItemList.get(1).getThirdYearValue());
+        BigDecimal secondSumEquity = forthItemList.get(0).getSecondYearValue().subtract(forthItemList.get(1).getSecondYearValue());
+        BigDecimal firstSumEquity = forthItemList.get(0).getFirstYearValue().subtract(forthItemList.get(1).getFirstYearValue());
+        sumEquityDto.setItemName("所有者权益合计");
+        sumEquityDto.setForthYearValue(forthSumEquity);
+        sumEquityDto.setThirdYearValue(thirdSumEquity);
+        sumEquityDto.setSecondYearValue(secondSumEquity);
+        sumEquityDto.setFirstYearValue(firstSumEquity);
+        //将所有者权益合计行 放入第3位，前台页面不用排序
+        forthItemList.add(2, sumEquityDto);
+        resultDto.setIpoFinanceOverList(forthItemList);
+        return resultDto;
+    }
 
-        return resultDot;
+    public IpoFinanceDto selectFinanceProfitList(String id) {
+        IpoFinanceDto resultDto = new IpoFinanceDto();
+        Date forthYear = ipoFinanceMapper.getForthYear(id);
+        //如果日期为空则说明没有填写主营收入
+        if (forthYear == null) {
+            return new IpoFinanceDto();
+        }
+        //计算前3年时间
+        Date thirdYear = getLastYearDate(forthYear);
+        Date secondYear = getLastYearDate(thirdYear);
+        Date firstYear = getLastYearDate(secondYear);
+        //插入时间
+        resultDto.setFirstYearDate(getDateStr(firstYear));
+        resultDto.setSecondYearDate(getDateStr(secondYear));
+        resultDto.setThirdYearDate(getDateStr(thirdYear));
+        resultDto.setForthYearDate(getDateStr(forthYear));
+        //根据时间和id查询财务信息，三年一期的 收入类项目
+        List<IpoItemDto> forthItemList = ipoFinanceMapper.selectFinanceProfitList(id, forthYear);
+        List<IpoItemDto> thirdItemList = ipoFinanceMapper.selectFinanceProfitList(id, thirdYear);
+        List<IpoItemDto> secondItemList = ipoFinanceMapper.selectFinanceProfitList(id, secondYear);
+        List<IpoItemDto> firstItemList = ipoFinanceMapper.selectFinanceProfitList(id, firstYear);
+        //循环一年的 收入类项目 财务信息，因为查询顺序相同，直接用角标合并4年数据
+        for (int i = 0; i < forthItemList.size(); i++) {
+            forthItemList.get(i).setThirdYearValue(thirdItemList.get(i).getForthYearValue());
+            forthItemList.get(i).setSecondYearValue(secondItemList.get(i).getForthYearValue());
+            forthItemList.get(i).setFirstYearValue(firstItemList.get(i).getForthYearValue());
+        }
+        //移除财务信息中，三年一期全部为空的项目
+        List<IpoItemDto> profitItemList = removeNullItem(forthItemList);
+        resultDto.setIpoAssetItemList(profitItemList);
+        //查询三年一期的 成本类项目 财务信息你
+        List<IpoItemDto> forthCostItemList = ipoFinanceMapper.selectCostFinanceList(id, forthYear);
+        List<IpoItemDto> thirdCostItemList = ipoFinanceMapper.selectCostFinanceList(id, thirdYear);
+        List<IpoItemDto> secondCostItemList = ipoFinanceMapper.selectCostFinanceList(id, secondYear);
+        List<IpoItemDto> firstCostItemList = ipoFinanceMapper.selectCostFinanceList(id, firstYear);
+        for (int i = 0; i < forthCostItemList.size(); i++) {
+            forthCostItemList.get(i).setThirdYearValue(thirdCostItemList.get(i).getForthYearValue());
+            forthCostItemList.get(i).setSecondYearValue(secondCostItemList.get(i).getForthYearValue());
+            forthCostItemList.get(i).setFirstYearValue(firstCostItemList.get(i).getForthYearValue());
+        }
+        //移除财务信息中，三年一期全部为空的项目
+        List<IpoItemDto> costItemList = removeNullItem(forthCostItemList);
+        resultDto.setIpoDebtItemList(costItemList);
+        //查询三年一期的 利润类项目
+        List<IpoItemDto> forthReturnItemList = ipoFinanceMapper.selectReturnItemList(id, forthYear);
+        List<IpoItemDto> thirdReturnItemList = ipoFinanceMapper.selectReturnItemList(id, thirdYear);
+        List<IpoItemDto> secondReturnItemList = ipoFinanceMapper.selectReturnItemList(id, secondYear);
+        List<IpoItemDto> firstReturnItemList = ipoFinanceMapper.selectReturnItemList(id, firstYear);
+        for (int i = 0; i < forthReturnItemList.size(); i++) {
+            forthReturnItemList.get(i).setThirdYearValue(thirdReturnItemList.get(i).getForthYearValue());
+            forthReturnItemList.get(i).setSecondYearValue(secondReturnItemList.get(i).getForthYearValue());
+            forthReturnItemList.get(i).setFirstYearValue(firstReturnItemList.get(i).getForthYearValue());
+        }
+        //移除财务信息中，三年一期全部为空的项目
+        List<IpoItemDto> returnItemList = removeNullItem(forthReturnItemList);
+        resultDto.setIpoDebtItemList(returnItemList);
+
+        return resultDto;
     }
 
     /**
@@ -113,16 +216,12 @@ public class IpoFinanceService extends BaseService {
     }
 
     /**
-     * 将日期List转为字符串
+     * 将日期转为字符串
      */
-    private List<String> getDateStr(List<Date> dateList) {
+    private String getDateStr(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        List<String> dateStrList = new ArrayList<>();
-        for (int i = 0; i < dateList.size(); i++) {
-            String dateStr = dateFormat.format(dateList.get(i));
-            dateStrList.add(dateStr);
-        }
-        return dateStrList;
+        String dateStr = dateFormat.format(date);
+        return dateStr;
     }
 
     /**
@@ -139,4 +238,5 @@ public class IpoFinanceService extends BaseService {
         }
         return resultList;
     }
+
 }
