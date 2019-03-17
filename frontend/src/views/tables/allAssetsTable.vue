@@ -4,7 +4,7 @@
       <el-table-column align="left" class-name="table_cell" label="项目" width="156">
          <template slot-scope="scope">
             <span>{{isNotEmpty(scope.row.itemName ) ? scope.row.itemName  : '- -'}}</span>
-          </template>
+         </template>
       </el-table-column>
       <el-table-column align="right" :label="tableTitle.forthYearDate">
           <template slot-scope="scope">

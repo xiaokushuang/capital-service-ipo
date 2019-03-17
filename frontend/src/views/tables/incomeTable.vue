@@ -1,15 +1,259 @@
 <template>
-    <div>1111111</div>
+  <div>
+    <el-table
+      class="incomeTable"
+      border
+      style="width: 100%">
+      <el-table-column
+        prop=""
+        label="项目"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop=""
+       :label="tableTitle.forthYearDate?tableTitle.forthYearDate:''"
+       align="center">
+      </el-table-column>
+      <el-table-column
+        prop=""
+        :label="tableTitle.thirdYearDate?tableTitle.thirdYearDate:''"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        prop=""
+        :label="tableTitle.secondYearDate?tableTitle.secondYearDate:''"
+        align="center">
+      </el-table-column>
+       <el-table-column
+        prop=""
+        :label="tableTitle.firstYearDate?tableTitle.firstYearDate:''"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        prop=""
+        label="趋势"
+        align="center">
+      </el-table-column>
+    </el-table>
+    <p style=" 
+    font-weight: 700;
+    line-height: 11px;
+    font-style: normal;
+    font-size: 14px;
+    text-align: left">收入类项目：</p>
+    <el-table
+      class="table2"
+     :data="ipoProfitItemList"
+      border
+      style="width: 100%">
+       <el-table-column prop="itemName" align="left"  class-name="table_cell" label="占比" width="184">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.itemName) ? scope.row.itemName : '- -'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="forthYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.forthYearValue) ? scope.row.forthYearValue : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="thirdYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.thirdYearValue) ? scope.row.thirdYearValue : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="secondYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.secondYearValue) ? scope.row.secondYearValue : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="firstYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.firstYearValue) ? scope.row.firstYearValue : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe">查看</span>
+          </template>
+        </el-table-column>
+     
+    </el-table>
+     <p style=" 
+    font-weight: 700;
+    line-height: 11px;
+    font-style: normal;
+    font-size: 14px;
+    text-align: left">成本类项目：</p>
+    <el-table
+      class="table2"
+     :data="ipoCostItemList"
+      border
+      style="width: 100%">
+       <el-table-column prop="itemName" align="left"  class-name="table_cell" label="占比" width="184">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.itemName) ? scope.row.itemName : '- -'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="forthYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.forthYearValue) ? scope.row.forthYearValue : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="thirdYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.thirdYearValue) ? scope.row.thirdYearValue : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="secondYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.secondYearValue) ? scope.row.secondYearValue : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="firstYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.firstYearValue) ? scope.row.firstYearValue : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe">查看</span>             
+          </template>
+        </el-table-column>
+     
+    </el-table>
+     <p style=" 
+    font-weight: 700;
+    line-height: 11px;
+    font-style: normal;
+    font-size: 14px;
+    text-align: left"> 利润类项目：</p>
+     <el-table
+      class="table2"
+     :data="ipoReturnOverList"
+      border
+      style="width: 100%">
+       <el-table-column prop="itemName" align="left"  class-name="table_cell" label="占比" width="184">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.itemName) ? scope.row.itemName : '- -'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="forthYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.forthYearValue) ? scope.row.forthYearValue : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="thirdYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.thirdYearValue) ? scope.row.thirdYearValue : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="secondYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.secondYearValue) ? scope.row.secondYearValue : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="firstYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span>{{isNotEmpty(scope.row.firstYearValue) ? scope.row.firstYearValue : '- -'}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column prop="" align="center"  class-name="table_cell" label="占比" width="135">
+          <template slot-scope="scope">
+            <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe">查看</span>           
+          </template>
+        </el-table-column>
+     
+    </el-table>
+    <!-- 点击放大镜弹出的折线图 -->
+    <el-dialog :title="this.zxChartData?'公司最近三年'  +this.zxChartData.itemName+'_趋势':''" :visible.sync="dialogChartVisible">
+       <tanZxChart :zxChartData = "this.zxChartData"></tanZxChart>
+    </el-dialog>
+
+  </div>
 </template>
+
 <script>
+// 引入点击放大镜弹出来的表头年限数据
+import { getSelectFinanceProfitList } from '@/api/tableDemo'
+import echarts from 'echarts'
+import tanZxChart  from '@/components/Charts/tanZxChart'
+  export default {
+    name:"incomeTable",
+    data() {
+    return {
+      // 弹窗
+        tanZxChart:null,
+        tableTitle: null,
+        // ipoAssetItemList:[],//资产类项目列表
+        // ipoDebtItemList:[],//负债类项目列表
+        // ipoEquityItemList:[],//权益类项目列表
+        ipoReturnOverList :[],//利润类项目列表
+        ipoCostItemList :[],//成本类项目列表
+        ipoProfitItemList :[],//收益类项目列表
+        tableContent: null,
+      // 控制弹窗是否展示
+        dialogChartVisible: false,
+        zxChartData:null
+    }
+  },
+    components:{
+      tanZxChart
+    },
+    created(){
+      this.initTableData()
+       
+    },
+    beforeDestroy () {
+      // this.zxChartData = null
+    },
+    mounted() {
 
-export default {
-  name: 'incomeTable',
-  
-}
+    },
+    updated(){
+    },
+    methods: {
+      // 初始化数据
+      initTableData() {
+        getSelectFinanceProfitList().then(res => {
+          console.log(res.data.result)
+          this.tableTitle = res.data.result.dateList
+          this.ipoProfitItemList = res.data.result.ipoProfitItemList//收益类项目列表
+          this.ipoCostItemList = res.data.result.ipoCostItemList//成本类项目列表
+          this.ipoReturnOverList = res.data.result.ipoReturnOverList//利润类项目列表
+          // ipoReturnOverList :[],//利润类项目列表
+          // ipoCostItemList :[],//成本类项目列表
+          // ipoProfitItemList :[],//收益类项目列表
+          // console.log(this.tableTitle[0])
+          // this.ipoAssetItemList = res.data.result.ipoAssetItemList//资产类项目列表
+          // this.ipoDebtItemList = res.data.result.ipoDebtItemList//负债类项目列表
+          // this.ipoEquityItemList = res.data.result.ipoEquityItemList//权益类项目列表
+          // this.tableContent = response.data.assetsList.slice(1)
+        })
+      },
+      // 非空判断
+      isNotEmpty(param) {
+        // debugger
+        if (param != null && param !== undefined && param !== '' && param !== 'null' && param !== 'undefined') {
+          return true
+        } else {
+          return false
+        }
+      },
+      // 点击放大镜弹出折线图
+      handleShowChart(i,r){
+        this.zxChartData = r
+        // console.log(this.zxChartData)
+        this.dialogChartVisible = true;
+      }
+    }
+    }
 </script>
-
 <style scoped lang="scss">
+.table2{
+  background: #f5f7fa;
+}
+.el-table__empty-block{
+  display:none
+}
 
 </style>
-
