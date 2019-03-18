@@ -34,12 +34,7 @@
         align="center">
       </el-table-column>
     </el-table>
-    <p style=" 
-    font-weight: 700;
-    line-height: 11px;
-    font-style: normal;
-    font-size: 14px;
-    text-align: left">资产类项目：</p>
+    <p v-if="this.ipoAssetItemList" class="sortProject">资产类项目：</p>
     <el-table
       class="table2"
      :data="ipoAssetItemList"
@@ -77,12 +72,7 @@
         </el-table-column>
      
     </el-table>
-     <p style=" 
-    font-weight: 700;
-    line-height: 11px;
-    font-style: normal;
-    font-size: 14px;
-    text-align: left">负债类项目：</p>
+     <p v-if="this.ipoDebtItemList" class="sortProject">负债类项目：</p>
     <el-table
       class="table2"
      :data="ipoDebtItemList"
@@ -120,12 +110,7 @@
         </el-table-column>
      
     </el-table>
-     <p style=" 
-    font-weight: 700;
-    line-height: 11px;
-    font-style: normal;
-    font-size: 14px;
-    text-align: left"> 权益类项目：</p>
+     <p v-if="ipoEquityItemList" class="sortProject"> 权益类项目：</p>
      <el-table
       class="table2"
      :data="ipoEquityItemList"
@@ -240,5 +225,17 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
 <style scoped lang="scss">
 .table2{
   background: #f5f7fa;
+}
+.sortProject{
+    background: #f2f2f2;
+    font-weight: 700;
+    line-height: 11px;
+    font-style: normal;
+    font-size: 14px;
+    text-align: left;
+    margin: 0px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-left: 12px;
 }
 </style>

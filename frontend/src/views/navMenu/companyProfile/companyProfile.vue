@@ -481,7 +481,7 @@ export default {
     background-color: #fafafa;
     display: flex;
     align-items: center;
-    margin-top: 40px;
+    margin-top: 30px;
     margin-bottom: 16px;
     .littleRectangle {
       width: 3px;

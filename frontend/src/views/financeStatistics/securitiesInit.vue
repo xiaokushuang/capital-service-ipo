@@ -38,7 +38,7 @@
                     <div class="el-tabs el-tabs--top" style="margin: 0 0 15px;width:100%">
                         <div id="headerTop" :class="['is-top title-fix', {'is-fixed': isFixed}]" :style="isFixed ? 'position: fixed; left: 0px; top: 0px;' : ''">
                           <!-- 吸顶效果 -->
-                            <div v-if="isFixed" :style="{'height': '40px', 'margin-top': 'auto','margin-right': '40px', 'margin-bottom': 'auto', 'margin-left': clientLeft}">
+                            <div v-if="isFixed" :style="{ 'width': '62px','height': '40px', 'margin-top': 'auto','margin-right': '40px', 'margin-bottom': 'auto', 'margin-left': clientLeft}">
                                 <span style="font-size: 20px;color: #333;display: block;margin-bottom: 10px;">IPO</span>
                                 <span style="font-size: 14px;color: #333;">IPO进程</span>
                             </div>

@@ -51,5 +51,8 @@ Mock.mock(/\/finance\/assetsOrDebtData/, 'get', tableDemo.getAssetsOrDebtData)
 Mock.mock(/\/finance\/selectFinanceProfitList/, 'get', tableDemo.getSelectFinanceProfitList)
 // 财务总体情况接口
 Mock.mock(/\/finance\/selectFinanceOverList/, 'get', tableDemo.getSelectFinanceOverList)
+// 毛利率接口数据
+Mock.mock(/\/finance\/maoChartTableData/, 'get', tableDemo.getMaoChartTableData)
+
 
 export default Mock

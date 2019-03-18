@@ -86,5 +86,12 @@ export function getSelectFinanceOverList() {
   })
 }
 // Mock.mock(/\/finance\/selectFinanceOverList/, 'get', tableDemo.getSelectFinanceOverList)
-
+// Mock.mock(/\/finance\/maoChartTableData/, 'get', tableDemo.getMaoChartTableData)
+// 毛利率接口
+export function getMaoChartTableData() {
+  return request({
+    url: '/finance/maoChartTableData',
+    method: 'get'
+  })
+}
 

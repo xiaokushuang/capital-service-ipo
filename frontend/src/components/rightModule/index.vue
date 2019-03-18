@@ -4,7 +4,7 @@
             <!-- 第一个进程 -->
             <div v-if="boxDataItem.proList.length>0">
                 <el-row style="padding-left:12px">
-                    <el-col :span="24" style="border-left:1px solid #0099cc; margin-bottom: 12px;">
+                    <el-col :span="24" style="border-left:1px solid #0099cc; margin-bottom: -10px;margin-top:10px;padding-bottom: 10px;">
                          <!-- 进程名 -->
                          
                         <div class="jincheng">
@@ -73,20 +73,11 @@
                                         
                                             
                                             ">未获通过</span>
-                                        <span v-if="item.iecResult=='02'"
-                                        :style={background:zhbj} 
-                                        style="font-size: 14px;
-                                            position: relative;
-                                            left: 40%;
-                                            top: -20px;
-                                            color: #FF9900;
-                                            padding:5px;
-                                            padding-right:5px;
-                                            line-height:10px;
-                                            display:inline-block;
-                                        background-size:100% 100%;
-                                            
-                                        ">暂缓表决</span>
+                                        <span class="zhbj" v-if="item.iecResult=='02'">暂缓表决
+                                            <div class="arrow-left arrow-box" >
+                                                <b class="left"><i class="left-arrow1"></i><i class="left-arrow2"></i></b>
+                                            </div>
+                                        </span>
                                         <span v-if="item.iecResult=='03'"
                                         :style={background:qxsh} 
                                         style="font-size: 14px;
@@ -109,7 +100,7 @@
                                         <div :id="'each' + item.sort + item.progressType" style="display:none;">
                                             <div :ref='item.sort + item.progressType' :class="'abc'+item.sort + item.progressType"></div>
                                         </div>
-                                        <p @click.stop="gonggaoClick(boxDataItem)" v-if="item.relaList.length===0" v-show="item.flag==1" class="gonggao"  style="color:#0086A7;font-size:14px;display:none"><a href="#"></a></p>
+                                        <p @click.stop="gonggaoClick(boxDataItem)" v-if="item.relaList.length===0" v-show="item.flag==1" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a href="#"></a></p>
                                         <p @click.stop="gonggaoClick(boxDataItem)"  v-else  v-show="item.flag==1" class="gonggao"  style="color:#0086A7;font-size:14px"><a href="#">{{item.relaList[0].relationFileTitle}}</a></p>
                                     </div>
                                     <div v-if="item.flag==1&&item.relaList.length>1" style="margin-bottom: 24px;margin-top: 8px;">
@@ -124,22 +115,25 @@
                                         <span>  
                                             <span>
                                                 <!-- 第一个进程展示的是‘查看公告’ -->
-                                                <div v-if="boxDataItem.sandian" v-show="item.relaList.length>0" @click.stop="showAndHide(boxDataItem,'each' + item.sort+ item.progressType,item, null)" href="#" class="moreNoticeCss" style="cursor: pointer;">查看公告</div>
+                                                <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.sandian" v-show="item.relaList.length>0" @click.stop="showAndHide(boxDataItem,'each' + item.sort+ item.progressType,item, null)" href="#" class="moreNoticeCss">查看公告</div>
                                                 <!-- 第二个进程展示的是‘查看审核意见’ -->
-                                                <div v-else v-show="item.relaList.length>0" @click.stop="showAndHide(boxDataItem,'each' + item.sort+ item.progressType,item, null)" href="#" class="moreNoticeCss" style="cursor: pointer;">查看审核意见</div>
+                                                <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click.stop="showAndHide(boxDataItem,'each' + item.sort+ item.progressType,item, null)" href="#" class="moreNoticeCss">查看审核意见</div>
                                             </span>
                                         </span>
                                     </div>
                                 </div>
                             </div>
-                            
+                            <!-- 这个占位不能用，有问题 -->
+                             <!-- <div class="math" style="visibility:hidden;white-space:nowrap;float:left;">1</div> -->
+                            <!-- <div class="math" style="visibility:hidden;white-space:nowrap;float:left;">1</div> -->
+                            <!-- <div class="math" style="visibility:hidden;white-space:nowrap;float:left;">1</div> -->
                                 <!-- 三个点展开全部  [在第一个和最后一个节点之间] -->
                             <div v-if="boxDataItem.sandian" >
-                                <p v-show="index == boxDataItem.proList.length-1" class="spread" v-if="boxDataItem.spreadFlag" @click="handlePackUp(boxDataItem)" style="font-size:14px;cursor:pointer"><span>收起</span></p>
+                                <p v-show="index == boxDataItem.proList.length-1" class="spread sandianClass" v-if="boxDataItem.spreadFlag" @click="handlePackUp(boxDataItem)" style="font-size:14px;cursor:pointer;line-height:17px"><span>收起</span></p>
                                 <p v-show=" index == 0" class="spread sandianClass" v-else  ><span  @click="handleSpread(boxDataItem)" @mouseenter="handleMouseenterSpread()" @mouseleave="handleMouseleaveSpread()">...</span></p>
                                 <span class="spreadText" v-show="isShowSpreadText && index == 0">点击展开隐藏节点</span>
                             </div>
-                            
+                           
                         </div>
                          
                         <!-- 点击查看更多公告内容弹窗 -->
@@ -540,7 +534,7 @@ export default {
     height: 17px;
     border-top: 1px solid rgb(238, 238, 238);
     border-bottom: 1px solid rgb(238, 238, 238);
-    line-height: 3px;
+    line-height: 6px;
     /* margin-right: 50px; */
     cursor: pointer;
 }
@@ -563,13 +557,14 @@ export default {
     color: #0099cc;
     font-size: 20px;
     text-align:right;
+    height:20px;
+    padding-right: 15px;
 }
 /* 进程名样式 */
 .jincheng {
     position: relative;
-    top: -6px;
-    left: -11px;
-    margin-top: 13px;
+    top: -14px;
+    left: -9px;
   p {
     font-family: 'PingFang-SC-Regular', 'PingFang SC';
     font-weight: 400;
@@ -581,4 +576,62 @@ export default {
     position: relative;
     }
 }
+// 标签
+.zhbj{
+    font-size: 14px;
+    position: relative;
+    left: 40%;
+    top: -20px;
+    color: #FF9900;
+    padding:5px;
+    padding-right:5px;
+    line-height:10px;
+    display:inline-block;
+    background-size:100% 100%;
+    border:1px solid #FF9900;
+    border-radius:2px;
+    border-left:none;
+    background-repeat: no-repeat !important;
+}
+// .zhbj:before {
+//     content: '';
+//     width: 0;
+//     height: 0;
+//     border: 11px solid transparent;
+//     border-right-color: #FF9900;
+//     position: absolute;
+//     left: -2%;
+//     top: -6%;
+//     margin-left: -20px;
+// }
+ /*左箭头*/
+        .left{
+             width: 20px;
+            height: 20px;
+            position: absolute;
+            left: -19px;
+            top: -2px;
+            z-index: 3;
+        }
+        .left-arrow1,.left-arrow2{
+            width:0;
+            height:0;
+            display:block;
+            position:absolute;
+            left:0;
+            top:0;
+            z-index:5;/*兼容ie8-*/
+            border-top:12px transparent dashed;
+            border-left:10px transparent dashed;
+            border-bottom:12px transparent dashed;
+            border-right:10px white solid;
+            overflow:hidden;
+        }
+        .left-arrow1{
+            border-right:10px #FF9900 solid;
+        }
+        .left-arrow2{
+            left:1px;/*重要*/
+            border-right:10px white solid;
+        }
 </style>

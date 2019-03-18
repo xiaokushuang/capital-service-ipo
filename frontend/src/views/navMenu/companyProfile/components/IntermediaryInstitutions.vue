@@ -585,8 +585,8 @@ export default {
             width: 15%;
             height: 100%;
             position: relative;
-            top: 4px;
-            left: 4px;
+            top: 15px;
+            left: 23px;
       }
       .text {
         width: 80%;

@@ -165,7 +165,7 @@ export default{
     }
     return { khDataList }
   },
-  // 财务信息表格接口
+  // 财务信息表格接口 
   getAssetsTableData: () => {
     assetsList.push(Mock.mock({
       // rank: '排名',
@@ -595,6 +595,132 @@ export default{
       },
       "success": true,
       "timestamp": 1552810887242
+    }
+  ),
+  // 毛利率对比
+  getMaoChartTableData:()=>(
+    {
+      "errorCode": null,
+      "errorMsg": null,
+      "result": [
+        {
+          "id": "1106725448776218846",
+          "bid": "97952444248450226",
+          "reportPeriod": "2018",
+          "companyCode": "601865",
+          // "companyName": "福莱特",
+          // "firstYearRate": 15,
+          // "secondYearRate": 30,
+          // "thirdYearRate": 10,
+          "remark": "2018,2017,2016年 与同行业可比上市公司毛利率如下",
+          "average":[
+            {
+              "companyName": "平均值",
+              "firstAvg": 45,
+              "secondAvg": 5,
+              "thirdAvg": 25
+            }
+          ],
+          "myself":[
+            {
+              "companyName": "福莱特",
+              "firstYearRate": 15,
+              "secondYearRate": 30,
+              "thirdYearRate": 10,
+            }
+          ],
+          "industryCompareRateDetailList": [
+            {
+              "id": "1106725448776218847",
+              "bid": "1106725448776218846",
+              "companyCode": "000001",
+              "companyName": "平安银行",
+              "firstYearRate": 40,
+              "secondYearRate": 30,
+              "thirdYearRate": 20
+            },
+            {
+              "id": "1106725448776218848",
+              "bid": "1106725448776218846",
+              "companyCode": "000002",
+              "companyName": "万科A",
+              "firstYearRate": 50,
+              "secondYearRate": -20,
+              "thirdYearRate": 30
+            }
+          ],
+          "firstYear": "2016年",
+          "secondYear": "2017年",
+          "thirdYear": "2018年",
+          // "firstAvg": 45,
+          // "secondAvg": 5,
+          // "thirdAvg": 25
+        },
+        {
+          "id": "1106725448776218849",
+          "bid": "97952444248450226",
+          "reportPeriod": "2017",
+          "companyCode": "601865",
+          // "companyName": "福莱特",
+          // "firstYearRate": 23,
+          // "secondYearRate": 22,
+          // "thirdYearRate": 33,
+          "remark": "2017,2016，2015年 与同行业可比上市公司毛利率如下",
+          "industryCompareRateDetailList": [
+            {
+              "id": "1106725448776218850",
+              "bid": "1106725448776218849",
+              "companyCode": "000004",
+              "companyName": "国农科技",
+              "firstYearRate": 30,
+              "secondYearRate": 20,
+              "thirdYearRate": 40
+            },
+            {
+              "id": "1106725448776218851",
+              "bid": "1106725448776218849",
+              "companyCode": "000005",
+              "companyName": "世纪星源",
+              "firstYearRate": 30,
+              "secondYearRate": 20,
+              "thirdYearRate": 10
+            },
+            {
+              "id": "1106725448776218852",
+              "bid": "1106725448776218849",
+              "companyCode": "000008",
+              "companyName": "神州高铁",
+              "firstYearRate": 20,
+              "secondYearRate": -5,
+              "thirdYearRate": 30
+            }
+          ],
+          "average":[
+            {
+              "companyName": "平均值",
+              "firstAvg": 26.67,
+              "secondAvg": 11.67,
+              "thirdAvg": 26.67
+            }
+          ],
+          "myself":[
+            {
+              "companyName": "福莱特",
+              "firstYearRate": 23,
+              "secondYearRate": 22,
+              "thirdYearRate": 33,
+            }
+          ],
+          "firstYear": "2015年",
+          "secondYear": "2016年",
+          "thirdYear": "2017年",
+          // "firstAvg": 26.67,
+          // "secondAvg": 11.67,
+          // "thirdAvg": 26.67
+        }
+      ],
+      "success": true,
+      "timestamp": 1552876779796
     }
   )
   

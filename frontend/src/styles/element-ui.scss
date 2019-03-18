@@ -338,3 +338,18 @@
 .el-table--border td, .el-table--border th {
   border-right: 1px solid #e4e4e4;
 }
+// 表头颜色
+.el-table thead tr th {
+  background: #f2f2f2;
+  color: #fff;
+}
+// 财务信息页，平均值和自己公司表格的表头去掉
+.averageOrMyself .el-table__header-wrapper{
+  display:none
+}
+.averageOrMyself{
+  margin-top:0 !important;
+}
+.myself.el-table {
+ border:1px solid #14bcf5;
+}
