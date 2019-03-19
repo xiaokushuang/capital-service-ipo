@@ -1,46 +1,63 @@
 <template>
   <div class="table-class">
-    <el-table :data="tableContent" border style="width: 100%;margin-top: 20px">
-      <el-table-column prop="company" align="left" class-name="table_cell" label="企业名称" width="156" ></el-table-column>
-      <el-table-column align="center" :label="tableTitle.year1" header-align="center">
+    <el-table :data="industryCompareRateDetailList" border style="width: 100%;margin-top: 20px">
+      <el-table-column prop="companyName" align="left" class-name="table_cell" label="企业名称" width="156" ></el-table-column>
+      <el-table-column align="center" :label="year3" header-align="center">
           <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.proportion1) ? scope.row.proportion1 : '- -'}}</span>
+            <span>{{isNotEmpty(scope.row.thirdYearRate) ? scope.row.thirdYearRate : '- -'}}</span>
           </template>
       </el-table-column>
-      <el-table-column align="center" :label="tableTitle.year2" header-align="center" >
+      <el-table-column align="center" :label="year2" header-align="center" >
           <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.proportion2) ? scope.row.proportion2 : '- -'}}</span>
+            <span>{{isNotEmpty(scope.row.secondYearRate) ? scope.row.secondYearRate : '- -'}}</span>
           </template>
       </el-table-column>
-      <el-table-column align="center" :label="tableTitle.year3" header-align="center" >
+      <el-table-column align="center" :label="year1" header-align="center" >
           <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.proportion3) ? scope.row.proportion3 : '- -'}}</span>
+            <span>{{isNotEmpty(scope.row.firstYearRate) ? scope.row.firstYearRate : '- -'}}</span>
           </template>
       </el-table-column>
-     
-     
     </el-table>
   </div>
 </template>
 <script>
-import { getCompareTableData } from '@/api/tableDemo'
-
+// import { getCompareTableData } from '@/api/tableDemo'
+import { getMaoChartTableData } from '@/api/tableDemo'
 export default {
   name: 'compareTable',
   data() {
     return {
       tableTitle: null,
-      tableContent: null
+      tableContent: null,
+      year1:'',
+      year2:'',
+      year3:'',
+      industryCompareRateDetailList:[]
     }
   },
-  mounted() {
+  created() {
     this.initTableData()
+  },
+  mounted(){
+    // console.log(item)
   },
   methods: {
     initTableData() {
-      getCompareTableData().then(response => {
-       this.tableTitle = response.data.compareList[0]
-        this.tableContent = response.data.compareList.slice(1)
+      getMaoChartTableData().then(res => {
+          console.log(res.data.result)
+          for(let i = 0;i<res.data.result.length;i++){
+            this.year1 = res.data.result[i].firstYear
+            this.year2 = res.data.result[i].secondYear
+            this.year3 = res.data.result[i].thirdYear
+            this.industryCompareRateDetailList = res.data.result[i].industryCompareRateDetailList
+          // console.log(res.data.result[i].firstYear)
+          }
+          // console.log(this.year1)
+          // console.log(this.year2)
+          // console.log(this.year3)
+          // console.log(this.industryCompareRateDetailList)
+      //  this.tableTitle = response.data.compareList[0]
+      //   this.tableContent = response.data.compareList.slice(1)
       }) 
     },
     // 非空判断

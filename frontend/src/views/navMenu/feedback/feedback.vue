@@ -345,26 +345,26 @@ export default {
   color: rgba(0, 0, 0, 0.647058823529412);
 }
 .wen {
-  width: 26px;
-  height: 26px;
-  padding: 5px;
-  padding-bottom: 7px;
-  color: #ffffff;
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-size: 14px;
-  background: url("../../../assets/images/wen.png") no-repeat;
-  background-size: contain;
+    width: 24px;
+    height: 24px;
+    padding-top: 6px;
+    padding-left: 6px;
+    color: #ffffff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 12px;
+    background: url("../../../assets/images/wen.png") no-repeat;
+    background-size: contain;
 }
 .da {
-  width: 26px;
-  height: 26px;
-  padding: 5px;
-  padding-bottom: 7px;
+  width: 24px;
+  height: 24px;
+  padding-top: 6px;
+  padding-left: 6px;
   color: #ffffff;
-  font-size: 14px;
-  background: url("../../../assets/images/wen.png") no-repeat;
+  font-size: 12px;
+  background: url("../../../assets/images/da.png") no-repeat;
   background-size: contain;
   position: relative;
   top: 38px;

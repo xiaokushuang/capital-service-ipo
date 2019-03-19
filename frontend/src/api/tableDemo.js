@@ -70,5 +70,28 @@ export function getAssetsOrDebtData() {
     method: 'get'
   })
 }
-
+// 收入与利润情况接口
+export function getSelectFinanceProfitList() {
+  return request({
+    url: '/finance/selectFinanceProfitList',
+    method: 'get'
+  })
+}
+// Mock.mock(/\/finance\/selectFinanceProfitList/, 'get', tableDemo.getSelectFinanceProfitList)
+// 财务总体情况接口
+export function getSelectFinanceOverList() {
+  return request({
+    url: '/finance/selectFinanceOverList',
+    method: 'get'
+  })
+}
+// Mock.mock(/\/finance\/selectFinanceOverList/, 'get', tableDemo.getSelectFinanceOverList)
+// Mock.mock(/\/finance\/maoChartTableData/, 'get', tableDemo.getMaoChartTableData)
+// 毛利率接口
+export function getMaoChartTableData() {
+  return request({
+    url: '/finance/maoChartTableData',
+    method: 'get'
+  })
+}
 

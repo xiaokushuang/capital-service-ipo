@@ -10,212 +10,15 @@
                 <ul>
                      <li class="clear ">
                         <p class="institutionTitle">联席保荐人（联席主承销商）</p>
-                        <div class="InstitutionsDetailLi" v-for="item in sponsors">
+                        <!-- <div class="InstitutionsDetailLi clear" v-for="item in sponsors"> -->
+                            <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'" v-for="item in sponsors">
                             <div class="image l">
-                                <img src="@/assets/images/huotonghuo.png" alt>
+                                <img src="../../../../assets/images/coSponsors.png" alt>
                             </div>
                             <div class="text l">
                                 <div>
                                     <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
-                                    font-style: normal; font-size: 16px; color: rgb(101, 106, 177);">{{item.orgName}}</span>
-                                    <span style="background:yellow;color:white;font-size: 12px;">已认证</span>
-                                    <span style="color: #6633FF;font-size: 12px;">联系他</span>
-                                </div>
-                                <ul>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
-                                        <span style="font-size:12px;color:black">{{item.representPerson}}</span>
-                                    </li>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">2018年过会率：</span>
-                                        <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                                    </li>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">项目协办人：</span>
-                                        <span style="font-size:12px;color:black">{{item.assistPerson}}</span>
-                                    </li>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">2018年业务量：</span>
-                                        <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                                    </li>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">项目经办人：</span>
-                                        <span style="font-size:12px;color:black">{{item.agentPerson}}</span>
-                                    </li>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">2018年市场占比：</span>
-                                        <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                                    </li>
-                                </ul>
-                            </div>                               
-                        </div>
-                    </li>
-                     <li class="clear ">
-                        <p class="institutionTitle">律师事务所</p>
-                        <div class="InstitutionsDetailLi" v-for="item in lawyers">
-                            <div class="image l">
-                                <img src="@/assets/images/huotonghuo.png" alt>
-                            </div>
-                            <div class="text l">
-                                <div>
-                                    <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
-                                    font-style: normal; font-size: 16px; color: rgb(101, 106, 177);">{{item.orgName}}</span>
-                                    <span style="background:yellow;color:white;font-size: 12px;">已认证</span>
-                                    <span style="color: #6633FF;font-size: 12px;">联系他</span>
-                                </div>
-                                <ul>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
-                                        <span style="font-size:12px;color:black">{{item.representPerson}}</span>
-                                    </li>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">2018年过会率：</span>
-                                        <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                                    </li>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">项目协办人：</span>
-                                        <span style="font-size:12px;color:black">{{item.assistPerson}}</span>
-                                    </li>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">2018年业务量：</span>
-                                        <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                                    </li>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">项目经办人：</span>
-                                        <span style="font-size:12px;color:black">{{item.agentPerson}}</span>
-                                    </li>
-                                
-                                
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">2018年市场占比：</span>
-                                        <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                                    </li>
-                                </ul>
-                            </div>                               
-                        </div>
-                    </li>
-                    <li class="clear ">
-                        <p class="institutionTitle">会计师事务所</p>
-                        <div class="InstitutionsDetailLi" v-for="item in accounts">
-                            <div class="image l">
-                                <img src="@/assets/images/huotonghuo.png" alt>
-                            </div>
-                            <div class="text l">
-                                <div>
-                                    <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
-                                    font-style: normal; font-size: 16px; color: rgb(101, 106, 177);">{{item.orgName}}</span>
-                                    <span style="background:yellow;color:white;font-size: 12px;">已认证</span>
-                                    <span style="color: #6633FF;font-size: 12px;">联系他</span>
-                                </div>
-                                <ul>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
-                                        <span style="font-size:12px;color:black">{{item.representPerson}}</span>
-                                    </li>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">2018年过会率：</span>
-                                        <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                                    </li>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">项目协办人：</span>
-                                        <span style="font-size:12px;color:black">{{item.assistPerson}}</span>
-                                    </li>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">2018年业务量：</span>
-                                        <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                                    </li>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">项目经办人：</span>
-                                        <span style="font-size:12px;color:black">{{item.agentPerson}}</span>
-                                    </li>
-                                
-                                
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">2018年市场占比：</span>
-                                        <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                                    </li>
-                                </ul>
-                            </div>                               
-                        </div>
-                    </li>
-                    <li class="clear " v-show="showMoreType">
-                        <p class="institutionTitle">资产评估机构</p>
-                        <div class="InstitutionsDetailLi" v-for="item in assets">
-                            <div class="image l">
-                                <img src="@/assets/images/huotonghuo.png" alt>
-                            </div>
-                            <div class="text l">
-                                <div>
-                                    <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
-                                    font-style: normal; font-size: 16px; color: rgb(101, 106, 177);">{{item.orgName}}</span>
-                                    <span style="background:yellow;color:white;font-size: 12px;">已认证</span>
-                                    <span style="color: #6633FF;font-size: 12px;">联系他</span>
-                                </div>
-                                <ul>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
-                                        <span style="font-size:12px;color:black">{{item.representPerson}}</span>
-                                    </li>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">2018年过会率：</span>
-                                        <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                                    </li>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">项目协办人：</span>
-                                        <span style="font-size:12px;color:black">{{item.assistPerson}}</span>
-                                    </li>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">2018年业务量：</span>
-                                        <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                                    </li>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">项目经办人：</span>
-                                        <span style="font-size:12px;color:black">{{item.agentPerson}}</span>
-                                    </li>
-                                
-                                
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">2018年市场占比：</span>
-                                        <span style="font-size:12px;color:black">郑西林、陈光耀</span>
-                                    </li>
-                                </ul>
-                            </div>                               
-                        </div>
-                    </li>
-                    <li class="clear "  v-show="showMoreType">
-                        <p class="institutionTitle">证券公司</p>
-                        <div class="InstitutionsDetailLi" v-for="item in securitys">
-                            <div class="image l">
-                                <img src="@/assets/images/huotonghuo.png" alt>
-                            </div>
-                            <div class="text l">
-                                <div>
-                                    <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
-                                    font-style: normal; font-size: 16px; color: rgb(101, 106, 177);">{{item.orgName}}</span>
+                                    font-style: normal; font-size: 16px; color: #363636">{{item.orgName}}</span>
                                      <!-- 已失效标志 -->
                                     <span class="failure" v-show="item.validFlag == 0" style="float:right;    border-width: 0px;
                                         width: 56px;
@@ -238,41 +41,322 @@
                                         color: #FFFFFF;">
                                         已失效
                                     </span>
-                                    <span style="background:yellow;color:white;font-size: 12px;">已认证</span>
-                                    <span style="color: #6633FF;font-size: 12px;">联系他</span>
                                 </div>
                                 <ul>
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">保荐代表人：</span>
-                                        <span style="font-size:12px;color:black">{{item.representPerson}}</span>
+                                        font-style: normal;  font-size: 14px; color: #999999;">保荐代表人：</span>
+                                        <span style="font-size:14px;color:black">{{item.representPerson}}</span>
                                     </li>
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">2018年过会率：</span>
-                                        <span style="font-size:12px;color:black">郑西林、陈光耀</span>
+                                        font-style: normal;  font-size: 14px; color: #999999;">2018年过会率：</span>
+                                        <span style="font-size:14px;color:black">郑西林、陈光耀</span>
                                     </li>
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">项目协办人：</span>
-                                        <span style="font-size:12px;color:black">{{item.assistPerson}}</span>
+                                        font-style: normal;  font-size: 14px; color: #999999;">项目协办人：</span>
+                                        <span style="font-size:14px;color:black">{{item.assistPerson}}</span>
                                     </li>
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">2018年业务量：</span>
-                                        <span style="font-size:12px;color:black">郑西林、陈光耀</span>
+                                        font-style: normal;  font-size: 14px; color: #999999;">2018年业务量：</span>
+                                        <span style="font-size:14px;color:black">郑西林、陈光耀</span>
                                     </li>
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">项目经办人：</span>
-                                        <span style="font-size:12px;color:black">{{item.agentPerson}}</span>
+                                        font-style: normal;  font-size: 14px; color: #999999;">项目经办人：</span>
+                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
+                                    </li>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">2018年市场占比：</span>
+                                        <span style="font-size:14px;color:black">郑西林、陈光耀</span>
+                                    </li>
+                                </ul>
+                            </div>                               
+                        </div>`
+                    </li>
+                     <li class="clear ">
+                        <p class="institutionTitle">律师事务所</p>
+                        <!-- <div class="InstitutionsDetailLi clear" v-for="item in lawyers"> -->
+                            <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'"  v-for="item in lawyers">
+                            <div class="image l">
+                                <img src="../../../../assets/images/lvshi.png" alt>
+                            </div>
+                            <div class="text l">
+                                <div>
+                                    <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
+                                    font-style: normal; font-size: 16px; color:#363636;">{{item.orgName}}</span>
+                                     <!-- 已失效标志 -->
+                                    <span class="failure" v-show="item.validFlag == 0" style="float:right;    border-width: 0px;
+                                        width: 56px;
+                                        height: 15px;
+                                        padding-left: 10px;
+                                        font-size:14px;
+                                        position:relative;
+                                        left: 60px;
+                                        top: -9px;
+                                        background: inherit;
+                                        background-color: rgba(188, 188, 188, 0.517647058823529);
+                                        border: none;
+                                        border-right: 0px;
+                                        border-radius: 20px;
+                                        border-top-right-radius: 0px;
+                                        border-bottom-right-radius: 0px;
+                                        -moz-box-shadow: none;
+                                        -webkit-box-shadow: none;
+                                        box-shadow: none;
+                                        color: #FFFFFF;">
+                                        已失效
+                                    </span>
+                                </div>
+                                <ul>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">保荐代表人：</span>
+                                        <span style="font-size:14px;color:black">{{item.representPerson}}</span>
+                                    </li>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">2018年过会率：</span>
+                                        <span style="font-size:14px;color:black">郑西林、陈光耀</span>
+                                    </li>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">项目协办人：</span>
+                                        <span style="font-size:14px;color:black">{{item.assistPerson}}</span>
+                                    </li>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">2018年业务量：</span>
+                                        <span style="font-size:14px;color:black">郑西林、陈光耀</span>
+                                    </li>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">项目经办人：</span>
+                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
                                     </li>
                                 
                                 
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 12px; color: #999999;">2018年市场占比：</span>
-                                        <span style="font-size:12px;color:black">郑西林、陈光耀</span>
+                                        font-style: normal;  font-size: 14px; color: #999999;">2018年市场占比：</span>
+                                        <span style="font-size:14px;color:black">郑西林、陈光耀</span>
+                                    </li>
+                                </ul>
+                            </div>                               
+                        </div>
+                    </li>
+                    <li class="clear ">
+                        <p class="institutionTitle">会计师事务所</p>
+                        <!-- <div class="InstitutionsDetailLi clear" v-for="item in accounts"> -->
+                            <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'" v-for="item in accounts">
+                            <div class="image l">
+                                <img src="../../../../assets/images/kuaiji.png" alt>
+                            </div>
+                            <div class="text l">
+                                <div>
+                                    <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
+                                    font-style: normal; font-size: 16px; color: #363636">{{item.orgName}}</span>
+                                     <!-- 已失效标志 -->
+                                    <span class="failure" v-show="item.validFlag == 0" style="float:right;    border-width: 0px;
+                                        width: 56px;
+                                        height: 15px;
+                                        padding-left: 10px;
+                                        font-size:14px;
+                                        position:relative;
+                                        left: 60px;
+                                        top: -9px;
+                                        background: inherit;
+                                        background-color: rgba(188, 188, 188, 0.517647058823529);
+                                        border: none;
+                                        border-right: 0px;
+                                        border-radius: 20px;
+                                        border-top-right-radius: 0px;
+                                        border-bottom-right-radius: 0px;
+                                        -moz-box-shadow: none;
+                                        -webkit-box-shadow: none;
+                                        box-shadow: none;
+                                        color: #FFFFFF;">
+                                        已失效
+                                    </span>
+                                </div>
+                                <ul>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">保荐代表人：</span>
+                                        <span style="font-size:14px;color:black">{{item.representPerson}}</span>
+                                    </li>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">2018年过会率：</span>
+                                        <span style="font-size:14px;color:black">郑西林、陈光耀</span>
+                                    </li>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">项目协办人：</span>
+                                        <span style="font-size:14px;color:black">{{item.assistPerson}}</span>
+                                    </li>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">2018年业务量：</span>
+                                        <span style="font-size:14px;color:black">郑西林、陈光耀</span>
+                                    </li>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">项目经办人：</span>
+                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
+                                    </li>
+                                
+                                
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">2018年市场占比：</span>
+                                        <span style="font-size:14px;color:black">郑西林、陈光耀</span>
+                                    </li>
+                                </ul>
+                            </div>                               
+                        </div>
+                    </li>
+                    <li class="clear " v-show="showMoreType">
+                        <p class="institutionTitle">资产评估机构</p>
+                        <!-- <div class="InstitutionsDetailLi clear" v-for="item in assets"> -->
+                            <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'" v-for="item in assets">
+                            <div class="image l">
+                                <img src="../../../../assets/images/assets.png" alt>
+                            </div>
+                            <div class="text l">
+                                <div>
+                                    <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
+                                    font-style: normal; font-size: 16px; color: #363636;">{{item.orgName}}</span>
+                                     <!-- 已失效标志 -->
+                                    <span class="failure" v-show="item.validFlag == 0" style="float:right;    border-width: 0px;
+                                        width: 56px;
+                                        height: 15px;
+                                        padding-left: 10px;
+                                        font-size:14px;
+                                        position:relative;
+                                        left: 60px;
+                                        top: -9px;
+                                        background: inherit;
+                                        background-color: rgba(188, 188, 188, 0.517647058823529);
+                                        border: none;
+                                        border-right: 0px;
+                                        border-radius: 20px;
+                                        border-top-right-radius: 0px;
+                                        border-bottom-right-radius: 0px;
+                                        -moz-box-shadow: none;
+                                        -webkit-box-shadow: none;
+                                        box-shadow: none;
+                                        color: #FFFFFF;">
+                                        已失效
+                                    </span>
+                                    <!-- <span style="background:yellow;color:white;font-size: 12px;">已认证</span>
+                                    <span style="color: #6633FF;font-size: 12px;">联系他</span> -->
+                                </div>
+                                <ul>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">保荐代表人：</span>
+                                        <span style="font-size:14px;color:black">{{item.representPerson}}</span>
+                                    </li>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">2018年过会率：</span>
+                                        <span style="font-size:14px;color:black">郑西林、陈光耀</span>
+                                    </li>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">项目协办人：</span>
+                                        <span style="font-size:14px;color:black">{{item.assistPerson}}</span>
+                                    </li>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">2018年业务量：</span>
+                                        <span style="font-size:14px;color:black">郑西林、陈光耀</span>
+                                    </li>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">项目经办人：</span>
+                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
+                                    </li>
+                                
+                                
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">2018年市场占比：</span>
+                                        <span style="font-size:14px;color:black">郑西林、陈光耀</span>
+                                    </li>
+                                </ul>
+                            </div>                               
+                        </div>
+                    </li>
+                    <li class="clear "  v-show="showMoreType">
+                        <p class="institutionTitle">证券公司</p>
+                        <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'" v-for="item in securitys">
+                            <div class="image l">
+                                <img src="../../../../assets/images/coSponsors.png" alt>
+                            </div>
+                            <div class="text l">
+                                <div>
+                                    <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
+                                    font-style: normal; font-size: 16px; color: #363636;">{{item.orgName}}</span>
+                                     <!-- 已失效标志 -->
+                                    <span class="failure" v-show="item.validFlag == 0" style="float:right;    border-width: 0px;
+                                        width: 56px;
+                                        height: 15px;
+                                        padding-left: 10px;
+                                        font-size:14px;
+                                        position:relative;
+                                        left: 60px;
+                                        top: -9px;
+                                        background: inherit;
+                                        background-color: rgba(188, 188, 188, 0.517647058823529);
+                                        border: none;
+                                        border-right: 0px;
+                                        border-radius: 20px;
+                                        border-top-right-radius: 0px;
+                                        border-bottom-right-radius: 0px;
+                                        -moz-box-shadow: none;
+                                        -webkit-box-shadow: none;
+                                        box-shadow: none;
+                                        color: #FFFFFF;">
+                                        已失效
+                                    </span>
+                                </div>
+                                <ul>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">保荐代表人：</span>
+                                        <span style="font-size:14px;color:black">{{item.representPerson}}</span>
+                                    </li>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">2018年过会率：</span>
+                                        <span style="font-size:14px;color:black">郑西林、陈光耀</span>
+                                    </li>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">项目协办人：</span>
+                                        <span style="font-size:14px;color:black">{{item.assistPerson}}</span>
+                                    </li>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">2018年业务量：</span>
+                                        <span style="font-size:14px;color:black">郑西林、陈光耀</span>
+                                    </li>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">项目经办人：</span>
+                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
+                                    </li>
+                                
+                                
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">2018年市场占比：</span>
+                                        <span style="font-size:14px;color:black">郑西林、陈光耀</span>
                                     </li>
                                 </ul>
                                
@@ -482,6 +566,11 @@ export default {
 .institutionTitle{
     color: #999999;font-size:14px;padding-left:10px;
 }
+// 已失效类
+.failureBackground{
+     background:url('../../../../assets/images/failureBackground.png') no-repeat;
+     background-size: cover;
+}
 .InstitutionsDetail {
   ul {
     padding-left: 0;
@@ -490,11 +579,14 @@ export default {
       padding: 20px;
       margin-left: 1%;
       width: 98%;
-      height: 130px;
-    //   background: #f0f0f0;
+    //   height: 130px;
+    
       .image {
             width: 15%;
             height: 100%;
+            position: relative;
+            top: 15px;
+            left: 23px;
       }
       .text {
         width: 80%;

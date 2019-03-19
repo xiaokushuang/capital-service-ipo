@@ -165,7 +165,7 @@ export default{
     }
     return { khDataList }
   },
-  // 财务信息表格接口
+  // 财务信息表格接口 
   getAssetsTableData: () => {
     assetsList.push(Mock.mock({
       // rank: '排名',
@@ -314,17 +314,11 @@ export default{
       "errorCode": null,
       "errorMsg": null,
       "result": {
-        // "dateList": [
-        //   "2018-06-30",
-        //   "2017-12-31",
-        //   "2016-12-31",
-        //   "2015-12-31"
-        // ],
         "dateList":{
-          year1: "2015-12-31",
-          year2: "2016-12-31",
-          year3: "2017-12-31",
-          year4: "2018-06-30",
+          "firstYearDate": "2015-12-31",
+          "secondYearDate": "2016-12-31",
+          "thirdYearDate": "2017-12-31",
+          "forthYearDate": "2018-06-30"
         },
         "ipoDebtItemList": [
           {
@@ -437,6 +431,296 @@ export default{
       },
       "success": true,
       "timestamp": 1552630782742
+    }
+  ),
+   //财务总体情况接口 
+  getSelectFinanceOverList:()=>(
+    {
+      "errorCode": null,
+      "errorMsg": null,
+      "result": {
+        "dateList": {
+          "firstYearDate": "2015-12-31",
+          "secondYearDate": "2016-12-31",
+          "thirdYearDate": "2017-12-31",
+          "forthYearDate": "2018-06-30"
+        },
+        "ipoCostItemList": null,
+        "ipoReturnOverList": null,
+        "ipoAssetItemList": null,
+        "ipoDebtItemList": null,
+        "ipoEquityItemList": null,
+        "ipoFinanceOverList": [
+          {
+            "itemName": "资产总计",
+            "firstYearValue": 672321427.04,
+            "secondYearValue": 756502704.57,
+            "thirdYearValue": 837136955.61,
+            "forthYearValue": 1087586859.51
+          },
+          {
+            "itemName": "负债合计",
+            "firstYearValue": 169581126.22,
+            "secondYearValue": 205402748.46,
+            "thirdYearValue": 224582544.05,
+            "forthYearValue": 205502976.48
+          },
+          {
+            "itemName": "所有者权益合计",
+            "firstYearValue": 502740300.82,
+            "secondYearValue": 551099956.11,
+            "thirdYearValue": 612554411.56,
+            "forthYearValue": 882083883.03
+          },
+          {
+            "itemName": "利润总额",
+            "firstYearValue": 61941557.7,
+            "secondYearValue": 62375527.89,
+            "thirdYearValue": 79156023.45,
+            "forthYearValue": 40571599.25
+          },
+          {
+            "itemName": "经营活动产生的现金流量净额",
+            "firstYearValue": 41377870.56,
+            "secondYearValue": 51614303.69,
+            "thirdYearValue": 57919803.51,
+            "forthYearValue": 22221854.57
+          },
+          {
+            "itemName": "现金及现金等价物净增加额",
+            "firstYearValue": -34203304.25,
+            "secondYearValue": 33111061.89,
+            "thirdYearValue": 70832653.86,
+            "forthYearValue": 153112562.24
+          },
+          {
+            "itemName": "资产负债率",
+            "firstYearValue": 25.2232,
+            "secondYearValue": 27.1516,
+            "thirdYearValue": 26.8275,
+            "forthYearValue": 18.8953
+          }
+        ],
+        "ipoProfitItemList": null
+      },
+      "success": true,
+      "timestamp": 1552719119005
+    }
+  ),
+  // 收入与利润情况接口
+  getSelectFinanceProfitList:()=>(
+    {
+      "errorCode": null,
+      "errorMsg": null,
+      "result": {
+        "dateList": {
+          "firstYearDate": "2015-12-31",
+          "secondYearDate": "2016-12-31",
+          "thirdYearDate": "2017-12-31",
+          "forthYearDate": "2018-06-30"
+        },
+        "ipoCostItemList": [
+          {
+            "itemName": "营业成本",
+            "firstYearValue": 350835513.67,
+            "secondYearValue": 351807799.02,
+            "thirdYearValue": 557771351.94,
+            "forthYearValue": 349706964.89
+          },
+          {
+            "itemName": "营业税金及附加",
+            "firstYearValue": 3408863.46,
+            "secondYearValue": 5629763.2,
+            "thirdYearValue": 6889644.66,
+            "forthYearValue": 2531398.59
+          },
+          {
+            "itemName": "销售费用",
+            "firstYearValue": 23244990.23,
+            "secondYearValue": 19970628.14,
+            "thirdYearValue": 20458098.67,
+            "forthYearValue": 8984661.42
+          },
+          {
+            "itemName": "管理费用",
+            "firstYearValue": 55173334.77,
+            "secondYearValue": 52629672.77,
+            "thirdYearValue": 54952474.17,
+            "forthYearValue": 31207408.73
+          },
+          {
+            "itemName": "财务费用",
+            "firstYearValue": -447112.08,
+            "secondYearValue": -266632.64,
+            "thirdYearValue": -490428.65,
+            "forthYearValue": -366170.35
+          },
+          {
+            "itemName": "资产减值损失",
+            "firstYearValue": 8122186.58,
+            "secondYearValue": 15445431.15,
+            "thirdYearValue": 14591912.2,
+            "forthYearValue": 2045202.52
+          }
+        ],
+        "ipoReturnOverList": [
+          {
+            "itemName": "净利润",
+            "firstYearValue": 48344314.55,
+            "secondYearValue": 48359655.29,
+            "thirdYearValue": 61454455.45,
+            "forthYearValue": 31645207.32
+          },
+          {
+            "itemName": "扣除非经常性损益后的净利润",
+            "firstYearValue": 42365245.17,
+            "secondYearValue": 43124485.2,
+            "thirdYearValue": 55126855.99,
+            "forthYearValue": 27584033.52
+          }
+        ],
+        "ipoAssetItemList": null,
+        "ipoDebtItemList": null,
+        "ipoEquityItemList": null,
+        "ipoFinanceOverList": null,
+        "ipoProfitItemList": [
+          {
+            "itemName": "营业收入",
+            "firstYearValue": 494872805.03,
+            "secondYearValue": 501800182.25,
+            "thirdYearValue": 726208060.66,
+            "forthYearValue": 429355654.38
+          }
+        ]
+      },
+      "success": true,
+      "timestamp": 1552810887242
+    }
+  ),
+  // 毛利率对比
+  getMaoChartTableData:()=>(
+    {
+      "errorCode": null,
+      "errorMsg": null,
+      "result": [
+        {
+          "id": "1106725448776218846",
+          "bid": "97952444248450226",
+          "reportPeriod": "2018",
+          "companyCode": "601865",
+          // "companyName": "福莱特",
+          // "firstYearRate": 15,
+          // "secondYearRate": 30,
+          // "thirdYearRate": 10,
+          "remark": "2018,2017,2016年 与同行业可比上市公司毛利率如下",
+          "average":[
+            {
+              "companyName": "平均值",
+              "firstAvg": 45,
+              "secondAvg": 5,
+              "thirdAvg": 25
+            }
+          ],
+          "myself":[
+            {
+              "companyName": "福莱特",
+              "firstYearRate": 15,
+              "secondYearRate": 30,
+              "thirdYearRate": 10,
+            }
+          ],
+          "industryCompareRateDetailList": [
+            {
+              "id": "1106725448776218847",
+              "bid": "1106725448776218846",
+              "companyCode": "000001",
+              "companyName": "平安银行",
+              "firstYearRate": 40,
+              "secondYearRate": 30,
+              "thirdYearRate": 20
+            },
+            {
+              "id": "1106725448776218848",
+              "bid": "1106725448776218846",
+              "companyCode": "000002",
+              "companyName": "万科A",
+              "firstYearRate": 50,
+              "secondYearRate": -20,
+              "thirdYearRate": 30
+            }
+          ],
+          "firstYear": "2016年",
+          "secondYear": "2017年",
+          "thirdYear": "2018年",
+          // "firstAvg": 45,
+          // "secondAvg": 5,
+          // "thirdAvg": 25
+        },
+        {
+          "id": "1106725448776218849",
+          "bid": "97952444248450226",
+          "reportPeriod": "2017",
+          "companyCode": "601865",
+          // "companyName": "福莱特",
+          // "firstYearRate": 23,
+          // "secondYearRate": 22,
+          // "thirdYearRate": 33,
+          "remark": "2017,2016，2015年 与同行业可比上市公司毛利率如下",
+          "industryCompareRateDetailList": [
+            {
+              "id": "1106725448776218850",
+              "bid": "1106725448776218849",
+              "companyCode": "000004",
+              "companyName": "国农科技",
+              "firstYearRate": 30,
+              "secondYearRate": 20,
+              "thirdYearRate": 40
+            },
+            {
+              "id": "1106725448776218851",
+              "bid": "1106725448776218849",
+              "companyCode": "000005",
+              "companyName": "世纪星源",
+              "firstYearRate": 30,
+              "secondYearRate": 20,
+              "thirdYearRate": 10
+            },
+            {
+              "id": "1106725448776218852",
+              "bid": "1106725448776218849",
+              "companyCode": "000008",
+              "companyName": "神州高铁",
+              "firstYearRate": 20,
+              "secondYearRate": -5,
+              "thirdYearRate": 30
+            }
+          ],
+          "average":[
+            {
+              "companyName": "平均值",
+              "firstAvg": 26.67,
+              "secondAvg": 11.67,
+              "thirdAvg": 26.67
+            }
+          ],
+          "myself":[
+            {
+              "companyName": "福莱特",
+              "firstYearRate": 23,
+              "secondYearRate": 22,
+              "thirdYearRate": 33,
+            }
+          ],
+          "firstYear": "2015年",
+          "secondYear": "2016年",
+          "thirdYear": "2017年",
+          // "firstAvg": 26.67,
+          // "secondAvg": 11.67,
+          // "thirdAvg": 26.67
+        }
+      ],
+      "success": true,
+      "timestamp": 1552876779796
     }
   )
   

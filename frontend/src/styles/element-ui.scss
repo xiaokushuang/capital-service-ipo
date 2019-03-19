@@ -139,6 +139,14 @@
   width: 100%;
   height: 100%;
 }
+.incomeTable .el-table__empty-block {
+  display: none;
+  position: relative;
+  min-height: 60px;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
 // 财务信息合并单元格将表头display:none
 .table2.el-table thead {
   display: none;
@@ -321,4 +329,27 @@
   display: inline-block;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+// 表格头颜色和边框的颜色
+// .el-table thead tr th {
+//   background: #A0ADB5;
+//   // color: #fff;
+// }
+.el-table--border td, .el-table--border th {
+  border-right: 1px solid #e4e4e4;
+}
+// 表头颜色
+.el-table thead tr th {
+  background: #f2f2f2;
+  color: #fff;
+}
+// 财务信息页，平均值和自己公司表格的表头去掉
+.averageOrMyself .el-table__header-wrapper{
+  display:none
+}
+.averageOrMyself{
+  margin-top:0 !important;
+}
+.myself.el-table {
+ border:1px solid #14bcf5;
 }

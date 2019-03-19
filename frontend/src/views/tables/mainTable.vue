@@ -1,7 +1,7 @@
 <template>
   <div class="table-class">
     <el-table :data="mainTableList.mainIncomeInfoList" border style="width: 100%;margin-top: 20px" show-summary>
-      <el-table-column align="center" class-name="table_cell" label="主营业务" width="156">
+      <el-table-column align="left" class-name="table_cell" label="主营业务" width="156">
          <template slot-scope="scope">
             <span>{{isNotEmpty(scope.row.businessName) ? scope.row.businessName : '- -'}}</span>
           </template>

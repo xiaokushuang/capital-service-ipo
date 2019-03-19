@@ -1,7 +1,6 @@
 <template>
   <div>
-    <!-- table1 -->
-    <!-- <el-table
+    <el-table
       border
       style="width: 100%">
       <el-table-column
@@ -11,56 +10,22 @@
       </el-table-column>
       <el-table-column
         prop=""
-       :label="tableTitle[0]"
+       :label="tableTitle.forthYearDate?tableTitle.forthYearDate:''"
        align="center">
       </el-table-column>
       <el-table-column
         prop=""
-        :label="tableTitle[1]"
+        :label="tableTitle.thirdYearDate?tableTitle.thirdYearDate:''"
         align="center">
       </el-table-column>
       <el-table-column
         prop=""
-        :label="tableTitle[2]"
-        align="center">
-      </el-table-column>
-       <el-table-column
-        prop=""
-        :label="tableTitle[3]"
-        align="center">
-      </el-table-column>
-      <el-table-column
-        prop=""
-        label="趋势"
-        align="center">
-      </el-table-column>
-    </el-table> -->
-        <el-table
-      border
-      style="width: 100%">
-      <el-table-column
-        prop=""
-        label="项目"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop=""
-       :label="tableTitle.year4?tableTitle.year4:''"
-       align="center">
-      </el-table-column>
-      <el-table-column
-        prop=""
-        :label="tableTitle.year3?tableTitle.year3:''"
-        align="center">
-      </el-table-column>
-      <el-table-column
-        prop=""
-        :label="tableTitle.year2?tableTitle.year2:''"
+        :label="tableTitle.secondYearDate?tableTitle.secondYearDate:''"
         align="center">
       </el-table-column>
        <el-table-column
         prop=""
-        :label="tableTitle.year1?tableTitle.year1:''"
+        :label="tableTitle.firstYearDate?tableTitle.firstYearDate:''"
         align="center">
       </el-table-column>
       <el-table-column
@@ -69,12 +34,7 @@
         align="center">
       </el-table-column>
     </el-table>
-    <p style=" 
-    font-weight: 700;
-    line-height: 11px;
-    font-style: normal;
-    font-size: 14px;
-    text-align: left">资产类项目：</p>
+    <p v-if="this.ipoAssetItemList" class="sortProject">资产类项目：</p>
     <el-table
       class="table2"
      :data="ipoAssetItemList"
@@ -107,17 +67,12 @@
         </el-table-column>
          <el-table-column prop="" align="center"  class-name="table_cell" label="占比" width="135">
           <template slot-scope="scope">
-            <span @click="handleShowChart(scope.$index, scope.row)"><i class="el-icon-search"></i></span>
+            <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe">查看</span>
           </template>
         </el-table-column>
      
     </el-table>
-     <p style=" 
-    font-weight: 700;
-    line-height: 11px;
-    font-style: normal;
-    font-size: 14px;
-    text-align: left">负债类项目：</p>
+     <p v-if="this.ipoDebtItemList" class="sortProject">负债类项目：</p>
     <el-table
       class="table2"
      :data="ipoDebtItemList"
@@ -150,17 +105,12 @@
         </el-table-column>
          <el-table-column prop="" align="center"  class-name="table_cell" label="占比" width="135">
           <template slot-scope="scope">
-            <span @click="handleShowChart(scope.$index, scope.row)"><i class="el-icon-search"></i></span>             
+            <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe">查看</span>             
           </template>
         </el-table-column>
      
     </el-table>
-     <p style=" 
-    font-weight: 700;
-    line-height: 11px;
-    font-style: normal;
-    font-size: 14px;
-    text-align: left"> 权益类项目：</p>
+     <p v-if="ipoEquityItemList" class="sortProject"> 权益类项目：</p>
      <el-table
       class="table2"
      :data="ipoEquityItemList"
@@ -193,7 +143,7 @@
         </el-table-column>
          <el-table-column prop="" align="center"  class-name="table_cell" label="占比" width="135">
           <template slot-scope="scope">
-            <span @click="handleShowChart(scope.$index, scope.row)"><i class="el-icon-search"></i></span>           
+            <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe">查看</span>           
           </template>
         </el-table-column>
      
@@ -266,7 +216,7 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
       // 点击放大镜弹出折线图
       handleShowChart(i,r){
         this.zxChartData = r
-        console.log(this.zxChartData)
+        // console.log(this.zxChartData)
         this.dialogChartVisible = true;
       }
     }
@@ -275,5 +225,17 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
 <style scoped lang="scss">
 .table2{
   background: #f5f7fa;
+}
+.sortProject{
+    background: #f2f2f2;
+    font-weight: 700;
+    line-height: 11px;
+    font-style: normal;
+    font-size: 14px;
+    text-align: left;
+    margin: 0px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-left: 12px;
 }
 </style>

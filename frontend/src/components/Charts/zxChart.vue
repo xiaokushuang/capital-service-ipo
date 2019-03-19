@@ -1,12 +1,14 @@
 <template>
     <div>
          <div class="className" id="zxChart" style="height:300px;width:100%"></div>
+         <!-- <div>{{this.zxIndex}}</div> -->
     </div>
 </template>
 
 <script>
 import echarts from 'echarts'
-import { getAssetsTableData } from '@/api/tableDemo'
+import { getMaoChartTableData } from '@/api/tableDemo'
+// import { getAssetsTableData } from '@/api/tableDemo'
 export default {
  
   data() {
@@ -14,14 +16,17 @@ export default {
         zxChart:null,
         zxChartY:[],
         zxChartX:[]
-  
     }
   },
+  props:["zxIndex"],
   created(){
     //   请求数据
     this.initTableData()
   },
   mounted() {
+    // console.log('父传子')
+    // console.log(this.zxIndex)
+    // console.log(document.querySelector('#zxChart' + this.zxIndex))
     // this.initTableData()
   },
   updated() {
@@ -37,44 +42,60 @@ beforeDestroy() {
   methods: {
      // 初始化数据
       initTableData() {
-        getAssetsTableData().then(response => {
-        //   this.tableTitle = response.data.assetsList[0]
-        //   this.tableContent = response.data.assetsList.slice(1)
-            if(response.data.assetsList.length > 0){
+        getMaoChartTableData().then(response => {
+          console.log(response.data.result)
+            if(response.data.result){
                 // 如果请求到数据之后再初始化折线图
-                // console.log(response.data.assetsList[0])
-                // console.log(response.data.assetsList.slice(1))
-                 this.initChart(response.data.assetsList)
+                 this.initChart(response.data.result)
                 //  console.log(this.zxChartX)
                 //  console.log(this.zxChartY)
-            }else {
-            alert(response.data.errorMsg)
-          }
+            }
         })
       },
+      // 动态实时监听刷新折线图的数据
+    //   watch:{
+    //     zxIndex: {  
+    // 　　　　handler(newValue, oldValue)
+    //          {  
+    //           this.zxIndex = newValue
+    //   　　　 　console.log(this.zxIndex)  
+    //           //折线图数据的初始化 
+    //           this.initTableData()
+    //   　　　　},  
+    //   　　　　deep: true,  //对象内部的属性监听，也叫深度监听
+    //         immediate: true //immediate表示在watch中首次绑定的时候，是否执行handler，值为true则表示在watch中声明的时候，就立即执行handler方法，值为false，则和一般使用watch一样，在数据发生变化的时候才执行handler
+    // 　}  
+    // },
+      // 动态设置id
+      // zxChart:function(index){
+			// 	return "zxChart_" +index
+			// },
     //   初始化折线图
     initChart(dataList) {
+      console.log(dataList[0])
        const _self = this
         if (this.zxChart) {
           this.zxChart.dispose()
           this.zxChart = null
         }
-      this.zxChart = echarts.init(document.getElementById('zxChart'))
+      this.zxChart = echarts.init(document.getElementById('zxChart'))  
     //  循环获取数据
-      for (var i = 0; i < dataList.slice(1).length; i++) {
-        //    console.log(dataList.slice(1)[i].project)
-          this.zxChartY.push(
+        // for (var i = 0; i < dataList.length; i++) {
+        for(var i = 0;i < this.zxIndex;i++){
+          for(var j = 0;j < dataList[i].industryCompareRateDetailList.length;j++){ 
+              this.zxChartY.push(
                                 {
-                                    name:dataList.slice(1)[i].project,
+                                    name:dataList[i].industryCompareRateDetailList[j].companyName,
                                     type:'line',
                                     stack: '总量',
-                                    data:[dataList.slice(1)[i].count1,dataList.slice(1)[i].count2,dataList.slice(1)[i].count3,dataList.slice(1)[i].count4,]
+                                    data:[dataList[i].industryCompareRateDetailList[j].firstYearRate,dataList[i].industryCompareRateDetailList[j].secondYearRate,dataList[i].industryCompareRateDetailList[j].thirdYearRate]
                                 },
                              )
                              
-            this.zxChartX = [dataList[0].year1,dataList[0].year2,dataList[0].year3,dataList[0].year4,]
+             this.zxChartX = [dataList[i].firstYear,dataList[i].secondYear,dataList[i].thirdYear]
            
-      }
+          }
+        }
        this.zxChart.setOption({
            title: {
                 text: ''
@@ -104,6 +125,7 @@ beforeDestroy() {
             series: this.zxChartY
       })
     }
+     
   }
 }
 </script>
