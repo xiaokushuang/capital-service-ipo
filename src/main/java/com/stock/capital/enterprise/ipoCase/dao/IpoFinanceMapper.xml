@@ -46,10 +46,11 @@
         FROM
             vc_dic_rgbalance_ipo t1
         LEFT JOIN vc_fin_report_base_rgbalance_ipo t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
         WHERE
             t1.IS_USE = '1'
-        AND t2.REPORTDATE = #{date}
-        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id}) having sort is not null order by sort
+        having sort is not null order by sort
     </select>
 
     <select id="selectDebtFinanceList" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
@@ -75,10 +76,11 @@
         FROM
             vc_dic_rgbalance_ipo t1
         LEFT JOIN vc_fin_report_base_rgbalance_ipo t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
         WHERE
             t1.IS_USE = '1'
-        AND t2.REPORTDATE = #{date}
-        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id}) having sort is not null order by sort
+        having sort is not null order by sort
     </select>
 
     <select id="selectEquityItemList" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
@@ -100,10 +102,11 @@
         FROM
             vc_dic_rgbalance_ipo t1
         LEFT JOIN vc_fin_report_base_rgbalance_ipo t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
         WHERE
             t1.IS_USE = '1'
-        AND t2.REPORTDATE = #{date}
-        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id}) having sort is not null order by sort
+        having sort is not null order by sort
     </select>
 
     <select id="selectFinanceOverList" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
@@ -120,11 +123,11 @@
             ) sort
         FROM
             vc_dic_rgbalance_ipo t1
-        JOIN vc_fin_report_base_rgbalance_ipo t2 ON t1.ID = t2.MEASURE_ID
-        WHERE
-            t1.IS_USE = '1'
+        LEFT JOIN vc_fin_report_base_rgbalance_ipo t2 ON t1.ID = t2.MEASURE_ID
         AND t2.REPORTDATE = #{date}
         AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id}) having sort is not null
+        WHERE
+            t1.IS_USE = '1'
 
         union
 
@@ -134,11 +137,11 @@
             3 sort
         FROM
             vc_dic_rgincome_ipo t1
-        JOIN vc_fin_report_base_rgincome_ipo t2 ON t1.ID = t2.MEASURE_ID
-        WHERE
-            t1.IS_USE = '1'
+        LEFT JOIN vc_fin_report_base_rgincome_ipo t2 ON t1.ID = t2.MEASURE_ID
         AND t2.REPORTDATE = #{date}
-        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id}) and t1.column_name = 'SUMPROFIT'
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
+        WHERE
+            t1.IS_USE = '1' AND t1.column_name = 'SUMPROFIT'
 
         union
 
@@ -155,11 +158,12 @@
             ) sort
         FROM
             vc_dic_rgcashflow_ipo t1
-        JOIN vc_fin_report_base_rgcashflow_ipo t2 ON t1.ID = t2.MEASURE_ID
+        LEFT JOIN vc_fin_report_base_rgcashflow_ipo t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
         WHERE
             t1.IS_USE = '1'
-        AND t2.REPORTDATE = #{date}
-        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id}) having sort is not null
+        having sort is not null
 
         union
 
@@ -176,11 +180,12 @@
             ) sort
         FROM
             vc_dic_generalfina_ipo t1
-        JOIN vc_fin_report_base_generalfina_ipo t2 ON t1.ID = t2.MEASURE_ID
+        LEFT JOIN vc_fin_report_base_generalfina_ipo t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
         WHERE
             t1.IS_USE = '1'
-        AND t2.REPORTDATE = #{date}
-        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id}) having sort is not null order by sort
+         having sort is not null order by sort
     </select>
 
     <select id="selectFinanceProfitList" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
@@ -190,10 +195,11 @@
         FROM
             vc_dic_rgincome_ipo t1
         LEFT JOIN vc_fin_report_base_rgincome_ipo t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
         WHERE
             t1.IS_USE = '1'
-        AND t2.REPORTDATE = #{date}
-        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id}) and t1.column_name = 'OPERATEREVE'
+         and t1.column_name = 'OPERATEREVE'
     </select>
 
     <select id="selectCostFinanceList" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
@@ -219,10 +225,11 @@
         FROM
             vc_dic_rgincome_ipo t1
         LEFT JOIN vc_fin_report_base_rgincome_ipo t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
         WHERE
             t1.IS_USE = '1'
-        AND t2.REPORTDATE = #{date}
-        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id}) having sort is not null order by sort
+         having sort is not null order by sort
     </select>
 
     <select id="selectReturnItemList" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
@@ -233,10 +240,11 @@
         FROM
             vc_dic_rgincome_ipo t1
         LEFT JOIN vc_fin_report_base_rgincome_ipo t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
         WHERE
             t1.IS_USE = '1'
-        AND t2.REPORTDATE = #{date}
-        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id}) and t1.column_name = 'NETPROFIT'
+         and t1.column_name = 'NETPROFIT'
 
         union
 
@@ -247,9 +255,10 @@
         FROM
             vc_dic_generalfina_ipo t1
         LEFT JOIN vc_fin_report_base_generalfina_ipo t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
         WHERE
             t1.IS_USE = '1'
-        AND t2.REPORTDATE = #{date}
-        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id}) and t1.column_name = 'KCFJCXSYJLR' order by sort
+         and t1.column_name = 'KCFJCXSYJLR' order by sort
     </select>
 </mapper>
