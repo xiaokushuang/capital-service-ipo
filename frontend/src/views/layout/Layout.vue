@@ -24,6 +24,12 @@
         return this.$store.state.app.sidebar
       }
     },
+    // 再创建之前，将路由传到store中
+    beforeCreate(){
+      if(this.$route.query!="undefined"){
+        this.$store.commit('SET_TOKEN',{token:this.$route.query['access_token'],info:this.$route.query['tenant_info'],caseId:this.$route.query['caseId']})
+      }
+    },
     created(){
       let _this = this;
       //监听消息回复父级页面消息

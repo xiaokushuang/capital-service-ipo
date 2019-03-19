@@ -159,13 +159,26 @@
 }
 // 委员弹出框标题样式
 .result .el-dialog__title {
-  font-family: 'Microsoft Tai Le Negreta', 'Microsoft Tai Le';
-  font-weight: 700;
+  width:100%;
   font-style: normal;
   font-size: 16px;
-  color: rgba(0, 0, 0, 0.847058823529412);
+  color: #14bcf5;
   text-align: left;
-  line-height: 24px;
+}
+.result  .el-dialog__header {
+  padding: 8px 21px 11px;
+  border-bottom:1px #e1e1e1 solid;
+}
+.result .el-dialog__headerbtn:focus .el-dialog__close, .el-dialog__headerbtn:hover .el-dialog__close {
+  color: #0087a7;
+  // position: relative;
+  // top: -7px;
+  // left: -15px;
+}
+.result .el-icon-close:before{
+  position: relative;
+  top: -7px;
+  left: -15px;
 }
 // 反馈意见中下面的tab样式修改
 .feedback .el-tabs__nav-wrap::after {
@@ -352,4 +365,27 @@
 }
 .myself.el-table {
  border:1px solid #14bcf5;
+}
+// 反馈意见单选
+.el-radio-button:first-child .el-radio-button__inner {
+  border-left: none;
+  border-radius: 3px;
+}
+.el-radio-button__orig-radio:checked + .el-radio-button__inner {
+  background-color: #14bcf5;
+  color: #fff;
+  border-radius: 3px;
+  border-color: #3399ff;
+  -webkit-box-shadow: -1px 0 0 0 #0087a7;
+  box-shadow: -1px 0 0 0 #0087a7;
+}
+
+.el-radio-button--small .el-radio-button__inner {
+  padding: 8px;
+  font-size: 12px;
+  border-radius: 0;
+}
+.el-checkbox-button__inner{
+  padding:8px;
+  border-radius: 3px !important;
 }

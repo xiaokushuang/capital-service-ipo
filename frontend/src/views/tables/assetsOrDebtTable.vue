@@ -173,7 +173,8 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
         tableContent: null,
       // 控制弹窗是否展示
         dialogChartVisible: false,
-        zxChartData:null
+        zxChartData:null,
+        id:'97952444248599350',
     }
   },
     components:{
@@ -194,7 +195,11 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
     methods: {
       // 初始化数据
       initTableData() {
-        getAssetsOrDebtData().then(res => {
+            // 动态传id
+        const param = {
+          id:this.id
+        }
+        getAssetsOrDebtData(param).then(res => {
           console.log(res.data.result)
           this.tableTitle = res.data.result.dateList
           // console.log(this.tableTitle[0])

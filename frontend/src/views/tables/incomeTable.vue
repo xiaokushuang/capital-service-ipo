@@ -166,6 +166,7 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
     name:"incomeTable",
     data() {
     return {
+        id:'97952444248599350',
       // 弹窗
         tanZxChart:null,
         tableTitle: null,
@@ -199,7 +200,11 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
     methods: {
       // 初始化数据
       initTableData() {
-        getSelectFinanceProfitList().then(res => {
+          // 动态传id
+        const param = {
+          id:this.id
+        }
+        getSelectFinanceProfitList(param).then(res => {
           console.log(res.data.result)
           this.tableTitle = res.data.result.dateList
           this.ipoProfitItemList = res.data.result.ipoProfitItemList//收益类项目列表

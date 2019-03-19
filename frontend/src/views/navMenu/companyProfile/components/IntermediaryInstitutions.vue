@@ -379,6 +379,7 @@ export default {
     name:'IntermediaryInstitutions',
     data(){
         return{
+            caseId:this.$store.state.caseId,
             allStitutionList:[],
             accounts:[],//会计事务所
             accountsTotal:[],
@@ -455,7 +456,12 @@ export default {
     },
   methods: {
     initTableData() {
-      getIntermediaryOrgDataList().then(response => {
+      // 动态传id
+      const param = {
+        id:this.caseId
+      }
+      getIntermediaryOrgDataList(param).then(response => {
+          console.log(response.data.result)
         this.allStitutionList = response.data.result
         this.accountsTotal = response.data.result.accounts
         this.sponsorsTotal = response.data.result.sponsors

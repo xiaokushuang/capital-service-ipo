@@ -88,9 +88,8 @@
                             </div>
                             <!-- 点击不同菜单展示不同下面内容 -->
                             <div class="el-tabs__content">
-                              <!-- 动态加载tab -->
-                                <!-- <div :is="showTab"></div> -->
-                                <div id="pane-first" aria-labelledby="tab-first" class="el-tab-pane" v-show="isActive == '1'">
+                              
+                                <!-- <div id="pane-first" aria-labelledby="tab-first" class="el-tab-pane" v-show="isActive == '1'">
                                     <companyProfile :caseId="caseId" v-on:headCallBack="headCall"></companyProfile>
                                 </div>
                                 <div id="pane-second" aria-labelledby="tab-second" class="el-tab-pane" v-show="isActive == '2'">
@@ -104,7 +103,11 @@
                                 </div>
                                 <div id="pane-fifth" aria-labelledby="tab-fifth" class="el-tab-pane" v-show="isActive == '5'">
                                     <issue :caseId="caseId" v-on:headCallBack="headCall"></issue>
-                                </div>
+                                </div> -->
+                                <!-- 动态加载tab -->
+                              <keep-alive>
+                                <component :is = "showComponent" id="componentId" v-on:headCallBack="headCall"></component>
+                              </keep-alive>
                             </div>
                         </div>
                     </div>
@@ -176,12 +179,13 @@ export default {
   data() {
     return {
       // 动态加载组件
-      // companyProfile:companyProfile,
-      // financialInformation:financialInformation,
-      // feedback:feedback,
-      // result:result,
-      // rightModule:rightModule,
-      // showTab:companyProfile,
+      companyProfile:companyProfile,
+      financialInformation:financialInformation,
+      feedback:feedback,
+      result:result,
+      rightModule:rightModule,
+      showComponent:companyProfile,
+
       fixBody: "",
       headerFix: false,
       scrollTop: "",
@@ -320,6 +324,7 @@ export default {
                     case '1':
                         targetList = document.getElementById('title-first').children;
                         let firstFlag = 0;
+                        that.showComponent = companyProfile
                         for (let i = 0; i < targetList.length; i++) {
                             if ((that.itemActiveFirst + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
                                 document.documentElement.scrollTop = document.getElementById(that.itemActiveFirst).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
@@ -336,6 +341,7 @@ export default {
                     case '2':
                         targetList = document.getElementById('title-second').children;
                         let secondFlag = 0;
+                        that.showComponent = financialInformation
                         that.$refs.finance.creatEchart()
                         // alert("111")
                         for (let i = 0; i< targetList.length; i ++) {
@@ -354,6 +360,8 @@ export default {
                     case '3':
                         targetList = document.getElementById('title-third').children;
                         let thirdFlag = 0
+                        that.showComponent = feedback
+                        
                         // 第三tab页暂不需要锚点定位先注掉
                         // for (let i = 0; i < targetList.length; i++) {
                         //     if ((that.itemActiveThird + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
@@ -371,6 +379,8 @@ export default {
                     case '4':
                         targetList = document.getElementById('title-fourth').children;
                         let fourthFlag = 0
+                        that.showComponent = result
+
                         // 第四tab页暂不需要锚点定位先注掉
                         // for (let i = 0; i < targetList.length; i++) {
                         //     if ((that.itemActiveFourth + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
@@ -388,6 +398,8 @@ export default {
                          case '5':
                         targetList = document.getElementById('title-fifth').children;
                         let fifthFlag = 0;
+                                               
+                        that.showComponent = issue
                         for (let i = 0; i < targetList.length; i++) {
                             if ((that.itemActiveFifth + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
                                 document.documentElement.scrollTop = document.getElementById(that.itemActiveFifth).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
@@ -800,5 +812,11 @@ export default {
 
 .title-fix {
   display: flex;
+}
+#title-fourth{
+  display:none
+}
+#title-third{
+  display:none
 }
 </style>

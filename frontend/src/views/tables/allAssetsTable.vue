@@ -44,8 +44,6 @@
   </div>
 </template>
 <script>
-// Mock.mock(/\/finance\/selectFinanceOverList/, 'get', tableDemo.getSelectFinanceOverList)
-// import { getAssetsTableData } from '@/api/tableDemo'
 import { getSelectFinanceOverList } from '@/api/tableDemo'
 import tanZxChart1  from '@/components/Charts/tanZxChart1'
 export default {
@@ -57,6 +55,8 @@ export default {
       zxChartData:null,
       // 控制弹窗是否展示
       dialogChartVisible: false,
+      // id:'97952444248599350'
+      caseId:this.$store.state.caseId,
     }
   },
   components:{
@@ -70,7 +70,11 @@ export default {
   },
   methods: {
     initTableData() {
-      getSelectFinanceOverList().then(response => {
+       // 动态传id
+      const param = {
+        id:this.caseId
+      }
+      getSelectFinanceOverList(param).then(response => {
         console.log(response)
         this.tableTitle = response.data.result.dateList
         this.tableContent = response.data.result.ipoFinanceOverList 

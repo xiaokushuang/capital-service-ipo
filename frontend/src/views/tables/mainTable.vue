@@ -12,7 +12,7 @@
             <span>{{isNotEmpty(scope.row.thirdYearAmount) ? scope.row.thirdYearAmount : '- -'}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="thirdYearRatio" align="right"  class-name="table_cell" label="占比（%）" width="117">
+        <el-table-column prop="thirdYearRatio" align="right"  class-name="table_cell" label="占比" width="117">
           <template slot-scope="scope">
             <span>{{isNotEmpty(scope.row.thirdYearRatio) ? scope.row.thirdYearRatio : '- -'}}</span>
           </template>
@@ -24,7 +24,7 @@
             <span>{{isNotEmpty(scope.row.secondYearAmount) ? scope.row.secondYearAmount : '- -'}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="secondYearRatio" align="right"  class-name="table_cell" label="占比（%）" width="117">
+        <el-table-column prop="secondYearRatio" align="right"  class-name="table_cell" label="占比" width="117">
           <template slot-scope="scope">
             <span>{{isNotEmpty(scope.row.secondYearRatio) ? scope.row.secondYearRatio : '- -'}}</span>
           </template>
@@ -36,7 +36,7 @@
             <span>{{isNotEmpty(scope.row.firstYearAmount) ? scope.row.firstYearAmount : '- -'}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="firstYearRatio" align="right"  class-name="table_cell" label="占比（%）" width="117">
+        <el-table-column prop="firstYearRatio" align="right"  class-name="table_cell" label="占比" width="117">
           <template slot-scope="scope">
             <span>{{isNotEmpty(scope.row.firstYearRatio) ? scope.row.firstYearRatio : '- -'}}</span>
           </template>
@@ -52,7 +52,8 @@ export default {
   name: 'mainTable',
   data() {
     return {
-      mainTableList:null
+      mainTableList:null,
+      caseId:this.$store.state.caseId,
     }
   },
   created() {
@@ -60,7 +61,11 @@ export default {
   },
   methods: {
     initTableData() {
-      getTableData().then(response => {
+          // 动态传id
+      const param = {
+        id:this.caseId
+      }
+      getTableData(param).then(response => {
         this.mainTableList = response.data.result
         console.log(response.data.result.mainIncomeInfoList)
         // console.log(this.mainTableList)
