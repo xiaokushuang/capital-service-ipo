@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {clearAllCookie, getToken} from '@/utils/auth';
 import {Message} from 'element-ui';
+import store from '../store'
 
 // create an axios instance
 const service = axios.create({
@@ -15,10 +16,12 @@ service.interceptors.request.use(
     config => {
       // Do something before request is sent
       // set accessToken with request header
-      config.headers['Authorization'] = getToken();
+      config.headers['Authorization'] = store.state.app.token;
+      config.headers['X-Tenant-Info'] = store.state.app.info;
       // fixed GET request method caching problem
       config.headers['Cache-Control'] = 'no-cache';
       config.headers['Pragma'] = 'no-cache';
+      config.params['id'] = store.state.app.caseId;
       return config
     }, error => {
       // Do something with request error
