@@ -65,7 +65,12 @@ const ipo = {
       var key = Object.keys(data)
       state.totalFloor[key] = data[key]
       console.log(state.totalFloor)
-    }
+    },
+    // 存动态caseId
+    SET_TOKEN: (state, code) => {
+      state.caseId = code
+      console.log(state.caseId )
+    },
   },
 
   actions: {

@@ -167,7 +167,9 @@ export default {
         this.initTableData()
     },
     mounted () {
-      
+      this.$nextTick(()=>{
+          console.log(document.getElementById('s'))
+      })
     //   console.log(document.querySelector('.financialData'))
     //   console.log(document.getElementById('zxChart'))  
     },
@@ -221,6 +223,7 @@ export default {
         initTableData() {
             getMaoChartTableData().then(res => {
                 this.maoChartTableData = res.data.result
+                console.log(document.getElementById('s'))
                 // console.log(this.maoChartTableData)
                
                 //  if(this.maoChartTableData.length > 0){

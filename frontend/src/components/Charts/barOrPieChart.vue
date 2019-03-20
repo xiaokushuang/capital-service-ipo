@@ -22,7 +22,9 @@ export default {
       lengendData:[],
       pieData:[],
       date:'',
-      pieChartTitle:''
+      pieChartTitle:'',
+      // id:'97952444248599350',
+      caseId:this.$store.state.caseId,
     }
   },
     created(){
@@ -48,7 +50,11 @@ export default {
     // },
      // 初始化数据
       initTableData() {
-        getTableData().then(response => {
+            // 动态传id
+        const param = {
+          id:this.caseId
+        }
+        getTableData(param).then(response => {
           if(response.data.result){
             // 如果请求到数据之后再初始化柱形图
             var dataList = response.data.result

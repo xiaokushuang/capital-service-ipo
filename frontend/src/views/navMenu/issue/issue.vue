@@ -129,6 +129,7 @@ export default {
       
           issueFeeData:[],
           issueData:[],
+          id:'97952444248599344'
       }
   },
    created() {
@@ -136,6 +137,21 @@ export default {
     this.getPosition()
   },
   methods: {
+     initTableData() {
+       // 动态传id
+      const param = {
+        id:this.id
+      }
+       getIssueData(param).then(res => {
+         this.issueData = res.data.result
+          // console.log(this.issueData)
+      }) 
+      getIssueFeeData(param).then(res=>{
+        // console.log(res)
+        this.issueFeeData = res.data.result
+        console.log(this.issueFeeData)
+      })
+    },
      getPosition(){
            //返回父组件用于锚点定位头
                 let titleList = [];
@@ -160,17 +176,7 @@ export default {
                 this.$emit('headCallBack', titleList);
             //返回父组件用于锚点定位尾
      },
-    initTableData() {
-       getIssueData().then(res => {
-         this.issueData = res.data.result
-          // console.log(this.issueData)
-      }) 
-      getIssueFeeData().then(res=>{
-        console.log(res)
-        this.issueFeeData = res.data.result
-        console.log(this.issueFeeData)
-      })
-    },
+   
     // 非空判断
     isNotEmpty(param) {
       // debugger

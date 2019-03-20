@@ -280,8 +280,8 @@ export default {
         },
         moreNoticeClick(params,obj) {
             // 点击查看更多公告不收起展开的内容
-             this.isSpread = true;
-             params.spreadFlag = true;
+            //  this.isSpread = true;
+            //  params.spreadFlag = true;
             // 弹出更多公告 
             this.dialogVisible = true;
             this.moreNoticeList = obj.relaList

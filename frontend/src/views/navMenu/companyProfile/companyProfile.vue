@@ -9,44 +9,44 @@
         <ul style="display:flex;margin-bottom: 0;">
           <li>
             <span>拟上市板块</span>&nbsp;&nbsp;&nbsp;
-            <span style="color:#333333">风纪扣v的事实{{this.ipoPlate}}</span>
+            <span style="color:#333333">{{this.ipoPlate}}</span>
           </li>
           <li>
             <span>所属证监局</span>&nbsp;&nbsp;
-            <span style="color:#333333">从v但是VS{{this.industryCsrc}}</span>
+            <span style="color:#333333">{{this.industryCsrc}}</span>
           </li>
           <li>
             <span>注册资本</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span style="color:#333333">232334{{this.registeredAssets}}万元</span>
+            <span style="color:#333333">{{this.registeredAssets}}万元</span>
           </li>
           <li>
             <span>证券简称</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span style="color:#333333">润肤乳是否{{this.companyName}}</span>
+            <span style="color:#333333">{{this.companyName}}</span>
           </li>
           <li>
             <span>证券代码</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span style="color:#333333">非过热二热肥肉{{this.zhengquanCode}}</span>
+            <span style="color:#333333">{{this.zhengquanCode}}</span>
           </li>
           <li>
             <span>企业性质</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span style="color:#333333">个哥哥人为峰如果{{this.companyNature}}</span>
+            <span style="color:#333333">{{this.companyNature}}</span>
           </li>
         </ul>
         <div>
            
           <li style="margin-bottom:10px">
             <span>注册地址</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span style="color:#333333">封建快攻科尔几个克费恩过热个{{this.addrProv}}{{this.addrCity}}{{this.addrArea}}</span>
+            <span style="color:#333333">{{this.addrProv}}{{this.addrCity}}{{this.addrArea}}</span>
           </li>
           
          
           <li style="margin-bottom:10px">
             <span>控股股东</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span style="color:#333333">割让给  个割让给如果额 儿歌工人{{this.controlShareholder}}</span>
+            <span style="color:#333333">{{this.controlShareholder}}</span>
           </li>
           <li style="margin-bottom:10px">
             <span>实际控制人</span>&nbsp;&nbsp;&nbsp;
-            <span style="color:#333333">vdd个人发 肥肉  分 飞啊飞{{this.actualController}}</span>
+            <span style="color:#333333">{{this.actualController}}</span>
           </li>
           <li style="margin-bottom:10px">
             <span>主营业务</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -54,7 +54,11 @@
                    class="majorBusinesses" style="color:#333333;display: -webkit-box;
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 2;
-            overflow: hidden;">日个人附件二三季度开始接近kk健康计划和规范丰富的税收收入体育和环境很久很日个人附件二三季度开始接近kk健康计划和规范丰富的税收收入体育和环境很久很日个人附件二三季度开始接近kk健康计划和规范丰富的税收收入体育和环境很久很赴日个人附件二三季度开始接近kk健康计划和规范丰富日个人附件二三季度开始接近kk健康计划和规范丰富的税收收入体育和环境很久很日个人附件二三季度开始接近kk健康计划和规范丰富的税收收入体育和环境很久很的税收收入体育和环境很久很久飞机飞到是{{this.majorBusinesses}}</span>
+            overflow: hidden;
+            width: 90%;
+            position: relative;
+            top: -16px;
+            left: 76px;">{{this.majorBusinesses}}</span>
           </li>
         </div>
       
@@ -119,57 +123,6 @@
       <div class="incomeCompositionTable">
          <mainTable></mainTable>
       </div>
-      <!-- <div class="incomeCompositionTable">
-          <el-table
-            show-summary
-            :data="incomeCompositionTableList1"
-            style="width: 100%;margin-top: 20px">
-            <el-table-column
-              prop="yewu"
-              label="主营业务"
-              width="123">
-            </el-table-column>
-              <el-table-column :label="yearsOne">
-                <el-table-column
-                  prop="money"
-                  label="金额(万元)"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="roportion"
-                  label="占比"
-                  width="84">
-                </el-table-column>
-              </el-table-column>
-               <el-table-column :label="yearsTwo"> 
-                 <el-table-column
-                  prop="money"
-                  label="金额(万元)"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="roportion"
-                  label="占比"
-                  width="84">
-                  <template slot-scope="scope">
-                    {{scope.$index}}
-                  </template>
-                </el-table-column>
-              </el-table-column>
-              <el-table-column :label="yearsThree">
-                <el-table-column
-                  prop="money"
-                  label="金额(万元)"
-                  width="100">
-                </el-table-column>
-                <el-table-column
-                  prop="roportion"
-                  label="占比"
-                  width="84">
-                </el-table-column> 
-               </el-table-column> 
-          </el-table>
-      </div> -->
     </div>
     <!-- 主要竞争对手简介 -->
     <div class="MajorCompetitors">
@@ -329,7 +282,8 @@ export default {
       structureLabel: [],
       structureUrl:'',
       // 公司简介
-      id: "",//案例id
+      // caseId: '97952444248599344',//案例id
+      caseId:this.$store.state.caseId,
       companyZhName:'',//公司名称
       ipoPlate:'',//上市板块
       industryCsrc:'',//所属行业(证监会) ,
@@ -351,18 +305,23 @@ export default {
   },
   created() {
     this.getData();
-    this.getPosition()
+    this.getPosition();
   },
   mounted() {
   },
   methods: {
-    //   moke模拟请求的数据
     getData() {
-      getCaseDetail().then(res => {
-        // console.log(res.data.result)
-          this.structureLabel = res.data.result.structureLabel.split(',');
+      // 动态传id
+      const param = {
+        id:this.caseId
+      }
+      getCaseDetail(param).then(res => {
+        console.log(res.data.result)
+          this.id = res.data.result.id//公司id
+          if(res.data.result.structureLabel){
+            this.structureLabel = res.data.result.structureLabel.split(',');
+          }
           this.structureUrl = res.data.result.structureUrl
-          this.id = res.data.result.id//案例id
           this.companyZhName = res.data.result.companyZhName//公司名称
           this.ipoPlate = res.data.result.ipoPlate//上市板块
           this.industryCsrc = res.data.result.industryCsrc//所属行业(证监会) ,
@@ -376,24 +335,20 @@ export default {
           this.controlShareholder = res.data.result.controlShareholder//控股股东 
           this.companyNature = res.data.result.companyNature//企业性质
           this.majorBusinesses = res.data.result.majorBusinesses//主营业务
-
-          // 旧
-        // this.gqTableList = res.data.gqTable;
-        // this.MajorCompetitors = res.data.MajorCompetitors;
-        // this.raiseMoneyTableList = res.data.raiseMoneyTableList;
+        
       });
-      getMarketData().then(res=>{
+      getMarketData(param).then(res=>{
           this.otherMarketInfoList = res.data.result//其他登录市场
       });
-      getShareHolderData().then(res=>{
+      getShareHolderData(param).then(res=>{
         // console.log(res.data.result)
         this.gqTableList = res.data.result
       })
-      getCompetitorData().then(res=>{
+      getCompetitorData(param).then(res=>{
         console.log(res.data.result)
         this.MajorCompetitors = res.data.result
       })
-      getRaiseMoneyTableList().then(res=>{
+      getRaiseMoneyTableList(param).then(res=>{
         this.raiseMoneyTableList = res.data.result
       })
          

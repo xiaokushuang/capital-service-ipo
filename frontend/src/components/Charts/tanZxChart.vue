@@ -15,7 +15,8 @@ export default {
     return {
         tableTitle:null,
         zxChartX:[],
-        zxChartY:[]
+        zxChartY:[],
+        id:'97952444248599350'
     }
   },
   created(){
@@ -54,7 +55,11 @@ export default {
     },
      // 初始化数据
     initTableData() {
-      getAssetsOrDebtData().then(response => {
+          // 动态传id
+      const param = {
+        id:this.id
+      }
+      getAssetsOrDebtData(param).then(response => {
           // 获取表头数据
         this.tableTitle = response.data.result.dateList
       //   console.log(this.tableTitle)

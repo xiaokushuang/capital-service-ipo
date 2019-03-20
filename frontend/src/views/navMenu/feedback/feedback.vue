@@ -1,103 +1,109 @@
 <template>
     <div class="feedback">
        <div class="label">
-           <div v-if="status===1" class="clear">
+           <div v-if="status===2" class="clear">
                 <div style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共两轮反馈：</div>
                 <el-tabs v-model="activeName" @tab-click="handleClick" >
-                        <el-tab-pane label="第一次反馈意见" name="first" style="font-size: 14px;color: #777777;">
+                        <el-tab-pane v-for="index,item in tabList" :label=item :name="'first' + index" style="font-size: 14px;color: #777777;">
                             <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;">
                                 <div class="firstLabel" >
-                                    <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px">
-                                        <el-radio-group v-model="radio" size="small">
-                                            <el-radio-button v-for="item in feedbackFirtLabelList" class="l firstLabelFocus" style="margin-right:0px;margin-bottom:0px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item">{{item.name}}{{item.num}}</el-radio-button>
+                                    <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
+                                        <el-radio-group v-model="radio" size="small" style="border-bottom: 1px solid rgb(235, 235, 235);padding-bottom:10px;">
+                                            <el-radio-button v-for="item in feedbackFirtLabelList" class="l firstLabelFocus" style="margin-right:10px;margin-bottom:10px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item">{{item.name}}{{item.num}}</el-radio-button>
                                         </el-radio-group>
                                     </ul>
-                                    <ul class="clear" style="padding:0px 25px;margin-top:0px">
+                                    <ul class="clear" style="padding:0px 25px;margin-top:0px;padding-bottom: 11px !important;">
+                                        <span style="float: left;
+                                          display: inline-block;
+                                          margin-right: 23px;
+                                          margin-top: 4px;">全部<span>23</span></span>
                                         <el-checkbox-group v-model="checkboxGroup" size="mini">
                                             <el-checkbox-button class="checkbox" v-for="item in feedbackSecondLabelList" :label="item">{{item.name}}{{item.num}}</el-checkbox-button>
                                         </el-checkbox-group>
                                     </ul>
-                                    <div class="kaiguan" style="text-align:center;color:#3399ff">
+                                    <div class="kaiguan" style="text-align:left;font-size: 12px;
+                                          margin-left:25px;
+                                          margin-bottom:10px;
+                                          color: #999999;
+                                          text-align: left;
+                                          line-height: 14px;">
                                         <span>共计</span>
                                         <span>48</span>
                                         <span>个问题，</span>
                                         <span>15</span>
                                         <span>个回复</span>
-                                        <span style="margin-left:25px;margin-right:15px">只展示回复问题</span>
-                                        <el-switch
-                                            v-model="value"
-                                            active-color="#3399ff"
-                                            inactive-color="gray">
-                                        </el-switch>
+                                        <el-checkbox v-model="resetChecked" style="margin-left:20px;margin-right:15px">只展示回复问题</el-checkbox>
+                                        <el-button class="reset" type="primary" plain>重置</el-button>
                                     </div>
                                 </div>
-                                <div class="reset">重置</div>
                             </div>
                         </el-tab-pane>
-                        <el-tab-pane label="第二次反馈意见" name="second">
-                            <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;">
+                        <!-- <el-tab-pane label="第二次反馈意见" name="second">
+                             <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;">
                                 <div class="firstLabel" >
-                                    <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px">
-                                        <el-radio-group v-model="radio" size="small">
-                                            <el-radio-button v-for="item in feedbackFirtLabelList" class="l firstLabelFocus" style="margin-right:0px;margin-bottom:0px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item">{{item.name}}{{item.num}}</el-radio-button>
+                                    <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
+                                        <el-radio-group v-model="radio" size="small" style="border-bottom: 1px solid rgb(235, 235, 235);padding-bottom:10px;">
+                                            <el-radio-button v-for="item in feedbackFirtLabelList" class="l firstLabelFocus" style="margin-right:10px;margin-bottom:10px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item">{{item.name}}{{item.num}}</el-radio-button>
                                         </el-radio-group>
                                     </ul>
                                     <ul class="clear" style="padding:0px 25px;margin-top:0px">
+                                        <span style="float: left;
+                                          display: inline-block;
+                                          margin-right: 23px;
+                                          margin-top: 4px;">全部<span>23</span></span>
                                         <el-checkbox-group v-model="checkboxGroup" size="mini">
                                             <el-checkbox-button class="checkbox" v-for="item in feedbackSecondLabelList" :label="item">{{item.name}}{{item.num}}</el-checkbox-button>
                                         </el-checkbox-group>
                                     </ul>
-                                    <div class="kaiguan" style="text-align:center;color:#3399ff">
+                                    <div class="kaiguan" style="text-align:left;font-size: 12px;
+                                          margin-left:25px;
+                                          color: #999999;
+                                          text-align: left;
+                                          line-height: 14px;">
                                         <span>共计</span>
                                         <span>48</span>
                                         <span>个问题，</span>
                                         <span>15</span>
                                         <span>个回复</span>
-                                        <span style="margin-left:25px;margin-right:15px">只展示回复问题</span>
-                                        <el-switch
-                                            v-model="value"
-                                            active-color="#3399ff"
-                                            inactive-color="gray">
-                                        </el-switch>
+                                        <el-checkbox v-model="resetChecked" style="margin-left:20px;margin-right:15px">只展示回复问题</el-checkbox>
                                     </div>
                                 </div>
-                                <div class="reset">重置</div>
+                                <el-button class="reset" type="primary" plain>重置</el-button>
                             </div>
-                        </el-tab-pane>
+                        </el-tab-pane> -->
                 </el-tabs>
            </div>
            <div v-else>
                 <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;">
                     <div class="firstLabel" >
-                        <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px">
-                            <!-- <li v-for="item in feedbackFirtLabelList" class="l firstLabelFocus" style="margin-right:30px;margin-bottom:20px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);">
-                                <span>{{item.name}}</span>
-                                <span>({{item.num}})</span>
-                            </li> -->
-                            <el-radio-group v-model="radio" size="small">
-                                <el-radio-button v-for="item in feedbackFirtLabelList" class="l firstLabelFocus" style="margin-right:0px;margin-bottom:0px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item">{{item.name}}{{item.num}}</el-radio-button>
+                        <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
+                            <el-radio-group v-model="radio" size="small" style="border-bottom: 1px solid rgb(235, 235, 235);padding-bottom:10px;">
+                                <el-radio-button @change="handleClickRadio($event)" v-for="item in feedbackFirtLabelList" class="l firstLabelFocus" style="margin-right:10px;margin-bottom:10px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item">{{item.name}}{{item.num}}</el-radio-button>
                             </el-radio-group>
                         </ul>
-                        <ul class="clear" style="padding:0px 25px;margin-top:0px">
-                             <el-checkbox-group v-model="checkboxGroup" size="mini">
+                        <ul v-show="this.showCheckbox" class="clear" style="padding:0px 25px;margin-top:0px;padding-bottom:10px">
+                            <span style="float: left;
+                              display: inline-block;
+                              margin-right: 23px;
+                              margin-top: 4px;">全部<span>23</span></span>
+                            <el-checkbox-group v-model="checkboxGroup" size="mini">
                                 <el-checkbox-button class="checkbox" v-for="item in feedbackSecondLabelList" :label="item">{{item.name}}{{item.num}}</el-checkbox-button>
-                             </el-checkbox-group>
+                            </el-checkbox-group>
+                            <div class="kaiguan" style="text-align:left;font-size: 12px;
+                                  margin-left:25px;
+                                  color: #999999;
+                                  text-align: left;
+                                  line-height: 14px;">
+                                <span>共计</span>
+                                <span>48</span>
+                                <span>个问题，</span>
+                                <span>15</span>
+                                <span>个回复</span>
+                                <el-checkbox v-model="resetChecked" style="margin-left:20px;margin-right:15px">只展示回复问题</el-checkbox>
+                                <el-button @click="toggleSelection()" class="reset" type="primary" plain>重置</el-button>
+                            </div>
                         </ul>
-                        <div class="kaiguan" style="text-align:center;color:#3399ff">
-                            <span>共计</span>
-                            <span>48</span>
-                            <span>个问题，</span>
-                            <span>15</span>
-                            <span>个回复</span>
-                            <span style="margin-left:25px;margin-right:15px">只展示回复问题</span>
-                            <el-switch
-                                v-model="value"
-                                active-color="#3399ff"
-                                inactive-color="gray">
-                            </el-switch>
-                        </div>
                     </div>
-                    <div class="reset">重置</div>
                 </div>
            </div>
        </div>
@@ -173,8 +179,11 @@ export default {
       flag: false,
       radio: "",
       checkboxGroup: [],
+      resetChecked:false,
+      showCheckbox:false,
       cities: [],
       activeName: 'first',
+      tabList:[1,2,3,4],
       feedbackFirtLabelList: [
         {
           name: "财务处理及分红",
@@ -287,6 +296,14 @@ export default {
     };
   },
   methods: {
+    // 点击单选按钮
+    handleClickRadio(ev){
+      console.log(ev)
+    },
+    // 点击重置按钮
+    toggleSelection(){
+      this.checkboxGroup = []
+    },
     handleClick(){
       
     },
@@ -315,11 +332,6 @@ export default {
   cursor: pointer;
 }
 .firstLabelFocus:focus {
-  //   background: red;
-  //   font-size: 12px;
-  //   color: #14bcf5 !important;
-  //   cursor: pointer;
-  //   padding: 3px;
 }
 .secondLabelFocus:hover {
   cursor: pointer;
@@ -375,28 +387,27 @@ export default {
   background: url("../../../assets/images/quan.png") no-repeat;
 }
 .reset {
-  width: 45px;
-  height: 23px;
-  background: inherit;
-  background-color: rgba(255, 255, 255, 1);
-  box-sizing: border-box;
-  border-width: 1px;
-  border-style: solid;
-  border-color: rgba(204, 204, 204, 1);
-  border-radius: 3px;
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  font-family: "Microsoft YaHei Regular", "Microsoft YaHei";
-  font-weight: 400;
-  font-style: normal;
-  color: #3399ff;
-  text-align: center;
-  line-height: 22px;
-  position: relative;
-  left: 85%;
-  top: -20px;
-  cursor: pointer;
+    background: inherit;
+    background-color: #14bcf5;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #cccccc;
+    border-radius: 3px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    font-family: "Microsoft YaHei Regular", "Microsoft YaHei";
+    font-weight: 400;
+    font-style: normal;
+    color: white;
+    text-align: center;
+    line-height: 12px;
+    position: relative;
+    left: 5%;
+    top: -2px;
+    cursor: pointer;
+    
 }
 .spread {
   position: relative;
@@ -425,6 +436,8 @@ export default {
   cursor:pointer;
 }
 .checkbox {
+  font-size:12px;
+  color:#14bcf5;
   background: #fafafa;
   margin-right: 10px;
   margin-bottom: 10px;
@@ -432,6 +445,7 @@ export default {
   border-style: solid;
   border-color: rgba(217, 217, 217, 1);
   border-radius: 3px;
+
 }
 </style>
 

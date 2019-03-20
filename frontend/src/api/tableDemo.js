@@ -1,97 +1,162 @@
 import request from '@/utils/request'
+// 【moke】
 
-export function getTableData() {
-  return request({
-    url: '/demo/tableData',
-    method: 'get'
-  })
-}
 // 主营业务收入构成【柱状图饼图】
 // export function getTableData() {
-//   var query = {
-//     id:'97952444248336801'
-//   }
 //   return request({
-//     url: '/ipo/api/companyOverview/incomeData',
-//     method: 'get',
-//     params: query
+//     url: '/demo/tableData',
+//     method: 'get'
 //   })
 // }
-// 报告期主要供应商及客户接口描述
-export function getSupplierCustomerData() {
-  var query = {
-    id:'97952444248336801'
-  }
+
+// 发行情况
+
+// 发行数据
+// export function getIssueData() {
+//   return request({
+//     url: '/issueData/IssueDataList',
+//     method: 'get'
+//   })
+// }
+
+// 发行费用
+// export function getIssueFeeData() {
+//   return request({
+//     url: '/issueFeeData/IssueFeeDataList',
+//     method: 'get'
+//   })
+// }
+
+// 财务信息
+// 财务总体情况接口
+// export function getSelectFinanceOverList() {
+//   return request({
+//     url: '/finance/selectFinanceOverList',
+//     method: 'get'
+//   })
+// }
+// 资产与负债情况财务信息接口 
+// export function getAssetsOrDebtData() {
+//   return request({
+//     url: '/finance/assetsOrDebtData',
+//     method: 'get'
+//   })
+// }
+// 收入与利润情况接口
+// export function getSelectFinanceProfitList() {
+//   return request({
+//     url: '/finance/selectFinanceProfitList',
+//     method: 'get'
+//   })
+// }
+
+// 毛利率接口
+// export function getMaoChartTableData() {
+//   return request({
+//     url: '/finance/maoChartTableData',
+//     method: 'get'
+//   })
+// }
+
+
+// 没用头
+// export function getAssetsTableData() {
+//   return request({
+//     url: '/demo/assetsTableData',
+//     method: 'get'
+//   })
+  
+// }
+// export function getCompareTableData() {
+//   return request({
+//     url: '/demo/compareTableData',
+//     method: 'get'
+//   })
+  
+// }
+// export function getIssueMoneyTableData() {
+//   return request({
+//     url: '/demo/issueMoneyTableData',
+//     method: 'get'
+//   })
+// }
+// 没用尾
+
+
+// 【真接口】
+
+// 主营业务收入构成【柱状图饼图】
+export function getTableData(query) {
   return request({
-    url: '/ipo/api/companyOverview/supplierCustomerData',
+    url: '/ipo/api/companyOverview/incomeData?id=97952444248599344',
     method: 'get',
     params: query
   })
 }
 
-export function getAssetsTableData() {
-  return request({
-    url: '/demo/assetsTableData',
-    method: 'get'
-  })
-  
-}
-export function getCompareTableData() {
-  return request({
-    url: '/demo/compareTableData',
-    method: 'get'
-  })
-  
-}
-export function getIssueMoneyTableData() {
-  return request({
-    url: '/demo/issueMoneyTableData',
-    method: 'get'
-  })
-  
-}
+// 报告期主要供应商及客户接口描述
+// export function getSupplierCustomerData(query) {
+//   return request({
+//     url: '/ipo/api/companyOverview/supplierCustomerData',
+//     method: 'get',
+//     params: query
+//   })
+// }
+
 // 发行情况
-export function getIssueData() {
+
+// 发行数据
+export function getIssueData(query) {
   return request({
-    url: '/issueData/IssueDataList',
-    method: 'get'
+    url: '/ipo/api/issue/issueData',
+    method: 'get',
+    params: query
   })
 }
-export function getIssueFeeData() {
+
+// 发行费用
+export function getIssueFeeData(query) {
   return request({
-    url: '/issueFeeData/IssueFeeDataList',
-    method: 'get'
+    url: '/ipo/api/issue/issueFeeData',
+    method: 'get',
+    params: query
+  })
+}
+
+// 财务信息
+// 财务总体情况接口
+export function getSelectFinanceOverList(query) {
+  return request({
+    url: '/ipo/api/ipoFinance/selectFinanceOverList?97952444248599350',
+    method: 'get',
+    params: query
   })
 }
 // 资产与负债情况财务信息接口 
-export function getAssetsOrDebtData() {
+export function getAssetsOrDebtData(query) {
   return request({
-    url: '/finance/assetsOrDebtData',
-    method: 'get'
+    url: '/ipo/api/ipoFinance/selectFinanceList',
+    method: 'get',
+    params: query
   })
 }
 // 收入与利润情况接口
-export function getSelectFinanceProfitList() {
+export function getSelectFinanceProfitList(query) {
   return request({
-    url: '/finance/selectFinanceProfitList',
-    method: 'get'
+    url: '/ipo/api/ipoFinance/selectFinanceProfitList',
+    method: 'get',
+    params: query
   })
 }
-// Mock.mock(/\/finance\/selectFinanceProfitList/, 'get', tableDemo.getSelectFinanceProfitList)
-// 财务总体情况接口
-export function getSelectFinanceOverList() {
-  return request({
-    url: '/finance/selectFinanceOverList',
-    method: 'get'
-  })
-}
-// Mock.mock(/\/finance\/selectFinanceOverList/, 'get', tableDemo.getSelectFinanceOverList)
-// Mock.mock(/\/finance\/maoChartTableData/, 'get', tableDemo.getMaoChartTableData)
+
 // 毛利率接口
-export function getMaoChartTableData() {
-  return request({
-    url: '/finance/maoChartTableData',
-    method: 'get'
-  })
-}
+// export function getMaoChartTableData(query) {
+//   return request({
+//     url: '/ipo/api/issue/industryRateData',
+//     method: 'get',
+//     params: query
+//   })
+// }
+
+
 

@@ -1,7 +1,7 @@
 <template>
     <div>
-         <div class="className" id="zxChart" style="height:300px;width:100%"></div>
-         <!-- <div>{{this.zxIndex}}</div> -->
+         <div class="className" :id="'zxChart' + zxIndex " style="height:300px;width:100%"></div>
+         
     </div>
 </template>
 
@@ -24,10 +24,6 @@ export default {
     this.initTableData()
   },
   mounted() {
-    // console.log('父传子')
-    // console.log(this.zxIndex)
-    // console.log(document.querySelector('#zxChart' + this.zxIndex))
-    // this.initTableData()
   },
   updated() {
 
@@ -47,29 +43,23 @@ beforeDestroy() {
             if(response.data.result){
                 // 如果请求到数据之后再初始化折线图
                  this.initChart(response.data.result)
-                //  console.log(this.zxChartX)
-                //  console.log(this.zxChartY)
             }
         })
       },
       // 动态实时监听刷新折线图的数据
-    //   watch:{
-    //     zxIndex: {  
-    // 　　　　handler(newValue, oldValue)
-    //          {  
-    //           this.zxIndex = newValue
-    //   　　　 　console.log(this.zxIndex)  
-    //           //折线图数据的初始化 
-    //           this.initTableData()
-    //   　　　　},  
-    //   　　　　deep: true,  //对象内部的属性监听，也叫深度监听
-    //         immediate: true //immediate表示在watch中首次绑定的时候，是否执行handler，值为true则表示在watch中声明的时候，就立即执行handler方法，值为false，则和一般使用watch一样，在数据发生变化的时候才执行handler
-    // 　}  
-    // },
-      // 动态设置id
-      // zxChart:function(index){
-			// 	return "zxChart_" +index
-			// },
+      watch:{
+        zxIndex: {  
+    　　　　handler(newValue, oldValue)
+             {  
+              this.zxIndex = newValue
+      　　　 　console.log(this.zxIndex)  
+              //折线图数据的初始化 
+              this.initTableData()
+      　　　　},  
+      　　　　deep: true,  //对象内部的属性监听，也叫深度监听
+            immediate: true //immediate表示在watch中首次绑定的时候，是否执行handler，值为true则表示在watch中声明的时候，就立即执行handler方法，值为false，则和一般使用watch一样，在数据发生变化的时候才执行handler
+    　}  
+    },
     //   初始化折线图
     initChart(dataList) {
       console.log(dataList[0])
@@ -78,7 +68,7 @@ beforeDestroy() {
           this.zxChart.dispose()
           this.zxChart = null
         }
-      this.zxChart = echarts.init(document.getElementById('zxChart'))  
+      this.zxChart = echarts.init(document.getElementById('zxChart' + this.zxIndex))  
     //  循环获取数据
         // for (var i = 0; i < dataList.length; i++) {
         for(var i = 0;i < this.zxIndex;i++){
