@@ -387,7 +387,11 @@ export default {
     text-decoration: underline;
     text-decoration-color: #0066FF;
 }
-
+.gonggao:hover {
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: #0066FF;
+}
 .moreNoticeCss {
     width:30%;
     font-family: "PingFangSC-Regular", "PingFang SC";
@@ -543,7 +547,7 @@ export default {
     border: 1px solid #e4e4e4;
     position: absolute;
     left: 244px;
-    top: 277px;
+    top: 230px;
     border-radius: 3px;
     padding: 2px;
 }

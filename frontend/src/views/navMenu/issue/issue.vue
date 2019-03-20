@@ -207,9 +207,8 @@ export default {
     //  
      // 鼠标移入表格内容加title
     mouseOverSpreadText(){
-      // console.log($(".distribution"))
-      //  var b =  $(".distribution").text();
-        // $(".distribution").attr("title",b)
+       var b =  document.querySelector('.distribution').textContent;
+        $(".distribution").attr("title",b)
     },
    
     // 非空判断

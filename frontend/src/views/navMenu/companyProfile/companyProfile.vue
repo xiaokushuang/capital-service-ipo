@@ -131,9 +131,10 @@
         <span class="titleText" id="profileOfMajorCompetitors">主要竞争对手简介</span>
       </div>
       <div class="competitorContent">
-        <ul class="competitorUl">
+        <ul class="competitorUl" style="padding-left:0">
           <li class="clear competitorLi" v-for="data in MajorCompetitors">
-            <div class="leftTitle l" style="">
+            <div class="leftTitle" style="width: 16%;margin:auto;
+              display: inline-block;">
               <p style="font-family: 'PingFang-SC-Bold', 'PingFang SC Bold', 'PingFang SC';
                 font-weight: 700;
                 font-style: normal;
@@ -144,17 +145,17 @@
               >{{data.companyName}}</p>
               <p style="color: #999999;font-size: 12px;text-align: center;">{{data.companyCode}}</p>
             </div>
-            <div class="rightContent l" style=" font-family: 'PingFang-SC-Regular', 'PingFang SC';
+            <div class="rightContent right" style=" font-family: 'PingFang-SC-Regular', 'PingFang SC';
                 font-weight: 400;
                 font-style: normal;
                 font-size: 14px;
                 color: #555555;
-                margin-left:30px;
                 line-height: 22px;
-                width:70%">
+                float: right;
+                margin:auto;
+                width: 84%;
+                margin-left: 39px;">
              <p class="moreText">{{data.situation}}</p>
-             <!-- <p class="moreText">{{sliceText}}</p> -->
-             
             </div>
           </li>
         </ul>
@@ -705,7 +706,8 @@ export default {
 .competitorContent {
   .competitorUl {
     li {
-      padding: 20px 40px;
+       padding: 10px 18px;
+       display: flex;
     }
     li:nth-of-type(odd) {
       background: #f9f9f9;
@@ -755,11 +757,11 @@ export default {
 }
 // 多行省略号
 .moreText {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+  // overflow: hidden;
+  // text-overflow: ellipsis;
+  // display: -webkit-box;
+  // -webkit-line-clamp: 3;
+  // -webkit-box-orient: vertical;
 }
 
 .majorBusinesses:hover{

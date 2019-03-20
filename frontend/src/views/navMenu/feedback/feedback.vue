@@ -9,7 +9,7 @@
                                 <div class="firstLabel" >
                                     <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
                                         <el-radio-group v-model="radio" size="small" style="border-bottom: 1px solid rgb(235, 235, 235);padding-bottom:10px;">
-                                            <el-radio-button v-for="item in feedbackFirtLabelList" class="l firstLabelFocus" style="margin-right:10px;margin-bottom:10px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item">{{item.name}}{{item.num}}</el-radio-button>
+                                            <el-radio-button  v-for="item in feedbackFirtLabelList" class="l firstLabelFocus" style="margin-right:10px;margin-bottom:10px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item">{{item.name}}{{item.num}}</el-radio-button>
                                         </el-radio-group>
                                     </ul>
                                     <ul class="clear" style="padding:0px 25px;margin-top:0px;padding-bottom: 11px !important;">
@@ -78,7 +78,7 @@
                     <div class="firstLabel" >
                         <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
                             <el-radio-group v-model="radio" size="small" style="border-bottom: 1px solid rgb(235, 235, 235);padding-bottom:10px;">
-                                <el-radio-button @change="handleClickRadio($event)" v-for="item in feedbackFirtLabelList" class="l firstLabelFocus" style="margin-right:10px;margin-bottom:10px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item">{{item.name}}{{item.num}}</el-radio-button>
+                                <el-radio-button :key="index" @change="handleClickRadio()" v-for="(item, index)  in feedbackFirtLabelList" class="l firstLabelFocus" style="margin-right:10px;margin-bottom:10px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item.name">{{item.name}}{{item.num}}</el-radio-button>
                             </el-radio-group>
                         </ul>
                         <ul v-show="this.showCheckbox" class="clear" style="padding:0px 25px;margin-top:0px;padding-bottom:10px">
@@ -87,7 +87,7 @@
                               margin-right: 23px;
                               margin-top: 4px;">全部<span>23</span></span>
                             <el-checkbox-group v-model="checkboxGroup" size="mini">
-                                <el-checkbox-button class="checkbox" v-for="item in feedbackSecondLabelList" :label="item">{{item.name}}{{item.num}}</el-checkbox-button>
+                                <el-checkbox-button class="checkbox" v-for="item in feedbackSecondLabelList" :label="item.name">{{item.name}}{{item.num}}</el-checkbox-button>
                             </el-checkbox-group>
                             <div class="kaiguan" style="text-align:left;font-size: 12px;
                                   margin-left:25px;
@@ -180,115 +180,115 @@ export default {
       radio: "",
       checkboxGroup: [],
       resetChecked:false,
-      showCheckbox:false,
+      showCheckbox:true,
       cities: [],
       activeName: 'first',
       tabList:[1,2,3,4],
       feedbackFirtLabelList: [
         {
-          name: "财务处理及分红",
+          name: "1财务处理及分红",
           num: "24"
         },
         {
-          name: "财务处理及分财务处红",
+          name: "2财务处理及分财务处红",
           num: "24"
         },
         {
-          name: "财及分红",
+          name: "3财及分红",
           num: "24"
         },
         {
-          name: "超额完成财务处理及分红",
+          name: "4超额完成财务处理及分红",
           num: "24"
         },
         {
-          name: "财务处理及",
+          name: "5财务处理及",
           num: "24"
         },
         {
-          name: "财务处理及红",
+          name: "6财务处理及红",
           num: "24"
         },
         {
-          name: "财务处理及vfd分红",
+          name: "7财务处理及vfd分红",
           num: "24"
         },
         {
-          name: "财及发分红",
+          name: "8财及发分红",
           num: "24"
         },
         {
-          name: "财务处理及",
+          name: "9财务处理及",
           num: "24"
         },
         {
-          name: "财务处理及分吃顿饭v额红",
+          name: "0财务处理及分吃顿饭v额红",
           num: "24"
         },
         {
-          name: "财务处理及分红",
+          name: "9财务处理及分红",
           num: "24"
         },
         {
-          name: "财务处理vce及分红",
+          name: "8财务处理vce及分红",
           num: "24"
         },
         {
-          name: "财务处理及分红",
+          name: "7财务处理及分红",
           num: "24"
         }
       ],
       feedbackSecondLabelList: [
         {
-          name: "财务处理及分红",
+          name: "1财务处理及分红",
           num: "24"
         },
         {
-          name: "财务处理及分财务处红",
+          name: "2财务处理及分财务处红",
           num: "24"
         },
         {
-          name: "财及分红",
+          name: "3财及分红",
           num: "24"
         },
         {
-          name: "超额完成财务处理及分红",
+          name: "4超额完成财务处理及分红",
           num: "24"
         },
         {
-          name: "财务处理及",
+          name: "5财务处理及",
           num: "24"
         },
         {
-          name: "财务处理及红",
+          name: "6财务处理及红",
           num: "24"
         },
         {
-          name: "财务处理及vfd分红",
+          name: "7财务处理及vfd分红",
           num: "24"
         },
         {
-          name: "财及发分红",
+          name: "8财及发分红",
           num: "24"
         },
         {
-          name: "财务处理及",
+          name: "9财务处理及",
           num: "24"
         },
         {
-          name: "财务处理及分吃顿饭v额红",
+          name: "9财务处理及分吃顿饭v额红",
           num: "24"
         },
         {
-          name: "财务处理及分红",
+          name: "8财务处理及分红",
           num: "24"
         },
         {
-          name: "财务处理vce及分红",
+          name: "7财务处理vce及分红",
           num: "24"
         },
         {
-          name: "财务处理及分红",
+          name: "6财务处理及分红",
           num: "24"
         }
       ],
@@ -297,8 +297,8 @@ export default {
   },
   methods: {
     // 点击单选按钮
-    handleClickRadio(ev){
-      console.log(ev)
+    handleClickRadio(){
+      debugger
     },
     // 点击重置按钮
     toggleSelection(){
@@ -312,8 +312,17 @@ export default {
     },
     spread() {
       this.flag = true;
+    },
+
+  },
+watch: {
+      "radio"(val,oldVal){
+          // debugger
+      },
+      "checkboxGroup"(val,oldVal){
+          // debugger
+      }
     }
-  }
 };
 </script>
 <style scoped lang="scss">
