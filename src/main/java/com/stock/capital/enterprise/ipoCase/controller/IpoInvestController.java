@@ -28,7 +28,7 @@ public class IpoInvestController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String")
     })
-    @RequestMapping(value = "/selectProcessList", method = RequestMethod.GET)
+    @RequestMapping(value = "/selectInvestItem", method = RequestMethod.GET)
     public JsonResponse<List<IpoInvestItemDto>> selectInvestItem(String id) {
         JsonResponse<List<IpoInvestItemDto>> response = new JsonResponse<>();
         List<IpoInvestItemDto> resultList = ipoInvestService.selectInvestItem(id);
