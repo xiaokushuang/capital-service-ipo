@@ -6,7 +6,6 @@ import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainIncomeInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
