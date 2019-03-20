@@ -8,8 +8,7 @@ import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainIncomeInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainIncomeVo;
 import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerVo;
+import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
 import com.stock.core.service.BaseService;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -73,34 +72,33 @@ public class CompanyOverviewService extends BaseService {
      * @param id 案例id
      * @return list
      */
-    public SupplierCustomerVo getSupCusData(String id) {
-        SupplierCustomerVo supplierCustomerVo = new SupplierCustomerVo();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    public Map<String, List<SupplierCustomerMainDto>> getSupCusData(String id) {
+        Map<String, List<SupplierCustomerMainDto>> result = new HashMap<>();
         //报告期前五名供应商情况
-        List<SupplierCustomerInfoDto> supplierInfoList =
+        List<SupplierCustomerMainDto> supplierList =
             ipoCaseBizMapper.getSupplierOrCustomerData(id, "1");
-        if (supplierInfoList != null && !supplierInfoList.isEmpty()) {
-            supplierCustomerVo.setSupplierInfoList(supplierInfoList);
-            int lastYearSupplier = getYearByDate(supplierInfoList.get(0).getReportPeriod());
-            supplierCustomerVo.setFirstYearForSupplier((lastYearSupplier - 3) + "-12-31");
-            supplierCustomerVo.setSecondYearForSupplier((lastYearSupplier - 2) + "-12-31");
-            supplierCustomerVo.setThirdYearForSupplier((lastYearSupplier - 1) + "-12-31");
-            supplierCustomerVo
-                .setOnePeriodForSupplier(sdf.format(supplierInfoList.get(0).getReportPeriod()));
+        if (supplierList != null && !supplierList.isEmpty()) {
+            for (SupplierCustomerMainDto supplierMainDto : supplierList) {
+                int lastYearSupplier = getYearByDate(supplierMainDto.getReportPeriod());
+                supplierMainDto.setFirstYearForSupplier((lastYearSupplier - 3) + "-12-31");
+                supplierMainDto.setSecondYearForSupplier((lastYearSupplier - 2) + "-12-31");
+                supplierMainDto.setThirdYearForSupplier((lastYearSupplier - 1) + "-12-31");
+            }
+            result.put("supplierMainList", supplierList);
         }
         //报告期前五名客户情况
-        List<SupplierCustomerInfoDto> customerInfoList =
+        List<SupplierCustomerMainDto> customerList =
             ipoCaseBizMapper.getSupplierOrCustomerData(id, "2");
-        if (customerInfoList != null && !customerInfoList.isEmpty()) {
-            supplierCustomerVo.setCustomerInfoList(customerInfoList);
-            int lastYearCustomer = getYearByDate(customerInfoList.get(0).getReportPeriod());
-            supplierCustomerVo.setFirstYearForCustomer((lastYearCustomer - 3) + "-12-31");
-            supplierCustomerVo.setSecondYearForCustomer((lastYearCustomer - 2) + "-12-31");
-            supplierCustomerVo.setThirdYearForCustomer((lastYearCustomer - 1) + "-12-31");
-            supplierCustomerVo
-                .setOnePeriodForCustomer(sdf.format(customerInfoList.get(0).getReportPeriod()));
+        if (customerList != null && !customerList.isEmpty()) {
+            for (SupplierCustomerMainDto customerMainDto : customerList) {
+                int lastYearCustomer = getYearByDate(customerMainDto.getReportPeriod());
+                customerMainDto.setFirstYearForCustomer((lastYearCustomer - 3) + "-12-31");
+                customerMainDto.setSecondYearForCustomer((lastYearCustomer - 2) + "-12-31");
+                customerMainDto.setThirdYearForCustomer((lastYearCustomer - 1) + "-12-31");
+            }
+            result.put("customerMainList", customerList);
         }
-        return supplierCustomerVo;
+        return result;
     }
 
     /**

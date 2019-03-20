@@ -6,7 +6,7 @@ import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainIncomeVo;
 import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerVo;
+import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.core.dto.JsonResponse;
 import io.swagger.annotations.Api;
@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Api(tags = {"IPO公司概览接口类"}, description = "IPO公司概览接口描述")
 @RestController
-@RequestMapping("api/companyOverview")
-public class IpoCaseOverviewApi {
+@RequestMapping("companyOverview")
+public class IpoCaseOverviewController {
 
     @Autowired
     private CompanyOverviewService companyOverviewService;
@@ -84,8 +84,9 @@ public class IpoCaseOverviewApi {
             dataType = "String")
     })
     @RequestMapping(value = "/supplierCustomerData", method = RequestMethod.GET)
-    public JsonResponse<SupplierCustomerVo> supplierCustomerData(@RequestParam("id") String id) {
-        JsonResponse<SupplierCustomerVo> response = new JsonResponse<>();
+    public JsonResponse<Map<String, List<SupplierCustomerMainDto>>> supplierCustomerData(
+        @RequestParam("id") String id) {
+        JsonResponse<Map<String, List<SupplierCustomerMainDto>>> response = new JsonResponse<>();
         response.setResult(companyOverviewService.getSupCusData(id));
         return response;
     }

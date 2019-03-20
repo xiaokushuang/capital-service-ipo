@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Api(tags = {"IPO发行情况接口类"}, description = "IPO发行情况接口描述")
 @RestController
-@RequestMapping("api/issue")
-public class IpoCaseIssueApi {
+@RequestMapping("issue")
+public class IpoCaseIssueController {
 
     @Autowired
     private IssueSituationService issueSituationService;

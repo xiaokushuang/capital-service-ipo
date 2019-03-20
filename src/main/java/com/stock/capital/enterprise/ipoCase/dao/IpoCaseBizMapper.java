@@ -7,6 +7,7 @@ import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainIncomeInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerInfoDto;
+import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,7 +21,7 @@ public interface IpoCaseBizMapper {
 
     List<MainCompetitorInfoDto> getIpoCompetitorData(String bid);
 
-    List<SupplierCustomerInfoDto> getSupplierOrCustomerData(
+    List<SupplierCustomerMainDto> getSupplierOrCustomerData(
         @Param("bid") String bid, @Param("mainType") String mainType);
 
     List<MainIncomeInfoDto> getIncomeData(String bid);

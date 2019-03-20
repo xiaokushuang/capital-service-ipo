@@ -19,26 +19,30 @@
     <result column="structure_url" property="structureUrl" jdbcType="VARCHAR"/>
   </resultMap>
 
-  <resultMap id="SupCusResultMap"
-             type="com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerInfoDto">
-    <id column="id" property="id" jdbcType="VARCHAR"/>
-    <result column="bid" property="bid" jdbcType="VARCHAR"/>
-    <result column="company_code" property="companyCode" jdbcType="VARCHAR"/>
-    <result column="company_name" property="companyName" jdbcType="VARCHAR"/>
-    <result column="first_year_content" property="firstYearContent" jdbcType="VARCHAR"/>
-    <result column="first_year_amount" property="firstYearAmount" jdbcType="DECIMAL"/>
-    <result column="first_year_ratio" property="firstYearRatio" jdbcType="DECIMAL"/>
-    <result column="second_year_content" property="secondYearContent" jdbcType="VARCHAR"/>
-    <result column="second_year_amount" property="secondYearAmount" jdbcType="DECIMAL"/>
-    <result column="second_year_ratio" property="secondYearRatio" jdbcType="DECIMAL"/>
-    <result column="third_year_content" property="thirdYearContent" jdbcType="VARCHAR"/>
-    <result column="third_year_amount" property="thirdYearAmount" jdbcType="DECIMAL"/>
-    <result column="third_year_ratio" property="thirdYearRatio" jdbcType="DECIMAL"/>
-    <result column="one_period_content" property="onePeriodContent" jdbcType="VARCHAR"/>
-    <result column="one_period_amount" property="onePeriodAmount" jdbcType="DECIMAL"/>
-    <result column="one_period_ratio" property="onePeriodRatio" jdbcType="DECIMAL"/>
-    <result column="report_period" property="reportPeriod" jdbcType="TIMESTAMP"/>
-    <result column="main_type" property="mainType" jdbcType="VARCHAR"/>
+  <resultMap id="SupCusResultMap" type="com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="bid" property="bid" jdbcType="VARCHAR" />
+    <result column="report_period" property="reportPeriod" jdbcType="TIMESTAMP" />
+    <result column="main_type" property="mainType" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <collection property="supplierCustomerInfoList" ofType="com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerInfoDto">
+      <id column="e_id" property="id" jdbcType="VARCHAR" />
+      <result column="e_bid" property="bid" jdbcType="VARCHAR" />
+      <result column="company_code" property="companyCode" jdbcType="VARCHAR" />
+      <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+      <result column="first_year_content" property="firstYearContent" jdbcType="VARCHAR" />
+      <result column="first_year_amount" property="firstYearAmount" jdbcType="DECIMAL" />
+      <result column="first_year_ratio" property="firstYearRatio" jdbcType="DECIMAL" />
+      <result column="second_year_content" property="secondYearContent" jdbcType="VARCHAR" />
+      <result column="second_year_amount" property="secondYearAmount" jdbcType="DECIMAL" />
+      <result column="second_year_ratio" property="secondYearRatio" jdbcType="DECIMAL" />
+      <result column="third_year_content" property="thirdYearContent" jdbcType="VARCHAR" />
+      <result column="third_year_amount" property="thirdYearAmount" jdbcType="DECIMAL" />
+      <result column="third_year_ratio" property="thirdYearRatio" jdbcType="DECIMAL" />
+      <result column="one_period_content" property="onePeriodContent" jdbcType="VARCHAR" />
+      <result column="one_period_amount" property="onePeriodAmount" jdbcType="DECIMAL" />
+      <result column="one_period_ratio" property="onePeriodRatio" jdbcType="DECIMAL" />
+    </collection>
   </resultMap>
 
   <select id="getIpoCaseDetail" parameterType="string" resultMap="BaseResultMap">
@@ -121,10 +125,12 @@
   </select>
 
   <select id="getSupplierOrCustomerData" resultMap="SupCusResultMap">
-    SELECT id, bid, company_code, company_name, first_year_content, first_year_amount, first_year_ratio,
-    second_year_content, second_year_amount, second_year_ratio, third_year_content, third_year_amount,
-    third_year_ratio, one_period_content, one_period_amount, one_period_ratio, report_period,
-    main_type FROM ipo_supplier_customer_info WHERE bid = #{bid} AND main_type = #{mainType}
+    SELECT iscm.id,iscm.bid,iscm.report_period,iscm.main_type,iscm.remark,isci.id e_id,isci.bid e_bid,isci.company_code, isci.company_name, isci.first_year_content, isci.first_year_amount, isci.first_year_ratio,
+    isci.second_year_content, isci.second_year_amount, isci.second_year_ratio, isci.third_year_content, isci.third_year_amount,
+    isci.third_year_ratio, isci.one_period_content, isci.one_period_amount, isci.one_period_ratio
+    FROM ipo_supplier_customer_main iscm
+    LEFT JOIN ipo_supplier_customer_info isci ON iscm.id = isci.bid
+    WHERE iscm.bid = #{bid} AND iscm.main_type = #{mainType}
   </select>
 
   <select id="getIncomeData" parameterType="string"

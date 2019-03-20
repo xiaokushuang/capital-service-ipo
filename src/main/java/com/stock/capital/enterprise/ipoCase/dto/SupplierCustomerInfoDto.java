@@ -1,17 +1,15 @@
 package com.stock.capital.enterprise.ipoCase.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * SupplierCustomerInfoDto.
  *
- * @author user.
+ * @author chenzhengxiu.
  * @version 0.0.1.
- * @serial 2019/2/1 : base version.
+ * @serial 2019/3/19 : base version.
  */
 public class SupplierCustomerInfoDto implements Serializable {
 
@@ -20,7 +18,7 @@ public class SupplierCustomerInfoDto implements Serializable {
     @ApiModelProperty("主键")
     private String id;
 
-    @ApiModelProperty("案例id")
+    @ApiModelProperty("主表id")
     private String bid;
 
     @ApiModelProperty("公司代码")
@@ -64,13 +62,6 @@ public class SupplierCustomerInfoDto implements Serializable {
 
     @ApiModelProperty("一期占比")
     private BigDecimal onePeriodRatio;
-
-    @ApiModelProperty("报告期终止时间")
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private Date reportPeriod;
-
-    @ApiModelProperty("主要类型")
-    private String mainType;//1:供应商 2:客户
 
     public String getId() {
         return id;
@@ -198,21 +189,5 @@ public class SupplierCustomerInfoDto implements Serializable {
 
     public void setOnePeriodRatio(BigDecimal onePeriodRatio) {
         this.onePeriodRatio = onePeriodRatio;
-    }
-
-    public Date getReportPeriod() {
-        return reportPeriod;
-    }
-
-    public void setReportPeriod(Date reportPeriod) {
-        this.reportPeriod = reportPeriod;
-    }
-
-    public String getMainType() {
-        return mainType;
-    }
-
-    public void setMainType(String mainType) {
-        this.mainType = mainType;
     }
 }
