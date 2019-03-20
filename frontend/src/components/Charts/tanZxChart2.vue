@@ -1,6 +1,6 @@
 <template>
     <div>
-         <div class="className" id="tanZxChart" style="height:300px;width:100%"></div>        
+         <div class="className" id="tanZxChart2" style="height:300px;width:100%"></div>        
     </div>
 </template>
 
@@ -8,9 +8,9 @@
 import echarts from 'echarts'
 // 引入点击放大镜弹出来的表头年限数据
 // import { getAssetsTableData } from '@/api/tableDemo'
-import { getAssetsOrDebtData } from '@/api/tableDemo'
+import { getSelectFinanceProfitList } from '@/api/tableDemo'
 export default {
-  name:'tanZxChart',
+    name:'tanZxChart2',
   data() {
     return {
         tableTitle:null,
@@ -28,8 +28,8 @@ export default {
   methods: {
     initChart() {
       // console.log(this.zxChartData)
-      let tanZxChart = echarts.init(document.getElementById('tanZxChart'))
-       tanZxChart.setOption({
+      let tanZxChart2 = echarts.init(document.getElementById('tanZxChart2'))
+       tanZxChart2.setOption({
            title: {
                 text: ''
             },
@@ -54,16 +54,16 @@ export default {
             series:this.zxChartY
       })
     },
-     // 初始化数据
+      // 初始化数据
     initTableData() {
           // 动态传id
       const param = {
         id:this.caseId
       }
-      getAssetsOrDebtData(param).then(response => {
+      getSelectFinanceProfitList(param).then(response => {
           // 获取表头数据
         this.tableTitle = response.data.result.dateList
-      //   console.log(this.tableTitle)
+        // console.log(this.tableTitle)
         this.zxChartX =[this.tableTitle.firstYearDate,this.tableTitle.secondYearDate,this.tableTitle.thirdYearDate,this.tableTitle.forthYearDate]
           this.zxChartY = [
                       {
@@ -82,7 +82,7 @@ export default {
     zxChartData: {  
 　　　　handler(newValue, oldValue) {  
         this.zxChartData = newValue
-// 　　　 　console.log(this.zxChartData)  
+　　　 　console.log(this.zxChartData)  
         //折线图数据的初始化 
         this.initTableData()
 　　　　},  

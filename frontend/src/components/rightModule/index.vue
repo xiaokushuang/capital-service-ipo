@@ -9,8 +9,10 @@
                          
                         <div class="jincheng">
                             <img src="../../assets/images/jinchengjian.png" alt="">
-                            <p v-if="boxDataItem.treeTypeCode == '01'">上市</p>
-                            <p v-if="boxDataItem.treeTypeCode == '02'">审核</p>
+                            <p v-if="boxDataItem.treeTypeCode == '02'">上市</p>
+                            <p v-if="boxDataItem.treeTypeCode == '01'">审核</p>
+                            <p v-if="boxDataItem.treeTypeCode == '03'">辅导工作进程</p>
+                            <p v-if="boxDataItem.treeTypeCode == '04'">股份公司设立</p>
                         </div>
                          <div v-for="(item,index) in boxDataItem.proList" v-show=" !boxDataItem.sandian || index == 0 || index == boxDataItem.proList.length-1  || isSpread"  :key="item.sort" @click="handleSpreadBody(boxDataItem)">
                              <div class="right" >
@@ -115,7 +117,7 @@
                                         <span>  
                                             <span>
                                                 <!-- 第一个进程展示的是‘查看公告’ -->
-                                                <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.sandian" v-show="item.relaList.length>0" @click.stop="showAndHide(boxDataItem,'each' + item.sort+ item.progressType,item, null)" href="#" class="moreNoticeCss">查看公告</div>
+                                                <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click.stop="showAndHide(boxDataItem,'each' + item.sort+ item.progressType,item, null)" href="#" class="moreNoticeCss">查看公告</div>
                                                 <!-- 第二个进程展示的是‘查看审核意见’ -->
                                                 <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click.stop="showAndHide(boxDataItem,'each' + item.sort+ item.progressType,item, null)" href="#" class="moreNoticeCss">查看审核意见</div>
                                             </span>
@@ -195,7 +197,8 @@ export default {
             sortFlag: '0',
             indexShowHidden: false,
             thisIndex: '',
-            sortType: '01'
+            sortType: '01',
+            caseId:this.$store.state.caseId,
         };
     },
     name: "rightModule",
@@ -219,7 +222,11 @@ export default {
     methods: {
      // 初始化数据
       initTableData() {
-        getRightModuleData().then(res => {
+        // 动态传id
+        const param = {
+          id:this.caseId
+        }
+        getRightModuleData(param).then(res => {
             this.treeList = res.data.result.treeList
             this.treeTypeCode = res.data.result.treeList[0].treeTypeCode
             this.boxData = res.data.result.treeList[0].proList

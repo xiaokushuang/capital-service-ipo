@@ -198,8 +198,8 @@ export default{
               "sandian":false,
               // 三个点控制展开
               "spreadFlag":true,
-              "treeTypeCode": "02",
               "isSpread":true,
+              "treeTypeCode": "02",
               "proList": [
                 {
                   "sort":"1",

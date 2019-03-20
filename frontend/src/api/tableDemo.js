@@ -88,7 +88,7 @@ import request from '@/utils/request'
 // 主营业务收入构成【柱状图饼图】
 export function getTableData(query) {
   return request({
-    url: '/ipo/api/companyOverview/incomeData?id=97952444248599344',
+    url: '/ipo/api/companyOverview/incomeData',
     method: 'get',
     params: query
   })
@@ -127,7 +127,7 @@ export function getIssueFeeData(query) {
 // 财务总体情况接口
 export function getSelectFinanceOverList(query) {
   return request({
-    url: '/ipo/api/ipoFinance/selectFinanceOverList?97952444248599350',
+    url: '/ipo/api/ipoFinance/selectFinanceOverList',
     method: 'get',
     params: query
   })
@@ -150,13 +150,13 @@ export function getSelectFinanceProfitList(query) {
 }
 
 // 毛利率接口
-// export function getMaoChartTableData(query) {
-//   return request({
-//     url: '/ipo/api/issue/industryRateData',
-//     method: 'get',
-//     params: query
-//   })
-// }
+export function getMaoChartTableData(query) {
+  return request({
+    url: '/ipo/api/issue/industryRateData',
+    method: 'get',
+    params: query
+  })
+}
 
 
 

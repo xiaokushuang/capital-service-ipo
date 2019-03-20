@@ -66,7 +66,7 @@ export default {
     this.initTableData()
   },
   mounted(){
-    console.log('aaaa')
+    // console.log('aaaa')
   },
   methods: {
     initTableData() {

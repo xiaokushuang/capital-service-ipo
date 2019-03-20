@@ -20,7 +20,7 @@
             <span style="color:#333333">{{this.registeredAssets}}万元</span>
           </li>
           <li>
-            <span>证券简称</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span>公司简称</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <span style="color:#333333">{{this.companyName}}</span>
           </li>
           <li>
@@ -282,12 +282,11 @@ export default {
       structureLabel: [],
       structureUrl:'',
       // 公司简介
-      // caseId: '97952444248599344',//案例id
       caseId:this.$store.state.caseId,
       companyZhName:'',//公司名称
       ipoPlate:'',//上市板块
       industryCsrc:'',//所属行业(证监会) ,
-      companyName:'',//证券简称
+      companyName:'',//公司简称
       zhengquanCode:'',//证券代码 
       addrProv:'',//注册地（省）
       addrCity:'',//注册地（市） 

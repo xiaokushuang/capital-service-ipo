@@ -151,7 +151,7 @@
     </el-table>
     <!-- 点击放大镜弹出的折线图 -->
     <el-dialog :title="this.zxChartData?'公司最近三年'  +this.zxChartData.itemName+'_趋势':''" :visible.sync="dialogChartVisible">
-       <tanZxChart :zxChartData = "this.zxChartData"></tanZxChart>
+       <tanZxChart2 :zxChartData = "this.zxChartData"></tanZxChart2>
     </el-dialog>
 
   </div>
@@ -161,14 +161,15 @@
 // 引入点击放大镜弹出来的表头年限数据
 import { getSelectFinanceProfitList } from '@/api/tableDemo'
 import echarts from 'echarts'
-import tanZxChart  from '@/components/Charts/tanZxChart'
+import tanZxChart2  from '@/components/Charts/tanZxChart2'
   export default {
     name:"incomeTable",
     data() {
     return {
-        id:'97952444248599350',
+        // id:'97952444248599350',
+        caseId:this.$store.state.caseId,
       // 弹窗
-        tanZxChart:null,
+        tanZxChart2:null,
         tableTitle: null,
         // ipoAssetItemList:[],//资产类项目列表
         // ipoDebtItemList:[],//负债类项目列表
@@ -183,7 +184,7 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
     }
   },
     components:{
-      tanZxChart
+      tanZxChart2
     },
     created(){
       this.initTableData()
@@ -202,10 +203,10 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
       initTableData() {
           // 动态传id
         const param = {
-          id:this.id
+          id:this.caseId
         }
         getSelectFinanceProfitList(param).then(res => {
-          console.log(res.data.result)
+          // console.log(res.data.result)
           this.tableTitle = res.data.result.dateList
           this.ipoProfitItemList = res.data.result.ipoProfitItemList//收益类项目列表
           this.ipoCostItemList = res.data.result.ipoCostItemList//成本类项目列表

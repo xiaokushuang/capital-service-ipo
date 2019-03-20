@@ -26,7 +26,7 @@
     },
     beforeCreate() {
       if(this.$route.query!="undefined"){
-            this.$store.commit('SET_TOKEN',{token:this.$route.query['access_token'],info:this.$route.query['tenant_info'],caseId:this.$route.query['caseId']})
+            this.$store.commit('SET_TOKEN',{token:this.$route.query['access_token'],info:this.$route.query['tenant_info'],caseId:this.$route.query['caseId'],orgCode:this.$route.query['orgCode']})
       }
     },
     created(){

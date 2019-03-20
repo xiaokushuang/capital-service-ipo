@@ -174,7 +174,8 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
       // 控制弹窗是否展示
         dialogChartVisible: false,
         zxChartData:null,
-        id:'97952444248599350',
+        // id:'97952444248599350',
+        caseId:this.$store.state.caseId,
     }
   },
     components:{
@@ -197,7 +198,7 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
       initTableData() {
             // 动态传id
         const param = {
-          id:this.id
+          id:this.caseId
         }
         getAssetsOrDebtData(param).then(res => {
           console.log(res.data.result)
