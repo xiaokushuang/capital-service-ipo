@@ -29,6 +29,9 @@ public class IpoProListDto implements Serializable {
     @ApiModelProperty("距离上次进程时间")
     private String lastDay;
 
+    @ApiModelProperty("是否展示公告")
+    private boolean flag;
+
     @ApiModelProperty("文件列表")
     private List<IpoFileRelationDto> relaList;
 
@@ -86,6 +89,14 @@ public class IpoProListDto implements Serializable {
 
     public void setProSort(Integer proSort) {
         this.proSort = proSort;
+    }
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
     }
 }
 

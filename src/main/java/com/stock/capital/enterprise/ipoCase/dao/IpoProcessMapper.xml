@@ -10,7 +10,7 @@
                 <result column="process_type_code" property="progressType" jdbcType="VARCHAR"/>
                 <result column="label_name" property="progressName" jdbcType="VARCHAR"/>
                 <result column="iec_result" property="iecResult" jdbcType="VARCHAR"/>
-                <result column="process_time" property="processTime" jdbcType="VARCHAR"/>
+                <!--<result column="process_time" property="processTime" jdbcType="VARCHAR"/>-->
                 <result column="pro_sort" property="proSort" jdbcType="VARCHAR"/>
                 <collection property="relaList"
                             ofType="com.stock.capital.enterprise.ipoCase.dto.IpoFileRelationDto">

@@ -1,12 +1,14 @@
 package com.stock.capital.enterprise.ipoCase.service;
 
 import com.stock.capital.enterprise.ipoCase.dao.IpoProcessMapper;
+import com.stock.capital.enterprise.ipoCase.dto.IpoFileRelationDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoProListDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoProgressDto;
 import com.stock.capital.enterprise.ipoCase.dto.TreeTypeProgressDto;
 import com.stock.core.service.BaseService;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,38 +26,66 @@ public class IpoProcessService extends BaseService {
     @Autowired
     private IpoProcessMapper ipoProcessMapper;
 
-    public TreeTypeProgressDto selectProcessList(String id,String sortType) {
+    public TreeTypeProgressDto selectProcessList(String id, String sortType) {
         TreeTypeProgressDto resultDto = ipoProcessMapper.selectProcessList(id);
-        List<IpoProgressDto> treeList = resultDto == null?new ArrayList<>():resultDto.getTreeList();
+        List<IpoProgressDto> treeList = resultDto == null ? new ArrayList<>() : resultDto.getTreeList();
         //循环计算距离上一个进程时间
         for (int i = 0; i < treeList.size(); i++) {
-            List<IpoProListDto> proList = treeList.get(i)==null?new ArrayList<>():treeList.get(i).getProList();
+            treeList.get(i).setSpread(false);
+            treeList.get(i).setSpreadFlag(false);
+            List<IpoProListDto> proList = treeList.get(i) == null ? new ArrayList<>() : treeList.get(i).getProList();
             for (int j = 0; j < proList.size(); j++) {
+                //每个进程只有第一个节点储存了时间，补全进程时间
+                List<IpoFileRelationDto> fileList = proList.get(j).getRelaList();
+                if(CollectionUtils.isNotEmpty(fileList)){
+                    proList.get(j).setProcessTime(fileList.get(0).getPublishTime());
+                    for (int k = 1; k < fileList.size(); k++) {
+                        fileList.get(k).setPublishTime(fileList.get(0).getPublishTime());
+                    }
+                }
+
+                proList.get(j).setFlag(false);
                 //如果不是发审会公告，即不是第一个树，则计算该树的第一个与上一个树的最后一个进程相差时间
                 if (i != 0 && j == 0) {
                     String sdate = treeList.get(i).getProList().get(0).getProcessTime();
                     String edate = treeList.get(i - 1).getProList().
                             get(treeList.get(i - 1).getProList().size() - 1).getProcessTime();
-                    String outLastDay = getLastDays(sdate,edate);
+                    String outLastDay = "0";
+                    if(StringUtils.isNotEmpty(sdate) && StringUtils.isNotEmpty(edate)){
+                        outLastDay = getLastDays(sdate, edate);
+                    }
                     treeList.get(i).getProList().get(0).setLastDay(outLastDay);
                 }
-                if(j>0) {
-                    String lastDay = getLastDays(proList.get(j).getProcessTime(), proList.get(j - 1).getProcessTime());
+                if (j > 0) {
+                    String lastDay = "0";
+                    String sdate = proList.get(j).getProcessTime();
+                    String edate = proList.get(j - 1).getProcessTime();
+                    if(StringUtils.isNotEmpty(sdate) && StringUtils.isNotEmpty(edate)){
+                        lastDay = getLastDays(sdate,edate);
+                    }
                     proList.get(j).setLastDay(lastDay);
                 }
             }
         }
         //默认为正序，如果要求倒序序排序，则在计算完距离上个进程天数后，重新排序
-        if("02".equals(sortType) && CollectionUtils.isNotEmpty(treeList)){
-            treeList.sort((IpoProgressDto d1,IpoProgressDto d2) -> d2.getTreeTypeCode().compareTo(d1.getTreeTypeCode()));
-            for(IpoProgressDto dto:treeList){
-                if(CollectionUtils.isNotEmpty(dto.getProList())){
-                    dto.getProList().sort((IpoProListDto c1,IpoProListDto c2) -> c2.getProSort().compareTo(c1.getProSort()));
+        if ("02".equals(sortType) && CollectionUtils.isNotEmpty(treeList)) {
+            treeList.sort((IpoProgressDto d1, IpoProgressDto d2) -> d2.getTreeTypeCode().compareTo(d1.getTreeTypeCode()));
+            for (IpoProgressDto dto : treeList) {
+                if (CollectionUtils.isNotEmpty(dto.getProList())) {
+                    dto.getProList().sort((IpoProListDto c1, IpoProListDto c2) -> c2.getProSort().compareTo(c1.getProSort()));
                 }
+            }
+        }
+        for (int i = 0; i < treeList.size(); i++) {
+            if (i == 0) {
+                treeList.get(i).setSandian(true);
+            } else {
+                treeList.get(i).setSandian(false);
             }
         }
         return resultDto;
     }
+
 
     /**
      * 计算两个日期相差天数
@@ -73,5 +103,4 @@ public class IpoProcessService extends BaseService {
         }
         return String.valueOf(lastDays);
     }
-
 }

@@ -15,6 +15,13 @@ public class IpoProgressDto implements Serializable {
     private String treeTypeCode;
     @ApiModelProperty("进程列表")
     private List<IpoProListDto> proList;
+    @ApiModelProperty("是否是第一个进程树")
+    private boolean sandian;
+    @ApiModelProperty("是否展开")
+    private boolean spreadFlag;
+    @ApiModelProperty("是否展开")
+    private boolean spread;
+
 
     public String getTreeTypeCode() {
         return treeTypeCode;
@@ -30,5 +37,29 @@ public class IpoProgressDto implements Serializable {
 
     public void setProList(List<IpoProListDto> proList) {
         this.proList = proList;
+    }
+
+    public boolean isSandian() {
+        return sandian;
+    }
+
+    public void setSandian(boolean sandian) {
+        this.sandian = sandian;
+    }
+
+    public boolean isSpreadFlag() {
+        return spreadFlag;
+    }
+
+    public void setSpreadFlag(boolean spreadFlag) {
+        this.spreadFlag = spreadFlag;
+    }
+
+    public boolean isSpread() {
+        return spread;
+    }
+
+    public void setSpread(boolean spread) {
+        this.spread = spread;
     }
 }
