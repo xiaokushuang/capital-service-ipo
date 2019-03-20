@@ -194,7 +194,7 @@ import tanZxChart2  from '@/components/Charts/tanZxChart2'
       // this.zxChartData = null
     },
     mounted() {
-
+      console.log('利润')
     },
     updated(){
     },
@@ -206,7 +206,7 @@ import tanZxChart2  from '@/components/Charts/tanZxChart2'
           id:this.caseId
         }
         getSelectFinanceProfitList(param).then(res => {
-          // console.log(res.data.result)
+          console.log(res.data.result)
           this.tableTitle = res.data.result.dateList
           this.ipoProfitItemList = res.data.result.ipoProfitItemList//收益类项目列表
           this.ipoCostItemList = res.data.result.ipoCostItemList//成本类项目列表

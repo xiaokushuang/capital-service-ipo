@@ -45,7 +45,7 @@ import request from '@/utils/request'
 // IPO公司概览返回类
 export function getCaseDetail(query) {
   return request({
-    url:'/ipo/api/companyOverview/caseDetail',
+    url:'/ipo/companyOverview/caseDetail',
     method: 'get',
     params: query
   })
@@ -53,7 +53,7 @@ export function getCaseDetail(query) {
 // 资本市场接口描述
 export function getMarketData(query) {
   return request({
-    url: '/ipo/api/companyOverview/marketData',
+    url: '/ipo/companyOverview/marketData',
     method: 'get',
     params: query
   })
@@ -61,7 +61,7 @@ export function getMarketData(query) {
 // 股东信息接口描述
 export function getShareHolderData(query) {
   return request({
-    url:'/ipo/api/companyOverview/shareHolderData',
+    url:'/ipo/companyOverview/shareHolderData',
     method: 'get',
     params: query
   })
@@ -69,7 +69,7 @@ export function getShareHolderData(query) {
 // 主要竞争对手接口描述
 export function getCompetitorData(query) {
   return request({
-    url: '/ipo/api/companyOverview/competitorData',
+    url: '/ipo/companyOverview/competitorData',
     method: 'get',
     params: query
   })
@@ -78,7 +78,7 @@ export function getCompetitorData(query) {
 // 中介机构接口
 export function getIntermediaryOrgDataList(query) {
   return request({
-    url: '/ipo/api/companyOverview/intermediaryOrgData',
+    url: '/ipo/companyOverview/intermediaryOrgData',
     method: 'get',
     params: query
   })
@@ -86,7 +86,7 @@ export function getIntermediaryOrgDataList(query) {
 // 募集资金接口
 export function getRaiseMoneyTableList(query) {
   return request({
-    url: '/ipo/api/ipoInvest/selectProcessList',
+    url: '/ipo/ipoInvest/selectInvestItem',
     method: 'get',
     params: query
   })

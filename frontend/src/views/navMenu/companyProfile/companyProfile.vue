@@ -63,7 +63,7 @@
         </div>
       
       </div>
-      <div class="others" v-show="isLogin">
+      <div class="others" v-if="this.otherMarketInfoList&&this.otherMarketInfoList.length>0">
         <p style="color:black">登录其他资本市场</p>
         <ul v-for="item in otherMarketInfoList">
           <li>
@@ -168,11 +168,168 @@
       </div>
       <div class="theTopFiveSupplier">
         <p>报告期前五名供应商情况</p>
-        <fifthGysTable></fifthGysTable>
+        <div v-for="item in supplierMainList" :key="item.id" >
+            <p style="font-size:14px;color:#666">{{item.remark}}：</p>
+             <el-table :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px" show-summary>
+              <el-table-column fixed align="center" class-name="table_cell" label="排名" width="50">
+                <template slot-scope="scope">
+                  {{scope.$index+1}}
+                  </template>
+              </el-table-column>
+              <el-table-column fixed prop="companyName" align="center" class-name="table_cell" label="公司" width="150"></el-table-column>
+              <el-table-column :label="item.reportPeriod" header-align="center">
+                <el-table-column align="right"  class-name="table_cell" label="采购内容" width="117">
+                  <template slot-scope="scope">
+                    <span>{{isNotEmpty(scope.row.onePeriodContent) ? scope.row.onePeriodContent : '- -'}}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column align="right"  class-name="table_cell" label="金额(万元)" width="117">
+                  <template slot-scope="scope">
+                    <span>{{isNotEmpty(scope.row.onePeriodAmount) ? scope.row.onePeriodAmount : '- -'}}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column align="right"  class-name="table_cell" label="占比" width="117">
+                  <template slot-scope="scope">
+                    <span>{{isNotEmpty(scope.row.onePeriodRatio) ? scope.row.onePeriodRatio : '- -'}}</span>
+                  </template>
+                </el-table-column>
+              </el-table-column>
+              <el-table-column :label="item.thirdYearForSupplier" header-align="center">
+                <el-table-column align="right"  class-name="table_cell" label="采购内容" width="117">
+                  <template slot-scope="scope">
+                    <span>{{isNotEmpty(scope.row.thirdYearContent) ? scope.row.thirdYearContent : '- -'}}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column align="right"  class-name="table_cell" label="金额(万元)" width="117">
+                  <template slot-scope="scope">
+                    <span>{{isNotEmpty(scope.row.thirdYearAmount) ? scope.row.thirdYearAmount : '- -'}}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column align="right"  class-name="table_cell" label="占比" width="117">
+                  <template slot-scope="scope">
+                    <span>{{isNotEmpty(scope.row.thirdYearRatio ) ? scope.row.thirdYearRatio  : '- -'}}</span>
+                  </template>
+                </el-table-column>
+              </el-table-column>
+              <el-table-column :label="item.secondYearForSupplier" header-align="center">
+                <el-table-column align="right"  class-name="table_cell" label="采购内容" width="117">
+                  <template slot-scope="scope">
+                    <span>{{isNotEmpty(scope.row.secondYearContent ) ? scope.row.secondYearContent  : '- -'}}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column align="right"  class-name="table_cell" label="金额(万元)" width="117">
+                  <template slot-scope="scope">
+                    <span>{{isNotEmpty(scope.row.secondYearAmount) ? scope.row.secondYearAmount : '- -'}}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column align="right"  class-name="table_cell" label="占比" width="117">
+                  <template slot-scope="scope">
+                    <span>{{isNotEmpty(scope.row.secondYearRatio) ? scope.row.secondYearRatio : '- -'}}</span>
+                  </template>
+                </el-table-column>
+              </el-table-column>
+              <el-table-column :label="item.firstYearForSupplier" header-align="center">
+                <el-table-column align="right"  class-name="table_cell" label="采购内容" width="117">
+                  <template slot-scope="scope">
+                    <span>{{isNotEmpty(scope.row.firstYearContent ) ? scope.row.firstYearContent  : '- -'}}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column align="right"  class-name="table_cell" label="金额(万元)" width="117">
+                  <template slot-scope="scope">
+                    <span>{{isNotEmpty(scope.row.firstYearAmount) ? scope.row.firstYearAmount : '- -'}}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column align="right"  class-name="table_cell" label="占比" width="117">
+                  <template slot-scope="scope">
+                    <span>{{isNotEmpty(scope.row.firstYearRatio) ? scope.row.firstYearRatio : '- -'}}</span>
+                  </template>
+                </el-table-column>
+              </el-table-column>
+             </el-table>
+        </div>
       </div>
        <div class="theTopFiveKh">
         <p>报告期前五名客户情况</p>
-        <fifthKhTable></fifthKhTable>
+          <div v-for="item in customerMainList" :key="item.id" >
+              <p style="font-size:14px;color:#666">{{item.remark}}：</p>
+              <el-table :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px" show-summary>
+                <el-table-column fixed align="center" class-name="table_cell" label="排名" width="50">
+                  <template slot-scope="scope">
+                    {{scope.$index+1}}
+                    </template>
+                </el-table-column>
+                <el-table-column fixed prop="companyName" align="center" class-name="table_cell" label="公司" width="150"></el-table-column>
+                <el-table-column :label="item.reportPeriod" header-align="center">
+                  <el-table-column align="right"  class-name="table_cell" label="采购内容" width="117">
+                    <template slot-scope="scope">
+                      <span>{{isNotEmpty(scope.row.onePeriodContent) ? scope.row.onePeriodContent : '- -'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column align="right"  class-name="table_cell" label="金额(万元)" width="117">
+                    <template slot-scope="scope">
+                      <span>{{isNotEmpty(scope.row.onePeriodAmount) ? scope.row.onePeriodAmount : '- -'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column align="right"  class-name="table_cell" label="占比" width="117">
+                    <template slot-scope="scope">
+                      <span>{{isNotEmpty(scope.row.onePeriodRatio) ? scope.row.onePeriodRatio : '- -'}}</span>
+                    </template>
+                  </el-table-column>
+                </el-table-column>
+                <el-table-column :label="item.thirdYearForSupplier" header-align="center">
+                  <el-table-column align="right"  class-name="table_cell" label="采购内容" width="117">
+                    <template slot-scope="scope">
+                      <span>{{isNotEmpty(scope.row.thirdYearContent) ? scope.row.thirdYearContent : '- -'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column align="right"  class-name="table_cell" label="金额(万元)" width="117">
+                    <template slot-scope="scope">
+                      <span>{{isNotEmpty(scope.row.thirdYearAmount) ? scope.row.thirdYearAmount : '- -'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column align="right"  class-name="table_cell" label="占比" width="117">
+                    <template slot-scope="scope">
+                      <span>{{isNotEmpty(scope.row.thirdYearRatio ) ? scope.row.thirdYearRatio  : '- -'}}</span>
+                    </template>
+                  </el-table-column>
+                </el-table-column>
+                <el-table-column :label="item.secondYearForSupplier" header-align="center">
+                  <el-table-column align="right"  class-name="table_cell" label="采购内容" width="117">
+                    <template slot-scope="scope">
+                      <span>{{isNotEmpty(scope.row.secondYearContent ) ? scope.row.secondYearContent  : '- -'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column align="right"  class-name="table_cell" label="金额(万元)" width="117">
+                    <template slot-scope="scope">
+                      <span>{{isNotEmpty(scope.row.secondYearAmount) ? scope.row.secondYearAmount : '- -'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column align="right"  class-name="table_cell" label="占比" width="117">
+                    <template slot-scope="scope">
+                      <span>{{isNotEmpty(scope.row.secondYearRatio) ? scope.row.secondYearRatio : '- -'}}</span>
+                    </template>
+                  </el-table-column>
+                </el-table-column>
+                <el-table-column :label="item.firstYearForSupplier" header-align="center">
+                  <el-table-column align="right"  class-name="table_cell" label="采购内容" width="117">
+                    <template slot-scope="scope">
+                      <span>{{isNotEmpty(scope.row.firstYearContent ) ? scope.row.firstYearContent  : '- -'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column align="right"  class-name="table_cell" label="金额(万元)" width="117">
+                    <template slot-scope="scope">
+                      <span>{{isNotEmpty(scope.row.firstYearAmount) ? scope.row.firstYearAmount : '- -'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column align="right"  class-name="table_cell" label="占比" width="117">
+                    <template slot-scope="scope">
+                      <span>{{isNotEmpty(scope.row.firstYearRatio) ? scope.row.firstYearRatio : '- -'}}</span>
+                    </template>
+                  </el-table-column>
+                </el-table-column>
+             </el-table>
+             <!-- <fifthKhTable></fifthKhTable> -->
+          </div>
       </div>
     </div>
     <!-- 募集资金运用 -->
@@ -252,6 +409,7 @@ import { getMarketData } from "@/api/companyProfile";
 import { getShareHolderData } from "@/api/companyProfile";
 import { getCompetitorData } from "@/api/companyProfile";
 import { getRaiseMoneyTableList } from "@/api/companyProfile";
+import { getSupplierCustomerData } from '@/api/tableDemo'
 // 导入主营业务收入构成表格
 import mainTable from "@/views/tables/mainTable";
 import fifthGysTable from "@/views/tables/fifthGysTable";
@@ -300,6 +458,10 @@ export default {
       otherMarketInfoList:[],//其他登陆市场
       // 主要竞争者
       MajorCompetitors: [],
+      // 前五名供应商数据
+      supplierMainList:[],
+      // 前五名客户
+      customerMainList:[],
     };
   },
   created() {
@@ -337,20 +499,31 @@ export default {
         
       });
       getMarketData(param).then(res=>{
+          // console.log(res)
           this.otherMarketInfoList = res.data.result//其他登录市场
+          console.log(this.otherMarketInfoList)
       });
       getShareHolderData(param).then(res=>{
         // console.log(res.data.result)
         this.gqTableList = res.data.result
-      })
+      });
       getCompetitorData(param).then(res=>{
-        console.log(res.data.result)
+        // console.log(res.data.result)
         this.MajorCompetitors = res.data.result
-      })
+      });
       getRaiseMoneyTableList(param).then(res=>{
         this.raiseMoneyTableList = res.data.result
+        console.log(this.raiseMoneyTableList)
+      });
+      // 供应商
+      getSupplierCustomerData(param).then(response => {
+        console.log(response.data.result)
+        this.supplierMainList = response.data.result.supplierMainList
+        this.customerMainList = response.data.result.customerMainList
+        console.log(this.supplierMainList)
+        console.log(this.customerMainList)
       })
-         
+      
     },
     //返回父组件用于锚点定位头
     getPosition() {
@@ -402,6 +575,15 @@ export default {
           titleList.push(utilizationOfRaisedFunds)
           titleList.push(intermediaryInstitutions)
           this.$emit('headCallBack', titleList);
+    },
+      // 非空判断
+    isNotEmpty(param) {
+      // debugger
+      if (param != null && param !== undefined && param !== '' && param !== 'null' && param !== 'undefined') {
+        return true
+      } else {
+        return false
+      }
     },
     // 鼠标移入主营业务加title
     mouseOverMajorBusinesses(){

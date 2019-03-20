@@ -159,7 +159,6 @@ export default {
           issueData:[],
           // id:'97952444248599344'
           caseId:this.$store.state.caseId,
-          orgCode:this.$store.state.orgCode,
       }
   },
    created() {
@@ -172,12 +171,8 @@ export default {
       const param = {
         id:this.caseId
       }
-      const query = {
-        orgCode:this.orgCode
-      }
-       getIssueData(query).then(res => {
+       getIssueData(param).then(res => {
          this.issueData = res.data.result
-          // console.log(this.issueData)
       }) 
       getIssueFeeData(param).then(res=>{
         // console.log(res)

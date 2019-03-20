@@ -127,8 +127,10 @@
                                 <span style="text-align: center;color: #14bcf5;padding-left: 4px;">|</span>
                             </el-col>
                             <el-col :span="4">
-                                <span class="mmpClass" v-if="flag =='1'" @click="sortTime('asc')">排序 ↓</span>
-                                <span class="mmpClass" v-else @click="sortTime('desc')">排序 ↑</span>
+                                <!-- <span class="mmpClass" v-if="flag =='1'" @click="sortTime('asc')">排序 ↓</span>
+                                <span class="mmpClass" v-else @click="sortTime('desc')">排序 ↑</span> -->
+                                <span class="mmpClass" v-if="flag =='1'" @click="sortTime('02')">排序 ↓</span>
+                                <span class="mmpClass" v-else @click="sortTime('01')">排序 ↑</span>
                             </el-col>
                         </span>
                      </el-row>
@@ -284,21 +286,25 @@ export default {
       this.expandAllflag = flag;
       this.$refs.rightModule.expandAlltoC(flag);
     },
-    sortTime(sort) {
-      if (sort == "asc") {
+    // sortTime(sort) {
+    //   if (sort == "asc") {
+    //     this.flag = "0";
+    //   } else {
+    //     this.flag = "1";
+    //   }
+    // this.$refs.rightModule.sortTime("publishTime", sort);
+
+
+    sortTime(sortType) {
+      if(sortType == '02'){
         this.flag = "0";
-      } else {
+        sortType = '01';
+      }else {
         this.flag = "1";
+        sortType = '02';
       }
-      //时间排序
-      // if(sortType === '02'){
-      //   sortType = '01';
-      // }else {
-      //   sortType = '02';
-      // }
-      // this.$refs.rightModule.initTableData("id",sortType);
+      this.$refs.rightModule.initTableData(this.caseId,sortType);
       
-      this.$refs.rightModule.sortTime("publishTime", sort);
     },
     handleClick() {
       if (this.activeName == "fourth") {
@@ -342,7 +348,7 @@ export default {
                         targetList = document.getElementById('title-second').children;
                         let secondFlag = 0;
                         that.showComponent = financialInformation
-                        that.$refs.finance.creatEchart()
+                        // that.$refs.finance.creatEchart()
                         // alert("111")
                         for (let i = 0; i< targetList.length; i ++) {
                           if ((that.itemActiveSecond + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {

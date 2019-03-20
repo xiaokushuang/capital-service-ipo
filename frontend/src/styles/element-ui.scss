@@ -389,3 +389,10 @@
   padding:8px;
   border-radius: 3px !important;
 }
+// 财务信息其他公司和平均值没有数据时，不显示，‘暂无数据’
+.otherCompany .el-table__empty-block{
+  display: none;
+}
+.average .el-table__empty-block{
+  display: none;
+}

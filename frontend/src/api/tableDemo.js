@@ -88,27 +88,27 @@ import request from '@/utils/request'
 // 主营业务收入构成【柱状图饼图】
 export function getTableData(query) {
   return request({
-    url: '/ipo/api/companyOverview/incomeData',
+    url: '/ipo/companyOverview/incomeData',
     method: 'get',
     params: query
   })
 }
 
 // 报告期主要供应商及客户接口描述
-// export function getSupplierCustomerData(query) {
-//   return request({
-//     url: '/ipo/api/companyOverview/supplierCustomerData',
-//     method: 'get',
-//     params: query
-//   })
-// }
+export function getSupplierCustomerData(query) {
+  return request({
+    url: '/ipo/companyOverview/supplierCustomerData',
+    method: 'get',
+    params: query
+  })
+}
 
 // 发行情况
 
 // 发行数据
 export function getIssueData(query) {
   return request({
-    url: '/ipo/api/issue/issueData',
+    url: '/ipo/issue/issueData',
     method: 'get',
     params: query
   })
@@ -117,7 +117,7 @@ export function getIssueData(query) {
 // 发行费用
 export function getIssueFeeData(query) {
   return request({
-    url: '/ipo/api/issue/issueFeeData',
+    url: '/ipo/issue/issueFeeData',
     method: 'get',
     params: query
   })
@@ -127,7 +127,7 @@ export function getIssueFeeData(query) {
 // 财务总体情况接口
 export function getSelectFinanceOverList(query) {
   return request({
-    url: '/ipo/api/ipoFinance/selectFinanceOverList',
+    url: '/ipo/ipoFinance/selectFinanceOverList',
     method: 'get',
     params: query
   })
@@ -135,7 +135,7 @@ export function getSelectFinanceOverList(query) {
 // 资产与负债情况财务信息接口 
 export function getAssetsOrDebtData(query) {
   return request({
-    url: '/ipo/api/ipoFinance/selectFinanceList',
+    url: '/ipo/ipoFinance/selectFinanceList',
     method: 'get',
     params: query
   })
@@ -143,7 +143,7 @@ export function getAssetsOrDebtData(query) {
 // 收入与利润情况接口
 export function getSelectFinanceProfitList(query) {
   return request({
-    url: '/ipo/api/ipoFinance/selectFinanceProfitList',
+    url: '/ipo/ipoFinance/selectFinanceProfitList',
     method: 'get',
     params: query
   })
@@ -152,7 +152,7 @@ export function getSelectFinanceProfitList(query) {
 // 毛利率接口
 export function getMaoChartTableData(query) {
   return request({
-    url: '/ipo/api/issue/industryRateData',
+    url: '/ipo/issue/industryRateData',
     method: 'get',
     params: query
   })

@@ -10,7 +10,7 @@ import request from '@/utils/request'
 // 真接口
 export function getRightModuleData(query) {
   return request({
-    url: '/ipo/api/ipoProcess/selectProcessList',
+    url: '/ipo/ipoProcess/selectProcessList',
     method: 'get',
     params: query
   })
