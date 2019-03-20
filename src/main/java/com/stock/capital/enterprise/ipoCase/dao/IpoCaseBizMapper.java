@@ -14,6 +14,8 @@ public interface IpoCaseBizMapper {
 
     CompanyOverviewVo getIpoCaseDetail(String id);
 
+    String getCodeById(String id);
+
     List<OtherMarketInfoDto> getIpoMarketData(String bid);
 
     List<IpoPersonInfoDto> getIpoShareData(String bid);

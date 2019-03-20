@@ -27,13 +27,13 @@ public class IpoCaseIssueController {
 
     @ApiOperation(value = "发行数据接口", notes = "发行数据接口描述")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "orgCode", value = "东财内码", required = true, paramType = "query",
+        @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
             dataType = "String")
     })
     @RequestMapping(value = "/issueData", method = RequestMethod.GET)
-    public JsonResponse<IssueDataDto> issueData(@RequestParam("orgCode") String orgCode) {
+    public JsonResponse<IssueDataDto> issueData(@RequestParam("id") String id) {
         JsonResponse<IssueDataDto> response = new JsonResponse<>();
-        response.setResult(issueSituationService.getIssueData(orgCode));
+        response.setResult(issueSituationService.getIssueData(id));
         return response;
     }
 

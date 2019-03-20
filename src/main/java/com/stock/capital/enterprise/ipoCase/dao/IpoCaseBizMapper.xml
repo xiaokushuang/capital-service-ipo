@@ -70,6 +70,10 @@
    limit 1
   </select>
 
+  <select id="getCodeById" parameterType="string" resultType="string">
+    SELECT org_code AS orgCode FROM ipo_case WHERE id = #{id} limit 1
+  </select>
+
   <select id="getIpoShareData" parameterType="string"
           resultType="com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto">
     SELECT
