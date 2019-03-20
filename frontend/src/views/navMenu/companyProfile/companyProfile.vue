@@ -20,7 +20,7 @@
             <span style="color:#333333">{{this.registeredAssets}}万元</span>
           </li>
           <li>
-            <span>证券简称</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span>公司简称</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <span style="color:#333333">{{this.companyName}}</span>
           </li>
           <li>

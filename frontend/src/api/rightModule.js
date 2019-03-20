@@ -8,10 +8,10 @@ import request from '@/utils/request'
 // }
 
 // 真接口
-// export function getRightModuleData(query) {
-//   return request({
-//     url: '/ipo/api/ipoProcess/selectProcessList',
-//     method: 'get',
-//     params: query
-//   })
-// }
+export function getRightModuleData(query) {
+  return request({
+    url: '/ipo/api/ipoProcess/selectProcessList?id=97952444248599350',
+    method: 'get',
+    params: query
+  })
+}

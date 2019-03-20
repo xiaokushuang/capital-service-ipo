@@ -10,12 +10,14 @@ import echarts from 'echarts'
 // import { getAssetsTableData } from '@/api/tableDemo'
 import { getSelectFinanceOverList } from '@/api/tableDemo'
 export default {
+  name:'tanZxChart1',
   data() {
     return {
         tableTitle:null,
         zxChartX:[],
         zxChartY:[],
-        id:'97952444248599350'
+        // id:'97952444248599350'
+        caseId:this.$store.state.caseId,
     }
   },
   created(){
@@ -56,7 +58,7 @@ export default {
     initTableData() {
           // 动态传id
       const param = {
-        id:this.id
+        id:this.caseId
       }
       getSelectFinanceOverList(param).then(response => {
           // 获取表头数据
