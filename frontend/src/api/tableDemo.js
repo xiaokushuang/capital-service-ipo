@@ -88,7 +88,7 @@ import request from '@/utils/request'
 // 主营业务收入构成【柱状图饼图】
 export function getTableData(query) {
   return request({
-    url: '/ipo/api/companyOverview/incomeData?id=97952444248599344',
+    url: '/ipo/api/companyOverview/incomeData',
     method: 'get',
     params: query
   })
@@ -108,7 +108,7 @@ export function getTableData(query) {
 // 发行数据
 export function getIssueData(query) {
   return request({
-    url: '/ipo/api/issue/issueData?orgCode=10472811',
+    url: '/ipo/api/issue/issueData',
     method: 'get',
     params: query
   })
@@ -117,7 +117,7 @@ export function getIssueData(query) {
 // 发行费用
 export function getIssueFeeData(query) {
   return request({
-    url: '/ipo/api/issue/issueFeeData?id=97952444248599344',
+    url: '/ipo/api/issue/issueFeeData',
     method: 'get',
     params: query
   })
@@ -127,7 +127,7 @@ export function getIssueFeeData(query) {
 // 财务总体情况接口
 export function getSelectFinanceOverList(query) {
   return request({
-    url: '/ipo/api/ipoFinance/selectFinanceOverList?id=97952444248599350',
+    url: '/ipo/api/ipoFinance/selectFinanceOverList',
     method: 'get',
     params: query
   })
@@ -135,7 +135,7 @@ export function getSelectFinanceOverList(query) {
 // 资产与负债情况财务信息接口 
 export function getAssetsOrDebtData(query) {
   return request({
-    url: '/ipo/api/ipoFinance/selectFinanceList?id=97952444248599350',
+    url: '/ipo/api/ipoFinance/selectFinanceList',
     method: 'get',
     params: query
   })
@@ -143,20 +143,20 @@ export function getAssetsOrDebtData(query) {
 // 收入与利润情况接口
 export function getSelectFinanceProfitList(query) {
   return request({
-    url: '/ipo/api/ipoFinance/selectFinanceProfitList?id=97952444248599350',
+    url: '/ipo/api/ipoFinance/selectFinanceProfitList',
     method: 'get',
     params: query
   })
 }
 
 // 毛利率接口
-// export function getMaoChartTableData(query) {
-//   return request({
-//     url: '/ipo/api/issue/industryRateData',
-//     method: 'get',
-//     params: query
-//   })
-// }
+export function getMaoChartTableData(query) {
+  return request({
+    url: '/ipo/api/issue/industryRateData',
+    method: 'get',
+    params: query
+  })
+}
 
 
 

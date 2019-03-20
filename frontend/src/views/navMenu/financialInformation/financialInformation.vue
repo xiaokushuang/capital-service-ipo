@@ -143,6 +143,7 @@ export default {
     name:'financialInformation',
     data(){
         return {
+            caseId:this.$store.state.caseId,
             maoChartTableData:[],
             // 表格data
             year1:'',
@@ -168,7 +169,7 @@ export default {
     },
     mounted () {
       this.$nextTick(()=>{
-          console.log(document.getElementById('s'))
+        //   console.log(document.getElementById('s'))
       })
     //   console.log(document.querySelector('.financialData'))
     //   console.log(document.getElementById('zxChart'))  
@@ -221,9 +222,15 @@ export default {
         },
         // 初始化数据
         initTableData() {
-            getMaoChartTableData().then(res => {
+            // 动态传id
+            const param = {
+             id:this.caseId
+            }
+            getMaoChartTableData(param).then(res => {
+                console.log('毛利率')
+                console.log(res)
                 this.maoChartTableData = res.data.result
-                console.log(document.getElementById('s'))
+                // console.log(document.getElementById('s'))
                 // console.log(this.maoChartTableData)
                
                 //  if(this.maoChartTableData.length > 0){

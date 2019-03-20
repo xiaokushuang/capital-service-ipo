@@ -45,8 +45,7 @@ import request from '@/utils/request'
 // IPO公司概览返回类
 export function getCaseDetail(query) {
   return request({
-    // url: '/ipo/api/companyOverview/caseDetail',
-    url:'/ipo/api/companyOverview/caseDetail?id=97952444248599344',
+    url:'/ipo/api/companyOverview/caseDetail',
     method: 'get',
     params: query
   })
@@ -62,8 +61,7 @@ export function getMarketData(query) {
 // 股东信息接口描述
 export function getShareHolderData(query) {
   return request({
-    // url: '/ipo/api/companyOverview/shareHolderData',
-    url:'/ipo/api/companyOverview/shareHolderData?id=97952444248599344',
+    url:'/ipo/api/companyOverview/shareHolderData',
     method: 'get',
     params: query
   })
@@ -71,7 +69,7 @@ export function getShareHolderData(query) {
 // 主要竞争对手接口描述
 export function getCompetitorData(query) {
   return request({
-    url: '/ipo/api/companyOverview/competitorData?id=97952444248599344',
+    url: '/ipo/api/companyOverview/competitorData',
     method: 'get',
     params: query
   })
@@ -80,7 +78,7 @@ export function getCompetitorData(query) {
 // 中介机构接口
 export function getIntermediaryOrgDataList(query) {
   return request({
-    url: '/ipo/api/companyOverview/intermediaryOrgData?id=97952444248599344',
+    url: '/ipo/api/companyOverview/intermediaryOrgData',
     method: 'get',
     params: query
   })
