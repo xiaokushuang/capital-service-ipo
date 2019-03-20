@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(tags = {"IPO进程接口类"}, description = "IPO进程接口类描述")
 @RestController
-@RequestMapping("api/ipoProcess")
+@RequestMapping("ipoProcess")
 public class IpoProcessController extends BaseController {
     @Autowired
     private IpoProcessService ipoProcessService;

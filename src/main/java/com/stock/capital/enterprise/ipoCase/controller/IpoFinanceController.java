@@ -17,7 +17,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(tags = {"IPO财务信息接口类"}, description = "IPO财务信息接口类描述")
 @RestController
-@RequestMapping("api/ipoFinance")
+@RequestMapping("ipoFinance")
 public class IpoFinanceController extends BaseController {
     @Autowired
     private IpoFinanceService ipoFinanceService;

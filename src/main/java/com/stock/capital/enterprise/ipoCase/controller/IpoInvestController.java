@@ -19,7 +19,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(tags = {"募集资金接口类"}, description = "募集资金接口类描述")
 @RestController
-@RequestMapping("api/ipoInvest")
+@RequestMapping("ipoInvest")
 public class IpoInvestController extends BaseController {
     @Autowired
     private IpoInvestService ipoInvestService;
