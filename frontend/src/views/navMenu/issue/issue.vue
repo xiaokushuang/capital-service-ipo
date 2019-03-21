@@ -159,7 +159,6 @@ export default {
           issueData:[],
           // id:'97952444248599344'
           caseId:this.$store.state.caseId,
-          orgCode:this.$store.state.orgCode,
       }
   },
    created() {
@@ -172,12 +171,8 @@ export default {
       const param = {
         id:this.caseId
       }
-      const query = {
-        orgCode:this.orgCode
-      }
-       getIssueData(query).then(res => {
+       getIssueData(param).then(res => {
          this.issueData = res.data.result
-          // console.log(this.issueData)
       }) 
       getIssueFeeData(param).then(res=>{
         // console.log(res)
@@ -212,9 +207,8 @@ export default {
     //  
      // 鼠标移入表格内容加title
     mouseOverSpreadText(){
-      // console.log($(".distribution"))
-      //  var b =  $(".distribution").text();
-        // $(".distribution").attr("title",b)
+       var b =  document.querySelector('.distribution').textContent;
+        $(".distribution").attr("title",b)
     },
    
     // 非空判断

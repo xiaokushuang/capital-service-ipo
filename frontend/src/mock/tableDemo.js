@@ -613,14 +613,14 @@ export default{
           // "secondYearRate": 30,
           // "thirdYearRate": 10,
           "remark": "2018,2017,2016年 与同行业可比上市公司毛利率如下",
-          "average":[
-            {
-              "companyName": "平均值",
-              "firstAvg": 45,
-              "secondAvg": 5,
-              "thirdAvg": 25
-            }
-          ],
+          // "average":[
+          //   {
+          //     "companyName": "平均值",
+          //     "firstAvg": 45,
+          //     "secondAvg": 5,
+          //     "thirdAvg": 25
+          //   }
+          // ],
           "myself":[
             {
               "companyName": "福莱特",
@@ -647,7 +647,13 @@ export default{
               "firstYearRate": 50,
               "secondYearRate": -20,
               "thirdYearRate": 30
-            }
+            },
+            {
+                  "companyName": "平均值",
+                  "firstAvg": 45,
+                  "secondAvg": 5,
+                  "thirdAvg": 25
+             }
           ],
           "firstYear": "2016年",
           "secondYear": "2017年",

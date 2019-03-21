@@ -189,12 +189,6 @@ initPieChart(dataList,nameTempO,num,flag) {
           formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
          legend: {
-                    // padding: [
-                    //   200, // 上
-                    //   0, // 右
-                    //   5, // 下
-                    //   0 // 左
-                    // ],
                     selectedMode:false,//取消图例上的点击事件
                     orient: "vertical",
                     x: "360", // 'center' | 'left' | {number},
@@ -203,14 +197,14 @@ initPieChart(dataList,nameTempO,num,flag) {
                     itemWidth: 10, // 图例图形宽度
                     itemHeight: 10, // 图例图形高度
                     textStyle: {
-                        color: "#333" // 图例文字颜色
+                    color: "#333" // 图例文字颜色
                     }
                  },
         series: [
           {
             name: "访问来源",
             type: "pie",
-            radius: "65%",
+            radius: "55%",
             center: ["50%", "60%"],
             data:this.pieData,
             itemStyle: {

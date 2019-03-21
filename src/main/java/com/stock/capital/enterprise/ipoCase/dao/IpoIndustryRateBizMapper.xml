@@ -33,13 +33,13 @@
         CONVERT(iicrd.third_year_rate,DECIMAL(18,2)) e_third_year_rate
         FROM ipo_industry_compare_rate iicr
         LEFT JOIN ipo_industry_compare_rate_detail iicrd ON iicr.id = iicrd.bid
-        WHERE iicr.bid = #{bid}) t,
+        WHERE iicr.bid = #{bid}) t LEFT JOIN
     (SELECT iicrd.bid,CONVERT(AVG(iicrd.first_year_rate),DECIMAL(18,2)) AS firstAvg,CONVERT(AVG(iicrd.second_year_rate),DECIMAL(18,2)) AS secondAvg,CONVERT(AVG(iicrd.third_year_rate),DECIMAL(18,2)) AS thirdAvg
     FROM ipo_industry_compare_rate iicr
     LEFT JOIN ipo_industry_compare_rate_detail iicrd ON iicr.id = iicrd.bid
     WHERE iicr.bid = #{bid}
     GROUP BY iicrd.bid) t1
-    WHERE t.id = t1.bid
+    ON t.id = t1.bid
   </select>
 
 </mapper>

@@ -14,7 +14,7 @@
                             <p v-if="boxDataItem.treeTypeCode == '03'">辅导工作进程</p>
                             <p v-if="boxDataItem.treeTypeCode == '04'">股份公司设立</p>
                         </div>
-                         <div v-for="(item,index) in boxDataItem.proList" v-show=" !boxDataItem.sandian || index == 0 || index == boxDataItem.proList.length-1  || isSpread"  :key="item.sort" @click="handleSpreadBody(boxDataItem)">
+                         <div v-for="(item,index) in boxDataItem.proList" v-show=" !boxDataItem.sandian || index == 0 || index == boxDataItem.proList.length-1  || isSpread"  :key="item.sort">
                              <div class="right" >
                                 <div class="border-box">
                                     <span v-if="sortFlag == '0'">
@@ -198,7 +198,7 @@ export default {
             indexShowHidden: false,
             thisIndex: '',
             sortType: '01',
-            caseId:this.$store.state.caseId,
+            caseId1:this.$store.state.caseId,
         };
     },
     name: "rightModule",
@@ -221,10 +221,10 @@ export default {
     },
     methods: {
      // 初始化数据
-      initTableData() {
+      initTableData(caseId,sortType) {
         // 动态传id
         const param = {
-          id:this.caseId
+          id:this.caseId1
         }
         getRightModuleData(param).then(res => {
             this.treeList = res.data.result.treeList
@@ -238,7 +238,7 @@ export default {
         // }
       },
         // 弹窗多选框
-        handleSelectionChange(val) {
+       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
        // 标移入三个点
@@ -260,13 +260,6 @@ export default {
             this.isSpread = false;
             param.spreadFlag = false;
         },
-        // 点击li循环体收起展开内容
-        handleSpreadBody(param){
-            // if(param.sandian){
-            //     param.spreadFlag = !param.spreadFlag;
-            //     this.isSpread = !this.isSpread;
-            // }
-        },
         // 点击上面展开全部
         expandAlltoC(exAllFlag) {
             this.boxData.map(obj => {
@@ -276,19 +269,16 @@ export default {
                 this.showAndHideParent('each' + obj.sort + obj.progressType, exAllFlag,obj);
             })
         },
-        sortTime(sortName, sort) {
-            if (sort == "asc") {
-                this.sortFlag = '1'
-            } else {
-                this.sortFlag = '0'
-            }
-            this.boxData.reverse();
-            this.boxData1.reverse();
-        },
+        // sortTime(sortName, sort) {
+        //     if (sort == "asc") {
+        //         this.sortFlag = '1'
+        //     } else {
+        //         this.sortFlag = '0'
+        //     }
+        //     this.boxData.reverse();
+        //     this.boxData1.reverse();
+        // },
         moreNoticeClick(params,obj) {
-            // 点击查看更多公告不收起展开的内容
-            //  this.isSpread = true;
-            //  params.spreadFlag = true;
             // 弹出更多公告 
             this.dialogVisible = true;
             this.moreNoticeList = obj.relaList
@@ -341,9 +331,6 @@ export default {
      
         // 点击展示的第一条公告名
         gonggaoClick(param){
-         // 点击查看第一条公告不收起展开的内容
-             this.isSpread = true;
-             param.spreadFlag = true;
         },
         onMouseOver (obj, item, index) {
             this.$set(item,'showIcon',true)
@@ -400,7 +387,11 @@ export default {
     text-decoration: underline;
     text-decoration-color: #0066FF;
 }
-
+.gonggao:hover {
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: #0066FF;
+}
 .moreNoticeCss {
     width:30%;
     font-family: "PingFangSC-Regular", "PingFang SC";
@@ -556,7 +547,7 @@ export default {
     border: 1px solid #e4e4e4;
     position: absolute;
     left: 244px;
-    top: 277px;
+    top: 230px;
     border-radius: 3px;
     padding: 2px;
 }

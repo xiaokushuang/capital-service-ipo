@@ -1,5 +1,6 @@
 package com.stock.capital.enterprise.ipoCase.service;
 
+import com.stock.capital.enterprise.ipoCase.dao.IpoCaseBizMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseIssueMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoIndustryRateBizMapper;
 import com.stock.capital.enterprise.ipoCase.dto.IndustryCompareRateDetailDto;
@@ -10,6 +11,7 @@ import com.stock.core.dao.DynamicDataSourceHolder;
 import com.stock.core.service.BaseService;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +24,20 @@ public class IssueSituationService extends BaseService {
     @Autowired
     private IpoIndustryRateBizMapper ipoIndustryRateBizMapper;
 
+    @Autowired
+    private IpoCaseBizMapper ipoCaseBizMapper;
+
     /**
      * 发行数据
      *
-     * @param orgCode 东财内码
+     * @param id 案例id
      * @return dto
      */
-    public IssueDataDto getIssueData(String orgCode) {
+    public IssueDataDto getIssueData(String id) {
+        String orgCode = ipoCaseBizMapper.getCodeById(id);
+        if (StringUtils.isBlank(orgCode)) {
+            return null;
+        }
         DynamicDataSourceHolder.setDataSource("dongcai");
         IssueDataDto issueDataDto = ipoCaseIssueMapper.getIssueData(orgCode);
         DynamicDataSourceHolder.cleanDataSource();

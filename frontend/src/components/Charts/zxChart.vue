@@ -1,18 +1,17 @@
 <template>
     <div>
          <div class="className" :id="'zxChart' + zxIndex " style="height:300px;width:100%"></div>
-         
     </div>
 </template>
 
 <script>
 import echarts from 'echarts'
 import { getMaoChartTableData } from '@/api/tableDemo'
-// import { getAssetsTableData } from '@/api/tableDemo'
 export default {
  
   data() {
     return {
+        caseId:this.$store.state.caseId,
         zxChart:null,
         zxChartY:[],
         zxChartX:[]
@@ -38,8 +37,12 @@ beforeDestroy() {
   methods: {
      // 初始化数据
       initTableData() {
-        getMaoChartTableData().then(response => {
-          console.log(response.data.result)
+         // 动态传id
+        const param = {
+          id:this.caseId
+        }
+        getMaoChartTableData(param).then(response => {
+          // console.log(response.data.result)
             if(response.data.result){
                 // 如果请求到数据之后再初始化折线图
                  this.initChart(response.data.result)
@@ -71,7 +74,8 @@ beforeDestroy() {
       this.zxChart = echarts.init(document.getElementById('zxChart' + this.zxIndex))  
     //  循环获取数据
         // for (var i = 0; i < dataList.length; i++) {
-        for(var i = 0;i < this.zxIndex;i++){
+        for(var i = 0;i < this.zxIndex + 1;i++){
+          this.zxChartY = []
           for(var j = 0;j < dataList[i].industryCompareRateDetailList.length;j++){ 
               this.zxChartY.push(
                                 {
