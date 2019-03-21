@@ -8,6 +8,11 @@ import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel("IPO预披露反馈函件类")
 public class IpoFeedbackDto implements Serializable {
+
+    @ApiModelProperty("id")
+    private String id;
+    @ApiModelProperty("公司东财内码")
+    private String orgCode;
     @ApiModelProperty("函件id")
     private String letterId;
     @ApiModelProperty("问题包含的一级标签")
@@ -18,8 +23,28 @@ public class IpoFeedbackDto implements Serializable {
     private int answerCount;
     @ApiModelProperty("问题列表")
     private List<IpoFeedbackQuestionDto> questionList;
+    @ApiModelProperty("一级标签问题id")
+    private String firstLabelId;
+    @ApiModelProperty("二级标签问题id")
+    private String secondLabelId;
 
     private static final long serialVersionUID = 1L;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getOrgCode() {
+        return orgCode;
+    }
+
+    public void setOrgCode(String orgCode) {
+        this.orgCode = orgCode;
+    }
 
     public String getLetterId() {
         return letterId;
@@ -59,5 +84,21 @@ public class IpoFeedbackDto implements Serializable {
 
     public void setQuestionList(List<IpoFeedbackQuestionDto> questionList) {
         this.questionList = questionList;
+    }
+
+    public String getFirstLabelId() {
+        return firstLabelId;
+    }
+
+    public void setFirstLabelId(String firstLabelId) {
+        this.firstLabelId = firstLabelId;
+    }
+
+    public String getSecondLabelId() {
+        return secondLabelId;
+    }
+
+    public void setSecondLabelId(String secondLabelId) {
+        this.secondLabelId = secondLabelId;
     }
 }

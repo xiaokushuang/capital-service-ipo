@@ -20,7 +20,8 @@
         </collection>
     </resultMap>
 
-    <select id="selectFeedbackViewList" parameterType="java.lang.String"
+    <select id="selectFeedbackList"
+            parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto"
             resultMap="baseResultMap">
       SELECT
             t1.id letter_id,
@@ -46,11 +47,51 @@
         WHERE
             t1.rela_code = #{orgCode}
         AND t2.type = 'l'
-        AND t2.`level` = 4
+        AND t2.`level` = '4'
         AND t4. LEVEL != '0'
         AND t6.letter_class_name = 'IPO预披露反馈意见'
         ORDER BY
             askNo
+    </select>
+
+    <select id="selectQuestionListByLetterId"
+            parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto"
+            resultMap="baseResultMap">
+        SELECT
+        t1.id letter_id,
+        t2.id question_id,
+        t1.company_name,
+        t2.text_content,
+        t2.type,
+        t2. LEVEL,
+        t4. LEVEL,
+        t4.letter_class_name question_type,
+        t5.letter_class_name,
+        CAST(t2.ask_no AS SIGNED) askNo,
+        t8.text_content answer
+        FROM
+        sa_letter t1
+        LEFT JOIN label_xml_structure t2 ON t2.rela_id = t1.id
+        LEFT JOIN letter_class t4 ON t4.tree_type != '1'
+        AND FIND_IN_SET(t4.id, t2.question_type)
+        LEFT JOIN letter_class t5 ON t5.id = t4.parent_id
+        LEFT JOIN letter_class t6 ON t6.id = t1.letter_type
+        LEFT JOIN label_ask_answer t7 ON t7.ask_id = t6.id
+        LEFT JOIN label_xml_structure t8 ON t8.id = t7.answer_id
+        WHERE
+            t2.type = 'l'
+        AND t2.`level` = '4'
+        AND t4. LEVEL != '0'
+        AND t6.letter_class_name = 'IPO预披露反馈意见'
+        AND t1.id = #{letterId}
+        <if test="secondLabelId != null and secondLabelId != ''">
+            AND t4.id = #{secondLabelId}
+        </if>
+        <if test="firstLabelId != null and firstLabelId != ''">
+            AND t5.id = #{firstLabelId}
+        </if>
+        ORDER BY
+        askNo
     </select>
 
     <select id="selectAnswer" parameterType="java.lang.String" resultType="java.lang.String">
@@ -68,9 +109,9 @@
     <select id="selectFirstLabelList" parameterType="java.lang.String"
             resultType="com.stock.capital.enterprise.ipoCase.dto.IpoQuestionLabelDto">
         SELECT
-            t.id,
-            t.letter_class_name,
-            count(*)
+            t.id labelCode,
+            t.letter_class_name labelName,
+            count(*) labelCount
         FROM
             (
                 SELECT
@@ -84,9 +125,9 @@
                 LEFT JOIN letter_class t5 ON t5.id = t4.parent_id
                 LEFT JOIN letter_class t6 ON t6.id = t1.letter_type
                 WHERE
-                    t1.rela_code = '10472811'
+                    t1.id = #{letterId}
                 AND t2.type = 'l'
-                AND t2.`level` = 4
+                AND t2.`level` = '4'
                 AND t4. LEVEL != '0'
                 AND t6.letter_class_name = 'IPO预披露反馈意见'
                 GROUP BY
@@ -97,5 +138,32 @@
         GROUP BY
             t.id,
             t.letter_class_name
+        ORDER BY id
+    </select>
+
+    <select id="selectSecondLabelList"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IpoQuestionLabelDto">
+        select t.id labelCode,t.letter_class_name labelName,count(*) labelCount from (SELECT
+                    t4.id,
+                    t4.letter_class_name,
+                    CAST(t2.ask_no AS SIGNED) askNo
+                FROM
+                    sa_letter t1
+                LEFT JOIN label_xml_structure t2 ON t2.rela_id = t1.id
+                LEFT JOIN letter_class t4 ON t4.tree_type != '1'
+                AND FIND_IN_SET(t4.id, t2.question_type)
+                LEFT JOIN letter_class t5 ON t5.id = t4.parent_id
+                LEFT JOIN letter_class t6 ON t6.id = t1.letter_type
+                WHERE
+                    t1.id = #{letterId}
+                AND t5.id = #{parentId}
+                AND t2.type = 'l'
+                AND t2.`level` = '4'
+                AND t4. LEVEL != '0'
+                AND t6.letter_class_name = 'IPO预披露反馈意见'
+                        group by t2.id,t4.id,t4.letter_class_name
+                ORDER BY
+                    askNo
+        ) t group by t.id,t.letter_class_name
     </select>
 </mapper>
