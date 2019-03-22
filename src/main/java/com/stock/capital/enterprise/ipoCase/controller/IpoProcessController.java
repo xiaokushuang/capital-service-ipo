@@ -7,6 +7,7 @@ import com.stock.core.dto.JsonResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,11 @@ public class IpoProcessController extends BaseController {
     @Autowired
     private IpoProcessService ipoProcessService;
 
+    @Value("#{app['pdf.baseUrl']}")
+    private String pdfBaseUrl;
+    @Value("#{app['file.viewPath']}")
+    private String fileViewPath;
+
     @ApiOperation(value = "ipo进程接口", notes = "根据caseId获取ipo进程")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String"),
@@ -34,7 +40,7 @@ public class IpoProcessController extends BaseController {
             sortType = "02";
         }
         JsonResponse<TreeTypeProgressDto> response = new JsonResponse<>();
-        TreeTypeProgressDto resultList = ipoProcessService.selectProcessList(id,sortType);
+        TreeTypeProgressDto resultList = ipoProcessService.selectProcessList(id,sortType,pdfBaseUrl,fileViewPath);
         response.setResult(resultList);
         return response;
     }

@@ -55,7 +55,6 @@ public class IpoFeedbackController extends BaseController {
             @ApiImplicitParam(name = "letterId", value = "函件id",required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "firstLabelId", value = "所属一级标签", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "secondLabelId", value = "所属二级标签", paramType = "query", dataType = "String")
-
     })
     @RequestMapping(value = "/selectQuestionListByLetterId", method = RequestMethod.GET)
     public JsonResponse<List<IpoFeedbackDto>> selectQuestionListByLetterId(IpoFeedbackDto ipoFeedbackDto){

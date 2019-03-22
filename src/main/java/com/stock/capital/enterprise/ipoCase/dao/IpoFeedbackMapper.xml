@@ -90,6 +90,9 @@
         <if test="firstLabelId != null and firstLabelId != ''">
             AND t5.id = #{firstLabelId}
         </if>
+        <if test="onlyResponse == '1'">
+            AND t8.text_content is not null
+        </if>
         ORDER BY
         askNo
     </select>
@@ -143,7 +146,13 @@
 
     <select id="selectSecondLabelList"
             resultType="com.stock.capital.enterprise.ipoCase.dto.IpoQuestionLabelDto">
-        select t.id labelCode,t.letter_class_name labelName,count(*) labelCount from (SELECT
+        SELECT
+            '' labelCode,
+            '全部' labelName,
+            count(*) labelCount
+        FROM
+            (
+                SELECT
                     t4.id,
                     t4.letter_class_name,
                     CAST(t2.ask_no AS SIGNED) askNo
@@ -158,12 +167,46 @@
                     t1.id = #{letterId}
                 AND t5.id = #{parentId}
                 AND t2.type = 'l'
-                AND t2.`level` = '4'
+                AND t2.`level` = 4
                 AND t4. LEVEL != '0'
                 AND t6.letter_class_name = 'IPO预披露反馈意见'
-                        group by t2.id,t4.id,t4.letter_class_name
-                ORDER BY
-                    askNo
-        ) t group by t.id,t.letter_class_name
+                GROUP BY
+                    t2.id
+            ) t
+        UNION
+            SELECT
+                t.id labelCode,
+                t.letter_class_name labelName,
+                count(*) labelCount
+            FROM
+                (
+                    SELECT
+                        t4.id,
+                        t4.letter_class_name,
+                        CAST(t2.ask_no AS SIGNED) askNo
+                    FROM
+                        sa_letter t1
+                    LEFT JOIN label_xml_structure t2 ON t2.rela_id = t1.id
+                    LEFT JOIN letter_class t4 ON t4.tree_type != '1'
+                    AND FIND_IN_SET(t4.id, t2.question_type)
+                    LEFT JOIN letter_class t5 ON t5.id = t4.parent_id
+                    LEFT JOIN letter_class t6 ON t6.id = t1.letter_type
+                    WHERE
+                        t1.id = #{letterId}
+                    AND t5.id = #{parentId}
+                    AND t2.type = 'l'
+                    AND t2.`level` = 4
+                    AND t4. LEVEL != '0'
+                    AND t6.letter_class_name = 'IPO预披露反馈意见'
+                    GROUP BY
+                        t2.id,
+                        t4.id,
+                        t4.letter_class_name
+                    ORDER BY
+                        askNo
+                ) t
+            GROUP BY
+                t.id,
+                t.letter_class_name
     </select>
 </mapper>

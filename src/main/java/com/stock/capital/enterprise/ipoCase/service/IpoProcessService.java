@@ -26,7 +26,7 @@ public class IpoProcessService extends BaseService {
     @Autowired
     private IpoProcessMapper ipoProcessMapper;
 
-    public TreeTypeProgressDto selectProcessList(String id, String sortType) {
+    public TreeTypeProgressDto selectProcessList(String id, String sortType, String pdfBaseUrl, String fileViewPath) {
         TreeTypeProgressDto resultDto = ipoProcessMapper.selectProcessList(id);
         List<IpoProgressDto> treeList = resultDto == null ? new ArrayList<>() : resultDto.getTreeList();
         //循环计算距离上一个进程时间
@@ -37,13 +37,36 @@ public class IpoProcessService extends BaseService {
             for (int j = 0; j < proList.size(); j++) {
                 //每个进程只有第一个节点储存了时间，补全进程时间
                 List<IpoFileRelationDto> fileList = proList.get(j).getRelaList();
-                if(CollectionUtils.isNotEmpty(fileList)){
+                if (CollectionUtils.isNotEmpty(fileList)) {
                     proList.get(j).setProcessTime(fileList.get(0).getPublishTime());
-                    for (int k = 1; k < fileList.size(); k++) {
-                        fileList.get(k).setPublishTime(fileList.get(0).getPublishTime());
+                    if (fileList.size() > 1) {
+                        for (int k = 1; k < fileList.size(); k++) {
+                            fileList.get(k).setPublishTime(fileList.get(0).getPublishTime());
+                        }
                     }
                 }
-
+                //如果该进程没有关联文件，则从文件list中删除
+                List<IpoFileRelationDto> newFileList = new ArrayList<>();
+                for (IpoFileRelationDto fileDto : fileList) {
+                    if (StringUtils.isNotEmpty(fileDto.getRelaId())) {
+                        //拼接文件打开URL
+                        if ("02".equals(treeList.get(i).getTreeTypeCode())) {
+                            String baseUrl = pdfBaseUrl + "web/viewer.html?file=" + pdfBaseUrl + "pdf/H2_" +
+                                    fileDto.getRelaId() + "_1.pdf&originTitle=" + fileDto.getRelationFileTitle();
+                            fileDto.setBaseUrl(baseUrl);
+                        } else {
+                            if ("htm".equals(fileDto.getSuffix().toLowerCase()) || "html".equals(fileDto.getSuffix().toLowerCase())) {
+                                String baseUrl = fileViewPath + "open/ipoFile/" + id + ".png";
+                                fileDto.setBaseUrl(baseUrl);
+                            }else{
+                                String baseUrl = fileViewPath + "open/ipoFile/" + id + "." + fileDto.getSuffix();
+                                fileDto.setBaseUrl(baseUrl);
+                            }
+                        }
+                        newFileList.add(fileDto);
+                    }
+                }
+                proList.get(j).setRelaList(newFileList);
                 proList.get(j).setFlag(false);
                 //如果不是发审会公告，即不是第一个树，则计算该树的第一个与上一个树的最后一个进程相差时间
                 if (i != 0 && j == 0) {
@@ -51,7 +74,7 @@ public class IpoProcessService extends BaseService {
                     String edate = treeList.get(i - 1).getProList().
                             get(treeList.get(i - 1).getProList().size() - 1).getProcessTime();
                     String outLastDay = "0";
-                    if(StringUtils.isNotEmpty(sdate) && StringUtils.isNotEmpty(edate)){
+                    if (StringUtils.isNotEmpty(sdate) && StringUtils.isNotEmpty(edate)) {
                         outLastDay = getLastDays(sdate, edate);
                     }
                     treeList.get(i).getProList().get(0).setLastDay(outLastDay);
@@ -60,8 +83,8 @@ public class IpoProcessService extends BaseService {
                     String lastDay = "0";
                     String sdate = proList.get(j).getProcessTime();
                     String edate = proList.get(j - 1).getProcessTime();
-                    if(StringUtils.isNotEmpty(sdate) && StringUtils.isNotEmpty(edate)){
-                        lastDay = getLastDays(sdate,edate);
+                    if (StringUtils.isNotEmpty(sdate) && StringUtils.isNotEmpty(edate)) {
+                        lastDay = getLastDays(sdate, edate);
                     }
                     proList.get(j).setLastDay(lastDay);
                 }

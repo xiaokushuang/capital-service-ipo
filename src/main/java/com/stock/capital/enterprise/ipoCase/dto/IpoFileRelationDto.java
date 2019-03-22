@@ -20,6 +20,8 @@ public class IpoFileRelationDto implements Serializable {
     private Integer tableSort;
     @ApiModelProperty("文件后缀")
     private String suffix;
+    @ApiModelProperty("访问路径")
+    private String baseUrl;
 
     private static final long serialVersionUID = 1L;
 
@@ -69,5 +71,13 @@ public class IpoFileRelationDto implements Serializable {
 
     public void setSuffix(String suffix) {
         this.suffix = suffix;
+    }
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
     }
 }

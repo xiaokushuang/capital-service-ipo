@@ -27,6 +27,9 @@ public class IpoFeedbackDto implements Serializable {
     private String firstLabelId;
     @ApiModelProperty("二级标签问题id")
     private String secondLabelId;
+    @ApiModelProperty("是否只展示回复问题 1:是")
+    private String onlyResponse;
+
 
     private static final long serialVersionUID = 1L;
 
@@ -100,5 +103,13 @@ public class IpoFeedbackDto implements Serializable {
 
     public void setSecondLabelId(String secondLabelId) {
         this.secondLabelId = secondLabelId;
+    }
+
+    public String getOnlyResponse() {
+        return onlyResponse;
+    }
+
+    public void setOnlyResponse(String onlyResponse) {
+        this.onlyResponse = onlyResponse;
     }
 }
