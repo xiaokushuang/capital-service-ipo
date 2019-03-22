@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -25,8 +26,12 @@ public class IpoProcessService extends BaseService {
     final static Logger logger = LoggerFactory.getLogger(IpoProcessService.class);
     @Autowired
     private IpoProcessMapper ipoProcessMapper;
+    @Value("#{app['pdf.baseUrl']}")
+    private String pdfBaseUrl;
+    @Value("#{app['file.viewPath']}")
+    private String fileViewPath;
 
-    public TreeTypeProgressDto selectProcessList(String id, String sortType, String pdfBaseUrl, String fileViewPath) {
+    public TreeTypeProgressDto selectProcessList(String id, String sortType) {
         TreeTypeProgressDto resultDto = ipoProcessMapper.selectProcessList(id);
         List<IpoProgressDto> treeList = resultDto == null ? new ArrayList<>() : resultDto.getTreeList();
         //循环计算距离上一个进程时间
@@ -56,10 +61,10 @@ public class IpoProcessService extends BaseService {
                             fileDto.setBaseUrl(baseUrl);
                         } else {
                             if ("htm".equals(fileDto.getSuffix().toLowerCase()) || "html".equals(fileDto.getSuffix().toLowerCase())) {
-                                String baseUrl = fileViewPath + "open/ipoFile/" + id + ".png";
+                                String baseUrl = fileViewPath + "open/ipoFile/" + fileDto.getRelaId() + ".png";
                                 fileDto.setBaseUrl(baseUrl);
                             }else{
-                                String baseUrl = fileViewPath + "open/ipoFile/" + id + "." + fileDto.getSuffix();
+                                String baseUrl = fileViewPath + "open/ipoFile/" + fileDto.getRelaId() + "." + fileDto.getSuffix();
                                 fileDto.setBaseUrl(baseUrl);
                             }
                         }

@@ -24,11 +24,6 @@ public class IpoProcessController extends BaseController {
     @Autowired
     private IpoProcessService ipoProcessService;
 
-    @Value("#{app['pdf.baseUrl']}")
-    private String pdfBaseUrl;
-    @Value("#{app['file.viewPath']}")
-    private String fileViewPath;
-
     @ApiOperation(value = "ipo进程接口", notes = "根据caseId获取ipo进程")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String"),
@@ -40,7 +35,7 @@ public class IpoProcessController extends BaseController {
             sortType = "02";
         }
         JsonResponse<TreeTypeProgressDto> response = new JsonResponse<>();
-        TreeTypeProgressDto resultList = ipoProcessService.selectProcessList(id,sortType,pdfBaseUrl,fileViewPath);
+        TreeTypeProgressDto resultList = ipoProcessService.selectProcessList(id,sortType);
         response.setResult(resultList);
         return response;
     }
