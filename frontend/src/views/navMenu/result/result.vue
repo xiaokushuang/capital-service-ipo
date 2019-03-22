@@ -3,24 +3,23 @@
         <!-- 上 -->
         <div class="one">
             <ul style="padding-left: 0;">
-                <li style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
+                <li v-show="baseList.length>0" style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
                     <div class="text">
                         <p style="font-size:14px;">
                             <span style="font-family:'微软雅黑';font-weight:400;color:#999;">第一次审核会议: </span>
-                            <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> 第十七届发审委2018年第189次工作会议 _2018年12月7日</span>
+                            <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].relationFileTitle}}</span>
                         </p>
                     </div>
                     <div class="text ">
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第一次审核结果: </span>
-                            <span style="color:#333;">浙江三美化工股份有限公司（首发）</span>
-                            <span class="bqResult">暂缓表决</span>
+                            <span class="bqResult">{{ baseList[0].iecResultStr}}</span>
                         </p>
                     </div>
                     <div class="text ">
                          <p style="font-size:14px;">
                              <span style="color:#999;">发审会委员: </span>
-                             <span style="color:#333;">张三，李四，王五，陈雪莲，赵六，姓名1，姓名2；</span>
+                             <span v-for="name in baseList[0].member" style="color:#333;">{{name}}</span>
                              <span style="color:#6B6B6B;"> </span>
                              <span style="color:#6699FF;" @click="handleMemberDetail()">详情 &gt;</span>
                         </p>
@@ -30,10 +29,9 @@
                         title="发审会委员"
                         :visible.sync="dialogVisible"
                         width="73.6%"
-                        min-height="60%"
                         :before-close="handleClose">
-                        <ul class="clear" style="width:100%;padding-left:2px">
-                            <li class="l positionLi" style="width:31.67%;border:1px solid lightgray;padding:20px">
+                        <ul class="clear" style="width:100%;padding-left:2px;height: 434px;overflow-y: scroll;">
+                            <li class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">王童萱</span>
                                     <span style="color: #666;margin-left:32px">男</span>
@@ -62,7 +60,7 @@
                                     <span style="color: #666">兼职</span>
                                 </div>
                             </li>
-                            <li class="l positionLi" style="width:31.67%;border:1px solid lightgray;padding:20px">
+                            <li class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">王童萱</span>
                                     <span style="color: #666;margin-left:32px">男</span>
@@ -91,7 +89,502 @@
                                     <span style="color: #666">兼职</span>
                                 </div>
                             </li>
-                            <li class="l positionLi" style="width:31.67%;border:1px solid lightgray;padding:20px">
+                            <li class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
+                                <div>
+                                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">王童萱</span>
+                                    <span style="color: #666;margin-left:32px">男</span>
+                                </div>
+                                <span class="position" style="background: #14bcf5;
+                                    font-weight: 400;
+                                    font-style: normal;
+                                    font-size: 12px;
+                                    line-height: 18px;
+                                    color: #fff;
+                                    display:inline-block;
+                                    padding-left: 7px;
+                                    padding-right:7px;
+                                    margin-top: 6px;
+                                    margin-bottom: 10px;">抽查处处长</span>
+                                <div>
+                                    <span style="color: #666;">学历/专业：</span>
+                                    <span style="color: #666">硕士/法律</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作单位：</span>
+                                    <span style="color: #666">深圳证监局</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作性质：</span>
+                                    <span style="color: #666">兼职</span>
+                                </div>
+                            </li>
+                            <li class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
+                                <div>
+                                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">王童萱</span>
+                                    <span style="color: #666;margin-left:32px">男</span>
+                                </div>
+                                <span class="position" style="background: #14bcf5;
+                                    font-weight: 400;
+                                    font-style: normal;
+                                    font-size: 12px;
+                                    line-height: 18px;
+                                    color: #fff;
+                                    display:inline-block;
+                                    padding-left: 7px;
+                                    padding-right:7px;
+                                    margin-top: 6px;
+                                    margin-bottom: 10px;">抽查处处长</span>
+                                <div>
+                                    <span style="color: #666;">学历/专业：</span>
+                                    <span style="color: #666">硕士/法律</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作单位：</span>
+                                    <span style="color: #666">深圳证监局</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作性质：</span>
+                                    <span style="color: #666">兼职</span>
+                                </div>
+                            </li>
+                            <li class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
+                                <div>
+                                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">王童萱</span>
+                                    <span style="color: #666;margin-left:32px">男</span>
+                                </div>
+                                <span class="position" style="background: #14bcf5;
+                                    font-weight: 400;
+                                    font-style: normal;
+                                    font-size: 12px;
+                                    line-height: 18px;
+                                    color: #fff;
+                                    display:inline-block;
+                                    padding-left: 7px;
+                                    padding-right:7px;
+                                    margin-top: 6px;
+                                    margin-bottom: 10px;">抽查处处长</span>
+                                <div>
+                                    <span style="color: #666;">学历/专业：</span>
+                                    <span style="color: #666">硕士/法律</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作单位：</span>
+                                    <span style="color: #666">深圳证监局</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作性质：</span>
+                                    <span style="color: #666">兼职</span>
+                                </div>
+                            </li>
+                            <li class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
+                                <div>
+                                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">王童萱</span>
+                                    <span style="color: #666;margin-left:32px">男</span>
+                                </div>
+                                <span class="position" style="background: #14bcf5;
+                                    font-weight: 400;
+                                    font-style: normal;
+                                    font-size: 12px;
+                                    line-height: 18px;
+                                    color: #fff;
+                                    display:inline-block;
+                                    padding-left: 7px;
+                                    padding-right:7px;
+                                    margin-top: 6px;
+                                    margin-bottom: 10px;">抽查处处长</span>
+                                <div>
+                                    <span style="color: #666;">学历/专业：</span>
+                                    <span style="color: #666">硕士/法律</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作单位：</span>
+                                    <span style="color: #666">深圳证监局</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作性质：</span>
+                                    <span style="color: #666">兼职</span>
+                                </div>
+                            </li>
+                             <li class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
+                                <div>
+                                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">王童萱</span>
+                                    <span style="color: #666;margin-left:32px">男</span>
+                                </div>
+                                <span class="position" style="background: #14bcf5;
+                                    font-weight: 400;
+                                    font-style: normal;
+                                    font-size: 12px;
+                                    line-height: 18px;
+                                    color: #fff;
+                                    display:inline-block;
+                                    padding-left: 7px;
+                                    padding-right:7px;
+                                    margin-top: 6px;
+                                    margin-bottom: 10px;">抽查处处长</span>
+                                <div>
+                                    <span style="color: #666;">学历/专业：</span>
+                                    <span style="color: #666">硕士/法律</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作单位：</span>
+                                    <span style="color: #666">深圳证监局</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作性质：</span>
+                                    <span style="color: #666">兼职</span>
+                                </div>
+                            </li>
+                            <li class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
+                                <div>
+                                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">王童萱</span>
+                                    <span style="color: #666;margin-left:32px">男</span>
+                                </div>
+                                <span class="position" style="background: #14bcf5;
+                                    font-weight: 400;
+                                    font-style: normal;
+                                    font-size: 12px;
+                                    line-height: 18px;
+                                    color: #fff;
+                                    display:inline-block;
+                                    padding-left: 7px;
+                                    padding-right:7px;
+                                    margin-top: 6px;
+                                    margin-bottom: 10px;">抽查处处长</span>
+                                <div>
+                                    <span style="color: #666;">学历/专业：</span>
+                                    <span style="color: #666">硕士/法律</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作单位：</span>
+                                    <span style="color: #666">深圳证监局</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作性质：</span>
+                                    <span style="color: #666">兼职</span>
+                                </div>
+                            </li>
+                            <li class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
+                                <div>
+                                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">王童萱</span>
+                                    <span style="color: #666;margin-left:32px">男</span>
+                                </div>
+                                <span class="position" style="background: #14bcf5;
+                                    font-weight: 400;
+                                    font-style: normal;
+                                    font-size: 12px;
+                                    line-height: 18px;
+                                    color: #fff;
+                                    display:inline-block;
+                                    padding-left: 7px;
+                                    padding-right:7px;
+                                    margin-top: 6px;
+                                    margin-bottom: 10px;">抽查处处长</span>
+                                <div>
+                                    <span style="color: #666;">学历/专业：</span>
+                                    <span style="color: #666">硕士/法律</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作单位：</span>
+                                    <span style="color: #666">深圳证监局</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作性质：</span>
+                                    <span style="color: #666">兼职</span>
+                                </div>
+                            </li>
+                             <li class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
+                                <div>
+                                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">王童萱</span>
+                                    <span style="color: #666;margin-left:32px">男</span>
+                                </div>
+                                <span class="position" style="background: #14bcf5;
+                                    font-weight: 400;
+                                    font-style: normal;
+                                    font-size: 12px;
+                                    line-height: 18px;
+                                    color: #fff;
+                                    display:inline-block;
+                                    padding-left: 7px;
+                                    padding-right:7px;
+                                    margin-top: 6px;
+                                    margin-bottom: 10px;">抽查处处长</span>
+                                <div>
+                                    <span style="color: #666;">学历/专业：</span>
+                                    <span style="color: #666">硕士/法律</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作单位：</span>
+                                    <span style="color: #666">深圳证监局</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作性质：</span>
+                                    <span style="color: #666">兼职</span>
+                                </div>
+                            </li>
+                            <li class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
+                                <div>
+                                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">王童萱</span>
+                                    <span style="color: #666;margin-left:32px">男</span>
+                                </div>
+                                <span class="position" style="background: #14bcf5;
+                                    font-weight: 400;
+                                    font-style: normal;
+                                    font-size: 12px;
+                                    line-height: 18px;
+                                    color: #fff;
+                                    display:inline-block;
+                                    padding-left: 7px;
+                                    padding-right:7px;
+                                    margin-top: 6px;
+                                    margin-bottom: 10px;">抽查处处长</span>
+                                <div>
+                                    <span style="color: #666;">学历/专业：</span>
+                                    <span style="color: #666">硕士/法律</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作单位：</span>
+                                    <span style="color: #666">深圳证监局</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作性质：</span>
+                                    <span style="color: #666">兼职</span>
+                                </div>
+                            </li>
+                            <li class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
+                                <div>
+                                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">王童萱</span>
+                                    <span style="color: #666;margin-left:32px">男</span>
+                                </div>
+                                <span class="position" style="background: #14bcf5;
+                                    font-weight: 400;
+                                    font-style: normal;
+                                    font-size: 12px;
+                                    line-height: 18px;
+                                    color: #fff;
+                                    display:inline-block;
+                                    padding-left: 7px;
+                                    padding-right:7px;
+                                    margin-top: 6px;
+                                    margin-bottom: 10px;">抽查处处长</span>
+                                <div>
+                                    <span style="color: #666;">学历/专业：</span>
+                                    <span style="color: #666">硕士/法律</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作单位：</span>
+                                    <span style="color: #666">深圳证监局</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作性质：</span>
+                                    <span style="color: #666">兼职</span>
+                                </div>
+                            </li>
+                            <li class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
+                                <div>
+                                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">王童萱</span>
+                                    <span style="color: #666;margin-left:32px">男</span>
+                                </div>
+                                <span class="position" style="background: #14bcf5;
+                                    font-weight: 400;
+                                    font-style: normal;
+                                    font-size: 12px;
+                                    line-height: 18px;
+                                    color: #fff;
+                                    display:inline-block;
+                                    padding-left: 7px;
+                                    padding-right:7px;
+                                    margin-top: 6px;
+                                    margin-bottom: 10px;">抽查处处长</span>
+                                <div>
+                                    <span style="color: #666;">学历/专业：</span>
+                                    <span style="color: #666">硕士/法律</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作单位：</span>
+                                    <span style="color: #666">深圳证监局</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作性质：</span>
+                                    <span style="color: #666">兼职</span>
+                                </div>
+                            </li>
+                            <li class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
+                                <div>
+                                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">王童萱</span>
+                                    <span style="color: #666;margin-left:32px">男</span>
+                                </div>
+                                <span class="position" style="background: #14bcf5;
+                                    font-weight: 400;
+                                    font-style: normal;
+                                    font-size: 12px;
+                                    line-height: 18px;
+                                    color: #fff;
+                                    display:inline-block;
+                                    padding-left: 7px;
+                                    padding-right:7px;
+                                    margin-top: 6px;
+                                    margin-bottom: 10px;">抽查处处长</span>
+                                <div>
+                                    <span style="color: #666;">学历/专业：</span>
+                                    <span style="color: #666">硕士/法律</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作单位：</span>
+                                    <span style="color: #666">深圳证监局</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作性质：</span>
+                                    <span style="color: #666">兼职</span>
+                                </div>
+                            </li>
+                            <li class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
+                                <div>
+                                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">王童萱</span>
+                                    <span style="color: #666;margin-left:32px">男</span>
+                                </div>
+                                <span class="position" style="background: #14bcf5;
+                                    font-weight: 400;
+                                    font-style: normal;
+                                    font-size: 12px;
+                                    line-height: 18px;
+                                    color: #fff;
+                                    display:inline-block;
+                                    padding-left: 7px;
+                                    padding-right:7px;
+                                    margin-top: 6px;
+                                    margin-bottom: 10px;">抽查处处长</span>
+                                <div>
+                                    <span style="color: #666;">学历/专业：</span>
+                                    <span style="color: #666">硕士/法律</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作单位：</span>
+                                    <span style="color: #666">深圳证监局</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作性质：</span>
+                                    <span style="color: #666">兼职</span>
+                                </div>
+                            </li>
+                             <li class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
+                                <div>
+                                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">王童萱</span>
+                                    <span style="color: #666;margin-left:32px">男</span>
+                                </div>
+                                <span class="position" style="background: #14bcf5;
+                                    font-weight: 400;
+                                    font-style: normal;
+                                    font-size: 12px;
+                                    line-height: 18px;
+                                    color: #fff;
+                                    display:inline-block;
+                                    padding-left: 7px;
+                                    padding-right:7px;
+                                    margin-top: 6px;
+                                    margin-bottom: 10px;">抽查处处长</span>
+                                <div>
+                                    <span style="color: #666;">学历/专业：</span>
+                                    <span style="color: #666">硕士/法律</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作单位：</span>
+                                    <span style="color: #666">深圳证监局</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作性质：</span>
+                                    <span style="color: #666">兼职</span>
+                                </div>
+                            </li>
+                            <li class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
+                                <div>
+                                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">王童萱</span>
+                                    <span style="color: #666;margin-left:32px">男</span>
+                                </div>
+                                <span class="position" style="background: #14bcf5;
+                                    font-weight: 400;
+                                    font-style: normal;
+                                    font-size: 12px;
+                                    line-height: 18px;
+                                    color: #fff;
+                                    display:inline-block;
+                                    padding-left: 7px;
+                                    padding-right:7px;
+                                    margin-top: 6px;
+                                    margin-bottom: 10px;">抽查处处长</span>
+                                <div>
+                                    <span style="color: #666;">学历/专业：</span>
+                                    <span style="color: #666">硕士/法律</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作单位：</span>
+                                    <span style="color: #666">深圳证监局</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作性质：</span>
+                                    <span style="color: #666">兼职</span>
+                                </div>
+                            </li>
+                            <li class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
+                                <div>
+                                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">王童萱</span>
+                                    <span style="color: #666;margin-left:32px">男</span>
+                                </div>
+                                <span class="position" style="background: #14bcf5;
+                                    font-weight: 400;
+                                    font-style: normal;
+                                    font-size: 12px;
+                                    line-height: 18px;
+                                    color: #fff;
+                                    display:inline-block;
+                                    padding-left: 7px;
+                                    padding-right:7px;
+                                    margin-top: 6px;
+                                    margin-bottom: 10px;">抽查处处长</span>
+                                <div>
+                                    <span style="color: #666;">学历/专业：</span>
+                                    <span style="color: #666">硕士/法律</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作单位：</span>
+                                    <span style="color: #666">深圳证监局</span>
+                                </div>
+                                <div>
+                                    <span style="color: #666;">工作性质：</span>
+                                    <span style="color: #666">兼职</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </el-dialog>
+                </li>
+                 <li v-show="baseList[1]" style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
+                    <div class="text">
+                        <p style="font-size:14px;">
+                            <span style="font-family:'微软雅黑';font-weight:400;color:#999;">第二次审核会议: </span>
+                            <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[1].relationFileTitle}}</span>
+                        </p>
+                    </div>
+                    <div class="text ">
+                        <p style="font-size:14px;">
+                            <span style="font-size:14px;color:#999;">第二次审核结果: </span>
+                            <span class="bqResult">{{ baseList[1].iecResultStr}}</span>
+                        </p>
+                    </div>
+                    <div class="text ">
+                         <p style="font-size:14px;">
+                             <span style="color:#999;">发审会委员: </span>
+                             <span v-for="name in baseList[1].member" style="color:#333;">{{name}}</span>
+                             <span style="color:#6B6B6B;"> </span>
+                             <span style="color:#6699FF;" @click="handleMemberDetail()">详情 &gt;</span>
+                        </p>
+                    </div>
+                    <!-- 委员弹窗 -->
+                    <el-dialog
+                        title="发审会委员"
+                        :visible.sync="dialogVisible"
+                        width="73.6%"
+                        :before-close="handleClose">
+                        <ul class="clear" style="width:100%;padding-left:2px;height: 434px;overflow-y: scroll;">
+                            <li class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">王童萱</span>
                                     <span style="color: #666;margin-left:32px">男</span>
@@ -129,75 +622,24 @@
         <div class="two">
              <div class="title">
                 <span class="littleRectangle"></span>
-                <span class="titleText" id="result">第二次发审会关注问题</span>
+                <span v-if="baseList.length==1" class="titleText" id="result">第一次发审会关注问题</span>
+                <span v-if="baseList.length==2" class="titleText" id="result">第二次发审会关注问题</span>
+                <span v-if="baseList.length==3" class="titleText" id="result">第三次发审会关注问题</span>
             </div>
             <div>
                 <ul style="padding-left:0">
-                    <li style="border-bottom:1px solid lightgray;padding-bottom:15px;margin-bottom:30px">
-                        <div class="text" style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:10px;position:relative">
-                            <div class="wen">问</div>
-                            <p style="font-size:18px;">
-                                <span class="quan" style="font-family:'Microsoft Tai Le Negreta', 'Microsoft Tai Le';font-weight:700;width:23px;height:23px;display:inline-block;text-align: center;line-height: 23px;">1</span>
-                                <span style="font-family:'Microsoft Tai Le Normal', 'Microsoft Tai Le';font-weight:400;font-size:14px;">  &nbsp;</span>
-                                <span style="font-family:'Microsoft Tai Le Negreta', 'Microsoft Tai Le';font-weight:700;"> </span>
-                                <span style="font-family:'Microsoft Tai Le Normal', 'Microsoft Tai Le';font-weight:400;font-size:14px;">请发行人代表说明：</span>
-                            </p>
-                            <p style="font-size:14px;">
-                                <span style="font-family:'Microsoft Tai Le Normal', 'Microsoft Tai Le';font-weight:400;"><span>1）</span>报告期是否已取得所从事各项业务所必需的全部经验资质、备案或许可等，是否存在生产经营业务范围超资质许可的情形；</span>
-                            </p>
-                            <p style="font-size:14px;">
-                                <span style="font-family:'Microsoft Tai Le Normal', 'Microsoft Tai Le';font-weight:400;"><span>2）</span>部分股东与境外主体存在VIE结构安排，是否对发行人开展相关业务构成重大不确定性影响，相关信息披露和风险提示是否有足够充分。</span>
-                            </p>
-                             <p style="font-size:14px;">
-                                <span style="font-family:'Microsoft Tai Le Normal', 'Microsoft Tai Le';font-weight:400;"><span>3）</span>报告期是否已取得所从事各项业务所必需的全部经验资质、备案或许可等，是否存在生产经营业务范围超资质许可的情形；</span>
-                            </p>
-                            <p style="font-size:14px;">
-                                <span style="font-family:'Microsoft Tai Le Normal', 'Microsoft Tai Le';font-weight:400;"><span>4）</span>部分股东与境外主体存在VIE结构安排，是否对发行人开展相关业务构成重大不确定性影响，相关信息披露和风险提示是否有足够充分。</span>
-                            </p>
-                            <p style="font-size:14px;">
-                                <span style="font-family:'Microsoft Tai Le Normal', 'Microsoft Tai Le';font-weight:400;"><span>5）</span>部分股东与境外主体存在VIE结构安排，是否对发行人开展相关业务构成重大不确定性影响，相关信息披露和风险提示是否有足够充分。</span>
-                            </p>
-                            <p style="font-size:14px;">
-                                <span style="font-family:'Microsoft Tai Le Normal', 'Microsoft Tai Le';font-weight:400;">&nbsp;&nbsp; &nbsp;&nbsp; 请保荐代表人说明核查依据、过程并发表明确核查意见。</span>
-                            </p>
+                    <li v-for="data in questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:17px">
+                        <div class="text" style="position:relative">
+                            <div style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:12px;position:relative">
+                                <div class="wen">问</div>
+                                <p style="font-size: 14px;color: rgb(51, 51, 51);line-height: 22px;">{{data.question}}</p>
+                            </div>
+                            
+                            <div>
+                              <span v-for="item in data.labelList" class="biaoqian" style="margin-right:2px">{{item}}</span>
+                            </div>
                         </div>
-                        <div>
-                            <span class="biaoqian" style="margin-right:2px">经营资质</span>
-                            <span class="biaoqian" style="margin-right:2px">经营资质从v人</span>
-                        </div>
-                    </li>
-                    <li style="border-bottom:1px solid lightgray;padding-bottom:15px;margin-bottom:30px">
-                        <div class="text" style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:10px;position:relative">
-                            <div class="wen">问</div>
-                            <p style="font-size:18px;">
-                                <span class="quan" style="font-family:'Microsoft Tai Le Negreta', 'Microsoft Tai Le';font-weight:700;width:23px;height:23px;display:inline-block;text-align: center;line-height: 23px;">1</span>
-                                <span style="font-family:'Microsoft Tai Le Normal', 'Microsoft Tai Le';font-weight:400;font-size:14px;">  &nbsp;</span>
-                                <span style="font-family:'Microsoft Tai Le Negreta', 'Microsoft Tai Le';font-weight:700;"> </span>
-                                <span style="font-family:'Microsoft Tai Le Normal', 'Microsoft Tai Le';font-weight:400;font-size:14px;">请发行人代表说明：</span>
-                            </p>
-                            <p style="font-size:14px;">
-                                <span style="font-family:'Microsoft Tai Le Normal', 'Microsoft Tai Le';font-weight:400;"><span>1）</span>报告期是否已取得所从事各项业务所必需的全部经验资质、备案或许可等，是否存在生产经营业务范围超资质许可的情形；</span>
-                            </p>
-                            <p style="font-size:14px;">
-                                <span style="font-family:'Microsoft Tai Le Normal', 'Microsoft Tai Le';font-weight:400;"><span>2）</span>部分股东与境外主体存在VIE结构安排，是否对发行人开展相关业务构成重大不确定性影响，相关信息披露和风险提示是否有足够充分。</span>
-                            </p>
-                             <p style="font-size:14px;">
-                                <span style="font-family:'Microsoft Tai Le Normal', 'Microsoft Tai Le';font-weight:400;"><span>3）</span>报告期是否已取得所从事各项业务所必需的全部经验资质、备案或许可等，是否存在生产经营业务范围超资质许可的情形；</span>
-                            </p>
-                            <p style="font-size:14px;">
-                                <span style="font-family:'Microsoft Tai Le Normal', 'Microsoft Tai Le';font-weight:400;"><span>4）</span>部分股东与境外主体存在VIE结构安排，是否对发行人开展相关业务构成重大不确定性影响，相关信息披露和风险提示是否有足够充分。</span>
-                            </p>
-                            <p style="font-size:14px;">
-                                <span style="font-family:'Microsoft Tai Le Normal', 'Microsoft Tai Le';font-weight:400;"><span>5）</span>部分股东与境外主体存在VIE结构安排，是否对发行人开展相关业务构成重大不确定性影响，相关信息披露和风险提示是否有足够充分。</span>
-                            </p>
-                            <p style="font-size:14px;">
-                                <span style="font-family:'Microsoft Tai Le Normal', 'Microsoft Tai Le';font-weight:400;">&nbsp;&nbsp; &nbsp;&nbsp; 请保荐代表人说明核查依据、过程并发表明确核查意见。</span>
-                            </p>
-                        </div>
-                        <div>
-                            <span class="biaoqian" style="margin-right:2px">经营资质</span>
-                            <span class="biaoqian" style="margin-right:2px">经营资质从v人</span>
-                        </div>
+                        
                     </li>
                 </ul>
             </div> 
@@ -215,29 +657,40 @@
     </div>
 </template>
 <script>
-import { getResultList } from "@/api/result";
+import {geSelectFeedbackList } from '@/api/companyProfile'
 export default {
   name: "result",
   data() {
     return {
-        dialogVisible:false
+         caseId:this.$store.state.caseId,
+         dialogVisible:false,
+        //  第几次会议列表
+         baseList:[],
+        //  问题列表
+         questionList:[]
     };
   },
   created() {
     this.initTableData();
   },
   methods: {
+    initTableData() { 
+    // 动态传id
+        const param = {
+            id:this.caseId,
+        }
+        geSelectFeedbackList(param).then(res => {
+        //    console.log(res)
+           this.baseList = res.data.result.baseList
+           this.questionList = res.data.result.questionList
+        })
+    },
     handleClose(){
         this.dialogVisible = false
     },
     // 点击弹出详情方法
     handleMemberDetail(){
         this.dialogVisible = true
-    },
-    initTableData() {
-      getResultList().then(res => {
-        // console.log(res);
-      });
     },
     // 非空判断
     isNotEmpty(param) {

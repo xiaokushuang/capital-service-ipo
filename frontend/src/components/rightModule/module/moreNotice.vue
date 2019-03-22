@@ -27,8 +27,6 @@
             <template slot-scope="scope">
               <span style=" color:#0099CC">
                  <a v-if="scope.row.letterId!=''" @click="openLetterDetail(scope.row)">{{scope.row.relationFileTitle}}</a>
-                 <a v-else  @click="openUrl(scope.row)">{{scope.row.relationFileTitle}}</a>
-                <!-- {{ scope.row.relationFileTitle }} -->
               </span>
             </template>
                 
@@ -76,37 +74,7 @@ export default {
         console.log(this.multipleSelection.length)
       },
         openLetterDetail(v) {
-          // window.open(v.siteBaseUrl+"/letter/viewShare?letterId="+v.letterId)
-        },
-        openUrl(obj) {
-            //打开url
-            // var url = obj.infoUrl;
-            // var title = obj.relaName;
-            // if (
-            //     !(navigator.userAgent.indexOf("MSIE") >= 0) &&
-            //     navigator.userAgent.indexOf("Opera") < 0
-            // ) {
-            //     if (this.pdfBaseUrl != null && this.pdfBaseUrl != "") {
-            //         var _pdfBaseUrl = this.pdfBaseUrl;
-            //     }
-
-            //     if (
-            //         obj.infoUrl
-            //             .substring(obj.infoUrl.length - 4, obj.infoUrl.length)
-            //             .toLowerCase() == ".pdf" &&
-            //         _pdfBaseUrl
-            //     ) {
-            //         url =
-            //             _pdfBaseUrl +
-            //             "web/viewer.html?file=" +
-            //             _pdfBaseUrl +
-            //             "pdf/H2_" +
-            //             obj.relaId +
-            //             "_1.pdf&originTitle=" +
-            //             title;
-            //     }
-            // }
-            // window.open(encodeURI(url));
+          window.open(v.baseUrl)
         },
     }
 }
@@ -122,6 +90,7 @@ export default {
         margin-left:50px;
         border:1px solid rgba(202, 202, 202, 1);
         border-radius: 2px;
+        cursor:pointer;
     }
     // .el-table__row td:nth-child(3) {
     //    color:#0099CC

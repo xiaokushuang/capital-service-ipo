@@ -81,7 +81,7 @@ export const constantRouterMap = [
   {// financeStatistics/financeSearch
     path: '',
     component: Layout,
-    redirect: 'securitiesInit',
+    redirect: 'ipo',
     meta: { title: '首页', icon: 'dashboard' },
     children: [
       {
@@ -136,7 +136,13 @@ export const constantRouterMap = [
         path: 'tableDemo',
         component: _import('demos/demo1'),
         name: 'tableDemo'
-      }
+      },
+      {
+        path: 'ipo',
+        component: _import('financeStatistics/ipo'),
+        name: 'ipo',
+        meta: { title: '首页', icon: 'dashboard', noCache: true }
+      },
 
     ]
   }
