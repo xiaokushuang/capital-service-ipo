@@ -22,6 +22,8 @@ public class IpoExamineBaseDto implements Serializable {
     private String member;
     @ApiModelProperty("发审会日期")
     private String examineDate;
+    @ApiModelProperty("发审会日期,年月日格式")
+    private String examineDateStr;
 
     public String getRelationFileTitle() {
         return relationFileTitle;
@@ -69,5 +71,13 @@ public class IpoExamineBaseDto implements Serializable {
 
     public void setExamineDate(String examineDate) {
         this.examineDate = examineDate;
+    }
+
+    public String getExamineDateStr() {
+        return examineDateStr;
+    }
+
+    public void setExamineDateStr(String examineDateStr) {
+        this.examineDateStr = examineDateStr;
     }
 }
