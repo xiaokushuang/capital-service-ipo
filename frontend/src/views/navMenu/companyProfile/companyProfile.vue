@@ -66,19 +66,19 @@
       <div class="others" v-if="this.otherMarketInfoList&&this.otherMarketInfoList.length>0">
         <p style="color:black">登录其他资本市场</p>
         <ul v-for="item in otherMarketInfoList">
-          <li>
+          <li style=" width: 27%;">
             <span>资本市场</span>&nbsp;&nbsp;
             <span style="color:black">{{item.marketType}}</span>
           </li>
-          <li>
+          <li style=" width: 23%;">
             <span>公司代码</span>&nbsp;&nbsp;
             <span style="color:black">{{item.companyCode}}</span>
           </li>
-          <li>
+          <li style=" width: 25%;">
             <span>上市日/挂牌日</span>&nbsp;&nbsp;
             <span style="color:black">{{item.listTime}}</span>
           </li>
-          <li>
+          <li style=" width: 25%;">
             <span>退市日/摘牌日</span>&nbsp;&nbsp;
             <span style="color:black">{{item.delistTime }}</span>
           </li>
@@ -277,7 +277,7 @@
                     </template>
                   </el-table-column>
                 </el-table-column>
-                <el-table-column :label="item.thirdYearForSupplier" header-align="center">
+                <el-table-column :label="item.thirdYearForCustomer" header-align="center">
                   <el-table-column align="right"  class-name="table_cell" label="采购内容" width="117">
                     <template slot-scope="scope">
                       <span>{{isNotEmpty(scope.row.thirdYearContent) ? scope.row.thirdYearContent : '- -'}}</span>
@@ -294,7 +294,7 @@
                     </template>
                   </el-table-column>
                 </el-table-column>
-                <el-table-column :label="item.secondYearForSupplier" header-align="center">
+                <el-table-column :label="item.secondYearForCustomer" header-align="center">
                   <el-table-column align="right"  class-name="table_cell" label="采购内容" width="117">
                     <template slot-scope="scope">
                       <span>{{isNotEmpty(scope.row.secondYearContent ) ? scope.row.secondYearContent  : '- -'}}</span>
@@ -311,7 +311,7 @@
                     </template>
                   </el-table-column>
                 </el-table-column>
-                <el-table-column :label="item.firstYearForSupplier" header-align="center">
+                <el-table-column :label="item.firstYearForCustomer" header-align="center">
                   <el-table-column align="right"  class-name="table_cell" label="采购内容" width="117">
                     <template slot-scope="scope">
                       <span>{{isNotEmpty(scope.row.firstYearContent ) ? scope.row.firstYearContent  : '- -'}}</span>
@@ -478,7 +478,7 @@ export default {
         id:this.caseId
       }
       getCaseDetail(param).then(res => {
-        console.log(res.data.result)
+        // console.log(res.data.result)
           this.id = res.data.result.id//公司id
           if(res.data.result.structureLabel){
             this.structureLabel = res.data.result.structureLabel.split(',');
@@ -502,7 +502,7 @@ export default {
       getMarketData(param).then(res=>{
           // console.log(res)
           this.otherMarketInfoList = res.data.result//其他登录市场
-          console.log(this.otherMarketInfoList)
+          // console.log(this.otherMarketInfoList)
       });
       getShareHolderData(param).then(res=>{
         // console.log(res.data.result)
@@ -514,15 +514,15 @@ export default {
       });
       getRaiseMoneyTableList(param).then(res=>{
         this.raiseMoneyTableList = res.data.result
-        console.log(this.raiseMoneyTableList)
+        // console.log(this.raiseMoneyTableList)
       });
       // 供应商
       getSupplierCustomerData(param).then(response => {
-        console.log(response.data.result)
+        // console.log(response.data.result)
         this.supplierMainList = response.data.result.supplierMainList
         this.customerMainList = response.data.result.customerMainList
-        console.log(this.supplierMainList)
-        console.log(this.customerMainList)
+        // console.log(this.supplierMainList)
+        // console.log(this.customerMainList)
       })
       
     },
@@ -681,7 +681,7 @@ export default {
         flex-wrap: wrap;
         padding-left: 0;
         li {
-          width: 25%;
+         
         }
       }
     }

@@ -67,7 +67,7 @@ export default {
       }
       getTableData(param).then(response => {
         this.mainTableList = response.data.result
-        console.log(response.data.result.mainIncomeInfoList)
+        // console.log(response.data.result.mainIncomeInfoList)
         // console.log(this.mainTableList)
         // this.tableTitle = response.data.result[0]
         // this.tableContent = response.data.result.slice(1)

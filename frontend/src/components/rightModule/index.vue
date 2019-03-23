@@ -41,7 +41,7 @@
                                 <div class="border-right">
                                     <div style="font-size: 16px; color: #333333;"
                                         v-text='item.progressName'
-                                        @click.stop="showAndHide(boxDataItem,'each' + item.sort+ item.progressType ,item, 'title')"
+                                        @click="showAndHide(boxDataItem,'each' + item.sort+ item.progressType ,item, 'title')"
                                         @mouseenter="onMouseOver('each' + item.sort + item.progressType, item, index)"
                                         @mouseleave="onMouseOut('each' + item.sort + item.progressType, item, index)"
                                         class="tinyHand">
@@ -59,6 +59,7 @@
                                             padding-right:5px;
                                             line-height:10px;
                                             display:inline-block;
+                                            background-repeat:no-repeat;
                                             
                                             ">获通过</span>
                                         <span v-if="item.iecResult=='01'"
@@ -75,10 +76,19 @@
                                         
                                             
                                             ">未获通过</span>
-                                        <span class="zhbj" v-if="item.iecResult=='02'">暂缓表决
-                                            <div class="arrow-left arrow-box" >
-                                                <b class="left"><i class="left-arrow1"></i><i class="left-arrow2"></i></b>
-                                            </div>
+                                        <span class="zhbj" v-if="item.iecResult=='02'" 
+                                        :style={background:zhbj} 
+                                        style="font-size: 14px;
+                                            position: relative;
+                                            left: 40%;
+                                            top: -20px;
+                                            color: #FF9900;
+                                            padding:5px;
+                                            padding-right:5px;
+                                            line-height:10px;
+                                            display:inline-block;
+                                            ">暂缓表决
+                                            
                                         </span>
                                         <span v-if="item.iecResult=='03'"
                                         :style={background:qxsh} 
@@ -102,14 +112,14 @@
                                         <div :id="'each' + item.sort + item.progressType" style="display:none;">
                                             <div :ref='item.sort + item.progressType' :class="'abc'+item.sort + item.progressType"></div>
                                         </div>
-                                        <p @click.stop="gonggaoClick(boxDataItem)" v-if="item.relaList.length===0" v-show="item.flag==1" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a href="#"></a></p>
-                                        <p @click.stop="gonggaoClick(boxDataItem)"  v-else  v-show="item.flag==1" class="gonggao"  style="color:#0086A7;font-size:14px"><a href="#">{{item.relaList[0].relationFileTitle}}</a></p>
+                                        <p v-if="item.relaList.length===0" v-show="item.flag==1" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></p>
+                                        <p @click.stop="gonggaoClick(item.relaList[0])"  v-else  v-show="item.flag==1" class="gonggao"  style="color:#0086A7;font-size:14px"><a>{{item.relaList[0].relationFileTitle}}</a></p>
                                     </div>
                                     <div v-if="item.flag==1&&item.relaList.length>1" style="margin-bottom: 24px;margin-top: 8px;">
                                         <span>
                                             <span>
-                                                <a v-if="boxDataItem.sandian" href="#" @click.stop="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告</a>
-                                                <a v-else href="#" @click.stop="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多审核意见</a>
+                                                <a v-if="boxDataItem.treeTypeCode == '02'" @click.stop="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告</a>
+                                                <a v-else @click.stop="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多审核意见</a>
                                             </span>
                                         </span>
                                     </div>
@@ -117,9 +127,9 @@
                                         <span>  
                                             <span>
                                                 <!-- 第一个进程展示的是‘查看公告’ -->
-                                                <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click.stop="showAndHide(boxDataItem,'each' + item.sort+ item.progressType,item, null)" href="#" class="moreNoticeCss">查看公告</div>
+                                                <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click.stop="showAndHide(boxDataItem,'each' + item.sort+ item.progressType,item, null)" class="moreNoticeCss">查看公告</div>
                                                 <!-- 第二个进程展示的是‘查看审核意见’ -->
-                                                <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click.stop="showAndHide(boxDataItem,'each' + item.sort+ item.progressType,item, null)" href="#" class="moreNoticeCss">查看审核意见</div>
+                                                <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click.stop="showAndHide(boxDataItem,'each' + item.sort+ item.progressType,item, null)" class="moreNoticeCss">查看审核意见</div>
                                             </span>
                                         </span>
                                     </div>
@@ -168,20 +178,22 @@ export default {
             // 新加变量头
              boxData:[],
              boxData1:[],
+             boxData2:[],
+             boxData3:[],
              treeTypeCode:'',
              // 鼠标移入展示文字
              isShowSpreadText:false,
-             treeList0:[],
+            //  treeList0:[],
              treeList:[],
             //  是否全部展开
              isSpread:false,
             //  更多公告数据
              moreNoticeList:[],
             //  图片路径
-            zhbj:'url('+ require('../../assets/images/zhbj.png')+')',
-            htg:'url('+ require('../../assets/images/htg.png')+')',
-            whtg:'url('+ require('../../assets/images/whtg.png')+')',
-            qxsh:'url('+ require('../../assets/images/qxsh.png')+')',
+            zhbj:'url('+ require('../../assets/images/zhbj.png')+') no-repeat',
+            htg:'url('+ require('../../assets/images/htg.png')+') no-repeat',
+            whtg:'url('+ require('../../assets/images/whtg.png')+') no-repeat',
+            qxsh:'url('+ require('../../assets/images/qxsh.png')+') no-repeat',
             // 新加变量尾
             showLength: 10000,
             moreNoticeDailog: '',
@@ -221,17 +233,27 @@ export default {
     },
     methods: {
      // 初始化数据
-      initTableData(caseId,sortType) {
+      initTableData(sortType) {
         // 动态传id
         const param = {
-          id:this.caseId1
+          id:this.caseId1,
+          sortType:sortType
         }
         getRightModuleData(param).then(res => {
             this.treeList = res.data.result.treeList
             this.treeTypeCode = res.data.result.treeList[0].treeTypeCode
-            this.boxData = res.data.result.treeList[0].proList
-            this.boxData1 = res.data.result.treeList[1].proList
-            this.treeList0 = res.data.result.treeList[0]
+            // if(res.data.result.treeList.length==1&&res.data.result.treeList[0].proList.length>0){
+                this.boxData = res.data.result.treeList[0].proList
+            // }
+            //  if(res.data.result.treeList.length==2&&res.data.result.treeList[1].proList.length>0){
+                this.boxData1 = res.data.result.treeList[1].proList
+            // }
+            // if(res.data.result.treeList.length==3&&res.data.result.treeList[2].proList.length>0){
+                this.boxData2 = res.data.result.treeList[2].proList
+            // }
+            if(res.data.result.treeList.length==4){
+                this.boxData3 = res.data.result.treeList[3].proList
+            }
         })
         // if(this.treeList.length>0){
         //     this.flagLoading = false;
@@ -268,16 +290,28 @@ export default {
              this.boxData1.map(obj => {
                 this.showAndHideParent('each' + obj.sort + obj.progressType, exAllFlag,obj);
             })
+             this.boxData2.map(obj => {
+                this.showAndHideParent('each' + obj.sort + obj.progressType, exAllFlag,obj);
+            })
+             this.boxData3.map(obj => {
+                this.showAndHideParent('each' + obj.sort + obj.progressType, exAllFlag,obj);
+            })
         },
-        // sortTime(sortName, sort) {
-        //     if (sort == "asc") {
-        //         this.sortFlag = '1'
-        //     } else {
-        //         this.sortFlag = '0'
-        //     }
-        //     this.boxData.reverse();
-        //     this.boxData1.reverse();
-        // },
+        sortTime(sortType) {
+            if(sortType == '02'){
+                this.flag = "0";
+                sortType = '01';
+                this.sortFlag = '1'
+            }else {
+                this.flag = "1";
+                sortType = '02';
+                this.sortFlag = '0'
+            }
+            this.boxData.reverse();
+            this.boxData1.reverse();
+            this.boxData2.reverse();
+            this.boxData3.reverse();
+        },
         moreNoticeClick(params,obj) {
             // 弹出更多公告 
             this.dialogVisible = true;
@@ -303,7 +337,7 @@ export default {
         },
         // 点击查看公告
          showAndHide(param,obj,item, type) {
-
+            //  debugger
              if (type == 'title'){
                 item.flag = !item.flag;
              }else{
@@ -331,6 +365,7 @@ export default {
      
         // 点击展示的第一条公告名
         gonggaoClick(param){
+            window.open(param.baseUrl)
         },
         onMouseOver (obj, item, index) {
             this.$set(item,'showIcon',true)
@@ -575,22 +610,22 @@ export default {
     }
 }
 // 标签
-.zhbj{
-    font-size: 14px;
-    position: relative;
-    left: 40%;
-    top: -20px;
-    color: #FF9900;
-    padding:5px;
-    padding-right:5px;
-    line-height:10px;
-    display:inline-block;
-    background-size:100% 100%;
-    border:1px solid #FF9900;
-    border-radius:2px;
-    border-left:none;
-    background-repeat: no-repeat !important;
-}
+// .zhbj{
+//     font-size: 14px;
+//     position: relative;
+//     left: 40%;
+//     top: -20px;
+//     color: #FF9900;
+//     padding:5px;
+//     padding-right:5px;
+//     line-height:10px;
+//     display:inline-block;
+//     background-size:100% 100%;
+//     border:1px solid #FF9900;
+//     border-radius:2px;
+//     border-left:none;
+//     background-repeat: no-repeat !important;
+// }
 // .zhbj:before {
 //     content: '';
 //     width: 0;
@@ -603,33 +638,33 @@ export default {
 //     margin-left: -20px;
 // }
  /*左箭头*/
-        .left{
-             width: 20px;
-            height: 20px;
-            position: absolute;
-            left: -19px;
-            top: -2px;
-            z-index: 3;
-        }
-        .left-arrow1,.left-arrow2{
-            width:0;
-            height:0;
-            display:block;
-            position:absolute;
-            left:0;
-            top:0;
-            z-index:5;/*兼容ie8-*/
-            border-top:12px transparent dashed;
-            border-left:10px transparent dashed;
-            border-bottom:12px transparent dashed;
-            border-right:10px white solid;
-            overflow:hidden;
-        }
-        .left-arrow1{
-            border-right:10px #FF9900 solid;
-        }
-        .left-arrow2{
-            left:1px;/*重要*/
-            border-right:10px white solid;
-        }
+        // .left{
+        //      width: 20px;
+        //     height: 20px;
+        //     position: absolute;
+        //     left: -19px;
+        //     top: -2px;
+        //     z-index: 3;
+        // }
+        // .left-arrow1,.left-arrow2{
+        //     width:0;
+        //     height:0;
+        //     display:block;
+        //     position:absolute;
+        //     left:0;
+        //     top:0;
+        //     z-index:5;/*兼容ie8-*/
+        //     border-top:12px transparent dashed;
+        //     border-left:10px transparent dashed;
+        //     border-bottom:12px transparent dashed;
+        //     border-right:10px white solid;
+        //     overflow:hidden;
+        // }
+        // .left-arrow1{
+        //     border-right:10px #FF9900 solid;
+        // }
+        // .left-arrow2{
+        //     left:1px;/*重要*/
+        //     border-right:10px white solid;
+        // }
 </style>
