@@ -125,3 +125,11 @@ export function geSelectFeedbackList(query) {
     params: query
   })
 }
+// 审核结果及关注问题的委员详情
+export function geSelectMemberList(query) {
+  return request({
+    url: '/ipo/ipoExamine/selectMemberList',
+    method: 'get',
+    params: query
+  })
+}

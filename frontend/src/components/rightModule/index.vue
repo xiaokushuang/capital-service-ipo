@@ -5,8 +5,7 @@
             <div v-if="boxDataItem.proList.length>0">
                 <el-row style="padding-left:12px">
                     <el-col :span="24" style="border-left:1px solid #0099cc; margin-bottom: -10px;margin-top:10px;padding-bottom: 10px;">
-                         <!-- 进程名 -->
-                         
+                         <!-- 进程名 --> 
                         <div class="jincheng">
                             <img src="../../assets/images/jinchengjian.png" alt="">
                             <p v-if="boxDataItem.treeTypeCode == '02'">上市</p>
@@ -14,25 +13,25 @@
                             <p v-if="boxDataItem.treeTypeCode == '03'">辅导工作进程</p>
                             <p v-if="boxDataItem.treeTypeCode == '04'">股份公司设立</p>
                         </div>
-                         <div v-for="(item,index) in boxDataItem.proList" v-show=" !boxDataItem.sandian || index == 0 || index == boxDataItem.proList.length-1  || isSpread"  :key="item.sort">
+                         <div v-for="(item,index) in boxDataItem.proList" v-show=" !boxDataItem.sandian || index == 0 || index == boxDataItem.proList.length-1  || isSpread" >
                              <div class="right" >
                                 <div class="border-box">
                                     <span v-if="sortFlag == '0'">
-                                        <span :id="'sign' + item.sort + item.progressType" class="circle" 
-                                        :class="{'fa-chevron-down' : item.showIcon === true,'fa' : item.showIcon === true}"
+                                        <span :id="'sign' + item.proSort + item.progressType" class="circle" 
+        
                                         v-if="boxDataItem.proList.length">
                                          <!-- 展示序号 【默认时候不加类】-->
-                                            <span v-if="!item.showIcon">
+                                            <span :id="'num' + item.proSort + item.progressType">
                                                 {{indexShowHidden && thisIndex == index ? '' : boxDataItem.proList.length - index}}
                                             </span>
                                         </span>
                                     </span>
                                     <span v-else>
-                                        <span :id="'sign' + item.sort + item.progressType" class="circle" 
-                                         :class="{'fa-chevron-down' : item.showIcon === true,'fa' : item.showIcon === true}"
+                                        <span :id="'sign' + item.proSort + item.progressType" class="circle" 
+                                       
                                         v-if="boxDataItem.proList.length">
                                         <!-- 展示序号 -->
-                                            <span v-if="!item.showIcon">
+                                            <span :id="'num' + item.proSort + item.progressType">
                                                 {{indexShowHidden && thisIndex == index ? '' : index + 1}}
                                             </span>
                                         </span>
@@ -41,9 +40,9 @@
                                 <div class="border-right">
                                     <div style="font-size: 16px; color: #333333;"
                                         v-text='item.progressName'
-                                        @click="showAndHide(boxDataItem,'each' + item.sort+ item.progressType ,item, 'title')"
-                                        @mouseenter="onMouseOver('each' + item.sort + item.progressType, item, index)"
-                                        @mouseleave="onMouseOut('each' + item.sort + item.progressType, item, index)"
+                                        @click="showAndHide(boxDataItem,'each' + item.proSort+ item.progressType ,item, 'title')"
+                                        @mouseenter="onMouseOver('each' + item.proSort + item.progressType, item, index)"
+                                        @mouseleave="onMouseOut('each' + item.proSort + item.progressType, item, index)"
                                         class="tinyHand">
                                     </div>
                                     <!-- 审核结果 -->
@@ -109,27 +108,28 @@
                                         &nbsp;&nbsp;
                                         <span v-if="item.lastDay != undefined">距离上个进程{{item.lastDay}}</span>
                                         <!-- 前面图标 -->
-                                        <div :id="'each' + item.sort + item.progressType" style="display:none;">
-                                            <div :ref='item.sort + item.progressType' :class="'abc'+item.sort + item.progressType"></div>
+                                        <div :id="'each' + item.proSort + item.progressType" style="display:none;">
+                                            <div :ref='item.proSort + item.progressType' :class="'abc'+item.proSort + item.progressType"></div>
                                         </div>
-                                        <p v-if="item.relaList.length===0" v-show="item.flag==1" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></p>
-                                        <p @click.stop="gonggaoClick(item.relaList[0])"  v-else  v-show="item.flag==1" class="gonggao"  style="color:#0086A7;font-size:14px"><a>{{item.relaList[0].relationFileTitle}}</a></p>
+                                        <p v-if="item.relaList.length===0" v-show="item.flag" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></p>
+                                        <p @click="gonggaoClick(item.relaList[0])"  v-else  class="gonggao"  style="display:none;"
+                                        :id="'more'+ item.proSort + item.progressType"><a>{{item.relaList[0].relationFileTitle}}</a></p>
                                     </div>
-                                    <div v-if="item.flag==1&&item.relaList.length>1" style="margin-bottom: 24px;margin-top: 8px;">
+                                    <div v-if="item.flag&&item.relaList.length>1" style="margin-bottom: 24px;margin-top: 8px;">
                                         <span>
                                             <span>
-                                                <a v-if="boxDataItem.treeTypeCode == '02'" @click.stop="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告</a>
-                                                <a v-else @click.stop="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多审核意见</a>
+                                                <a v-if="boxDataItem.treeTypeCode == '02'" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告</a>
+                                                <a v-else @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多审核意见</a>
                                             </span>
                                         </span>
                                     </div>
-                                    <div  v-if="item.flag==0" style="margin-bottom: 24px;margin-top: 8px;"> 
+                                    <div  v-if="!item.flag" style="margin-bottom: 24px;margin-top: 8px;"> 
                                         <span>  
                                             <span>
                                                 <!-- 第一个进程展示的是‘查看公告’ -->
-                                                <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click.stop="showAndHide(boxDataItem,'each' + item.sort+ item.progressType,item, null)" class="moreNoticeCss">查看公告</div>
+                                                <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.proSort+ item.progressType,item, null)" class="moreNoticeCss">查看公告</div>
                                                 <!-- 第二个进程展示的是‘查看审核意见’ -->
-                                                <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click.stop="showAndHide(boxDataItem,'each' + item.sort+ item.progressType,item, null)" class="moreNoticeCss">查看审核意见</div>
+                                                <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.proSort+ item.progressType,item, null)" class="moreNoticeCss">查看审核意见</div>
                                             </span>
                                         </span>
                                     </div>
@@ -210,12 +210,15 @@ export default {
             indexShowHidden: false,
             thisIndex: '',
             sortType: '01',
+            expandAll:false,
             caseId1:this.$store.state.caseId,
         };
     },
     name: "rightModule",
     props: {
-        caseId: String
+        caseId: String,
+        // 从ipo组件传过来的属性值
+        expand:Boolean
     },
     created(){
          //   请求数据
@@ -242,22 +245,34 @@ export default {
         getRightModuleData(param).then(res => {
             this.treeList = res.data.result.treeList
             this.treeTypeCode = res.data.result.treeList[0].treeTypeCode
-            // if(res.data.result.treeList.length==1&&res.data.result.treeList[0].proList.length>0){
+            if(res.data.result.treeList.length==1){
                 this.boxData = res.data.result.treeList[0].proList
-            // }
-            //  if(res.data.result.treeList.length==2&&res.data.result.treeList[1].proList.length>0){
+            }
+             if(res.data.result.treeList.length==2){
+                   console.log('aaa',this.boxData)
+                this.boxData  = res.data.result.treeList[0].proList
                 this.boxData1 = res.data.result.treeList[1].proList
-            // }
-            // if(res.data.result.treeList.length==3&&res.data.result.treeList[2].proList.length>0){
+            }
+            if(res.data.result.treeList.length==3){
+                 console.log('aaa',this.boxData)
+                this.boxData  = res.data.result.treeList[0].proList
+                this.boxData1 = res.data.result.treeList[1].proList
                 this.boxData2 = res.data.result.treeList[2].proList
-            // }
+            }
             if(res.data.result.treeList.length==4){
+                  console.log('aaa',this.boxData)
+                this.boxData  = res.data.result.treeList[0].proList
+                this.boxData1 = res.data.result.treeList[1].proList
+                this.boxData2 = res.data.result.treeList[2].proList
                 this.boxData3 = res.data.result.treeList[3].proList
             }
         })
         // if(this.treeList.length>0){
         //     this.flagLoading = false;
         // }
+      },
+      handlerData(data) {
+        
       },
         // 弹窗多选框
        handleSelectionChange(val) {
@@ -285,16 +300,16 @@ export default {
         // 点击上面展开全部
         expandAlltoC(exAllFlag) {
             this.boxData.map(obj => {
-                this.showAndHideParent('each' + obj.sort + obj.progressType, exAllFlag,obj);
+                this.showAndHideParent('each' + obj.proSort + obj.progressType, exAllFlag,obj);
             })
              this.boxData1.map(obj => {
-                this.showAndHideParent('each' + obj.sort + obj.progressType, exAllFlag,obj);
+                this.showAndHideParent('each' + obj.proSort + obj.progressType, exAllFlag,obj);
             })
              this.boxData2.map(obj => {
-                this.showAndHideParent('each' + obj.sort + obj.progressType, exAllFlag,obj);
+                this.showAndHideParent('each' + obj.proSort + obj.progressType, exAllFlag,obj);
             })
              this.boxData3.map(obj => {
-                this.showAndHideParent('each' + obj.sort + obj.progressType, exAllFlag,obj);
+                this.showAndHideParent('each' + obj.proSort + obj.progressType, exAllFlag,obj);
             })
         },
         sortTime(sortType) {
@@ -328,39 +343,54 @@ export default {
                 exAllFlag == '0'
             ) {
                 document.getElementById(obj).setAttribute("style", "display:none;");
-                item.flag = 0;
-
+                if(  document.getElementById('more' +  item.proSort + item.progressType)) {
+                     document.getElementById('more' +  item.proSort + item.progressType).setAttribute("style", "display:none;");
+                     document.getElementById('sign' + item.proSort + item.progressType).className = 'circle'
+                     document.getElementById('num' + item.proSort + item.progressType).setAttribute("style", "display:inline-block;");
+                }
             } else {
-                document .getElementById(obj).setAttribute("style", "display:back;");
-                item.flag = 1;
+                if( document.getElementById('more' +  item.proSort + item.progressType)) {
+                    document.getElementById('more' +  item.proSort + item.progressType).setAttribute("style", "display:block;");
+                    document.getElementById('sign' + item.proSort + item.progressType).className = 'fa circle fa-chevron-down'
+                    document.getElementById('num' + item.proSort + item.progressType).setAttribute("style", "display:none;");
+                }
+                document .getElementById(obj).setAttribute("style", "display:block;");
+               
             }
         },
         // 点击查看公告
          showAndHide(param,obj,item, type) {
-            //  debugger
              if (type == 'title'){
-                item.flag = !item.flag;
-             }else{
-                item.flag = 1;
+               if (document.getElementById('more' +  item.proSort + item.progressType).getAttribute("style") ===
+                "display:none;"  ||
+                document.getElementById('more' +  item.proSort + item.progressType).getAttribute("style") ===
+                "display: none;" ){
+                document.getElementById('sign' + item.proSort + item.progressType).className = 'fa circle fa-chevron-down'
+                document.getElementById('more' +  item.proSort + item.progressType).setAttribute("style", "display:block;");
+                } else {
+                document.getElementById('sign' + item.proSort + item.progressType).className = 'fa circle fa-chevron-up'
+                document.getElementById('more' +  item.proSort + item.progressType).setAttribute("style", "display:none;");
+                }
              }
-            if (
-                document.getElementById(obj).getAttribute("style") ===
-                "display:none;" ||
-                document.getElementById(obj).getAttribute("style") ===
-                "display: none;"
-            ) {
-                document.getElementById(obj).setAttribute("style", "display:back;");
-                if (type == 'title') {
-                  document.querySelector('#sign' + item.sort + item.progressType).className = 'circle fa fa-chevron-up'
-                }
-                item.flag = 1;
-            } else {
-                document.getElementById(obj).setAttribute("style", "display:none;");
-                if (type == 'title') {
-                  document.querySelector('#sign' + item.sort+ item.progressType).className = 'circle fa fa-chevron-down'
-                }
-                item.flag = 0;
-            }
+    
+            // if (
+            //     document.getElementById(obj).getAttribute("style") ===
+                // "display:none;" ||
+                // document.getElementById(obj).getAttribute("style") ===
+                // "display: none;"
+            // ) {
+            //     document.getElementById(obj).setAttribute("style", "display:back;");
+            //     if (type == 'title') {
+            //       document.querySelector('#sign' + item.proSort + item.progressType).className = 'circle fa fa-chevron-up'
+            //     }
+            //     item.flag = true;
+            // } else {
+            //     document.getElementById(obj).setAttribute("style", "display:none;");
+            //     if (type == 'title') {
+            //       document.querySelector('#sign' + item.proSort+ item.progressType).className = 'circle fa fa-chevron-down'
+            //     }
+            //     item.flag = false;
+            // }
         },
      
         // 点击展示的第一条公告名
@@ -368,10 +398,12 @@ export default {
             window.open(param.baseUrl)
         },
         onMouseOver (obj, item, index) {
-            this.$set(item,'showIcon',true)
+            document.getElementById('sign' + item.proSort + item.progressType).className = 'fa circle fa-chevron-down'
+         document.getElementById('num' + item.proSort + item.progressType).setAttribute("style", "display:none;");
         },
         onMouseOut (obj, item) {
-              this.$set(item,'showIcon',false)
+              document.getElementById('sign' + item.proSort + item.progressType).className = 'circle'
+                document.getElementById('num' + item.proSort + item.progressType).setAttribute("style", "display:inline-block;");
         },
         sortBy(name, order) {
             return function (obj1, obj2) {
@@ -406,6 +438,24 @@ export default {
             }
         },
     },
+    watch:{
+        // 监听展开全部，收起全部的状态
+        expand(flag) {
+            this.expandAll = this.expand
+            this.boxData.map((item)=>{
+               this.$set(item,'flag',flag)
+            })
+             this.boxData1.map((item)=>{
+               this.$set(item,'flag',flag)
+            })
+             this.boxData2.map((item)=>{
+               this.$set(item,'flag',flag)
+            })
+              this.boxData3.map((item)=>{
+               this.$set(item,'flag',flag)
+            })
+        }
+    }
 };
 </script>
 
@@ -421,6 +471,13 @@ export default {
     cursor: pointer;
     text-decoration: underline;
     text-decoration-color: #0066FF;
+}
+.gonggao{
+    color:#0086A7;
+    font-size:14px;
+    display:none;
+    margin-bottom: 24px;
+    margin-top: 8px;
 }
 .gonggao:hover {
     cursor: pointer;

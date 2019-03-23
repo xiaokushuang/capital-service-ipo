@@ -66,11 +66,11 @@
       <div class="others" v-if="this.otherMarketInfoList&&this.otherMarketInfoList.length>0">
         <p style="color:black">登录其他资本市场</p>
         <ul v-for="item in otherMarketInfoList">
-          <li style=" width: 27%;">
+          <li style=" width: 30%;">
             <span>资本市场</span>&nbsp;&nbsp;
             <span style="color:black">{{item.marketType}}</span>
           </li>
-          <li style=" width: 23%;">
+          <li style=" width: 20%;">
             <span>公司代码</span>&nbsp;&nbsp;
             <span style="color:black">{{item.companyCode}}</span>
           </li>

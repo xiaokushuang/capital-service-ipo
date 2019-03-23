@@ -132,15 +132,13 @@
                         </el-col>
                         <span v-if="statusButtonFlag == '1'">
                             <el-col :span="5" style="text-align: right;">
-                              <span class="mmpClass" v-if="expandAllflag =='1'" @click="expandAll('0')">收起全部</span>
-                              <span class="mmpClass" v-else @click="expandAll('1')">展开全部</span>
+                              <span class="mmpClass" v-if="expandAllflag" @click="expandAll(false)">收起全部</span>
+                              <span class="mmpClass" v-else @click="expandAll(true)">展开全部</span>
                             </el-col>
                             <el-col :span="1">
                                 <span style="text-align: center;color: #14bcf5;padding-left: 4px;">|</span>
                             </el-col>
                             <el-col :span="4">
-                                <!-- <span class="mmpClass" v-if="flag =='1'" @click="sortTime('asc')">排序 ↓</span>
-                                <span class="mmpClass" v-else @click="sortTime('desc')">排序 ↑</span> -->
                                 <span class="mmpClass" v-if="flag =='1'" @click="sortTime('02')">排序 ↓</span>
                                 <span class="mmpClass" v-else @click="sortTime('01')">排序 ↑</span>
                             </el-col>
@@ -148,7 +146,8 @@
                      </el-row>
                  </div>
                     <span style="padding: 0px;">
-                        <right-module ref="rightModule" @statusButtonClick="statusButtonClick" :caseId="caseId"></right-module>
+                        <right-module ref="rightModule" @statusButtonClick="statusButtonClick" :caseId="caseId"
+                        ></right-module>
                     </span>
                 </el-col>
     <el-col :span="24">
@@ -267,7 +266,7 @@ export default {
       tabBarWidth: "",
       tabBarOffset: "",
       statusButtonFlag: "1",
-      expandAllflag: "0",
+      expandAllflag: false,
       flag: "1",
       activeName: "first",
       titleName: "",
@@ -294,8 +293,9 @@ export default {
     statusButtonClick(data) {
       this.statusButtonFlag = data;
     },
+    // 展开全部
     expandAll(flag) {
-      this.expandAllflag = flag;
+      this.expandAllflag = !this.expandAllflag
       this.$refs.rightModule.expandAlltoC(flag);
     },
     sortTime(sortType) {
@@ -306,10 +306,8 @@ export default {
         this.flag = "1";
         sortType = '02';
       }
-      
-      this.$refs.rightModule.sortTime(sortType);
       this.$refs.rightModule.initTableData(sortType);
-      
+      this.$refs.rightModule.sortTime(sortType);
     },
     handleClick() {
       if (this.activeName == "fourth") {
@@ -485,23 +483,7 @@ export default {
                     break
             }
         },
-    // jump(param, num) {
-    //         console.log(document.getElementById(param+ 'caseDetails').offsetTop)
-    //         document.documentElement.scrollTop = document.getElementById(param+ 'caseDetails').offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
-    //         switch (num) {
-    //             case 1:
-    //                 this.itemActiveFirst = param;
-    //                 break
-    //             case 3:
-    //                 this.itemActiveThird = param;
-    //                 break
-    //             case 4:
-    //                 this.itemActiveFourth = param;
-    //                 break
-    //             default:
-    //                 break
-    //         }
-    //     },
+
     styleInit() {
       var h1 = this.$refs.titleHeader.offsetHeight;
       var h2 = this.$refs.titleBody.offsetHeight;
@@ -519,26 +501,6 @@ export default {
   watch: {
     caseId(n, o) {}
   },
-  // created() {
-  //   this.caseId = this.$route.query.caseId;
-  //   this.allTime = this.$route.query.allTime;
-  //   if (this.$route.query.isActive) {
-  //     this.isActive = this.$route.query.isActive;
-  //   }
-  //   let param = {
-  //     caseId: this.caseId
-  //   };
-  //   this.$store.dispatch("timeMethod", param).then(data => {
-  //     if (data.data.result.timeD.time) {
-  //       this.time = data.data.result.timeD.time;
-  //     }
-  //     if (data.data.result.labelTong.lableName) {
-  //       this.lableName = data.data.result.labelTong.lableName;
-  //     }
-  //   });
-  //   this.titleName = this.$route.query.titleName;
-  //   this.shortName = this.$route.query.shortName;
-  // },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
     this.styleInit();

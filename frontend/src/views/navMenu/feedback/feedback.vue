@@ -1,5 +1,5 @@
 <template>
-    <div class="feedback">
+    <div class="feedback" id="componentId">
        <div class="label">
           <!-- 有多级标签选择 -->
            <div v-if="this.tabList.length>1" class="clear">
@@ -77,9 +77,13 @@
                         </div>
                     </div>
                     <div class="question" id="titleLength">
-                        <p style="font-weight: 400;font-style: normal;font-size: 16px; color: #3399ff;">
+                      <div class="title">
+                          <span class="littleRectangle"></span>
+                          <span class="titleText" id="result">规范性问题</span>
+                      </div>
+                        <!-- <p style="font-weight: 400;font-style: normal;font-size: 16px; color: #3399ff;">
                           一、规范性问题       
-                        </p>          
+                        </p>           -->
                         <ul v-if="questionList.length>0" style="padding-left:0">
                             <li v-for="(data,index) in questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
                                 <div class="text" style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:10px;position:relative">
@@ -113,7 +117,33 @@
                         </ul>
                         <ul v-else style="padding-left:0">
                             <li v-for="(data,index) in tabItem.questionList" :key="data.questionId" style="border-bottom:1px solid lightgray;padding-bottom:15px;margin-bottom:30px">
-                                
+                                 <div class="text" style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:10px;position:relative">
+                                    <!-- 问 -->
+                                    <div class="wen">问</div>
+                                    <div  style="font-size:14px;color:#333;line-height:22px">                                    
+                                         <p style="width:100%;" v-if="!data.isSpread || (data.isSpread && data.isSpread !== 2)">&nbsp;&nbsp;{{getContent(data,data.question,index,'answer')}}</p>
+                                         <p style="width:100%;" v-if="data.isSpread && data.isSpread === 2">&nbsp;&nbsp;{{data.question}}</p>
+                                    </div>
+                                    <!-- 收起展开 -->
+                                    <div class="btn" style="color: #4F91D1;font-size:14px">
+                                        <span v-if="data.isSpread && data.isSpread === 2" class="packUp" @click="packUp(data)">收起 <i style="font-size:14px" class="el-icon-arrow-up"></i></span>
+                                        <span v-if="data.isSpread && data.isSpread === 1" class="spread" @click="spread(data)">展开 <i style="font-size:14px" class="el-icon-arrow-down"></i></span>
+                                    </div>
+                                    <!-- 答 -->
+                                    <div class="da">答</div>
+                                    <div style="font-size:14px;color:#333;line-height:22px">
+                                        <p style="width:100%;" v-if="!data.isSpreada || (data.isSpreada && data.isSpreada !== 2)">&nbsp;&nbsp;{{getContent(data,data.question,index,'question')}}</p>
+                                        <p style="width:100%;"  v-if="data.isSpreada && data.isSpreada === 2">&nbsp;&nbsp;{{data.question}}</p>
+                                    </div>
+                                    <!-- 收起展开 -->
+                                    <div class="btn" style="color: #4F91D1;font-size:14px">
+                                        <span  v-if="data.isSpread && data.isSpreada === 2" class="packUp" @click="daPackUp(data)">收起 <i style="font-size:14px" class="el-icon-arrow-up"></i></span>
+                                        <span  v-if="data.isSpread && data.isSpreada === 1" class="spread" @click="daSpread(data)">展开 <i style="font-size:14px" class="el-icon-arrow-down"></i></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span v-for="biaoqian in data.labelList" class="biaoqian" style="margin-right:2px">{{biaoqian}}</span>
+                                </div>
                             </li>
                         </ul>
                       <!-- 加载更多 -->
@@ -172,11 +202,7 @@ export default {
        this.isShowAll = true
      },
     mounted() {
-      setTimeout(()=>{
-        this.$nextTick(()=>{
-          this.isShowAll = true
-        })
-      },1000)
+
     },
   methods: {
     // 获取单选按钮数据
@@ -202,9 +228,7 @@ export default {
           parentId:parentId
         }
         getSelectSecondLabelList(param).then(res => {
-          
           this.feedbackduoxuanList = res.data.result
-          // console.log(this.feedbackduoxuanList)
         })
       },
       // 获取筛选问题列表
@@ -215,13 +239,11 @@ export default {
           letterId:letterId,
           firstLabelId:firstLabelId,
           secondLabelId:secondLabelId,
-          onlyShowAnswerFlag:onlyShowAnswerFlag
+          onlyResponse:onlyShowAnswerFlag
         }
         getSelectQuestionListByLetterId(param).then(res => {
-
           this.questionList = res.data.result[0].questionList
-          // console.log('wen')
-          // console.log(this.questionList)
+          console.log(this.questionList)
         })
       },
       
@@ -233,7 +255,6 @@ export default {
     toggleSelection(){
       this.checkboxGroup = []
       this.radio = ''
-      // console.log(this.radio)
       this.onlyShowAnswer = false;
       this.feedbackduoxuanList = []
       this.questionList = []
@@ -242,7 +263,6 @@ export default {
     // 问【收起展开】
     spread(item) {
      this.$set(item,'isSpread',2)
-    //  console.log(item)
     },
     packUp(item) {
       this.$set(item,'isSpread',1)
@@ -256,14 +276,14 @@ export default {
         this.$set(item,'isSpreada',1)
       })
     },
-    getContent(data,title,index,type) { //
-      let width = (document.getElementById('titleLength').offsetWidth - 48) * 5
+    getContent(data,title,index,type) { 
+      let width = (document.getElementById('componentId').offsetWidth - 48) * 5
       let titleLength = title.length * 14
+      // console.log('aaaa',width,titleLength)
       let length = 0;
       if(titleLength > width) {
          for(let i =0;i<title.length;i++) {
          if(length > width) {
-          //  console.log(type)
             if(type === 'answer') {
               if(!data.isSpread || data.isSpread === 0) {
                 this.$set(data,'isSpread',1)
@@ -291,9 +311,8 @@ export default {
            }
         return title
       }
-    }
-  
-  },
+    },
+},
   // 动态监听单选和多选按钮的状态
 watch: {
       // 单选按钮
@@ -305,7 +324,7 @@ watch: {
                     // console.log(this.tabList[i].letterId,this.tabList[i].questionLabelList[j].labelCode)
                     this.initcheckBoxData(this.tabList[i].letterId,this.tabList[i].questionLabelList[j].labelCode)
                   }
-            }
+              }
           }
           
       },
@@ -324,12 +343,11 @@ watch: {
                         } 
                      }
                  }
-            }
+             }
           }
       },
       // 只展示回复问题
       "onlyShowAnswer"(val,oldVal){
-          if(val == true){
             for(var i = 0;i<this.tabList.length;i++){
               for(let j = 0;j<this.tabList[i].questionLabelList.length;j++){
                 if(this.tabList[i].questionLabelList[j].labelName == this.radioVal){
@@ -337,33 +355,18 @@ watch: {
                         for(var m = 0;m<this.feedbackduoxuanList.length;m++){
                           if(this.checkboxGroup[k] == this.feedbackduoxuanList[m].labelName ){
                             if(val == true){
-                                // console.log(val)
                              this.initQuestionData(this.tabList[i].letterId,this.tabList[i].questionLabelList[j].labelCode,this.feedbackduoxuanList[m].labelCode,'1')
-                            // console.log(this.tabList[i].letterId,this.tabList[i].questionLabelList[j].labelCode,this.feedbackduoxuanList[m].labelCode,'1')
+                             console.log(this.tabList[i].letterId,this.tabList[i].questionLabelList[j].labelCode,this.feedbackduoxuanList[m].labelCode,'1')
+                            }else{
+                              this.initQuestionData(this.tabList[i].letterId,this.tabList[i].questionLabelList[j].labelCode,this.feedbackduoxuanList[m].labelCode,'')
+                              console.log(this.tabList[i].letterId,this.tabList[i].questionLabelList[j].labelCode,this.feedbackduoxuanList[m].labelCode,'')
                             }
                           }
                         } 
                      }
                  }
-            }
+             }
           }
-          }
-        // for(var i = 0;i<this.tabList.length;i++){
-        //       for(let j = 0;j<this.tabList[i].questionLabelList.length;j++){
-        //          if(this.tabList[i].questionLabelList[j].labelName == this.radioVal){
-        //              for(var k = 0;k<this.checkboxGroup.length;k++){
-        //                 for(var m = 0;m<this.feedbackduoxuanList.length;m++){
-        //                   if(val[k] == this.feedbackduoxuanList[m].labelName ){
-        //                     if(val == true){
-        //                     //  this.initQuestionData(this.tabList[i].letterId,this.tabList[i].questionLabelList[j].labelCode,this.feedbackduoxuanList[m].labelCode,'1')
-        //                     console.log(this.tabList[i].letterId,this.tabList[i].questionLabelList[j].labelCode,this.feedbackduoxuanList[m].labelCode,'1')
-        //                     }
-        //                   }
-        //                 } 
-        //              }
-        //          }
-        //     }
-        //   }
       }
     }
 };
@@ -431,7 +434,7 @@ watch: {
   background: url("../../../assets/images/da.png") no-repeat;
   background-size: contain;
   position: relative;
-  top: 38px;
+  top: 15px;
   left: -23px;
 }
 .quan {
@@ -508,6 +511,29 @@ watch: {
   display: -webkit-box;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
+}
+.title {
+  border-bottom: 1px solid;
+  border-bottom-color: #ebebeb;
+  height: 42px;
+  line-height: 42px;
+  background-color: #fafafa;
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 16px;
+  .littleRectangle {
+    width: 3px;
+    height: 18px;
+    background-color: #999999;
+    display: inline-block;
+    margin-right: 12px;
+    margin-top: 0px;
+    .titleText {
+      font-size: 18px;
+      color: #333333;
+    }
+  }
 }
 </style>
 
