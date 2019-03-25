@@ -111,8 +111,8 @@
                                         <div :id="'each' + item.proSort + item.progressType" style="display:none;">
                                             <div :ref='item.proSort + item.progressType' :class="'abc'+item.proSort + item.progressType"></div>
                                         </div>
-                                        <p v-if="item.relaList.length===0" v-show="item.flag" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></p>
-                                        <p @click="gonggaoClick(item.relaList[0])"  v-else  class="gonggao"  style="display:none;"
+                                        <p v-if="item.relaList.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></p>
+                                        <p v-else @click="gonggaoClick(item.relaList[0])" class="gonggao" style="display:none;"
                                         :id="'more'+ item.proSort + item.progressType"><a>{{item.relaList[0].relationFileTitle}}</a></p>
                                     </div>
                                     <div v-if="item.flag&&item.relaList.length>1" style="margin-bottom: 24px;margin-top: 8px;">
@@ -361,36 +361,27 @@ export default {
         // 点击查看公告
          showAndHide(param,obj,item, type) {
              if (type == 'title'){
+                 item.flag = true;
                if (document.getElementById('more' +  item.proSort + item.progressType).getAttribute("style") ===
                 "display:none;"  ||
                 document.getElementById('more' +  item.proSort + item.progressType).getAttribute("style") ===
                 "display: none;" ){
                 document.getElementById('sign' + item.proSort + item.progressType).className = 'fa circle fa-chevron-down'
                 document.getElementById('more' +  item.proSort + item.progressType).setAttribute("style", "display:block;");
-                } else {
+                } else {                
+                item.flag = false;
                 document.getElementById('sign' + item.proSort + item.progressType).className = 'fa circle fa-chevron-up'
                 document.getElementById('more' +  item.proSort + item.progressType).setAttribute("style", "display:none;");
                 }
-             }
-    
-            // if (
-            //     document.getElementById(obj).getAttribute("style") ===
-                // "display:none;" ||
-                // document.getElementById(obj).getAttribute("style") ===
-                // "display: none;"
-            // ) {
-            //     document.getElementById(obj).setAttribute("style", "display:back;");
-            //     if (type == 'title') {
-            //       document.querySelector('#sign' + item.proSort + item.progressType).className = 'circle fa fa-chevron-up'
-            //     }
-            //     item.flag = true;
-            // } else {
-            //     document.getElementById(obj).setAttribute("style", "display:none;");
-            //     if (type == 'title') {
-            //       document.querySelector('#sign' + item.proSort+ item.progressType).className = 'circle fa fa-chevron-down'
-            //     }
-            //     item.flag = false;
-            // }
+             }else {                
+                 if (document.getElementById('more' +  item.proSort + item.progressType).getAttribute("style") ===
+                "display:none;"  ||
+                document.getElementById('more' +  item.proSort + item.progressType).getAttribute("style") ===
+                "display: none;" ){
+                    item.flag = true;
+                    document.getElementById('more' +  item.proSort + item.progressType).setAttribute("style", "display:block;");
+                }
+              }
         },
      
         // 点击展示的第一条公告名
@@ -399,11 +390,11 @@ export default {
         },
         onMouseOver (obj, item, index) {
             document.getElementById('sign' + item.proSort + item.progressType).className = 'fa circle fa-chevron-down'
-         document.getElementById('num' + item.proSort + item.progressType).setAttribute("style", "display:none;");
+            document.getElementById('num' + item.proSort + item.progressType).setAttribute("style", "display:none;");
         },
         onMouseOut (obj, item) {
               document.getElementById('sign' + item.proSort + item.progressType).className = 'circle'
-                document.getElementById('num' + item.proSort + item.progressType).setAttribute("style", "display:inline-block;");
+              document.getElementById('num' + item.proSort + item.progressType).setAttribute("style", "display:inline-block;");
         },
         sortBy(name, order) {
             return function (obj1, obj2) {
