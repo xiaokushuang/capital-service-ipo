@@ -90,7 +90,7 @@
         <if test="firstLabelId != null and firstLabelId != ''">
             AND t5.id = #{firstLabelId}
         </if>
-        <if test="onlyResponse == '1'">
+        <if test="onlyResponse == 1">
             AND t8.text_content is not null
         </if>
         ORDER BY

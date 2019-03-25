@@ -40,16 +40,21 @@ public class IpoProcessService extends BaseService {
             treeList.get(i).setSpreadFlag(false);
             List<IpoProListDto> proList = treeList.get(i) == null ? new ArrayList<>() : treeList.get(i).getProList();
             for (int j = 0; j < proList.size(); j++) {
+                proList.get(j).setProgressIndex(treeList.get(i).getTreeTypeCode()+proList.get(j).getProSort());
                 //每个进程只有第一个节点储存了时间，补全进程时间
                 List<IpoFileRelationDto> fileList = proList.get(j).getRelaList();
                 if (CollectionUtils.isNotEmpty(fileList)) {
                     proList.get(j).setProcessTime(fileList.get(0).getPublishTime());
+                    //发审会审核是有第一个节点存了审核结果，赋值到进程dto
+                    proList.get(j).setIecResult(fileList.get(0).getIecResult());
                     if (fileList.size() > 1) {
                         for (int k = 1; k < fileList.size(); k++) {
+                            //每个进程只有第一个节点储存了时间，补全进程时间
                             fileList.get(k).setPublishTime(fileList.get(0).getPublishTime());
                         }
                     }
                 }
+
                 //如果该进程没有关联文件，则从文件list中删除
                 List<IpoFileRelationDto> newFileList = new ArrayList<>();
                 for (IpoFileRelationDto fileDto : fileList) {
@@ -95,6 +100,14 @@ public class IpoProcessService extends BaseService {
                 }
             }
         }
+        //添加股份公司设立时间
+        IpoProgressDto publishDto = new IpoProgressDto();
+        publishDto.setTreeTypeCode("03");
+        String publishDate = ipoProcessMapper.getPublishDate(id);
+        publishDto.setPublishDate(publishDate);
+        publishDto.setTreeTypeName("股份公司设立时间");
+        treeList.add(publishDto);
+
         //默认为正序，如果要求倒序序排序，则在计算完距离上个进程天数后，重新排序
         if ("02".equals(sortType) && CollectionUtils.isNotEmpty(treeList)) {
             treeList.sort((IpoProgressDto d1, IpoProgressDto d2) -> d2.getTreeTypeCode().compareTo(d1.getTreeTypeCode()));
@@ -131,4 +144,5 @@ public class IpoProcessService extends BaseService {
         }
         return String.valueOf(lastDays);
     }
+
 }

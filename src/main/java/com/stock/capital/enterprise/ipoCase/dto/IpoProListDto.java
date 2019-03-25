@@ -35,6 +35,9 @@ public class IpoProListDto implements Serializable {
     @ApiModelProperty("文件列表")
     private List<IpoFileRelationDto> relaList;
 
+    @ApiModelProperty("进程唯一标识")
+    private String progressIndex;
+
     public String getProgressType() {
         return progressType;
     }
@@ -97,6 +100,14 @@ public class IpoProListDto implements Serializable {
 
     public void setFlag(boolean flag) {
         this.flag = flag;
+    }
+
+    public String getProgressIndex() {
+        return progressIndex;
+    }
+
+    public void setProgressIndex(String progressIndex) {
+        this.progressIndex = progressIndex;
     }
 }
 

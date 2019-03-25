@@ -9,11 +9,11 @@
             <collection property="proList" ofType="com.stock.capital.enterprise.ipoCase.dto.IpoProListDto">
                 <result column="process_type_code" property="progressType" jdbcType="VARCHAR"/>
                 <result column="label_name" property="progressName" jdbcType="VARCHAR"/>
-                <result column="iec_result" property="iecResult" jdbcType="VARCHAR"/>
                 <!--<result column="process_time" property="processTime" jdbcType="VARCHAR"/>-->
                 <result column="pro_sort" property="proSort" jdbcType="VARCHAR"/>
                 <collection property="relaList"
                             ofType="com.stock.capital.enterprise.ipoCase.dto.IpoFileRelationDto">
+                    <result column="iec_result" property="iecResult" jdbcType="VARCHAR"/>
                     <result column="id" property="id" jdbcType="VARCHAR"/>
                     <result column="relation_file_id" property="relaId" jdbcType="VARCHAR"/>
                     <result column="relation_file_title" property="relationFileTitle"
@@ -58,5 +58,9 @@
         </where>
             ORDER BY t1.tree_type_code,t1.pro_sort,t1.process_type_code,t1.table_sort
 
+    </select>
+
+    <select id="getPublishDate" parameterType="java.lang.String" resultType="java.lang.String">
+        select date_format(establish_date,'%Y-%m-%d') from ipo_case where id = #{id}
     </select>
 </mapper>

@@ -8,5 +8,13 @@ import java.util.List;
 
 @Repository
 public interface IpoProcessMapper {
+    /**
+     * 查询进程树
+     */
     TreeTypeProgressDto selectProcessList(String id);
+
+    /**
+     * 查询股份公司设立时间
+     */
+    String getPublishDate(String id);
 }

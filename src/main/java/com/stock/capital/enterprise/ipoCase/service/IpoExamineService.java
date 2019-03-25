@@ -60,7 +60,6 @@ public class IpoExamineService extends BaseService {
      * 查询委员详情
      */
     public List<IpoMemberDto> selectMemberList(String id, String examineDate) {
-        List<IpoMemberDto> resultList = new ArrayList<>();
         //查询发审委委员列表
         String orgCode = ipoFeedbackMapper.getOrgCode(id);
         DynamicDataSourceHolder.setDataSource("dongcai");
@@ -82,8 +81,7 @@ public class IpoExamineService extends BaseService {
         }
         List<IpoMemberDto> memberInformationList =
                 ipoExamineMapper.selectMemberInformationList(memberList, sessionYear);
-
-        return resultList;
+        return memberInformationList;
     }
 
     private Date changeStrToDate(String dateStr) {

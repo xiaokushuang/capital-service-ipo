@@ -21,6 +21,10 @@ public class IpoProgressDto implements Serializable {
     private boolean spreadFlag;
     @ApiModelProperty("是否展开")
     private boolean spread;
+    @ApiModelProperty("进程类型名称")
+    private String treeTypeName;
+    @ApiModelProperty("股份公司设立时间")
+    private String publishDate;
 
 
     public String getTreeTypeCode() {
@@ -61,5 +65,21 @@ public class IpoProgressDto implements Serializable {
 
     public void setSpread(boolean spread) {
         this.spread = spread;
+    }
+
+    public String getTreeTypeName() {
+        return treeTypeName;
+    }
+
+    public void setTreeTypeName(String treeTypeName) {
+        this.treeTypeName = treeTypeName;
+    }
+
+    public String getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(String publishDate) {
+        this.publishDate = publishDate;
     }
 }
