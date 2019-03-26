@@ -61,7 +61,7 @@ export default {
                  this.initBarChart(dataList);
                 //  debugger;
                 //  最开始初始化饼状图，默认传的是第三年的数据
-                 this.initPieChart(dataList.mainIncomeInfoList,'','',dataList.thirdYearForIncome);
+                 this.initPieChart(dataList.mainIncomeInfoList,'','',dataList.onePeriodForIncome);
             }
         })
       },
@@ -78,12 +78,14 @@ export default {
       for (var i = 0; i < dataList.mainIncomeInfoList.length; i++) {
           this.lengendData.push(dataList.mainIncomeInfoList[i].businessName);
           this.barYY = [];
-          var a1 = dataList.mainIncomeInfoList[i].firstYearAmount
+          var a1 = dataList.mainIncomeInfoList[i].firstYearAmount;
           var a2 = dataList.mainIncomeInfoList[i].secondYearAmount;
           var a3 = dataList.mainIncomeInfoList[i].thirdYearAmount;
+          var a4 = dataList.mainIncomeInfoList[i].onePeriodAmount;
           this.barYY.push(a1)
           this.barYY.push(a2)
           this.barYY.push(a3)
+          this.barYY.push(a4)
           this.barChartY.push(
                                 {
                                     name:dataList.mainIncomeInfoList[i].businessName,
@@ -95,7 +97,7 @@ export default {
                              )
             
                }      
-         this.barChartX = [dataList.firstYearForIncome,dataList.secondYearForIncome,dataList.thirdYearForIncome]
+         this.barChartX = [dataList.firstYearForIncome,dataList.secondYearForIncome,dataList.thirdYearForIncome,dataList.onePeriodForIncome]
    // 点击柱状图获取相应数据
       this.barChart.on("click", function(params) {
         // debugger
@@ -157,7 +159,7 @@ initPieChart(dataList,nameTempO,num,flag) {
       };
       // debugger
       obj.name = dataList[i].businessName
-      obj.value = dataList[i].thirdYearAmount;
+      obj.value = dataList[i].onePeriodAmount;
       this.pieData.push(obj);
     }
   }else{

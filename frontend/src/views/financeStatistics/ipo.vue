@@ -100,22 +100,6 @@
                             </div>
                             <!-- 点击不同菜单展示不同下面内容 -->
                             <div class="el-tabs__content">
-                              
-                                <!-- <div id="pane-first" aria-labelledby="tab-first" class="el-tab-pane" v-show="isActive == '1'">
-                                    <companyProfile :caseId="caseId" v-on:headCallBack="headCall"></companyProfile>
-                                </div>
-                                <div id="pane-second" aria-labelledby="tab-second" class="el-tab-pane" v-show="isActive == '2'">
-                                    <financialInformation :caseId="caseId" v-on:headCallBack="headCall" ref="finance"></financialInformation>
-                                </div>
-                                <div id="pane-third" aria-labelledby="tab-third" class="el-tab-pane" v-show="isActive == '3'">
-                                    <feedback :caseId="caseId" v-on:headCallBack="headCall"></feedback>
-                                </div>
-                                <div id="pane-fourth" aria-labelledby="tab-fourth" class="el-tab-pane" v-show="isActive == '4'">
-                                    <result :caseId="caseId" v-on:headCallBack="headCall"></result>
-                                </div>
-                                <div id="pane-fifth" aria-labelledby="tab-fifth" class="el-tab-pane" v-show="isActive == '5'">
-                                    <issue :caseId="caseId" v-on:headCallBack="headCall"></issue>
-                                </div> -->
                                 <!-- 动态加载tab -->
                               <keep-alive>
                                 <component :is = "showComponent" id="componentId" v-on:headCallBack="headCall"></component>
@@ -331,6 +315,7 @@ export default {
             setTimeout(function () {
                 switch (isActive) {
                     case '1':
+                        that.$refs.rightModule.treeListMethods(false);
                         targetList = document.getElementById('title-first').children;
                         let firstFlag = 0;
                         that.showComponent = companyProfile
@@ -348,6 +333,7 @@ export default {
                         }
                         break
                     case '2':
+                        that.$refs.rightModule.treeListMethods(false);
                         targetList = document.getElementById('title-second').children;
                         let secondFlag = 0;
                         that.showComponent = financialInformation
@@ -367,6 +353,7 @@ export default {
                         }
                         break
                     case '3':
+                        that.$refs.rightModule.treeListMethods(false);
                         targetList = document.getElementById('title-third').children;
                         let thirdFlag = 0
                         that.showComponent = feedback
@@ -386,6 +373,7 @@ export default {
                         }
                         break
                     case '4':
+                        that.$refs.rightModule.treeListMethods(false);
                         targetList = document.getElementById('title-fourth').children;
                         let fourthFlag = 0
                         that.showComponent = result
@@ -405,10 +393,15 @@ export default {
                         }
                         break
                          case '5':
+                        //  最后tab页形态不一样
+                        that.$refs.rightModule.treeListMethods(true);
+                        // console.log('tab999',that.showComponent)
                         targetList = document.getElementById('title-fifth').children;
                         let fifthFlag = 0;
                                                
                         that.showComponent = issue
+                        // 点击最后tab页，进程树展示不同内容
+                        
                         for (let i = 0; i < targetList.length; i++) {
                             if ((that.itemActiveFifth + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
                                 document.documentElement.scrollTop = document.getElementById(that.itemActiveFifth).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;

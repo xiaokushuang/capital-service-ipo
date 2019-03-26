@@ -404,3 +404,6 @@
 .el-checkbox-button.checkbox.el-checkbox-button--mini.is-checked{
   border-left:1px solid #3399ff;
 }
+.mainTable .el-table .cell,.mainTable .el-table th div,.mainTable .el-table--border td:first-child .cell,.mainTable .el-table--border th:first-child .cell {
+  padding-left: 0px;
+}

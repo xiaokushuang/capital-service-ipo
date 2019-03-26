@@ -9,7 +9,7 @@
             <div class="InstitutionsDetail">
                 <ul>
                      <li class="clear ">
-                        <p class="institutionTitle">联席保荐人（联席主承销商）</p>
+                        <p v-show="sponsors&&sponsors.length>0" class="institutionTitle">联席保荐人（联席主承销商）</p>
                         <!-- <div class="InstitutionsDetailLi clear" v-for="item in sponsors"> -->
                             <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'" v-for="item in sponsors">
                             <div class="image l">
@@ -78,7 +78,7 @@
                         </div>`
                     </li>
                      <li class="clear ">
-                        <p class="institutionTitle">律师事务所</p>
+                        <p v-show="lawyers&&lawyers.length>0" class="institutionTitle">律师事务所</p>
                         <!-- <div class="InstitutionsDetailLi clear" v-for="item in lawyers"> -->
                             <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'"  v-for="item in lawyers">
                             <div class="image l">
@@ -149,7 +149,7 @@
                         </div>
                     </li>
                     <li class="clear ">
-                        <p class="institutionTitle">会计师事务所</p>
+                        <p v-show="accounts&&accounts.length>0" class="institutionTitle">会计师事务所</p>
                         <!-- <div class="InstitutionsDetailLi clear" v-for="item in accounts"> -->
                             <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'" v-for="item in accounts">
                             <div class="image l">
@@ -220,7 +220,7 @@
                         </div>
                     </li>
                     <li class="clear " v-show="showMoreType">
-                        <p class="institutionTitle">资产评估机构</p>
+                        <p v-show="assets&&assets.length>0" class="institutionTitle">资产评估机构</p>
                         <!-- <div class="InstitutionsDetailLi clear" v-for="item in assets"> -->
                             <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'" v-for="item in assets">
                             <div class="image l">
@@ -293,7 +293,7 @@
                         </div>
                     </li>
                     <li class="clear "  v-show="showMoreType">
-                        <p class="institutionTitle">证券公司</p>
+                        <p v-show="securitys&&securitys.length>0" class="institutionTitle">证券公司</p>
                         <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'" v-for="item in securitys">
                             <div class="image l">
                                 <img src="../../../../assets/images/coSponsors.png" alt>
