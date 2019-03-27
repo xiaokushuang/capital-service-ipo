@@ -158,7 +158,7 @@ export default {
           issueFeeData:[],
           issueData:[],
           // id:'97952444248599344'
-          caseId:this.$store.state.caseId,
+          caseId:this.$store.state.app.caseId,
       }
   },
    created() {

@@ -11,7 +11,7 @@ export default {
  
   data() {
     return {
-        caseId:this.$store.state.caseId,
+        caseId:this.$store.state.app.caseId,
         zxChart:null,
         zxChartY:[],
         zxChartX:[]

@@ -43,7 +43,7 @@ import request from '@/utils/request'
 
 // 真接口
 // IPO公司概览返回类
-export function getCaseDetail(query) {
+export function getCaseDetail(query) { 
   return request({
     url:'/ipo/companyOverview/caseDetail',
     method: 'get',

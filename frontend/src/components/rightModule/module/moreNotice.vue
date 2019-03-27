@@ -37,13 +37,13 @@
             align="center"
             show-overflow-tooltip>
             <template slot-scope="scope">
-              <i class="el-icon-download" style="font-size:20px"></i>
+              <i @click="handleDown(scope.row)" class="el-icon-download" style="font-size:20px"></i>
             </template>
             </el-table-column>
         </el-table>
         <div class="downloadAnnouncement">
-            <span class="downloadAnnouncementSpan" v-if="this.multipleSelection.length==0">下载所选公告</span>
-            <span class="downloadAnnouncementSpan" v-else style="border:1px solid #0099CC">下载所选公告<span style="color:#0099CC">{{this.multipleSelection.length}}</span></span>
+            <span @click="handleDownAll()" class="downloadAnnouncementSpan" v-if="this.multipleSelection.length==0">下载所选公告</span>
+            <span @click="handleDownAll()" class="downloadAnnouncementSpan" v-else style="border:1px solid #0099CC">下载所选公告<span style="color:#0099CC">{{this.multipleSelection.length}}</span></span>
         </div>
     </div>
 </template>
@@ -68,6 +68,15 @@ export default {
 　　}  
   },
     methods: {
+      // 下载公告
+      handleDown(v){
+        console.log('下载')
+        // window.open(v.baseUrl, '_blank');
+      },
+      handleDownAll(){
+        console.log('下载所有')
+        console.log(this.multipleSelection)
+      },
       handleSelectionChange(val) {
         // debugger
         this.multipleSelection = val;

@@ -142,7 +142,7 @@ export const constantRouterMap = [
         component: _import('financeStatistics/ipo'),
         name: 'ipo',
         meta: { title: '首页', icon: 'dashboard', noCache: true }
-      },
+      }
 
     ]
   }

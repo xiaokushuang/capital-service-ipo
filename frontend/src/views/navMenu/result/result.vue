@@ -429,7 +429,7 @@ export default {
   name: "result",
   data() {
     return {
-         caseId:this.$store.state.caseId,
+         caseId:this.$store.state.app.caseId,
          dialogVisible:false,
         //  第几次会议列表
          baseList:[],

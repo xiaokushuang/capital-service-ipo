@@ -24,7 +24,7 @@ export default {
       date:'',
       pieChartTitle:'',
       // id:'97952444248599350',
-      caseId:this.$store.state.caseId,
+      caseId:this.$store.state.app.caseId,
     }
   },
     created(){

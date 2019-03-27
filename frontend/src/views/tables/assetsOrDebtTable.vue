@@ -175,7 +175,7 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
         dialogChartVisible: false,
         zxChartData:null,
         // id:'97952444248599350',
-        caseId:this.$store.state.caseId,
+        caseId:this.$store.state.app.caseId,
     }
   },
     components:{

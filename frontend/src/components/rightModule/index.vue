@@ -15,7 +15,7 @@
                         </div>
                         
                         <div v-show="boxDataItem.treeTypeCode != '03'">
-                            <!-- <div v-for="(item,index) in boxDataItem.proList" v-show=" boxDataItem.treeTypeCode != '02'||index == 0 || index == boxDataItem.proList.length-1  || boxDataItem.spreadFlag" > -->
+                            <!-- 当前页面不是最后一页时 -->
                              <div v-if="!lastTab" v-for="(item,index) in boxDataItem.proList" v-show="boxDataItem.treeTypeCode != '02'||index == 0 || index == boxDataItem.proList.length-1  || boxDataItem.spreadFlag" >
                                 <div class="right" >
                                     <div class="border-box">
@@ -23,7 +23,8 @@
                                             <span :id="'sign' + item.proSort + item.progressType + item.progressIndex" class="circle"  v-if="boxDataItem.proList.length">
                                                 <!-- 展示序号 【默认时候不加类】-->
                                                 <span :id="'num' + item.proSort + item.progressType + item.progressIndex">
-                                                    {{indexShowHidden && thisIndex == index ? '' : boxDataItem.proList.length - index}}
+                                                    {{item.proSort}}
+                                                    <!-- {{indexShowHidden && thisIndex == index ? '' : boxDataItem.proList.length - index}} -->
                                                 </span>
                                             </span>
                                         </span>
@@ -31,7 +32,8 @@
                                             <span :id="'sign' + item.proSort + item.progressType + item.progressIndex" class="circle" v-if="boxDataItem.proList.length">
                                             <!-- 展示序号 -->
                                                 <span :id="'num' + item.proSort + item.progressType + item.progressIndex">
-                                                    {{indexShowHidden && thisIndex == index ? '' : index + 1}}
+                                                    <!-- {{indexShowHidden && thisIndex == index ? '' : index + 1}} -->
+                                                    {{item.proSort}}
                                                 </span>
                                             </span>
                                         </span>
@@ -48,59 +50,21 @@
                                         <div v-show="item.progressType=='07'">
                                             <span v-if="item.iecResult=='00'"
                                             :style={background:htg} 
-                                            style="font-size: 14px;
-                                                position: relative;
-                                                left: 40%;
-                                                top: -20px;
-                                                color: #14BCF5;
-                                                padding:5px;
-                                                padding-right:5px;
-                                                line-height:10px;
-                                                display:inline-block;
-                                                background-repeat:no-repeat;
-                                                
-                                                ">获通过</span>
+                                            class="htg"
+                                           >获通过</span>
                                             <span v-if="item.iecResult=='01'"
                                             :style={background:whtg} 
-                                            style="font-size: 14px;
-                                                position: relative;
-                                                left: 40%;
-                                                top: -20px;
-                                                color: #FE5461;
-                                                padding:5px;
-                                                padding-right:5px;
-                                                line-height:10px;
-                                                display:inline-block;
-                                            
-                                                
-                                                ">未获通过</span>
+                                            class="whtg"
+                                            >未获通过</span>
                                             <span class="zhbj" v-if="item.iecResult=='02'" 
-                                            :style={background:zhbj} 
-                                            style="font-size: 14px;
-                                                position: relative;
-                                                left: 40%;
-                                                top: -20px;
-                                                color: #FF9900;
-                                                padding:5px;
-                                                padding-right:5px;
-                                                line-height:10px;
-                                                display:inline-block;
-                                                ">暂缓表决
+                                            :style={background:zhbj}
+                                            >暂缓表决
                                                 
                                             </span>
                                             <span v-if="item.iecResult=='03'"
                                             :style={background:qxsh} 
-                                            style="font-size: 14px;
-                                                position: relative;
-                                                left: 40%;
-                                                top: -20px;
-                                                color: #94A3B4;
-                                                padding:5px;
-                                                padding-right:5px;
-                                                line-height:10px;
-                                                display:inline-block;
-                                                background-size:100% 100%;
-                                                ">取消审核</span>
+                                            class="qxsh"
+                                            >取消审核</span>
                                         </div>
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
                                             <span v-text='item.processTime'></span>
@@ -117,8 +81,8 @@
                                         <div v-if="item.flag&&item.relaList.length>1" style="margin-bottom: 24px;margin-top: 8px;">
                                             <span>
                                                 <span>
-                                                    <a v-if="boxDataItem.treeTypeCode == '02'" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告</a>
-                                                    <a v-else @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多审核意见</a>
+                                                    <a v-if="boxDataItem.treeTypeCode == '02'" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告 ></a>
+                                                    <a v-else @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多审核意见 ></a>
                                                 </span>
                                             </span>
                                         </div>
@@ -126,9 +90,9 @@
                                             <span>  
                                                 <span>
                                                     <!-- 第一个进程展示的是‘查看公告’ -->
-                                                    <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.proSort+ item.progressType + item.progressIndex,item, null)" class="moreNoticeCss">查看公告</div>
+                                                    <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.proSort+ item.progressType + item.progressIndex,item, null)" class="moreNoticeCss">查看公告 ></div>
                                                     <!-- 第二个进程展示的是‘查看审核意见’ -->
-                                                    <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.proSort+ item.progressType + item.progressIndex,item, null)" class="moreNoticeCss">查看审核意见</div>
+                                                    <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.proSort+ item.progressType + item.progressIndex,item, null)" class="moreNoticeCss">查看审核意见 ></div>
                                                 </span>
                                             </span>
                                         </div>
@@ -151,6 +115,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- 当前页面是最后一页时 -->
                             <div v-if="lastTab" v-for="(item,index) in boxDataItem.proList" v-show="boxDataItem.treeTypeCode == '02'||index == 0 || index == boxDataItem.proList.length-1  || boxDataItem.spreadFlag" >
                                 <div class="right" >
                                     <div class="border-box">
@@ -158,7 +123,8 @@
                                             <span :id="'sign' + item.proSort + item.progressType + item.progressIndex" class="circle"  v-if="boxDataItem.proList.length">
                                                 <!-- 展示序号 【默认时候不加类】-->
                                                 <span :id="'num' + item.proSort + item.progressType + item.progressIndex">
-                                                    {{indexShowHidden && thisIndex == index ? '' : boxDataItem.proList.length - index}}
+                                                    <!-- {{indexShowHidden && thisIndex == index ? '' : boxDataItem.proList.length - index}} -->
+                                                    {{item.proSort}}
                                                 </span>
                                             </span>
                                         </span>
@@ -166,7 +132,8 @@
                                             <span :id="'sign' + item.proSort + item.progressType + item.progressIndex" class="circle" v-if="boxDataItem.proList.length">
                                             <!-- 展示序号 -->
                                                 <span :id="'num' + item.proSort + item.progressType + item.progressIndex">
-                                                    {{indexShowHidden && thisIndex == index ? '' : index + 1}}
+                                                    <!-- {{indexShowHidden && thisIndex == index ? '' : index + 1}} -->
+                                                    {{item.proSort}}
                                                 </span>
                                             </span>
                                         </span>
@@ -183,59 +150,21 @@
                                         <div v-show="item.progressType=='07'">
                                             <span v-if="item.iecResult=='00'"
                                             :style={background:htg} 
-                                            style="font-size: 14px;
-                                                position: relative;
-                                                left: 40%;
-                                                top: -20px;
-                                                color: #14BCF5;
-                                                padding:5px;
-                                                padding-right:5px;
-                                                line-height:10px;
-                                                display:inline-block;
-                                                background-repeat:no-repeat;
-                                                
-                                                ">获通过</span>
+                                            class="htg"
+                                            >获通过</span>
                                             <span v-if="item.iecResult=='01'"
                                             :style={background:whtg} 
-                                            style="font-size: 14px;
-                                                position: relative;
-                                                left: 40%;
-                                                top: -20px;
-                                                color: #FE5461;
-                                                padding:5px;
-                                                padding-right:5px;
-                                                line-height:10px;
-                                                display:inline-block;
-                                            
-                                                
-                                                ">未获通过</span>
+                                            class="whtg"
+                                            >未获通过</span>
                                             <span class="zhbj" v-if="item.iecResult=='02'" 
                                             :style={background:zhbj} 
-                                            style="font-size: 14px;
-                                                position: relative;
-                                                left: 40%;
-                                                top: -20px;
-                                                color: #FF9900;
-                                                padding:5px;
-                                                padding-right:5px;
-                                                line-height:10px;
-                                                display:inline-block;
-                                                ">暂缓表决
+                                            >暂缓表决
                                                 
                                             </span>
                                             <span v-if="item.iecResult=='03'"
                                             :style={background:qxsh} 
-                                            style="font-size: 14px;
-                                                position: relative;
-                                                left: 40%;
-                                                top: -20px;
-                                                color: #94A3B4;
-                                                padding:5px;
-                                                padding-right:5px;
-                                                line-height:10px;
-                                                display:inline-block;
-                                                background-size:100% 100%;
-                                                ">取消审核</span>
+                                            class="qxsh"
+                                            >取消审核</span>
                                         </div>
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
                                             <span v-text='item.processTime'></span>
@@ -252,8 +181,8 @@
                                         <div v-if="item.flag&&item.relaList.length>1" style="margin-bottom: 24px;margin-top: 8px;">
                                             <span>
                                                 <span>
-                                                    <a v-if="boxDataItem.treeTypeCode == '02'" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告</a>
-                                                    <a v-else @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多审核意见</a>
+                                                    <a v-if="boxDataItem.treeTypeCode == '02'" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告 ></a>
+                                                    <a v-else @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多审核意见 ></a>
                                                 </span>
                                             </span>
                                         </div>
@@ -261,9 +190,9 @@
                                             <span>  
                                                 <span>
                                                     <!-- 第一个进程展示的是‘查看公告’ -->
-                                                    <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.proSort+ item.progressType + item.progressIndex,item, null)" class="moreNoticeCss">查看公告</div>
+                                                    <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.proSort+ item.progressType + item.progressIndex,item, null)" class="moreNoticeCss">查看公告 ></div>
                                                     <!-- 第二个进程展示的是‘查看审核意见’ -->
-                                                    <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.proSort+ item.progressType + item.progressIndex,item, null)" class="moreNoticeCss">查看审核意见</div>
+                                                    <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.proSort+ item.progressType + item.progressIndex,item, null)" class="moreNoticeCss">查看审核意见 ></div>
                                                 </span>
                                             </span>
                                         </div>
@@ -317,11 +246,10 @@ import {getRightModuleData} from '@/api/rightModule'
 export default {
     data() {
         return {
-            // 新加变量头
+            caseId1:this.$store.state.app.caseId,
              treeTypeCode:'',
              // 鼠标移入展示文字
              isShowSpreadText:false,
-            //  treeList0:[],
              treeList:[],
             //  更多公告数据
              moreNoticeList:[],
@@ -330,24 +258,19 @@ export default {
             htg:'url('+ require('../../assets/images/htg.png')+') no-repeat',
             whtg:'url('+ require('../../assets/images/whtg.png')+') no-repeat',
             qxsh:'url('+ require('../../assets/images/qxsh.png')+') no-repeat',
-            // 新加变量尾
-            showLength: 10000,
             moreNoticeDailog: '',
             dialogVisible: false,
-            lableData: [],
       
             flagLoading: false,
             //组件
             id: "",
             progressType: "",
-            caseMoreNoticeId: "",
             sort: "",
             sortFlag: '0',
             indexShowHidden: false,
             thisIndex: '',
             sortType: '01',
             expandAll:false,
-            caseId1:this.$store.state.caseId,
             // 是否是最后一个tab
             lastTab:false
         };
@@ -356,12 +279,12 @@ export default {
     props: {
         caseId: String,
         // 从ipo组件传过来的属性值
-        expand:Boolean
+        // expand:Boolean
     },
     created(){
          //   请求数据
          this.initTableData()
-         this.flagLoading = false;
+         this.flagLoading = true;
      },
     mounted() {
 
@@ -381,17 +304,12 @@ export default {
           sortType:sortType
         }
         getRightModuleData(param).then(res => {
-            console.log(res.data.result.treeList)
-            this.treeList = res.data.result.treeList
-            console.log(this.treeList)
-            this.treeTypeCode = res.data.result.treeList[0].treeTypeCode
+            if(res.data.result.treeList&&res.data.result.treeList.length>0){
+                this.treeList = res.data.result.treeList
+                this.treeTypeCode = res.data.result.treeList[0].treeTypeCode
+                this.flagLoading = false;
+            }
         })
-        // if(this.treeList.length>0){
-        //     this.flagLoading = false;
-        // }
-      },
-      handlerData(data) {
-        
       },
         // 弹窗多选框
        handleSelectionChange(val) {
@@ -401,19 +319,16 @@ export default {
       handleMouseenterSpread(param){
         this.isShowSpreadText = true
         this.$set(param,'isShowSpreadText',true)
-        console.log(param.isShowSpreadText)
       },
        // 鼠标移出三个点
       handleMouseleaveSpread(param){
         this.isShowSpreadText = false
         this.$set(param,'isShowSpreadText',false)
-        console.log(param.isShowSpreadText)
       },
       // 点击三个点展开隐藏方法
         handleSpread(param){
             param.spreadFlag = true;
             this.$set(param,'isShowSpreadText',false)
-            // this.isShowSpreadText = false
         },
          // 点击收起隐藏方法
         handlePackUp(param){
@@ -424,30 +339,11 @@ export default {
             for(let i = 0;i<this.treeList.length;i++){
                 if(this.treeList[i].proList&&this.treeList[i].proList.length>0){
                      this.treeList[i].proList.map(obj => {
-                        this.showAndHideParent('each' + obj.proSort + obj.progressType + obj.progressIndex, exAllFlag,obj);
+                         this.$set(obj,'flag',exAllFlag)
+                         this.showAndHideParent('each' + obj.proSort + obj.progressType + obj.progressIndex, exAllFlag,obj);
                     })
                 }
             }
-        },
-        sortTime(sortType) {
-            if(sortType == '02'){
-                this.flag = "0";
-                sortType = '01';
-                this.sortFlag = '1'
-            }else {
-                this.flag = "1";
-                sortType = '02';
-                this.sortFlag = '0'
-            }
-             for(let i = 0;i<this.treeList.length;i++){
-                 if(this.treeList[i].proList&&this.treeList[i].proList.length>0){
-                     this.treeList[i].proList.reverse();
-                    //  this.treeList[i].proList.map((item)=>{
-                    //     this.$set(item,'spreadFlag',false)
-                    //  })
-                 }
-            }
-            // 
         },
         moreNoticeClick(params,obj) {
             // 弹出更多公告 
@@ -518,56 +414,11 @@ export default {
               document.getElementById('sign' + item.proSort + item.progressType+ item.progressIndex).className = 'circle'
               document.getElementById('num' + item.proSort + item.progressType+ item.progressIndex).setAttribute("style", "display:inline-block;");
         },
-        sortBy(name, order) {
-            return function (obj1, obj2) {
-                var a, b;
-                var reg1 = /^(a|A)(s|S)(c|C)$/;
-                var reg2 = /^(d|D)(e|E)(s|S)(c|C)$/;
-                if (typeof obj1 === "object" && typeof obj2 === "object" && obj1 && obj2) {
-                    a = obj1[name];
-                    b = obj2[name];
-                    if (!order || reg1.test(order)) {
-                        if (a < b) {
-                            return -1;
-                        } else if (a > b) {
-                            return 1;
-                        } else {
-                            return 0;
-                        }
-                    } else if (reg2.test(order)) {
-                        if (a < b) {
-                            return 1;
-                        } else if (a > b) {
-                            return -1;
-                        } else {
-                            return 0;
-                        }
-                    } else {
-                        throw ("sortOrder.error")
-                    }
-                } else {
-                    throw ("sortObject.error")
-                }
-            }
-        },
         //点击最后一个tab页，进程树变化
         treeListMethods(lastTabFlag){
             this.lastTab = lastTabFlag
         }
     },
-    watch:{
-        // 监听展开全部，收起全部的状态
-        expand(flag) {
-            this.expandAll = this.expand
-             for(let i = 0;i<this.treeList.length;i++){
-                 if(this.treeList[i].proList&&this.treeList[i].proList.length>0){
-                     this.treeList[i].proList.map((item)=>{
-                        this.$set(item,'flag',flag)
-                     })
-                 }
-            }
-        }
-    }
 };
 </script>
 
@@ -597,12 +448,11 @@ export default {
     text-decoration-color: #0066FF;
 }
 .moreNoticeCss {
-    width:30%;
     font-family: "PingFangSC-Regular", "PingFang SC";
     font-weight: 400;
     font-style: normal;
     font-size: 12px;
-    color: #999999;
+    color: #1990fe;
 }
 
 .right {
@@ -767,7 +617,7 @@ export default {
     position: relative;
     top: -14px;
     left: -9px;
-    height: 31px;
+    height: 24px;
     margin-top: 8px;
   p {
     font-family: 'PingFang-SC-Regular', 'PingFang SC';
@@ -779,6 +629,50 @@ export default {
     left: 32px;
     position: relative;
     }
+}
+.htg{
+    font-size: 14px;
+    position: relative;
+    left: 38%;
+    top: -20px;
+    color: #14BCF5;
+    padding:5px;
+    padding-right:5px;
+    line-height:10px;
+    display:inline-block;
+}
+.whtg{
+    font-size: 14px;
+    position: relative;
+    left: 38%;
+    top: -20px;
+    color: #FE5461;
+    padding:5px;
+    padding-right:5px;
+    line-height:10px;
+    display:inline-block;
+}
+.zhbj{
+    font-size: 14px;
+    position: relative;
+    left: 38%;
+    top: -20px;
+    color: #FF9900;
+    padding:5px;
+    padding-right:5px;
+    line-height:10px;
+    display:inline-block;
+}
+.qxsh{
+    font-size: 14px;
+    position: relative;
+    left: 38%;
+    top: -20px;
+    color: #94A3B4;
+    padding:5px;
+    padding-right:5px;
+    line-height:10px;
+    display:inline-block;
 }
 // 标签
 // .zhbj{

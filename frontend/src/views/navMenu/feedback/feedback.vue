@@ -7,75 +7,80 @@
                 <div v-if="this.tabList.length==3" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共三轮反馈：</div>
                 <div>
                   <el-tabs v-model="activeName" @tab-click="handleTabClick">
-                      <el-tab-pane  v-for="tabItem in tabList" :key="tabItem.letterId" :label="tabItem.letterId"  :name="tabItem.letterId" style="font-size: 14px;color: #777777;">
+                      <el-tab-pane  v-for="tabItem in tabList" :key="tabItem.letterId" :label="tabItem.letterName"  :name="tabItem.letterId" style="font-size: 14px;color: #777777;">
                           <div>
-                                  <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;">
-                                      <div class="firstLabel" >
-                                          <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
-                                              <el-radio-group  @change="handelChange(radio)" v-model="radio" size="small" style="border-bottom: 1px solid rgb(235, 235, 235);padding-bottom:10px;">
-                                                  <el-radio-button :key="item.labelCode" v-for="item in tabItem.questionLabelList" class="l firstLabelFocus" style="margin-right:10px;margin-bottom:10px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item.labelCode">{{item.labelName}}{{item.labelCount}}</el-radio-button>
-                                              </el-radio-group>
-                                          </ul>
-                                          <ul class="clear" style="padding:0px 25px;margin-top:0px;padding-bottom:10px">
-                                              <el-checkbox-group  @change="handelMoreChange(checkboxGroup)" v-model="checkboxGroup" size="mini">
-                                                  <el-checkbox-button class="checkbox" v-for="item in feedbackduoxuanList" :label="item.labelCode">{{item.labelName}}{{item.labelCount}}</el-checkbox-button>
-                                              </el-checkbox-group> 
-                                          </ul>
-                                          <div class="kaiguan" style="text-align:left;font-size: 12px;
-                                                margin-left:25px;
-                                                color: #999999;
-                                                text-align: left;
-                                                line-height: 14px;">
-                                              <span>共计</span>
-                                              <span>{{tabItem.questionCount}}</span>
-                                              <span>个问题，</span>
-                                              <span>{{tabItem.answerCount}}</span>
-                                              <span>个回复</span>
-                                              <el-checkbox  @change="handleOnlyChange(onlyShowAnswer)" v-model="onlyShowAnswer" style="margin-left:20px;margin-right:15px">只展示回复问题</el-checkbox>
-                                              <el-button @click="toggleSelection()" class="reset" type="primary" plain>重置</el-button>
-                                          </div>
+                              <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px;">
+                                  <div class="firstLabel" >
+                                      <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
+                                          <el-radio-group  @change="handelChange(radio)" v-model="radio" size="small" style="border-bottom: 1px solid rgb(235, 235, 235);padding-bottom:10px;">
+                                              <el-radio-button :key="item.labelCode" v-for="item in tabItem.questionLabelList" class="l firstLabelFocus" style="margin-right:10px;margin-bottom:10px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item.labelCode">{{item.labelName}}{{item.labelCount}}</el-radio-button>
+                                          </el-radio-group>
+                                      </ul>
+                                      <ul class="clear" style="padding:0px 25px;margin-top:0px;padding-bottom:10px">
+                                          <el-checkbox-group  @change="handelMoreChange(checkboxGroup)" v-model="checkboxGroup" size="mini">
+                                              <!-- <el-checkbox-button v-show="showAll"  class="checkbox" label="">全部80</el-checkbox-button> -->
+                                              <el-checkbox-button  class="checkbox" v-for="item in feedbackduoxuanList" :label="item.labelCode">{{item.labelName}}{{item.labelCount}}</el-checkbox-button>
+                                          </el-checkbox-group> 
+                                      </ul>
+                                      <div class="kaiguan" style="text-align:left;font-size: 12px;
+                                            margin-left:25px;
+                                            color: #999999;
+                                            text-align: left;
+                                            line-height: 14px;">
+                                          <span>共计</span>
+                                          <span>{{tabItem.questionCount}}</span>
+                                          <span>个问题，</span>
+                                          <span>{{tabItem.answerCount}}</span>
+                                          <span>个回复</span>
+                                          <el-checkbox  @change="handleOnlyChange(onlyShowAnswer)" v-model="onlyShowAnswer" style="margin-left:20px;margin-right:15px">只展示回复问题</el-checkbox>
+                                          <el-button @click="toggleSelection()" class="reset" type="primary" plain>重置</el-button>
                                       </div>
                                   </div>
-                                  <div class="question" id="titleLength">
-                                    <div class="title">
-                                        <span class="littleRectangle"></span>
-                                        <span class="titleText" id="result">规范性问题</span>
-                                    </div>
-                                      <ul style="padding-left:0">
-                                          <li v-for="(data,index) in questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
-                                              <div class="text" style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:10px;position:relative">
-                                                  <!-- 问 -->
-                                                  <div class="wen">问</div>
-                                                  <div  style="font-size:14px;color:#333;line-height:22px">                                    
-                                                      <p style="width:100%;" v-if="!data.isSpread || (data.isSpread && data.isSpread !== 2)">&nbsp;&nbsp;{{getContent(data,data.question,index,'answer')}}</p>
-                                                      <p style="width:100%;"  v-if="data.isSpread && data.isSpread === 2">&nbsp;&nbsp;{{data.question}}</p>
-                                                  </div>
-                                                  <!-- 收起展开 -->
-                                                  <div class="btn" style="color: #4F91D1;font-size:14px">
-                                                      <span v-if="data.isSpread && data.isSpread === 2" class="packUp" @click="packUp(data)">收起 <i style="font-size:14px" class="el-icon-arrow-up"></i></span>
-                                                      <span v-if="data.isSpread && data.isSpread === 1" class="spread" @click="spread(data)">展开 <i style="font-size:14px" class="el-icon-arrow-down"></i></span>
-                                                  </div>
-                                                  <!-- 答 -->
-                                                  <div class="da">答</div>
-                                                  <div style="font-size:14px;color:#333;line-height:22px">
-                                                      <p style="width:100%;" v-if="!data.isSpreada || (data.isSpreada && data.isSpreada !== 2)">&nbsp;&nbsp;{{getContent(data,data.question,index,'question')}}</p>
-                                                      <p style="width:100%;"  v-if="data.isSpreada && data.isSpreada === 2">&nbsp;&nbsp;{{data.question}}</p>
-                                                  </div>
-                                                  <!-- 收起展开 -->
-                                                  <div class="btn" style="color: #4F91D1;font-size:14px">
-                                                      <span  v-if="data.isSpread && data.isSpreada === 2" class="packUp" @click="daPackUp(data)">收起 <i style="font-size:14px" class="el-icon-arrow-up"></i></span>
-                                                      <span  v-if="data.isSpread && data.isSpreada === 1" class="spread" @click="daSpread(data)">展开 <i style="font-size:14px" class="el-icon-arrow-down"></i></span>
-                                                  </div>
+                              </div>
+                              <div class="question" id="titleLength">
+                                <div class="title">
+                                    <span class="littleRectangle"></span>
+                                    <span class="titleText" id="result">规范性问题</span>
+                                </div>
+                                  <ul style="padding-left:0">
+                                      <li v-for="(data,index) in questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
+                                          <div class="text" style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:10px;position:relative">
+                                              <!-- 问 -->
+                                              <div  v-if="data.question&&data.question.length>0">
+                                                <div class="wen">问</div>
+                                                <div  style="font-size:14px;color:#333;line-height:22px">                                    
+                                                    <p style="width:100%;" v-if="!data.isSpread || (data.isSpread && data.isSpread !== 2)">&nbsp;&nbsp;{{getContent(data,data.question,index,'answer')}}</p>
+                                                    <p style="width:100%;"  v-if="data.isSpread && data.isSpread === 2">&nbsp;&nbsp;{{data.question}}</p>
+                                                </div>
+                                                <!-- 收起展开 -->
+                                                <div class="btn" style="color: #4F91D1;font-size:14px">
+                                                    <span v-if="data.isSpread && data.isSpread === 2" class="packUp" @click="packUp(data)">收起 <i style="font-size:14px" class="el-icon-arrow-up"></i></span>
+                                                    <span v-if="data.isSpread && data.isSpread === 1" class="spread" @click="spread(data)">展开 <i style="font-size:14px" class="el-icon-arrow-down"></i></span>
+                                                </div>
                                               </div>
-                                              <div>
-                                                  <span v-for="biaoqian in data.labelList" class="biaoqian" style="margin-right:2px">{{biaoqian}}</span>
+                                              <!-- 答 -->
+                                              <div  v-if="data.answer&&data.answer.length>0">
+                                                <div class="da">答</div>
+                                                <div style="font-size:14px;color:#333;line-height:22px">
+                                                    <p style="width:100%;" v-if="!data.isSpreada || (data.isSpreada && data.isSpreada !== 2)">&nbsp;&nbsp;{{getContent(data,data.answer,index,'answer')}}</p>
+                                                    <p style="width:100%;"  v-if="data.isSpreada && data.isSpreada === 2">&nbsp;&nbsp;{{data.answer}}</p>
+                                                </div>
+                                                <!-- 收起展开 -->
+                                                <div class="btn" style="color: #4F91D1;font-size:14px">
+                                                    <span  v-if="data.isSpread && data.isSpreada === 2" class="packUp" @click="daPackUp(data)">收起 <i style="font-size:14px" class="el-icon-arrow-up"></i></span>
+                                                    <span  v-if="data.isSpread && data.isSpreada === 1" class="spread" @click="daSpread(data)">展开 <i style="font-size:14px" class="el-icon-arrow-down"></i></span>
+                                                </div>
                                               </div>
-                                          </li>
-                                      </ul>
-                                    
-                                    <!-- 加载更多 -->
-                                    <div v-if="showMore" @click="showMoreMethods()" class="more">加载更多</div>
-                                  </div>
+                                          </div>
+                                          <div>
+                                              <span v-for="biaoqian in data.labelList" class="biaoqian" style="margin-right:2px">{{biaoqian}}</span>
+                                          </div>
+                                      </li>
+                                  </ul>
+                                
+                                <!-- 加载更多 -->
+                                <div v-loading="flagLoading" element-loading-text="给我一点时间" v-if="showMore" @click="showMoreMethods()" class="more">加载更多</div>
+                              </div>
                           </div>
                       </el-tab-pane>
                   </el-tabs>
@@ -93,7 +98,7 @@ export default {
   name: "feedback",
   data() {
     return {
-      caseId1:this.$store.state.caseId,
+      caseId:this.$store.state.app.caseId,
       // 总共数据
       tabList:[],
       // 单选按钮数据
@@ -130,7 +135,10 @@ export default {
       isMoreText:true,
       showLength:0,
       allQuestionList:[],
-      showMore:false
+      showMore:false,
+      // 多选按钮’全部‘
+      showAll:false,
+      flagLoading: false,
     };
   },
     created(){
@@ -145,44 +153,39 @@ export default {
     // 单选按钮
     handelChange(val){
       this.radioVal = val
-          for(var i = 0;i<this.tabList.length;i++){
-          //  this.o_letterId = this.tabList[i].letterId
-             this.initcheckBoxData(this.o_letterId,val)
-          }
+      this.checkboxGroup = []
+      this.showAll = true
+      // console.log('多选数据',this.o_letterId,val)
+      this.initcheckBoxData(this.o_letterId,val)
     },
     // 多选按钮
     handelMoreChange(val){
-      if(val[0]){
-        console.log(val[0])
-      }
        this.checkboxGroup = val
-          for(var i = 0;i<this.tabList.length;i++){
-            for(var k = 0;k<val.length;k++){
-              for(var m = 0;m<this.feedbackduoxuanList.length;m++){
-                  if(val[k] == this.feedbackduoxuanList[m].labelCode ){
-                      this.o_secondtLabelId = this.feedbackduoxuanList[m].labelCode
-                      // this.initQuestionData(this.tabList[i].letterId,this.radioVal,this.feedbackduoxuanList[m].labelCode)
-                      this.initQuestionData(this.o_letterId,this.radioVal,this.feedbackduoxuanList[m].labelCode)
-                  }
-                } 
-             }
-          }
+       for(let i = 0;i<val.length;i++){
+         if(val[i] == ''){
+           this.checkboxGroup = []
+           document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor="white";
+           console.log(document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor)
+         }
+       }
+       this.initQuestionData(this.o_letterId,this.radioVal, this.checkboxGroup)
     },
     // 是否只展示回复问题
     handleOnlyChange(val){
-      
-        if(val == true){
-              this.onlyShowAnswerFlag = '1'
-            }else{
-              this.onlyShowAnswerFlag = ''
-            }
-              // this.showMoreMethods()
-              this.initQuestionData(this.o_letterId,this.radioVal,this.o_secondtLabelId)
+      if(val == true){
+        this.onlyShowAnswerFlag = '1'
+      }else{
+        this.onlyShowAnswerFlag = ''
+      }
+        this.initQuestionData(this.o_letterId,this.radioVal,this.checkboxGroup)
+        
     },
     // 点击加载更多
     showMoreMethods(){
+        this.flagLoading = true;
         this.showLength+=15
         if(this.allQuestionList.length > this.showLength){
+          this.flagLoading = false;
           this.showMore = true;
           this.questionList = this.allQuestionList.slice(0, this.showLength);
         }else{
@@ -198,11 +201,10 @@ export default {
           onlyResponse:this.onlyShowAnswerFlag
         }
         getSelectFeedbackList(param).then(res => {
+          // console.log('初始',param)
           if(res.data.result && res.data.result.length > 0){
-            if(res.data.result.length==1){
-              console.log('11111111111',res.data.result[0].letterId)
-              this.o_letterId = res.data.result[0].letterId
-            }
+            this.o_letterId = res.data.result[0].letterId
+              // console.log('初始1',this.o_letterId)
             this.tabList = res.data.result
             this.activeName =  this.tabList[0].letterId
             this.allQuestionList = res.data.result[0].questionList
@@ -228,9 +230,10 @@ export default {
           firstLabelId:parentId,
           onlyResponse:this.onlyShowAnswerFlag
         }
-        console.log('多选',param)
+        // console.log('多选列表',param)
         // 获取多选按钮列表
         getSelectSecondLabelList(param).then(res => {
+          // console.log('多选',res)
           this.feedbackduoxuanList = res.data.result
         })
         // 获取问题列表
@@ -240,16 +243,24 @@ export default {
       initQuestionData(letterId,firstLabelId,secondLabelId) {
         // debugger
         // 动态传id
+        // 将second多选按钮参数用字符串，隔开
+        let secondLabel = '';
+        for(let i = 0;i<secondLabelId.length;i++){
+            secondLabel =  secondLabelId[i]+ "," + secondLabel ;
+        }
+        // 将second多选按钮参数最后一个  ，号去掉
+        if(secondLabel && secondLabel.length >0){
+            secondLabel = secondLabel.substring(0,secondLabel.length-1);
+        }
         const param = {
-          // letterId:letterId,
           letterId:this.o_letterId,
           firstLabelId:firstLabelId,
-          secondLabelId:secondLabelId,
+          secondLabelId:secondLabel,
           onlyResponse:this.onlyShowAnswerFlag
         }
-        console.log('问题列表',param)
+        console.log('问题列表id',param)
         getSelectQuestionListByLetterId(param).then(res => {
-          // console.log(res)
+          console.log('问题列表',res)
           if(res.data.result.length > 0){
             this.allQuestionList = res.data.result[0].questionList;
             if(this.allQuestionList.length > 15){
@@ -260,7 +271,8 @@ export default {
               this.questionList = this.allQuestionList;
             }
           }else {
-            this.questionList = [];
+               this.showMore = false;
+               this.questionList = [];
           }
         })
       },
@@ -269,6 +281,9 @@ export default {
     handleTabClick(tab, event) {
         this.o_letterId = tab.name
         this.initQuestionData(this.o_letterId,'','')
+        this.feedbackduoxuanList = [];
+        this.radio = '';
+        this.onlyShowAnswer = false;
     },
     // 点击重置按钮
     toggleSelection(){
@@ -277,9 +292,8 @@ export default {
       this.feedbackduoxuanList = [],
       this.onlyShowAnswerFlag = ''
       this.onlyShowAnswer = false;
+      this.showAll = true;
       this.initQuestionData(this.o_letterId,'','')
-      // for(var i = 0;i<this.tabList.length;i++){
-      // }
     },
     // 问【收起展开】
     spread(item) {

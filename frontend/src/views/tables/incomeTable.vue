@@ -167,7 +167,7 @@ import tanZxChart2  from '@/components/Charts/tanZxChart2'
     data() {
     return {
         // id:'97952444248599350',
-        caseId:this.$store.state.caseId,
+        caseId:this.$store.state.app.caseId,
       // 弹窗
         tanZxChart2:null,
         tableTitle: null,

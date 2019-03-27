@@ -139,7 +139,7 @@ export default {
     name:'financialInformation',
     data(){
         return {
-            caseId:this.$store.state.caseId,
+            caseId:this.$store.state.app.caseId,
             maoChartTableData:[],
             // 表格data
             year1:'',

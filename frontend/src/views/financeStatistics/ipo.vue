@@ -291,7 +291,6 @@ export default {
         sortType = '02';
       }
       this.$refs.rightModule.initTableData(sortType);
-      this.$refs.rightModule.sortTime(sortType);
     },
     handleClick() {
       if (this.activeName == "fourth") {

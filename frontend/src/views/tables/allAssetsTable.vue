@@ -55,8 +55,9 @@ export default {
       zxChartData:null,
       // 控制弹窗是否展示
       dialogChartVisible: false,
+      // forthYearDate:'',
       // id:'97952444248599350'
-      caseId:this.$store.state.caseId,
+      caseId:this.$store.state.app.caseId,
     }
   },
   components:{
@@ -75,9 +76,10 @@ export default {
         id:this.caseId
       }
       getSelectFinanceOverList(param).then(response => {
-        console.log(response)
-        this.tableTitle = response.data.result.dateList
-        this.tableContent = response.data.result.ipoFinanceOverList 
+        // console.log('AllAsetts',response)
+          this.tableTitle = response.data.result.dateList
+          console.log('title?????',this.tableTitle)
+          this.tableContent = response.data.result.ipoFinanceOverList 
       })
     },
     // 非空判断

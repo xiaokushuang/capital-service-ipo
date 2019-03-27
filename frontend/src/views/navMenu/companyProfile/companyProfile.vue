@@ -441,7 +441,7 @@ export default {
       structureLabel: [],
       structureUrl:'',
       // 公司简介
-      caseId:this.$store.state.caseId,
+      caseId:this.$store.state.app.caseId,
       companyZhName:'',//公司名称
       ipoPlate:'',//上市板块
       industryCsrc:'',//所属行业(证监会) ,
@@ -519,8 +519,13 @@ export default {
       // 供应商
       getSupplierCustomerData(param).then(response => {
         // console.log(response.data.result)
-        this.supplierMainList = response.data.result.supplierMainList
-        this.customerMainList = response.data.result.customerMainList
+        if(response.data.result.supplierMainList&&response.data.result.supplierMainList.length>0){
+          this.supplierMainList = response.data.result.supplierMainList
+        }
+         if(response.data.result.customerMainList&&response.data.result.customerMainList.length>0){
+          this.customerMainList = response.data.result.customerMainList
+        }
+        // this.customerMainList = response.data.result.customerMainList
         // console.log(this.supplierMainList)
         // console.log(this.customerMainList)
       })
