@@ -90,9 +90,6 @@
         AND t4. LEVEL != '0'
         AND t6.letter_class_name = 'IPO预披露反馈意见'
         AND t1.id = #{letterId}
-        <if test="secondLabelId != null and secondLabelId != ''">
-            AND t4.id = #{secondLabelId}
-        </if>
         <if test="firstLabelId != null and firstLabelId != ''">
             AND t5.id = #{firstLabelId}
         </if>
