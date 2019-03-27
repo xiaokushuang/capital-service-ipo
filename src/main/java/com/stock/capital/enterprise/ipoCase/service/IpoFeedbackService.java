@@ -29,10 +29,17 @@ public class IpoFeedbackService extends BaseService {
 
         //计算答案个数
         if (CollectionUtils.isNotEmpty(resultList)) {
-            for (IpoFeedbackDto dto : resultList) {
+            for(int i=0;i<resultList.size();i++){
+                if(i==0){
+                    resultList.get(i).setLetterName("第一次反馈意见");
+                }else if(i==1){
+                    resultList.get(i).setLetterName("第二次反馈意见");
+                }else if(i==2){
+                    resultList.get(i).setLetterName("第三次反馈意见");
+                }
                 int questionCount = 0;
                 int answerCount = 0;
-                List<IpoFeedbackQuestionDto> questionList = dto.getQuestionList();
+                List<IpoFeedbackQuestionDto> questionList = resultList.get(i).getQuestionList();
                 questionCount = questionList.size();
                 if (CollectionUtils.isNotEmpty(questionList)) {
                     for (IpoFeedbackQuestionDto questionDto : questionList) {
@@ -41,11 +48,12 @@ public class IpoFeedbackService extends BaseService {
                         }
                     }
                 }
-                dto.setQuestionCount(questionCount);
-                dto.setAnswerCount(answerCount);
+                resultList.get(i).setQuestionCount(questionCount);
+                resultList.get(i).setAnswerCount(answerCount);
                 //查询问题标签一级列表
-                List<IpoQuestionLabelDto> firstLabelList = ipoFeedbackMapper.selectFirstLabelList(dto.getLetterId());
-                dto.setQuestionLabelList(firstLabelList);
+                List<IpoQuestionLabelDto> firstLabelList = ipoFeedbackMapper
+                        .selectFirstLabelList(resultList.get(i).getLetterId());
+                resultList.get(i).setQuestionLabelList(firstLabelList);
             }
         }
 

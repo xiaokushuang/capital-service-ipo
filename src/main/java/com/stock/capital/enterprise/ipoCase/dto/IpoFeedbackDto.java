@@ -15,6 +15,8 @@ public class IpoFeedbackDto implements Serializable {
     private String orgCode;
     @ApiModelProperty("函件id")
     private String letterId;
+    @ApiModelProperty("名称")
+    private String letterName;
     @ApiModelProperty("问题包含的一级标签")
     private List<IpoQuestionLabelDto> questionLabelList;
     @ApiModelProperty("问题数量")
@@ -111,5 +113,13 @@ public class IpoFeedbackDto implements Serializable {
 
     public void setOnlyResponse(String onlyResponse) {
         this.onlyResponse = onlyResponse;
+    }
+
+    public String getLetterName() {
+        return letterName;
+    }
+
+    public void setLetterName(String letterName) {
+        this.letterName = letterName;
     }
 }

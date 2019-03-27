@@ -51,7 +51,7 @@
         AND t4. LEVEL != '0'
         AND t6.letter_class_name = 'IPO预披露反馈意见'
         ORDER BY
-            askNo
+            t1.letter_date,askNo
     </select>
 
     <select id="selectQuestionListByLetterId"
