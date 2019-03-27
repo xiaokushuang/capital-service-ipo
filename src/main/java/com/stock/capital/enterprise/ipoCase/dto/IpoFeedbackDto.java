@@ -31,6 +31,8 @@ public class IpoFeedbackDto implements Serializable {
     private String secondLabelId;
     @ApiModelProperty("是否只展示回复问题 1:是")
     private String onlyResponse;
+    @ApiModelProperty("二级标签问题数组")
+    private List<String> secondLabelList;
 
 
     private static final long serialVersionUID = 1L;
@@ -121,5 +123,13 @@ public class IpoFeedbackDto implements Serializable {
 
     public void setLetterName(String letterName) {
         this.letterName = letterName;
+    }
+
+    public void setSecondLabelList(List<String> secondLabelList) {
+        this.secondLabelList = secondLabelList;
+    }
+
+    public List<String> getSecondLabelList() {
+        return secondLabelList;
     }
 }

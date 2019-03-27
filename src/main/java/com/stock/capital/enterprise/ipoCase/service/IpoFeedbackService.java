@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -30,12 +31,14 @@ public class IpoFeedbackService extends BaseService {
         //计算答案个数
         if (CollectionUtils.isNotEmpty(resultList)) {
             for(int i=0;i<resultList.size();i++){
-                if(i==0){
-                    resultList.get(i).setLetterName("第一次反馈意见");
-                }else if(i==1){
-                    resultList.get(i).setLetterName("第二次反馈意见");
-                }else if(i==2){
-                    resultList.get(i).setLetterName("第三次反馈意见");
+                if(resultList.size()>1){
+                    if(i==0){
+                        resultList.get(i).setLetterName("第一次反馈意见");
+                    }else if(i==1){
+                        resultList.get(i).setLetterName("第二次反馈意见");
+                    }else if(i==2){
+                        resultList.get(i).setLetterName("第三次反馈意见");
+                    }
                 }
                 int questionCount = 0;
                 int answerCount = 0;
@@ -73,6 +76,9 @@ public class IpoFeedbackService extends BaseService {
      */
     public List<IpoFeedbackDto> selectQuestionListByLetterId(IpoFeedbackDto ipoFeedbackDto) {
         //查询问题答案列表
+        String secondLabelIds = ipoFeedbackDto.getSecondLabelId();
+        List<String> secondLabelList = Arrays.asList(secondLabelIds.split(","));
+        ipoFeedbackDto.setSecondLabelList(secondLabelList);
         List<IpoFeedbackDto> resultList = ipoFeedbackMapper.selectQuestionListByLetterId(ipoFeedbackDto);
         return resultList;
     }

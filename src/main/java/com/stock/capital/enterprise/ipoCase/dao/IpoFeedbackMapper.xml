@@ -50,6 +50,10 @@
         AND t2.`level` = '4'
         AND t4. LEVEL != '0'
         AND t6.letter_class_name = 'IPO预披露反馈意见'
+        AND t4.id IN
+        <foreach collection="secondLabelList" index="index" item="item" open="(" close=")" separator="," >
+            #{item}
+        </foreach>
         ORDER BY
             t1.letter_date,askNo
     </select>
