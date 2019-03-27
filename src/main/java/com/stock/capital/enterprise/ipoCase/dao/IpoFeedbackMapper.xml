@@ -99,6 +99,12 @@
         <if test="onlyResponse == 1">
             AND t8.text_content is not null
         </if>
+        <if test="secondLabelList != null and secondLabelList.size()>0">
+            AND t4.id IN
+            <foreach collection="secondLabelList" index="index" item="item" open="(" close=")" separator="," >
+                #{item}
+            </foreach>
+        </if>
         ORDER BY
         askNo
     </select>
