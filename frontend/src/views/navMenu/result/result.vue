@@ -23,7 +23,7 @@
                              <span style="color:#999;">发审会委员: </span>
                              <span v-for="name in baseList[0].member" style="color:#333;">{{name}}</span>
                              <span style="color:#6B6B6B;"> </span>
-                             <span style="color:#6699FF;" @click="handleMemberDetail()">详情 &gt;</span>
+                             <span style="color:#6699FF;" @click="handleMemberDetail(baseList[0].examineDate)">详情 &gt;</span>
                         </p>
                     </div>
                     <!-- 委员弹窗 -->
@@ -72,7 +72,7 @@
                         <p style="font-size:14px;">
                             <span style="font-family:'微软雅黑';font-weight:400;color:#999;">第一次审核会议: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].relationFileTitle}} _ </span>
-                            <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].examineDate}}</span>
+                            <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].examineDateStr}}</span>
                         </p>
                     </div>
                     <div class="text ">
@@ -134,7 +134,7 @@
                         <p style="font-size:14px;">
                             <span style="font-family:'微软雅黑';font-weight:400;color:#999;">第二次审核会议: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[1].relationFileTitle}} _ </span>
-                            <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[1].examineDate}}</span>
+                            <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[1].examineDateStr}}</span>
                         </p>
                     </div>
                     <div class="text ">
@@ -198,7 +198,7 @@
                         <p style="font-size:14px;">
                             <span style="font-family:'微软雅黑';font-weight:400;color:#999;">第一次审核会议: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].relationFileTitle}} _ </span>
-                            <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].examineDate}}</span>
+                            <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].examineDateStr}}</span>
                         </p>
                     </div>
                     <div class="text ">
@@ -260,7 +260,7 @@
                         <p style="font-size:14px;">
                             <span style="font-family:'微软雅黑';font-weight:400;color:#999;">第二次审核会议: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[1].relationFileTitle}} _ </span>
-                            <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[1].examineDate}}</span>
+                            <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[1].examineDateStr}}</span>
                         </p>
                     </div>
                     <div class="text ">
@@ -320,14 +320,14 @@
                  <li  style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
                     <div class="text">
                         <p style="font-size:14px;">
-                            <span style="font-family:'微软雅黑';font-weight:400;color:#999;">第二次审核会议: </span>
+                            <span style="font-family:'微软雅黑';font-weight:400;color:#999;">第三次审核会议: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[2].relationFileTitle}} _ </span>
-                            <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[2].examineDate}}</span>
+                            <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[2].examineDateStr}}</span>
                         </p>
                     </div>
                     <div class="text ">
                         <p style="font-size:14px;">
-                            <span style="font-size:14px;color:#999;">第二次审核结果: </span>
+                            <span style="font-size:14px;color:#999;">第三次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[2].companyName}}</span>
                             <span  :class="{'htgResult' : baseList[2].iecResult == '00','whtgResult' : baseList[2].iecResult == '01','zhbjResult' : baseList[2].iecResult == '02','qxshResult' : baseList[2].iecResult == '03'}">{{ baseList[2].iecResultStr}}</span>
                         </p>
@@ -450,6 +450,7 @@ export default {
             id:this.caseId,
         }
         geSelectFeedbackList(param).then(res => {
+            console.log('111',param)
         //    console.log(res)
            this.baseList = res.data.result.baseList
            this.questionList = res.data.result.questionList
@@ -460,8 +461,10 @@ export default {
     // 动态传id
         const param = {
             id:this.caseId,
+            // id:'97952444248599344',
             examineDate:examineDate
         }
+        console.log('22222',param)
         geSelectMemberList(param).then(res => {
             this.memberList = res.data.result
             console.log(res)
@@ -473,6 +476,7 @@ export default {
     // 点击弹出详情方法
     handleMemberDetail(examineDate){
         this.dialogVisible = true;
+        console.log(examineDate)
         this.initMemberData(examineDate)
     },
     // 非空判断

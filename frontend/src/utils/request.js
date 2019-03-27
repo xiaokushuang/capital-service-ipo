@@ -21,7 +21,7 @@ service.interceptors.request.use(
       // fixed GET request method caching problem
       config.headers['Cache-Control'] = 'no-cache';
       config.headers['Pragma'] = 'no-cache';
-      config.params['id'] = store.state.app.caseId;
+      // config.params['id'] = store.state.app.caseId;
       return config
     }, error => {
       // Do something with request error
