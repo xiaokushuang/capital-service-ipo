@@ -76,9 +76,12 @@ public class IpoFeedbackService extends BaseService {
      */
     public List<IpoFeedbackDto> selectQuestionListByLetterId(IpoFeedbackDto ipoFeedbackDto) {
         //查询问题答案列表
+
         String secondLabelIds = ipoFeedbackDto.getSecondLabelId();
-        List<String> secondLabelList = Arrays.asList(secondLabelIds.split(","));
-        ipoFeedbackDto.setSecondLabelList(secondLabelList);
+        if(StringUtils.isNotEmpty(secondLabelIds)){
+            List<String> secondLabelList = Arrays.asList(secondLabelIds.split(","));
+            ipoFeedbackDto.setSecondLabelList(secondLabelList);
+        }
         List<IpoFeedbackDto> resultList = ipoFeedbackMapper.selectQuestionListByLetterId(ipoFeedbackDto);
         return resultList;
     }
