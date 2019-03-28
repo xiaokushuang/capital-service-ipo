@@ -131,7 +131,7 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, 
                 <thead>
                     <tr role="row" style="background: #a0adb5;">
                         <th class="text-center" rowspan="2" style="width: 4%; border-right: 1px solid #fff !important;">序号</th>
-                        <th class="text-center" rowspan="2" style="width: 8%;border-right: 1px solid #fff !important;">注册地</th>
+                        <th class="text-center" rowspan="2" style="width: 6%;border-right: 1px solid #fff !important;">注册地</th>
                         <th class="text-center" colspan="8" style="width: 73%;border-bottom: 1px solid #fff !important;border-right: 1px solid #fff !important;">在审情况</th>
                         <th class="text-center" colspan="2" style="width: 16%;border-bottom: 1px solid #fff !important;">终止审查<span style="color:#0099cc">(终止)</span></th>
                     </tr>
@@ -144,7 +144,7 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, 
                             <th class="sorting" data-sort-name="passed" style="width: 8%; text-align: center;border-right: 1px solid #fff !important;">已通过发审会<span style="color:#0099cc">(已通过上市委会议)</span></th>
                             <th class="sorting" data-sort-name="submited" style="width: 8%; text-align: center;border-right: 1px solid #fff !important;"><span style="color:#0099cc">提交注册</span></th>
                             <th class="sorting" data-sort-name="areaCount" style="width: 5%; text-align: center;border-right: 1px solid #fff !important;">合计</th>
-                            <th class="sorting" data-sort-name="weekStopYet" style="width: 6%; text-align: center;border-right: 1px solid #fff !important;">最近一周</th>
+                            <th class="sorting" data-sort-name="weekStopYet" style="width: 7%; text-align: center;border-right: 1px solid #fff !important;">最近一周</th>
                             <th class="sorting" data-sort-name="stopYet" style="width: 10%; text-align: center;border-right: 0px solid #fff !important;"></th>
                         </tr>
                 </thead>

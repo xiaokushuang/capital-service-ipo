@@ -73,31 +73,33 @@ function chartSetting(lst) {
 	var itemLabel = [];
 	var series = [];
 	for (var i = 0; i < lst.length; i++) {
-		if ((lst[i].hzbCount > 0 || lst[i].zxbCount > 0 || lst[i].cybCount > 0 || lst[i].kcCount >= 0) && i < lst.length - 1) {
-			var value = [];
-			value[0] = lst[i].hzbCount;
-			value[1] = lst[i].zxbCount;
-			value[2] = lst[i].cybCount;
-			value[3] = lst[i].kcCount;
-			var tmp = {
-				name : lst[i].label,
-				type : 'bar',
-				stack : lst[i].label,
-				itemStyle : {
-					normal : {
-//						color : myChartColor[i % 4]
-						color : myChartColor[i]
+		if ((lst[i].hzbCount > 0 || lst[i].zxbCount > 0 || lst[i].cybCount > 0 || lst[i].kcCount > 0) && i < lst.length - 1) {
+			if(lst[i].label!='终止审查'){
+				var value = [];
+				value[0] = lst[i].hzbCount;
+				value[1] = lst[i].zxbCount;
+				value[2] = lst[i].cybCount;
+				value[3] = lst[i].kcCount;
+				var tmp = {
+					name : lst[i].label,
+					type : 'bar',
+					stack : lst[i].label,
+					itemStyle : {
+						normal : {
+//							color : myChartColor[i % 4]
+							color : myChartColor[i]
+						},
+						label : {
+							show : true
+						}
 					},
-					label : {
-						show : true
-					}
-				},
-				data : value
-			};
-			series.push(tmp);
-			// 细分业务标签
-			//var lable = lableTurnName(lst[i].label);
-			itemLabel.push(lst[i].label);
+					data : value
+				};
+				series.push(tmp);
+				// 细分业务标签
+				//var lable = lableTurnName(lst[i].label);
+					itemLabel.push(lst[i].label);
+			}
 		}
 	}
 	// 设置柱状图
@@ -160,19 +162,21 @@ function chartSetting(lst) {
 function reviewTableSetting(lst) {
 	var tbody = $('#review tbody');
 	for (var i = 0; i < lst.length; i++) {
-		if (lst[i].hzbCount > 0 || lst[i].zxbCount > 0 || lst[i].cybCount > 0 || lst[i].kcCount >= 0) {
-			var backgroud = '';
-			var label = '<td class="left">' + lableTurnName(lst[i].label) + '</td>';
-			if (i == lst.length - 1) {
-				label = '<td style="text-align: center;">' + lst[i].label + '</td>';
-				backgroud = 'style="background: #E8E8E8;"';
-				var total = lst[i].hzbCount + lst[i].zxbCount + lst[i].cybCount+ lst[i].kcCount;
-				var str = '<tr '+ backgroud +'>' + label + '<td>' + lst[i].hzbCount + '</td>' + '<td>' + lst[i].zxbCount + '</td>' + '<td style="border-right-color: #14bcf5;border-left-color: #14bcf5;border-top-color: #14bcf5;">' + lst[i].cybCount + '</td>' + '<td style="border-bottom-style:solid;border-right-color: #14bcf5;border-left-color: #14bcf5;border-bottom-color: #14bcf5;">' + lst[i].kcCount + '</td>'+'<td>' + total + '</td>' +'</tr>';
-				tbody.append(str);
-			}else{
-				var total = lst[i].hzbCount + lst[i].zxbCount + lst[i].cybCount + lst[i].kcCount;
-				var str = '<tr '+ backgroud +'>' + label + '<td>' + lst[i].hzbCount + '</td>' + '<td>' + lst[i].zxbCount + '</td>' + '<td style="border-right-color: #14bcf5;border-left-color: #14bcf5;border-top-color: #14bcf5;">' + lst[i].cybCount + '</td>' + '<td style="border-right-color: #14bcf5;border-left-color: #14bcf5;">' + lst[i].kcCount + '</td>'+'<td>' + total + '</td>' +'</tr>';
-				tbody.append(str);
+		if (lst[i].hzbCount > 0 || lst[i].zxbCount > 0 || lst[i].cybCount > 0 || lst[i].kcCount > 0) {
+			if(lst[i].label!="终止审查"){
+				var backgroud = '';
+				var label = '<td class="left">' + lableTurnName(lst[i].label) + '</td>';
+				if (i == lst.length - 1) {
+					label = '<td style="text-align: center;">' + lst[i].label + '</td>';
+					backgroud = 'style="background: #E8E8E8;"';
+					var total = lst[i].hzbCount + lst[i].zxbCount + lst[i].cybCount+ lst[i].kcCount;
+					var str = '<tr '+ backgroud +'>' + label + '<td>' + lst[i].hzbCount + '</td>' + '<td>' + lst[i].zxbCount + '</td>' + '<td style="border-right-color: #14bcf5;border-left-color: #14bcf5;border-top-color: #14bcf5;">' + lst[i].cybCount + '</td>' + '<td style="border-bottom-style:solid;border-right-color: #14bcf5;border-left-color: #14bcf5;border-bottom-color: #14bcf5;">' + lst[i].kcCount + '</td>'+'<td>' + total + '</td>' +'</tr>';
+					tbody.append(str);
+				}else{
+					var total = lst[i].hzbCount + lst[i].zxbCount + lst[i].cybCount + lst[i].kcCount;
+					var str = '<tr '+ backgroud +'>' + label + '<td>' + lst[i].hzbCount + '</td>' + '<td>' + lst[i].zxbCount + '</td>' + '<td style="border-right-color: #14bcf5;border-left-color: #14bcf5;border-top-color: #14bcf5;">' + lst[i].cybCount + '</td>' + '<td style="border-right-color: #14bcf5;border-left-color: #14bcf5;">' + lst[i].kcCount + '</td>'+'<td>' + total + '</td>' +'</tr>';
+					tbody.append(str);
+				}
 			}
 		}
 	}
@@ -603,7 +607,7 @@ function renderColumnByKC1(data, type, row, meta){
 	   clearTimeout(iTime);
 　　　　iTime=setTimeout(function(){
 			$($($('#recommendOrg').find('tr')[meta.row+1]).find('td')[5]).css({"border-bottom-color":"#14bcf5"});
-　　　　},50);
+　　　　},10);
 	 var operationStr = "";
 	    var quasiListedLand = "04";
 	    	operationStr += '<th><a href="javascript:void(0)" onclick="viewCommendDetail(\'' + data.label
@@ -723,7 +727,6 @@ function renderColumnLawTotalCount(data, type, row, meta){
 }
 
 function viewLawDetail(label,quasiListedLand) {
-	debugger;
 	var industry = $("#industrySelect").val();
 	var registAddr = $("#registAddrSelect").val();
 	var data = {

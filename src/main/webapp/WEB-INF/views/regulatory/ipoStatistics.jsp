@@ -69,20 +69,20 @@ table tbody tr td.left {
         <div class="col-md-12 no-padding-hr">
             <div class="sub-title">IPO在审项目数据统计</div>
         </div>
-        <div id="ipoChart" class="col-md-7 no-padding-vr chart-content" align="center"></div>
-        <div class="col-md-5">
+        <div id="ipoChart" class="col-md-6 no-padding-vr chart-content" align="center"></div>
+        <div class="col-md-6">
             <table id="review">
                 	<tr style="background: #E8E8E8;">
-                	 	<td colspan="1"></td>
+                	 	<td colspan="1" style="width: 36%;"></td>
                 	 	<td colspan="3" style="border-right-color: #14bcf5;">标准制</td>
                 	 	<td colspan="1" style="border-top-width:0.3px;;border-top-style:solid;color:#0099cc;border-bottom: none;border-right-color: #14bcf5;border-left-color: #14bcf5;border-top-color: #14bcf5;">注册制</td>
                 	 	<td colspan="1" rowspan="2">合计</td>
      				</tr>
                     <tr style="background: #E8E8E8;">
-                        <td style="width: 25%;" colspan="1"></td>
-                        <td style="width: 15%;" colspan="1">沪主板</td>
-                        <td style="width: 15%;" colspan="1">中小板</td>
-                        <td style="width: 15%;border-right-color: #14bcf5;border-top-color: #14bcf5;" colspan="1">创业板</td>
+                        <td style="width: 20%;" colspan="1"></td>
+                        <td style="width: 12%;" colspan="1">沪主板</td>
+                        <td style="width: 12%;" colspan="1">中小板</td>
+                        <td style="width: 12%;border-right-color: #14bcf5;border-top-color: #14bcf5;" colspan="1">创业板</td>
                         <td style="width: 15%;color:#0099cc;border-bottom: none;border-right-color: #14bcf5;" colspan="1" >科创板</td>
                         <!-- <td style="width: 15%;" colspan="1" >合计</td> -->
                     </tr>
