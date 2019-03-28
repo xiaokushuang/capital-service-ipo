@@ -665,7 +665,7 @@ public class StatisticsService extends BaseService {
             
             rowNum ++;
             row = sheet.getRow(rowNum) == null ? sheet.createRow(rowNum) : sheet.getRow(rowNum);
-            cell = row.getCell(10) == null ? row.createCell(10) : row.getCell(10);
+            cell = row.getCell(11) == null ? row.createCell(11) : row.getCell(11);
         	SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         	cell.setCellValue(sdf.format(new Date())+"年");
         	
@@ -756,17 +756,22 @@ public class StatisticsService extends BaseService {
             	cell.setCellStyle(centerCellStyle);
             	cell.setCellValue(dto.getPassed());
             	
-            	cell = row.getCell(8) == null ? row.createCell(8) : row.getCell(8);
+            	cell = row.getCell(8) == null ? row.createCell(8) : row.getCell(8);//提交注册
             	cell.setCellStyle(blackBorder);
             	cell.setCellStyle(centerCellStyle);
-            	cell.setCellValue(dto.getAreaCount());
+            	cell.setCellValue(dto.getPassed());
             	
             	cell = row.getCell(9) == null ? row.createCell(9) : row.getCell(9);
             	cell.setCellStyle(blackBorder);
             	cell.setCellStyle(centerCellStyle);
-            	cell.setCellValue(dto.getWeekStopYet());
+            	cell.setCellValue(dto.getAreaCount());
             	
             	cell = row.getCell(10) == null ? row.createCell(10) : row.getCell(10);
+            	cell.setCellStyle(blackBorder);
+            	cell.setCellStyle(centerCellStyle);
+            	cell.setCellValue(dto.getWeekStopYet());
+            	
+            	cell = row.getCell(11) == null ? row.createCell(11) : row.getCell(11);
             	cell.setCellStyle(blackBorder);
             	cell.setCellStyle(centerCellStyle);
             	cell.setCellValue(dto.getStopYet());
