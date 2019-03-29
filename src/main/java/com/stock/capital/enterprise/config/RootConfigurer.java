@@ -1,5 +1,6 @@
 package com.stock.capital.enterprise.config;
 
+import com.stock.core.dao.RedisDao;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.HashSet;
@@ -22,6 +23,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -145,6 +150,20 @@ public class RootConfigurer {
         defaultCookieSerializer.setCookieName("ipo");
         defaultCookieSerializer.setUseHttpOnlyCookie(true);
         return defaultCookieSerializer;
+    }
+
+    @Bean
+    public RedisDao redisDao() {
+        return new RedisDao();
+    }
+
+    @Bean
+    public RedisTemplate redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate redisTemplate = new RedisTemplate();
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        return redisTemplate;
     }
     
 }

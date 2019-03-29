@@ -138,10 +138,16 @@ export const constantRouterMap = [
         name: 'tableDemo'
       },
       {
-        path: 'ipo',
+        path: 'caseDetail',
         component: _import('financeStatistics/ipo'),
-        name: 'ipo',
-        meta: { title: '首页', icon: 'dashboard', noCache: true }
+        name: 'caseDetail',
+        meta: { title: 'IPO案例详情', noCache: true }
+      },
+      {
+        path: 'ipoCase',
+        component: _import('ipoCase/ipoCaseList'),
+        name: 'ipoCase',
+        meta: { title: 'IPO案例', noCache: true }
       }
 
     ]

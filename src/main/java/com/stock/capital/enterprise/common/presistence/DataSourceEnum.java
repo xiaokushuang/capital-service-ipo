@@ -2,7 +2,7 @@ package com.stock.capital.enterprise.common.presistence;
 
 public enum DataSourceEnum {
 
-    CLOUD("cloud"),DONGCAI("dongcai");
+    CLOUD("cloud"),DONGCAI("dongcai"),TOUGUAN("touguan");
 
     private String value;
 
