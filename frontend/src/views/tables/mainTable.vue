@@ -25,7 +25,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="thirdYearRatio" align="right"  class-name="table_cell" label="占比(%)" width="81">
-          <template slot-scope="scope">
+          <template slot-scope="scope">·
             <span>{{isNotEmpty(scope.row.thirdYearRatio) ? scope.row.thirdYearRatio : '- -'}}</span>
           </template>
         </el-table-column>
@@ -58,32 +58,15 @@
   </div>
 </template>
 <script>
-import { getTableData } from '@/api/tableDemo'
-
 export default {
   name: 'mainTable',
   data() {
     return {
-      mainTableList:[],
       caseId:this.$store.state.app.caseId,
     }
   },
-  created() {
-    this.initTableData()
-  },
+  props:["mainTableList"],
   methods: {
-    initTableData() {
-          // 动态传id
-      const param = {
-        id:this.caseId
-      }
-      getTableData(param).then(response => {
-        if( response.data.result){
-          this.mainTableList = response.data.result
-          console.log('表格',this.mainTableList.onePeriodForIncome)
-        }
-      })
-    },
     // 非空判断
     isNotEmpty(param) {
       // debugger

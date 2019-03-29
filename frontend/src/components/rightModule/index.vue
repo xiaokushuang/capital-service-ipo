@@ -20,19 +20,17 @@
                                 <div class="right" >
                                     <div class="border-box">
                                         <span v-if="sortFlag == '0'">
-                                            <span :id="'sign' + item.proSort + item.progressType + item.progressIndex" class="circle"  v-if="boxDataItem.proList.length">
+                                            <span :id="'sign' +  item.progressIndex" class="circle"  v-if="boxDataItem.proList.length">
                                                 <!-- 展示序号 【默认时候不加类】-->
-                                                <span :id="'num' + item.proSort + item.progressType + item.progressIndex">
+                                                <span :id="'num' +  item.progressIndex">
                                                     {{item.proSort}}
-                                                    <!-- {{indexShowHidden && thisIndex == index ? '' : boxDataItem.proList.length - index}} -->
                                                 </span>
                                             </span>
                                         </span>
                                         <span v-else>
-                                            <span :id="'sign' + item.proSort + item.progressType + item.progressIndex" class="circle" v-if="boxDataItem.proList.length">
+                                            <span :id="'sign' +  item.progressIndex" class="circle" v-if="boxDataItem.proList.length">
                                             <!-- 展示序号 -->
-                                                <span :id="'num' + item.proSort + item.progressType + item.progressIndex">
-                                                    <!-- {{indexShowHidden && thisIndex == index ? '' : index + 1}} -->
+                                                <span :id="'num' +  item.progressIndex">
                                                     {{item.proSort}}
                                                 </span>
                                             </span>
@@ -41,42 +39,30 @@
                                     <div class="border-right">
                                         <div style="font-size: 16px; color: #333333;"
                                             v-text='item.progressName'
-                                            @click="showAndHide(boxDataItem,'each' + item.proSort+ item.progressType+ item.progressIndex ,item, 'title')"
-                                            @mouseenter="onMouseOver('each' + item.proSort + item.progressType + item.progressIndex, item, index)"
-                                            @mouseleave="onMouseOut('each' + item.proSort + item.progressType + item.progressIndex, item, index)"
+                                            @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'title')"
+                                            @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)"
+                                            @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)"
                                             class="tinyHand">
                                         </div>
                                         <!-- 审核结果 -->
                                         <div v-show="item.progressType=='07'">
-                                            <span v-if="item.iecResult=='00'"
-                                            :style={background:htg} 
-                                            class="htg"
-                                           >获通过</span>
-                                            <span v-if="item.iecResult=='01'"
-                                            :style={background:whtg} 
-                                            class="whtg"
-                                            >未获通过</span>
-                                            <span class="zhbj" v-if="item.iecResult=='02'" 
-                                            :style={background:zhbj}
-                                            >暂缓表决
-                                                
-                                            </span>
-                                            <span v-if="item.iecResult=='03'"
-                                            :style={background:qxsh} 
-                                            class="qxsh"
-                                            >取消审核</span>
+                                            <span v-if="item.iecResult=='00'" :style={background:htg} class="htg" >获通过</span>
+                                            <span v-if="item.iecResult=='01'" :style={background:whtg} class="whtg">未获通过</span>
+                                            <span class="zhbj" v-if="item.iecResult=='02'" :style={background:zhbj} >暂缓表决 </span>
+                                            <span v-if="item.iecResult=='03'" :style={background:qxsh} class="qxsh">取消审核</span>
                                         </div>
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
                                             <span v-text='item.processTime'></span>
                                             &nbsp;&nbsp;
                                             <span v-if="item.lastDay != undefined">距离上个进程{{item.lastDay}}</span>
                                             <!-- 前面图标 -->
-                                            <div :id="'each' + item.proSort + item.progressType + item.progressIndex" style="display:none;">
-                                                <div :ref='item.proSort + item.progressType + item.progressIndex' :class="'abc'+item.proSort + item.progressType + item.progressIndex"></div>
+                                            <div :id="'each' +  item.progressIndex" style="display:none;">
+                                                <div :ref=' item.progressIndex' :class="'abc'+ item.progressIndex"></div>
                                             </div>
                                             <p v-if="item.relaList.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></p>
-                                            <p v-else @click="gonggaoClick(item.relaList[0])" class="gonggao" style="display:none;"
-                                            :id="'more'+ item.proSort + item.progressType + item.progressIndex"><a>{{item.relaList[0].relationFileTitle}}</a></p>
+                                            <p v-else @click="gonggaoClick(item.relaList[0])" class="gonggao" style="display:none;" :id="'more'+  item.progressIndex">
+                                                <a>{{item.relaList[0].relationFileTitle}}</a>
+                                            </p>
                                         </div>
                                         <div v-if="item.flag&&item.relaList.length>1" style="margin-bottom: 24px;margin-top: 8px;">
                                             <span>
@@ -90,9 +76,9 @@
                                             <span>  
                                                 <span>
                                                     <!-- 第一个进程展示的是‘查看公告’ -->
-                                                    <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.proSort+ item.progressType + item.progressIndex,item, null)" class="moreNoticeCss">查看公告 ></div>
+                                                    <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, null)" class="moreNoticeCss">查看公告 ></div>
                                                     <!-- 第二个进程展示的是‘查看审核意见’ -->
-                                                    <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.proSort+ item.progressType + item.progressIndex,item, null)" class="moreNoticeCss">查看审核意见 ></div>
+                                                    <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, null)" class="moreNoticeCss">查看审核意见 ></div>
                                                 </span>
                                             </span>
                                         </div>
@@ -120,19 +106,17 @@
                                 <div class="right" >
                                     <div class="border-box">
                                         <span v-if="sortFlag == '0'">
-                                            <span :id="'sign' + item.proSort + item.progressType + item.progressIndex" class="circle"  v-if="boxDataItem.proList.length">
+                                            <span :id="'sign' +  item.progressIndex" class="circle"  v-if="boxDataItem.proList.length">
                                                 <!-- 展示序号 【默认时候不加类】-->
-                                                <span :id="'num' + item.proSort + item.progressType + item.progressIndex">
-                                                    <!-- {{indexShowHidden && thisIndex == index ? '' : boxDataItem.proList.length - index}} -->
+                                                <span :id="'num' +  item.progressIndex">
                                                     {{item.proSort}}
                                                 </span>
                                             </span>
                                         </span>
                                         <span v-else>
-                                            <span :id="'sign' + item.proSort + item.progressType + item.progressIndex" class="circle" v-if="boxDataItem.proList.length">
+                                            <span :id="'sign' +  item.progressIndex" class="circle" v-if="boxDataItem.proList.length">
                                             <!-- 展示序号 -->
-                                                <span :id="'num' + item.proSort + item.progressType + item.progressIndex">
-                                                    <!-- {{indexShowHidden && thisIndex == index ? '' : index + 1}} -->
+                                                <span :id="'num' +  item.progressIndex">
                                                     {{item.proSort}}
                                                 </span>
                                             </span>
@@ -141,42 +125,29 @@
                                     <div class="border-right">
                                         <div style="font-size: 16px; color: #333333;"
                                             v-text='item.progressName'
-                                            @click="showAndHide(boxDataItem,'each' + item.proSort+ item.progressType+ item.progressIndex ,item, 'title')"
-                                            @mouseenter="onMouseOver('each' + item.proSort + item.progressType + item.progressIndex, item, index)"
-                                            @mouseleave="onMouseOut('each' + item.proSort + item.progressType + item.progressIndex, item, index)"
+                                            @click="showAndHide(boxDataItem,'each' +  item.progressIndex ,item, 'title')"
+                                            @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)"
+                                            @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)"
                                             class="tinyHand">
                                         </div>
                                         <!-- 审核结果 -->
                                         <div v-show="item.progressType=='07'">
-                                            <span v-if="item.iecResult=='00'"
-                                            :style={background:htg} 
-                                            class="htg"
-                                            >获通过</span>
-                                            <span v-if="item.iecResult=='01'"
-                                            :style={background:whtg} 
-                                            class="whtg"
-                                            >未获通过</span>
-                                            <span class="zhbj" v-if="item.iecResult=='02'" 
-                                            :style={background:zhbj} 
-                                            >暂缓表决
-                                                
-                                            </span>
-                                            <span v-if="item.iecResult=='03'"
-                                            :style={background:qxsh} 
-                                            class="qxsh"
-                                            >取消审核</span>
+                                            <span v-if="item.iecResult=='00'" :style={background:htg} class="htg" >获通过</span>
+                                            <span v-if="item.iecResult=='01'" :style={background:whtg} class="whtg">未获通过</span>
+                                            <span class="zhbj" v-if="item.iecResult=='02'" :style={background:zhbj} >暂缓表决 </span>
+                                            <span v-if="item.iecResult=='03'" :style={background:qxsh} class="qxsh">取消审核</span>
                                         </div>
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
                                             <span v-text='item.processTime'></span>
                                             &nbsp;&nbsp;
                                             <span v-if="item.lastDay != undefined">距离上个进程{{item.lastDay}}</span>
                                             <!-- 前面图标 -->
-                                            <div :id="'each' + item.proSort + item.progressType + item.progressIndex" style="display:none;">
-                                                <div :ref='item.proSort + item.progressType + item.progressIndex' :class="'abc'+item.proSort + item.progressType + item.progressIndex"></div>
+                                            <div :id="'each' +  item.progressIndex" style="display:none;">
+                                                <div :ref=' item.progressIndex' :class="'abc'+ item.progressIndex"></div>
                                             </div>
                                             <p v-if="item.relaList.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></p>
                                             <p v-else @click="gonggaoClick(item.relaList[0])" class="gonggao" style="display:none;"
-                                            :id="'more'+ item.proSort + item.progressType + item.progressIndex"><a>{{item.relaList[0].relationFileTitle}}</a></p>
+                                            :id="'more'+  item.progressIndex"><a>{{item.relaList[0].relationFileTitle}}</a></p>
                                         </div>
                                         <div v-if="item.flag&&item.relaList.length>1" style="margin-bottom: 24px;margin-top: 8px;">
                                             <span>
@@ -190,9 +161,9 @@
                                             <span>  
                                                 <span>
                                                     <!-- 第一个进程展示的是‘查看公告’ -->
-                                                    <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.proSort+ item.progressType + item.progressIndex,item, null)" class="moreNoticeCss">查看公告 ></div>
+                                                    <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each'  + item.progressIndex,item, null)" class="moreNoticeCss">查看公告 ></div>
                                                     <!-- 第二个进程展示的是‘查看审核意见’ -->
-                                                    <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.proSort+ item.progressType + item.progressIndex,item, null)" class="moreNoticeCss">查看审核意见 ></div>
+                                                    <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each'  + item.progressIndex,item, null)" class="moreNoticeCss">查看审核意见 ></div>
                                                 </span>
                                             </span>
                                         </div>
@@ -230,9 +201,9 @@
                     </el-col>
                 </el-row>
             </div>
-            <!-- <div v-else>
-                <span>暂无数据</span>
-            </div> -->
+        </div>
+        <div v-else>
+            <span>暂无数据</span>
         </div>
       
     </div>
@@ -246,7 +217,7 @@ import {getRightModuleData} from '@/api/rightModule'
 export default {
     data() {
         return {
-            caseId1:this.$store.state.app.caseId,
+             caseId1:this.$store.state.app.caseId,
              treeTypeCode:'',
              // 鼠标移入展示文字
              isShowSpreadText:false,
@@ -278,8 +249,6 @@ export default {
     name: "rightModule",
     props: {
         caseId: String,
-        // 从ipo组件传过来的属性值
-        // expand:Boolean
     },
     created(){
          //   请求数据
@@ -340,7 +309,7 @@ export default {
                 if(this.treeList[i].proList&&this.treeList[i].proList.length>0){
                      this.treeList[i].proList.map(obj => {
                          this.$set(obj,'flag',exAllFlag)
-                         this.showAndHideParent('each' + obj.proSort + obj.progressType + obj.progressIndex, exAllFlag,obj);
+                         this.showAndHideParent('each' +  obj.progressIndex, exAllFlag,obj);
                     })
                 }
             }
@@ -361,16 +330,16 @@ export default {
                 exAllFlag == '0'
             ) {
                 document.getElementById(obj).setAttribute("style", "display:none;");
-                if(  document.getElementById('more' +  item.proSort + item.progressType + item.progressIndex)) {
-                     document.getElementById('more' +  item.proSort + item.progressType + item.progressIndex).setAttribute("style", "display:none;");
-                     document.getElementById('sign' + item.proSort + item.progressType + item.progressIndex).className = 'circle'
-                     document.getElementById('num' + item.proSort + item.progressType + item.progressIndex).setAttribute("style", "display:inline-block;");
+                if(  document.getElementById('more' +   item.progressIndex)) {
+                     document.getElementById('more' +   item.progressIndex).setAttribute("style", "display:none;");
+                     document.getElementById('sign' +  item.progressIndex).className = 'circle'
+                     document.getElementById('num' +  item.progressIndex).setAttribute("style", "display:inline-block;");
                 }
             } else {
-                if( document.getElementById('more' +  item.proSort + item.progressType + item.progressIndex)) {
-                    document.getElementById('more' +  item.proSort + item.progressType + item.progressIndex).setAttribute("style", "display:block;");
-                    document.getElementById('sign' + item.proSort + item.progressType + item.progressIndex).className = 'circle'
-                    document.getElementById('num' + item.proSort + item.progressType + item.progressIndex).setAttribute("style", "display:inline-block;");
+                if( document.getElementById('more' +   item.progressIndex)) {
+                    document.getElementById('more' +   item.progressIndex).setAttribute("style", "display:block;");
+                    document.getElementById('sign' +  item.progressIndex).className = 'circle'
+                    document.getElementById('num' +  item.progressIndex).setAttribute("style", "display:inline-block;");
                 }
                 document .getElementById(obj).setAttribute("style", "display:block;");
                
@@ -380,24 +349,24 @@ export default {
          showAndHide(param,obj,item, type) {
              if (type == 'title'){
                  item.flag = true;
-               if (document.getElementById('more' +  item.proSort + item.progressType+ item.progressIndex).getAttribute("style") ===
+               if (document.getElementById('more' +  item.progressIndex).getAttribute("style") ===
                 "display:none;"  ||
-                document.getElementById('more' +  item.proSort + item.progressType+ item.progressIndex).getAttribute("style") ===
+                document.getElementById('more' +  item.progressIndex).getAttribute("style") ===
                 "display: none;" ){
-                document.getElementById('sign' + item.proSort + item.progressType+ item.progressIndex).className = 'fa circle fa-chevron-up'
-                document.getElementById('more' +  item.proSort + item.progressType+ item.progressIndex).setAttribute("style", "display:block;");
+                document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-up'
+                document.getElementById('more' +  item.progressIndex).setAttribute("style", "display:block;");
                 } else {                
                 item.flag = false;
-                document.getElementById('sign' + item.proSort + item.progressType+ item.progressIndex).className = 'fa circle fa-chevron-down'
-                document.getElementById('more' +  item.proSort + item.progressType+ item.progressIndex).setAttribute("style", "display:none;");
+                document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-down'
+                document.getElementById('more' +  item.progressIndex).setAttribute("style", "display:none;");
                 }
              }else {                
-                 if (document.getElementById('more' +  item.proSort + item.progressType+ item.progressIndex).getAttribute("style") ===
+                 if (document.getElementById('more' +  item.progressIndex).getAttribute("style") ===
                 "display:none;"  ||
-                document.getElementById('more' +  item.proSort + item.progressType+ item.progressIndex).getAttribute("style") ===
+                document.getElementById('more' +  item.progressIndex).getAttribute("style") ===
                 "display: none;" ){
                     item.flag = true;
-                    document.getElementById('more' +  item.proSort + item.progressType+ item.progressIndex).setAttribute("style", "display:block;");
+                    document.getElementById('more' +  item.progressIndex).setAttribute("style", "display:block;");
                 }
               }
         },
@@ -407,12 +376,12 @@ export default {
             window.open(param.baseUrl)
         },
         onMouseOver (obj, item, index) {
-            document.getElementById('sign' + item.proSort + item.progressType+ item.progressIndex).className = 'fa circle fa-chevron-down'
-            document.getElementById('num' + item.proSort + item.progressType+ item.progressIndex).setAttribute("style", "display:none;");
+            document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-down'
+            document.getElementById('num' + item.progressIndex).setAttribute("style", "display:none;");
         },
         onMouseOut (obj, item) {
-              document.getElementById('sign' + item.proSort + item.progressType+ item.progressIndex).className = 'circle'
-              document.getElementById('num' + item.proSort + item.progressType+ item.progressIndex).setAttribute("style", "display:inline-block;");
+              document.getElementById('sign' + item.progressIndex).className = 'circle'
+              document.getElementById('num' + item.progressIndex).setAttribute("style", "display:inline-block;");
         },
         //点击最后一个tab页，进程树变化
         treeListMethods(lastTabFlag){
@@ -468,14 +437,11 @@ export default {
 }
 
 .border-box {
-    /* height:200px; */
-
     width: 20px;
     float: left;
 }
 
 .border-right {
-    /* height:200px; */
     float: left;
     width: calc(100% - 20px);
 }
@@ -498,9 +464,6 @@ export default {
     width: 100%;
     position: relative;
     font-size: 14px;
-    /* line-height:1.4em;
-        height:2.8em; */
-    /* overflow:hidden;  */
 }
 
 .text-lend {
@@ -548,12 +511,6 @@ export default {
     font-size: 16px;
     margin: 8px 0;
 }
-
-.off {
-    /*font-size: 12px;*/
-    /*color: #b9b7b7;*/
-}
-
 .children>.small {
     color: #3399ff;
     text-decoration: underline;
@@ -587,7 +544,6 @@ export default {
     border-top: 1px solid rgb(238, 238, 238);
     border-bottom: 1px solid rgb(238, 238, 238);
     line-height: 6px;
-    /* margin-right: 50px; */
     cursor: pointer;
 }
 .spreadText{
@@ -674,62 +630,4 @@ export default {
     line-height:10px;
     display:inline-block;
 }
-// 标签
-// .zhbj{
-//     font-size: 14px;
-//     position: relative;
-//     left: 40%;
-//     top: -20px;
-//     color: #FF9900;
-//     padding:5px;
-//     padding-right:5px;
-//     line-height:10px;
-//     display:inline-block;
-//     background-size:100% 100%;
-//     border:1px solid #FF9900;
-//     border-radius:2px;
-//     border-left:none;
-//     background-repeat: no-repeat !important;
-// }
-// .zhbj:before {
-//     content: '';
-//     width: 0;
-//     height: 0;
-//     border: 11px solid transparent;
-//     border-right-color: #FF9900;
-//     position: absolute;
-//     left: -2%;
-//     top: -6%;
-//     margin-left: -20px;
-// }
- /*左箭头*/
-        // .left{
-        //      width: 20px;
-        //     height: 20px;
-        //     position: absolute;
-        //     left: -19px;
-        //     top: -2px;
-        //     z-index: 3;
-        // }
-        // .left-arrow1,.left-arrow2{
-        //     width:0;
-        //     height:0;
-        //     display:block;
-        //     position:absolute;
-        //     left:0;
-        //     top:0;
-        //     z-index:5;/*兼容ie8-*/
-        //     border-top:12px transparent dashed;
-        //     border-left:10px transparent dashed;
-        //     border-bottom:12px transparent dashed;
-        //     border-right:10px white solid;
-        //     overflow:hidden;
-        // }
-        // .left-arrow1{
-        //     border-right:10px #FF9900 solid;
-        // }
-        // .left-arrow2{
-        //     left:1px;/*重要*/
-        //     border-right:10px white solid;
-        // }
 </style>

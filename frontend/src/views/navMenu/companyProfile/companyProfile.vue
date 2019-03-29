@@ -117,11 +117,11 @@
         <span class="titleText" id="mainBusinessIncomeComposition">主营业务收入构成</span>
       </div>
       <div class="echart clear">
-        <barOrPieChart></barOrPieChart>
+        <barOrPieChart :mainTableList = "this.mainTableList"></barOrPieChart>
       </div>
       <!-- table表格 -->
       <div class="incomeCompositionTable">
-         <mainTable></mainTable>
+         <mainTable :mainTableList = "this.mainTableList"></mainTable>
       </div>
     </div>
     <!-- 主要竞争对手简介 -->
@@ -410,7 +410,8 @@ import { getMarketData } from "@/api/companyProfile";
 import { getShareHolderData } from "@/api/companyProfile";
 import { getCompetitorData } from "@/api/companyProfile";
 import { getRaiseMoneyTableList } from "@/api/companyProfile";
-import { getSupplierCustomerData } from '@/api/tableDemo'
+import { getSupplierCustomerData } from '@/api/tableDemo';
+import { getTableData } from '@/api/tableDemo';
 // 导入主营业务收入构成表格
 import mainTable from "@/views/tables/mainTable";
 import fifthGysTable from "@/views/tables/fifthGysTable";
@@ -463,6 +464,13 @@ export default {
       supplierMainList:[],
       // 前五名客户
       customerMainList:[],
+      // 主营业务收入
+      mainTableList:{
+        onePeriodForIncome:'',
+        thirdYearForIncome:'',
+        secondYearForIncome:'',
+        firstYearForIncome:''
+      },
     };
   },
   created() {
@@ -478,7 +486,6 @@ export default {
         id:this.caseId
       }
       getCaseDetail(param).then(res => {
-        // console.log(res.data.result)
           this.id = res.data.result.id//公司id
           if(res.data.result.structureLabel){
             this.structureLabel = res.data.result.structureLabel.split(',');
@@ -500,34 +507,40 @@ export default {
         
       });
       getMarketData(param).then(res=>{
-          // console.log(res)
+        if(res.data.result&&res.data.result.length>0){
           this.otherMarketInfoList = res.data.result//其他登录市场
-          // console.log(this.otherMarketInfoList)
+        }
       });
       getShareHolderData(param).then(res=>{
-        // console.log(res.data.result)
-        this.gqTableList = res.data.result
+        if(res.data.result&&res.data.result.length>0){
+          this.gqTableList = res.data.result
+        }
       });
       getCompetitorData(param).then(res=>{
-        // console.log(res.data.result)
-        this.MajorCompetitors = res.data.result
+        if(res.data.result&&res.data.result.length>0){
+          this.MajorCompetitors = res.data.result
+        }
       });
       getRaiseMoneyTableList(param).then(res=>{
-        this.raiseMoneyTableList = res.data.result
-        // console.log(this.raiseMoneyTableList)
+        if(res.data.result&&res.data.result.length>0){
+          this.raiseMoneyTableList = res.data.result
+        }
       });
       // 供应商
       getSupplierCustomerData(param).then(response => {
-        // console.log(response.data.result)
         if(response.data.result.supplierMainList&&response.data.result.supplierMainList.length>0){
           this.supplierMainList = response.data.result.supplierMainList
         }
          if(response.data.result.customerMainList&&response.data.result.customerMainList.length>0){
-          this.customerMainList = response.data.result.customerMainList
+           this.customerMainList = response.data.result.customerMainList
         }
-        // this.customerMainList = response.data.result.customerMainList
-        // console.log(this.supplierMainList)
-        // console.log(this.customerMainList)
+      })
+      // 主营业务收入构成
+      getTableData(param).then(response => {
+        if( response.data.result){
+          this.mainTableList = response.data.result
+          console.log('212121', this.mainTableList)
+        }
       })
       
     },

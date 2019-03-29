@@ -409,17 +409,11 @@
                 </ul>
             </div> 
         </div>
-        <div class="three">
-            <p style="font-family: 'PingFang-SC-Regular', 'PingFang SC';
-                font-weight: 400;
-                font-style: normal;
-                color: #888888;
-                line-height: 24px;
-                font-size: 14px;
-                text-align: center;">已经阅读完了
-            </p>
-        </div>
-    </div>
+       <!-- 加载更多 -->
+        <div v-loading="flagLoading" element-loading-text="给我一点时间" v-if="showMore" @click="showMoreMethods()" class="more">加载更多</div>
+        <!-- 已经阅读完了 -->
+        <p v-if="!showMore" class="finishRead">已经阅读完了</p>
+</div>
 </template>
 <script>
 import {geSelectFeedbackList } from '@/api/companyProfile'
@@ -437,6 +431,7 @@ export default {
          questionList:[],
         //  委员列表
         memberList:[],
+        showMore:false,
     };
   },
   created() {
@@ -450,10 +445,16 @@ export default {
             id:this.caseId,
         }
         geSelectFeedbackList(param).then(res => {
-            console.log('111',param)
-        //    console.log(res)
            this.baseList = res.data.result.baseList
-           this.questionList = res.data.result.questionList
+            this.allQuestionList = res.data.result.questionList
+            if(this.allQuestionList.length > 15){
+              this.showMore = true;
+              this.questionList = this.allQuestionList.slice(0,15);
+            }else{
+              this.showMore = false;
+              this.questionList = this.allQuestionList;
+            }
+        //    this.questionList = res.data.result.questionList
         })
     },
     // 初始化委员数据
@@ -478,6 +479,19 @@ export default {
         this.dialogVisible = true;
         console.log(examineDate)
         this.initMemberData(examineDate)
+    },
+        // 点击加载更多
+    showMoreMethods(){
+        // this.flagLoading = true;
+        this.showLength+=15
+        if(this.allQuestionList.length > this.showLength){
+          // this.flagLoading = false;
+          this.showMore = true;
+          this.questionList = this.allQuestionList.slice(0, this.showLength);
+        }else{
+          this.showMore = false;
+          this.questionList = this.allQuestionList;
+        }
     },
     // 非空判断
     isNotEmpty(param) {
@@ -616,6 +630,27 @@ export default {
     margin-right:16px;
     margin-bottom:16px;
     border-radius:5px;
+}
+.more {
+  width: 100%;
+  height: 46px;
+  font-family: "Microsoft Tai Le Normal", "Microsoft Tai Le";
+  font-weight: 400;
+  font-size: 14px;
+  color: #252b3f;
+  line-height: 46px;
+  background: #f7f7f7;
+  text-align: center;
+  cursor:pointer;
+}
+.finishRead{
+  font-family: 'PingFang-SC-Regular', 'PingFang SC';
+  font-weight: 400;
+  font-style: normal;
+  color: #888888;
+  line-height: 24px;
+  font-size: 14px;
+  text-align: center;
 }
 
 </style>

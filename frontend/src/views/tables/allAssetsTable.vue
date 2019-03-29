@@ -50,7 +50,12 @@ export default {
   name: 'mainTable',
   data() {
     return {
-      tableTitle: null,
+      tableTitle: {
+        forthYearDate:'',
+        thirdYearValue:'',
+        secondYearValue:'',
+        firstYearValue:''
+      },
       tableContent: null,
       zxChartData:null,
       // 控制弹窗是否展示

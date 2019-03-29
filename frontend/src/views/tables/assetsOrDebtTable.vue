@@ -34,7 +34,7 @@
         align="center">
       </el-table-column>
     </el-table>
-    <p v-if="this.ipoAssetItemList" class="sortProject">资产类项目：</p>
+    <p v-if="ipoAssetItemList&&ipoAssetItemList.length>0" class="sortProject">资产类项目：</p>
     <el-table
       class="table2"
      :data="ipoAssetItemList"
@@ -72,7 +72,7 @@
         </el-table-column>
      
     </el-table>
-     <p v-if="this.ipoDebtItemList" class="sortProject">负债类项目：</p>
+     <p v-if="ipoDebtItemList&&ipoDebtItemList.length>0" class="sortProject">负债类项目：</p>
     <el-table
       class="table2"
      :data="ipoDebtItemList"
@@ -110,7 +110,7 @@
         </el-table-column>
      
     </el-table>
-     <p v-if="ipoEquityItemList" class="sortProject"> 权益类项目：</p>
+     <p v-if="ipoEquityItemList&&ipoEquityItemList.length>0" class="sortProject"> 权益类项目：</p>
      <el-table
       class="table2"
      :data="ipoEquityItemList"
@@ -166,7 +166,12 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
     return {
       // 弹窗
         tanZxChart:null,
-        tableTitle: null,
+         tableTitle: {
+        forthYearDate:'',
+        thirdYearValue:'',
+        secondYearValue:'',
+        firstYearValue:''
+      },
         ipoAssetItemList:[],//资产类项目列表
         ipoDebtItemList:[],//负债类项目列表
         ipoEquityItemList:[],//权益类项目列表
