@@ -9,7 +9,7 @@
               class="filter-tree"
               node-key="id"
               :data="plateTreeTag"
-              :props="default_tree"
+              :props="left_tree"
               :default-expand-all="true"
               @node-click="handleNodeClickForSearch"
               ref="plateTreeTagRef">
@@ -19,7 +19,7 @@
               class="filter-tree"
               node-key="id"
               :data="marketTreeTag"
-              :props="default_tree"
+              :props="left_tree"
               :default-expand-all="true"
               @node-click="handleNodeClickForSearch"
               ref="marketTreeTagRef">
@@ -29,7 +29,7 @@
               class="filter-tree"
               node-key="id"
               :data="greenTreeTag"
-              :props="default_tree"
+              :props="left_tree"
               :default-expand-all="true"
               @node-click="handleNodeClickForSearch"
               ref="greenTreeTagRef">
@@ -39,7 +39,7 @@
               class="filter-tree"
               node-key="id"
               :data="sfcTreeTag"
-              :props="default_tree"
+              :props="left_tree"
               :default-expand-all="true"
               @node-click="handleNodeClickForSearch"
               ref="sfcTreeTagRef">
@@ -300,7 +300,7 @@
           <el-row :gutter="20">
             <el-col :span="24" style="padding-left: 8px; padding-right: 8px;">
               <div class="table">
-                <el-table @sort-change="sortChange" :data="tableData" border style="width: 100%;margin-top: 2%;" v-loading="tableLoading" element-loading-text="给我一点时间">
+                <el-table @sort-change="sortChange" :data="tableData" border style="width: 100%;margin-top: 2%;" v-loading="tableLoading" ref="tables" element-loading-text="给我一点时间">
                   <el-table-column align="left" prop="ipo_company_code_t" width="109" sortable="custom" label="公司">
                     <template slot-scope="scope">
                       {{scope.row.companyCode}}
@@ -324,15 +324,21 @@
                       <svg-icon v-if="scope.row.iecResult==='03'" icon-class="ipoCancelReview" class="svg-style"></svg-icon>
                     </template>
                   </el-table-column>
-                  <el-table-column align="right" prop="ipo_profit_one_d" label="净利润" sortable="custom" min-width="13%">
+                  <el-table-column :label="yearLabel">
+                  <el-table-column align="right" :prop="profit" label="净利润" sortable="custom" min-width="13%">
                     <template slot-scope="scope">
-                      {{scope.row.netProfitOne | dataInThRule}}亿元
+                      <span v-if="yearRadio===1">{{scope.row.netProfitOne | dataInThRule}}亿元</span>
+                      <span v-if="yearRadio===2">{{scope.row.netProfitTwo | dataInThRule}}亿元</span>
+                      <span v-if="yearRadio===3">{{scope.row.netProfitThree | dataInThRule}}亿元</span>
                     </template>
                   </el-table-column>
-                  <el-table-column align="right" prop="ipo_operate_reve_one_d" label="营业收入" sortable="custom" min-width="13%">
+                  <el-table-column align="right" :prop="reve" label="营业收入" sortable="custom" min-width="13%">
                     <template slot-scope="scope">
-                      {{scope.row.operateReveOne | dataInThRule}}亿元
+                      <span v-if="yearRadio===1">{{scope.row.operateReveOne | dataInThRule}}亿元</span>
+                      <span v-if="yearRadio===2">{{scope.row.operateReveTwo | dataInThRule}}亿元</span>
+                      <span v-if="yearRadio===3">{{scope.row.operateReveThree | dataInThRule}}亿元</span>
                     </template>
+                  </el-table-column>
                   </el-table-column>
                   <el-table-column align="right" prop="ipo_sum_asset_d" label="总资产" sortable="custom" min-width="12%">
                     <template slot-scope="scope">
@@ -378,6 +384,9 @@
         tableLoading: false,
         searchFlag: false,
         yearRadio: 1,
+        profit: 'ipo_profit_one_d',
+        reve: 'ipo_operate_reve_one_d',
+        yearLabel: '最近一个会计年度累计',
         totalCount: 0,
         orderByName: '',
         orderByOrder: '',
@@ -392,6 +401,10 @@
         default_tree: {
           children: "children",
           label: "labelName"
+        },
+        left_tree: {
+          children: "children",
+          label: "name"
         },
         title: '',
         industryCsrc: '',
@@ -573,7 +586,24 @@
       this.search(_data);
       this.getSelectData();
     },
-    watch: {},
+    watch: {
+      'yearRadio'() {
+        const _self = this;
+        if (_self.yearRadio === 1) {
+          _self.profit = 'ipo_profit_one_d';
+          _self.reve = 'ipo_operate_reve_one_d';
+          _self.yearLabel = '最近一个会计年度累计';
+        } else if (_self.yearRadio === 2) {
+          _self.profit = 'ipo_profit_two_d';
+          _self.reve = 'ipo_operate_reve_two_d';
+          _self.yearLabel = '最近二个会计年度累计';
+        } else {
+          _self.profit = 'ipo_profit_three_d';
+          _self.reve = 'ipo_operate_reve_three_d';
+          _self.yearLabel = '最近三个会计年度累计';
+        }
+      }
+    },
     methods: {
       pageSearch() {
         this.$refs.paper.search()
@@ -604,13 +634,14 @@
           _self.cashFlowTwo = [];
           _self.cashFlowOne = [];
         }
-        if(_self.intermediary === ''){
+        if (_self.intermediary === '') {
           _self.intermediaryCode = '';
         }
         const _data = {
           startRow: data.startRow,
           pageSize: data.pageSize,
           condition: {
+            companyId: _self.$store.state.app.companyId,
             title: _self.title,//标题关键字（包含全部以空格断开）
             industryCsrc: _self.industryCsrcValue,//发行人行业（证监会）
             companyNature: _self.companyNatureValue,//企业性质
@@ -661,7 +692,7 @@
             _self.tableData = response.data.result.data;
             _self.plateTreeTag = [{
               label_sort: 1,
-              labelName: "拟上市板块(" + ')',
+              name: "拟上市板块(" + response.data.result.plateTreeNum + ')',
               id: "0",
               label_name: "拟上市板块",
               label_level: 0,
@@ -670,7 +701,7 @@
             }];
             _self.marketTreeTag = [{
               label_sort: 1,
-              labelName: "登陆其他资本市场(" + ')',
+              name: "登陆其他资本市场(" + response.data.result.marketTreeNum + ')',
               id: "0",
               label_name: "登陆其他资本市场",
               label_level: 0,
@@ -679,7 +710,7 @@
             }];
             _self.greenTreeTag = [{
               label_sort: 1,
-              labelName: "绿色通道(" + ')',
+              name: "绿色通道(" + response.data.result.greenTreeNum + ')',
               id: "0",
               label_name: "绿色通道",
               label_level: 0,
@@ -688,7 +719,7 @@
             }];
             _self.sfcTreeTag = [{
               label_sort: 1,
-              labelName: "所属证监局(" + ')',
+              name: "所属证监局(" + response.data.result.sfcTreeNum + ')',
               id: "0",
               label_name: "所属证监局",
               label_level: 0,
@@ -753,7 +784,60 @@
       },
       //清空
       conditionClear() {
-
+        const _self = this;
+        _self.title = '';//标题
+        _self.industryCsrcValue = '';//行业
+        _self.industryCsrc = '';
+        _self.companyNatureValue = '';//企业性质
+        _self.companyNature = '';
+        _self.ipoNum = '';//ipo次数
+        _self.ipoNumValue = '';
+        _self.caseStatus = '';//IPO进程
+        _self.caseStatusValue = '';
+        _self.iecResult = '';//审核结果
+        _self.iecResultValue = '';
+        _self.codeOrName = '';//公司简称/代码
+        _self.intermediary = '';//中介机构
+        _self.intermediaryCode = '';
+        _self.ypProcessTime = [];//预先披露时间
+        _self.fsProcessTime = [];//发审会审核时间
+        _self.orderByName = '';//排序
+        _self.orderByOrder = '';
+        _self.$refs.plateTreeTagRef.setCheckedKeys([]);
+        _self.$refs.marketTreeTagRef.setCheckedKeys([]);
+        _self.$refs.greenTreeTagRef.setCheckedKeys([]);
+        _self.$refs.sfcTreeTagRef.setCheckedKeys([]);
+        _self.$refs.treeIndustryCsrc.setCheckedKeys([]);
+        _self.$refs.treeCompanyNature.setCheckedKeys([]);
+        _self.$refs.treeIpoNum.setCheckedKeys([]);
+        _self.$refs.treeVerifyResult.setCheckedKeys([]);
+        _self.$refs.treeProcess.setCheckedKeys([]);
+        _self.profitOne = [];
+        _self.profitTwo = [];
+        _self.profitThree = [];
+        _self.reveOne = [];
+        _self.reveTwo = [];
+        _self.reveThree = [];
+        _self.cashFlowOne = [];
+        _self.cashFlowTwo = [];
+        _self.cashFlowThree = [];
+        _self.sunAsset = [];
+        _self.sumShareQuity = [];
+        _self.intangibleAssetRatio = [];
+        _self.totalShareIssueB = [];
+        _self.totalShareIssueA = [];
+        _self.peIssueA = [];
+        _self.issueFee = [];
+        _self.timeDiff = [];
+        _self.searchFlag = false;
+        _self.yearRadio = 1;
+        for (var tree of document.getElementsByClassName('filter-tree')) {
+          for (var obj of tree.querySelectorAll('.el-tree-node__label')) {
+            obj.className = 'el-tree-node__label'
+          }
+        }
+        _self.$refs.tables.clearSort();
+        _self.querySearch();
       },
       //查询
       querySearch() {
@@ -854,14 +938,14 @@
       },
       clickHandler(id) {
         var caseId = id.substring(3, id.length);
-        const _self = this
+        const _self = this;
         const {href} = _self.$router.resolve({
           name: 'caseDetail',
           query: {caseId: caseId, access_token: _self.$store.state.app.token}
         });
         window.open(href, '_blank');
       },
-      clickUnHandler(){
+      clickUnHandler() {
         this.$confirm('<a>您当前为试用用户，仅可查看有限案例，若需要查看更多案例，获得更好体验，可升级为正式用户。</a><br/><a>来电咨询：400-800-3388</a>', '提示', {
           confirmButtonText: '在线咨询',
           showCancelButton: false,
@@ -869,7 +953,7 @@
           closeOnPressEscape: false,
           dangerouslyUseHTMLString: true
         }).then(() => {
-          window.open('https://vs.rainbowred.com/visitor/pc/chat.html?companyId=488&echatTag=网站咨询','height=854','width=600');
+          window.open('https://vs.rainbowred.com/visitor/pc/chat.html?companyId=488&echatTag=网站咨询', 'height=854', 'width=600');
         }).catch(() => {
 
         });

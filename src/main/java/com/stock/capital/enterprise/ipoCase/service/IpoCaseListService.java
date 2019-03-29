@@ -9,6 +9,7 @@ import com.stock.core.Constant;
 import com.stock.core.dao.DynamicDataSourceHolder;
 import com.stock.core.dto.FacetResult;
 import com.stock.core.dto.QueryInfo;
+import com.stock.core.dto.StatisticsField;
 import com.stock.core.search.SearchServer;
 import com.stock.core.search.SolrSearchUtil;
 import com.stock.core.service.BaseService;
@@ -253,20 +254,47 @@ public class IpoCaseListService extends BaseService {
         Map<String, Object> resultMap = Maps.newHashMap();
         resultMap.put("total", facetResult.getPage().getTotal());
         resultMap.put("data", facetResult.getPage().getData());
+        //获取各个树对应的数字
+        List<StatisticsField> plateList = facetResult.getStatisticsFieldMap().get("ipo_plate_t");
+        List<StatisticsField> marketList =
+            facetResult.getStatisticsFieldMap().get("ipo_market_type_txt");
+        List<StatisticsField> greenList =
+            facetResult.getStatisticsFieldMap().get("ipo_green_passage_t");
+        List<StatisticsField> bureauList =
+            facetResult.getStatisticsFieldMap().get("ipo_belongs_bureau_t");
         //查询左侧树
         //拟上市板块树
         List<RegTreeDto> plateTreeTag = ipoCaseListMapper.getTreeTagByCode("IPO_PLATE");
+        int plateTreeNum = 0;
+        if (plateTreeTag != null && !plateTreeTag.isEmpty()) {
+            plateTreeNum = assebleTreeData(plateTreeTag, plateList, false);
+        }
         //登陆其他资本市场树
         List<RegTreeDto> marketTreeTag = ipoCaseListMapper.getTreeTagByCode("IPO_CAPITAL_MARKET");
+        int marketTreeNum = 0;
+        if (marketTreeTag != null && !marketTreeTag.isEmpty()) {
+            marketTreeNum = assebleTreeData(marketTreeTag, marketList, false);
+        }
         //绿色通道树
         List<RegTreeDto> greenTreeTag = ipoCaseListMapper.getTreeTagByCode("IPO_GREEN_PASSAGE");
+        int greenTreeNum = 0;
+        if (greenTreeTag != null && !greenTreeTag.isEmpty()) {
+            greenTreeNum = assebleTreeData(greenTreeTag, greenList, false);
+        }
         //所属证监局树
         List<RegTreeDto> sfcTreeTag = ipoCaseListMapper.getTreeTagByCode("SFC");
+        int sfcTreeNum = 0;
+        if (sfcTreeTag != null && !sfcTreeTag.isEmpty()) {
+            sfcTreeNum = assebleTreeData(sfcTreeTag, bureauList, true);
+        }
         resultMap.put("plateTreeTag", plateTreeTag);
+        resultMap.put("plateTreeNum", plateTreeNum);
         resultMap.put("marketTreeTag", marketTreeTag);
+        resultMap.put("marketTreeNum", marketTreeNum);
         resultMap.put("greenTreeTag", greenTreeTag);
+        resultMap.put("greenTreeNum", greenTreeNum);
         resultMap.put("sfcTreeTag", sfcTreeTag);
-        //查询各个树对应的数字 改证监局labelValue值为labelName去掉后三个字  s=s.substring(0,s.length()-3)
+        resultMap.put("sfcTreeNum", sfcTreeNum);
         return resultMap;
     }
 
@@ -382,4 +410,26 @@ public class IpoCaseListService extends BaseService {
         return conditionsStr;
     }
 
+    private int assebleTreeData(
+        List<RegTreeDto> treeData, List<StatisticsField> numData, Boolean symbol) {
+        int num = 0;
+        for (RegTreeDto treeDto : treeData) {
+            //所属证监局
+            if (symbol) {
+                String s = treeDto.getLabelName();
+                s = s.substring(0, s.length() - 3);
+                treeDto.setLabelValue(s);
+            }
+            treeDto.setName(treeDto.getLabelName() + "(" + 0 + ")");
+            if (numData != null && !numData.isEmpty()) {
+                for (StatisticsField field : numData) {
+                    if (treeDto.getLabelValue().equals(field.getFieldId())) {
+                        treeDto.setName(treeDto.getLabelName() + "(" + field.getCount() + ")");
+                        num += field.getCount();
+                    }
+                }
+            }
+        }
+        return num;
+    }
 }
