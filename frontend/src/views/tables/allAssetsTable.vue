@@ -43,7 +43,7 @@
   </div>
 </template>
 <script>
-import { getSelectFinanceOverList } from '@/api/tableDemo'
+import { getSelectFinanceOverList } from '@/api/ipoCase/tableDemo'
 import tanZxChart1  from '@/components/Charts/tanZxChart1'
 export default {
   name: 'mainTable',
@@ -75,9 +75,7 @@ export default {
         id:this.caseId
       }
       getSelectFinanceOverList(param).then(response => {
-        // console.log('AllAsetts',response)
           this.tableTitle = response.data.result.dateList
-          console.log('title?????',this.tableTitle)
           this.tableContent = response.data.result.ipoFinanceOverList 
       })
     },

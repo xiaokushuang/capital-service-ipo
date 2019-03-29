@@ -94,7 +94,6 @@
       </div>
       <!-- 图片 -->
       <div class="img">
-        <!-- <img src="../../../assets/images/structure.png" alt> -->
          <img :src="structureUrl" alt>
       </div>
       <!-- 股权股东表格 -->
@@ -329,7 +328,6 @@
                   </el-table-column>
                 </el-table-column>
              </el-table>
-             <!-- <fifthKhTable></fifthKhTable> -->
           </div>
       </div>
     </div>
@@ -405,17 +403,15 @@
 
 
 import $ from "jquery";
-import { getCaseDetail } from "@/api/companyProfile";
-import { getMarketData } from "@/api/companyProfile";
-import { getShareHolderData } from "@/api/companyProfile";
-import { getCompetitorData } from "@/api/companyProfile";
-import { getRaiseMoneyTableList } from "@/api/companyProfile";
-import { getSupplierCustomerData } from '@/api/tableDemo';
-import { getTableData } from '@/api/tableDemo';
+import { getCaseDetail } from "@/api/ipoCase/companyProfile";
+import { getMarketData } from "@/api/ipoCase/companyProfile";
+import { getShareHolderData } from "@/api/ipoCase/companyProfile";
+import { getCompetitorData } from "@/api/ipoCase/companyProfile";
+import { getRaiseMoneyTableList } from "@/api/ipoCase/companyProfile";
+import { getSupplierCustomerData } from '@/api/ipoCase/tableDemo';
+import { getTableData } from '@/api/ipoCase/tableDemo';
 // 导入主营业务收入构成表格
 import mainTable from "@/views/tables/mainTable";
-import fifthGysTable from "@/views/tables/fifthGysTable";
-import fifthKhTable from "@/views/tables/fifthKhTable";
 // 导入柱形图和饼图
 import barOrPieChart from "@/components/Charts/barOrPieChart";
 // 导入中介机构
@@ -424,8 +420,6 @@ export default {
   name: "companyProfile",
   components: {
     mainTable,
-    fifthGysTable,
-    fifthKhTable,
     barOrPieChart,
     IntermediaryInstitutions
   },
@@ -539,7 +533,6 @@ export default {
       getTableData(param).then(response => {
         if( response.data.result){
           this.mainTableList = response.data.result
-          console.log('212121', this.mainTableList)
         }
       })
 
@@ -597,7 +590,6 @@ export default {
     },
       // 非空判断
     isNotEmpty(param) {
-      // debugger
       if (param != null && param !== undefined && param !== '' && param !== 'null' && param !== 'undefined') {
         return true
       } else {
@@ -698,9 +690,6 @@ export default {
         display: flex;
         flex-wrap: wrap;
         padding-left: 0;
-        li {
-
-        }
       }
     }
   }
@@ -754,14 +743,12 @@ export default {
         ul {
           width: 100%;
           margin-top: 10px;
-          // background:yellow;
           display: flex;
           flex-wrap: wrap;
           li {
             line-height: 20px;
             margin-right: 30px;
             width: 45%;
-            // background:green;
           }
         }
       }
@@ -770,18 +757,8 @@ export default {
 }
 .InstitutionsDetailLi:hover {
   cursor: pointer;
-  // box-shadow: darkgrey 0px 0px 6px 2px;
   box-shadow: 0 0px 28px -5px #ccc;
 }
-// 多行省略号
-.moreText {
-  // overflow: hidden;
-  // text-overflow: ellipsis;
-  // display: -webkit-box;
-  // -webkit-line-clamp: 3;
-  // -webkit-box-orient: vertical;
-}
-
 .majorBusinesses:hover{
   color:#333333;
   cursor:pointer;

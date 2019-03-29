@@ -7,7 +7,7 @@
 <script>
 import echarts from 'echarts'
 // 引入点击放大镜弹出来的表头年限数据
-import { getAssetsOrDebtData } from '@/api/tableDemo'
+import { getAssetsOrDebtData } from '@/api/ipoCase/tableDemo'
 export default {
   name:'tanZxChart',
   data() {

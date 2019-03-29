@@ -6,7 +6,7 @@
 
 <script>
 import echarts from 'echarts'
-import { getMaoChartTableData } from '@/api/tableDemo'
+import { getMaoChartTableData } from '@/api/ipoCase/tableDemo'
 export default {
  
   data() {
@@ -42,7 +42,6 @@ beforeDestroy() {
           id:this.caseId
         }
         getMaoChartTableData(param).then(response => {
-          // console.log(response.data.result)
             if(response.data.result){
                 // 如果请求到数据之后再初始化折线图
                  this.initChart(response.data.result)
@@ -55,7 +54,6 @@ beforeDestroy() {
     　　　　handler(newValue, oldValue)
              {  
               this.zxIndex = newValue
-      　　　 　console.log(this.zxIndex)  
               //折线图数据的初始化 
               this.initTableData()
       　　　　},  
@@ -65,7 +63,6 @@ beforeDestroy() {
     },
     //   初始化折线图
     initChart(dataList) {
-      console.log(dataList[0])
        const _self = this
         if (this.zxChart) {
           this.zxChart.dispose()

@@ -323,9 +323,9 @@
    </div>
 </template>
 <script>
-import {getSelectFeedbackList} from '@/api/companyProfile'
-import {getSelectSecondLabelList} from '@/api/companyProfile'
-import {getSelectQuestionListByLetterId} from '@/api/companyProfile'
+import {getSelectFeedbackList} from '@/api/ipoCase/companyProfile'
+import {getSelectSecondLabelList} from '@/api/ipoCase/companyProfile'
+import {getSelectQuestionListByLetterId} from '@/api/ipoCase/companyProfile'
 import $ from "jquery";
 export default {
   name: "feedback",
@@ -422,7 +422,6 @@ export default {
          if(val[i] == ''){
            this.checkboxGroup = []
            document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor="white";
-           console.log(document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor)
          }
        }
        this.initQuestionData(this.o_letterId,this.radioVal, this.checkboxGroup,this.onlyShowAnswerFlag)
@@ -434,7 +433,6 @@ export default {
          if(val[i] == ''){
            this.checkboxGroup2 = []
            document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor="white";
-           console.log(document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor)
          }
        }
        this.initQuestionData(this.o_letterId,this.radioVal2, this.checkboxGroup2,this.onlyShowAnswerFlag2)
@@ -446,7 +444,6 @@ export default {
          if(val[i] == ''){
            this.checkboxGroup3 = []
            document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor="white";
-           console.log(document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor)
          }
        }
        this.initQuestionData(this.o_letterId,this.radioVal3, this.checkboxGroup3,this.onlyShowAnswerFlag3)
@@ -618,7 +615,6 @@ export default {
           firstLabelId:parentId,
           onlyResponse:onlyResponse
         }
-        // console.log('多选列表',param)
         // 获取多选按钮列表
         getSelectSecondLabelList(param).then(res => {
           if(this.tabList.length==1){
@@ -667,9 +663,7 @@ export default {
           secondLabelId:secondLabel,
           onlyResponse:onlyResponse,
         }
-        console.log('问题列表id',param)
         getSelectQuestionListByLetterId(param).then(res => {
-          console.log('问题列表',res)
           // 当只有一个tab页时
           if(this.tabList.length==1){
             if(res.data.result.length  > 0){

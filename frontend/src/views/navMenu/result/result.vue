@@ -416,8 +416,8 @@
 </div>
 </template>
 <script>
-import {geSelectFeedbackList } from '@/api/companyProfile'
-import {geSelectMemberList } from '@/api/companyProfile'
+import {geSelectFeedbackList } from '@/api/ipoCase/companyProfile'
+import {geSelectMemberList } from '@/api/ipoCase/companyProfile'
 
 export default {
   name: "result",
@@ -462,13 +462,10 @@ export default {
     // 动态传id
         const param = {
             id:this.caseId,
-            // id:'97952444248599344',
             examineDate:examineDate
         }
-        console.log('22222',param)
         geSelectMemberList(param).then(res => {
             this.memberList = res.data.result
-            console.log(res)
         })
     },
     handleClose(){
@@ -477,15 +474,12 @@ export default {
     // 点击弹出详情方法
     handleMemberDetail(examineDate){
         this.dialogVisible = true;
-        console.log(examineDate)
         this.initMemberData(examineDate)
     },
         // 点击加载更多
     showMoreMethods(){
-        // this.flagLoading = true;
         this.showLength+=15
         if(this.allQuestionList.length > this.showLength){
-          // this.flagLoading = false;
           this.showMore = true;
           this.questionList = this.allQuestionList.slice(0, this.showLength);
         }else{
@@ -495,7 +489,6 @@ export default {
     },
     // 非空判断
     isNotEmpty(param) {
-      // debugger
       if (
         param != null &&
         param !== undefined &&

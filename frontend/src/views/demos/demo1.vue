@@ -54,7 +54,7 @@
   </div>
 </template>
 <script>
-import { getTableData } from '@/api/tableDemo'
+import { getTableData } from '@/api/ipoCase/tableDemo'
 
 export default {
   name: 'demo1',

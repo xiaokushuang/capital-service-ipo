@@ -158,7 +158,7 @@
 
 <script>
 // 引入点击放大镜弹出来的表头年限数据
-import { getAssetsOrDebtData } from '@/api/tableDemo'
+import { getAssetsOrDebtData } from '@/api/ipoCase/tableDemo'
 import echarts from 'echarts'
 import tanZxChart  from '@/components/Charts/tanZxChart'
   export default {
@@ -191,7 +191,6 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
        
     },
     beforeDestroy () {
-      // this.zxChartData = null
     },
     mounted() {
 
