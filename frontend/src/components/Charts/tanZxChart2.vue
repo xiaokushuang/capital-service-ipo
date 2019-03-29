@@ -7,7 +7,6 @@
 <script>
 import echarts from 'echarts'
 // 引入点击放大镜弹出来的表头年限数据
-// import { getAssetsTableData } from '@/api/tableDemo'
 import { getSelectFinanceProfitList } from '@/api/tableDemo'
 export default {
     name:'tanZxChart2',
@@ -16,18 +15,12 @@ export default {
         tableTitle:null,
         zxChartX:[],
         zxChartY:[],
-        // id:'97952444248599350'
         caseId:this.$store.state.app.caseId,
     }
-  },
-  created(){
-       
-       
   },
   props:["zxChartData"],
   methods: {
     initChart() {
-      // console.log(this.zxChartData)
       let tanZxChart2 = echarts.init(document.getElementById('tanZxChart2'))
        tanZxChart2.setOption({
            title: {
@@ -49,7 +42,13 @@ export default {
                 data:this.zxChartX
             },
             yAxis: {
-                      type: 'value'
+                      type: 'value',
+                      name:'万元',
+                      nameLocation:'end',
+                      nameGap:'20',
+                      nameTextStyle:{
+                        padding: [0, 48, 0, 0]
+                      }
                     },
             series:this.zxChartY
       })
@@ -63,16 +62,18 @@ export default {
       getSelectFinanceProfitList(param).then(response => {
           // 获取表头数据
         this.tableTitle = response.data.result.dateList
-        // console.log(this.tableTitle)
         this.zxChartX =[this.tableTitle.firstYearDate,this.tableTitle.secondYearDate,this.tableTitle.thirdYearDate,this.tableTitle.forthYearDate]
           this.zxChartY = [
                       {
                           name:this.zxChartData.itemName,
                           type:'line',
-                          data:[this.zxChartData.firstYearValue, this.zxChartData.secondYearValue, this.zxChartData.thirdYearValue,this.zxChartData.forthYearValue]
+                          data:[this.zxChartData.firstYearValue, this.zxChartData.secondYearValue, this.zxChartData.thirdYearValue,this.zxChartData.forthYearValue],
+                          areaStyle: {
+                            shadowColor: ['#ffefeb','#fff8f6'],
+                            opacity: 0.1
+                          }
                       },
                   ]
-        //  console.log(this.zxChartY)
       this.initChart()
       })
     },
@@ -82,17 +83,12 @@ export default {
     zxChartData: {  
 　　　　handler(newValue, oldValue) {  
         this.zxChartData = newValue
-　　　 　console.log(this.zxChartData)  
         //折线图数据的初始化 
         this.initTableData()
 　　　　},  
-
 　　　　deep: true,  //对象内部的属性监听，也叫深度监听
        immediate: true //immediate表示在watch中首次绑定的时候，是否执行handler，值为true则表示在watch中声明的时候，就立即执行handler方法，值为false，则和一般使用watch一样，在数据发生变化的时候才执行handler
 　　}  
   },
-    beforeDestroy () {
-    this.zxChartData = []
-  }
 }
 </script>

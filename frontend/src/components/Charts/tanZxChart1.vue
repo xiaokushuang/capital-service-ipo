@@ -16,18 +16,12 @@ export default {
         tableTitle:null,
         zxChartX:[],
         zxChartY:[],
-        // id:'97952444248599350'
         caseId:this.$store.state.app.caseId,
     }
-  },
-  created(){
-       
-       
   },
   props:["zxChartData"],
   methods: {
     initChart() {
-      // console.log(this.zxChartData)
       let tanZxChart1 = echarts.init(document.getElementById('tanZxChart1'))
        tanZxChart1.setOption({
            title: {
@@ -49,7 +43,13 @@ export default {
                 data:this.zxChartX
             },
             yAxis: {
-                      type: 'value'
+                      type: 'value',
+                      name:'万元',
+                      nameLocation:'end',
+                      nameGap:'20',
+                      nameTextStyle:{
+                        padding: [0, 48, 0, 0]
+                      }
                     },
             series:this.zxChartY
       })
@@ -63,17 +63,19 @@ export default {
       getSelectFinanceOverList(param).then(response => {
           // 获取表头数据
         this.tableTitle = response.data.result.dateList
-        // console.log(this.tableTitle)
         this.zxChartX =[this.tableTitle.firstYearDate,this.tableTitle.secondYearDate,this.tableTitle.thirdYearDate,this.tableTitle.forthYearDate]
-          this.zxChartY = [
+        this.zxChartY = [
                       {
                           name:this.zxChartData.itemName,
                           type:'line',
-                          data:[this.zxChartData.firstYearValue, this.zxChartData.secondYearValue, this.zxChartData.thirdYearValue,this.zxChartData.forthYearValue]
+                          data:[this.zxChartData.firstYearValue, this.zxChartData.secondYearValue, this.zxChartData.thirdYearValue,this.zxChartData.forthYearValue],
+                          areaStyle: {
+                            shadowColor: ['#ffefeb','#fff8f6'],
+                            opacity: 0.1
+                          }
                       },
                   ]
-        //  console.log(this.zxChartY)
-      this.initChart()
+        this.initChart()
       })
     },
   },
@@ -90,8 +92,5 @@ export default {
        immediate: true //immediate表示在watch中首次绑定的时候，是否执行handler，值为true则表示在watch中声明的时候，就立即执行handler方法，值为false，则和一般使用watch一样，在数据发生变化的时候才执行handler
 　　}  
   },
-    beforeDestroy () {
-    this.zxChartData = []
-  }
 }
 </script>

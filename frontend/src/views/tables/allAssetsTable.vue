@@ -32,7 +32,6 @@
         align="center">
         <template slot-scope="scope">
             <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe">查看</span>           
-            <!-- <span>{{isNotEmpty(scope.row.count4) ? scope.row.count4 : '- -'}}</span> -->
           </template>
       </el-table-column>
     </el-table>
@@ -60,8 +59,6 @@ export default {
       zxChartData:null,
       // 控制弹窗是否展示
       dialogChartVisible: false,
-      // forthYearDate:'',
-      // id:'97952444248599350'
       caseId:this.$store.state.app.caseId,
     }
   },
@@ -70,9 +67,6 @@ export default {
   },
   created() {
     this.initTableData()
-  },
-  mounted(){
-    // console.log('aaaa')
   },
   methods: {
     initTableData() {
@@ -99,7 +93,6 @@ export default {
       // 点击放大镜弹出折线图
     handleShowChart(i,r){
       this.zxChartData = r
-      // console.log(this.zxChartData)
       this.dialogChartVisible = true;
     }
   },

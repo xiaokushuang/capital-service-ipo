@@ -35,7 +35,7 @@
       </el-table-column>
     </el-table>
     <p v-if="ipoAssetItemList&&ipoAssetItemList.length>0" class="sortProject">资产类项目：</p>
-    <el-table
+    <el-table 
       class="table2"
      :data="ipoAssetItemList"
       border
@@ -206,13 +206,10 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
           id:this.caseId
         }
         getAssetsOrDebtData(param).then(res => {
-          console.log(res.data.result)
           this.tableTitle = res.data.result.dateList
-          // console.log(this.tableTitle[0])
           this.ipoAssetItemList = res.data.result.ipoAssetItemList//资产类项目列表
           this.ipoDebtItemList = res.data.result.ipoDebtItemList//负债类项目列表
           this.ipoEquityItemList = res.data.result.ipoEquityItemList//权益类项目列表
-          // this.tableContent = response.data.assetsList.slice(1)
         })
       },
       // 非空判断
@@ -227,7 +224,6 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
       // 点击放大镜弹出折线图
       handleShowChart(i,r){
         this.zxChartData = r
-        // console.log(this.zxChartData)
         this.dialogChartVisible = true;
       }
     }
