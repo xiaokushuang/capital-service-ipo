@@ -33,13 +33,13 @@
           </li>
         </ul>
         <div>
-           
+
           <li style="margin-bottom:10px">
             <span>注册地址</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <span style="color:#333333">{{this.addrProv}}{{this.addrCity}}{{this.addrArea}}</span>
           </li>
-          
-         
+
+
           <li style="margin-bottom:10px">
             <span>控股股东</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <span style="color:#333333">{{this.controlShareholder}}</span>
@@ -61,7 +61,7 @@
             left: 76px;">{{this.majorBusinesses}}</span>
           </li>
         </div>
-      
+
       </div>
       <div class="others" v-if="this.otherMarketInfoList&&this.otherMarketInfoList.length>0">
         <p style="color:black">登录其他资本市场</p>
@@ -117,7 +117,7 @@
         <span class="titleText" id="mainBusinessIncomeComposition">主营业务收入构成</span>
       </div>
       <div class="echart clear">
-        <barOrPieChart :mainTableList = "this.mainTableList"></barOrPieChart>
+        <barOrPieChart v-if="this.mainTableList.firstYearForIncome" :mainTableList = "this.mainTableList"></barOrPieChart>
       </div>
       <!-- table表格 -->
       <div class="incomeCompositionTable">
@@ -384,7 +384,7 @@
             font-style: normal;
             color: #666666;
             font-size:14px;
-            line-height:20px; 
+            line-height:20px;
             text-align: left;">
             说明：本次募集资金到位前，公司拟以自筹资金和银行借款先行实施；募集资金到位后，公司将用募集资金置换已投入的资金。如果实际募集资金净额不足以完成上述投资项目，不足部分公司将自筹解决。
         </p>
@@ -402,8 +402,8 @@
 </template>
 
 <script>
- 
-      
+
+
 import $ from "jquery";
 import { getCaseDetail } from "@/api/companyProfile";
 import { getMarketData } from "@/api/companyProfile";
@@ -436,7 +436,7 @@ export default {
       listLoading: false,
       gqTableList: [],
       incomeCompositionTableList1: [],
-      
+
       raiseMoneyTableList: [],
       // 接口
       structureLabel: [],
@@ -447,13 +447,13 @@ export default {
       ipoPlate:'',//上市板块
       industryCsrc:'',//所属行业(证监会) ,
       companyName:'',//公司简称
-      zhengquanCode:'',//证券代码 
+      zhengquanCode:'',//证券代码
       addrProv:'',//注册地（省）
-      addrCity:'',//注册地（市） 
+      addrCity:'',//注册地（市）
       addrArea:'',//注册地（区）
       registeredAssets:'',//注册资本（万元）
       actualController:'',//实际控制人
-      controlShareholder:'',//控股股东 
+      controlShareholder:'',//控股股东
       companyNature:'',//企业性质
       majorBusinesses:'',//主营业务
       //其他资本市场
@@ -495,16 +495,16 @@ export default {
           this.ipoPlate = res.data.result.ipoPlate//上市板块
           this.industryCsrc = res.data.result.industryCsrc//所属行业(证监会) ,
           this.companyName = res.data.result.companyName//证券简称
-          this.zhengquanCode = res.data.result.companyCode//证券代码 
+          this.zhengquanCode = res.data.result.companyCode//证券代码
           this.addrProv = res.data.result.addrProv//注册地（省）
-          this.addrCity = res.data.result.addrCity//注册地（市） 
+          this.addrCity = res.data.result.addrCity//注册地（市）
           this.addrArea = res.data.result.addrArea//注册地（区）
           this.registeredAssets = res.data.result.registeredAssets//注册资本（万元）
           this.actualController = res.data.result.actualController//实际控制人
-          this.controlShareholder = res.data.result.controlShareholder//控股股东 
+          this.controlShareholder = res.data.result.controlShareholder//控股股东
           this.companyNature = res.data.result.companyNature//企业性质
           this.majorBusinesses = res.data.result.majorBusinesses//主营业务
-        
+
       });
       getMarketData(param).then(res=>{
         if(res.data.result&&res.data.result.length>0){
@@ -542,7 +542,7 @@ export default {
           console.log('212121', this.mainTableList)
         }
       })
-      
+
     },
     //返回父组件用于锚点定位头
     getPosition() {
@@ -587,7 +587,7 @@ export default {
               tabId: 'tab-first',
               noClick: false
           }
-          
+
           titleList.push(ownershipStructureChart)
           titleList.push(mainBusinessIncomeComposition)
           titleList.push(majorSuppliers)
@@ -609,7 +609,7 @@ export default {
        var b =  $(".majorBusinesses").text();
         $(".majorBusinesses").attr("title",b)
     },
-   
+
   }
 };
 </script>
@@ -699,7 +699,7 @@ export default {
         flex-wrap: wrap;
         padding-left: 0;
         li {
-         
+
         }
       }
     }

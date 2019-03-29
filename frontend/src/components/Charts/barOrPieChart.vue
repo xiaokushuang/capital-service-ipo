@@ -28,28 +28,26 @@ export default {
     }
   },
   props:["mainTableList"],
-  watch:{
-    mainTableList: {  
-　　　　handler(newValue, oldValue) {  
-        this.mainTableList = newValue
-        var dataList = newValue
-        console.log('mainTableList',this.mainTableList)
-        console.log('dataList',dataList)
-          this.initBarChart(dataList);
-      //  最开始初始化饼状图，默认传的是第三年的数据
-          this.initPieChart(dataList.mainIncomeInfoList,'','',dataList.onePeriodForIncome);
-　　　　},  
-　　　　deep: true,  //对象内部的属性监听，也叫深度监听
-       immediate: true //immediate表示在watch中首次绑定的时候，是否执行handler，值为true则表示在watch中声明的时候，就立即执行handler方法，值为false，则和一般使用watch一样，在数据发生变化的时候才执行handler
-　　}  
+//   watch:{
+//     mainTableList: {  
+// 　　　　handler(newValue, oldValue) {  
+//         this.mainTableList = newValue
+//         var dataList = newValue
+//         console.log('mainTableList',this.mainTableList)
+//         console.log('dataList',dataList)
+//           this.initBarChart(dataList);
+//       //  最开始初始化饼状图，默认传的是第三年的数据
+//           this.initPieChart(dataList.mainIncomeInfoList,'','',dataList.onePeriodForIncome);
+// 　　　　},  
+// 　　　　deep: true,  //对象内部的属性监听，也叫深度监听
+//        immediate: true //immediate表示在watch中首次绑定的时候，是否执行handler，值为true则表示在watch中声明的时候，就立即执行handler方法，值为false，则和一般使用watch一样，在数据发生变化的时候才执行handler
+// 　　}  
+//   },
+    mounted()  {
+    //   请求数据
+      this.initTableData()
   },
-  //   created ()  {
-  //   //   请求数据
-  //   if(this.mainTableList){
-  //     this.initTableData()
-  //   }
-  // },
-  
+
   beforeDestroy() {
     if (!this.barChart) {
     return
@@ -82,12 +80,12 @@ export default {
          // 初始化数据
       initTableData() {
           // 如果请求到数据之后再初始化柱形图
-                // var dataList = this.mainTableList
-                // console.log('mainTableList',this.mainTableList)
-                // console.log('dataList',dataList)
-                //  this.initBarChart(dataList);
-              //  最开始初始化饼状图，默认传的是第三年的数据
-                //  this.initPieChart(dataList.mainIncomeInfoList,'','',dataList.onePeriodForIncome);
+                var dataList = this.mainTableList
+                console.log('mainTableList',this.mainTableList)
+                console.log('dataList',dataList)
+                 this.initBarChart(dataList);
+               // 最开始初始化饼状图，默认传的是第三年的数据
+                 this.initPieChart(dataList.mainIncomeInfoList,'','',dataList.onePeriodForIncome);
       },
        //   初始化柱状图
     initBarChart(dataList) {
@@ -98,7 +96,7 @@ export default {
           this.barChart = null
         }
       this.barChart = echarts.init(document.getElementById('barChart'))
-      
+
     //  循环获取柱状图数据
       for (var i = 0; i < dataList.mainIncomeInfoList.length; i++) {
           this.lengendData.push(dataList.mainIncomeInfoList[i].businessName);
@@ -120,8 +118,8 @@ export default {
                                     data:this.barYY,
                                 },
                              )
-            
-               }      
+
+               }
          this.barChartX = [dataList.firstYearForIncome,dataList.secondYearForIncome,dataList.thirdYearForIncome,dataList.onePeriodForIncome]
    // 点击柱状图获取相应数据
       this.barChart.on("click", function(params) {
@@ -146,7 +144,7 @@ export default {
                     type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
                 }
                 },
-                
+
                 grid: {
                 left: "3%",
                 right: "4%",
