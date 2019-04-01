@@ -49,9 +49,9 @@ public class IpoProcessController extends BaseController {
     public void downLoadFile(String id, String fileType, HttpServletResponse response) {
 //        id = "AN201901201287197198";
 //        id = "AN201901201287197198,AN201901201287197197";
-        id = "1106725448754480921,1106725448754109589";
+//        id = "1106725448754480921,1106725448754109589";
 //        id = "1106725448754480921";
-        fileType = "02";
+//        fileType = "02";
         if (id.contains(",")) {
             if (fileType.equals("01")) {
                 ipoProcessService.downloadMultiplyAnnounce(id, response);
