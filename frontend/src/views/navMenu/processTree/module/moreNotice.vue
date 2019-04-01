@@ -37,13 +37,13 @@
             align="center"
             show-overflow-tooltip>
             <template slot-scope="scope">
-              <i class="el-icon-download" style="font-size:20px"></i>
+              <i @click="handleDown(scope.row)" class="el-icon-download" style="font-size:20px"></i>
             </template>
             </el-table-column>
         </el-table>
         <div class="downloadAnnouncement">
-            <span class="downloadAnnouncementSpan" v-if="this.multipleSelection.length==0">下载所选公告</span>
-            <span class="downloadAnnouncementSpan" v-else style="border:1px solid #0099CC">下载所选公告<span style="color:#0099CC">{{this.multipleSelection.length}}</span></span>
+            <span @click="handleDownAll()" class="downloadAnnouncementSpan" v-if="this.multipleSelection.length==0">下载所选公告</span>
+            <span @click="handleDownAll()" class="downloadAnnouncementSpan" v-else style="border:1px solid #0099CC">下载所选公告<span style="color:#0099CC">{{this.multipleSelection.length}}</span></span>
         </div>
     </div>
 </template>
@@ -61,20 +61,22 @@ export default {
     moreNoticeList: {  
 　　　　handler(newValue, oldValue) {  
         this.moreNoticeList = newValue
-　　　 　console.log(this.moreNoticeList)  
 　　　　},  
 　　　　deep: true,  //对象内部的属性监听，也叫深度监听
        immediate: true //immediate表示在watch中首次绑定的时候，是否执行handler，值为true则表示在watch中声明的时候，就立即执行handler方法，值为false，则和一般使用watch一样，在数据发生变化的时候才执行handler
 　　}  
   },
     methods: {
+      // 下载公告
+      handleDown(v){
+      },
+      handleDownAll(){
+        // console.log(this.multipleSelection)
+      },
       handleSelectionChange(val) {
-        // debugger
         this.multipleSelection = val;
-        console.log(this.multipleSelection.length)
       },
         openLetterDetail(v) {
-          window.open(v.baseUrl)
         },
     }
 }

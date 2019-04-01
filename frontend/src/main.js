@@ -60,3 +60,12 @@ new Vue({
   template: '<App/>',
   components: { App }
 })
+
+
+Vue.filter('dataInThRule', function (value) {
+  if(!value) return value
+  if(value === '') return value
+  if(value < 0) return 0;
+  let str = parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
+  return str;
+})

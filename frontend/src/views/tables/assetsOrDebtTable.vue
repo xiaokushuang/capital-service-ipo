@@ -34,8 +34,8 @@
         align="center">
       </el-table-column>
     </el-table>
-    <p v-if="this.ipoAssetItemList" class="sortProject">资产类项目：</p>
-    <el-table
+    <p v-if="ipoAssetItemList&&ipoAssetItemList.length>0" class="sortProject">资产类项目：</p>
+    <el-table 
       class="table2"
      :data="ipoAssetItemList"
       border
@@ -72,7 +72,7 @@
         </el-table-column>
      
     </el-table>
-     <p v-if="this.ipoDebtItemList" class="sortProject">负债类项目：</p>
+     <p v-if="ipoDebtItemList&&ipoDebtItemList.length>0" class="sortProject">负债类项目：</p>
     <el-table
       class="table2"
      :data="ipoDebtItemList"
@@ -110,7 +110,7 @@
         </el-table-column>
      
     </el-table>
-     <p v-if="ipoEquityItemList" class="sortProject"> 权益类项目：</p>
+     <p v-if="ipoEquityItemList&&ipoEquityItemList.length>0" class="sortProject"> 权益类项目：</p>
      <el-table
       class="table2"
      :data="ipoEquityItemList"
@@ -158,7 +158,7 @@
 
 <script>
 // 引入点击放大镜弹出来的表头年限数据
-import { getAssetsOrDebtData } from '@/api/tableDemo'
+import { getAssetsOrDebtData } from '@/api/ipoCase/tableDemo'
 import echarts from 'echarts'
 import tanZxChart  from '@/components/Charts/tanZxChart'
   export default {
@@ -166,7 +166,12 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
     return {
       // 弹窗
         tanZxChart:null,
-        tableTitle: null,
+         tableTitle: {
+        forthYearDate:'',
+        thirdYearValue:'',
+        secondYearValue:'',
+        firstYearValue:''
+      },
         ipoAssetItemList:[],//资产类项目列表
         ipoDebtItemList:[],//负债类项目列表
         ipoEquityItemList:[],//权益类项目列表
@@ -175,7 +180,7 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
         dialogChartVisible: false,
         zxChartData:null,
         // id:'97952444248599350',
-        caseId:this.$store.state.caseId,
+        caseId:this.$store.state.app.caseId,
     }
   },
     components:{
@@ -186,7 +191,6 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
        
     },
     beforeDestroy () {
-      // this.zxChartData = null
     },
     mounted() {
 
@@ -201,13 +205,10 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
           id:this.caseId
         }
         getAssetsOrDebtData(param).then(res => {
-          console.log(res.data.result)
           this.tableTitle = res.data.result.dateList
-          // console.log(this.tableTitle[0])
           this.ipoAssetItemList = res.data.result.ipoAssetItemList//资产类项目列表
           this.ipoDebtItemList = res.data.result.ipoDebtItemList//负债类项目列表
           this.ipoEquityItemList = res.data.result.ipoEquityItemList//权益类项目列表
-          // this.tableContent = response.data.assetsList.slice(1)
         })
       },
       // 非空判断
@@ -222,7 +223,6 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
       // 点击放大镜弹出折线图
       handleShowChart(i,r){
         this.zxChartData = r
-        // console.log(this.zxChartData)
         this.dialogChartVisible = true;
       }
     }

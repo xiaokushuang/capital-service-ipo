@@ -35,6 +35,15 @@ public class PersistenceConfigurer {
     @Value("${spring.datasource.druid.dongcai.password}")
     private String dongcaiPassword;
 
+    @Value("${spring.datasource.druid.touguan.url}")
+    private String touguanUrl;
+
+    @Value("${spring.datasource.druid.touguan.username}")
+    private String touguanUsername;
+
+    @Value("${spring.datasource.druid.touguan.password}")
+    private String touguanPassword;
+
     @Value("${spring.datasource.druid.driver-class-name}")
     private String driverClassName;
 
@@ -83,8 +92,10 @@ public class PersistenceConfigurer {
         Map< Object, Object > targetDataSources = new HashMap<>();
         DataSource cloud = getDataSource(cloudUrl, cloudUsername, cloudPassword);
         DataSource dongcai = getDataSource(dongcaiUrl, dongcaiUsername, dongcaiPassword);
+        DataSource touguan = getDataSource(touguanUrl, touguanUsername, touguanPassword);
         targetDataSources.put(DataSourceEnum.CLOUD.getValue(), cloud);
         targetDataSources.put(DataSourceEnum.DONGCAI.getValue(), dongcai);
+        targetDataSources.put(DataSourceEnum.TOUGUAN.getValue(), touguan);
         //添加数据源
         multipleDataSource.setTargetDataSources(targetDataSources);
         //设置默认数据源

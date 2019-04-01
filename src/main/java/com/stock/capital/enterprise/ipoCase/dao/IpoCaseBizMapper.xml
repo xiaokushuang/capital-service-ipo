@@ -177,4 +177,67 @@
       AND valid_flag = #{validFlag}
     </if>
   </select>
+
+  <select id="getHeadData" parameterType="string" resultType="com.stock.capital.enterprise.ipoCase.dto.HeadDataVo">
+    SELECT
+    ic.title,
+    ic.establish_date AS establishDate,
+    (SELECT mcl.label_name FROM maa_conf_label mcl WHERE mcl.label_code = 'IPO_GREEN_PASSAGE' AND
+    mcl.label_value = ic.green_passage) AS greenPassage,
+    (SELECT mcl1.label_name FROM maa_conf_label mcl1 WHERE mcl1.label_code = 'IPO_STATUS' AND
+    mcl1.label_value = ic.case_status) AS processLabel,
+    ip.iec_result AS iecResult,
+    DATEDIFF(
+      (
+        SELECT
+          MAX(process_time)
+        FROM
+          ipo_process
+        WHERE
+          tree_type_code = '00'
+        AND process_type_code = '03'
+        AND bid = ic.id
+      ),
+      (
+        SELECT
+          MIN(process_time)
+        FROM
+          ipo_process
+        WHERE
+          tree_type_code = '00'
+        AND process_type_code = '01'
+        AND bid = ic.id
+      )
+    ) AS supportDuration,
+    DATEDIFF(ip2.maxDate, ip2.minDate) AS auditDuration
+  FROM
+    ipo_case ic
+  LEFT JOIN (
+    SELECT
+      bid,
+      iec_result
+    FROM
+      ipo_process
+    WHERE
+      process_type_code = '07'
+    AND bid = #{id}
+    ORDER BY
+      process_time DESC
+    LIMIT 1
+  ) ip ON ic.id = ip.bid
+  LEFT JOIN (
+    SELECT
+      bid,
+      MAX(process_time) AS maxDate,
+      MIN(process_time) AS minDate
+    FROM
+      ipo_process
+    WHERE
+      tree_type_code = '01'
+    AND bid = #{id}
+  ) ip2 ON ic.id = ip2.bid
+  WHERE
+    ic.id = #{id}
+    LIMIT 1
+  </select>
 </mapper>

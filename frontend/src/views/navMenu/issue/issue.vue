@@ -18,7 +18,6 @@
                       </el-col>
                       <el-col :span="6" class="label"><span>发行价格</span></el-col>
                       <el-col :span="6" class="value"> 
-                        <!-- {{this.issueData.issuePrice}} -->
                         <span>
                           {{isNotEmpty(this.issueData.issuePrice) ? this.issueData.issuePrice : '- -' + '&nbsp;'}}
                          </span> 
@@ -27,14 +26,12 @@
                   <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>发行数量总计</span></el-col>
                       <el-col :span="6" class="value">
-                          <!-- {{this.issueData.shareIssued}} -->
                        <span>
                           {{isNotEmpty(this.issueData.shareIssued) ? this.issueData.shareIssued : '- -' + '&nbsp;'}}
                       </span> 
                       </el-col>
                       <el-col :span="6" class="label"><span>占发行后总股本的比例</span></el-col>
                       <el-col :span="6" class="value">
-                        <!-- {{this.issueData.issuedRatio }}  -->
                         <span>
                           {{isNotEmpty(this.issueData.issuedRatio) ? this.issueData.issuedRatio : '- -' + '&nbsp;'}}
                          </span> 
@@ -43,14 +40,12 @@
                   <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>募集资金总额</span></el-col>
                       <el-col :span="6" class="value">
-                          <!-- {{this.issueData.sumFina}} -->
                        <span>
                           {{isNotEmpty(this.issueData.sumFina) ? this.issueData.sumFina : '- -' + '&nbsp;'}}
                       </span> 
                       </el-col>
                       <el-col :span="6" class="label"><span>募集资金净额</span></el-col>
                       <el-col :span="6" class="value">
-                        <!-- {{this.issueData.netSumFina }}  -->
                         <span>
                           {{isNotEmpty(this.issueData.netSumFina) ? this.issueData.netSumFina : '- -' + '&nbsp;'}}
                          </span> 
@@ -59,14 +54,12 @@
                     <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>网上发行数量</span></el-col>
                       <el-col :span="6" class="value">
-                          <!-- {{this.issueData.shareIssueOn}} -->
                        <span>
                           {{isNotEmpty(this.issueData.shareIssueOn) ? this.issueData.shareIssueOn : '- -' + '&nbsp;'}}
                       </span> 
                       </el-col>
                       <el-col :span="6" class="label"><span>网下配售数量</span></el-col>
                       <el-col :span="6" class="value"> 
-                        <!-- {{this.issueData.sharePlaceOff}}  -->
                         <span>
                          {{isNotEmpty(this.issueData.sharePlaceOff) ? this.issueData.sharePlaceOff : '- -' + '&nbsp;'}}
                         </span>
@@ -75,14 +68,12 @@
                     <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>老股东公开发售股份</span></el-col>
                       <el-col :span="6" class="value">
-                          <!-- {{this.issueData.exseNumBse}} -->
                       <span>
                           {{isNotEmpty(this.issueData.exseNumBse) ? this.issueData.exseNumBse : '- -' + '&nbsp;'}}
                       </span> 
                       </el-col>
                       <el-col :span="6" class="label"><span>发行后市盈率</span></el-col>
                       <el-col :span="6" class="value">
-                        <!-- {{this.issueData.peIssueA}}  -->
                          <span>
                           {{isNotEmpty(this.issueData.peIssueA) ? this.issueData.peIssueA : '- -' + '&nbsp;'}}
                          </span> 
@@ -91,14 +82,12 @@
                   <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>发行前每股收益</span></el-col>
                       <el-col :span="6" class="value">
-                          <!-- {{this.issueData.epsIssueB}} -->
                       <span>
                           {{isNotEmpty(this.issueData.epsIssueB) ? this.issueData.epsIssueB : '- -' + '&nbsp;'}}
                       </span> 
                       </el-col>
                       <el-col :span="6" class="label"><span>发行后每股收益</span></el-col>
                       <el-col :span="6" class="value">
-                        <!-- {{this.issueData.epsIssueA }} -->
                         <span>
                             {{isNotEmpty(this.issueData.epsIssueA) ? this.issueData.epsIssueA : '- -' + '&nbsp;'}}
                         </span> 
@@ -117,7 +106,6 @@
                       </el-col>
                       <el-col :span="6" class="label"><span>承销方式</span></el-col>
                       <el-col :span="6" class="value">
-                        <!-- {{this.issueData.uwMethod}}  -->
                         <span>
                           {{isNotEmpty(this.issueData.uwMethod) ? this.issueData.uwMethod : '- -' + '&nbsp;'}}
                         </span>
@@ -147,8 +135,8 @@
     </div>
 </template>
 <script>
-import { getIssueData } from "@/api/tableDemo";
-import { getIssueFeeData } from "@/api/tableDemo";
+import { getIssueData } from "@/api/ipoCase/tableDemo";
+import { getIssueFeeData } from "@/api/ipoCase/tableDemo";
 import $ from "jquery";
 export default {
   name: "issue",
@@ -158,7 +146,7 @@ export default {
           issueFeeData:[],
           issueData:[],
           // id:'97952444248599344'
-          caseId:this.$store.state.caseId,
+          caseId:this.$store.state.app.caseId,
       }
   },
    created() {
@@ -175,9 +163,7 @@ export default {
          this.issueData = res.data.result
       }) 
       getIssueFeeData(param).then(res=>{
-        // console.log(res)
         this.issueFeeData = res.data.result
-        console.log(this.issueFeeData)
       })
     },
      getPosition(){
@@ -213,7 +199,6 @@ export default {
    
     // 非空判断
     isNotEmpty(param) {
-      // debugger
       if (param != null && param !== undefined && param !== '' && param !== 'null' && param !== 'undefined') {
         return true
       } else {

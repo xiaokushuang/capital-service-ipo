@@ -3,7 +3,7 @@
        <div class="IntermediaryInstitutions">
             <!-- 筛选 -->
             <el-select v-model="agentState" placeholder="请选择" style="margin-left:16px;width:120px">
-                <el-option v-for="item in options" :label="item.label" :value="item.value">
+                <el-option v-for="item in options" :label="item.label" :value="item.value" :key="item.value">
                 </el-option>
             </el-select>
             <div class="InstitutionsDetail">
@@ -374,12 +374,12 @@
     </div>
 </template>
 <script>
-import { getIntermediaryOrgDataList } from '@/api/companyProfile'
+import { getIntermediaryOrgDataList } from '@/api/ipoCase/companyProfile'
 export default {
     name:'IntermediaryInstitutions',
     data(){
         return{
-            caseId:this.$store.state.caseId,
+            caseId:this.$store.state.app.caseId,
             allStitutionList:[],
             accounts:[],//会计事务所
             accountsTotal:[],

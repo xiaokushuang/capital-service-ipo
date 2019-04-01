@@ -130,8 +130,8 @@
                      </el-row>
                  </div>
                     <span style="padding: 0px;">
-                        <right-module ref="rightModule" @statusButtonClick="statusButtonClick" :caseId="caseId"
-                        ></right-module>
+                        <processTree ref="rightModule" @statusButtonClick="statusButtonClick" :caseId="caseId"
+                        ></processTree>
                     </span>
                 </el-col>
     <el-col :span="24">
@@ -161,7 +161,7 @@ import financialInformation from "../navMenu/financialInformation/financialInfor
 import feedback from "../navMenu/feedback/feedback";
 import result from "../navMenu/result/result";
 import issue from "../navMenu/issue/issue";
-import rightModule from "@/components/rightModule";
+import processTree from "../navMenu/processTree";
 export default {
   name: "ipo",
   components: {
@@ -171,7 +171,7 @@ export default {
     feedback,
     result,
     issue,
-    rightModule
+    processTree
   },
   data() {
     return {
@@ -180,7 +180,7 @@ export default {
       financialInformation:financialInformation,
       feedback:feedback,
       result:result,
-      rightModule:rightModule,
+      processTree:processTree,
       showComponent:companyProfile,
 
       fixBody: "",
@@ -290,8 +290,7 @@ export default {
         this.flag = "1";
         sortType = '02';
       }
-      this.$refs.rightModule.initTableData(sortType);
-      this.$refs.rightModule.sortTime(sortType);
+      this.$refs.rightModule.orderByProcess(sortType)
     },
     handleClick() {
       if (this.activeName == "fourth") {

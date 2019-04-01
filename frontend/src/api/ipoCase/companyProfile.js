@@ -1,49 +1,7 @@
 import request from '@/utils/request'
-// [moke]
-// export function getGqList(query) {
-//   return request({
-//     url: '/companyProfile/gqList',
-//     method: 'get',
-//     params: query
-//   })
-// }
-
-// export function getGqTable(query) {
-//   return request({
-//     url: '/companyProfile/gqTable',
-//     method: 'get',
-//     params: query
-//   })
-// }
-
-// IPO公司概览返回类[moke]
-// export function getCaseDetail() {
-//   return request({
-//     url: '/finance/selectFinanceOverList',
-//     method: 'get'
-//   })
-// }
-// 募集资金接口
-// export function getRaiseMoneyTableList(query) {
-//   return request({
-//     url: '/companyProfile/raiseMoneyTableList',
-//     method: 'get',
-//     params: query
-//   })
-// }
-
-// 中介机构moke接口
-// export function getIntermediaryOrgDataList(query) {
-//   return request({
-//     url: '/companyProfile/intermediaryOrgDataList',
-//     method: 'get',
-//     params: query
-//   })
-// }
-
 // 真接口
 // IPO公司概览返回类
-export function getCaseDetail(query) {
+export function getCaseDetail(query) { 
   return request({
     url:'/ipo/companyOverview/caseDetail',
     method: 'get',
@@ -129,6 +87,14 @@ export function geSelectFeedbackList(query) {
 export function geSelectMemberList(query) {
   return request({
     url: '/ipo/ipoExamine/selectMemberList',
+    method: 'get',
+    params: query
+  })
+}
+// 真接口
+export function getRightModuleData(query) {
+  return request({
+    url: '/ipo/ipoProcess/selectProcessList',
     method: 'get',
     params: query
   })

@@ -2,6 +2,7 @@ package com.stock.capital.enterprise.ipoCase.service;
 
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseBizMapper;
 import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
+import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
 import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
@@ -176,6 +177,15 @@ public class CompanyOverviewService extends BaseService {
         //资产评估机构
         result.put("assets", assetList);
         return result;
+    }
+
+    /**
+     * 查询案例详情页头部展示数据
+     * @param id
+     * @return
+     */
+    public HeadDataVo getHeadData(String id) {
+        return ipoCaseBizMapper.getHeadData(id);
     }
 
     /**

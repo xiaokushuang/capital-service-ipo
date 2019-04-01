@@ -73,6 +73,7 @@
      }
    }
  }
+//  ****************************ipo************************************
 //  公司概况表格样式修改
  .companyProfile .el-table thead tr th{
   // background: #f2f2f2;
@@ -396,6 +397,9 @@
 .average .el-table__empty-block{
   display: none;
 }
+.table2 .el-table__empty-block{
+  display: none;
+}
 .result .el-dialog{
   width: 73.6%;
   height:84%;
@@ -406,4 +410,11 @@
 }
 .mainTable .el-table .cell,.mainTable .el-table th div,.mainTable .el-table--border td:first-child .cell,.mainTable .el-table--border th:first-child .cell {
   padding-left: 0px;
+}
+.mainTable .is-left.table_cell.is-leaf{
+  padding-left:10px;
+}
+.feedback .el-tabs__item.is-active{
+  // background:red;
+  color:#0086a7 !important;
 }

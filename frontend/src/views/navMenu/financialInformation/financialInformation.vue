@@ -133,13 +133,12 @@ import zxChart from "@/components/Charts/zxChart";
 import compareTable from "@/views/tables/compareTable";
 // zxChart代码
 import echarts from 'echarts'
-// import { getAssetsTableData } from '@/api/tableDemo'
-import { getMaoChartTableData } from '@/api/tableDemo'
+import { getMaoChartTableData } from '@/api/ipoCase/tableDemo'
 export default {
     name:'financialInformation',
     data(){
         return {
-            caseId:this.$store.state.caseId,
+            caseId:this.$store.state.app.caseId,
             maoChartTableData:[],
             // 表格data
             year1:'',
@@ -166,13 +165,6 @@ export default {
     mounted () {
     },
     methods:{
-        // 初始化折线图
-        creatEchart(){
-            // this.$refs.zxChart.initTableData()
-            // for(var i = 0;i<this.maoChartTableData.length;i++){
-                // this.$refs[i].1.initTableData()
-            // }
-        },
         // 锚点定位
         getPosition(){
            //返回父组件用于锚点定位头
@@ -205,9 +197,7 @@ export default {
              id:this.caseId
             }
             getMaoChartTableData(param).then(res => {
-                this.maoChartTableData = res.data.result
-                console.log(this.maoChartTableData)
-                 
+                this.maoChartTableData = res.data.result                 
             }) 
         },
         // 非空判断

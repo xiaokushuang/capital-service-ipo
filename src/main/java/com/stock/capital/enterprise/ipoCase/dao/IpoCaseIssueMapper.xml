@@ -26,17 +26,17 @@
     SELECT
       lfi.PARVALUE AS parValue,
       lfi.ISSUEPRICE AS issuePrice,
-      lfi.SHAREISSUED AS shareIssued,
+      CONVERT(lfi.SHAREISSUED/10000,DECIMAL(18,2)) AS shareIssued,
       lfi.ISSUEDRATIO AS issuedRatio,
-      lfi.SUMFINA AS sumFina,
-      lfi.NETSUMFINA AS netSumFina,
-      lfi.EXSENUMBSE AS exseNumBse,
+      CONVERT(lfi.SUMFINA/10000,DECIMAL(18,2)) AS sumFina,
+      CONVERT(lfi.NETSUMFINA/10000,DECIMAL(18,2)) AS netSumFina,
+      CONVERT(lfi.EXSENUMBSE/10000,DECIMAL(18,2)) AS exseNumBse,
       lfi.ISSUEMETHOD AS issueMethod,
       lf.EPSISSUEB AS epsIssueB,
       lf.EPSISSUEA AS epsIssueA,
       lf.PEISSUEA peIssueA,
-      lfp.SHAREISSUEON AS shareIssueOn,
-      lfp.SHAREPLACEOFF AS sharePlaceOff,
+      CONVERT(lfp.SHAREISSUEON/10000,DECIMAL(18,2)) AS shareIssueOn,
+      CONVERT(lfp.SHAREPLACEOFF/10000,DECIMAL(18,2)) AS sharePlaceOff,
       (SELECT c.PARAMCHNAME FROM CFP_PVALUE c WHERE c.NIPMID = '127000000005078644' AND lfu.UWMETHOD = c.PARAMCODE) AS uwMethod
     FROM
         LICO_FP_ISSUEBASICINFO linfo

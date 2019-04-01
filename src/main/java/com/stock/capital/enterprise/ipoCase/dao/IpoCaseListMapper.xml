@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.capital.enterprise.ipoCase.dao.IpoCaseListMapper">
+  <select id="getTreeTagByCode" parameterType="string" resultType="com.stock.capital.enterprise.ipoCase.dto.RegTreeDto">
+    SELECT
+      id,
+      p_id pId,
+      label_name labelName,
+      label_value labelValue,
+      0 num
+    FROM
+      maa_conf_label
+    WHERE
+    STATUS = '1'
+    AND p_id = '0'
+    AND label_code = #{labelCode}
+    ORDER BY
+      label_sort
+  </select>
+
+  <select id="getLabelByCode" parameterType="string" resultType="com.stock.capital.enterprise.ipoCase.dto.RegTreeDto">
+    SELECT
+    id,
+    p_id pId,
+    label_name labelName,
+    label_value labelValue
+    FROM
+    maa_conf_label
+    WHERE
+    STATUS = '1'
+    AND label_code = #{labelCode}
+    ORDER BY
+    label_sort
+  </select>
+
+  <select id="queryIntermediary" parameterType="string" resultType="map">
+    SELECT obo.COMPANYNAME value,obo.COMPANYCODE labelValue
+    FROM orga_bi_orgbaseinfo obo JOIN orga_bi_instothername obi ON obo.COMPANYCODE = obi.SECINNERCODE
+    WHERE obo.COMPANY_TYPE_CODE_TG = '06'
+    AND (obo.COMPANYNAME LIKE concat('%',#{intermediaryName},'%') or obi.OTHERNAME  LIKE concat('%',#{intermediaryName},'%'))
+    GROUP BY obo.COMPANYCODE
+    limit 10
+  </select>
+</mapper>

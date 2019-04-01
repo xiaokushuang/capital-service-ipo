@@ -21,8 +21,7 @@
   </div>
 </template>
 <script>
-// import { getCompareTableData } from '@/api/tableDemo'
-import { getMaoChartTableData } from '@/api/tableDemo'
+import { getMaoChartTableData } from '@/api/ipoCase/tableDemo'
 export default {
   name: 'compareTable',
   data() {
@@ -39,7 +38,6 @@ export default {
     this.initTableData()
   },
   mounted(){
-    // console.log(item)
   },
   methods: {
     initTableData() {
@@ -50,14 +48,7 @@ export default {
             this.year2 = res.data.result[i].secondYear
             this.year3 = res.data.result[i].thirdYear
             this.industryCompareRateDetailList = res.data.result[i].industryCompareRateDetailList
-          // console.log(res.data.result[i].firstYear)
           }
-          // console.log(this.year1)
-          // console.log(this.year2)
-          // console.log(this.year3)
-          // console.log(this.industryCompareRateDetailList)
-      //  this.tableTitle = response.data.compareList[0]
-      //   this.tableContent = response.data.compareList.slice(1)
       }) 
     },
     // 非空判断

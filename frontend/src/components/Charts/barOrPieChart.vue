@@ -7,8 +7,7 @@
 
 <script>
 import echarts from 'echarts'
-import { getTableData } from '@/api/tableDemo'
-// import { getMarketData } from "@/api/companyProfile";
+import { getTableData } from '@/api/ipoCase/tableDemo'
 export default {
   data() {
     return {
@@ -24,13 +23,15 @@ export default {
       date:'',
       pieChartTitle:'',
       // id:'97952444248599350',
-      caseId:this.$store.state.caseId,
+      caseId:this.$store.state.app.caseId,
     }
   },
-    created(){
+  props:["mainTableList"],
+    mounted()  {
     //   请求数据
-    this.initTableData()
+      this.initTableData()
   },
+
   beforeDestroy() {
     if (!this.barChart) {
     return
@@ -44,36 +45,24 @@ export default {
     this.pieChart = null
 },
   methods: {
-    // echartClick(){
-    //   debugger
-     
-    // },
-     // 初始化数据
+         // 初始化数据
       initTableData() {
-            // 动态传id
-        const param = {
-          id:this.caseId
-        }
-        getTableData(param).then(response => {
-          if(response.data.result){
-            // 如果请求到数据之后再初始化柱形图
-            var dataList = response.data.result
+          // 如果请求到数据之后再初始化柱形图
+                var dataList = this.mainTableList
                  this.initBarChart(dataList);
-                //  debugger;
-                //  最开始初始化饼状图，默认传的是第三年的数据
+               // 最开始初始化饼状图，默认传的是第三年的数据
                  this.initPieChart(dataList.mainIncomeInfoList,'','',dataList.onePeriodForIncome);
-            }
-        })
       },
        //   初始化柱状图
     initBarChart(dataList) {
+      // debugger;
        const _self = this
         if (this.barChart) {
           this.barChart.dispose()
           this.barChart = null
         }
       this.barChart = echarts.init(document.getElementById('barChart'))
-      
+
     //  循环获取柱状图数据
       for (var i = 0; i < dataList.mainIncomeInfoList.length; i++) {
           this.lengendData.push(dataList.mainIncomeInfoList[i].businessName);
@@ -95,8 +84,8 @@ export default {
                                     data:this.barYY,
                                 },
                              )
-            
-               }      
+
+               }
          this.barChartX = [dataList.firstYearForIncome,dataList.secondYearForIncome,dataList.thirdYearForIncome,dataList.onePeriodForIncome]
    // 点击柱状图获取相应数据
       this.barChart.on("click", function(params) {
@@ -109,6 +98,8 @@ export default {
        this.barChart.setOption({
            title: {
                 text: "最近3年主营业务趋势",
+                padding: [8, 10,106,10],
+                bottom:175,
                 textStyle: {
                     color: "#333333",
                     fontWeight: "normal",
@@ -121,7 +112,7 @@ export default {
                     type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
                 }
                 },
-                
+
                 grid: {
                 left: "3%",
                 right: "4%",
@@ -133,7 +124,12 @@ export default {
                 data:this.barChartX
             },
            yAxis: {
-                type: "value"
+                type: "value",
+                name:'万元',
+                nameLocation:'end',
+                nameTextStyle:{
+                  padding: [0, 30, 0, 0]
+                }
                 },
                 series: this.barChartY
             })
@@ -206,8 +202,8 @@ initPieChart(dataList,nameTempO,num,flag) {
           {
             name: "访问来源",
             type: "pie",
-            radius: "55%",
-            center: ["50%", "60%"],
+            radius: "60%",
+            center: ["55%", "67%"],
             data:this.pieData,
             itemStyle: {
               emphasis: {

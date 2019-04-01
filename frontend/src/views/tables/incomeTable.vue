@@ -35,7 +35,7 @@
         align="center">
       </el-table-column>
     </el-table>
-    <p v-if="this.ipoProfitItemList" class="sortProject">收入类项目：</p>
+    <p v-if="ipoProfitItemList&&ipoProfitItemList.length>0" class="sortProject">收入类项目：</p>
     <el-table
       class="table2"
      :data="ipoProfitItemList"
@@ -73,7 +73,7 @@
         </el-table-column>
      
     </el-table>
-     <p v-if="this.ipoCostItemList" class="sortProject">成本类项目：</p>
+     <p v-if="ipoCostItemList&&ipoCostItemList.length>0" class="sortProject">成本类项目：</p>
     <el-table
       class="table2"
      :data="ipoCostItemList"
@@ -111,7 +111,7 @@
         </el-table-column>
      
     </el-table>
-     <p v-if="this.ipoReturnOverList" class="sortProject"> 利润类项目：</p>
+     <p v-if="ipoReturnOverList&&ipoReturnOverList.length>0" class="sortProject"> 利润类项目：</p>
      <el-table
       class="table2"
      :data="ipoReturnOverList"
@@ -159,21 +159,22 @@
 
 <script>
 // 引入点击放大镜弹出来的表头年限数据
-import { getSelectFinanceProfitList } from '@/api/tableDemo'
+import { getSelectFinanceProfitList } from '@/api/ipoCase/tableDemo'
 import echarts from 'echarts'
 import tanZxChart2  from '@/components/Charts/tanZxChart2'
   export default {
     name:"incomeTable",
     data() {
     return {
-        // id:'97952444248599350',
-        caseId:this.$store.state.caseId,
+        caseId:this.$store.state.app.caseId,
       // 弹窗
         tanZxChart2:null,
-        tableTitle: null,
-        // ipoAssetItemList:[],//资产类项目列表
-        // ipoDebtItemList:[],//负债类项目列表
-        // ipoEquityItemList:[],//权益类项目列表
+         tableTitle: {
+          forthYearDate:'',
+          thirdYearValue:'',
+          secondYearValue:'',
+          firstYearValue:''
+        },
         ipoReturnOverList :[],//利润类项目列表
         ipoCostItemList :[],//成本类项目列表
         ipoProfitItemList :[],//收益类项目列表
@@ -191,10 +192,9 @@ import tanZxChart2  from '@/components/Charts/tanZxChart2'
        
     },
     beforeDestroy () {
-      // this.zxChartData = null
+    
     },
     mounted() {
-      console.log('利润')
     },
     updated(){
     },
@@ -206,19 +206,10 @@ import tanZxChart2  from '@/components/Charts/tanZxChart2'
           id:this.caseId
         }
         getSelectFinanceProfitList(param).then(res => {
-          console.log(res.data.result)
           this.tableTitle = res.data.result.dateList
           this.ipoProfitItemList = res.data.result.ipoProfitItemList//收益类项目列表
           this.ipoCostItemList = res.data.result.ipoCostItemList//成本类项目列表
           this.ipoReturnOverList = res.data.result.ipoReturnOverList//利润类项目列表
-          // ipoReturnOverList :[],//利润类项目列表
-          // ipoCostItemList :[],//成本类项目列表
-          // ipoProfitItemList :[],//收益类项目列表
-          // console.log(this.tableTitle[0])
-          // this.ipoAssetItemList = res.data.result.ipoAssetItemList//资产类项目列表
-          // this.ipoDebtItemList = res.data.result.ipoDebtItemList//负债类项目列表
-          // this.ipoEquityItemList = res.data.result.ipoEquityItemList//权益类项目列表
-          // this.tableContent = response.data.assetsList.slice(1)
         })
       },
       // 非空判断
@@ -233,7 +224,6 @@ import tanZxChart2  from '@/components/Charts/tanZxChart2'
       // 点击放大镜弹出折线图
       handleShowChart(i,r){
         this.zxChartData = r
-        // console.log(this.zxChartData)
         this.dialogChartVisible = true;
       }
     }

@@ -12,7 +12,7 @@ const service = axios.create({
 //console.log(process.env.BASE_API);
 
 // request interceptor
-service.interceptors.request.use(
+service.interceptors.request.use( 
     config => {
       // Do something before request is sent
       // set accessToken with request header
@@ -21,7 +21,6 @@ service.interceptors.request.use(
       // fixed GET request method caching problem
       config.headers['Cache-Control'] = 'no-cache';
       config.headers['Pragma'] = 'no-cache';
-      // config.params['id'] = store.state.app.caseId;
       return config
     }, error => {
       // Do something with request error

@@ -33,13 +33,13 @@
           </li>
         </ul>
         <div>
-           
+
           <li style="margin-bottom:10px">
             <span>注册地址</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <span style="color:#333333">{{this.addrProv}}{{this.addrCity}}{{this.addrArea}}</span>
           </li>
-          
-         
+
+
           <li style="margin-bottom:10px">
             <span>控股股东</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <span style="color:#333333">{{this.controlShareholder}}</span>
@@ -61,7 +61,7 @@
             left: 76px;">{{this.majorBusinesses}}</span>
           </li>
         </div>
-      
+
       </div>
       <div class="others" v-if="this.otherMarketInfoList&&this.otherMarketInfoList.length>0">
         <p style="color:black">登录其他资本市场</p>
@@ -94,7 +94,6 @@
       </div>
       <!-- 图片 -->
       <div class="img">
-        <!-- <img src="../../../assets/images/structure.png" alt> -->
          <img :src="structureUrl" alt>
       </div>
       <!-- 股权股东表格 -->
@@ -117,11 +116,11 @@
         <span class="titleText" id="mainBusinessIncomeComposition">主营业务收入构成</span>
       </div>
       <div class="echart clear">
-        <barOrPieChart></barOrPieChart>
+        <barOrPieChart v-if="this.mainTableList.firstYearForIncome" :mainTableList = "this.mainTableList"></barOrPieChart>
       </div>
       <!-- table表格 -->
       <div class="incomeCompositionTable">
-         <mainTable></mainTable>
+         <mainTable :mainTableList = "this.mainTableList"></mainTable>
       </div>
     </div>
     <!-- 主要竞争对手简介 -->
@@ -329,7 +328,6 @@
                   </el-table-column>
                 </el-table-column>
              </el-table>
-             <!-- <fifthKhTable></fifthKhTable> -->
           </div>
       </div>
     </div>
@@ -384,7 +382,7 @@
             font-style: normal;
             color: #666666;
             font-size:14px;
-            line-height:20px; 
+            line-height:20px;
             text-align: left;">
             说明：本次募集资金到位前，公司拟以自筹资金和银行借款先行实施；募集资金到位后，公司将用募集资金置换已投入的资金。如果实际募集资金净额不足以完成上述投资项目，不足部分公司将自筹解决。
         </p>
@@ -402,19 +400,18 @@
 </template>
 
 <script>
- 
-      
+
+
 import $ from "jquery";
-import { getCaseDetail } from "@/api/companyProfile";
-import { getMarketData } from "@/api/companyProfile";
-import { getShareHolderData } from "@/api/companyProfile";
-import { getCompetitorData } from "@/api/companyProfile";
-import { getRaiseMoneyTableList } from "@/api/companyProfile";
-import { getSupplierCustomerData } from '@/api/tableDemo'
+import { getCaseDetail } from "@/api/ipoCase/companyProfile";
+import { getMarketData } from "@/api/ipoCase/companyProfile";
+import { getShareHolderData } from "@/api/ipoCase/companyProfile";
+import { getCompetitorData } from "@/api/ipoCase/companyProfile";
+import { getRaiseMoneyTableList } from "@/api/ipoCase/companyProfile";
+import { getSupplierCustomerData } from '@/api/ipoCase/tableDemo';
+import { getTableData } from '@/api/ipoCase/tableDemo';
 // 导入主营业务收入构成表格
 import mainTable from "@/views/tables/mainTable";
-import fifthGysTable from "@/views/tables/fifthGysTable";
-import fifthKhTable from "@/views/tables/fifthKhTable";
 // 导入柱形图和饼图
 import barOrPieChart from "@/components/Charts/barOrPieChart";
 // 导入中介机构
@@ -423,8 +420,6 @@ export default {
   name: "companyProfile",
   components: {
     mainTable,
-    fifthGysTable,
-    fifthKhTable,
     barOrPieChart,
     IntermediaryInstitutions
   },
@@ -435,24 +430,24 @@ export default {
       listLoading: false,
       gqTableList: [],
       incomeCompositionTableList1: [],
-      
+
       raiseMoneyTableList: [],
       // 接口
       structureLabel: [],
       structureUrl:'',
       // 公司简介
-      caseId:this.$store.state.caseId,
+      caseId:this.$store.state.app.caseId,
       companyZhName:'',//公司名称
       ipoPlate:'',//上市板块
       industryCsrc:'',//所属行业(证监会) ,
       companyName:'',//公司简称
-      zhengquanCode:'',//证券代码 
+      zhengquanCode:'',//证券代码
       addrProv:'',//注册地（省）
-      addrCity:'',//注册地（市） 
+      addrCity:'',//注册地（市）
       addrArea:'',//注册地（区）
       registeredAssets:'',//注册资本（万元）
       actualController:'',//实际控制人
-      controlShareholder:'',//控股股东 
+      controlShareholder:'',//控股股东
       companyNature:'',//企业性质
       majorBusinesses:'',//主营业务
       //其他资本市场
@@ -463,6 +458,13 @@ export default {
       supplierMainList:[],
       // 前五名客户
       customerMainList:[],
+      // 主营业务收入
+      mainTableList:{
+        onePeriodForIncome:'',
+        thirdYearForIncome:'',
+        secondYearForIncome:'',
+        firstYearForIncome:''
+      },
     };
   },
   created() {
@@ -478,7 +480,6 @@ export default {
         id:this.caseId
       }
       getCaseDetail(param).then(res => {
-        // console.log(res.data.result)
           this.id = res.data.result.id//公司id
           if(res.data.result.structureLabel){
             this.structureLabel = res.data.result.structureLabel.split(',');
@@ -488,43 +489,53 @@ export default {
           this.ipoPlate = res.data.result.ipoPlate//上市板块
           this.industryCsrc = res.data.result.industryCsrc//所属行业(证监会) ,
           this.companyName = res.data.result.companyName//证券简称
-          this.zhengquanCode = res.data.result.companyCode//证券代码 
+          this.zhengquanCode = res.data.result.companyCode//证券代码
           this.addrProv = res.data.result.addrProv//注册地（省）
-          this.addrCity = res.data.result.addrCity//注册地（市） 
+          this.addrCity = res.data.result.addrCity//注册地（市）
           this.addrArea = res.data.result.addrArea//注册地（区）
           this.registeredAssets = res.data.result.registeredAssets//注册资本（万元）
           this.actualController = res.data.result.actualController//实际控制人
-          this.controlShareholder = res.data.result.controlShareholder//控股股东 
+          this.controlShareholder = res.data.result.controlShareholder//控股股东
           this.companyNature = res.data.result.companyNature//企业性质
           this.majorBusinesses = res.data.result.majorBusinesses//主营业务
-        
+
       });
       getMarketData(param).then(res=>{
-          // console.log(res)
+        if(res.data.result&&res.data.result.length>0){
           this.otherMarketInfoList = res.data.result//其他登录市场
-          // console.log(this.otherMarketInfoList)
+        }
       });
       getShareHolderData(param).then(res=>{
-        // console.log(res.data.result)
-        this.gqTableList = res.data.result
+        if(res.data.result&&res.data.result.length>0){
+          this.gqTableList = res.data.result
+        }
       });
       getCompetitorData(param).then(res=>{
-        // console.log(res.data.result)
-        this.MajorCompetitors = res.data.result
+        if(res.data.result&&res.data.result.length>0){
+          this.MajorCompetitors = res.data.result
+        }
       });
       getRaiseMoneyTableList(param).then(res=>{
-        this.raiseMoneyTableList = res.data.result
-        // console.log(this.raiseMoneyTableList)
+        if(res.data.result&&res.data.result.length>0){
+          this.raiseMoneyTableList = res.data.result
+        }
       });
       // 供应商
       getSupplierCustomerData(param).then(response => {
-        // console.log(response.data.result)
-        this.supplierMainList = response.data.result.supplierMainList
-        this.customerMainList = response.data.result.customerMainList
-        // console.log(this.supplierMainList)
-        // console.log(this.customerMainList)
+        if(response.data.result.supplierMainList&&response.data.result.supplierMainList.length>0){
+          this.supplierMainList = response.data.result.supplierMainList
+        }
+         if(response.data.result.customerMainList&&response.data.result.customerMainList.length>0){
+           this.customerMainList = response.data.result.customerMainList
+        }
       })
-      
+      // 主营业务收入构成
+      getTableData(param).then(response => {
+        if( response.data.result){
+          this.mainTableList = response.data.result
+        }
+      })
+
     },
     //返回父组件用于锚点定位头
     getPosition() {
@@ -569,7 +580,7 @@ export default {
               tabId: 'tab-first',
               noClick: false
           }
-          
+
           titleList.push(ownershipStructureChart)
           titleList.push(mainBusinessIncomeComposition)
           titleList.push(majorSuppliers)
@@ -579,7 +590,6 @@ export default {
     },
       // 非空判断
     isNotEmpty(param) {
-      // debugger
       if (param != null && param !== undefined && param !== '' && param !== 'null' && param !== 'undefined') {
         return true
       } else {
@@ -591,7 +601,7 @@ export default {
        var b =  $(".majorBusinesses").text();
         $(".majorBusinesses").attr("title",b)
     },
-   
+
   }
 };
 </script>
@@ -680,9 +690,6 @@ export default {
         display: flex;
         flex-wrap: wrap;
         padding-left: 0;
-        li {
-         
-        }
       }
     }
   }
@@ -736,14 +743,12 @@ export default {
         ul {
           width: 100%;
           margin-top: 10px;
-          // background:yellow;
           display: flex;
           flex-wrap: wrap;
           li {
             line-height: 20px;
             margin-right: 30px;
             width: 45%;
-            // background:green;
           }
         }
       }
@@ -752,18 +757,8 @@ export default {
 }
 .InstitutionsDetailLi:hover {
   cursor: pointer;
-  // box-shadow: darkgrey 0px 0px 6px 2px;
   box-shadow: 0 0px 28px -5px #ccc;
 }
-// 多行省略号
-.moreText {
-  // overflow: hidden;
-  // text-overflow: ellipsis;
-  // display: -webkit-box;
-  // -webkit-line-clamp: 3;
-  // -webkit-box-orient: vertical;
-}
-
 .majorBusinesses:hover{
   color:#333333;
   cursor:pointer;

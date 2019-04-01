@@ -32,7 +32,6 @@
         align="center">
         <template slot-scope="scope">
             <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe">查看</span>           
-            <!-- <span>{{isNotEmpty(scope.row.count4) ? scope.row.count4 : '- -'}}</span> -->
           </template>
       </el-table-column>
     </el-table>
@@ -44,19 +43,23 @@
   </div>
 </template>
 <script>
-import { getSelectFinanceOverList } from '@/api/tableDemo'
+import { getSelectFinanceOverList } from '@/api/ipoCase/tableDemo'
 import tanZxChart1  from '@/components/Charts/tanZxChart1'
 export default {
   name: 'mainTable',
   data() {
     return {
-      tableTitle: null,
+      tableTitle: {
+        forthYearDate:'',
+        thirdYearValue:'',
+        secondYearValue:'',
+        firstYearValue:''
+      },
       tableContent: null,
       zxChartData:null,
       // 控制弹窗是否展示
       dialogChartVisible: false,
-      // id:'97952444248599350'
-      caseId:this.$store.state.caseId,
+      caseId:this.$store.state.app.caseId,
     }
   },
   components:{
@@ -65,9 +68,6 @@ export default {
   created() {
     this.initTableData()
   },
-  mounted(){
-    // console.log('aaaa')
-  },
   methods: {
     initTableData() {
        // 动态传id
@@ -75,9 +75,8 @@ export default {
         id:this.caseId
       }
       getSelectFinanceOverList(param).then(response => {
-        console.log(response)
-        this.tableTitle = response.data.result.dateList
-        this.tableContent = response.data.result.ipoFinanceOverList 
+          this.tableTitle = response.data.result.dateList
+          this.tableContent = response.data.result.ipoFinanceOverList 
       })
     },
     // 非空判断
@@ -92,7 +91,6 @@ export default {
       // 点击放大镜弹出折线图
     handleShowChart(i,r){
       this.zxChartData = r
-      // console.log(this.zxChartData)
       this.dialogChartVisible = true;
     }
   },
