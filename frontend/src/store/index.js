@@ -11,6 +11,9 @@ import declare from './declare'
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
+  state:{
+    userCompanyId:''
+  },
   modules: {
     app,
     errorLog,

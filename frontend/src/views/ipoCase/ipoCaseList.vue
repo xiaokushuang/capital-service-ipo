@@ -163,11 +163,11 @@
           <div v-show="searchFlag" style="display:flex">
             <div class="left" style="width:43%;margin-right:24px">
               <el-row :gutter="24" style="background:#f9f9f9;margin-bottom:0px;padding-top:10px">
-                  <el-radio-group v-model="yearRadio">
-                    <el-radio :label="1">最近一个会计年度累计</el-radio>
-                    <el-radio :label="2">最近两个会计年度累计</el-radio>
-                    <el-radio :label="3">最近三个会计年度累计</el-radio>
-                  </el-radio-group>
+                <el-radio-group v-model="yearRadio">
+                  <el-radio :label="1">最近一个会计年度累计</el-radio>
+                  <el-radio :label="2">最近两个会计年度累计</el-radio>
+                  <el-radio :label="3">最近三个会计年度累计</el-radio>
+                </el-radio-group>
                 <el-col :span='12'>
 
                 </el-col>
@@ -176,13 +176,13 @@
                 <el-row :gutter="24">
                   <el-col :span='12'>
                     <el-multiple-selection v-if="yearRadio===1" style="width: 430px" :range="true" :tree-data="optionNetProfitOne" placeholder="招股书最近一个会计年度净利润" size="small full" :multiple="false"
-                                          unit="亿元" :ran="optionDto" @sure-click="rangeCallProfitOne">
+                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallProfitOne">
                     </el-multiple-selection>
                     <el-multiple-selection v-if="yearRadio===2" style="width: 430px" :range="true" :tree-data="optionNetProfitTwo" placeholder="招股书最近两个会计年度净利润" size="small full" :multiple="false"
-                                          unit="亿元" :ran="optionDto" @sure-click="rangeCallProfitTwo">
+                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallProfitTwo">
                     </el-multiple-selection>
                     <el-multiple-selection v-if="yearRadio===3" style="width: 430px" :range="true" :tree-data="optionNetProfitThree" placeholder="招股书最近三个会计年度净利润" size="small full" :multiple="false"
-                                          unit="亿元" :ran="optionDto" @sure-click="rangeCallProfitThree">
+                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallProfitThree">
                     </el-multiple-selection>
                   </el-col>
                   <el-col :span='12'>
@@ -192,13 +192,13 @@
                 <el-row :gutter="24">
                   <el-col :span='12'>
                     <el-multiple-selection v-if="yearRadio===1" style="width: 430px" :range="true" :tree-data="optionOperateReveOne" placeholder="招股书最近一个会计年度营业收入" size="small full" :multiple="false"
-                                          unit="亿元" :ran="optionDto" @sure-click="rangeCallReveOne">
+                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallReveOne">
                     </el-multiple-selection>
                     <el-multiple-selection v-if="yearRadio===2" style="width: 430px" :range="true" :tree-data="optionOperateReveTwo" placeholder="招股书最近两个会计年度营业收入" size="small full" :multiple="false"
-                                          unit="亿元" :ran="optionDto" @sure-click="rangeCallReveTwo">
+                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallReveTwo">
                     </el-multiple-selection>
                     <el-multiple-selection v-if="yearRadio===3" style="width: 430px" :range="true" :tree-data="optionOperateReveThree" placeholder="招股书最近三个会计年度营业收入" size="small full" :multiple="false"
-                                          unit="亿元" :ran="optionDto" @sure-click="rangeCallReveThree">
+                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallReveThree">
                     </el-multiple-selection>
                   </el-col>
                   <el-col :span='12'>
@@ -208,13 +208,13 @@
                 <el-row :gutter="24">
                   <el-col :span='12'>
                     <el-multiple-selection v-if="yearRadio===1" style="width: 430px" :range="true" :tree-data="optionOperateCashFlowOne" placeholder="招股书最近一个会计年度经营活动现金流量净额" size="small full" :multiple="false"
-                                          unit="亿元" :ran="optionDto" @sure-click="rangeCallCashFlowOne">
+                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallCashFlowOne">
                     </el-multiple-selection>
                     <el-multiple-selection v-if="yearRadio===2" style="width: 430px" :range="true" :tree-data="optionOperateCashFlowTwo" placeholder="招股书最近两个会计年度经营活动现金流量净额" size="small full" :multiple="false"
-                                          unit="亿元" :ran="optionDto" @sure-click="rangeCallCashFlowTwo">
+                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallCashFlowTwo">
                     </el-multiple-selection>
                     <el-multiple-selection v-if="yearRadio===3" style="width: 430px" :range="true" :tree-data="optionOperateCashFlowThree" placeholder="招股书最近三个会计年度经营活动现金流量净额" size="small full" :multiple="false"
-                                          unit="亿元" :ran="optionDto" @sure-click="rangeCallCashFlowThree">
+                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallCashFlowThree">
                     </el-multiple-selection>
                   </el-col>
                   <el-col :span='12'>
@@ -226,7 +226,7 @@
                 <el-row :gutter="24">
                   <el-col :span='12'>
                     <el-multiple-selection style="width: 430px" :range="true" :tree-data="optionSunAsset" placeholder="招股书最近一期末总资产" size="small full" :multiple="false"
-                                          unit="万元" :ran="optionDto" @sure-click="rangeCallSunAsset">
+                                           unit="万元" :ran="optionDto" @sure-click="rangeCallSunAsset">
                     </el-multiple-selection>
                   </el-col>
                   <el-col :span='12'>
@@ -236,7 +236,7 @@
                 <el-row :gutter="24">
                   <el-col :span='12'>
                     <el-multiple-selection style="width: 430px" :range="true" :tree-data="optionSumShareQuity" placeholder="招股书最近一期末净资产" size="small full" :multiple="false"
-                                          unit="万元" :ran="optionDto" @sure-click="rangeCallSumShareQuity">
+                                           unit="万元" :ran="optionDto" @sure-click="rangeCallSumShareQuity">
                     </el-multiple-selection>
                   </el-col>
                   <el-col :span='12'>
@@ -246,7 +246,7 @@
                 <el-row :gutter="24">
                   <el-col :span='12'>
                     <el-multiple-selection style="width: 430px" :range="true" :tree-data="optionAssetRatio" placeholder="招股书最近一期末无形资产占净资产的比例" size="small full" :multiple="false"
-                                          unit="%" :ran="optionDto" @sure-click="rangeCallAssetRatio">
+                                           unit="%" :ran="optionDto" @sure-click="rangeCallAssetRatio">
                     </el-multiple-selection>
                   </el-col>
                   <el-col :span='12'>
@@ -256,7 +256,7 @@
                 <el-row :gutter="24">
                   <el-col :span='12'>
                     <el-multiple-selection style="width: 430px" :range="true" :tree-data="optionShareIssueB" placeholder="发行前股本总额" size="small full" :multiple="false"
-                                          unit="万股" :ran="optionDto" @sure-click="rangeCallShareIssueB">
+                                           unit="万股" :ran="optionDto" @sure-click="rangeCallShareIssueB">
                     </el-multiple-selection>
                   </el-col>
                   <el-col :span='12'>
@@ -266,7 +266,7 @@
                 <el-row :gutter="24">
                   <el-col :span='12'>
                     <el-multiple-selection style="width: 430px" :range="true" :tree-data="optionShareIssueA" placeholder="发行后股本总额" size="small full" :multiple="false"
-                                          unit="万股" :ran="optionDto" @sure-click="rangeCallShareIssueA">
+                                           unit="万股" :ran="optionDto" @sure-click="rangeCallShareIssueA">
                     </el-multiple-selection>
                   </el-col>
                   <el-col :span='12'>
@@ -278,64 +278,67 @@
             <div class="right" style="flex:1;">
               <div style="background:#f9f9f9;padding:10px">
                 <div>
-                  <div class="clear"  style="margin-bottom:5px">
+                  <div class="clear" style="margin-bottom:5px">
                     <span class="l" style="color: #333333;font-size:14px;">主板上市条件</span>
                     <span class="r" style="color: #999999;font-size:12px">试点企业，可不适用第<span class="quan">1</span>项、第<span class="quan">5</span>项规定。</span>
                   </div>
                   <div>
-                     <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
-                       <span class="quan">1</span>
-                        最近<span style="color:#14BCF5">3</span>个会计年度净利润均为正数且<span style="color:#14BCF5">累计超过3000万元</span>（人民币），净利润以扣除非经常性损益前后较低者为计算依据；
-                     </p>
-                     <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:7px">
-                       <span class="quan">2</span>
-                        最近<span style="color:#14BCF5">3</span>个会计年度营业收入<span style="font-weight: 700; color: #14BCF5">累计超过3亿元</span>(人民币)；<br>
-                        <span>或:最近<span style="color:#14BCF5">3</span>个会计年度经营活动产生的现金流量净额<span style="color:#14BCF5">累计超过5000万元</span>(人民币)；</span>
-                     </p>
-                     <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
-                       <span class="quan">3</span>
-                        发行前股本总额<span style="color:#14BCF5">不少于3000万元</span> (人民币)；
-                     </p>
-                     <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
-                       <span class="quan">4</span>
-                        
-                        最近一期末无形资产（扣除土地使用权、水面养殖权和采矿权等后）占净资产的比例<span style="color:#333333;">不高于20％</span>；
-                     </p>
-                     <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
-                       <span class="quan">5</span>
-                        最近一期末不存在未弥补亏损。
-                     </p>
+                    <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
+                      <span class="quan">1</span>
+                      最近<span style="color:#14BCF5">3</span>个会计年度净利润均为正数且<span style="color:#14BCF5">累计超过3000万元</span>（人民币），净利润以扣除非经常性损益前后较低者为计算依据；
+                    </p>
+                    <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:7px">
+                      <span class="quan">2</span>
+                      最近<span style="color:#14BCF5">3</span>个会计年度营业收入<span style="font-weight: 700; color: #14BCF5">累计超过3亿元</span>(人民币)；<br>
+                      <span>或:最近<span style="color:#14BCF5">3</span>个会计年度经营活动产生的现金流量净额<span style="color:#14BCF5">累计超过5000万元</span>(人民币)；</span>
+                    </p>
+                    <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
+                      <span class="quan">3</span>
+                      发行前股本总额<span style="color:#14BCF5">不少于3000万元</span> (人民币)；
+                    </p>
+                    <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
+                      <span class="quan">4</span>
+
+                      最近一期末无形资产（扣除土地使用权、水面养殖权和采矿权等后）占净资产的比例<span style="color:#333333;">不高于20％</span>；
+                    </p>
+                    <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
+                      <span class="quan">5</span>
+                      最近一期末不存在未弥补亏损。
+                    </p>
                   </div>
                 </div>
-                 <div>
+                <div>
                   <div class="clear" style="margin-bottom:5px">
                     <span class="l" style="color: #333333;font-size:14px;">主板上市条件</span>
                     <span class="r" style="color: #999999;font-size:12px">试点企业，可不适用第<span class="quan">2</span>项规定和第<span class="quan">3</span>项“不存在未弥补亏损”的规定。</span>
                   </div>
                   <div>
-                     <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
-                       <span class="quan">1</span>
-                        发行人是依法设立且持续经营三年以上的股份有限公司。有限责任公司按原账面净资产值折股整体变更为股份有限公司的，持续经营时间可以从有限责任公司成立之日起计算；
-                     </p>
-                     <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
-                       <span class="quan">2</span>
-                        最近<span style="font-weight: 700; color: #14BCF5">2</span>年连续盈利，最近两年净利润<span style="font-weight: 700; color: #14BCF5">累计不少于1000万元</span>;<br>
-                        或:最近<span style="color:#14BCF5">1</span>年盈利，最近一年营业收入<span style="color:#14BCF5">不少于5000万元。</span>( 净利润以扣除非经常性损益前后孰低者为计算依据)
-                     </p>
-                     <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
-                       <span class="quan">3</span>
-                        最近一期末净资产<span style="color:#14BCF5">不少于2000万元</span>，且不存在未弥补亏损；
-                     </p>
-                     <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
-                       <span class="quan">4</span>
-                        
-                       发行后股本总额<span style="color:#14BCF5">不少于3000万元。</span>
-                     </p>
+                    <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
+                      <span class="quan">1</span>
+                      发行人是依法设立且持续经营三年以上的股份有限公司。有限责任公司按原账面净资产值折股整体变更为股份有限公司的，持续经营时间可以从有限责任公司成立之日起计算；
+                    </p>
+                    <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
+                      <span class="quan">2</span>
+                      最近<span style="font-weight: 700; color: #14BCF5">2</span>年连续盈利，最近两年净利润<span style="font-weight: 700; color: #14BCF5">累计不少于1000万元</span>;<br>
+                      或:最近<span style="color:#14BCF5">1</span>年盈利，最近一年营业收入<span style="color:#14BCF5">不少于5000万元。</span>(
+                      净利润以扣除非经常性损益前后孰低者为计算依据)
+                    </p>
+                    <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
+                      <span class="quan">3</span>
+                      最近一期末净资产<span style="color:#14BCF5">不少于2000万元</span>，且不存在未弥补亏损；
+                    </p>
+                    <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
+                      <span class="quan">4</span>
+
+                      发行后股本总额<span style="color:#14BCF5">不少于3000万元。</span>
+                    </p>
                   </div>
                 </div>
               </div>
               <div>
-                <p style="color: #888888;font-size:12px;margin-top: 0px;">中国证监会根据<a style="color: #1990FE;text-decoration:underline" href="#">《关于开展创新企业境内发行股票或存托凭证试点的若干意见》</a>等规定认定的试点企业可不适用部分上市条件中的规定。</p>
+                <p style="color: #888888;font-size:12px;margin-top: 0px;">
+                  中国证监会根据<a style="color: #1990FE;text-decoration:underline" @click="openNew()">《关于开展创新企业境内发行股票或存托凭证试点的若干意见》</a>等规定认定的试点企业可不适用部分上市条件中的规定。
+                </p>
               </div>
             </div>
           </div>
@@ -389,20 +392,20 @@
                     </template>
                   </el-table-column>
                   <el-table-column :label="yearLabel">
-                  <el-table-column align="right" :prop="profit" label="净利润" sortable="custom" min-width="13%">
-                    <template slot-scope="scope">
-                      <span v-if="yearRadio===1">{{scope.row.netProfitOne | dataInThRule}}亿元</span>
-                      <span v-if="yearRadio===2">{{scope.row.netProfitTwo | dataInThRule}}亿元</span>
-                      <span v-if="yearRadio===3">{{scope.row.netProfitThree | dataInThRule}}亿元</span>
-                    </template>
-                  </el-table-column>
-                  <el-table-column align="right" :prop="reve" label="营业收入" sortable="custom" min-width="13%">
-                    <template slot-scope="scope">
-                      <span v-if="yearRadio===1">{{scope.row.operateReveOne | dataInThRule}}亿元</span>
-                      <span v-if="yearRadio===2">{{scope.row.operateReveTwo | dataInThRule}}亿元</span>
-                      <span v-if="yearRadio===3">{{scope.row.operateReveThree | dataInThRule}}亿元</span>
-                    </template>
-                  </el-table-column>
+                    <el-table-column align="right" :prop="profit" label="净利润" sortable="custom" min-width="13%">
+                      <template slot-scope="scope">
+                        <span v-if="yearRadio===1">{{scope.row.netProfitOne | dataInThRule}}亿元</span>
+                        <span v-if="yearRadio===2">{{scope.row.netProfitTwo | dataInThRule}}亿元</span>
+                        <span v-if="yearRadio===3">{{scope.row.netProfitThree | dataInThRule}}亿元</span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column align="right" :prop="reve" label="营业收入" sortable="custom" min-width="13%">
+                      <template slot-scope="scope">
+                        <span v-if="yearRadio===1">{{scope.row.operateReveOne | dataInThRule}}亿元</span>
+                        <span v-if="yearRadio===2">{{scope.row.operateReveTwo | dataInThRule}}亿元</span>
+                        <span v-if="yearRadio===3">{{scope.row.operateReveThree | dataInThRule}}亿元</span>
+                      </template>
+                    </el-table-column>
                   </el-table-column>
                   <el-table-column align="right" prop="ipo_sum_asset_d" label="总资产" sortable="custom" min-width="12%">
                     <template slot-scope="scope">
@@ -706,6 +709,7 @@
           pageSize: data.pageSize,
           condition: {
             companyId: _self.$store.state.app.companyId,
+            //companyId: _self.$store.state.userCompanyId,
             title: _self.title,//标题关键字（包含全部以空格断开）
             industryCsrc: _self.industryCsrcValue,//发行人行业（证监会）
             companyNature: _self.companyNatureValue,//企业性质
@@ -1022,6 +1026,11 @@
 
         });
       },
+      openNew() {
+        const _self = this;
+        const href = window.location.origin + 'ui/laws/laws/lawsDetail?lawId=745777672757626842&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.tenant_info;
+        window.open(href, '_blank');
+      }
     },
     components: {
       papers
@@ -1030,17 +1039,20 @@
 </script>
 
 <style scoped>
-    .l {
+  .l {
     float: left;
   }
-.r {
-  float: right;
+
+  .r {
+    float: right;
   }
-.clear:after {
-  display: block;
-  content: "";
-  clear: both;
-}
+
+  .clear:after {
+    display: block;
+    content: "";
+    clear: both;
+  }
+
   .container {
     font-family: Microsoft YaHei, "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
@@ -1302,15 +1314,16 @@
     font-size: 12px;
     padding-left: 5px;
   }
-  .quan{
-     display:inline-block;
-     background: url("../../assets/images/quan.png") no-repeat;
-     background-size: cover;
-     width: 15px;
-     height: 15px;
-     text-align: center;
-     line-height: 15px;
-     font-size: 12px;
+
+  .quan {
+    display: inline-block;
+    background: url("../../assets/images/quan.png") no-repeat;
+    background-size: cover;
+    width: 15px;
+    height: 15px;
+    text-align: center;
+    line-height: 15px;
+    font-size: 12px;
     color: #FFFFFF
   }
 </style>
