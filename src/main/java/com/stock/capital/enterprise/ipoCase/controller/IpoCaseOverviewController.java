@@ -1,6 +1,7 @@
 package com.stock.capital.enterprise.ipoCase.controller;
 
 import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
+import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
 import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
@@ -116,6 +117,19 @@ public class IpoCaseOverviewController {
         @RequestParam(value = "validFlag", required = false) String validFlag) {
         JsonResponse<Map<String, List<IntermediaryOrgDto>>> response = new JsonResponse<>();
         response.setResult(companyOverviewService.getIntermediaryOrgData(id, validFlag));
+        return response;
+    }
+
+    @ApiOperation(value = "案例详细头部数据接口", notes = "案例详细头部数据接接口描述")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
+            dataType = "String")
+    })
+    @RequestMapping(value = "/headData", method = RequestMethod.GET)
+    public JsonResponse<HeadDataVo> headData(@RequestParam("id") String id) {
+        JsonResponse<HeadDataVo> response = new JsonResponse<>();
+        HeadDataVo headDataVo = companyOverviewService.getHeadData(id);
+        response.setResult(headDataVo);
         return response;
     }
 }

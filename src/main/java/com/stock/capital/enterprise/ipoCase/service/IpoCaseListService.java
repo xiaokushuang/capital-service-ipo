@@ -31,6 +31,12 @@ public class IpoCaseListService extends BaseService {
     @Autowired
     private SearchServer searchServer;
 
+    /**
+     * 检索页查询列表
+     *
+     * @param page 筛选条件
+     * @return map
+     */
     public Map<String, Object> getIpoCaseList(QueryInfo<IpoCaseListBo> page) {
         IpoCaseListBo bo = page.getCondition();
         Map<String, String> condition = Maps.newHashMap();
@@ -265,25 +271,25 @@ public class IpoCaseListService extends BaseService {
         //查询左侧树
         //拟上市板块树
         List<RegTreeDto> plateTreeTag = ipoCaseListMapper.getTreeTagByCode("IPO_PLATE");
-        int plateTreeNum = 0;
+        long plateTreeNum = 0;
         if (plateTreeTag != null && !plateTreeTag.isEmpty()) {
             plateTreeNum = assebleTreeData(plateTreeTag, plateList, false);
         }
         //登陆其他资本市场树
         List<RegTreeDto> marketTreeTag = ipoCaseListMapper.getTreeTagByCode("IPO_CAPITAL_MARKET");
-        int marketTreeNum = 0;
+        long marketTreeNum = 0;
         if (marketTreeTag != null && !marketTreeTag.isEmpty()) {
             marketTreeNum = assebleTreeData(marketTreeTag, marketList, false);
         }
         //绿色通道树
         List<RegTreeDto> greenTreeTag = ipoCaseListMapper.getTreeTagByCode("IPO_GREEN_PASSAGE");
-        int greenTreeNum = 0;
+        long greenTreeNum = 0;
         if (greenTreeTag != null && !greenTreeTag.isEmpty()) {
             greenTreeNum = assebleTreeData(greenTreeTag, greenList, false);
         }
         //所属证监局树
         List<RegTreeDto> sfcTreeTag = ipoCaseListMapper.getTreeTagByCode("SFC");
-        int sfcTreeNum = 0;
+        long sfcTreeNum = 0;
         if (sfcTreeTag != null && !sfcTreeTag.isEmpty()) {
             sfcTreeNum = assebleTreeData(sfcTreeTag, bureauList, true);
         }
@@ -299,6 +305,11 @@ public class IpoCaseListService extends BaseService {
     }
 
 
+    /**
+     * 获取下拉框
+     *
+     * @return map
+     */
     public Map<String, Object> getIpoSelectData() {
         Map<String, Object> resultMap = Maps.newHashMap();
         //发行人行业（证监会）
@@ -347,6 +358,12 @@ public class IpoCaseListService extends BaseService {
         return repTreeTagDto;
     }
 
+    /**
+     * 联想查询中介机构
+     *
+     * @param intermediaryName 中介机构名称或别名
+     * @return list
+     */
     public List<Map<String, Object>> queryIntermediary(String intermediaryName) {
         if (StringUtils.isBlank(intermediaryName)) {
             return new ArrayList<>();
@@ -396,6 +413,14 @@ public class IpoCaseListService extends BaseService {
         return conditionStr;
     }
 
+    /**
+     * 组装下拉框等查询条件
+     *
+     * @param conditionsStr conditionsStr
+     * @param fieldName     fieldName
+     * @param data          data
+     * @return 查询条件
+     */
     private StringBuilder assebleBoxCondition(
         StringBuilder conditionsStr, String fieldName, String data) {
         String[] conditionArray = data.trim().split(",");
@@ -410,9 +435,23 @@ public class IpoCaseListService extends BaseService {
         return conditionsStr;
     }
 
-    private int assebleTreeData(
+    /**
+     * 组装左侧树数据
+     *
+     * @param treeData 左侧树
+     * @param numData  分组后结果
+     * @param symbol   标识证监局
+     * @return 左侧树总数
+     */
+    private long assebleTreeData(
         List<RegTreeDto> treeData, List<StatisticsField> numData, Boolean symbol) {
-        int num = 0;
+        Map<String, Long> countMap = Maps.newHashMap();
+        if (numData != null && !numData.isEmpty()) {
+            for (StatisticsField field : numData) {
+                countMap.put(field.getFieldId(), field.getCount());
+            }
+        }
+        long num = 0;
         for (RegTreeDto treeDto : treeData) {
             //所属证监局
             if (symbol) {
@@ -421,13 +460,11 @@ public class IpoCaseListService extends BaseService {
                 treeDto.setLabelValue(s);
             }
             treeDto.setName(treeDto.getLabelName() + "(" + 0 + ")");
-            if (numData != null && !numData.isEmpty()) {
-                for (StatisticsField field : numData) {
-                    if (treeDto.getLabelValue().equals(field.getFieldId())) {
-                        treeDto.setName(treeDto.getLabelName() + "(" + field.getCount() + ")");
-                        num += field.getCount();
-                    }
-                }
+            if (countMap.get(treeDto.getLabelValue()) != null) {
+                long count = countMap.get(treeDto.getLabelValue());
+                treeDto.setName(
+                    treeDto.getLabelName() + "(" + count + ")");
+                num += count;
             }
         }
         return num;

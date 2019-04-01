@@ -1,6 +1,7 @@
 package com.stock.capital.enterprise.ipoCase.dao;
 
 import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
+import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
 import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
@@ -29,5 +30,7 @@ public interface IpoCaseBizMapper {
 
     List<IntermediaryOrgDto> getIntermediaryOrgData(
         @Param("bid") String bid, @Param("validFlag") String validFlag);
+
+    HeadDataVo getHeadData(String id);
 
 }
