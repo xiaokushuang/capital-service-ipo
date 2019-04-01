@@ -9,49 +9,57 @@
        <el-table-column :label="mainTableList.onePeriodForIncome" header-align="center">
         <el-table-column prop="onePeriodAmount" align="right"  class-name="table_cell" label="金额(万元)" width="100">
           <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.onePeriodAmount) ? scope.row.onePeriodAmount : '- -'}}</span>
-          </template>
+              <span v-if="scope.row.onePeriodAmount"> {{scope.row.onePeriodAmount | dataInThRule}}</span>
+              <span v-else> - - </span>
+           </template>
         </el-table-column>
         <el-table-column prop="onePeriodRatio" align="right"  class-name="table_cell" label="占比(%)" width="81">
-          <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.onePeriodRatio) ? scope.row.onePeriodRatio : '- -'}}</span>
-          </template>
+            <template slot-scope="scope">
+              <span v-if="scope.row.onePeriodRatio"> {{scope.row.onePeriodRatio | dataInThRule}}%</span>
+              <span v-else> - - </span>
+           </template>
         </el-table-column>
       </el-table-column>
       <el-table-column :label="mainTableList.thirdYearForIncome" header-align="center">
         <el-table-column prop="thirdYearAmount" align="right"  class-name="table_cell" label="金额(万元)" width="100">
           <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.thirdYearAmount) ? scope.row.thirdYearAmount : '- -'}}</span>
-          </template>
+              <span v-if="scope.row.thirdYearAmount"> {{scope.row.thirdYearAmount | dataInThRule}}</span>
+              <span v-else> - - </span>
+           </template>
         </el-table-column>
         <el-table-column prop="thirdYearRatio" align="right"  class-name="table_cell" label="占比(%)" width="81">
-          <template slot-scope="scope">·
-            <span>{{isNotEmpty(scope.row.thirdYearRatio) ? scope.row.thirdYearRatio : '- -'}}</span>
-          </template>
+           <template slot-scope="scope">
+              <span v-if="scope.row.thirdYearRatio"> {{scope.row.thirdYearRatio | dataInThRule}}%</span>
+              <span v-else> - - </span>
+           </template>
         </el-table-column>
       </el-table-column>
       <el-table-column :label="mainTableList.secondYearForIncome" header-align="center">
         <el-table-column prop="secondYearAmount" align="right"  class-name="table_cell" label="金额(万元)" width="100">
-          <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.secondYearAmount) ? scope.row.secondYearAmount : '- -'}}</span>
-          </template>
+           <template slot-scope="scope">
+              <span v-if="scope.row.secondYearAmount"> {{scope.row.secondYearAmount | dataInThRule}}</span>
+              <span v-else> - - </span>
+           </template>
         </el-table-column>
         <el-table-column prop="secondYearRatio" align="right"  class-name="table_cell" label="占比(%)" width="81">
-          <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.secondYearRatio) ? scope.row.secondYearRatio : '- -'}}</span>
-          </template>
+           <template slot-scope="scope">
+              <span v-if="scope.row.secondYearRatio"> {{scope.row.secondYearRatio | dataInThRule}}%</span>
+              <span v-else> - - </span>
+           </template>
         </el-table-column>
       </el-table-column>
       <el-table-column :label="mainTableList.firstYearForIncome" header-align="center">
         <el-table-column prop="firstYearAmount" align="right"  class-name="table_cell" label="金额(万元)" width="100">
-          <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.firstYearAmount) ? scope.row.firstYearAmount : '- -'}}</span>
-          </template>
+           <template slot-scope="scope">
+              <span v-if="scope.row.firstYearAmount"> {{scope.row.firstYearAmount | dataInThRule}}</span>
+              <span v-else> - - </span>
+           </template>
         </el-table-column>
         <el-table-column prop="firstYearRatio" align="right"  class-name="table_cell" label="占比(%)" width="81">
-          <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.firstYearRatio) ? scope.row.firstYearRatio : '- -'}}</span>
-          </template>
+         <template slot-scope="scope">
+              <span v-if="scope.row.firstYearRatio"> {{scope.row.firstYearRatio | dataInThRule}}%</span>
+              <span v-else> - - </span>
+           </template>
         </el-table-column>
       </el-table-column>
     </el-table>

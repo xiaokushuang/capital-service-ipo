@@ -91,10 +91,26 @@ export function geSelectMemberList(query) {
     params: query
   })
 }
-// 真接口
+// 进程树接口
 export function getRightModuleData(query) {
   return request({
     url: '/ipo/ipoProcess/selectProcessList',
+    method: 'get',
+    params: query
+  })
+}
+// 进程树下载公告接口
+export function getDownloadFileData(query) {
+  return request({
+    url: '/ipo/ipoProcess/downloadFile',
+    method: 'get',
+    params: query
+  })
+}
+// 头部公司简介接口
+export function getHeadData(query) {
+  return request({
+    url: '/ipo/companyOverview/headData',
     method: 'get',
     params: query
   })

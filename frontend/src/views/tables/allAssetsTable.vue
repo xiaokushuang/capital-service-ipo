@@ -8,23 +8,27 @@
       </el-table-column>
       <el-table-column align="right" :label="tableTitle.forthYearDate">
           <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.forthYearValue) ? scope.row.forthYearValue : '- -'}}</span>
-          </template>       
+                      <span v-if="scope.row.forthYearValue"> {{scope.row.forthYearValue | dataInThRule}}</span>
+                      <span v-else> - - </span>
+          </template>
       </el-table-column>
       <el-table-column align="right"  :label="tableTitle.thirdYearDate" header-align="center">
         <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.thirdYearValue) ? scope.row.thirdYearValue : '- -'}}</span>
-        </template>  
+            <span v-if="scope.row.thirdYearValue"> {{scope.row.thirdYearValue | dataInThRule}}</span>
+            <span v-else> - - </span>
+        </template>
       </el-table-column>
       <el-table-column align="right"  :label="tableTitle.secondYearDate" header-align="center">
-         <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.secondYearValue) ? scope.row.secondYearValue : '- -'}}</span>
-         </template>  
+          <template slot-scope="scope">
+            <span v-if="scope.row.secondYearValue"> {{scope.row.secondYearValue | dataInThRule}}</span>
+            <span v-else> - - </span>
+        </template>
       </el-table-column>
       <el-table-column align="right"  :label="tableTitle.firstYearDate" header-align="center">
-         <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.firstYearValue) ? scope.row.firstYearValue : '- -'}}</span>
-         </template>  
+          <template slot-scope="scope">
+            <span v-if="scope.row.firstYearValue"> {{scope.row.firstYearValue | dataInThRule}}</span>
+            <span v-else> - - </span>
+          </template>
       </el-table-column>
        <el-table-column
         prop=""
@@ -36,7 +40,7 @@
       </el-table-column>
     </el-table>
        <!-- 点击放大镜弹出的折线图 -->
-    <el-dialog :title="this.zxChartData?'公司最近三年'  +this.zxChartData.itemName+'_趋势':''" :visible.sync="dialogChartVisible">
+    <el-dialog :title="this.zxChartData?'公司最近三年'  +this.zxChartData.itemName+'_趋势':''" :visible.sync="dialogChartVisible" :before-close="handleClose">
        <tanZxChart1 :zxChartData = "this.zxChartData"></tanZxChart1>
     </el-dialog>
 
@@ -79,9 +83,12 @@ export default {
           this.tableContent = response.data.result.ipoFinanceOverList 
       })
     },
+    handleClose(){
+        this.dialogChartVisible = false
+        // this.zxChartData = null
+    },
     // 非空判断
     isNotEmpty(param) {
-      // debugger
       if (param != null && param !== undefined && param !== '' && param !== 'null' && param !== 'undefined') {
         return true
       } else {

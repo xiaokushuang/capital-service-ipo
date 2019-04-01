@@ -461,14 +461,14 @@ export default {
         id:this.caseId
       }
       getIntermediaryOrgDataList(param).then(response => {
-        //   console.log(response.data.result)
-        this.allStitutionList = response.data.result
-        this.accountsTotal = response.data.result.accounts
-        this.sponsorsTotal = response.data.result.sponsors
-        this.securitysTotal = response.data.result.securitys
-        this.lawyersTotal = response.data.result.lawyers
-        this.assetsTotal = response.data.result.assets
-        // console.log(this.allStitutionList)
+          if(response.data.result){
+              this.allStitutionList = response.data.result
+              this.accountsTotal = response.data.result.accounts
+              this.sponsorsTotal = response.data.result.sponsors
+              this.securitysTotal = response.data.result.securitys
+              this.lawyersTotal = response.data.result.lawyers
+              this.assetsTotal = response.data.result.assets
+          }
         // 筛选有效
          for (let m = 0; m < this.accountsTotal.length; m++) {
             if (this.accountsTotal[m].validFlag == 1) {
