@@ -2,7 +2,7 @@
     <div class="moreNotice">
          <el-table
             ref="multipleTable"
-            :data="moreNoticeList"
+            :data="moreNoticeList[0]"
              height="380"
             tooltip-effect="dark"
             style="width: 100%"
@@ -48,11 +48,12 @@
     </div>
 </template>
 <script>
+import {getDownloadFileData} from '@/api/ipoCase/companyProfile'
 export default {
     name:'moreNotice',
     data() {
       return {
-        multipleSelection: []
+        multipleSelection: [],
       }
     },
     props:["moreNoticeList"],
@@ -67,8 +68,22 @@ export default {
 　　}  
   },
     methods: {
+       //初始化下载数据
+      initDownloadFileData(fileId,fileType) {
+        // 动态传id
+        const param = {
+          fileId:fileId,
+          fileType:fileType
+        }
+        getDownloadFileData(param).then(res => {
+            console.log(res)
+        })
+      },
       // 下载公告
       handleDown(v){
+        debugger;
+        initDownloadFileData(fileId,this.moreNoticeList[1])
+        console.log(this.moreNoticeList[1])
       },
       handleDownAll(){
         // console.log(this.multipleSelection)
@@ -76,8 +91,9 @@ export default {
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
-        openLetterDetail(v) {
-        },
+      openLetterDetail(v) {
+         window.open(v.baseUrl)
+      },
     }
 }
 </script>
@@ -94,9 +110,6 @@ export default {
         border-radius: 2px;
         cursor:pointer;
     }
-    // .el-table__row td:nth-child(3) {
-    //    color:#0099CC
-    // }
 }
 </style>
 

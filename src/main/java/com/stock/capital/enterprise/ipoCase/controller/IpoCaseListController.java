@@ -55,8 +55,9 @@ public class IpoCaseListController {
                 }
             }
             for (IpoCaseIndexDto indexDto : list) {
-                //删除id
-                if (!signSymbol) {
+                //未正式签约的并未开放的 删除id
+                if (!signSymbol && (indexDto.getOpenFlag() == null || "0"
+                    .equals(indexDto.getOpenFlag()))) {
                     indexDto.setId(null);
                 }
                 //将净利润、营业收入、总资产 万元转亿元
@@ -110,7 +111,7 @@ public class IpoCaseListController {
                                          .divide(new BigDecimal("10000"), 2,
                                                  BigDecimal.ROUND_HALF_UP).doubleValue());
         indexDto.setSunAsset(BigDecimal.valueOf(indexDto.getSunAsset())
-                                              .divide(new BigDecimal("10000"), 2,
-                                                      BigDecimal.ROUND_HALF_UP).doubleValue());
+                                 .divide(new BigDecimal("10000"), 2,
+                                         BigDecimal.ROUND_HALF_UP).doubleValue());
     }
 }

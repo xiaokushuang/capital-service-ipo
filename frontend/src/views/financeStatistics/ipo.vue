@@ -1,44 +1,36 @@
 <template>
-<div style="">
-    <div style="width: 100%;height: 46px;background: #343b4a;line-height: 46px;">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAaCAYAAABPY4eKAAABS2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDIgNzkuMTYwOTI0LCAyMDE3LzA3LzEzLTAxOjA2OjM5ICAgICAgICAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIi8+CiA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgo8P3hwYWNrZXQgZW5kPSJyIj8+nhxg7wAAAexJREFUSInFlj1rVFEQhp9JYiSia0RELURBEMTKiKJFRNBCLGxErf0DQgptxEJMsBBU8gsUUlgZBBsLxUJtouBXodGAxMJCQkIQiZHNY3EneBGMe7PL5m2GOWfeeeZyOYcT6nngCHAUqFHoJfAdmMm8BqwGeoENwDfgPfAcGI2ISZqRul2ds9DGJepWqX3qBXVcXVDvqTubHeBVwnsbrO9Wr6VnVj3eDPxJFXjJdyl9P9R97YaH+ji979TOtsHTu98/OtWIp6PyhP9QRIwBbzI93VZ46mHGAysBf5txy0rAv2bsUf/bu9VwM85HxEK74Ys345dGilsN78v4YiXgxzLer+xs8pLpS++k2t2IpyVfrgZwI9OBiJhfTpPl3u2D6bteGVpq8jSbbG6wvku9pdbVy1V5XX/lWzNeVGeATmAa+ACMRcRUQjuAk8AgMAccjohnVeGRzdYBV4CBXJ8GRoAJYA2wg+IY9eZeDRgDbkfEo6rQRXWpN4FNwFrgTmmvBuwFFoBZiuPzGdgFnAW6gboaESHtktqjDqnz6oR6Vd3TtgFyiN3qg9Ij4pM6rJ5o5MREi4boB4aA/vIyxfP6NTAOTFI8xesUv3RbK9jlIQ6qd9WfLq26eqal8NIQ69Vz6oj6Uf2V0Cl1VD0E8BuLL6cTC+UXbQAAAABJRU5ErkJggg=="
-           style="height: 20px;padding-left: 16px;vertical-align: middle;">
-        <p style="display:inline-block;margin:0px;">
-            <span style="color:#ffffff;margin-left:8px;font-size: 14px;opacity:0.8">易董</span><span style="font-size:16px;color:#ffffff;opacity:0.18;margin-left: 16px">|</span><span style="color:#ffffff;opacity:0.8;font-size: 14px;margin-left: 16px">资产重组详情</span>
-        </p>
-    </div>
+<div>
      <!-- IPO标题头部 -->
     <div  ref="titleHeader"
       id="titleHeader"
       style="width: 100%;height: 140px;padding-top: 18px;">
       <div id="titleBody" ref="titleBody" style="{'width':'1200px','margin':' 0 auto'}">
         <div class="bottomContent" style="position:relative">
-          <div style="position: absolute;left: 79px; top: -35px;">
+          <div v-if="headList.iecResult&&headList.iecResult == '00'" style="position: absolute;left: 79px; top: -35px;">
             <img src="../../assets/images/htg1.png" alt="">
           </div>
-           <!-- <div style="position: absolute;left: 79px; top: -35px;">
+           <div v-if="headList.iecResult&&headList.iecResult == '01'" style="position: absolute;left: 79px; top: -35px;">
             <img src="../../assets/images/whtg1.png" alt="">
           </div>
-          <div style="position: absolute;left: 79px; top: -35px;">
+          <div v-if="headList.iecResult&&headList.iecResult == '02'" style="position: absolute;left: 79px; top: -35px;">
             <img src="../../assets/images/zhbj1.png" alt="">
           </div>
-          <div style="position: absolute;left: 79px; top: -35px;">
+          <div v-if="headList.iecResult&&headList.iecResult == '03'" style="position: absolute;left: 79px; top: -35px;">
             <img src="../../assets/images/qxsh1.png" alt="">
-          </div> -->
+          </div>
           <div class="text">
-            <p>百花悅邦（创业板）第一轮首次公开发行</p>
+            <p>{{headList.title}}</p>
             <span>股份公司建设时间：</span>
-            <span>2014年6月1日</span>
+            <span>{{headList.establishDate}}</span>&nbsp;&nbsp;
             <span>辅导工作历时：</span>
-            <span>276天</span>
+            <span>{{headList.supportDuration?headList.supportDuration:'- -'}}天</span>&nbsp;&nbsp;
             <span>申报审核历时：</span>
-            <span>136天</span>
-            <span>最新进程</span>
-            <span>上市</span>
+            <span>{{headList.auditDuration?headList.auditDuration:'- -'}}天</span>&nbsp;&nbsp;
+            <span>最新进程：</span>
+            <span style="color:#fff;opacity:1">{{headList.processLabel}}</span>
           </div>
           <div class="btn">
-            <span>享受扶贫攻坚政策</span>
-            <span>试点企业</span>
+            <span v-if="headList.greenPassage">{{headList.greenPassage}}</span>
           </div>
         </div>
       </div>
@@ -140,21 +132,11 @@
     </el-col>
     </el-row>
 </div>
- <!-- footer尾部 -->
-    <!-- <div class="commonFooter clear">
-      <span>技术支持：深圳价值在线信息科技股份有限公司</span>
-      <span> | </span>
-      <span>建议使用1280*800以上分辨率</span>
-      <div class="footerImage r" style="margin-right:10px">
-         <img src="../../assets/images/footer-1.gif" alt="" class="l" style="margin-right:15px;margin-top:12px">
-         <img src="../../assets/images/footer-2.gif" alt="" class="l" style="margin-right:15px;margin-top:12px">
-         <img src="../../assets/images/footer-3.gif" alt="" class="l" style="margin-right:15px;margin-top:12px">
-      </div>
-    </div> -->
 </div>
 </template>
 
 <script>
+import { getHeadData } from "@/api/ipoCase/companyProfile";
 // 导入导航栏五个组件
 import companyProfile from "../navMenu/companyProfile/companyProfile.vue";
 import financialInformation from "../navMenu/financialInformation/financialInformation";
@@ -175,6 +157,7 @@ export default {
   },
   data() {
     return {
+      caseId2:this.$store.state.app.caseId,
       // 动态加载组件
       companyProfile:companyProfile,
       financialInformation:financialInformation,
@@ -260,20 +243,20 @@ export default {
       allTime: "",
       time: "",
       clientLeft: "",
-      topHeight: ""
+      topHeight: "",
+      headList:[]
     };
   },
-  created(){
-        this.caseId = this.$route.query.caseId
-        this.allTime = this.$route.query.allTime
-        if(this.$route.query.isActive){
-          this.isActive = this.$route.query.isActive
-        }
-        let param = {
-            caseId: this.caseId
-        }
-  },
   methods: {
+    initTableData() {
+       // 动态传id
+      const param = {
+        id:this.caseId2
+      }
+       getHeadData(param).then(res => {
+         this.headList = res.data.result
+      }) 
+    },
     statusButtonClick(data) {
       this.statusButtonFlag = data;
     },
@@ -492,6 +475,9 @@ export default {
   },
   watch: {
     caseId(n, o) {}
+  },
+  created() {
+    this.initTableData()
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);

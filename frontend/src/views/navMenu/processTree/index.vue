@@ -1,5 +1,5 @@
 <template>
-    <div v-loading="flagLoading" element-loading-text="给我一点时间" class="zdzc_css" style="margin-top:20px;">
+    <div v-loading="flagLoading" element-loading-text="给我一点时间" :class="{'processTree':lastTab,'':!lastTab}" style="margin-top:20px;">
         <div class="allJincheng" v-for="boxDataItem in treeList" v-if="treeList.length>0" :key="boxDataItem.treeTypeCode">
             <!-- 第一个进程 -->
             <div>
@@ -97,7 +97,7 @@
                                     <div v-if="boxDataItem.treeTypeCode == '00'||boxDataItem.treeTypeCode == '01'" >
                                         <p v-show="index == boxDataItem.proList.length-1" class="spread sandianClass" v-if="boxDataItem.spreadFlag" @click="handlePackUp(boxDataItem)" style="font-size:14px;cursor:pointer;line-height:17px"><span>收起</span></p>
                                         <p v-show=" index == 0" class="spread sandianClass" v-else  ><span  @click="handleSpread(boxDataItem)" @mouseenter="handleMouseenterSpread(boxDataItem)" @mouseleave="handleMouseleaveSpread(boxDataItem)">...</span></p>
-                                        <span class="spreadText" v-show="boxDataItem.isShowSpreadText && index == 0">点击展开隐藏节点</span>
+                                        <span class="spreadTextLast" v-show="boxDataItem.isShowSpreadText && index == 0">点击展开隐藏节点</span>
                                     </div>
                                 </div>
                             </div>
@@ -182,7 +182,7 @@
                                     <div v-if="boxDataItem.treeTypeCode == '00'||boxDataItem.treeTypeCode == '01'" >
                                         <p v-show="index == boxDataItem.proList.length-1" class="spread sandianClass" v-if="boxDataItem.spreadFlag" @click="handlePackUp(boxDataItem)" style="font-size:14px;cursor:pointer;line-height:17px"><span>收起</span></p>
                                         <p v-show=" index == 0" class="spread sandianClass" v-else  ><span  @click="handleSpread(boxDataItem)" @mouseenter="handleMouseenterSpread(boxDataItem)" @mouseleave="handleMouseleaveSpread(boxDataItem)">...</span></p>
-                                        <span class="spreadText" v-show="boxDataItem.isShowSpreadText && index == 0">点击展开隐藏节点</span>
+                                        <span class="spreadTextLast" v-show="boxDataItem.isShowSpreadText && index == 0">点击展开隐藏节点</span>
                                     </div>
                                 </div>
                             </div>
@@ -194,7 +194,8 @@
                         <div class="popWindow">
                              <el-dialog :title= moreNoticeDailog :visible.sync="dialogVisible" :close-on-click-modal="false" width="73.5%" append-to-body id="moreNoticeDailog">
                                 <div style="background: #cccccc">
-                                    <moreNotice :moreNoticeList = "moreNoticeList"></moreNotice>
+                                    <!-- <moreNotice :moreNoticeList = "moreNoticeList"></moreNotice> -->
+                                    <moreNotice :moreNoticeList = "[moreNoticeList,fileType]"></moreNotice>
                                 </div>
                             </el-dialog>
                         </div>
@@ -214,6 +215,7 @@ import Vue from "vue";
 import $ from "jquery";
 import moreNotice from "./module/moreNotice"
 import {getRightModuleData} from '@/api/ipoCase/companyProfile'
+
 export default {
     data() {
         return {
@@ -244,7 +246,8 @@ export default {
             sortType: '01',
             expandAll:false,
             // 是否是最后一个tab
-            lastTab:false
+            lastTab:false,
+            fileType:''
         };
     },
     name: "processTree",
@@ -266,8 +269,8 @@ export default {
 
     },
     methods: {
-     // 初始化数据
-      initTableData(sortType) {
+         // 初始化数据
+       initTableData(sortType) {
         // 动态传id
         const param = {
           id:this.caseId1,
@@ -281,6 +284,7 @@ export default {
             }
         })
       },
+
         // 弹窗多选框
        handleSelectionChange(val) {
         this.multipleSelection = val;
@@ -317,12 +321,15 @@ export default {
         },
         moreNoticeClick(params,obj) {
             // 弹出更多公告
+            // debugger;
             this.dialogVisible = true;
             this.moreNoticeList = obj.relaList
             if (params.treeTypeCode == '02') {
                 this.moreNoticeDailog = '相关公告'
+                this.fileType = '01'
             } else {
                 this.moreNoticeDailog = '相关审核意见'
+                this.fileType = '02'
             }
 
         },
@@ -568,7 +575,22 @@ export default {
     border: 1px solid #e4e4e4;
     position: absolute;
     left: 244px;
-    top: 230px;
+    top: 200px;
+    border-radius: 3px;
+    padding: 2px;
+}
+.spreadTextLast{
+    font-weight: 400;
+    width: 116px;
+    height: 20px;
+    font-style: normal;
+    font-size: 13px;
+    color: #333333;
+    text-align: center;
+    border: 1px solid #e4e4e4;
+    position: absolute;
+    left: 150px;
+    top: 190px;
     border-radius: 3px;
     padding: 2px;
 }
@@ -640,5 +662,10 @@ export default {
     padding-right:5px;
     line-height:10px;
     display:inline-block;
+}
+.processTree{
+    height: 760px;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 </style>

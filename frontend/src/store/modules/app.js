@@ -14,6 +14,7 @@ const app = {
     parentCookieFlag:false,
     token:null,
     info:null,
+    companyId:null,
     caseId:null
   },
   mutations: {
@@ -43,6 +44,7 @@ const app = {
     SET_TOKEN:(state,data) =>{
       state.token = data.token;
       state.info = data.info;
+      state.companyId = data.companyId;
       state.caseId = data.caseId;
     }
 

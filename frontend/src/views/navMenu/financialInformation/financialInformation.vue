@@ -63,18 +63,21 @@
                      <el-table class="otherCompany" stripe :data="item.industryCompareRateDetailList.slice(0,-2)" border style="width: 100%;margin-top: 20px">
                         <el-table-column prop="companyName" align="left" class-name="table_cell" label="企业名称" width="156" ></el-table-column>
                         <el-table-column align="center" :label="item.thirdYear" header-align="center">
-                            <template slot-scope="scope">
-                                <span>{{isNotEmpty(scope.row.thirdYearRate) ? scope.row.thirdYearRate+'%' : '- -'}}</span>
+                             <template slot-scope="scope">
+                                <span v-if="scope.row.thirdYearRate"> {{scope.row.thirdYearRate | dataInThRule}}%</span>
+                                <span v-else> - - </span>
                             </template>
                         </el-table-column>
                         <el-table-column align="center" :label="item.secondYear" header-align="center" >
-                            <template slot-scope="scope">
-                                <span>{{isNotEmpty(scope.row.secondYearRate) ? scope.row.secondYearRate+'%' : '- -'}}</span>
+                             <template slot-scope="scope">
+                                <span v-if="scope.row.secondYearRate"> {{scope.row.secondYearRate | dataInThRule}}%</span>
+                                <span v-else> - - </span>
                             </template>
                         </el-table-column>
                         <el-table-column align="center" :label="item.firstYear" header-align="center" >
-                            <template slot-scope="scope">
-                                <span>{{isNotEmpty(scope.row.firstYearRate) ? scope.row.firstYearRate+'%' : '- -'}}</span>
+                             <template slot-scope="scope">
+                                <span v-if="scope.row.firstYearRate"> {{scope.row.firstYearRate | dataInThRule}}%</span>
+                                <span v-else> - - </span>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -86,18 +89,21 @@
                             </template>
                         </el-table-column>
                         <el-table-column align="center" :label="item.thirdYear" header-align="center">
-                            <template slot-scope="scope">
-                                <span style="font-weight:bold ;color:black">{{isNotEmpty(scope.row.thirdYearRate) ? scope.row.thirdYearRate+'%' : '- -'}}</span>
+                             <template slot-scope="scope">
+                                <span v-if="scope.row.thirdYearRate"> {{scope.row.thirdYearRate | dataInThRule}}%</span>
+                                <span v-else> - - </span>
                             </template>
                         </el-table-column>
                         <el-table-column align="center" :label="item.secondYear" header-align="center" >
-                            <template slot-scope="scope">
-                                <span style="font-weight:bold ;color:black">{{isNotEmpty(scope.row.secondYearRate) ? scope.row.secondYearRate+'%' : '- -'}}</span>
+                             <template slot-scope="scope">
+                                <span v-if="scope.row.secondYearRate"> {{scope.row.secondYearRate | dataInThRule}}%</span>
+                                <span v-else> - - </span>
                             </template>
                         </el-table-column>
                         <el-table-column align="center" :label="item.firstYear" header-align="center" >
-                            <template slot-scope="scope">
-                                <span style="font-weight:bold ;color:black">{{isNotEmpty(scope.row.firstYearRate) ? scope.row.firstYearRate+'%' : '- -'}}</span>
+                             <template slot-scope="scope">
+                                <span v-if="scope.row.firstYearRate"> {{scope.row.firstYearRate | dataInThRule}}%</span>
+                                <span v-else> - - </span>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -105,18 +111,21 @@
                       <el-table class="averageOrMyself myself" stripe :data="item.industryCompareRateDetailList.slice(-1)" border style="width: 100%;margin-top: 20px">
                         <el-table-column prop="companyName" align="left" class-name="table_cell" label="企业名称" width="156" ></el-table-column>
                         <el-table-column align="center" :label="item.thirdYear" header-align="center">
-                            <template slot-scope="scope">
-                                <span>{{isNotEmpty(scope.row.thirdYearRate) ? scope.row.thirdYearRate+'%' : '- -'}}</span>
+                             <template slot-scope="scope">
+                                <span v-if="scope.row.thirdYearRate"> {{scope.row.thirdYearRate | dataInThRule}}%</span>
+                                <span v-else> - - </span>
                             </template>
                         </el-table-column>
                         <el-table-column align="center" :label="item.secondYear" header-align="center" >
-                            <template slot-scope="scope">
-                                <span>{{isNotEmpty(scope.row.secondYearRate) ? scope.row.secondYearRate+'%' : '- -'}}</span>
+                             <template slot-scope="scope">
+                                <span v-if="scope.row.secondYearRate"> {{scope.row.secondYearRate | dataInThRule}}%</span>
+                                <span v-else> - - </span>
                             </template>
                         </el-table-column>
                         <el-table-column align="center" :label="item.firstYear" header-align="center" >
-                            <template slot-scope="scope">
-                                <span>{{isNotEmpty(scope.row.firstYearRate) ? scope.row.firstYearRate+'%' : '- -'}}</span>
+                             <template slot-scope="scope">
+                                <span v-if="scope.row.firstYearRate"> {{scope.row.firstYearRate | dataInThRule}}%</span>
+                                <span v-else> - - </span>
                             </template>
                         </el-table-column>
                     </el-table>
