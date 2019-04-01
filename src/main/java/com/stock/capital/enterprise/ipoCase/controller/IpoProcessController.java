@@ -45,7 +45,7 @@ public class IpoProcessController extends BaseController {
         return response;
     }
 
-    @ApiOperation(value = "ipo进程接口", notes = "根据caseId获取ipo进程")
+    @ApiOperation(value = "ipo文件下载接口", notes = "ipo文件下载接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "fileId", value = "文件id", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "fileType", value = "文件类型 01：公告 02：文件", required = true, paramType = "query", dataType = "String"),
