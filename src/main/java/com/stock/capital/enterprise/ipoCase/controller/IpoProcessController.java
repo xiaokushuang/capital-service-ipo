@@ -45,24 +45,29 @@ public class IpoProcessController extends BaseController {
         return response;
     }
 
+    @ApiOperation(value = "ipo进程接口", notes = "根据caseId获取ipo进程")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "fileId", value = "文件id", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "fileType", value = "文件类型 01：公告 02：文件", required = true, paramType = "query", dataType = "String"),
+    })
     @RequestMapping(value = "/downloadFile", method = RequestMethod.GET)
-    public void downLoadFile(String id, String fileType, HttpServletResponse response) {
+    public void downLoadFile(String fileId, String fileType, HttpServletResponse response) {
 //        id = "AN201901201287197198";
 //        id = "AN201901201287197198,AN201901201287197197";
 //        id = "1106725448754480921,1106725448754109589";
 //        id = "1106725448754480921";
 //        fileType = "02";
-        if (id.contains(",")) {
+        if (fileId.contains(",")) {
             if (fileType.equals("01")) {
-                ipoProcessService.downloadMultiplyAnnounce(id, response);
+                ipoProcessService.downloadMultiplyAnnounce(fileId, response);
             } else {
-                ipoProcessService.downloadMultiplyFile(id, response);
+                ipoProcessService.downloadMultiplyFile(fileId, response);
             }
         } else {
             if (fileType.equals("01")) {
-                ipoProcessService.downloadSingleAnnounce(id, response);
+                ipoProcessService.downloadSingleAnnounce(fileId, response);
             } else {
-                ipoProcessService.downloadSingleFile(id,response);
+                ipoProcessService.downloadSingleFile(fileId,response);
             }
         }
     }
