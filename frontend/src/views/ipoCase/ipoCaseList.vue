@@ -54,7 +54,7 @@
             </el-col>
 
             <el-col :span='8' class="stockIncreasePan-class">
-              <el-multiple-selection :range="true" :tree-data="optionPeIssueA" placeholder="发行后市盈率" size="small full" :multiple="false"
+              <el-multiple-selection v-if="issueShow" :range="true" :tree-data="optionPeIssueA" placeholder="发行后市盈率" size="small full" :multiple="false"
                                      unit="%" :ran="optionDto" @sure-click="rangeCallPeIssueA">
               </el-multiple-selection>
             </el-col>
@@ -574,7 +574,8 @@
         ipoPlate: '',
         marketType: '',
         greenPassage: '',
-        belongsBureau: ''
+        belongsBureau: '',
+        issueShow: true
       }
     },
     mounted() {
@@ -836,6 +837,10 @@
             obj.className = 'el-tree-node__label'
           }
         }
+        _self.issueShow = false;
+        _self.$nextTick(() => {
+            _self.issueShow = true
+        });
         _self.$refs.tables.clearSort();
         _self.querySearch();
       },
