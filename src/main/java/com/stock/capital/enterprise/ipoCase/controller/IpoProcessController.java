@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.servlet.http.HttpServletResponse;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -30,13 +35,35 @@ public class IpoProcessController extends BaseController {
             @ApiImplicitParam(name = "sortType", value = "排序方式 01：正序 02：倒序  默认02", required = false, paramType = "query", dataType = "String"),
     })
     @RequestMapping(value = "/selectProcessList", method = RequestMethod.GET)
-    public JsonResponse<TreeTypeProgressDto> selectProcessList(String id,String sortType) {
-        if(StringUtils.isEmpty(sortType)){
+    public JsonResponse<TreeTypeProgressDto> selectProcessList(String id, String sortType) {
+        if (StringUtils.isEmpty(sortType)) {
             sortType = "02";
         }
         JsonResponse<TreeTypeProgressDto> response = new JsonResponse<>();
-        TreeTypeProgressDto resultList = ipoProcessService.selectProcessList(id,sortType);
+        TreeTypeProgressDto resultList = ipoProcessService.selectProcessList(id, sortType);
         response.setResult(resultList);
         return response;
+    }
+
+    @RequestMapping(value = "/downloadFile", method = RequestMethod.GET)
+    public void downLoadFile(String id, String fileType, HttpServletResponse response) {
+//        id = "AN201901201287197198";
+//        id = "AN201901201287197198,AN201901201287197197";
+        id = "1106725448754480921,1106725448754109589";
+//        id = "1106725448754480921";
+        fileType = "02";
+        if (id.contains(",")) {
+            if (fileType.equals("01")) {
+                ipoProcessService.downloadMultiplyAnnounce(id, response);
+            } else {
+                ipoProcessService.downloadMultiplyFile(id, response);
+            }
+        } else {
+            if (fileType.equals("01")) {
+                ipoProcessService.downloadSingleAnnounce(id, response);
+            } else {
+                ipoProcessService.downloadSingleFile(id,response);
+            }
+        }
     }
 }

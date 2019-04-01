@@ -1,5 +1,6 @@
 package com.stock.capital.enterprise.ipoCase.dao;
 
+import com.stock.capital.enterprise.ipoCase.dto.IpoFileRelationDto;
 import com.stock.capital.enterprise.ipoCase.dto.TreeTypeProgressDto;
 
 import org.springframework.stereotype.Repository;
@@ -17,4 +18,9 @@ public interface IpoProcessMapper {
      * 查询股份公司设立时间
      */
     String getPublishDate(String id);
+
+    /**
+     * 查询文件信息
+     */
+    IpoFileRelationDto selectFileDto(String id);
 }

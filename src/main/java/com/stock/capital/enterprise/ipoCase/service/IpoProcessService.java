@@ -1,35 +1,72 @@
 package com.stock.capital.enterprise.ipoCase.service;
 
+import com.google.common.io.Files;
+import com.google.common.io.Resources;
+
 import com.stock.capital.enterprise.ipoCase.dao.IpoProcessMapper;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFileRelationDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoProListDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoProgressDto;
 import com.stock.capital.enterprise.ipoCase.dto.TreeTypeProgressDto;
+import com.stock.core.dto.JsonResponse;
+import com.stock.core.exception.FileDownloadException;
+import com.stock.core.rest.RestClient;
 import com.stock.core.service.BaseService;
+import com.stock.core.util.CompressUtil;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletResponse;
 
 @Service
 public class IpoProcessService extends BaseService {
     final static Logger logger = LoggerFactory.getLogger(IpoProcessService.class);
+
     @Autowired
     private IpoProcessMapper ipoProcessMapper;
+
+    @Autowired
+    private RestClient restClient;
+
+
     @Value("#{app['pdf.baseUrl']}")
     private String pdfBaseUrl;
     @Value("#{app['file.viewPath']}")
     private String fileViewPath;
+    @Value("#{app['api.baseUrl']}")
+    private String apiBaseUrl;
+    @Value("#{app['file.path']}")
+    private String filePath;
 
     public TreeTypeProgressDto selectProcessList(String id, String sortType) {
         TreeTypeProgressDto resultDto = ipoProcessMapper.selectProcessList(id);
@@ -40,7 +77,7 @@ public class IpoProcessService extends BaseService {
             treeList.get(i).setSpreadFlag(false);
             List<IpoProListDto> proList = treeList.get(i) == null ? new ArrayList<>() : treeList.get(i).getProList();
             for (int j = 0; j < proList.size(); j++) {
-                proList.get(j).setProgressIndex(treeList.get(i).getTreeTypeCode()+proList.get(j).getProSort());
+                proList.get(j).setProgressIndex(treeList.get(i).getTreeTypeCode() + proList.get(j).getProSort());
                 //每个进程只有第一个节点储存了时间，补全进程时间
                 List<IpoFileRelationDto> fileList = proList.get(j).getRelaList();
                 if (CollectionUtils.isNotEmpty(fileList)) {
@@ -68,7 +105,7 @@ public class IpoProcessService extends BaseService {
                             if ("htm".equals(fileDto.getSuffix().toLowerCase()) || "html".equals(fileDto.getSuffix().toLowerCase())) {
                                 String baseUrl = fileViewPath + "open/ipoFile/" + fileDto.getRelaId() + ".png";
                                 fileDto.setBaseUrl(baseUrl);
-                            }else{
+                            } else {
                                 String baseUrl = fileViewPath + "open/ipoFile/" + fileDto.getRelaId() + "." + fileDto.getSuffix();
                                 fileDto.setBaseUrl(baseUrl);
                             }
@@ -145,4 +182,295 @@ public class IpoProcessService extends BaseService {
         return String.valueOf(lastDays);
     }
 
+    /**
+     * 下载单个公告
+     */
+    public void downloadSingleAnnounce(String id, HttpServletResponse response) {
+        String urls = apiBaseUrl + "declareInfo/postSearchIndex";
+        MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
+        param.add("indexId", id);
+        ParameterizedTypeReference<JsonResponse<Map<String, Object>>> responseType =
+                new ParameterizedTypeReference<JsonResponse<Map<String, Object>>>() {
+                };
+        Map<String, Object> index = restClient.post(urls, param, responseType).getResult();
+        String url;
+        String infoUrl = String.valueOf(index.get("infoUrl"));
+        if (infoUrl.contains("html")) {
+            url = infoUrl.substring(0, infoUrl.indexOf("html") + 4);
+        } else {
+            url = infoUrl;
+        }
+        String title = StringUtils.EMPTY;
+        String titles = String.valueOf(index.get("title"));
+        String titleTemp = StringUtils.EMPTY;
+        //文件名字过长导致无法下载
+        if (titles.length() >= 40) {
+            titles = titles.substring(0, 40);
+        }
+        if (titles.contains(":")) {
+            String titleName[] = titles.split(":");
+            titleTemp = titleName[titleName.length - 1];
+        } else {
+            titleTemp = titles;
+        }
+        //公司代码_公司简称_公告日期_公告标题
+        title = transformMetacharactor(String.valueOf(index.get("code")) +
+                "-" + String.valueOf(index.get("companyShortName"))
+                + String.valueOf(index.get("publishDate")) + "]" + titleTemp) + "." + Files.getFileExtension(url);
+
+        InputStream in = null;
+        try {
+            String fileName = title;
+            fileName = new String(fileName.getBytes(), "ISO-8859-1");
+            in = Resources.asByteSource(new URL(url)).openBufferedStream();
+            // 设置输出的格式
+            response.reset();
+            response.setContentType("text/html;charset=utf-8");
+            response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+            // 循环取出流中的数据
+            byte[] b = new byte[100];
+            int len;
+            while ((len = in.read(b)) > 0) {
+                response.getOutputStream().write(b, 0, len);
+            }
+        } catch (Exception e) {
+            throw new FileDownloadException("下载文件失败");
+        } finally {
+            IOUtils.closeQuietly(in);
+        }
+    }
+
+    private String transformMetacharactor(String input) {
+        String regex = "[+&|!(){}\\[\\]^\"~*?:(\\)/]";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        return matcher.replaceAll(Matcher.quoteReplacement("_"));
+    }
+
+    /**
+     * 下载多个公告
+     */
+    public void downloadMultiplyAnnounce(String ids, HttpServletResponse response) {
+        List<String> selIdList = new ArrayList<>();
+        List<Map<String, String>> srcFileList = new ArrayList<>();
+        if (StringUtils.isNotEmpty(ids)) {
+            if (ids.contains(",")) {
+                selIdList = Arrays.asList(ids.split(","));
+            } else {
+                selIdList.add(ids);
+            }
+            String urls = apiBaseUrl + "declareInfo/postSearchIndex";
+            //当公告不在索引中而在数据库中时，传companyId和userId进行查询
+            for (String indexId : selIdList) {
+                MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
+                param.add("indexId", indexId);
+                ParameterizedTypeReference<JsonResponse<Map<String, Object>>> responseType =
+                        new ParameterizedTypeReference<JsonResponse<Map<String, Object>>>() {
+                        };
+                Map<String, Object> index = restClient.post(urls, param, responseType).getResult();
+                Map<String, String> srcFile = new HashMap<>();
+                String URL;
+                String infoUrl = String.valueOf(index.get("infoUrl"));
+                if (infoUrl.contains("html")) {
+                    URL = infoUrl.substring(0, infoUrl.indexOf("html") + 4);
+                } else {
+                    URL = infoUrl;
+                }
+                String title = StringUtils.EMPTY;
+                String titles = String.valueOf(index.get("title"));
+                String titleTemp = StringUtils.EMPTY;
+                //文件名字过长导致无法下载
+                if (titles.length() >= 40) {
+                    titles = titles.substring(0, 40);
+                }
+                //对于港股页面下载的公告名称格式做调整
+                String companyCode = String.valueOf(index.get("code"));
+                if (titles.contains(":")) {
+                    String titleName[] = titles.split(":");
+                    titleTemp = titleName[titleName.length - 1];
+                } else {
+                    titleTemp = titles;
+                }
+                //公司代码_公司简称_公告日期_公告标题
+                title = transformMetacharactor(String.valueOf(index.get("code")) + "-" + String.valueOf(index.get("companyShortName")) + String.valueOf(index.get("publishDate")) + "]" + titleTemp) + "." + Files.getFileExtension(URL);
+
+                if (srcFileList != null) {
+                    for (Map<String, String> checkSrcFile : srcFileList) {
+                        Set<Map.Entry<String, String>> set = checkSrcFile.entrySet();
+                        for (Map.Entry<String, String> entry : set) {
+                            if (entry.getKey().equals(title)) {
+                                title = transformMetacharactor(String.valueOf(index.get("title"))) + "-" + indexId + "." + Files.getFileExtension(URL);
+                            }
+                        }
+                    }
+                }
+                srcFile.put(title, URL);
+                srcFileList.add(srcFile);
+            }
+            InputStream in = null;
+            try {
+                String fileName = "所选公告下载" + System.currentTimeMillis() + ".zip";
+                fileName = new String(fileName.getBytes(), "ISO-8859-1");
+                in = CompressUtil.multiURLCompressZip(srcFileList);
+                // 设置输出的格式
+                response.reset();
+                response.setContentType("text/html;charset=utf-8");
+                response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+                // 循环取出流中的数据
+                byte[] b = new byte[100];
+                int len;
+                while ((len = in.read(b)) > 0) {
+                    response.getOutputStream().write(b, 0, len);
+                }
+            } catch (Exception e) {
+                throw new FileDownloadException("下载文件失败");
+            } finally {
+                IOUtils.closeQuietly(in);
+            }
+
+        }
+    }
+
+    public void downloadSingleFile(String id, HttpServletResponse response) {
+        //根据文件id查询相关信息
+        IpoFileRelationDto fileDto = ipoProcessMapper.selectFileDto(id);
+        String suffix = fileDto.getSuffix();
+        if ("htm".equals(suffix) || "html".equals(suffix)) {
+            suffix = "png";
+        }
+        String title = fileDto.getRelationFileTitle();
+        if (title.indexOf(".") > 0) {
+            title = fileDto.getRelationFileTitle().substring(0, title.indexOf("."));
+        }
+        if (title.length() >= 40) {
+            title = title.substring(0, 40);
+        }
+        String fileName = title + System.currentTimeMillis() + "." + suffix;
+//        String url = fileViewPath + "open/ipoFile/" + id + "." + suffix;
+//        String url = "D:\\data\\capital\\upload\\cloud\\open\\ipoFile\\" + id + "." + suffix;
+        String url = filePath + id + "." + suffix;
+        InputStream in = null;
+        try {
+            in = new FileInputStream(url);
+            fileName = new String(fileName.getBytes(), "ISO-8859-1");
+//            in = Resources.asByteSource(new URL(url)).openBufferedStream();
+            // 设置输出的格式
+            response.reset();
+            response.setContentType("text/html;charset=utf-8");
+            response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+            // 循环取出流中的数据
+            byte[] b = new byte[100];
+            int len;
+            while ((len = in.read(b)) > 0) {
+                response.getOutputStream().write(b, 0, len);
+            }
+        } catch (Exception e) {
+            throw new FileDownloadException("下载文件失败");
+        } finally {
+            IOUtils.closeQuietly(in);
+        }
+
+    }
+
+    public void downloadMultiplyFile(String ids, HttpServletResponse response) {
+        List<String> selIdList = new ArrayList<>();
+        List<Map<String, String>> srcFileList = new ArrayList<>();
+        if (StringUtils.isNotEmpty(ids)) {
+            if (ids.contains(",")) {
+                selIdList = Arrays.asList(ids.split(","));
+            } else {
+                selIdList.add(ids);
+            }
+            for (String indexId : selIdList) {
+                Map<String, String> srcFile = new HashMap<>();
+                IpoFileRelationDto fileDto = ipoProcessMapper.selectFileDto(indexId);
+                String suffix = fileDto.getSuffix();
+                if ("htm".equals(suffix) || "html".equals(suffix)) {
+                    suffix = "png";
+                }
+                String title = fileDto.getRelationFileTitle();
+                if (title.indexOf(".") > 0) {
+                    title = fileDto.getRelationFileTitle().substring(0, title.indexOf("."));
+                }
+                if (title.length() >= 40) {
+                    title = title.substring(0, 40);
+                }
+                String fileName = title + System.currentTimeMillis() + "." + suffix;
+                String url = filePath + indexId + "." + suffix;
+                srcFile.put("indexId", indexId);
+                srcFile.put("fileName", fileName);
+                srcFile.put("suffix", suffix);
+                srcFileList.add(srcFile);
+            }
+            InputStream in = null;
+            try {
+                String downFileName = "所选文件下载" + System.currentTimeMillis() + ".zip";
+                downFileName = new String(downFileName.getBytes(), "ISO-8859-1");
+                in = compress(srcFileList);
+                response.reset();
+                response.setContentType("text/html;charset=utf-8");
+                response.addHeader("Content-Disposition", "attachment; filename=" + downFileName);
+                // 循环取出流中的数据
+                byte[] b = new byte[100];
+                int len;
+                while ((len = in.read(b)) > 0) {
+                    response.getOutputStream().write(b, 0, len);
+                }
+            } catch (Exception e) {
+                throw new FileDownloadException("下载文件失败");
+            } finally {
+                IOUtils.closeQuietly(in);
+            }
+        }
+    }
+
+    private InputStream compress(List<Map<String, String>> srcFileList) {
+        OutputStream out = null;
+        String srcDir = FileUtils.getTempDirectoryPath();
+        if (File.separator.equals(srcDir.substring(srcDir.length() - 1))) {
+            srcDir = srcDir + System.currentTimeMillis();
+        } else {
+            srcDir = srcDir + File.separator + System.currentTimeMillis();
+        }
+
+        File srcDirFile = new File(srcDir);
+        boolean isCreated = srcDirFile.mkdir();
+        if (!isCreated) {
+            return null;
+        } else {
+            String destZip = FileUtils.getTempDirectoryPath();
+            if (File.separator.equals(destZip.substring(destZip.length() - 1))) {
+                destZip = destZip + System.currentTimeMillis() + ".zip";
+            } else {
+                destZip = destZip + File.separator + System.currentTimeMillis() + ".zip";
+            }
+            FileInputStream zipFile = null;
+            InputStream in = null;
+            for (Map<String, String> fileMap : srcFileList) {
+                try {
+                    String fileUrl = srcDir + File.separator;
+                    String fileName = fileMap.get("fileName");
+                    String indexId = fileMap.get("indexId");
+                    String suffix = fileMap.get("suffix");
+//                    String url = "D:\\data\\capital\\upload\\cloud\\open\\ipoFile\\" + indexId + "." + suffix;
+                    String url = filePath + indexId + "." + suffix;
+                    out = new FileOutputStream(fileUrl + fileName);
+                    in = new FileInputStream(url);
+                    IOUtils.copy(in, out, 1024);
+                } catch (Exception e) {
+                    throw new FileDownloadException("下载文件失败");
+                } finally {
+                    IOUtils.closeQuietly(in);
+                    IOUtils.closeQuietly(out);
+                }
+            }
+            CompressUtil.compressZip(srcDir, destZip);
+            try {
+                zipFile = new FileInputStream(destZip);
+            } catch (Exception e) {
+                throw new FileDownloadException("下载文件失败");
+            }
+            return zipFile;
+        }
+    }
 }

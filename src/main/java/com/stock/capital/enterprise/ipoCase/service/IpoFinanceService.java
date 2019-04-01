@@ -144,6 +144,9 @@ public class IpoFinanceService extends BaseService {
         return resultDto;
     }
 
+    /**
+     * 财务信息 收入与利润情况
+     */
     public IpoFinanceDto selectFinanceProfitList(String id) {
         IpoFinanceDto resultDto = new IpoFinanceDto();
         IpoFinanceDateDto dateDto = new IpoFinanceDateDto();
