@@ -71,22 +71,30 @@ export default {
        //初始化下载数据
       initDownloadFileData(fileId,fileType) {
         // 动态传id
+        let fileIdLabel = '';
+        for(let i = 0;i<fileId.length;i++){
+            fileIdLabel =  fileId[i].id+ "," + fileIdLabel ;
+        }
+        // 将second多选按钮参数最后一个  ，号去掉
+        if(fileIdLabel && fileIdLabel.length >0){
+            fileIdLabel = fileIdLabel.substring(0,fileIdLabel.length-1);
+        }
         const param = {
-          fileId:fileId,
+          fileId:fileIdLabel,
           fileType:fileType
         }
         getDownloadFileData(param).then(res => {
+          console.log(param)
             console.log(res)
         })
       },
       // 下载公告
       handleDown(v){
-        debugger;
-        initDownloadFileData(fileId,this.moreNoticeList[1])
-        console.log(this.moreNoticeList[1])
+        this.initDownloadFileData(this.multipleSelection,this.moreNoticeList[1])
+        // this.initDownloadFileData(v.id,this.moreNoticeList[1])
       },
       handleDownAll(){
-        // console.log(this.multipleSelection)
+        this.initDownloadFileData(this.multipleSelection,this.moreNoticeList[1])
       },
       handleSelectionChange(val) {
         this.multipleSelection = val;

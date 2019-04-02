@@ -4,7 +4,7 @@
     <div class="companey">
       <div class="briefIntroduction">
         <p style="color: #333; font-weight: bold;font-size: 14px;">
-          北京花月帮科技股份有限公司
+          {{this.headList.title}}
         </p>
         <ul style="display:flex;margin-bottom: 0;">
           <li>
@@ -50,7 +50,7 @@
           </li>
           <li style="margin-bottom:10px;position:relative" >
             <span>主营业务</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span class="majorBusinesses">{{this.majorBusinesses}}</span>
+            <div class="majorBusinesses">{{this.majorBusinesses}}</div>
           </li>
         </div>
 
@@ -494,6 +494,7 @@ export default {
       },
     };
   },
+  props:["headList"],
   created() {
     this.getData();
     this.getPosition();
@@ -783,9 +784,9 @@ export default {
 }
 .majorBusinesses{
   color:#333333;
-  // width: 90%;
-  // position: relative;
-  // top: -16px;
-  // left: 76px;
+  display:inline-block;
+  margin-left: 9.4%;
+  margin-top: -2%;
+  line-height: 20px;
 }
 </style>

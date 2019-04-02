@@ -90,20 +90,20 @@
                         </el-table-column>
                         <el-table-column align="center" :label="item.thirdYear" header-align="center">
                              <template slot-scope="scope">
-                                <span v-if="scope.row.thirdYearRate"> {{scope.row.thirdYearRate | dataInThRule}}%</span>
-                                <span v-else> - - </span>
+                                <span style="font-weight:bold;color:black" v-if="scope.row.thirdYearRate"> {{scope.row.thirdYearRate | dataInThRule}}%</span>
+                                <span style="font-weight:bold;color:black" v-else> - - </span>
                             </template>
                         </el-table-column>
                         <el-table-column align="center" :label="item.secondYear" header-align="center" >
                              <template slot-scope="scope">
-                                <span v-if="scope.row.secondYearRate"> {{scope.row.secondYearRate | dataInThRule}}%</span>
-                                <span v-else> - - </span>
+                                <span style="font-weight:bold;color:black" v-if="scope.row.secondYearRate"> {{scope.row.secondYearRate | dataInThRule}}%</span>
+                                <span style="font-weight:bold;color:black" v-else> - - </span>
                             </template>
                         </el-table-column>
                         <el-table-column align="center" :label="item.firstYear" header-align="center" >
                              <template slot-scope="scope">
-                                <span v-if="scope.row.firstYearRate"> {{scope.row.firstYearRate | dataInThRule}}%</span>
-                                <span v-else> - - </span>
+                                <span style="font-weight:bold;color:black" v-if="scope.row.firstYearRate"> {{scope.row.firstYearRate | dataInThRule}}%</span>
+                                <span style="font-weight:bold;color:black" v-else> - - </span>
                             </template>
                         </el-table-column>
                     </el-table>

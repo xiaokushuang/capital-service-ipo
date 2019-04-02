@@ -5,44 +5,44 @@
        padding-right: 0px !important; !important;background-color: #f7f7f7">
         <div class="innnerbox">
           <el-tree
-              style="margin-top:24px;padding: 0 0 0 0"
-              class="filter-tree"
-              node-key="id"
-              :data="plateTreeTag"
-              :props="left_tree"
-              :default-expand-all="true"
-              @node-click="handleNodeClickForSearch"
-              ref="plateTreeTagRef">
+            style="margin-top:24px;padding: 0 0 0 0"
+            class="filter-tree"
+            node-key="id"
+            :data="plateTreeTag"
+            :props="left_tree"
+            :default-expand-all="true"
+            @node-click="handleNodeClickForSearch"
+            ref="plateTreeTagRef">
           </el-tree>
           <el-tree
-              style="margin-top:24px;padding: 0 0 0 0"
-              class="filter-tree"
-              node-key="id"
-              :data="marketTreeTag"
-              :props="left_tree"
-              :default-expand-all="true"
-              @node-click="handleNodeClickForSearch"
-              ref="marketTreeTagRef">
+            style="margin-top:24px;padding: 0 0 0 0"
+            class="filter-tree"
+            node-key="id"
+            :data="marketTreeTag"
+            :props="left_tree"
+            :default-expand-all="true"
+            @node-click="handleNodeClickForSearch"
+            ref="marketTreeTagRef">
           </el-tree>
           <el-tree
-              style="margin-top:24px;padding: 0 0 0 0"
-              class="filter-tree"
-              node-key="id"
-              :data="greenTreeTag"
-              :props="left_tree"
-              :default-expand-all="true"
-              @node-click="handleNodeClickForSearch"
-              ref="greenTreeTagRef">
+            style="margin-top:24px;padding: 0 0 0 0"
+            class="filter-tree"
+            node-key="id"
+            :data="greenTreeTag"
+            :props="left_tree"
+            :default-expand-all="true"
+            @node-click="handleNodeClickForSearch"
+            ref="greenTreeTagRef">
           </el-tree>
           <el-tree
-              style="margin-top:24px;padding: 0 0 0 0"
-              class="filter-tree"
-              node-key="id"
-              :data="sfcTreeTag"
-              :props="left_tree"
-              :default-expand-all="true"
-              @node-click="handleNodeClickForSearch"
-              ref="sfcTreeTagRef">
+            style="margin-top:24px;padding: 0 0 0 0"
+            class="filter-tree"
+            node-key="id"
+            :data="sfcTreeTag"
+            :props="left_tree"
+            :default-expand-all="true"
+            @node-click="handleNodeClickForSearch"
+            ref="sfcTreeTagRef">
           </el-tree>
         </div>
       </el-col>
@@ -109,13 +109,13 @@
           <el-row :gutter="24">
             <el-col :span='8' class="repuramountlimitPan-class">
               <el-autocomplete
-                  class="inline-input"
-                  size='small full'
-                  v-model="intermediary"
-                  :fetch-suggestions="queryIntermediary"
-                  placeholder="中介机构"
-                  :trigger-on-focus="false"
-                  @select="handleSelect"
+                class="inline-input"
+                size='small full'
+                v-model="intermediary"
+                :fetch-suggestions="queryIntermediary"
+                placeholder="中介机构"
+                :trigger-on-focus="false"
+                @select="handleSelect"
               ></el-autocomplete>
             </el-col>
             <el-col :span='4'>
@@ -278,20 +278,24 @@
             <div class="right" style="flex:1;">
               <div style="background:#f9f9f9;padding:10px">
                 <div>
-                  <div class="clear" style="margin-bottom:5px">
+                  <div class="clear"  style="margin-bottom:5px">
                     <span class="l" style="color: #333333;font-size:14px;">主板上市条件</span>
                     <span class="r" style="color: #999999;font-size:12px">试点企业，可不适用第<span class="quan">1</span>项、第<span class="quan">5</span>项规定。</span>
                   </div>
                   <div>
-                    <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
+                    <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
                       <span class="quan">1</span>
-                      最近<span style="color:#14BCF5">3</span>个会计年度净利润均为正数且<span style="color:#14BCF5">累计超过3000万元</span>（人民币），净利润以扣除非经常性损益前后较低者为计算依据；
-                    </p>
-                    <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:7px">
-                      <span class="quan">2</span>
-                      最近<span style="color:#14BCF5">3</span>个会计年度营业收入<span style="font-weight: 700; color: #14BCF5">累计超过3亿元</span>(人民币)；<br>
-                      <span>或:最近<span style="color:#14BCF5">3</span>个会计年度经营活动产生的现金流量净额<span style="color:#14BCF5">累计超过5000万元</span>(人民币)；</span>
-                    </p>
+                      <div style="display: inline-block;margin-top: -4%;margin-left: 4%;">
+                        最近<span style="color:#14BCF5">3</span>个会计年度净利润均为正数且<span style="color:#14BCF5">累计超过3000万元</span>（人民币），净利润以扣除非经常性损益前后较低者为计算依据；
+                      </div>
+                    </div>
+                    <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:7px">
+                      <span class="quan" style="position: relative; top: -17px;;">2</span>
+                      <div style="display: inline-block;margin-left: 0.5%;">
+                        最近<span style="color:#14BCF5">3</span>个会计年度营业收入<span style="font-weight: 700; color: #14BCF5">累计超过3亿元</span>(人民币)；<br>
+                        <span><span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">3</span>个会计年度经营活动产生的现金流量净额<span style="color:#14BCF5">累计超过5000万元</span>(人民币)；</span>
+                      </div>
+                    </div>
                     <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
                       <span class="quan">3</span>
                       发行前股本总额<span style="color:#14BCF5">不少于3000万元</span> (人民币)；
@@ -308,21 +312,24 @@
                   </div>
                 </div>
                 <div>
-                  <div class="clear" style="margin-bottom:5px">
-                    <span class="l" style="color: #333333;font-size:14px;">主板上市条件</span>
+                  <div class="clear" style="margin-bottom:5px;margin-top: 10px;">
+                    <span class="l" style="color: #333333;font-size:14px;">创业板上市条件</span>
                     <span class="r" style="color: #999999;font-size:12px">试点企业，可不适用第<span class="quan">2</span>项规定和第<span class="quan">3</span>项“不存在未弥补亏损”的规定。</span>
                   </div>
                   <div>
-                    <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
+                    <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
                       <span class="quan">1</span>
-                      发行人是依法设立且持续经营三年以上的股份有限公司。有限责任公司按原账面净资产值折股整体变更为股份有限公司的，持续经营时间可以从有限责任公司成立之日起计算；
-                    </p>
-                    <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
-                      <span class="quan">2</span>
-                      最近<span style="font-weight: 700; color: #14BCF5">2</span>年连续盈利，最近两年净利润<span style="font-weight: 700; color: #14BCF5">累计不少于1000万元</span>;<br>
-                      或:最近<span style="color:#14BCF5">1</span>年盈利，最近一年营业收入<span style="color:#14BCF5">不少于5000万元。</span>(
-                      净利润以扣除非经常性损益前后孰低者为计算依据)
-                    </p>
+                      <div style="display: inline-block;margin-top: -4%;margin-left: 4%;">
+                        发行人是依法设立且持续经营三年以上的股份有限公司。有限责任公司按原账面净资产值折股整体变更为股份有限公司的，持续经营时间可以从有限责任公司成立之日起计算；
+                      </div>
+                    </div>
+                    <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
+                      <span class="quan" style="position: relative;top: -5px;">2</span>
+                      <div style="display: inline-block;margin-top: -4%;margin-left: 4%;">
+                        最近<span style="font-weight: 700; color: #14BCF5">2</span>年连续盈利，最近两年净利润<span style="font-weight: 700; color: #14BCF5">累计不少于1000万元</span>;<br>
+                        <span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">1</span>年盈利，最近一年营业收入<span style="color:#14BCF5">不少于5000万元。</span>( 净利润以扣除非经常性损益前后孰低者为计算依据)
+                      </div>
+                    </div>
                     <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
                       <span class="quan">3</span>
                       最近一期末净资产<span style="color:#14BCF5">不少于2000万元</span>，且不存在未弥补亏损；
@@ -1031,11 +1038,6 @@
 
         });
       },
-      openNew() {
-        const _self = this;
-        const href = window.location.origin + 'ui/laws/laws/lawsDetail?lawId=745777672757626842&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.tenant_info;
-        window.open(href, '_blank');
-      }
     },
     components: {
       papers
@@ -1043,21 +1045,18 @@
   }
 </script>
 
-<style scoped>
+<style>
   .l {
     float: left;
   }
-
   .r {
     float: right;
   }
-
   .clear:after {
     display: block;
     content: "";
     clear: both;
   }
-
   .container {
     font-family: Microsoft YaHei, "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
@@ -1319,9 +1318,8 @@
     font-size: 12px;
     padding-left: 5px;
   }
-
-  .quan {
-    display: inline-block;
+  .quan{
+    display:inline-block;
     background: url("../../assets/images/quan.png") no-repeat;
     background-size: cover;
     width: 15px;
@@ -1330,6 +1328,10 @@
     line-height: 15px;
     font-size: 12px;
     color: #FFFFFF
+  }
+  .container .table .el-table thead tr > th .cell {
+    padding: 10px;
+    text-align: center;
   }
 </style>
 

@@ -94,7 +94,7 @@
                             <div class="el-tabs__content">
                                 <!-- 动态加载tab -->
                               <keep-alive>
-                                <component :is = "showComponent" id="componentId" v-on:headCallBack="headCall"></component>
+                                <component :is = "showComponent" id="componentId" v-on:headCallBack="headCall" :headList="this.headList"></component>
                               </keep-alive>
                             </div>
                         </div>
