@@ -784,7 +784,6 @@ export default {
 }
 .majorBusinesses{
   color:#333333;
-  display:inline-block;
   margin-left: 9.4%;
   margin-top: -2%;
   line-height: 20px;

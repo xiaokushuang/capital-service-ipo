@@ -23,9 +23,9 @@
             <span>股份公司建设时间：</span>
             <span>{{headList.establishDate}}</span>&nbsp;&nbsp;
             <span>辅导工作历时：</span>
-            <span>{{headList.supportDuration?headList.supportDuration:'- -'}}天</span>&nbsp;&nbsp;
+            <span>{{headList.supportDuration?headList.supportDuration:'- -'}}</span>&nbsp;&nbsp;
             <span>申报审核历时：</span>
-            <span>{{headList.auditDuration?headList.auditDuration:'- -'}}天</span>&nbsp;&nbsp;
+            <span>{{headList.auditDuration?headList.auditDuration:'- -'}}</span>&nbsp;&nbsp;
             <span>最新进程：</span>
             <span style="color:#fff;opacity:1">{{headList.processLabel}}</span>
           </div>

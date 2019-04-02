@@ -1,13 +1,13 @@
 <template>
     <div class="moreNotice">
          <el-table
-            ref="multipleTable"
             :data="moreNoticeList[0]"
              height="380"
             tooltip-effect="dark"
             style="width: 100%"
             @selection-change="handleSelectionChange">
             <el-table-column
+            prop="relaId"
             type="selection"
             align="center"
             width="100">
@@ -73,7 +73,7 @@ export default {
         // 动态传id
         let fileIdLabel = '';
         for(let i = 0;i<fileId.length;i++){
-            fileIdLabel =  fileId[i].id+ "," + fileIdLabel ;
+            fileIdLabel =  fileId[i].relaId+ "," + fileIdLabel ;
         }
         // 将second多选按钮参数最后一个  ，号去掉
         if(fileIdLabel && fileIdLabel.length >0){
@@ -83,21 +83,32 @@ export default {
           fileId:fileIdLabel,
           fileType:fileType
         }
-        getDownloadFileData(param).then(res => {
           console.log(param)
+        getDownloadFileData(param).then(res => {
+            console.log(res)
+        })
+      },
+        initDownloadFileData1(fileId,fileType) {
+        // 动态传id
+        const param = {
+          fileId:fileId,
+          fileType:fileType
+        }
+          console.log(param)
+        getDownloadFileData(param).then(res => {
             console.log(res)
         })
       },
       // 下载公告
       handleDown(v){
-        this.initDownloadFileData(this.multipleSelection,this.moreNoticeList[1])
-        // this.initDownloadFileData(v.id,this.moreNoticeList[1])
+        this.initDownloadFileData1(v.relaId,this.moreNoticeList[1])
       },
+      // 下载所有公告
       handleDownAll(){
         this.initDownloadFileData(this.multipleSelection,this.moreNoticeList[1])
       },
       handleSelectionChange(val) {
-        this.multipleSelection = val;
+        this.multipleSelection = val
       },
       openLetterDetail(v) {
          window.open(v.baseUrl)
