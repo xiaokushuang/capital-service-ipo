@@ -949,20 +949,22 @@
       getSelectData() {
         const _self = this;
         _getSelectData().then(response => {
-          if (response.data.result.industryCrscList != null && response.data.result.industryCrscList.length > 0) {
-            _self.industryCrscList = response.data.result.industryCrscList;
-          }
-          if (response.data.result.companyNatureList != null && response.data.result.companyNatureList.length > 0) {
-            _self.companyNatureList = response.data.result.companyNatureList;
-          }
-          if (response.data.result.ipoNumList != null && response.data.result.ipoNumList.length > 0) {
-            _self.ipoNumList = response.data.result.ipoNumList;
-          }
-          if (response.data.result.verifyResultList != null && response.data.result.verifyResultList.length > 0) {
-            _self.verifyResultList = response.data.result.verifyResultList;
-          }
-          if (response.data.result.processList != null && response.data.result.processList.length > 0) {
-            _self.processList = response.data.result.processList;
+          if (response.data.result) {
+            if (response.data.result.industryCrscList && response.data.result.industryCrscList.length > 0) {
+              _self.industryCrscList = response.data.result.industryCrscList;
+            }
+            if (response.data.result.companyNatureList && response.data.result.companyNatureList.length > 0) {
+              _self.companyNatureList = response.data.result.companyNatureList;
+            }
+            if (response.data.result.ipoNumList && response.data.result.ipoNumList.length > 0) {
+              _self.ipoNumList = response.data.result.ipoNumList;
+            }
+            if (response.data.result.verifyResultList && response.data.result.verifyResultList.length > 0) {
+              _self.verifyResultList = response.data.result.verifyResultList;
+            }
+            if (response.data.result.processList && response.data.result.processList.length > 0) {
+              _self.processList = response.data.result.processList;
+            }
           }
         })
       },

@@ -40,20 +40,20 @@ public class IpoCaseListController {
     public JsonResponse<Map<String, Object>> listData(
         @RequestBody QueryInfo<IpoCaseListBo> page) {
         JsonResponse<Map<String, Object>> response = new JsonResponse<>();
-        Map<String, Object> map = ipoCaseListService.getIpoCaseList(page);
+        //标识是否签约客户 默认不是
+        boolean signSymbol = false;
+        String companyId = page.getCondition().getCompanyId();
+        if (companyId != null && !"".equals(companyId)) {
+            Map<String, String> auth = (Map<String, String>) redisDao
+                .getObject(Constant.TENANT_AUTH_KEY_PREFIX + companyId);
+            if ("00".equals(auth.get("authorizeType"))) {// 授权类型:签约
+                //展示id
+                signSymbol = true;
+            }
+        }
+        Map<String, Object> map = ipoCaseListService.getIpoCaseList(page, signSymbol);
         List<IpoCaseIndexDto> list = (List<IpoCaseIndexDto>) map.get("data");
         if (list != null && !list.isEmpty()) {
-            //标识是否签约客户 默认不是
-            boolean signSymbol = false;
-            String companyId = page.getCondition().getCompanyId();
-            if (companyId != null && !"".equals(companyId)) {
-                Map<String, String> auth = (Map<String, String>) redisDao
-                    .getObject(Constant.TENANT_AUTH_KEY_PREFIX + companyId);
-                if ("00".equals(auth.get("authorizeType"))) {// 授权类型:签约
-                    //展示id
-                    signSymbol = true;
-                }
-            }
             for (IpoCaseIndexDto indexDto : list) {
                 //未正式签约的并未开放的 删除id
                 if (!signSymbol && (indexDto.getOpenFlag() == null || "0"
