@@ -287,10 +287,15 @@ ul,ol,li{
     width:100%!important;
 }
 
+.fullDiv_border>.el-tabs>.el-tabs__header{
+     margin-bottom:5px!important;
+}
+
 .fullDiv_border>.el-tabs>.el-tabs__header>.el-tabs__nav-wrap>.el-tabs__nav-scroll>.el-tabs__nav .el-tabs__item{
     width:25%;
     padding:0;
     text-align:center;
+    font-size:16px;
 }
 .fullDiv_border>.el-tabs>.el-tabs__header>.el-tabs__nav-wrap>.el-tabs__nav-scroll>.el-tabs__nav>.el-tabs__active-bar{
     display:none;
@@ -316,7 +321,7 @@ body{
     padding:5px!important;
     color: #333!important;
     border:0;
-    text-align:center;
+/*     text-align:center; */
 }
 [rightTable] thead tr th,[rightTable] tbody tr td {
     background: #fff!important;
@@ -337,4 +342,5 @@ body{
 
 .el-table .cell {
     line-height: 20px!important;
+    padding-right:0px!important;
 }

@@ -133,7 +133,33 @@ export const constantRouterMap = [
         meta: { title: '再融资', icon: 'refinancing', noCache: true }
       }
     ]
-  }
+  },
+  {
+    path: '/financeStatistics',
+    name:'financeStatistics',
+    component: Layout,
+    meta: {title: '融资统计', icon: 'trade3',},
+    children: [
+      {
+	    path: 'securitiesIssue',
+	    component: _import('financeStatistics/securitiesInit'),
+	    name: 'securitiesInit',
+	    meta: {title: '证券发行', noCache: true}
+	  },
+      {
+        path: 'bondIssue',
+        component: _import('financeBond/securitiesBond'),
+        name: 'securitiesBond',
+        meta: {title: '债券发行', noCache: true}
+      },
+      {
+        path: 'financeSearch',
+        component: _import('financeStatistics/financeSearch'),
+        name: 'financeSearch',
+        meta: {title: '融资查询', noCache: true}
+      },
+    ]
+  },
   // {
   //   path: '/financeBond',
   //   component: Layout,

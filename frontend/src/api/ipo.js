@@ -27,21 +27,21 @@ export function searchBond(param) {
 // 行业分类
 export function SFClassification() {
   return request({
-    url: `/capital-cloud-api/commonOption/getFinanceList`,
+    url: `/ipo/financeStatistics/getFinanceList`,
     method: 'post'
   })
 }
 // 所有地区
 export function SFCRegion() {
   return request({
-    url: `/capital-cloud-api/commonOption/getProvincesList`,
+    url: `/ipo/financeStatistics/getProvincesList`,
     method: 'post'
   })
 }
 // 板块信息
 export function plateInfo() {
   return request({
-    url: `/capital-cloud-api/commonOption/getStockBoardList`,
+    url: `/ipo/financeStatistics/getStockBoardList`,
     method: 'post'
   })
 }
@@ -126,11 +126,11 @@ export function ipoQuery() {
     method: 'post'
   })
 }
-export function searchIndex(param) {
+export function searchIndex(query) {//获取融资查询列表数据
   return request({
-    url: `/ipo/financeStatistics/financeSearchData?financeIndustry=001`,
+    url: `/ipo/financeStatistics/financeSearchData`,
     method: 'post',
-    data: param
+    data: query
   })
 }
 
@@ -164,5 +164,13 @@ export function financeSearchData(param) {
     url: '/ipo/financeSearchData/financeSearchData',
     method: 'post',
     params: param
+  })
+}
+
+export function getAllDropDownList(query) {//融资统计获取所有下拉列表
+  return request({
+      url: '/ipo/financeStatistics/getAllDropDownList',//controller路径
+      method: 'post',//请求方式
+      data: query,//参数
   })
 }

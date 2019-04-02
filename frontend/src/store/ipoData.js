@@ -130,37 +130,46 @@ const ipo = {
       })
     },
 
-    ipoSearchGet({
-      commit
-    }, param) {
+    // ipoSearchGet({
+    //   commit
+    // }, param) {
+    //   return new Promise((resolve, reject) => {
+    //     const type = param.type
+    //     param.data = null
+    //     searchIndex(param).then((response) => {
+    //       console.log("searech接口", response)
+    //       param.data = response.data.result
+    //       if (typeof param.data === 'object') {
+    //         param.type = 'ipoSearchData'
+    //         commit('SET_IPO_TYPE', param)
+    //         // console.log(3)
+    //         // console.log(param)
+    //       }
+    //       resolve()
+    //     }).catch((error) => {
+    //       console.log(error)
+    //       if (error && error.response && error.response.status === 401) {
+    //         if (error.response.data && error.response.data.message) {
+    //           Message({
+    //             message: error.response.data.message,
+    //             type: 'error',
+    //             duration: 5 * 1000
+    //           })
+    //         }
+    //       }
+    //       reject(error)
+    //     })
+    //   })
+    // },
+    ipoSearchGet({commit}, queryParam){//获取融资查询列表数据
       return new Promise((resolve, reject) => {
-        const type = param.type
-        param.data = null
-        searchIndex(param).then((response) => {
-          console.log("searech接口", response)
-          param.data = response.data.result
-          if (typeof param.data === 'object') {
-            param.type = 'ipoSearchData'
-            commit('SET_IPO_TYPE', param)
-            // console.log(3)
-            // console.log(param)
-          }
-          resolve()
-        }).catch((error) => {
-          console.log(error)
-          if (error && error.response && error.response.status === 401) {
-            if (error.response.data && error.response.data.message) {
-              Message({
-                message: error.response.data.message,
-                type: 'error',
-                duration: 5 * 1000
-              })
-            }
-          }
-          reject(error)
-        })
+        searchIndex(queryParam).then(response => {
+              resolve(response.data.result);
+          }).catch(error => {
+              reject(error)
+          })
       })
-    },
+},
     // 行业分类
     ipoSFClassGet({
       commit

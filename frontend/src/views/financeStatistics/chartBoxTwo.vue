@@ -60,27 +60,28 @@
         <el-col :span="8" class="chart">
             <div class="fullDiv_border">
                 <el-tabs v-model="activeName" @tab-click="handleClick">
-                    <el-tab-pane label="全部" name="first">
+                    <el-tab-pane label="全部" class="tabName" name="first">
                         <div rightTable>
                            <el-table
                                 ref="table0"
                                 :data="data0"
                                 max-height="440"
                                 style="width: 100%;">
-                                <el-table-column align="center" label="行业" min-width="190px">
+                                <el-table-column align="left" label="行业" min-width="45%">
                                     <template slot-scope="scope">
-                                        <span>{{scope.row.name}}</span>
+                                        <span :title="scope.row.name" v-if="scope.row.name.length > 10">{{scope.row.name.substring(0,10) + '...'}}</span>
+                                        <span :title="scope.row.name" v-else>{{scope.row.name}}</span>
                                     </template>
                                 </el-table-column>
 
-                                <el-table-column align="center" label="金额（亿元）"  min-width="120px">
+                                <el-table-column align="center" label="金额（亿元）"  min-width="40%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.value.length==0">0.0000</span>
                                         <span>{{scope.row.value}}</span>
                                     </template>
                                 </el-table-column>
                                 
-                                <el-table-column align="center" label="数量"  min-width="60px">
+                                <el-table-column align="center" label="数量"  min-width="15%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.num.length==0">0</span>
                                         <span>{{scope.row.num}}</span>
@@ -125,7 +126,7 @@
                                 :data="data3"
                                 max-height="440"
                                 style="width: 100%">
-                                <el-table-column align="center" label="行业" min-width="190px">
+                                <el-table-column align="left" label="行业" min-width="190px">
                                     <template slot-scope="scope">
                                         <span>{{scope.row.name}}</span>
                                     </template>
@@ -189,27 +190,29 @@ import datepicker from "@/mixins/datepicker";
 import { mapGetters } from "vuex";
 import { GetDateDiff } from "@/utils";
 import chartBoxTwo from "./chartBoxTwo";
+import common from '@/mixins/common'
 export default {
   name: "chartBoxTwo",
-  mixins: [datepicker],
+  mixins: [datepicker,common],
   components: { Chart },
   data() {
     return {
       value5: "",
       code_value: "001",
-      flag: 1,
+      flag: 1,//记录点击的时间选择
       activeName: "first",
       param: {
-        countType: "",
+        countType: "",//时间选择
         chartType: "",
         type: "",
         finaType: "",
         dateSelect: "",
-        industrySelect: ""
+        industrySelect: ""//分类选择
       },
       tableData: [],
       options: [],
-      arr: ["001", "002", "003"]
+      arr: ["001", "002", "003"],
+      refreshFlag:false,//点击按钮不刷新右边表格
     };
   },
   props: {
@@ -235,16 +238,20 @@ export default {
     activeFun(data) {
       this.flag = data; //选中样式
       // 给chart换数据
-      // console.log(this.flag)
       this.param.countType = this.flag;
-      this.param.industrySelect = "001";
+      // this.param.industrySelect = "001";
+      this.param.industrySelect = this.code_value;
+      this.param.finaType = "001,002,003";
+      this.value5 = "";
       this.chartTwo(false);
     },
-    selectClass(val) {
-      this.param.countType = 1;
+    selectClass(val) {//改变分类
+      this.param.countType = this.flag;
       this.param.chartType = 2;
       this.param.industrySelect = val;
       this.param.type = "ipodata2";
+      this.param.finaType = "001,002,003";
+      this.refreshFlag = true;
       this.$store.dispatch("ipoGet", this.param).then()
     },
     //选项卡点击触发事件
@@ -261,9 +268,10 @@ export default {
         if (flag) {
           this.param.countType = 1;
           this.param.chartType = 2;
-          this.param.industrySelect = "008";
+          this.param.industrySelect = "001";
           this.param.type = "ipodata2";
         }
+        this.refreshFlag = true;
         this.$store.dispatch("ipoGet", this.param).then(() => {});
       }
     },
@@ -273,11 +281,13 @@ export default {
     },
     //饼状图点击事件 IPO 增发 配股
     clickClass(value, $event) {
+      debugger;
       if ($event.target.classList.contains("clickSpan") === false) {
         $event.target.classList.add("clickSpan");
-        this.param.countType = 1;
+        this.param.countType = this.flag;
         this.param.chartType = 2;
-        this.param.industrySelect = "001";
+        // this.param.industrySelect = "001";
+        this.param.industrySelect = this.code_value;
         for (let i = 0; i < this.arr.length; i++) {
           if (this.arr[i] === value) {
             this.arr.splice(i, 1);
@@ -287,13 +297,15 @@ export default {
         this.param.type = "ipodata2";
       } else {
         $event.target.classList.remove("clickSpan");
-        this.param.countType = 1;
+        this.param.countType = this.flag;
         this.param.chartType = 2;
-        this.param.industrySelect = "001";
+        // this.param.industrySelect = "001";
+        this.param.industrySelect = this.code_value;
         this.arr.push(value);
         this.param.finaType = this.arr.join(",");
         this.param.type = "ipodata2";
       }
+      this.refreshFlag = false;
       this.$store.dispatch("ipoGet", this.param).then(() => {});
     }
   },
@@ -318,17 +330,21 @@ export default {
     this.classGet(true);
   },
   watch: {
-    value5(n, o) {
+    value5(n, o) {//改变时间时,监听事件,判断搜索日期大于一个月
+    debugger;
       //依照操作取数据
-      if (n == null) {
-        this.dateSelect = "";
-        this.chartTwo(true);
-        for(let i =0; i< document.getElementById('listB').getElementsByTagName('a').length;i++) {
-          if (document.getElementById('listB').getElementsByTagName('a')[i].classList.contains("active") === false) {
-            document.getElementById('listB').getElementsByTagName('a')[3].classList.add("active")
-          }     
+      if (this.getValue(n) == '') {//清空时间
+        if(this.flag == 7) {
+          this.dateSelect = "";
+          this.flag = 1;
+          this.chartTwo(true);
+          for(let i =0; i< document.getElementById('listB').getElementsByTagName('a').length;i++) {
+            if (document.getElementById('listB').getElementsByTagName('a')[i].classList.contains("active") === false) {
+              document.getElementById('listB').getElementsByTagName('a')[3].classList.add("active")
+            }     
+          }
+          return false;
         }
-        return false;
       } else {
         var d = new Date(n[0]);
         const f = new Date(n[1]);
@@ -338,8 +354,9 @@ export default {
           f.getFullYear() + "-" + (f.getMonth() + 1) + "-" + f.getDate(); // + ' ' + f.getHours() + ':' + f.getMinutes() + ':' + f.getSeconds();
         const flg = GetDateDiff(start, end, "day");
         this.param.countType = 7;
-        this.param.industrySelect= '001'
-        if (flg >= 30) {
+        this.flag = 7;
+        // this.param.industrySelect= '001'
+        if (flg >= 31) {
           this.param.dateSelect = start + " 至 " + end;
           // console.log(this.param)
           this.chartTwo(false);
@@ -357,10 +374,10 @@ export default {
       }
     },
     getIpo2(n, o) {
-      //   console.log('getIpo变了')
-      //   console.log(n)
       //数据变化时更新chart
-      this.tableData = n;
+      if(this.refreshFlag) {//更改时间或者分类时,刷新右侧数据
+        this.tableData = n;
+      }
     }
   }
 };
@@ -420,5 +437,4 @@ export default {
   color: #333333;
   border: 1px solid #d5d5d5;
 }
-
 </style>

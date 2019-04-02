@@ -33,7 +33,40 @@ public class FinanceParamDto implements Serializable {
     /**
      * 日期
      */
-    private String financeDate;
+    private String[] financeDate;
+    
+    // 公司名称
+    private String companyName;
+
+    // 证券代码
+    private String securityCode;
+
+    // 证券简称
+    private String securityShortName;
+    
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public String getSecurityCode() {
+        return securityCode;
+    }
+
+    public String getSecurityShortName() {
+        return securityShortName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public void setSecurityCode(String securityCode) {
+        this.securityCode = securityCode;
+    }
+
+    public void setSecurityShortName(String securityShortName) {
+        this.securityShortName = securityShortName;
+    }
 
     public String getCompanyCodeSearch() {
         return companyCodeSearch;
@@ -75,11 +108,12 @@ public class FinanceParamDto implements Serializable {
         this.financingMode = financingMode;
     }
 
-    public String getFinanceDate() {
+    public String[] getFinanceDate() {
         return financeDate;
     }
 
-    public void setFinanceDate(String financeDate) {
+    public void setFinanceDate(String[] financeDate) {
         this.financeDate = financeDate;
     }
+
 }

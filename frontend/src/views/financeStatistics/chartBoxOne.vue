@@ -192,9 +192,10 @@ import datepicker from "@/mixins/datepicker";
 import { mapGetters } from "vuex";
 import { GetDateDiff } from "@/utils";
 import chartBoxOne from "./chartBoxOne";
+import common from '@/mixins/common'
 export default {
   name: "chartBoxOne",
-  mixins: [datepicker],
+  mixins: [datepicker,common],
   components: { Chart },
   data() {
     return {
@@ -208,7 +209,7 @@ export default {
         type: "",
         dateSelect: ""
       },
-      tableData: []
+      tableData: [],
     };
   },
   props: {
@@ -237,6 +238,7 @@ export default {
       //   console.log(this.flag)
       this.param.countType = this.flag;
       this.param.dateSelect = "";
+      this.value5 = "";
       this.chartOne(false);
     },
     //选项卡点击触发事件
@@ -256,7 +258,7 @@ export default {
         }
         this.$store.dispatch("ipoGet", this.param).then(() => {});
       }
-    }
+    },
   },
   computed: {
     ...mapGetters(["getIpo1"]),
@@ -360,27 +362,17 @@ export default {
   watch: {
     value5(n, o) {
       //依照操作取数据
-      if (n == null) {
-        this.dateSelect = "";
-        this.chartOne(true);
-        for (
-          let i = 0;
-          i < document.getElementById("listA").getElementsByTagName("a").length;
-          i++
-        ) {
-          if (
-            document
-              .getElementById("listA")
-              .getElementsByTagName("a")
-              [i].classList.contains("active") === false
-          ) {
-            document
-              .getElementById("listA")
-              .getElementsByTagName("a")[1]
-              .classList.add("active");
+      if (this.getValue(n) == '') {
+        if(this.flag == 7) {
+          this.dateSelect = "";
+          this.chartOne(true);
+          for (let i = 0; i < document.getElementById("listA").getElementsByTagName("a").length; i++) {
+            if (document.getElementById("listA").getElementsByTagName("a")[i].classList.contains("active") === false) {
+              document.getElementById("listA").getElementsByTagName("a")[1].classList.add("active");
+            }
           }
+          return false;
         }
-        return false;
       } else {
         var d = new Date(n[0]);
         const f = new Date(n[1]);
@@ -390,26 +382,14 @@ export default {
           f.getFullYear() + "-" + (f.getMonth() + 1) + "-" + f.getDate(); // + ' ' + f.getHours() + ':' + f.getMinutes() + ':' + f.getSeconds();
         const flg = GetDateDiff(start, end, "day");
         this.param.countType = 7;
-        if (flg >= 30) {
+        this.flag = 7;
+        if (flg >= 31) {
           this.param.dateSelect = start + " 至 " + end;
           // console.log(this.param)
           this.chartOne(false);
-          for (
-            let i = 0;
-            i <
-            document.getElementById("listA").getElementsByTagName("a").length;
-            i++
-          ) {
-            if (
-              document
-                .getElementById("listA")
-                .getElementsByTagName("a")
-                [i].classList.contains("active") === true
-            ) {
-              document
-                .getElementById("listA")
-                .getElementsByTagName("a")
-                [i].classList.remove("active");
+          for (let i = 0; i < document.getElementById("listA").getElementsByTagName("a").length; i++) {
+            if (document.getElementById("listA").getElementsByTagName("a")[i].classList.contains("active") === true) {
+              document.getElementById("listA").getElementsByTagName("a")[i].classList.remove("active");
             }
           }
         } else {
@@ -421,8 +401,6 @@ export default {
       }
     },
     getIpo1(n, o) {
-      //   console.log('getIpo变了')
-      //   console.log(n)
       //数据变化时更新chart
       this.tableData = n;
     }

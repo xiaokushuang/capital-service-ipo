@@ -25,4 +25,7 @@ export default {
   width: 100%;
   /* height:85vh; */
 }
+.el-tabs__header .is-top{
+  margin-bottom: 5px!important;
+}
 </style>
