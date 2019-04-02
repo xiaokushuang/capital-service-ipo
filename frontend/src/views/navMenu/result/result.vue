@@ -432,6 +432,7 @@ export default {
         //  委员列表
         memberList:[],
         showMore:false,
+        allQuestionList:[]
     };
   },
   created() {
@@ -445,8 +446,13 @@ export default {
             id:this.caseId,
         }
         geSelectFeedbackList(param).then(res => {
-           this.baseList = res.data.result.baseList
-            this.allQuestionList = res.data.result.questionList
+            if(res.data.result&&res.data.result.baseList&&res.data.result.baseList.length>0){
+                this.baseList = res.data.result.baseList
+            }
+            if(res.data.result&&res.data.result.questionList&&res.data.result.questionList.length>0){
+                this.allQuestionList = res.data.result.questionList
+            }
+            // this.allQuestionList = res.data.result.questionList
             if(this.allQuestionList.length > 15){
               this.showMore = true;
               this.questionList = this.allQuestionList.slice(0,15);
@@ -465,7 +471,9 @@ export default {
             examineDate:examineDate
         }
         geSelectMemberList(param).then(res => {
-            this.memberList = res.data.result
+            if(res.data.result&&res.data.result.length>0){
+                this.memberList = res.data.result
+            }
         })
     },
     handleClose(){

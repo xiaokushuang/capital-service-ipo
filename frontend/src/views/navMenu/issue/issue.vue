@@ -12,72 +12,72 @@
                   <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>每股面值</span></el-col>
                       <el-col :span="6" class="value">
-                        <span v-if="this.issueData.parValue"> {{this.issueData.parValue | dataInThRule}} 元/股</span>
+                        <span v-if="issueData.parValue"> {{issueData.parValue | dataInThRule}} 元/股</span>
                         <span v-else> - - </span>
                       </el-col>
                       <el-col :span="6" class="label"><span>发行价格</span></el-col>
                       <el-col :span="6" class="value"> 
-                           <span v-if="this.issueData.issuePrice"> {{this.issueData.issuePrice | dataInThRule}} 万元</span>
+                           <span v-if="issueData.issuePrice"> {{issueData.issuePrice | dataInThRule}} 万元</span>
                            <span v-else> - - </span>
                        </el-col>
                   </el-row>
                   <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>发行数量总计</span></el-col>
                       <el-col :span="6" class="value">
-                           <span v-if="this.issueData.shareIssued"> {{this.issueData.shareIssued | dataInThRule}} 万股</span>
+                           <span v-if="issueData.shareIssued"> {{issueData.shareIssued | dataInThRule}} 万股</span>
                            <span v-else> - - </span>
                       </el-col>
                       <el-col :span="6" class="label"><span>占发行后总股本的比例</span></el-col>
                       <el-col :span="6" class="value">
-                         <span v-if="this.issueData.issuedRatio"> {{this.issueData.issuedRatio | dataInThRule}} %</span>
+                         <span v-if="issueData.issuedRatio"> {{issueData.issuedRatio | dataInThRule}} %</span>
                          <span v-else> - - </span>
                       </el-col>
                   </el-row>
                   <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>募集资金总额</span></el-col>
                       <el-col :span="6" class="value">
-                           <span v-if="this.issueData.sumFina"> {{this.issueData.sumFina | dataInThRule}} 万元</span>
+                           <span v-if="issueData.sumFina"> {{issueData.sumFina | dataInThRule}} 万元</span>
                            <span v-else> - - </span>
                       </el-col>
                       <el-col :span="6" class="label"><span>募集资金净额</span></el-col>
                       <el-col :span="6" class="value">
-                         <span v-if="this.issueData.netSumFina"> {{this.issueData.netSumFina | dataInThRule}} 万元</span>
+                         <span v-if="issueData.netSumFina"> {{issueData.netSumFina | dataInThRule}} 万元</span>
                          <span v-else> - - </span>
                       </el-col>
                   </el-row>
                     <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>网上发行数量</span></el-col>
                       <el-col :span="6" class="value">
-                        <span v-if="this.issueData.shareIssueOn"> {{this.issueData.shareIssueOn | dataInThRule}} 万元</span>
+                        <span v-if="issueData.shareIssueOn"> {{issueData.shareIssueOn | dataInThRule}} 万元</span>
                         <span v-else> - - </span>
                       </el-col>
                       <el-col :span="6" class="label"><span>网下配售数量</span></el-col>
                       <el-col :span="6" class="value"> 
-                        <span v-if="this.issueData.sharePlaceOff"> {{this.issueData.sharePlaceOff | dataInThRule}} 万股</span>
+                        <span v-if="issueData.sharePlaceOff"> {{issueData.sharePlaceOff | dataInThRule}} 万股</span>
                         <span v-else> - - </span>
                       </el-col>
                   </el-row>
                     <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>老股东公开发售股份</span></el-col>
                       <el-col :span="6" class="value">
-                        <span v-if="this.issueData.exseNumBse"> {{this.issueData.exseNumBse | dataInThRule}} 万股</span>
+                        <span v-if="issueData.exseNumBse"> {{issueData.exseNumBse | dataInThRule}} 万股</span>
                         <span v-else> - - </span>
                       </el-col>
                       <el-col :span="6" class="label"><span>发行后市盈率</span></el-col>
                       <el-col :span="6" class="value">
-                         <span v-if="this.issueData.peIssueA"> {{this.issueData.peIssueA | dataInThRule}} %</span>
+                         <span v-if="issueData.peIssueA"> {{issueData.peIssueA | dataInThRule}} %</span>
                         <span v-else> - - </span>
                       </el-col>
                   </el-row>  
                   <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>发行前每股收益</span></el-col>
                       <el-col :span="6" class="value">
-                      <span v-if="this.issueData.epsIssueB"> {{this.issueData.epsIssueB | dataInThRule}} 万/股</span>
+                      <span v-if="issueData.epsIssueB"> {{issueData.epsIssueB | dataInThRule}} 万/股</span>
                       <span v-else> - - </span>
                       </el-col>
                       <el-col :span="6" class="label"><span>发行后每股收益</span></el-col>
                       <el-col :span="6" class="value">
-                        <span v-if="this.issueData.epsIssueA"> {{this.issueData.epsIssueA | dataInThRule}} 万/股</span>
+                        <span v-if="issueData.epsIssueA"> {{issueData.epsIssueA | dataInThRule}} 万/股</span>
                         <span v-else> - - </span>
                        </el-col>
                   </el-row>
@@ -89,13 +89,13 @@
                         -webkit-line-clamp: 1;
                         overflow: hidden;
                         cursor:pointer">
-                          {{isNotEmpty(this.issueData.issueMethod) ? this.issueData.issueMethod : '- -' + '&nbsp;'}}
+                          {{isNotEmpty(issueData.issueMethod) ? issueData.issueMethod : '- -' + '&nbsp;'}}
                       </span> 
                       </el-col>
                       <el-col :span="6" class="label"><span>承销方式</span></el-col>
                       <el-col :span="6" class="value">
                         <span>
-                          {{isNotEmpty(this.issueData.uwMethod) ? this.issueData.uwMethod : '- -' + '&nbsp;'}}
+                          {{isNotEmpty(issueData.uwMethod) ? issueData.uwMethod : '- -' + '&nbsp;'}}
                         </span>
                       </el-col>
                   </el-row>
@@ -141,9 +141,23 @@ export default {
   name: "issue",
   data() {
       return{
-      
           issueFeeData:[],
-          issueData:[],
+          issueData:{
+            epsIssueA:'',
+            epsIssueB:'',
+            exseNumBse:'',
+            issueMethod:'',
+            issuePrice:'',
+            issuedRatio:'',
+            netSumFina:'',
+            parValue:'',
+            peIssueA:'',
+            shareIssueOn:'',
+            shareIssued:'',
+            sharePlaceOff:'',
+            sumFina:'',
+            uwMethod:'',
+          },
           caseId:this.$store.state.app.caseId,
       }
   },
@@ -158,10 +172,14 @@ export default {
         id:this.caseId
       }
        getIssueData(param).then(res => {
-         this.issueData = res.data.result
+         if(res.data.result){
+           this.issueData = res.data.result
+         }
       }) 
       getIssueFeeData(param).then(res=>{
-        this.issueFeeData = res.data.result
+        if(res.data.result&&res.data.result.length>0){
+          this.issueFeeData = res.data.result
+        }
       })
     },
      getPosition(){

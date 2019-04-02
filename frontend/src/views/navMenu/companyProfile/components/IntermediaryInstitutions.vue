@@ -261,7 +261,6 @@ export default {
       }
       getIntermediaryOrgDataList(param).then(response => {
           if(response.data.result){
-              console.log('中介机构',response.data.result)
               this.allStitutionList = response.data.result
               this.accountsTotal = response.data.result.accounts
               this.sponsorsTotal = response.data.result.sponsors

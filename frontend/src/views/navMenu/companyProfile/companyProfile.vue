@@ -177,7 +177,7 @@
         <span class="titleText" id="majorSuppliers">报告期主要供应商及客户情况</span>
       </div>
       <div class="theTopFiveSupplier">
-        <p>报告期前五名供应商情况</p>
+        <p v-if="supplierMainList&&supplierMainList.length>0">报告期前五名供应商情况</p>
         <div v-for="item in supplierMainList" :key="item.id" >
             <p style="font-size:14px;color:#666">{{item.remark}}：</p>
              <el-table :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px">
@@ -267,7 +267,7 @@
         </div>
       </div>
        <div class="theTopFiveKh">
-        <p>报告期前五名客户情况</p>
+        <p v-if="customerMainList&&customerMainList.length>0">报告期前五名客户情况</p>
           <div v-for="item in customerMainList" :key="item.id" >
               <p style="font-size:14px;color:#666">{{item.remark}}：</p>
               <el-table :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px">
@@ -507,7 +507,7 @@ export default {
         id:this.caseId
       }
       getCaseDetail(param).then(res => {
-          if(res.data.result.structureLabel){
+          if(res.data.result&&res.data.result.structureLabel){
            this.structureLabel = res.data.result.structureLabel.split(',');
           }
           if(res.data.result){
@@ -550,10 +550,10 @@ export default {
       });
       // 供应商
       getSupplierCustomerData(param).then(response => {
-        if(response.data.result.supplierMainList&&response.data.result.supplierMainList.length>0){
+        if(response.data.result&&response.data.result.supplierMainList&&response.data.result.supplierMainList.length>0){
           this.supplierMainList = response.data.result.supplierMainList
         }
-         if(response.data.result.customerMainList&&response.data.result.customerMainList.length>0){
+         if(response.data.result&&response.data.result.customerMainList&&response.data.result.customerMainList.length>0){
            this.customerMainList = response.data.result.customerMainList
         }
       })
