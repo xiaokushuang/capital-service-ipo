@@ -131,12 +131,15 @@
                 </el-table-column>
             </el-table>
         </div>
+        <!-- 占位取高度 -->
+        <div id="placeholderHeight" style="visibility:hidden">11111</div>
     </div>
 </template>
 <script>
 import { getIssueData } from "@/api/ipoCase/tableDemo";
 import { getIssueFeeData } from "@/api/ipoCase/tableDemo";
 import $ from "jquery";
+
 export default {
   name: "issue",
   data() {
@@ -165,6 +168,10 @@ export default {
     this.initTableData()
     this.getPosition()
   },
+  mounted(){
+    var placeholderHeight = document.getElementById('placeholderHeight').offsetTop
+    // console.log('issue',placeholderHeight)
+  },
   methods: {
      initTableData() {
        // 动态传id
@@ -179,6 +186,7 @@ export default {
       getIssueFeeData(param).then(res=>{
         if(res.data.result&&res.data.result.length>0){
           this.issueFeeData = res.data.result
+          
         }
       })
     },

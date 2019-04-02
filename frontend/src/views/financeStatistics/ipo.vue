@@ -21,12 +21,14 @@
           <div class="text">
             <p>{{headList.title}}</p>
             <span>股份公司建设时间：</span>
-            <span>{{headList.establishDate}}</span>&nbsp;&nbsp;
-            <span>辅导工作历时：</span>
-            <span>{{headList.supportDuration?headList.supportDuration:'- -'}}</span>&nbsp;&nbsp;
-            <span>申报审核历时：</span>
-            <span>{{headList.auditDuration?headList.auditDuration:'- -'}}</span>&nbsp;&nbsp;
-            <span>最新进程：</span>
+            <span>{{headList.establishDate}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;辅导工作历时：</span>
+            <span v-if="headList.supportDuration">{{headList.supportDuration}}天</span>
+            <span v-else>- -</span>
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;申报审核历时：</span>
+            <span v-if="headList.auditDuration">{{headList.auditDuration}}天</span>
+            <span v-else>- -</span>
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;最新进程：</span>
             <span style="color:#fff;opacity:1">{{headList.processLabel}}</span>
           </div>
           <div class="btn">
@@ -46,7 +48,7 @@
                                 <span style="font-size: 20px;color: #333;display: block;margin-bottom: 10px;">IPO</span>
                                 <span style="font-size: 14px;color: #333;">IPO进程</span>
                             </div>
-                            <div style="width:100%">
+                            <div :style="{width:isFixed?'55.7%':'100%'}">
                               <!-- 菜单导航栏 -->
                                 <div class="el-tabs__nav-wrap is-top">
                                     <div class="el-tabs__nav-scroll">

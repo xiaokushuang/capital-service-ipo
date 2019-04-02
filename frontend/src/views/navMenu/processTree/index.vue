@@ -1,5 +1,5 @@
 <template>
-    <div v-loading="flagLoading" element-loading-text="给我一点时间" :class="{'processTree':lastTab,'':!lastTab}" style="margin-top:20px;">
+    <div v-loading="flagLoading" element-loading-text="给我一点时间" :class="{'processTree':lastTab,'':!lastTab}"  :style="{height:checkPlaceholderHeight?'placeholderHeight':''}">
         <div class="allJincheng" v-for="boxDataItem in treeList" v-if="treeList.length>0" :key="boxDataItem.treeTypeCode">
             <!-- 第一个进程 -->
             <div>
@@ -72,7 +72,7 @@
                                                 </span>
                                             </span>
                                         </div>
-                                        <div  v-if="!item.flag" style="margin-bottom: 24px;margin-top: 8px;">
+                                        <div v-show="item.relaList.length!=0" v-if="!item.flag" style="margin-bottom: 24px;margin-top: 8px;">
                                             <span>
                                                 <span>
                                                     <!-- 第一个进程展示的是‘查看公告’ -->
@@ -157,7 +157,7 @@
                                                 </span>
                                             </span>
                                         </div>
-                                        <div  v-if="!item.flag" style="margin-bottom: 24px;margin-top: 8px;">
+                                        <div   v-show="item.relaList.length!=0" v-if="!item.flag" style="margin-bottom: 24px;margin-top: 8px;">
                                             <span>
                                                 <span>
                                                     <!-- 第一个进程展示的是‘查看公告’ -->
@@ -246,7 +246,9 @@ export default {
             expandAll:false,
             // 是否是最后一个tab
             lastTab:false,
-            fileType:''
+            fileType:'',
+            placeholderHeight:'100px',
+            checkPlaceholderHeight:true
         };
     },
     name: "processTree",
@@ -259,7 +261,7 @@ export default {
          this.flagLoading = true;
      },
     mounted() {
-
+        console.log(this.placeholderHeight)
     },
     components: {
         moreNotice
@@ -704,5 +706,6 @@ export default {
     height: 760px;
     overflow-y: scroll;
     overflow-x: hidden;
+    margin-top:20px;
 }
 </style>
