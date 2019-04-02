@@ -20,7 +20,7 @@
                                 <div class="right" >
                                     <div class="border-box">
                                         <span v-if="sortFlag == '0'">
-                                            <span :id="'sign' +  item.progressIndex" class="circle"  v-if="boxDataItem.proList.length">
+                                            <span :id="'sign' +  item.progressIndex" :class="{'circle':item.dateCompare=='1','grayCircle':item.dateCompare=='0'}" v-if="boxDataItem.proList.length">
                                                 <!-- 展示序号 【默认时候不加类】-->
                                                 <span :id="'num' +  item.progressIndex">
                                                     {{item.proSort}}
@@ -28,7 +28,7 @@
                                             </span>
                                         </span>
                                         <span v-else>
-                                            <span :id="'sign' +  item.progressIndex" class="circle" v-if="boxDataItem.proList.length">
+                                            <span :id="'sign' +  item.progressIndex" :class="{'circle':item.dateCompare=='1','grayCircle':item.dateCompare=='0'}" v-if="boxDataItem.proList.length">
                                             <!-- 展示序号 -->
                                                 <span :id="'num' +  item.progressIndex">
                                                     {{item.proSort}}
@@ -106,7 +106,7 @@
                                 <div class="right" >
                                     <div class="border-box">
                                         <span v-if="sortFlag == '0'">
-                                            <span :id="'sign' +  item.progressIndex" class="circle"  v-if="boxDataItem.proList.length">
+                                            <span :id="'sign' +  item.progressIndex" :class="{'circle':item.dateCompare=='1','grayCircle':item.dateCompare=='0'}"  v-if="boxDataItem.proList.length">
                                                 <!-- 展示序号 【默认时候不加类】-->
                                                 <span :id="'num' +  item.progressIndex">
                                                     {{item.proSort}}
@@ -114,7 +114,7 @@
                                             </span>
                                         </span>
                                         <span v-else>
-                                            <span :id="'sign' +  item.progressIndex" class="circle" v-if="boxDataItem.proList.length">
+                                            <span :id="'sign' +  item.progressIndex" :class="{'circle':item.dateCompare=='1','grayCircle':item.dateCompare=='0'}" v-if="boxDataItem.proList.length">
                                             <!-- 展示序号 -->
                                                 <span :id="'num' +  item.progressIndex">
                                                     {{item.proSort}}
@@ -339,13 +339,21 @@ export default {
                 document.getElementById(obj).setAttribute("style", "display:none;");
                 if(  document.getElementById('more' +   item.progressIndex)) {
                      document.getElementById('more' +   item.progressIndex).setAttribute("style", "display:none;");
-                     document.getElementById('sign' +  item.progressIndex).className = 'circle'
+                     if(item.dateCompare == '0'){
+                         document.getElementById('sign' +  item.progressIndex).className = 'grayCircle'
+                     }else{
+                         document.getElementById('sign' +  item.progressIndex).className = 'circle'
+                     }
                      document.getElementById('num' +  item.progressIndex).setAttribute("style", "display:inline-block;");
                 }
             } else {
                 if( document.getElementById('more' +   item.progressIndex)) {
                     document.getElementById('more' +   item.progressIndex).setAttribute("style", "display:block;");
-                    document.getElementById('sign' +  item.progressIndex).className = 'circle'
+                     if(item.dateCompare == '0'){
+                         document.getElementById('sign' +  item.progressIndex).className = 'grayCircle'
+                     }else{
+                         document.getElementById('sign' +  item.progressIndex).className = 'circle'
+                     }
                     document.getElementById('num' +  item.progressIndex).setAttribute("style", "display:inline-block;");
                 }
                 document .getElementById(obj).setAttribute("style", "display:block;");
@@ -357,9 +365,18 @@ export default {
              if (type == 'title'){
                  item.flag = !item.flag;
               if(item.flag){
-                document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-up'
+                   if(item.dateCompare == '0'){
+                        document.getElementById('sign' + item.progressIndex).className = 'fa grayCircle fa-chevron-up'
+                     }else{
+                         document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-up'
+                     }
               } else{
-                document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-down'
+                  if(item.dateCompare == '0'){
+                        document.getElementById('sign' + item.progressIndex).className = 'fa grayCircle fa-chevron-down'
+                     }else{
+                        document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-down'
+                     }
+                
               }
              }else {
                   item.flag = true;
@@ -372,11 +389,20 @@ export default {
             window.open(param.baseUrl)
         },
         onMouseOver (obj, item, index) {
-            document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-down'
+             if(item.dateCompare == '0'){
+                 document.getElementById('sign' + item.progressIndex).className = 'fa grayCircle fa-chevron-down'
+            }else{
+               document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-down'
+            }
             document.getElementById('num' + item.progressIndex).setAttribute("style", "display:none;");
         },
         onMouseOut (obj, item) {
-              document.getElementById('sign' + item.progressIndex).className = 'circle'
+             if(item.dateCompare == '0'){
+                document.getElementById('sign' + item.progressIndex).className = 'grayCircle'
+            }else{
+                document.getElementById('sign' + item.progressIndex).className = 'circle'
+            }
+              
               document.getElementById('num' + item.progressIndex).setAttribute("style", "display:inline-block;");
         },
         //点击最后一个tab页，进程树变化
@@ -476,7 +502,19 @@ export default {
     position: relative;
     left: -10px;
 }
-
+.grayCircle {
+    background: #d7d7d7;
+    display: block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 12px;
+    position: relative;
+    left: -10px;
+}
 .text {
     width: 100%;
     position: relative;

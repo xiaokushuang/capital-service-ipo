@@ -427,8 +427,8 @@
 .ipoCaseList .el-radio__inner {
   border: 1px solid #e2e2e2;
   border-radius: 100%;
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   background-color: #fff;
   cursor: pointer;
   -webkit-box-sizing: border-box;
@@ -444,7 +444,7 @@
 
 
  .ipoCaseList .el-radio + .el-radio {
-   margin-left: -23px;
+  //  margin-left: -23px;
  }
 // 进程树公告弹窗
 .el-dialog__title {
