@@ -1050,7 +1050,7 @@
       clickUnHandler() {
         let url = window.location.href;
         url = url.replace(this.$route.path,'/ipoPopWin');
-        iframeDoMessage(window.parent,'popWinOut',['提示',url,'450','250']);
+        iframeDoMessage(window.parent,'popWinOut',['提示',url,'427','217']);
       },
       openNew() {
         const _self = this;
