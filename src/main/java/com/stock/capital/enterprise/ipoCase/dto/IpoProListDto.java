@@ -38,6 +38,9 @@ public class IpoProListDto implements Serializable {
     @ApiModelProperty("进程唯一标识")
     private String progressIndex;
 
+    @ApiModelProperty("进程日期是否大于当前日期 0：大于 1：小与")
+    private Integer dateCompare;
+
     public String getProgressType() {
         return progressType;
     }
@@ -108,6 +111,14 @@ public class IpoProListDto implements Serializable {
 
     public void setProgressIndex(String progressIndex) {
         this.progressIndex = progressIndex;
+    }
+
+    public Integer getDateCompare() {
+        return dateCompare;
+    }
+
+    public void setDateCompare(Integer dateCompare) {
+        this.dateCompare = dateCompare;
     }
 }
 

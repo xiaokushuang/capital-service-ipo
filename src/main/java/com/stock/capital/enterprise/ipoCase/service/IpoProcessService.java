@@ -18,6 +18,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,11 +79,12 @@ public class IpoProcessService extends BaseService {
             List<IpoProListDto> proList = treeList.get(i) == null ? new ArrayList<>() : treeList.get(i).getProList();
             for (int j = 0; j < proList.size(); j++) {
                 proList.get(j).setProgressIndex(treeList.get(i).getTreeTypeCode() + proList.get(j).getProSort());
+
                 //每个进程只有第一个节点储存了时间，补全进程时间
                 List<IpoFileRelationDto> fileList = proList.get(j).getRelaList();
                 if (CollectionUtils.isNotEmpty(fileList)) {
                     proList.get(j).setProcessTime(fileList.get(0).getPublishTime());
-                    //发审会审核是有第一个节点存了审核结果，赋值到进程dto
+                    //发审会审核只有第一个节点存了审核结果，赋值到进程dto
                     proList.get(j).setIecResult(fileList.get(0).getIecResult());
                     if (fileList.size() > 1) {
                         for (int k = 1; k < fileList.size(); k++) {
@@ -135,16 +137,29 @@ public class IpoProcessService extends BaseService {
                     }
                     proList.get(j).setLastDay(lastDay);
                 }
+                //判断当前时间和进程时间，如果进程时间大于当前时间，则置灰
+                proList.get(j).setDateCompare(1);
+                if("02".equals(treeList.get(i).getTreeTypeCode())){
+
+                    try {
+                        Date nowDate = new Date();
+                        Date proDate = DateUtils.parseDate(proList.get(j).getProcessTime(),"yyyy-MM-dd");
+                        if(proDate.compareTo(nowDate) > 0){
+                            proList.get(j).setDateCompare(0);
+                        }
+                    } catch (ParseException e) {
+                        logger.error("进程日期转换错误");
+                    }
+                }
             }
         }
+
         //添加股份公司设立时间
         IpoProgressDto publishDto = new IpoProgressDto();
-        publishDto.setTreeTypeCode("03");
+        publishDto.setTreeTypeCode("-1");
         String publishDate = ipoProcessMapper.getPublishDate(id);
         publishDto.setPublishDate(publishDate);
         publishDto.setTreeTypeName("股份公司设立时间");
-        treeList.add(publishDto);
-
         //默认为正序，如果要求倒序序排序，则在计算完距离上个进程天数后，重新排序
         if ("02".equals(sortType) && CollectionUtils.isNotEmpty(treeList)) {
             treeList.sort((IpoProgressDto d1, IpoProgressDto d2) -> d2.getTreeTypeCode().compareTo(d1.getTreeTypeCode()));
@@ -153,7 +168,11 @@ public class IpoProcessService extends BaseService {
                     dto.getProList().sort((IpoProListDto c1, IpoProListDto c2) -> c2.getProSort().compareTo(c1.getProSort()));
                 }
             }
+            treeList.add(publishDto);
+        }else{
+            treeList.add(0,publishDto);
         }
+
         for (int i = 0; i < treeList.size(); i++) {
             if (i == 0) {
                 treeList.get(i).setSandian(true);

@@ -146,7 +146,7 @@ public class IpoCaseOverviewController {
             //如果有进程，则判断问题列表是否为空
             //根据案例id查询公司的东财内码
             IpoFeedbackDto ipoFeedbackDto = new IpoFeedbackDto();
-            ipoFeedbackDto.setOrgCode(ipoFeedbackMapper.getOrgCode(ipoFeedbackDto.getId()));
+            ipoFeedbackDto.setOrgCode(ipoFeedbackMapper.getOrgCode(id));
             //查询问题答案列表
             List<IpoFeedbackDto> feedbackList = ipoFeedbackMapper.selectFeedbackList(ipoFeedbackDto);
             if(CollectionUtils.isEmpty(feedbackList)){
