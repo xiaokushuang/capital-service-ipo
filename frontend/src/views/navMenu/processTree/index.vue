@@ -7,14 +7,14 @@
                     <el-col :span="24" style="border-left:1px solid #0099cc; margin-bottom: -10px;margin-top:10px;padding-bottom: 10px;">
                          <!-- 进程名 -->
                         <div class="jincheng">
-                            <img src="../../../assets/images/jinchengjian.png" alt="">
+                            <img  v-if="boxDataItem.treeTypeCode" src="../../../assets/images/jinchengjian.png" alt="">
                             <p v-if="boxDataItem.treeTypeCode == '02'">上市</p>
                             <p v-if="boxDataItem.treeTypeCode == '01'">审核</p>
                             <p v-if="boxDataItem.treeTypeCode == '00'">辅导工作进程</p>
-                            <p v-if="boxDataItem.treeTypeCode == '03'">股份公司设立</p>
+                            <p v-if="boxDataItem.treeTypeCode == '-1'">股份公司设立</p>
                         </div>
 
-                        <div v-show="boxDataItem.treeTypeCode != '03'">
+                        <div v-show="boxDataItem.treeTypeCode != '-1'">
                             <!-- 当前页面不是最后一页时 -->
                              <div v-if="!lastTab" v-for="(item,index) in boxDataItem.proList" v-show="boxDataItem.treeTypeCode != '02'||index == 0 || index == boxDataItem.proList.length-1  || boxDataItem.spreadFlag" >
                                 <div class="right" >
@@ -187,7 +187,7 @@
                                 </div>
                             </div>
                         </div>
-                         <div v-show="boxDataItem.treeTypeCode == '03'" style=" position: relative;top: -12px;left: 22px;">
+                         <div v-show="boxDataItem.treeTypeCode == '-1'" style=" position: relative;top: -12px;left: 22px;">
                             <p style="font-size: 12px;color: #999;line-height:0px">{{boxDataItem.publishDate}}</p>
                         </div>
                         <!-- 点击查看更多公告内容弹窗 -->
