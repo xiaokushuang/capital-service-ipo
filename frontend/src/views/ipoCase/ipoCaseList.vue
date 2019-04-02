@@ -5,44 +5,44 @@
        padding-right: 0px !important; !important;background-color: #f7f7f7">
         <div class="innnerbox">
           <el-tree
-            style="margin-top:24px;padding: 0 0 0 0"
-            class="filter-tree"
-            node-key="id"
-            :data="plateTreeTag"
-            :props="left_tree"
-            :default-expand-all="true"
-            @node-click="handleNodeClickForSearch"
-            ref="plateTreeTagRef">
+              style="margin-top:24px;padding: 0 0 0 0"
+              class="filter-tree"
+              node-key="id"
+              :data="plateTreeTag"
+              :props="left_tree"
+              :default-expand-all="true"
+              @node-click="handleNodeClickForSearch"
+              ref="plateTreeTagRef">
           </el-tree>
           <el-tree
-            style="margin-top:24px;padding: 0 0 0 0"
-            class="filter-tree"
-            node-key="id"
-            :data="marketTreeTag"
-            :props="left_tree"
-            :default-expand-all="true"
-            @node-click="handleNodeClickForSearch"
-            ref="marketTreeTagRef">
+              style="margin-top:24px;padding: 0 0 0 0"
+              class="filter-tree"
+              node-key="id"
+              :data="marketTreeTag"
+              :props="left_tree"
+              :default-expand-all="true"
+              @node-click="handleNodeClickForSearch"
+              ref="marketTreeTagRef">
           </el-tree>
           <el-tree
-            style="margin-top:24px;padding: 0 0 0 0"
-            class="filter-tree"
-            node-key="id"
-            :data="greenTreeTag"
-            :props="left_tree"
-            :default-expand-all="true"
-            @node-click="handleNodeClickForSearch"
-            ref="greenTreeTagRef">
+              style="margin-top:24px;padding: 0 0 0 0"
+              class="filter-tree"
+              node-key="id"
+              :data="greenTreeTag"
+              :props="left_tree"
+              :default-expand-all="true"
+              @node-click="handleNodeClickForSearch"
+              ref="greenTreeTagRef">
           </el-tree>
           <el-tree
-            style="margin-top:24px;padding: 0 0 0 0"
-            class="filter-tree"
-            node-key="id"
-            :data="sfcTreeTag"
-            :props="left_tree"
-            :default-expand-all="true"
-            @node-click="handleNodeClickForSearch"
-            ref="sfcTreeTagRef">
+              style="margin-top:24px;padding: 0 0 0 0"
+              class="filter-tree"
+              node-key="id"
+              :data="sfcTreeTag"
+              :props="left_tree"
+              :default-expand-all="true"
+              @node-click="handleNodeClickForSearch"
+              ref="sfcTreeTagRef">
           </el-tree>
         </div>
       </el-col>
@@ -59,7 +59,7 @@
               </el-multiple-selection>
             </el-col>
             <el-col :span='8' class="stockIncreasePan-class">
-              <el-multiple-selection :range="true" :tree-data="optionIssueFee" placeholder="发行费用" size="small full" :multiple="false"
+              <el-multiple-selection v-if="issueFeeShow" :range="true" :tree-data="optionIssueFee" placeholder="发行费用" size="small full" :multiple="false"
                                      unit="万元" :ran="optionDto" @sure-click="rangeCallIssueFee">
               </el-multiple-selection>
             </el-col>
@@ -109,13 +109,13 @@
           <el-row :gutter="24">
             <el-col :span='8' class="repuramountlimitPan-class">
               <el-autocomplete
-                class="inline-input"
-                size='small full'
-                v-model="intermediary"
-                :fetch-suggestions="queryIntermediary"
-                placeholder="中介机构"
-                :trigger-on-focus="false"
-                @select="handleSelect"
+                  class="inline-input"
+                  size='small full'
+                  v-model="intermediary"
+                  :fetch-suggestions="queryIntermediary"
+                  placeholder="中介机构"
+                  :trigger-on-focus="false"
+                  @select="handleSelect"
               ></el-autocomplete>
             </el-col>
             <el-col :span='4'>
@@ -155,7 +155,7 @@
               </el-date-picker>
             </el-col>
             <el-col :span='8'>
-              <el-multiple-selection :range="true" :tree-data="optionAuditDuration" placeholder="申报审核历时（天）" size="small full" :multiple="false"
+              <el-multiple-selection v-if="durationShow" :range="true" :tree-data="optionAuditDuration" placeholder="申报审核历时（天）" size="small full" :multiple="false"
                                      unit="天" :ran="optionDto" @sure-click="rangeAuditDuration">
               </el-multiple-selection>
             </el-col>
@@ -168,109 +168,82 @@
                   <el-radio :label="2">最近两个会计年度累计</el-radio>
                   <el-radio :label="3">最近三个会计年度累计</el-radio>
                 </el-radio-group>
-                <el-col :span='12'>
-
-                </el-col>
               </el-row>
               <div style="background:#f9f9f9;margin-bottom:10px;padding:10px 5px 5px 5px">
                 <el-row :gutter="24">
                   <el-col :span='12'>
-                    <el-multiple-selection v-if="yearRadio===1" style="width: 430px" :range="true" :tree-data="optionNetProfitOne" placeholder="招股书最近一个会计年度净利润" size="small full" :multiple="false"
+                    <el-multiple-selection v-if="yearRadio===1&&profitOneShow" style="width: 205.5%" :range="true" :tree-data="optionNetProfitOne" placeholder="招股书最近一个会计年度净利润" size="small full" :multiple="false"
                                            unit="亿元" :ran="optionDto" @sure-click="rangeCallProfitOne">
                     </el-multiple-selection>
-                    <el-multiple-selection v-if="yearRadio===2" style="width: 430px" :range="true" :tree-data="optionNetProfitTwo" placeholder="招股书最近两个会计年度净利润" size="small full" :multiple="false"
+                    <el-multiple-selection v-if="yearRadio===2&&profitTwoShow" style="width: 205.5%" :range="true" :tree-data="optionNetProfitTwo" placeholder="招股书最近两个会计年度净利润" size="small full" :multiple="false"
                                            unit="亿元" :ran="optionDto" @sure-click="rangeCallProfitTwo">
                     </el-multiple-selection>
-                    <el-multiple-selection v-if="yearRadio===3" style="width: 430px" :range="true" :tree-data="optionNetProfitThree" placeholder="招股书最近三个会计年度净利润" size="small full" :multiple="false"
+                    <el-multiple-selection v-if="yearRadio===3&&profitThreeShow" style="width: 205.5%" :range="true" :tree-data="optionNetProfitThree" placeholder="招股书最近三个会计年度净利润" size="small full" :multiple="false"
                                            unit="亿元" :ran="optionDto" @sure-click="rangeCallProfitThree">
                     </el-multiple-selection>
                   </el-col>
-                  <el-col :span='12'>
-
-                  </el-col>
                 </el-row>
                 <el-row :gutter="24">
                   <el-col :span='12'>
-                    <el-multiple-selection v-if="yearRadio===1" style="width: 430px" :range="true" :tree-data="optionOperateReveOne" placeholder="招股书最近一个会计年度营业收入" size="small full" :multiple="false"
+                    <el-multiple-selection v-if="yearRadio===1&&reveOneShow" style="width: 205.5%" :range="true" :tree-data="optionOperateReveOne" placeholder="招股书最近一个会计年度营业收入" size="small full" :multiple="false"
                                            unit="亿元" :ran="optionDto" @sure-click="rangeCallReveOne">
                     </el-multiple-selection>
-                    <el-multiple-selection v-if="yearRadio===2" style="width: 430px" :range="true" :tree-data="optionOperateReveTwo" placeholder="招股书最近两个会计年度营业收入" size="small full" :multiple="false"
+                    <el-multiple-selection v-if="yearRadio===2&&reveTwoShow" style="width: 205.5%" :range="true" :tree-data="optionOperateReveTwo" placeholder="招股书最近两个会计年度营业收入" size="small full" :multiple="false"
                                            unit="亿元" :ran="optionDto" @sure-click="rangeCallReveTwo">
                     </el-multiple-selection>
-                    <el-multiple-selection v-if="yearRadio===3" style="width: 430px" :range="true" :tree-data="optionOperateReveThree" placeholder="招股书最近三个会计年度营业收入" size="small full" :multiple="false"
+                    <el-multiple-selection v-if="yearRadio===3&&reveThreeShow" style="width: 205.5%" :range="true" :tree-data="optionOperateReveThree" placeholder="招股书最近三个会计年度营业收入" size="small full" :multiple="false"
                                            unit="亿元" :ran="optionDto" @sure-click="rangeCallReveThree">
                     </el-multiple-selection>
                   </el-col>
-                  <el-col :span='12'>
-
-                  </el-col>
                 </el-row>
                 <el-row :gutter="24">
                   <el-col :span='12'>
-                    <el-multiple-selection v-if="yearRadio===1" style="width: 430px" :range="true" :tree-data="optionOperateCashFlowOne" placeholder="招股书最近一个会计年度经营活动现金流量净额" size="small full" :multiple="false"
+                    <el-multiple-selection v-if="yearRadio===1&&cashOneShow" style="width: 205.5%" :range="true" :tree-data="optionOperateCashFlowOne" placeholder="招股书最近一个会计年度经营活动现金流量净额" size="small full" :multiple="false"
                                            unit="亿元" :ran="optionDto" @sure-click="rangeCallCashFlowOne">
                     </el-multiple-selection>
-                    <el-multiple-selection v-if="yearRadio===2" style="width: 430px" :range="true" :tree-data="optionOperateCashFlowTwo" placeholder="招股书最近两个会计年度经营活动现金流量净额" size="small full" :multiple="false"
+                    <el-multiple-selection v-if="yearRadio===2&&cashTwoShow" style="width: 205.5%" :range="true" :tree-data="optionOperateCashFlowTwo" placeholder="招股书最近两个会计年度经营活动现金流量净额" size="small full" :multiple="false"
                                            unit="亿元" :ran="optionDto" @sure-click="rangeCallCashFlowTwo">
                     </el-multiple-selection>
-                    <el-multiple-selection v-if="yearRadio===3" style="width: 430px" :range="true" :tree-data="optionOperateCashFlowThree" placeholder="招股书最近三个会计年度经营活动现金流量净额" size="small full" :multiple="false"
+                    <el-multiple-selection v-if="yearRadio===3&&cashThreeShow" style="width: 205.5%" :range="true" :tree-data="optionOperateCashFlowThree" placeholder="招股书最近三个会计年度经营活动现金流量净额" size="small full" :multiple="false"
                                            unit="亿元" :ran="optionDto" @sure-click="rangeCallCashFlowThree">
                     </el-multiple-selection>
-                  </el-col>
-                  <el-col :span='12'>
-
                   </el-col>
                 </el-row>
               </div>
               <div style="background:#f9f9f9;margin-bottom:10px;padding:10px 5px 5px 5px">
                 <el-row :gutter="24">
                   <el-col :span='12'>
-                    <el-multiple-selection style="width: 430px" :range="true" :tree-data="optionSunAsset" placeholder="招股书最近一期末总资产" size="small full" :multiple="false"
+                    <el-multiple-selection v-if="sunAssetShow" style="width: 205.5%" :range="true" :tree-data="optionSunAsset" placeholder="招股书最近一期末总资产" size="small full" :multiple="false"
                                            unit="万元" :ran="optionDto" @sure-click="rangeCallSunAsset">
                     </el-multiple-selection>
                   </el-col>
-                  <el-col :span='12'>
-
-                  </el-col>
                 </el-row>
                 <el-row :gutter="24">
                   <el-col :span='12'>
-                    <el-multiple-selection style="width: 430px" :range="true" :tree-data="optionSumShareQuity" placeholder="招股书最近一期末净资产" size="small full" :multiple="false"
+                    <el-multiple-selection v-if="sunQuityShow" style="width: 205.5%" :range="true" :tree-data="optionSumShareQuity" placeholder="招股书最近一期末净资产" size="small full" :multiple="false"
                                            unit="万元" :ran="optionDto" @sure-click="rangeCallSumShareQuity">
                     </el-multiple-selection>
                   </el-col>
-                  <el-col :span='12'>
-
-                  </el-col>
                 </el-row>
                 <el-row :gutter="24">
                   <el-col :span='12'>
-                    <el-multiple-selection style="width: 430px" :range="true" :tree-data="optionAssetRatio" placeholder="招股书最近一期末无形资产占净资产的比例" size="small full" :multiple="false"
+                    <el-multiple-selection v-if="assetRatioShow" style="width: 205.5%" :range="true" :tree-data="optionAssetRatio" placeholder="招股书最近一期末无形资产占净资产的比例" size="small full" :multiple="false"
                                            unit="%" :ran="optionDto" @sure-click="rangeCallAssetRatio">
                     </el-multiple-selection>
                   </el-col>
-                  <el-col :span='12'>
-
-                  </el-col>
                 </el-row>
                 <el-row :gutter="24">
                   <el-col :span='12'>
-                    <el-multiple-selection style="width: 430px" :range="true" :tree-data="optionShareIssueB" placeholder="发行前股本总额" size="small full" :multiple="false"
+                    <el-multiple-selection v-if="shareIssueBShow" style="width: 205.5%" :range="true" :tree-data="optionShareIssueB" placeholder="发行前股本总额" size="small full" :multiple="false"
                                            unit="万股" :ran="optionDto" @sure-click="rangeCallShareIssueB">
                     </el-multiple-selection>
                   </el-col>
-                  <el-col :span='12'>
-
-                  </el-col>
                 </el-row>
                 <el-row :gutter="24">
                   <el-col :span='12'>
-                    <el-multiple-selection style="width: 430px" :range="true" :tree-data="optionShareIssueA" placeholder="发行后股本总额" size="small full" :multiple="false"
+                    <el-multiple-selection v-if="shareIssueAShow" style="width: 205.5%" :range="true" :tree-data="optionShareIssueA" placeholder="发行后股本总额" size="small full" :multiple="false"
                                            unit="万股" :ran="optionDto" @sure-click="rangeCallShareIssueA">
                     </el-multiple-selection>
-                  </el-col>
-                  <el-col :span='12'>
-
                   </el-col>
                 </el-row>
               </div>
@@ -278,7 +251,7 @@
             <div class="right" style="flex:1;">
               <div style="background:#f9f9f9;padding:10px">
                 <div>
-                  <div class="clear"  style="margin-bottom:5px">
+                  <div class="clear" style="margin-bottom:5px">
                     <span class="l" style="color: #333333;font-size:14px;">主板上市条件</span>
                     <span class="r" style="color: #999999;font-size:12px">试点企业，可不适用第<span class="quan">1</span>项、第<span class="quan">5</span>项规定。</span>
                   </div>
@@ -327,7 +300,8 @@
                       <span class="quan" style="position: relative;top: -5px;">2</span>
                       <div style="display: inline-block;margin-top: -4%;margin-left: 4%;">
                         最近<span style="font-weight: 700; color: #14BCF5">2</span>年连续盈利，最近两年净利润<span style="font-weight: 700; color: #14BCF5">累计不少于1000万元</span>;<br>
-                        <span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">1</span>年盈利，最近一年营业收入<span style="color:#14BCF5">不少于5000万元。</span>( 净利润以扣除非经常性损益前后孰低者为计算依据)
+                        <span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">1</span>年盈利，最近一年营业收入<span style="color:#14BCF5">不少于5000万元。</span>(
+                        净利润以扣除非经常性损益前后孰低者为计算依据)
                       </div>
                     </div>
                     <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
@@ -649,7 +623,23 @@
         marketType: '',
         greenPassage: '',
         belongsBureau: '',
-        issueShow: true
+        issueShow: true,
+        issueFeeShow: true,
+        durationShow: true,
+        profitOneShow: true,
+        profitTwoShow: true,
+        profitThreeShow: true,
+        reveOneShow: true,
+        reveTwoShow: true,
+        reveThreeShow: true,
+        cashOneShow: true,
+        cashTwoShow: true,
+        cashThreeShow: true,
+        sunAssetShow: true,
+        sunQuityShow: true,
+        assetRatioShow: true,
+        shareIssueBShow: true,
+        shareIssueAShow: true
       }
     },
     mounted() {
@@ -717,7 +707,6 @@
           pageSize: data.pageSize,
           condition: {
             companyId: _self.$store.state.app.companyId,
-            //companyId: _self.$store.state.userCompanyId,
             title: _self.title,//标题关键字（包含全部以空格断开）
             industryCsrc: _self.industryCsrcValue,//发行人行业（证监会）
             companyNature: _self.companyNatureValue,//企业性质
@@ -913,8 +902,40 @@
           }
         }
         _self.issueShow = false;
+        _self.issueFeeShow = false;
+        _self.durationShow = false;
+        _self.profitOneShow = false;
+        _self.profitTwoShow = false;
+        _self.profitThreeShow = false;
+        _self.reveOneShow = false;
+        _self.reveTwoShow = false;
+        _self.reveThreeShow = false;
+        _self.cashOneShow = false;
+        _self.cashTwoShow = false;
+        _self.cashThreeShow = false;
+        _self.sunAssetShow = false;
+        _self.sunQuityShow = false;
+        _self.assetRatioShow = false;
+        _self.shareIssueBShow = false;
+        _self.shareIssueAShow = false;
         _self.$nextTick(() => {
-            _self.issueShow = true
+          _self.issueShow = true;
+          _self.issueFeeShow = true;
+          _self.durationShow = true;
+          _self.profitOneShow = true;
+          _self.profitTwoShow = true;
+          _self.profitThreeShow = true;
+          _self.reveOneShow = true;
+          _self.reveTwoShow = true;
+          _self.reveThreeShow = true;
+          _self.cashOneShow = true;
+          _self.cashTwoShow = true;
+          _self.cashThreeShow = true;
+          _self.sunAssetShow = true;
+          _self.sunQuityShow = true;
+          _self.assetRatioShow = true;
+          _self.shareIssueBShow = true;
+          _self.shareIssueAShow = true;
         });
         _self.$refs.tables.clearSort();
         _self.querySearch();
@@ -1038,6 +1059,11 @@
 
         });
       },
+      openNew() {
+        const _self = this;
+        const href = window.location.origin + 'ui/laws/laws/lawsDetail?lawId=745777672757626842&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.tenant_info;
+        window.open(href, '_blank');
+      }
     },
     components: {
       papers
@@ -1049,14 +1075,17 @@
   .l {
     float: left;
   }
+
   .r {
     float: right;
   }
+
   .clear:after {
     display: block;
     content: "";
     clear: both;
   }
+
   .container {
     font-family: Microsoft YaHei, "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
@@ -1318,8 +1347,9 @@
     font-size: 12px;
     padding-left: 5px;
   }
-  .quan{
-    display:inline-block;
+
+  .quan {
+    display: inline-block;
     background: url("../../assets/images/quan.png") no-repeat;
     background-size: cover;
     width: 15px;
@@ -1329,6 +1359,7 @@
     font-size: 12px;
     color: #FFFFFF
   }
+
   .container .table .el-table thead tr > th .cell {
     padding: 10px;
     text-align: center;

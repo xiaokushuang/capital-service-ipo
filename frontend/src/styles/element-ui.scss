@@ -427,8 +427,8 @@
 .ipoCaseList .el-radio__inner {
   border: 1px solid #e2e2e2;
   border-radius: 100%;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   background-color: #fff;
   cursor: pointer;
   -webkit-box-sizing: border-box;
@@ -441,3 +441,7 @@
   font-size: 0;
   padding-left: 3px;
 }
+
+ .ipoCaseList .el-radio + .el-radio {
+   margin-left: -23px;
+ }
