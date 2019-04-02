@@ -218,4 +218,8 @@
                 t.id,
                 t.letter_class_name
     </select>
+
+    <select id="selectFeedbackProcess" parameterType="java.lang.String" resultType="java.lang.String">
+        select id from ipo_process t1 where t1.bid = #{id} and t1.process_type_code = '05'
+    </select>
 </mapper>

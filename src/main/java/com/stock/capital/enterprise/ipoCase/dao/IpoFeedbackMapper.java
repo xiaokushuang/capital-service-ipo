@@ -35,4 +35,9 @@ public interface IpoFeedbackMapper {
      * 查询问题列表
      */
     List<IpoFeedbackDto> selectQuestionListByLetterId(IpoFeedbackDto ipoFeedbackDto);
+
+    /**
+     * 查询反馈意见进程
+     */
+    List<String> selectFeedbackProcess(String id);
 }

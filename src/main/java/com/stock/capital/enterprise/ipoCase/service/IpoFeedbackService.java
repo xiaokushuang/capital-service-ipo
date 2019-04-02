@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,6 +24,12 @@ public class IpoFeedbackService extends BaseService {
      * 初始化页面方法，查询函件相关信息
      */
     public List<IpoFeedbackDto> selectFeedbackList(IpoFeedbackDto ipoFeedbackDto) {
+        //查询该公司是否有反馈意见进程，如果没有则返回空集合
+        List<String> feedbackProcess = ipoFeedbackMapper.selectFeedbackProcess(ipoFeedbackDto.getId());
+        if(CollectionUtils.isEmpty(feedbackProcess)){
+            return new ArrayList<>();
+        }
+
         //根据案例id查询公司的东财内码
         ipoFeedbackDto.setOrgCode(ipoFeedbackMapper.getOrgCode(ipoFeedbackDto.getId()));
         //查询问题答案列表

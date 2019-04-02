@@ -9,6 +9,7 @@ import com.stock.capital.enterprise.ipoCase.dto.IpoMemberDto;
 import com.stock.core.dao.DynamicDataSourceHolder;
 import com.stock.core.service.BaseService;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,10 @@ public class IpoExamineService extends BaseService {
         resultDto.setId(id);
         //查询发审会基础信息
         List<IpoExamineBaseDto> baseList = ipoExamineMapper.selectExamineBaseList(id);
+        //如果没有发审会信息，则返回空对象
+        if(CollectionUtils.isEmpty(baseList)){
+            return new IpoExamineDto();
+        }
         //处理会议标题
         for (IpoExamineBaseDto baseDto : baseList) {
             String title = baseDto.getRelationFileTitle();
@@ -42,6 +47,7 @@ public class IpoExamineService extends BaseService {
             baseDto.setRelationFileTitle(title);
             //查询发审会委员
             String examineDate = baseDto.getExamineDate();
+            //查询发审委委员名单
             DynamicDataSourceHolder.setDataSource("dongcai");
             String member = ipoExamineMapper.selectExamineMember(orgCode, examineDate);
             DynamicDataSourceHolder.cleanDataSource();
