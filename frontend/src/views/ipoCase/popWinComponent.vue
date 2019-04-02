@@ -8,7 +8,7 @@
           <br/>
           <a style="font-size: 13px">来电咨询：400-880-3388</a>
         </div>
-        <div class="el-message-box__btns" style="text-align: center;padding-top: 13px;margin-top: 44px">
+        <div class="el-message-box__btns" style="text-align: center;margin-top: 24px">
           <el-button type="primary" size="small" @click.native="sure" style="margin-left: 0px;">
             在线咨询
           </el-button>
