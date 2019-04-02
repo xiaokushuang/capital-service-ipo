@@ -37,7 +37,7 @@ public class IpoCaseListService extends BaseService {
      * @param page 筛选条件
      * @return map
      */
-    public Map<String, Object> getIpoCaseList(QueryInfo<IpoCaseListBo> page) {
+    public Map<String, Object> getIpoCaseList(QueryInfo<IpoCaseListBo> page, Boolean signSymbol) {
         IpoCaseListBo bo = page.getCondition();
         Map<String, String> condition = Maps.newHashMap();
         StringBuilder conditionsStr = new StringBuilder("index_type_t: \"ipocase\"");
@@ -235,7 +235,12 @@ public class IpoCaseListService extends BaseService {
         //默认按发审会审核时间 倒序排列
         String orderByOrder = page.getOrderByOrder();
         if (StringUtils.isEmpty(orderByOrder)) {
-            orderByOrder = "desc";
+            if (signSymbol) {
+                orderByOrder = "desc";
+            } else {
+                orderByOrder = "desc,desc";
+            }
+
         } else {
             if ("ascending".equals(orderByOrder)) {
                 orderByOrder = "asc";
@@ -245,7 +250,12 @@ public class IpoCaseListService extends BaseService {
         }
         String orderByName = page.getOrderByName();
         if (StringUtils.isEmpty(orderByName)) {
-            orderByName = "ipo_review_meeting_time_dt";
+            if (signSymbol) {
+                orderByName = "ipo_review_meeting_time_dt";
+            } else {
+                orderByName = "ipo_open_flag_t,ipo_review_meeting_time_dt";
+            }
+
         }
         condition.put(Constant.SEARCH_CONDIATION, conditionsStr.toString());
         condition.put(Constant.SEARCH_FACET_FIELD, conditionTree.toString());

@@ -60,8 +60,10 @@ export default {
         id:this.caseId
       }
       getSelectFinanceOverList(param).then(response => {
+        if(response.data.result&&response.data.result.dateList){
+          this.tableTitle = response.data.result.dateList
+        }
           // 获取表头数据
-        this.tableTitle = response.data.result.dateList
         this.zxChartX =[this.tableTitle.firstYearDate,this.tableTitle.secondYearDate,this.tableTitle.thirdYearDate,this.tableTitle.forthYearDate]
         this.zxChartY = [
                       {

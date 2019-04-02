@@ -10,15 +10,15 @@
                 <ul>
                     <li class="clear ">
                         <p v-show="sponsors&&sponsors.length>0" class="institutionTitle">联席保荐人（联席主承销商）</p>
-                            <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'" v-for="item in sponsors">
-                            <div class="image l">
+                        <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'" v-for="item in sponsors">
+                            <div class="image l" style="margin-top:24px">
                                 <img src="../../../../assets/images/coSponsors.png" alt>
                             </div>
                             <div class="text l">
                                 <div>
                                     <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
                                     font-style: normal; font-size: 16px; color: #363636">{{item.orgName}}</span>
-                                     <!-- 已失效标志 -->
+                                    <!-- 已失效标志 -->
                                     <span class="failure" v-show="item.validFlag == 0">
                                         已失效
                                     </span>
@@ -56,11 +56,10 @@
                                     </li> -->
                                 </ul>
                             </div>                               
-                        </div>`
+                        </div>
                     </li>
                      <li class="clear ">
                         <p v-show="lawyers&&lawyers.length>0" class="institutionTitle">律师事务所</p>
-                        <!-- <div class="InstitutionsDetailLi clear" v-for="item in lawyers"> -->
                             <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'"  v-for="item in lawyers">
                             <div class="image l">
                                 <img src="../../../../assets/images/lvshi.png" alt>
@@ -87,7 +86,6 @@
                     </li>
                     <li class="clear ">
                         <p v-show="accounts&&accounts.length>0" class="institutionTitle">会计师事务所</p>
-                        <!-- <div class="InstitutionsDetailLi clear" v-for="item in accounts"> -->
                             <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'" v-for="item in accounts">
                             <div class="image l">
                                 <img src="../../../../assets/images/kuaiji.png" alt>
@@ -115,7 +113,6 @@
                     </li>
                     <li class="clear " v-show="showMoreType">
                         <p v-show="assets&&assets.length>0" class="institutionTitle">资产评估机构</p>
-                        <!-- <div class="InstitutionsDetailLi clear" v-for="item in assets"> -->
                             <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'" v-for="item in assets">
                             <div class="image l">
                                 <img src="../../../../assets/images/assets.png" alt>
@@ -128,8 +125,6 @@
                                     <span class="failure" v-show="item.validFlag == 0">
                                         已失效
                                     </span>
-                                    <!-- <span style="background:yellow;color:white;font-size: 12px;">已认证</span>
-                                    <span style="color: #6633FF;font-size: 12px;">联系他</span> -->
                                 </div>
                                 <ul>
                                     <li class="people">
@@ -143,7 +138,7 @@
                         </div>
                     </li>
                     <li class="clear "  v-show="showMoreType">
-                        <p v-show="securitys&&securitys.length>0" class="institutionTitle">证券公司</p>
+                        <p v-show="securitys&&securitys.length>0" class="institutionTitle">分销商</p>
                         <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'" v-for="item in securitys">
                             <div class="image l">
                                 <img src="../../../../assets/images/coSponsors.png" alt>
@@ -157,17 +152,7 @@
                                         已失效
                                     </span>
                                 </div>
-                                <ul>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 14px; color: #999999;">保荐代表人：</span>
-                                        <span style="font-size:14px;color:black">{{item.representPerson}}</span>
-                                    </li>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 14px; color: #999999;">项目协办人：</span>
-                                        <span style="font-size:14px;color:black">{{item.assistPerson}}</span>
-                                    </li>
+                                <ul >
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">项目经办人：</span>
@@ -276,7 +261,6 @@ export default {
       }
       getIntermediaryOrgDataList(param).then(response => {
           if(response.data.result){
-              console.log('中介机构',response.data.result)
               this.allStitutionList = response.data.result
               this.accountsTotal = response.data.result.accounts
               this.sponsorsTotal = response.data.result.sponsors
@@ -423,11 +407,20 @@ export default {
       margin-left: 1%;
       width: 98%;
       .image {
-            width: 15%;
-            height: 100%;
-            position: relative;
-            top: 15px;
-            left: 23px;
+        width: 12%;
+        margin: auto;
+        margin-left: 3%;
+        margin-right: 0;
+      }
+     .text {
+        ul {
+          width: 100%;
+          margin-top: 8px;
+          li {
+            line-height: 20px;
+            margin-top:8px;
+          }
+        }
       }
     //   .text {
     //     width: 80%;
