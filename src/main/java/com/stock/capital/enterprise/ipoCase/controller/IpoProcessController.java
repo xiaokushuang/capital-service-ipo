@@ -51,24 +51,28 @@ public class IpoProcessController extends BaseController {
             @ApiImplicitParam(name = "fileType", value = "文件类型 01：公告 02：文件", required = true, paramType = "query", dataType = "String"),
     })
     @RequestMapping(value = "/downloadFile", method = RequestMethod.GET)
-    public void downLoadFile(String fileId, String fileType, HttpServletResponse response) {
+    public JsonResponse<String> downLoadFile(String fileId, String fileType, HttpServletResponse response) {
 //        id = "AN201901201287197198";
 //        id = "AN201901201287197198,AN201901201287197197";
 //        id = "1106725448754480921,1106725448754109589";
 //        id = "1106725448754480921";
 //        fileType = "02";
+        JsonResponse<String> result = new JsonResponse<>();
+        String fileName =  "";
         if (fileId.contains(",")) {
             if (fileType.equals("01")) {
-                ipoProcessService.downloadMultiplyAnnounce(fileId, response);
+                fileName = ipoProcessService.downloadMultiplyAnnounce(fileId, response);
             } else {
-                ipoProcessService.downloadMultiplyFile(fileId, response);
+                fileName = ipoProcessService.downloadMultiplyFile(fileId, response);
             }
         } else {
             if (fileType.equals("01")) {
-                ipoProcessService.downloadSingleAnnounce(fileId, response);
+                fileName = ipoProcessService.downloadSingleAnnounce(fileId, response);
             } else {
-                ipoProcessService.downloadSingleFile(fileId,response);
+                fileName = ipoProcessService.downloadSingleFile(fileId,response);
             }
         }
+        result.setResult(fileName);
+        return result;
     }
 }

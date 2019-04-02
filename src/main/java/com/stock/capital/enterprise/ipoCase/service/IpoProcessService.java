@@ -185,7 +185,7 @@ public class IpoProcessService extends BaseService {
     /**
      * 下载单个公告
      */
-    public void downloadSingleAnnounce(String id, HttpServletResponse response) {
+    public String downloadSingleAnnounce(String id, HttpServletResponse response) {
         String urls = apiBaseUrl + "declareInfo/postSearchIndex";
         MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
         param.add("indexId", id);
@@ -238,6 +238,7 @@ public class IpoProcessService extends BaseService {
         } finally {
             IOUtils.closeQuietly(in);
         }
+        return title;
     }
 
     private String transformMetacharactor(String input) {
@@ -250,9 +251,10 @@ public class IpoProcessService extends BaseService {
     /**
      * 下载多个公告
      */
-    public void downloadMultiplyAnnounce(String ids, HttpServletResponse response) {
+    public String downloadMultiplyAnnounce(String ids, HttpServletResponse response) {
         List<String> selIdList = new ArrayList<>();
         List<Map<String, String>> srcFileList = new ArrayList<>();
+        String fileName = "";
         if (StringUtils.isNotEmpty(ids)) {
             if (ids.contains(",")) {
                 selIdList = Arrays.asList(ids.split(","));
@@ -309,7 +311,7 @@ public class IpoProcessService extends BaseService {
             }
             InputStream in = null;
             try {
-                String fileName = "所选公告下载" + System.currentTimeMillis() + ".zip";
+                fileName = "所选公告下载" + System.currentTimeMillis() + ".zip";
                 fileName = new String(fileName.getBytes(), "ISO-8859-1");
                 in = CompressUtil.multiURLCompressZip(srcFileList);
                 // 设置输出的格式
@@ -327,11 +329,11 @@ public class IpoProcessService extends BaseService {
             } finally {
                 IOUtils.closeQuietly(in);
             }
-
         }
+        return fileName;
     }
 
-    public void downloadSingleFile(String id, HttpServletResponse response) {
+    public String downloadSingleFile(String id, HttpServletResponse response) {
         //根据文件id查询相关信息
         IpoFileRelationDto fileDto = ipoProcessMapper.selectFileDto(id);
         String suffix = fileDto.getSuffix();
@@ -369,12 +371,13 @@ public class IpoProcessService extends BaseService {
         } finally {
             IOUtils.closeQuietly(in);
         }
-
+        return fileName;
     }
 
-    public void downloadMultiplyFile(String ids, HttpServletResponse response) {
+    public String downloadMultiplyFile(String ids, HttpServletResponse response) {
         List<String> selIdList = new ArrayList<>();
         List<Map<String, String>> srcFileList = new ArrayList<>();
+        String downFileName = "";
         if (StringUtils.isNotEmpty(ids)) {
             if (ids.contains(",")) {
                 selIdList = Arrays.asList(ids.split(","));
@@ -404,7 +407,7 @@ public class IpoProcessService extends BaseService {
             }
             InputStream in = null;
             try {
-                String downFileName = "所选文件下载" + System.currentTimeMillis() + ".zip";
+                downFileName = "所选文件下载" + System.currentTimeMillis() + ".zip";
                 downFileName = new String(downFileName.getBytes(), "ISO-8859-1");
                 in = compress(srcFileList);
                 response.reset();
@@ -422,6 +425,7 @@ public class IpoProcessService extends BaseService {
                 IOUtils.closeQuietly(in);
             }
         }
+        return downFileName;
     }
 
     private InputStream compress(List<Map<String, String>> srcFileList) {
