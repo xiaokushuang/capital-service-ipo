@@ -1,8 +1,12 @@
 package com.stock.capital.enterprise.ipoCase.controller;
 
+import com.stock.capital.enterprise.ipoCase.dao.IpoExamineMapper;
+import com.stock.capital.enterprise.ipoCase.dao.IpoFeedbackMapper;
 import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
 import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
 import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoExamineBaseDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainIncomeVo;
@@ -16,6 +20,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +35,10 @@ public class IpoCaseOverviewController {
 
     @Autowired
     private CompanyOverviewService companyOverviewService;
+    @Autowired
+    private IpoFeedbackMapper ipoFeedbackMapper;
+    @Autowired
+    private IpoExamineMapper ipoExamineMapper;
 
     @ApiOperation(value = "案例详细接口", notes = "案例详细接接口描述")
     @ApiImplicitParams({
@@ -129,6 +139,30 @@ public class IpoCaseOverviewController {
     public JsonResponse<HeadDataVo> headData(@RequestParam("id") String id) {
         JsonResponse<HeadDataVo> response = new JsonResponse<>();
         HeadDataVo headDataVo = companyOverviewService.getHeadData(id);
+        //判断是否显示反馈意见
+        List<String> feedbackProcess = ipoFeedbackMapper.selectFeedbackProcess(id);
+        if(CollectionUtils.isNotEmpty(feedbackProcess)){
+            headDataVo.setHaveFeedback(0);
+            //如果有进程，则判断问题列表是否为空
+            //根据案例id查询公司的东财内码
+            IpoFeedbackDto ipoFeedbackDto = new IpoFeedbackDto();
+            ipoFeedbackDto.setOrgCode(ipoFeedbackMapper.getOrgCode(ipoFeedbackDto.getId()));
+            //查询问题答案列表
+            List<IpoFeedbackDto> feedbackList = ipoFeedbackMapper.selectFeedbackList(ipoFeedbackDto);
+            if(CollectionUtils.isEmpty(feedbackList)){
+                headDataVo.setHaveFeedback(2);
+            }
+        }else{
+            headDataVo.setHaveFeedback(1);
+        }
+        //判断是否显示审核结果
+        //查询发审会基础信息
+        List<IpoExamineBaseDto> baseList = ipoExamineMapper.selectExamineBaseList(id);
+        if(CollectionUtils.isNotEmpty(baseList)){
+            headDataVo.setHaveExamine(0);
+        }else{
+            headDataVo.setHaveExamine(1);
+        }
         response.setResult(headDataVo);
         return response;
     }

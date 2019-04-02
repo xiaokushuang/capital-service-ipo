@@ -40,6 +40,12 @@ public class HeadDataVo implements Serializable {
     @ApiModelProperty("申报审核历时")
     private Integer auditDuration;
 
+    @ApiModelProperty("是否有反馈意见数据 0:显示 1:没有反馈进程 2:没有问题列表")
+    private Integer haveFeedback;
+
+    @ApiModelProperty("是否有审核结果数据 0:显示 1:没有发审会进程")
+    private Integer haveExamine;
+
     public String getTitle() {
         return title;
     }
@@ -94,5 +100,21 @@ public class HeadDataVo implements Serializable {
 
     public void setAuditDuration(Integer auditDuration) {
         this.auditDuration = auditDuration;
+    }
+
+    public Integer getHaveFeedback() {
+        return haveFeedback;
+    }
+
+    public void setHaveFeedback(Integer haveFeedback) {
+        this.haveFeedback = haveFeedback;
+    }
+
+    public Integer getHaveExamine() {
+        return haveExamine;
+    }
+
+    public void setHaveExamine(Integer haveExamine) {
+        this.haveExamine = haveExamine;
     }
 }
