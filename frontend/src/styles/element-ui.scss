@@ -78,7 +78,7 @@
  .companyProfile .el-table thead tr th{
   // background: #f2f2f2;
   color: black;
-} 
+}
 .companyProfile .el-table .cell {
   line-height: 20px !important;
   // text-align: center;
@@ -197,7 +197,7 @@
   bottom: 0;
   left: 0;
   height: 2px;
-  background-color: white; 
+  background-color: white;
   z-index: 1;
   -webkit-transition: -webkit-transform .3s cubic-bezier(.645,.045,.355,1);
   transition: -webkit-transform .3s cubic-bezier(.645,.045,.355,1);
@@ -233,7 +233,7 @@
 .feedback .el-tabs__header {
   padding: 0;
   position: relative;
-  margin: 0 0; 
+  margin: 0 0;
 }
 // 反馈意见 多选按钮样式
 .el-checkbox-button__inner {
@@ -242,7 +242,7 @@
   white-space: nowrap;
   vertical-align: middle;
   cursor: pointer;
-  background: #fafafa;; 
+  background: #fafafa;;
   border: 1px solid #e2e2e2;
   border-left: 0;
   color: #555;
@@ -442,6 +442,36 @@
   padding-left: 3px;
 }
 
+
  .ipoCaseList .el-radio + .el-radio {
    margin-left: -23px;
  }
+// 进程树公告弹窗
+.el-dialog__title {
+  width:100%;
+  font-style: normal;
+  font-size: 16px;
+  color: #303133;
+  text-align: left;
+}
+ .el-dialog__header {
+  padding: 12px 21px 11px;
+  border-bottom:1px #e1e1e1 solid;
+}
+.el-dialog__headerbtn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  padding: 0;
+  background: 0 0;
+  border: none;
+  outline: 0;
+  cursor: pointer;
+  font-size: 16px;
+}
+.el-dialog__body {
+  padding: 24px 24px;
+  color: #555;
+  line-height: 24px;
+  font-size: 14px;
+}

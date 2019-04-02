@@ -121,13 +121,14 @@ export default {
     width:100%;
     background:white;
     .downloadAnnouncementSpan{
-        display:inline-block;
-        padding:3px;
-        margin-top:10px;
-        margin-left:50px;
-        border:1px solid rgba(202, 202, 202, 1);
+        display: inline-block;
+        padding: 3px 10px;
+        margin-top: 16px;
+        margin-left: 0px;
+        border: 1px solid #cacaca;
         border-radius: 2px;
-        cursor:pointer;
+        cursor: pointer;
+        color: rgb(51, 51, 51);
     }
 }
 </style>
