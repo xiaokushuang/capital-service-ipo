@@ -83,10 +83,12 @@ export default {
           fileId:fileIdLabel,
           fileType:fileType
         }
-          console.log(param)
-        getDownloadFileData(param).then(res => {
-            console.log(res)
-        })
+        let url = window.location.href;
+        let token = this.$store.state.app.token
+        url = url.substr(0,url.indexOf("ui"));
+        url = url + 'ipo/ipoProcess/downloadFile?access_token='+token+
+              '&fileId='+ fileIdLabel + '&fileType='+ fileType;
+        window.open(url);
       },
         initDownloadFileData1(fileId,fileType) {
         // 动态传id
@@ -94,10 +96,12 @@ export default {
           fileId:fileId,
           fileType:fileType
         }
-          console.log(param)
-        getDownloadFileData(param).then(res => {
-            console.log(res)
-        })
+        let url = window.location.href;
+        let token = this.$store.state.app.token
+        url = url.substr(0,url.indexOf("ui"));
+        url = url + 'ipo/ipoProcess/downloadFile?access_token='+token+
+              '&fileId='+ fileId + '&fileType='+ fileType;
+        window.open(url);
       },
       // 下载公告
       handleDown(v){

@@ -142,9 +142,8 @@
       </div>
       <div class="competitorContent">
         <ul class="competitorUl" style="padding-left:0">
-          <li class="clear competitorLi" v-for="data in MajorCompetitors">
-            <div class="leftTitle" style="width: 16%;margin:auto;
-              display: inline-block;">
+          <li class="clear competitorLi" v-for="data in MajorCompetitors" style="display: table;	width: 100%;height: 100%;*position: relative;">
+            <div class="leftTitle" style="width: 16%;display: table-cell;vertical-align: middle;*position: absolute;*top: 50%;">
               <p style="font-family: 'PingFang-SC-Bold', 'PingFang SC Bold', 'PingFang SC';
                 font-weight: 700;
                 font-style: normal;
@@ -162,9 +161,9 @@
                 color: #555555;
                 line-height: 22px;
                 float: right;
-                margin:auto;
                 width: 84%;
-                margin-left: 39px;">
+                margin-left: 39px;
+                display: table-cell;vertical-align: middle;*position: absolute;*top: 50%;">
              <p class="moreText">{{data.situation}}</p>
             </div>
           </li>

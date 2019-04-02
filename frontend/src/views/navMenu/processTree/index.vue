@@ -276,10 +276,10 @@ export default {
           sortType:sortType
         }
         getRightModuleData(param).then(res => {
+            this.flagLoading = false;
             if(res.data.result.treeList&&res.data.result.treeList.length>0){
                 this.treeList = res.data.result.treeList
                 this.treeTypeCode = res.data.result.treeList[0].treeTypeCode
-                this.flagLoading = false;
             }
         })
       },
