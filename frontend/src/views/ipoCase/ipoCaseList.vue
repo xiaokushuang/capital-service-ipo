@@ -949,11 +949,21 @@
       getSelectData() {
         const _self = this;
         _getSelectData().then(response => {
-          _self.industryCrscList = response.data.result.industryCrscList;
-          _self.companyNatureList = response.data.result.companyNatureList;
-          _self.ipoNumList = response.data.result.ipoNumList;
-          _self.verifyResultList = response.data.result.verifyResultList;
-          _self.processList = response.data.result.processList;
+          if (response.data.result.industryCrscList != null && response.data.result.industryCrscList.length > 0) {
+            _self.industryCrscList = response.data.result.industryCrscList;
+          }
+          if (response.data.result.companyNatureList != null && response.data.result.companyNatureList.length > 0) {
+            _self.companyNatureList = response.data.result.companyNatureList;
+          }
+          if (response.data.result.ipoNumList != null && response.data.result.ipoNumList.length > 0) {
+            _self.ipoNumList = response.data.result.ipoNumList;
+          }
+          if (response.data.result.verifyResultList != null && response.data.result.verifyResultList.length > 0) {
+            _self.verifyResultList = response.data.result.verifyResultList;
+          }
+          if (response.data.result.processList != null && response.data.result.processList.length > 0) {
+            _self.processList = response.data.result.processList;
+          }
         })
       },
       sure(event) {
@@ -1049,12 +1059,12 @@
       },
       clickUnHandler() {
         let url = window.location.href;
-        url = url.replace(this.$route.path,'/ipoPopWin');
-        iframeDoMessage(window.parent,'popWinOut',['提示',url,'427','217']);
+        url = url.replace(this.$route.path, '/ipoPopWin');
+        iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
       },
       openNew() {
         const _self = this;
-        const href = window.location.origin + 'ui/laws/laws/lawsDetail?lawId=745777672757626842&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.tenant_info;
+        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=745777672757626842&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
         window.open(href, '_blank');
       }
     },
