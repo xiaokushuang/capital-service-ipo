@@ -783,7 +783,7 @@ export default {
   box-shadow: 0 0px 28px -5px #ccc;
 }
 .majorBusinesses{
-  color:#333333;
+  color:#333333; 
   margin-left: 9.4%;
   margin-top: -2%;
   line-height: 20px;

@@ -54,7 +54,7 @@
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
                                             <span v-text='item.processTime'></span>
                                             &nbsp;&nbsp;
-                                            <span v-if="item.lastDay != undefined">距离上个进程{{item.lastDay}}</span>
+                                            <span v-if="item.lastDay != undefined">距离上个进程{{item.lastDay}}天</span>
                                             <!-- 前面图标 -->
                                             <div :id="'each' +  item.progressIndex" style="display:none;">
                                                 <div :ref=' item.progressIndex' :class="'abc'+ item.progressIndex"></div>
@@ -140,7 +140,7 @@
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
                                             <span v-text='item.processTime'></span>
                                             &nbsp;&nbsp;
-                                            <span v-if="item.lastDay != undefined">距离上个进程{{item.lastDay}}</span>
+                                            <span v-if="item.lastDay != undefined">距离上个进程{{item.lastDay}}天</span>
                                             <!-- 前面图标 -->
                                             <div :id="'each' +  item.progressIndex" style="display:none;">
                                                 <div :ref=' item.progressIndex' :class="'abc'+ item.progressIndex"></div>
@@ -194,7 +194,6 @@
                         <div class="popWindow">
                              <el-dialog :title= moreNoticeDailog :visible.sync="dialogVisible" :close-on-click-modal="false" width="73.5%" append-to-body id="moreNoticeDailog">
                                 <div style="background: #cccccc">
-                                    <!-- <moreNotice :moreNoticeList = "moreNoticeList"></moreNotice> -->
                                     <moreNotice :moreNoticeList = "[moreNoticeList,fileType]"></moreNotice>
                                 </div>
                             </el-dialog>

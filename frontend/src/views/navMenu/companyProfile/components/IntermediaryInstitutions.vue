@@ -364,10 +364,9 @@
                         </div>
                     </li>
                 </ul>
-                <!-- <p @click="handleShowMoreType()" class="more" style="color: rgb(25, 144, 254);font-size:14px;text-align:center;cursor:pointer">更多中介机构<i class="el-icon-d-arrow-right"></i></p> -->
                  <div style=" text-align: center;">
-                    <span style="color: rgb(25, 144, 254);font-size:14px;text-align:center;cursor:pointer" class="packUp" v-if="showMoreType" @click="packUpMoreType()">收起 <i class="el-icon-arrow-up"></i></span>
-                    <span style="color: rgb(25, 144, 254);font-size:14px;text-align:center;cursor:pointer" class="spread" v-else @click="spreadMoreType()">更多中介机构 <i class="el-icon-arrow-down"></i></span>
+                    <span v-show="(securitys&&securitys.length>0) || (assets&&assets.length>0)" style="color: rgb(25, 144, 254);font-size:14px;text-align:center;cursor:pointer" class="packUp" v-if="showMoreType" @click="packUpMoreType()">收起 <i class="el-icon-arrow-up"></i></span>
+                    <span v-show="(securitys&&securitys.length>0) || (assets&&assets.length>0)" style="color: rgb(25, 144, 254);font-size:14px;text-align:center;cursor:pointer" class="spread" v-else @click="spreadMoreType()">更多中介机构 <i class="el-icon-arrow-down"></i></span>
                  </div>
             </div>
         </div>
@@ -462,6 +461,7 @@ export default {
       }
       getIntermediaryOrgDataList(param).then(response => {
           if(response.data.result){
+              console.log('中介机构',response.data.result)
               this.allStitutionList = response.data.result
               this.accountsTotal = response.data.result.accounts
               this.sponsorsTotal = response.data.result.sponsors
