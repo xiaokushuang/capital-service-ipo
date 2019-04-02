@@ -180,9 +180,10 @@ import { mapGetters } from "vuex";
 import { GetDateDiff } from "@/utils";
 import chartBoxThree from "./chartBoxThree";
 import china from "echarts/map/js/china"
+import common from '@/mixins/common'
 export default {
   name: "chartBoxThree",
-  mixins: [datepicker],
+  mixins: [datepicker,common],
   components: { Chart, china},
   data() {
     return {
@@ -198,7 +199,8 @@ export default {
         industrySelect: ""
       },
       tableData: [],
-      arr: ["001", "002", "003"]
+      arr: ["001", "002", "003"],
+      refreshFlag:false,//点击按钮不刷新右边表格
     };
   },
   props: {
@@ -224,9 +226,10 @@ export default {
     activeFun(data) {
       this.flag = data; //选中样式
       // 给chart换数据
-      // console.log(this.flag)
       this.param.countType = this.flag;
-      this.param.dateSelect = "";
+      // this.param.dateSelect = "";
+      this.param.finaType = "001,002,003";
+      this.value5 = "";
       this.chartThree(false);
     },
     //选项卡点击触发事件
@@ -245,6 +248,7 @@ export default {
             this.param.chartType = 3;
             this.param.type = "ipodata3";
         }
+        this.refreshFlag = true;
         this.$store.dispatch("ipoGet", this.param).then(() => {});
       }
     },
@@ -252,7 +256,7 @@ export default {
     clickClass(value,$event) {
         if($event.target.classList.contains('clickSpan') === false){
             $event.target.classList.add('clickSpan')
-            this.param.countType = 1
+            this.param.countType = this.flag;
             this.param.chartType = 3
             for(let i =0; i < this.arr.length; i++) {
                 if(this.arr[i] === value){
@@ -263,12 +267,13 @@ export default {
             this.param.type = "ipodata3";
         } else {
             $event.target.classList.remove('clickSpan')
-            this.param.countType = 1
+            this.param.countType = this.flag;
             this.param.chartType = 3
             this.arr.push(value)
             this.param.finaType = this.arr.join(',')
             this.param.type = "ipodata3";
-            }
+        }
+        this.refreshFlag = false;
         this.$store.dispatch("ipoGet", this.param).then(() => {});
     }
   },
@@ -294,15 +299,18 @@ export default {
   watch: {
     value5(n, o) {
       //依照操作取数据
-      if (n == null) {
-        this.dateSelect = "";
-        this.chartThree(true);
-        for(let i =0; i< document.getElementById('listC').getElementsByTagName('a').length;i++) {
-          if (document.getElementById('listC').getElementsByTagName('a')[i].classList.contains("active") === false) {
-            document.getElementById('listC').getElementsByTagName('a')[3].classList.add("active")
-          }     
+      if (this.getValue(n) == '') {
+        if(this.flag == 7) {
+          this.dateSelect = "";
+          this.flag = 1;
+          this.chartThree(true);
+          for(let i =0; i< document.getElementById('listC').getElementsByTagName('a').length;i++) {
+            if (document.getElementById('listC').getElementsByTagName('a')[i].classList.contains("active") === false) {
+              document.getElementById('listC').getElementsByTagName('a')[3].classList.add("active")
+            }     
+          }
+          return false;
         }
-        return false;
       } else {
         var d = new Date(n[0]);
         const f = new Date(n[1]);
@@ -313,7 +321,8 @@ export default {
         const flg = GetDateDiff(start, end, "day");
         this.param.countType = 7;
         this.param.chartType = 3;
-        if (flg >= 30) {
+        this.flag = 7;
+        if (flg >= 31) {
           this.param.dateSelect = start + " 至 " + end;
           // console.log(this.param)
           this.chartThree(false);
@@ -331,10 +340,10 @@ export default {
       }
     },
     getIpo3(n, o) {
-      //   console.log('getIpo变了')
-      //   console.log(n)
       //数据变化时更新chart
-      this.tableData = n;
+      if(this.refreshFlag) {//更改时间时,刷新右侧数据
+        this.tableData = n;
+      }
     }
   }
 };
