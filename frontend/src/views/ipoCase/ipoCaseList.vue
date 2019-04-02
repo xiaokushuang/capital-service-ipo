@@ -424,6 +424,7 @@
 <script>
   import {_getIpoCaseList, _getSelectData, _queryIntermediary} from '@/api/ipoCase/ipoCaseListApi'
   import papers from '@/views/components-demo/papersNew'
+  import {iframeDoMessage} from '@/utils/auth'
 
   export default {
     data() {
@@ -1047,17 +1048,9 @@
         window.open(href, '_blank');
       },
       clickUnHandler() {
-        this.$confirm('<a>您当前为试用用户，仅可查看有限案例，若需要查看更多案例，获得更好体验，可升级为正式用户。</a><br/><a>来电咨询：400-800-3388</a>', '提示', {
-          confirmButtonText: '在线咨询',
-          showCancelButton: false,
-          closeOnClickModal: false,
-          closeOnPressEscape: false,
-          dangerouslyUseHTMLString: true
-        }).then(() => {
-          window.open('https://vs.rainbowred.com/visitor/pc/chat.html?companyId=488&echatTag=网站咨询', 'height=854', 'width=600');
-        }).catch(() => {
-
-        });
+        let url = window.location.href;
+        url = url.replace(this.$route.path,'/ipoPopWin');
+        iframeDoMessage(window.parent,'popWinOut',['提示',url,'450','250']);
       },
       openNew() {
         const _self = this;
