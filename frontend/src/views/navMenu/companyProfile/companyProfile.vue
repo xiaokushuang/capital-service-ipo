@@ -181,7 +181,7 @@
         <div v-for="item in supplierMainList" :key="item.id" >
             <p style="font-size:14px;color:#666">{{item.remark}}：</p>
              <el-table :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px">
-              <el-table-column fixed align="center" class-name="table_cell" label="排名" width="50">
+              <el-table-column fixed align="center" class-name="table_cell" label="排名" width="70">
                 <template slot-scope="scope">
                   {{scope.$index+1}}
                   </template>
@@ -271,7 +271,7 @@
           <div v-for="item in customerMainList" :key="item.id" >
               <p style="font-size:14px;color:#666">{{item.remark}}：</p>
               <el-table :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px">
-                <el-table-column fixed align="center" class-name="table_cell" label="排名" width="50">
+                <el-table-column fixed align="center" class-name="table_cell" label="排名" width="70">
                   <template slot-scope="scope">
                     {{scope.$index+1}}
                     </template>
