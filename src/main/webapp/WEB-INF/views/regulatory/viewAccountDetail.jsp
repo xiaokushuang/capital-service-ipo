@@ -97,7 +97,25 @@ table tbody tr td.left {
                                 <td>${cl.accountantOffice}</td>
                                 <td>${cl.lawFirm}</td>
                                 <td>
-                                	${cl.approveStatus}
+                               <%-- <c:if test="${quasiListedLand=='04'}"> --%>
+                               		<c:choose>
+                                        <c:when test="${quasiListedLand=='04'}">
+                                        
+                                        	<c:choose>
+                                        		<c:when test="${cl.approveStatus=='已反馈'}">已问询</c:when>
+                                        		<c:when test="${cl.approveStatus=='已通过发审会'}">上市委会议通过</c:when>
+                                        		<c:when test="${cl.approveStatus=='中止审查'}">中止</c:when>
+                                        		<c:otherwise>${cl.approveStatus}</c:otherwise>
+                                        	</c:choose>
+                                        
+                                        </c:when>
+                                        <c:otherwise>${cl.approveStatus}</c:otherwise>
+                                    </c:choose>
+                                	<%-- <c:if test="${cl.approveStatus=='已反馈'}">已问询</c:if>
+                                	<c:if test="${cl.approveStatus=='已通过发审会'}">上市委会议通过</c:if>
+                                	<c:if test="${cl.approveStatus=='中止审查'}">中止</c:if> --%>
+                               <%--  </c:if> --%>
+                                 <%--  <c:if test="${quasiListedLand!='04'}">${cl.approveStatus }</c:if>	 --%>
                                 </td>
                                 <td>
                                 	<c:choose>

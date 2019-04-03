@@ -525,6 +525,7 @@ public class StatisticsController extends BaseController {
          ModelAndView mv = new ModelAndView("regulatory/viewCommendDetail");
          List<StatisticsResultDto> companyList = statisticsService.queryCommendDetail(statisticsParamDto);
          mv.addObject("companyList",companyList);
+         mv.addObject("quasiListedLand",statisticsParamDto.getQuasiListedLand());
          mv.addObject("statisticsParamDto",statisticsParamDto);
          return mv;
      }
@@ -539,6 +540,7 @@ public class StatisticsController extends BaseController {
          ModelAndView mv = new ModelAndView("regulatory/viewLawDetail");
          List<StatisticsResultDto> companyList = statisticsService.queryLawDetail(statisticsParamDto);
          mv.addObject("companyList",companyList);
+         mv.addObject("quasiListedLand",statisticsParamDto.getQuasiListedLand());
          mv.addObject("statisticsParamDto",statisticsParamDto);
          return mv;
      }
@@ -553,6 +555,7 @@ public class StatisticsController extends BaseController {
          ModelAndView mv = new ModelAndView("regulatory/viewAccountDetail");
          List<StatisticsResultDto> companyList = statisticsService.queryAccountDetail(statisticsParamDto);
          mv.addObject("companyList",companyList);
+         mv.addObject("quasiListedLand",statisticsParamDto.getQuasiListedLand());
          mv.addObject("statisticsParamDto",statisticsParamDto);
          return mv;
      }
