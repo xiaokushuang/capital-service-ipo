@@ -6,7 +6,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import 'font-awesome/css/font-awesome.min.css'
 // 引入echarts
 import echarts from 'echarts'
-Vue.prototype.$echarts = echarts 
+Vue.prototype.$echarts = echarts
 import '@/styles/index.scss' // global css
 import App from './App'
 import router from './router'
@@ -35,7 +35,7 @@ import 'babel-polyfill'
 
 import VueMoment from 'vue-moment'
 import moment from 'moment-timezone'
- 
+
 Vue.use(VueMoment,{
     moment
 })
@@ -65,7 +65,7 @@ new Vue({
 Vue.filter('dataInThRule', function (value) {
   if(!value) return value
   if(value === '') return value
-  if(value < 0) return 0;
+  // if(value < 0) return 0;
   let str = parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
   return str;
 })

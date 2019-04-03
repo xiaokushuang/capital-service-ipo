@@ -8,7 +8,7 @@
 import echarts from 'echarts'
 import { getMaoChartTableData } from '@/api/ipoCase/tableDemo'
 export default {
- 
+
   data() {
     return {
         caseId:this.$store.state.app.caseId,
@@ -54,7 +54,7 @@ beforeDestroy() {
     　　　　handler(newValue, oldValue)
              {  
               this.zxIndex = newValue
-              //折线图数据的初始化 
+              //折线图数据的初始化
               this.initTableData()
       　　　　},  
       　　　　deep: true,  //对象内部的属性监听，也叫深度监听
@@ -68,23 +68,22 @@ beforeDestroy() {
           this.zxChart.dispose()
           this.zxChart = null
         }
-      this.zxChart = echarts.init(document.getElementById('zxChart' + this.zxIndex))  
+      this.zxChart = echarts.init(document.getElementById('zxChart' + this.zxIndex))
     //  循环获取数据
         // for (var i = 0; i < dataList.length; i++) {
         for(var i = 0;i < this.zxIndex + 1;i++){
           this.zxChartY = []
-          for(var j = 0;j < dataList[i].industryCompareRateDetailList.length;j++){ 
+          for(var j = 0;j < dataList[i].industryCompareRateDetailList.length;j++){
               this.zxChartY.push(
                                 {
                                     name:dataList[i].industryCompareRateDetailList[j].companyName,
                                     type:'line',
-                                    stack: '总量',
                                     data:[dataList[i].industryCompareRateDetailList[j].firstYearRate,dataList[i].industryCompareRateDetailList[j].secondYearRate,dataList[i].industryCompareRateDetailList[j].thirdYearRate]
                                 },
                              )
-                             
+
              this.zxChartX = [dataList[i].firstYear,dataList[i].secondYear,dataList[i].thirdYear]
-           
+
           }
         }
        this.zxChart.setOption({
@@ -116,7 +115,7 @@ beforeDestroy() {
             series: this.zxChartY
       })
     }
-     
+
   }
 }
 </script>

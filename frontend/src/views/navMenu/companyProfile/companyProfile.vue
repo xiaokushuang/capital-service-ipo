@@ -85,8 +85,8 @@
         <span v-for="(item,index) in structureLabel" class="hongkuang">{{item}}</span>
       </div>
       <!-- 图片 -->
-      <div class="img" style="width:100%">
-         <img :src="structureUrl" alt>
+      <div class="img">
+         <img :src="structureUrl" width="100%">
       </div>
       <!-- 股权股东表格 -->
       <el-table :data="gqTableList" style="width: 100%" stripe border>
