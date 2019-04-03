@@ -15,7 +15,7 @@
         </el-table-column>
         <el-table-column prop="onePeriodRatio" align="right"  class-name="table_cell" label="占比(%)" width="81">
             <template slot-scope="scope">
-              <span v-if="scope.row.onePeriodRatio"> {{scope.row.onePeriodRatio | dataInThRule}}%</span>
+              <span v-if="scope.row.onePeriodRatio"> {{scope.row.onePeriodRatio | dataInThRule}}</span>
               <span v-else> - - </span>
            </template>
         </el-table-column>
@@ -29,7 +29,7 @@
         </el-table-column>
         <el-table-column prop="thirdYearRatio" align="right"  class-name="table_cell" label="占比(%)" width="81">
            <template slot-scope="scope">
-              <span v-if="scope.row.thirdYearRatio"> {{scope.row.thirdYearRatio | dataInThRule}}%</span>
+              <span v-if="scope.row.thirdYearRatio"> {{scope.row.thirdYearRatio | dataInThRule}}</span>
               <span v-else> - - </span>
            </template>
         </el-table-column>
@@ -43,7 +43,7 @@
         </el-table-column>
         <el-table-column prop="secondYearRatio" align="right"  class-name="table_cell" label="占比(%)" width="81">
            <template slot-scope="scope">
-              <span v-if="scope.row.secondYearRatio"> {{scope.row.secondYearRatio | dataInThRule}}%</span>
+              <span v-if="scope.row.secondYearRatio"> {{scope.row.secondYearRatio | dataInThRule}}</span>
               <span v-else> - - </span>
            </template>
         </el-table-column>
@@ -57,7 +57,7 @@
         </el-table-column>
         <el-table-column prop="firstYearRatio" align="right"  class-name="table_cell" label="占比(%)" width="81">
          <template slot-scope="scope">
-              <span v-if="scope.row.firstYearRatio"> {{scope.row.firstYearRatio | dataInThRule}}%</span>
+              <span v-if="scope.row.firstYearRatio"> {{scope.row.firstYearRatio | dataInThRule}}</span>
               <span v-else> - - </span>
            </template>
         </el-table-column>

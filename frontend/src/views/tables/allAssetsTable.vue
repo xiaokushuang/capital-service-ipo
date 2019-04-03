@@ -1,5 +1,5 @@
 <template>
-  <div class="table-class">
+  <div class="table-class allAssetsTable">
     <el-table :data="tableContent" border style="width: 100%;margin-top: 20px">
       <el-table-column align="left" class-name="table_cell" label="项目" width="156">
          <template slot-scope="scope">
@@ -12,19 +12,19 @@
                       <span v-else> - - </span>
           </template>
       </el-table-column>
-      <el-table-column align="right"  :label="tableTitle.thirdYearDate" header-align="center">
+      <el-table-column align="right"  :label="tableTitle.thirdYearDate" header-align="right">
         <template slot-scope="scope">
             <span v-if="scope.row.thirdYearValue"> {{scope.row.thirdYearValue | dataInThRule}}</span>
             <span v-else> - - </span>
         </template>
       </el-table-column>
-      <el-table-column align="right"  :label="tableTitle.secondYearDate" header-align="center">
+      <el-table-column align="right"  :label="tableTitle.secondYearDate" header-align="right">
           <template slot-scope="scope">
             <span v-if="scope.row.secondYearValue"> {{scope.row.secondYearValue | dataInThRule}}</span>
             <span v-else> - - </span>
         </template>
       </el-table-column>
-      <el-table-column align="right"  :label="tableTitle.firstYearDate" header-align="center">
+      <el-table-column align="right"  :label="tableTitle.firstYearDate" header-align="right">
           <template slot-scope="scope">
             <span v-if="scope.row.firstYearValue"> {{scope.row.firstYearValue | dataInThRule}}</span>
             <span v-else> - - </span>

@@ -261,13 +261,24 @@ export default {
       }
       getIntermediaryOrgDataList(param).then(response => {
           if(response.data.result){
-              this.allStitutionList = response.data.result
+             this.allStitutionList = response.data.result
+          }
+          if(response.data.result&&response.data.result.accounts&&response.data.result.accounts.length>0){
               this.accountsTotal = response.data.result.accounts
+          }
+          if(response.data.result&&response.data.result.sponsors&&response.data.result.sponsors.length>0){
               this.sponsorsTotal = response.data.result.sponsors
+          }
+          if(response.data.result&&response.data.result.securitys&&response.data.result.securitys.length>0){
               this.securitysTotal = response.data.result.securitys
+          }
+          if(response.data.result&&response.data.result.lawyers&&response.data.result.lawyers.length>0){
               this.lawyersTotal = response.data.result.lawyers
+          }
+          if(response.data.result&&response.data.result.assets&&response.data.result.assets.length>0){
               this.assetsTotal = response.data.result.assets
           }
+          
         // 筛选有效
          for (let m = 0; m < this.accountsTotal.length; m++) {
             if (this.accountsTotal[m].validFlag == 1) {

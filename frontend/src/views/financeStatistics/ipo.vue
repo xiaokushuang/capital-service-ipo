@@ -88,8 +88,8 @@
                                 <!-- 5 -->
                                 <div id="title-fifth" class="title-body" v-show="isActive == '5'">
                                     <span v-for="(item, index) in tabFifthList">
-                                    <a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveFifth === item.id}, {'disabled': item.noClick}]" :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 5)">{{item.name}}</a>
-                                    <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFifthList.length - 1">|</span>
+                                        <a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveFifth === item.id}, {'disabled': item.noClick}]" :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 5)">{{item.name}}</a>
+                                        <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFifthList.length - 1">|</span>
                                     </span>
                                 </div>
                                 </div>
@@ -211,8 +211,6 @@ export default {
          {
           id:'1',
           name:'主要财务数据',
-          // tabId: 'tab-first',
-          // noClick: false
         },
          {
           id:'2',
@@ -226,16 +224,16 @@ export default {
       tabFourthList: [
         
       ],
-      tabFifthList: [
+      tabFifthList:[
          {
           id:'1',
-          name:'发行数据'
+          name:'发行数据',
         },
          {
           id:'2',
           name:'发行费用'
         },
-       
+         
       ],
       isActive: "1",
       tabBarWidth: "",
@@ -252,7 +250,17 @@ export default {
       time: "",
       clientLeft: "",
       topHeight: "",
-      headList:[],
+      headList:{
+        auditDuration: '',
+        establishDate: '',
+        greenPassage: '',
+        haveExamine: '',
+        haveFeedback:'',
+        iecResult: '',
+        processLabel: '',
+        supportDuration: '',
+        title: ''
+      },
       placeholderHeight:'500px'
     };
   },
@@ -263,7 +271,9 @@ export default {
         id:this.caseId2
       }
        getHeadData(param).then(res => {
-         this.headList = res.data.result
+         if(res.data.result){
+           this.headList = res.data.result
+         }
       }) 
     },
     statusButtonClick(data) {
@@ -386,7 +396,6 @@ export default {
                          case '5':
                         //  最后tab页形态不一样
                         that.$refs.rightModule.treeListMethods(true);
-                        // console.log('tab999',that.showComponent)
                         targetList = document.getElementById('title-fifth').children;
                         let fifthFlag = 0;
                                                
@@ -435,6 +444,7 @@ export default {
       }
     },
     headCall(param) {
+      // debugger;
       if (param != null && param != undefined && param.length > 0) {
         switch (param[0].tabId) {
           case "tab-first":
@@ -476,10 +486,6 @@ export default {
           parseInt(String(h2).split("px")[0])) /
         2;
     },
-    handleEvent(height){
-      // this. placeholderHeight = height
-      // console.log('父组件打印',this.placeholderHeight)
-    }
   },
   computed: {
   },
@@ -722,13 +728,13 @@ export default {
 
 .mmpClass {
   font-size: 12px;
-  color: #14bcf5;
+  color: #1990fe;
 }
 
 .mmpClass:hover {
   cursor: pointer;
   text-decoration: underline;
-  text-decoration-color: #14bcf5;
+  text-decoration-color: #1990fe;
 }
 
 .el-tabs__item {

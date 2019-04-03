@@ -206,7 +206,9 @@ export default {
              id:this.caseId
             }
             getMaoChartTableData(param).then(res => {
-                this.maoChartTableData = res.data.result                 
+                if(res.data.result&&res.data.result.length>0){
+                    this.maoChartTableData = res.data.result                 
+                }
             }) 
         },
         // 非空判断

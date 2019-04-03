@@ -204,8 +204,8 @@ export default {
                     tabId: 'tab-fifth',
                     noClick: false
                 }              
-                titleList.push(distributionCosts)
                 titleList.push(distributionData)
+                titleList.push(distributionCosts)
                 this.$emit('headCallBack', titleList);
             //返回父组件用于锚点定位尾
      },
