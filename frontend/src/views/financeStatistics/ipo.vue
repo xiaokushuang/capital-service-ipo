@@ -190,16 +190,20 @@ export default {
           id:'2',
           name:'主营业务收入构成'
         },
-         {
+        {
           id:'3',
-          name:'前五名供应商及用户'
+          name:'主要竞争对手简介'
         },
          {
           id:'4',
-          name:'募集资金运用'
+          name:'前五名供应商及用户'
         },
          {
           id:'5',
+          name:'募集资金运用'
+        },
+         {
+          id:'6',
           name:'中介机构'
         },
       ],
@@ -248,7 +252,8 @@ export default {
       time: "",
       clientLeft: "",
       topHeight: "",
-      headList:[]
+      headList:[],
+      placeholderHeight:'500px'
     };
   },
   methods: {
@@ -284,7 +289,7 @@ export default {
         this.$refs.comshow.changeCart();
       }
     },
-      onTabClick(isActive, event) {
+    onTabClick(isActive, event) {
             let that = this
             this.isActive = isActive;
             if (isActive === '1' || isActive === '4') {
@@ -447,7 +452,7 @@ export default {
       }
     },
     jump(param, num) {
-            document.documentElement.scrollTop = document.getElementById(param).offsetTop + document.getElementById('titleHeader').offsetHeight - 50 ;
+            document.documentElement.scrollTop = document.getElementById(param).offsetTop + document.getElementById('titleHeader').offsetHeight - 100 ;
             switch (num) {
                 case 1:
                     this.itemActiveFirst = param;
@@ -470,6 +475,10 @@ export default {
         (parseInt(String(h1).split("px")[0]) -
           parseInt(String(h2).split("px")[0])) /
         2;
+    },
+    handleEvent(height){
+      // this. placeholderHeight = height
+      // console.log('父组件打印',this.placeholderHeight)
     }
   },
   computed: {

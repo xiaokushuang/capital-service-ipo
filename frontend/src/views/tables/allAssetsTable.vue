@@ -1,6 +1,6 @@
 <template>
   <div class="table-class">
-    <el-table :data="tableContent" border style="width: 100%;margin-top: 20px" show-summary>
+    <el-table :data="tableContent" border style="width: 100%;margin-top: 20px">
       <el-table-column align="left" class-name="table_cell" label="项目" width="156">
          <template slot-scope="scope">
             <span>{{isNotEmpty(scope.row.itemName ) ? scope.row.itemName  : '- -'}}</span>

@@ -78,7 +78,7 @@
       </div>
     </div>
     <!-- 股权结构图 -->
-    <div class="ownershipStructure" style="margin-top:40px">
+    <div class="ownershipStructure" style="margin-top:32px">
       <div class="title">
         <span class="littleRectangle"></span>
         <span class="titleText" id="ownershipStructureChart">股权结构图</span>
@@ -138,7 +138,7 @@
     <div class="MajorCompetitors">
       <div class="title">
         <span class="littleRectangle"></span>
-        <span class="titleText" id="profileOfMajorCompetitors">主要竞争对手简介</span>
+        <span class="titleText" id="mainCompetitors">主要竞争对手简介</span>
       </div>
       <div class="competitorContent">
         <ul class="competitorUl" style="padding-left:0">
@@ -584,6 +584,14 @@ export default {
               tabId: 'tab-first',
               noClick: false
           }
+          let mainCompetitors = {
+              id: 'mainCompetitors',
+              name: '主要竞争对手简介',
+              notes: '',
+              important: false,
+              tabId: 'tab-first',
+              noClick: false
+          }
           let majorSuppliers = {
               id: 'majorSuppliers',
               name: '前五名供应商及用户',
@@ -608,9 +616,9 @@ export default {
               tabId: 'tab-first',
               noClick: false
           }
-
           titleList.push(ownershipStructureChart)
           titleList.push(mainBusinessIncomeComposition)
+          titleList.push(mainCompetitors)
           titleList.push(majorSuppliers)
           titleList.push(utilizationOfRaisedFunds)
           titleList.push(intermediaryInstitutions)
@@ -650,7 +658,7 @@ export default {
     background-color: #fafafa;
     display: flex;
     align-items: center;
-    margin-top: 30px;
+    margin-top: 32px;
     margin-bottom: 16px;
     .littleRectangle {
       width: 3px;

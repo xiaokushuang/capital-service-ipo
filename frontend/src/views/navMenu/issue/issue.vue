@@ -84,13 +84,10 @@
                     <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>发行方式</span></el-col>
                       <el-col :span="6" class="value">
-                       <span @mouseenter="mouseOverSpreadText()" class="distribution" style="display: -webkit-box;
-                        -webkit-box-orient: vertical;
-                        -webkit-line-clamp: 1;
-                        overflow: hidden;
-                        cursor:pointer">
-                          {{isNotEmpty(issueData.issueMethod) ? issueData.issueMethod : '- -' + '&nbsp;'}}
+                       <span v-if="issueData.issueMethod" @mouseenter="mouseOverSpreadText(issueData.issueMethod)" class="distribution" style="cursor:pointer">
+                          {{getContent(issueData.issueMethod)}}
                       </span> 
+                      <span v-else> - - </span>
                       </el-col>
                       <el-col :span="6" class="label"><span>承销方式</span></el-col>
                       <el-col :span="6" class="value">
@@ -125,7 +122,7 @@
                 </el-table-column>
                 <el-table-column style="width:30%" prop="feeRatio" label="占募集资金总额比例(%)" align='right'>
                    <template slot-scope="scope">
-                      <span v-if="scope.row.feeRatio"> {{scope.row.feeRatio | dataInThRule}}%</span>
+                      <span v-if="scope.row.feeRatio"> {{scope.row.feeRatio | dataInThRule}}</span>
                       <span v-else> - - </span>
                   </template>
                 </el-table-column>
@@ -169,8 +166,6 @@ export default {
     this.getPosition()
   },
   mounted(){
-    var placeholderHeight = document.getElementById('placeholderHeight').offsetTop
-    // console.log('issue',placeholderHeight)
   },
   methods: {
      initTableData() {
@@ -216,11 +211,12 @@ export default {
      },
     //  
      // 鼠标移入表格内容加title
-    mouseOverSpreadText(){
-       var b =  document.querySelector('.distribution').textContent;
-        $(".distribution").attr("title",b)
+    mouseOverSpreadText(title){
+        $(".distribution").attr("title",title)
     },
-   
+   getContent(title){
+      return title.substring(0,13) + '...'
+   },
     // 非空判断
     isNotEmpty(param) {
       if (param != null && param !== undefined && param !== '' && param !== 'null' && param !== 'undefined') {
@@ -228,7 +224,7 @@ export default {
       } else {
         return false
       }
-    }
+    },
   },
   components: {}
 };
