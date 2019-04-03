@@ -140,7 +140,6 @@ public class IpoProcessService extends BaseService {
                 //判断当前时间和进程时间，如果进程时间大于当前时间，则置灰
                 proList.get(j).setDateCompare(1);
                 if("02".equals(treeList.get(i).getTreeTypeCode())){
-
                     try {
                         Date nowDate = new Date();
                         Date proDate = DateUtils.parseDate(proList.get(j).getProcessTime(),"yyyy-MM-dd");
@@ -156,7 +155,7 @@ public class IpoProcessService extends BaseService {
 
         //添加股份公司设立时间
         IpoProgressDto publishDto = new IpoProgressDto();
-        publishDto.setTreeTypeCode("-1");
+        publishDto.setTreeTypeCode("03");
         String publishDate = ipoProcessMapper.getPublishDate(id);
         publishDto.setPublishDate(publishDate);
         publishDto.setTreeTypeName("股份公司设立时间");

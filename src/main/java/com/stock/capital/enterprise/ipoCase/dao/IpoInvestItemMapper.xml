@@ -6,8 +6,8 @@
             parameterType="java.lang.String"
             resultType="com.stock.capital.enterprise.ipoCase.dto.IpoInvestItemDto">
         SELECT
-            IFNULL(t2.item_name,0) itemName,
-            IFNULL(t2.item_type,0) itemType,
+            t2.item_name itemName,
+            t2.item_type itemType,
             IFNULL(t1.invest_plan_limit,0) investPlanLimit,
             IFNULL(t2.invest_plan,0) investPlan,
             IFNULL(t2.invest_total,0) investTotal,
