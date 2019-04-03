@@ -1,24 +1,17 @@
 <template>
   <div class='chart-container'>
-    <chart height='100%' width='100%'></chart>
+      ds 
   </div>
 </template>
 
 <script>
-import Chart from '@/components/Charts/keyboard'
 
 export default {
-  name: 'keyboardChart',
-  components: { Chart }
+  name: 'zxChart',
 }
 </script>
 
-<style scoped>
-.chart-container{
-  position: relative;
-  padding: 20px;
-  width: 100%;
-  height: 85vh;
-}
+<style scoped lang="scss">
+ 
 </style>
 
