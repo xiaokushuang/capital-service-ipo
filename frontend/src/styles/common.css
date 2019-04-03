@@ -274,7 +274,10 @@
     padding:0!important;
 }
 .no-margin{
+    font-size: 18px;
+    font-weight: bold;
     margin:0!important;
+    line-height: 1.42857;
 }
 .no-margin-tb{
     margin-top:0!important;
@@ -342,7 +345,6 @@ body{
 
 .el-table .cell {
     line-height: 20px!important;
-    padding-right:0px!important;
 }
 .finance .el-input--small .el-input__inner{
     height: 32px!important;

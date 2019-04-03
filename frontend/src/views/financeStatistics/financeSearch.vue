@@ -84,7 +84,7 @@
       </el-row>
       </el-form>
       <!-- table开始 -->
-        <div>
+        <div class="favorite-table">
           <el-table :data="financeSearchData" style="width: 100%" class="paddingControl" border tooltip-effect="dark"
           @sort-change="sortChange" ref="multipleSelection">
             <el-table-column align="center" type="index" label="序号" width="60"></el-table-column>
@@ -118,8 +118,8 @@
               </template>
             </el-table-column>
           </el-table>
+          <papers ref="paper" :sdefault="condition_copy" :length1="20" :total="totalCount" @searchTable="search"></papers>
         </div>
-        <papers ref="paper" :sdefault="condition_copy" :length1="20" :total="totalCount" @searchTable="search"></papers>
         <div class="bottomHeight"></div>
   </div>
 </template>
@@ -285,6 +285,16 @@ export default {
 };
 </script>
 <style>
+.container {
+    padding-top: 0;
+}
+
+.el-table--border{
+    border: none;
+}
+/* .el-table {
+  padding-left: 10px;
+} */
 .el-input--small .el-input__inner {
   height:32px!important;
   cursor: pointer;

@@ -3,7 +3,7 @@
     <!-- 标题 -->
     <el-row :gutter="20" class="no-margin-tb">
         <el-col :span="14">
-            <h3 class="no-margin" style="line-height:32px; margin-top:10px !important;">证券发行地区分布图</h3>
+            <h3 class="no-margin" style="margin-top:10px !important;">证券发行地区分布图</h3>
         </el-col>
         <el-col :span="6">
         </el-col>
@@ -332,10 +332,11 @@ export default {
             }     
           }
         } else {
-          this.$message({
-            message: `统计范围应大于一个月,您现在的时间范围为${flg}天`,
-            type: "warning"
-          });
+          // this.$message({
+          //   message: `统计范围应大于一个月,您现在的时间范围为${flg}天`,
+          //   type: "warning"
+          // });
+          this.popAlert('统计范围应大于一个月');
         }
       }
     },

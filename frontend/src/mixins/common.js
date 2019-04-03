@@ -1,3 +1,4 @@
+import {iframeDoMessage} from '@/utils/auth'
 export default{
     name:'common',
     data(){
@@ -27,5 +28,8 @@ export default{
             }
             return val
         },
+        popAlert(msg){//提示弹窗
+			iframeDoMessage(window.parent,'popAlert',[msg]);
+		},
     }
 }

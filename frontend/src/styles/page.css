@@ -84,8 +84,8 @@
     color: #333;
 }
 .container .el-form{/* ���ñ���ʽ */
-    border: 1px solid #eeeeee;
-    padding: 10px 10px 0px 20px;
+    /* border: 1px solid #eeeeee; */
+    padding: 10px 10px 0px 10px;
 }
 .container .el-row{/* ��������ʽ */
     margin:0;
@@ -186,7 +186,7 @@
 }
 
 .container .el-table th>.cell{
-    line-height: 34px;
+    line-height: 34px!important;
 }
 
 .container .bottomHeight{
