@@ -163,10 +163,10 @@
           <div v-show="searchFlag" style="display:flex">
             <div class="left" style="width:43%;margin-right:24px">
               <el-row :gutter="24" style="background:#f9f9f9;margin-bottom:0px;padding-top:10px">
-                <el-radio-group v-model="yearRadio">
-                  <el-radio :label="1">最近一个会计年度累计</el-radio>
-                  <el-radio :label="2">最近两个会计年度累计</el-radio>
-                  <el-radio :label="3">最近三个会计年度累计</el-radio>
+                <el-radio-group v-model="yearRadio" style="width:100%">
+                  <el-radio style="width:30%" :label="1">最近一个会计年度累计</el-radio>
+                  <el-radio style="width:30%" :label="2">最近两个会计年度累计</el-radio>
+                  <el-radio style="width:30%" :label="3">最近三个会计年度累计</el-radio>
                 </el-radio-group>
               </el-row>
               <div style="background:#f9f9f9;margin-bottom:10px;padding:10px 5px 5px 5px">
@@ -258,7 +258,7 @@
                   <div>
                     <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
                       <span class="quan">1</span>
-                      <div style="display: inline-block;margin-top: -4%;margin-left: 4%;">
+                      <div class="topOne">
                         最近<span style="color:#14BCF5">3</span>个会计年度净利润均为正数且<span style="color:#14BCF5">累计超过3000万元</span>（人民币），净利润以扣除非经常性损益前后较低者为计算依据；
                       </div>
                     </div>
@@ -292,13 +292,13 @@
                   <div>
                     <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
                       <span class="quan">1</span>
-                      <div style="display: inline-block;margin-top: -4%;margin-left: 4%;">
+                      <div class="bottomOne">
                         发行人是依法设立且持续经营三年以上的股份有限公司。有限责任公司按原账面净资产值折股整体变更为股份有限公司的，持续经营时间可以从有限责任公司成立之日起计算；
                       </div>
                     </div>
                     <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
-                      <span class="quan" style="position: relative;top: -5px;">2</span>
-                      <div style="display: inline-block;margin-top: -4%;margin-left: 4%;">
+                      <span class="quan bottomQuan">2</span>
+                      <div class="bottomTwo">
                         最近<span style="font-weight: 700; color: #14BCF5">2</span>年连续盈利，最近两年净利润<span style="font-weight: 700; color: #14BCF5">累计不少于1000万元</span>;<br>
                         <span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">1</span>年盈利，最近一年营业收入<span style="color:#14BCF5">不少于5000万元。</span>(
                         净利润以扣除非经常性损益前后孰低者为计算依据)
@@ -1392,6 +1392,41 @@
   .container .table .el-table thead tr > th .cell {
     padding: 10px;
     text-align: center;
+  }
+  .topOne{
+    display: inline-block;margin-top: -4%;margin-left: 4%;
+  }
+  @media screen and (max-width: 1920px) and (min-width: 1400px) {
+    .topOne{
+      display: inline-block;margin-top: -4%;margin-left: 0.5%;
+    }
+  }
+  .bottomOne{
+    display: inline-block;margin-top: -4%;margin-left: 4%;
+  }
+  @media screen and (max-width: 1920px) and (min-width: 1400px) {
+    .bottomOne{
+      display: inline-block;margin-top: -4%;margin-left: 2.5%;
+    }
+  }
+  .bottomTwo{
+    display: inline-block;margin-top: -4%;margin-left: 4%;
+  }
+
+  @media screen and (max-width: 1920px) and (min-width: 1400px) {
+    .bottomTwo{
+      display: inline-block;margin-top: 0%;
+      margin-left: 0.5%;
+    }
+  }
+
+  .bottomQuan {
+    position: relative;top: -5px;
+  }
+  @media screen and (max-width: 1920px) and (min-width: 1400px) {
+    .bottomQuan {
+      position: relative;top: -17px;
+    }
   }
 </style>
 
