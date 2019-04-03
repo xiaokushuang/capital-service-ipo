@@ -724,6 +724,9 @@
         if (_self.intermediary === '') {
           _self.intermediaryCode = '';
         }
+        if (_self.intermediaryCode === '') {
+          _self.intermediary = '';
+        }
         const _data = {
           startRow: data.startRow,
           pageSize: data.pageSize,
