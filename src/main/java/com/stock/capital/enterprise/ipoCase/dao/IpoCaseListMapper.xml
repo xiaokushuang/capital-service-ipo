@@ -37,7 +37,8 @@
   <select id="queryIntermediary" parameterType="string" resultType="map">
     SELECT obo.COMPANYNAME value,obo.COMPANYCODE labelValue
     FROM orga_bi_orgbaseinfo obo JOIN orga_bi_instothername obi ON obo.COMPANYCODE = obi.SECINNERCODE
-    WHERE obo.COMPANY_TYPE_CODE_TG = '06'
+    WHERE obo.eisdel='0' AND ((obo.COMPANYTYPECODE = '005001' AND obo.ISBRANCH ='0') or obo.COMPANYTYPECODE = '006001'
+    or obo.COMPANYTYPECODE = '006002' or obo.COMPANYTYPECODE = '006003')
     AND (obo.COMPANYNAME LIKE concat('%',#{intermediaryName},'%') or obi.OTHERNAME  LIKE concat('%',#{intermediaryName},'%'))
     GROUP BY obo.COMPANYCODE
     limit 10

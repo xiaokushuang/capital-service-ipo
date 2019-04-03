@@ -375,22 +375,41 @@
                   <el-table-column :label="yearLabel">
                     <el-table-column align="right" :prop="profit" label="净利润" sortable="custom" min-width="13%">
                       <template slot-scope="scope">
-                        <span v-if="yearRadio===1">{{scope.row.netProfitOne | dataInThRule}}亿元</span>
-                        <span v-if="yearRadio===2">{{scope.row.netProfitTwo | dataInThRule}}亿元</span>
-                        <span v-if="yearRadio===3">{{scope.row.netProfitThree | dataInThRule}}亿元</span>
+                        <span v-if="yearRadio===1">
+                          <span v-if="scope.row.netProfitOne">{{scope.row.netProfitOne | dataInThRule}}亿元</span>
+                          <span v-else>--</span>
+                        </span>
+                        <span v-if="yearRadio===2">
+                          <span v-if="scope.row.netProfitTwo">{{scope.row.netProfitTwo | dataInThRule}}亿元</span>
+                          <span v-else>--</span>
+                        </span>
+                        <span v-if="yearRadio===3">
+                          <span v-if="scope.row.netProfitThree">{{scope.row.netProfitThree | dataInThRule}}亿元</span>
+                          <span v-else>--</span>
+                        </span>
                       </template>
                     </el-table-column>
                     <el-table-column align="right" :prop="reve" label="营业收入" sortable="custom" min-width="13%">
                       <template slot-scope="scope">
-                        <span v-if="yearRadio===1">{{scope.row.operateReveOne | dataInThRule}}亿元</span>
-                        <span v-if="yearRadio===2">{{scope.row.operateReveTwo | dataInThRule}}亿元</span>
-                        <span v-if="yearRadio===3">{{scope.row.operateReveThree | dataInThRule}}亿元</span>
+                        <span v-if="yearRadio===1">
+                          <span v-if="scope.row.operateReveOne">{{scope.row.operateReveOne | dataInThRule}}亿元</span>
+                          <span v-else>--</span>
+                        </span>
+                        <span v-if="yearRadio===2">
+                          <span v-if="scope.row.operateReveTwo">{{scope.row.operateReveTwo | dataInThRule}}亿元</span>
+                          <span v-else>--</span>
+                        </span>
+                        <span v-if="yearRadio===3">
+                          <span v-if="scope.row.operateReveThree">{{scope.row.operateReveThree | dataInThRule}}亿元</span>
+                          <span v-else>--</span>
+                        </span>
                       </template>
                     </el-table-column>
                   </el-table-column>
                   <el-table-column align="right" prop="ipo_sum_asset_d" label="总资产" sortable="custom" min-width="12%">
                     <template slot-scope="scope">
-                      {{scope.row.sunAsset | dataInThRule}}亿元
+                      <span v-if="scope.row.sunAsset">{{scope.row.sunAsset | dataInThRule}}亿元</span>
+                      <span v-else>--</span>
                     </template>
                   </el-table-column>
                   <el-table-column align="right" label="拟上市板块" min-width="14%">
@@ -400,12 +419,14 @@
                   </el-table-column>
                   <el-table-column align="right" prop="ipo_review_meeting_time_dt" label="发审会审核时间" sortable="custom" min-width="13%">
                     <template slot-scope="scope">
-                      {{scope.row.reMeetingTime}}
+                      <span v-if="scope.row.reMeetingTime">{{scope.row.reMeetingTime}}</span>
+                      <span v-else>--</span>
                     </template>
                   </el-table-column>
                   <el-table-column align="right" prop="ipo_audit_duration_i" label="审核历时" sortable="custom" min-width="13%">
                     <template slot-scope="scope">
-                      {{scope.row.auditDuration}}天
+                      <span v-if="scope.row.auditDuration">{{scope.row.auditDuration}}天</span>
+                      <span v-else>--</span>
                     </template>
                   </el-table-column>
                 </el-table>
