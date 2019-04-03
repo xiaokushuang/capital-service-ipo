@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="finance">
     <!-- 标题 -->
     <el-row :gutter="20" class="no-margin-tb">
         <el-col :span="14">
@@ -39,9 +39,6 @@
     <el-row :gutter="20" class="h100">
         <!-- 图表 -->
         <el-col :span="16" class="chart" style="position:relative">
-            <!-- <div class="row btnGroup" style="position:absolute;right:40px;top:20px;z-index:2">
-                <span class="singleBtn" @click="clickClass('001',$event)">IPO</span><span class="singleBtn" @click="clickClass('002',$event)">增发</span><span class="singleBtn" @click="clickClass('003',$event)">配股</span>
-            </div> -->
             <div class="fullDiv_border">
                 <chart height='100%' width='100%' id="three" :chartData = "getBondIpo3"></chart>
             </div>
@@ -89,9 +86,10 @@ import { mapGetters } from "vuex";
 import { GetDateDiff } from "@/utils";
 import chartBondThree from "./chartBondThree";
 import china from "echarts/map/js/china"
+import common from '@/mixins/common'
 export default {
   name: "chartBondThree",
-  mixins: [datepicker],
+  mixins: [datepicker,common],
   components: { Chart, china},
   data() {
     return {
@@ -133,9 +131,9 @@ export default {
     activeFun(data) {
       this.flag = data; //选中样式
       // 给chart换数据
-      // console.log(this.flag)
       this.param.countType = this.flag;
       this.param.dateSelect = "";
+      this.value5 = "";
       this.chartThree(false);
     },
     //选项卡点击触发事件
@@ -157,29 +155,6 @@ export default {
         this.$store.dispatch("ipoBondGet", this.param).then(() => {});
       }
     },
-    //饼状图点击事件 IPO 增发 配股
-    clickClass(value,$event) {
-        if($event.target.classList.contains('clickSpan') === false){
-            $event.target.classList.add('clickSpan')
-            this.param.countType = 1
-            this.param.chartType = 3
-            for(let i =0; i < this.arr.length; i++) {
-                if(this.arr[i] === value){
-                    this.arr.splice(i, 1)
-                }
-            }
-            this.param.finaType = this.arr.join(',')
-            this.param.type = "ipoBondData3";
-        } else {
-            $event.target.classList.remove('clickSpan')
-            this.param.countType = 1
-            this.param.chartType = 3
-            this.arr.push(value)
-            this.param.finaType = this.arr.join(',')
-            this.param.type = "ipoBondData3";
-            }
-        this.$store.dispatch("ipoBondGet", this.param).then(() => {});
-    }
   },
   computed: {
     ...mapGetters(["getBondIpo3"]),
@@ -203,15 +178,18 @@ export default {
   watch: {
     value5(n, o) {
       //依照操作取数据
-      if (n == null) {
-        this.dateSelect = "";
-        this.chartThree(true);
-        for(let i =0; i< document.getElementById('listC').getElementsByTagName('a').length;i++) {
-          if (document.getElementById('listC').getElementsByTagName('a')[i].classList.contains("active") === false) {
-            document.getElementById('listC').getElementsByTagName('a')[3].classList.add("active")
-          }     
+      if (this.getValue(n) == '') {
+        if(this.flag == 7) {
+          this.dateSelect = "";
+          this.flag = 1;
+          this.chartThree(true);
+          for(let i =0; i< document.getElementById('listC').getElementsByTagName('a').length;i++) {
+            if (document.getElementById('listC').getElementsByTagName('a')[i].classList.contains("active") === false) {
+              document.getElementById('listC').getElementsByTagName('a')[3].classList.add("active")
+            }     
+          }
+          return false;
         }
-        return false;
       } else {
         var d = new Date(n[0]);
         const f = new Date(n[1]);
@@ -221,8 +199,8 @@ export default {
           f.getFullYear() + "-" + (f.getMonth() + 1) + "-" + f.getDate(); // + ' ' + f.getHours() + ':' + f.getMinutes() + ':' + f.getSeconds();
         const flg = GetDateDiff(start, end, "day");
         this.param.countType = 7;
-        this.param.chartType = 3;
-        if (flg >= 30) {
+        this.flag = 7;
+        if (flg >= 31) {
           this.param.dateSelect = start + " 至 " + end;
           // console.log(this.param)
           this.chartThree(false);
@@ -240,8 +218,6 @@ export default {
       }
     },
     getBondIpo3(n, o) {
-      //   console.log('getIpo变了')
-      //   console.log(n)
       //数据变化时更新chart
       this.tableData = n;
     }

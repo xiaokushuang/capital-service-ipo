@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="finance">
     <!-- 标题 -->
     <el-row :gutter="20" class="no-margin-tb">
         <el-col :span="14">

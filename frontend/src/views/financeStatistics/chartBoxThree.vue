@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="finance">
     <!-- 标题 -->
     <el-row :gutter="20" class="no-margin-tb">
         <el-col :span="14">
@@ -397,7 +397,6 @@ export default {
 .areaBtn:last-child {
   border-radius: 0px 2px 2px 0px;
 }
-
 .clickSpan {
     background: #F2F1EF;
     color: #333333;

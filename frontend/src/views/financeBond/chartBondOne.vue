@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="finance">
     <!-- 标题 -->
     <el-row :gutter="20" class="no-margin-tb">
         <el-col :span="14">
@@ -89,9 +89,10 @@ import datepicker from "@/mixins/datepicker";
 import { mapGetters } from "vuex";
 import { GetDateDiff } from "@/utils";
 import chartBondOne from "./chartBondOne";
+import common from '@/mixins/common'
 export default {
   name: "chartBoxOne",
-  mixins: [datepicker],
+  mixins: [datepicker,common],
   components: { Chart },
   data() {
     return {
@@ -130,9 +131,9 @@ export default {
     activeFun(data) {
       this.flag = data; //选中样式
       //给chart换数据
-      //   console.log(this.flag)
       this.param.countType = this.flag;
       this.param.dateSelect = "";
+      this.value5 = "";
       this.chartOne(false);
     },
     //选项卡点击触发事件
@@ -183,15 +184,18 @@ export default {
   watch: {
     value5(n, o) {
       //依照操作取数据
-      if (n == null) {
-        this.dateSelect = "";
-        this.chartOne(true);
-        for(let i =0; i< document.getElementById('listA').getElementsByTagName('a').length;i++) {
-          if (document.getElementById('listA').getElementsByTagName('a')[i].classList.contains("active") === false) {
-            document.getElementById('listA').getElementsByTagName('a')[1].classList.add("active")
+      if (this.getValue(n) == '') {//清空时间
+        if(this.flag == 7) {
+          this.flag = 1;
+          this.dateSelect = "";
+          this.chartOne(true);
+          for(let i =0; i< document.getElementById('listA').getElementsByTagName('a').length;i++) {
+            if (document.getElementById('listA').getElementsByTagName('a')[i].classList.contains("active") === false) {
+              document.getElementById('listA').getElementsByTagName('a')[1].classList.add("active")
+            }
           }
+          return false;
         }
-        return false;
       } else {
         var d = new Date(n[0]);
         const f = new Date(n[1]);
@@ -201,7 +205,8 @@ export default {
           f.getFullYear() + "-" + (f.getMonth() + 1) + "-" + f.getDate(); // + ' ' + f.getHours() + ':' + f.getMinutes() + ':' + f.getSeconds();
         const flg = GetDateDiff(start, end, "day");
         this.param.countType = 7;
-        if (flg >= 30) {
+        this.flag = 7;
+        if (flg >= 31) {
           this.param.dateSelect = start + " 至 " + end;
           // console.log(this.param)
           this.chartOne(false);

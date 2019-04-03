@@ -344,3 +344,10 @@ body{
     line-height: 20px!important;
     padding-right:0px!important;
 }
+.finance .el-input--small .el-input__inner{
+    height: 32px!important;
+}
+.finance .el-date-editor .el-range-input {
+    cursor: pointer;
+}
+.finance a:hover{text-decoration:underline;}

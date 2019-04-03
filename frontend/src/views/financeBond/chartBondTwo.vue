@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="finance">
     <!-- 标题 -->
     <el-row :gutter="20" class="no-margin-tb">
         <el-col :span="14">
@@ -25,9 +25,9 @@
             <el-date-picker
                 v-model="value5"
                 type="daterange"
-                align="right"
                 unlink-panels
                 size="small"
+                value-format="yyyy-MM-dd"
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
@@ -36,12 +36,14 @@
         </el-col>
         <el-col :span='4'>
             <el-select v-model="code_value" placeholder="" size='small full' @change="selectClass">
-              <el-option
-                v-for="item in getSFClass"
-                :key="item.code_value"
-                :label="item.code_name"
-                :value="item.code_value">
-              </el-option>
+              <template v-for="item in getSFClass">
+                <el-option
+                    class="autoComplate"
+                    :key="item.code_value"
+                    :label="item.code_name"
+                    :value="item.code_value">
+                </el-option>
+              </template>
             </el-select>
         </el-col>
     </el-row>
@@ -49,9 +51,6 @@
     <el-row :gutter="20" class="h100">
         <!-- 图表 -->
         <el-col :span="16" class="chart" style="position:relative">
-            <!-- <div class="row btnGroup" style="position:absolute;right:40px;top:20px;z-index:2">
-                <span class="singleBtn" @click="clickClass('001',$event)">IPO</span><span class="singleBtn" @click="clickClass('002',$event)">增发</span><span class="singleBtn" @click="clickClass('003',$event)">配股</span>
-            </div> -->
             <div class="fullDiv_border">
                 <chart height='100%' width='100%' id="two" :chartData = "getBondIpo2"></chart>
             </div>
@@ -98,9 +97,10 @@ import datepicker from "@/mixins/datepicker";
 import { mapGetters } from "vuex";
 import { GetDateDiff } from "@/utils";
 import chartBondTwo from "./chartBondTwo";
+import common from '@/mixins/common'
 export default {
   name: "chartBoxTwo",
-  mixins: [datepicker],
+  mixins: [datepicker,common],
   components: { Chart },
   data() {
     return {
@@ -141,7 +141,7 @@ export default {
   },
   methods: {
     selectClass(val) {
-      this.param.countType = 1;
+      this.param.countType = this.flag;
       this.param.chartType = 2;
       this.param.industrySelect = val;
       this.param.type = "ipoBondData2";
@@ -151,9 +151,9 @@ export default {
     activeFun(data) {
       this.flag = data; //选中样式
       // 给chart换数据
-      // console.log(this.flag)
       this.param.countType = this.flag;
-      this.param.industrySelect = "001";
+      this.param.industrySelect = this.code_value;
+      this.value5 = "";
       this.chartTwo(false);
     },
     //选项卡点击触发事件
@@ -180,31 +180,6 @@ export default {
     classGet() {
       this.$store.dispatch("ipoSFClassGet").then();
     },
-    //饼状图点击事件 IPO 增发 配股
-    clickClass(value, $event) {
-      if ($event.target.classList.contains("clickSpan") === false) {
-        $event.target.classList.add("clickSpan");
-        this.param.countType = 1;
-        this.param.chartType = 2;
-        this.param.industrySelect = "001";
-        for (let i = 0; i < this.arr.length; i++) {
-          if (this.arr[i] === value) {
-            this.arr.splice(i, 1);
-          }
-        }
-        this.param.finaType = this.arr.join(",");
-        this.param.type = "ipoBondData2";
-      } else {
-        $event.target.classList.remove("clickSpan");
-        this.param.countType = 1;
-        this.param.chartType = 2;
-        this.param.industrySelect = "001";
-        this.arr.push(value);
-        this.param.finaType = this.arr.join(",");
-        this.param.type = "ipoBondData2";
-      }
-      this.$store.dispatch("ipoBondGet", this.param).then(() => {});
-    }
   },
   computed: {
     ...mapGetters(["getBondIpo2", "getSFClass"]),
@@ -227,29 +202,20 @@ export default {
     this.classGet(true)
   },
   watch: {
-    value5(n, o) {
+    value5(n, o) {//改变时间时,监听事件,判断搜索日期大于一个月
       //依照操作取数据
-      if (n == null) {
-        this.dateSelect = "";
-        this.chartTwo(true);
-        for (
-          let i = 0;
-          i < document.getElementById("listB").getElementsByTagName("a").length;
-          i++
-        ) {
-          if (
-            document
-              .getElementById("listB")
-              .getElementsByTagName("a")
-              [i].classList.contains("active") === false
-          ) {
-            document
-              .getElementById("listB")
-              .getElementsByTagName("a")[3]
-              .classList.add("active");
+      if (this.getValue(n) == '') {//清空时间
+        if(this.flag == 7) {
+          this.dateSelect = "";
+          this.flag = 1;
+          this.chartTwo(true);
+          for (let i = 0; i < document.getElementById("listB").getElementsByTagName("a").length; i++) {
+            if (document.getElementById("listB").getElementsByTagName("a")[i].classList.contains("active") === false) {
+              document.getElementById("listB").getElementsByTagName("a")[3].classList.add("active");
+            }
           }
+          return false;
         }
-        return false;
       } else {
         var d = new Date(n[0]);
         const f = new Date(n[1]);
@@ -259,8 +225,9 @@ export default {
           f.getFullYear() + "-" + (f.getMonth() + 1) + "-" + f.getDate(); // + ' ' + f.getHours() + ':' + f.getMinutes() + ':' + f.getSeconds();
         const flg = GetDateDiff(start, end, "day");
         this.param.countType = 7;
-        this.param.industrySelect = "001";
-        if (flg >= 30) {
+        this.flag = 7;
+        // this.param.industrySelect = "001";
+        if (flg >= 31) {
           this.param.dateSelect = start + " 至 " + end;
           // console.log(this.param)
           this.chartTwo(false);
@@ -291,8 +258,6 @@ export default {
       }
     },
     getBondIpo2(n, o) {
-      //   console.log('getIpo变了')
-      //   console.log(n)
       //数据变化时更新chart
       this.tableData = n;
     }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="finance">
     <!-- 标题 -->
     <el-row :gutter="20" class="no-margin-tb">
         <el-col :span="14">
@@ -281,7 +281,6 @@ export default {
     },
     //饼状图点击事件 IPO 增发 配股
     clickClass(value, $event) {
-      debugger;
       if ($event.target.classList.contains("clickSpan") === false) {
         $event.target.classList.add("clickSpan");
         this.param.countType = this.flag;
@@ -331,7 +330,6 @@ export default {
   },
   watch: {
     value5(n, o) {//改变时间时,监听事件,判断搜索日期大于一个月
-    debugger;
       //依照操作取数据
       if (this.getValue(n) == '') {//清空时间
         if(this.flag == 7) {
