@@ -60,21 +60,28 @@ function dataInit() {
 	ajaxData('/regulatory_statistics/getIPOHistory', null, historyCallBack);
 }
 function reviewingSttsCallBack(d) {
-	// 设置柱状图
-	chartSetting(d);
 	// 设置表格
 	reviewTableSetting(d);
+	// 设置柱状图
+	chartSetting(d);
+	
 }
 // IPO在审项目柱状图设置
 function chartSetting(lst) {
 	// 设置数据
-	var labels = ['沪主板', '中小板', '创业板','科创板']; // 横坐标标签
+	var labels = ['沪主板', '中小板', '创业板',{
+	    value: '科创板',
+	    textStyle: {
+	        color: '#0099cc'
+	    }
+	},]; // 横坐标标签
 	// 细分业务标签
 	var itemLabel = [];
 	var series = [];
 	for (var i = 0; i < lst.length; i++) {
 		if ((lst[i].hzbCount > 0 || lst[i].zxbCount > 0 || lst[i].cybCount > 0 || lst[i].kcCount > 0) && i < lst.length - 1) {
 			if(lst[i].label!='终止审查'){
+				lst[i].label = lableTurnToName(lst[i].label);
 				var value = [];
 				value[0] = lst[i].hzbCount;
 				value[1] = lst[i].zxbCount;
@@ -108,7 +115,10 @@ function chartSetting(lst) {
 		calculable : false,
 		legend: { // 细分业务标签
 			top: 'top',
-	        data: itemLabel
+	        data: itemLabel,
+	        /*textStyle: {
+                color: "#0099cc"
+            }*/
 	    },
 		tooltip : {
 			trigger : 'axis',
@@ -143,8 +153,15 @@ function chartSetting(lst) {
 			data : labels,
 			splitLine : {
 				show : false
-			}
-		}],
+			}/*,
+			axisLabel: {
+				show: true,
+				textStyle: {
+                    color: "#0099cc"
+                }
+            }*/
+		}
+		],
 		yAxis : [{
 			type : 'value',
 			axisLabel : {
@@ -190,13 +207,32 @@ function lableTurnName(lable){
 		lable = "已反馈<span style='color:#0099cc'>(已问询)</span>";
 	}
 	if(lable=="已通过发审会"){
-		lable = "已通过发审会<span style='color:#0099cc'>(已通过上市委会议)</span>";
+		lable = "已通过发审会<span style='color:#0099cc'>(上市委会议通过)</span>";
 	}
 	if(lable=="中止审查"){
 		lable = "中止审查<span style='color:#0099cc'>(中止)</span>";
 	}
-	if(lable=="提交注册"){
-		lable = "<span style='color:#0099cc'>提交注册</span>";
+	if(lable=="注册生效"){
+		lable = "<span style='color:#0099cc'>注册生效</span>";
+	}
+	return lable;
+}
+
+function lableTurnToName(lable){
+	if(lable=="已受理"){
+		lable = "已受理(已受理)";
+	}
+	if(lable=="已反馈"){
+		lable = "已反馈(已问询)";
+	}
+	if(lable=="已通过发审会"){
+		lable = "已通过发审会(上市委会议通过)";
+	}
+	if(lable=="中止审查"){
+		lable = "中止审查(中止)";
+	}
+	if(lable=="注册生效"){
+		lable = "注册生效";
 	}
 	return lable;
 }
@@ -622,7 +658,7 @@ function renderColumnByKC2(data, type, row, meta){
 　　　　},50);
 	 var operationStr = "";
 	    var quasiListedLand = "04";
-	    	operationStr += '<a href="javascript:void(0)" onclick="viewCommendDetail(\'' + data.label
+	    	operationStr += '<a href="javascript:void(0)" onclick="viewLawDetail(\'' + data.label
 			+ '\',\'' + quasiListedLand+ '\')">' + data.kcCount + '</a>';
 	    	return operationStr;
 }
@@ -634,7 +670,7 @@ function renderColumnByKC3(data, type, row, meta){
 　　　　},50);
 	 var operationStr = "";
 	    var quasiListedLand = "04";
-	    	operationStr += '<a href="javascript:void(0)" onclick="viewCommendDetail(\'' + data.label
+	    	operationStr += '<a href="javascript:void(0)" onclick="viewAccountDetail(\'' + data.label
 			+ '\',\'' + quasiListedLand+ '\')">' + data.kcCount + '</a>';
 	    	return operationStr;
 }

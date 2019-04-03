@@ -74,7 +74,7 @@ table tbody tr td.left {
             <table id="review">
                 	<tr style="background: #E8E8E8;">
                 	 	<td colspan="1" style="width: 36%;"></td>
-                	 	<td colspan="3" style="border-right-color: #14bcf5;font-weight: bold ">标准制</td>
+                	 	<td colspan="3" style="border-right-color: #14bcf5;font-weight: bold ">核准制</td>
                 	 	<td colspan="1" style="border-top-width:0.3px;;border-top-style:solid;color:#0099cc;border-bottom: none;border-right-color: #14bcf5;border-left-color: #14bcf5;border-top-color: #14bcf5;">注册制</td>
                 	 	<td colspan="1" rowspan="2" style="font-weight: bold">合计</td>
      				</tr>
