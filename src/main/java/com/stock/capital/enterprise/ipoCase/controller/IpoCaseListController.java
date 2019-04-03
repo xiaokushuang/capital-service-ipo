@@ -92,26 +92,41 @@ public class IpoCaseListController {
     }
 
     private void dataChange(IpoCaseIndexDto indexDto) {
-        indexDto.setNetProfitOne(BigDecimal.valueOf(indexDto.getNetProfitOne())
-                                     .divide(new BigDecimal("10000"), 2,
-                                             BigDecimal.ROUND_HALF_UP).doubleValue());
-        indexDto.setNetProfitTwo(BigDecimal.valueOf(indexDto.getNetProfitTwo())
-                                     .divide(new BigDecimal("10000"), 2,
-                                             BigDecimal.ROUND_HALF_UP).doubleValue());
-        indexDto.setNetProfitThree(BigDecimal.valueOf(indexDto.getNetProfitThree())
-                                       .divide(new BigDecimal("10000"), 2,
-                                               BigDecimal.ROUND_HALF_UP).doubleValue());
-        indexDto.setOperateReveOne(BigDecimal.valueOf(indexDto.getOperateReveOne())
-                                       .divide(new BigDecimal("10000"), 2,
-                                               BigDecimal.ROUND_HALF_UP).doubleValue());
-        indexDto.setOperateReveTwo(BigDecimal.valueOf(indexDto.getOperateReveTwo())
-                                       .divide(new BigDecimal("10000"), 2,
-                                               BigDecimal.ROUND_HALF_UP).doubleValue());
-        indexDto.setOperateReveThree(BigDecimal.valueOf(indexDto.getOperateReveThree())
+        if (indexDto.getNetProfitOne() != null) {
+            indexDto.setNetProfitOne(BigDecimal.valueOf(indexDto.getNetProfitOne())
                                          .divide(new BigDecimal("10000"), 2,
                                                  BigDecimal.ROUND_HALF_UP).doubleValue());
-        indexDto.setSunAsset(BigDecimal.valueOf(indexDto.getSunAsset())
-                                 .divide(new BigDecimal("10000"), 2,
-                                         BigDecimal.ROUND_HALF_UP).doubleValue());
+        }
+        if (indexDto.getNetProfitTwo() != null) {
+            indexDto.setNetProfitTwo(BigDecimal.valueOf(indexDto.getNetProfitTwo())
+                                         .divide(new BigDecimal("10000"), 2,
+                                                 BigDecimal.ROUND_HALF_UP).doubleValue());
+        }
+        if (indexDto.getNetProfitThree() != null) {
+            indexDto.setNetProfitThree(BigDecimal.valueOf(indexDto.getNetProfitThree())
+                                           .divide(new BigDecimal("10000"), 2,
+                                                   BigDecimal.ROUND_HALF_UP).doubleValue());
+        }
+        if (indexDto.getOperateReveOne() != null) {
+            indexDto.setOperateReveOne(BigDecimal.valueOf(indexDto.getOperateReveOne())
+                                           .divide(new BigDecimal("10000"), 2,
+                                                   BigDecimal.ROUND_HALF_UP).doubleValue());
+        }
+        if (indexDto.getOperateReveTwo() != null) {
+            indexDto.setOperateReveTwo(BigDecimal.valueOf(indexDto.getOperateReveTwo())
+                                           .divide(new BigDecimal("10000"), 2,
+                                                   BigDecimal.ROUND_HALF_UP).doubleValue());
+        }
+        if (indexDto.getOperateReveThree() != null) {
+            indexDto.setOperateReveThree(BigDecimal.valueOf(indexDto.getOperateReveThree())
+                                             .divide(new BigDecimal("10000"), 2,
+                                                     BigDecimal.ROUND_HALF_UP).doubleValue());
+        }
+        if (indexDto.getSunAsset() != null) {
+            indexDto.setSunAsset(BigDecimal.valueOf(indexDto.getSunAsset())
+                                     .divide(new BigDecimal("10000"), 2,
+                                             BigDecimal.ROUND_HALF_UP).doubleValue());
+        }
+
     }
 }
