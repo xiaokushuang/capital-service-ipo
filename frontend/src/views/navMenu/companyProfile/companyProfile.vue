@@ -12,12 +12,12 @@
             <span style="color:#333333">{{this.ipoPlate}}</span>
           </li>
           <li>
-            <span>所属证监局</span>&nbsp;&nbsp;
+            <span>所属行业(证监会)</span>&nbsp;&nbsp;
             <span style="color:#333333">{{this.industryCsrc}}</span>
           </li>
           <li>
             <span>注册资本</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span style="color:#333333">{{this.registeredAssets}}万元</span>
+            <span style="color:#333333">{{this.registeredAssets | dataInThRule}}万元</span>
           </li>
           <li>
             <span>公司简称</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -85,7 +85,7 @@
         <span v-for="(item,index) in structureLabel" class="hongkuang">{{item}}</span>
       </div>
       <!-- 图片 -->
-      <div class="img">
+      <div class="img" style="width:100%">
          <img :src="structureUrl" alt>
       </div>
       <!-- 股权股东表格 -->
@@ -186,9 +186,9 @@
                   {{scope.$index+1}}
                   </template>
               </el-table-column>
-              <el-table-column fixed prop="companyName" align="center" class-name="table_cell" label="公司" width="150"></el-table-column>
+              <el-table-column fixed prop="companyName" align="left" class-name="table_cell" label="公司" width="150"></el-table-column>
               <el-table-column :label="item.reportPeriod" header-align="center">
-                <el-table-column align="right"  class-name="table_cell" label="采购内容" width="117">
+                <el-table-column align="left"  class-name="table_cell" label="采购内容" width="117">
                   <template slot-scope="scope">
                     <span>{{isNotEmpty(scope.row.onePeriodContent) ? scope.row.onePeriodContent : '- -'}}</span>
                   </template>
@@ -207,7 +207,7 @@
                 </el-table-column>
               </el-table-column>
               <el-table-column :label="item.thirdYearForSupplier" header-align="center">
-                <el-table-column align="right"  class-name="table_cell" label="采购内容" width="117">
+                <el-table-column align="left"  class-name="table_cell" label="采购内容" width="117">
                   <template slot-scope="scope">
                     <span>{{isNotEmpty(scope.row.thirdYearContent) ? scope.row.thirdYearContent : '- -'}}</span>
                   </template>
@@ -226,7 +226,7 @@
                 </el-table-column>
               </el-table-column>
               <el-table-column :label="item.secondYearForSupplier" header-align="center">
-                <el-table-column align="right"  class-name="table_cell" label="采购内容" width="117">
+                <el-table-column align="left"  class-name="table_cell" label="采购内容" width="117">
                   <template slot-scope="scope">
                     <span>{{isNotEmpty(scope.row.secondYearContent ) ? scope.row.secondYearContent  : '- -'}}</span>
                   </template>
@@ -245,7 +245,7 @@
                 </el-table-column>
               </el-table-column>
               <el-table-column :label="item.firstYearForSupplier" header-align="center">
-                <el-table-column align="right"  class-name="table_cell" label="采购内容" width="117">
+                <el-table-column align="left"  class-name="table_cell" label="采购内容" width="117">
                   <template slot-scope="scope">
                     <span>{{isNotEmpty(scope.row.firstYearContent ) ? scope.row.firstYearContent  : '- -'}}</span>
                   </template>
@@ -276,9 +276,9 @@
                     {{scope.$index+1}}
                     </template>
                 </el-table-column>
-                <el-table-column fixed prop="companyName" align="center" class-name="table_cell" label="公司" width="150"></el-table-column>
+                <el-table-column fixed prop="companyName" align="left" class-name="table_cell" label="公司" width="150"></el-table-column>
                 <el-table-column :label="item.reportPeriod" header-align="center">
-                  <el-table-column align="right"  class-name="table_cell" label="采购内容" width="117">
+                  <el-table-column align="left"  class-name="table_cell" label="采购内容" width="117">
                     <template slot-scope="scope">
                       <span>{{isNotEmpty(scope.row.onePeriodContent) ? scope.row.onePeriodContent : '- -'}}</span>
                     </template>
@@ -297,7 +297,7 @@
                   </el-table-column>
                 </el-table-column>
                 <el-table-column :label="item.thirdYearForCustomer" header-align="center">
-                  <el-table-column align="right"  class-name="table_cell" label="采购内容" width="117">
+                  <el-table-column align="left"  class-name="table_cell" label="采购内容" width="117">
                     <template slot-scope="scope">
                       <span>{{isNotEmpty(scope.row.thirdYearContent) ? scope.row.thirdYearContent : '- -'}}</span>
                     </template>
@@ -316,7 +316,7 @@
                   </el-table-column>
                 </el-table-column>
                 <el-table-column :label="item.secondYearForCustomer" header-align="center">
-                  <el-table-column align="right"  class-name="table_cell" label="采购内容" width="117">
+                  <el-table-column align="left"  class-name="table_cell" label="采购内容" width="117">
                     <template slot-scope="scope">
                       <span>{{isNotEmpty(scope.row.secondYearContent ) ? scope.row.secondYearContent  : '- -'}}</span>
                     </template>
@@ -335,7 +335,7 @@
                   </el-table-column>
                 </el-table-column>
                 <el-table-column :label="item.firstYearForCustomer" header-align="center">
-                  <el-table-column align="right"  class-name="table_cell" label="采购内容" width="117">
+                  <el-table-column align="left"  class-name="table_cell" label="采购内容" width="117">
                     <template slot-scope="scope">
                       <span>{{isNotEmpty(scope.row.firstYearContent ) ? scope.row.firstYearContent  : '- -'}}</span>
                     </template>
@@ -372,7 +372,7 @@
                     <span v-else>- -</span>
                 </template>
             </el-table-column>
-            <el-table-column label="项目类型" align="center">
+            <el-table-column label="项目类型" align="left">
                 <template slot-scope="scope">
                       <span v-if="scope.row.itemTypeStr">{{scope.row.itemTypeStr}}</span>
                     <span v-else>- -</span>

@@ -1,10 +1,10 @@
 <template>
-    <div v-loading="flagLoading" element-loading-text="给我一点时间" :class="{'processTree':lastTab,'':!lastTab}">
-        <div class="allJincheng" v-for="boxDataItem in treeList" v-if="treeList.length>0" :key="boxDataItem.treeTypeCode">
+    <div v-loading="flagLoading" element-loading-text="给我一点时间" :class="{'processTree':lastTab,'allJincheng':!lastTab}">
+        <div v-for="boxDataItem in treeList" v-if="treeList.length>0" :key="boxDataItem.treeTypeCode">
             <!-- 第一个进程 -->
             <div>
                 <el-row style="padding-left:12px">
-                    <el-col :span="24" style="border-left:1px solid #0099cc; margin-bottom: -10px;margin-top:10px;padding-bottom: 10px;">
+                    <el-col :span="24" style="border-left:1px solid #E9E9E9; margin-bottom: -10px;margin-top:10px;padding-bottom: 10px;">
                          <!-- 进程名 -->
                         <div class="jincheng">
                             <img  v-if="boxDataItem.treeTypeCode" src="../../../assets/images/jinchengjian.png" alt="">
@@ -37,19 +37,19 @@
                                         </span>
                                     </div>
                                     <div class="border-right">
-                                        <div style="font-size: 16px; color: #333333;"
-                                            v-text='item.progressName'
-                                            @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'title')"
-                                            @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)"
-                                            @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)"
-                                            class="tinyHand">
-                                        </div>
+                                        <div style="height: 19px;">
+                                            <div style="font-size: 16px; color: #333333;"
+                                                v-text='item.progressName'
+                                                @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'title')"
+                                                @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)"
+                                                @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)"
+                                                class="tinyHand">
+                                            </div>
                                         <!-- 审核结果 -->
-                                        <div v-show="item.progressType=='07'">
-                                            <span v-if="item.iecResult=='00'" :style={background:htg} class="htg" >获通过</span>
-                                            <span v-if="item.iecResult=='01'" :style={background:whtg} class="whtg">未获通过</span>
-                                            <span class="zhbj" v-if="item.iecResult=='02'" :style={background:zhbj} >暂缓表决 </span>
-                                            <span v-if="item.iecResult=='03'" :style={background:qxsh} class="qxsh">取消审核</span>
+                                            <span v-if="item.progressType=='07'&&item.iecResult=='00'" :style={background:htg}  class="htg" >获通过</span>
+                                            <span v-if="item.progressType=='07'&&item.iecResult=='01'" :style={background:whtg} class="whtg">未获通过</span>
+                                            <span v-if="item.progressType=='07'&&item.iecResult=='02'" :style={background:zhbj} class="zhbj">暂缓表决 </span>
+                                            <span v-if="item.progressType=='07'&&item.iecResult=='03'" :style={background:qxsh} class="qxsh">取消审核</span>
                                         </div>
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
                                             <span v-text='item.processTime'></span>
@@ -72,13 +72,13 @@
                                                 </span>
                                             </span>
                                         </div>
-                                        <div v-show="item.relaList.length!=0" v-if="!item.flag" style="margin-bottom: 24px;margin-top: 8px;">
+                                        <div v-show="item.relaList.length!=0" v-if="!item.flag" style="margin-bottom: 14px;margin-top: 8px;">
                                             <span>
                                                 <span>
                                                     <!-- 第一个进程展示的是‘查看公告’ -->
-                                                    <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, null)" class="moreNoticeCss">查看公告 ></div>
+                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, null)" class="moreNoticeCss">查看公告 ></div>
                                                     <!-- 第二个进程展示的是‘查看审核意见’ -->
-                                                    <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, null)" class="moreNoticeCss">查看审核意见 ></div>
+                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, null)" class="moreNoticeCss">查看审核意见 ></div>
                                                 </span>
                                             </span>
                                         </div>
@@ -88,16 +88,14 @@
                                 <div v-if="!lastTab">
                                     <div v-if="boxDataItem.treeTypeCode == '02'" >
                                         <p v-show="index == boxDataItem.proList.length-1" class="spread sandianClass" v-if="boxDataItem.spreadFlag" @click="handlePackUp(boxDataItem)" style="font-size:14px;cursor:pointer;line-height:17px"><span>收起</span></p>
-                                        <p v-show=" index == 0" class="spread sandianClass" v-else  ><span  @click="handleSpread(boxDataItem)" @mouseenter="handleMouseenterSpread(boxDataItem)" @mouseleave="handleMouseleaveSpread(boxDataItem)">...</span></p>
-                                        <span class="spreadText" v-show="boxDataItem.isShowSpreadText && index == 0">点击展开隐藏节点</span>
+                                        <p v-show=" index == 0" class="spread sandianClass spreadTitle" v-else  ><span  @click="handleSpread(boxDataItem)" @mouseenter="handleMouseenterSpread(boxDataItem)" @mouseleave="handleMouseleaveSpread(boxDataItem)">...</span></p>
                                     </div>
                                 </div>
                                 <!-- 当点击最后一个tab页时，上市没有展开收起，其他两个有展开收起 -->
                                 <div v-if="lastTab">
                                     <div v-if="boxDataItem.treeTypeCode == '00'||boxDataItem.treeTypeCode == '01'" >
                                         <p v-show="index == boxDataItem.proList.length-1" class="spread sandianClass" v-if="boxDataItem.spreadFlag" @click="handlePackUp(boxDataItem)" style="font-size:14px;cursor:pointer;line-height:17px"><span>收起</span></p>
-                                        <p v-show=" index == 0" class="spread sandianClass" v-else  ><span  @click="handleSpread(boxDataItem)" @mouseenter="handleMouseenterSpread(boxDataItem)" @mouseleave="handleMouseleaveSpread(boxDataItem)">...</span></p>
-                                        <span class="spreadTextLast" v-show="boxDataItem.isShowSpreadText && index == 0">点击展开隐藏节点</span>
+                                        <p v-show=" index == 0" class="spread sandianClass spreadTitle" v-else  ><span  @click="handleSpread(boxDataItem)" @mouseenter="handleMouseenterSpread(boxDataItem)" @mouseleave="handleMouseleaveSpread(boxDataItem)">...</span></p>
                                     </div>
                                 </div>
                             </div>
@@ -123,19 +121,19 @@
                                         </span>
                                     </div>
                                     <div class="border-right">
-                                        <div style="font-size: 16px; color: #333333;"
-                                            v-text='item.progressName'
-                                            @click="showAndHide(boxDataItem,'each' +  item.progressIndex ,item, 'title')"
-                                            @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)"
-                                            @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)"
-                                            class="tinyHand">
-                                        </div>
+                                        <div style="height: 19px;">
+                                            <div style="font-size: 16px; color: #333333;"
+                                                v-text='item.progressName'
+                                                @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'title')"
+                                                @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)"
+                                                @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)"
+                                                class="tinyHand">
+                                            </div>
                                         <!-- 审核结果 -->
-                                        <div v-show="item.progressType=='07'">
-                                            <span v-if="item.iecResult=='00'" :style={background:htg} class="htg" >获通过</span>
-                                            <span v-if="item.iecResult=='01'" :style={background:whtg} class="whtg">未获通过</span>
-                                            <span class="zhbj" v-if="item.iecResult=='02'" :style={background:zhbj} >暂缓表决 </span>
-                                            <span v-if="item.iecResult=='03'" :style={background:qxsh} class="qxsh">取消审核</span>
+                                            <span v-if="item.progressType=='07'&&item.iecResult=='00'" :style={background:htg}  class="htg" >获通过</span>
+                                            <span v-if="item.progressType=='07'&&item.iecResult=='01'" :style={background:whtg} class="whtg">未获通过</span>
+                                            <span v-if="item.progressType=='07'&&item.iecResult=='02'" :style={background:zhbj} class="zhbj">暂缓表决 </span>
+                                            <span v-if="item.progressType=='07'&&item.iecResult=='03'" :style={background:qxsh} class="qxsh">取消审核</span>
                                         </div>
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
                                             <span v-text='item.processTime'></span>
@@ -157,13 +155,13 @@
                                                 </span>
                                             </span>
                                         </div>
-                                        <div   v-show="item.relaList.length!=0" v-if="!item.flag" style="margin-bottom: 24px;margin-top: 8px;">
+                                        <div   v-show="item.relaList.length!=0" v-if="!item.flag" style="margin-bottom: 14px;margin-top: 8px;">
                                             <span>
                                                 <span>
                                                     <!-- 第一个进程展示的是‘查看公告’ -->
-                                                    <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each'  + item.progressIndex,item, null)" class="moreNoticeCss">查看公告 ></div>
+                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each'  + item.progressIndex,item, null)" class="moreNoticeCss">查看公告 ></div>
                                                     <!-- 第二个进程展示的是‘查看审核意见’ -->
-                                                    <div style="margin-bottom: 24px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each'  + item.progressIndex,item, null)" class="moreNoticeCss">查看审核意见 ></div>
+                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each'  + item.progressIndex,item, null)" class="moreNoticeCss">查看审核意见 ></div>
                                                 </span>
                                             </span>
                                         </div>
@@ -173,16 +171,14 @@
                                 <div v-if="!lastTab">
                                     <div v-if="boxDataItem.treeTypeCode == '02'" >
                                         <p v-show="index == boxDataItem.proList.length-1" class="spread sandianClass" v-if="boxDataItem.spreadFlag" @click="handlePackUp(boxDataItem)" style="font-size:14px;cursor:pointer;line-height:17px"><span>收起</span></p>
-                                        <p v-show=" index == 0" class="spread sandianClass" v-else  ><span  @click="handleSpread(boxDataItem)" @mouseenter="handleMouseenterSpread(boxDataItem)" @mouseleave="handleMouseleaveSpread(boxDataItem)">...</span></p>
-                                        <span class="spreadText" v-show="boxDataItem.isShowSpreadText && index == 0">点击展开隐藏节点</span>
+                                        <p v-show=" index == 0" class="spread sandianClass spreadTitle" v-else  ><span  @click="handleSpread(boxDataItem)" @mouseenter="handleMouseenterSpread(boxDataItem)" @mouseleave="handleMouseleaveSpread(boxDataItem)">...</span></p>
                                     </div>
                                 </div>
                                 <!-- 当点击最后一个tab页时，上市没有展开收起，其他两个有展开收起 -->
                                 <div v-if="lastTab">
                                     <div v-if="boxDataItem.treeTypeCode == '00'||boxDataItem.treeTypeCode == '01'" >
                                         <p v-show="index == boxDataItem.proList.length-1" class="spread sandianClass" v-if="boxDataItem.spreadFlag" @click="handlePackUp(boxDataItem)" style="font-size:14px;cursor:pointer;line-height:17px"><span>收起</span></p>
-                                        <p v-show=" index == 0" class="spread sandianClass" v-else  ><span  @click="handleSpread(boxDataItem)" @mouseenter="handleMouseenterSpread(boxDataItem)" @mouseleave="handleMouseleaveSpread(boxDataItem)">...</span></p>
-                                        <span class="spreadTextLast" v-show="boxDataItem.isShowSpreadText && index == 0">点击展开隐藏节点</span>
+                                        <p v-show=" index == 0" class="spread sandianClass spreadTitle" v-else  ><span  @click="handleSpread(boxDataItem)" @mouseenter="handleMouseenterSpread(boxDataItem)" @mouseleave="handleMouseleaveSpread(boxDataItem)">...</span></p>
                                     </div>
                                 </div>
                             </div>
@@ -273,7 +269,7 @@ export default {
         }
         getRightModuleData(param).then(res => {
             this.flagLoading = false;
-            if(res.data.result.treeList&&res.data.result.treeList.length>0){
+            if(res.data.result&&res.data.result.treeList&&res.data.result.treeList.length>0){
                 this.treeList = res.data.result.treeList
                 this.treeTypeCode = res.data.result.treeList[0].treeTypeCode
             }
@@ -286,8 +282,7 @@ export default {
       },
        // 标移入三个点
       handleMouseenterSpread(param){
-        this.isShowSpreadText = true
-        this.$set(param,'isShowSpreadText',true)
+          $(".spreadTitle").attr("title",'点击展开隐藏节点')
       },
        // 鼠标移出三个点
       handleMouseleaveSpread(param){
@@ -431,20 +426,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.allmore {
-    cursor: pointer;
-    text-align: center;
-    color: #0066FF;
-    font-size: 12px;
-}
-
-.allmore:hover {
-    cursor: pointer;
-    text-decoration: underline;
-    text-decoration-color: #0066FF;
-}
 .gonggao{
-    color:#0086A7;
+    color:#0099cc;
     font-size:14px;
     display:none;
     margin-bottom: 24px;
@@ -453,7 +436,7 @@ export default {
 .gonggao:hover {
     cursor: pointer;
     text-decoration: underline;
-    text-decoration-color: #0066FF;
+    text-decoration-color: #0099cc;
 }
 .moreNoticeCss {
     font-family: "PingFangSC-Regular", "PingFang SC";
@@ -486,7 +469,7 @@ export default {
 }
 
 .circle {
-    background: #0099cc;
+    background: #14bcf5;
     display: block;
     width: 20px;
     height: 20px;
@@ -637,10 +620,9 @@ export default {
 /* 进程名样式 */
 .jincheng {
     position: relative;
-    top: -14px;
+    top: -6px;
     left: -9px;
     height: 24px;
-    margin-top: 8px;
   p {
     font-family: 'PingFang-SC-Regular', 'PingFang SC';
     font-weight: 400;
@@ -702,6 +684,9 @@ export default {
     // height: 660px;
     // overflow-y: scroll;
     overflow-x: hidden;
-    margin-top:20px;
+    margin-top:16px;
+}
+.allJincheng{
+    margin-top:16px;
 }
 </style>

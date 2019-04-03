@@ -12,22 +12,22 @@
       <el-table-column
         prop=""
        :label="tableTitle.forthYearDate?tableTitle.forthYearDate:''"
-       align="center">
+       align="right">
       </el-table-column>
       <el-table-column
         prop=""
         :label="tableTitle.thirdYearDate?tableTitle.thirdYearDate:''"
-        align="center">
+        align="right">
       </el-table-column>
       <el-table-column
         prop=""
         :label="tableTitle.secondYearDate?tableTitle.secondYearDate:''"
-        align="center">
+        align="right">
       </el-table-column>
        <el-table-column
         prop=""
         :label="tableTitle.firstYearDate?tableTitle.firstYearDate:''"
-        align="center">
+        align="right">
       </el-table-column>
       <el-table-column
         prop=""
@@ -46,25 +46,25 @@
             <span>{{isNotEmpty(scope.row.itemName) ? scope.row.itemName : '- -'}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="forthYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+        <el-table-column prop="forthYearValue" align="right"  class-name="table_cell" label="占比" width="135">
            <template slot-scope="scope">
               <span v-if="scope.row.forthYearValue"> {{scope.row.forthYearValue | dataInThRule}}</span>
               <span v-else> - - </span>
            </template>
         </el-table-column>
-         <el-table-column prop="thirdYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+         <el-table-column prop="thirdYearValue" align="right"  class-name="table_cell" label="占比" width="135">
            <template slot-scope="scope">
               <span v-if="scope.row.thirdYearValue"> {{scope.row.thirdYearValue | dataInThRule}}</span>
               <span v-else> - - </span>
            </template>
         </el-table-column>
-         <el-table-column prop="secondYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+         <el-table-column prop="secondYearValue" align="right"  class-name="table_cell" label="占比" width="135">
            <template slot-scope="scope">
               <span v-if="scope.row.secondYearValue"> {{scope.row.secondYearValue | dataInThRule}}</span>
               <span v-else> - - </span>
            </template>
         </el-table-column>
-         <el-table-column prop="firstYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+         <el-table-column prop="firstYearValue" align="right"  class-name="table_cell" label="占比" width="135">
            <template slot-scope="scope">
               <span v-if="scope.row.firstYearValue"> {{scope.row.firstYearValue | dataInThRule}}</span>
               <span v-else> - - </span>
@@ -88,25 +88,25 @@
             <span>{{isNotEmpty(scope.row.itemName) ? scope.row.itemName : '- -'}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="forthYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+        <el-table-column prop="forthYearValue" align="right"  class-name="table_cell" label="占比" width="135">
            <template slot-scope="scope">
               <span v-if="scope.row.forthYearValue"> {{scope.row.forthYearValue | dataInThRule}}</span>
               <span v-else> - - </span>
            </template>
         </el-table-column>
-         <el-table-column prop="thirdYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+         <el-table-column prop="thirdYearValue" align="right"  class-name="table_cell" label="占比" width="135">
            <template slot-scope="scope">
               <span v-if="scope.row.thirdYearValue"> {{scope.row.thirdYearValue | dataInThRule}}</span>
               <span v-else> - - </span>
            </template>
         </el-table-column>
-         <el-table-column prop="secondYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+         <el-table-column prop="secondYearValue" align="right"  class-name="table_cell" label="占比" width="135">
            <template slot-scope="scope">
               <span v-if="scope.row.secondYearValue"> {{scope.row.secondYearValue | dataInThRule}}</span>
               <span v-else> - - </span>
            </template>
         </el-table-column>
-         <el-table-column prop="firstYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+         <el-table-column prop="firstYearValue" align="right"  class-name="table_cell" label="占比" width="135">
            <template slot-scope="scope">
               <span v-if="scope.row.firstYearValue"> {{scope.row.firstYearValue | dataInThRule}}</span>
               <span v-else> - - </span>
@@ -130,25 +130,25 @@
             <span>{{isNotEmpty(scope.row.itemName) ? scope.row.itemName : '- -'}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="forthYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+        <el-table-column prop="forthYearValue" align="right"  class-name="table_cell" label="占比" width="135">
            <template slot-scope="scope">
               <span v-if="scope.row.forthYearValue"> {{scope.row.forthYearValue | dataInThRule}}</span>
               <span v-else> - - </span>
            </template>
         </el-table-column>
-         <el-table-column prop="thirdYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+         <el-table-column prop="thirdYearValue" align="right"  class-name="table_cell" label="占比" width="135">
            <template slot-scope="scope">
               <span v-if="scope.row.thirdYearValue"> {{scope.row.thirdYearValue | dataInThRule}}</span>
               <span v-else> - - </span>
            </template>
         </el-table-column>
-         <el-table-column prop="secondYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+         <el-table-column prop="secondYearValue" align="right"  class-name="table_cell" label="占比" width="135">
           <template slot-scope="scope">
               <span v-if="scope.row.secondYearValue"> {{scope.row.secondYearValue | dataInThRule}}</span>
               <span v-else> - - </span>
            </template>
         </el-table-column>
-         <el-table-column prop="firstYearValue" align="center"  class-name="table_cell" label="占比" width="135">
+         <el-table-column prop="firstYearValue" align="right"  class-name="table_cell" label="占比" width="135">
            <template slot-scope="scope">
               <span v-if="scope.row.firstYearValue"> {{scope.row.firstYearValue | dataInThRule}}</span>
               <span v-else> - - </span>
