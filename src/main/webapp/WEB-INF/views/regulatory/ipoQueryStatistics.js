@@ -223,7 +223,7 @@ function viewAreaDetail(registAddr,lastUpadteTime,approveStatus,viewType){
 	        break;
 	        case '06': appLabel = approveStatus.replace("06", "已提交发审会讨论，暂缓表决");
 	        break;
-	        case '09': appLabel = approveStatus.replace("09", "提交注册");
+	        case '09': appLabel = approveStatus.replace("09", "注册生效");
 	        break;
 	        case '03': appLabel = approveStatus.replace("03", "已通过发审会");
 	        break;
