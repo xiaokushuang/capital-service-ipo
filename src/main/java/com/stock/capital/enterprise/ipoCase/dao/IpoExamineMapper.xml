@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.capital.enterprise.ipoCase.dao.IpoExamineMapper">
+
+    <select id="selectExamineBaseList"
+            parameterType="java.lang.String"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IpoExamineBaseDto">
+        SELECT
+            t2.relation_file_title relationFileTitle,
+            t1.company_zh_name companyName,
+            t2.iec_result iecResult,
+            (
+                CASE t2.iec_result
+                WHEN '00' THEN
+                    '获通过'
+                WHEN '01' THEN
+                    '未获通过'
+                WHEN '02' THEN
+                    '暂缓表决'
+                WHEN '03' THEN
+                    '取消审核'
+                END
+            ) iecResultStr,
+            date_format(t2.process_time,'%Y-%m-%d') examineDate,
+            date_format(t2.process_time,'%Y年%m月%d日') examineDateStr
+        FROM
+            ipo_case t1
+        LEFT JOIN ipo_process t2 ON t1.id = t2.bid
+        WHERE
+            t2.process_type_code = '07'
+        AND t1.id = #{id}
+        AND t2.table_sort = '1'
+        order by t2.process_time
+    </select>
+
+    <resultMap id="baseResultMap" type="com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackQuestionDto">
+            <result column="question_id" property="questionId" jdbcType="VARCHAR"/>
+            <result column="text_content" property="question" jdbcType="VARCHAR"/>
+            <result column="answer" property="answer" jdbcType="VARCHAR"/>
+            <collection property="labelList" ofType="java.lang.String">
+                <result column="question_type" property="questionType" jdbcType="VARCHAR"/>
+            </collection>
+    </resultMap>
+
+    <select id="selectQuestionList" parameterType="java.lang.String" resultMap="baseResultMap">
+        SELECT
+            t2.id question_id,
+            t2.text_content,
+            t4.letter_class_name question_type,
+            CAST(t2.ask_no AS SIGNED) askNo,
+            t8.text_content answer
+        FROM
+            sa_letter t1
+        LEFT JOIN label_xml_structure t2 ON t2.rela_id = t1.id
+        LEFT JOIN letter_class t4 ON t4.tree_type != '1'
+        AND FIND_IN_SET(t4.id, t2.question_type)
+        LEFT JOIN letter_class t5 ON t5.id = t4.parent_id
+        LEFT JOIN letter_class t6 ON t6.id = t1.letter_type
+        LEFT JOIN label_ask_answer t7 ON t7.ask_id = t6.id
+        LEFT JOIN label_xml_structure t8 ON t8.id = t7.answer_id
+        WHERE
+            t1.rela_code = #{orgCode}
+        AND t2.type = 'l'
+        AND t2.`level` = '4'
+        AND t4. LEVEL != '0'
+        AND t6.letter_class_name = 'IPO审核结果反馈意见'
+        ORDER BY
+            askNo
+    </select>
+
+    <select id="selectExamineMember" resultType="java.lang.String">
+        SELECT
+            auditmem
+        FROM
+            LICO_FP_FICFIRST
+        WHERE
+            companycode = #{orgCode}
+        AND auditdate = #{examineDate}
+        LIMIT 1
+    </select>
+
+    <select id="selectMemberInformationList"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IpoMemberDto">
+        SELECT
+            id,
+            member_name memberName,
+            member_post memberPost,
+            member_gender memberGender,
+            member_education memberEducation,
+            member_major memberMajor,
+            member_company memberCompany,
+            member_type memberType,
+            session_year sessionYear,
+            plate_type plateType,
+            member_title memberTitle
+        FROM
+            ipo_member
+        <where>
+            session_year = #{sessionYear}
+            and member_name in
+            <foreach collection="memberList" separator="," open="(" close=")" item="item" index="index">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+</mapper>

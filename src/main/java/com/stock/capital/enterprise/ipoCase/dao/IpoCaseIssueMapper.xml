@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.capital.enterprise.ipoCase.dao.IpoCaseIssueMapper">
+  <select id="getIssueFeeData" parameterType="string" resultType="com.stock.capital.enterprise.ipoCase.dto.IssueFeeDto">
+    SELECT iic.id,iic.bid,iic.feeType,
+    CONVERT(iic.fee_amount,DECIMAL(18,2)) AS feeAmount,
+    CONVERT(iic.fee_amount/i.investTotal*100,DECIMAL(18,2)) AS feeRatio
+     FROM
+    (SELECT id,bid,CASE WHEN fee_code = '02' THEN '承销及保荐费用' WHEN fee_code = '03' THEN '承销费用' WHEN fee_code = '04' THEN '保荐费用'
+        WHEN fee_code = '05' THEN '原股东承销费用' WHEN fee_code = '06' THEN '律师费用' ELSE '' END AS feeType,fee_amount
+    FROM ipo_issue_cost
+    WHERE bid = #{bid} AND fee_type = '0' AND fee_code NOT in ('00','01')
+    UNION
+    SELECT id,bid,(SELECT mcl.label_name FROM maa_conf_label mcl WHERE mcl.label_code = 'IPO_AUDIT_FEE' AND mcl.label_value = fee_code) AS feeType,fee_amount
+    FROM ipo_issue_cost
+    WHERE bid = #{bid} AND fee_type = '1'
+    UNION
+    SELECT id,bid,(SELECT mcl.label_name FROM maa_conf_label mcl WHERE mcl.label_code = 'IPO_ISSUE_FEE' AND mcl.label_value = fee_code) AS feeType,fee_amount
+    FROM ipo_issue_cost
+    WHERE bid = #{bid} AND fee_type = '2') iic,
+    (SELECT SUM(invest_plan) AS investTotal FROM ipo_invest_item WHERE bid = #{bid}) i
+  </select>
+
+  <select id="getIssueData" parameterType="string" resultType="com.stock.capital.enterprise.ipoCase.dto.IssueDataDto">
+    SELECT
+      lfi.PARVALUE AS parValue,
+      lfi.ISSUEPRICE AS issuePrice,
+      CONVERT(lfi.SHAREISSUED/10000,DECIMAL(18,2)) AS shareIssued,
+      lfi.ISSUEDRATIO AS issuedRatio,
+      CONVERT(lfi.SUMFINA/10000,DECIMAL(18,2)) AS sumFina,
+      CONVERT(lfi.NETSUMFINA/10000,DECIMAL(18,2)) AS netSumFina,
+      CONVERT(lfi.EXSENUMBSE/10000,DECIMAL(18,2)) AS exseNumBse,
+      lfi.ISSUEMETHOD AS issueMethod,
+      lf.EPSISSUEB AS epsIssueB,
+      lf.EPSISSUEA AS epsIssueA,
+      lf.PEISSUEA peIssueA,
+      CONVERT(lfp.SHAREISSUEON/10000,DECIMAL(18,2)) AS shareIssueOn,
+      CONVERT(lfp.SHAREPLACEOFF/10000,DECIMAL(18,2)) AS sharePlaceOff,
+      (SELECT c.PARAMCHNAME FROM CFP_PVALUE c WHERE c.NIPMID = '127000000005078644' AND lfu.UWMETHOD = c.PARAMCODE) AS uwMethod
+    FROM
+        LICO_FP_ISSUEBASICINFO linfo
+        LEFT JOIN LICO_FP_ISSUEBASICINFO lfi ON linfo.FINANCECODE = lfi.FINANCECODE
+        LEFT JOIN LICO_FP_ISSUEFINA lf ON linfo.FINANCECODE = lf.FINANCECODE
+        LEFT JOIN LICO_FP_ISSUEPLACE lfp ON linfo.FINANCECODE = lfp.FINANCECODE
+        LEFT JOIN LICO_FP_UNDERWRITING lfu ON linfo.FINANCECODE = lfu.FINANCECODE
+    WHERE
+        linfo.COMPANYCODE = #{orgCode}
+    limit 1
+  </select>
+</mapper>

@@ -1,21 +1,23 @@
 import axios from 'axios';
 import {clearAllCookie, getToken} from '@/utils/auth';
 import {Message} from 'element-ui';
+import store from '../store'
 
 // create an axios instance
 const service = axios.create({
   baseURL: '',// process.env.BASE_API, // api的base_url
-  timeout: 5000 // request timeout
+  timeout: 10000 // request timeout
 });
 
 //console.log(process.env.BASE_API);
 
 // request interceptor
-service.interceptors.request.use(
+service.interceptors.request.use( 
     config => {
       // Do something before request is sent
       // set accessToken with request header
-      config.headers['Authorization'] = getToken();
+      config.headers['Authorization'] = store.state.app.token;
+      config.headers['X-Tenant-Info'] = store.state.app.info;
       // fixed GET request method caching problem
       config.headers['Cache-Control'] = 'no-cache';
       config.headers['Pragma'] = 'no-cache';

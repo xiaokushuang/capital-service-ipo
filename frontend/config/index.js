@@ -23,12 +23,20 @@ module.exports = {
       //       '^/nodeApi/':'/api/'
       //     }
       // },
+
+      // 从moke改为真路径修改的路径
+    // '/ipo/':{
+    //     target:'http://192.168.1.22:9080',//'http://192.168.1.22:9080','localhost:8082',//
+    //     pathRewrite:{
+    //       '^/ipo/':'/ipo/'
+    //     }
+    // },
     '/ipo/':{
-        target:'http://192.168.1.22:9080',//'http://192.168.1.22:9080','localhost:8082',//
-        pathRewrite:{
-          '^/ipo/':'/ipo/'
-        }
-    },
+      target:'http://172.16.20.62:19081',//'http://192.168.1.22:9080','localhost:8082',//
+      pathRewrite:{
+        '^/ipo/':'/ipo/'
+      }
+  },
     '/enterprise/':{
         target:'localhost:9080',//'http://192.168.1.22:9080',
         pathRewrite:{

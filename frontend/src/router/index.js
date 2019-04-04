@@ -4,7 +4,7 @@ import Router from 'vue-router'
 import Layout from '../views/layout/Layout'
 
 const _import = require('./_import_' + process.env.NODE_ENV)
-console.log(_import('financeStatistics/financeSearch'))
+// console.log(_import('financeStatistics/financeSearch'))
 // in development-env not use lazy-loading, because lazy-loading too many pages will cause webpack hot update too slow. so only in production use lazy-loading;
 // detail: https://panjiachen.github.io/vue-element-admin-site/#/lazy-loading
 
@@ -81,7 +81,7 @@ export const constantRouterMap = [
   {// financeStatistics/financeSearch
     path: '',
     component: Layout,
-    redirect: 'securitiesInit',
+    redirect: 'ipo',
     meta: { title: '首页', icon: 'dashboard' },
     children: [
       {
@@ -131,7 +131,31 @@ export const constantRouterMap = [
         component: _import('ipoRefinance/refinancing'),
         name: 'refinancing',
         meta: { title: '再融资', icon: 'refinancing', noCache: true }
+      },
+      {
+        path: 'tableDemo',
+        component: _import('demos/demo1'),
+        name: 'tableDemo'
+      },
+      {
+        path: 'caseDetail',
+        component: _import('financeStatistics/ipo'),
+        name: 'caseDetail',
+        meta: { title: 'IPO案例详情', noCache: true }
+      },
+      {
+        path: 'ipoCase',
+        component: _import('ipoCase/ipoCaseList'),
+        name: 'ipoCase',
+        meta: { title: 'IPO案例', noCache: true }
+      },
+      {
+        path:'ipoPopWin',
+        component: _import('ipoCase/popWinComponent'),
+        name:'ipoPopWin',
+        meta: {title: '试用用户提示窗', noCache: true}
       }
+
     ]
   }
   // {
@@ -153,7 +177,7 @@ export default new Router(
     scrollBehavior: () => ({ y: 0 }),
     routes: constantRouterMap,
     mode: 'history',
-    base:'/ui/ipo/'
+    base: '/ui/ipo/'
   }
 )
 

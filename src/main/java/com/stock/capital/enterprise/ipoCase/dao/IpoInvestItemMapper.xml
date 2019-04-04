@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.capital.enterprise.ipoCase.dao.IpoInvestItemMapper" >
+
+    <select id="selectIpoInvestItem"
+            parameterType="java.lang.String"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IpoInvestItemDto">
+        SELECT
+            t2.item_name itemName,
+            t2.item_type itemType,
+            IFNULL(t1.invest_plan_limit,0) investPlanLimit,
+            IFNULL(t2.invest_plan,0) investPlan,
+            IFNULL(t2.invest_total,0) investTotal,
+            IFNULL(t2.invest_pre,0) investPre,
+            (
+                SELECT
+                    GROUP_CONCAT(label_name)
+                FROM
+                    maa_conf_label
+                WHERE
+                    FIND_IN_SET(label_value, t2.item_type)
+                AND label_code = 'ITEM_TYPE'
+            ) itemTypeStr
+        FROM
+            ipo_case t1
+        INNER JOIN ipo_invest_item t2 ON t1.id = t2.bid
+        WHERE
+            t1.id = #{id}
+    </select>
+</mapper>

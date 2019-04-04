@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.capital.enterprise.ipoCase.dao.IpoFinanceMapper">
+
+    <select id="getForthYear" parameterType="java.lang.String" resultType="java.util.Date">
+        SELECT
+            report_period
+        FROM
+            ipo_main_income_info
+        WHERE
+            bid = #{id}
+        GROUP BY
+            bid,
+            report_period
+        limit 1
+    </select>
+
+    <select id="selectFinanceList" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
+        SELECT
+            t1.COLUMN_COMMENT itemName,
+            round(t2.CURR_VAL/10000,2) forthYearValue,
+            (
+                CASE t1.column_name
+                WHEN 'MONETARYFUND' THEN
+                    1
+                WHEN 'FVALUEFASSET' THEN
+                    2
+                WHEN 'ACCOUNTREC' THEN
+                    3
+                WHEN 'OTHERREC' THEN
+                    4
+                WHEN 'INVENTORY' THEN
+                    5
+                WHEN 'LTEQUITYINV' THEN
+                    6
+                WHEN 'FIXEDASSET' THEN
+                    7
+                WHEN 'CONSTRUCTIONPROGRESS' THEN
+                    8
+                WHEN 'INTANGIBLEASSET' THEN
+                    9
+                WHEN 'GOODWILL' THEN
+                    10
+                END
+            ) sort
+        FROM
+            vc_dic_rgbalance_ipo t1
+        LEFT JOIN vc_fin_report_base_rgbalance_ipo t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
+        WHERE
+            t1.IS_USE = '1'
+        having sort is not null order by sort
+    </select>
+
+    <select id="selectDebtFinanceList"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
+        SELECT
+            t1.COLUMN_COMMENT itemName,
+            round(t2.CURR_VAL/10000,2) forthYearValue,
+            (
+                CASE t1.column_name
+                WHEN 'STBORROW' THEN
+                    1
+                WHEN 'ACCOUNTPAY' THEN
+                    2
+                WHEN 'TAXPAY' THEN
+                    3
+                WHEN 'SALARYPAY' THEN
+                    4
+                WHEN 'LTBORROW' THEN
+                    5
+                WHEN 'LTSALARYPAY' THEN
+                    6
+                END
+            ) sort
+        FROM
+            vc_dic_rgbalance_ipo t1
+        LEFT JOIN vc_fin_report_base_rgbalance_ipo t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
+        WHERE
+            t1.IS_USE = '1'
+        having sort is not null order by sort
+    </select>
+
+    <select id="selectEquityItemList"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
+        SELECT
+            t1.COLUMN_COMMENT itemName,
+            round(t2.CURR_VAL/10000,2) forthYearValue,
+            (
+                CASE t1.column_name
+                WHEN 'SHARECAPITAL' THEN
+                    1
+                WHEN 'CAPITALRESERVE' THEN
+                    2
+                WHEN 'RETAINEDEARNING' THEN
+                    3
+                WHEN 'SUMPARENTEQUITY' THEN
+                    4
+                END
+            ) sort
+        FROM
+            vc_dic_rgbalance_ipo t1
+        LEFT JOIN vc_fin_report_base_rgbalance_ipo t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
+        WHERE
+            t1.IS_USE = '1'
+        having sort is not null order by sort
+    </select>
+
+    <select id="selectFinanceOverList"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
+        SELECT
+            t1.COLUMN_COMMENT itemName,
+            round((CASE WHEN t2.CURR_VAL IS NULL THEN 0 ELSE t2.curr_val END)/10000,2) forthYearValue,
+          (
+                CASE t1.column_name
+                WHEN 'SUMASSET' THEN
+                    1
+                WHEN 'SUMLIAB' THEN
+                    2
+                END
+            ) sort
+        FROM
+            vc_dic_rgbalance_ipo t1
+        LEFT JOIN vc_fin_report_base_rgbalance_ipo t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
+        WHERE
+            t1.IS_USE = '1'
+        HAVING sort IS NOT NULL
+
+        UNION
+
+        SELECT
+            t1.COLUMN_COMMENT itemName,
+            round(t2.CURR_VAL/10000,2) forthYearValue,
+            3 sort
+        FROM
+            vc_dic_rgincome_ipo t1
+        LEFT JOIN vc_fin_report_base_rgincome_ipo t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
+        WHERE
+            t1.IS_USE = '1' AND t1.column_name = 'SUMPROFIT'
+
+        union
+
+        SELECT
+            t1.COLUMN_COMMENT itemName,
+            round(t2.CURR_VAL/10000,2) forthYearValue,
+          (
+                CASE t1.column_name
+                WHEN 'NETOPERATECASHFLOW' THEN
+                    4
+                WHEN 'NICASHEQUI' THEN
+                    5
+                END
+            ) sort
+        FROM
+            vc_dic_rgcashflow_ipo t1
+        LEFT JOIN vc_fin_report_base_rgcashflow_ipo t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
+        WHERE
+            t1.IS_USE = '1'
+        having sort is not null
+
+        union
+
+        SELECT
+            t1.COLUMN_COMMENT itemName,
+            (
+                CASE t1.column_name
+                WHEN 'ZCFZL' THEN
+                    t2.CURR_VAL
+                WHEN 'ROEJQ' THEN
+                    round(t2.CURR_VAL/10000,2)
+                END
+            ) forthYearValue,
+            (
+                CASE t1.column_name
+                WHEN 'ZCFZL' THEN
+                    6
+                WHEN 'ROEJQ' THEN
+                    7
+                END
+            ) sort
+        FROM
+            vc_dic_generalfina_ipo t1
+        LEFT JOIN vc_fin_report_base_generalfina_ipo t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
+        WHERE
+            t1.IS_USE = '1'
+         having sort is not null order by sort
+    </select>
+
+    <select id="selectFinanceProfitList"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
+        SELECT
+            t1.COLUMN_COMMENT itemName,
+            round(t2.CURR_VAL/10000,2) forthYearValue
+        FROM
+            vc_dic_rgincome_ipo t1
+        LEFT JOIN vc_fin_report_base_rgincome_ipo t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
+        WHERE
+            t1.IS_USE = '1'
+         and t1.column_name = 'OPERATEREVE'
+    </select>
+
+    <select id="selectCostFinanceList"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
+        SELECT
+            t1.COLUMN_COMMENT itemName,
+            round(t2.CURR_VAL/10000,2) forthYearValue,
+            (
+                CASE t1.column_name
+                WHEN 'OPERATEEXP' THEN
+                    1
+                WHEN 'OPERATETAX' THEN
+                    2
+                WHEN 'SALEEXP' THEN
+                    3
+                WHEN 'MANAGEEXP' THEN
+                    4
+                WHEN 'FINANCEEXP' THEN
+                    5
+                WHEN 'ASSETDEVALUELOSS' THEN
+                    6
+                END
+            ) sort
+        FROM
+            vc_dic_rgincome_ipo t1
+        LEFT JOIN vc_fin_report_base_rgincome_ipo t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
+        WHERE
+            t1.IS_USE = '1'
+         having sort is not null order by sort
+    </select>
+
+    <select id="selectReturnItemList"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
+        SELECT
+            t1.COLUMN_COMMENT itemName,
+            round(t2.CURR_VAL/10000,2) forthYearValue,
+            1 sort
+        FROM
+            vc_dic_rgincome_ipo t1
+        LEFT JOIN vc_fin_report_base_rgincome_ipo t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
+        WHERE
+            t1.IS_USE = '1'
+         and t1.column_name = 'NETPROFIT'
+
+        union
+
+        SELECT
+            t1.COLUMN_COMMENT itemName,
+            round(t2.CURR_VAL/10000,2) forthYearValue,
+            2 sort
+        FROM
+            vc_dic_generalfina_ipo t1
+        LEFT JOIN vc_fin_report_base_generalfina_ipo t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
+        WHERE
+            t1.IS_USE = '1'
+         and t1.column_name = 'KCFJCXSYJLR' order by sort
+    </select>
+</mapper>

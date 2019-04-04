@@ -20,6 +20,7 @@
 		<poi.version>3.16</poi.version>
 		<pinyin4j.version>2.5.1</pinyin4j.version>
 		<ews.version>2.0</ews.version>
+		<swagger.version>2.7.0</swagger.version>
 	</properties>
 
 	<!-- Inherit defaults from Spring Boot -->
@@ -230,6 +231,25 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
+		<dependency>
+    		<groupId>io.springfox</groupId>
+    		<artifactId>springfox-swagger2</artifactId>
+    		<version>${swagger.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
 
 		<!-- Provided -->
 		<dependency>
