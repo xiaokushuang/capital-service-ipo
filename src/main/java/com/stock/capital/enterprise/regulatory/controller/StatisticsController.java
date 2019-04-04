@@ -489,6 +489,19 @@ public class StatisticsController extends BaseController {
     public ModelAndView viewAreaDetail(StatisticsParamDto statisticsParamDto) {
         ModelAndView mv = new ModelAndView("regulatory/viewAreaDetail");
         List<StatisticsCompanyDto> companyList = statisticsService.queryAreaDetail(statisticsParamDto);
+        for(StatisticsCompanyDto dto : companyList){
+        	if(dto.getIpoAreaLabel().contains("科创板")){
+        		if("已反馈".equals(dto.getStatusLabel())){
+        			dto.setStatusLabel("已问询");
+        		}
+        		if("已通过发审会".equals(dto.getStatusLabel())){
+        			dto.setStatusLabel("上市委会议通过");
+        		}
+        		if("中止审查".equals(dto.getStatusLabel())){
+        			dto.setStatusLabel("中止");
+        		}
+        	}
+        }
         mv.addObject("companyList",companyList);
         mv.addObject("statisticsParamDto",statisticsParamDto);
         return mv;

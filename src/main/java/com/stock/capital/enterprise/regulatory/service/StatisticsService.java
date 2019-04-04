@@ -516,9 +516,32 @@ public class StatisticsService extends BaseService {
                 cell = row.createCell(6);
                 cell.setCellValue(comDtos.get(i).getLawFirm());
                 cell.setCellStyle(conCenterStyle);
-                cell = row.createCell(7);
+                
+                /*cell = row.createCell(7);
                 cell.setCellValue(comDtos.get(i).getApproveStatus());
-                cell.setCellStyle(conCenterStyle);
+                cell.setCellStyle(conCenterStyle);*/
+                if(comDtos.get(i).getQuasiListedLand().contains("科创板")){
+                	if("已反馈".equals(comDtos.get(i).getApproveStatus())){
+                		comDtos.get(i).setApproveStatus("已问询");
+                	}
+                	if("已通过发审会".equals(comDtos.get(i).getApproveStatus())){
+                		comDtos.get(i).setApproveStatus("上市委会议通过");
+                	}
+                	if("中止审查".equals(comDtos.get(i).getApproveStatus())){
+                		comDtos.get(i).setApproveStatus("中止");
+                	}
+                	cell = row.createCell(7);
+                	cell.setCellValue(comDtos.get(i).getApproveStatus());
+                	cell.setCellStyle(conCenterStyle);
+                	cell.setCellStyle(conCenterStyle);
+                }else{
+                	cell = row.createCell(7);
+                	cell.setCellValue(comDtos.get(i).getApproveStatus());
+                	cell.setCellStyle(conCenterStyle);
+                	cell.setCellStyle(conCenterStyle);
+                }
+                
+                
                 cell = row.createCell(8);
                 if("1".equals(comDtos.get(i).getHasedRandomInspection())){
                 	cell.setCellValue("是");
@@ -620,10 +643,27 @@ public class StatisticsService extends BaseService {
                 cell = row.createCell(4);
                 cell.setCellValue(comDtos.get(i).getRecommendOrganization());
                 cell.setCellStyle(conCenterStyle);
-                cell = row.createCell(5);
-                cell.setCellValue(comDtos.get(i).getApproveStatus());
-                cell.setCellStyle(conCenterStyle);
-                cell.setCellStyle(conCenterStyle);
+                //审核状态
+                if(comDtos.get(i).getQuasiListedLand().contains("科创板")){
+                	if("已反馈".equals(comDtos.get(i).getApproveStatus())){
+                		comDtos.get(i).setApproveStatus("已问询");
+                	}
+                	if("已通过发审会".equals(comDtos.get(i).getApproveStatus())){
+                		comDtos.get(i).setApproveStatus("上市委会议通过");
+                	}
+                	if("中止审查".equals(comDtos.get(i).getApproveStatus())){
+                		comDtos.get(i).setApproveStatus("中止");
+                	}
+                	cell = row.createCell(5);
+                	cell.setCellValue(comDtos.get(i).getApproveStatus());
+                	cell.setCellStyle(conCenterStyle);
+                	cell.setCellStyle(conCenterStyle);
+                }else{
+                	cell = row.createCell(5);
+                	cell.setCellValue(comDtos.get(i).getApproveStatus());
+                	cell.setCellStyle(conCenterStyle);
+                	cell.setCellStyle(conCenterStyle);
+                }
             }
         }
         sheet.setColumnWidth(0, 6000);

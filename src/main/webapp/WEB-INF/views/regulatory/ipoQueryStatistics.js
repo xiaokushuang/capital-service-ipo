@@ -213,23 +213,23 @@ function viewAreaDetail(registAddr,lastUpadteTime,approveStatus,viewType){
 		var date=new Date;
 		var year=date.getFullYear(); 
 		switch (approveStatus) {
-	        case '00': appLabel = approveStatus.replace("00", "已受理");
+	        case '00': appLabel = approveStatus.replace("00", "已受理<span style='color:#0099cc'>(已受理)</span>");
 	        break;
-	        case '01': appLabel = approveStatus.replace("01", "已反馈");
+	        case '01': appLabel = approveStatus.replace("01", "已反馈<span style='color:#0099cc'>(已问询)</span>");
 	        break;
 	        case '02': appLabel = approveStatus.replace("02", "预先披露更新");
 	        break;
-	        case '04': appLabel = approveStatus.replace("04", "中止审查");
+	        case '04': appLabel = approveStatus.replace("04", "中止审查<span style='color:#0099cc'>(中止)</span>");
 	        break;
 	        case '06': appLabel = approveStatus.replace("06", "已提交发审会讨论，暂缓表决");
 	        break;
-	        case '09': appLabel = approveStatus.replace("09", "注册生效");
+	        case '09': appLabel = approveStatus.replace("09", "<span style='color:#0099cc'>注册生效</span>");
 	        break;
-	        case '03': appLabel = approveStatus.replace("03", "已通过发审会");
+	        case '03': appLabel = approveStatus.replace("03", "已通过发审会<span style='color:#0099cc'>(上市委会议通过)</span>");
 	        break;
-	        case '05': appLabel = approveStatus.replace("05", year + "年终止审查");
+	        case '05': appLabel = approveStatus.replace("05", year + "年终止审查<span style='color:#0099cc'>(终止)</span>");
 	        break;
-	        case '99': appLabel = approveStatus.replace("99", "最近一周终止审查");
+	        case '99': appLabel = approveStatus.replace("99", "最近一周终止审查<span style='color:#0099cc'>(终止)</span>");
 	        break;
 		}
 	}
