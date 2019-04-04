@@ -51,4 +51,14 @@
 
     limit 10
   </select>
+
+  <select id="queryAuthByCompanyId" parameterType="string" resultType="int">
+    SELECT
+      COUNT(1) AS count
+    FROM
+      sa_company sc
+    JOIN sa_application sa ON sc.id = sa.company_id
+    WHERE sc.id = #{companyId}
+    AND (sa.authorize_type = '00' OR sc.ipo_flag = '2' OR sc.ipo_flag = '4')
+  </select>
 </mapper>
