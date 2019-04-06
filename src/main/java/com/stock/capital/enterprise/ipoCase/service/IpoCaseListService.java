@@ -44,10 +44,10 @@ public class IpoCaseListService extends BaseService {
         //标题关键字
         if (StringUtils.isNotEmpty(bo.getTitle())) {
             String[] title = bo.getTitle().trim().split(" ");
-            conditionsStr.append(" AND " + "ipo_title_t:(\"").append(title[0]).append("\"~5");
+            conditionsStr.append(" AND " + "ipo_title_s:(*").append(title[0]).append("*");
             for (int i = 1; i < title.length; i++) {
                 if (StringUtils.isNotEmpty(title[i])) {
-                    conditionsStr.append(" AND \"").append(title[i]).append("\"~5");
+                    conditionsStr.append(" OR *").append(title[i]).append("*");
                 }
             }
             conditionsStr.append(")");

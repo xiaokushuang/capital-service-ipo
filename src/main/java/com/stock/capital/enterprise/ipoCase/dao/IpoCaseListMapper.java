@@ -11,4 +11,6 @@ public interface IpoCaseListMapper {
     List<RegTreeDto> getLabelByCode(String labelCode);
 
     List<Map<String, Object>> queryIntermediary(String intermediaryName);
+
+    int queryAuthByCompanyId(String companyId);
 }
