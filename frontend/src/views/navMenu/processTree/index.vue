@@ -10,7 +10,7 @@
                             <img  v-if="boxDataItem.treeTypeCode" src="../../../assets/images/jinchengjian.png" alt="">
                             <p v-if="boxDataItem.treeTypeCode == '02'">上市</p>
                             <p v-if="boxDataItem.treeTypeCode == '01'">审核</p>
-                            <p v-if="boxDataItem.treeTypeCode == '00'">辅导工作进程</p>
+                            <p v-if="boxDataItem.treeTypeCode == '00'">辅导</p>
                             <p v-if="boxDataItem.treeTypeCode == '03'">股份公司设立</p>
                         </div>
 
@@ -68,17 +68,17 @@
                                             <span>
                                                 <span>
                                                     <a v-if="boxDataItem.treeTypeCode == '02'" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告 ></a>
-                                                    <a v-else @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多审核意见 ></a>
+                                                    <a v-else @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多文件 ></a>
                                                 </span>
                                             </span>
                                         </div>
                                         <div v-show="item.relaList.length!=0" v-if="!item.flag" style="margin-bottom: 14px;margin-top: 8px;">
                                             <span>
                                                 <span>
-                                                    <!-- 第一个进程展示的是‘查看公告’ -->
+                                                     <!-- 第一个进程展示的是‘查看公告’ -->
                                                     <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, null)" class="moreNoticeCss">查看公告 ></div>
-                                                    <!-- 第二个进程展示的是‘查看审核意见’ -->
-                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, null)" class="moreNoticeCss">查看审核意见 ></div>
+                                                    <!-- 第二个进程展示的是‘查看文件’ -->
+                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, null)" class="moreNoticeCss">查看文件 ></div>
                                                 </span>
                                             </span>
                                         </div>
@@ -151,17 +151,17 @@
                                             <span>
                                                 <span>
                                                     <a v-if="boxDataItem.treeTypeCode == '02'" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告 ></a>
-                                                    <a v-else @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多审核意见 ></a>
+                                                    <a v-else @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多文件 ></a>
                                                 </span>
                                             </span>
                                         </div>
                                         <div   v-show="item.relaList.length!=0" v-if="!item.flag" style="margin-bottom: 14px;margin-top: 8px;">
                                             <span>
                                                 <span>
-                                                    <!-- 第一个进程展示的是‘查看公告’ -->
-                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each'  + item.progressIndex,item, null)" class="moreNoticeCss">查看公告 ></div>
-                                                    <!-- 第二个进程展示的是‘查看审核意见’ -->
-                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each'  + item.progressIndex,item, null)" class="moreNoticeCss">查看审核意见 ></div>
+                                                     <!-- 第一个进程展示的是‘查看公告’ -->
+                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, null)" class="moreNoticeCss">查看公告 ></div>
+                                                    <!-- 第二个进程展示的是‘查看文件’ -->
+                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, null)" class="moreNoticeCss">查看文件 ></div>
                                                 </span>
                                             </span>
                                         </div>
@@ -443,7 +443,7 @@ export default {
     font-weight: 400;
     font-style: normal;
     font-size: 12px;
-    color: #1990fe;
+    color: #999999;
 }
 
 .right {

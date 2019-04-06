@@ -302,13 +302,41 @@
   height: 30px;
 }
 // 公告弹窗复选框样式
-.el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+.moreNotice .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
   background-color: #0099CC;
   /* border-color: #409EFF; */
   /* color: white; */
   color: #0099CC;
 }
-.el-checkbox__inner::after {
+.moreNotice .el-checkbox__inner::after {
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  content: "";
+  border: 2px solid white;
+  border-left: 0;
+  border-top: 0;
+  height: 8px;
+  left: 3px;
+  position: absolute;
+  top: 0px;
+  -webkit-transform: rotate(45deg) scaleY(0);
+  transform: rotate(45deg) scaleY(0);
+  width: 4px;
+  -webkit-transition: -webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
+  transition: -webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
+  transition: transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
+  transition: transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms, -webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
+  transition: transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms,-webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
+  -webkit-transform-origin: center;
+  transform-origin: center;
+}
+.feedback .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+  background-color: #0099CC;
+  /* border-color: #409EFF; */
+  /* color: white; */
+  color: #0099CC;
+}
+.feedback .el-checkbox__inner::after {
   -webkit-box-sizing: content-box;
   box-sizing: content-box;
   content: "";
@@ -368,11 +396,11 @@
  border:1px solid #14bcf5;
 }
 // 反馈意见单选
-.el-radio-button:first-child .el-radio-button__inner {
+.feedback .el-radio-button:first-child .el-radio-button__inner {
   border-left: none;
   border-radius: 3px;
 }
-.el-radio-button__orig-radio:checked + .el-radio-button__inner {
+.feedback .el-radio-button__orig-radio:checked + .el-radio-button__inner {
   background-color: #14bcf5;
   color: #fff;
   border-radius: 3px;
@@ -381,12 +409,12 @@
   box-shadow: -1px 0 0 0 #0087a7;
 }
 
-.el-radio-button--small .el-radio-button__inner {
+.feedback .el-radio-button--small .el-radio-button__inner {
   padding: 8px;
   font-size: 12px;
   border-radius: 0;
 }
-.el-checkbox-button__inner{
+.feedback .el-checkbox-button__inner{
   padding:8px;
   border-radius: 3px !important;
 }
@@ -405,9 +433,9 @@
   height:84%;
   margin-top: 15vh;
 }
-.el-checkbox-button.checkbox.el-checkbox-button--mini.is-checked{
-  border-left:1px solid #3399ff;
-}
+// .el-checkbox-button.checkbox.el-checkbox-button--mini.is-checked{
+//   border-left:1px solid #3399ff;
+// }
 .mainTable .el-table .cell,.mainTable .el-table th div,.mainTable .el-table--border td:first-child .cell,.mainTable .el-table--border th:first-child .cell {
   padding-left: 0px;
 }
@@ -444,13 +472,8 @@
   font-size: 0;
   padding-left: 3px;
 }
-
-
- .ipoCaseList .el-radio + .el-radio {
-  //  margin-left: -23px;
- }
 // 进程树公告弹窗
-.el-dialog__title {
+ .el-dialog__title {
   width:100%;
   font-style: normal;
   font-size: 16px;
@@ -490,4 +513,28 @@
 }
 .raiseMoneyTable table tr:last-of-type{
   font-weight: bold
+}
+.moreNotice .el-table__header{
+  width:100% !important;
+  text-align: center;
+}
+.moreNotice .el-table__body{
+  width:100% !important;
+}
+.moreNotice  .el-table__body, .el-table__footer, .el-table__header {
+  table-layout:auto !important; 
+  text-align: center;
+  border-collapse: separate;
+}
+#componentId .el-checkbox-button.is-focus .el-checkbox-button__inner {
+  border-color: #e2e2e2;
+  border-left-color:#e2e2e2 
+}
+#componentId .el-checkbox-button.is-checked .el-checkbox-button__inner {
+  background-color: #fff;
+  color: #3399ff;
+  border-color: #3399ff;
+  border-left: none;
+  -webkit-box-shadow: -1px 0 0 0 #66b7ca;
+  box-shadow: -1px 0 0 0 #66b7ca;
 }

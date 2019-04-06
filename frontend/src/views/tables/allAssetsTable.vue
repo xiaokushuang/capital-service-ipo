@@ -35,7 +35,7 @@
         label="趋势"
         align="center">
         <template slot-scope="scope">
-            <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe">查看</span>           
+            <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe;cursor:pointer">查看</span>           
           </template>
       </el-table-column>
     </el-table>

@@ -18,10 +18,7 @@
                                 <div>
                                     <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
                                     font-style: normal; font-size: 16px; color: #363636">{{item.orgName}}</span>
-                                    <!-- 已失效标志 -->
-                                    <span class="failure" v-show="item.validFlag == 0">
-                                        已失效
-                                    </span>
+                                    
                                 </div>
                                 <ul>
                                     <li class="people">
@@ -55,7 +52,11 @@
                                         <span style="font-size:14px;color:black">郑西林、陈光耀</span>
                                     </li> -->
                                 </ul>
-                            </div>                               
+                            </div> 
+                            <!-- 已失效标志 -->
+                            <span class="failure" v-show="item.validFlag == 0">
+                                已失效
+                            </span>                              
                         </div>
                     </li>
                      <li class="clear ">
@@ -68,10 +69,7 @@
                                 <div>
                                     <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
                                     font-style: normal; font-size: 16px; color:#363636;">{{item.orgName}}</span>
-                                     <!-- 已失效标志 -->
-                                    <span class="failure" v-show="item.validFlag == 0">
-                                        已失效
-                                    </span>
+                                     
                                 </div>
                                 <ul>
                                     <li class="people">
@@ -81,7 +79,11 @@
                                         <span v-else style="font-size:14px;color:black">- -</span>
                                     </li>
                                 </ul>
-                            </div>                               
+                            </div> 
+                            <!-- 已失效标志 -->
+                            <span class="failure" v-show="item.validFlag == 0">
+                                已失效
+                            </span>                              
                         </div>
                     </li>
                     <li class="clear ">
@@ -94,11 +96,9 @@
                                 <div>
                                     <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
                                     font-style: normal; font-size: 16px; color: #363636">{{item.orgName}}</span>
-                                     <!-- 已失效标志 -->
-                                    <span class="failure" v-show="item.validFlag == 0">
-                                        已失效
-                                    </span>
+                                    
                                 </div>
+                                 
                                 <ul>
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
@@ -108,7 +108,11 @@
                                     </li>
                                    
                                 </ul>
-                            </div>                               
+                            </div> 
+                            <!-- 已失效标志 -->
+                            <span class="failure" v-show="item.validFlag == 0">
+                                已失效
+                            </span>                              
                         </div>
                     </li>
                     <li class="clear " v-show="showMoreType">
@@ -121,11 +125,9 @@
                                 <div>
                                     <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
                                     font-style: normal; font-size: 16px; color: #363636;">{{item.orgName}}</span>
-                                     <!-- 已失效标志 -->
-                                    <span class="failure" v-show="item.validFlag == 0">
-                                        已失效
-                                    </span>
+                                     
                                 </div>
+                               
                                 <ul>
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
@@ -134,7 +136,11 @@
                                         <span v-else style="font-size:14px;color:black">- -</span>
                                     </li>
                                 </ul>
-                            </div>                               
+                            </div>  
+                             <!-- 已失效标志 -->
+                            <span class="failure" v-show="item.validFlag == 0">
+                                已失效
+                            </span>                             
                         </div>
                     </li>
                     <li class="clear "  v-show="showMoreType">
@@ -147,11 +153,9 @@
                                 <div>
                                     <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
                                     font-style: normal; font-size: 16px; color: #363636;">{{item.orgName}}</span>
-                                     <!-- 已失效标志 -->
-                                    <span class="failure" v-show="item.validFlag == 0">
-                                        已失效
-                                    </span>
+                                     
                                 </div>
+                                
                                 <ul >
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
@@ -160,7 +164,11 @@
                                     </li>
                                 </ul>
                                
-                            </div>                               
+                            </div> 
+                            <!-- 已失效标志 -->
+                            <span class="failure" v-show="item.validFlag == 0">
+                                已失效
+                            </span>                              
                         </div>
                     </li>
                 </ul>
@@ -384,27 +392,45 @@ export default {
 }
 // 已失效类
 .failure{
-    float:right; 
     border-width: 0px;
-    width: 56px;
-    height: 15px;
+    width: 63px;
+    height: 20px;
     padding-left: 10px;
-    font-size:14px;
-    position:relative;
-    left: 60px;
-    top: -9px;
-    background: inherit;
-    background-color: rgba(188, 188, 188, 0.517647058823529);
+    font-size: 14px;
+    position: absolute;
+    left: 92.5%;
+    background: #e4e4e4;
     border: none;
     border-right: 0px;
     border-radius: 20px;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    color: #FFFFFF;
+    color: #999;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
+// .failure{
+//     float:right; 
+//     border-width: 0px;
+//     width: 56px;
+//     height: 15px;
+//     padding-left: 10px;
+//     font-size:14px;
+//     position:relative;
+//     left: 60px;
+//     top: -9px;
+//     background: inherit;
+//     background-color: rgba(188, 188, 188, 0.517647058823529);
+//     border: none;
+//     border-right: 0px;
+//     border-radius: 20px;
+//     border-top-right-radius: 0px;
+//     border-bottom-right-radius: 0px;
+//     -moz-box-shadow: none;
+//     -webkit-box-shadow: none;
+//     box-shadow: none;
+//     color: #FFFFFF;
+// }
 .failureBackground{
      background:url('../../../../assets/images/failureBackground.png') no-repeat;
      background-size: cover;
@@ -414,6 +440,7 @@ export default {
     padding-left: 0;
     width: 100%;
     .InstitutionsDetailLi {
+        position:relative;
       padding: 20px;
       margin-left: 1%;
       width: 98%;

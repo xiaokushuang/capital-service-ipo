@@ -32,7 +32,7 @@ module.exports = {
     //     }
     // },
     '/ipo/':{
-      target:'http://172.16.20.62:19081',//'http://192.168.1.22:9080','localhost:8082',//
+      target:'http://172.16.20.62:19080',//'http://192.168.1.22:9080','localhost:8082',//
       pathRewrite:{
         '^/ipo/':'/ipo/'
       }
