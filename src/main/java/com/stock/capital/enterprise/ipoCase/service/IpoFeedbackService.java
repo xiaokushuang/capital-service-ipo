@@ -110,14 +110,17 @@ public class IpoFeedbackService extends BaseService {
     /**
      * 查询反馈意见新问题分类
      */
-    public List<IpoFeedbackDto> selectNewFeedbackList(IpoFeedbackDto ipoFeedbackDto) {
+    public List<IpoFeedbackDto> selectNewFeedbackList(String id) {
         List<IpoFeedbackDto> resultList = new ArrayList<>();
         //根据案例id查询公司的东财内码
-        ipoFeedbackDto.setOrgCode(ipoFeedbackMapper.getOrgCode(ipoFeedbackDto.getId()));
-
-        List<String> letterIds = ipoFeedbackMapper.selectLetterIds(ipoFeedbackDto.getOrgCode());
-        letterIds = new ArrayList<>();
-        letterIds.add("745777672754254995");
+        String orgId = ipoFeedbackMapper.getOrgCode(id);
+        List<String> feedbackProcess = ipoFeedbackMapper.selectFeedbackProcess(id);
+        if (CollectionUtils.isEmpty(feedbackProcess)) {
+            return new ArrayList<>();
+        }
+        List<String> letterIds = ipoFeedbackMapper.selectLetterIds(orgId);
+//        letterIds = new ArrayList<>();
+//        letterIds.add("745777672754254995");
         for (int i = 0; i < letterIds.size(); i++) {
             //定义函件对象
             IpoFeedbackDto ipoFeedbackResultDto = new IpoFeedbackDto();
@@ -157,13 +160,6 @@ public class IpoFeedbackService extends BaseService {
                     questionLabelDto.setLabelCount(String.valueOf(labelDto.getCount()));
                     firstLabelList.add(questionLabelDto);
                 }
-//                if(null != secondLabelMap.get(labelDto.getFieldId())){
-//                    IpoQuestionLabelDto questionLabelDto = new IpoQuestionLabelDto();
-//                    questionLabelDto.setLabelCode(labelDto.getFieldId());
-//                    questionLabelDto.setLabelName(secondLabelMap.get(labelDto.getFieldId()).get("letterClassName"));
-//                    questionLabelDto.setLabelCount(String.valueOf(labelDto.getCount()));
-//                    secondLabelList.add(questionLabelDto);
-//                }
             }
             ipoFeedbackResultDto.setQuestionLabelList(firstLabelList);
             List<IpoFeedbackIndexDto> questionList = facetResult.getPage().getData();
@@ -217,7 +213,8 @@ public class IpoFeedbackService extends BaseService {
     /**
      * 查询二级标签及问题
      */
-    public IpoFeedbackDto selectNewSecondLabel(String letterId, String parentId) {
+    public List<IpoFeedbackDto> selectNewQuestionList(String letterId, String parentId,String onlyResponse) {
+        List<IpoFeedbackDto> resultList = new ArrayList<>();
         IpoFeedbackDto resultDto = new IpoFeedbackDto();
         //从云端查询标一二级标签
         Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap();
@@ -269,22 +266,39 @@ public class IpoFeedbackService extends BaseService {
             List<String> belongSecondLabelList = new ArrayList<>();
             //定义问题、答案DTO
             IpoFeedbackQuestionDto questionResultDto = new IpoFeedbackQuestionDto();
-            questionResultDto.setQuestionId(questionDto.getQuestionId());
-            questionResultDto.setQuestion(questionDto.getQuestContents());
-            questionResultDto.setAnswer(questionDto.getAnswersContents());
-            List<String> belongLabel = questionDto.getQuestionClassNewId();
-            //循环放入问题所属二级标签
-            for (String belongLabelStr : belongLabel) {
-                if (null != secondLabelMap.get(belongLabelStr)) {
-                    belongSecondLabelList.add(secondLabelMap.get(belongLabelStr).get("letterClassName"));
+            //判断是否只显示已回复问题
+            if("1".equals(onlyResponse)){
+                if(StringUtils.isNotEmpty(questionDto.getAnswersContents())){
+                    questionResultDto.setQuestionId(questionDto.getQuestionId());
+                    questionResultDto.setQuestion(questionDto.getQuestContents());
+                    questionResultDto.setAnswer(questionDto.getAnswersContents());
+                    List<String> belongLabel = questionDto.getQuestionClassNewId();
+                    //循环放入问题所属二级标签
+                    for (String belongLabelStr : belongLabel) {
+                        if (null != secondLabelMap.get(belongLabelStr)) {
+                            belongSecondLabelList.add(secondLabelMap.get(belongLabelStr).get("letterClassName"));
+                        }
+                    }
+                }
+            }else{
+                questionResultDto.setQuestionId(questionDto.getQuestionId());
+                questionResultDto.setQuestion(questionDto.getQuestContents());
+                questionResultDto.setAnswer(questionDto.getAnswersContents());
+                List<String> belongLabel = questionDto.getQuestionClassNewId();
+                //循环放入问题所属二级标签
+                for (String belongLabelStr : belongLabel) {
+                    if (null != secondLabelMap.get(belongLabelStr)) {
+                        belongSecondLabelList.add(secondLabelMap.get(belongLabelStr).get("letterClassName"));
+                    }
                 }
             }
+
             questionResultDto.setLabelList(belongSecondLabelList);
             questionResultList.add(questionResultDto);
         }
         resultDto.setQuestionList(questionResultList);
-
-        return resultDto;
+        resultList.add(resultDto);
+        return resultList;
     }
 
 

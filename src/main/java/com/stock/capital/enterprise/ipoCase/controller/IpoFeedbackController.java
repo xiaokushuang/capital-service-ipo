@@ -25,41 +25,66 @@ public class IpoFeedbackController extends BaseController {
     @Autowired
     private IpoFeedbackService ipoFeedbackService;
 
+//    @ApiOperation(value = "反馈意见初始化接口", notes = "反馈意见初始化接口描述")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String"),
+//    })
+//    @RequestMapping(value = "/selectFeedbackList", method = RequestMethod.GET)
+//    public JsonResponse<List<IpoFeedbackDto>> selectFeedbackList(IpoFeedbackDto ipoFeedbackDto){
+//        JsonResponse<List<IpoFeedbackDto>> response = new JsonResponse<>();
+//        List<IpoFeedbackDto> resultList = ipoFeedbackService.selectFeedbackList(ipoFeedbackDto);
+//        response.setResult(resultList);
+//        return response;
+//    }
+//
+//    @ApiOperation(value = "二级标签列表接口", notes = "二级标签列表接口描述")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "letterId", value = "函件id", required = true, paramType = "query", dataType = "String"),
+//            @ApiImplicitParam(name = "parentId", value = "一级标签id", required = true, paramType = "query", dataType = "String")
+//    })
+//    @RequestMapping(value = "/selectSecondLabelList", method = RequestMethod.GET)
+//    public JsonResponse<List<IpoQuestionLabelDto>> selectSecondLabelList(String letterId,String parentId){
+//        JsonResponse<List<IpoQuestionLabelDto>> response  = new JsonResponse<>();
+//        List<IpoQuestionLabelDto> resultList = ipoFeedbackService.selectSecondLabelList(letterId,parentId);
+//        response.setResult(resultList);
+//        return response;
+//    }
+//
+//    @ApiOperation(value = "反馈意见问题列表接口", notes = "反馈意见问题列表接口描述")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "letterId", value = "函件id",required = true, paramType = "query", dataType = "String"),
+//            @ApiImplicitParam(name = "firstLabelId", value = "所属一级标签", paramType = "query", dataType = "String"),
+//            @ApiImplicitParam(name = "secondLabelId", value = "所属二级标签", paramType = "query", dataType = "String")
+//    })
+//    @RequestMapping(value = "/selectQuestionListByLetterId", method = RequestMethod.GET)
+//    public JsonResponse<List<IpoFeedbackDto>> selectQuestionListByLetterId(IpoFeedbackDto ipoFeedbackDto){
+//        JsonResponse<List<IpoFeedbackDto>> response = new JsonResponse<>();
+//        List<IpoFeedbackDto> resultList = ipoFeedbackService.selectQuestionListByLetterId(ipoFeedbackDto);
+//        response.setResult(resultList);
+//        return response;
+//    }
+
+
     @ApiOperation(value = "反馈意见初始化接口", notes = "反馈意见初始化接口描述")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String"),
     })
     @RequestMapping(value = "/selectFeedbackList", method = RequestMethod.GET)
-    public JsonResponse<List<IpoFeedbackDto>> selectFeedbackList(IpoFeedbackDto ipoFeedbackDto){
+    public JsonResponse<List<IpoFeedbackDto>> selectFeedbackList(String id){
         JsonResponse<List<IpoFeedbackDto>> response = new JsonResponse<>();
-        List<IpoFeedbackDto> resultList = ipoFeedbackService.selectFeedbackList(ipoFeedbackDto);
-        response.setResult(resultList);
-        return response;
-    }
-
-    @ApiOperation(value = "二级标签列表接口", notes = "二级标签列表接口描述")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "letterId", value = "函件id", required = true, paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "parentId", value = "一级标签id", required = true, paramType = "query", dataType = "String")
-    })
-    @RequestMapping(value = "/selectSecondLabelList", method = RequestMethod.GET)
-    public JsonResponse<List<IpoQuestionLabelDto>> selectSecondLabelList(String letterId,String parentId){
-        JsonResponse<List<IpoQuestionLabelDto>> response  = new JsonResponse<>();
-        List<IpoQuestionLabelDto> resultList = ipoFeedbackService.selectSecondLabelList(letterId,parentId);
+        List<IpoFeedbackDto> resultList = ipoFeedbackService.selectNewFeedbackList(id);
         response.setResult(resultList);
         return response;
     }
 
     @ApiOperation(value = "反馈意见问题列表接口", notes = "反馈意见问题列表接口描述")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "letterId", value = "函件id",required = true, paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "firstLabelId", value = "所属一级标签", paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "secondLabelId", value = "所属二级标签", paramType = "query", dataType = "String")
+            @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String"),
     })
     @RequestMapping(value = "/selectQuestionListByLetterId", method = RequestMethod.GET)
-    public JsonResponse<List<IpoFeedbackDto>> selectQuestionListByLetterId(IpoFeedbackDto ipoFeedbackDto){
+    public JsonResponse<List<IpoFeedbackDto>> selectQuestionListByLetterId(String letterId,String parentId,String onlyResponse){
         JsonResponse<List<IpoFeedbackDto>> response = new JsonResponse<>();
-        List<IpoFeedbackDto> resultList = ipoFeedbackService.selectQuestionListByLetterId(ipoFeedbackDto);
+        List<IpoFeedbackDto> resultList = ipoFeedbackService.selectNewQuestionList(letterId,parentId,onlyResponse);
         response.setResult(resultList);
         return response;
     }
