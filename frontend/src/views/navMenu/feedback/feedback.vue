@@ -12,13 +12,15 @@
                               <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px;">
                                   <div class="firstLabel" >
                                       <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
-                                          <el-radio-group  @change="handelChange(radio)" v-model="radio" size="small" style="border-bottom: 1px solid rgb(235, 235, 235);padding-bottom:10px;">
-                                              <el-radio-button :key="item.labelCode" v-for="item in tabList[0].questionLabelList" class="l firstLabelFocus" style="margin-right:10px;margin-bottom:10px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item.labelCode">{{item.labelName}}{{item.labelCount}}</el-radio-button>
+                                        <div style="border-bottom: 1px solid rgb(235, 235, 235);">
+                                          <el-radio-group  @change="handelChange(radio)" v-model="radio" size="small" style="padding-bottom:10px;">
+                                              <el-radio-button :key="item.labelCode" v-for="item in tabList[0].questionLabelList" class="l firstLabelFocus" style="margin-right:10px;margin-bottom:10px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-radio-button>
                                           </el-radio-group>
+                                        </div>
                                       </ul>
                                       <ul class="clear" style="padding:0px 25px;margin-top:0px;padding-bottom:10px">
                                           <el-checkbox-group  @change="handelMoreChange(checkboxGroup)" v-model="checkboxGroup" size="mini">
-                                              <el-checkbox-button  class="checkbox" v-for="item in feedbackduoxuanList" :label="item.labelCode">{{item.labelName}}{{item.labelCount}}</el-checkbox-button>
+                                              <el-checkbox-button  class="checkbox" v-for="item in feedbackduoxuanList" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-checkbox-button>
                                           </el-checkbox-group> 
                                       </ul>
                                       <div class="kaiguan" style="text-align:left;font-size: 12px;
@@ -27,7 +29,8 @@
                                             text-align: left;
                                             line-height: 14px;">
                                           <span>共计</span>
-                                          <span>{{tabList[0].questionCount}}</span>
+                                          <!-- <span>{{tabList[0].questionCount}}</span> -->
+                                          <span>{{allQuestionList.length}}</span>
                                           <span>个问题，</span>
                                           <span>{{tabList[0].answerCount}}</span>
                                           <span>个回复</span>
@@ -89,13 +92,15 @@
                               <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px;">
                                   <div class="firstLabel" >
                                       <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
-                                          <el-radio-group  @change="handelChange2(radio2)" v-model="radio2" size="small" style="border-bottom: 1px solid rgb(235, 235, 235);padding-bottom:10px;">
-                                              <el-radio-button :key="item.labelCode" v-for="item in tabList[1].questionLabelList" class="l firstLabelFocus" style="margin-right:10px;margin-bottom:10px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item.labelCode">{{item.labelName}}{{item.labelCount}}</el-radio-button>
+                                        <div style="border-bottom: 1px solid rgb(235, 235, 235);">
+                                          <el-radio-group  @change="handelChange2(radio2)" v-model="radio2" size="small" style="padding-bottom:10px;">
+                                              <el-radio-button :key="item.labelCode" v-for="item in tabList[1].questionLabelList" class="l firstLabelFocus" style="margin-right:10px;margin-bottom:10px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-radio-button>
                                           </el-radio-group>
+                                        </div>
                                       </ul>
                                       <ul class="clear" style="padding:0px 25px;margin-top:0px;padding-bottom:10px">
                                           <el-checkbox-group  @change="handelMoreChange2(checkboxGroup2)" v-model="checkboxGroup2" size="mini">
-                                              <el-checkbox-button  class="checkbox" v-for="item in feedbackduoxuanList2" :label="item.labelCode">{{item.labelName}}{{item.labelCount}}</el-checkbox-button>
+                                              <el-checkbox-button  class="checkbox" v-for="item in feedbackduoxuanList2" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-checkbox-button>
                                           </el-checkbox-group> 
                                       </ul>
                                       <div class="kaiguan" style="text-align:left;font-size: 12px;
@@ -104,7 +109,7 @@
                                             text-align: left;
                                             line-height: 14px;">
                                           <span>共计</span>
-                                          <span>{{tabList[1].questionCount}}</span>
+                                          <span>{{allQuestionList2.length}}</span>
                                           <span>个问题，</span>
                                           <span>{{tabList[1].answerCount}}</span>
                                           <span>个回复</span>
@@ -166,13 +171,15 @@
                               <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px;">
                                   <div class="firstLabel" >
                                       <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
-                                          <el-radio-group  @change="handelChange3(radio3)" v-model="radio3" size="small" style="border-bottom: 1px solid rgb(235, 235, 235);padding-bottom:10px;">
-                                              <el-radio-button :key="item.labelCode" v-for="item in tabList[2].questionLabelList" class="l firstLabelFocus" style="margin-right:10px;margin-bottom:10px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item.labelCode">{{item.labelName}}{{item.labelCount}}</el-radio-button>
+                                        <div style="border-bottom: 1px solid rgb(235, 235, 235);">
+                                          <el-radio-group  @change="handelChange3(radio3)" v-model="radio3" size="small" style="padding-bottom:10px;">
+                                              <el-radio-button :key="item.labelCode" v-for="item in tabList[2].questionLabelList" class="l firstLabelFocus" style="margin-right:10px;margin-bottom:10px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-radio-button>
                                           </el-radio-group>
+                                        </div>
                                       </ul>
                                       <ul class="clear" style="padding:0px 25px;margin-top:0px;padding-bottom:10px">
                                           <el-checkbox-group  @change="handelMoreChange3(checkboxGroup3)" v-model="checkboxGroup3" size="mini">
-                                              <el-checkbox-button  class="checkbox" v-for="item in feedbackduoxuanList3" :label="item.labelCode">{{item.labelName}}{{item.labelCount}}</el-checkbox-button>
+                                              <el-checkbox-button  class="checkbox" v-for="item in feedbackduoxuanList3" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-checkbox-button>
                                           </el-checkbox-group> 
                                       </ul>
                                       <div class="kaiguan" style="text-align:left;font-size: 12px;
@@ -181,7 +188,7 @@
                                             text-align: left;
                                             line-height: 14px;">
                                           <span>共计</span>
-                                          <span>{{tabList[2].questionCount}}</span>
+                                          <span>{{allQuestionList3.length}}</span>
                                           <span>个问题，</span>
                                           <span>{{tabList[2].answerCount}}</span>
                                           <span>个回复</span>
@@ -247,13 +254,15 @@
                     <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px;">
                         <div class="firstLabel" >
                             <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
-                                <el-radio-group  @change="handelChange(radio)" v-model="radio" size="small" style="border-bottom: 1px solid rgb(235, 235, 235);padding-bottom:10px;">
-                                    <el-radio-button :key="item.labelCode" v-for="item in tabList[0].questionLabelList" class="l firstLabelFocus" style="margin-right:10px;margin-bottom:10px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item.labelCode">{{item.labelName}}{{item.labelCount}}</el-radio-button>
+                              <div style="border-bottom: 1px solid rgb(235, 235, 235);">
+                                <el-radio-group  @change="handelChange(radio)" v-model="radio" size="small" style="padding-bottom:10px;">
+                                    <el-radio-button :key="item.labelCode" v-for="item in tabList[0].questionLabelList" class="l firstLabelFocus" style="margin-right:10px;margin-bottom:10px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-radio-button>
                                 </el-radio-group>
+                              </div>
                             </ul>
                             <ul class="clear" style="padding:0px 25px;margin-top:0px;padding-bottom:10px">
                                 <el-checkbox-group  @change="handelMoreChange(checkboxGroup)" v-model="checkboxGroup" size="mini">
-                                    <el-checkbox-button  class="checkbox" v-for="item in feedbackduoxuanList" :label="item.labelCode">{{item.labelName}}{{item.labelCount}}</el-checkbox-button>
+                                    <el-checkbox-button  class="checkbox" v-for="item in feedbackduoxuanList" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-checkbox-button>
                                 </el-checkbox-group> 
                             </ul>
                             <div class="kaiguan" style="text-align:left;font-size: 12px;
@@ -262,7 +271,7 @@
                                   text-align: left;
                                   line-height: 14px;">
                                 <span>共计</span>
-                                <span>{{tabList[0].questionCount}}</span>
+                                <span>{{allQuestionList.length}}</span>
                                 <span>个问题，</span>
                                 <span>{{tabList[0].answerCount}}</span>
                                 <span>个回复</span>
@@ -369,17 +378,21 @@ export default {
       questionList:[],
       questionList2:[],
       questionList3:[],
-      // 回复个数
-      answerCount:'',
-      // 问题个数
-      questionCount:'',
+      // // 回复个数
+      // answerCount:'',
+      // answerCount2:'',
+      // answerCount3:'',
+      // // 问题个数
+      // questionCount:'',
+      // questionCount2:'',
+      // questionCount3:'',
       // 是否展示全部问题
       isShowAll:true,
       // 默认有moreText类
       isMoreText:true,
-      showLength:0,
-      showLength2:0,
-      showLength3:0,
+      showLength:15,
+      showLength2:15,
+      showLength3:15,
       allQuestionList:[],
       allQuestionList2:[],
       allQuestionList3:[],
@@ -668,7 +681,6 @@ export default {
           if(this.tabList.length==1){
             if(res.data.result.length  > 0){
               this.allQuestionList = res.data.result[0].questionList;
-              
               if(this.allQuestionList.length > 15){
                 this.showMore = true;
                 this.questionList = this.allQuestionList.slice(0,15);

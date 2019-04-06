@@ -34,7 +34,7 @@
             <el-table-column
             label="操作"
             width="100"
-            align="center"
+            align="left"
             show-overflow-tooltip>
             <template slot-scope="scope">
               <i @click="handleDown(scope.row)" class="el-icon-download" style="font-size:20px;cursor:pointer"></i>

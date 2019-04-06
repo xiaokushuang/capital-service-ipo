@@ -72,7 +72,7 @@
         </el-table-column>
          <el-table-column prop="" align="center"  class-name="table_cell" label="占比" width="135">
           <template slot-scope="scope">
-            <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe">查看</span>
+            <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe;cursor:pointer">查看</span>
           </template>
         </el-table-column>
      
@@ -114,7 +114,7 @@
         </el-table-column>
          <el-table-column prop="" align="center"  class-name="table_cell" label="占比" width="135">
           <template slot-scope="scope">
-            <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe">查看</span>             
+            <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe;cursor:pointer">查看</span>             
           </template>
         </el-table-column>
      
@@ -156,7 +156,7 @@
         </el-table-column>
          <el-table-column prop="" align="center"  class-name="table_cell" label="占比" width="135">
           <template slot-scope="scope">
-            <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe">查看</span>           
+            <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe;cursor:pointer">查看</span>           
           </template>
         </el-table-column>
      

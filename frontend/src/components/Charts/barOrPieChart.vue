@@ -1,14 +1,13 @@
 <template>
-    <div class="clear">
-         <div class="l" id="barChart" style="height:300px;width:50%"></div>
-         <div class="l" id="pieChart" style="height:300px;width:50%"></div>
+    <div>
+         <div class="className" id="myChart" style="height:300px;width:100%"></div>        
     </div>
 </template>
 
 <script>
 import echarts from 'echarts'
-import { getTableData } from '@/api/ipoCase/tableDemo'
 export default {
+  name:'myChart',
   data() {
     return {
       barChart:null,
@@ -22,108 +21,70 @@ export default {
       pieData:[],
       date:'',
       pieChartTitle:'',
-      // id:'97952444248599350',
       caseId:this.$store.state.app.caseId,
+      erArr:[],
+      erArr1: 
+           [
+                ['product', '2012', '2013', '2014', '2015', '2016', '2017'],
+                ['Matcha Latte', 41.1, 30.4, 65.1, 53.3, 83.8, 98.7],
+                ['Milk Tea', 86.5, 92.1, 85.7, 83.1, 73.4, 55.1],
+                ['Cheese Cocoa', 24.1, 67.2, 79.5, 86.4, 65.2, 82.5]
+            
+            ]
     }
   },
   props:["mainTableList"],
-    mounted()  {
-    //   请求数据
-      this.initTableData()
+  mounted(){
+    this.initTableData()
+    
   },
-
-  beforeDestroy() {
-    if (!this.barChart) {
-    return
-    }
-    this.barChart.dispose()
-    this.barChart = null
-     if (!this.pieChart) {
-    return
-    }
-    this.pieChart.dispose()
-    this.pieChart = null
-},
   methods: {
-         // 初始化数据
-      initTableData() {
-          // 如果请求到数据之后再初始化柱形图
-                var dataList = this.mainTableList
-                 this.initBarChart(dataList);
-               // 最开始初始化饼状图，默认传的是第三年的数据
-                 this.initPieChart(dataList.mainIncomeInfoList,'','',dataList.onePeriodForIncome);
-      },
-       //   初始化柱状图
-    initBarChart(dataList) {
-      // debugger;
-       const _self = this
-        if (this.barChart) {
-          this.barChart.dispose()
-          this.barChart = null
-        }
-      this.barChart = echarts.init(document.getElementById('barChart'))
-
-    //  循环获取柱状图数据
-      for (var i = 0; i < dataList.mainIncomeInfoList.length; i++) {
-          this.lengendData.push(dataList.mainIncomeInfoList[i].businessName);
+    initTableData(){
+      this.barChartX = [this.mainTableList.firstYearForIncome,this.mainTableList.secondYearForIncome,this.mainTableList.thirdYearForIncome,this.mainTableList.onePeriodForIncome]
+        for (var i = 0; i < this.mainTableList.mainIncomeInfoList.length; i++) {
           this.barYY = [];
-          var a1 = dataList.mainIncomeInfoList[i].firstYearAmount;
-          var a2 = dataList.mainIncomeInfoList[i].secondYearAmount;
-          var a3 = dataList.mainIncomeInfoList[i].thirdYearAmount;
-          var a4 = dataList.mainIncomeInfoList[i].onePeriodAmount;
-          this.barYY.push(a1)
-          this.barYY.push(a2)
-          this.barYY.push(a3)
-          this.barYY.push(a4)
-          this.barChartY.push(
-                                {
-                                    name:dataList.mainIncomeInfoList[i].businessName,
-                                    type:'bar',
-                                    barWidth:'50%',
-                                    stack: '总量',
-                                    data:this.barYY,
-                                },
-                             )
-
-               }
-         this.barChartX = [dataList.firstYearForIncome,dataList.secondYearForIncome,dataList.thirdYearForIncome,dataList.onePeriodForIncome]
-   // 点击柱状图获取相应数据
-      this.barChart.on("click", function(params) {
-        // debugger
-        // 获取整条柱子的信息
-        var series = this.getOption().series
-        // 点击柱子初始化饼状图
-        _self.initPieChart(series,params.name,params.dataIndex,'');
-      });
-       this.barChart.setOption({
-           title: {
+              var a0 = this.mainTableList.mainIncomeInfoList[i].businessName
+              var a1 = this.mainTableList.mainIncomeInfoList[i].firstYearAmount;
+              var a2 = this.mainTableList.mainIncomeInfoList[i].secondYearAmount;
+              var a3 = this.mainTableList.mainIncomeInfoList[i].thirdYearAmount;
+              var a4 = this.mainTableList.mainIncomeInfoList[i].onePeriodAmount;
+              this.barYY.push(a0)
+              this.barYY.push(a1)
+              this.barYY.push(a2)
+              this.barYY.push(a3)
+              this.barYY.push(a4)
+              this.erArr.push(this.barYY)
+        }
+              var barXX = ['business', this.mainTableList.firstYearForIncome, this.mainTableList.secondYearForIncome, this.mainTableList.thirdYearForIncome, this.mainTableList.onePeriodForIncome];
+              this.erArr.unshift(barXX)
+              console.log(this.erArr)
+              this.initChart()
+    },
+    initChart() {
+      let myChart = echarts.init(document.getElementById('myChart'))
+      var option = {
+        legend: {},
+        title: {
                 text: "最近3年主营业务趋势",
                 padding: [8, 10,106,10],
                 bottom:175,
                 textStyle: {
                     color: "#333333",
-                    fontWeight: "normal",
+                    fontWeight: "bold",
                     fontSize: 16
                 }
                 },
-                tooltip: {
+         tooltip: {
                 trigger: "axis",
                 axisPointer: {
                     type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
                 }
                 },
-
-                grid: {
-                left: "3%",
-                right: "4%",
-                bottom: "3%",
-                containLabel: true
-                },
-            xAxis: {
-                type: 'category',
-                data:this.barChartX
-            },
-           yAxis: {
+        dataset: {
+            source:this.erArr1
+        },
+        xAxis: {type: 'category'},
+         yAxis: {
                 type: "value",
                 name:'万元',
                 nameLocation:'end',
@@ -131,106 +92,159 @@ export default {
                   padding: [0, 30, 0, 0]
                 }
                 },
-                series: this.barChartY
-            })
-    },
-    // 饼形图
-initPieChart(dataList,nameTempO,num,flag) {
-  this.pieData = [];
-  this.pieChart = this.$echarts.init(document.getElementById("pieChart"));
-   var nameTemp = ''
-  //  用nameTempO这个标识来实现点击柱子切换标题
-  if(nameTempO){
-    nameTemp = nameTempO;
-  }
-  // debugger
-  // 用flag这个标识来区别是【初始化的数据】的饼状图还是【点击切换】的饼状图
-  if(flag){
-    // 默认饼状图展示最后一年的数据
-    nameTemp = flag;
-    for (var i = 0; i < dataList.length; i++) {
-      var obj = {
-        name:"",
-        value:""
-      };
-      // debugger
-      obj.name = dataList[i].businessName
-      obj.value = dataList[i].onePeriodAmount;
-      this.pieData.push(obj);
-    }
-  }else{
-    // 点击柱子切换饼状图的数据源
-    for (var i = 0; i < dataList.length; i++) {
-      var obj = {
-        name:"",
-        value:""
-      };
-      obj.name = dataList[i].name
-      obj.value = dataList[i].data[num];
-      this.pieData.push(obj);
-    }
-  }
-  var option = {
-         title: {
-                text: "• "+nameTemp+" _ 主营业务分布",
-                textStyle: {
-                    color: "#333",
-                    fontWeight: "normal",
-                    fontSize: 14
-                },
-                left: 'center',
-                top:50,
-                // padding:'60%',
-         },
-        tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-         legend: {
-                    selectedMode:false,//取消图例上的点击事件
-                    orient: "vertical",
-                    x: "360", // 'center' | 'left' | {number},
-                    y: "200", // 'center' | 'bottom' | {number}
-                    data: this.lengendData,
-                    itemWidth: 10, // 图例图形宽度
-                    itemHeight: 10, // 图例图形高度
-                    textStyle: {
-                    color: "#333" // 图例文字颜色
-                    }
-                 },
+        grid: {left:'0%',right:'55%',height:'50%'},
         series: [
-          {
-            name: "访问来源",
-            type: "pie",
-            radius: "60%",
-            center: ["55%", "67%"],
-            data:this.pieData,
-            itemStyle: {
-              emphasis: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)"
-              }
+            {
+            name:'Matcha Latte',
+            type:'bar',
+            stack: '12',
+            data:[320, 332, 301, 334, 390, 330, 320]
+            },
+            {
+            name:'Milk Tea',
+            type:'bar',
+            stack: '12',
+            data:[120, 132, 101, 134, 90, 230, 210]
+        },
+        {
+            name:'Cheese Cocoa',
+            type:'bar',
+            stack: '12',
+            data:[220, 182, 191, 234, 290, 330, 310]
+        },
+      //  {
+      //           type: 'pie',
+      //           id: 'pie',
+      //           radius: '50%',
+      //           center: ['75%', '35%'],
+      //           label: {
+      //               formatter: '{b}: {@this.mainTableList.onePeriodForIncome} ({d}%)'
+      //           },
+      //           encode: {
+      //               itemName: 'business',
+      //               value: this.mainTableList.onePeriodForIncome,
+      //               tooltip: this.mainTableList.onePeriodForIncome
+      //           }
+      //       }
+        
+            {
+                type: 'pie',
+                id: 'pie',
+                radius: '30%',
+                center: ['75%', '35%'],
+                label: {
+                    formatter: '{b}: {@2012} ({d}%)'
+                },
+                encode: {
+                    itemName: 'product',
+                    value: '2012',
+                    tooltip: '2012'
+                }
             }
-          }
         ]
-			}
-      this.pieChart.setOption(option)
-}
-  }
+    };
+        myChart.on('updateAxisPointer', function (event) {
+        var xAxisInfo = event.axesInfo[0];
+        if (xAxisInfo) {
+            var dimension = xAxisInfo.value + 1;
+            myChart.setOption({
+                series: {
+                    id: 'pie',
+                    label: {
+                        formatter: '{b}: {@[' + dimension + ']} ({d}%)'
+                    },
+                    encode: {
+                        value: dimension,
+                        tooltip: dimension
+                    }
+                }
+            });
+        }
+    });
+
+    myChart.setOption(option);
+    //   var option = {
+    //     legend: {},
+    //     title: {
+    //             text: "最近3年主营业务趋势",
+    //             padding: [8, 10,106,10],
+    //             bottom:175,
+    //             textStyle: {
+    //                 color: "#333333",
+    //                 fontWeight: "bold",
+    //                 fontSize: 16
+    //             }
+    //             },
+    //      tooltip: {
+    //             trigger: "axis",
+    //             axisPointer: {
+    //                 type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+    //             }
+    //             },
+    //     dataset: {         
+    //         source:this.erArr
+    //     },
+    //          legend: {
+    //                 // selectedMode:false,//取消图例上的点击事件
+    //                 // orient: "vertical",
+    //                 x: "0%", // 'center' | 'left' | {number},
+    //                 y: "10%", // 'center' | 'bottom' | {number}
+    //                 // data: this.lengendData,
+    //                 itemWidth: 10, // 图例图形宽度
+    //                 itemHeight: 10, // 图例图形高度
+    //                 textStyle: {
+    //                 color: "#333" // 图例文字颜色
+    //                 }
+    //              },
+    //     xAxis: {type: 'category'},
+    //      yAxis: {
+    //             type: "value",
+    //             name:'万元',
+    //             nameLocation:'end',
+    //             nameTextStyle:{
+    //               padding: [0, 30, 0, 0]
+    //             }
+    //             },
+    //     grid: {left:'0%',right:'55%',height:'50%'},
+    //     series: [
+    //         {type: 'bar', smooth: true, seriesLayoutBy: 'row'},
+    //         {
+    //             type: 'pie',
+    //             id: 'pie',
+    //             radius: '50%',
+    //             center: ['75%', '35%'],
+    //             label: {
+    //                 formatter: '{b}: {@this.mainTableList.onePeriodForIncome} ({d}%)'
+    //             },
+    //             encode: {
+    //                 itemName: 'business',
+    //                 value: this.mainTableList.onePeriodForIncome,
+    //                 tooltip: this.mainTableList.onePeriodForIncome
+    //             }
+    //         }
+    //     ]
+    // };
+
+    // myChart.on('updateAxisPointer', function (event) {
+    //     var xAxisInfo = event.axesInfo[0];
+    //     if (xAxisInfo) {
+    //         var dimension = xAxisInfo.value + 1;
+    //         myChart.setOption({
+    //             series: {
+    //                 id: 'pie',
+    //                 label: {
+    //                     formatter: '{b}: {@[' + dimension + ']} ({d}%)'
+    //                 },
+    //                 encode: {
+    //                     value: dimension,
+    //                     tooltip: dimension
+    //                 }
+    //             }
+    //         });
+    //     }
+    // });
+    myChart.setOption(option);
+    },
+  },
 }
 </script>
-<style scoped lang="scss">
-.l {
-  float: left;
-}
-.r {
-  float: right;
-}
-.clear:after {
-  display: block;
-  content: "";
-  clear: both;
-}
-</style>
-

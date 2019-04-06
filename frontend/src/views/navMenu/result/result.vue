@@ -23,7 +23,7 @@
                              <span style="color:#999;">发审会委员: </span>
                              <span v-for="name in baseList[0].member" style="color:#333;">{{name}}</span>
                              <span style="color:#6B6B6B;"> </span>
-                             <span style="color:#6699FF;" @click="handleMemberDetail(baseList[0].examineDate)">详情 &gt;</span>
+                             <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail(baseList[0].examineDate)">详情 &gt;</span>
                         </p>
                     </div>
                     <!-- 委员弹窗 -->
@@ -87,7 +87,7 @@
                              <span style="color:#999;">发审会委员: </span>
                              <span v-for="name in baseList[0].member" style="color:#333;">{{name}} </span>
                              <span style="color:#333;"> ;</span>
-                             <span style="color:#6699FF;" @click="handleMemberDetail(baseList[0].examineDate)">详情 &gt;</span>
+                             <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail(baseList[0].examineDate)">详情 &gt;</span>
                         </p>
                     </div>
                     <!-- 委员弹窗 -->
@@ -96,7 +96,7 @@
                         :visible.sync="dialogVisible"
                         width="73.6%"
                         :before-close="handleClose">
-                        <ul  v-show="memberList&&memberList.length>0" class="clear" style="width:100%;padding-left:2px;height: 434px;overflow-y: scroll;">
+                        <ul  v-show="memberList&&memberList.length>0" class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:65vh;">
                             <li v-for="data in memberList" class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
@@ -149,7 +149,7 @@
                              <span style="color:#999;">发审会委员: </span>
                              <span v-for="name in baseList[1].member" style="color:#333;">{{name}}</span>
                              <span style="color:#333;"> ;</span>
-                             <span style="color:#6699FF;" @click="handleMemberDetail(baseList[1].examineDate)">详情 &gt;</span>
+                             <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail(baseList[1].examineDate)">详情 &gt;</span>
                         </p>
                     </div>
                    <!-- 委员弹窗 -->
@@ -158,7 +158,7 @@
                         :visible.sync="dialogVisible"
                         width="73.6%"
                         :before-close="handleClose">
-                        <ul v-show="memberList&&memberList.length>0" class="clear" style="width:100%;padding-left:2px;height: 434px;overflow-y: scroll;">
+                        <ul v-show="memberList&&memberList.length>0" class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:65vh;">
                             <li v-for="data in memberList" class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
@@ -213,7 +213,7 @@
                              <span style="color:#999;">发审会委员: </span>
                              <span v-for="name in baseList[0].member" style="color:#333;">{{name}}</span>
                              <span style="color:#6B6B6B;"> </span>
-                             <span style="color:#6699FF;" @click="handleMemberDetail()">详情 &gt;</span>
+                             <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail()">详情 &gt;</span>
                         </p>
                     </div>
                    <!-- 委员弹窗 -->
@@ -222,7 +222,7 @@
                         :visible.sync="dialogVisible"
                         width="73.6%"
                         :before-close="handleClose">
-                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;height: 434px;overflow-y: scroll;">
+                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:65vh;">
                             <li v-for="data in memberList" class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
@@ -275,7 +275,7 @@
                              <span style="color:#999;">发审会委员: </span>
                              <span v-for="name in baseList[1].member" style="color:#333;">{{name}}</span>
                              <span style="color:#6B6B6B;"> </span>
-                             <span style="color:#6699FF;" @click="handleMemberDetail()">详情 &gt;</span>
+                             <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail()">详情 &gt;</span>
                         </p>
                     </div>
                    <!-- 委员弹窗 -->
@@ -284,7 +284,7 @@
                         :visible.sync="dialogVisible"
                         width="73.6%"
                         :before-close="handleClose">
-                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;height: 434px;overflow-y: scroll;">
+                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:65vh;">
                             <li v-for="data in memberList" class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
@@ -337,7 +337,7 @@
                              <span style="color:#999;">发审会委员: </span>
                              <span v-for="name in baseList[2].member" style="color:#333;">{{name}}</span>
                              <span style="color:#6B6B6B;"> </span>
-                             <span style="color:#6699FF;" @click="handleMemberDetail()">详情 &gt;</span>
+                             <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail()">详情 &gt;</span>
                         </p>
                     </div>
                   <!-- 委员弹窗 -->
@@ -346,7 +346,7 @@
                         :visible.sync="dialogVisible"
                         width="73.6%"
                         :before-close="handleClose">
-                        <ul  v-show="memberList&&memberList.length>0" class="clear" style="width:100%;padding-left:2px;height: 434px;overflow-y: scroll;">
+                        <ul  v-show="memberList&&memberList.length>0" class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:65vh;">
                             <li v-for="data in memberList" class="l positionLi" style="width:31.6%;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>

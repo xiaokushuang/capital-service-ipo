@@ -356,7 +356,7 @@
                       {{scope.row.companyName}}
                     </template>
                   </el-table-column>
-                  <el-table-column align="right" label="案例标题" min-width="11%">
+                  <el-table-column align="left" label="案例标题" min-width="11%">
                     <template slot-scope="scope">
                       <a v-if="scope.row.id" class="bluetext" :title="scope.row.title" @click="clickHandler(scope.row.id)">{{scope.row.title}}</a>
                       <a v-else :title="scope.row.title" @click="clickUnHandler()">{{scope.row.title}}</a>

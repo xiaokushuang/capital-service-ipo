@@ -106,7 +106,8 @@
                 <span class="titleText" id="distributionCosts">发行费用</span>
             </div>
             <!-- table2 -->
-             <el-table :data="issueFeeData" style="width: 100%" stripe border show-summary>
+            <p v-if="issueFeeData&&issueFeeData.length>0" style="font-size:12px;color:#666;float:right">人民币/万元</p>
+             <el-table :data="issueFeeData" style="width: 100%" stripe border>
                 <el-table-column type="index" label="序号" align='center' width="117">
                 <template slot-scope="scope">
                             {{scope.$index+1}}
@@ -114,15 +115,15 @@
                 </el-table-column>
                 <el-table-column style="width:30%" prop="feeType" label="费用明细" align='left'>
                 </el-table-column>
-                <el-table-column style="width:30%" prop="feeAmount" label="金额（人民币/万元）" align='right'>
+                <el-table-column style="width:30%" prop="feeAmount" label="金额" align='right'>
                    <template slot-scope="scope">
                       <span v-if="scope.row.feeAmount"> {{scope.row.feeAmount | dataInThRule}}</span>
                       <span v-else> - - </span>
                   </template>
                 </el-table-column>
-                <el-table-column style="width:30%" prop="feeRatio" label="占募集资金总额比例(%)" align='right'>
+                <el-table-column style="width:30%" prop="feeRatio" label="占募集资金总额比例" align='right'>
                    <template slot-scope="scope">
-                      <span v-if="scope.row.feeRatio"> {{scope.row.feeRatio | dataInThRule}}</span>
+                      <span v-if="scope.row.feeRatio"> {{scope.row.feeRatio | dataInThRule}}%</span>
                       <span v-else> - - </span>
                   </template>
                 </el-table-column>

@@ -6,20 +6,22 @@
       style="width: 100%;height: 140px;padding-top: 18px;">
       <div id="titleBody" ref="titleBody" style="{'width':'1200px','margin':' 0 auto'}">
         <div class="bottomContent" style="position:relative">
-          <div v-if="headList.iecResult&&headList.iecResult == '00'" style="position: absolute;left: 79px; top: -35px;">
+          <div v-if="headList.iecResult&&headList.iecResult == '00'" style="position: absolute;left: 79px; top: -32px;">
             <img src="../../assets/images/htg1.png" alt="">
           </div>
-           <div v-if="headList.iecResult&&headList.iecResult == '01'" style="position: absolute;left: 79px; top: -35px;">
+           <div v-if="headList.iecResult&&headList.iecResult == '01'" style="position: absolute;left: 79px; top: -32px;">
             <img src="../../assets/images/whtg1.png" alt="">
           </div>
-          <div v-if="headList.iecResult&&headList.iecResult == '02'" style="position: absolute;left: 79px; top: -35px;">
+          <div v-if="headList.iecResult&&headList.iecResult == '02'" style="position: absolute;left: 79px; top: -32px;">
             <img src="../../assets/images/zhbj1.png" alt="">
           </div>
-          <div v-if="headList.iecResult&&headList.iecResult == '03'" style="position: absolute;left: 79px; top: -35px;">
+          <div v-if="headList.iecResult&&headList.iecResult == '03'" style="position: absolute;left: 79px; top: -32px;">
             <img src="../../assets/images/qxsh1.png" alt="">
           </div>
           <div class="text">
-            <p>{{headList.title}}</p>
+            <!-- <p>{{headList.title}}</p> -->
+            <p class="dialogtitle" style="margin:0px 0px 12px;font-size:22px;color:#ffffff;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">贷检测术框FK的设术框FK的设计非常实际开来插进来的氨基酸开发建设地建设地术框FK的设计非常实际开来插进来的氨基酸开发建设地建设地术框FK的设计非常实际开来插进来的氨基酸开发建设地建设地术框FK的设计非常实际开来插进来的氨基酸开发建设地建设地计非常实际开来插进来的氨基酸开发建设地建设地方</p>
+            <!-- <p>贷检测术框FK的设计非常实际开来插进来的氨基酸开发建设地建设地方</p> -->
             <span>股份公司建设时间：</span>
             <span>{{headList.establishDate}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
             <span>&nbsp;&nbsp;&nbsp;&nbsp;辅导工作历时：</span>
@@ -37,6 +39,15 @@
         </div>
       </div>
     </div>
+    <!-- <div ref="titleHeader" id="titleHeader" :style="{height: '140px', 'background-image': 'url(\'/ui/reorganization/static/tinymce/skins/lightgray/img/bg-top1920.png\')', 'background-size': '100% 100%','margin-bottom': headerFix ? fixBody + 'px' : ''}">
+        <div id="titleBody" ref="titleBody" :style="{'width':'1200px','margin':' 0 auto','min-height':'30px','padding':topHeight + 'px 0 0'}">
+            <p class="dialogtitle" style="margin:0px 0px 12px;font-size:22px;color:#ffffff;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">{{titleName}}<span class="spanLable" v-if="lableName">{{lableName}}</span></p>
+            <span style="font-size: 14px;color:#ffffff;opacity:0.6;" v-if="this.time != null && this.time != 'null' &&this.time !=''&&this.time !=undefined">首次公告日：{{this.time}}</span>
+            <span v-else style="font-size: 14px;color:#ffffff;opacity:0.6;">首次公告日：- -</span>&nbsp;
+            <span v-if="this.allTime != undefined && this.allTime != 'null' && this.allTime != null && this.allTime!=''" style="font-size: 14px;color:#ffffff;opacity:0.6;position:relative;left:24px">重组用时：{{this.allTime}}天</span>
+            <span v-else style="font-size: 14px;color:#ffffff;opacity:0.6;position:relative;left:24px">重组用时：- -天</span>
+        </div>
+    </div> -->
     <div id="concentBody" style="width:1200px;margin: 0 auto;">
         <el-row :gutter="24" class="h100">
             <el-col :span="18" class="chart" style="padding:0 40px 0 0">
@@ -46,7 +57,7 @@
                           <!-- 吸顶效果 -->
                             <div v-if="isFixed" :style="{ 'width': '62px','height': '40px', 'margin-top': 'auto','margin-right': '40px', 'margin-bottom': 'auto', 'margin-left': clientLeft}">
                                 <span style="font-size: 20px;color: #333;display: block;margin-bottom: 10px;">IPO</span>
-                                <span style="font-size: 14px;color: #333;">IPO进程</span>
+                                <span v-show="this.companyProfileList&&this.companyProfileList.companyName" style="font-size: 14px;color: #333;">{{this.companyProfileList.companyName}}</span>
                             </div>
                             <div :style="{width:isFixed?'55.7%':'100%'}">
                               <!-- 菜单导航栏 -->
@@ -98,7 +109,7 @@
                             <div class="el-tabs__content">
                                 <!-- 动态加载tab -->
                               <keep-alive>
-                                <component :is = "showComponent" id="componentId" v-on:headCallBack="headCall" :headList="this.headList"></component>
+                                <component :is = "showComponent" id="componentId" v-on:headCallBack="headCall" :companyProfileList="this.companyProfileList"></component>
                               </keep-alive>
                             </div>
                         </div>
@@ -141,6 +152,7 @@
 
 <script>
 import { getHeadData } from "@/api/ipoCase/companyProfile";
+import { getCaseDetail } from "@/api/ipoCase/companyProfile";
 // 导入导航栏五个组件
 import companyProfile from "../navMenu/companyProfile/companyProfile.vue";
 import financialInformation from "../navMenu/financialInformation/financialInformation";
@@ -261,7 +273,21 @@ export default {
         supportDuration: '',
         title: ''
       },
-      placeholderHeight:'500px'
+      companyProfileList:{
+        actualController: "",
+        addrArea: "",
+        addrCity: "",
+        addrProv: "",
+        companyCode: "",
+        companyName: "",
+        companyNature: "",
+        companyZhName: "",
+        controlShareholder: "",
+        id: "",
+        registeredAssets: "", 
+        structureLabel: "",
+        structureUrl: "",
+      },
     };
   },
   methods: {
@@ -274,7 +300,31 @@ export default {
          if(res.data.result){
            this.headList = res.data.result
          }
-      }) 
+       }) 
+       getCaseDetail(param).then(res => {
+          // if(res.data.result&&res.data.result.structureLabel){
+          //  this.structureLabel = res.data.result.structureLabel.split(',');
+          // }
+          if(res.data.result){
+            this.companyProfileList = res.data.result
+            console.log(this.companyProfileList)
+            // this.id = res.data.result.id//公司id
+            // this.structureUrl = res.data.result.structureUrl
+            // this.companyZhName = res.data.result.companyZhName//公司名称
+            // this.ipoPlate = res.data.result.ipoPlate//上市板块
+            // this.industryCsrc = res.data.result.industryCsrc//所属行业(证监会) ,
+            // this.companyName = res.data.result.companyName//证券简称
+            // this.zhengquanCode = res.data.result.companyCode//证券代码
+            // this.addrProv = res.data.result.addrProv//注册地（省）
+            // this.addrCity = res.data.result.addrCity//注册地（市）
+            // this.addrArea = res.data.result.addrArea//注册地（区）
+            // this.registeredAssets = res.data.result.registeredAssets//注册资本（万元）
+            // this.actualController = res.data.result.actualController//实际控制人
+            // this.controlShareholder = res.data.result.controlShareholder//控股股东
+            // this.companyNature = res.data.result.companyNature//企业性质
+            // this.majorBusinesses = res.data.result.majorBusinesses//主营业务  
+          }
+      });
     },
     statusButtonClick(data) {
       this.statusButtonFlag = data;
@@ -571,12 +621,20 @@ export default {
 }
 /* 头部文字标题 */
 .bottomContent {
-  width: 1200px;
+  // width: 1200px;
   color: #fff;
   padding-left: 165px;
   p {
-    font-size: 24px;
-    line-height: 0;
+    // width: 66%;
+    // margin-bottom:12px;
+    // margin-top:10px;
+    // font-size: 22px;
+    // color: rgb(255, 255, 255);
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+    // display: -webkit-box;
+    // -webkit-line-clamp: 2;
+    // -webkit-box-orient: vertical;
   }
   .text {
     margin-bottom: 8px;
@@ -611,27 +669,16 @@ export default {
 }
 
 .dialogtitle {
-  font-family: "MicrosoftYaHei", "Microsoft YaHei";
-  font-weight: 400;
-  font-style: normal;
-  font-size: 20px;
-  width: 75%;
-  color: #333;
-  /* margin-left: 10px; */
-  padding-right: 12px;
+    font-family: 'MicrosoftYaHei', 'Microsoft YaHei';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 20px;
+    width: 75%;
+    color: #333;
+    /* margin-left: 10px; */
+    padding-right: 12px;
 }
 
-.dialogtitle > .spanLable {
-  /* border: 1px #FF4040 solid !important; */
-  color: #ffffff !important;
-  background: #ff9900 !important;
-  height: 22px;
-  border-radius: 2px !important;
-  font-size: 12px !important;
-  padding: 0px 4px;
-  position: relative;
-  left: 10px;
-}
 
 #toTop {
   /* display: none; */

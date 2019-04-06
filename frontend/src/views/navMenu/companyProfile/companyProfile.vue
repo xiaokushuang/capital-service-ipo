@@ -3,64 +3,70 @@
     <!-- 公司简介 -->
     <div class="companey">
       <div class="briefIntroduction">
-        <p style="color: #333; font-weight: bold;font-size: 14px;">
-          {{this.headList.title}}
+        <p v-if="companyProfileList&&companyProfileList.companyZhName" style="color: #333; font-weight: bold;font-size: 14px;">
+          {{companyProfileList.companyZhName}}
         </p>
         <ul style="display:flex;margin-bottom: 0;">
-          <li>
-            <span>拟上市板块</span>&nbsp;&nbsp;&nbsp;
-            <span style="color:#333333">{{this.ipoPlate}}</span>
+          <li style="margin-bottom:10px;position:relative" >
+            <span>拟上市板块</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div v-if="companyProfileList&&companyProfileList.ipoPlate"  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">{{companyProfileList.ipoPlate}}</div>
+            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">- -</div>
           </li>
-          <li>
-            <span>所属行业(证监会)</span>&nbsp;&nbsp;
-            <span style="color:#333333">{{this.industryCsrc}}</span>
+           <li style="margin-bottom:10px;position:relative" >
+            <span>所属行业(证监会)</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div v-if="companyProfileList&&companyProfileList.industryCsrc"  style="color: #333333;margin-left: 40.4%;margin-top: -6%;line-height: 20px;">{{companyProfileList.industryCsrc}}</div>
+            <div v-else  style="color: #333333;margin-left: 40.4%;margin-top: -6%;line-height: 20px;">- -</div>          
           </li>
-          <li>
+          <li style="margin-bottom:10px;position:relative" >
             <span>注册资本</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span style="color:#333333">{{this.registeredAssets | dataInThRule}}万元</span>
+            <div v-if="companyProfileList&&companyProfileList.registeredAssets"  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">{{companyProfileList.registeredAssets | dataInThRule}}万元</div>
+            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">- -</div>
           </li>
-          <li>
+          <li style="margin-bottom:10px;position:relative" >
             <span>公司简称</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span style="color:#333333">{{this.companyName}}</span>
+            <div v-if="companyProfileList&&companyProfileList.companyName"  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">{{companyProfileList.companyName}}</div>
+            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">- -</div>
           </li>
-          <li>
+          <li style="margin-bottom:10px;position:relative" >
             <span>证券代码</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span style="color:#333333">{{this.zhengquanCode}}</span>
+            <div  v-if="companyProfileList&&companyProfileList.companyCode"  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">{{companyProfileList.companyCode}}</div>
+            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">- -</div>
           </li>
-          <li>
+          <li style="margin-bottom:10px;position:relative" >
             <span>企业性质</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span style="color:#333333">{{this.companyNature}}</span>
+            <div v-if="companyProfileList&&companyProfileList.companyNature"  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">{{companyProfileList.companyNature}}</div>
+            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">- -</div>
           </li>
         </ul>
         <div>
-
-          <li style="margin-bottom:10px">
+          <li style="margin-bottom:10px;position:relative" >
             <span>注册地址</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span style="color:#333333">{{this.addrProv}}{{this.addrCity}}{{this.addrArea}}</span>
+            <div v-if="companyProfileList"  class="majorBusinesses">{{companyProfileList.addrProv}}{{companyProfileList.addrCity}}{{companyProfileList.addrArea}}</div>
+            <div v-else  class="majorBusinesses">- -</div>
           </li>
-
-
-          <li style="margin-bottom:10px">
+          <li style="margin-bottom:10px;position:relative" >
             <span>控股股东</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span style="color:#333333">{{this.controlShareholder}}</span>
+            <div v-if="companyProfileList&&companyProfileList.controlShareholder"  class="majorBusinesses">{{companyProfileList.controlShareholder}}</div>
+             <div v-else  class="majorBusinesses">- -</div>
           </li>
-          <li style="margin-bottom:10px">
-            <span>实际控制人</span>&nbsp;&nbsp;&nbsp;
-            <span style="color:#333333">{{this.actualController}}</span>
+          <li style="margin-bottom:10px;position:relative" >
+            <span>实际控制人</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div v-if="companyProfileList&&companyProfileList.actualController"  class="majorBusinesses">{{companyProfileList.actualController}}</div>
+            <div v-else  class="majorBusinesses">- -</div>
           </li>
           <li style="margin-bottom:10px;position:relative" >
             <span>主营业务</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <div class="majorBusinesses">{{this.majorBusinesses}}</div>
+            <div v-if="companyProfileList&&companyProfileList.majorBusinesses"  class="majorBusinesses">{{companyProfileList.majorBusinesses}}</div>
+            <div v-else  class="majorBusinesses">- -</div>
           </li>
         </div>
-
       </div>
       <div class="others" v-if="this.otherMarketInfoList&&this.otherMarketInfoList.length>0">
         <p style="color:black">登录其他资本市场</p>
         <ul v-for="item in otherMarketInfoList">
-          <li style=" width: 30%;">
+           <li style=" width: 30%;position:relative">
             <span>资本市场</span>&nbsp;&nbsp;
-            <span style="color:black">{{item.marketType}}</span>
+            <div style="color:black;margin-left: 25%;margin-top: -7%;">{{item.marketType}}</div>
           </li>
           <li style=" width: 20%;">
             <span>公司代码</span>&nbsp;&nbsp;
@@ -82,15 +88,18 @@
       <div class="title">
         <span class="littleRectangle"></span>
         <span class="titleText" id="ownershipStructureChart">股权结构图</span>
-        <span v-for="(item,index) in structureLabel" class="hongkuang">{{item}}</span>
+        <span v-if="companyProfileList&&companyProfileList.structureLabel">
+           <span v-for="(item,index) in companyProfileList.structureLabel.split(',')" class="hongkuang">{{item}}</span>
+        </span>
       </div>
       <!-- 图片 -->
       <div class="img">
          <img :src="structureUrl" width="100%">
       </div>
       <!-- 股权股东表格 -->
+      <p v-if="gqTableList&&gqTableList.length>0" style="font-size:12px;color:#666;float:right">单位：万股</p>
       <el-table :data="gqTableList" style="width: 100%" stripe border>
-        <el-table-column type="index" label="序号" align='center' width="72px">
+        <el-table-column type="index" label="序号" align='center' width="75px">
            <template slot-scope="scope">
                     {{scope.$index+1}}
             </template>
@@ -105,7 +114,7 @@
               <span>{{isNotEmpty(scope.row.shareHolderNature) ? scope.row.shareHolderNature : '- -'}}</span>
            </template>
         </el-table-column>
-        <el-table-column prop="shareNum" label="持股数量（万股）" align='right'>
+        <el-table-column prop="shareNum" label="持股数量" align='right'>
            <template slot-scope="scope">
                 <span v-if="scope.row.shareNum"> {{scope.row.shareNum | dataInThRule}}</span>
                 <span v-else> - - </span>
@@ -113,7 +122,6 @@
         </el-table-column>
         <el-table-column prop="shareRatio" label="持股比例" align='right'>
            <template slot-scope="scope">
-              <!-- <span>{{isNotEmpty(scope.row.shareRatio) ? scope.row.shareRatio+'%' : '- -'}}</span> -->
               <span v-if="scope.row.shareRatio"> {{scope.row.shareRatio | dataInThRule}}%</span>
               <span v-else> - - </span>
            </template>
@@ -179,21 +187,22 @@
       <div class="theTopFiveSupplier">
         <p v-if="supplierMainList&&supplierMainList.length>0">报告期前五名供应商情况</p>
         <div v-for="item in supplierMainList" :key="item.id" >
-            <p style="font-size:14px;color:#666">{{item.remark}}：</p>
+            <p v-if="item.remark" style="font-size:14px;color:#666">{{item.remark}}</p>
+            <span v-if="item.supplierCustomerInfoList&&item.supplierCustomerInfoList.length>0" style="font-size:12px;color:#666;float:right;margin-bottom: 5px;">单位：万元</span>
              <el-table :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px">
               <el-table-column fixed align="center" class-name="table_cell" label="排名" width="70">
                 <template slot-scope="scope">
                   {{scope.$index+1}}
                   </template>
               </el-table-column>
-              <el-table-column fixed prop="companyName" align="left" class-name="table_cell" label="公司" width="150"></el-table-column>
+              <el-table-column fixed prop="companyName" align="left" class-name="table_cell" label="公司" ></el-table-column>
               <el-table-column :label="item.reportPeriod" header-align="center">
                 <el-table-column align="left"  class-name="table_cell" label="采购内容" width="117">
                   <template slot-scope="scope">
                     <span>{{isNotEmpty(scope.row.onePeriodContent) ? scope.row.onePeriodContent : '- -'}}</span>
                   </template>
                 </el-table-column>
-                <el-table-column align="right"  class-name="table_cell" label="金额(万元)" width="117">
+                <el-table-column align="right"  class-name="table_cell" label="金额" width="117">
                   <template slot-scope="scope">
                       <span v-if="scope.row.onePeriodAmount"> {{scope.row.onePeriodAmount | dataInThRule}}</span>
                       <span v-else> - - </span>
@@ -212,7 +221,7 @@
                     <span>{{isNotEmpty(scope.row.thirdYearContent) ? scope.row.thirdYearContent : '- -'}}</span>
                   </template>
                 </el-table-column>
-                <el-table-column align="right"  class-name="table_cell" label="金额(万元)" width="117">
+                <el-table-column align="right"  class-name="table_cell" label="金额" width="117">
                   <template slot-scope="scope">
                       <span v-if="scope.row.thirdYearAmount"> {{scope.row.thirdYearAmount | dataInThRule}}</span>
                       <span v-else> - - </span>
@@ -231,7 +240,7 @@
                     <span>{{isNotEmpty(scope.row.secondYearContent ) ? scope.row.secondYearContent  : '- -'}}</span>
                   </template>
                 </el-table-column>
-                <el-table-column align="right"  class-name="table_cell" label="金额(万元)" width="117">
+                <el-table-column align="right"  class-name="table_cell" label="金额" width="117">
                   <template slot-scope="scope">
                       <span v-if="scope.row.secondYearAmount"> {{scope.row.secondYearAmount | dataInThRule}}</span>
                       <span v-else> - - </span>
@@ -250,7 +259,7 @@
                     <span>{{isNotEmpty(scope.row.firstYearContent ) ? scope.row.firstYearContent  : '- -'}}</span>
                   </template>
                 </el-table-column>
-                <el-table-column align="right"  class-name="table_cell" label="金额(万元)" width="117">
+                <el-table-column align="right"  class-name="table_cell" label="金额" width="117">
                   <template slot-scope="scope">
                       <span v-if="scope.row.firstYearAmount"> {{scope.row.firstYearAmount | dataInThRule}}</span>
                       <span v-else> - - </span>
@@ -269,7 +278,8 @@
        <div class="theTopFiveKh">
         <p v-if="customerMainList&&customerMainList.length>0">报告期前五名客户情况</p>
           <div v-for="item in customerMainList" :key="item.id" >
-              <p style="font-size:14px;color:#666">{{item.remark}}：</p>
+              <p style="font-size:14px;color:#666">{{item.remark}}</p>
+              <span v-if="item.supplierCustomerInfoList&&item.supplierCustomerInfoList.length>0" style="font-size:12px;color:#666;float:right;margin-bottom: 5px;">单位：万元</span>
               <el-table :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px">
                 <el-table-column fixed align="center" class-name="table_cell" label="排名" width="70">
                   <template slot-scope="scope">
@@ -283,7 +293,7 @@
                       <span>{{isNotEmpty(scope.row.onePeriodContent) ? scope.row.onePeriodContent : '- -'}}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column align="right"  class-name="table_cell" label="金额(万元)" width="117">
+                  <el-table-column align="right"  class-name="table_cell" label="金额" width="117">
                     <template slot-scope="scope">
                       <span v-if="scope.row.onePeriodAmount"> {{scope.row.onePeriodAmount | dataInThRule}}</span>
                       <span v-else> - - </span>
@@ -302,7 +312,7 @@
                       <span>{{isNotEmpty(scope.row.thirdYearContent) ? scope.row.thirdYearContent : '- -'}}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column align="right"  class-name="table_cell" label="金额(万元)" width="117">
+                  <el-table-column align="right"  class-name="table_cell" label="金额" width="117">
                     <template slot-scope="scope">
                       <span v-if="scope.row.thirdYearAmount"> {{scope.row.thirdYearAmount | dataInThRule}}</span>
                       <span v-else> - - </span>
@@ -321,7 +331,7 @@
                       <span>{{isNotEmpty(scope.row.secondYearContent ) ? scope.row.secondYearContent  : '- -'}}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column align="right"  class-name="table_cell" label="金额(万元)" width="117">
+                  <el-table-column align="right"  class-name="table_cell" label="金额" width="117">
                     <template slot-scope="scope">
                       <span v-if="scope.row.secondYearAmount"> {{scope.row.secondYearAmount | dataInThRule}}</span>
                       <span v-else> - - </span>
@@ -340,7 +350,7 @@
                       <span>{{isNotEmpty(scope.row.firstYearContent ) ? scope.row.firstYearContent  : '- -'}}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column align="right"  class-name="table_cell" label="金额(万元)" width="117">
+                  <el-table-column align="right"  class-name="table_cell" label="金额" width="117">
                     <template slot-scope="scope">
                       <span v-if="scope.row.firstYearAmount"> {{scope.row.firstYearAmount | dataInThRule}}</span>
                       <span v-else> - - </span>
@@ -365,6 +375,7 @@
       </div>
       <div class="raiseMoneyTable">
         <!-- 募集资金运用表格 -->
+        <p v-if="raiseMoneyTableList&&raiseMoneyTableList.length>0" style="font-size:12px;color:#666;float:right">单位：万元</p>
           <el-table :data="raiseMoneyTableList" border style="width:100%;">
             <el-table-column label="项目名称" align="left">
                 <template slot-scope="scope">
@@ -378,13 +389,13 @@
                     <span v-else>- -</span>
                 </template>
             </el-table-column>
-            <el-table-column label="项目总投资(万元)" align="right" prop="investTotal">
+            <el-table-column label="项目总投资" align="right" prop="investTotal">
                 <template slot-scope="scope">
                       <span v-if="scope.row.investTotal">{{scope.row.investTotal | dataInThRule}}</span>
                     <span v-else>- -</span>
                 </template>
             </el-table-column>
-            <el-table-column label="拟投入募集资金金额（万元）" align="right" prop="investPlan">
+            <el-table-column label="拟投入募集资金金额" align="right" prop="investPlan">
                 <template slot-scope="scope">
                       <span v-if="scope.row.investPlan">{{scope.row.investPlan | dataInThRule}}</span>
                     <span v-else>- -</span>
@@ -396,7 +407,7 @@
                     <span v-else>- -</span>
                 </template>
             </el-table-column>
-            <el-table-column label="前期已投入资金金额（万元）" align="right" prop="investPre">
+            <el-table-column label="前期已投入资金金额" align="right" prop="investPre">
                 <template slot-scope="scope">
                       <span v-if="scope.row.investPre">{{scope.row.investPre | dataInThRule}}</span>
                     <span v-else>- -</span>
@@ -429,7 +440,7 @@
 
 
 import $ from "jquery";
-import { getCaseDetail } from "@/api/ipoCase/companyProfile";
+// import { getCaseDetail } from "@/api/ipoCase/companyProfile";
 import { getMarketData } from "@/api/ipoCase/companyProfile";
 import { getShareHolderData } from "@/api/ipoCase/companyProfile";
 import { getCompetitorData } from "@/api/ipoCase/companyProfile";
@@ -463,19 +474,19 @@ export default {
       structureUrl:'',
       // 公司简介
       caseId:this.$store.state.app.caseId,
-      companyZhName:'',//公司名称
-      ipoPlate:'',//上市板块
-      industryCsrc:'',//所属行业(证监会) ,
-      companyName:'',//公司简称
-      zhengquanCode:'',//证券代码
-      addrProv:'',//注册地（省）
-      addrCity:'',//注册地（市）
-      addrArea:'',//注册地（区）
-      registeredAssets:'',//注册资本（万元）
-      actualController:'',//实际控制人
-      controlShareholder:'',//控股股东
-      companyNature:'',//企业性质
-      majorBusinesses:'',//主营业务
+      // companyZhName:'',//公司名称
+      // ipoPlate:'',//上市板块
+      // industryCsrc:'',//所属行业(证监会) ,
+      // companyName:'',//公司简称
+      // zhengquanCode:'',//证券代码
+      // addrProv:'',//注册地（省）
+      // addrCity:'',//注册地（市）
+      // addrArea:'',//注册地（区）
+      // registeredAssets:'',//注册资本（万元）
+      // actualController:'',//实际控制人
+      // controlShareholder:'',//控股股东
+      // companyNature:'',//企业性质
+      // majorBusinesses:'',//主营业务
       //其他资本市场
       otherMarketInfoList:[],//其他登陆市场
       // 主要竞争者
@@ -493,12 +504,13 @@ export default {
       },
     };
   },
-  props:["headList"],
+  props:["companyProfileList"],
   created() {
     this.getData();
     this.getPosition();
   },
   mounted() {
+    console.log(this.companyProfileList)
   },
   methods: {
     getData() {
@@ -506,28 +518,28 @@ export default {
       const param = {
         id:this.caseId
       }
-      getCaseDetail(param).then(res => {
-          if(res.data.result&&res.data.result.structureLabel){
-           this.structureLabel = res.data.result.structureLabel.split(',');
-          }
-          if(res.data.result){
-            this.id = res.data.result.id//公司id
-            this.structureUrl = res.data.result.structureUrl
-            this.companyZhName = res.data.result.companyZhName//公司名称
-            this.ipoPlate = res.data.result.ipoPlate//上市板块
-            this.industryCsrc = res.data.result.industryCsrc//所属行业(证监会) ,
-            this.companyName = res.data.result.companyName//证券简称
-            this.zhengquanCode = res.data.result.companyCode//证券代码
-            this.addrProv = res.data.result.addrProv//注册地（省）
-            this.addrCity = res.data.result.addrCity//注册地（市）
-            this.addrArea = res.data.result.addrArea//注册地（区）
-            this.registeredAssets = res.data.result.registeredAssets//注册资本（万元）
-            this.actualController = res.data.result.actualController//实际控制人
-            this.controlShareholder = res.data.result.controlShareholder//控股股东
-            this.companyNature = res.data.result.companyNature//企业性质
-            this.majorBusinesses = res.data.result.majorBusinesses//主营业务  
-          }
-      });
+      // getCaseDetail(param).then(res => {
+      //     if(res.data.result&&res.data.result.structureLabel){
+      //      this.structureLabel = res.data.result.structureLabel.split(',');
+      //     }
+      //     if(res.data.result){
+      //       this.id = res.data.result.id//公司id
+      //       this.structureUrl = res.data.result.structureUrl
+      //       this.companyZhName = res.data.result.companyZhName//公司名称
+      //       this.ipoPlate = res.data.result.ipoPlate//上市板块
+      //       this.industryCsrc = res.data.result.industryCsrc//所属行业(证监会) ,
+      //       this.companyName = res.data.result.companyName//证券简称
+      //       this.zhengquanCode = res.data.result.companyCode//证券代码
+      //       this.addrProv = res.data.result.addrProv//注册地（省）
+      //       this.addrCity = res.data.result.addrCity//注册地（市）
+      //       this.addrArea = res.data.result.addrArea//注册地（区）
+      //       this.registeredAssets = res.data.result.registeredAssets//注册资本（万元）
+      //       this.actualController = res.data.result.actualController//实际控制人
+      //       this.controlShareholder = res.data.result.controlShareholder//控股股东
+      //       this.companyNature = res.data.result.companyNature//企业性质
+      //       this.majorBusinesses = res.data.result.majorBusinesses//主营业务  
+      //     }
+      // });
       getMarketData(param).then(res=>{
         if(res.data.result&&res.data.result.length>0){
           this.otherMarketInfoList = res.data.result//其他登录市场
@@ -794,5 +806,17 @@ export default {
   margin-left: 9.4%;
   margin-top: -2%;
   line-height: 20px;
+}
+.industryCsrc{
+    color: #333333;
+    margin-left: 40.4%;
+    margin-top: -6%;
+    line-height: 20px;
+}
+.companyNature{
+    color: #333333;
+    margin-left: 27.4%;
+    margin-top: -6%;
+    line-height: 20px;
 }
 </style>
