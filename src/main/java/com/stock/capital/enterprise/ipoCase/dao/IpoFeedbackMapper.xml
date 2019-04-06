@@ -222,4 +222,31 @@
     <select id="selectFeedbackProcess" parameterType="java.lang.String" resultType="java.lang.String">
         select id from ipo_process t1 where t1.bid = #{id} and t1.process_type_code = '05'
     </select>
+
+    <select id="selectLetterIds" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT
+            t1.id
+        FROM
+            sa_letter t1
+        LEFT JOIN letter_class t2 ON t2.id = t1.letter_type
+        WHERE
+            t2.letter_class_name = 'IPO预披露反馈意见'
+        AND t1.rela_code = '10472811'
+    </select>
+
+    <resultMap id="firstLabelResult" type="java.util.HashMap">
+        <result column="id" property="labelId"/>
+        <result column="letter_class_name" property="letterClassName"/>
+    </resultMap>
+    <select id="selectFirstLabelMap" resultMap="firstLabelResult">
+        select id,letter_class_name from letter_class t1 where t1.`level` = 0
+    </select>
+
+    <resultMap id="secondLabelResult" type="java.util.HashMap">
+        <result column="id" property="labelId"/>
+        <result column="letter_class_name" property="letterClassName"/>
+    </resultMap>
+    <select id="selectSecondLabelMap" resultMap="secondLabelResult">
+        select id,letter_class_name from letter_class t1 where t1.`level` = 1
+    </select>
 </mapper>

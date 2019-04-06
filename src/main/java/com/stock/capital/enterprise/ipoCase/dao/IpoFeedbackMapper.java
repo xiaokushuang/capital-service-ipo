@@ -3,10 +3,12 @@ package com.stock.capital.enterprise.ipoCase.dao;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoQuestionLabelDto;
 
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface IpoFeedbackMapper {
@@ -40,4 +42,18 @@ public interface IpoFeedbackMapper {
      * 查询反馈意见进程
      */
     List<String> selectFeedbackProcess(String id);
+
+    /**
+     * 查询当前公司函件id
+     */
+    List<String> selectLetterIds(String id);
+
+    /**
+     * 查询问题一级标签
+     */
+    @MapKey("labelId")
+    Map<String, Map<String, String>> selectFirstLabelMap();
+
+    @MapKey("labelId")
+    Map<String,Map<String,String>> selectSecondLabelMap();
 }

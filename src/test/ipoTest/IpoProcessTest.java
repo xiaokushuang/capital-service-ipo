@@ -58,4 +58,17 @@ public class IpoProcessTest extends BaseTest {
         ipoFinanceService.selectFinanceProfitList("97952444248599350");
     }
 
+    @Test
+    public void selectNewFeedbackList(){
+        IpoFeedbackDto paramDto = new IpoFeedbackDto();
+        paramDto.setId("97952444248599344");
+        ipoFeedbackService.selectNewFeedbackList(paramDto);
+    }
+
+    @Test
+    public void selectNewSecondLabel(){
+        String letterId = "745777672754254995";
+        String parentId = "2200003";
+        ipoFeedbackService.selectNewSecondLabel(letterId,parentId);
+    }
 }

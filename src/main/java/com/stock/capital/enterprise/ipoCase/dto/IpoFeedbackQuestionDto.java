@@ -18,6 +18,10 @@ public class IpoFeedbackQuestionDto implements Serializable {
     private String answer;
     @ApiModelProperty("所属标签")
     private List<String> labelList;
+    @ApiModelProperty("带格式问题")
+    private String formatQuestion;
+    @ApiModelProperty("带格式回答")
+    private String formatAnswer;
 
     public String getQuestionId() {
         return questionId;
@@ -49,5 +53,21 @@ public class IpoFeedbackQuestionDto implements Serializable {
 
     public void setLabelList(List<String> labelList) {
         this.labelList = labelList;
+    }
+
+    public String getFormatQuestion() {
+        return formatQuestion;
+    }
+
+    public void setFormatQuestion(String formatQuestion) {
+        this.formatQuestion = formatQuestion;
+    }
+
+    public String getFormatAnswer() {
+        return formatAnswer;
+    }
+
+    public void setFormatAnswer(String formatAnswer) {
+        this.formatAnswer = formatAnswer;
     }
 }
