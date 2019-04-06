@@ -46,7 +46,7 @@ public interface IpoFeedbackMapper {
     /**
      * 查询当前公司函件id
      */
-    List<String> selectLetterIds(String id);
+    List<String> selectLetterIds(@Param("orgId") String orgId,@Param("processDateList") List<String> processDateList);
 
     /**
      * 查询问题一级标签

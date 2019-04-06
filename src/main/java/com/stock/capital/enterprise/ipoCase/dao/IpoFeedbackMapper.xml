@@ -220,7 +220,14 @@
     </select>
 
     <select id="selectFeedbackProcess" parameterType="java.lang.String" resultType="java.lang.String">
-        select id from ipo_process t1 where t1.bid = #{id} and t1.process_type_code = '05'
+        SELECT
+            date_format(t1.process_time, '%Y-%m-%d') process_time
+        FROM
+            ipo_process t1
+        WHERE
+            t1.bid = '97952444248599344'
+        AND t1.process_type_code = '05'
+        AND t1.process_time IS NOT NULL
     </select>
 
     <select id="selectLetterIds" parameterType="java.lang.String" resultType="java.lang.String">
@@ -231,7 +238,14 @@
         LEFT JOIN letter_class t2 ON t2.id = t1.letter_type
         WHERE
             t2.letter_class_name = 'IPO预披露反馈意见'
-        AND t1.rela_code = '10472811'
+        AND t1.rela_code = #{orgId}
+        <if test="processDateList != null and processDateList.size()>0">
+          and t1.letter_date in
+          <foreach collection="processDateList" index="index" item="item" open="(" close=")" separator="," >
+              #{item}
+          </foreach>
+        </if>
+
     </select>
 
     <resultMap id="firstLabelResult" type="java.util.HashMap">
