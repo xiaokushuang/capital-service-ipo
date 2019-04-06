@@ -60,15 +60,12 @@ public class IpoProcessTest extends BaseTest {
 
     @Test
     public void selectNewFeedbackList(){
-        IpoFeedbackDto paramDto = new IpoFeedbackDto();
-        paramDto.setId("97952444248599344");
-        ipoFeedbackService.selectNewFeedbackList(paramDto);
+        ipoFeedbackService.selectNewFeedbackList("97952444248599344");
     }
 
     @Test
     public void selectNewSecondLabel(){
-        String letterId = "745777672754254995";
-        String parentId = "2200003";
-        ipoFeedbackService.selectNewSecondLabel(letterId,parentId);
+        ipoFeedbackService.selectNewQuestionList(
+                "745777672754254995","2200004","","1");
     }
 }
