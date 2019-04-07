@@ -54,7 +54,7 @@
     (SELECT group_concat(mcl1.label_name) FROM maa_conf_label mcl1 WHERE mcl1.label_code = 'INDUSTRY_CSRC_2012' AND find_in_set(mcl1.label_value,TRIM(LEADING '0' FROM ic.industry_csrc))) AS industry_csrc,
     ic.company_name,
     ic.company_code,
-    (SELECT group_concat(mcl4.label_name SEPARATOR ';') FROM maa_conf_label mcl4 WHERE mcl4.label_code = 'IPO_ISSUE_CONDITION' AND find_in_set(mcl4.label_value,ic.issue_condition)) AS issue_condition,
+    ic.issue_condition,
     (SELECT p.area_name FROM provinces p WHERE p.area_no = ic.addr_prov) AS addr_prov,
     (SELECT p.area_name FROM provinces p WHERE p.area_no = ic.addr_city) AS addr_city,
     (SELECT p.area_name FROM provinces p WHERE p.area_no = ic.addr_area) AS addr_area,
