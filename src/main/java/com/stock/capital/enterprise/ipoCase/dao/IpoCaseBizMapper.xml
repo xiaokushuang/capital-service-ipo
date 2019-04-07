@@ -72,8 +72,8 @@
    limit 1
   </select>
 
-  <select id="getCodeById" parameterType="string" resultType="string">
-    SELECT org_code AS orgCode FROM ipo_case WHERE id = #{id} limit 1
+  <select id="getCodeAndNameById" parameterType="string" resultType="map">
+    SELECT org_code AS orgCode,company_name AS companyName FROM ipo_case WHERE id = #{id} limit 1
   </select>
 
   <select id="getIpoShareData" parameterType="string"
@@ -161,22 +161,42 @@
 
   <select id="getIntermediaryOrgData" resultType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto">
     SELECT
-      id,
-      bid,
-      intermediary_type AS intermediaryType,
-      org_name AS orgName,
-      org_code AS orgCode,
-      valid_flag AS validFlag,
-      represent_person AS representPerson,
-      agent_person AS agentPerson,
-      assist_person AS assistPerson
+    t.*, mcl.label_name AS intermediaryTypeName
     FROM
-      ipo_intermediary_org
+    (
+    SELECT
+    iio.intermediary_type AS intermediaryType,
+    iio.org_type AS orgType,
+    iio.org_name AS orgName,
+    iio.org_code AS orgCode,
+    iio.valid_flag AS validFlag,
+    iio.represent_person AS representPerson,
+    iio.agent_person AS agentPerson,
+    iio.assist_person AS assistPerson,
+    CASE
+    WHEN iio.intermediary_type = '1' THEN
+    'IPO_SPONSOR_TYPE'
+    WHEN iio.intermediary_type = '2' THEN
+    'IPO_SECURITY_TYPE'
+    WHEN iio.intermediary_type = '3' THEN
+    'IPO_LAWYER_TYPE'
+    WHEN iio.intermediary_type = '4' THEN
+    'IPO_ACCOUNT_TYPE'
+    WHEN iio.intermediary_type = '5' THEN
+    'IPO_ASSET_VALUATION_TYPE'
+    ELSE
+    ''
+    END AS labelCode
+    FROM
+    ipo_intermediary_org iio
     WHERE
-      bid = #{bid}
+    iio.bid = #{bid}
     <if test="validFlag != null and validFlag != ''">
-      AND valid_flag = #{validFlag}
+      AND iio.valid_flag = #{validFlag}
     </if>
+    ) t
+    JOIN maa_conf_label mcl ON t.labelCode = mcl.label_code
+    AND t.orgType = mcl.label_value
   </select>
 
   <select id="getHeadData" parameterType="string" resultType="com.stock.capital.enterprise.ipoCase.dto.HeadDataVo">
