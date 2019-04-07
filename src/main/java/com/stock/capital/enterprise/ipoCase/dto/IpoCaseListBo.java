@@ -80,6 +80,10 @@ public class IpoCaseListBo implements Serializable {
 
     private String companyId;
 
+    private String specialArrange;
+
+    private String issueCondition;
+
     public String getTitle() {
         return title;
     }
@@ -342,5 +346,21 @@ public class IpoCaseListBo implements Serializable {
 
     public void setCompanyId(String companyId) {
         this.companyId = companyId;
+    }
+
+    public String getSpecialArrange() {
+        return specialArrange;
+    }
+
+    public void setSpecialArrange(String specialArrange) {
+        this.specialArrange = specialArrange;
+    }
+
+    public String getIssueCondition() {
+        return issueCondition;
+    }
+
+    public void setIssueCondition(String issueCondition) {
+        this.issueCondition = issueCondition;
     }
 }

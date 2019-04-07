@@ -12,6 +12,7 @@ import com.stock.core.service.BaseService;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,8 @@ public class IssueSituationService extends BaseService {
      * @return dto
      */
     public IssueDataDto getIssueData(String id) {
-        String orgCode = ipoCaseBizMapper.getCodeById(id);
+        Map<String, String> resultMap = ipoCaseBizMapper.getCodeAndNameById(id);
+        String orgCode = resultMap.get("orgCode");
         if (StringUtils.isBlank(orgCode)) {
             return null;
         }
@@ -100,12 +102,17 @@ public class IssueSituationService extends BaseService {
                     averageDetailDto.setFirstYearRate(industryCompareRateDto.getFirstAvg());
                     detailList.add(averageDetailDto);
                 }
-                IndustryCompareRateDetailDto selfDetailDto = new IndustryCompareRateDetailDto();
-                selfDetailDto.setCompanyName(industryCompareRateDto.getCompanyName());
-                selfDetailDto.setThirdYearRate(industryCompareRateDto.getThirdYearRate());
-                selfDetailDto.setSecondYearRate(industryCompareRateDto.getSecondYearRate());
-                selfDetailDto.setFirstYearRate(industryCompareRateDto.getFirstYearRate());
-                detailList.add(selfDetailDto);
+                //重新查询 企业简称
+                Map<String, String> resultMap = ipoCaseBizMapper.getCodeAndNameById(id);
+                String companyName = resultMap.get("companyName");
+                if (StringUtils.isNotBlank(companyName)) {
+                    IndustryCompareRateDetailDto selfDetailDto = new IndustryCompareRateDetailDto();
+                    selfDetailDto.setCompanyName(companyName);
+                    selfDetailDto.setThirdYearRate(industryCompareRateDto.getThirdYearRate());
+                    selfDetailDto.setSecondYearRate(industryCompareRateDto.getSecondYearRate());
+                    selfDetailDto.setFirstYearRate(industryCompareRateDto.getFirstYearRate());
+                    detailList.add(selfDetailDto);
+                }
                 industryCompareRateDto.setIndustryCompareRateDetailList(detailList);
             }
         }
