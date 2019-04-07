@@ -115,7 +115,6 @@ public class IpoExamineService extends BaseService {
     public IpoExamineDto selectNewExamineList(String id) {
         String orgCode = ipoFeedbackMapper.getOrgCode(id);
         IpoExamineDto resultDto = new IpoExamineDto();
-        resultDto.setId(id);
         //查询发审会基础信息
         List<IpoExamineBaseDto> baseList = ipoExamineMapper.selectExamineBaseList(id);
         //如果没有发审会信息，则返回空对象
