@@ -91,9 +91,17 @@ export function getSelectQuestionList(query) {
 //   })
 // }
 // 审核结果及关注问题
+// export function geSelectFeedbackList(query) {
+//   return request({
+//     url: '/ipo/ipoExamine/selectFeedbackList',
+//     method: 'get',
+//     params: query
+//   })
+// }
+// 审核结果及关注问题
 export function geSelectFeedbackList(query) {
   return request({
-    url: '/ipo/ipoExamine/selectFeedbackList',
+    url: '/ipo/ipoExamine/selectNewExamineList',
     method: 'get',
     params: query
   })
