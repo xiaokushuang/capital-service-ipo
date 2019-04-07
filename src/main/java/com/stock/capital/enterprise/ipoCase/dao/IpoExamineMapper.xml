@@ -104,4 +104,16 @@
             </foreach>
         </where>
     </select>
+
+    <select id="selectExamineLetterId" resultType="java.lang.String">
+        SELECT
+            t1.id
+        FROM
+            sa_letter t1
+        LEFT JOIN letter_class t2 ON t2.id = t1.letter_type
+        WHERE
+            t2.letter_class_name = 'IPO审核结果反馈意见'
+        AND t1.rela_code = #{orgCode}
+        and t1.letter_date = #{date}
+    </select>
 </mapper>
