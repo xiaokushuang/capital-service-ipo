@@ -176,6 +176,8 @@ public class IpoFeedbackService extends BaseService {
                     questionResultDto.setQuestionId(questionDto.getQuestionId());
                     questionResultDto.setQuestion(questionDto.getQuestContents());
                     questionResultDto.setAnswer(questionDto.getAnswersContents());
+                    questionResultDto.setFormatQuestion(questionDto.getQuestionLabelContent());
+                    questionResultDto.setFormatAnswer(questionDto.getAnswerLabelContent());
                     List<String> belongLabel = questionDto.getQuestionClassNewId();
                     //循环放入问题所属二级标签
                     if(CollectionUtils.isNotEmpty(belongLabel)){
@@ -283,6 +285,8 @@ public class IpoFeedbackService extends BaseService {
                         questionResultDto.setQuestionId(questionDto.getQuestionId());
                         questionResultDto.setQuestion(questionDto.getQuestContents());
                         questionResultDto.setAnswer(questionDto.getAnswersContents());
+                        questionResultDto.setFormatQuestion(questionDto.getQuestionLabelContent());
+                        questionResultDto.setFormatAnswer(questionDto.getAnswerLabelContent());
                         List<String> belongLabel = questionDto.getQuestionClassNewId();
                         //循环放入问题所属二级标签
                         if(CollectionUtils.isNotEmpty(belongLabel)){
@@ -298,11 +302,14 @@ public class IpoFeedbackService extends BaseService {
                         }
                         questionResultList.add(questionResultDto);
                     }
+                    questionCount = answerCount;
                 }else{
                     IpoFeedbackQuestionDto questionResultDto = new IpoFeedbackQuestionDto();
                     questionResultDto.setQuestionId(questionDto.getQuestionId());
                     questionResultDto.setQuestion(questionDto.getQuestContents());
                     questionResultDto.setAnswer(questionDto.getAnswersContents());
+                    questionResultDto.setFormatQuestion(questionDto.getQuestionLabelContent());
+                    questionResultDto.setFormatAnswer(questionDto.getAnswerLabelContent());
                     List<String> belongLabel = questionDto.getQuestionClassNewId();
                     //循环放入问题所属二级标签
                     if(CollectionUtils.isNotEmpty(belongLabel)) {
