@@ -105,7 +105,7 @@
         </where>
     </select>
 
-    <select id="selectExamineLetterId" resultType="">
+    <select id="selectExamineLetterId" resultType="java.lang.String">
         SELECT
             t1.id
         FROM
