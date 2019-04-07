@@ -538,3 +538,11 @@
   -webkit-box-shadow: -1px 0 0 0 #66b7ca;
   box-shadow: -1px 0 0 0 #66b7ca;
 }
+// 加载框样式
+.el-loading-spinner {
+  top: 50%;
+  margin-top: 28px;
+  width: 100%;
+  text-align: center;
+  position: absolute;
+}

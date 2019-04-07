@@ -24,9 +24,9 @@
                                   text-align: left;
                                   line-height: 14px;">
                                 <span>共计</span>
-                                <span>{{tabList[0].questionCount}}</span>
+                                <span>{{questionCount}}</span>
                                 <span>个问题，</span>
-                                <span>{{tabList[0].answerCount}}</span>
+                                <span>{{answerCount}}</span>
                                 <span>个回复</span>
                                 <el-checkbox  @change="handleOnlyChange(onlyShowAnswer)" v-model="onlyShowAnswer" style="margin-left:20px;margin-right:15px">只展示回复问题</el-checkbox>
                                 <el-button @click="toggleSelection()" class="reset" type="primary" plain>重置</el-button>
@@ -51,20 +51,20 @@
                                       <!-- 收起展开 -->
                                       <div class="btn" style="color: #4F91D1;font-size:14px">
                                           <span v-if="data.isSpread && data.isSpread === 2" class="packUp" @click="packUp(data)">收起 <i style="font-size:12px" class="el-icon-arrow-up"></i></span>
-                                          <span v-if="!data.isSpread || (data.isSpread && data.isSpread !== 2)" class="spread" @click="spread(data)">展开 <i style="font-size:12px" class="el-icon-arrow-down"></i></span>
+                                          <span v-if="data.isSpread && data.isSpread === 1" class="spread" @click="spread(data)">展开 <i style="font-size:12px" class="el-icon-arrow-down"></i></span>
                                       </div>
                                     </div>
                                     <!-- 答 -->
                                     <div  v-if="data.answer&&data.answer.length>0">
                                       <div class="da">答</div>
                                       <div style="font-size:14px;color:#333;line-height:22px">
-                                          <p style="width:100%;" v-if="!data.isSpreada || (data.isSpreada && data.isSpreada !== 2)">&nbsp;&nbsp;{{getContent(data,data.answer,index,'answer')}}</p>
-                                          <p style="width:100%;"  v-if="data.isSpreada && data.isSpreada === 2">&nbsp;&nbsp;{{data.answer}}</p>
+                                          <p style="width:100%;" v-if="!data.isSpreada || (data.isSpreada && data.isSpreada !== 2)">&nbsp;&nbsp;{{getContent(data,data.answer,index,'question')}}</p>
+                                          <p v-html="data.formatAnswer" style="width:100%;"  v-if="data.isSpreada && data.isSpreada === 2">&nbsp;&nbsp;{{data.formatAnswer}}</p>
                                       </div>
                                       <!-- 收起展开 -->
-                                      <div class="btn" style="color: #4F91D1;font-size:14px">
-                                          <span  v-if="data.isSpread && data.isSpreada === 2" class="packUp" @click="daPackUp(data)">收起 <i style="font-size:12px" class="el-icon-arrow-up"></i></span>
-                                          <span  v-if="!data.isSpreada || (data.isSpreada && data.isSpreada !== 2)"  class="spread" @click="daSpread(data)">展开 <i style="font-size:12px" class="el-icon-arrow-down"></i></span>
+                                       <div class="btn" style="color: #4F91D1;font-size:14px">
+                                          <span v-if="data.isSpreada && data.isSpreada === 2" class="packUp" @click="daPackUp(data)">收起 <i style="font-size:12px" class="el-icon-arrow-up"></i></span>
+                                          <span v-if="data.isSpreada && data.isSpreada === 1" class="spread" @click="daSpread(data)">展开 <i style="font-size:12px" class="el-icon-arrow-down"></i></span>
                                       </div>
                                     </div>
                                 </div>
@@ -132,13 +132,13 @@ export default {
       questionList2:[],
       questionList3:[],
       // // 回复个数
-      // answerCount:'',
-      // answerCount2:'',
-      // answerCount3:'',
+      answerCount:'',
+      answerCount2:'',
+      answerCount3:'',
       // // 问题个数
-      // questionCount:'',
-      // questionCount2:'',
-      // questionCount3:'',
+      questionCount:'',
+      questionCount2:'',
+      questionCount3:'',
       // 是否展示全部问题
       isShowAll:true,
       // 默认有moreText类
@@ -186,12 +186,12 @@ export default {
     handelMoreChange(val){
        this.checkboxGroup = val
        for(let i = 0;i<val.length;i++){
-         if(val[i] == ''){
+         if(val[i] == null){
            this.checkboxGroup = []
            document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor="white";
          }
        }
-       this.initQuestionData(this.o_letterId,this.radioVal, this.checkboxGroup,this.onlyShowAnswerFlag)
+       this.initOnlyQuestionData(this.o_letterId,this.radioVal, this.checkboxGroup,this.onlyShowAnswerFlag)
     },
         // 多选按钮
     handelMoreChange2(val){
@@ -223,8 +223,7 @@ export default {
       }else{
         this.onlyShowAnswerFlag = ''
       }
-        this.initQuestionData(this.o_letterId,this.radioVal,this.checkboxGroup,this.onlyShowAnswerFlag)
-        
+        this.initOnlyQuestionData(this.o_letterId,this.radioVal,this.checkboxGroup,this.onlyShowAnswerFlag)
     },
        // 是否只展示回复问题
     handleOnlyChange2(val){
@@ -303,7 +302,7 @@ export default {
         }
       }
     },
-    // 获取单选按钮数据
+      // 获取单选按钮数据
      initTableData(onlyResponse) {
         // 动态传id
         const param = {
@@ -312,12 +311,15 @@ export default {
         }
         console.log('获取单选',param)
         getSelectFeedbackList(param).then(res => {
+          console.log(res.data.result)
           if(res.data.result && res.data.result.length > 0){
             this.o_letterId = res.data.result[0].letterId
             this.tabList = res.data.result
             this.activeName =  this.tabList[0].letterId
             if(this.tabList&&this.tabList.length==1){
               this.allQuestionList = res.data.result[0].questionList
+              this.questionCount = res.data.result[0].questionCount
+              this.answerCount = res.data.result[0].answerCount
               if(this.allQuestionList.length > 15){
                 this.showMore = true;
                 this.questionList = this.allQuestionList.slice(0,15);
@@ -375,45 +377,7 @@ export default {
           }
         })
       },
-      // 获取多选按钮数据
-      // initcheckBoxData(letterId,parentId,onlyResponse) {
-      //   // 动态传id
-      //   const param = {
-      //     letterId:this.o_letterId,
-      //     parentId:parentId,
-      //     firstLabelId:parentId,
-      //     onlyResponse:onlyResponse
-      //   }
-      //   // 获取多选按钮列表
-      //   // getSelectSecondLabelList(param).then(res => {
-      //   //   if(this.tabList.length==1){
-      //   //     this.feedbackduoxuanList = res.data.result
-      //   //   }
-      //   //   if(this.tabList.length==2){
-      //   //     if(param.letterId == this.tabList[0].letterId){
-      //   //        this.feedbackduoxuanList = res.data.result
-      //   //     }
-      //   //     if(param.letterId == this.tabList[1].letterId){
-      //   //         this.feedbackduoxuanList2 = res.data.result
-      //   //     }
-      //   //   }
-      //   //   if(this.tabList.length==3){
-      //   //     if(param.letterId == this.tabList[0].letterId){
-      //   //        this.feedbackduoxuanList = res.data.result
-      //   //     }
-      //   //     if(param.letterId == this.tabList[1].letterId){
-      //   //         this.feedbackduoxuanList2 = res.data.result
-      //   //     }
-      //   //     if(param.letterId == this.tabList[2].letterId){
-      //   //         this.feedbackduoxuanList3 = res.data.result
-      //   //     }
-      //   //   }
-
-      //   // })
-      //   // 获取问题列表
-      //   this.initQuestionData(param.letterId,param.firstLabelId,'',param.onlyResponse)
-      // },
-      // 获取筛选问题列表
+      // 获取筛选二级标签和问题列表
       initQuestionData(letterId,firstLabelId,secondLabelId,onlyResponse) {
         // debugger
         // 动态传id
@@ -434,11 +398,14 @@ export default {
         }
         console.log(param)
         getSelectQuestionList(param).then(res => {
+          console.log(res.data.result)
           // 当只有一个tab页时
           if(this.tabList.length==1){
             if(res.data.result.length  > 0){
               this.allQuestionList = res.data.result[0].questionList;
-              this. feedbackduoxuanList = res.data.result[0].secondLabelList
+              this.questionCount = res.data.result[0].questionCount
+              this.answerCount = res.data.result[0].answerCount
+              this. feedbackduoxuanList = res.data.result[0].questionLabelList
               if(this.allQuestionList.length > 15){
                 this.showMore = true;
                 this.questionList = this.allQuestionList.slice(0,15);
@@ -539,7 +506,133 @@ export default {
           }
         })
       },
-      
+      // 点击二级菜单过滤出问题列表
+      initOnlyQuestionData(letterId,firstLabelId,secondLabelId,onlyResponse) {
+        // debugger
+        // 动态传id
+        // 将second多选按钮参数用字符串，隔开
+        let secondLabel = '';
+        for(let i = 0;i<secondLabelId.length;i++){
+            secondLabel =  secondLabelId[i]+ "," + secondLabel ;
+        }
+        // 将second多选按钮参数最后一个  ，号去掉
+        if(secondLabel && secondLabel.length >0){
+            secondLabel = secondLabel.substring(0,secondLabel.length-1);
+        }
+        const param = {
+          letterId:letterId,
+          firstLabelId:firstLabelId,
+          secondLabelId:secondLabel,
+          onlyResponse:onlyResponse,
+        }
+        console.log('重置',param)
+        getSelectQuestionList(param).then(res => {
+          // 当只有一个tab页时
+          if(this.tabList.length==1){
+            if(res.data.result.length  > 0){
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount
+              this.answerCount = res.data.result[0].answerCount
+              if(this.allQuestionList.length > 15){
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0,15);
+              }else{
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            }else {
+                 this.showMore = false;
+                 this.questionList = [];
+            }
+          }
+          // 当有2个tab页时
+          if(this.tabList.length==2){
+              if(param.letterId == this.tabList[0].letterId){
+                if(res.data.result.length  > 0){
+                  this.allQuestionList = res.data.result[0].questionList;
+                  
+                  if(this.allQuestionList.length > 15){
+                    this.showMore = true;
+                    this.questionList = this.allQuestionList.slice(0,15);
+                  }else{
+                    this.showMore = false;
+                    this.questionList = this.allQuestionList;
+                  }
+                }else {
+                      this.showMore = false;
+                      this.questionList = [];
+                }   
+              }
+              if(param.letterId == this.tabList[1].letterId){
+                if(res.data.result.length  > 0){
+                  this.allQuestionList2 = res.data.result[0].questionList;
+                  
+                  if(this.allQuestionList2.length > 15){
+                    this.showMore2 = true;
+                    this.questionList2 = this.allQuestionList2.slice(0,15);
+                  }else{
+                    this.showMore2 = false;
+                    this.questionList2 = this.allQuestionList2;
+                  }
+                }else {
+                      this.showMore2 = false;
+                      this.questionList2 = [];
+                }   
+              }
+          }
+           // 当有3个tab页时
+          if(this.tabList.length==3){
+              if(param.letterId == this.tabList[0].letterId){
+                if(res.data.result.length  > 0){
+                  this.allQuestionList = res.data.result[0].questionList;
+                  
+                  if(this.allQuestionList.length > 15){
+                    this.showMore = true;
+                    this.questionList = this.allQuestionList.slice(0,15);
+                  }else{
+                    this.showMore = false;
+                    this.questionList = this.allQuestionList;
+                  }
+                }else {
+                      this.showMore = false;
+                      this.questionList = [];
+                }   
+              }
+              if(param.letterId == this.tabList[1].letterId){
+                if(res.data.result.length  > 0){
+                  this.allQuestionList2 = res.data.result[0].questionList;
+                  
+                  if(this.allQuestionList2.length > 15){
+                    this.showMore2 = true;
+                    this.questionList2 = this.allQuestionList2.slice(0,15);
+                  }else{
+                    this.showMore2 = false;
+                    this.questionList2 = this.allQuestionList2;
+                  }
+                }else {
+                      this.showMore2 = false;
+                      this.questionList2 = [];
+                }   
+              }
+              if(param.letterId == this.tabList[2].letterId){
+                if(res.data.result.length  > 0){
+                  this.allQuestionList3 = res.data.result[0].questionList;
+                  
+                  if(this.allQuestionList3.length > 15){
+                    this.showMore3 = true;
+                    this.questionList3 = this.allQuestionList3.slice(0,15);
+                  }else{
+                    this.showMore3 = false;
+                    this.questionList3 = this.allQuestionList3;
+                  }
+                }else {
+                      this.showMore3 = false;
+                      this.questionList3 = [];
+                }   
+              }
+          }
+        })
+      },
     // 点击tab页
     handleTabClick(tab, event) {
         this.o_letterId = tab.name
@@ -552,7 +645,7 @@ export default {
       this.onlyShowAnswerFlag = ''
       this.onlyShowAnswer = false;
       this.showAll = true;
-      this.initQuestionData(this.o_letterId,'','','')
+      this.initTableData(this.o_letterId,'','','')
     },
         // 点击重置按钮
     toggleSelection2(){

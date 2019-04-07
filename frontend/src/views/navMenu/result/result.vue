@@ -22,7 +22,7 @@
                          <p style="font-size:14px;">
                              <span style="color:#999;">发审会委员: </span>
                               <span v-if="baseList[0].member&&baseList[0].member.length>0">
-                                <span v-for="name in baseList[0].member" style="color:#333;">{{name}} </span>
+                               <span style="color:#333;">{{baseList[0].member}}</span>
                                 <span  style="color:#333;"> ;</span>
                                 <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail(baseList[0].examineDate)">详情 &gt;</span>
                              </span>
@@ -90,7 +90,7 @@
                          <p style="font-size:14px;">
                              <span style="color:#999;">发审会委员: </span>
                              <span v-if="baseList[0].member&&baseList[0].member.length>0">
-                                <span v-for="name in baseList[0].member" style="color:#333;">{{name}} </span>
+                                <span style="color:#333;">{{baseList[0].member}}</span>
                                 <span  style="color:#333;"> ;</span>
                                 <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail(baseList[0].examineDate)">详情 &gt;</span>
                              </span>
@@ -156,7 +156,7 @@
                          <p style="font-size:14px;">
                              <span style="color:#999;">发审会委员: </span>
                               <span v-if="baseList[1].member&&baseList[1].member.length>0">
-                                <span v-for="name in baseList[1].member" style="color:#333;">{{name}} </span>
+                                <span style="color:#333;">{{baseList[1].member}}</span>
                                 <span  style="color:#333;"> ;</span>
                                 <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail(baseList[1].examineDate)">详情 &gt;</span>
                              </span>
@@ -227,7 +227,7 @@
                          <p style="font-size:14px;">
                              <span style="color:#999;">发审会委员: </span>
                               <span v-if="baseList[0].member&&baseList[0].member.length>0">
-                                <span v-for="name in baseList[0].member" style="color:#333;">{{name}} </span>
+                                <span style="color:#333;">{{baseList[0].member}}</span>
                                 <span  style="color:#333;"> ;</span>
                                 <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail(baseList[0].examineDate)">详情 &gt;</span>
                              </span>
@@ -296,7 +296,7 @@
                          <p style="font-size:14px;">
                              <span style="color:#999;">发审会委员: </span>
                               <span v-if="baseList[1].member&&baseList[1].member.length>0">
-                                <span v-for="name in baseList[1].member" style="color:#333;">{{name}} </span>
+                                <span style="color:#333;">{{baseList[1].member}}</span>
                                 <span  style="color:#333;"> ;</span>
                                 <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail(baseList[1].examineDate)">详情 &gt;</span>
                              </span>
@@ -365,7 +365,7 @@
                          <p style="font-size:14px;">
                              <span style="color:#999;">发审会委员: </span>
                               <span v-if="baseList[2].member&&baseList[2].member.length>0">
-                                <span v-for="name in baseList[2].member" style="color:#333;">{{name}} </span>
+                                <span style="color:#333;">{{baseList[2].member}}</span>
                                 <span  style="color:#333;"> ;</span>
                                 <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail(baseList[2].examineDate)">详情 &gt;</span>
                              </span>
@@ -484,6 +484,7 @@ export default {
         geSelectFeedbackList(param).then(res => {
             if(res.data.result&&res.data.result.baseList&&res.data.result.baseList.length>0){
                 this.baseList = res.data.result.baseList
+            console.log(this.baseList)
             }
             if(res.data.result&&res.data.result.questionList&&res.data.result.questionList.length>0){
                 this.allQuestionList = res.data.result.questionList
@@ -509,6 +510,7 @@ export default {
         geSelectMemberList(param).then(res => {
             if(res.data.result&&res.data.result.length>0){
                 this.memberList = res.data.result
+                
             }
         })
     },
