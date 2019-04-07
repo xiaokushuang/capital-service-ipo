@@ -104,4 +104,8 @@
             </foreach>
         </where>
     </select>
+
+    <select id="selectExamineLetterId" resultType="">
+
+    </select>
 </mapper>

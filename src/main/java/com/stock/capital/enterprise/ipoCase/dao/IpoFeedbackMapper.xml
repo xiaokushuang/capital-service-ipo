@@ -245,7 +245,7 @@
               #{item}
           </foreach>
         </if>
-
+        order by t1.letter_date
     </select>
 
     <resultMap id="firstLabelResult" type="java.util.HashMap">

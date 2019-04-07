@@ -124,7 +124,7 @@ public class IpoFeedbackService extends BaseService {
         for (int i = 0; i < letterIds.size(); i++) {
             //定义函件对象
             IpoFeedbackDto ipoFeedbackResultDto = new IpoFeedbackDto();
-            ipoFeedbackResultDto.setId(letterIds.get(i));
+            ipoFeedbackResultDto.setLetterId(letterIds.get(i));
             //定义问题标签集合
             List<IpoQuestionLabelDto> firstLabelList = new ArrayList<>();
 
