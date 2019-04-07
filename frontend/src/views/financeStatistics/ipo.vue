@@ -1,53 +1,50 @@
 <template>
 <div>
      <!-- IPO标题头部 -->
-    <div  ref="titleHeader"
+   
+      <div  ref="titleHeader"
       id="titleHeader"
-      style="width: 100%;height: 140px;padding-top: 18px;">
-      <div id="titleBody" ref="titleBody" style="{'width':'1200px','margin':' 0 auto'}">
-        <div class="bottomContent" style="position:relative">
-          <div v-if="headList.iecResult&&headList.iecResult == '00'" style="position: absolute;left: 79px; top: -32px;">
-            <img src="../../assets/images/htg1.png" alt="">
-          </div>
-           <div v-if="headList.iecResult&&headList.iecResult == '01'" style="position: absolute;left: 79px; top: -32px;">
-            <img src="../../assets/images/whtg1.png" alt="">
-          </div>
-          <div v-if="headList.iecResult&&headList.iecResult == '02'" style="position: absolute;left: 79px; top: -32px;">
-            <img src="../../assets/images/zhbj1.png" alt="">
-          </div>
-          <div v-if="headList.iecResult&&headList.iecResult == '03'" style="position: absolute;left: 79px; top: -32px;">
-            <img src="../../assets/images/qxsh1.png" alt="">
-          </div>
-          <div class="text">
-            <!-- <p>{{headList.title}}</p> -->
-            <p class="dialogtitle" style="margin:0px 0px 12px;font-size:22px;color:#ffffff;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">贷检测术框FK的设术框FK的设计非常实际开来插进来的氨基酸开发建设地建设地术框FK的设计非常实际开来插进来的氨基酸开发建设地建设地术框FK的设计非常实际开来插进来的氨基酸开发建设地建设地术框FK的设计非常实际开来插进来的氨基酸开发建设地建设地计非常实际开来插进来的氨基酸开发建设地建设地方</p>
-            <!-- <p>贷检测术框FK的设计非常实际开来插进来的氨基酸开发建设地建设地方</p> -->
-            <span>股份公司建设时间：</span>
-            <span>{{headList.establishDate}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-            <span>&nbsp;&nbsp;&nbsp;&nbsp;辅导工作历时：</span>
-            <span v-if="headList.supportDuration">{{headList.supportDuration}}天</span>
-            <span v-else>- -</span>
-            <span>&nbsp;&nbsp;&nbsp;&nbsp;申报审核历时：</span>
-            <span v-if="headList.auditDuration">{{headList.auditDuration}}天</span>
-            <span v-else>- -</span>
-            <span>&nbsp;&nbsp;&nbsp;&nbsp;最新进程：</span>
-            <span style="color:#fff;opacity:1">{{headList.processLabel}}</span>
-          </div>
-          <div class="btn">
-            <span v-if="headList.greenPassage">{{headList.greenPassage}}</span>
+      style="width: 100%;height: 140px;position: relative">
+          <div style="width:1200px;position:absolute;left: 50%;top:50%; transform: translate(-50%,-50%);padding-left:97px;">
+            <div class="imgMark" style="position: absolute; z-index: 2;left: 5%;top:50%; transform: translate(-50%,-50%);z-index: 2">
+                <div v-if="headList.iecResult&&headList.iecResult == '00'" >
+                  <img src="../../assets/images/htg1.png" alt="">
+                </div>
+                <div v-if="headList.iecResult&&headList.iecResult == '01'">
+                  <img src="../../assets/images/whtg1.png" alt="">
+                </div>
+                <div v-if="headList.iecResult&&headList.iecResult == '02'">
+                  <img src="../../assets/images/zhbj1.png" alt="">
+                </div>
+                <div v-if="headList.iecResult&&headList.iecResult == '03'">
+                  <img src="../../assets/images/qxsh1.png" alt="">
+                </div>
+            </div>
+            <div class="text" style="position:relative;z-index: 4">
+              <p class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">{{headList.title}}</p>
+              <span style="font-size: 14px;opacity: 0.6;">股份公司建设时间：</span>
+              <span style="font-size: 14px;opacity: 0.6;">{{headList.establishDate}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+              <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;辅导工作历时：</span>
+              <span style="font-size: 14px;opacity: 0.6;" v-if="headList.supportDuration">{{headList.supportDuration}}天</span>
+              <span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
+              <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;申报审核历时：</span>
+              <span style="font-size: 14px;opacity: 0.6;" v-if="headList.auditDuration">{{headList.auditDuration}}天</span>
+              <span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
+              <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;最新进程：</span>
+              <span style="font-size: 14px;color:#fff;opacity:1">{{headList.processLabel}}</span>
+            </div>
+            <div class="btn" style="position:relative;z-index:4">
+              <span  v-if="headList.greenPassage" style=" display: inline-block;margin-right: 5px;margin-top:8px;background: #ff9900; font-size: 12px; color: #fff;border-radius: 2px;padding: 4.5px; position:relative;z-index:10;"
+                 >{{headList.greenPassage}}
+              </span>
+              <span v-if="specialArrange&&specialArrange.length>0">
+                <span v-for="data in specialArrange" style=" display: inline-block;margin-top:8px;background: #ff9900; font-size: 12px; color: #fff;border-radius: 2px;padding: 4.5px; position:relative;z-index:10;margin-right:10px"
+                  >{{data}}
+                </span>
+              </span>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    <!-- <div ref="titleHeader" id="titleHeader" :style="{height: '140px', 'background-image': 'url(\'/ui/reorganization/static/tinymce/skins/lightgray/img/bg-top1920.png\')', 'background-size': '100% 100%','margin-bottom': headerFix ? fixBody + 'px' : ''}">
-        <div id="titleBody" ref="titleBody" :style="{'width':'1200px','margin':' 0 auto','min-height':'30px','padding':topHeight + 'px 0 0'}">
-            <p class="dialogtitle" style="margin:0px 0px 12px;font-size:22px;color:#ffffff;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">{{titleName}}<span class="spanLable" v-if="lableName">{{lableName}}</span></p>
-            <span style="font-size: 14px;color:#ffffff;opacity:0.6;" v-if="this.time != null && this.time != 'null' &&this.time !=''&&this.time !=undefined">首次公告日：{{this.time}}</span>
-            <span v-else style="font-size: 14px;color:#ffffff;opacity:0.6;">首次公告日：- -</span>&nbsp;
-            <span v-if="this.allTime != undefined && this.allTime != 'null' && this.allTime != null && this.allTime!=''" style="font-size: 14px;color:#ffffff;opacity:0.6;position:relative;left:24px">重组用时：{{this.allTime}}天</span>
-            <span v-else style="font-size: 14px;color:#ffffff;opacity:0.6;position:relative;left:24px">重组用时：- -天</span>
-        </div>
-    </div> -->
     <div id="concentBody" style="width:1200px;margin: 0 auto;">
         <el-row :gutter="24" class="h100">
             <el-col :span="18" class="chart" style="padding:0 40px 0 0">
@@ -67,9 +64,9 @@
                                             <div class="el-tabs__active-bar is-top" :style="{width: tabBarWidth + 'px', transform: 'translateX(' + tabBarOffset + 'px)'}"></div>
                                             <div id="tab-first"  ref="tab-first"  aria-controls="pane-first"  :class="['el-tabs__item is-top', {'is-active': isActive === '1'}]" @click="onTabClick('1', $event)" style="padding-left: 0">公司概览</div>
                                             <div id="tab-second" ref="tab-second" aria-controls="pane-second" :class="['el-tabs__item is-top', {'is-active': isActive === '2'}]" @click="onTabClick('2', $event)">财务信息</div>
-                                            <div v-if="headList.haveFeedback=='2' || headList.haveFeedback=='1'" id="tab-third"  ref="tab-third" class="el-tabs__item1" aria-controls="pane-third" style="cursor:default;color:gray">反馈意见</div>
+                                            <div v-if="headList.haveFeedback=='2' || headList.haveFeedback=='1' || headList.isTechBoard=='1'" id="tab-third"  ref="tab-third" class="el-tabs__item1" aria-controls="pane-third" style="cursor:default;color:gray">反馈意见</div>
                                             <div v-if="headList.haveFeedback=='0'" id="tab-third"  ref="tab-third" aria-controls="pane-third"  :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]" @click="onTabClick('3', $event)">反馈意见</div>
-                                            <div v-if="headList.haveExamine=='1'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" class="el-tabs__item1"  style="padding-right: 0;cursor:default;color:gray">审核结果及关注问题</div>
+                                            <div v-if="headList.haveExamine=='1' || headList.isTechBoard=='1'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" class="el-tabs__item1"  style="padding-right: 0;cursor:default;color:gray">审核结果及关注问题</div>
                                             <div v-if="headList.haveExamine=='0'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" :class="['el-tabs__item is-top', {'is-active': isActive === '4'}]" @click="onTabClick('4', $event)" style="padding-right: 0">审核结果及关注问题</div>
                                             <div id="tab-fifth"  ref="tab-fifth"  aria-controls="pane-fifth"  :class="['el-tabs__item is-top', {'is-active': isActive === '5'}]" @click="onTabClick('5', $event)">发行概况</div>
                                         </div>
@@ -288,6 +285,7 @@ export default {
         structureLabel: "",
         structureUrl: "",
       },
+      specialArrange:''
     };
   },
   methods: {
@@ -299,6 +297,8 @@ export default {
        getHeadData(param).then(res => {
          if(res.data.result){
            this.headList = res.data.result
+           this.specialArrange = res.data.result.specialArrange.split(',');
+           console.log(this.specialArrange)
          }
        }) 
        getCaseDetail(param).then(res => {
@@ -306,23 +306,7 @@ export default {
           //  this.structureLabel = res.data.result.structureLabel.split(',');
           // }
           if(res.data.result){
-            this.companyProfileList = res.data.result
-            console.log(this.companyProfileList)
-            // this.id = res.data.result.id//公司id
-            // this.structureUrl = res.data.result.structureUrl
-            // this.companyZhName = res.data.result.companyZhName//公司名称
-            // this.ipoPlate = res.data.result.ipoPlate//上市板块
-            // this.industryCsrc = res.data.result.industryCsrc//所属行业(证监会) ,
-            // this.companyName = res.data.result.companyName//证券简称
-            // this.zhengquanCode = res.data.result.companyCode//证券代码
-            // this.addrProv = res.data.result.addrProv//注册地（省）
-            // this.addrCity = res.data.result.addrCity//注册地（市）
-            // this.addrArea = res.data.result.addrArea//注册地（区）
-            // this.registeredAssets = res.data.result.registeredAssets//注册资本（万元）
-            // this.actualController = res.data.result.actualController//实际控制人
-            // this.controlShareholder = res.data.result.controlShareholder//控股股东
-            // this.companyNature = res.data.result.companyNature//企业性质
-            // this.majorBusinesses = res.data.result.majorBusinesses//主营业务  
+            this.companyProfileList = res.data.result 
           }
       });
     },
@@ -529,12 +513,10 @@ export default {
         },
 
     styleInit() {
-      var h1 = this.$refs.titleHeader.offsetHeight;
-      var h2 = this.$refs.titleBody.offsetHeight;
-      this.topHeight =
-        (parseInt(String(h1).split("px")[0]) -
-          parseInt(String(h2).split("px")[0])) /
-        2;
+      // var h1 = this.$refs.titleHeader.offsetHeight;
+      // var h2 = this.$refs.titleBody.offsetHeight;
+      // this.topHeight = (parseInt(String(h1).split("px")[0]) - parseInt(String(h2).split("px")[0])) / 2;
+       
     },
   },
   computed: {
@@ -616,14 +598,14 @@ export default {
 }
 // 头部背景图
 #titleHeader {
-  // background:blue;
   background-image: url("../../assets/images/IpoHeader.png");
+  color: #fff;
 }
 /* 头部文字标题 */
 .bottomContent {
   // width: 1200px;
   color: #fff;
-  padding-left: 165px;
+  // padding-left: 165px;
   p {
     // width: 66%;
     // margin-bottom:12px;
@@ -649,7 +631,7 @@ export default {
       
     }
   }
-  .btn span { 
+  .btn { 
     display: inline-block;
     background: #ff9900;
     font-size: 12px;

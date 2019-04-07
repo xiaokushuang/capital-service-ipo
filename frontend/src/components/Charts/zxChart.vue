@@ -94,6 +94,7 @@ beforeDestroy() {
                 trigger: 'axis'
             },
             legend: {
+              selectedMode:'multiple'
             },
             grid: {
                 left: '3%',

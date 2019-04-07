@@ -265,7 +265,7 @@
                     <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:7px">
                       <span class="quan" style="position: relative; top: -17px;;">2</span>
                       <div style="display: inline-block;margin-left: 0.5%;">
-                        最近<span style="color:#14BCF5">3</span>个会计年度营业收入<span style="font-weight: 700; color: #14BCF5">累计超过3亿元</span>(人民币)；<br>
+                        最近<span style="color:#14BCF5">3</span>个会计年度营业收入<span style="color: #14BCF5">累计超过3亿元</span>(人民币)；<br>
                         <span><span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">3</span>个会计年度经营活动产生的现金流量净额<span style="color:#14BCF5">累计超过5000万元</span>(人民币)；</span>
                       </div>
                     </div>
@@ -299,7 +299,7 @@
                     <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
                       <span class="quan bottomQuan">2</span>
                       <div class="bottomTwo">
-                        最近<span style="font-weight: 700; color: #14BCF5">2</span>年连续盈利，最近两年净利润<span style="font-weight: 700; color: #14BCF5">累计不少于1000万元</span>;<br>
+                        最近<span style="color: #14BCF5">2</span>年连续盈利，最近两年净利润<span style="color: #14BCF5">累计不少于1000万元</span>;<br>
                         <span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">1</span>年盈利，最近一年营业收入<span style="color:#14BCF5">不少于5000万元。</span>(
                         净利润以扣除非经常性损益前后孰低者为计算依据)
                       </div>
@@ -329,8 +329,8 @@
               <span style="font-size: 12px;color: #333">发审会审核时间↓</span>
               <span style="font-size: 12px;color: #666">排序。</span>
               <a style="color:#1990fe;font-size: 12px" @click="searchFlag == false ? searchFlag=true : searchFlag=false">
-                <a v-if="searchFlag">收起高级检索</a>
-                <a v-else>展开高级检索</a>
+                <a v-if="searchFlag">收起核准制上市条件检索</a>
+                <a v-else>展开核准制上市条件检索</a>
               </a>
             </el-col>
             <el-col :span="12" style="text-align: right">
@@ -348,8 +348,8 @@
           <el-row :gutter="20">
             <el-col :span="24" style="padding-left: 8px; padding-right: 8px;">
               <div class="table">
-                <el-table @sort-change="sortChange" :data="tableData" border style="width: 100%;margin-top: 2%;" v-loading="tableLoading" ref="tables" element-loading-text="给我一点时间">
-                  <el-table-column align="left" prop="ipo_company_code_t" width="109" sortable="custom" label="公司">
+                <el-table @sort-change="sortChange" :data="tableData" style="width: 100%;margin-top: 2%;" v-loading="tableLoading" ref="tables" @row-click="itemClickHandler" class="case" element-loading-text="给我一点时间">
+                  <el-table-column align="left" width="109" label="公司">
                     <template slot-scope="scope">
                       {{scope.row.companyCode}}
                       <br/>
@@ -358,8 +358,7 @@
                   </el-table-column>
                   <el-table-column align="left" label="案例标题" min-width="11%">
                     <template slot-scope="scope">
-                      <a v-if="scope.row.id" class="bluetext" :title="scope.row.title" @click="clickHandler(scope.row.id)">{{scope.row.title}}</a>
-                      <a v-else :title="scope.row.title" @click="clickUnHandler()">{{scope.row.title}}</a>
+                      {{scope.row.title}}
                     </template>
                   </el-table-column>
                   <el-table-column align="right" prop="ipo_process_t" label="进程" sortable="custom" min-width="10%">
@@ -417,7 +416,7 @@
                       {{scope.row.ipoPlateName}}
                     </template>
                   </el-table-column>
-                  <el-table-column align="right" prop="ipo_review_meeting_time_dt" label="发审会审核时间" sortable="custom" min-width="13%">
+                  <el-table-column align="right" prop="ipo_review_meeting_time_dt" label="审核时间" sortable="custom" min-width="13%">
                     <template slot-scope="scope">
                       <span v-if="scope.row.reMeetingTime">{{scope.row.reMeetingTime}}</span>
                       <span v-else>--</span>
@@ -1074,19 +1073,21 @@
       handleSelect(item) {
         this.intermediaryCode = item.labelValue;
       },
-      clickHandler(id) {
-        var caseId = id.substring(3, id.length);
-        const _self = this;
-        const {href} = _self.$router.resolve({
-          name: 'caseDetail',
-          query: {caseId: caseId, access_token: _self.$store.state.app.token}
-        });
-        window.open(href, '_blank');
-      },
-      clickUnHandler() {
-        let url = window.location.href;
-        url = url.replace(this.$route.path, '/ipoPopWin');
-        iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
+      itemClickHandler(row) {
+        let id = row.id;
+        if (id) {
+          var caseId = id.substring(3, id.length);
+          const _self = this;
+          const {href} = _self.$router.resolve({
+            name: 'caseDetail',
+            query: {caseId: caseId, access_token: _self.$store.state.app.token}
+          });
+          window.open(href, '_blank');
+        } else {
+          let url = window.location.href;
+          url = url.replace(this.$route.path, '/ipoPopWin');
+          iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
+        }
       },
       openNew() {
         const _self = this;
@@ -1393,40 +1394,74 @@
     padding: 10px;
     text-align: center;
   }
-  .topOne{
-    display: inline-block;margin-top: -4%;margin-left: 4%;
-  }
-  @media screen and (max-width: 1920px) and (min-width: 1400px) {
-    .topOne{
-      display: inline-block;margin-top: -4%;margin-left: 0.5%;
-    }
-  }
-  .bottomOne{
-    display: inline-block;margin-top: -4%;margin-left: 4%;
-  }
-  @media screen and (max-width: 1920px) and (min-width: 1400px) {
-    .bottomOne{
-      display: inline-block;margin-top: -4%;margin-left: 2.5%;
-    }
-  }
-  .bottomTwo{
-    display: inline-block;margin-top: -4%;margin-left: 4%;
+
+  .topOne {
+    display: inline-block;
+    margin-top: -4%;
+    margin-left: 4%;
   }
 
   @media screen and (max-width: 1920px) and (min-width: 1400px) {
-    .bottomTwo{
-      display: inline-block;margin-top: 0%;
+    .topOne {
+      display: inline-block;
+      margin-top: -4%;
+      margin-left: 0.5%;
+    }
+  }
+
+  .bottomOne {
+    display: inline-block;
+    margin-top: -4%;
+    margin-left: 4%;
+  }
+
+  @media screen and (max-width: 1920px) and (min-width: 1400px) {
+    .bottomOne {
+      display: inline-block;
+      margin-top: -4%;
+      margin-left: 2.5%;
+    }
+  }
+
+  .bottomTwo {
+    display: inline-block;
+    margin-top: -4%;
+    margin-left: 4%;
+  }
+
+  @media screen and (max-width: 1920px) and (min-width: 1400px) {
+    .bottomTwo {
+      display: inline-block;
+      margin-top: 0%;
       margin-left: 0.5%;
     }
   }
 
   .bottomQuan {
-    position: relative;top: -5px;
+    position: relative;
+    top: -5px;
   }
+
   @media screen and (max-width: 1920px) and (min-width: 1400px) {
     .bottomQuan {
-      position: relative;top: -17px;
+      position: relative;
+      top: -17px;
     }
+  }
+  .container .case .el-table__body tr:hover{
+    cursor: pointer;
+  }
+  .container .case .el-table__row td{
+    border-right: none;
+  }
+  .container .case .el-table__header th{
+    border-right: none;
+  }
+  .container .case .el-table__header th:nth-child(4){
+    border-bottom-color: #fff;
+  }
+  .container .el-table th, .el-table tr {
+    height: 40px!important;
   }
 </style>
 

@@ -54,9 +54,25 @@
             <div v-if="companyProfileList&&companyProfileList.actualController"  class="majorBusinesses">{{companyProfileList.actualController}}</div>
             <div v-else  class="majorBusinesses">- -</div>
           </li>
+          <!-- 发行人选择的上市标准 -->
           <li style="margin-bottom:10px;position:relative" >
+            <span style="display: inline-block;width: 65px;line-height: 20px;">发行人选择的上市标准</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div v-if="companyProfileList.issueCondition!=''" style="color: #333333;margin-left: 9.4%;margin-top: -4.8%;line-height: 20px;">
+              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('101')>-1">预计市值不低于人民币<span style="color:red">10亿元</span>，最近两年净利润均为正且累计净利润不低于人民币<span style="color:red">5000万元</span>，或者预计市值不低于人民币<span style="color:red">10亿元</span>，最近一年净利润为正且营业收入不低于人民币<span style="color:red">1亿元</span></div>
+              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('102')>-1">预计市值不低于人民币<span style="color:red">15亿元</span>，最近一年营业收入不低于人民币<span style="color:red">2亿元</span>，且最近三年累计研发投入占最近三年累计营业收入的比例不低于<span style="color:red">15%</span></div>
+              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('103')>-1">预计市值不低于人民币<span style="color:red">20亿元</span>，最近一年营业收入不低于人民币<span style="color:red">3亿元</span>，且最近三年经营活动产生的现金流量净额累计不低于人民币<span style="color:red">1亿元</span></div>
+              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('104')>-1">预计市值不低于人民币<span style="color:red">30亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">3亿元</span></div>
+              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('105')>-1">预计市值不低于人民币<span style="color:red">40亿元</span>，主要业务或产品需经国家有关部门批准，市场空间大，目前已取得阶段性成果。医药行业企业需至少有一项核心产品获准开展二期临床试验，其他符合科创板定位的企业需具备明显的技术优势并满足相应条件</div>
+              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('201')>-1">预计市值不低于人民币<span style="color:red">100亿元</span></div>
+              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('202')>-1">预计市值不低于人民币<span style="color:red">50亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">5亿元</span></div>
+              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('301')>-1">预计市值不低于人民币<span style="color:red">100亿元</span></div>
+              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('302')>-1">预计市值不低于人民币<span style="color:red">50亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">5亿元</span></div>
+            </div>
+            <div v-else style="color: #333333;margin-left: 9.4%;margin-top: -4.8%;line-height: 20px;">- -</div>
+          </li>
+          <li :style="{'margin-bottom':'10px','position':'relative','margin-top':companyProfileList.issueCondition==''?'4%':'0%'}">
             <span>主营业务</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <div v-if="companyProfileList&&companyProfileList.majorBusinesses"  class="majorBusinesses">{{companyProfileList.majorBusinesses}}</div>
+            <div v-if="companyProfileList&&companyProfileList.majorBusinesses"  class="majorBusinesses">{{companyProfileList.majorBusinesses}}觉得卡萨丁开始JFK是经典福克斯的经的覅十四点哈佛导师覅但是覅但是</div>
             <div v-else  class="majorBusinesses">- -</div>
           </li>
         </div>
@@ -93,7 +109,7 @@
         </span>
       </div>
       <!-- 图片 -->
-      <div class="img">
+      <div class="img" v-if="structureUrl">
          <img :src="structureUrl" width="100%">
       </div>
       <!-- 股权股东表格 -->
@@ -474,19 +490,6 @@ export default {
       structureUrl:'',
       // 公司简介
       caseId:this.$store.state.app.caseId,
-      // companyZhName:'',//公司名称
-      // ipoPlate:'',//上市板块
-      // industryCsrc:'',//所属行业(证监会) ,
-      // companyName:'',//公司简称
-      // zhengquanCode:'',//证券代码
-      // addrProv:'',//注册地（省）
-      // addrCity:'',//注册地（市）
-      // addrArea:'',//注册地（区）
-      // registeredAssets:'',//注册资本（万元）
-      // actualController:'',//实际控制人
-      // controlShareholder:'',//控股股东
-      // companyNature:'',//企业性质
-      // majorBusinesses:'',//主营业务
       //其他资本市场
       otherMarketInfoList:[],//其他登陆市场
       // 主要竞争者
@@ -507,44 +510,24 @@ export default {
   props:["companyProfileList"],
   created() {
     this.getData();
-    this.getPosition();
+    // this.getPosition();
   },
   mounted() {
-    console.log(this.companyProfileList)
+      this.getPosition();
   },
   methods: {
     getData() {
+     
       // 动态传id
       const param = {
         id:this.caseId
       }
-      // getCaseDetail(param).then(res => {
-      //     if(res.data.result&&res.data.result.structureLabel){
-      //      this.structureLabel = res.data.result.structureLabel.split(',');
-      //     }
-      //     if(res.data.result){
-      //       this.id = res.data.result.id//公司id
-      //       this.structureUrl = res.data.result.structureUrl
-      //       this.companyZhName = res.data.result.companyZhName//公司名称
-      //       this.ipoPlate = res.data.result.ipoPlate//上市板块
-      //       this.industryCsrc = res.data.result.industryCsrc//所属行业(证监会) ,
-      //       this.companyName = res.data.result.companyName//证券简称
-      //       this.zhengquanCode = res.data.result.companyCode//证券代码
-      //       this.addrProv = res.data.result.addrProv//注册地（省）
-      //       this.addrCity = res.data.result.addrCity//注册地（市）
-      //       this.addrArea = res.data.result.addrArea//注册地（区）
-      //       this.registeredAssets = res.data.result.registeredAssets//注册资本（万元）
-      //       this.actualController = res.data.result.actualController//实际控制人
-      //       this.controlShareholder = res.data.result.controlShareholder//控股股东
-      //       this.companyNature = res.data.result.companyNature//企业性质
-      //       this.majorBusinesses = res.data.result.majorBusinesses//主营业务  
-      //     }
-      // });
       getMarketData(param).then(res=>{
         if(res.data.result&&res.data.result.length>0){
           this.otherMarketInfoList = res.data.result//其他登录市场
         }
       });
+      // 股权结构图表格
       getShareHolderData(param).then(res=>{
         if(res.data.result&&res.data.result.length>0){
           this.gqTableList = res.data.result
@@ -575,12 +558,13 @@ export default {
           this.mainTableList = response.data.result
         }
       })
+      
 
     },
     //返回父组件用于锚点定位头
     getPosition() {
-          let titleList = [];
-          let ownershipStructureChart = {
+          var titleList = [];
+          var ownershipStructureChart = {
               id: 'ownershipStructureChart',
               name: '股权结构图',
               notes: '',
@@ -588,7 +572,7 @@ export default {
               tabId: 'tab-first',
               noClick: false
           }
-          let mainBusinessIncomeComposition = {
+          var mainBusinessIncomeComposition = {
               id: 'mainBusinessIncomeComposition',
               name: '主营业务收入构成',
               notes: '',
@@ -596,7 +580,7 @@ export default {
               tabId: 'tab-first',
               noClick: false
           }
-          let mainCompetitors = {
+          var mainCompetitors = {
               id: 'mainCompetitors',
               name: '主要竞争对手简介',
               notes: '',
@@ -604,7 +588,7 @@ export default {
               tabId: 'tab-first',
               noClick: false
           }
-          let majorSuppliers = {
+          var majorSuppliers = {
               id: 'majorSuppliers',
               name: '前五名供应商及用户',
               notes: '',
@@ -612,7 +596,7 @@ export default {
               tabId: 'tab-first',
               noClick: false
           }
-          let utilizationOfRaisedFunds = {
+          var utilizationOfRaisedFunds = {
               id: 'utilizationOfRaisedFunds',
               name: '募集资金运用',
               notes: '',
@@ -620,7 +604,7 @@ export default {
               tabId: 'tab-first',
               noClick: false
           }
-          let intermediaryInstitutions = {
+          var intermediaryInstitutions = {
               id: 'intermediaryInstitutions',
               name: '中介机构',
               notes: '',
@@ -634,6 +618,10 @@ export default {
           titleList.push(majorSuppliers)
           titleList.push(utilizationOfRaisedFunds)
           titleList.push(intermediaryInstitutions)
+          //股权结构图
+          // if (this.gqTableList.length>0) {
+          //     ownershipStructureChart.noClick = true;
+          // }
           this.$emit('headCallBack', titleList);
     },
       // 非空判断

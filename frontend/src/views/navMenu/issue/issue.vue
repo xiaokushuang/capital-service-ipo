@@ -2,7 +2,7 @@
     <div class="issue">
         <!-- 发行数据 -->
         <div class="issueData">
-             <div class="title">
+             <div v-if="issueData" class="title">
                 <span class="littleRectangle"></span>
                 <span class="titleText" id="distributionData">发行数据</span>
             </div>
@@ -100,8 +100,8 @@
             </el-row>
         </div>
         <!-- 发行费用 -->
-        <div class="issueMoney">
-             <div class="title">
+        <div class="issueMoney" >
+             <div v-if="issueFeeData&&issueFeeData.length>0" class="title">
                 <span class="littleRectangle"></span>
                 <span class="titleText" id="distributionCosts">发行费用</span>
             </div>
@@ -129,8 +129,6 @@
                 </el-table-column>
             </el-table>
         </div>
-        <!-- 占位取高度 -->
-        <div id="placeholderHeight" style="visibility:hidden">11111</div>
     </div>
 </template>
 <script>
@@ -164,9 +162,41 @@ export default {
   },
    created() {
     this.initTableData()
-    this.getPosition()
+    // this.getPosition()
   },
   mounted(){
+    console.log('加载',this.issueFeeData)
+    //返回父组件用于锚点定位头
+        let titleList = [];
+        let distributionData = {
+            id: 'distributionData',
+            name: '发行数据',
+            notes: '',
+            important: false,
+            tabId: 'tab-fifth',
+            noClick: true
+        }
+        let distributionCosts = {
+            id: 'distributionCosts',
+            name: '发行费用',
+            notes: '',
+            important: false,
+            tabId: 'tab-fifth',
+            noClick: true
+        }              
+        if(this.issueData){
+          distributionData.noClick = false;
+        }
+        if(this.issueFeeData&&this.issueFeeData.length>0){
+          distributionCosts.noClick = false;
+        }
+        console.log(this.issueData)
+        console.log(this.issueFeeData)
+        console.log(distributionCosts.noClick)
+        titleList.push(distributionData)
+        titleList.push(distributionCosts)
+        this.$emit('headCallBack', titleList);
+            //返回父组件用于锚点定位尾
   },
   methods: {
      initTableData() {
@@ -174,17 +204,16 @@ export default {
       const param = {
         id:this.caseId
       }
+         getIssueFeeData(param).then(res=>{
+           if(res.data.result&&res.data.result.length>0){
+             this.issueFeeData = res.data.result
+           }
+         })
        getIssueData(param).then(res => {
          if(res.data.result){
            this.issueData = res.data.result
          }
       }) 
-      getIssueFeeData(param).then(res=>{
-        if(res.data.result&&res.data.result.length>0){
-          this.issueFeeData = res.data.result
-          
-        }
-      })
     },
      getPosition(){
            //返回父组件用于锚点定位头
@@ -213,10 +242,16 @@ export default {
     //  
      // 鼠标移入表格内容加title
     mouseOverSpreadText(title){
+      if(title.length>13){
         $(".distribution").attr("title",title)
+      }
     },
    getContent(title){
-      return title.substring(0,13) + '...'
+     if(title.length>13){
+       return title.substring(0,13) + '...'
+     }else{
+       return title
+     }
    },
     // 非空判断
     isNotEmpty(param) {
