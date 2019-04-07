@@ -39,9 +39,14 @@
           </li>
         </ul>
         <div>
-          <li style="margin-bottom:10px;position:relative" >
+          <!-- <li style="margin-bottom:10px;position:relative" >
             <span>注册地址</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <div v-if="companyProfileList"  class="majorBusinesses">{{companyProfileList.addrProv}}{{companyProfileList.addrCity}}{{companyProfileList.addrArea}}</div>
+            <div v-else  class="majorBusinesses">- -</div>
+          </li> -->
+          <li style="margin-bottom:10px;position:relative" >
+            <span>注册地址</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div v-if="companyProfileList&&(companyProfileList.addrProv || companyProfileList.addrCity || companyProfileList.addrArea)"  class="majorBusinesses">{{companyProfileList.addrProv}}{{companyProfileList.addrCity}}{{companyProfileList.addrArea}}</div>
             <div v-else  class="majorBusinesses">- -</div>
           </li>
           <li style="margin-bottom:10px;position:relative" >
@@ -55,9 +60,11 @@
             <div v-else  class="majorBusinesses">- -</div>
           </li>
           <!-- 发行人选择的上市标准 -->
-          <li style="margin-bottom:10px;position:relative" >
+          <!-- <li :style="{'position':'relative','margin-bottom':companyProfileList.issueCondition==''?'10px':'30px'}"> -->
+          <li v-if="companyProfileList&&companyProfileList.issueCondition !=''" style="margin-bottom:10px;position:relative" >
             <span style="display: inline-block;width: 65px;line-height: 20px;">发行人选择的上市标准</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <div v-if="companyProfileList.issueCondition!=''" style="color: #333333;margin-left: 9.4%;margin-top: -4.8%;line-height: 20px;">
+            <div v-if="companyProfileList&&companyProfileList.issueCondition ==''" style="color: #333333;margin-left: 9.4%;margin-top: -4.8%;line-height: 20px;">- -</div>
+            <div v-else style="color: #333333;margin-left: 9.4%;margin-top: -4.8%;line-height: 20px;">
               <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('101')>-1">预计市值不低于人民币<span style="color:red">10亿元</span>，最近两年净利润均为正且累计净利润不低于人民币<span style="color:red">5000万元</span>，或者预计市值不低于人民币<span style="color:red">10亿元</span>，最近一年净利润为正且营业收入不低于人民币<span style="color:red">1亿元</span></div>
               <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('102')>-1">预计市值不低于人民币<span style="color:red">15亿元</span>，最近一年营业收入不低于人民币<span style="color:red">2亿元</span>，且最近三年累计研发投入占最近三年累计营业收入的比例不低于<span style="color:red">15%</span></div>
               <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('103')>-1">预计市值不低于人民币<span style="color:red">20亿元</span>，最近一年营业收入不低于人民币<span style="color:red">3亿元</span>，且最近三年经营活动产生的现金流量净额累计不低于人民币<span style="color:red">1亿元</span></div>
@@ -68,8 +75,22 @@
               <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('301')>-1">预计市值不低于人民币<span style="color:red">100亿元</span></div>
               <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('302')>-1">预计市值不低于人民币<span style="color:red">50亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">5亿元</span></div>
             </div>
-            <div v-else style="color: #333333;margin-left: 9.4%;margin-top: -4.8%;line-height: 20px;">- -</div>
           </li>
+          <!-- <li v-if="companyProfileList&&companyProfileList.issueCondition ==''" style="margin-bottom:30px;position:relative" >
+            <span style="display: inline-block;width: 65px;line-height: 20px;">发行人选择的上市标准</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div v-if="companyProfileList&&companyProfileList.issueCondition ==''" style="color: #333333;margin-left: 9.4%;margin-top: -4.8%;line-height: 20px;">- -</div>
+            <div v-else style="color: #333333;margin-left: 9.4%;margin-top: -4.8%;line-height: 20px;">
+              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('101')>-1">预计市值不低于人民币<span style="color:red">10亿元</span>，最近两年净利润均为正且累计净利润不低于人民币<span style="color:red">5000万元</span>，或者预计市值不低于人民币<span style="color:red">10亿元</span>，最近一年净利润为正且营业收入不低于人民币<span style="color:red">1亿元</span></div>
+              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('102')>-1">预计市值不低于人民币<span style="color:red">15亿元</span>，最近一年营业收入不低于人民币<span style="color:red">2亿元</span>，且最近三年累计研发投入占最近三年累计营业收入的比例不低于<span style="color:red">15%</span></div>
+              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('103')>-1">预计市值不低于人民币<span style="color:red">20亿元</span>，最近一年营业收入不低于人民币<span style="color:red">3亿元</span>，且最近三年经营活动产生的现金流量净额累计不低于人民币<span style="color:red">1亿元</span></div>
+              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('104')>-1">预计市值不低于人民币<span style="color:red">30亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">3亿元</span></div>
+              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('105')>-1">预计市值不低于人民币<span style="color:red">40亿元</span>，主要业务或产品需经国家有关部门批准，市场空间大，目前已取得阶段性成果。医药行业企业需至少有一项核心产品获准开展二期临床试验，其他符合科创板定位的企业需具备明显的技术优势并满足相应条件</div>
+              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('201')>-1">预计市值不低于人民币<span style="color:red">100亿元</span></div>
+              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('202')>-1">预计市值不低于人民币<span style="color:red">50亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">5亿元</span></div>
+              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('301')>-1">预计市值不低于人民币<span style="color:red">100亿元</span></div>
+              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('302')>-1">预计市值不低于人民币<span style="color:red">50亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">5亿元</span></div>
+            </div>
+          </li> -->
           <li :style="{'margin-bottom':'10px','position':'relative','margin-top':companyProfileList.issueCondition==''?'4%':'0%'}">
             <span>主营业务</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <div v-if="companyProfileList&&companyProfileList.majorBusinesses"  class="majorBusinesses">{{companyProfileList.majorBusinesses}}觉得卡萨丁开始JFK是经典福克斯的经的覅十四点哈佛导师覅但是覅但是</div>

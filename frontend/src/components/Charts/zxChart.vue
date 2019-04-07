@@ -14,7 +14,8 @@ export default {
         caseId:this.$store.state.app.caseId,
         zxChart:null,
         zxChartY:[],
-        zxChartX:[]
+        zxChartX:[],
+        legendData:[]
     }
   },
   props:["zxIndex"],
@@ -71,9 +72,15 @@ beforeDestroy() {
       this.zxChart = echarts.init(document.getElementById('zxChart' + this.zxIndex))
     //  循环获取数据
         // for (var i = 0; i < dataList.length; i++) {
+          var arr = []
         for(var i = 0;i < this.zxIndex + 1;i++){
           this.zxChartY = []
           for(var j = 0;j < dataList[i].industryCompareRateDetailList.length;j++){
+            
+            arr.push(dataList[i].industryCompareRateDetailList[j].companyName)
+            
+            // console.log(this.legendData)
+           
               this.zxChartY.push(
                                 {
                                     name:dataList[i].industryCompareRateDetailList[j].companyName,
@@ -86,6 +93,14 @@ beforeDestroy() {
 
           }
         }
+        // this.legendData = arr.slice(0,-2)
+        // console.log(this.legendData)
+        //  let hidden = '{';
+        //     for(let k = 0;k<this.legendData.length-2;k++){
+        //       hidden += "'" + this.legendData[k]+"':"+"false,"; 
+        //     }
+        //     hidden += "}"
+        //     console.log(hidden);
        this.zxChart.setOption({
            title: {
                 text: ''
@@ -94,7 +109,10 @@ beforeDestroy() {
                 trigger: 'axis'
             },
             legend: {
-              selectedMode:'multiple'
+              // data:this.legendData
+              // selected:{
+                
+              // }
             },
             grid: {
                 left: '3%',

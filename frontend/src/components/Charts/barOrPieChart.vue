@@ -1,5 +1,5 @@
 <template>
-    <div class="clear">
+    <div class="clear" id="chartParent">
          <div class="l" id="barChart" style="height:300px;width:50%"></div>
          <div class="l" id="pieChart" style="height:300px;width:50%"></div>
     </div>
@@ -115,17 +115,15 @@ export default {
                 trigger: "axis",
                 position:function (point, params, dom, rect, size) {
                   dom.style.position = 'fixed';
-                  console.log(size)
-                  return [point[0] + size.viewSize[0] - 30, point[1] + 30];
+                  let pos = document.getElementById("chartParent").getBoundingClientRect()
+                  let posY = pos.y + point[1];
+                  let posX = pos.x + point[0] + 20;
+                  return [posX, posY];
                 },
                 axisPointer: {
                     type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
-                },
-              label:{
-                  formatter(params){
-                    console.log(params)
-                  }
-              }
+                }
+
             },
 
                 //     legend: {
