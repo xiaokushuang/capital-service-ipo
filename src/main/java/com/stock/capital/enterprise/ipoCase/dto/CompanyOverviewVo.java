@@ -66,6 +66,9 @@ public class CompanyOverviewVo implements Serializable {
     @ApiModelProperty("股权结构图")
     private String structureUrl; //股权结构图
 
+    @ApiModelProperty("发行人选择的上市条件")
+    private String issueCondition; //发行人选择的上市条件
+
     public String getId() {
         return id;
     }
@@ -192,5 +195,13 @@ public class CompanyOverviewVo implements Serializable {
 
     public void setStructureUrl(String structureUrl) {
         this.structureUrl = structureUrl;
+    }
+
+    public String getIssueCondition() {
+        return issueCondition;
+    }
+
+    public void setIssueCondition(String issueCondition) {
+        this.issueCondition = issueCondition;
     }
 }
