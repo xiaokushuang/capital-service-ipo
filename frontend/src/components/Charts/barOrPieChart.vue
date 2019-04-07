@@ -75,11 +75,11 @@ export default {
           this.barYY.push(a3)
           this.barYY.push(a4)
           var barBusinessName;
-          if(dataList.mainIncomeInfoList[i].businessName.length>7){
-            barBusinessName = dataList.mainIncomeInfoList[i].businessName.slice(0,10)+'..'
-          }else{
+          // if(dataList.mainIncomeInfoList[i].businessName.length>7){
+          //   barBusinessName = dataList.mainIncomeInfoList[i].businessName.slice(0,10)+'..'
+          // }else{
             barBusinessName = dataList.mainIncomeInfoList[i].businessName
-          }
+          // }
           this.barChartY.push(
                                 {
                                     name:barBusinessName,
@@ -111,12 +111,23 @@ export default {
                     fontSize: 16
                 }
                 },
-                tooltip: {
+            tooltip: {
                 trigger: "axis",
+                position:function (point, params, dom, rect, size) {
+                  dom.style.position = 'fixed';
+                  console.log(size)
+                  return [point[0] + size.viewSize[0] - 30, point[1] + 30];
+                },
                 axisPointer: {
                     type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
-                }
                 },
+              label:{
+                  formatter(params){
+                    console.log(params)
+                  }
+              }
+            },
+
                 //     legend: {
                 //     selectedMode:false,//取消图例上的点击事件
                 //     // orient: "vertical",
@@ -129,12 +140,12 @@ export default {
                 //     color: "#333" // 图例文字颜色
                 //     }
                 //  },
-                grid: {
+            grid: {
                 left: "3%",
                 right: "4%",
                 bottom: "3%",
                 containLabel: true
-                },
+            },
             xAxis: {
                 type: 'category',
                 data:this.barChartX
@@ -169,11 +180,11 @@ initPieChart(dataList,nameTempO,num,flag) {
         name:"",
         value:""
       };
-      if(dataList[i].businessName.length>7){
-        obj.name = dataList[i].businessName.slice(0,6)+'...';
-      }else{
+      // if(dataList[i].businessName.length>7){
+      //   obj.name = dataList[i].businessName.slice(0,6)+'...';
+      // }else{
         obj.name = dataList[i].businessName
-      }
+      // }
       obj.value = dataList[i].onePeriodAmount;
       this.pieData.push(obj);
     }
@@ -224,6 +235,15 @@ initPieChart(dataList,nameTempO,num,flag) {
             radius: "50%",
             center: ["55%", "50%"],
             data:this.pieData,
+            label: {
+              formatter: function (params) {
+                let str = params.name;
+                if(str.length>7){
+                  str = str.substring(0, 6).concat('...');
+                }
+                return str;
+              }
+            },
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,
