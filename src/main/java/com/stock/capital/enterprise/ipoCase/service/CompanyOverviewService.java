@@ -11,6 +11,7 @@ import com.stock.capital.enterprise.ipoCase.dto.MainIncomeVo;
 import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
 import com.stock.core.service.BaseService;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -113,13 +114,58 @@ public class CompanyOverviewService extends BaseService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         List<MainIncomeInfoDto> mainIncomeInfoList = ipoCaseBizMapper.getIncomeData(id);
         if (mainIncomeInfoList != null && !mainIncomeInfoList.isEmpty()) {
-            mainIncomeVo.setMainIncomeInfoList(mainIncomeInfoList);
             int lastYear = getYearByDate(mainIncomeInfoList.get(0).getReportPeriod());
             mainIncomeVo.setFirstYearForIncome((lastYear - 3) + "-12-31");
             mainIncomeVo.setSecondYearForIncome((lastYear - 2) + "-12-31");
             mainIncomeVo.setThirdYearForIncome((lastYear - 1) + "-12-31");
             mainIncomeVo
                 .setOnePeriodForIncome(sdf.format(mainIncomeInfoList.get(0).getReportPeriod()));
+            BigDecimal onePeriodAmountS = BigDecimal.ZERO;
+            BigDecimal onePeriodRatioS = BigDecimal.ZERO;
+            BigDecimal thirdYearAmountS = BigDecimal.ZERO;
+            BigDecimal thirdYearRatioS = BigDecimal.ZERO;
+            BigDecimal secondYearAmountS = BigDecimal.ZERO;
+            BigDecimal secondYearRatioS = BigDecimal.ZERO;
+            BigDecimal firstYearAmountS = BigDecimal.ZERO;
+            BigDecimal firstYearRatioS = BigDecimal.ZERO;
+            for (MainIncomeInfoDto dto : mainIncomeInfoList) {
+                if (dto.getOnePeriodAmount() != null) {
+                    onePeriodAmountS = onePeriodAmountS.add(dto.getOnePeriodAmount());
+                }
+                if (dto.getOnePeriodRatio() != null) {
+                    onePeriodRatioS = onePeriodRatioS.add(dto.getOnePeriodRatio());
+                }
+                if (dto.getThirdYearAmount() != null) {
+                    thirdYearAmountS = thirdYearAmountS.add(dto.getThirdYearAmount());
+                }
+                if (dto.getThirdYearRatio() != null) {
+                    thirdYearRatioS = thirdYearRatioS.add(dto.getThirdYearRatio());
+                }
+                if (dto.getSecondYearAmount() != null) {
+                    secondYearAmountS = secondYearAmountS.add(dto.getSecondYearAmount());
+                }
+                if (dto.getSecondYearRatio() != null) {
+                    secondYearRatioS = secondYearRatioS.add(dto.getSecondYearRatio());
+                }
+                if (dto.getFirstYearAmount() != null) {
+                    firstYearAmountS = firstYearAmountS.add(dto.getFirstYearAmount());
+                }
+                if (dto.getFirstYearRatio() != null) {
+                    firstYearRatioS = firstYearRatioS.add(dto.getFirstYearRatio());
+                }
+            }
+            MainIncomeInfoDto sumDto = new MainIncomeInfoDto();
+            sumDto.setBusinessName("合计");
+            sumDto.setOnePeriodAmount(onePeriodAmountS);
+            sumDto.setOnePeriodRatio(onePeriodRatioS);
+            sumDto.setThirdYearAmount(thirdYearAmountS);
+            sumDto.setThirdYearRatio(thirdYearRatioS);
+            sumDto.setSecondYearAmount(secondYearAmountS);
+            sumDto.setSecondYearRatio(secondYearRatioS);
+            sumDto.setFirstYearAmount(firstYearAmountS);
+            sumDto.setFirstYearRatio(firstYearRatioS);
+            mainIncomeInfoList.add(sumDto);
+            mainIncomeVo.setMainIncomeInfoList(mainIncomeInfoList);
         }
         return mainIncomeVo;
     }
@@ -181,6 +227,7 @@ public class CompanyOverviewService extends BaseService {
 
     /**
      * 查询案例详情页头部展示数据
+     *
      * @param id
      * @return
      */

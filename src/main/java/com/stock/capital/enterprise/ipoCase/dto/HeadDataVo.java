@@ -40,11 +40,17 @@ public class HeadDataVo implements Serializable {
     @ApiModelProperty("申报审核历时")
     private Integer auditDuration;
 
+    @ApiModelProperty("公司治理特殊安排")
+    private String specialArrange;
+
     @ApiModelProperty("是否有反馈意见数据 0:显示 1:没有反馈进程 2:没有问题列表")
     private Integer haveFeedback;
 
     @ApiModelProperty("是否有审核结果数据 0:显示 1:没有发审会进程")
     private Integer haveExamine;
+
+    @ApiModelProperty("是否是科创板 0:否 1:是")
+    private Integer isTechBoard;
 
     public String getTitle() {
         return title;
@@ -102,6 +108,14 @@ public class HeadDataVo implements Serializable {
         this.auditDuration = auditDuration;
     }
 
+    public String getSpecialArrange() {
+        return specialArrange;
+    }
+
+    public void setSpecialArrange(String specialArrange) {
+        this.specialArrange = specialArrange;
+    }
+
     public Integer getHaveFeedback() {
         return haveFeedback;
     }
@@ -116,5 +130,13 @@ public class HeadDataVo implements Serializable {
 
     public void setHaveExamine(Integer haveExamine) {
         this.haveExamine = haveExamine;
+    }
+
+    public Integer getIsTechBoard() {
+        return isTechBoard;
+    }
+
+    public void setIsTechBoard(Integer isTechBoard) {
+        this.isTechBoard = isTechBoard;
     }
 }

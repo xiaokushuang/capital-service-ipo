@@ -9,6 +9,7 @@ import com.stock.capital.enterprise.ipoCase.dto.IssueDataDto;
 import com.stock.capital.enterprise.ipoCase.dto.IssueFeeDto;
 import com.stock.core.dao.DynamicDataSourceHolder;
 import com.stock.core.service.BaseService;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
@@ -51,7 +52,25 @@ public class IssueSituationService extends BaseService {
      * @return list
      */
     public List<IssueFeeDto> getIssueFeeData(String id) {
-        return ipoCaseIssueMapper.getIssueFeeData(id);
+        List<IssueFeeDto> issueFeeList = ipoCaseIssueMapper.getIssueFeeData(id);
+        if (issueFeeList != null && !issueFeeList.isEmpty()) {
+            BigDecimal feeAmountS = BigDecimal.ZERO;
+            BigDecimal feeRatioS = BigDecimal.ZERO;
+            for (IssueFeeDto issueFeeDto : issueFeeList) {
+                if (issueFeeDto.getFeeAmount() != null) {
+                    feeAmountS = feeAmountS.add(issueFeeDto.getFeeAmount());
+                }
+                if (issueFeeDto.getFeeRatio() != null) {
+                    feeRatioS = feeRatioS.add(issueFeeDto.getFeeRatio());
+                }
+            }
+            IssueFeeDto feeDto = new IssueFeeDto();
+            feeDto.setFeeType("合计");
+            feeDto.setFeeAmount(feeAmountS);
+            feeDto.setFeeRatio(feeRatioS);
+            issueFeeList.add(feeDto);
+        }
+        return issueFeeList;
     }
 
     /**

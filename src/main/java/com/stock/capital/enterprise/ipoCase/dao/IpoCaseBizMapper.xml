@@ -17,6 +17,7 @@
     <result column="registered_assets" property="registeredAssets" jdbcType="DECIMAL"/>
     <result column="structure_label" jdbcType="VARCHAR" property="structureLabel"/>
     <result column="structure_url" property="structureUrl" jdbcType="VARCHAR"/>
+    <result column="issue_condition" property="issueCondition" jdbcType="VARCHAR"/>
   </resultMap>
 
   <resultMap id="SupCusResultMap" type="com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto" >
@@ -53,6 +54,7 @@
     (SELECT group_concat(mcl1.label_name) FROM maa_conf_label mcl1 WHERE mcl1.label_code = 'INDUSTRY_CSRC_2012' AND find_in_set(mcl1.label_value,TRIM(LEADING '0' FROM ic.industry_csrc))) AS industry_csrc,
     ic.company_name,
     ic.company_code,
+    (SELECT group_concat(mcl4.label_name SEPARATOR ';') FROM maa_conf_label mcl4 WHERE mcl4.label_code = 'IPO_ISSUE_CONDITION' AND find_in_set(mcl4.label_value,ic.issue_condition)) AS issue_condition,
     (SELECT p.area_name FROM provinces p WHERE p.area_no = ic.addr_prov) AS addr_prov,
     (SELECT p.area_name FROM provinces p WHERE p.area_no = ic.addr_city) AS addr_city,
     (SELECT p.area_name FROM provinces p WHERE p.area_no = ic.addr_area) AS addr_area,
@@ -101,12 +103,11 @@
           ipi.share_num,
           (
             SELECT
-              SUM(share_num)
+              registered_assets
             FROM
-              ipo_person_info
+              ipo_case
             WHERE
-              person_type = '3'
-            AND bid = #{bid}
+            id =  #{bid}
           ) AS sumNum
         FROM
           ipo_person_info ipi
@@ -182,6 +183,8 @@
     SELECT
     ic.title,
     ic.establish_date AS establishDate,
+    (SELECT group_concat(mcl2.label_name) FROM maa_conf_label mcl2 WHERE mcl2.label_code = 'IPO_SPECIAL_ARRANGE' AND find_in_set(mcl2.label_value,ic.special_arrange)) AS specialArrange,
+    CASE WHEN ic.ipo_plate = '069001001006' THEN 1 ELSE 0 END AS isTechBoard,
     (SELECT mcl.label_name FROM maa_conf_label mcl WHERE mcl.label_code = 'IPO_GREEN_PASSAGE' AND
     mcl.label_value = ic.green_passage) AS greenPassage,
     (SELECT mcl1.label_name FROM maa_conf_label mcl1 WHERE mcl1.label_code = 'IPO_STATUS' AND
