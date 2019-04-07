@@ -38,6 +38,16 @@
               style="margin-top:24px;padding: 0 0 0 0"
               class="filter-tree"
               node-key="id"
+              :data="specialArrangeTag"
+              :props="left_tree"
+              :default-expand-all="true"
+              @node-click="handleNodeClickForSearch"
+              ref="specialArrangeTagRef">
+          </el-tree>
+          <el-tree
+              style="margin-top:24px;padding: 0 0 0 0"
+              class="filter-tree"
+              node-key="id"
               :data="sfcTreeTag"
               :props="left_tree"
               :default-expand-all="true"
@@ -158,6 +168,17 @@
               <el-multiple-selection v-if="durationShow" :range="true" :tree-data="optionAuditDuration" placeholder="申报审核历时（天）" size="small full" :multiple="false"
                                      unit="天" :ran="optionDto" @sure-click="rangeAuditDuration">
               </el-multiple-selection>
+            </el-col>
+            <el-col :span='8'>
+              <el-select ref="selectIssueCondition" v-model="issueCondition" title="发行人选择的上市条件" placeholder="发行人选择的上市条件"
+                         size="small full" :tselect=true @visible-change="calls()"
+                         @sure-click="sure('selectIssueCondition')"
+                         @clear-click="clearLocal('treeIssueCondition')">
+                <el-option :label="issueCondition" :value="issueConditionValue">
+                  <el-tree :data="issueConditionList" show-checkbox node-key="id" ref="treeIssueCondition" highlight-current
+                           :props="default_tree" @check-change="selectHandleNodeClick('issueCondition','treeIssueCondition')"></el-tree>
+                </el-option>
+              </el-select>
             </el-col>
           </el-row>
           <div v-show="searchFlag" style="display:flex">
@@ -465,6 +486,8 @@
         marketTreeTagRef: '',
         greenTreeTag: [],
         greenTreeTagRef: '',
+        specialArrangeTag: [],
+        specialArrangeTagRef: '',
         sfcTreeTag: [],
         sfcTreeTagRef: '',
         default_tree: {
@@ -478,6 +501,8 @@
         title: '',
         industryCsrc: '',
         industryCsrcValue: '',
+        issueCondition: '',
+        issueConditionValue: '',
         companyNature: '',
         companyNatureValue: '',
         ipoNum: '',
@@ -493,6 +518,8 @@
         intermediaryCode: '',
         industryCrscList: [],
         treeIndustryCsrc: '',
+        issueConditionList: [],
+        treeIssueCondition: '',
         companyNatureList: [],
         treeCompanyNature: '',
         ipoNumList: [],
@@ -643,6 +670,7 @@
         ipoPlate: '',
         marketType: '',
         greenPassage: '',
+        specialArrange: '',
         belongsBureau: '',
         issueShow: true,
         issueFeeShow: true,
@@ -733,6 +761,7 @@
             companyId: _self.$store.state.app.companyId,
             title: _self.title,//标题关键字（包含全部以空格断开）
             industryCsrc: _self.industryCsrcValue,//发行人行业（证监会）
+            issueCondition: _self.issueConditionValue,//发行人选择的上市条件
             companyNature: _self.companyNatureValue,//企业性质
             ipoNum: _self.ipoNumValue,//申报次数
             caseStatus: _self.caseStatusValue,//IPO进程
@@ -767,6 +796,9 @@
             greenPassage: _self.$refs.greenTreeTagRef.getCheckedNodes().map((item) => {
               return item.labelValue
             }).join(','),//绿色通道
+            specialArrange: _self.$refs.specialArrangeTagRef.getCheckedNodes().map((item) => {
+              return item.labelValue
+            }).join(','),//公司治理特殊安排
             belongsBureau: _self.$refs.sfcTreeTagRef.getCheckedNodes().map((item) => {
               return item.labelValue
             }).join(','),//所属证监局
@@ -805,6 +837,15 @@
               label_level: 0,
               label_code: "IPO_GREEN_PASSAGE",
               children: response.data.result.greenTreeTag
+            }];
+            _self.specialArrangeTag = [{
+              label_sort: 1,
+              name: "公司治理特殊安排(" + response.data.result.arrangeTreeNum + ')',
+              id: "0",
+              label_name: "公司治理特殊安排",
+              label_level: 0,
+              label_code: "IPO_SPECIAL_ARRANGE",
+              children: response.data.result.specialArrangeTag
             }];
             _self.sfcTreeTag = [{
               label_sort: 1,
@@ -854,6 +895,9 @@
           case 'IPO_GREEN_PASSAGE':
             this.$refs.greenTreeTagRef.setCheckedKeys([node.data.id]);
             break;
+          case 'IPO_SPECIAL_ARRANGE':
+            this.$refs.specialArrangeTagRef.setCheckedKeys([node.data.id]);
+            break;
           case 'SFC':
             this.$refs.sfcTreeTagRef.setCheckedKeys([node.data.id]);
             break;
@@ -877,6 +921,8 @@
         _self.title = '';//标题
         _self.industryCsrcValue = '';//行业
         _self.industryCsrc = '';
+        _self.issueConditionValue = '';//发行人选择的上市条件
+        _self.issueCondition = '';
         _self.companyNatureValue = '';//企业性质
         _self.companyNature = '';
         _self.ipoNum = '';//ipo次数
@@ -895,8 +941,10 @@
         _self.$refs.plateTreeTagRef.setCheckedKeys([]);
         _self.$refs.marketTreeTagRef.setCheckedKeys([]);
         _self.$refs.greenTreeTagRef.setCheckedKeys([]);
+        _self.$refs.specialArrangeTagRef.setCheckedKeys([]);
         _self.$refs.sfcTreeTagRef.setCheckedKeys([]);
         _self.$refs.treeIndustryCsrc.setCheckedKeys([]);
+        _self.$refs.treeIssueCondition.setCheckedKeys([]);
         _self.$refs.treeCompanyNature.setCheckedKeys([]);
         _self.$refs.treeIpoNum.setCheckedKeys([]);
         _self.$refs.treeVerifyResult.setCheckedKeys([]);
@@ -975,6 +1023,9 @@
           if (response.data.result) {
             if (response.data.result.industryCrscList && response.data.result.industryCrscList.length > 0) {
               _self.industryCrscList = response.data.result.industryCrscList;
+            }
+            if (response.data.result.issueConditionList && response.data.result.issueConditionList.length > 0) {
+              _self.issueConditionList = response.data.result.issueConditionList;
             }
             if (response.data.result.companyNatureList && response.data.result.companyNatureList.length > 0) {
               _self.companyNatureList = response.data.result.companyNatureList;
