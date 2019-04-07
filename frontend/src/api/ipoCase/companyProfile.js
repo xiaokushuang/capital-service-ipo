@@ -49,32 +49,47 @@ export function getRaiseMoneyTableList(query) {
     params: query
   })
 }
-
-// 反馈意见初始化一级标签接口
+// new反馈意见初始化
 export function getSelectFeedbackList(query) {
   return request({
-    url: '/ipo/ipoFeedback/selectFeedbackList',
+    url: '/ipo/ipoFeedback/selectNewFeedbackList',
     method: 'get',
     params: query
   })
 }
+// new反馈意见问题列表接口
+export function getSelectQuestionList(query) {
+  return request({
+    url: '/ipo/ipoFeedback/selectNewQuestionList',
+    method: 'get',
+    params: query
+  })
+}
+// 反馈意见初始化一级标签接口
+// export function getSelectFeedbackList(query) {
+//   return request({
+//     url: '/ipo/ipoFeedback/selectFeedbackList',
+//     method: 'get',
+//     params: query
+//   })
+// }
 
 // 反馈意见问题列表接口【点击单选和多选筛选相应的】
-export function getSelectQuestionListByLetterId(query) {
-  return request({
-    url: '/ipo/ipoFeedback/selectQuestionListByLetterId',
-    method: 'get',
-    params: query
-  })
-}
+// export function getSelectQuestionListByLetterId(query) {
+//   return request({
+//     url: '/ipo/ipoFeedback/selectQuestionListByLetterId',
+//     method: 'get',
+//     params: query
+//   })
+// }
 // 反馈意见二级标签列表接口
-export function getSelectSecondLabelList(query) {
-  return request({
-    url: '/ipo/ipoFeedback/selectSecondLabelList',
-    method: 'get',
-    params: query
-  })
-}
+// export function getSelectSecondLabelList(query) {
+//   return request({
+//     url: '/ipo/ipoFeedback/selectSecondLabelList',
+//     method: 'get',
+//     params: query
+//   })
+// }
 // 审核结果及关注问题
 export function geSelectFeedbackList(query) {
   return request({

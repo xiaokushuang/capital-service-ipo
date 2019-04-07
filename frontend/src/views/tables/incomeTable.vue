@@ -7,7 +7,7 @@
       <el-table-column
         prop=""
         label="项目"
-        width="180">
+        width="184">
       </el-table-column>
       <el-table-column
         prop=""

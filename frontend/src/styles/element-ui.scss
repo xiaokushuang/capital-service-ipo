@@ -447,7 +447,7 @@
 }
 
 .feedback .el-tabs__item.is-active{
-  color:#0086a7 !important;
+  color:#14bcf5 !important;
 }
 .ipoCaseList .el-radio__label {
   // font-size: 14px;
@@ -514,18 +514,18 @@
 .raiseMoneyTable table tr:last-of-type{
   font-weight: bold
 }
-.moreNotice .el-table__header{
-  width:100% !important;
-  text-align: center;
-}
-.moreNotice .el-table__body{
-  width:100% !important;
-}
-.moreNotice  .el-table__body, .el-table__footer, .el-table__header {
-  table-layout:auto !important; 
-  text-align: center;
-  border-collapse: separate;
-}
+// .moreNotice .el-table__header{
+//   width:100% !important;
+//   text-align: center;
+// }
+// .moreNotice .el-table__body{
+//   width:100% !important;
+// }
+// .moreNotice  .el-table__body, .el-table__footer, .el-table__header {
+//   table-layout:auto !important; 
+//   text-align: center;
+//   border-collapse: separate;
+// }
 #componentId .el-checkbox-button.is-focus .el-checkbox-button__inner {
   border-color: #e2e2e2;
   border-left-color:#e2e2e2 
