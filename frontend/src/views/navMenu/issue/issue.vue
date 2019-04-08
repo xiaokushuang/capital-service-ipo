@@ -157,7 +157,7 @@ export default {
             sumFina:'',
             uwMethod:'',
           },
-          dataFlag: true,
+          dataFlag: false,
           caseId:this.$store.state.app.caseId,
       }
   },
