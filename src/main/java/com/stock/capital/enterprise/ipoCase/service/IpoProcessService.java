@@ -213,55 +213,51 @@ public class IpoProcessService extends BaseService {
 
         Map<String, Object> index = restClient.post(urls, param, responseType).getResult();
         String title = StringUtils.EMPTY;
-        if (null == index) {
-            String url;
-            String infoUrl = String.valueOf(index.get("infoUrl"));
-            if (infoUrl.contains("html")) {
-                url = infoUrl.substring(0, infoUrl.indexOf("html") + 4);
-            } else {
-                url = infoUrl;
-            }
-
-            String titles = String.valueOf(index.get("title"));
-            String titleTemp = StringUtils.EMPTY;
-            //文件名字过长导致无法下载
-            if (titles.length() >= 40) {
-                titles = titles.substring(0, 40);
-            }
-            if (titles.contains(":")) {
-                String titleName[] = titles.split(":");
-                titleTemp = titleName[titleName.length - 1];
-            } else {
-                titleTemp = titles;
-            }
-            title = transformMetacharactor(String.valueOf(index.get("code")) +
-                    "-" + String.valueOf(index.get("companyShortName"))
-                    + String.valueOf(index.get("publishDate")) + "]" + titleTemp) + "." + Files.getFileExtension(url);
-            //公司代码_公司简称_公告日期_公告标题
-            InputStream in = null;
-            try {
-                String fileName = title;
-                fileName = new String(fileName.getBytes(), "ISO-8859-1");
-                in = Resources.asByteSource(new URL(url)).openBufferedStream();
-                // 设置输出的格式
-                response.reset();
-                response.setContentType("text/html;charset=utf-8");
-                response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
-                // 循环取出流中的数据
-                byte[] b = new byte[100];
-                int len;
-                while ((len = in.read(b)) > 0) {
-                    response.getOutputStream().write(b, 0, len);
-                }
-            } catch (Exception e) {
-                throw new FileDownloadException("下载文件失败");
-            } finally {
-                IOUtils.closeQuietly(in);
-            }
-            return title;
+        String url;
+        String infoUrl = String.valueOf(index.get("infoUrl"));
+        if (infoUrl.contains("html")) {
+            url = infoUrl.substring(0, infoUrl.indexOf("html") + 4);
         } else {
-            return title;
+            url = infoUrl;
         }
+
+        String titles = String.valueOf(index.get("title"));
+        String titleTemp = StringUtils.EMPTY;
+        //文件名字过长导致无法下载
+        if (titles.length() >= 40) {
+            titles = titles.substring(0, 40);
+        }
+        if (titles.contains(":")) {
+            String titleName[] = titles.split(":");
+            titleTemp = titleName[titleName.length - 1];
+        } else {
+            titleTemp = titles;
+        }
+        title = transformMetacharactor(String.valueOf(index.get("code")) +
+                "-" + String.valueOf(index.get("companyShortName"))
+                + String.valueOf(index.get("publishDate")) + "]" + titleTemp) + "." + Files.getFileExtension(url);
+        //公司代码_公司简称_公告日期_公告标题
+        InputStream in = null;
+        try {
+            String fileName = title;
+            fileName = new String(fileName.getBytes(), "ISO-8859-1");
+            in = Resources.asByteSource(new URL(url)).openBufferedStream();
+            // 设置输出的格式
+            response.reset();
+            response.setContentType("text/html;charset=utf-8");
+            response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+            // 循环取出流中的数据
+            byte[] b = new byte[100];
+            int len;
+            while ((len = in.read(b)) > 0) {
+                response.getOutputStream().write(b, 0, len);
+            }
+        } catch (Exception e) {
+            throw new FileDownloadException("下载文件失败");
+        } finally {
+            IOUtils.closeQuietly(in);
+        }
+        return title;
     }
 
     private String transformMetacharactor(String input) {
@@ -515,8 +511,8 @@ public class IpoProcessService extends BaseService {
             if (null == index) {
                 result = "0";
             }
-        }else{
-            result ="0";
+        } else {
+            result = "0";
         }
         return result;
     }
@@ -544,7 +540,7 @@ public class IpoProcessService extends BaseService {
                     result = "0";
                 }
             }
-        }else{
+        } else {
             result = "0";
         }
         return result;
@@ -553,13 +549,13 @@ public class IpoProcessService extends BaseService {
     public String checkSingleFile(String id) {
         String result = "1";
         IpoFileRelationDto fileDto = ipoProcessMapper.selectFileDto(id);
-        if(null == fileDto){
+        if (null == fileDto) {
             result = "0";
         }
         return result;
     }
 
-    public String checkMultiplyFile(String ids){
+    public String checkMultiplyFile(String ids) {
         String result = "1";
         List<String> selIdList = new ArrayList<>();
         if (StringUtils.isNotEmpty(ids)) {
@@ -570,7 +566,7 @@ public class IpoProcessService extends BaseService {
             }
             for (String indexId : selIdList) {
                 IpoFileRelationDto fileDto = ipoProcessMapper.selectFileDto(indexId);
-                if(null == fileDto){
+                if (null == fileDto) {
                     result = "0";
                 }
             }
