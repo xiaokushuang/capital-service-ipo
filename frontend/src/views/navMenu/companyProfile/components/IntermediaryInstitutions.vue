@@ -14,11 +14,17 @@
                              <div v-if="item.intermediaryType=='1'" class="image l" style="margin-top:24px">
                                  <img src="../../../../assets/images/coSponsors.png" alt>
                             </div>
+                            <div v-if="item.intermediaryType=='2'" class="image l">
+                                  <img src="../../../../assets/images/coSponsors.png" alt>
+                            </div>
                             <div v-if="item.intermediaryType=='3'" class="image l" >
                                  <img src="../../../../assets/images/lvshi.png" alt>
                             </div>
                             <div v-if="item.intermediaryType=='4'" class="image l" >
                                  <img src="../../../../assets/images/kuaiji.png" alt>
+                            </div>
+                            <div v-if="item.intermediaryType=='5'" class="image l" >
+                                 <img src="../../../../assets/images/assets.png" alt>
                             </div>
                             <div class="text l">
                                 <div>
@@ -59,6 +65,22 @@
                                         <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
                                     </li>
                                 </ul>
+                                 <!-- 资产评估机构 -->
+                                <ul v-if="item.intermediaryType=='5'">
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">注册资产评估师：</span>
+                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
+                                    </li>
+                                </ul>
+                                <!-- 证券公司 -->
+                                <ul v-if="item.intermediaryType=='2'">
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">项目经办人：</span>
+                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
+                                    </li>
+                                </ul>
                             </div> 
                             <!-- 已失效标志 -->
                             <span class="failure" v-show="item.validFlag == 0">
@@ -69,11 +91,20 @@
                     <li v-show="showMoreType" class="clear " v-for="item in moreList">
                         <p class="institutionTitle">{{item.intermediaryTypeName}}</p>
                         <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'">
+                            <div v-if="item.intermediaryType=='1'" class="image l" style="margin-top:24px">
+                                 <img src="../../../../assets/images/coSponsors.png" alt>
+                            </div>
+                            <div v-if="item.intermediaryType=='2'" class="image l">
+                                  <img src="../../../../assets/images/coSponsors.png" alt>
+                            </div>
+                            <div v-if="item.intermediaryType=='3'" class="image l" >
+                                 <img src="../../../../assets/images/lvshi.png" alt>
+                            </div>
+                            <div v-if="item.intermediaryType=='4'" class="image l" >
+                                 <img src="../../../../assets/images/kuaiji.png" alt>
+                            </div>
                             <div v-if="item.intermediaryType=='5'" class="image l" >
                                  <img src="../../../../assets/images/assets.png" alt>
-                            </div>
-                             <div v-if="item.intermediaryType=='4'" class="image l">
-                                  <img src="../../../../assets/images/kuaiji.png" alt>
                             </div>
                             <div class="text l">
                                 <div>
@@ -105,6 +136,32 @@
                                         <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
                                     </li>
                                 </ul>
+                                 <!-- 保荐机构 -->
+                                <ul v-if="item.intermediaryType=='1'">
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">保荐代表人：</span>
+                                        <span style="font-size:14px;color:black">{{item.representPerson}}</span>
+                                    </li>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">项目协办人：</span>
+                                        <span style="font-size:14px;color:black">{{item.assistPerson}}</span>
+                                    </li>
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">项目经办人：</span>
+                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
+                                    </li>
+                                </ul>
+                                <!-- 律师事务所 -->
+                                <ul v-if="item.intermediaryType=='3'">
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">经办律师：</span>
+                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
+                                    </li>
+                                </ul>
                             </div> 
                             <!-- 已失效标志 -->
                             <span class="failure" v-show="item.validFlag == 0">
@@ -130,27 +187,27 @@ export default {
             caseId:this.$store.state.app.caseId,
             mainList:[],//主要机构
             moreList:[],//更多机构
-            allStitutionList:[],
-            accounts:[],//会计事务所
-            accountsTotal:[],
-            accountsValid:[],
-            accountsUnValid:[],
-            sponsors:[],//保荐机构
-            sponsorsTotal:[],
-            sponsorsValid:[],
-            sponsorsUnValid:[],
-            securitys:[],//证券公司
-            securitysTotal:[],
-            securitysValid:[],
-            securitysUnValid:[],
-            lawyers:[],//律师事务所
-            lawyersTotal:[],
-            lawyersValid:[],
-            lawyersUnValid:[],
-            assets:[],//资产评估机构
-            assetsTotal:[],
-            assetsValid:[],
-            assetsUnValid:[],
+            // allStitutionList:[],
+            // accounts:[],//会计事务所
+            // accountsTotal:[],
+            // accountsValid:[],
+            // accountsUnValid:[],
+            // sponsors:[],//保荐机构
+            // sponsorsTotal:[],
+            // sponsorsValid:[],
+            // sponsorsUnValid:[],
+            // securitys:[],//证券公司
+            // securitysTotal:[],
+            // securitysValid:[],
+            // securitysUnValid:[],
+            // lawyers:[],//律师事务所
+            // lawyersTotal:[],
+            // lawyersValid:[],
+            // lawyersUnValid:[],
+            // assets:[],//资产评估机构
+            // assetsTotal:[],
+            // assetsValid:[],
+            // assetsUnValid:[],
             agentState: "当前有效",
             showMoreType:false,//点击查看更多机构
             options: 
@@ -202,12 +259,6 @@ export default {
               this.mainList = response.data.result.mainList
               this.moreList = response.data.result.moreList
           }
-        //   if(response.data.result&&response.data.result.mainList&&response.data.result.mainList.length>0){
-        //       this.mainList = response.data.result.mainList
-        //   }
-        //   if(response.data.result&&response.data.result.moreList&&response.data.result.moreList){
-        //       this.moreList = response.data.result.moreList
-        //   }
       })
     },
     // 非空判断
