@@ -47,7 +47,7 @@
                                 <ul v-if="item.intermediaryType=='3'">
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 14px; color: #999999;">项目经办人：</span>
+                                        font-style: normal;  font-size: 14px; color: #999999;">经办律师：</span>
                                         <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
                                     </li>
                                 </ul>
@@ -55,7 +55,7 @@
                                 <ul v-if="item.intermediaryType=='4'">
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 14px; color: #999999;">经办律师：</span>
+                                        font-style: normal;  font-size: 14px; color: #999999;">注册会计师：</span>
                                         <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
                                     </li>
                                 </ul>
@@ -85,6 +85,14 @@
                                 <ul v-if="item.intermediaryType=='5'">
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">注册资产评估师：</span>
+                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
+                                    </li>
+                                </ul>
+                                <!-- 证券公司 -->
+                                <ul v-if="item.intermediaryType=='2'">
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">项目经办人：</span>
                                         <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
                                     </li>
@@ -93,7 +101,7 @@
                                 <ul v-if="item.intermediaryType=='4'">
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 14px; color: #999999;">经办会计师：</span>
+                                        font-style: normal;  font-size: 14px; color: #999999;">注册会计师：</span>
                                         <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
                                     </li>
                                 </ul>
@@ -196,15 +204,17 @@ export default {
           console.log(response)
           if(response.data.result){
               this.allStitutionList = response.data.result
-              this.moreList = response.data.result.moreList
-              console.log('中介机构',this.allStitutionList)
-          }
-          if(response.data.result&&response.data.result.mainList&&response.data.result.mainList.length>0){
               this.mainList = response.data.result.mainList
-          }
-          if(response.data.result&&response.data.result.moreList&&response.data.result.moreList){
               this.moreList = response.data.result.moreList
+              console.log('主要',this.mainList)
+              console.log('主要',this.moreList)
           }
+        //   if(response.data.result&&response.data.result.mainList&&response.data.result.mainList.length>0){
+        //       this.mainList = response.data.result.mainList
+        //   }
+        //   if(response.data.result&&response.data.result.moreList&&response.data.result.moreList){
+        //       this.moreList = response.data.result.moreList
+        //   }
       })
     },
     // 非空判断
