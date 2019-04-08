@@ -80,7 +80,7 @@ public class IpoFeedbackController extends BaseController {
     @ApiOperation(value = "新反馈意见问题列表接口", notes = "反馈意见问题列表接口描述")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "letterId", value = "函件id", required = true, paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "firstLabelId", value = "所属一级标签", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "firstLabelId", value = "所属一级标签", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "secondLabelId", value = "所属二级标签", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "onlyResponse", value = "是否只展示有回复问题 1:是", paramType = "query", dataType = "String")
     })
