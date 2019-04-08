@@ -58,6 +58,9 @@ public class IpoFinanceService extends BaseService {
             forthItemList.get(i).setThirdYearValue(thirdItemList.get(i).getForthYearValue());
             forthItemList.get(i).setSecondYearValue(secondItemList.get(i).getForthYearValue());
             forthItemList.get(i).setFirstYearValue(firstItemList.get(i).getForthYearValue());
+            if("应收账款".equals(forthItemList.get(i).getItemName())){
+                forthItemList.get(i).setItemName("应收票据及应收账款");
+            }
         }
         //移除财务信息中，三年一期全部为空的项目
         List<IpoItemDto> assetItemList = removeNullItem(forthItemList);
@@ -71,6 +74,9 @@ public class IpoFinanceService extends BaseService {
             forthDebtItemList.get(i).setThirdYearValue(thirdDebtItemList.get(i).getForthYearValue());
             forthDebtItemList.get(i).setSecondYearValue(secondDebtItemList.get(i).getForthYearValue());
             forthDebtItemList.get(i).setFirstYearValue(firstDebtItemList.get(i).getForthYearValue());
+            if("应付账款".equals(forthItemList.get(i).getItemName())){
+                forthItemList.get(i).setItemName("应付票据及应付账款");
+            }
         }
         //移除财务信息中，三年一期全部为空的项目
         List<IpoItemDto> debtItemList = removeNullItem(forthDebtItemList);
