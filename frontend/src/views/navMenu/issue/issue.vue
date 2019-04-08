@@ -182,8 +182,8 @@ export default {
          if(res.data.result){
            this.dataFlag = true;
            this.issueData = res.data.result;
-           this.getPosition();
          }
+         this.getPosition();
       })
     },
      getPosition(){
