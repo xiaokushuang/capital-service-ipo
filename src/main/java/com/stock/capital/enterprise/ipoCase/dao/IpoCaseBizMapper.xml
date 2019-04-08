@@ -197,6 +197,7 @@
     ) t
     JOIN maa_conf_label mcl ON t.labelCode = mcl.label_code
     AND t.orgType = mcl.label_value
+    ORDER BY t.intermediaryType
   </select>
 
   <select id="getHeadData" parameterType="string" resultType="com.stock.capital.enterprise.ipoCase.dto.HeadDataVo">
