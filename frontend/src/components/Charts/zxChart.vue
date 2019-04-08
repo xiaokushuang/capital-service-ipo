@@ -15,6 +15,7 @@ export default {
         zxChart:null,
         zxChartY:[],
         zxChartX:[],
+        zxChartYSelect:{},
         legendData:[]
     }
   },
@@ -76,11 +77,14 @@ beforeDestroy() {
         for(var i = 0;i < this.zxIndex + 1;i++){
           this.zxChartY = []
           for(var j = 0;j < dataList[i].industryCompareRateDetailList.length;j++){
-            
+
             arr.push(dataList[i].industryCompareRateDetailList[j].companyName)
-            
+            if(j+2<dataList[i].industryCompareRateDetailList.length){
+              this.zxChartYSelect[dataList[i].industryCompareRateDetailList[j].companyName]=false
+            }
+
             // console.log(this.legendData)
-           
+
               this.zxChartY.push(
                                 {
                                     name:dataList[i].industryCompareRateDetailList[j].companyName,
@@ -106,7 +110,7 @@ beforeDestroy() {
         // console.log(this.legendData)
         //  let hidden = '{';
         //     for(let k = 0;k<this.legendData.length-2;k++){
-        //       hidden += "'" + this.legendData[k]+"':"+"false,"; 
+        //       hidden += "'" + this.legendData[k]+"':"+"false,";
         //     }
         //     hidden += "}"
         //     console.log(hidden);
@@ -119,9 +123,8 @@ beforeDestroy() {
             },
             legend: {
               // data:this.legendData
-              // selected:{
-                
-              // }
+              selected:this.zxChartYSelect
+
             },
             grid: {
                 left: '3%',
