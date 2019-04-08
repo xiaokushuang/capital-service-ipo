@@ -169,7 +169,7 @@
                                      unit="天" :ran="optionDto" @sure-click="rangeAuditDuration">
               </el-multiple-selection>
             </el-col>
-            <el-col :span='8'>
+            <el-col :span='7'>
               <el-select ref="selectIssueCondition" v-model="issueCondition" title="发行人选择的上市条件" placeholder="发行人选择的上市条件"
                          size="small full" :tselect=true @visible-change="calls()"
                          @sure-click="sure('selectIssueCondition')"
@@ -179,6 +179,50 @@
                            :props="default_tree" @check-change="selectHandleNodeClick('issueCondition','treeIssueCondition')"></el-tree>
                 </el-option>
               </el-select>
+            </el-col>
+            <el-col :span="1">
+              <el-popover
+                  placement="bottom"
+                  width="500"
+                  trigger="hover">
+                <div style="font-size: 12px">
+                  <div>
+                    <a style="color: #1990FE;margin-left: -5px" @click="openNewRule()">《上海证券交易所科创板股票上市规则》：</a>
+                  </div>
+                  <div>2.1.2</div>
+                  <div>发行人申请在本所科创板上市，市值及财务指标应当至少符合下列标准中的一项：</div>
+                  <div>
+                    （一）预计市值不低于人民币10亿元，最近两年净利润均为正且累计净利润不低于人民币5000万元，或者预计市值不低于人民币10亿元，最近一年净利润为正且营业收入不低于人民币1亿元；
+                  </div>
+                  <div>（二）预计市值不低于人民币15亿元，最近一年营业收入不低于人民币2亿元，且最近三年累计研发投入占最近三年累计营业收入的比例不低于15%；</div>
+                  <div>（三）预计市值不低于人民币20亿元，最近一年营业收入不低于人民币3亿元，且最近三年经营活动产生的现金流量净额累计不低于人民币1亿元；</div>
+                  <div>（四）预计市值不低于人民币30亿元，且最近一年营业收入不低于人民币3亿元；</div>
+                  <div>
+                    （五）预计市值不低于人民币40亿元，主要业务或产品需经国家有关部门批准，市场空间大，目前已取得阶段性成果。医药行业企业需至少有一项核心产品获准开展二期临床试验，其他符合科创板定位的企业需具备明显的技术优势并满足相应条件。
+                    本条所称净利润以扣除非经常性损益前后的孰低者为准，所称净利润、营业收入、经营活动产生的现金流量净额均指经审计的数值。
+                  </div>
+                  <div>2.1.3</div>
+                  <div>
+                    符合《国务院办公厅转发证监会关于开展创新企业境内发行股票或存托凭证试点若干意见的通知》（国办发﹝2018﹞21号）相关规定的红筹企业，可以申请发行股票或存托凭证并在科创板上市。
+                    营业收入快速增长，拥有自主研发、国际领先技术，同行业竞争中处于相对优势地位的尚未在境外上市红筹企业，申请在科创板上市的，市值及财务指标应当至少符合下列标准之一：
+                  </div>
+                  <div>（一）预计市值不低于人民币100亿元；</div>
+                  <div>（二）预计市值不低于人民币50亿元，且最近一年营业收入不低于人民币5亿元。</div>
+                  <div>2.1.4</div>
+                  <div>
+                    发行人具有表决权差异安排的，市值及财务指标应当至少符合下列标准中的一项：
+                  </div>
+                  <div>
+                    （一）预计市值不低于人民币100亿元；
+                  </div>
+                  <div>
+                    （二）预计市值不低于人民币50亿元，且最近一年营业收入不低于人民币5亿元。
+                    发行人特别表决权股份的持有人资格、公司章程关于表决权差异安排的具体规定，应当符合本规则第四章第五节的规定。
+                    本规则所称表决权差异安排，是指发行人依照《公司法》第一百三十一条的规定，在一般规定的普通股份之外，发行拥有特别表决权的股份（以下简称特别表决权股份）。每一特别表决权股份拥有的表决权数量大于每一普通股份拥有的表决权数量，其他股东权利与普通股份相同。
+                  </div>
+                </div>
+                <span slot="reference" class="home_new" style="margin-top: 5px;background-position:-69px -20px;cursor: pointer"></span>
+              </el-popover>
             </el-col>
           </el-row>
           <div v-show="searchFlag" style="display:flex">
@@ -379,7 +423,7 @@
                   </el-table-column>
                   <el-table-column align="left" label="案例标题" min-width="11%">
                     <template slot-scope="scope">
-                      {{scope.row.title}}
+                      {{scope.row.titleStr}}
                     </template>
                   </el-table-column>
                   <el-table-column align="right" prop="ipo_process_t" label="进程" sortable="custom" min-width="10%">
@@ -432,7 +476,7 @@
                       <span v-else>--</span>
                     </template>
                   </el-table-column>
-                  <el-table-column align="right" label="拟上市板块" min-width="14%">
+                  <el-table-column align="left" label="拟上市板块" min-width="14%">
                     <template slot-scope="scope">
                       {{scope.row.ipoPlateName}}
                     </template>
@@ -1144,6 +1188,11 @@
         const _self = this;
         const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=745777672757626842&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
         window.open(href, '_blank');
+      },
+      openNewRule() {
+        const _self = this;
+        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=746412002825257522&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
+        window.open(href, '_blank');
       }
     },
     components: {
@@ -1499,20 +1548,32 @@
       top: -17px;
     }
   }
-  .container .case .el-table__body tr:hover{
+
+  .container .case .el-table__body tr:hover {
     cursor: pointer;
   }
-  .container .case .el-table__row td{
+
+  .container .case .el-table__row td {
     border-right: none;
   }
-  .container .case .el-table__header th{
+
+  .container .case .el-table__header th {
     border-right: none;
   }
-  .container .case .el-table__header th:nth-child(4){
+
+  .container .case .el-table__header th:nth-child(4) {
     border-bottom-color: #fff;
   }
+
   .container .el-table th, .el-table tr {
-    height: 40px!important;
+    height: 40px !important;
+  }
+
+  .home_new {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url(../../assets/images/home_new.png);
   }
 </style>
 
