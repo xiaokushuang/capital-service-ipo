@@ -8,25 +8,34 @@
       </el-table-column>
       <el-table-column align="right" :label="tableTitle.forthYearDate">
           <template slot-scope="scope">
-                      <span v-if="scope.row.forthYearValue"> {{scope.row.forthYearValue | dataInThRule}}</span>
+                      <span v-if="scope.row.forthYearValue"> 
+                        {{scope.row.forthYearValue | dataInThRule}}
+                        <span v-if="scope.row.itemName === '资产负债率'">%</span>
+                        </span>
                       <span v-else> - - </span>
           </template>
       </el-table-column>
       <el-table-column align="right"  :label="tableTitle.thirdYearDate" header-align="right">
         <template slot-scope="scope">
-            <span v-if="scope.row.thirdYearValue"> {{scope.row.thirdYearValue | dataInThRule}}</span>
+            <span v-if="scope.row.thirdYearValue"> {{scope.row.thirdYearValue | dataInThRule}}
+               <span v-if="scope.row.itemName === '资产负债率'">%</span>
+            </span>
             <span v-else> - - </span>
         </template>
       </el-table-column>
       <el-table-column align="right"  :label="tableTitle.secondYearDate" header-align="right">
           <template slot-scope="scope">
-            <span v-if="scope.row.secondYearValue"> {{scope.row.secondYearValue | dataInThRule}}</span>
+            <span v-if="scope.row.secondYearValue"> {{scope.row.secondYearValue | dataInThRule}}
+               <span v-if="scope.row.itemName === '资产负债率'">%</span>
+            </span>
             <span v-else> - - </span>
         </template>
       </el-table-column>
       <el-table-column align="right"  :label="tableTitle.firstYearDate" header-align="right">
           <template slot-scope="scope">
-            <span v-if="scope.row.firstYearValue"> {{scope.row.firstYearValue | dataInThRule}}</span>
+            <span v-if="scope.row.firstYearValue"> {{scope.row.firstYearValue | dataInThRule}}
+               <span v-if="scope.row.itemName === '资产负债率'">%</span>
+            </span>
             <span v-else> - - </span>
           </template>
       </el-table-column>
