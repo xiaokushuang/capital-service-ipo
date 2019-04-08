@@ -29,7 +29,7 @@
                  <a v-if="scope.row.letterId!=''" @click="openLetterDetail(scope.row)">{{scope.row.relationFileTitle}}</a>
               </span>
             </template>
-                
+
             </el-table-column>
             <el-table-column
             label="操作"
@@ -49,6 +49,7 @@
 </template>
 <script>
 import {getDownloadFileData} from '@/api/ipoCase/companyProfile'
+import {checkFile} from '@/api/ipoCase/companyProfile'
 export default {
     name:'moreNotice',
     data() {
@@ -83,12 +84,21 @@ export default {
           fileId:fileIdLabel,
           fileType:fileType
         }
-        let url = window.location.href;
-        let token = this.$store.state.app.token
-        url = url.substr(0,url.indexOf("ui"));
-        url = url + 'ipo/ipoProcess/downloadFile?access_token='+token+
-              '&fileId='+ fileIdLabel + '&fileType='+ fileType;
-        window.open(url);
+        checkFile(param).then(res => {
+          console.log('fuzai',res.data.result)
+          let result = res.data.result;
+          if(result === '1'){
+            let url = window.location.href;
+            let token = this.$store.state.app.token
+            url = url.substr(0,url.indexOf("ui"));
+            url = url + 'ipo/ipoProcess/downloadFile?access_token='+token+
+                  '&fileId='+ fileIdLabel + '&fileType='+ fileType;
+            window.open(url);
+          }else{
+
+          }
+
+        })
       },
         initDownloadFileData1(fileId,fileType) {
         // 动态传id
@@ -96,12 +106,24 @@ export default {
           fileId:fileId,
           fileType:fileType
         }
-        let url = window.location.href;
-        let token = this.$store.state.app.token
-        url = url.substr(0,url.indexOf("ui"));
-        url = url + 'ipo/ipoProcess/downloadFile?access_token='+token+
-              '&fileId='+ fileId + '&fileType='+ fileType;
-        window.open(url);
+          checkFile(param).then(res => {
+            console.log('fuzai',res.data.result)
+            let result = res.data.result;
+            if(result === '1'){
+              let url = window.location.href;
+              let token = this.$store.state.app.token
+              url = url.substr(0,url.indexOf("ui"));
+              url = url + 'ipo/ipoProcess/downloadFile?access_token='+token+
+                    '&fileId='+ fileId + '&fileType='+ fileType;
+              window.open(url);
+            }else{
+
+            }
+
+          })
+
+
+
       },
       // 下载公告
       handleDown(v){
