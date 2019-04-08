@@ -34,6 +34,7 @@ public class StatisticsResultDto implements Serializable {
      */
     private int kcCount;
     private int submited;
+    private int zc;
     /**
      * 合计总数
      */
@@ -351,6 +352,14 @@ public class StatisticsResultDto implements Serializable {
 
 	public void setSubmited(int submited) {
 		this.submited = submited;
+	}
+
+	public int getZc() {
+		return zc;
+	}
+
+	public void setZc(int zc) {
+		this.zc = zc;
 	}
 
 	// demand 5955 板块信息

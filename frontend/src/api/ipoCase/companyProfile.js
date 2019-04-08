@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 // 真接口
 // IPO公司概览返回类
-export function getCaseDetail(query) { 
+export function getCaseDetail(query) {
   return request({
     url:'/ipo/companyOverview/caseDetail',
     method: 'get',
@@ -137,4 +137,12 @@ export function getHeadData(query) {
     method: 'get',
     params: query
   })
+}
+// 检查下载文件是否存在
+export function checkFile(query) {
+  return request({
+                   url: '/ipo/ipoProcess/checkFile',
+                   method: 'get',
+                   params: query
+                 })
 }

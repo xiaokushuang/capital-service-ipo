@@ -2,7 +2,7 @@
 var myChart;
 //需求4399 2018/5/24 by liuh Start
 //var myChartColor = ['#C03533', '#2F4553', '#91C7AF', '#F6A631'];
-var myChartColor = ['#ca2428', '#2e444e', '#7ccbab', '#ffa128', '#227d99', '', '#ff5f3a','#14bcf5','','#3badda'];
+var myChartColor = ['#ca2428', '#2e444e', '#7ccbab', '#ffa128', '#227d99', '#ff5f3a','#3badda','#DDDDDD'];
 var myHistoryChart;
 $(document).ready(function() {
 	$("#borderShow").show();
@@ -68,6 +68,35 @@ function reviewingSttsCallBack(d) {
 }
 // IPO在审项目柱状图设置
 function chartSetting(lst) {
+	var newArray = new Array(8); 
+	for (var i = 0; i < lst.length; i++) {
+		if(lst[i].label == "已受理"){
+			newArray[0]= lst[i];
+		}
+		if(lst[i].label == "已反馈"){
+			newArray[1]= lst[i];
+		}
+		if(lst[i].label == "预披露更新"){
+			newArray[2]= lst[i];
+		}
+		if(lst[i].label == "已通过发审会"){
+			newArray[3]= lst[i];
+		}
+		if(lst[i].label == "中止审查"){
+			newArray[4]= lst[i];
+		}
+		if(lst[i].label == "已提交发审会讨论，暂缓表决"){
+			newArray[5]= lst[i];
+		}
+		if(lst[i].label == "提交注册"){
+			newArray[6]= lst[i];
+		}
+		if(lst[i].label == "注册生效"){
+			newArray[7]= lst[i];
+		}
+	}
+	lst  = new Array(8); 
+	lst = newArray;
 	// 设置数据
 	var labels = ['沪主板', '中小板', '创业板',{
 	    value: '科创板',
@@ -79,8 +108,8 @@ function chartSetting(lst) {
 	var itemLabel = [];
 	var series = [];
 	for (var i = 0; i < lst.length; i++) {
-		if ((lst[i].hzbCount > 0 || lst[i].zxbCount > 0 || lst[i].cybCount > 0 || lst[i].kcCount > 0) && i < lst.length - 1) {
-			if(lst[i].label!='终止审查'){
+		if ((lst[i].hzbCount > 0 || lst[i].zxbCount > 0 || lst[i].cybCount > 0 || lst[i].kcCount >= 0) && i <= lst.length - 1) {
+			if(lst[i].label!='终止审查' && lst[i].label!="预先披露更新" && lst[i].label!="已上发审会，暂缓表决"){
 				lst[i].label = lableTurnToName(lst[i].label);
 				var value = [];
 				value[0] = lst[i].hzbCount;
@@ -177,21 +206,48 @@ function chartSetting(lst) {
 }
 // IPO在审项目表格设置
 function reviewTableSetting(lst) {
-	var tbody = $('#review tbody');
+	var newArray = new Array(8); 
 	for (var i = 0; i < lst.length; i++) {
-		if (lst[i].hzbCount > 0 || lst[i].zxbCount > 0 || lst[i].cybCount > 0 || lst[i].kcCount > 0) {
-			if(lst[i].label!="终止审查"){
+		if(lst[i].label == "已受理"){
+			newArray[0]= lst[i];
+		}
+		if(lst[i].label == "已反馈"){
+			newArray[1]= lst[i];
+		}
+		if(lst[i].label == "预披露更新"){
+			newArray[2]= lst[i];
+		}
+		if(lst[i].label == "已通过发审会"){
+			newArray[3]= lst[i];
+		}
+		if(lst[i].label == "中止审查"){
+			newArray[4]= lst[i];
+		}
+		if(lst[i].label == "已提交发审会讨论，暂缓表决"){
+			newArray[5]= lst[i];
+		}
+		if(lst[i].label == "提交注册"){
+			newArray[6]= lst[i];
+		}
+		if(lst[i].label == "注册生效"){
+			newArray[7]= lst[i];
+		}
+	}
+	var tbody = $('#review tbody');
+	for (var i = 0; i < newArray.length; i++) {
+		if (newArray[i].hzbCount > 0 || newArray[i].zxbCount > 0 || newArray[i].cybCount > 0 || newArray[i].kcCount >= 0) {
+			if(newArray[i].label!="终止审查" && newArray[i].label!="预先披露更新" && newArray[i].label!="已上发审会，暂缓表决"){
 				var backgroud = '';
-				var label = '<td class="left">' + lableTurnName(lst[i].label) + '</td>';
-				if (i == lst.length - 1) {
-					label = '<td style="text-align: center;">' + lst[i].label + '</td>';
+				var label = '<td class="left">' + lableTurnName(newArray[i].label) + '</td>';
+				if (i == newArray.length - 1) {
+					label = '<td style="color:#0099cc" class="left">' + newArray[i].label + '</td>';
 					backgroud = 'style="background: #E8E8E8;"';
-					var total = lst[i].hzbCount + lst[i].zxbCount + lst[i].cybCount+ lst[i].kcCount;
-					var str = '<tr '+ backgroud +'>' + label + '<td>' + lst[i].hzbCount + '</td>' + '<td>' + lst[i].zxbCount + '</td>' + '<td style="border-right-color: #14bcf5;border-left-color: #14bcf5;border-top-color: #14bcf5;">' + lst[i].cybCount + '</td>' + '<td style="border-bottom-style:solid;border-right-color: #14bcf5;border-left-color: #14bcf5;border-bottom-color: #14bcf5;">' + lst[i].kcCount + '</td>'+'<td>' + total + '</td>' +'</tr>';
+					var total = newArray[i].hzbCount + newArray[i].zxbCount + newArray[i].cybCount+ newArray[i].kcCount;
+					var str = '<tr '+ backgroud +'>' + label + '<td>' + newArray[i].hzbCount + '</td>' + '<td>' + newArray[i].zxbCount + '</td>' + '<td style="border-right-color: #14bcf5;border-left-color: #14bcf5;border-top-color: #14bcf5;">' + newArray[i].cybCount + '</td>' + '<td style="border-bottom-style:solid;border-right-color: #14bcf5;border-left-color: #14bcf5;border-bottom-color: #14bcf5;">' + newArray[i].kcCount + '</td>'+'<td>' + total + '</td>' +'</tr>';
 					tbody.append(str);
 				}else{
-					var total = lst[i].hzbCount + lst[i].zxbCount + lst[i].cybCount + lst[i].kcCount;
-					var str = '<tr '+ backgroud +'>' + label + '<td>' + lst[i].hzbCount + '</td>' + '<td>' + lst[i].zxbCount + '</td>' + '<td style="border-right-color: #14bcf5;border-left-color: #14bcf5;border-top-color: #14bcf5;">' + lst[i].cybCount + '</td>' + '<td style="border-right-color: #14bcf5;border-left-color: #14bcf5;">' + lst[i].kcCount + '</td>'+'<td>' + total + '</td>' +'</tr>';
+					var total = newArray[i].hzbCount + newArray[i].zxbCount + newArray[i].cybCount + newArray[i].kcCount;
+					var str = '<tr '+ backgroud +'>' + label + '<td>' + newArray[i].hzbCount + '</td>' + '<td>' + newArray[i].zxbCount + '</td>' + '<td style="border-right-color: #14bcf5;border-left-color: #14bcf5;border-top-color: #14bcf5;">' + newArray[i].cybCount + '</td>' + '<td style="border-right-color: #14bcf5;border-left-color: #14bcf5;">' + newArray[i].kcCount + '</td>'+'<td>' + total + '</td>' +'</tr>';
 					tbody.append(str);
 				}
 			}
@@ -215,6 +271,9 @@ function lableTurnName(lable){
 	if(lable=="注册生效"){
 		lable = "<span style='color:#0099cc'>注册生效</span>";
 	}
+	if(lable=="提交注册"){
+		lable = "<span style='color:#0099cc'>提交注册</span>";
+	}
 	return lable;
 }
 
@@ -233,6 +292,9 @@ function lableTurnToName(lable){
 	}
 	if(lable=="注册生效"){
 		lable = "注册生效";
+	}
+	if(lable=="提交注册"){
+		lable = "提交注册";
 	}
 	return lable;
 }
@@ -436,7 +498,8 @@ function historyEChartInit() {
 		    },
 		    legend: {
 		        top: '35px',
-		        data:['合计','沪主板','创业板','中小板','科创板']
+		       // data:['合计','沪主板','创业板','中小板','科创板']
+		         data:['沪主板','创业板','中小板','科创板']
 		    },
 //		    toolbox: {
 //		    	top: '10px',
@@ -469,7 +532,7 @@ function historyEChartInit() {
 		    dataZoom: [{
 		        type: 'inside',
 		        start: 0,
-		        end: 30
+		        end: 100
 		    }, {
 		        start: 0,
 		        end: 10,
@@ -484,9 +547,10 @@ function historyEChartInit() {
 		        }
 		    }],
 		    series: [
-		        {
+		       /* {
 		            name:'合计',
 		            type:'line',
+		            stack: '总量',
 		            smooth:true,
 		            symbol: 'diamond',
 		            sampling: 'average',
@@ -502,10 +566,11 @@ function historyEChartInit() {
 //		                }
 //		            },
 		            data: []
-		        },     	
+		        },     	*/
 		        {
 		            name:'沪主板',
 		            type:'line',
+		            stack: '总量',
 		            smooth:true,
 		            symbol: 'circle',
 		            sampling: 'average',
@@ -524,6 +589,7 @@ function historyEChartInit() {
 		        {
 		            name:'创业板',
 		            type:'line',
+		            stack: '总量',
 		            smooth:true,
 		            symbol: 'rect',
 		            sampling: 'average',
@@ -541,6 +607,7 @@ function historyEChartInit() {
 		        },
 		        {
 		            name:'中小板',
+		            stack: '总量',
 		            type:'line',
 		            smooth:true,
 		            symbol: 'triangle',
@@ -562,12 +629,13 @@ function historyEChartInit() {
 		        {
 		            name:'科创板',
 		            type:'line',
+		            stack: '总量',
 		            smooth:true,
 		            symbol: 'diamond',
 		            sampling: 'average',
 		            itemStyle: {
 		                normal: {
-		                    color: myChartColor[7]
+		                    color: '#14bcf5'
 		                }
 		            },
 	            //需求6844 面积图调整为线型图  by liuh 2019/2/21 Start
@@ -590,13 +658,13 @@ function historyChartSetting(grabUpdateTime,hzbCount,zxbCount,cybCount,kcCount,t
         },
         // 根据名字对应到相应的系列
 	    series: [
-					{
+					/*{
 					    name:'合计',
 					    areaStyle: {normal: {}},
 					    type:'line',
 					    data: totalCount
 					   
-					},
+					},*/
 			        {
 			            name:'沪主板',
 			            areaStyle: {normal: {}},
