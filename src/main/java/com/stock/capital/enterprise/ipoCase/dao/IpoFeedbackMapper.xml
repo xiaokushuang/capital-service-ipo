@@ -225,7 +225,7 @@
         FROM
             ipo_process t1
         WHERE
-            t1.bid = '97952444248599344'
+            t1.bid = #{id}
         AND t1.process_type_code = '05'
         AND t1.process_time IS NOT NULL
     </select>
