@@ -50,7 +50,7 @@ export default {
                 var dataList = this.mainTableList
                  this.initBarChart(dataList);
                // 最开始初始化饼状图，默认传的是第三年的数据
-                 this.initPieChart(dataList.mainIncomeInfoList,'','',dataList.onePeriodForIncome);
+                 this.initPieChart(dataList.mainIncomeInfoList.slice(0,-1),'','',dataList.onePeriodForIncome);
       },
        //   初始化柱状图
     initBarChart(dataList) {
@@ -63,13 +63,13 @@ export default {
       this.barChart = echarts.init(document.getElementById('barChart'))
 
     //  循环获取柱状图数据
-      for (var i = 0; i < dataList.mainIncomeInfoList.length; i++) {
-          this.lengendData.push(dataList.mainIncomeInfoList[i].businessName);
+      for (var i = 0; i < dataList.mainIncomeInfoList.slice(0,-1).length; i++) {
+          this.lengendData.push(dataList.mainIncomeInfoList.slice(0,-1)[i].businessName);
           this.barYY = [];
-          var a1 = dataList.mainIncomeInfoList[i].firstYearAmount;
-          var a2 = dataList.mainIncomeInfoList[i].secondYearAmount;
-          var a3 = dataList.mainIncomeInfoList[i].thirdYearAmount;
-          var a4 = dataList.mainIncomeInfoList[i].onePeriodAmount;
+          var a1 = dataList.mainIncomeInfoList.slice(0,-1)[i].firstYearAmount;
+          var a2 = dataList.mainIncomeInfoList.slice(0,-1)[i].secondYearAmount;
+          var a3 = dataList.mainIncomeInfoList.slice(0,-1)[i].thirdYearAmount;
+          var a4 = dataList.mainIncomeInfoList.slice(0,-1)[i].onePeriodAmount;
           this.barYY.push(a1)
           this.barYY.push(a2)
           this.barYY.push(a3)
@@ -78,7 +78,7 @@ export default {
           // if(dataList.mainIncomeInfoList[i].businessName.length>7){
           //   barBusinessName = dataList.mainIncomeInfoList[i].businessName.slice(0,10)+'..'
           // }else{
-            barBusinessName = dataList.mainIncomeInfoList[i].businessName
+            barBusinessName = dataList.mainIncomeInfoList.slice(0,-1)[i].businessName
           // }
           this.barChartY.push(
                                 {

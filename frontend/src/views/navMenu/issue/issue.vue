@@ -162,39 +162,8 @@ export default {
   },
    created() {
     this.initTableData()
-    // this.getPosition()
   },
   mounted(){
-
-    // //返回父组件用于锚点定位头
-    //     let titleList = [];
-    //     let distributionData = {
-    //         id: 'distributionData',
-    //         name: '发行数据',
-    //         notes: '',
-    //         important: false,
-    //         tabId: 'tab-fifth',
-    //         noClick: true
-    //     }
-    //     let distributionCosts = {
-    //         id: 'distributionCosts',
-    //         name: '发行费用',
-    //         notes: '',
-    //         important: false,
-    //         tabId: 'tab-fifth',
-    //         noClick: true
-    //     }              
-    //     if(this.issueData){
-        
-    //       distributionData.noClick = false;
-    //     }
-    //     if(this.issueFeeData){
-    //       distributionCosts.noClick = false;
-    //     }
-    //     titleList.push(distributionData)
-    //     titleList.push(distributionCosts)
-    //     this.$emit('headCallBack', titleList);
-    //         //返回父组件用于锚点定位尾
   },
   methods: {
      initTableData() {
@@ -205,18 +174,17 @@ export default {
          getIssueFeeData(param).then(res=>{
            if(res.data.result&&res.data.result.length>0){
              this.issueFeeData = res.data.result
-             this.getPosition()
            }
+             this.getPosition()
          })
        getIssueData(param).then(res => {
          if(res.data.result){
            this.issueData = res.data.result
-           this.getPosition()
          }
+           this.getPosition()
       }) 
     },
      getPosition(){
-           
     // //返回父组件用于锚点定位头
         let titleList = [];
         let distributionData = {
@@ -236,10 +204,9 @@ export default {
             noClick: true
         }              
         if(this.issueData){
-        
           distributionData.noClick = false;
         }
-        if(this.issueFeeData){
+        if(this.issueFeeData&&this.issueFeeData.length>0){
           distributionCosts.noClick = false;
         }
         titleList.push(distributionData)
