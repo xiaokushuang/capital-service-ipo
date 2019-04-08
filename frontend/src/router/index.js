@@ -31,6 +31,12 @@ Vue.use(Router)
 export const constantRouterMap = [
   { path: '/404', component: _import('errorPage/404'), hidden: true },
   { path: '/401', component: _import('errorPage/401'), hidden: true },
+  {
+    path:'/companyDetailPopWin',
+    component: _import('components-demo/companyDetailPopWinComponent'),
+    name:'companyDetailPopWin',
+    meta: {title: '公司详情弹窗', noCache: true}
+  },
   // {
   //   path: '',
   //   component: Layout,
@@ -374,7 +380,7 @@ export const asyncRouterMap = [
         component: _import('i18n-demo/index'),
         name: 'i18n',
         meta: { title: '国际化', icon: '' }
-      }
+      },
     ]
   },
   {

@@ -474,6 +474,8 @@ public class FinanceDataService extends BaseService {
                     logger.error("cause by：{}", Throwables.getStackTraceAsString(e));
                 } 
                 dataMap.put("num", sf.getCount()); 
+                dataMap.put("cityName", String.valueOf(sf.getValue())); 
+                dataMap.put("condition", conditionsStr); //增加查询条件
                 tempResult.add(dataMap);
             }
         }

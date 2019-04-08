@@ -84,8 +84,8 @@
                                 
                                 <el-table-column align="center" label="数量"  min-width="15%">
                                     <template slot-scope="scope">
-                                        <span v-if="scope.row.num.length==0">0</span>
-                                        <span>{{scope.row.num}}</span>
+                                        <a v-if="scope.row.num.length==0">0</a>
+                                        <a @click="companySel(scope.row,'004')">{{scope.row.num}}</a>
                                     </template>
                                 </el-table-column>
                             </el-table>     
@@ -113,8 +113,8 @@
                                 
                                 <el-table-column align="center" label="数量"  min-width="60px">
                                     <template slot-scope="scope">
-                                        <span v-if="scope.row.num.length==0">0</span>
-                                        <span>{{scope.row.num}}</span>
+                                        <a v-if="scope.row.num.length==0">0</a>
+                                        <a @click="companySel(scope.row,'001')">{{scope.row.num}}</a>
                                     </template>
                                 </el-table-column>
                             </el-table>     
@@ -142,8 +142,8 @@
                                 
                                 <el-table-column align="center" label="数量"  min-width="60px">
                                     <template slot-scope="scope">
-                                        <span v-if="scope.row.num.length==0">0</span>
-                                        <span>{{scope.row.num}}</span>
+                                        <a v-if="scope.row.num.length==0">0</a>
+                                        <a @click="companySel(scope.row,'002')">{{scope.row.num}}</a>
                                     </template>
                                 </el-table-column>
                             </el-table>      
@@ -171,8 +171,8 @@
                                 
                                 <el-table-column align="center" label="数量"  min-width="60px">
                                     <template slot-scope="scope">
-                                        <span v-if="scope.row.num.length==0">0</span>
-                                        <span>{{scope.row.num}}</span>
+                                        <a v-if="scope.row.num.length==0">0</a>
+                                        <a @click="companySel(scope.row,'003')">{{scope.row.num}}</a>
                                     </template>
                                 </el-table-column>
                             </el-table>      
@@ -214,6 +214,7 @@ export default {
       options: [],
       arr: ["001", "002", "003"],
       refreshFlag:false,//点击按钮不刷新右边表格
+      titleName:'证券发行'
     };
   },
   props: {
@@ -235,6 +236,10 @@ export default {
     }
   },
   methods: {
+    companySel(row,finaType) {//打开公司详情页
+      debugger;
+      this.companyDetailShow("2",this.titleName,finaType,row.name,row.condition,this.code_value);
+    },
     //点击年度选项事件
     activeFun(data) {
       this.flag = data; //选中样式
@@ -315,6 +320,7 @@ export default {
         return this.tableData.length>0?this.tableData[0].dataSum:[]
     },
     data2(){
+      debugger;
         return this.tableData.length>0?this.tableData[2].dataSum:[]
     },
     data3(){

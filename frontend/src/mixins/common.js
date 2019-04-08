@@ -30,6 +30,29 @@ export default{
         },
         popAlert(msg){//提示弹窗
 			iframeDoMessage(window.parent,'popAlert',[msg]);
-		},
+        },
+        companyDetailShow(chartType,titleName,finaType,selCondition,condition,financeIndustry) {//公司详情页
+            let title = ''
+            if(finaType == '001') {
+                title = titleName + '-IPO'
+            } else if(finaType == '002') {
+                title = titleName + '-增发'
+            } else if(finaType == '003') {
+                title = titleName + '-配股'
+            } else if(finaType == '004') {
+                title = titleName + '-全部'
+            }
+            let url = window.location.href;
+            url = url.replace(this.$route.path,'/companyDetailPopWin');
+            url = url + '&chartType=' + chartType + '&finaType=' + finaType + '&selCondition=' + selCondition;
+            if(chartType == '2') {//饼状图
+                url = url + '&condition=' + condition + '&financeIndustry=' + financeIndustry;
+            } else if(chartType == '3') {
+                url = url + '&condition=' + condition;
+            }
+			//参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
+			iframeDoMessage(window.parent,'popWinOut',[title,url,'1100','540']);
+
+        }
     }
 }

@@ -44,6 +44,50 @@ public class FinanceParamDto implements Serializable {
     // 证券简称
     private String securityShortName;
     
+    //图的类型：1柱状图
+    private String chartType;
+    
+    //选中的查询条件
+    private String selCondition;
+    
+    //选择的模块:001IPO,002增发，003配股，004全部
+    private String finaType;
+    
+    //索引查询条件
+    private String conditionStr;
+    
+    public String getSelCondition() {
+        return selCondition;
+    }
+
+    public void setSelCondition(String selCondition) {
+        this.selCondition = selCondition;
+    }
+
+    public String getConditionStr() {
+        return conditionStr;
+    }
+
+    public void setConditionStr(String conditionStr) {
+        this.conditionStr = conditionStr;
+    }
+
+    public String getChartType() {
+        return chartType;
+    }
+
+    public String getFinaType() {
+        return finaType;
+    }
+
+    public void setChartType(String chartType) {
+        this.chartType = chartType;
+    }
+
+    public void setFinaType(String finaType) {
+        this.finaType = finaType;
+    }
+
     public String getCompanyName() {
         return companyName;
     }

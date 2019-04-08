@@ -16,7 +16,8 @@ import {
   refinanceApprove,
   refinanceApptype,
   refinanceRecommend,
-  companyByCode
+  companyByCode,
+  searchCompanyDetail
 } from '@/api/ipo'
 import {
   MultidimensionalData
@@ -637,7 +638,16 @@ const ipo = {
           reject(error)
         })
       })
-    }
+    },
+    searchCompanyDetail({commit}, queryParam){//获取公司详情列表数据
+			return new Promise((resolve, reject) => {
+				searchCompanyDetail(queryParam).then(response => {
+					resolve(response.data.result);
+				}).catch(error => {
+					reject(error)
+				})
+			})
+	   },
   },
   getters: {
     getIpo1: state => state.ipodata1,

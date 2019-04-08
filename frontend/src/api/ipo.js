@@ -167,9 +167,9 @@ export function financeSearchData(param) {
   })
 }
 
-export function getAllDropDownList(query) {//融资统计获取所有下拉列表
+export function searchCompanyDetail(query) {//获取公司详情页数据
   return request({
-      url: '/ipo/financeStatistics/getAllDropDownList',//controller路径
+      url: '/ipo/financeStatistics/searchCompanyDetail',//controller路径
       method: 'post',//请求方式
       data: query,//参数
   })

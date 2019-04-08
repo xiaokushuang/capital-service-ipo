@@ -71,10 +71,10 @@
 
                                 <el-table-column align="center" label="数量"  min-width="60px">
                                     <template slot-scope="scope">
-                                        <span v-if="scope.row.dataSum.length==0">0</span>
-                                        <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
-                                            <span>{{o.num}}</span>
-                                        </span>
+                                        <a v-if="scope.row.dataSum.length==0">0</a>
+                                        <a v-else v-for='(o,i) in scope.row.dataSum' :key="i" @click="companySel(scope.row,'004')">
+                                            <a>{{o.num}}</a>
+                                        </a>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -104,10 +104,10 @@
 
                                 <el-table-column align="center" label="数量"  min-width="60px">
                                     <template slot-scope="scope">
-                                        <span v-if="scope.row.dataSum.length==0">0</span>
-                                        <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
-                                            <span v-if="o.name=='001'">{{o.num}}</span>
-                                        </span>
+                                        <a v-if="scope.row.dataSum.length==0">0</a>
+                                        <a v-else v-for='(o,i) in scope.row.dataSum' :key="i" @click="companySel(scope.row,'001')">
+                                            <a v-if="o.name=='001'">{{o.num}}</a>
+                                        </a>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -137,10 +137,10 @@
 
                                 <el-table-column align="center" label="数量"  min-width="60px">
                                     <template slot-scope="scope">
-                                        <span v-if="scope.row.dataSum.length==0">0</span>
-                                        <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
-                                            <span v-if="o.name=='002'">{{o.num}}</span>
-                                        </span>
+                                        <a v-if="scope.row.dataSum.length==0">0</a>
+                                        <a v-else v-for='(o,i) in scope.row.dataSum' :key="i" @click="companySel(scope.row,'002')">
+                                            <a v-if="o.name=='002'">{{o.num}}</a>
+                                        </a>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -170,10 +170,10 @@
 
                                 <el-table-column align="center" label="数量"  min-width="60px">
                                     <template slot-scope="scope">
-                                        <span v-if="scope.row.dataSum.length==0">0</span>
-                                        <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
-                                            <span v-if="o.name=='003'">{{o.num}}</span>
-                                        </span>
+                                        <a v-if="scope.row.dataSum.length==0">0</a>
+                                        <a v-else v-for='(o,i) in scope.row.dataSum' :key="i" @click="companySel(scope.row,'003')">
+                                            <a v-if="o.name=='003'">{{o.num}}</a>
+                                        </a>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -210,6 +210,7 @@ export default {
         dateSelect: ""
       },
       tableData: [],
+      titleName:'证券发行'
     };
   },
   props: {
@@ -231,6 +232,9 @@ export default {
     }
   },
   methods: {
+    companySel(row,finaType) {//打开公司详情页
+      this.companyDetailShow("1",this.titleName,finaType,row.date);
+    },
     //点击年度选项事件
     activeFun(data) {
       this.flag = data; //选中样式
@@ -264,8 +268,10 @@ export default {
     ...mapGetters(["getIpo1"]),
     // 全部选项计算数据
     tableData1() {
+      debugger;
       var middle = [];
       this.tableData.map((obj, idx) => {
+        debugger;
         if (obj.dataSum.length > 1) {
           var valuec = {};
           valuec.dataSum = [{ value: 0, num: 0, date: "" }];
@@ -273,6 +279,7 @@ export default {
           valuec["value"] = 0;
           valuec["num"] = 0;
           obj.dataSum.map((o, i) => {
+            debugger;
             valuec.dataSum[0]["value"] += Number(o.value);
             valuec.dataSum[0]["num"] += Number(o.num);
           });
