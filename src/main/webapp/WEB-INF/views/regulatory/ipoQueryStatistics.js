@@ -23,7 +23,7 @@ $(document).ready(function() {
 	//获取当前年份
 	var date=new Date;
 	var year=date.getFullYear(); 
-	$("#ipoAreaDetail thead tr:eq(1)").find("th").eq(9).html(year+"年");
+	$("#ipoAreaDetail thead tr:eq(1)").find("th").eq(10).html(year+"年");
 });
 // 数据获取初始化
 function dataInit() {
@@ -59,7 +59,8 @@ function areaDataSetting(lst) {
 						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'06\',\'unit\')">' + lst[i].processing + '</td>' 
 						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'03\',\'unit\')">' + lst[i].passed + '</td>' 
 						
-						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'09\',\'unit\')">' + lst[i].submited + '</td>' //提交注册
+						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'10\',\'unit\')">' + lst[i].submited + '</td>' //提交注册
+						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'09\',\'unit\')">' + lst[i].zc + '</td>' //注册生效
 						
 						+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'\',\'area\')">' + lst[i].areaCount + '</a></td>'
 						+ '<td><a style="cursor: pointer;" onclick="viewAreaDetail(\''+lst[i].registAddr+'\',\''+lst[i].lastUpadteTime+'\',\'99\',\'unit\')">' + lst[i].weekStopYet + '</td>' 
@@ -78,7 +79,8 @@ function areaDataSetting(lst) {
 			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'06\',\'approve\')">' + lst[sumIndex].processing + '</a></td>'  
 			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'03\',\'approve\')">' + lst[sumIndex].passed + '</a></td>'  
 			
-			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'09\',\'approve\')">' + lst[sumIndex].submited + '</a></td>'  //提交注册
+			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'10\',\'approve\')">' + lst[sumIndex].submited + '</a></td>'  //提交注册
+			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'09\',\'approve\')">' + lst[sumIndex].zc + '</a></td>'  //注册生效
 			
 			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'\',\'all\')">' + lst[sumIndex].areaCount + '</a></td>'
 			+ '<td class="count_bgc"><a style="cursor: pointer;" onclick="viewAreaDetail(\'\',\''+lst[sumIndex].lastUpadteTime+'\',\'99\',\'approve\')">' + lst[sumIndex].weekStopYet + '</a></td>'  
@@ -224,6 +226,8 @@ function viewAreaDetail(registAddr,lastUpadteTime,approveStatus,viewType){
 	        case '06': appLabel = approveStatus.replace("06", "已提交发审会讨论，暂缓表决");
 	        break;
 	        case '09': appLabel = approveStatus.replace("09", "<span style='color:#0099cc'>注册生效</span>");
+	        break;
+	        case '10': appLabel = approveStatus.replace("10", "<span style='color:#0099cc'>提交注册</span>");
 	        break;
 	        case '03': appLabel = approveStatus.replace("03", "已通过发审会<span style='color:#0099cc'>(上市委会议通过)</span>");
 	        break;
