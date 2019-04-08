@@ -511,9 +511,15 @@
   background-color: #f5f7fa;
   color: #333;
 }
-.raiseMoneyTable table tr:last-of-type{
+.mainTable table tr:last-of-type{
   font-weight: bold
 }
+.issueMoney table tr:last-of-type{
+  font-weight: bold
+}
+//  table tr:last-of-type{
+//   font-weight: bold
+// }
 // .moreNotice .el-table__header{
 //   width:100% !important;
 //   text-align: center;

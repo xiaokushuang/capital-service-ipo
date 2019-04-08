@@ -298,7 +298,6 @@ export default {
          if(res.data.result){
            this.headList = res.data.result
            this.specialArrange = res.data.result.specialArrange.split(',');
-           console.log(this.specialArrange)
          }
        }) 
        getCaseDetail(param).then(res => {

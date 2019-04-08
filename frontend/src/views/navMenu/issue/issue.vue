@@ -165,8 +165,59 @@ export default {
     // this.getPosition()
   },
   mounted(){
-    console.log('加载',this.issueFeeData)
-    //返回父组件用于锚点定位头
+
+    // //返回父组件用于锚点定位头
+    //     let titleList = [];
+    //     let distributionData = {
+    //         id: 'distributionData',
+    //         name: '发行数据',
+    //         notes: '',
+    //         important: false,
+    //         tabId: 'tab-fifth',
+    //         noClick: true
+    //     }
+    //     let distributionCosts = {
+    //         id: 'distributionCosts',
+    //         name: '发行费用',
+    //         notes: '',
+    //         important: false,
+    //         tabId: 'tab-fifth',
+    //         noClick: true
+    //     }              
+    //     if(this.issueData){
+        
+    //       distributionData.noClick = false;
+    //     }
+    //     if(this.issueFeeData){
+    //       distributionCosts.noClick = false;
+    //     }
+    //     titleList.push(distributionData)
+    //     titleList.push(distributionCosts)
+    //     this.$emit('headCallBack', titleList);
+    //         //返回父组件用于锚点定位尾
+  },
+  methods: {
+     initTableData() {
+       // 动态传id
+      const param = {
+        id:this.caseId
+      }
+         getIssueFeeData(param).then(res=>{
+           if(res.data.result&&res.data.result.length>0){
+             this.issueFeeData = res.data.result
+             this.getPosition()
+           }
+         })
+       getIssueData(param).then(res => {
+         if(res.data.result){
+           this.issueData = res.data.result
+           this.getPosition()
+         }
+      }) 
+    },
+     getPosition(){
+           
+    // //返回父组件用于锚点定位头
         let titleList = [];
         let distributionData = {
             id: 'distributionData',
@@ -185,59 +236,16 @@ export default {
             noClick: true
         }              
         if(this.issueData){
+        
           distributionData.noClick = false;
         }
-        if(this.issueFeeData&&this.issueFeeData.length>0){
+        if(this.issueFeeData){
           distributionCosts.noClick = false;
         }
-        console.log(this.issueData)
-        console.log(this.issueFeeData)
-        console.log(distributionCosts.noClick)
         titleList.push(distributionData)
         titleList.push(distributionCosts)
         this.$emit('headCallBack', titleList);
-            //返回父组件用于锚点定位尾
-  },
-  methods: {
-     initTableData() {
-       // 动态传id
-      const param = {
-        id:this.caseId
-      }
-         getIssueFeeData(param).then(res=>{
-           if(res.data.result&&res.data.result.length>0){
-             this.issueFeeData = res.data.result
-           }
-         })
-       getIssueData(param).then(res => {
-         if(res.data.result){
-           this.issueData = res.data.result
-         }
-      }) 
-    },
-     getPosition(){
-           //返回父组件用于锚点定位头
-                let titleList = [];
-                let distributionData = {
-                    id: 'distributionData',
-                    name: '发行数据',
-                    notes: '',
-                    important: false,
-                    tabId: 'tab-fifth',
-                    noClick: false
-                }
-                let distributionCosts = {
-                    id: 'distributionCosts',
-                    name: '发行费用',
-                    notes: '',
-                    important: false,
-                    tabId: 'tab-fifth',
-                    noClick: false
-                }              
-                titleList.push(distributionData)
-                titleList.push(distributionCosts)
-                this.$emit('headCallBack', titleList);
-            //返回父组件用于锚点定位尾
+    //         //返回父组件用于锚点定位尾
      },
     //  
      // 鼠标移入表格内容加title

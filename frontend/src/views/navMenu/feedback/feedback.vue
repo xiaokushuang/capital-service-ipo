@@ -275,7 +275,7 @@
                                 <span>{{answerCount}}</span>
                                 <span>个回复</span>
                                 <el-checkbox  @change="handleOnlyChange(onlyShowAnswer)" v-model="onlyShowAnswer" style="margin-left:20px;margin-right:15px">只展示回复问题</el-checkbox>
-                                <el-button @click="toggleSelection()" class="reset" type="primary" plain>重置</el-button>
+                                <el-button @click="toggleSelection()" class="reset" type="primary">重置</el-button>
                             </div>
                         </div>
                     </div>

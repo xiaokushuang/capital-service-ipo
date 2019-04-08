@@ -175,15 +175,12 @@ export default {
             switch (n) {
                 case 0:
                 this.initTableData(0)
-                console.log('失效')
                     break;
                 case 1:
                 this.initTableData(1)
-                console.log('有效')
                     break;
                  default:
                  this.initTableData('')
-                 console.log('全部')
                     break;
             }
         }
@@ -199,15 +196,11 @@ export default {
         id:this.caseId,
         validFlag:validFlag
       }
-      console.log(param)
       getIntermediaryOrgDataList(param).then(response => {
-          console.log(response)
           if(response.data.result){
               this.allStitutionList = response.data.result
               this.mainList = response.data.result.mainList
               this.moreList = response.data.result.moreList
-              console.log('主要',this.mainList)
-              console.log('主要',this.moreList)
           }
         //   if(response.data.result&&response.data.result.mainList&&response.data.result.mainList.length>0){
         //       this.mainList = response.data.result.mainList
