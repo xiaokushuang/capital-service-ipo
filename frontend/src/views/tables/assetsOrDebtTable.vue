@@ -10,22 +10,22 @@
       </el-table-column>
       <el-table-column
         prop=""
-       :label="tableTitle.forthYearDate?tableTitle.forthYearDate:''"
+       :label="assetsOrDeptTableList[0].forthYearDate?assetsOrDeptTableList[0].forthYearDate:''"
        align="right">
       </el-table-column>
       <el-table-column
         prop=""
-        :label="tableTitle.thirdYearDate?tableTitle.thirdYearDate:''"
+        :label="assetsOrDeptTableList[0].thirdYearDate?assetsOrDeptTableList[0].thirdYearDate:''"
         align="right">
       </el-table-column>
       <el-table-column
         prop=""
-        :label="tableTitle.secondYearDate?tableTitle.secondYearDate:''"
+        :label="assetsOrDeptTableList[0].secondYearDate?assetsOrDeptTableList[0].secondYearDate:''"
         align="right">
       </el-table-column>
        <el-table-column
         prop=""
-        :label="tableTitle.firstYearDate?tableTitle.firstYearDate:''"
+        :label="assetsOrDeptTableList[0].firstYearDate?assetsOrDeptTableList[0].firstYearDate:''"
         align="right">
       </el-table-column>
       <el-table-column
@@ -34,10 +34,10 @@
         align="center">
       </el-table-column>
     </el-table>
-    <p v-if="ipoAssetItemList&&ipoAssetItemList.length>0" class="sortProject">资产类项目：</p>
+    <p v-if="assetsOrDeptTableList[1]&&assetsOrDeptTableList[1].length>0" class="sortProject">资产类项目：</p>
     <el-table 
       class="table2"
-     :data="ipoAssetItemList"
+     :data="assetsOrDeptTableList[1]"
       border
       style="width: 100%">
        <el-table-column prop="itemName" align="left"  class-name="table_cell" label="占比" width="184">
@@ -76,10 +76,10 @@
         </el-table-column>
      
     </el-table>
-     <p v-if="ipoDebtItemList&&ipoDebtItemList.length>0" class="sortProject">负债类项目：</p>
+     <p v-if="assetsOrDeptTableList[2]&&assetsOrDeptTableList[2].length>0" class="sortProject">负债类项目：</p>
     <el-table
       class="table2"
-     :data="ipoDebtItemList"
+     :data="assetsOrDeptTableList[2]"
       border
       style="width: 100%">
        <el-table-column prop="itemName" align="left"  class-name="table_cell" label="占比" width="184">
@@ -118,10 +118,10 @@
         </el-table-column>
      
     </el-table>
-     <p v-if="ipoEquityItemList&&ipoEquityItemList.length>0" class="sortProject"> 权益类项目：</p>
+     <p v-if="assetsOrDeptTableList[3]&&assetsOrDeptTableList[3].length>0" class="sortProject"> 权益类项目：</p>
      <el-table
       class="table2"
-     :data="ipoEquityItemList"
+     :data="assetsOrDeptTableList[3]"
       border
       style="width: 100%">
        <el-table-column prop="itemName" align="left"  class-name="table_cell" label="占比" width="184">
@@ -178,7 +178,7 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
     return {
       // 弹窗
         tanZxChart:null,
-         tableTitle: {
+         assetsOrDeptTableTitle: {
         forthYearDate:'',
         thirdYearValue:'',
         secondYearValue:'',
@@ -198,14 +198,15 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
     components:{
       tanZxChart
     },
+    props:[ "assetsOrDeptTableList"],
     created(){
-      this.initTableData()
+      // this.initTableData()
        
     },
     beforeDestroy () {
     },
     mounted() {
-
+      console.log(this.assetsOrDeptTableList)
     },
     updated(){
     },
@@ -217,7 +218,7 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
           id:this.caseId
         }
         getAssetsOrDebtData(param).then(res => {
-          this.tableTitle = res.data.result.dateList
+          this.assetsOrDeptTableTitle = res.data.result.dateList
           this.ipoAssetItemList = res.data.result.ipoAssetItemList//资产类项目列表
           this.ipoDebtItemList = res.data.result.ipoDebtItemList//负债类项目列表
           this.ipoEquityItemList = res.data.result.ipoEquityItemList//权益类项目列表

@@ -122,7 +122,7 @@
     </div>
     <!-- 股权结构图 -->
     <div class="ownershipStructure" style="margin-top:32px">
-      <div class="title">
+      <div v-if="structureUrl || (gqTableList&&gqTableList.length>0)" class="title">
         <span class="littleRectangle"></span>
         <span class="titleText" id="ownershipStructureChart">股权结构图</span>
         <span v-if="companyProfileList&&companyProfileList.structureLabel">
@@ -167,21 +167,21 @@
     </div>
     <!-- 主营业务收入构成 -->
     <div class="incomeComposition">
-      <div class="title">
+      <div v-if="mainTableList.firstYearForIncome" class="title">
         <span class="littleRectangle"></span>
         <span class="titleText" id="mainBusinessIncomeComposition">主营业务收入构成</span>
       </div>
       <div class="echart clear">
-        <barOrPieChart v-if="this.mainTableList.firstYearForIncome" :mainTableList = "this.mainTableList"></barOrPieChart>
+        <barOrPieChart v-if="mainTableList.firstYearForIncome" :mainTableList = "mainTableList"></barOrPieChart>
       </div>
       <!-- table表格 -->
       <div class="incomeCompositionTable">
-         <mainTable :mainTableList = "this.mainTableList"></mainTable>
+         <mainTable :mainTableList = "mainTableList"></mainTable>
       </div>
     </div>
     <!-- 主要竞争对手简介 -->
     <div class="MajorCompetitors">
-      <div class="title">
+      <div v-if="MajorCompetitors&&MajorCompetitors.length>0" class="title">
         <span class="littleRectangle"></span>
         <span class="titleText" id="mainCompetitors">主要竞争对手简介</span>
       </div>
@@ -217,7 +217,7 @@
     </div>
     <!-- 报告期主要供应商及客户情况 -->
     <div class="theTopFive">
-       <div class="title">
+       <div v-if="(supplierMainList&&supplierMainList.length>0) || (customerMainList&&customerMainList.length>0)" class="title">
         <span class="littleRectangle"></span>
         <span class="titleText" id="majorSuppliers">报告期主要供应商及客户情况</span>
       </div>
@@ -406,14 +406,14 @@
     </div>
     <!-- 募集资金运用 -->
     <div class="raiseMoney">
-      <div class="title">
+      <div v-if="raiseMoneyTableList&&raiseMoneyTableList.length>0" class="title">
         <span class="littleRectangle"></span>
         <span class="titleText" id="utilizationOfRaisedFunds">募集资金运用</span>
       </div>
       <div class="raiseMoneyTable">
         <!-- 募集资金运用表格 -->
         <p v-if="raiseMoneyTableList&&raiseMoneyTableList.length>0" style="font-size:12px;color:#666;float:right">单位：万元</p>
-          <el-table :data="raiseMoneyTableList" border style="width:100%;">
+          <el-table :data="raiseMoneyTableList" class="raiseMoneyTable" border style="width:100%;">
             <el-table-column label="项目名称" align="left">
                 <template slot-scope="scope">
                     <span v-if="scope.row.itemName">{{scope.row.itemName}}</span>
@@ -464,11 +464,11 @@
     </div>
     <!-- 中介机构 -->
     <div class="IntermediaryInstitutions">
-      <div class="title">
+      <div v-if="(mainList&&mainList.length>0) || (moreList&&moreList.length>0)" class="title">
         <span class="littleRectangle"></span>
         <span class="titleText" id="intermediaryInstitutions">中介机构</span>
       </div>
-      <IntermediaryInstitutions></IntermediaryInstitutions>
+      <IntermediaryInstitutions v-if="(mainList&&mainList.length>0) || (moreList&&moreList.length>0)"></IntermediaryInstitutions>
     </div>
   </div>
 </template>
@@ -484,6 +484,8 @@ import { getCompetitorData } from "@/api/ipoCase/companyProfile";
 import { getRaiseMoneyTableList } from "@/api/ipoCase/companyProfile";
 import { getSupplierCustomerData } from '@/api/ipoCase/tableDemo';
 import { getTableData } from '@/api/ipoCase/tableDemo';
+// 中介机构数据
+import { getIntermediaryOrgDataList } from '@/api/ipoCase/companyProfile'
 // 导入主营业务收入构成表格
 import mainTable from "@/views/tables/mainTable";
 // 导入柱形图和饼图
@@ -526,12 +528,14 @@ export default {
         secondYearForIncome:'',
         firstYearForIncome:''
       },
+      // 中介机构
+      moreList:[],
+      mainList:[],
     };
   },
   props:["companyProfileList"],
   created() {
     this.getData();
-    // this.getPosition();
   },
   mounted() {
       this.getPosition();
@@ -544,28 +548,33 @@ export default {
         id:this.caseId
       }
       getMarketData(param).then(res=>{
+        this.getPosition()
         if(res.data.result&&res.data.result.length>0){
           this.otherMarketInfoList = res.data.result//其他登录市场
         }
       });
       // 股权结构图表格
       getShareHolderData(param).then(res=>{
+        this.getPosition()
         if(res.data.result&&res.data.result.length>0){
           this.gqTableList = res.data.result
         }
       });
       getCompetitorData(param).then(res=>{
+        this.getPosition()
         if(res.data.result&&res.data.result.length>0){
           this.MajorCompetitors = res.data.result
         }
       });
       getRaiseMoneyTableList(param).then(res=>{
+        this.getPosition()
         if(res.data.result&&res.data.result.length>0){
           this.raiseMoneyTableList = res.data.result
         }
       });
       // 供应商
       getSupplierCustomerData(param).then(response => {
+        this.getPosition()
         if(response.data.result&&response.data.result.supplierMainList&&response.data.result.supplierMainList.length>0){
           this.supplierMainList = response.data.result.supplierMainList
         }
@@ -575,9 +584,20 @@ export default {
       })
       // 主营业务收入构成
       getTableData(param).then(response => {
+        this.getPosition()
         if( response.data.result){
           this.mainTableList = response.data.result
         }
+      })
+      // 中介机构
+       getIntermediaryOrgDataList(param).then(response => {
+         this.getPosition()
+         if(response.data.result&&response.data.result.mainList&&response.data.result.mainList.length>0){
+              this.mainList = response.data.result.mainList
+          }
+          if(response.data.result&&response.data.result.moreList&&response.data.result.moreList.length>0){
+              this.moreList = response.data.result.moreList
+          }
       })
       
 
@@ -591,7 +611,7 @@ export default {
               notes: '',
               important: false,
               tabId: 'tab-first',
-              noClick: false
+              noClick: true
           }
           var mainBusinessIncomeComposition = {
               id: 'mainBusinessIncomeComposition',
@@ -599,7 +619,7 @@ export default {
               notes: '',
               important: false,
               tabId: 'tab-first',
-              noClick: false
+              noClick: true
           }
           var mainCompetitors = {
               id: 'mainCompetitors',
@@ -607,7 +627,7 @@ export default {
               notes: '',
               important: false,
               tabId: 'tab-first',
-              noClick: false
+              noClick: true
           }
           var majorSuppliers = {
               id: 'majorSuppliers',
@@ -615,7 +635,7 @@ export default {
               notes: '',
               important: false,
               tabId: 'tab-first',
-              noClick: false
+              noClick: true
           }
           var utilizationOfRaisedFunds = {
               id: 'utilizationOfRaisedFunds',
@@ -623,7 +643,7 @@ export default {
               notes: '',
               important: false,
               tabId: 'tab-first',
-              noClick: false
+              noClick: true
           }
           var intermediaryInstitutions = {
               id: 'intermediaryInstitutions',
@@ -633,16 +653,31 @@ export default {
               tabId: 'tab-first',
               noClick: false
           }
+          if(this.structureUrl || (this.gqTableList&&this.gqTableList.length>0)){
+             ownershipStructureChart.noClick = false;
+          }
+          if(this.mainTableList.firstYearForIncome){
+            mainBusinessIncomeComposition.noClick = false;
+          }
+          if(this.MajorCompetitors&&this.MajorCompetitors.length>0){
+             mainCompetitors.noClick = false;
+          }
+          if((this.supplierMainList&&this.supplierMainList.length>0) || (this.customerMainList&&this.customerMainList.length>0)){
+            majorSuppliers.noClick = false;
+          }
+          if(this.raiseMoneyTableList&&this.raiseMoneyTableList.length>0){
+            utilizationOfRaisedFunds.noClick = false;
+          }
+          console.log('ww',this.mainList)
+          if((this.mainList&&this.mainList.length>0) || (this.moreList&&this.moreList.length>0)){
+            intermediaryInstitutions.noClick = false;
+          }
           titleList.push(ownershipStructureChart)
           titleList.push(mainBusinessIncomeComposition)
           titleList.push(mainCompetitors)
           titleList.push(majorSuppliers)
           titleList.push(utilizationOfRaisedFunds)
           titleList.push(intermediaryInstitutions)
-          //股权结构图
-          // if (this.gqTableList.length>0) {
-          //     ownershipStructureChart.noClick = true;
-          // }
           this.$emit('headCallBack', titleList);
     },
       // 非空判断

@@ -427,7 +427,7 @@ export default {
 
 <style scoped lang="scss">
 .gonggao{
-    color:#0099cc;
+    color:#14bcf5;
     font-size:14px;
     display:none;
     margin-bottom: 24px;
@@ -436,7 +436,7 @@ export default {
 .gonggao:hover {
     cursor: pointer;
     text-decoration: underline;
-    text-decoration-color: #0099cc;
+    text-decoration-color: #14bcf5;
 }
 .moreNoticeCss {
     font-family: "PingFangSC-Regular", "PingFang SC";

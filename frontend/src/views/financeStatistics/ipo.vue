@@ -38,7 +38,7 @@
                  >{{headList.greenPassage}}
               </span>
               <span v-if="specialArrange&&specialArrange.length>0">
-                <span v-for="data in specialArrange" style=" display: inline-block;margin-top:8px;background: #ff9900; font-size: 12px; color: #fff;border-radius: 2px;padding: 4.5px; position:relative;z-index:10;margin-right:10px"
+                <span v-for="data in specialArrange" style=" display: inline-block;margin-top:8px;background: #fe5461; font-size: 12px; color: #fff;border-radius: 2px;padding: 4.5px; position:relative;z-index:10;margin-right:10px"
                   >{{data}}
                 </span>
               </span>
