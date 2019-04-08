@@ -62,7 +62,7 @@
           <!-- 发行人选择的上市标准 -->
           <!-- <li :style="{'position':'relative','margin-bottom':companyProfileList.issueCondition==''?'10px':'30px'}"> -->
           <li v-if="companyProfileList&&companyProfileList.issueCondition !=''" style="margin-bottom:10px;position:relative" >
-            <span style="display: inline-block;width: 65px;line-height: 20px;">发行人选择的上市标准</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span v-if="companyProfileList.issueCondition" style="display: inline-block;width: 65px;line-height: 20px;">发行人选择的上市标准</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <div v-if="companyProfileList&&companyProfileList.issueCondition ==''" style="color: #333333;margin-left: 9.4%;margin-top: -4.8%;line-height: 20px;">- -</div>
             <div v-else style="color: #333333;margin-left: 9.4%;margin-top: -4.8%;line-height: 20px;">
               <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('101')>-1">预计市值不低于人民币<span style="color:red">10亿元</span>，最近两年净利润均为正且累计净利润不低于人民币<span style="color:red">5000万元</span>，或者预计市值不低于人民币<span style="color:red">10亿元</span>，最近一年净利润为正且营业收入不低于人民币<span style="color:red">1亿元</span></div>
@@ -122,7 +122,7 @@
     </div>
     <!-- 股权结构图 -->
     <div class="ownershipStructure" style="margin-top:32px">
-      <div v-if="structureUrl || (gqTableList&&gqTableList.length>0)" class="title">
+      <div class="title">
         <span class="littleRectangle"></span>
         <span class="titleText" id="ownershipStructureChart">股权结构图</span>
         <span v-if="companyProfileList&&companyProfileList.structureLabel">
@@ -130,8 +130,8 @@
         </span>
       </div>
       <!-- 图片 -->
-      <div class="img" v-if="structureUrl">
-         <img :src="structureUrl" width="100%">
+      <div class="img" v-if="companyProfileList&&companyProfileList.structureUrl">
+         <img :src="companyProfileList.structureUrl" width="100%">
       </div>
       <!-- 股权股东表格 -->
       <p v-if="gqTableList&&gqTableList.length>0" style="font-size:12px;color:#666;float:right">单位：万股</p>
@@ -167,7 +167,7 @@
     </div>
     <!-- 主营业务收入构成 -->
     <div class="incomeComposition">
-      <div v-if="mainTableList.firstYearForIncome" class="title">
+      <div class="title">
         <span class="littleRectangle"></span>
         <span class="titleText" id="mainBusinessIncomeComposition">主营业务收入构成</span>
       </div>
@@ -217,7 +217,7 @@
     </div>
     <!-- 报告期主要供应商及客户情况 -->
     <div class="theTopFive">
-       <div v-if="(supplierMainList&&supplierMainList.length>0) || (customerMainList&&customerMainList.length>0)" class="title">
+       <div  class="title">
         <span class="littleRectangle"></span>
         <span class="titleText" id="majorSuppliers">报告期主要供应商及客户情况</span>
       </div>
@@ -406,7 +406,7 @@
     </div>
     <!-- 募集资金运用 -->
     <div class="raiseMoney">
-      <div v-if="raiseMoneyTableList&&raiseMoneyTableList.length>0" class="title">
+      <div class="title">
         <span class="littleRectangle"></span>
         <span class="titleText" id="utilizationOfRaisedFunds">募集资金运用</span>
       </div>
@@ -464,11 +464,11 @@
     </div>
     <!-- 中介机构 -->
     <div class="IntermediaryInstitutions">
-      <div v-if="(mainList&&mainList.length>0) || (moreList&&moreList.length>0)" class="title">
-        <span class="littleRectangle"></span>
-        <span class="titleText" id="intermediaryInstitutions">中介机构</span>
+        <div class="title">
+          <span class="littleRectangle"></span>
+          <span class="titleText" id="intermediaryInstitutions">中介机构</span>
       </div>
-      <IntermediaryInstitutions v-if="(mainList&&mainList.length>0) || (moreList&&moreList.length>0)"></IntermediaryInstitutions>
+      <IntermediaryInstitutions></IntermediaryInstitutions>
     </div>
   </div>
 </template>
@@ -485,7 +485,7 @@ import { getRaiseMoneyTableList } from "@/api/ipoCase/companyProfile";
 import { getSupplierCustomerData } from '@/api/ipoCase/tableDemo';
 import { getTableData } from '@/api/ipoCase/tableDemo';
 // 中介机构数据
-import { getIntermediaryOrgDataList } from '@/api/ipoCase/companyProfile'
+// import { getIntermediaryOrgDataList } from '@/api/ipoCase/companyProfile'
 // 导入主营业务收入构成表格
 import mainTable from "@/views/tables/mainTable";
 // 导入柱形图和饼图
@@ -538,7 +538,6 @@ export default {
     this.getData();
   },
   mounted() {
-      this.getPosition();
   },
   methods: {
     getData() {
@@ -548,57 +547,59 @@ export default {
         id:this.caseId
       }
       getMarketData(param).then(res=>{
-        this.getPosition()
         if(res.data.result&&res.data.result.length>0){
           this.otherMarketInfoList = res.data.result//其他登录市场
+          this.getPosition()
+
         }
       });
       // 股权结构图表格
       getShareHolderData(param).then(res=>{
-        this.getPosition()
         if(res.data.result&&res.data.result.length>0){
           this.gqTableList = res.data.result
+          this.getPosition()
         }
       });
       getCompetitorData(param).then(res=>{
-        this.getPosition()
         if(res.data.result&&res.data.result.length>0){
           this.MajorCompetitors = res.data.result
+          this.getPosition()
         }
       });
       getRaiseMoneyTableList(param).then(res=>{
-        this.getPosition()
         if(res.data.result&&res.data.result.length>0){
           this.raiseMoneyTableList = res.data.result
+          this.getPosition()
         }
       });
       // 供应商
       getSupplierCustomerData(param).then(response => {
-        this.getPosition()
         if(response.data.result&&response.data.result.supplierMainList&&response.data.result.supplierMainList.length>0){
           this.supplierMainList = response.data.result.supplierMainList
+          this.getPosition()
         }
          if(response.data.result&&response.data.result.customerMainList&&response.data.result.customerMainList.length>0){
            this.customerMainList = response.data.result.customerMainList
+           this.getPosition()
         }
       })
       // 主营业务收入构成
       getTableData(param).then(response => {
-        this.getPosition()
         if( response.data.result){
           this.mainTableList = response.data.result
+          this.getPosition()
         }
       })
       // 中介机构
-       getIntermediaryOrgDataList(param).then(response => {
-         this.getPosition()
-         if(response.data.result&&response.data.result.mainList&&response.data.result.mainList.length>0){
-              this.mainList = response.data.result.mainList
-          }
-          if(response.data.result&&response.data.result.moreList&&response.data.result.moreList.length>0){
-              this.moreList = response.data.result.moreList
-          }
-      })
+      //  getIntermediaryOrgDataList(param).then(response => {
+      //    this.getPosition()
+      //    if(response.data.result&&response.data.result.mainList&&response.data.result.mainList.length>0){
+      //         this.mainList = response.data.result.mainList
+      //     }
+      //     if(response.data.result&&response.data.result.moreList&&response.data.result.moreList.length>0){
+      //         this.moreList = response.data.result.moreList
+      //     }
+      // })
       
 
     },
@@ -663,12 +664,11 @@ export default {
              mainCompetitors.noClick = false;
           }
           if((this.supplierMainList&&this.supplierMainList.length>0) || (this.customerMainList&&this.customerMainList.length>0)){
-            majorSuppliers.noClick = false;
+           majorSuppliers.noClick = false;
           }
           if(this.raiseMoneyTableList&&this.raiseMoneyTableList.length>0){
             utilizationOfRaisedFunds.noClick = false;
           }
-          console.log('ww',this.mainList)
           if((this.mainList&&this.mainList.length>0) || (this.moreList&&this.moreList.length>0)){
             intermediaryInstitutions.noClick = false;
           }

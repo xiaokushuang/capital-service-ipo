@@ -39,10 +39,7 @@
                                   </div>
                               </div>
                               <div class="question" id="titleLength">
-                                <div class="title">
-                                    <span class="littleRectangle"></span>
-                                    <span class="titleText" id="result">规范性问题</span>
-                                </div>
+                               
                                   <ul style="padding-left:0">
                                       <li v-for="(data,index) in questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
                                           <div class="text" style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:10px;position:relative">
@@ -414,18 +411,19 @@ export default {
   methods: {
     // 单选按钮
     handelChange(val){
+      console.log('点击单选',this.onlyShowAnswerFlag)
       this.radioVal = val
-      this.initQuestionData(this.o_letterId,val,this.onlyShowAnswerFlag)
+      this.initQuestionData(this.o_letterId,val,'',this.onlyShowAnswerFlag)
     },
     // 单选按钮
      handelChange2(val){
       this.radioVal2 = val
-      this.initQuestionData(this.o_letterId,val,this.onlyShowAnswerFlag2)
+      this.initQuestionData(this.o_letterId,val,'',this.onlyShowAnswerFlag2)
     },
         // 单选按钮
      handelChange3(val){
       this.radioVal3 = val
-      this.initQuestionData(this.o_letterId,val,this.onlyShowAnswerFlag3)
+      this.initQuestionData(this.o_letterId,val,'',this.onlyShowAnswerFlag3)
     },
     // 多选按钮
     handelMoreChange(val){
@@ -780,6 +778,7 @@ export default {
           secondLabelId:secondLabel,
           onlyResponse:onlyResponse,
         }
+        console.log('zhi',param)
         getSelectQuestionList(param).then(res => {
           // 当只有一个tab页时
           if(this.tabList.length==1){

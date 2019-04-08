@@ -85,7 +85,16 @@ beforeDestroy() {
                                 {
                                     name:dataList[i].industryCompareRateDetailList[j].companyName,
                                     type:'line',
-                                    data:[dataList[i].industryCompareRateDetailList[j].firstYearRate,dataList[i].industryCompareRateDetailList[j].secondYearRate,dataList[i].industryCompareRateDetailList[j].thirdYearRate]
+                                    data:[dataList[i].industryCompareRateDetailList[j].firstYearRate,dataList[i].industryCompareRateDetailList[j].secondYearRate,dataList[i].industryCompareRateDetailList[j].thirdYearRate],
+                                     label: {
+                                        formatter: function (params) {
+                                          let str = params.name;
+                                          if(str.length>7){
+                                            str = str.substring(0, 6).concat('...');
+                                          }
+                                          return str;
+                                        }
+                                      },
                                 },
                              )
 

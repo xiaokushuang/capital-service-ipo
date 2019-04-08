@@ -2,7 +2,7 @@
     <div class="issue">
         <!-- 发行数据 -->
         <div class="issueData">
-             <div v-if="issueData" class="title">
+             <div class="title">
                 <span class="littleRectangle"></span>
                 <span class="titleText" id="distributionData">发行数据</span>
             </div>
@@ -101,7 +101,7 @@
         </div>
         <!-- 发行费用 -->
         <div class="issueMoney" >
-             <div v-if="issueFeeData&&issueFeeData.length>0" class="title">
+             <div class="title">
                 <span class="littleRectangle"></span>
                 <span class="titleText" id="distributionCosts">发行费用</span>
             </div>
@@ -174,14 +174,14 @@ export default {
          getIssueFeeData(param).then(res=>{
            if(res.data.result&&res.data.result.length>0){
              this.issueFeeData = res.data.result
-           }
              this.getPosition()
+           }
          })
        getIssueData(param).then(res => {
          if(res.data.result){
            this.issueData = res.data.result
-         }
            this.getPosition()
+         }
       }) 
     },
      getPosition(){

@@ -36,17 +36,17 @@
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">保荐代表人：</span>
-                                        <span style="font-size:14px;color:black">{{item.representPerson}}</span>
+                                        <span class="bj" style="font-size:14px;color:black"  @mouseenter="mouseOverSpreadText(item.representPerson )">{{getContent(item.representPerson)}}</span>
                                     </li>
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">项目协办人：</span>
-                                        <span style="font-size:14px;color:black">{{item.assistPerson}}</span>
+                                        <span style="font-size:14px;color:black" class="xb" @mouseenter="mouseOverSpreadText(item.assistPerson )">{{getContent(item.assistPerson)}}</span>
                                     </li>
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">项目经办人：</span>
-                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
+                                        <span style="font-size:14px;color:black" class="jb" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
                                     </li>
                                 </ul>
                                 <!-- 律师事务所 -->
@@ -54,7 +54,7 @@
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">经办律师：</span>
-                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
+                                        <span style="font-size:14px;color:black" class="ls" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
                                     </li>
                                 </ul>
                                 <!-- 会计事务所 -->
@@ -62,7 +62,7 @@
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">注册会计师：</span>
-                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
+                                        <span style="font-size:14px;color:black" class="kj" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
                                     </li>
                                 </ul>
                                  <!-- 资产评估机构 -->
@@ -70,7 +70,7 @@
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">注册资产评估师：</span>
-                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
+                                        <span style="font-size:14px;color:black" class="pg" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
                                     </li>
                                 </ul>
                                 <!-- 证券公司 -->
@@ -78,7 +78,7 @@
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">项目经办人：</span>
-                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
+                                        <span style="font-size:14px;color:black" class="jb" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
                                     </li>
                                 </ul>
                             </div> 
@@ -91,7 +91,7 @@
                     <li v-show="showMoreType" class="clear " v-for="item in moreList">
                         <p class="institutionTitle">{{item.intermediaryTypeName}}</p>
                         <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'">
-                            <div v-if="item.intermediaryType=='1'" class="image l" style="margin-top:24px">
+                            <div v-if="item.intermediaryType=='1'" class="image l" style="margin-top:24px" >
                                  <img src="../../../../assets/images/coSponsors.png" alt>
                             </div>
                             <div v-if="item.intermediaryType=='2'" class="image l">
@@ -112,46 +112,22 @@
                                     font-style: normal; font-size: 16px; color: #363636">{{item.orgName}}</span>
                                 </div>
                                 
-                                <!-- 资产评估机构 -->
-                                <ul v-if="item.intermediaryType=='5'">
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 14px; color: #999999;">注册资产评估师：</span>
-                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
-                                    </li>
-                                </ul>
-                                <!-- 证券公司 -->
-                                <ul v-if="item.intermediaryType=='2'">
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 14px; color: #999999;">项目经办人：</span>
-                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
-                                    </li>
-                                </ul>
-                                <!-- 会计事务所 -->
-                                <ul v-if="item.intermediaryType=='4'">
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 14px; color: #999999;">注册会计师：</span>
-                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
-                                    </li>
-                                </ul>
-                                 <!-- 保荐机构 -->
+                               <!-- 保荐机构 -->
                                 <ul v-if="item.intermediaryType=='1'">
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">保荐代表人：</span>
-                                        <span style="font-size:14px;color:black">{{item.representPerson}}</span>
+                                        <span class="bj" style="font-size:14px;color:black"  @mouseenter="mouseOverSpreadText(item.representPerson )">{{getContent(item.representPerson)}}</span>
                                     </li>
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">项目协办人：</span>
-                                        <span style="font-size:14px;color:black">{{item.assistPerson}}</span>
+                                        <span style="font-size:14px;color:black" class="xb" @mouseenter="mouseOverSpreadText(item.assistPerson )">{{getContent(item.assistPerson)}}</span>
                                     </li>
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">项目经办人：</span>
-                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
+                                        <span style="font-size:14px;color:black" class="jb" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
                                     </li>
                                 </ul>
                                 <!-- 律师事务所 -->
@@ -159,7 +135,31 @@
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">经办律师：</span>
-                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
+                                        <span style="font-size:14px;color:black" class="ls" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                    </li>
+                                </ul>
+                                <!-- 会计事务所 -->
+                                <ul v-if="item.intermediaryType=='4'">
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">注册会计师：</span>
+                                        <span style="font-size:14px;color:black" class="kj" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                    </li>
+                                </ul>
+                                 <!-- 资产评估机构 -->
+                                <ul v-if="item.intermediaryType=='5'">
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">注册资产评估师：</span>
+                                        <span style="font-size:14px;color:black" class="pg" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                    </li>
+                                </ul>
+                                <!-- 证券公司 -->
+                                <ul v-if="item.intermediaryType=='2'">
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">项目经办人：</span>
+                                        <span style="font-size:14px;color:black" class="jb" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
                                     </li>
                                 </ul>
                             </div> 
@@ -179,6 +179,7 @@
     </div>
 </template>
 <script>
+import $ from "jquery";
 import { getIntermediaryOrgDataList } from '@/api/ipoCase/companyProfile'
 export default {
     name:'IntermediaryInstitutions',
@@ -187,27 +188,27 @@ export default {
             caseId:this.$store.state.app.caseId,
             mainList:[],//主要机构
             moreList:[],//更多机构
-            // allStitutionList:[],
-            // accounts:[],//会计事务所
-            // accountsTotal:[],
-            // accountsValid:[],
-            // accountsUnValid:[],
-            // sponsors:[],//保荐机构
-            // sponsorsTotal:[],
-            // sponsorsValid:[],
-            // sponsorsUnValid:[],
-            // securitys:[],//证券公司
-            // securitysTotal:[],
-            // securitysValid:[],
-            // securitysUnValid:[],
-            // lawyers:[],//律师事务所
-            // lawyersTotal:[],
-            // lawyersValid:[],
-            // lawyersUnValid:[],
-            // assets:[],//资产评估机构
-            // assetsTotal:[],
-            // assetsValid:[],
-            // assetsUnValid:[],
+             allStitutionList:[],
+            accounts:[],//会计事务所
+            accountsTotal:[],
+            accountsValid:[],
+            accountsUnValid:[],
+            sponsors:[],//保荐机构
+            sponsorsTotal:[],
+            sponsorsValid:[],
+            sponsorsUnValid:[],
+            securitys:[],//证券公司
+            securitysTotal:[],
+            securitysValid:[],
+            securitysUnValid:[],
+            lawyers:[],//律师事务所
+            lawyersTotal:[],
+            lawyersValid:[],
+            lawyersUnValid:[],
+            assets:[],//资产评估机构
+            assetsTotal:[],
+            assetsValid:[],
+            assetsUnValid:[],
             agentState: "当前有效",
             showMoreType:false,//点击查看更多机构
             options: 
@@ -244,7 +245,7 @@ export default {
 
     },
     created() {
-     this.initTableData()
+     this.initTableData(1)
     },
   methods: {
     initTableData(validFlag) {
@@ -277,7 +278,35 @@ export default {
     // 收起更多类型
     packUpMoreType(){
         this.showMoreType = false
-    }
+    },
+    // 鼠标移入委员详情弹出窗的列
+    mouseOverSpreadText(title){ 
+        for(let a = 0;a< $(".bj").length;a++){
+            $(".bj").eq(a).attr("title",title)
+        }
+         for(let a = 0;a< $(".xb").length;a++){
+                $(".xb").eq(a).attr("title",title)
+        }
+        for(let a = 0;a< $(".jb").length;a++){
+            $(".jb").eq(a).attr("title",title)
+        }
+        for(let a = 0;a< $(".ls").length;a++){
+            $(".ls").eq(a).attr("title",title)
+        }
+         for(let a = 0;a< $(".kj").length;a++){
+            $(".kj").eq(a).attr("title",title)
+        }
+        for(let a = 0;a< $(".pg").length;a++){
+            $(".pg").eq(a).attr("title",title)
+        }
+    },
+   getContent(title){
+     if(title.length>38){
+       return title.substring(0,38) + '...'
+     }else{
+       return title
+     }
+   },
   },
 }
 </script>
