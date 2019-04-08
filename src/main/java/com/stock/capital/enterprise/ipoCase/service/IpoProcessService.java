@@ -139,11 +139,11 @@ public class IpoProcessService extends BaseService {
                 }
                 //判断当前时间和进程时间，如果进程时间大于当前时间，则置灰
                 proList.get(j).setDateCompare(1);
-                if("02".equals(treeList.get(i).getTreeTypeCode())){
+                if ("02".equals(treeList.get(i).getTreeTypeCode())) {
                     try {
                         Date nowDate = new Date();
-                        Date proDate = DateUtils.parseDate(proList.get(j).getProcessTime(),"yyyy-MM-dd");
-                        if(proDate.compareTo(nowDate) > 0){
+                        Date proDate = DateUtils.parseDate(proList.get(j).getProcessTime(), "yyyy-MM-dd");
+                        if (proDate.compareTo(nowDate) > 0) {
                             proList.get(j).setDateCompare(0);
                         }
                     } catch (ParseException e) {
@@ -168,8 +168,8 @@ public class IpoProcessService extends BaseService {
                 }
             }
             treeList.add(publishDto);
-        }else{
-            treeList.add(0,publishDto);
+        } else {
+            treeList.add(0, publishDto);
         }
 
         for (int i = 0; i < treeList.size(); i++) {
@@ -210,53 +210,58 @@ public class IpoProcessService extends BaseService {
         ParameterizedTypeReference<JsonResponse<Map<String, Object>>> responseType =
                 new ParameterizedTypeReference<JsonResponse<Map<String, Object>>>() {
                 };
-        Map<String, Object> index = restClient.post(urls, param, responseType).getResult();
-        String url;
-        String infoUrl = String.valueOf(index.get("infoUrl"));
-        if (infoUrl.contains("html")) {
-            url = infoUrl.substring(0, infoUrl.indexOf("html") + 4);
-        } else {
-            url = infoUrl;
-        }
-        String title = StringUtils.EMPTY;
-        String titles = String.valueOf(index.get("title"));
-        String titleTemp = StringUtils.EMPTY;
-        //文件名字过长导致无法下载
-        if (titles.length() >= 40) {
-            titles = titles.substring(0, 40);
-        }
-        if (titles.contains(":")) {
-            String titleName[] = titles.split(":");
-            titleTemp = titleName[titleName.length - 1];
-        } else {
-            titleTemp = titles;
-        }
-        //公司代码_公司简称_公告日期_公告标题
-        title = transformMetacharactor(String.valueOf(index.get("code")) +
-                "-" + String.valueOf(index.get("companyShortName"))
-                + String.valueOf(index.get("publishDate")) + "]" + titleTemp) + "." + Files.getFileExtension(url);
 
-        InputStream in = null;
-        try {
-            String fileName = title;
-            fileName = new String(fileName.getBytes(), "ISO-8859-1");
-            in = Resources.asByteSource(new URL(url)).openBufferedStream();
-            // 设置输出的格式
-            response.reset();
-            response.setContentType("text/html;charset=utf-8");
-            response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
-            // 循环取出流中的数据
-            byte[] b = new byte[100];
-            int len;
-            while ((len = in.read(b)) > 0) {
-                response.getOutputStream().write(b, 0, len);
+        Map<String, Object> index = restClient.post(urls, param, responseType).getResult();
+        String title = StringUtils.EMPTY;
+        if (null == index) {
+            String url;
+            String infoUrl = String.valueOf(index.get("infoUrl"));
+            if (infoUrl.contains("html")) {
+                url = infoUrl.substring(0, infoUrl.indexOf("html") + 4);
+            } else {
+                url = infoUrl;
             }
-        } catch (Exception e) {
-            throw new FileDownloadException("下载文件失败");
-        } finally {
-            IOUtils.closeQuietly(in);
+
+            String titles = String.valueOf(index.get("title"));
+            String titleTemp = StringUtils.EMPTY;
+            //文件名字过长导致无法下载
+            if (titles.length() >= 40) {
+                titles = titles.substring(0, 40);
+            }
+            if (titles.contains(":")) {
+                String titleName[] = titles.split(":");
+                titleTemp = titleName[titleName.length - 1];
+            } else {
+                titleTemp = titles;
+            }
+            title = transformMetacharactor(String.valueOf(index.get("code")) +
+                    "-" + String.valueOf(index.get("companyShortName"))
+                    + String.valueOf(index.get("publishDate")) + "]" + titleTemp) + "." + Files.getFileExtension(url);
+            //公司代码_公司简称_公告日期_公告标题
+            InputStream in = null;
+            try {
+                String fileName = title;
+                fileName = new String(fileName.getBytes(), "ISO-8859-1");
+                in = Resources.asByteSource(new URL(url)).openBufferedStream();
+                // 设置输出的格式
+                response.reset();
+                response.setContentType("text/html;charset=utf-8");
+                response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+                // 循环取出流中的数据
+                byte[] b = new byte[100];
+                int len;
+                while ((len = in.read(b)) > 0) {
+                    response.getOutputStream().write(b, 0, len);
+                }
+            } catch (Exception e) {
+                throw new FileDownloadException("下载文件失败");
+            } finally {
+                IOUtils.closeQuietly(in);
+            }
+            return title;
+        } else {
+            return title;
         }
-        return title;
     }
 
     private String transformMetacharactor(String input) {
@@ -494,5 +499,82 @@ public class IpoProcessService extends BaseService {
             }
             return zipFile;
         }
+    }
+
+    public String checkSingleAnnounce(String id) {
+        String result = "1";
+        if (StringUtils.isNotEmpty(id)) {
+            String urls = apiBaseUrl + "declareInfo/postSearchIndex";
+            MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
+            param.add("indexId", id);
+            ParameterizedTypeReference<JsonResponse<Map<String, Object>>> responseType =
+                    new ParameterizedTypeReference<JsonResponse<Map<String, Object>>>() {
+                    };
+
+            Map<String, Object> index = restClient.post(urls, param, responseType).getResult();
+            if (null == index) {
+                result = "0";
+            }
+        }else{
+            result ="0";
+        }
+        return result;
+    }
+
+    public String checkMultiplyAnnounce(String ids) {
+        List<String> selIdList = new ArrayList<>();
+        List<Map<String, String>> srcFileList = new ArrayList<>();
+        String result = "1";
+        if (StringUtils.isNotEmpty(ids)) {
+            if (ids.contains(",")) {
+                selIdList = Arrays.asList(ids.split(","));
+            } else {
+                selIdList.add(ids);
+            }
+            String urls = apiBaseUrl + "declareInfo/postSearchIndex";
+            //当公告不在索引中而在数据库中时，传companyId和userId进行查询
+            for (String indexId : selIdList) {
+                MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
+                param.add("indexId", indexId);
+                ParameterizedTypeReference<JsonResponse<Map<String, Object>>> responseType =
+                        new ParameterizedTypeReference<JsonResponse<Map<String, Object>>>() {
+                        };
+                Map<String, Object> index = restClient.post(urls, param, responseType).getResult();
+                if (null == index) {
+                    result = "0";
+                }
+            }
+        }else{
+            result = "0";
+        }
+        return result;
+    }
+
+    public String checkSingleFile(String id) {
+        String result = "1";
+        IpoFileRelationDto fileDto = ipoProcessMapper.selectFileDto(id);
+        if(null == fileDto){
+            result = "0";
+        }
+        return result;
+    }
+
+    public String checkMultiplyFile(String ids){
+        String result = "1";
+        List<String> selIdList = new ArrayList<>();
+        if (StringUtils.isNotEmpty(ids)) {
+            if (ids.contains(",")) {
+                selIdList = Arrays.asList(ids.split(","));
+            } else {
+                selIdList.add(ids);
+            }
+            for (String indexId : selIdList) {
+                IpoFileRelationDto fileDto = ipoProcessMapper.selectFileDto(indexId);
+                if(null == fileDto){
+                    result = "0";
+                }
+            }
+        }
+        return result;
     }
 }
