@@ -309,7 +309,6 @@ public class IpoFeedbackService extends BaseService {
                         }
                         questionResultList.add(questionResultDto);
                     }
-                    questionCount = answerCount;
                 } else {
                     IpoFeedbackQuestionDto questionResultDto = new IpoFeedbackQuestionDto();
                     questionResultDto.setQuestionId(questionDto.getQuestionId());
