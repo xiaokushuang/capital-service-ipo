@@ -16,7 +16,7 @@
                         <span v-else> - - </span>
                       </el-col>
                       <el-col :span="6" class="label"><span>发行价格</span></el-col>
-                      <el-col :span="6" class="value"> 
+                      <el-col :span="6" class="value">
                            <span v-if="issueData.issuePrice"> {{issueData.issuePrice | dataInThRule}} 万元</span>
                            <span v-else> - - </span>
                        </el-col>
@@ -52,7 +52,7 @@
                         <span v-else> - - </span>
                       </el-col>
                       <el-col :span="6" class="label"><span>网下配售数量</span></el-col>
-                      <el-col :span="6" class="value"> 
+                      <el-col :span="6" class="value">
                         <span v-if="issueData.sharePlaceOff"> {{issueData.sharePlaceOff | dataInThRule}} 万股</span>
                         <span v-else> - - </span>
                       </el-col>
@@ -68,7 +68,7 @@
                          <span v-if="issueData.peIssueA"> {{issueData.peIssueA | dataInThRule}} %</span>
                         <span v-else> - - </span>
                       </el-col>
-                  </el-row>  
+                  </el-row>
                   <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>发行前每股收益</span></el-col>
                       <el-col :span="6" class="value">
@@ -86,7 +86,7 @@
                       <el-col :span="6" class="value">
                        <span v-if="issueData.issueMethod" @mouseenter="mouseOverSpreadText(issueData.issueMethod)" class="distribution" style="cursor:pointer">
                           {{getContent(issueData.issueMethod)}}
-                      </span> 
+                      </span>
                       <span v-else> - - </span>
                       </el-col>
                       <el-col :span="6" class="label"><span>承销方式</span></el-col>
@@ -157,6 +157,7 @@ export default {
             sumFina:'',
             uwMethod:'',
           },
+          dataFlag: true,
           caseId:this.$store.state.app.caseId,
       }
   },
@@ -179,10 +180,11 @@ export default {
          })
        getIssueData(param).then(res => {
          if(res.data.result){
-           this.issueData = res.data.result
-           this.getPosition()
+           this.dataFlag = true;
+           this.issueData = res.data.result;
+           this.getPosition();
          }
-      }) 
+      })
     },
      getPosition(){
     // //返回父组件用于锚点定位头
@@ -202,8 +204,8 @@ export default {
             important: false,
             tabId: 'tab-fifth',
             noClick: true
-        }              
-        if(this.issueData){
+        }
+        if(this.dataFlag){
           distributionData.noClick = false;
         }
         if(this.issueFeeData&&this.issueFeeData.length>0){
@@ -214,7 +216,7 @@ export default {
         this.$emit('headCallBack', titleList);
     //         //返回父组件用于锚点定位尾
      },
-    //  
+    //
      // 鼠标移入表格内容加title
     mouseOverSpreadText(title){
       if(title.length>13){
