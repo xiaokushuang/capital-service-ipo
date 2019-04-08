@@ -8,75 +8,55 @@
             </el-select>
             <div class="InstitutionsDetail">
                 <ul>
-                    <li class="clear ">
-                        <p v-show="sponsors&&sponsors.length>0" class="institutionTitle">联席保荐人（联席主承销商）</p>
-                        <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'" v-for="item in sponsors">
-                            <div class="image l" style="margin-top:24px">
-                                <img src="../../../../assets/images/coSponsors.png" alt>
+                    <li class="clear " v-for="item in mainList">
+                        <p class="institutionTitle">{{item.intermediaryTypeName}}</p>
+                        <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'">
+                             <div v-if="item.intermediaryType=='1'" class="image l" style="margin-top:24px">
+                                 <img src="../../../../assets/images/coSponsors.png" alt>
+                            </div>
+                            <div v-if="item.intermediaryType=='3'" class="image l" >
+                                 <img src="../../../../assets/images/lvshi.png" alt>
+                            </div>
+                            <div v-if="item.intermediaryType=='4'" class="image l" >
+                                 <img src="../../../../assets/images/kuaiji.png" alt>
                             </div>
                             <div class="text l">
                                 <div>
                                     <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
                                     font-style: normal; font-size: 16px; color: #363636">{{item.orgName}}</span>
-                                    
                                 </div>
-                                <ul>
+                                <!-- 保荐机构 -->
+                                <ul v-if="item.intermediaryType=='1'">
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">保荐代表人：</span>
                                         <span style="font-size:14px;color:black">{{item.representPerson}}</span>
                                     </li>
-                                    <!-- <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 14px; color: #999999;">2018年过会率：</span>
-                                        <span style="font-size:14px;color:black">郑西林、陈光耀</span>
-                                    </li> -->
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">项目协办人：</span>
                                         <span style="font-size:14px;color:black">{{item.assistPerson}}</span>
                                     </li>
-                                    <!-- <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 14px; color: #999999;">2018年业务量：</span>
-                                        <span style="font-size:14px;color:black">郑西林、陈光耀</span>
-                                    </li> -->
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">项目经办人：</span>
                                         <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
                                     </li>
-                                    <!-- <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 14px; color: #999999;">2018年市场占比：</span>
-                                        <span style="font-size:14px;color:black">郑西林、陈光耀</span>
-                                    </li> -->
                                 </ul>
-                            </div> 
-                            <!-- 已失效标志 -->
-                            <span class="failure" v-show="item.validFlag == 0">
-                                已失效
-                            </span>                              
-                        </div>
-                    </li>
-                     <li class="clear ">
-                        <p v-show="lawyers&&lawyers.length>0" class="institutionTitle">律师事务所</p>
-                            <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'"  v-for="item in lawyers">
-                            <div class="image l">
-                                <img src="../../../../assets/images/lvshi.png" alt>
-                            </div>
-                            <div class="text l">
-                                <div>
-                                    <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
-                                    font-style: normal; font-size: 16px; color:#363636;">{{item.orgName}}</span>
-                                     
-                                </div>
-                                <ul>
+                                <!-- 律师事务所 -->
+                                <ul v-if="item.intermediaryType=='3'">
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">经办律师：</span>
-                                        <span v-if="item.agentPerson" style="font-size:14px;color:black">{{item.agentPerson}}</span>
-                                        <span v-else style="font-size:14px;color:black">- -</span>
+                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
+                                    </li>
+                                </ul>
+                                <!-- 会计事务所 -->
+                                <ul v-if="item.intermediaryType=='4'">
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">注册会计师：</span>
+                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
                                     </li>
                                 </ul>
                             </div> 
@@ -86,95 +66,56 @@
                             </span>                              
                         </div>
                     </li>
-                    <li class="clear ">
-                        <p v-show="accounts&&accounts.length>0" class="institutionTitle">会计师事务所</p>
-                            <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'" v-for="item in accounts">
-                            <div class="image l">
-                                <img src="../../../../assets/images/kuaiji.png" alt>
+                    <li v-show="showMoreType" class="clear " v-for="item in moreList">
+                        <p class="institutionTitle">{{item.intermediaryTypeName}}</p>
+                        <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'">
+                            <div v-if="item.intermediaryType=='5'" class="image l" >
+                                 <img src="../../../../assets/images/assets.png" alt>
+                            </div>
+                             <div v-if="item.intermediaryType=='4'" class="image l">
+                                  <img src="../../../../assets/images/kuaiji.png" alt>
                             </div>
                             <div class="text l">
                                 <div>
                                     <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
                                     font-style: normal; font-size: 16px; color: #363636">{{item.orgName}}</span>
-                                    
                                 </div>
-                                 
-                                <ul>
-                                    <li class="people">
-                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
-                                        font-style: normal;  font-size: 14px; color: #999999;">经办会计师：</span>
-                                        <span v-if="item.agentPerson" style="font-size:14px;color:black">{{item.agentPerson}}</span>
-                                        <span v-else style="font-size:14px;color:black">- -</span>
-                                    </li>
-                                   
-                                </ul>
-                            </div> 
-                            <!-- 已失效标志 -->
-                            <span class="failure" v-show="item.validFlag == 0">
-                                已失效
-                            </span>                              
-                        </div>
-                    </li>
-                    <li class="clear " v-show="showMoreType">
-                        <p v-show="assets&&assets.length>0" class="institutionTitle">资产评估机构</p>
-                            <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'" v-for="item in assets">
-                            <div class="image l">
-                                <img src="../../../../assets/images/assets.png" alt>
-                            </div>
-                            <div class="text l">
-                                <div>
-                                    <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
-                                    font-style: normal; font-size: 16px; color: #363636;">{{item.orgName}}</span>
-                                     
-                                </div>
-                               
-                                <ul>
+                                
+                                <!-- 资产评估机构 -->
+                                <ul v-if="item.intermediaryType=='5'">
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">注册资产评估师：</span>
-                                        <span v-if="item.agentPerson" style="font-size:14px;color:black">{{item.agentPerson}}</span>
-                                        <span v-else style="font-size:14px;color:black">- -</span>
+                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
                                     </li>
                                 </ul>
-                            </div>  
-                             <!-- 已失效标志 -->
-                            <span class="failure" v-show="item.validFlag == 0">
-                                已失效
-                            </span>                             
-                        </div>
-                    </li>
-                    <li class="clear "  v-show="showMoreType">
-                        <p v-show="securitys&&securitys.length>0" class="institutionTitle">分销商</p>
-                        <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'" v-for="item in securitys">
-                            <div class="image l">
-                                <img src="../../../../assets/images/coSponsors.png" alt>
-                            </div>
-                            <div class="text l">
-                                <div>
-                                    <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
-                                    font-style: normal; font-size: 16px; color: #363636;">{{item.orgName}}</span>
-                                     
-                                </div>
-                                
-                                <ul >
+                                <!-- 证券公司 -->
+                                <ul v-if="item.intermediaryType=='2'">
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">项目经办人：</span>
                                         <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
                                     </li>
                                 </ul>
-                               
+                                <!-- 会计事务所 -->
+                                <ul v-if="item.intermediaryType=='4'">
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">注册会计师：</span>
+                                        <span style="font-size:14px;color:black">{{item.agentPerson}}</span>
+                                    </li>
+                                </ul>
                             </div> 
                             <!-- 已失效标志 -->
                             <span class="failure" v-show="item.validFlag == 0">
                                 已失效
                             </span>                              
                         </div>
-                    </li>
+                    </li>                    
                 </ul>
                  <div style=" text-align: center;">
-                    <span v-show="(securitys&&securitys.length>0) || (assets&&assets.length>0)" style="color: rgb(25, 144, 254);font-size:14px;text-align:center;cursor:pointer" class="packUp" v-if="showMoreType" @click="packUpMoreType()">收起 <i class="el-icon-arrow-up"></i></span>
-                    <span v-show="(securitys&&securitys.length>0) || (assets&&assets.length>0)" style="color: rgb(25, 144, 254);font-size:14px;text-align:center;cursor:pointer" class="spread" v-else @click="spreadMoreType()">更多中介机构 <i class="el-icon-arrow-down"></i></span>
+                    <span v-show="moreList&&moreList.length>0" style="color: rgb(25, 144, 254);font-size:14px;text-align:center;cursor:pointer" class="packUp" v-if="showMoreType" @click="packUpMoreType()">收起 <i class="el-icon-arrow-up"></i></span>
+                    <span v-show="moreList&&moreList.length>0" style="color: rgb(25, 144, 254);font-size:14px;text-align:center;cursor:pointer" class="spread" v-else @click="spreadMoreType()">更多中介机构 <i class="el-icon-arrow-down"></i></span>
                  </div>
             </div>
         </div>
@@ -187,6 +128,8 @@ export default {
     data(){
         return{
             caseId:this.$store.state.app.caseId,
+            mainList:[],//主要机构
+            moreList:[],//更多机构
             allStitutionList:[],
             accounts:[],//会计事务所
             accountsTotal:[],
@@ -231,28 +174,16 @@ export default {
         agentState(n, o) {
             switch (n) {
                 case 0:
-                // 失效
-                    this.accounts = this.accountsUnValid;
-                    this.sponsors = this.sponsorsUnValid;
-                    this.securitys = this.securitysUnValid;
-                    this.lawyers = this.lawyersUnValid;
-                    this.assets = this.assetsUnValid;
+                this.initTableData(0)
+                console.log('失效')
                     break;
                 case 1:
-                // 有效
-                    this.accounts = this.accountsValid;
-                    this.sponsors = this.sponsorsValid;
-                    this.securitys = this.securitysValid;
-                    this.lawyers = this.lawyersValid;
-                    this.assets = this.assetsValid;
+                this.initTableData(1)
+                console.log('有效')
                     break;
                  default:
-                //  全部
-                    this.accounts = this.accountsTotal;
-                    this.sponsors = this.sponsorsTotal;
-                    this.securitys = this.securitysTotal;
-                    this.lawyers = this.lawyersTotal;
-                    this.assets = this.assetsTotal;
+                 this.initTableData('')
+                 console.log('全部')
                     break;
             }
         }
@@ -262,73 +193,28 @@ export default {
      this.initTableData()
     },
   methods: {
-    initTableData() {
+    initTableData(validFlag) {
       // 动态传id
       const param = {
-        id:this.caseId
+        id:this.caseId,
+        validFlag:validFlag
       }
+      console.log(param)
       getIntermediaryOrgDataList(param).then(response => {
+          console.log(response)
           if(response.data.result){
-             this.allStitutionList = response.data.result
+              this.allStitutionList = response.data.result
+              this.mainList = response.data.result.mainList
+              this.moreList = response.data.result.moreList
+              console.log('主要',this.mainList)
+              console.log('主要',this.moreList)
           }
-          if(response.data.result&&response.data.result.accounts&&response.data.result.accounts.length>0){
-              this.accountsTotal = response.data.result.accounts
-          }
-          if(response.data.result&&response.data.result.sponsors&&response.data.result.sponsors.length>0){
-              this.sponsorsTotal = response.data.result.sponsors
-          }
-          if(response.data.result&&response.data.result.securitys&&response.data.result.securitys.length>0){
-              this.securitysTotal = response.data.result.securitys
-          }
-          if(response.data.result&&response.data.result.lawyers&&response.data.result.lawyers.length>0){
-              this.lawyersTotal = response.data.result.lawyers
-          }
-          if(response.data.result&&response.data.result.assets&&response.data.result.assets.length>0){
-              this.assetsTotal = response.data.result.assets
-          }
-          
-        // 筛选有效
-         for (let m = 0; m < this.accountsTotal.length; m++) {
-            if (this.accountsTotal[m].validFlag == 1) {
-                this.accountsValid.push(this.accountsTotal[m]);
-            } else {
-                this.accountsUnValid.push(this.accountsTotal[m]);
-            }
-        }
-         for (let m = 0; m < this.sponsorsTotal.length; m++) {
-            if (this.sponsorsTotal[m].validFlag == 1) {
-                this.sponsorsValid.push(this.sponsorsTotal[m]);
-            } else {
-                this.sponsorsUnValid.push(this.sponsorsTotal[m]);
-            }
-        }
-         for (let m = 0; m < this.securitysTotal.length; m++) {
-            if (this.securitysTotal[m].validFlag == 1) {
-                this.securitysValid.push(this.securitysTotal[m]);
-            } else {
-                this.securitysUnValid.push(this.securitysTotal[m]);
-            }
-        }
-         for (let m = 0; m < this.lawyersTotal.length; m++) {
-            if (this.lawyersTotal[m].validFlag == 1) {
-                this.lawyersValid.push(this.lawyersTotal[m]);
-            } else {
-                this.lawyersUnValid.push(this.lawyersTotal[m]);
-            }
-        }
-         for (let m = 0; m < this.assetsTotal.length; m++) {
-            if (this.assetsTotal[m].validFlag == 1) {
-                this.assetsValid.push(this.assetsTotal[m]);
-            } else {
-                this.assetsUnValid.push(this.assetsTotal[m]);
-            }
-        }
-        // 刷新后赋值
-        this.accounts = this.accountsValid;
-        this.sponsors = this.sponsorsValid;
-        this.securitys = this.securitysValid;
-        this.lawyers = this.lawyersValid;
-        this.assets = this.assetsValid;
+        //   if(response.data.result&&response.data.result.mainList&&response.data.result.mainList.length>0){
+        //       this.mainList = response.data.result.mainList
+        //   }
+        //   if(response.data.result&&response.data.result.moreList&&response.data.result.moreList){
+        //       this.moreList = response.data.result.moreList
+        //   }
       })
     },
     // 非空判断
