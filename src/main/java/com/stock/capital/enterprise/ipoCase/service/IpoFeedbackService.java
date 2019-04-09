@@ -240,6 +240,7 @@ public class IpoFeedbackService extends BaseService {
                 conditionsStr.append(" OR ").append(secondLabelParamList.get(i));
             }
             conditionsStr.append(")");
+            conditionsStr.append(" AND " + "letter_question_class_new_id_txt:").append(firstLabelId);
         } else if(StringUtils.isNotEmpty(firstLabelId)) {
             conditionsStr.append(" AND " + "letter_question_class_new_id_txt:");
             conditionsStr.append(firstLabelId);
