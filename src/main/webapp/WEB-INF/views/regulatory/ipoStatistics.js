@@ -206,7 +206,7 @@ function chartSetting(lst) {
 }
 // IPO在审项目表格设置
 function reviewTableSetting(lst) {
-	var newArray = new Array(8); 
+	var newArray = new Array(9); 
 	for (var i = 0; i < lst.length; i++) {
 		if(lst[i].label == "已受理"){
 			newArray[0]= lst[i];
@@ -214,7 +214,7 @@ function reviewTableSetting(lst) {
 		if(lst[i].label == "已反馈"){
 			newArray[1]= lst[i];
 		}
-		if(lst[i].label == "预披露更新"){
+		if(lst[i].label == "预先披露更新"){
 			newArray[2]= lst[i];
 		}
 		if(lst[i].label == "已通过发审会"){
@@ -232,18 +232,25 @@ function reviewTableSetting(lst) {
 		if(lst[i].label == "注册生效"){
 			newArray[7]= lst[i];
 		}
+		if(lst[i].label == "合计"){
+			newArray[8]= lst[i];
+		}
 	}
 	var tbody = $('#review tbody');
 	for (var i = 0; i < newArray.length; i++) {
 		if (newArray[i].hzbCount > 0 || newArray[i].zxbCount > 0 || newArray[i].cybCount > 0 || newArray[i].kcCount >= 0) {
-			if(newArray[i].label!="终止审查" && newArray[i].label!="预先披露更新" && newArray[i].label!="已上发审会，暂缓表决"){
+			if(newArray[i].label!="终止审查" && newArray[i].label!="预披露更新" && newArray[i].label!="已上发审会，暂缓表决"){
+				if(newArray[i].label=="预先披露更新"){
+					newArray[i].label="预披露更新"
+				}
+				
 				var backgroud = '';
 				var label = '<td class="left">' + lableTurnName(newArray[i].label) + '</td>';
 				if (i == newArray.length - 1) {
-					label = '<td style="color:#0099cc" class="left">' + newArray[i].label + '</td>';
+					label = '<td  class="left">' + newArray[i].label + '</td>';
 					backgroud = 'style="background: #E8E8E8;"';
 					var total = newArray[i].hzbCount + newArray[i].zxbCount + newArray[i].cybCount+ newArray[i].kcCount;
-					var str = '<tr '+ backgroud +'>' + label + '<td>' + newArray[i].hzbCount + '</td>' + '<td>' + newArray[i].zxbCount + '</td>' + '<td style="border-right-color: #14bcf5;border-left-color: #14bcf5;border-top-color: #14bcf5;">' + newArray[i].cybCount + '</td>' + '<td style="border-bottom-style:solid;border-right-color: #14bcf5;border-left-color: #14bcf5;border-bottom-color: #14bcf5;">' + newArray[i].kcCount + '</td>'+'<td>' + total + '</td>' +'</tr>';
+					var str = '<tr '+ backgroud +'>' + label + '<td>' + newArray[i].hzbCount + '</td>' + '<td>' + newArray[i].zxbCount + '</td>' + '<td style="border-right-color: #14bcf5;border-left-color: #14bcf5;border-top-color: #14bcf5;">' + newArray[i].cybCount + '</td>' + '<td style="border-bottom-style:solid;border-right-color: #14bcf5;border-left-color: #14bcf5;border-bottom-color: #14bcf5;">' + newArray[i].kcCount + '</td>'+'<td style="">' + total + '</td>' +'</tr>';
 					tbody.append(str);
 				}else{
 					var total = newArray[i].hzbCount + newArray[i].zxbCount + newArray[i].cybCount + newArray[i].kcCount;
