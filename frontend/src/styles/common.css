@@ -338,6 +338,25 @@ body{
     background-color: #fff;
     z-index: 1;
 }
+[rightTable] .el-table th>.cell {
+    font-family: 'Microsoft YaHei'!important;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    font-weight:normal;
+}
+[rightTable1] .el-table__header-wrapper {
+    border-bottom: 1px solid #eee;
+}
+[rightTable1] .el-table th>.cell {
+    padding: 5px;
+}
+[rightTable1] .has-gutter .el-table_2_column_4>.cell {
+    margin-left: 50px;
+}
+[rightTable] .has-gutter .el-table_5_column_13>.cell {
+    margin-left: 50px;
+}
 .el-table__header thead tr>th{
     padding:10px;
 }
@@ -353,3 +372,14 @@ body{
     cursor: pointer;
 }
 .finance a:hover{text-decoration:underline;}
+.finance .el-tabs__item.is-active {
+    color: #555!important;
+}
+.finance .el-tabs__item.is-active:hover {
+    cursor: default;
+    color: #555!important;
+}
+.finance .el-tabs__item:hover {
+    color: #555;
+    cursor: pointer;
+}

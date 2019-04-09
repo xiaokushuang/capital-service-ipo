@@ -55,24 +55,24 @@
                            <el-table
                                 ref="table0"
                                 :data="data0"
-                                max-height="440"
+                                max-height="445"
                                 style="width: 100%">
-                                <el-table-column align="center" label="行业" min-width="190px">
+                                <el-table-column align="center" label="地域" min-width="30%">
                                     <template slot-scope="scope">
                                         <span>{{scope.row.name}}</span>
                                     </template>
                                 </el-table-column>
 
-                                <el-table-column align="center" label="金额（亿元）"  min-width="120px">
+                                <el-table-column align="center" label="金额（亿元）"  min-width="50%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.value.length==0">0.0000</span>
                                         <span>{{scope.row.value}}</span>
                                     </template>
                                 </el-table-column>
                                 
-                                <el-table-column align="center" label="数量"  min-width="60px">
+                                <el-table-column align="center" label="数量"  min-width="20%">
                                     <template slot-scope="scope">
-                                        <a v-if="scope.row.num.length==0">0</a>
+                                        <span v-if="scope.row.num.length==0">0</span>
                                         <a @click="companySel(scope.row,'004')">{{scope.row.num}}</a>
                                     </template>
                                 </el-table-column>
@@ -84,24 +84,24 @@
                            <el-table
                                 ref="table1"
                                 :data="data2" 
-                                max-height="440"
+                                max-height="445"
                                 style="width: 100%">
-                                <el-table-column align="center" label="行业" min-width="190px">
+                                <el-table-column align="center" label="地域" min-width="30%">
                                     <template slot-scope="scope">
                                         <span>{{scope.row.name}}</span>
                                     </template>
                                 </el-table-column>
 
-                                <el-table-column align="center" label="金额（亿元）"  min-width="120px">
+                                <el-table-column align="center" label="金额（亿元）"  min-width="50%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.value.length==0">0.0000</span>
                                         <span>{{scope.row.value}}</span>
                                     </template>
                                 </el-table-column>
                                 
-                                <el-table-column align="center" label="数量"  min-width="60px">
+                                <el-table-column align="center" label="数量"  min-width="20%">
                                     <template slot-scope="scope">
-                                        <a v-if="scope.row.num.length==0">0</a>
+                                        <span v-if="scope.row.num.length==0">0</span>
                                         <a @click="companySel(scope.row,'001')">{{scope.row.num}}</a>
                                     </template>
                                 </el-table-column>
@@ -113,24 +113,24 @@
                            <el-table
                                 ref="table2"
                                 :data="data3"
-                                max-height="440"
+                                max-height="445"
                                 style="width: 100%">
-                                <el-table-column align="center" label="行业" min-width="190px">
+                                <el-table-column align="center" label="地域" min-width="30%">
                                     <template slot-scope="scope">
                                         <span>{{scope.row.name}}</span>
                                     </template>
                                 </el-table-column>
 
-                                <el-table-column align="center" label="金额（亿元）"  min-width="120px">
+                                <el-table-column align="center" label="金额（亿元）"  min-width="50%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.value.length==0">0.0000</span>
                                         <span>{{scope.row.value}}</span>
                                     </template>
                                 </el-table-column>
                                 
-                                <el-table-column align="center" label="数量"  min-width="60px">
+                                <el-table-column align="center" label="数量"  min-width="20%">
                                     <template slot-scope="scope">
-                                        <a v-if="scope.row.num.length==0">0</a>
+                                        <span v-if="scope.row.num.length==0">0</span>
                                         <a @click="companySel(scope.row,'002')">{{scope.row.num}}</a>
                                     </template>
                                 </el-table-column>
@@ -142,24 +142,24 @@
                            <el-table
                                 ref="table3"
                                 :data="data4"
-                                max-height="440"
+                                max-height="445"
                                 style="width: 100%">
-                                <el-table-column align="center" label="行业" min-width="190px">
+                                <el-table-column align="center" label="地域" min-width="30%">
                                     <template slot-scope="scope">
                                         <span>{{scope.row.name}}</span>
                                     </template>
                                 </el-table-column>
 
-                                <el-table-column align="center" label="金额（亿元）"  min-width="120px">
+                                <el-table-column align="center" label="金额（亿元）"  min-width="50%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.value.length==0">0.0000</span>
                                         <span>{{scope.row.value}}</span>
                                     </template>
                                 </el-table-column>
                                 
-                                <el-table-column align="center" label="数量"  min-width="60px">
+                                <el-table-column align="center" label="数量"  min-width="20%">
                                     <template slot-scope="scope">
-                                        <a v-if="scope.row.num.length==0">0</a>
+                                        <span v-if="scope.row.num.length==0">0</span>
                                         <a @click="companySel(scope.row,'003')">{{scope.row.num}}</a>
                                     </template>
                                 </el-table-column>
@@ -224,7 +224,7 @@ export default {
   },
   methods: {
     companySel(row,finaType) {//打开公司详情页
-      this.companyDetailShow("3",this.titleName,finaType,row.name,row.condition);
+      this.companyDetailShow("3",this.titleName,finaType,row.cityName,row.condition);
     },
     //点击年度选项事件
     activeFun(data) {

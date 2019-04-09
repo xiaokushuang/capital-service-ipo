@@ -56,6 +56,68 @@ public class FinanceParamDto implements Serializable {
     //索引查询条件
     private String conditionStr;
     
+    //区分tab页
+    private String typeFlag;
+    
+    private String orderByOrder;
+
+    private String orderByName;
+    
+    private int pageSize;
+    
+    private int startRow;
+    
+    //导出Excel数量
+    private int exportTotal;
+    
+    public int getExportTotal() {
+        return exportTotal;
+    }
+
+    public void setExportTotal(int exportTotal) {
+        this.exportTotal = exportTotal;
+    }
+
+    public String getOrderByOrder() {
+        return orderByOrder;
+    }
+
+    public String getOrderByName() {
+        return orderByName;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public int getStartRow() {
+        return startRow;
+    }
+
+    public void setOrderByOrder(String orderByOrder) {
+        this.orderByOrder = orderByOrder;
+    }
+
+    public void setOrderByName(String orderByName) {
+        this.orderByName = orderByName;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public void setStartRow(int startRow) {
+        this.startRow = startRow;
+    }
+
+    public String getTypeFlag() {
+        return typeFlag;
+    }
+
+    public void setTypeFlag(String typeFlag) {
+        this.typeFlag = typeFlag;
+    }
+
     public String getSelCondition() {
         return selCondition;
     }

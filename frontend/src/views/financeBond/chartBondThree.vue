@@ -46,29 +46,29 @@
         <!-- 右侧选项卡和table -->
         <el-col :span="8" class="chart">
             <div class="fullDiv_border">
-                <div rightTable>
+                <div rightTable rightTable1>
                     <el-table
                         ref="table0"
                         :data="data0"
-                        max-height="440"
+                        max-height="485"
                         style="width: 100%">
-                        <el-table-column align="center" label="行业" min-width="190px">
+                        <el-table-column align="center" label="地域" min-width="30%">
                             <template slot-scope="scope">
                                 <span>{{scope.row.name}}</span>
                             </template>
                         </el-table-column>
 
-                        <el-table-column align="center" label="金额（亿元）"  min-width="120px">
+                        <el-table-column align="center" label="金额（亿元）"  min-width="50%">
                             <template slot-scope="scope">
                                 <span v-if="scope.row.value.length==0">0.0000</span>
                                 <span>{{scope.row.value}}</span>
                             </template>
                         </el-table-column>
                         
-                        <el-table-column align="center" label="数量"  min-width="60px">
+                        <el-table-column align="center" label="数量"  min-width="20%">
                             <template slot-scope="scope">
                                 <span v-if="scope.row.num.length==0">0</span>
-                                <span>{{scope.row.num}}</span>
+                                <a @click="companySel(scope.row,'004')">{{scope.row.num}}</a>
                             </template>
                         </el-table-column>
                     </el-table>     
@@ -105,7 +105,8 @@ export default {
         industrySelect: ""
       },
       tableData: [],
-      arr: ["001", "002", "003"]
+      arr: ["001", "002", "003"],
+      titleName:'债券发行'
     };
   },
   props: {
@@ -127,6 +128,9 @@ export default {
     }
   },
   methods: {
+    companySel(row,finaType) {//打开公司详情页
+      this.companyDetailShow("3",this.titleName,finaType,row.cityName,row.condition,"",'债券发行');
+    },
     //点击年度选项事件
     activeFun(data) {
       this.flag = data; //选中样式
@@ -176,7 +180,7 @@ export default {
     this.chartThree(true);
   },
   watch: {
-    value5(n, o) {
+    value5(n, o) {//改变时间时,监听事件,判断搜索日期大于一个月
       //依照操作取数据
       if (this.getValue(n) == '') {
         if(this.flag == 7) {

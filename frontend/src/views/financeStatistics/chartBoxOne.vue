@@ -52,15 +52,15 @@
                            <el-table
                                 ref="table0"
                                 :data="tableData1"
-                                max-height="440"
+                                max-height="445"
                                 style="width: 100%">
-                                <el-table-column align="center" label="日期" min-width="190px">
+                                <el-table-column align="center" label="日期" min-width="50%">
                                     <template slot-scope="scope">
                                         <span>{{scope.row.date}}</span>
                                     </template>
                                 </el-table-column>
 
-                                <el-table-column align="center" label="金额（亿元）"  min-width="120px">
+                                <el-table-column align="center" label="金额（亿元）"  min-width="32%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.dataSum.length==0">0.0000</span>
                                         <span v-else  v-for='(o,i) in scope.row.dataSum' :key="i">
@@ -69,9 +69,9 @@
                                     </template>
                                 </el-table-column>
 
-                                <el-table-column align="center" label="数量"  min-width="60px">
+                                <el-table-column align="center" label="数量"  min-width="18%">
                                     <template slot-scope="scope">
-                                        <a v-if="scope.row.dataSum.length==0">0</a>
+                                        <span v-if="scope.row.dataSum.length==0">0</span>
                                         <a v-else v-for='(o,i) in scope.row.dataSum' :key="i" @click="companySel(scope.row,'004')">
                                             <a>{{o.num}}</a>
                                         </a>
@@ -85,15 +85,15 @@
                            <el-table
                                 ref="table1"
                                 :data="tableData2"
-                                max-height="440"
+                                max-height="445"
                                 style="width: 100%">
-                                <el-table-column align="center" label="日期" min-width="190px">
+                                <el-table-column align="center" label="日期" min-width="50%">
                                     <template slot-scope="scope">
                                         <span>{{scope.row.date}}</span>
                                     </template>
                                 </el-table-column>
 
-                                <el-table-column align="center" label="金额（亿元）"  min-width="120px">
+                                <el-table-column align="center" label="金额（亿元）"  min-width="32%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.dataSum.length==0">0.0000</span>
                                         <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
@@ -102,9 +102,9 @@
                                     </template>
                                 </el-table-column>
 
-                                <el-table-column align="center" label="数量"  min-width="60px">
+                                <el-table-column align="center" label="数量"  min-width="18%">
                                     <template slot-scope="scope">
-                                        <a v-if="scope.row.dataSum.length==0">0</a>
+                                        <span v-if="scope.row.dataSum.length==0">0</span>
                                         <a v-else v-for='(o,i) in scope.row.dataSum' :key="i" @click="companySel(scope.row,'001')">
                                             <a v-if="o.name=='001'">{{o.num}}</a>
                                         </a>
@@ -118,15 +118,15 @@
                            <el-table
                                 ref="table2"
                                 :data="tableData3"
-                                max-height="440"
+                                max-height="445"
                                 style="width: 100%">
-                                <el-table-column align="center" label="日期" min-width="190px">
+                                <el-table-column align="center" label="日期" min-width="50%">
                                     <template slot-scope="scope">
                                         <span>{{scope.row.date}}</span>
                                     </template>
                                 </el-table-column>
 
-                                <el-table-column align="center" label="金额（亿元）"  min-width="120px">
+                                <el-table-column align="center" label="金额（亿元）"  min-width="32%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.dataSum.length==0">0.0000</span>
                                         <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
@@ -135,9 +135,9 @@
                                     </template>
                                 </el-table-column>
 
-                                <el-table-column align="center" label="数量"  min-width="60px">
+                                <el-table-column align="center" label="数量"  min-width="18%">
                                     <template slot-scope="scope">
-                                        <a v-if="scope.row.dataSum.length==0">0</a>
+                                        <span v-if="scope.row.dataSum.length==0">0</span>
                                         <a v-else v-for='(o,i) in scope.row.dataSum' :key="i" @click="companySel(scope.row,'002')">
                                             <a v-if="o.name=='002'">{{o.num}}</a>
                                         </a>
@@ -151,15 +151,15 @@
                            <el-table
                                 ref="table3"
                                 :data="tableData4"
-                                max-height="440"
+                                max-height="445"
                                 style="width: 100%">
-                                <el-table-column align="center" label="日期" min-width="190px">
+                                <el-table-column align="center" label="日期" min-width="50%">
                                     <template slot-scope="scope">
                                         <span>{{scope.row.date}}</span>
                                     </template>
                                 </el-table-column>
 
-                                <el-table-column align="center" label="金额（亿元）"  min-width="120px">
+                                <el-table-column align="center" label="金额（亿元）"  min-width="32%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.dataSum.length==0">0.0000</span>
                                         <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
@@ -168,9 +168,9 @@
                                     </template>
                                 </el-table-column>
 
-                                <el-table-column align="center" label="数量"  min-width="60px">
+                                <el-table-column align="center" label="数量"  min-width="18%">
                                     <template slot-scope="scope">
-                                        <a v-if="scope.row.dataSum.length==0">0</a>
+                                        <span v-if="scope.row.dataSum.length==0">0</span>
                                         <a v-else v-for='(o,i) in scope.row.dataSum' :key="i" @click="companySel(scope.row,'003')">
                                             <a v-if="o.name=='003'">{{o.num}}</a>
                                         </a>
@@ -268,10 +268,8 @@ export default {
     ...mapGetters(["getIpo1"]),
     // 全部选项计算数据
     tableData1() {
-      debugger;
       var middle = [];
       this.tableData.map((obj, idx) => {
-        debugger;
         if (obj.dataSum.length > 1) {
           var valuec = {};
           valuec.dataSum = [{ value: 0, num: 0, date: "" }];
@@ -279,7 +277,6 @@ export default {
           valuec["value"] = 0;
           valuec["num"] = 0;
           obj.dataSum.map((o, i) => {
-            debugger;
             valuec.dataSum[0]["value"] += Number(o.value);
             valuec.dataSum[0]["num"] += Number(o.num);
           });
@@ -369,7 +366,7 @@ export default {
   watch: {
     value5(n, o) {
       //依照操作取数据
-      if (this.getValue(n) == '') {
+      if (this.getValue(n) == '') {//改变时间时,监听事件,判断搜索日期大于一个月
         if(this.flag == 7) {
           this.dateSelect = "";
           this.chartOne(true);
@@ -392,7 +389,6 @@ export default {
         this.flag = 7;
         if (flg >= 31) {
           this.param.dateSelect = start + " 至 " + end;
-          // console.log(this.param)
           this.chartOne(false);
           for (let i = 0; i < document.getElementById("listA").getElementsByTagName("a").length; i++) {
             if (document.getElementById("listA").getElementsByTagName("a")[i].classList.contains("active") === true) {

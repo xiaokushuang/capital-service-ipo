@@ -13,6 +13,9 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
     config => {
+      if(config.responseType == 'blob'){
+        config.timeout = 180000;
+      }
       // Do something before request is sent
       // set accessToken with request header
       config.headers['Authorization'] = getToken();
@@ -29,6 +32,28 @@ service.interceptors.request.use(
 // respone interceptor
 service.interceptors.response.use(
     (response) => {
+      if(response.config.responseType == 'blob'){
+        if(!response.data){
+          return;
+        }
+        let blob = new Blob([response.data]);
+        let fileName = decodeURIComponent(response.headers["filename"]);
+        if ('download' in document.createElement('a')) { // 非IE下载
+          let url = window.URL.createObjectURL(blob)
+          let link = document.createElement('a')
+          link.style.display = 'none';
+          link.href = url;
+          link.setAttribute('download', fileName)
+          document.body.appendChild(link)
+          link.click();
+          document.body.removeChild(link); //下载完成移除元素
+          window.URL.revokeObjectURL(url); //释放掉blob对象
+          return;
+        } else { // IE10+下载
+          window.navigator.msSaveOrOpenBlob(blob, fileName)
+          return;
+        }
+      }
       return response
     },
     (error) => {

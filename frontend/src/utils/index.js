@@ -1,7 +1,7 @@
 /**
  * Created by jiachenpan on 16/11/18.
  */
-
+import request from './request'
 export function parseTime(time, cFormat) {
   if (arguments.length === 0) {
     return null
@@ -407,4 +407,25 @@ var middle = [].concat(datalist)
 var one = getOne(middle); 
 fns(one,middle)
 return one
+}
+
+/**
+ * 导出Excel
+ * 
+ * @param {请求地址} url 
+ * @param {查询参数} param 
+ */
+export function exportExcelPostWindow(url, param) {
+  let condition = param.condition;
+  let condtionParam = Object.assign({}, condition);
+  condtionParam.orderByName = param.orderByName;
+  condtionParam.orderByOrder = param.orderByOrder;
+  condtionParam.startRow = param.startRow;
+  condtionParam.pageSize = condtionParam.exportTotal;
+  request({
+      url: url,
+      method: 'post',
+      data: condtionParam,
+      responseType: 'blob'//设置response类型，下载
+  })
 }

@@ -102,7 +102,12 @@
                   <span>{{scope.row[`pIndName${selected}`]}}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" prop="cityName" label="所属地区" min-width="8%"></el-table-column>
+            <el-table-column align="center" prop="cityName" label="所属地区" min-width="8%">
+                <template slot-scope="scope">
+                  <span v-if="getValue(scope.row.cityName) != ''">{{scope.row.cityName}}</span>
+                  <span v-else>--</span>
+                </template> 
+            </el-table-column>
             <el-table-column align="center" prop="address" label="融资方式" min-width="8%">
                 <template slot-scope="scope">
                   <span v-if="getValue(scope.row.finaType) == '001'">IPO</span>
@@ -288,13 +293,9 @@ export default {
 .container {
     padding-top: 0;
 }
-
 .el-table--border{
     border: none;
 }
-/* .el-table {
-  padding-left: 10px;
-} */
 .el-input--small .el-input__inner {
   height:32px!important;
   cursor: pointer;

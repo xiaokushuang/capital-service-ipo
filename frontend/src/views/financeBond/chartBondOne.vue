@@ -46,19 +46,19 @@
         <!-- 右侧选项卡和table -->
         <el-col :span="8" class="chart">
             <div class="fullDiv_border">
-                <div rightTable>
+                <div rightTable rightTable1>
                     <el-table
                         ref="table0"
                         :data="tableData"
-                        max-height="440"
+                        max-height="485"
                         style="width: 100%">
-                        <el-table-column align="center" label="日期" min-width="190px">
+                        <el-table-column align="center" label="日期" min-width="50%">
                             <template slot-scope="scope">
                                 <span>{{scope.row.date}}</span>
                             </template>
                         </el-table-column>
 
-                        <el-table-column align="center" label="金额（亿元）"  min-width="120px">
+                        <el-table-column align="center" label="金额（亿元）"  min-width="32%">
                             <template slot-scope="scope">
                                 <span v-if="scope.row.dataSum.length==0">0.0000</span>
                                 <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
@@ -67,12 +67,12 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column align="center" label="数量"  min-width="60px">
+                        <el-table-column align="center" label="数量"  min-width="18%">
                             <template slot-scope="scope">
                                 <span v-if="scope.row.dataSum.length==0">0</span>
-                                <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
-                                    <span v-if="o.name=='004'">{{o.num}}</span>
-                                </span>
+                                <a v-else v-for='(o,i) in scope.row.dataSum' :key="i" @click="companySel(scope.row,'004')">
+                                    <a v-if="o.name=='004'">{{o.num}}</a>
+                                </a>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -105,7 +105,8 @@ export default {
         type: "",
         dateSelect: ""
       },
-      tableData: []
+      tableData: [],
+      titleName:'债券发行'
     };
   },
   props: {
@@ -127,6 +128,9 @@ export default {
     }
   },
   methods: {
+    companySel(row,finaType) {//打开公司详情页
+      this.companyDetailShow("1",this.titleName,finaType,row.date,"","","债券发行");
+    },
     //点击年度选项事件
     activeFun(data) {
       this.flag = data; //选中样式
@@ -182,7 +186,7 @@ export default {
     this.chartOne(true);
   },
   watch: {
-    value5(n, o) {
+    value5(n, o) {//改变时间时,监听事件,判断搜索日期大于一个月
       //依照操作取数据
       if (this.getValue(n) == '') {//清空时间
         if(this.flag == 7) {
