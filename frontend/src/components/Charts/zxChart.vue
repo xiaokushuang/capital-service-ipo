@@ -95,7 +95,7 @@ beforeDestroy() {
                                           }
                                           return str;
                                         }
-                                      },
+                                      }
                                 },
                              )
 
@@ -106,8 +106,15 @@ beforeDestroy() {
            title: {
                 text: ''
             },
-            tooltip: {
-                trigger: 'axis'
+            tooltip:{
+             trigger: 'axis',
+              formatter: function (params) {
+                let str = params[0].name + '<br/>';
+                for(i=0;i<params.length;i++){
+                  str += params[i].marker + params[i].seriesName + ': ' + params[i].value + '%<br/>'
+                }
+                return str
+              }
             },
             legend: {
               top:'2%',
