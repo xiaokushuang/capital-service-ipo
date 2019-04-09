@@ -188,7 +188,7 @@
                         </div>
                         <!-- 点击查看更多公告内容弹窗 -->
                         <div class="popWindow">
-                             <el-dialog :title= moreNoticeDailog :visible.sync="dialogVisible" :close-on-click-modal="false" width="73.5%" append-to-body id="moreNoticeDailog">
+                             <el-dialog :title= moreNoticeDailog :visible.sync="dialogVisible" :close-on-click-modal="false" append-to-body id="moreNoticeDailog">
                                 <div style="background: #cccccc">
                                     <moreNotice :moreNoticeList = "[moreNoticeList,fileType]"></moreNotice>
                                 </div>

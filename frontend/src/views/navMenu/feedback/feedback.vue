@@ -61,7 +61,7 @@
                                                 <div class="da">答</div>
                                                 <div style="font-size:14px;color:#333;line-height:22px">
                                                     <p style="width:100%;" v-if="!data.isSpreada || (data.isSpreada && data.isSpreada !== 2)">&nbsp;&nbsp;{{getContent(data,data.answer,index,'question')}}</p>
-                                                    <p v-html="data.formatAnswer" style="width:100%;"  v-if="data.isSpreada && data.isSpreada === 2">&nbsp;&nbsp;{{data.formatAnswer}}</p>
+                                                    <p class="daImg" v-html="data.formatAnswer" style="width:100%;"  v-if="data.isSpreada && data.isSpreada === 2">&nbsp;&nbsp;{{data.formatAnswer}}</p>
                                                 </div>
                                                 <!-- 收起展开 -->
                                                 <div class="btn" style="color: #4F91D1;font-size:14px">
@@ -142,7 +142,7 @@
                                                 <div class="da">答</div>
                                                 <div style="font-size:14px;color:#333;line-height:22px">
                                                     <p style="width:100%;" v-if="!data.isSpreada || (data.isSpreada && data.isSpreada !== 2)">&nbsp;&nbsp;{{getContent(data,data.answer,index,'question')}}</p>
-                                                    <p v-html="data.formatAnswer" style="width:100%;"  v-if="data.isSpreada && data.isSpreada === 2">&nbsp;&nbsp;{{data.formatAnswer}}</p>
+                                                    <p class="daImg" v-html="data.formatAnswer" style="width:100%;"  v-if="data.isSpreada && data.isSpreada === 2">&nbsp;&nbsp;{{data.formatAnswer}}</p>
                                                 </div>
                                                 <!-- 收起展开 -->
                                                 <div class="btn" style="color: #4F91D1;font-size:14px">
@@ -223,7 +223,7 @@
                                                 <div class="da">答</div>
                                                 <div style="font-size:14px;color:#333;line-height:22px">
                                                     <p style="width:100%;" v-if="!data.isSpreada || (data.isSpreada && data.isSpreada !== 2)">&nbsp;&nbsp;{{getContent(data,data.answer,index,'question')}}</p>
-                                                    <p v-html="data.formatAnswer" style="width:100%;"  v-if="data.isSpreada && data.isSpreada === 2">&nbsp;&nbsp;{{data.formatAnswer}}</p>
+                                                    <p class="daImg" v-html="data.formatAnswer" style="width:100%;"  v-if="data.isSpreada && data.isSpreada === 2">&nbsp;&nbsp;{{data.formatAnswer}}</p>
                                                 </div>
                                                 <!-- 收起展开 -->
                                                 <div class="btn" style="color: #4F91D1;font-size:14px">
@@ -309,7 +309,7 @@
                                       <div class="da">答</div>
                                       <div style="font-size:14px;color:#333;line-height:22px">
                                           <p style="width:100%;" v-if="!data.isSpreada || (data.isSpreada && data.isSpreada !== 2)">&nbsp;&nbsp;{{getContent(data,data.answer,index,'question')}}</p>
-                                          <p v-html="data.formatAnswer" style="width:100%;"  v-if="data.isSpreada && data.isSpreada === 2">&nbsp;&nbsp;{{data.formatAnswer}}</p>
+                                          <p class="daImg" v-html="data.formatAnswer" style="width:100%;"  v-if="data.isSpreada && data.isSpreada === 2">&nbsp;&nbsp;{{data.formatAnswer}}</p>
                                       </div>
                                       <!-- 收起展开 -->
                                        <div class="btn" style="color: #4F91D1;font-size:14px">
@@ -1206,6 +1206,9 @@ export default {
   line-height: 24px;
   font-size: 14px;
   text-align: center;
+}
+.daImg{
+  width:100%;
 }
 
 </style>

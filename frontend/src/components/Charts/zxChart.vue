@@ -110,8 +110,9 @@ beforeDestroy() {
                 trigger: 'axis'
             },
             legend: {
-               x: "right", // 'center' | 'left' | {number},
-               y: "10%", // 'center' | 'bottom' | {number}
+              top:'2%',
+              //  x: "right", // 'center' | 'left' | {number},
+              //  y: "10%", // 'center' | 'bottom' | {number}
               selected:this.zxChartYSelect
 
             },

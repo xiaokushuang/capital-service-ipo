@@ -641,7 +641,7 @@ export default {
               tabId: 'tab-first',
               noClick: true
           }
-          if(this.structureUrl || (this.gqTableList&&this.gqTableList.length>0)){
+          if((this.companyProfileList&&this.companyProfileList.structureUrl) || (this.gqTableList&&this.gqTableList.length>0)){
              ownershipStructureChart.noClick = false;
           }
           if(this.mainTableList.firstYearForIncome){
