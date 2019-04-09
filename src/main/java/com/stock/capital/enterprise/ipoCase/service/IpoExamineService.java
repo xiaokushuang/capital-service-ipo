@@ -115,6 +115,8 @@ public class IpoExamineService extends BaseService {
     public IpoExamineDto selectNewExamineList(String id) {
         String orgCode = ipoFeedbackMapper.getOrgCode(id);
         IpoExamineDto resultDto = new IpoExamineDto();
+        //从数据库查询所有二级标签
+        Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap();
         //查询发审会基础信息
         List<IpoExamineBaseDto> baseList = ipoExamineMapper.selectExamineBaseList(id);
         //如果没有发审会信息，则返回空对象
@@ -158,12 +160,24 @@ public class IpoExamineService extends BaseService {
         List<IpoFeedbackQuestionDto> questionResultList = new ArrayList<>();
         if(CollectionUtils.isNotEmpty(questionIndexList)){
             for(IpoFeedbackIndexDto questionDto:questionIndexList){
+                //定义二级标签集合
+                List<String> belongSecondLabelList = new ArrayList<>();
                 IpoFeedbackQuestionDto questionResultDto = new IpoFeedbackQuestionDto();
                 questionResultDto.setQuestionId(questionDto.getQuestionId());
                 questionResultDto.setQuestion(questionDto.getQuestContents());
                 questionResultDto.setAnswer(questionDto.getAnswersContents());
                 questionResultDto.setFormatQuestion(questionDto.getQuestionLabelContent());
                 questionResultDto.setFormatAnswer(questionDto.getAnswerLabelContent());
+                List<String> belongLabel = questionDto.getQuestionClassNewId();
+                //循环放入问题所属二级标签
+                if (CollectionUtils.isNotEmpty(belongLabel)) {
+                    for (String belongLabelStr : belongLabel) {
+                        if (null != secondLabelMap.get(belongLabelStr)) {
+                            belongSecondLabelList.add(secondLabelMap.get(belongLabelStr).get("letterClassName"));
+                        }
+                    }
+                    questionResultDto.setLabelList(belongSecondLabelList);
+                }
                 questionResultList.add(questionResultDto);
             }
         }
