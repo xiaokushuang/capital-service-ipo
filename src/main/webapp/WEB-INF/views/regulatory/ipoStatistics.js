@@ -576,7 +576,7 @@ function historyEChartInit() {
 		            sampling: 'average',
 		            itemStyle: {
 		                normal: {
-		                    color: myChartColor[1]
+		                    color: myChartColor[0]
 		                }
 		            },
 //		            areaStyle: {
