@@ -516,6 +516,7 @@ export default {
       // 中介机构
       moreList:[],
       mainList:[],
+      dataFlag:false,
     };
   },
   props:["companyProfileList"],
@@ -530,7 +531,6 @@ export default {
       // 动态传id
       const param = {
         id:this.caseId,
-        validFlag:'1'
       }
       getMarketData(param).then(res=>{
         if(res.data.result&&res.data.result.length>0){
@@ -554,7 +554,6 @@ export default {
       getRaiseMoneyTableList(param).then(res=>{
         if(res.data.result&&res.data.result.length>0){
           this.raiseMoneyTableList = res.data.result
-          // console.log('募集资金',this.raiseMoneyTableList)
         }
           this.getPosition()
       });
@@ -578,14 +577,10 @@ export default {
       })
       // 中介机构
        getIntermediaryOrgDataList(param).then(response => {
-         if(response.data.result&&response.data.result.mainList&&response.data.result.mainList.length>0){
-           this.mainList = response.data.result.mainList
-           this.getPosition()
+         if((response.data.result&&response.data.result.mainList&&response.data.result.mainList.length>0 ||(response.data.result&&response.data.result.moreList&&response.data.result.moreList.length>0))){
+            this.dataFlag = true
           }
-          if(response.data.result&&response.data.result.moreList&&response.data.result.moreList.length>0){
-              this.moreList = response.data.result.moreList
               this.getPosition()
-          }
       })
       
 
@@ -656,7 +651,7 @@ export default {
           if(this.raiseMoneyTableList&&this.raiseMoneyTableList.length>0){
             utilizationOfRaisedFunds.noClick = false;
           }
-          if((this.mainList&&this.mainList.length>0) || (this.moreList&&this.moreList.length>0)){
+          if(this.dataFlag){
             intermediaryInstitutions.noClick = false;
           }
           titleList.push(ownershipStructureChart)

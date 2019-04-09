@@ -1205,7 +1205,7 @@ export default {
   font-size: 14px;
   text-align: center;
 }
-.daImg{
+.daImg img{
   width:100%;
 }
 
