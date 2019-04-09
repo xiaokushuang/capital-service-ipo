@@ -2,7 +2,7 @@
     <div>
        <div class="IntermediaryInstitutions">
             <!-- 筛选 -->
-            <el-select v-if="mainList&&mainList.length>0 || moreList&&moreList.length>0" v-model="agentState" placeholder="请选择" style="margin-left:16px;width:120px">
+            <el-select v-if="dataFlag" v-model="agentState" placeholder="请选择" style="margin-left:16px;width:120px">
                 <el-option v-for="item in options" :label="item.label" :value="item.value" :key="item.value">
                 </el-option>
             </el-select>
@@ -211,6 +211,7 @@ export default {
             assetsUnValid:[],
             agentState: "当前有效",
             showMoreType:false,//点击查看更多机构
+            dataFlag:false,
             options: 
                 [
                     {
@@ -246,6 +247,7 @@ export default {
     },
     created() {
      this.initTableData(1)
+     this.initTableAllData()
     },
   methods: {
     initTableData(validFlag) {
@@ -259,6 +261,17 @@ export default {
               this.allStitutionList = response.data.result
               this.mainList = response.data.result.mainList
               this.moreList = response.data.result.moreList
+          }
+      })
+    },
+    initTableAllData() {
+      // 动态传id
+      const param = {
+        id:this.caseId,
+      }
+      getIntermediaryOrgDataList(param).then(response => {
+          if((response.data.result&&response.data.result.mainList&&response.data.result.mainList.length>0) ||(response.data.result&&response.data.result.moreList&&response.data.result.moreList.length>0)){
+              this.dataFlag = true
           }
       })
     },
@@ -281,6 +294,7 @@ export default {
     },
     // 鼠标移入委员详情弹出窗的列
     mouseOverSpreadText(title){ 
+        // console.log($('.bj'))
         // for(let a = 0;a< $(".bj").length;a++){
         //     // if(title.length>38){
         //         $(".bj").eq(a).attr("title",title)
