@@ -36,7 +36,7 @@
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">保荐代表人：</span>
-                                        <span class="bj" style="font-size:14px;color:black"  @mouseenter="mouseOverSpreadText(item.representPerson )">{{getContent(item.representPerson)}}</span>
+                                        <span class="bj" style="font-size:14px;color:black"  @mouseenter="mouseOverSpreadText(item.representPerson +'建大卡打卡机扩散 降低为抗击外敌触怒软件呢我i心安即是觉得我i行啊额u的年纪挖掘的dhxwAJDIZKSM dhisjxJD ')">{{getContent(item.representPerson+'建大卡打卡机扩散 降低为抗击外敌触怒软件呢我i心安即是觉得我i行啊额u的年纪挖掘的dhxwAJDIZKSM dhisjxJD ')}}</span>
                                     </li>
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
@@ -281,24 +281,24 @@ export default {
     },
     // 鼠标移入委员详情弹出窗的列
     mouseOverSpreadText(title){ 
-        for(let a = 0;a< $(".bj").length;a++){
-            $(".bj").eq(a).attr("title",title)
-        }
-         for(let a = 0;a< $(".xb").length;a++){
-                $(".xb").eq(a).attr("title",title)
-        }
-        for(let a = 0;a< $(".jb").length;a++){
-            $(".jb").eq(a).attr("title",title)
-        }
-        for(let a = 0;a< $(".ls").length;a++){
-            $(".ls").eq(a).attr("title",title)
-        }
-         for(let a = 0;a< $(".kj").length;a++){
-            $(".kj").eq(a).attr("title",title)
-        }
-        for(let a = 0;a< $(".pg").length;a++){
-            $(".pg").eq(a).attr("title",title)
-        }
+        // for(let a = 0;a< $(".bj").length;a++){
+        //         $(".bj").eq(a).attr("title",title)
+        // }
+        //  for(let a = 0;a< $(".xb").length;a++){
+        //      $(".xb").eq(a).attr("title",title)
+        // }
+        // for(let a = 0;a< $(".jb").length;a++){
+        //     $(".jb").eq(a).attr("title",title)
+        // }
+        // for(let a = 0;a< $(".ls").length;a++){
+        //     $(".ls").eq(a).attr("title",title)
+        // }
+        //  for(let a = 0;a< $(".kj").length;a++){
+        //      $(".kj").eq(a).attr("title",title)
+        // }
+        // for(let a = 0;a< $(".pg").length;a++){
+        //     $(".pg").eq(a).attr("title",title)
+        // }
     },
    getContent(title){
      if(title.length>38){
@@ -419,26 +419,11 @@ export default {
           }
         }
       }
-    //   .text {
-    //     width: 80%;
-    //     ul {
-    //       width: 100%;
-    //       margin-top: 10px;
-    //       display: flex;
-    //       flex-wrap: wrap;
-    //       li {
-    //         line-height: 20px;
-    //         margin-right: 30px;
-    //         width: 45%;
-    //       }
-    //     }
-    //   }
     }
   }
 }
 .InstitutionsDetailLi:hover {
-  cursor: pointer;
-  // box-shadow: darkgrey 0px 0px 6px 2px;
+//   cursor: pointer;
   box-shadow: 0 0px 28px -5px #ccc;
 }
 </style>

@@ -72,7 +72,6 @@ beforeDestroy() {
         }
       this.zxChart = echarts.init(document.getElementById('zxChart' + this.zxIndex))
     //  循环获取数据
-        // for (var i = 0; i < dataList.length; i++) {
           var arr = []
         for(var i = 0;i < this.zxIndex + 1;i++){
           this.zxChartY = []
@@ -82,8 +81,6 @@ beforeDestroy() {
             if(j+2<dataList[i].industryCompareRateDetailList.length){
               this.zxChartYSelect[dataList[i].industryCompareRateDetailList[j].companyName]=false
             }
-
-            // console.log(this.legendData)
 
               this.zxChartY.push(
                                 {
@@ -103,17 +100,8 @@ beforeDestroy() {
                              )
 
              this.zxChartX = [dataList[i].firstYear,dataList[i].secondYear,dataList[i].thirdYear]
-
           }
         }
-        // this.legendData = arr.slice(0,-2)
-        // console.log(this.legendData)
-        //  let hidden = '{';
-        //     for(let k = 0;k<this.legendData.length-2;k++){
-        //       hidden += "'" + this.legendData[k]+"':"+"false,";
-        //     }
-        //     hidden += "}"
-        //     console.log(hidden);
        this.zxChart.setOption({
            title: {
                 text: ''
@@ -122,7 +110,8 @@ beforeDestroy() {
                 trigger: 'axis'
             },
             legend: {
-              // data:this.legendData
+               x: "right", // 'center' | 'left' | {number},
+               y: "10%", // 'center' | 'bottom' | {number}
               selected:this.zxChartYSelect
 
             },

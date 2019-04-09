@@ -53,8 +53,8 @@
                 <span class="titleText" id="comparison">招股书列示同行业上市公司综合毛利率对比</span>
             </div>
             <div class="chartTable" v-for="item,index in maoChartTableData" :key="item.id">
-                <p style="font-family:'PingFang-SC-Regular', 'PingFang SC';font-weight:400;color:#666666;font-size:14px;">{{item.remark}}</p>
-                <div class="zxChart" style="height:300px;width:100%">
+                <p style="font-family:'PingFang-SC-Regular', 'PingFang SC';font-weight:400;color:#666666;font-size:14px; margin-top: 30px;margin-bottom:0px">{{item.remark}}</p>
+                <div class="zxChart" style="height:300px;width:100%; ">
                     <zxChart ref="zxChart" :zxIndex = "index"></zxChart>
                 </div>
                 <div class="table">

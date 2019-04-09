@@ -383,7 +383,12 @@ export default {
              if(item.dateCompare == '0'){
                  document.getElementById('sign' + item.progressIndex).className = 'fa grayCircle fa-chevron-down'
             }else{
-               document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-down'
+                if(item.flag){
+                    document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-up'
+                }
+               else{
+                   document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-down'
+                   }
             }
             document.getElementById('num' + item.progressIndex).setAttribute("style", "display:none;");
         },

@@ -6,14 +6,14 @@
                  <li v-show="baseList.length>0" style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
                     <div class="text">
                         <p style="font-size:14px;">
-                            <span style="font-family:'微软雅黑';font-weight:400;color:#999;">第一次审核会议: </span>
+                            <span style="font-family:'微软雅黑';font-weight:400;color:#999;">审核会议: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].relationFileTitle}} _ </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].examineDate}}</span>
                         </p>
                     </div>
                     <div class="text ">
                         <p style="font-size:14px;">
-                            <span style="font-size:14px;color:#999;">第一次审核结果: </span>
+                            <span style="font-size:14px;color:#999;">审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].companyName}}</span>
                             <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03'}">{{ baseList[0].iecResultStr}}</span>
                         </p>
@@ -421,9 +421,9 @@
         <div class="two">
              <div class="title">
                 <span class="littleRectangle"></span>
-                <span v-if="baseList.length==1" class="titleText" id="result">第一次发审会关注问题</span>
-                <span v-if="baseList.length==2" class="titleText" id="result">第二次发审会关注问题</span>
-                <span v-if="baseList.length==3" class="titleText" id="result">第三次发审会关注问题</span>
+                <span class="titleText" id="result">发审会关注问题</span>
+                <!-- <span v-if="baseList.length==2" class="titleText" id="result">第二次发审会关注问题</span>
+                <span v-if="baseList.length==3" class="titleText" id="result">第三次发审会关注问题</span> -->
             </div>
             <div>
                 <ul style="padding-left:0">
@@ -450,7 +450,7 @@
         <!-- 已经阅读完了 -->
         <p v-if="questionList.length>0&&!showMore" class="finishRead">已经阅读完了</p>
         <!-- 暂无数据 -->
-        <p v-if="questionList.length<0" class="finishRead">暂无相关数据</p>
+        <p v-if="questionList.length==0&&!showMore" class="finishRead">暂无相关数据</p>
         
 </div>
 </template>

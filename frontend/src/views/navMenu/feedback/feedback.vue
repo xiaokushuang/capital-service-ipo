@@ -76,10 +76,12 @@
                                       </li>
                                   </ul>
                                 
-                                <!-- 加载更多 -->
-                                <div  v-if="showMore" @click="showMoreMethods()" class="more">加载更多</div>
-                                <!-- 已经阅读完了 -->
-                                <p v-if="!showMore" class="finishRead">已经阅读完了</p>
+                                    <!-- 加载更多 -->
+                                    <div  v-if="showMore" @click="showMoreMethods()" class="more">加载更多</div>
+                                    <!-- 已经阅读完了 -->
+                                    <p v-if="!showMore&&questionList.length>0" class="finishRead">已经阅读完了</p>
+                                    <!-- 暂无更多数据 -->
+                                    <p v-if="!showMore&&questionList.length==0" class="finishRead">暂无更多数据</p>
                               </div>
                           </div>
                       </el-tab-pane>
@@ -156,9 +158,11 @@
                                   </ul>
                                 
                                 <!-- 加载更多 -->
-                                <div  v-if="showMore" @click="showMoreMethods()" class="more">加载更多</div>
-                                <!-- 已经阅读完了 -->
-                                <p v-if="!showMore" class="finishRead">已经阅读完了</p>
+                                    <div  v-if="showMore2" @click="showMoreMethods()" class="more">加载更多</div>
+                                    <!-- 已经阅读完了 -->
+                                    <p v-if="!showMore2&&questionList2.length>0" class="finishRead">已经阅读完了</p>
+                                    <!-- 暂无更多数据 -->
+                                    <p v-if="!showMore2&&questionList2.length==0" class="finishRead">暂无更多数据</p>
                               </div>
                           </div>
                       </el-tab-pane>
@@ -235,9 +239,12 @@
                                   </ul>
                                 
                                 <!-- 加载更多 -->
-                                <div  v-if="showMore" @click="showMoreMethods()" class="more">加载更多</div>
-                                <!-- 已经阅读完了 -->
-                                <p v-if="!showMore" class="finishRead">已经阅读完了</p>
+                                    <div  v-if="showMore3" @click="showMoreMethods()" class="more">加载更多</div>
+                                    <!-- 已经阅读完了 -->
+                                    <p v-if="!showMore3&&questionList3.length>0" class="finishRead">已经阅读完了</p>
+                                    <!-- 暂无更多数据 -->
+                                    <p v-if="!showMore3&&questionList3.length==0" class="finishRead">暂无更多数据</p>
+                               
                               </div>
                           </div>
                       </el-tab-pane>
@@ -272,7 +279,7 @@
                                 <span>{{answerCount}}</span>
                                 <span>个回复</span>
                                 <el-checkbox  @change="handleOnlyChange(onlyShowAnswer)" v-model="onlyShowAnswer" style="margin-left:20px;margin-right:15px">只展示回复问题</el-checkbox>
-                                <el-button @click="toggleSelection()" class="reset" type="primary">重置</el-button>
+                                <el-button @click="toggleSelection()" class="reset" type="primary" plain>重置</el-button>
                             </div>
                         </div>
                     </div>
@@ -321,6 +328,8 @@
                       <div  v-if="showMore" @click="showMoreMethods()" class="more">加载更多</div>
                       <!-- 已经阅读完了 -->
                       <p v-if="!showMore" class="finishRead">已经阅读完了</p>
+                       <!-- 暂无更多数据 -->
+                      <p v-if="!showMore&&questionList.length==0" class="finishRead">暂无更多数据</p>
                     </div>
                 </div>
            </div>
@@ -402,7 +411,7 @@ export default {
   },
     created(){
          //   请求数据
-       this.initTableData(this.onlyShowAnswerFlag)
+       this.initTableData()
        this.isShowAll = true
      },
     mounted() {
@@ -546,15 +555,12 @@ export default {
       }
     },
       // 获取单选按钮数据
-     initTableData(onlyResponse) {
+     initTableData() {
         // 动态传id
         const param = {
           id:this.caseId,
-          onlyResponse:onlyResponse
         }
-        console.log('获取单选',param)
         getSelectFeedbackList(param).then(res => {
-          console.log(res.data.result)
           if(res.data.result && res.data.result.length > 0){
             this.o_letterId = res.data.result[0].letterId
             this.tabList = res.data.result
@@ -575,6 +581,10 @@ export default {
             if(this.tabList&&this.tabList.length==2){
               this.allQuestionList = res.data.result[0].questionList
               this.allQuestionList2 = res.data.result[1].questionList
+              this.questionCount = res.data.result[0].questionCount
+              this.answerCount = res.data.result[0].answerCount
+              this.questionCount2 = res.data.result[1].questionCount
+              this.answerCount2 = res.data.result[1].answerCount
               if(this.allQuestionList.length > 15){
                 this.showMore = true;
                 this.questionList = this.allQuestionList.slice(0,15);
@@ -595,6 +605,12 @@ export default {
               this.allQuestionList = res.data.result[0].questionList
               this.allQuestionList2 = res.data.result[1].questionList
               this.allQuestionList3 = res.data.result[2].questionList
+               this.questionCount = res.data.result[0].questionCount
+              this.answerCount = res.data.result[0].answerCount
+               this.questionCount1 = res.data.result[1].questionCount
+              this.answerCount1 = res.data.result[1].answerCount
+               this.questionCount2 = res.data.result[2].questionCount
+              this.answerCount2 = res.data.result[2].answerCount
               if(this.allQuestionList.length > 15){
                 this.showMore = true;
                 this.questionList = this.allQuestionList.slice(0,15);
@@ -621,7 +637,7 @@ export default {
         })
       },
       // 获取筛选二级标签和问题列表
-      initQuestionData(letterId,firstLabelId,secondLabelId,onlyResponse) {
+      initQuestionData(letterId,firstLabelId,secondLabelId,onlyResponse,ifReset) {
         // debugger
         // 动态传id
         // 将second多选按钮参数用字符串，隔开
@@ -639,16 +655,17 @@ export default {
           secondLabelId:secondLabel,
           onlyResponse:onlyResponse,
         }
-        console.log(param)
         getSelectQuestionList(param).then(res => {
-          console.log(res.data.result)
           // 当只有一个tab页时
           if(this.tabList.length==1){
             if(res.data.result.length  > 0){
               this.allQuestionList = res.data.result[0].questionList;
               this.questionCount = res.data.result[0].questionCount
               this.answerCount = res.data.result[0].answerCount
-              this. feedbackduoxuanList = res.data.result[0].questionLabelList
+              if(ifReset != '0'){
+                this. feedbackduoxuanList = res.data.result[0].questionLabelList
+              }
+              
               if(this.allQuestionList.length > 15){
                 this.showMore = true;
                 this.questionList = this.allQuestionList.slice(0,15);
@@ -668,7 +685,9 @@ export default {
                   this.allQuestionList = res.data.result[0].questionList;
                   this.questionCount = res.data.result[0].questionCount
                   this.answerCount = res.data.result[0].answerCount
-                  this. feedbackduoxuanList = res.data.result[0].questionLabelList
+                  if(ifReset != '0'){
+                    this. feedbackduoxuanList = res.data.result[0].questionLabelList
+                  }
                   if(this.allQuestionList.length > 15){
                     this.showMore = true;
                     this.questionList = this.allQuestionList.slice(0,15);
@@ -686,7 +705,9 @@ export default {
                   this.allQuestionList2 = res.data.result[0].questionList;
                   this.questionCount2 = res.data.result[0].questionCount
                   this.answerCount2 = res.data.result[0].answerCount
-                  this. feedbackduoxuanList2 = res.data.result[0].questionLabelList
+                  if(ifReset != '0'){
+                    this. feedbackduoxuanList2 = res.data.result[0].questionLabelList
+                  }
                   if(this.allQuestionList2.length > 15){
                     this.showMore2 = true;
                     this.questionList2 = this.allQuestionList2.slice(0,15);
@@ -707,7 +728,9 @@ export default {
                   this.allQuestionList = res.data.result[0].questionList;
                   this.questionCount = res.data.result[0].questionCount
                   this.answerCount = res.data.result[0].answerCount
-                  this. feedbackduoxuanList = res.data.result[0].questionLabelList
+                  if(ifReset != '0'){
+                    this. feedbackduoxuanList = res.data.result[0].questionLabelList
+                  }
                   if(this.allQuestionList.length > 15){
                     this.showMore = true;
                     this.questionList = this.allQuestionList.slice(0,15);
@@ -725,7 +748,9 @@ export default {
                   this.allQuestionList2 = res.data.result[0].questionList;
                   this.questionCount2 = res.data.result[0].questionCount
                   this.answerCount2 = res.data.result[0].answerCount
-                  this. feedbackduoxuanList2 = res.data.result[0].questionLabelList
+                  if(ifReset != '0'){
+                    this. feedbackduoxuanList2 = res.data.result[0].questionLabelList
+                  }
                   if(this.allQuestionList2.length > 15){
                     this.showMore2 = true;
                     this.questionList2 = this.allQuestionList2.slice(0,15);
@@ -743,7 +768,9 @@ export default {
                   this.allQuestionList3 = res.data.result[0].questionList;
                   this.questionCount3 = res.data.result[0].questionCount
                   this.answerCount3 = res.data.result[0].answerCount
-                  this. feedbackduoxuanList3 = res.data.result[0].questionLabelList
+                  if(ifReset != '0'){
+                    this. feedbackduoxuanList3 = res.data.result[0].questionLabelList
+                  }
                   if(this.allQuestionList3.length > 15){
                     this.showMore3 = true;
                     this.questionList3 = this.allQuestionList3.slice(0,15);
@@ -778,7 +805,6 @@ export default {
           secondLabelId:secondLabel,
           onlyResponse:onlyResponse,
         }
-        console.log('zhi',param)
         getSelectQuestionList(param).then(res => {
           // 当只有一个tab页时
           if(this.tabList.length==1){
@@ -903,7 +929,7 @@ export default {
       this.onlyShowAnswerFlag = ''
       this.onlyShowAnswer = false;
       this.showAll = true;
-      this.initTableData(this.o_letterId,'','','')
+      this.initQuestionData(this.o_letterId,'','','',"0")
     },
         // 点击重置按钮
     toggleSelection2(){
@@ -913,7 +939,7 @@ export default {
       this.onlyShowAnswerFlag2 = ''
       this.onlyShowAnswer2 = false;
       this.showAll = true;
-      this.initQuestionData(this.o_letterId,'','','')
+      this.initQuestionData(this.o_letterId,'','','',"0")
     },
             // 点击重置按钮
     toggleSelection3(){
@@ -923,7 +949,7 @@ export default {
       this.onlyShowAnswerFlag3 = ''
       this.onlyShowAnswer3 = false;
       this.showAll = true;
-      this.initQuestionData(this.o_letterId,'','','')
+      this.initQuestionData(this.o_letterId,'','','',"0")
     },
     // 问【收起展开】
     spread(item) {
@@ -1082,26 +1108,24 @@ export default {
 }
 .reset {
     background: inherit;
-    background-color: #14bcf5;
+    background-color: #fff;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     border-width: 1px;
     border-style: solid;
-    border-color: #cccccc;
-    border-radius: 3px;
-    -webkit-box-shadow: none;
+    border-color: #cacaca;
     box-shadow: none;
     font-family: "Microsoft YaHei Regular", "Microsoft YaHei";
     font-weight: 400;
     font-style: normal;
-    color: white;
+    color: #666;
     text-align: center;
     line-height: 12px;
     position: relative;
     left: 5%;
     top: -2px;
     cursor: pointer;
-    
+    height: 28px;
 }
 // 展开
 .spread {
