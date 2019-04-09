@@ -9,7 +9,7 @@
                     <el-tabs v-model="activeName" @tab-click="handleTabClick">
                       <el-tab-pane label="第一次反馈意见" :name="tabList[0].letterId">
                           <div>
-                              <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px;">
+                              <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px; margin-bottom: 30px;">
                                   <div class="firstLabel" >
                                       <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
                                         <div style="border-bottom: 1px solid rgb(235, 235, 235);">
@@ -87,7 +87,7 @@
                       </el-tab-pane>
                       <el-tab-pane label="第二次反馈意见" :name="tabList[1].letterId">
                             <div>
-                              <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px;">
+                              <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px;    margin-bottom: 30px;">
                                   <div class="firstLabel" >
                                       <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
                                         <div style="border-bottom: 1px solid rgb(235, 235, 235);">
@@ -117,10 +117,6 @@
                                   </div>
                               </div>
                               <div class="question" id="titleLength">
-                                <div class="title">
-                                    <span class="littleRectangle"></span>
-                                    <span class="titleText" id="result">规范性问题</span>
-                                </div>
                                   <ul style="padding-left:0">
                                       <li v-for="(data,index) in questionList2" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
                                           <div class="text" style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:10px;position:relative">
@@ -168,7 +164,7 @@
                       </el-tab-pane>
                       <el-tab-pane v-if="this.tabList&&this.tabList.length>2" label="第三次反馈意见" :name="tabList[2].letterId">
                           <div>
-                              <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px;">
+                              <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px;    margin-bottom: 30px;">
                                   <div class="firstLabel" >
                                       <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
                                         <div style="border-bottom: 1px solid rgb(235, 235, 235);">
@@ -198,10 +194,6 @@
                                   </div>
                               </div>
                               <div class="question" id="titleLength">
-                                <div class="title">
-                                    <span class="littleRectangle"></span>
-                                    <span class="titleText" id="result">规范性问题</span>
-                                </div>
                                   <ul style="padding-left:0">
                                       <li v-for="(data,index) in questionList3" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
                                           <div class="text" style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:10px;position:relative">
@@ -254,7 +246,7 @@
            <!-- 只有一级标签 -->
             <div v-if="tabList&&tabList.length==1" class="clear">             
                 <div>
-                    <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px;">
+                    <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px;margin-bottom: 30px;">
                         <div class="firstLabel" >
                             <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
                               <div style="border-bottom: 1px solid rgb(235, 235, 235);">
@@ -284,10 +276,6 @@
                         </div>
                     </div>
                     <div class="question" id="titleLength">
-                      <div class="title">
-                          <span class="littleRectangle"></span>
-                          <span class="titleText" id="result">规范性问题</span>
-                      </div>
                         <ul style="padding-left:0">
                             <li v-for="(data,index) in questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
                                 <div class="text" style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:10px;position:relative">
@@ -327,7 +315,7 @@
                       <!-- 加载更多 -->
                       <div  v-if="showMore" @click="showMoreMethods()" class="more">加载更多</div>
                       <!-- 已经阅读完了 -->
-                      <p v-if="!showMore" class="finishRead">已经阅读完了</p>
+                      <p v-if="!showMore&&questionList.length>0" class="finishRead">已经阅读完了</p>
                        <!-- 暂无更多数据 -->
                       <p v-if="!showMore&&questionList.length==0" class="finishRead">暂无更多数据</p>
                     </div>
@@ -923,6 +911,7 @@ export default {
     toggleSelection(){
       this.checkboxGroup = []
       this.radio = ''
+      this.radioVal = ''
       this.feedbackduoxuanList = [],
       this.onlyShowAnswerFlag = ''
       this.onlyShowAnswer = false;
@@ -932,7 +921,8 @@ export default {
         // 点击重置按钮
     toggleSelection2(){
       this.checkboxGroup2 = []
-      this.radio2 = ''
+       this.radio2 = ''
+      this.radioVal2 = ''
       this.feedbackduoxuanList2 = [],
       this.onlyShowAnswerFlag2 = ''
       this.onlyShowAnswer2 = false;
@@ -942,7 +932,8 @@ export default {
             // 点击重置按钮
     toggleSelection3(){
       this.checkboxGroup3 = []
-      this.radio3 = ''
+       this.radio3 = ''
+      this.radioVal3 = ''
       this.feedbackduoxuanList3 = [],
       this.onlyShowAnswerFlag3 = ''
       this.onlyShowAnswer3 = false;
@@ -1206,7 +1197,7 @@ export default {
   text-align: center;
 }
 .daImg img{
-  width:100%;
+  width:100% !important;
 }
 
 </style>

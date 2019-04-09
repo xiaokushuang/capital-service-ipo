@@ -206,7 +206,6 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
     beforeDestroy () {
     },
     mounted() {
-      console.log(this.assetsOrDeptTableList)
     },
     updated(){
     },

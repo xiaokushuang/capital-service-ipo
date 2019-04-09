@@ -208,7 +208,6 @@ import tanZxChart2  from '@/components/Charts/tanZxChart2'
     
     },
     mounted() {
-      console.log('111',this.incomeTableList)
     },
     updated(){
     },
