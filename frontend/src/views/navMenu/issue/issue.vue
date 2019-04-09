@@ -17,7 +17,7 @@
                       </el-col>
                       <el-col :span="6" class="label"><span>发行价格</span></el-col>
                       <el-col :span="6" class="value">
-                           <span v-if="issueData.issuePrice"> {{issueData.issuePrice | dataInThRule}} 万元</span>
+                           <span v-if="issueData.issuePrice"> {{issueData.issuePrice | dataInThRule}} 元/股</span>
                            <span v-else> - - </span>
                        </el-col>
                   </el-row>
@@ -48,7 +48,7 @@
                     <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>网上发行数量</span></el-col>
                       <el-col :span="6" class="value">
-                        <span v-if="issueData.shareIssueOn"> {{issueData.shareIssueOn | dataInThRule}} 万元</span>
+                        <span v-if="issueData.shareIssueOn"> {{issueData.shareIssueOn | dataInThRule}} 万股</span>
                         <span v-else> - - </span>
                       </el-col>
                       <el-col :span="6" class="label"><span>网下配售数量</span></el-col>
@@ -65,19 +65,19 @@
                       </el-col>
                       <el-col :span="6" class="label"><span>发行后市盈率</span></el-col>
                       <el-col :span="6" class="value">
-                         <span v-if="issueData.peIssueA"> {{issueData.peIssueA | dataInThRule}} %</span>
+                         <span v-if="issueData.peIssueA"> {{issueData.peIssueA | dataInThRule}} 倍</span>
                         <span v-else> - - </span>
                       </el-col>
                   </el-row>
                   <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>发行前每股收益</span></el-col>
                       <el-col :span="6" class="value">
-                      <span v-if="issueData.epsIssueB"> {{issueData.epsIssueB | dataInThRule}} 万/股</span>
+                      <span v-if="issueData.epsIssueB"> {{issueData.epsIssueB | dataInThRule}} 元/股</span>
                       <span v-else> - - </span>
                       </el-col>
                       <el-col :span="6" class="label"><span>发行后每股收益</span></el-col>
                       <el-col :span="6" class="value">
-                        <span v-if="issueData.epsIssueA"> {{issueData.epsIssueA | dataInThRule}} 万/股</span>
+                        <span v-if="issueData.epsIssueA"> {{issueData.epsIssueA | dataInThRule}} 元/股</span>
                         <span v-else> - - </span>
                        </el-col>
                   </el-row>

@@ -60,7 +60,6 @@
             <div v-else  class="majorBusinesses">- -</div>
           </li>
           <!-- 发行人选择的上市标准 -->
-          <!-- <li :style="{'position':'relative','margin-bottom':companyProfileList.issueCondition==''?'10px':'30px'}"> -->
           <li class="clear" v-if="companyProfileList&&companyProfileList.issueCondition !=''" style="margin-bottom:10px;position:relative" >
             <span v-if="companyProfileList.issueCondition" style="display: inline-block;width: 65px;line-height: 20px;float:left">发行人选择的上市标准</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <div v-if="companyProfileList&&companyProfileList.issueCondition ==''" style="color: #333333;margin-left: 9.4%;margin-top: -4.8%;line-height: 20px;">- -</div>
@@ -76,7 +75,7 @@
               <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('302')>-1">预计市值不低于人民币<span style="color:red">50亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">5亿元</span></div>
             </div>
           </li>
-          <li :style="{'margin-bottom':'10px','position':'relative','margin-top':companyProfileList.issueCondition==''?'4%':'0%'}">
+          <li style="{'margin-bottom':'10px','position':'relative','margin-top':'0%'}">
             <span>主营业务</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <div v-if="companyProfileList&&companyProfileList.majorBusinesses"  class="majorBusinesses">{{companyProfileList.majorBusinesses}}</div>
             <div v-else  class="majorBusinesses">- -</div>
@@ -212,25 +211,35 @@
             <p v-if="item.remark" style="font-size:14px;color:#666">{{item.remark}}</p>
             <span v-if="item.supplierCustomerInfoList&&item.supplierCustomerInfoList.length>0" style="font-size:12px;color:#666;float:right;margin-bottom: 5px;">单位：万元</span>
              <el-table :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px">
-              <el-table-column fixed align="center" class-name="table_cell" label="排名" width="70">
+              <el-table-column fixed align="center" class-name="table_cell" label="排名" width="52">
                 <template slot-scope="scope">
                   {{scope.$index+1}}
                   </template>
               </el-table-column>
-              <el-table-column fixed prop="companyName" align="left" class-name="table_cell" width="90" label="公司" ></el-table-column>
+              <el-table-column fixed prop="companyName" align="left" class-name="table_cell" width="180" label="公司" >
+                   <template slot-scope="scope">
+                      <span class="companyNameClass" v-if="scope.row.companyName" @mouseenter="mouseOverCompanyName(scope.row.companyName)" >
+                          {{getCompanyName(scope.row.companyName)}}
+                      </span>
+                      <span v-else> - - </span>
+                  </template>
+              </el-table-column>
               <el-table-column :label="item.reportPeriod" header-align="center">
-                <el-table-column align="left"  class-name="table_cell" label="采购内容" width="117">
+                <el-table-column align="left"  class-name="table_cell" label="采购内容" width="136">
                   <template slot-scope="scope">
-                    <span>{{isNotEmpty(scope.row.onePeriodContent) ? scope.row.onePeriodContent : '- -'}}</span>
+                      <span class="contentClass" v-if="scope.row.onePeriodContent" @mouseenter="mouseOverContent(scope.row.onePeriodContent)" >
+                          {{getContent(scope.row.onePeriodContent)}}
+                      </span>
+                      <span v-else> - - </span>
                   </template>
                 </el-table-column>
-                <el-table-column align="right"  class-name="table_cell" label="金额" width="117">
+                <el-table-column align="right"  class-name="table_cell" label="金额" width="96">
                   <template slot-scope="scope">
                       <span v-if="scope.row.onePeriodAmount"> {{scope.row.onePeriodAmount | dataInThRule}}</span>
                       <span v-else> - - </span>
                   </template>
                 </el-table-column>
-                <el-table-column align="right"  class-name="table_cell" label="占比" width="117">
+                <el-table-column align="right"  class-name="table_cell" label="占比" width="82">
                   <template slot-scope="scope">
                       <span v-if="scope.row.onePeriodRatio"> {{scope.row.onePeriodRatio | dataInThRule}}%</span>
                       <span v-else> - - </span>
@@ -238,18 +247,24 @@
                 </el-table-column>
               </el-table-column>
               <el-table-column :label="item.thirdYearForSupplier" header-align="center">
-                <el-table-column align="left"  class-name="table_cell" label="采购内容" width="117">
-                  <template slot-scope="scope">
+                <el-table-column align="left"  class-name="table_cell" label="采购内容" width="136">
+                   <template slot-scope="scope">
+                        <span class="contentClass" v-if="scope.row.thirdYearContent" @mouseenter="mouseOverContent(scope.row.thirdYearContent)" >
+                            {{getContent(scope.row.thirdYearContent)}}
+                        </span>
+                        <span v-else> - - </span>
+                    </template>
+                  <!-- <template slot-scope="scope">
                     <span>{{isNotEmpty(scope.row.thirdYearContent) ? scope.row.thirdYearContent : '- -'}}</span>
-                  </template>
+                  </template> -->
                 </el-table-column>
-                <el-table-column align="right"  class-name="table_cell" label="金额" width="117">
+                <el-table-column align="right"  class-name="table_cell" label="金额" width="96">
                   <template slot-scope="scope">
                       <span v-if="scope.row.thirdYearAmount"> {{scope.row.thirdYearAmount | dataInThRule}}</span>
                       <span v-else> - - </span>
                   </template>
                 </el-table-column>
-                <el-table-column align="right"  class-name="table_cell" label="占比" width="117">
+                <el-table-column align="right"  class-name="table_cell" label="占比" width="82">
                   <template slot-scope="scope">
                       <span v-if="scope.row.thirdYearRatio"> {{scope.row.thirdYearRatio | dataInThRule}}%</span>
                       <span v-else> - - </span>
@@ -257,18 +272,24 @@
                 </el-table-column>
               </el-table-column>
               <el-table-column :label="item.secondYearForSupplier" header-align="center">
-                <el-table-column align="left"  class-name="table_cell" label="采购内容" width="117">
-                  <template slot-scope="scope">
+                <el-table-column align="left"  class-name="table_cell" label="采购内容" width="136">
+                   <template slot-scope="scope">
+                        <span class="contentClass" v-if="scope.row.secondYearContent" @mouseenter="mouseOverContent(scope.row.secondYearContent)" >
+                            {{getContent(scope.row.secondYearContent)}}
+                        </span>
+                        <span v-else> - - </span>
+                    </template>
+                  <!-- <template slot-scope="scope">
                     <span>{{isNotEmpty(scope.row.secondYearContent ) ? scope.row.secondYearContent  : '- -'}}</span>
-                  </template>
+                  </template> -->
                 </el-table-column>
-                <el-table-column align="right"  class-name="table_cell" label="金额" width="117">
+                <el-table-column align="right"  class-name="table_cell" label="金额" width="96">
                   <template slot-scope="scope">
                       <span v-if="scope.row.secondYearAmount"> {{scope.row.secondYearAmount | dataInThRule}}</span>
                       <span v-else> - - </span>
                   </template>
                 </el-table-column>
-                <el-table-column align="right"  class-name="table_cell" label="占比" width="117">
+                <el-table-column align="right"  class-name="table_cell" label="占比" width="82">
                   <template slot-scope="scope">
                       <span v-if="scope.row.secondYearRatio"> {{scope.row.secondYearRatio | dataInThRule}}%</span>
                       <span v-else> - - </span>
@@ -276,18 +297,24 @@
                 </el-table-column>
               </el-table-column>
               <el-table-column :label="item.firstYearForSupplier" header-align="center">
-                <el-table-column align="left"  class-name="table_cell" label="采购内容" width="117">
-                  <template slot-scope="scope">
+                <el-table-column align="left"  class-name="table_cell" label="采购内容" width="136">
+                   <template slot-scope="scope">
+                        <span class="contentClass" v-if="scope.row.firstYearContent" @mouseenter="mouseOverContent(scope.row.firstYearContent)" >
+                            {{getContent(scope.row.firstYearContent)}}
+                        </span>
+                        <span v-else> - - </span>
+                    </template>
+                  <!-- <template slot-scope="scope">
                     <span>{{isNotEmpty(scope.row.firstYearContent ) ? scope.row.firstYearContent  : '- -'}}</span>
-                  </template>
+                  </template> -->
                 </el-table-column>
-                <el-table-column align="right"  class-name="table_cell" label="金额" width="117">
+                <el-table-column align="right"  class-name="table_cell" label="金额" width="96">
                   <template slot-scope="scope">
                       <span v-if="scope.row.firstYearAmount"> {{scope.row.firstYearAmount | dataInThRule}}</span>
                       <span v-else> - - </span>
                   </template>
                 </el-table-column>
-                <el-table-column align="right"  class-name="table_cell" label="占比" width="117">
+                <el-table-column align="right"  class-name="table_cell" label="占比" width="82">
                   <template slot-scope="scope">
                       <span v-if="scope.row.firstYearRatio"> {{scope.row.firstYearRatio | dataInThRule}}%</span>
                       <span v-else> - - </span>
@@ -303,25 +330,38 @@
               <p style="font-size:14px;color:#666">{{item.remark}}</p>
               <span v-if="item.supplierCustomerInfoList&&item.supplierCustomerInfoList.length>0" style="font-size:12px;color:#666;float:right;margin-bottom: 5px;">单位：万元</span>
               <el-table :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px">
-                <el-table-column fixed align="center" class-name="table_cell" label="排名" width="70">
+                <el-table-column fixed align="center" class-name="table_cell" label="排名" width="52">
                   <template slot-scope="scope">
                     {{scope.$index+1}}
                     </template>
                 </el-table-column>
-                <el-table-column fixed prop="companyName" align="left" class-name="table_cell" label="公司" width="90"></el-table-column>
+                <el-table-column fixed prop="companyName" align="left" class-name="table_cell" label="公司" width="185">
+                   <template slot-scope="scope">
+                      <span class="companyNameClass" v-if="scope.row.companyName" @mouseenter="mouseOverCompanyName(scope.row.companyName)" >
+                          {{getCompanyName(scope.row.companyName)}}
+                      </span>
+                      <span v-else> - - </span>
+                  </template>
+                </el-table-column>
                 <el-table-column :label="item.reportPeriod" header-align="center">
-                  <el-table-column align="left"  class-name="table_cell" label="采购内容" width="117">
-                    <template slot-scope="scope">
-                      <span>{{isNotEmpty(scope.row.onePeriodContent) ? scope.row.onePeriodContent : '- -'}}</span>
+                  <el-table-column align="left"  class-name="table_cell" label="采购内容" width="136">
+                     <template slot-scope="scope">
+                        <span class="contentClass" v-if="scope.row.onePeriodContent" @mouseenter="mouseOverContent(scope.row.onePeriodContent)" >
+                            {{getContent(scope.row.onePeriodContent)}}
+                        </span>
+                        <span v-else> - - </span>
                     </template>
+                    <!-- <template slot-scope="scope">
+                      <span>{{isNotEmpty(scope.row.onePeriodContent) ? scope.row.onePeriodContent : '- -'}}</span>
+                    </template> -->
                   </el-table-column>
-                  <el-table-column align="right"  class-name="table_cell" label="金额" width="117">
+                  <el-table-column align="right"  class-name="table_cell" label="金额" width="96">
                     <template slot-scope="scope">
                       <span v-if="scope.row.onePeriodAmount"> {{scope.row.onePeriodAmount | dataInThRule}}</span>
                       <span v-else> - - </span>
                     </template>
                   </el-table-column>
-                  <el-table-column align="right"  class-name="table_cell" label="占比" width="117">
+                  <el-table-column align="right"  class-name="table_cell" label="占比" width="82">
                     <template slot-scope="scope">
                       <span v-if="scope.row.onePeriodRatio"> {{scope.row.onePeriodRatio | dataInThRule}}%</span>
                       <span v-else> - - </span>
@@ -329,18 +369,24 @@
                   </el-table-column>
                 </el-table-column>
                 <el-table-column :label="item.thirdYearForCustomer" header-align="center">
-                  <el-table-column align="left"  class-name="table_cell" label="采购内容" width="117">
-                    <template slot-scope="scope">
+                  <el-table-column align="left"  class-name="table_cell" label="采购内容" width="136">
+                    <!-- <template slot-scope="scope">
                       <span>{{isNotEmpty(scope.row.thirdYearContent) ? scope.row.thirdYearContent : '- -'}}</span>
+                    </template> -->
+                     <template slot-scope="scope">
+                        <span class="contentClass" v-if="scope.row.thirdYearContent" @mouseenter="mouseOverContent(scope.row.thirdYearContent)" >
+                            {{getContent(scope.row.thirdYearContent)}}
+                        </span>
+                        <span v-else> - - </span>
                     </template>
                   </el-table-column>
-                  <el-table-column align="right"  class-name="table_cell" label="金额" width="117">
+                  <el-table-column align="right"  class-name="table_cell" label="金额" width="96">
                     <template slot-scope="scope">
                       <span v-if="scope.row.thirdYearAmount"> {{scope.row.thirdYearAmount | dataInThRule}}</span>
                       <span v-else> - - </span>
                     </template>
                   </el-table-column>
-                  <el-table-column align="right"  class-name="table_cell" label="占比" width="117">
+                  <el-table-column align="right"  class-name="table_cell" label="占比" width="82">
                     <template slot-scope="scope">
                       <span v-if="scope.row.thirdYearRatio"> {{scope.row.thirdYearRatio | dataInThRule}}%</span>
                       <span v-else> - - </span>
@@ -348,18 +394,24 @@
                   </el-table-column>
                 </el-table-column>
                 <el-table-column :label="item.secondYearForCustomer" header-align="center">
-                  <el-table-column align="left"  class-name="table_cell" label="采购内容" width="117">
-                    <template slot-scope="scope">
-                      <span>{{isNotEmpty(scope.row.secondYearContent ) ? scope.row.secondYearContent  : '- -'}}</span>
+                  <el-table-column align="left"  class-name="table_cell" label="采购内容" width="136">
+                     <template slot-scope="scope">
+                        <span class="contentClass" v-if="scope.row.secondYearContent" @mouseenter="mouseOverContent(scope.row.secondYearContent)" >
+                            {{getContent(scope.row.secondYearContent)}}
+                        </span>
+                        <span v-else> - - </span>
                     </template>
+                    <!-- <template slot-scope="scope">
+                      <span>{{isNotEmpty(scope.row.secondYearContent ) ? scope.row.secondYearContent  : '- -'}}</span>
+                    </template> -->
                   </el-table-column>
-                  <el-table-column align="right"  class-name="table_cell" label="金额" width="117">
+                  <el-table-column align="right"  class-name="table_cell" label="金额" width="96">
                     <template slot-scope="scope">
                       <span v-if="scope.row.secondYearAmount"> {{scope.row.secondYearAmount | dataInThRule}}</span>
                       <span v-else> - - </span>
                     </template>
                   </el-table-column>
-                  <el-table-column align="right"  class-name="table_cell" label="占比" width="117">
+                  <el-table-column align="right"  class-name="table_cell" label="占比" width="82">
                     <template slot-scope="scope">
                       <span v-if="scope.row.secondYearRatio"> {{scope.row.secondYearRatio | dataInThRule}}%</span>
                       <span v-else> - - </span>
@@ -367,18 +419,24 @@
                   </el-table-column>
                 </el-table-column>
                 <el-table-column :label="item.firstYearForCustomer" header-align="center">
-                  <el-table-column align="left"  class-name="table_cell" label="采购内容" width="117">
-                    <template slot-scope="scope">
-                      <span>{{isNotEmpty(scope.row.firstYearContent ) ? scope.row.firstYearContent  : '- -'}}</span>
+                  <el-table-column align="left"  class-name="table_cell" label="采购内容" width="136">
+                     <template slot-scope="scope">
+                        <span class="contentClass" v-if="scope.row.firstYearContent" @mouseenter="mouseOverContent(scope.row.firstYearContent)" >
+                            {{getContent(scope.row.firstYearContent)}}
+                        </span>
+                        <span v-else> - - </span>
                     </template>
+                    <!-- <template slot-scope="scope">
+                      <span>{{isNotEmpty(scope.row.firstYearContent ) ? scope.row.firstYearContent  : '- -'}}</span>
+                    </template> -->
                   </el-table-column>
-                  <el-table-column align="right"  class-name="table_cell" label="金额" width="117">
+                  <el-table-column align="right"  class-name="table_cell" label="金额" width="96">
                     <template slot-scope="scope">
                       <span v-if="scope.row.firstYearAmount"> {{scope.row.firstYearAmount | dataInThRule}}</span>
                       <span v-else> - - </span>
                   </template>
                   </el-table-column>
-                  <el-table-column align="right"  class-name="table_cell" label="占比" width="117">
+                  <el-table-column align="right"  class-name="table_cell" label="占比" width="82">
                     <template slot-scope="scope">
                       <span v-if="scope.row.firstYearRatio"> {{scope.row.firstYearRatio | dataInThRule}}%</span>
                       <span v-else> - - </span>
@@ -527,7 +585,6 @@ export default {
   },
   methods: {
     getData() {
-     
       // 动态传id
       const param = {
         id:this.caseId,
@@ -584,6 +641,44 @@ export default {
       })
       
 
+    },
+    // 鼠标移入公司名
+    mouseOverCompanyName(title){
+      if(title.length>22){
+        $(".companyNameClass").attr("title",title)
+        $(".companyNameClass").css({"cursor":"pointer"})
+      }else{
+        $(".companyNameClass").removeAttr("title",title)
+         $(".companyNameClass").css({"cursor":"auto"})
+      }
+    },
+    // 鼠标移入采购内容
+    mouseOverContent(title){
+      if(title.length>16){
+        $(".contentClass").attr("title",title)
+        $(".contentClass").css({"cursor":"pointer"})
+      }else{
+        $(".contentClass").removeAttr("title",title)
+         $(".contentClass").css({"cursor":"auto"})
+      }
+      //  if(title.length>16){
+      //    $(".contentClass").css({"cursor":"pointer"})
+      //   $(".contentClass").attr("title",title)
+      // }
+    },
+     getCompanyName(title){
+      if(title.length>22){
+        return title.substring(0,22) + '...'
+      }else{
+        return title
+      }
+    },
+    getContent(title){
+      if(title.length>16){
+        return title.substring(0,16) + '...'
+      }else{
+        return title
+      }
     },
     //返回父组件用于锚点定位头
     getPosition() {

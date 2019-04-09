@@ -303,13 +303,12 @@ export default {
        getHeadData(param).then(res => {
          if(res.data.result){
            this.headList = res.data.result
+         }
+         if(res.data.result&&res.data.result.specialArrange!=null){
            this.specialArrange = res.data.result.specialArrange.split(',');
          }
        })
        getCaseDetail(param).then(res => {
-          // if(res.data.result&&res.data.result.structureLabel){
-          //  this.structureLabel = res.data.result.structureLabel.split(',');
-          // }
           if(res.data.result){
             this.companyProfileList = res.data.result
           }

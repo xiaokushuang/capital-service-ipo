@@ -9,7 +9,7 @@
                     <el-tabs v-model="activeName" @tab-click="handleTabClick">
                       <el-tab-pane label="第一次反馈意见" :name="tabList[0].letterId">
                           <div>
-                              <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px;">
+                              <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px; margin-bottom: 30px;">
                                   <div class="firstLabel" >
                                       <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
                                         <div style="border-bottom: 1px solid rgb(235, 235, 235);">
@@ -21,7 +21,7 @@
                                       <ul class="clear" style="padding:0px 25px;margin-top:0px;padding-bottom:10px">
                                           <el-checkbox-group  @change="handelMoreChange(checkboxGroup)" v-model="checkboxGroup" size="mini">
                                               <el-checkbox-button  class="checkbox" v-for="item in feedbackduoxuanList" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-checkbox-button>
-                                          </el-checkbox-group> 
+                                          </el-checkbox-group>
                                       </ul>
                                       <div class="kaiguan" style="text-align:left;font-size: 12px;
                                             margin-left:25px;
@@ -39,14 +39,14 @@
                                   </div>
                               </div>
                               <div class="question" id="titleLength">
-                               
+
                                   <ul style="padding-left:0">
                                       <li v-for="(data,index) in questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
                                           <div class="text" style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:10px;position:relative">
                                           <!-- 问 -->
                                               <div  v-if="data.question&&data.question.length>0">
                                                 <div class="wen">问</div>
-                                                <div  style="font-size:14px;color:#333;line-height:22px">                                    
+                                                <div  style="font-size:14px;color:#333;line-height:22px">
                                                     <p style="width:100%;" v-if="!data.isSpread || (data.isSpread && data.isSpread !== 2)">&nbsp;&nbsp;{{getContent(data,data.question,index,'answer')}}</p>
                                                     <p style="width:100%;"  v-if="data.isSpread && data.isSpread === 2">&nbsp;&nbsp;{{data.question}}</p>
                                                 </div>
@@ -75,7 +75,7 @@
                                           </div>
                                       </li>
                                   </ul>
-                                
+
                                     <!-- 加载更多 -->
                                     <div  v-if="showMore" @click="showMoreMethods()" class="more">加载更多</div>
                                     <!-- 已经阅读完了 -->
@@ -87,7 +87,7 @@
                       </el-tab-pane>
                       <el-tab-pane label="第二次反馈意见" :name="tabList[1].letterId">
                             <div>
-                              <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px;">
+                              <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px;    margin-bottom: 30px;">
                                   <div class="firstLabel" >
                                       <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
                                         <div style="border-bottom: 1px solid rgb(235, 235, 235);">
@@ -99,7 +99,7 @@
                                       <ul class="clear" style="padding:0px 25px;margin-top:0px;padding-bottom:10px">
                                           <el-checkbox-group  @change="handelMoreChange2(checkboxGroup2)" v-model="checkboxGroup2" size="mini">
                                               <el-checkbox-button  class="checkbox" v-for="item in feedbackduoxuanList2" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-checkbox-button>
-                                          </el-checkbox-group> 
+                                          </el-checkbox-group>
                                       </ul>
                                       <div class="kaiguan" style="text-align:left;font-size: 12px;
                                             margin-left:25px;
@@ -117,17 +117,13 @@
                                   </div>
                               </div>
                               <div class="question" id="titleLength">
-                                <div class="title">
-                                    <span class="littleRectangle"></span>
-                                    <span class="titleText" id="result">规范性问题</span>
-                                </div>
                                   <ul style="padding-left:0">
                                       <li v-for="(data,index) in questionList2" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
                                           <div class="text" style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:10px;position:relative">
                                           <!-- 问 -->
                                               <div  v-if="data.question&&data.question.length>0">
                                                 <div class="wen">问</div>
-                                                <div  style="font-size:14px;color:#333;line-height:22px">                                    
+                                                <div  style="font-size:14px;color:#333;line-height:22px">
                                                     <p style="width:100%;" v-if="!data.isSpread || (data.isSpread && data.isSpread !== 2)">&nbsp;&nbsp;{{getContent(data,data.question,index,'answer')}}</p>
                                                     <p style="width:100%;"  v-if="data.isSpread && data.isSpread === 2">&nbsp;&nbsp;{{data.question}}</p>
                                                 </div>
@@ -156,7 +152,7 @@
                                           </div>
                                       </li>
                                   </ul>
-                                
+
                                 <!-- 加载更多 -->
                                     <div  v-if="showMore2" @click="showMoreMethods()" class="more">加载更多</div>
                                     <!-- 已经阅读完了 -->
@@ -168,7 +164,7 @@
                       </el-tab-pane>
                       <el-tab-pane v-if="this.tabList&&this.tabList.length>2" label="第三次反馈意见" :name="tabList[2].letterId">
                           <div>
-                              <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px;">
+                              <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px;    margin-bottom: 30px;">
                                   <div class="firstLabel" >
                                       <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
                                         <div style="border-bottom: 1px solid rgb(235, 235, 235);">
@@ -180,7 +176,7 @@
                                       <ul class="clear" style="padding:0px 25px;margin-top:0px;padding-bottom:10px">
                                           <el-checkbox-group  @change="handelMoreChange3(checkboxGroup3)" v-model="checkboxGroup3" size="mini">
                                               <el-checkbox-button  class="checkbox" v-for="item in feedbackduoxuanList3" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-checkbox-button>
-                                          </el-checkbox-group> 
+                                          </el-checkbox-group>
                                       </ul>
                                       <div class="kaiguan" style="text-align:left;font-size: 12px;
                                             margin-left:25px;
@@ -198,17 +194,13 @@
                                   </div>
                               </div>
                               <div class="question" id="titleLength">
-                                <div class="title">
-                                    <span class="littleRectangle"></span>
-                                    <span class="titleText" id="result">规范性问题</span>
-                                </div>
                                   <ul style="padding-left:0">
                                       <li v-for="(data,index) in questionList3" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
                                           <div class="text" style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:10px;position:relative">
                                           <!-- 问 -->
                                               <div  v-if="data.question&&data.question.length>0">
                                                 <div class="wen">问</div>
-                                                <div  style="font-size:14px;color:#333;line-height:22px">                                    
+                                                <div  style="font-size:14px;color:#333;line-height:22px">
                                                     <p style="width:100%;" v-if="!data.isSpread || (data.isSpread && data.isSpread !== 2)">&nbsp;&nbsp;{{getContent(data,data.question,index,'answer')}}</p>
                                                     <p style="width:100%;"  v-if="data.isSpread && data.isSpread === 2">&nbsp;&nbsp;{{data.question}}</p>
                                                 </div>
@@ -237,14 +229,14 @@
                                           </div>
                                       </li>
                                   </ul>
-                                
+
                                 <!-- 加载更多 -->
                                     <div  v-if="showMore3" @click="showMoreMethods()" class="more">加载更多</div>
                                     <!-- 已经阅读完了 -->
                                     <p v-if="!showMore3&&questionList3.length>0" class="finishRead">已经阅读完了</p>
                                     <!-- 暂无更多数据 -->
                                     <p v-if="!showMore3&&questionList3.length==0" class="finishRead">暂无更多数据</p>
-                               
+
                               </div>
                           </div>
                       </el-tab-pane>
@@ -252,9 +244,9 @@
                 </div>
            </div>
            <!-- 只有一级标签 -->
-            <div v-if="tabList&&tabList.length==1" class="clear">             
+            <div v-if="tabList&&tabList.length==1" class="clear">
                 <div>
-                    <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px;">
+                    <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px;margin-bottom: 30px;">
                         <div class="firstLabel" >
                             <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
                               <div style="border-bottom: 1px solid rgb(235, 235, 235);">
@@ -266,7 +258,7 @@
                             <ul class="clear" style="padding:0px 25px;margin-top:0px;padding-bottom:10px">
                                 <el-checkbox-group  @change="handelMoreChange(checkboxGroup)" v-model="checkboxGroup" size="mini">
                                     <el-checkbox-button  class="checkbox" v-for="item in feedbackduoxuanList" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-checkbox-button>
-                                </el-checkbox-group> 
+                                </el-checkbox-group>
                             </ul>
                             <div class="kaiguan" style="text-align:left;font-size: 12px;
                                   margin-left:25px;
@@ -284,17 +276,13 @@
                         </div>
                     </div>
                     <div class="question" id="titleLength">
-                      <div class="title">
-                          <span class="littleRectangle"></span>
-                          <span class="titleText" id="result">规范性问题</span>
-                      </div>
                         <ul style="padding-left:0">
                             <li v-for="(data,index) in questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
                                 <div class="text" style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:10px;position:relative">
                                  <!-- 问 -->
                                     <div  v-if="data.question&&data.question.length>0">
                                       <div class="wen">问</div>
-                                      <div  style="font-size:14px;color:#333;line-height:22px">                                    
+                                      <div  style="font-size:14px;color:#333;line-height:22px">
                                           <p style="width:100%;" v-if="!data.isSpread || (data.isSpread && data.isSpread !== 2)">&nbsp;&nbsp;{{getContent(data,data.question,index,'answer')}}</p>
                                           <p style="width:100%;"  v-if="data.isSpread && data.isSpread === 2">&nbsp;&nbsp;{{data.question}}</p>
                                       </div>
@@ -323,11 +311,11 @@
                                 </div>
                             </li>
                         </ul>
-                      
+
                       <!-- 加载更多 -->
                       <div  v-if="showMore" @click="showMoreMethods()" class="more">加载更多</div>
                       <!-- 已经阅读完了 -->
-                      <p v-if="!showMore" class="finishRead">已经阅读完了</p>
+                      <p v-if="!showMore&&questionList.length>0" class="finishRead">已经阅读完了</p>
                        <!-- 暂无更多数据 -->
                       <p v-if="!showMore&&questionList.length==0" class="finishRead">暂无更多数据</p>
                     </div>
@@ -483,7 +471,7 @@ export default {
         this.onlyShowAnswerFlag2 = ''
       }
         this.initOnlyQuestionData(this.o_letterId,this.radioVal2,this.checkboxGroup2,this.onlyShowAnswerFlag2)
-        
+
     },
      // 是否只展示回复问题
     handleOnlyChange3(val){
@@ -493,7 +481,7 @@ export default {
         this.onlyShowAnswerFlag3 = ''
       }
         this.initOnlyQuestionData(this.o_letterId,this.radioVal3,this.checkboxGroup3,this.onlyShowAnswerFlag3)
-        
+
     },
     // 点击加载更多
     showMoreMethods(){
@@ -663,7 +651,7 @@ export default {
               if(ifReset != '0'){
                 this. feedbackduoxuanList = res.data.result[0].questionLabelList
               }
-              
+
               if(this.allQuestionList.length > 15){
                 this.showMore = true;
                 this.questionList = this.allQuestionList.slice(0,15);
@@ -696,7 +684,7 @@ export default {
                 }else {
                       this.showMore = false;
                       this.questionList = [];
-                }   
+                }
               }
               if(param.letterId == this.tabList[1].letterId){
                 if(res.data.result.length  > 0){
@@ -716,7 +704,7 @@ export default {
                 }else {
                       this.showMore2 = false;
                       this.questionList2 = [];
-                }   
+                }
               }
           }
            // 当有3个tab页时
@@ -739,7 +727,7 @@ export default {
                 }else {
                       this.showMore = false;
                       this.questionList = [];
-                }   
+                }
               }
               if(param.letterId == this.tabList[1].letterId){
                 if(res.data.result.length  > 0){
@@ -759,7 +747,7 @@ export default {
                 }else {
                       this.showMore2 = false;
                       this.questionList2 = [];
-                }   
+                }
               }
               if(param.letterId == this.tabList[2].letterId){
                 if(res.data.result.length  > 0){
@@ -779,7 +767,7 @@ export default {
                 }else {
                       this.showMore3 = false;
                       this.questionList3 = [];
-                }   
+                }
               }
           }
         })
@@ -839,7 +827,7 @@ export default {
                 }else {
                       this.showMore = false;
                       this.questionList = [];
-                }   
+                }
               }
               if(param.letterId == this.tabList[1].letterId){
                 if(res.data.result.length  > 0){
@@ -856,7 +844,7 @@ export default {
                 }else {
                       this.showMore2 = false;
                       this.questionList2 = [];
-                }   
+                }
               }
           }
            // 当有3个tab页时
@@ -876,7 +864,7 @@ export default {
                 }else {
                       this.showMore = false;
                       this.questionList = [];
-                }   
+                }
               }
               if(param.letterId == this.tabList[1].letterId){
                 if(res.data.result.length  > 0){
@@ -893,7 +881,7 @@ export default {
                 }else {
                       this.showMore2 = false;
                       this.questionList2 = [];
-                }   
+                }
               }
               if(param.letterId == this.tabList[2].letterId){
                 if(res.data.result.length  > 0){
@@ -910,7 +898,7 @@ export default {
                 }else {
                       this.showMore3 = false;
                       this.questionList3 = [];
-                }   
+                }
               }
           }
         })
@@ -923,6 +911,7 @@ export default {
     toggleSelection(){
       this.checkboxGroup = []
       this.radio = ''
+      this.radioVal = ''
       this.feedbackduoxuanList = [],
       this.onlyShowAnswerFlag = ''
       this.onlyShowAnswer = false;
@@ -932,7 +921,8 @@ export default {
         // 点击重置按钮
     toggleSelection2(){
       this.checkboxGroup2 = []
-      this.radio2 = ''
+       this.radio2 = ''
+      this.radioVal2 = ''
       this.feedbackduoxuanList2 = [],
       this.onlyShowAnswerFlag2 = ''
       this.onlyShowAnswer2 = false;
@@ -942,7 +932,8 @@ export default {
             // 点击重置按钮
     toggleSelection3(){
       this.checkboxGroup3 = []
-      this.radio3 = ''
+       this.radio3 = ''
+      this.radioVal3 = ''
       this.feedbackduoxuanList3 = [],
       this.onlyShowAnswerFlag3 = ''
       this.onlyShowAnswer3 = false;
@@ -965,14 +956,14 @@ export default {
         this.$set(item,'isSpreada',1)
       })
     },
-    getContent(data,title,index,type) { 
+    getContent(data,title,index,type) {
       let width = (document.getElementById('componentId').offsetWidth - 48) * 5
       let titleLength = title.length * 14
       let length = 0;
       if(titleLength > width) {
          for(let i =0;i<title.length;i++) {
             if(length > width) {
-                if(type === 'answer') { 
+                if(type === 'answer') {
                   if(!data.isSpread || data.isSpread === 0) {
                     this.$set(data,'isSpread',1)
                   }
@@ -998,7 +989,7 @@ export default {
         return title
       }
     },
-     getContent1(data,title,index,type) { 
+     getContent1(data,title,index,type) {
       let width = (document.getElementById('componentId').offsetWidth - 48) * 5
       let titleLength = title.length * 14
       let length = 0;
@@ -1009,7 +1000,7 @@ export default {
               if(!data.isSpread || data.isSpread === 0) {
                 this.$set(data,'isSpread',1)
               }
-             
+
            }else {
              if(!data.isSpreada || data.isSpreada === 0) {
                 this.$set(data,'isSpreada',1)
@@ -1024,7 +1015,7 @@ export default {
               if(!data.isSpread || data.isSpread === 0) {
                 this.$set(data,'isSpread',0)
               }
-             
+
            }else {
              if(!data.isSpreada || data.isSpreada === 0) {
                 this.$set(data,'isSpreada',0)
@@ -1205,10 +1196,11 @@ export default {
   font-size: 14px;
   text-align: center;
 }
-.daImg img{
-  width:100%;
+</style>
+<style>
+  .daImg img {
+    width: 100%;
 }
-
 </style>
 
 
