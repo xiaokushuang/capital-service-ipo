@@ -1,5 +1,6 @@
 package com.stock.capital.enterprise.ipoCase.service;
 
+import com.google.common.base.Throwables;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
 
@@ -373,7 +374,7 @@ public class IpoProcessService extends BaseService {
                     response.getOutputStream().write(b, 0, len);
                 }
             } catch (Exception e) {
-                throw new FileDownloadException("下载文件失败");
+                logger.error("下载公告错误cause by：{}", Throwables.getStackTraceAsString(e));
             } finally {
                 IOUtils.closeQuietly(in);
             }
@@ -425,7 +426,7 @@ public class IpoProcessService extends BaseService {
                 response.getOutputStream().write(b, 0, len);
             }
         } catch (Exception e) {
-            throw new FileDownloadException("下载文件失败");
+            logger.error("下载公告错误cause by：{}", Throwables.getStackTraceAsString(e));
         } finally {
             IOUtils.closeQuietly(in);
         }
@@ -488,7 +489,7 @@ public class IpoProcessService extends BaseService {
                     response.getOutputStream().write(b, 0, len);
                 }
             } catch (Exception e) {
-                throw new FileDownloadException("下载文件失败");
+                logger.error("下载公告错误cause by：{}", Throwables.getStackTraceAsString(e));
             } finally {
                 IOUtils.closeQuietly(in);
             }
@@ -540,7 +541,7 @@ public class IpoProcessService extends BaseService {
             try {
                 zipFile = new FileInputStream(destZip);
             } catch (Exception e) {
-                throw new FileDownloadException("下载文件失败");
+                logger.error("下载公告错误cause by：{}", Throwables.getStackTraceAsString(e));
             }
             return zipFile;
         }
