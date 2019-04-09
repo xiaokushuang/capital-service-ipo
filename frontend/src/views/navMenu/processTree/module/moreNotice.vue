@@ -46,6 +46,16 @@
             <span @click="handleDownAll()" class="downloadAnnouncementSpan" v-if="this.multipleSelection.length==0">下载所选公告</span>
             <span @click="handleDownAll()" class="downloadAnnouncementSpan" v-else style="border:1px solid #0099CC">下载所选公告<span style="color:#0099CC">{{this.multipleSelection.length}}</span></span>
         </div>
+        <el-dialog
+        class="noGonggao"
+          :visible.sync="dialogVisible"
+          width="30%"
+          :before-close="handleClose">
+          <span style="display: inline-block; margin-left: 83px; margin-top: 23px;">所选公告暂不支持下载</span>
+          <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+          </span>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -56,6 +66,7 @@ export default {
     data() {
       return {
         multipleSelection: [],
+        dialogVisible:false,
       }
     },
     props:["moreNoticeList"],
@@ -96,7 +107,7 @@ export default {
                   '&fileId='+ fileIdLabel + '&fileType='+ fileType;
             window.open(url);
           }else{
-
+            this.dialogVisible = true
           }
 
         })
@@ -108,7 +119,6 @@ export default {
           fileType:fileType
         }
           checkFile(param).then(res => {
-            console.log('fuzai',res.data.result)
             let result = res.data.result;
             if(result === '1'){
               let url = window.location.href;
@@ -118,7 +128,7 @@ export default {
                     '&fileId='+ fileId + '&fileType='+ fileType;
               window.open(url);
             }else{
-
+               this.dialogVisible = true
             }
 
           })
@@ -140,6 +150,9 @@ export default {
       openLetterDetail(v) {
          window.open(v.baseUrl)
       },
+      handleClose(done) {
+        this.dialogVisible = false
+      }
     }
 }
 </script>

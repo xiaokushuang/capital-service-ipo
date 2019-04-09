@@ -36,7 +36,7 @@
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">保荐代表人：</span>
-                                        <span class="bj" style="font-size:14px;color:black"  @mouseenter="mouseOverSpreadText(item.representPerson +'建大卡打卡机扩散 降低为抗击外敌触怒软件呢我i心安即是觉得我i行啊额u的年纪挖掘的dhxwAJDIZKSM dhisjxJD ')">{{getContent(item.representPerson+'建大卡打卡机扩散 降低为抗击外敌触怒软件呢我i心安即是觉得我i行啊额u的年纪挖掘的dhxwAJDIZKSM dhisjxJD ')}}</span>
+                                        <span class="bj" style="font-size:14px;color:black"  @mouseenter="mouseOverSpreadText(item.representPerson)">{{getContent(item.representPerson)}}</span>
                                     </li>
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
@@ -282,10 +282,14 @@ export default {
     // 鼠标移入委员详情弹出窗的列
     mouseOverSpreadText(title){ 
         // for(let a = 0;a< $(".bj").length;a++){
+        //     // if(title.length>38){
         //         $(".bj").eq(a).attr("title",title)
+        //     // }
         // }
         //  for(let a = 0;a< $(".xb").length;a++){
-        //      $(".xb").eq(a).attr("title",title)
+        //     //   if(title.length>38){
+        //         $(".xb").eq(a).attr("title",title)
+        //     //   }
         // }
         // for(let a = 0;a< $(".jb").length;a++){
         //     $(".jb").eq(a).attr("title",title)
@@ -368,28 +372,6 @@ export default {
     padding-top: 2px;
     padding-bottom: 2px;
 }
-// .failure{
-//     float:right; 
-//     border-width: 0px;
-//     width: 56px;
-//     height: 15px;
-//     padding-left: 10px;
-//     font-size:14px;
-//     position:relative;
-//     left: 60px;
-//     top: -9px;
-//     background: inherit;
-//     background-color: rgba(188, 188, 188, 0.517647058823529);
-//     border: none;
-//     border-right: 0px;
-//     border-radius: 20px;
-//     border-top-right-radius: 0px;
-//     border-bottom-right-radius: 0px;
-//     -moz-box-shadow: none;
-//     -webkit-box-shadow: none;
-//     box-shadow: none;
-//     color: #FFFFFF;
-// }
 .failureBackground{
      background:url('../../../../assets/images/failureBackground.png') no-repeat;
      background-size: cover;
