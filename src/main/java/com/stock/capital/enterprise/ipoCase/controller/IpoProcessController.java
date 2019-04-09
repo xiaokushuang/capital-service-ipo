@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import io.swagger.annotations.Api;
@@ -51,20 +52,20 @@ public class IpoProcessController extends BaseController {
             @ApiImplicitParam(name = "fileType", value = "文件类型 01：公告 02：文件", required = true, paramType = "query", dataType = "String"),
     })
     @RequestMapping(value = "/downloadFile", method = RequestMethod.GET)
-    public JsonResponse<String> downLoadFile(String fileId, String fileType, HttpServletResponse response) {
+    public JsonResponse<String> downLoadFile(String fileId, String fileType, HttpServletResponse response, HttpServletRequest request) {
         JsonResponse<String> result = new JsonResponse<>();
         String fileName =  "";
         if (fileId.contains(",")) {
             if (fileType.equals("01")) {
-                fileName = ipoProcessService.downloadMultiplyAnnounce(fileId, response);
+                fileName = ipoProcessService.downloadMultiplyAnnounce(fileId, response,request);
             } else {
-                fileName = ipoProcessService.downloadMultiplyFile(fileId, response);
+                fileName = ipoProcessService.downloadMultiplyFile(fileId, response,request);
             }
         } else {
             if (fileType.equals("01")) {
-                fileName = ipoProcessService.downloadSingleAnnounce(fileId, response);
+                fileName = ipoProcessService.downloadSingleAnnounce(fileId, response,request);
             } else {
-                fileName = ipoProcessService.downloadSingleFile(fileId,response);
+                fileName = ipoProcessService.downloadSingleFile(fileId,response,request);
             }
         }
         result.setResult(fileName);

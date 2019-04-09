@@ -35,6 +35,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Service
@@ -213,7 +215,7 @@ public class IpoProcessService extends BaseService {
     /**
      * 下载单个公告
      */
-    public String downloadSingleAnnounce(String id, HttpServletResponse response) {
+    public String downloadSingleAnnounce(String id, HttpServletResponse response, HttpServletRequest request) {
         String urls = apiBaseUrl + "declareInfo/postSearchIndex";
         MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
         param.add("indexId", id);
@@ -250,7 +252,16 @@ public class IpoProcessService extends BaseService {
         InputStream in = null;
         try {
             String fileName = title;
-            fileName = new String(fileName.getBytes(), "ISO-8859-1");
+            String userAgent = request.getHeader("user-agent").toLowerCase();
+            if (userAgent.contains("msie") || userAgent.contains("like gecko") ) {
+                // win10 ie edge 浏览器 和其他系统的ie
+                fileName = URLEncoder.encode(fileName, "UTF-8");
+            } else {
+                // fe
+                fileName = new String(fileName.getBytes("utf-8"), "iso-8859-1");
+            }
+
+//            fileName = new String(fileName.getBytes(), "ISO-8859-1");
             in = Resources.asByteSource(new URL(url)).openBufferedStream();
             // 设置输出的格式
             response.reset();
@@ -280,7 +291,7 @@ public class IpoProcessService extends BaseService {
     /**
      * 下载多个公告
      */
-    public String downloadMultiplyAnnounce(String ids, HttpServletResponse response) {
+    public String downloadMultiplyAnnounce(String ids, HttpServletResponse response,HttpServletRequest request) {
         List<String> selIdList = new ArrayList<>();
         List<Map<String, String>> srcFileList = new ArrayList<>();
         String fileName = "";
@@ -341,7 +352,15 @@ public class IpoProcessService extends BaseService {
             InputStream in = null;
             try {
                 fileName = "所选公告下载" + System.currentTimeMillis() + ".zip";
-                fileName = new String(fileName.getBytes(), "ISO-8859-1");
+                String userAgent = request.getHeader("user-agent").toLowerCase();
+                if (userAgent.contains("msie") || userAgent.contains("like gecko") ) {
+                    // win10 ie edge 浏览器 和其他系统的ie
+                    fileName = URLEncoder.encode(fileName, "UTF-8");
+                } else {
+                    // fe
+                    fileName = new String(fileName.getBytes("utf-8"), "iso-8859-1");
+                }
+//                fileName = new String(fileName.getBytes(), "ISO-8859-1");
                 in = CompressUtil.multiURLCompressZip(srcFileList);
                 // 设置输出的格式
                 response.reset();
@@ -362,7 +381,7 @@ public class IpoProcessService extends BaseService {
         return fileName;
     }
 
-    public String downloadSingleFile(String id, HttpServletResponse response) {
+    public String downloadSingleFile(String id, HttpServletResponse response,HttpServletRequest request) {
         //根据文件id查询相关信息
         IpoFileRelationDto fileDto = ipoProcessMapper.selectFileDto(id);
         String suffix = fileDto.getSuffix();
@@ -383,7 +402,17 @@ public class IpoProcessService extends BaseService {
         InputStream in = null;
         try {
             in = new FileInputStream(url);
-            fileName = new String(fileName.getBytes(), "ISO-8859-1");
+
+            String userAgent = request.getHeader("user-agent").toLowerCase();
+            if (userAgent.contains("msie") || userAgent.contains("like gecko") ) {
+                // win10 ie edge 浏览器 和其他系统的ie
+                fileName = URLEncoder.encode(fileName, "UTF-8");
+            } else {
+                // fe
+                fileName = new String(fileName.getBytes("utf-8"), "iso-8859-1");
+            }
+//            fileName = new String(fileName.getBytes(), "ISO-8859-1");
+
 //            in = Resources.asByteSource(new URL(url)).openBufferedStream();
             // 设置输出的格式
             response.reset();
@@ -403,7 +432,7 @@ public class IpoProcessService extends BaseService {
         return fileName;
     }
 
-    public String downloadMultiplyFile(String ids, HttpServletResponse response) {
+    public String downloadMultiplyFile(String ids, HttpServletResponse response,HttpServletRequest request) {
         List<String> selIdList = new ArrayList<>();
         List<Map<String, String>> srcFileList = new ArrayList<>();
         String downFileName = "";
@@ -437,7 +466,17 @@ public class IpoProcessService extends BaseService {
             InputStream in = null;
             try {
                 downFileName = "所选文件下载" + System.currentTimeMillis() + ".zip";
-                downFileName = new String(downFileName.getBytes(), "ISO-8859-1");
+
+                String userAgent = request.getHeader("user-agent").toLowerCase();
+                if (userAgent.contains("msie") || userAgent.contains("like gecko") ) {
+                    // win10 ie edge 浏览器 和其他系统的ie
+                    downFileName = URLEncoder.encode(downFileName, "UTF-8");
+                } else {
+                    // fe
+                    downFileName = new String(downFileName.getBytes("utf-8"), "iso-8859-1");
+                }
+
+//                downFileName = new String(downFileName.getBytes(), "ISO-8859-1");
                 in = compress(srcFileList);
                 response.reset();
                 response.setContentType("text/html;charset=utf-8");
