@@ -47,7 +47,8 @@
             <span @click="handleDownAll()" class="downloadAnnouncementSpan" v-else style="border:1px solid #0099CC">下载所选公告<span style="color:#0099CC">{{this.multipleSelection.length}}</span></span>
         </div>
         <el-dialog
-        class="noGonggao"
+        :modal="false"
+         class="noGonggao"
           :visible.sync="dialogVisible"
           width="30%"
           :before-close="handleClose">
