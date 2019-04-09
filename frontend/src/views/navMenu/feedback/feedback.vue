@@ -420,7 +420,6 @@ export default {
   methods: {
     // 单选按钮
     handelChange(val){
-      console.log('点击单选',this.onlyShowAnswerFlag)
       this.radioVal = val
       this.initQuestionData(this.o_letterId,val,'',this.onlyShowAnswerFlag)
     },
@@ -469,7 +468,6 @@ export default {
     },
     // 是否只展示回复问题
     handleOnlyChange(val){
-      console.log(val)
       if(val == true){
         this.onlyShowAnswerFlag = '1'
       }else{

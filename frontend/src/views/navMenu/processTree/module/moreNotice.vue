@@ -97,7 +97,6 @@ export default {
           fileType:fileType
         }
         checkFile(param).then(res => {
-          console.log('fuzai',res.data.result)
           let result = res.data.result;
           if(result === '1'){
             let url = window.location.href;
