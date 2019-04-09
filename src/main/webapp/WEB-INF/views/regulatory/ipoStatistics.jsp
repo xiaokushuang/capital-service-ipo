@@ -12,6 +12,10 @@
 <e:js />
 <%-- <script src="${pageContext.request.contextPath}/static/lib/echarts/echarts-all.js"></script> --%>
 <style>
+/* .x-th-ltr,.x-grid .x-grid-htable th.x-th-ltr {
+  border-right: 1px solid #dddddd;
+  border-left: 1px solid #dddddd;
+} */
 .sub-title {
     font-size: 18px;
     font-weight: bold;
@@ -65,23 +69,26 @@ table tbody tr td.left {
         <div class="col-md-12 no-padding-hr">
             <div class="sub-title">IPO在审项目数据统计</div>
         </div>
-        <div id="ipoChart" class="col-md-7 no-padding-vr chart-content" align="center"></div>
-        <div class="col-md-5">
+        <div id="ipoChart" class="col-md-6 no-padding-vr chart-content" align="center"></div>
+        <div class="col-md-6">
             <table id="review">
-                <thead>
+                	<tr style="background: #E8E8E8;">
+                	 	<td colspan="1" style="width: 36%;"></td>
+                	 	<td colspan="3" style="border-right-color: #14bcf5;font-weight: bold ">核准制</td>
+                	 	<td colspan="1" style="border-top-width:0.3px;;border-top-style:solid;color:#0099cc;border-bottom: none;border-right-color: #14bcf5;border-left-color: #14bcf5;border-top-color: #14bcf5;">注册制</td>
+                	 	<td colspan="1" rowspan="2" style="font-weight: bold">合计</td>
+     				</tr>
                     <tr style="background: #E8E8E8;">
-                        <th style="width: 40%;"></th>
-                        <th style="width: 15%;">沪主板</th>
-                        <th style="width: 15%;">中小板</th>
-                        <th style="width: 15%;">创业板</th>
-                        <th style="width: 15%;">合计</th>
+                        <td style="width: 20%;" colspan="1"></td>
+                        <td style="width: 12%;font-weight: bold" colspan="1">沪主板</td>
+                        <td style="width: 12%;font-weight: bold" colspan="1">中小板</td>
+                        <td style="font-weight: bold;width: 12%;border-right-color: #14bcf5;border-top-color: #14bcf5;" colspan="1">创业板</td>
+                        <td style="width: 15%;color:#0099cc;border-bottom: none;border-right-color: #14bcf5;" colspan="1" >科创板</td>
+                        <!-- <td style="width: 15%;" colspan="1" >合计</td> -->
                     </tr>
-                </thead>
-                <tbody>
-                </tbody>
             </table>
+            <div id="ipoHistoryChart" class="col-md-12 no-padding-vr" style="height: 250px;" align="center"></div>
         </div>
-        <div id="ipoHistoryChart" class="col-md-5 no-padding-vr" style="height: 250px;" align="center"></div>
         <div class="col-md-12 no-padding">
             <hr style="margin: 20px 15px;" />
         </div>
@@ -160,8 +167,8 @@ table tbody tr td.left {
                         <input type="hidden" name="industry" id="industrySelect"/>
                     </div>
                     <label class="control-label col-md-2 no-padding-r">项目公司注册地</label>
-                    <div class="col-md-3 no-padding-r" style="margin-left:-60px;">
-                        <input id="registAddr" json-data='${areaList}' type="text" class="form-control t-select" placeholder="请选择注册地" style="background-color: #fff;"/> 
+                    <div class="col-md-3 no-padding-r" style="margin-left:-60px;position:ralative;z-index:9999999" >
+                        <input id="registAddr" json-data='${areaList}' type="text" class="form-control t-select" placeholder="请选择注册地" style="background-color: #fff;"  /> 
                         <input type="hidden" name="registAddr" id="registAddrSelect"/>
                     </div>
 <!--                     <div class="col-md-3 no-padding-r" align="right"> -->
@@ -172,27 +179,32 @@ table tbody tr td.left {
         </div>
         <div class="col-md-4 form-group-margin no-padding">
             <ul id="myTab" class="nav nav-tabs nav-tabs-simple nav-tabs-sm nav-justified" >
-                <li class="active"><a href="#tab1" data-toggle="tab">保荐机构</a></li>
-                <li><a href="#tab2" data-toggle="tab">律师事务所</a></li>
-                <li><a href="#tab3" data-toggle="tab">会计师事务所</a></li>
+                <li class="active"><a href="#tab1" data-toggle="tab" onclick="borderShow()">保荐机构</a></li>
+                <li><a href="#tab2" data-toggle="tab" onclick="borderShow()">律师事务所</a></li>
+                <li><a href="#tab3" data-toggle="tab" onclick="borderShow()">会计师事务所</a></li>
             </ul>
         </div>
-        <div class="panel-body" >
+        <!--  <div id="borderShow"
+			 style="display:none;border:1px solid;width: 9.7%;height: 3%;border-right-color: #14bcf5;border-left-color: #14bcf5;border-top-color: #14bcf5;border-bottom:none;position:absolute;top:44%;left: 69%;z-index:999000;margin-left: 0.40%;margin-top: -0.28%;">
+		</div> -->
+        <div class="panel-body">
             <div class="tab-content">
                 <div  class="tab-pane fade in active" id="tab1">
                     <div class="table-primary" style="min-height:900px">
                         <e:grid id="recommendOrg" action="/regulatory_statistics/getIPORecommendOrgStts?access_token=${access_token}"
-                             cssClass="table table-striped table-hover" defaultPageSize="20"> 
+                             cssClass="table table-striped table-hover" defaultPageSize="20" > 
                              <e:gridColumn label="序号" renderColumn="renderColumnIndex" 
-                                       orderable="false" cssClass="text-center" cssStyle="width:10%"/> 
+                                       orderable="false" cssClass="text-center" cssStyle="width:10%" /> 
                              <e:gridColumn label="保荐机构" displayColumn="label" 
-                                           orderable="false" cssClass="text-left" cssStyle="width:40%"/> 
+                                           orderable="false" cssClass="text-left" cssStyle="width:30%"/> 
                              <e:gridColumn label="沪主板" renderColumn="renderColumnhzbCount" orderColumn="1" 
                                            cssClass="text-center" cssStyle="width:10%"/> 
                              <e:gridColumn label="中小板" renderColumn="renderColumnzxbCount"  orderColumn="2" 
                                           cssClass="text-center" cssStyle="width:10%"/> 
                              <e:gridColumn label="创业板" renderColumn="renderColumncybCount"  orderColumn="3" 
-                                           cssClass="text-center" cssStyle="width:10%"/> 
+                                           cssClass="text-center" cssStyle="width:10%;border-right-color: #14bcf5;"/> 
+                             <e:gridColumn label="科创板" renderColumn="renderColumnByKC1"  orderColumn="6" 
+                                           cssClass="text-center" cssStyle="width:10%;border-right-color: #14bcf5;"/> 
                              <e:gridColumn label="合计" renderColumn="renderColumnTotalCount" orderColumn="4" 
                                           cssClass="text-center" cssStyle="width:10%"/> 
                              <e:gridColumn label="市场占比" renderColumn="renderColumnPercent" orderColumn="5"
@@ -207,13 +219,15 @@ table tbody tr td.left {
                             <e:gridColumn label="序号" renderColumn="renderColumnIndex"
                                       orderable="false" cssClass="text-center" cssStyle="width:10%"/>
                             <e:gridColumn label="律师事务所" displayColumn="label"
-                                          orderable="false" cssClass="text-left" cssStyle="width:40%"/>
+                                          orderable="false" cssClass="text-left" cssStyle="width:30%"/>
                             <e:gridColumn label="沪主板" renderColumn="renderColumnLawhzbCount" orderColumn="1"
                                           cssClass="text-center" cssStyle="width:10%"/>
                             <e:gridColumn label="中小板" renderColumn="renderColumnLawzxbCount" orderColumn="2"
                                           cssClass="text-center" cssStyle="width:10%"/>
                             <e:gridColumn label="创业板" renderColumn="renderColumnLawcybCount" orderColumn="3"
-                                          cssClass="text-center" cssStyle="width:10%"/>
+                                          cssClass="text-center" cssStyle="width:10%;border-right-color: #14bcf5;"/>
+                            <e:gridColumn label="科创板" renderColumn="renderColumnByKC2"  orderColumn="3" 
+                                           cssClass="text-center" cssStyle="width:10%;border-right-color: #14bcf5;"/> 
                             <e:gridColumn label="合计" renderColumn="renderColumnLawTotalCount" orderColumn="4"
                                           cssClass="text-center" cssStyle="width:10%"/>
                             <e:gridColumn label="市场占比" renderColumn="renderColumnPercent" orderColumn="5"
@@ -228,13 +242,15 @@ table tbody tr td.left {
                             <e:gridColumn label="序号" renderColumn="renderColumnIndex"
                                       orderable="false" cssClass="text-center" cssStyle="width:10%"/>
                             <e:gridColumn label="会计师事务所" displayColumn="label"
-                                          orderable="false" cssClass="text-left" cssStyle="width:40%"/>
+                                          orderable="false" cssClass="text-left" cssStyle="width:30%"/>
                             <e:gridColumn label="沪主板" renderColumn="renderColumnAccounthzbCount" orderColumn="1"
                                           cssClass="text-center" cssStyle="width:10%"/>
                             <e:gridColumn label="中小板" renderColumn="renderColumnAccountzxbCount" orderColumn="2"
                                           cssClass="text-center" cssStyle="width:10%"/>
                             <e:gridColumn label="创业板" renderColumn="renderColumnAccountcybCount" orderColumn="3"
-                                          cssClass="text-center" cssStyle="width:10%"/>
+                                          cssClass="text-center" cssStyle="width:10%;border-right-color: #14bcf5;"/>
+                             <e:gridColumn label="科创板" renderColumn="renderColumnByKC3"  orderColumn="3" 
+                                           cssClass="text-center" cssStyle="width:10%;border-right-color: #14bcf5;"/> 
                             <e:gridColumn label="合计" renderColumn="renderColumnAccountTotalCount" orderColumn="4"
                                           cssClass="text-center" cssStyle="width:10%"/>
                             <e:gridColumn label="市场占比" renderColumn="renderColumnPercent" orderColumn="5"

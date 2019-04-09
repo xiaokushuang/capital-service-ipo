@@ -174,14 +174,7 @@
 
         SELECT
             t1.COLUMN_COMMENT itemName,
-            (
-                CASE t1.column_name
-                WHEN 'ZCFZL' THEN
-                    t2.CURR_VAL
-                WHEN 'ROEJQ' THEN
-                    round(t2.CURR_VAL/10000,2)
-                END
-            ) forthYearValue,
+            t2.CURR_VAL forthYearValue,
             (
                 CASE t1.column_name
                 WHEN 'ZCFZL' THEN

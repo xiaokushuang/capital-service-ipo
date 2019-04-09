@@ -32,4 +32,9 @@ public interface IpoExamineMapper {
      */
     List<IpoMemberDto> selectMemberInformationList(@Param("memberList") List<String> memberList
             , @Param("sessionYear") String sessionYear);
+
+    /**
+     * 查询发审委函件Id
+     */
+    String selectExamineLetterId(@Param("orgCode") String orgCode, @Param("date") String date);
 }

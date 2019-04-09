@@ -44,10 +44,10 @@ public class IpoCaseListService extends BaseService {
         //标题关键字
         if (StringUtils.isNotEmpty(bo.getTitle())) {
             String[] title = bo.getTitle().trim().split(" ");
-            conditionsStr.append(" AND " + "ipo_title_t:(\"").append(title[0]).append("\"~5");
+            conditionsStr.append(" AND " + "ipo_title_s:(*").append(title[0]).append("*");
             for (int i = 1; i < title.length; i++) {
                 if (StringUtils.isNotEmpty(title[i])) {
-                    conditionsStr.append(" AND \"").append(title[i]).append("\"~5");
+                    conditionsStr.append(" OR *").append(title[i]).append("*");
                 }
             }
             conditionsStr.append(")");
@@ -60,13 +60,18 @@ public class IpoCaseListService extends BaseService {
         }
         //中介机构
         if (StringUtils.isNotBlank(bo.getIntermediaryCode())) {
-            conditionsStr.append(" AND " + "ipo_intermediary_code_txt:\"")
+            conditionsStr.append(" AND " + "ipo_intermediary_code_ss:\"")
                 .append(bo.getIntermediaryCode()).append("\"");
         }
         //发行人行业（证监会）
         if (StringUtils.isNotBlank(bo.getIndustryCsrc())) {
             conditionsStr =
                 assebleBoxCondition(conditionsStr, "ipo_industry_csrc_t", bo.getIndustryCsrc());
+        }
+        //发行人选择的上市条件
+        if (StringUtils.isNotBlank(bo.getIssueCondition())) {
+            conditionsStr =
+                assebleBoxCondition(conditionsStr, "ipo_issue_condition_ss", bo.getIssueCondition());
         }
         //企业性质
         if (StringUtils.isNotBlank(bo.getCompanyNature())) {
@@ -210,8 +215,8 @@ public class IpoCaseListService extends BaseService {
         }
         //左侧树 筛选
         StringBuilder conditionTree = new StringBuilder();
-        conditionTree.append("ipo_plate_t").append(",ipo_market_type_txt")
-            .append(",ipo_green_passage_t").append(",ipo_belongs_bureau_t");
+        conditionTree.append("ipo_plate_t").append(",ipo_market_type_ss")
+            .append(",ipo_green_passage_t").append(",ipo_special_arrange_ss").append(",ipo_belongs_bureau_t");
         //拟上市板块
         if (StringUtils.isNotBlank(bo.getIpoPlate())) {
             conditionsStr =
@@ -220,12 +225,17 @@ public class IpoCaseListService extends BaseService {
         //登陆其他资本市场
         if (StringUtils.isNotBlank(bo.getMarketType())) {
             conditionsStr =
-                assebleBoxCondition(conditionsStr, "ipo_market_type_txt", bo.getMarketType());
+                assebleBoxCondition(conditionsStr, "ipo_market_type_ss", bo.getMarketType());
         }
         //绿色通道
         if (StringUtils.isNotBlank(bo.getGreenPassage())) {
             conditionsStr =
                 assebleBoxCondition(conditionsStr, "ipo_green_passage_t", bo.getGreenPassage());
+        }
+        //公司治理特殊安排
+        if (StringUtils.isNotBlank(bo.getSpecialArrange())) {
+            conditionsStr =
+                assebleBoxCondition(conditionsStr, "ipo_special_arrange_ss", bo.getSpecialArrange());
         }
         //所属证监局
         if (StringUtils.isNotBlank(bo.getBelongsBureau())) {
@@ -273,9 +283,11 @@ public class IpoCaseListService extends BaseService {
         //获取各个树对应的数字
         List<StatisticsField> plateList = facetResult.getStatisticsFieldMap().get("ipo_plate_t");
         List<StatisticsField> marketList =
-            facetResult.getStatisticsFieldMap().get("ipo_market_type_txt");
+            facetResult.getStatisticsFieldMap().get("ipo_market_type_ss");
         List<StatisticsField> greenList =
             facetResult.getStatisticsFieldMap().get("ipo_green_passage_t");
+        List<StatisticsField> arrangeList =
+            facetResult.getStatisticsFieldMap().get("ipo_special_arrange_ss");
         List<StatisticsField> bureauList =
             facetResult.getStatisticsFieldMap().get("ipo_belongs_bureau_t");
         //查询左侧树
@@ -297,6 +309,12 @@ public class IpoCaseListService extends BaseService {
         if (greenTreeTag != null && !greenTreeTag.isEmpty()) {
             greenTreeNum = assebleTreeData(greenTreeTag, greenList, false);
         }
+        //公司治理特殊安排
+        List<RegTreeDto> specialArrangeTag = ipoCaseListMapper.getTreeTagByCode("IPO_SPECIAL_ARRANGE");
+        long arrangeTreeNum = 0;
+        if (specialArrangeTag != null && !specialArrangeTag.isEmpty()) {
+            arrangeTreeNum = assebleTreeData(specialArrangeTag, arrangeList, false);
+        }
         //所属证监局树
         List<RegTreeDto> sfcTreeTag = ipoCaseListMapper.getTreeTagByCode("SFC");
         long sfcTreeNum = 0;
@@ -309,6 +327,8 @@ public class IpoCaseListService extends BaseService {
         resultMap.put("marketTreeNum", marketTreeNum);
         resultMap.put("greenTreeTag", greenTreeTag);
         resultMap.put("greenTreeNum", greenTreeNum);
+        resultMap.put("specialArrangeTag", specialArrangeTag);
+        resultMap.put("arrangeTreeNum", arrangeTreeNum);
         resultMap.put("sfcTreeTag", sfcTreeTag);
         resultMap.put("sfcTreeNum", sfcTreeNum);
         return resultMap;
@@ -337,6 +357,9 @@ public class IpoCaseListService extends BaseService {
         //IPO进程
         List<RegTreeDto> processList = ipoCaseListMapper.getLabelByCode("IPO_STATUS");
         resultMap.put("processList", sortSelectList(processList));
+        //发行人选择的上市条件
+        List<RegTreeDto> issueConditionList = ipoCaseListMapper.getLabelByCode("IPO_ISSUE_CONDITION_SIMPLE");
+        resultMap.put("issueConditionList", sortSelectList(issueConditionList));
         return resultMap;
     }
 

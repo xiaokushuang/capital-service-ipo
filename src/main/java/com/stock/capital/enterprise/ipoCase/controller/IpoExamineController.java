@@ -50,4 +50,15 @@ public class IpoExamineController extends BaseController {
         return response;
     }
 
+    @ApiOperation(value = "IPO审核反馈初始化接口", notes = "IPO审核反馈初始化接口描述")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String"),
+    })
+    @RequestMapping(value = "/selectNewExamineList", method = RequestMethod.GET)
+    public JsonResponse<IpoExamineDto> selectNewExamineList(String id){
+        JsonResponse<IpoExamineDto> response = new JsonResponse<>();
+        IpoExamineDto resultDto = ipoExamineService.selectNewExamineList(id);
+        response.setResult(resultDto);
+        return response;
+    }
 }

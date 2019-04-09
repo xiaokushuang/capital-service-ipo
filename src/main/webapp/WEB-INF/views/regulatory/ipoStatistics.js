@@ -2,9 +2,10 @@
 var myChart;
 //需求4399 2018/5/24 by liuh Start
 //var myChartColor = ['#C03533', '#2F4553', '#91C7AF', '#F6A631'];
-var myChartColor = ['#ca2428', '#2e444e', '#7ccbab', '#ffa128', '#227d99', '', '#ff5f3a'];
+var myChartColor = ['#ca2428', '#2e444e', '#7ccbab', '#ffa128', '#227d99', '#ff5f3a','#3badda','#DDDDDD'];
 var myHistoryChart;
 $(document).ready(function() {
+	$("#borderShow").show();
 	eChartInit();
 	historyEChartInit();
 	dataInit();
@@ -20,9 +21,7 @@ $(document).ready(function() {
 		$('input[name="industry"]').val('');
 		search();
 	});
-	
 });
-
 function initDataTableParam(d){
 	return $.extend( {}, d, {
 	        "access_token": $('#tokenValue').val()
@@ -45,11 +44,15 @@ function dataInit() {
 	// tab页点击事件
 	$('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
 		//iframeObj = e.target;
+		$("#borderShow").hide();
 		if(e.target.hash == "#tab1"){
+			//setTimeout(function(){$("#borderShow").show();},10);
 			$("#recommendOrg").dataTable().api().columns.adjust();
 		} else if(e.target.hash == "#tab2") {
+			//setTimeout(function(){$("#borderShow").show();},10);
 			$("#lawsfirm").dataTable().api().columns.adjust();
 		} else {
+			//setTimeout(function(){$("#borderShow").show();},10);
 			$("#accountantOffice").dataTable().api().columns.adjust();
 		}
 	})
@@ -57,42 +60,82 @@ function dataInit() {
 	ajaxData('/regulatory_statistics/getIPOHistory', null, historyCallBack);
 }
 function reviewingSttsCallBack(d) {
-	// 设置柱状图
-	chartSetting(d);
 	// 设置表格
 	reviewTableSetting(d);
+	// 设置柱状图
+	chartSetting(d);
+	
 }
 // IPO在审项目柱状图设置
 function chartSetting(lst) {
+	var newArray = new Array(8); 
+	for (var i = 0; i < lst.length; i++) {
+		if(lst[i].label == "已受理"){
+			newArray[0]= lst[i];
+		}
+		if(lst[i].label == "已反馈"){
+			newArray[1]= lst[i];
+		}
+		if(lst[i].label == "预披露更新"){
+			newArray[2]= lst[i];
+		}
+		if(lst[i].label == "已通过发审会"){
+			newArray[3]= lst[i];
+		}
+		if(lst[i].label == "中止审查"){
+			newArray[4]= lst[i];
+		}
+		if(lst[i].label == "已提交发审会讨论，暂缓表决"){
+			newArray[5]= lst[i];
+		}
+		if(lst[i].label == "提交注册"){
+			newArray[6]= lst[i];
+		}
+		if(lst[i].label == "注册生效"){
+			newArray[7]= lst[i];
+		}
+	}
+	lst  = new Array(8); 
+	lst = newArray;
 	// 设置数据
-	var labels = ['沪主板', '中小板', '创业板']; // 横坐标标签
+	var labels = ['沪主板', '中小板', '创业板',{
+	    value: '科创板',
+	    textStyle: {
+	        color: '#0099cc'
+	    }
+	},]; // 横坐标标签
 	// 细分业务标签
 	var itemLabel = [];
 	var series = [];
 	for (var i = 0; i < lst.length; i++) {
-		if ((lst[i].hzbCount > 0 || lst[i].zxbCount > 0 || lst[i].cybCount > 0) && i < lst.length - 1) {
-			var value = [];
-			value[0] = lst[i].hzbCount;
-			value[1] = lst[i].zxbCount;
-			value[2] = lst[i].cybCount;
-			var tmp = {
-				name : lst[i].label,
-				type : 'bar',
-				stack : lst[i].label,
-				itemStyle : {
-					normal : {
-//						color : myChartColor[i % 4]
-						color : myChartColor[i]
+		if ((lst[i].hzbCount > 0 || lst[i].zxbCount > 0 || lst[i].cybCount > 0 || lst[i].kcCount >= 0) && i <= lst.length - 1) {
+			if(lst[i].label!='终止审查' && lst[i].label!="预先披露更新" && lst[i].label!="已上发审会，暂缓表决"){
+				lst[i].label = lableTurnToName(lst[i].label);
+				var value = [];
+				value[0] = lst[i].hzbCount;
+				value[1] = lst[i].zxbCount;
+				value[2] = lst[i].cybCount;
+				value[3] = lst[i].kcCount;
+				var tmp = {
+					name : lst[i].label,
+					type : 'bar',
+					stack : lst[i].label,
+					itemStyle : {
+						normal : {
+//							color : myChartColor[i % 4]
+							color : myChartColor[i]
+						},
+						label : {
+							show : true
+						}
 					},
-					label : {
-						show : true
-					}
-				},
-				data : value
-			};
-			series.push(tmp);
-			// 细分业务标签
-			itemLabel.push(lst[i].label);
+					data : value
+				};
+				series.push(tmp);
+				// 细分业务标签
+				//var lable = lableTurnName(lst[i].label);
+					itemLabel.push(lst[i].label);
+			}
 		}
 	}
 	// 设置柱状图
@@ -101,7 +144,10 @@ function chartSetting(lst) {
 		calculable : false,
 		legend: { // 细分业务标签
 			top: 'top',
-	        data: itemLabel
+	        data: itemLabel,
+	        /*textStyle: {
+                color: "#0099cc"
+            }*/
 	    },
 		tooltip : {
 			trigger : 'axis',
@@ -136,8 +182,15 @@ function chartSetting(lst) {
 			data : labels,
 			splitLine : {
 				show : false
-			}
-		}],
+			}/*,
+			axisLabel: {
+				show: true,
+				textStyle: {
+                    color: "#0099cc"
+                }
+            }*/
+		}
+		],
 		yAxis : [{
 			type : 'value',
 			axisLabel : {
@@ -153,21 +206,99 @@ function chartSetting(lst) {
 }
 // IPO在审项目表格设置
 function reviewTableSetting(lst) {
-	var tbody = $('#review tbody');
+	var newArray = new Array(8); 
 	for (var i = 0; i < lst.length; i++) {
-		if (lst[i].hzbCount > 0 || lst[i].zxbCount > 0 || lst[i].cybCount > 0) {
-			var backgroud = '';
-			var label = '<td class="left">' + lst[i].label + '</td>';
-			if (i == lst.length - 1) {
-				label = '<td style="text-align: center;">' + lst[i].label + '</td>';
-				backgroud = 'style="background: #E8E8E8;"';
+		if(lst[i].label == "已受理"){
+			newArray[0]= lst[i];
+		}
+		if(lst[i].label == "已反馈"){
+			newArray[1]= lst[i];
+		}
+		if(lst[i].label == "预披露更新"){
+			newArray[2]= lst[i];
+		}
+		if(lst[i].label == "已通过发审会"){
+			newArray[3]= lst[i];
+		}
+		if(lst[i].label == "中止审查"){
+			newArray[4]= lst[i];
+		}
+		if(lst[i].label == "已提交发审会讨论，暂缓表决"){
+			newArray[5]= lst[i];
+		}
+		if(lst[i].label == "提交注册"){
+			newArray[6]= lst[i];
+		}
+		if(lst[i].label == "注册生效"){
+			newArray[7]= lst[i];
+		}
+	}
+	var tbody = $('#review tbody');
+	for (var i = 0; i < newArray.length; i++) {
+		if (newArray[i].hzbCount > 0 || newArray[i].zxbCount > 0 || newArray[i].cybCount > 0 || newArray[i].kcCount >= 0) {
+			if(newArray[i].label!="终止审查" && newArray[i].label!="预先披露更新" && newArray[i].label!="已上发审会，暂缓表决"){
+				var backgroud = '';
+				var label = '<td class="left">' + lableTurnName(newArray[i].label) + '</td>';
+				if (i == newArray.length - 1) {
+					label = '<td style="color:#0099cc" class="left">' + newArray[i].label + '</td>';
+					backgroud = 'style="background: #E8E8E8;"';
+					var total = newArray[i].hzbCount + newArray[i].zxbCount + newArray[i].cybCount+ newArray[i].kcCount;
+					var str = '<tr '+ backgroud +'>' + label + '<td>' + newArray[i].hzbCount + '</td>' + '<td>' + newArray[i].zxbCount + '</td>' + '<td style="border-right-color: #14bcf5;border-left-color: #14bcf5;border-top-color: #14bcf5;">' + newArray[i].cybCount + '</td>' + '<td style="border-bottom-style:solid;border-right-color: #14bcf5;border-left-color: #14bcf5;border-bottom-color: #14bcf5;">' + newArray[i].kcCount + '</td>'+'<td>' + total + '</td>' +'</tr>';
+					tbody.append(str);
+				}else{
+					var total = newArray[i].hzbCount + newArray[i].zxbCount + newArray[i].cybCount + newArray[i].kcCount;
+					var str = '<tr '+ backgroud +'>' + label + '<td>' + newArray[i].hzbCount + '</td>' + '<td>' + newArray[i].zxbCount + '</td>' + '<td style="border-right-color: #14bcf5;border-left-color: #14bcf5;border-top-color: #14bcf5;">' + newArray[i].cybCount + '</td>' + '<td style="border-right-color: #14bcf5;border-left-color: #14bcf5;">' + newArray[i].kcCount + '</td>'+'<td>' + total + '</td>' +'</tr>';
+					tbody.append(str);
+				}
 			}
-			var total = lst[i].hzbCount + lst[i].zxbCount + lst[i].cybCount;
-			var str = '<tr '+ backgroud +'>' + label + '<td>' + lst[i].hzbCount + '</td>' + '<td>' + lst[i].zxbCount + '</td>' + '<td>' + lst[i].cybCount + '</td>' + '<td>' + total + '</td>' +'</tr>';
-			tbody.append(str);
 		}
 	}
 }
+
+function lableTurnName(lable){
+	if(lable=="已受理"){
+		lable = "已受理<span style='color:#0099cc'>(已受理)</span>";
+	}
+	if(lable=="已反馈"){
+		lable = "已反馈<span style='color:#0099cc'>(已问询)</span>";
+	}
+	if(lable=="已通过发审会"){
+		lable = "已通过发审会<span style='color:#0099cc'>(上市委会议通过)</span>";
+	}
+	if(lable=="中止审查"){
+		lable = "中止审查<span style='color:#0099cc'>(中止)</span>";
+	}
+	if(lable=="注册生效"){
+		lable = "<span style='color:#0099cc'>注册生效</span>";
+	}
+	if(lable=="提交注册"){
+		lable = "<span style='color:#0099cc'>提交注册</span>";
+	}
+	return lable;
+}
+
+function lableTurnToName(lable){
+	if(lable=="已受理"){
+		lable = "已受理(已受理)";
+	}
+	if(lable=="已反馈"){
+		lable = "已反馈(已问询)";
+	}
+	if(lable=="已通过发审会"){
+		lable = "已通过发审会(上市委会议通过)";
+	}
+	if(lable=="中止审查"){
+		lable = "中止审查(中止)";
+	}
+	if(lable=="注册生效"){
+		lable = "注册生效";
+	}
+	if(lable=="提交注册"){
+		lable = "提交注册";
+	}
+	return lable;
+}
+
 // 保荐机构统计表格设置
 function recommendOrgTableSetting(lst) {
 	var tbody = $('#recommendOrg tbody');
@@ -321,15 +452,17 @@ function historyCallBack(result) {
 	var hzbCount = [];// 00上海证券交易所
 	var zxbCount = [];// 02深圳证券交易所(中小板)
 	var cybCount = [];// 03深圳证券交易所(创业板)
+	var kcCount = [];// 04科创板
 	var totalCount = [];// 批次合计
 	for (var prop in result) {
 		grabUpdateTime.push(result[prop].value.replaceAll('-','/'));
 		hzbCount.push(result[prop].hzbCount);
 		zxbCount.push(result[prop].zxbCount);
 		cybCount.push(result[prop].cybCount);
+		kcCount.push(result[prop].kcCount);
 		totalCount.push(result[prop].totalCount);
 	};
-	historyChartSetting(grabUpdateTime,hzbCount,zxbCount,cybCount,totalCount);
+	historyChartSetting(grabUpdateTime,hzbCount,zxbCount,cybCount,kcCount,totalCount);
 }
 
 // ipo历史统计图初始化
@@ -365,7 +498,8 @@ function historyEChartInit() {
 		    },
 		    legend: {
 		        top: '35px',
-		        data:['合计','沪主板','创业板','中小板']
+		       // data:['合计','沪主板','创业板','中小板','科创板']
+		         data:['沪主板','创业板','中小板','科创板']
 		    },
 //		    toolbox: {
 //		    	top: '10px',
@@ -413,9 +547,10 @@ function historyEChartInit() {
 		        }
 		    }],
 		    series: [
-		        {
+		       /* {
 		            name:'合计',
 		            type:'line',
+		            stack: '总量',
 		            smooth:true,
 		            symbol: 'diamond',
 		            sampling: 'average',
@@ -431,16 +566,17 @@ function historyEChartInit() {
 //		                }
 //		            },
 		            data: []
-		        },     	
+		        },     	*/
 		        {
 		            name:'沪主板',
 		            type:'line',
+		            stack: '总量',
 		            smooth:true,
 		            symbol: 'circle',
 		            sampling: 'average',
 		            itemStyle: {
 		                normal: {
-		                    color: myChartColor[1]
+		                    color: myChartColor[0]
 		                }
 		            },
 //		            areaStyle: {
@@ -453,6 +589,7 @@ function historyEChartInit() {
 		        {
 		            name:'创业板',
 		            type:'line',
+		            stack: '总量',
 		            smooth:true,
 		            symbol: 'rect',
 		            sampling: 'average',
@@ -470,6 +607,7 @@ function historyEChartInit() {
 		        },
 		        {
 		            name:'中小板',
+		            stack: '总量',
 		            type:'line',
 		            smooth:true,
 		            symbol: 'triangle',
@@ -487,33 +625,69 @@ function historyEChartInit() {
 	          //需求6844 面积图调整为线型图  by liuh 2019/2/21 end
 		            data: []
 		        },
+		        
+		        {
+		            name:'科创板',
+		            type:'line',
+		            stack: '总量',
+		            smooth:true,
+		            symbol: 'diamond',
+		            sampling: 'average',
+		            itemStyle: {
+		                normal: {
+		                    color: '#14bcf5'
+		                }
+		            },
+	            //需求6844 面积图调整为线型图  by liuh 2019/2/21 Start
+//		            areaStyle: {
+//		                normal: {
+//		                    color: myChartColor[0]
+//		                }
+//		            },
+		            data: []
+		        },
 		    ]
 		};
 	myHistoryChart.setOption(historyOption);
 }
 
-function historyChartSetting(grabUpdateTime,hzbCount,zxbCount,cybCount,totalCount) {
+function historyChartSetting(grabUpdateTime,hzbCount,zxbCount,cybCount,kcCount,totalCount) {
 	myHistoryChart.setOption({
         xAxis: {
             data: grabUpdateTime
         },
         // 根据名字对应到相应的系列
 	    series: [
-					{
+					/*{
 					    name:'合计',
+					    areaStyle: {normal: {}},
+					    type:'line',
 					    data: totalCount
-					},
+					   
+					},*/
 			        {
 			            name:'沪主板',
+			            areaStyle: {normal: {}},
+			            type:'line',
 			            data: hzbCount
 			        },
 			        {
 			            name:'中小板',
+			            areaStyle: {normal: {}},
+			            type:'line',
 			            data: zxbCount
 			        },
 			        {
 			            name:'创业板',
+			            areaStyle: {normal: {}},
+			            type:'line',
 			            data: cybCount
+			        },
+			        {
+			            name:'科创板',
+			            areaStyle: {normal: {}},
+			            type:'line',
+			            data: kcCount
 			        }
 			    ]
     });
@@ -532,6 +706,42 @@ function historyChartSetting(grabUpdateTime,hzbCount,zxbCount,cybCount,totalCoun
 //}
 
 /*--------------保荐机构------------------*/
+var iTime;
+function renderColumnByKC1(data, type, row, meta){
+	   clearTimeout(iTime);
+　　　　iTime=setTimeout(function(){
+			$($($('#recommendOrg').find('tr')[meta.row+1]).find('td')[5]).css({"border-bottom-color":"#14bcf5"});
+　　　　},10);
+	 var operationStr = "";
+	    var quasiListedLand = "04";
+	    	operationStr += '<th><a href="javascript:void(0)" onclick="viewCommendDetail(\'' + data.label
+			+ '\',\'' + quasiListedLand+ '\')">' + data.kcCount + '</a></th>';
+	    	return operationStr;
+}
+
+function renderColumnByKC2(data, type, row, meta){
+	clearTimeout(iTime);
+　　　　iTime=setTimeout(function(){
+			$($($('#lawsfirm').find('tr')[meta.row+1]).find('td')[5]).css({"border-bottom-color":"#14bcf5"});
+　　　　},50);
+	 var operationStr = "";
+	    var quasiListedLand = "04";
+	    	operationStr += '<a href="javascript:void(0)" onclick="viewLawDetail(\'' + data.label
+			+ '\',\'' + quasiListedLand+ '\')">' + data.kcCount + '</a>';
+	    	return operationStr;
+}
+
+function renderColumnByKC3(data, type, row, meta){
+	clearTimeout(iTime);
+　　　　iTime=setTimeout(function(){
+			$($($('#accountantOffice').find('tr')[meta.row+1]).find('td')[5]).css({"border-bottom-color":"#14bcf5"});
+　　　　},50);
+	 var operationStr = "";
+	    var quasiListedLand = "04";
+	    	operationStr += '<a href="javascript:void(0)" onclick="viewAccountDetail(\'' + data.label
+			+ '\',\'' + quasiListedLand+ '\')">' + data.kcCount + '</a>';
+	    	return operationStr;
+}
 //查询当前保荐机构下所有沪主板公司
 function renderColumnhzbCount(data, type, row, meta){
     var operationStr = "";
@@ -621,7 +831,6 @@ function renderColumnLawTotalCount(data, type, row, meta){
 }
 
 function viewLawDetail(label,quasiListedLand) {
-	debugger;
 	var industry = $("#industrySelect").val();
 	var registAddr = $("#registAddrSelect").val();
 	var data = {

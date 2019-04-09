@@ -35,6 +35,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Service
@@ -58,7 +60,6 @@ public class IpoProcessService extends BaseService {
 
     @Autowired
     private RestClient restClient;
-
 
     @Value("#{app['pdf.baseUrl']}")
     private String pdfBaseUrl;
@@ -119,14 +120,18 @@ public class IpoProcessService extends BaseService {
                 proList.get(j).setFlag(false);
                 //如果不是发审会公告，即不是第一个树，则计算该树的第一个与上一个树的最后一个进程相差时间
                 if (i != 0 && j == 0) {
-                    String sdate = treeList.get(i).getProList().get(0).getProcessTime();
-                    String edate = treeList.get(i - 1).getProList().
-                            get(treeList.get(i - 1).getProList().size() - 1).getProcessTime();
-                    String outLastDay = "0";
-                    if (StringUtils.isNotEmpty(sdate) && StringUtils.isNotEmpty(edate)) {
-                        outLastDay = getLastDays(sdate, edate);
+                        String sdate = treeList.get(i).getProList().get(0).getProcessTime();
+                        String edate = treeList.get(i - 1).getProList().
+                                get(treeList.get(i - 1).getProList().size() - 1).getProcessTime();
+                    if(StringUtils.isNotEmpty(sdate) && StringUtils.isNotEmpty(edate)){
+                        String outLastDay = "0";
+                        if (StringUtils.isNotEmpty(sdate) && StringUtils.isNotEmpty(edate)) {
+                            outLastDay = getLastDays(sdate, edate);
+                        }
+                        treeList.get(i).getProList().get(0).setLastDay(outLastDay);
+                    }else{
+                        treeList.get(i).getProList().get(0).setLastDay(null);
                     }
-                    treeList.get(i).getProList().get(0).setLastDay(outLastDay);
                 }
                 if (j > 0) {
                     String lastDay = "0";
@@ -134,16 +139,23 @@ public class IpoProcessService extends BaseService {
                     String edate = proList.get(j - 1).getProcessTime();
                     if (StringUtils.isNotEmpty(sdate) && StringUtils.isNotEmpty(edate)) {
                         lastDay = getLastDays(sdate, edate);
+                        proList.get(j).setLastDay(lastDay);
+                    }else{
+                        proList.get(j).setLastDay(null);
                     }
-                    proList.get(j).setLastDay(lastDay);
+
                 }
                 //判断当前时间和进程时间，如果进程时间大于当前时间，则置灰
                 proList.get(j).setDateCompare(1);
-                if("02".equals(treeList.get(i).getTreeTypeCode())){
+                if ("02".equals(treeList.get(i).getTreeTypeCode())) {
                     try {
                         Date nowDate = new Date();
-                        Date proDate = DateUtils.parseDate(proList.get(j).getProcessTime(),"yyyy-MM-dd");
-                        if(proDate.compareTo(nowDate) > 0){
+                        if(StringUtils.isNotEmpty(proList.get(j).getProcessTime())){
+                            Date proDate = DateUtils.parseDate(proList.get(j).getProcessTime(), "yyyy-MM-dd");
+                            if (proDate.compareTo(nowDate) > 0) {
+                                proList.get(j).setDateCompare(0);
+                            }
+                        }else{
                             proList.get(j).setDateCompare(0);
                         }
                     } catch (ParseException e) {
@@ -168,8 +180,8 @@ public class IpoProcessService extends BaseService {
                 }
             }
             treeList.add(publishDto);
-        }else{
-            treeList.add(0,publishDto);
+        } else {
+            treeList.add(0, publishDto);
         }
 
         for (int i = 0; i < treeList.size(); i++) {
@@ -203,14 +215,16 @@ public class IpoProcessService extends BaseService {
     /**
      * 下载单个公告
      */
-    public String downloadSingleAnnounce(String id, HttpServletResponse response) {
+    public String downloadSingleAnnounce(String id, HttpServletResponse response, HttpServletRequest request) {
         String urls = apiBaseUrl + "declareInfo/postSearchIndex";
         MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
         param.add("indexId", id);
         ParameterizedTypeReference<JsonResponse<Map<String, Object>>> responseType =
                 new ParameterizedTypeReference<JsonResponse<Map<String, Object>>>() {
                 };
+
         Map<String, Object> index = restClient.post(urls, param, responseType).getResult();
+        String title = StringUtils.EMPTY;
         String url;
         String infoUrl = String.valueOf(index.get("infoUrl"));
         if (infoUrl.contains("html")) {
@@ -218,7 +232,7 @@ public class IpoProcessService extends BaseService {
         } else {
             url = infoUrl;
         }
-        String title = StringUtils.EMPTY;
+
         String titles = String.valueOf(index.get("title"));
         String titleTemp = StringUtils.EMPTY;
         //文件名字过长导致无法下载
@@ -231,15 +245,23 @@ public class IpoProcessService extends BaseService {
         } else {
             titleTemp = titles;
         }
-        //公司代码_公司简称_公告日期_公告标题
         title = transformMetacharactor(String.valueOf(index.get("code")) +
                 "-" + String.valueOf(index.get("companyShortName"))
                 + String.valueOf(index.get("publishDate")) + "]" + titleTemp) + "." + Files.getFileExtension(url);
-
+        //公司代码_公司简称_公告日期_公告标题
         InputStream in = null;
         try {
             String fileName = title;
-            fileName = new String(fileName.getBytes(), "ISO-8859-1");
+            String userAgent = request.getHeader("user-agent").toLowerCase();
+            if (userAgent.contains("msie") || userAgent.contains("like gecko") ) {
+                // win10 ie edge 浏览器 和其他系统的ie
+                fileName = URLEncoder.encode(fileName, "UTF-8");
+            } else {
+                // fe
+                fileName = new String(fileName.getBytes("utf-8"), "iso-8859-1");
+            }
+
+//            fileName = new String(fileName.getBytes(), "ISO-8859-1");
             in = Resources.asByteSource(new URL(url)).openBufferedStream();
             // 设置输出的格式
             response.reset();
@@ -269,7 +291,7 @@ public class IpoProcessService extends BaseService {
     /**
      * 下载多个公告
      */
-    public String downloadMultiplyAnnounce(String ids, HttpServletResponse response) {
+    public String downloadMultiplyAnnounce(String ids, HttpServletResponse response,HttpServletRequest request) {
         List<String> selIdList = new ArrayList<>();
         List<Map<String, String>> srcFileList = new ArrayList<>();
         String fileName = "";
@@ -330,7 +352,15 @@ public class IpoProcessService extends BaseService {
             InputStream in = null;
             try {
                 fileName = "所选公告下载" + System.currentTimeMillis() + ".zip";
-                fileName = new String(fileName.getBytes(), "ISO-8859-1");
+                String userAgent = request.getHeader("user-agent").toLowerCase();
+                if (userAgent.contains("msie") || userAgent.contains("like gecko") ) {
+                    // win10 ie edge 浏览器 和其他系统的ie
+                    fileName = URLEncoder.encode(fileName, "UTF-8");
+                } else {
+                    // fe
+                    fileName = new String(fileName.getBytes("utf-8"), "iso-8859-1");
+                }
+//                fileName = new String(fileName.getBytes(), "ISO-8859-1");
                 in = CompressUtil.multiURLCompressZip(srcFileList);
                 // 设置输出的格式
                 response.reset();
@@ -351,7 +381,7 @@ public class IpoProcessService extends BaseService {
         return fileName;
     }
 
-    public String downloadSingleFile(String id, HttpServletResponse response) {
+    public String downloadSingleFile(String id, HttpServletResponse response,HttpServletRequest request) {
         //根据文件id查询相关信息
         IpoFileRelationDto fileDto = ipoProcessMapper.selectFileDto(id);
         String suffix = fileDto.getSuffix();
@@ -372,7 +402,17 @@ public class IpoProcessService extends BaseService {
         InputStream in = null;
         try {
             in = new FileInputStream(url);
-            fileName = new String(fileName.getBytes(), "ISO-8859-1");
+
+            String userAgent = request.getHeader("user-agent").toLowerCase();
+            if (userAgent.contains("msie") || userAgent.contains("like gecko") ) {
+                // win10 ie edge 浏览器 和其他系统的ie
+                fileName = URLEncoder.encode(fileName, "UTF-8");
+            } else {
+                // fe
+                fileName = new String(fileName.getBytes("utf-8"), "iso-8859-1");
+            }
+//            fileName = new String(fileName.getBytes(), "ISO-8859-1");
+
 //            in = Resources.asByteSource(new URL(url)).openBufferedStream();
             // 设置输出的格式
             response.reset();
@@ -392,7 +432,7 @@ public class IpoProcessService extends BaseService {
         return fileName;
     }
 
-    public String downloadMultiplyFile(String ids, HttpServletResponse response) {
+    public String downloadMultiplyFile(String ids, HttpServletResponse response,HttpServletRequest request) {
         List<String> selIdList = new ArrayList<>();
         List<Map<String, String>> srcFileList = new ArrayList<>();
         String downFileName = "";
@@ -426,7 +466,17 @@ public class IpoProcessService extends BaseService {
             InputStream in = null;
             try {
                 downFileName = "所选文件下载" + System.currentTimeMillis() + ".zip";
-                downFileName = new String(downFileName.getBytes(), "ISO-8859-1");
+
+                String userAgent = request.getHeader("user-agent").toLowerCase();
+                if (userAgent.contains("msie") || userAgent.contains("like gecko") ) {
+                    // win10 ie edge 浏览器 和其他系统的ie
+                    downFileName = URLEncoder.encode(downFileName, "UTF-8");
+                } else {
+                    // fe
+                    downFileName = new String(downFileName.getBytes("utf-8"), "iso-8859-1");
+                }
+
+//                downFileName = new String(downFileName.getBytes(), "ISO-8859-1");
                 in = compress(srcFileList);
                 response.reset();
                 response.setContentType("text/html;charset=utf-8");
@@ -494,5 +544,82 @@ public class IpoProcessService extends BaseService {
             }
             return zipFile;
         }
+    }
+
+    public String checkSingleAnnounce(String id) {
+        String result = "1";
+        if (StringUtils.isNotEmpty(id)) {
+            String urls = apiBaseUrl + "declareInfo/postSearchIndex";
+            MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
+            param.add("indexId", id);
+            ParameterizedTypeReference<JsonResponse<Map<String, Object>>> responseType =
+                    new ParameterizedTypeReference<JsonResponse<Map<String, Object>>>() {
+                    };
+
+            Map<String, Object> index = restClient.post(urls, param, responseType).getResult();
+            if (null == index) {
+                result = "0";
+            }
+        } else {
+            result = "0";
+        }
+        return result;
+    }
+
+    public String checkMultiplyAnnounce(String ids) {
+        List<String> selIdList = new ArrayList<>();
+        List<Map<String, String>> srcFileList = new ArrayList<>();
+        String result = "1";
+        if (StringUtils.isNotEmpty(ids)) {
+            if (ids.contains(",")) {
+                selIdList = Arrays.asList(ids.split(","));
+            } else {
+                selIdList.add(ids);
+            }
+            String urls = apiBaseUrl + "declareInfo/postSearchIndex";
+            //当公告不在索引中而在数据库中时，传companyId和userId进行查询
+            for (String indexId : selIdList) {
+                MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
+                param.add("indexId", indexId);
+                ParameterizedTypeReference<JsonResponse<Map<String, Object>>> responseType =
+                        new ParameterizedTypeReference<JsonResponse<Map<String, Object>>>() {
+                        };
+                Map<String, Object> index = restClient.post(urls, param, responseType).getResult();
+                if (null == index) {
+                    result = "0";
+                }
+            }
+        } else {
+            result = "0";
+        }
+        return result;
+    }
+
+    public String checkSingleFile(String id) {
+        String result = "1";
+        IpoFileRelationDto fileDto = ipoProcessMapper.selectFileDto(id);
+        if (null == fileDto) {
+            result = "0";
+        }
+        return result;
+    }
+
+    public String checkMultiplyFile(String ids) {
+        String result = "1";
+        List<String> selIdList = new ArrayList<>();
+        if (StringUtils.isNotEmpty(ids)) {
+            if (ids.contains(",")) {
+                selIdList = Arrays.asList(ids.split(","));
+            } else {
+                selIdList.add(ids);
+            }
+            for (String indexId : selIdList) {
+                IpoFileRelationDto fileDto = ipoProcessMapper.selectFileDto(indexId);
+                if (null == fileDto) {
+                    result = "0";
+                }
+            }
+        }
+        return result;
     }
 }

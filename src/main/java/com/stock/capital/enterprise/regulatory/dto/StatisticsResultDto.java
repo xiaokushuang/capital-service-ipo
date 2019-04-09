@@ -30,6 +30,12 @@ public class StatisticsResultDto implements Serializable {
      */
     private int cybCount;
     /**
+     * 科创板
+     */
+    private int kcCount;
+    private int submited;
+    private int zc;
+    /**
      * 合计总数
      */
     private int totalCount;
@@ -332,6 +338,30 @@ public class StatisticsResultDto implements Serializable {
 		this.hasedRandomInspection = hasedRandomInspection;
 	}
 	
+	public int getKcCount() {
+		return kcCount;
+	}
+
+	public void setKcCount(int kcCount) {
+		this.kcCount = kcCount;
+	}
+
+	public int getSubmited() {
+		return submited;
+	}
+
+	public void setSubmited(int submited) {
+		this.submited = submited;
+	}
+
+	public int getZc() {
+		return zc;
+	}
+
+	public void setZc(int zc) {
+		this.zc = zc;
+	}
+
 	// demand 5955 板块信息
 	private String stockCode;
 

@@ -31,6 +31,9 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
     @Field("ipo_title_t")
     private String title;//标题
 
+    @Field("ipo_title_s")
+    private String titleStr;//标题
+
     @Field("ipo_process_t")
     private String process;//进程
 
@@ -116,10 +119,10 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
     @Field("ipo_total_share_issuea_d")
     private Double totalShareIssueA;//发行后股本总额
 
-    @Field("ipo_intermediary_code_txt")
+    @Field("ipo_intermediary_code_ss")
     private List<String> intermediaryCodes;//中介机构
 
-    @Field("ipo_market_type_txt")
+    @Field("ipo_market_type_ss")
     private List<String> marketTypes;//其他资本市场
 
     @Field("ipo_belongs_bureau_t")
@@ -130,6 +133,12 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
 
     @Field("ipo_industry_csrc_t")
     private String industryCsrc;//发行人行业（证监会）
+
+    @Field("ipo_special_arrange_ss")
+    private List<String> specialArrange;//公司治理特殊安排
+
+    @Field("ipo_issue_condition_ss")
+    private List<String> issueCondition;//发行人选择的上市条件
 
 
     public String getOrgCode() {
@@ -426,5 +435,29 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
 
     public void setIndustryCsrc(String industryCsrc) {
         this.industryCsrc = industryCsrc;
+    }
+
+    public String getTitleStr() {
+        return titleStr;
+    }
+
+    public void setTitleStr(String titleStr) {
+        this.titleStr = titleStr;
+    }
+
+    public List<String> getSpecialArrange() {
+        return specialArrange;
+    }
+
+    public void setSpecialArrange(List<String> specialArrange) {
+        this.specialArrange = specialArrange;
+    }
+
+    public List<String> getIssueCondition() {
+        return issueCondition;
+    }
+
+    public void setIssueCondition(List<String> issueCondition) {
+        this.issueCondition = issueCondition;
     }
 }

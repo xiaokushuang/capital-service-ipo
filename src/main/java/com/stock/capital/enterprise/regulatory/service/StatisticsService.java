@@ -516,14 +516,40 @@ public class StatisticsService extends BaseService {
                 cell = row.createCell(6);
                 cell.setCellValue(comDtos.get(i).getLawFirm());
                 cell.setCellStyle(conCenterStyle);
-                cell = row.createCell(7);
+                
+                /*cell = row.createCell(7);
                 cell.setCellValue(comDtos.get(i).getApproveStatus());
-                cell.setCellStyle(conCenterStyle);
+                cell.setCellStyle(conCenterStyle);*/
+                if(comDtos.get(i).getQuasiListedLand().contains("科创板")){
+                	if("已反馈".equals(comDtos.get(i).getApproveStatus())){
+                		comDtos.get(i).setApproveStatus("已问询");
+                	}
+                	if("已通过发审会".equals(comDtos.get(i).getApproveStatus())){
+                		comDtos.get(i).setApproveStatus("上市委会议通过");
+                	}
+                	if("中止审查".equals(comDtos.get(i).getApproveStatus())){
+                		comDtos.get(i).setApproveStatus("中止");
+                	}
+                	cell = row.createCell(7);
+                	cell.setCellValue(comDtos.get(i).getApproveStatus());
+                	cell.setCellStyle(conCenterStyle);
+                	cell.setCellStyle(conCenterStyle);
+                }else{
+                	cell = row.createCell(7);
+                	cell.setCellValue(comDtos.get(i).getApproveStatus());
+                	cell.setCellStyle(conCenterStyle);
+                	cell.setCellStyle(conCenterStyle);
+                }
+                
+                
                 cell = row.createCell(8);
                 if("1".equals(comDtos.get(i).getHasedRandomInspection())){
                 	cell.setCellValue("是");
                 }else if("0".equals(comDtos.get(i).getHasedRandomInspection())){
                 	cell.setCellValue("否");
+                }
+                else if("2".equals(comDtos.get(i).getHasedRandomInspection())){
+                	cell.setCellValue("不适用");
                 }
                 cell.setCellStyle(conCenterStyle);
             }
@@ -620,10 +646,27 @@ public class StatisticsService extends BaseService {
                 cell = row.createCell(4);
                 cell.setCellValue(comDtos.get(i).getRecommendOrganization());
                 cell.setCellStyle(conCenterStyle);
-                cell = row.createCell(5);
-                cell.setCellValue(comDtos.get(i).getApproveStatus());
-                cell.setCellStyle(conCenterStyle);
-                cell.setCellStyle(conCenterStyle);
+                //审核状态
+                if(comDtos.get(i).getQuasiListedLand().contains("科创板")){
+                	if("已反馈".equals(comDtos.get(i).getApproveStatus())){
+                		comDtos.get(i).setApproveStatus("已问询");
+                	}
+                	if("已通过发审会".equals(comDtos.get(i).getApproveStatus())){
+                		comDtos.get(i).setApproveStatus("上市委会议通过");
+                	}
+                	if("中止审查".equals(comDtos.get(i).getApproveStatus())){
+                		comDtos.get(i).setApproveStatus("中止");
+                	}
+                	cell = row.createCell(5);
+                	cell.setCellValue(comDtos.get(i).getApproveStatus());
+                	cell.setCellStyle(conCenterStyle);
+                	cell.setCellStyle(conCenterStyle);
+                }else{
+                	cell = row.createCell(5);
+                	cell.setCellValue(comDtos.get(i).getApproveStatus());
+                	cell.setCellStyle(conCenterStyle);
+                	cell.setCellStyle(conCenterStyle);
+                }
             }
         }
         sheet.setColumnWidth(0, 6000);
@@ -665,7 +708,7 @@ public class StatisticsService extends BaseService {
             
             rowNum ++;
             row = sheet.getRow(rowNum) == null ? sheet.createRow(rowNum) : sheet.getRow(rowNum);
-            cell = row.getCell(10) == null ? row.createCell(10) : row.getCell(10);
+            cell = row.getCell(12) == null ? row.createCell(12) : row.getCell(12);
         	SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         	cell.setCellValue(sdf.format(new Date())+"年");
         	
@@ -756,17 +799,29 @@ public class StatisticsService extends BaseService {
             	cell.setCellStyle(centerCellStyle);
             	cell.setCellValue(dto.getPassed());
             	
-            	cell = row.getCell(8) == null ? row.createCell(8) : row.getCell(8);
+            	cell = row.getCell(8) == null ? row.createCell(8) : row.getCell(8);//提交注册
+            	cell.setCellStyle(blackBorder);
+            	cell.setCellStyle(centerCellStyle);
+            	cell.setCellValue(dto.getSubmited());
+            	
+            	cell = row.getCell(9) == null ? row.createCell(9) : row.getCell(9);//提交注册
+            	cell.setCellStyle(blackBorder);
+            	cell.setCellStyle(centerCellStyle);
+            	cell.setCellValue(dto.getZc());
+            	
+            	
+            	
+            	cell = row.getCell(10) == null ? row.createCell(10) : row.getCell(10);
             	cell.setCellStyle(blackBorder);
             	cell.setCellStyle(centerCellStyle);
             	cell.setCellValue(dto.getAreaCount());
             	
-            	cell = row.getCell(9) == null ? row.createCell(9) : row.getCell(9);
+            	cell = row.getCell(11) == null ? row.createCell(11) : row.getCell(11);
             	cell.setCellStyle(blackBorder);
             	cell.setCellStyle(centerCellStyle);
             	cell.setCellValue(dto.getWeekStopYet());
             	
-            	cell = row.getCell(10) == null ? row.createCell(10) : row.getCell(10);
+            	cell = row.getCell(12) == null ? row.createCell(12) : row.getCell(12);
             	cell.setCellStyle(blackBorder);
             	cell.setCellStyle(centerCellStyle);
             	cell.setCellValue(dto.getStopYet());

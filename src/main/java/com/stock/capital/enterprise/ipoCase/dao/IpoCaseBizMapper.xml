@@ -17,6 +17,7 @@
     <result column="registered_assets" property="registeredAssets" jdbcType="DECIMAL"/>
     <result column="structure_label" jdbcType="VARCHAR" property="structureLabel"/>
     <result column="structure_url" property="structureUrl" jdbcType="VARCHAR"/>
+    <result column="issue_condition" property="issueCondition" jdbcType="VARCHAR"/>
   </resultMap>
 
   <resultMap id="SupCusResultMap" type="com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto" >
@@ -53,6 +54,7 @@
     (SELECT group_concat(mcl1.label_name) FROM maa_conf_label mcl1 WHERE mcl1.label_code = 'INDUSTRY_CSRC_2012' AND find_in_set(mcl1.label_value,TRIM(LEADING '0' FROM ic.industry_csrc))) AS industry_csrc,
     ic.company_name,
     ic.company_code,
+    ic.issue_condition,
     (SELECT p.area_name FROM provinces p WHERE p.area_no = ic.addr_prov) AS addr_prov,
     (SELECT p.area_name FROM provinces p WHERE p.area_no = ic.addr_city) AS addr_city,
     (SELECT p.area_name FROM provinces p WHERE p.area_no = ic.addr_area) AS addr_area,
@@ -70,8 +72,8 @@
    limit 1
   </select>
 
-  <select id="getCodeById" parameterType="string" resultType="string">
-    SELECT org_code AS orgCode FROM ipo_case WHERE id = #{id} limit 1
+  <select id="getCodeAndNameById" parameterType="string" resultType="map">
+    SELECT org_code AS orgCode,company_name AS companyName FROM ipo_case WHERE id = #{id} limit 1
   </select>
 
   <select id="getIpoShareData" parameterType="string"
@@ -101,12 +103,11 @@
           ipi.share_num,
           (
             SELECT
-              SUM(share_num)
+              registered_assets
             FROM
-              ipo_person_info
+              ipo_case
             WHERE
-              person_type = '3'
-            AND bid = #{bid}
+            id =  #{bid}
           ) AS sumNum
         FROM
           ipo_person_info ipi
@@ -160,28 +161,51 @@
 
   <select id="getIntermediaryOrgData" resultType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto">
     SELECT
-      id,
-      bid,
-      intermediary_type AS intermediaryType,
-      org_name AS orgName,
-      org_code AS orgCode,
-      valid_flag AS validFlag,
-      represent_person AS representPerson,
-      agent_person AS agentPerson,
-      assist_person AS assistPerson
+    t.*, mcl.label_name AS intermediaryTypeName
     FROM
-      ipo_intermediary_org
+    (
+    SELECT
+    iio.intermediary_type AS intermediaryType,
+    iio.org_type AS orgType,
+    iio.org_name AS orgName,
+    iio.org_code AS orgCode,
+    iio.valid_flag AS validFlag,
+    iio.represent_person AS representPerson,
+    iio.agent_person AS agentPerson,
+    iio.assist_person AS assistPerson,
+    CASE
+    WHEN iio.intermediary_type = '1' THEN
+    'IPO_SPONSOR_TYPE'
+    WHEN iio.intermediary_type = '2' THEN
+    'IPO_SECURITY_TYPE'
+    WHEN iio.intermediary_type = '3' THEN
+    'IPO_LAWYER_TYPE'
+    WHEN iio.intermediary_type = '4' THEN
+    'IPO_ACCOUNT_TYPE'
+    WHEN iio.intermediary_type = '5' THEN
+    'IPO_ASSET_VALUATION_TYPE'
+    ELSE
+    ''
+    END AS labelCode
+    FROM
+    ipo_intermediary_org iio
     WHERE
-      bid = #{bid}
+    iio.bid = #{bid}
     <if test="validFlag != null and validFlag != ''">
-      AND valid_flag = #{validFlag}
+      AND iio.valid_flag = #{validFlag}
     </if>
+    ) t
+    JOIN maa_conf_label mcl ON t.labelCode = mcl.label_code
+    AND t.orgType = mcl.label_value
+    ORDER BY t.intermediaryType
   </select>
 
   <select id="getHeadData" parameterType="string" resultType="com.stock.capital.enterprise.ipoCase.dto.HeadDataVo">
     SELECT
     ic.title,
     ic.establish_date AS establishDate,
+    (SELECT group_concat(mcl2.label_name) FROM maa_conf_label mcl2 WHERE mcl2.label_code = 'IPO_SPECIAL_ARRANGE' AND find_in_set(mcl2.label_value,ic.special_arrange)) AS specialArrange,
+    CASE WHEN ic.ipo_plate = '069001001006' THEN 1 ELSE 0 END AS isTechBoard,
     (SELECT mcl.label_name FROM maa_conf_label mcl WHERE mcl.label_code = 'IPO_GREEN_PASSAGE' AND
     mcl.label_value = ic.green_passage) AS greenPassage,
     (SELECT mcl1.label_name FROM maa_conf_label mcl1 WHERE mcl1.label_code = 'IPO_STATUS' AND

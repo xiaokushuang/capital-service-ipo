@@ -43,7 +43,7 @@ export default {
             },
             yAxis: {
                       type: 'value',
-                      name:'万元',
+                      name:this.zxChartData.itemName=='资产负债率'||this.zxChartData.itemName=='净资产收益率ROE(加权)'?'%':'万元',
                       nameLocation:'end',
                       nameGap:'20',
                       nameTextStyle:{

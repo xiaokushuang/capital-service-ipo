@@ -14,7 +14,9 @@ export default {
         caseId:this.$store.state.app.caseId,
         zxChart:null,
         zxChartY:[],
-        zxChartX:[]
+        zxChartX:[],
+        zxChartYSelect:{},
+        legendData:[]
     }
   },
   props:["zxIndex"],
@@ -70,30 +72,56 @@ beforeDestroy() {
         }
       this.zxChart = echarts.init(document.getElementById('zxChart' + this.zxIndex))
     //  循环获取数据
-        // for (var i = 0; i < dataList.length; i++) {
+          var arr = []
         for(var i = 0;i < this.zxIndex + 1;i++){
           this.zxChartY = []
           for(var j = 0;j < dataList[i].industryCompareRateDetailList.length;j++){
+
+            arr.push(dataList[i].industryCompareRateDetailList[j].companyName)
+            if(j+2<dataList[i].industryCompareRateDetailList.length){
+              this.zxChartYSelect[dataList[i].industryCompareRateDetailList[j].companyName]=false
+            }
+
               this.zxChartY.push(
                                 {
                                     name:dataList[i].industryCompareRateDetailList[j].companyName,
                                     type:'line',
-                                    data:[dataList[i].industryCompareRateDetailList[j].firstYearRate,dataList[i].industryCompareRateDetailList[j].secondYearRate,dataList[i].industryCompareRateDetailList[j].thirdYearRate]
+                                    data:[dataList[i].industryCompareRateDetailList[j].firstYearRate,dataList[i].industryCompareRateDetailList[j].secondYearRate,dataList[i].industryCompareRateDetailList[j].thirdYearRate],
+                                     label: {
+                                        formatter: function (params) {
+                                          let str = params.name;
+                                          if(str.length>7){
+                                            str = str.substring(0, 6).concat('...');
+                                          }
+                                          return str;
+                                        }
+                                      }
                                 },
                              )
 
              this.zxChartX = [dataList[i].firstYear,dataList[i].secondYear,dataList[i].thirdYear]
-
           }
         }
        this.zxChart.setOption({
            title: {
                 text: ''
             },
-            tooltip: {
-                trigger: 'axis'
+            tooltip:{
+             trigger: 'axis',
+              formatter: function (params) {
+                let str = params[0].name + '<br/>';
+                for(i=0;i<params.length;i++){
+                  str += params[i].marker + params[i].seriesName + ': ' + params[i].value + '%<br/>'
+                }
+                return str
+              }
             },
             legend: {
+              top:'2%',
+              //  x: "right", // 'center' | 'left' | {number},
+              //  y: "10%", // 'center' | 'bottom' | {number}
+              selected:this.zxChartYSelect
+
             },
             grid: {
                 left: '3%',

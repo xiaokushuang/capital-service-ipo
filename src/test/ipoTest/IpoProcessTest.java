@@ -58,4 +58,14 @@ public class IpoProcessTest extends BaseTest {
         ipoFinanceService.selectFinanceProfitList("97952444248599350");
     }
 
+    @Test
+    public void selectNewFeedbackList(){
+        ipoFeedbackService.selectNewFeedbackList("97952444248599344");
+    }
+
+    @Test
+    public void selectNewSecondLabel(){
+        ipoFeedbackService.selectNewQuestionList(
+                "745777672754254995","2200004","","1");
+    }
 }
