@@ -143,7 +143,7 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, 
                             <th class="sorting" data-sort-name="processing" style="width: 17%; text-align: center;border-right: 1px solid #fff !important;">已提交发审会讨论，暂缓表决</th>
                             <th class="sorting" data-sort-name="passed" style="width: 6%; text-align: center;border-right: 1px solid #fff !important;">已通过发审会<span style="color:#0099cc">(上市委会议通过)</span></th>
                             <th class="sorting" data-sort-name="submited" style="width: 8%; text-align: center;border-right: 1px solid #fff !important;"><span style="color:#0099cc">提交注册</span></th>
-                            <th class="sorting" data-sort-name="submited" style="width: 8%; text-align: center;border-right: 1px solid #fff !important;"><span style="color:#0099cc">注册生效</span></th>
+                            <th class="sorting" data-sort-name="zc" style="width: 8%; text-align: center;border-right: 1px solid #fff !important;"><span style="color:#0099cc">注册生效</span></th>
                             <th class="sorting" data-sort-name="areaCount" style="width: 5%; text-align: center;border-right: 1px solid #fff !important;">合计</th>
                             <th class="sorting" data-sort-name="weekStopYet" style="width: 9%; text-align: center;border-right: 1px solid #fff !important;">最近一周</th>
                             <th class="sorting" data-sort-name="stopYet" style="width: 10%; text-align: center;border-right: 0px solid #fff !important;"></th>
