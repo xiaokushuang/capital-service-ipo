@@ -78,7 +78,7 @@
           </li>
           <li :style="{'margin-bottom':'10px','position':'relative','margin-top':companyProfileList.issueCondition==''?'4%':'0%'}">
             <span>主营业务</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <div v-if="companyProfileList&&companyProfileList.majorBusinesses"  class="majorBusinesses">{{companyProfileList.majorBusinesses}}觉得卡萨丁开始JFK是经典福克斯的经的覅十四点哈佛导师覅但是覅但是</div>
+            <div v-if="companyProfileList&&companyProfileList.majorBusinesses"  class="majorBusinesses">{{companyProfileList.majorBusinesses}}</div>
             <div v-else  class="majorBusinesses">- -</div>
           </li>
         </div>

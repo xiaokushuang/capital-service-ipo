@@ -85,14 +85,14 @@
                                     </div>
                                 </div>
                                     <!-- 三个点展开全部  [在第一个和最后一个节点之间] -->
-                                <div v-if="!lastTab">
+                                <div v-if="!lastTab&&boxDataItem.proList.length>2">
                                     <div v-if="boxDataItem.treeTypeCode == '02'" >
                                         <p v-show="index == boxDataItem.proList.length-1" class="spread sandianClass" v-if="boxDataItem.spreadFlag" @click="handlePackUp(boxDataItem)" style="font-size:14px;cursor:pointer;line-height:17px"><span>收起</span></p>
                                         <p v-show=" index == 0" class="spread sandianClass spreadTitle" v-else  ><span  @click="handleSpread(boxDataItem)" @mouseenter="handleMouseenterSpread(boxDataItem)" @mouseleave="handleMouseleaveSpread(boxDataItem)">...</span></p>
                                     </div>
                                 </div>
                                 <!-- 当点击最后一个tab页时，上市没有展开收起，其他两个有展开收起 -->
-                                <div v-if="lastTab">
+                                <div v-if="lastTab&&boxDataItem.proList.length>2">
                                     <div v-if="boxDataItem.treeTypeCode == '00'||boxDataItem.treeTypeCode == '01'" >
                                         <p v-show="index == boxDataItem.proList.length-1" class="spread sandianClass" v-if="boxDataItem.spreadFlag" @click="handlePackUp(boxDataItem)" style="font-size:14px;cursor:pointer;line-height:17px"><span>收起</span></p>
                                         <p v-show=" index == 0" class="spread sandianClass spreadTitle" v-else  ><span  @click="handleSpread(boxDataItem)" @mouseenter="handleMouseenterSpread(boxDataItem)" @mouseleave="handleMouseleaveSpread(boxDataItem)">...</span></p>
@@ -168,14 +168,14 @@
                                     </div>
                                 </div>
                                     <!-- 三个点展开全部  [在第一个和最后一个节点之间] -->
-                                <div v-if="!lastTab">
+                                <div v-if="!lastTab&&boxDataItem.proList.length>2">
                                     <div v-if="boxDataItem.treeTypeCode == '02'" >
                                         <p v-show="index == boxDataItem.proList.length-1" class="spread sandianClass" v-if="boxDataItem.spreadFlag" @click="handlePackUp(boxDataItem)" style="font-size:14px;cursor:pointer;line-height:17px"><span>收起</span></p>
                                         <p v-show=" index == 0" class="spread sandianClass spreadTitle" v-else  ><span  @click="handleSpread(boxDataItem)" @mouseenter="handleMouseenterSpread(boxDataItem)" @mouseleave="handleMouseleaveSpread(boxDataItem)">...</span></p>
                                     </div>
                                 </div>
                                 <!-- 当点击最后一个tab页时，上市没有展开收起，其他两个有展开收起 -->
-                                <div v-if="lastTab">
+                                <div v-if="lastTab&&boxDataItem.proList.length>2">
                                     <div v-if="boxDataItem.treeTypeCode == '00'||boxDataItem.treeTypeCode == '01'" >
                                         <p v-show="index == boxDataItem.proList.length-1" class="spread sandianClass" v-if="boxDataItem.spreadFlag" @click="handlePackUp(boxDataItem)" style="font-size:14px;cursor:pointer;line-height:17px"><span>收起</span></p>
                                         <p v-show=" index == 0" class="spread sandianClass spreadTitle" v-else  ><span  @click="handleSpread(boxDataItem)" @mouseenter="handleMouseenterSpread(boxDataItem)" @mouseleave="handleMouseleaveSpread(boxDataItem)">...</span></p>

@@ -11,6 +11,7 @@
                       <span v-if="scope.row.forthYearValue"> 
                         {{scope.row.forthYearValue | dataInThRule}}
                         <span v-if="scope.row.itemName === '资产负债率'">%</span>
+                        <span v-if="scope.row.itemName === '净资产收益率ROE(加权)'">%</span>
                         </span>
                       <span v-else> - - </span>
           </template>
@@ -19,6 +20,7 @@
         <template slot-scope="scope">
             <span v-if="scope.row.thirdYearValue"> {{scope.row.thirdYearValue | dataInThRule}}
                <span v-if="scope.row.itemName === '资产负债率'">%</span>
+                <span v-if="scope.row.itemName === '净资产收益率ROE(加权)'">%</span>
             </span>
             <span v-else> - - </span>
         </template>
@@ -27,6 +29,7 @@
           <template slot-scope="scope">
             <span v-if="scope.row.secondYearValue"> {{scope.row.secondYearValue | dataInThRule}}
                <span v-if="scope.row.itemName === '资产负债率'">%</span>
+                <span v-if="scope.row.itemName === '净资产收益率ROE(加权)'">%</span>
             </span>
             <span v-else> - - </span>
         </template>
@@ -35,6 +38,7 @@
           <template slot-scope="scope">
             <span v-if="scope.row.firstYearValue"> {{scope.row.firstYearValue | dataInThRule}}
                <span v-if="scope.row.itemName === '资产负债率'">%</span>
+                <span v-if="scope.row.itemName === '净资产收益率ROE(加权)'">%</span>
             </span>
             <span v-else> - - </span>
           </template>
