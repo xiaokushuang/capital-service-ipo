@@ -548,6 +548,9 @@ public class StatisticsService extends BaseService {
                 }else if("0".equals(comDtos.get(i).getHasedRandomInspection())){
                 	cell.setCellValue("否");
                 }
+                else if("2".equals(comDtos.get(i).getHasedRandomInspection())){
+                	cell.setCellValue("不适用");
+                }
                 cell.setCellStyle(conCenterStyle);
             }
         }

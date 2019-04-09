@@ -1,7 +1,7 @@
 <template>
   <div class="table-class mainTable">
     <p v-if="mainTableList.mainIncomeInfoList&&mainTableList.mainIncomeInfoList.length>0" style="font-size:12px;color:#666;float:right">单位：万元</p>
-    <el-table :data="mainTableList.mainIncomeInfoList" border style="width: 100%;margin-top: 20px">
+    <el-table v-if="mainTableList.mainIncomeInfoList&&mainTableList.mainIncomeInfoList.length>0" :data="mainTableList.mainIncomeInfoList" border style="width: 100%;margin-top: 20px">
       <el-table-column align="left" class-name="table_cell" label="主营业务" width="135">
          <template slot-scope="scope">
             <span style="padding-left:10px;">{{isNotEmpty(scope.row.businessName) ? scope.row.businessName : '- -'}}</span>

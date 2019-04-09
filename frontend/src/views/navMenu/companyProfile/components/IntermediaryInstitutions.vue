@@ -2,7 +2,7 @@
     <div>
        <div class="IntermediaryInstitutions">
             <!-- 筛选 -->
-            <el-select v-model="agentState" placeholder="请选择" style="margin-left:16px;width:120px">
+            <el-select v-if="mainList&&mainList.length>0 || moreList&&moreList.length>0" v-model="agentState" placeholder="请选择" style="margin-left:16px;width:120px">
                 <el-option v-for="item in options" :label="item.label" :value="item.value" :key="item.value">
                 </el-option>
             </el-select>

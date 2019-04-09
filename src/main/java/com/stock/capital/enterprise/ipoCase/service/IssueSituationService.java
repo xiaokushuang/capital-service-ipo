@@ -37,6 +37,9 @@ public class IssueSituationService extends BaseService {
      */
     public IssueDataDto getIssueData(String id) {
         Map<String, String> resultMap = ipoCaseBizMapper.getCodeAndNameById(id);
+        if (resultMap == null) {
+            return null;
+        }
         String orgCode = resultMap.get("orgCode");
         if (StringUtils.isBlank(orgCode)) {
             return null;
@@ -104,14 +107,17 @@ public class IssueSituationService extends BaseService {
                 }
                 //重新查询 企业简称
                 Map<String, String> resultMap = ipoCaseBizMapper.getCodeAndNameById(id);
-                String companyName = resultMap.get("companyName");
-                if (StringUtils.isNotBlank(companyName)) {
-                    IndustryCompareRateDetailDto selfDetailDto = new IndustryCompareRateDetailDto();
-                    selfDetailDto.setCompanyName(companyName);
-                    selfDetailDto.setThirdYearRate(industryCompareRateDto.getThirdYearRate());
-                    selfDetailDto.setSecondYearRate(industryCompareRateDto.getSecondYearRate());
-                    selfDetailDto.setFirstYearRate(industryCompareRateDto.getFirstYearRate());
-                    detailList.add(selfDetailDto);
+                if (resultMap != null) {
+                    String companyName = resultMap.get("companyName");
+                    if (StringUtils.isNotBlank(companyName)) {
+                        IndustryCompareRateDetailDto selfDetailDto =
+                            new IndustryCompareRateDetailDto();
+                        selfDetailDto.setCompanyName(companyName);
+                        selfDetailDto.setThirdYearRate(industryCompareRateDto.getThirdYearRate());
+                        selfDetailDto.setSecondYearRate(industryCompareRateDto.getSecondYearRate());
+                        selfDetailDto.setFirstYearRate(industryCompareRateDto.getFirstYearRate());
+                        detailList.add(selfDetailDto);
+                    }
                 }
                 industryCompareRateDto.setIndustryCompareRateDetailList(detailList);
             }

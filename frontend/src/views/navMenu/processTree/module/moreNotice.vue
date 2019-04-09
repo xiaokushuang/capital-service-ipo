@@ -23,7 +23,7 @@
             prop="relationFileTitle"
             label="公告名称"
             align="left"
-            width="600">
+            width="500">
             <template slot-scope="scope">
               <span style=" color:#0099CC">
                  <a v-if="scope.row.letterId!=''" @click="openLetterDetail(scope.row)">{{scope.row.relationFileTitle}}</a>
