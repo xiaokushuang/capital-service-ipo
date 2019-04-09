@@ -169,19 +169,18 @@ public class IpoProcessService extends BaseService {
         String publishDate = ipoProcessMapper.getPublishDate(id);
         publishDto.setPublishDate(publishDate);
         publishDto.setTreeTypeName("股份公司设立时间");
-        treeList.add(publishDto);
         //默认为正序，如果要求倒序序排序，则在计算完距离上个进程天数后，重新排序
-//        if ("02".equals(sortType) && CollectionUtils.isNotEmpty(treeList)) {
-//            treeList.sort((IpoProgressDto d1, IpoProgressDto d2) -> d2.getTreeTypeCode().compareTo(d1.getTreeTypeCode()));
-//            for (IpoProgressDto dto : treeList) {
-//                if (CollectionUtils.isNotEmpty(dto.getProList())) {
-//                    dto.getProList().sort((IpoProListDto c1, IpoProListDto c2) -> c2.getProSort().compareTo(c1.getProSort()));
-//                }
-//            }
-//            treeList.add(publishDto);
-//        } else {
-//            treeList.add(0, publishDto);
-//        }
+        if ("02".equals(sortType) && CollectionUtils.isNotEmpty(treeList)) {
+            treeList.sort((IpoProgressDto d1, IpoProgressDto d2) -> d2.getTreeTypeCode().compareTo(d1.getTreeTypeCode()));
+            for (IpoProgressDto dto : treeList) {
+                if (CollectionUtils.isNotEmpty(dto.getProList())) {
+                    dto.getProList().sort((IpoProListDto c1, IpoProListDto c2) -> c2.getProSort().compareTo(c1.getProSort()));
+                }
+            }
+            treeList.add(publishDto);
+        } else {
+            treeList.add(0, publishDto);
+        }
 
         for (int i = 0; i < treeList.size(); i++) {
             if (i == 0) {
