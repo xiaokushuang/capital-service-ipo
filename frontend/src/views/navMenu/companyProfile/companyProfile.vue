@@ -569,6 +569,7 @@ export default {
       getRaiseMoneyTableList(param).then(res=>{
         if(res.data.result&&res.data.result.length>0){
           this.raiseMoneyTableList = res.data.result
+          // console.log('募集资金',this.raiseMoneyTableList)
         }
           this.getPosition()
       });

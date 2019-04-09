@@ -175,8 +175,8 @@ export default {
          getIssueFeeData(param).then(res=>{
            if(res.data.result&&res.data.result.length>0){
              this.issueFeeData = res.data.result
-             this.getPosition()
            }
+             this.getPosition()
          })
        getIssueData(param).then(res => {
          if(res.data.result){
