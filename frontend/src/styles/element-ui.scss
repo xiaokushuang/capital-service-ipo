@@ -600,3 +600,7 @@
   opacity: .5;
   background: none !important; 
 }
+// 供应商表格悬浮
+.el-table--striped .el-table__body tr.el-table__row--striped.current-row td, .el-table__body tr.current-row>td, .el-table__body tr.hover-row.current-row>td, .el-table__body tr.hover-row.el-table__row--striped.current-row>td, .el-table__body tr.hover-row.el-table__row--striped>td, .el-table__body tr.hover-row>td {
+  background-color: #f5f7fa;
+}

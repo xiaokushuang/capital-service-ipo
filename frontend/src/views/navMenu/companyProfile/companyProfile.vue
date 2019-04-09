@@ -39,11 +39,6 @@
           </li>
         </ul>
         <div>
-          <!-- <li style="margin-bottom:10px;position:relative" >
-            <span>注册地址</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <div v-if="companyProfileList"  class="majorBusinesses">{{companyProfileList.addrProv}}{{companyProfileList.addrCity}}{{companyProfileList.addrArea}}</div>
-            <div v-else  class="majorBusinesses">- -</div>
-          </li> -->
           <li style="margin-bottom:10px;position:relative" >
             <span>注册地址</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <div v-if="companyProfileList&&(companyProfileList.addrProv || companyProfileList.addrCity || companyProfileList.addrArea)"  class="majorBusinesses">{{companyProfileList.addrProv}}{{companyProfileList.addrCity}}{{companyProfileList.addrArea}}</div>
@@ -61,7 +56,7 @@
           </li>
           <!-- 发行人选择的上市标准 -->
           <li class="clear" v-if="companyProfileList&&companyProfileList.issueCondition !=''" style="margin-bottom:10px;position:relative" >
-            <span v-if="companyProfileList.issueCondition" style="display: inline-block;width: 65px;line-height: 20px;float:left">发行人选择的上市标准</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span v-if="companyProfileList.issueCondition" style="display: inline-block;width: 65px;line-height: 20px;float:left">发行人选择的上市标准</span>
             <div v-if="companyProfileList&&companyProfileList.issueCondition ==''" style="color: #333333;margin-left: 9.4%;margin-top: -4.8%;line-height: 20px;">- -</div>
             <div v-else style="color: #333333;line-height: 20px;float:left;display:inline-block;width: 80%;margin-left: 1.6%;">
               <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('101')>-1">预计市值不低于人民币<span style="color:red">10亿元</span>，最近两年净利润均为正且累计净利润不低于人民币<span style="color:red">5000万元</span>，或者预计市值不低于人民币<span style="color:red">10亿元</span>，最近一年净利润为正且营业收入不低于人民币<span style="color:red">1亿元</span></div>
@@ -644,7 +639,7 @@ export default {
     },
     // 鼠标移入公司名
     mouseOverCompanyName(title){
-      if(title.length>22){
+      if(title.length>20){
         $(".companyNameClass").attr("title",title)
         $(".companyNameClass").css({"cursor":"pointer"})
       }else{
@@ -658,17 +653,13 @@ export default {
         $(".contentClass").attr("title",title)
         $(".contentClass").css({"cursor":"pointer"})
       }else{
-        $(".contentClass").removeAttr("title",title)
+         $(".contentClass").removeAttr("title",title)
          $(".contentClass").css({"cursor":"auto"})
       }
-      //  if(title.length>16){
-      //    $(".contentClass").css({"cursor":"pointer"})
-      //   $(".contentClass").attr("title",title)
-      // }
     },
      getCompanyName(title){
-      if(title.length>22){
-        return title.substring(0,22) + '...'
+      if(title.length>20){
+        return title.substring(0,20) + '...'
       }else{
         return title
       }
