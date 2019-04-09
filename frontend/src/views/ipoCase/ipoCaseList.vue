@@ -422,14 +422,14 @@
             <el-col :span="24" style="padding-left: 8px; padding-right: 8px;">
               <div class="table">
                 <el-table @sort-change="sortChange" :data="tableData" style="width: 100%" v-loading="tableLoading" ref="tables" @row-click="itemClickHandler" class="case" element-loading-text="给我一点时间">
-                  <el-table-column align="left" width="109" label="公司">
+                  <el-table-column align="left" width="100" label="公司">
                     <template slot-scope="scope">
                       {{scope.row.companyCode}}
                       <br/>
                       {{scope.row.companyName}}
                     </template>
                   </el-table-column>
-                  <el-table-column align="left" label="案例标题" min-width="26%">
+                  <el-table-column align="left" label="案例标题" min-width="22%">
                     <template slot-scope="scope">
                       {{scope.row.titleStr}}
                     </template>
@@ -447,7 +447,7 @@
                     </template>
                   </el-table-column>
                   <el-table-column :label="yearLabel" header-align="center">
-                    <el-table-column align="right" :prop="profit" label="净利润" sortable="custom" min-width="12%">
+                    <el-table-column align="right" :prop="profit" label="净利润" sortable="custom" min-width="10%">
                       <template slot-scope="scope">
                         <span v-if="yearRadio===1">
                           <span v-if="scope.row.netProfitOne">{{scope.row.netProfitOne | dataInThRule}}亿元</span>
@@ -463,7 +463,7 @@
                         </span>
                       </template>
                     </el-table-column>
-                    <el-table-column align="right" :prop="reve" label="营业收入" sortable="custom" min-width="12%">
+                    <el-table-column align="right" :prop="reve" label="营业收入" sortable="custom" min-width="11%">
                       <template slot-scope="scope">
                         <span v-if="yearRadio===1">
                           <span v-if="scope.row.operateReveOne">{{scope.row.operateReveOne | dataInThRule}}亿元</span>
@@ -480,24 +480,24 @@
                       </template>
                     </el-table-column>
                   </el-table-column>
-                  <el-table-column align="right" prop="ipo_sum_asset_d" label="总资产" sortable="custom" min-width="12%">
+                  <el-table-column align="right" prop="ipo_sum_asset_d" label="总资产" sortable="custom" min-width="10%">
                     <template slot-scope="scope">
                       <span v-if="scope.row.sunAsset">{{scope.row.sunAsset | dataInThRule}}亿元</span>
                       <span v-else>--</span>
                     </template>
                   </el-table-column>
-                  <el-table-column align="left" label="拟上市板块" min-width="8%">
+                  <el-table-column align="left" label="拟上市板块" width="110">
                     <template slot-scope="scope">
                       {{scope.row.ipoPlateName}}
                     </template>
                   </el-table-column>
-                  <el-table-column align="right" prop="ipo_review_meeting_time_dt" label="审核时间" sortable="custom" min-width="8%">
+                  <el-table-column align="right" prop="ipo_review_meeting_time_dt" label="审核时间" sortable="custom" width="100">
                     <template slot-scope="scope">
                       <span v-if="scope.row.reMeetingTime">{{scope.row.reMeetingTime}}</span>
                       <span v-else>--</span>
                     </template>
                   </el-table-column>
-                  <el-table-column align="right" prop="ipo_audit_duration_i" label="审核历时" sortable="custom" min-width="8%">
+                  <el-table-column align="right" prop="ipo_audit_duration_i" label="审核历时" sortable="custom" width="100">
                     <template slot-scope="scope">
                       <span v-if="scope.row.auditDuration">{{scope.row.auditDuration}}天</span>
                       <span v-else>--</span>
