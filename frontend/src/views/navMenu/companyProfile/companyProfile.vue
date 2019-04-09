@@ -9,33 +9,33 @@
         <ul style="display:flex;margin-bottom: 0;">
           <li style="margin-bottom:10px;position:relative" >
             <span>拟上市板块</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <div v-if="companyProfileList&&companyProfileList.ipoPlate"  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">{{companyProfileList.ipoPlate}}</div>
-            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">- -</div>
+            <div v-if="companyProfileList&&companyProfileList.ipoPlate"  style="color: #333333;margin-left: 27%;margin-top: -7%;line-height: 20px;">{{companyProfileList.ipoPlate}}</div>
+            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -7%;line-height: 20px;">- -</div>
           </li>
            <li style="margin-bottom:10px;position:relative" >
             <span>所属行业(证监会)</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <div v-if="companyProfileList&&companyProfileList.industryCsrc"  style="color: #333333;margin-left: 40.4%;margin-top: -6%;line-height: 20px;">{{companyProfileList.industryCsrc}}</div>
-            <div v-else  style="color: #333333;margin-left: 40.4%;margin-top: -6%;line-height: 20px;">- -</div>          
+            <div v-if="companyProfileList&&companyProfileList.industryCsrc"  style="color: #333333;margin-left: 40.4%;margin-top: -7%;line-height: 20px;">{{companyProfileList.industryCsrc}}</div>
+            <div v-else  style="color: #333333;margin-left: 40.4%;margin-top: -7%;line-height: 20px;">- -</div>          
           </li>
           <li style="margin-bottom:10px;position:relative" >
             <span>注册资本</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <div v-if="companyProfileList&&companyProfileList.registeredAssets"  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">{{companyProfileList.registeredAssets | dataInThRule}}万元</div>
-            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">- -</div>
+            <div v-if="companyProfileList&&companyProfileList.registeredAssets"  style="color: #333333;margin-left: 27%;margin-top: -7%;line-height: 20px;">{{companyProfileList.registeredAssets | dataInThRule}}万元</div>
+            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -7%;line-height: 20px;">- -</div>
           </li>
           <li style="margin-bottom:10px;position:relative" >
             <span>公司简称</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <div v-if="companyProfileList&&companyProfileList.companyName"  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">{{companyProfileList.companyName}}</div>
-            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">- -</div>
+            <div v-if="companyProfileList&&companyProfileList.companyName"  style="color: #333333;margin-left: 27%;margin-top: -7%;line-height: 20px;">{{companyProfileList.companyName}}</div>
+            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -7%;line-height: 20px;">- -</div>
           </li>
           <li style="margin-bottom:10px;position:relative" >
             <span>证券代码</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <div  v-if="companyProfileList&&companyProfileList.companyCode"  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">{{companyProfileList.companyCode}}</div>
-            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">- -</div>
+            <div  v-if="companyProfileList&&companyProfileList.companyCode"  style="color: #333333;margin-left: 27%;margin-top: -7%;line-height: 20px;">{{companyProfileList.companyCode}}</div>
+            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -7%;line-height: 20px;">- -</div>
           </li>
           <li style="margin-bottom:10px;position:relative" >
             <span>企业性质</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <div v-if="companyProfileList&&companyProfileList.companyNature"  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">{{companyProfileList.companyNature}}</div>
-            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">- -</div>
+            <div v-if="companyProfileList&&companyProfileList.companyNature"  style="color: #333333;margin-left: 27%;margin-top: -7%;line-height: 20px;">{{companyProfileList.companyNature}}</div>
+            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -7%;line-height: 20px;">- -</div>
           </li>
         </ul>
         <div>
@@ -835,19 +835,19 @@ export default {
 .majorBusinesses{
   color:#333333; 
   margin-left: 9.4%;
-  margin-top: -2%;
+  margin-top: -2.1%;
   line-height: 20px;
 }
 .industryCsrc{
     color: #333333;
     margin-left: 40.4%;
-    margin-top: -6%;
+    margin-top: -7%;
     line-height: 20px;
 }
 .companyNature{
     color: #333333;
     margin-left: 27.4%;
-    margin-top: -6%;
+    margin-top: -7%;
     line-height: 20px;
 }
 </style>
