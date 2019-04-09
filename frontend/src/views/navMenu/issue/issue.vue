@@ -107,7 +107,7 @@
             </div>
             <!-- table2 -->
             <p v-if="issueFeeData&&issueFeeData.length>0" style="font-size:12px;color:#666;float:right">人民币/万元</p>
-             <el-table :data="issueFeeData" style="width: 100%" stripe border>
+             <el-table v-if="issueFeeData&&issueFeeData.length>0" :data="issueFeeData" style="width: 100%" stripe border>
                 <el-table-column type="index" label="序号" align='center' width="117">
                 <template slot-scope="scope">
                             {{scope.$index+1}}

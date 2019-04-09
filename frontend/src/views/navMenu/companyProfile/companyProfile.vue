@@ -61,10 +61,10 @@
           </li>
           <!-- 发行人选择的上市标准 -->
           <!-- <li :style="{'position':'relative','margin-bottom':companyProfileList.issueCondition==''?'10px':'30px'}"> -->
-          <li v-if="companyProfileList&&companyProfileList.issueCondition !=''" style="margin-bottom:10px;position:relative" >
-            <span v-if="companyProfileList.issueCondition" style="display: inline-block;width: 65px;line-height: 20px;">发行人选择的上市标准</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <li class="clear" v-if="companyProfileList&&companyProfileList.issueCondition !=''" style="margin-bottom:10px;position:relative" >
+            <span v-if="companyProfileList.issueCondition" style="display: inline-block;width: 65px;line-height: 20px;float:left">发行人选择的上市标准</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <div v-if="companyProfileList&&companyProfileList.issueCondition ==''" style="color: #333333;margin-left: 9.4%;margin-top: -4.8%;line-height: 20px;">- -</div>
-            <div v-else style="color: #333333;margin-left: 9.4%;margin-top: -4.8%;line-height: 20px;">
+            <div v-else style="color: #333333;line-height: 20px;float:left;display:inline-block;width: 80%;margin-left: 1.6%;">
               <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('101')>-1">预计市值不低于人民币<span style="color:red">10亿元</span>，最近两年净利润均为正且累计净利润不低于人民币<span style="color:red">5000万元</span>，或者预计市值不低于人民币<span style="color:red">10亿元</span>，最近一年净利润为正且营业收入不低于人民币<span style="color:red">1亿元</span></div>
               <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('102')>-1">预计市值不低于人民币<span style="color:red">15亿元</span>，最近一年营业收入不低于人民币<span style="color:red">2亿元</span>，且最近三年累计研发投入占最近三年累计营业收入的比例不低于<span style="color:red">15%</span></div>
               <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('103')>-1">预计市值不低于人民币<span style="color:red">20亿元</span>，最近一年营业收入不低于人民币<span style="color:red">3亿元</span>，且最近三年经营活动产生的现金流量净额累计不低于人民币<span style="color:red">1亿元</span></div>
@@ -135,7 +135,7 @@
       </div>
       <!-- 股权股东表格 -->
       <p v-if="gqTableList&&gqTableList.length>0" style="font-size:12px;color:#666;float:right">单位：万股</p>
-      <el-table :data="gqTableList" style="width: 100%" stripe border>
+      <el-table v-if="gqTableList&&gqTableList.length>0" :data="gqTableList" style="width: 100%" stripe border>
         <el-table-column type="index" label="序号" align='center' width="75px">
            <template slot-scope="scope">
                     {{scope.$index+1}}
@@ -219,10 +219,10 @@
     <div class="theTopFive">
        <div  class="title">
         <span class="littleRectangle"></span>
-        <span class="titleText" id="majorSuppliers">报告期主要供应商及客户情况</span>
+        <span class="titleText" id="majorSuppliers" style="font-size:18px">报告期主要供应商及客户情况</span>
       </div>
       <div class="theTopFiveSupplier">
-        <p v-if="supplierMainList&&supplierMainList.length>0">报告期前五名供应商情况</p>
+        <p style="font-size:16px" v-if="supplierMainList&&supplierMainList.length>0">报告期前五名供应商情况</p>
         <div v-for="item in supplierMainList" :key="item.id" >
             <p v-if="item.remark" style="font-size:14px;color:#666">{{item.remark}}</p>
             <span v-if="item.supplierCustomerInfoList&&item.supplierCustomerInfoList.length>0" style="font-size:12px;color:#666;float:right;margin-bottom: 5px;">单位：万元</span>
@@ -232,7 +232,7 @@
                   {{scope.$index+1}}
                   </template>
               </el-table-column>
-              <el-table-column fixed prop="companyName" align="left" class-name="table_cell" label="公司" ></el-table-column>
+              <el-table-column fixed prop="companyName" align="left" class-name="table_cell" width="90" label="公司" ></el-table-column>
               <el-table-column :label="item.reportPeriod" header-align="center">
                 <el-table-column align="left"  class-name="table_cell" label="采购内容" width="117">
                   <template slot-scope="scope">
@@ -313,7 +313,7 @@
         </div>
       </div>
        <div class="theTopFiveKh">
-        <p v-if="customerMainList&&customerMainList.length>0">报告期前五名客户情况</p>
+        <p v-if="customerMainList&&customerMainList.length>0" style="font-size:16px">报告期前五名客户情况</p>
           <div v-for="item in customerMainList" :key="item.id" >
               <p style="font-size:14px;color:#666">{{item.remark}}</p>
               <span v-if="item.supplierCustomerInfoList&&item.supplierCustomerInfoList.length>0" style="font-size:12px;color:#666;float:right;margin-bottom: 5px;">单位：万元</span>
@@ -323,7 +323,7 @@
                     {{scope.$index+1}}
                     </template>
                 </el-table-column>
-                <el-table-column fixed prop="companyName" align="left" class-name="table_cell" label="公司" width="150"></el-table-column>
+                <el-table-column fixed prop="companyName" align="left" class-name="table_cell" label="公司" width="90"></el-table-column>
                 <el-table-column :label="item.reportPeriod" header-align="center">
                   <el-table-column align="left"  class-name="table_cell" label="采购内容" width="117">
                     <template slot-scope="scope">
@@ -413,7 +413,7 @@
       <div class="raiseMoneyTable">
         <!-- 募集资金运用表格 -->
         <p v-if="raiseMoneyTableList&&raiseMoneyTableList.length>0" style="font-size:12px;color:#666;float:right">单位：万元</p>
-          <el-table :data="raiseMoneyTableList" class="raiseMoneyTable" border style="width:100%;">
+          <el-table v-if="raiseMoneyTableList&&raiseMoneyTableList.length>0" :data="raiseMoneyTableList" class="raiseMoneyTable" border style="width:100%;">
             <el-table-column label="项目名称" align="left">
                 <template slot-scope="scope">
                     <span v-if="scope.row.itemName">{{scope.row.itemName}}</span>
@@ -485,7 +485,7 @@ import { getRaiseMoneyTableList } from "@/api/ipoCase/companyProfile";
 import { getSupplierCustomerData } from '@/api/ipoCase/tableDemo';
 import { getTableData } from '@/api/ipoCase/tableDemo';
 // 中介机构数据
-// import { getIntermediaryOrgDataList } from '@/api/ipoCase/companyProfile'
+import { getIntermediaryOrgDataList } from '@/api/ipoCase/companyProfile'
 // 导入主营业务收入构成表格
 import mainTable from "@/views/tables/mainTable";
 // 导入柱形图和饼图
@@ -544,33 +544,33 @@ export default {
      
       // 动态传id
       const param = {
-        id:this.caseId
+        id:this.caseId,
+        validFlag:'1'
       }
       getMarketData(param).then(res=>{
         if(res.data.result&&res.data.result.length>0){
           this.otherMarketInfoList = res.data.result//其他登录市场
-          this.getPosition()
-
         }
+          this.getPosition()
       });
       // 股权结构图表格
       getShareHolderData(param).then(res=>{
         if(res.data.result&&res.data.result.length>0){
           this.gqTableList = res.data.result
-          this.getPosition()
         }
+          this.getPosition()
       });
       getCompetitorData(param).then(res=>{
         if(res.data.result&&res.data.result.length>0){
           this.MajorCompetitors = res.data.result
-          this.getPosition()
         }
+          this.getPosition()
       });
       getRaiseMoneyTableList(param).then(res=>{
         if(res.data.result&&res.data.result.length>0){
           this.raiseMoneyTableList = res.data.result
-          this.getPosition()
         }
+          this.getPosition()
       });
       // 供应商
       getSupplierCustomerData(param).then(response => {
@@ -580,26 +580,27 @@ export default {
         }
          if(response.data.result&&response.data.result.customerMainList&&response.data.result.customerMainList.length>0){
            this.customerMainList = response.data.result.customerMainList
-           this.getPosition()
         }
+           this.getPosition()
       })
       // 主营业务收入构成
       getTableData(param).then(response => {
         if( response.data.result){
           this.mainTableList = response.data.result
-          this.getPosition()
         }
+          this.getPosition()
       })
       // 中介机构
-      //  getIntermediaryOrgDataList(param).then(response => {
-      //    this.getPosition()
-      //    if(response.data.result&&response.data.result.mainList&&response.data.result.mainList.length>0){
-      //         this.mainList = response.data.result.mainList
-      //     }
-      //     if(response.data.result&&response.data.result.moreList&&response.data.result.moreList.length>0){
-      //         this.moreList = response.data.result.moreList
-      //     }
-      // })
+       getIntermediaryOrgDataList(param).then(response => {
+         if(response.data.result&&response.data.result.mainList&&response.data.result.mainList.length>0){
+           this.mainList = response.data.result.mainList
+           this.getPosition()
+          }
+          if(response.data.result&&response.data.result.moreList&&response.data.result.moreList.length>0){
+              this.moreList = response.data.result.moreList
+              this.getPosition()
+          }
+      })
       
 
     },
@@ -652,7 +653,7 @@ export default {
               notes: '',
               important: false,
               tabId: 'tab-first',
-              noClick: false
+              noClick: true
           }
           if(this.structureUrl || (this.gqTableList&&this.gqTableList.length>0)){
              ownershipStructureChart.noClick = false;

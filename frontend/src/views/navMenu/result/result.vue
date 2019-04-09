@@ -24,7 +24,7 @@
                               <span v-if="baseList[0].member&&baseList[0].member.length>0">
                                <span style="color:#333;">{{baseList[0].member}}</span>
                                 <span  style="color:#333;"> ;</span>
-                                <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail(baseList[0].examineDate)">详情 &gt;</span>
+                                <span style="color:#1990FE;cursor:pointer" @click="handleMemberDetail(baseList[0].examineDate)">详情 &gt;</span>
                              </span>
                              <span v-else>- -</span>
                         </p>
@@ -92,7 +92,7 @@
                              <span v-if="baseList[0].member&&baseList[0].member.length>0">
                                 <span style="color:#333;">{{baseList[0].member}}</span>
                                 <span  style="color:#333;"> ;</span>
-                                <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail(baseList[0].examineDate)">详情 &gt;</span>
+                                <span style="color:#1990FE;cursor:pointer" @click="handleMemberDetail(baseList[0].examineDate)">详情 &gt;</span>
                              </span>
                              <span v-else>- -</span>
                         </p>
@@ -158,7 +158,7 @@
                               <span v-if="baseList[1].member&&baseList[1].member.length>0">
                                 <span style="color:#333;">{{baseList[1].member}}</span>
                                 <span  style="color:#333;"> ;</span>
-                                <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail(baseList[1].examineDate)">详情 &gt;</span>
+                                <span style="color:#1990FE;cursor:pointer" @click="handleMemberDetail(baseList[1].examineDate)">详情 &gt;</span>
                              </span>
                              <span v-else>- -</span>
                              <!-- <span v-for="name in baseList[1].member" style="color:#333;">{{name}}</span>
@@ -229,7 +229,7 @@
                               <span v-if="baseList[0].member&&baseList[0].member.length>0">
                                 <span style="color:#333;">{{baseList[0].member}}</span>
                                 <span  style="color:#333;"> ;</span>
-                                <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail(baseList[0].examineDate)">详情 &gt;</span>
+                                <span style="color:#1990FE;cursor:pointer" @click="handleMemberDetail(baseList[0].examineDate)">详情 &gt;</span>
                              </span>
                              <span v-else>- -</span>
                              <!-- <span v-for="name in baseList[0].member" style="color:#333;">{{name}}</span>
@@ -298,7 +298,7 @@
                               <span v-if="baseList[1].member&&baseList[1].member.length>0">
                                 <span style="color:#333;">{{baseList[1].member}}</span>
                                 <span  style="color:#333;"> ;</span>
-                                <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail(baseList[1].examineDate)">详情 &gt;</span>
+                                <span style="color:#1990FE;cursor:pointer" @click="handleMemberDetail(baseList[1].examineDate)">详情 &gt;</span>
                              </span>
                              <span v-else>- -</span>
                              <!-- <span v-for="name in baseList[1].member" style="color:#333;">{{name}}</span>
@@ -367,7 +367,7 @@
                               <span v-if="baseList[2].member&&baseList[2].member.length>0">
                                 <span style="color:#333;">{{baseList[2].member}}</span>
                                 <span  style="color:#333;"> ;</span>
-                                <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail(baseList[2].examineDate)">详情 &gt;</span>
+                                <span style="color:#1990FE;cursor:pointer" @click="handleMemberDetail(baseList[2].examineDate)">详情 &gt;</span>
                              </span>
                              <span v-else>- -</span>
                              <!-- <span v-for="name in baseList[2].member" style="color:#333;">{{name}}</span>
@@ -448,7 +448,10 @@
        <!-- 加载更多 -->
         <div v-loading="flagLoading" element-loading-text="给我一点时间" v-if="showMore" @click="showMoreMethods()" class="more">加载更多</div>
         <!-- 已经阅读完了 -->
-        <p v-if="!showMore" class="finishRead">已经阅读完了</p>
+        <p v-if="questionList.length>0&&!showMore" class="finishRead">已经阅读完了</p>
+        <!-- 暂无数据 -->
+        <p v-if="questionList.length<0" class="finishRead">暂无相关数据</p>
+        
 </div>
 </template>
 <script>
@@ -484,12 +487,10 @@ export default {
         geSelectFeedbackList(param).then(res => {
             if(res.data.result&&res.data.result.baseList&&res.data.result.baseList.length>0){
                 this.baseList = res.data.result.baseList
-            console.log(this.baseList)
             }
             if(res.data.result&&res.data.result.questionList&&res.data.result.questionList.length>0){
                 this.allQuestionList = res.data.result.questionList
             }
-            // this.allQuestionList = res.data.result.questionList
             if(this.allQuestionList.length > 15){
               this.showMore = true;
               this.questionList = this.allQuestionList.slice(0,15);
@@ -519,7 +520,6 @@ export default {
     },
     // 点击弹出详情方法
     handleMemberDetail(examineDate){
-        console.log(examineDate)
         this.dialogVisible = true;
         this.initMemberData(examineDate)
     },

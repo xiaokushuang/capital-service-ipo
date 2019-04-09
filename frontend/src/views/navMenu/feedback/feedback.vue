@@ -52,8 +52,8 @@
                                                 </div>
                                                 <!-- 收起展开 -->
                                                 <div class="btn" style="color: #4F91D1;font-size:14px">
-                                                    <span v-if="data.isSpread && data.isSpread === 2" class="packUp" @click="packUp(data)">收起 <i style="font-size:12px" class="el-icon-arrow-up"></i></span>
-                                                    <span v-if="data.isSpread && data.isSpread === 1" class="spread" @click="spread(data)">展开 <i style="font-size:12px" class="el-icon-arrow-down"></i></span>
+                                                    <span v-if="data.isSpread && data.isSpread === 2" class="packUp" @click="packUp(data)">收起 <i style="font-size:12px;cursor:pointer" class="el-icon-arrow-up"></i></span>
+                                                    <span v-if="data.isSpread && data.isSpread === 1" class="spread" @click="spread(data)">展开 <i style="font-size:12px;cursor:pointer" class="el-icon-arrow-down"></i></span>
                                                 </div>
                                               </div>
                                               <!-- 答 -->
@@ -65,8 +65,8 @@
                                                 </div>
                                                 <!-- 收起展开 -->
                                                 <div class="btn" style="color: #4F91D1;font-size:14px">
-                                                    <span v-if="data.isSpreada && data.isSpreada === 2" class="packUp" @click="daPackUp(data)">收起 <i style="font-size:12px" class="el-icon-arrow-up"></i></span>
-                                                    <span v-if="data.isSpreada && data.isSpreada === 1" class="spread" @click="daSpread(data)">展开 <i style="font-size:12px" class="el-icon-arrow-down"></i></span>
+                                                    <span v-if="data.isSpreada && data.isSpreada === 2" class="packUp" @click="daPackUp(data)">收起 <i style="font-size:12px;cursor:pointer" class="el-icon-arrow-up"></i></span>
+                                                    <span v-if="data.isSpreada && data.isSpreada === 1" class="spread" @click="daSpread(data)">展开 <i style="font-size:12px;cursor:pointer" class="el-icon-arrow-down"></i></span>
                                                 </div>
                                               </div>
                                           </div>
@@ -131,8 +131,8 @@
                                                 </div>
                                                 <!-- 收起展开 -->
                                                 <div class="btn" style="color: #4F91D1;font-size:14px">
-                                                    <span v-if="data.isSpread && data.isSpread === 2" class="packUp" @click="packUp(data)">收起 <i style="font-size:12px" class="el-icon-arrow-up"></i></span>
-                                                    <span v-if="data.isSpread && data.isSpread === 1" class="spread" @click="spread(data)">展开 <i style="font-size:12px" class="el-icon-arrow-down"></i></span>
+                                                    <span v-if="data.isSpread && data.isSpread === 2" class="packUp" @click="packUp(data)">收起 <i style="font-size:12px;cursor:pointer" class="el-icon-arrow-up"></i></span>
+                                                    <span v-if="data.isSpread && data.isSpread === 1" class="spread" @click="spread(data)">展开 <i style="font-size:12px;cursor:pointer" class="el-icon-arrow-down"></i></span>
                                                 </div>
                                               </div>
                                               <!-- 答 -->
@@ -210,8 +210,8 @@
                                                 </div>
                                                 <!-- 收起展开 -->
                                                 <div class="btn" style="color: #4F91D1;font-size:14px">
-                                                    <span v-if="data.isSpread && data.isSpread === 2" class="packUp" @click="packUp(data)">收起 <i style="font-size:12px" class="el-icon-arrow-up"></i></span>
-                                                    <span v-if="data.isSpread && data.isSpread === 1" class="spread" @click="spread(data)">展开 <i style="font-size:12px" class="el-icon-arrow-down"></i></span>
+                                                    <span v-if="data.isSpread && data.isSpread === 2" class="packUp" @click="packUp(data)">收起 <i style="font-size:12px;cursor:pointer" class="el-icon-arrow-up"></i></span>
+                                                    <span v-if="data.isSpread && data.isSpread === 1" class="spread" @click="spread(data)">展开 <i style="font-size:12px;cursor:pointer" class="el-icon-arrow-down"></i></span>
                                                 </div>
                                               </div>
                                               <!-- 答 -->
@@ -293,8 +293,8 @@
                                       </div>
                                       <!-- 收起展开 -->
                                       <div class="btn" style="color: #4F91D1;font-size:14px">
-                                          <span v-if="data.isSpread && data.isSpread === 2" class="packUp" @click="packUp(data)">收起 <i style="font-size:12px" class="el-icon-arrow-up"></i></span>
-                                          <span v-if="data.isSpread && data.isSpread === 1" class="spread" @click="spread(data)">展开 <i style="font-size:12px" class="el-icon-arrow-down"></i></span>
+                                          <span v-if="data.isSpread && data.isSpread === 2" class="packUp" @click="packUp(data)">收起 <i style="font-size:12px;cursor:pointer" class="el-icon-arrow-up"></i></span>
+                                          <span v-if="data.isSpread && data.isSpread === 1" class="spread" @click="spread(data)">展开 <i style="font-size:12px;cursor:pointer" class="el-icon-arrow-down"></i></span>
                                       </div>
                                     </div>
                                     <!-- 答 -->
@@ -928,11 +928,9 @@ export default {
     // 问【收起展开】
     spread(item) {
      this.$set(item,'isSpread',2)
-     console.log('展开',item.isSpread)
     },
     packUp(item) {
       this.$set(item,'isSpread',1)
-      console.log('收起',item.isSpread)
     },
     // 答【收起展开】
     daSpread(item) {
