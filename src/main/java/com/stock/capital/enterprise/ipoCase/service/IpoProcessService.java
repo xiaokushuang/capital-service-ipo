@@ -59,7 +59,6 @@ public class IpoProcessService extends BaseService {
     @Autowired
     private RestClient restClient;
 
-
     @Value("#{app['pdf.baseUrl']}")
     private String pdfBaseUrl;
     @Value("#{app['file.viewPath']}")
@@ -119,14 +118,18 @@ public class IpoProcessService extends BaseService {
                 proList.get(j).setFlag(false);
                 //如果不是发审会公告，即不是第一个树，则计算该树的第一个与上一个树的最后一个进程相差时间
                 if (i != 0 && j == 0) {
-                    String sdate = treeList.get(i).getProList().get(0).getProcessTime();
-                    String edate = treeList.get(i - 1).getProList().
-                            get(treeList.get(i - 1).getProList().size() - 1).getProcessTime();
-                    String outLastDay = "0";
-                    if (StringUtils.isNotEmpty(sdate) && StringUtils.isNotEmpty(edate)) {
-                        outLastDay = getLastDays(sdate, edate);
+                        String sdate = treeList.get(i).getProList().get(0).getProcessTime();
+                        String edate = treeList.get(i - 1).getProList().
+                                get(treeList.get(i - 1).getProList().size() - 1).getProcessTime();
+                    if(StringUtils.isNotEmpty(sdate) && StringUtils.isNotEmpty(edate)){
+                        String outLastDay = "0";
+                        if (StringUtils.isNotEmpty(sdate) && StringUtils.isNotEmpty(edate)) {
+                            outLastDay = getLastDays(sdate, edate);
+                        }
+                        treeList.get(i).getProList().get(0).setLastDay(outLastDay);
+                    }else{
+                        treeList.get(i).getProList().get(0).setLastDay(null);
                     }
-                    treeList.get(i).getProList().get(0).setLastDay(outLastDay);
                 }
                 if (j > 0) {
                     String lastDay = "0";
@@ -134,16 +137,23 @@ public class IpoProcessService extends BaseService {
                     String edate = proList.get(j - 1).getProcessTime();
                     if (StringUtils.isNotEmpty(sdate) && StringUtils.isNotEmpty(edate)) {
                         lastDay = getLastDays(sdate, edate);
+                        proList.get(j).setLastDay(lastDay);
+                    }else{
+                        proList.get(j).setLastDay(null);
                     }
-                    proList.get(j).setLastDay(lastDay);
+
                 }
                 //判断当前时间和进程时间，如果进程时间大于当前时间，则置灰
                 proList.get(j).setDateCompare(1);
                 if ("02".equals(treeList.get(i).getTreeTypeCode())) {
                     try {
                         Date nowDate = new Date();
-                        Date proDate = DateUtils.parseDate(proList.get(j).getProcessTime(), "yyyy-MM-dd");
-                        if (proDate.compareTo(nowDate) > 0) {
+                        if(StringUtils.isNotEmpty(proList.get(j).getProcessTime())){
+                            Date proDate = DateUtils.parseDate(proList.get(j).getProcessTime(), "yyyy-MM-dd");
+                            if (proDate.compareTo(nowDate) > 0) {
+                                proList.get(j).setDateCompare(0);
+                            }
+                        }else{
                             proList.get(j).setDateCompare(0);
                         }
                     } catch (ParseException e) {
@@ -159,18 +169,19 @@ public class IpoProcessService extends BaseService {
         String publishDate = ipoProcessMapper.getPublishDate(id);
         publishDto.setPublishDate(publishDate);
         publishDto.setTreeTypeName("股份公司设立时间");
+        treeList.add(publishDto);
         //默认为正序，如果要求倒序序排序，则在计算完距离上个进程天数后，重新排序
-        if ("02".equals(sortType) && CollectionUtils.isNotEmpty(treeList)) {
-            treeList.sort((IpoProgressDto d1, IpoProgressDto d2) -> d2.getTreeTypeCode().compareTo(d1.getTreeTypeCode()));
-            for (IpoProgressDto dto : treeList) {
-                if (CollectionUtils.isNotEmpty(dto.getProList())) {
-                    dto.getProList().sort((IpoProListDto c1, IpoProListDto c2) -> c2.getProSort().compareTo(c1.getProSort()));
-                }
-            }
-            treeList.add(publishDto);
-        } else {
-            treeList.add(0, publishDto);
-        }
+//        if ("02".equals(sortType) && CollectionUtils.isNotEmpty(treeList)) {
+//            treeList.sort((IpoProgressDto d1, IpoProgressDto d2) -> d2.getTreeTypeCode().compareTo(d1.getTreeTypeCode()));
+//            for (IpoProgressDto dto : treeList) {
+//                if (CollectionUtils.isNotEmpty(dto.getProList())) {
+//                    dto.getProList().sort((IpoProListDto c1, IpoProListDto c2) -> c2.getProSort().compareTo(c1.getProSort()));
+//                }
+//            }
+//            treeList.add(publishDto);
+//        } else {
+//            treeList.add(0, publishDto);
+//        }
 
         for (int i = 0; i < treeList.size(); i++) {
             if (i == 0) {

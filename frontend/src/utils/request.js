@@ -6,13 +6,13 @@ import store from '../store'
 // create an axios instance
 const service = axios.create({
   baseURL: '',// process.env.BASE_API, // api的base_url
-  timeout: 10000 // request timeout
+  timeout: 20000 // request timeout
 });
 
 //console.log(process.env.BASE_API);
 
 // request interceptor
-service.interceptors.request.use( 
+service.interceptors.request.use(
     config => {
       // Do something before request is sent
       // set accessToken with request header
