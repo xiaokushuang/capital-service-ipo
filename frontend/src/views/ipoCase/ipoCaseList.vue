@@ -421,7 +421,7 @@
           <el-row :gutter="20">
             <el-col :span="24" style="padding-left: 8px; padding-right: 8px;">
               <div class="table">
-                <el-table @sort-change="sortChange" :data="tableData" style="width: 100%;margin-top: 2%;" v-loading="tableLoading" ref="tables" @row-click="itemClickHandler" class="case" element-loading-text="给我一点时间">
+                <el-table @sort-change="sortChange" :data="tableData" style="width: 100%" v-loading="tableLoading" ref="tables" @row-click="itemClickHandler" class="case" element-loading-text="给我一点时间">
                   <el-table-column align="left" width="109" label="公司">
                     <template slot-scope="scope">
                       {{scope.row.companyCode}}
@@ -429,23 +429,25 @@
                       {{scope.row.companyName}}
                     </template>
                   </el-table-column>
-                  <el-table-column align="left" label="案例标题" min-width="11%">
+                  <el-table-column align="left" label="案例标题" min-width="26%">
                     <template slot-scope="scope">
                       {{scope.row.titleStr}}
                     </template>
                   </el-table-column>
-                  <el-table-column align="right" prop="ipo_process_t" label="进程" sortable="custom" min-width="10%">
+                  <el-table-column align="left" prop="ipo_process_t" label="进程" sortable="custom" min-width="10%">
                     <template slot-scope="scope">
                       {{scope.row.processLabel}}
                       <br/>
+                      <span style="margin-left: -6%">
                       <svg-icon v-if="scope.row.iecResult==='00'" icon-class="ipoPass" class="svg-style"></svg-icon>
                       <svg-icon v-if="scope.row.iecResult==='01'" icon-class="ipoNoPass" class="svg-style"></svg-icon>
                       <svg-icon v-if="scope.row.iecResult==='02'" icon-class="ipoSuspendVote" class="svg-style"></svg-icon>
                       <svg-icon v-if="scope.row.iecResult==='03'" icon-class="ipoCancelReview" class="svg-style"></svg-icon>
+                        </span>
                     </template>
                   </el-table-column>
-                  <el-table-column :label="yearLabel">
-                    <el-table-column align="right" :prop="profit" label="净利润" sortable="custom" min-width="13%">
+                  <el-table-column :label="yearLabel" header-align="center">
+                    <el-table-column align="right" :prop="profit" label="净利润" sortable="custom" min-width="12%">
                       <template slot-scope="scope">
                         <span v-if="yearRadio===1">
                           <span v-if="scope.row.netProfitOne">{{scope.row.netProfitOne | dataInThRule}}亿元</span>
@@ -461,7 +463,7 @@
                         </span>
                       </template>
                     </el-table-column>
-                    <el-table-column align="right" :prop="reve" label="营业收入" sortable="custom" min-width="13%">
+                    <el-table-column align="right" :prop="reve" label="营业收入" sortable="custom" min-width="12%">
                       <template slot-scope="scope">
                         <span v-if="yearRadio===1">
                           <span v-if="scope.row.operateReveOne">{{scope.row.operateReveOne | dataInThRule}}亿元</span>
@@ -484,18 +486,18 @@
                       <span v-else>--</span>
                     </template>
                   </el-table-column>
-                  <el-table-column align="left" label="拟上市板块" min-width="14%">
+                  <el-table-column align="left" label="拟上市板块" min-width="8%">
                     <template slot-scope="scope">
                       {{scope.row.ipoPlateName}}
                     </template>
                   </el-table-column>
-                  <el-table-column align="right" prop="ipo_review_meeting_time_dt" label="审核时间" sortable="custom" min-width="13%">
+                  <el-table-column align="right" prop="ipo_review_meeting_time_dt" label="审核时间" sortable="custom" min-width="8%">
                     <template slot-scope="scope">
                       <span v-if="scope.row.reMeetingTime">{{scope.row.reMeetingTime}}</span>
                       <span v-else>--</span>
                     </template>
                   </el-table-column>
-                  <el-table-column align="right" prop="ipo_audit_duration_i" label="审核历时" sortable="custom" min-width="13%">
+                  <el-table-column align="right" prop="ipo_audit_duration_i" label="审核历时" sortable="custom" min-width="8%">
                     <template slot-scope="scope">
                       <span v-if="scope.row.auditDuration">{{scope.row.auditDuration}}天</span>
                       <span v-else>--</span>
@@ -1464,7 +1466,6 @@
   .svg-style {
     width: 4em !important;
     font-size: 18px;
-    margin: 0 2px;
     vertical-align: middle;
   }
 
@@ -1496,11 +1497,6 @@
     line-height: 15px;
     font-size: 12px;
     color: #FFFFFF
-  }
-
-  .container .table .el-table thead tr > th .cell {
-    padding: 10px;
-    text-align: center;
   }
 
   .topOne {
