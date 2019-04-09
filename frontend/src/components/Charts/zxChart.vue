@@ -111,7 +111,9 @@ beforeDestroy() {
               formatter: function (params) {
                 let str = params[0].name + '<br/>';
                 for(i=0;i<params.length;i++){
-                  str += params[i].marker + params[i].seriesName + ': ' + params[i].value + '%<br/>'
+                  if(params[i].value != null) {
+                    str += params[i].marker + params[i].seriesName + ': ' + params[i].value + '%<br/>'
+                  }
                 }
                 return str
               }
