@@ -1,8 +1,8 @@
 <template>
-    <div class="moreNotice">
+    <div class="moreNotice" >
          <el-table
             :data="moreNoticeList[0]"
-             height="380"
+             height="330"
             tooltip-effect="dark"
             style="width: 100%"
             @selection-change="handleSelectionChange">
@@ -10,20 +10,21 @@
             prop="relaId"
             type="selection"
             align="center"
-            width="100">
+            width="75">
             </el-table-column>
             <el-table-column
             label="公告日期"
             align="left"
-            width="150">
+            width="100">
             <template slot-scope="scope">{{ scope.row.publishTime }}</template>
             </el-table-column>
             <el-table-column
             style="color:#0099CC"
             prop="relationFileTitle"
             label="公告名称"
+            min-width="30%"
             align="left"
-            width="500">
+            >
             <template slot-scope="scope">
               <span style=" color:#0099CC">
                  <a v-if="scope.row.letterId!=''" @click="openLetterDetail(scope.row)">{{scope.row.relationFileTitle}}</a>
@@ -33,7 +34,7 @@
             </el-table-column>
             <el-table-column
             label="操作"
-            width="100"
+            width="50"
             align="left"
             show-overflow-tooltip>
             <template slot-scope="scope">

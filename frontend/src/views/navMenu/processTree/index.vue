@@ -188,7 +188,7 @@
                         </div>
                         <!-- 点击查看更多公告内容弹窗 -->
                         <div class="popWindow">
-                             <el-dialog :title= moreNoticeDailog :visible.sync="dialogVisible" :close-on-click-modal="false" width="73.5%" append-to-body id="moreNoticeDailog">
+                             <el-dialog :title= moreNoticeDailog :visible.sync="dialogVisible" :close-on-click-modal="false" append-to-body id="moreNoticeDailog">
                                 <div style="background: #cccccc">
                                     <moreNotice :moreNoticeList = "[moreNoticeList,fileType]"></moreNotice>
                                 </div>
@@ -383,7 +383,12 @@ export default {
              if(item.dateCompare == '0'){
                  document.getElementById('sign' + item.progressIndex).className = 'fa grayCircle fa-chevron-down'
             }else{
-               document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-down'
+                if(item.flag){
+                    document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-up'
+                }
+               else{
+                   document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-down'
+                   }
             }
             document.getElementById('num' + item.progressIndex).setAttribute("style", "display:none;");
         },

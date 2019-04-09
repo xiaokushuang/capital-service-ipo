@@ -9,33 +9,33 @@
         <ul style="display:flex;margin-bottom: 0;">
           <li style="margin-bottom:10px;position:relative" >
             <span>拟上市板块</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <div v-if="companyProfileList&&companyProfileList.ipoPlate"  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">{{companyProfileList.ipoPlate}}</div>
-            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">- -</div>
+            <div v-if="companyProfileList&&companyProfileList.ipoPlate"  style="color: #333333;margin-left: 27%;margin-top: -7%;line-height: 20px;">{{companyProfileList.ipoPlate}}</div>
+            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -7%;line-height: 20px;">- -</div>
           </li>
            <li style="margin-bottom:10px;position:relative" >
             <span>所属行业(证监会)</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <div v-if="companyProfileList&&companyProfileList.industryCsrc"  style="color: #333333;margin-left: 40.4%;margin-top: -6%;line-height: 20px;">{{companyProfileList.industryCsrc}}</div>
-            <div v-else  style="color: #333333;margin-left: 40.4%;margin-top: -6%;line-height: 20px;">- -</div>          
+            <div v-if="companyProfileList&&companyProfileList.industryCsrc"  style="color: #333333;margin-left: 40.4%;margin-top: -7%;line-height: 20px;">{{companyProfileList.industryCsrc}}</div>
+            <div v-else  style="color: #333333;margin-left: 40.4%;margin-top: -7%;line-height: 20px;">- -</div>          
           </li>
           <li style="margin-bottom:10px;position:relative" >
             <span>注册资本</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <div v-if="companyProfileList&&companyProfileList.registeredAssets"  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">{{companyProfileList.registeredAssets | dataInThRule}}万元</div>
-            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">- -</div>
+            <div v-if="companyProfileList&&companyProfileList.registeredAssets"  style="color: #333333;margin-left: 27%;margin-top: -7%;line-height: 20px;">{{companyProfileList.registeredAssets | dataInThRule}}万元</div>
+            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -7%;line-height: 20px;">- -</div>
           </li>
           <li style="margin-bottom:10px;position:relative" >
             <span>公司简称</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <div v-if="companyProfileList&&companyProfileList.companyName"  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">{{companyProfileList.companyName}}</div>
-            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">- -</div>
+            <div v-if="companyProfileList&&companyProfileList.companyName"  style="color: #333333;margin-left: 27%;margin-top: -7%;line-height: 20px;">{{companyProfileList.companyName}}</div>
+            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -7%;line-height: 20px;">- -</div>
           </li>
           <li style="margin-bottom:10px;position:relative" >
             <span>证券代码</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <div  v-if="companyProfileList&&companyProfileList.companyCode"  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">{{companyProfileList.companyCode}}</div>
-            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">- -</div>
+            <div  v-if="companyProfileList&&companyProfileList.companyCode"  style="color: #333333;margin-left: 27%;margin-top: -7%;line-height: 20px;">{{companyProfileList.companyCode}}</div>
+            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -7%;line-height: 20px;">- -</div>
           </li>
           <li style="margin-bottom:10px;position:relative" >
             <span>企业性质</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <div v-if="companyProfileList&&companyProfileList.companyNature"  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">{{companyProfileList.companyNature}}</div>
-            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -6%;line-height: 20px;">- -</div>
+            <div v-if="companyProfileList&&companyProfileList.companyNature"  style="color: #333333;margin-left: 27%;margin-top: -7%;line-height: 20px;">{{companyProfileList.companyNature}}</div>
+            <div v-else  style="color: #333333;margin-left: 27%;margin-top: -7%;line-height: 20px;">- -</div>
           </li>
         </ul>
         <div>
@@ -76,21 +76,6 @@
               <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('302')>-1">预计市值不低于人民币<span style="color:red">50亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">5亿元</span></div>
             </div>
           </li>
-          <!-- <li v-if="companyProfileList&&companyProfileList.issueCondition ==''" style="margin-bottom:30px;position:relative" >
-            <span style="display: inline-block;width: 65px;line-height: 20px;">发行人选择的上市标准</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <div v-if="companyProfileList&&companyProfileList.issueCondition ==''" style="color: #333333;margin-left: 9.4%;margin-top: -4.8%;line-height: 20px;">- -</div>
-            <div v-else style="color: #333333;margin-left: 9.4%;margin-top: -4.8%;line-height: 20px;">
-              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('101')>-1">预计市值不低于人民币<span style="color:red">10亿元</span>，最近两年净利润均为正且累计净利润不低于人民币<span style="color:red">5000万元</span>，或者预计市值不低于人民币<span style="color:red">10亿元</span>，最近一年净利润为正且营业收入不低于人民币<span style="color:red">1亿元</span></div>
-              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('102')>-1">预计市值不低于人民币<span style="color:red">15亿元</span>，最近一年营业收入不低于人民币<span style="color:red">2亿元</span>，且最近三年累计研发投入占最近三年累计营业收入的比例不低于<span style="color:red">15%</span></div>
-              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('103')>-1">预计市值不低于人民币<span style="color:red">20亿元</span>，最近一年营业收入不低于人民币<span style="color:red">3亿元</span>，且最近三年经营活动产生的现金流量净额累计不低于人民币<span style="color:red">1亿元</span></div>
-              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('104')>-1">预计市值不低于人民币<span style="color:red">30亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">3亿元</span></div>
-              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('105')>-1">预计市值不低于人民币<span style="color:red">40亿元</span>，主要业务或产品需经国家有关部门批准，市场空间大，目前已取得阶段性成果。医药行业企业需至少有一项核心产品获准开展二期临床试验，其他符合科创板定位的企业需具备明显的技术优势并满足相应条件</div>
-              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('201')>-1">预计市值不低于人民币<span style="color:red">100亿元</span></div>
-              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('202')>-1">预计市值不低于人民币<span style="color:red">50亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">5亿元</span></div>
-              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('301')>-1">预计市值不低于人民币<span style="color:red">100亿元</span></div>
-              <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('302')>-1">预计市值不低于人民币<span style="color:red">50亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">5亿元</span></div>
-            </div>
-          </li> -->
           <li :style="{'margin-bottom':'10px','position':'relative','margin-top':companyProfileList.issueCondition==''?'4%':'0%'}">
             <span>主营业务</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <div v-if="companyProfileList&&companyProfileList.majorBusinesses"  class="majorBusinesses">{{companyProfileList.majorBusinesses}}觉得卡萨丁开始JFK是经典福克斯的经的覅十四点哈佛导师覅但是覅但是</div>
@@ -656,7 +641,7 @@ export default {
               tabId: 'tab-first',
               noClick: true
           }
-          if(this.structureUrl || (this.gqTableList&&this.gqTableList.length>0)){
+          if((this.companyProfileList&&this.companyProfileList.structureUrl) || (this.gqTableList&&this.gqTableList.length>0)){
              ownershipStructureChart.noClick = false;
           }
           if(this.mainTableList.firstYearForIncome){
@@ -850,19 +835,19 @@ export default {
 .majorBusinesses{
   color:#333333; 
   margin-left: 9.4%;
-  margin-top: -2%;
+  margin-top: -2.1%;
   line-height: 20px;
 }
 .industryCsrc{
     color: #333333;
     margin-left: 40.4%;
-    margin-top: -6%;
+    margin-top: -7%;
     line-height: 20px;
 }
 .companyNature{
     color: #333333;
     margin-left: 27.4%;
-    margin-top: -6%;
+    margin-top: -7%;
     line-height: 20px;
 }
 </style>

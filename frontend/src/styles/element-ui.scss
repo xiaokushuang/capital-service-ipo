@@ -433,6 +433,12 @@
   height:84%;
   margin-top: 15vh;
 }
+// 进程树弹窗******************
+// .el-dialog{
+//   width: 73.6%;
+//   height:84%;
+//   margin-top: 15vh;
+// }
 // .el-checkbox-button.checkbox.el-checkbox-button--mini.is-checked{
 //   border-left:1px solid #3399ff;
 // }
@@ -562,4 +568,41 @@
 // 鼠标悬浮颜色
 .el-table--enable-row-hover .el-table__body tr:hover>td {
   background-color: #F5F7FA;
+}
+// 反馈意见单选按钮颜色
+.feedback  .el-radio-button__inner:hover {
+  color: #14bcf5;
+}
+.feedback .el-tabs__item:hover {
+  color: #14bcf5;
+  cursor: pointer;
+}
+.feedback .el-checkbox__inner:hover {
+  border-color: #14bcf5;
+}
+.feedback .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+  background-color: #14bcf5;
+  border-color: #14bcf5;
+}
+.feedback .el-checkbox__input.is-focus .el-checkbox__inner{
+  border-color:#cacaca;
+}
+.feedback .el-checkbox__inner{
+  border-color:#cacaca;
+}
+.feedback .el-button--primary.is-plain:focus, .el-button--primary.is-plain:hover {
+  background: #fff !important;
+  border-color: #14bcf5!important;
+  color: #14bcf5!important;
+}
+#componentId .el-checkbox-button.is-checked .el-checkbox-button__inner {
+  background-color: #fff;
+  color: #14bcf5;
+  border-color: #14bcf5;
+  border-left: none;
+  -webkit-box-shadow: -1px 0 0 0 #66b7ca;
+  box-shadow: -1px 0 0 0 #66b7ca;
+}
+.feedback .el-checkbox-button__inner:hover {
+  color: #14bcf5;
 }
