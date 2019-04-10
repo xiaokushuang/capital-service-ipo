@@ -7,42 +7,42 @@
                 <span class="titleText" id="financialStatementData">主要财务数据</span>
             </div>
             <div class="allAssets">
-                <span style="font-size:16px;color:#333">财务总体情况</span>
-                <span class="clear">
+                <span v-if="this.allAssetsTableTitle.firstYearDate " style="font-size:16px;color:#333">财务总体情况</span>
+                <span v-if="this.allAssetsTableTitle.firstYearDate "  class="clear">
                     <span style="float: right;font-size: 12px;color: #666666;">
                        单位：万元
                     </span>
                 </span>
                 <div class="allAssetsTable" style="margin-top: -10px;">
-                    <allAssetsTable></allAssetsTable>
+                    <allAssetsTable v-if="this.allAssetsTableTitle.firstYearDate "  :allAssetsTableList="[this.allAssetsTableTitle,this.allAssetsTableContent]"></allAssetsTable>
                 </div>
             </div>
             <div class="assets">
                 <!-- <p>资产与负债情况</p> -->
                 <div style="margin-top:24px;margin-bottom:12px">
-                    <span style="font-size:16px;color:#333">资产与负债情况</span>
-                    <span class="clear">
+                    <span  v-if="this.assetsOrDeptTableTitle.firstYearDate " style="font-size:16px;color:#333">资产与负债情况</span>
+                    <span v-if="this.assetsOrDeptTableTitle.firstYearDate "  class="clear">
                         <span style="float: right;font-size: 12px;color: #666666;">
                         单位：万元
                         </span>
                     </span>
                 </div>
                 <div class="assetsTable1">
-                    <assetsOrDebtTable></assetsOrDebtTable>
+                    <assetsOrDebtTable v-if="this.assetsOrDeptTableTitle.firstYearDate "  :assetsOrDeptTableList="[this.assetsOrDeptTableTitle,this.ipoAssetItemList,this.ipoDebtItemList,this.ipoEquityItemList]"></assetsOrDebtTable>
                 </div>
             </div>
             <div class="income">
                 <!-- <p>收入与利润情况</p>  -->
                 <div style="margin-top:24px;margin-bottom:12px">
-                    <span style="font-size:16px;color:#333">收入与利润情况</span>
-                    <span class="clear">
+                    <span v-if="this.incomeTableTitle.firstYearDate " style="font-size:16px;color:#333">收入与利润情况</span>
+                    <span v-if="this.incomeTableTitle.firstYearDate " class="clear">
                         <span style="float: right;font-size: 12px;color: #666666;">
                         单位：万元
                         </span>
                     </span>
                 </div>
                 <div class="assetsTable2">
-                    <incomeTable></incomeTable>
+                    <incomeTable v-if="this.incomeTableTitle.firstYearDate "  :incomeTableList="[this.incomeTableTitle,this.ipoProfitItemList,this.ipoCostItemList,this.ipoReturnOverList]"></incomeTable>
                 </div>
             </div>
         </div>
@@ -53,8 +53,8 @@
                 <span class="titleText" id="comparison">招股书列示同行业上市公司综合毛利率对比</span>
             </div>
             <div class="chartTable" v-for="item,index in maoChartTableData" :key="item.id">
-                <p style="font-family:'PingFang-SC-Regular', 'PingFang SC';font-weight:400;color:#666666;">{{item.remark}}：</p>
-                <div class="zxChart" style="height:300px;width:100%">
+                <p style="font-family:'PingFang-SC-Regular', 'PingFang SC';font-weight:400;color:#666666;font-size:14px; margin-top: 30px;margin-bottom:0px">{{item.remark}}</p>
+                <div class="zxChart" style="height:300px;width:100%; ">
                     <zxChart ref="zxChart" :zxIndex = "index"></zxChart>
                 </div>
                 <div class="table">
@@ -140,8 +140,13 @@ import allAssetsTable from "@/views/tables/allAssetsTable";
 import incomeTable from "@/views/tables/incomeTable";
 import zxChart from "@/components/Charts/zxChart";
 import compareTable from "@/views/tables/compareTable";
-// zxChart代码
 import echarts from 'echarts'
+// 财务总体情况
+ import { getSelectFinanceOverList } from '@/api/ipoCase/tableDemo'
+//  资产负债
+ import { getAssetsOrDebtData } from '@/api/ipoCase/tableDemo'
+//  收入与利润
+import { getSelectFinanceProfitList } from '@/api/ipoCase/tableDemo'
 import { getMaoChartTableData } from '@/api/ipoCase/tableDemo'
 export default {
     name:'financialInformation',
@@ -157,7 +162,35 @@ export default {
             // 折线图data
             zxChart:null,
             zxChartY:[],
-            zxChartX:[]
+            zxChartX:[],
+            // 财务总体情况
+             allAssetsTableTitle: {
+                forthYearDate:'',
+                thirdYearValue:'',
+                secondYearValue:'',
+                firstYearValue:''
+            },
+            allAssetsTableContent: null,
+            // 资产负债
+             assetsOrDeptTableTitle: {
+                forthYearDate:'',
+                thirdYearValue:'',
+                secondYearValue:'',
+                firstYearValue:''
+            },
+                ipoAssetItemList:[],//资产类项目列表
+                ipoDebtItemList:[],//负债类项目列表
+                ipoEquityItemList:[],//权益类项目列表
+           //收入与利润情况
+            incomeTableTitle: {
+                forthYearDate:'',
+                thirdYearValue:'',
+                secondYearValue:'',
+                firstYearValue:''
+                },
+            ipoProfitItemList :[],//收益类项目列表 
+            ipoCostItemList :[],//成本类项目列表
+            ipoReturnOverList :[],//利润类项目列表
         }
     },
     components: {
@@ -168,7 +201,6 @@ export default {
         compareTable
     },
     created(){
-        this.getPosition()
         this.initTableData()
     },
     mounted () {
@@ -184,7 +216,7 @@ export default {
                     notes: '',
                     important: false,
                     tabId: 'tab-second',
-                    noClick: false
+                    noClick: true
                 }
                 let comparison = {
                     id: 'comparison',
@@ -192,8 +224,14 @@ export default {
                     notes: '',
                     important: false,
                     tabId: 'tab-second',
-                    noClick: false
-                }              
+                    noClick: true
+                } 
+                 if(this.allAssetsTableTitle.firstYearDate ||  this.assetsOrDeptTableTitle.firstYearDate || this.incomeTableTitle.firstYearDate){
+                    financialStatementData.noClick = false;
+                    }
+                 if(this.maoChartTableData&&this.maoChartTableData.length>0){
+                    comparison.noClick = false;
+                 }             
                 titleList.push(financialStatementData)
                 titleList.push(comparison)
                 this.$emit('headCallBack', titleList);
@@ -208,8 +246,51 @@ export default {
             getMaoChartTableData(param).then(res => {
                 if(res.data.result&&res.data.result.length>0){
                     this.maoChartTableData = res.data.result                 
+                this.getPosition()
                 }
             }) 
+            // 资产总体
+             getSelectFinanceOverList(param).then(res => {
+                     this.allAssetsTableTitle = res.data.result.dateList
+                 if(res.data.result&&res.data.result.ipoFinanceOverList.length>0){
+                     this.allAssetsTableContent = res.data.result.ipoFinanceOverList 
+                 this.getPosition()
+                 }
+            })
+            // 资产负债
+            getAssetsOrDebtData(param).then(res => {
+                    if(res.data.result){
+                        this.assetsOrDeptTableTitle = res.data.result.dateList
+                        this.getPosition()
+                    }
+                    if(res.data.result&&res.data.result.ipoAssetItemList.length>0){
+                        this.ipoAssetItemList = res.data.result.ipoAssetItemList//资产类项目列表
+                    }
+                    if(res.data.result&&res.data.result.ipoDebtItemList.length>0){
+                        this.ipoDebtItemList = res.data.result.ipoDebtItemList//负债类项目列表
+                    }
+                    if(res.data.result&&res.data.result.ipoEquityItemList.length>0){
+                        this.ipoEquityItemList = res.data.result.ipoEquityItemList//权益类项目列表
+                    }
+                
+              })
+            //   收入与利润
+            getSelectFinanceProfitList(param).then(res => {
+                    if(res.data.result.dateList){
+                        this.incomeTableTitle = res.data.result.dateList
+                        this.getPosition()
+                    }
+                      if(res.data.result&&res.data.result.ipoProfitItemList.length>0){
+                          this.ipoProfitItemList = res.data.result.ipoProfitItemList//收益类项目列表
+                      }
+                      if(res.data.result&&res.data.result.ipoCostItemList.length>0){
+                          this.ipoCostItemList = res.data.result.ipoCostItemList//成本类项目列表
+                      }
+                      if(res.data.result&&res.data.result.ipoReturnOverList.length>0){
+                          this.ipoReturnOverList = res.data.result.ipoReturnOverList//利润类项目列表
+                      }
+                    
+             })
         },
         // 非空判断
         isNotEmpty(param) {

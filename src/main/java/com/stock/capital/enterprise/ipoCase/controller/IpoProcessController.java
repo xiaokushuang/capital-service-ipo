@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import io.swagger.annotations.Api;
@@ -51,28 +52,49 @@ public class IpoProcessController extends BaseController {
             @ApiImplicitParam(name = "fileType", value = "文件类型 01：公告 02：文件", required = true, paramType = "query", dataType = "String"),
     })
     @RequestMapping(value = "/downloadFile", method = RequestMethod.GET)
-    public JsonResponse<String> downLoadFile(String fileId, String fileType, HttpServletResponse response) {
-//        id = "AN201901201287197198";
-//        id = "AN201901201287197198,AN201901201287197197";
-//        id = "1106725448754480921,1106725448754109589";
-//        id = "1106725448754480921";
-//        fileType = "02";
+    public JsonResponse<String> downLoadFile(String fileId, String fileType, HttpServletResponse response, HttpServletRequest request) {
         JsonResponse<String> result = new JsonResponse<>();
         String fileName =  "";
         if (fileId.contains(",")) {
             if (fileType.equals("01")) {
-                fileName = ipoProcessService.downloadMultiplyAnnounce(fileId, response);
+                fileName = ipoProcessService.downloadMultiplyAnnounce(fileId, response,request);
             } else {
-                fileName = ipoProcessService.downloadMultiplyFile(fileId, response);
+                fileName = ipoProcessService.downloadMultiplyFile(fileId, response,request);
             }
         } else {
             if (fileType.equals("01")) {
-                fileName = ipoProcessService.downloadSingleAnnounce(fileId, response);
+                fileName = ipoProcessService.downloadSingleAnnounce(fileId, response,request);
             } else {
-                fileName = ipoProcessService.downloadSingleFile(fileId,response);
+                fileName = ipoProcessService.downloadSingleFile(fileId,response,request);
             }
         }
         result.setResult(fileName);
+        return result;
+    }
+
+    @ApiOperation(value = "检查所选文件是否存在", notes = "检查所选文件是否存在")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "fileId", value = "文件id", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "fileType", value = "文件类型 01：公告 02：文件", required = true, paramType = "query", dataType = "String"),
+    })
+    @RequestMapping(value = "/checkFile", method = RequestMethod.GET)
+    public JsonResponse<String> checkFile(String fileId, String fileType) {
+        JsonResponse<String> result = new JsonResponse<>();
+        String resultStr;
+        if (fileId.contains(",")) {
+            if (fileType.equals("01")) {
+                resultStr = ipoProcessService.checkMultiplyAnnounce(fileId);
+            } else {
+                resultStr = ipoProcessService.checkMultiplyFile(fileId);
+            }
+        } else {
+            if (fileType.equals("01")) {
+                resultStr = ipoProcessService.checkSingleAnnounce(fileId);
+            } else {
+                resultStr = ipoProcessService.checkSingleFile(fileId);
+            }
+        }
+        result.setResult(resultStr);
         return result;
     }
 }

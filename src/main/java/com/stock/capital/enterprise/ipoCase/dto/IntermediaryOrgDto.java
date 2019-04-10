@@ -37,6 +37,9 @@ public class IntermediaryOrgDto implements Serializable {
     @ApiModelProperty("协办人")
     private String assistPerson; //协办人
 
+    @ApiModelProperty("机构类型名称")
+    private String intermediaryTypeName;//机构类型名称
+
     public String getId() {
         return id;
     }
@@ -115,5 +118,13 @@ public class IntermediaryOrgDto implements Serializable {
 
     public void setAssistPerson(String assistPerson) {
         this.assistPerson = assistPerson;
+    }
+
+    public String getIntermediaryTypeName() {
+        return intermediaryTypeName;
+    }
+
+    public void setIntermediaryTypeName(String intermediaryTypeName) {
+        this.intermediaryTypeName = intermediaryTypeName;
     }
 }

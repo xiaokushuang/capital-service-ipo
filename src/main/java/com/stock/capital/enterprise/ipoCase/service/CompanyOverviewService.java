@@ -11,6 +11,7 @@ import com.stock.capital.enterprise.ipoCase.dto.MainIncomeVo;
 import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
 import com.stock.core.service.BaseService;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -113,13 +114,58 @@ public class CompanyOverviewService extends BaseService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         List<MainIncomeInfoDto> mainIncomeInfoList = ipoCaseBizMapper.getIncomeData(id);
         if (mainIncomeInfoList != null && !mainIncomeInfoList.isEmpty()) {
-            mainIncomeVo.setMainIncomeInfoList(mainIncomeInfoList);
             int lastYear = getYearByDate(mainIncomeInfoList.get(0).getReportPeriod());
             mainIncomeVo.setFirstYearForIncome((lastYear - 3) + "-12-31");
             mainIncomeVo.setSecondYearForIncome((lastYear - 2) + "-12-31");
             mainIncomeVo.setThirdYearForIncome((lastYear - 1) + "-12-31");
             mainIncomeVo
                 .setOnePeriodForIncome(sdf.format(mainIncomeInfoList.get(0).getReportPeriod()));
+            BigDecimal onePeriodAmountS = BigDecimal.ZERO;
+            BigDecimal onePeriodRatioS = BigDecimal.ZERO;
+            BigDecimal thirdYearAmountS = BigDecimal.ZERO;
+            BigDecimal thirdYearRatioS = BigDecimal.ZERO;
+            BigDecimal secondYearAmountS = BigDecimal.ZERO;
+            BigDecimal secondYearRatioS = BigDecimal.ZERO;
+            BigDecimal firstYearAmountS = BigDecimal.ZERO;
+            BigDecimal firstYearRatioS = BigDecimal.ZERO;
+            for (MainIncomeInfoDto dto : mainIncomeInfoList) {
+                if (dto.getOnePeriodAmount() != null) {
+                    onePeriodAmountS = onePeriodAmountS.add(dto.getOnePeriodAmount());
+                }
+                if (dto.getOnePeriodRatio() != null) {
+                    onePeriodRatioS = onePeriodRatioS.add(dto.getOnePeriodRatio());
+                }
+                if (dto.getThirdYearAmount() != null) {
+                    thirdYearAmountS = thirdYearAmountS.add(dto.getThirdYearAmount());
+                }
+                if (dto.getThirdYearRatio() != null) {
+                    thirdYearRatioS = thirdYearRatioS.add(dto.getThirdYearRatio());
+                }
+                if (dto.getSecondYearAmount() != null) {
+                    secondYearAmountS = secondYearAmountS.add(dto.getSecondYearAmount());
+                }
+                if (dto.getSecondYearRatio() != null) {
+                    secondYearRatioS = secondYearRatioS.add(dto.getSecondYearRatio());
+                }
+                if (dto.getFirstYearAmount() != null) {
+                    firstYearAmountS = firstYearAmountS.add(dto.getFirstYearAmount());
+                }
+                if (dto.getFirstYearRatio() != null) {
+                    firstYearRatioS = firstYearRatioS.add(dto.getFirstYearRatio());
+                }
+            }
+            MainIncomeInfoDto sumDto = new MainIncomeInfoDto();
+            sumDto.setBusinessName("合计");
+            sumDto.setOnePeriodAmount(onePeriodAmountS);
+            sumDto.setOnePeriodRatio(onePeriodRatioS);
+            sumDto.setThirdYearAmount(thirdYearAmountS);
+            sumDto.setThirdYearRatio(thirdYearRatioS);
+            sumDto.setSecondYearAmount(secondYearAmountS);
+            sumDto.setSecondYearRatio(secondYearRatioS);
+            sumDto.setFirstYearAmount(firstYearAmountS);
+            sumDto.setFirstYearRatio(firstYearRatioS);
+            mainIncomeInfoList.add(sumDto);
+            mainIncomeVo.setMainIncomeInfoList(mainIncomeInfoList);
         }
         return mainIncomeVo;
     }
@@ -134,53 +180,56 @@ public class CompanyOverviewService extends BaseService {
     public Map<String, List<IntermediaryOrgDto>> getIntermediaryOrgData(
         String id, String validFlag) {
         Map<String, List<IntermediaryOrgDto>> result = new HashMap<>();
-        List<IntermediaryOrgDto> sponsorList = new ArrayList<>();
-        List<IntermediaryOrgDto> securityList = new ArrayList<>();
-        List<IntermediaryOrgDto> lawyerList = new ArrayList<>();
-        List<IntermediaryOrgDto> accountList = new ArrayList<>();
-        List<IntermediaryOrgDto> assetList = new ArrayList<>();
+        List<IntermediaryOrgDto> mainList = new ArrayList<>();
+        List<IntermediaryOrgDto> moreList = new ArrayList<>();
         List<IntermediaryOrgDto> intermediaryOrgList =
             ipoCaseBizMapper.getIntermediaryOrgData(id, validFlag);
         if (intermediaryOrgList != null && !intermediaryOrgList.isEmpty()) {
             for (IntermediaryOrgDto intermediaryOrgDto : intermediaryOrgList) {
                 if (intermediaryOrgDto.getIntermediaryType() != null) {
-                    switch (intermediaryOrgDto.getIntermediaryType()) {
-                        case "1":
-                            sponsorList.add(intermediaryOrgDto);
-                            break;
-                        case "2":
-                            securityList.add(intermediaryOrgDto);
-                            break;
-                        case "3":
-                            lawyerList.add(intermediaryOrgDto);
-                            break;
-                        case "4":
-                            accountList.add(intermediaryOrgDto);
-                            break;
-                        case "5":
-                            assetList.add(intermediaryOrgDto);
-                            break;
-                        default:
-                            break;
+                    // 保荐机构
+                    if ("1".equals(intermediaryOrgDto.getIntermediaryType())) {
+                        mainList.add(intermediaryOrgDto);
+                    }
+                    // 证券公司
+                    if ("2".equals(intermediaryOrgDto.getIntermediaryType())) {
+                        moreList.add(intermediaryOrgDto);
+                    }
+                    // 律师事务所
+                    if ("3".equals(intermediaryOrgDto.getIntermediaryType())) {
+                        if (intermediaryOrgDto.getIntermediaryTypeName() != null && "律师事务所"
+                            .equals(intermediaryOrgDto.getIntermediaryTypeName())) {
+                            mainList.add(intermediaryOrgDto);
+                        } else {
+                            moreList.add(intermediaryOrgDto);
+                        }
+                    }
+                    // 会计事务所
+                    if ("4".equals(intermediaryOrgDto.getIntermediaryType())) {
+                        if (intermediaryOrgDto.getIntermediaryTypeName() != null && "会计师事务所"
+                            .equals(intermediaryOrgDto.getIntermediaryTypeName())) {
+                            mainList.add(intermediaryOrgDto);
+                        } else {
+                            moreList.add(intermediaryOrgDto);
+                        }
+                    }
+                    // 资产评估机构
+                    if ("5".equals(intermediaryOrgDto.getIntermediaryType())) {
+                        moreList.add(intermediaryOrgDto);
                     }
                 }
             }
         }
-        //保荐机构
-        result.put("sponsors", sponsorList);
-        //证券公司
-        result.put("securitys", securityList);
-        //律师事务所
-        result.put("lawyers", lawyerList);
-        //会计事务所
-        result.put("accounts", accountList);
-        //资产评估机构
-        result.put("assets", assetList);
+        //主要机构
+        result.put("mainList", mainList);
+        //更多机构
+        result.put("moreList", moreList);
         return result;
     }
 
     /**
      * 查询案例详情页头部展示数据
+     *
      * @param id
      * @return
      */

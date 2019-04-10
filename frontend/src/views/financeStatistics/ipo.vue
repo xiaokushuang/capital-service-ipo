@@ -1,42 +1,56 @@
 <template>
-<div>
+<div style="overflow-x:hidden">
+   <div style="width: 100%;height: 46px;background: #343b4a;line-height: 46px;">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAaCAYAAABPY4eKAAABS2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDIgNzkuMTYwOTI0LCAyMDE3LzA3LzEzLTAxOjA2OjM5ICAgICAgICAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIi8+CiA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgo8P3hwYWNrZXQgZW5kPSJyIj8+nhxg7wAAAexJREFUSInFlj1rVFEQhp9JYiSia0RELURBEMTKiKJFRNBCLGxErf0DQgptxEJMsBBU8gsUUlgZBBsLxUJtouBXodGAxMJCQkIQiZHNY3EneBGMe7PL5m2GOWfeeeZyOYcT6nngCHAUqFHoJfAdmMm8BqwGeoENwDfgPfAcGI2ISZqRul2ds9DGJepWqX3qBXVcXVDvqTubHeBVwnsbrO9Wr6VnVj3eDPxJFXjJdyl9P9R97YaH+ji979TOtsHTu98/OtWIp6PyhP9QRIwBbzI93VZ46mHGAysBf5txy0rAv2bsUf/bu9VwM85HxEK74Ys345dGilsN78v4YiXgxzLer+xs8pLpS++k2t2IpyVfrgZwI9OBiJhfTpPl3u2D6bteGVpq8jSbbG6wvku9pdbVy1V5XX/lWzNeVGeATmAa+ACMRcRUQjuAk8AgMAccjohnVeGRzdYBV4CBXJ8GRoAJYA2wg+IY9eZeDRgDbkfEo6rQRXWpN4FNwFrgTmmvBuwFFoBZiuPzGdgFnAW6gboaESHtktqjDqnz6oR6Vd3TtgFyiN3qg9Ij4pM6rJ5o5MREi4boB4aA/vIyxfP6NTAOTFI8xesUv3RbK9jlIQ6qd9WfLq26eqal8NIQ69Vz6oj6Uf2V0Cl1VD0E8BuLL6cTC+UXbQAAAABJRU5ErkJggg=="
+           style="height: 20px;padding-left: 16px;vertical-align: middle;">
+        <p style="display:inline-block;margin:0px;">
+            <span style="color:#ffffff;margin-left:8px;font-size: 14px;opacity:0.8">易董</span><span style="font-size:16px;color:#ffffff;opacity:0.18;margin-left: 16px">|</span><span style="color:#ffffff;opacity:0.8;font-size: 14px;margin-left: 16px">IPO详情</span>
+        </p>
+    </div>
      <!-- IPO标题头部 -->
-    <div  ref="titleHeader"
+      <div  ref="titleHeader"
       id="titleHeader"
-      style="width: 100%;height: 140px;padding-top: 18px;">
-      <div id="titleBody" ref="titleBody" style="{'width':'1200px','margin':' 0 auto'}">
-        <div class="bottomContent" style="position:relative">
-          <div v-if="headList.iecResult&&headList.iecResult == '00'" style="position: absolute;left: 79px; top: -35px;">
-            <img src="../../assets/images/htg1.png" alt="">
-          </div>
-           <div v-if="headList.iecResult&&headList.iecResult == '01'" style="position: absolute;left: 79px; top: -35px;">
-            <img src="../../assets/images/whtg1.png" alt="">
-          </div>
-          <div v-if="headList.iecResult&&headList.iecResult == '02'" style="position: absolute;left: 79px; top: -35px;">
-            <img src="../../assets/images/zhbj1.png" alt="">
-          </div>
-          <div v-if="headList.iecResult&&headList.iecResult == '03'" style="position: absolute;left: 79px; top: -35px;">
-            <img src="../../assets/images/qxsh1.png" alt="">
-          </div>
-          <div class="text">
-            <p>{{headList.title}}</p>
-            <span>股份公司建设时间：</span>
-            <span>{{headList.establishDate}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-            <span>&nbsp;&nbsp;&nbsp;&nbsp;辅导工作历时：</span>
-            <span v-if="headList.supportDuration">{{headList.supportDuration}}天</span>
-            <span v-else>- -</span>
-            <span>&nbsp;&nbsp;&nbsp;&nbsp;申报审核历时：</span>
-            <span v-if="headList.auditDuration">{{headList.auditDuration}}天</span>
-            <span v-else>- -</span>
-            <span>&nbsp;&nbsp;&nbsp;&nbsp;最新进程：</span>
-            <span style="color:#fff;opacity:1">{{headList.processLabel}}</span>
-          </div>
-          <div class="btn">
-            <span v-if="headList.greenPassage">{{headList.greenPassage}}</span>
+      style="width: 100%;height: 140px;position: relative">
+          <div style="width:1200px;position:absolute;left: 50%;top:50%; transform: translate(-50%,-50%);padding-left:97px;">
+            <div class="imgMark" style="position: absolute; z-index: 2;left: 5%;top:50%; transform: translate(-50%,-50%);z-index: 2">
+                <div v-if="headList.iecResult&&headList.iecResult == '00'" >
+                  <img src="../../assets/images/htg1.png" alt="">
+                </div>
+                <div v-if="headList.iecResult&&headList.iecResult == '01'">
+                  <img src="../../assets/images/whtg1.png" alt="">
+                </div>
+                <div v-if="headList.iecResult&&headList.iecResult == '02'">
+                  <img src="../../assets/images/zhbj1.png" alt="">
+                </div>
+                <div v-if="headList.iecResult&&headList.iecResult == '03'">
+                  <img src="../../assets/images/qxsh1.png" alt="">
+                </div>
+            </div>
+            <div class="text" style="position:relative;z-index: 4">
+              <p class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">{{headList.title}}</p>
+              <span style="font-size: 14px;opacity: 0.6;">股份公司设立时间：</span>
+              <span style="font-size: 14px;opacity: 0.6;">{{headList.establishDate}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+              <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;辅导工作历时：</span>
+              <span style="font-size: 14px;opacity: 0.6;" v-if="headList.supportDuration">{{headList.supportDuration}}天</span>
+              <span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
+              <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;申报审核历时：</span>
+              <span style="font-size: 14px;opacity: 0.6;" v-if="headList.auditDuration">{{headList.auditDuration}}天</span>
+              <span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
+              <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;最新进程：</span>
+              <span style="font-size: 14px;color:#fff;opacity:1">{{headList.processLabel}}</span>
+            </div>
+            <div class="btn" style="position:relative;z-index:4">
+              <span  v-if="headList.greenPassage" style=" display: inline-block;margin-right: 5px;margin-top:8px;background: #ff9900; font-size: 12px; color: #fff;border-radius: 2px;padding: 4.5px; position:relative;z-index:10;"
+                 >{{headList.greenPassage}}
+              </span>
+              <span v-if="specialArrange&&specialArrange.length>0">
+                <span v-for="data in specialArrange" style=" display: inline-block;margin-top:8px;background: #fe5461; font-size: 12px; color: #fff;border-radius: 2px;padding: 4.5px; position:relative;z-index:10;margin-right:10px"
+                  >{{data}}
+                </span>
+              </span>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
     <div id="concentBody" style="width:1200px;margin: 0 auto;">
         <el-row :gutter="24" class="h100">
             <el-col :span="18" class="chart" style="padding:0 40px 0 0">
@@ -44,9 +58,9 @@
                     <div class="el-tabs el-tabs--top" style="margin: 0 0 15px;width:100%">
                         <div id="headerTop" :class="['is-top title-fix', {'is-fixed': isFixed}]" :style="isFixed ? 'position: fixed; left: 0px; top: 0px;' : ''">
                           <!-- 吸顶效果 -->
-                            <div v-if="isFixed" :style="{ 'width': '62px','height': '40px', 'margin-top': 'auto','margin-right': '40px', 'margin-bottom': 'auto', 'margin-left': clientLeft}">
+                            <div v-if="isFixed" :style="{ 'width': '70px','height': '40px', 'margin-top': 'auto','margin-right': '40px', 'margin-bottom': 'auto', 'margin-left': clientLeft}">
                                 <span style="font-size: 20px;color: #333;display: block;margin-bottom: 10px;">IPO</span>
-                                <span style="font-size: 14px;color: #333;">IPO进程</span>
+                                <span v-show="this.companyProfileList&&this.companyProfileList.companyName" style="font-size: 14px;color: #333;">{{this.companyProfileList.companyName}}</span>
                             </div>
                             <div :style="{width:isFixed?'55.7%':'100%'}">
                               <!-- 菜单导航栏 -->
@@ -56,10 +70,10 @@
                                             <div class="el-tabs__active-bar is-top" :style="{width: tabBarWidth + 'px', transform: 'translateX(' + tabBarOffset + 'px)'}"></div>
                                             <div id="tab-first"  ref="tab-first"  aria-controls="pane-first"  :class="['el-tabs__item is-top', {'is-active': isActive === '1'}]" @click="onTabClick('1', $event)" style="padding-left: 0">公司概览</div>
                                             <div id="tab-second" ref="tab-second" aria-controls="pane-second" :class="['el-tabs__item is-top', {'is-active': isActive === '2'}]" @click="onTabClick('2', $event)">财务信息</div>
-                                            <div v-if="headList.haveFeedback=='2' || headList.haveFeedback=='1'" id="tab-third"  ref="tab-third" class="el-tabs__item1" aria-controls="pane-third" style="cursor:default;color:gray">反馈意见</div>
-                                            <div v-if="headList.haveFeedback=='0'" id="tab-third"  ref="tab-third" aria-controls="pane-third"  :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]" @click="onTabClick('3', $event)">反馈意见</div>
-                                            <div v-if="headList.haveExamine=='1'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" class="el-tabs__item1"  style="padding-right: 0;cursor:default;color:gray">审核结果及关注问题</div>
-                                            <div v-if="headList.haveExamine=='0'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" :class="['el-tabs__item is-top', {'is-active': isActive === '4'}]" @click="onTabClick('4', $event)" style="padding-right: 0">审核结果及关注问题</div>
+                                            <div v-if="headList.haveFeedback=='1' || headList.isTechBoard=='1'" id="tab-third"  ref="tab-third" class="el-tabs__item1" aria-controls="pane-third" style="cursor:default;color:gray">反馈意见</div>
+                                            <div v-if="headList.haveFeedback=='0' && headList.isTechBoard=='0'" id="tab-third"  ref="tab-third" aria-controls="pane-third"  :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]" @click="onTabClick('3', $event)">反馈意见</div>
+                                            <div v-if="headList.haveExamine=='1' || headList.isTechBoard=='1'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" class="el-tabs__item1"  style="padding-right: 0;cursor:default;color:gray">审核结果及关注问题</div>
+                                            <div v-if="headList.haveExamine=='0' && headList.isTechBoard=='0'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" :class="['el-tabs__item is-top', {'is-active': isActive === '4'}]" @click="onTabClick('4', $event)" style="padding-right: 0">审核结果及关注问题</div>
                                             <div id="tab-fifth"  ref="tab-fifth"  aria-controls="pane-fifth"  :class="['el-tabs__item is-top', {'is-active': isActive === '5'}]" @click="onTabClick('5', $event)">发行概况</div>
                                         </div>
                                     </div>
@@ -98,7 +112,7 @@
                             <div class="el-tabs__content">
                                 <!-- 动态加载tab -->
                               <keep-alive>
-                                <component :is = "showComponent" id="componentId" v-on:headCallBack="headCall" :headList="this.headList"></component>
+                                <component :is = "showComponent" id="componentId" v-on:headCallBack="headCall" :companyProfileList="this.companyProfileList"></component>
                               </keep-alive>
                             </div>
                         </div>
@@ -135,12 +149,13 @@
         <!-- <a href="javascript:scroll(0, 0)" title="返回顶部">返回顶部</a> -->
     </el-col>
     </el-row>
-</div>
+  </div>
 </div>
 </template>
 
 <script>
 import { getHeadData } from "@/api/ipoCase/companyProfile";
+import { getCaseDetail } from "@/api/ipoCase/companyProfile";
 // 导入导航栏五个组件
 import companyProfile from "../navMenu/companyProfile/companyProfile.vue";
 import financialInformation from "../navMenu/financialInformation/financialInformation";
@@ -216,13 +231,13 @@ export default {
           id:'2',
           name:'同行业毛利率对比'
         },
-         
+
       ],
       tabThreeList: [
-       
+
       ],
       tabFourthList: [
-        
+
       ],
       tabFifthList:[
          {
@@ -233,7 +248,7 @@ export default {
           id:'2',
           name:'发行费用'
         },
-         
+
       ],
       isActive: "1",
       tabBarWidth: "",
@@ -261,7 +276,22 @@ export default {
         supportDuration: '',
         title: ''
       },
-      placeholderHeight:'500px'
+      companyProfileList:{
+        actualController: "",
+        addrArea: "",
+        addrCity: "",
+        addrProv: "",
+        companyCode: "",
+        companyName: "",
+        companyNature: "",
+        companyZhName: "",
+        controlShareholder: "",
+        id: "",
+        registeredAssets: "",
+        structureLabel: "",
+        structureUrl: "",
+      },
+      specialArrange:''
     };
   },
   methods: {
@@ -274,7 +304,15 @@ export default {
          if(res.data.result){
            this.headList = res.data.result
          }
-      }) 
+         if(res.data.result&&res.data.result.specialArrange!=null){
+           this.specialArrange = res.data.result.specialArrange.split(',');
+         }
+       })
+       getCaseDetail(param).then(res => {
+          if(res.data.result){
+            this.companyProfileList = res.data.result
+          }
+      });
     },
     statusButtonClick(data) {
       this.statusButtonFlag = data;
@@ -358,7 +396,7 @@ export default {
                         targetList = document.getElementById('title-third').children;
                         let thirdFlag = 0
                         that.showComponent = feedback
-                        
+
                         // 第三tab页暂不需要锚点定位先注掉
                         // for (let i = 0; i < targetList.length; i++) {
                         //     if ((that.itemActiveThird + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
@@ -398,10 +436,10 @@ export default {
                         that.$refs.rightModule.treeListMethods(true);
                         targetList = document.getElementById('title-fifth').children;
                         let fifthFlag = 0;
-                                               
+
                         that.showComponent = issue
                         // 点击最后tab页，进程树展示不同内容
-                        
+
                         for (let i = 0; i < targetList.length; i++) {
                             if ((that.itemActiveFifth + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
                                 document.documentElement.scrollTop = document.getElementById(that.itemActiveFifth).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
@@ -479,12 +517,10 @@ export default {
         },
 
     styleInit() {
-      var h1 = this.$refs.titleHeader.offsetHeight;
-      var h2 = this.$refs.titleBody.offsetHeight;
-      this.topHeight =
-        (parseInt(String(h1).split("px")[0]) -
-          parseInt(String(h2).split("px")[0])) /
-        2;
+      // var h1 = this.$refs.titleHeader.offsetHeight;
+      // var h2 = this.$refs.titleBody.offsetHeight;
+      // this.topHeight = (parseInt(String(h1).split("px")[0]) - parseInt(String(h2).split("px")[0])) / 2;
+
     },
   },
   computed: {
@@ -566,17 +602,25 @@ export default {
 }
 // 头部背景图
 #titleHeader {
-  // background:blue;
   background-image: url("../../assets/images/IpoHeader.png");
+  color: #fff;
 }
 /* 头部文字标题 */
 .bottomContent {
-  width: 1200px;
+  // width: 1200px;
   color: #fff;
-  padding-left: 165px;
+  // padding-left: 165px;
   p {
-    font-size: 24px;
-    line-height: 0;
+    // width: 66%;
+    // margin-bottom:12px;
+    // margin-top:10px;
+    // font-size: 22px;
+    // color: rgb(255, 255, 255);
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+    // display: -webkit-box;
+    // -webkit-line-clamp: 2;
+    // -webkit-box-orient: vertical;
   }
   .text {
     margin-bottom: 8px;
@@ -588,10 +632,10 @@ export default {
       opacity: 0.6;
       position:relative;
       z-index:10;
-      
+
     }
   }
-  .btn span { 
+  .btn {
     display: inline-block;
     background: #ff9900;
     font-size: 12px;
@@ -611,27 +655,16 @@ export default {
 }
 
 .dialogtitle {
-  font-family: "MicrosoftYaHei", "Microsoft YaHei";
-  font-weight: 400;
-  font-style: normal;
-  font-size: 20px;
-  width: 75%;
-  color: #333;
-  /* margin-left: 10px; */
-  padding-right: 12px;
+    font-family: 'MicrosoftYaHei', 'Microsoft YaHei';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 20px;
+    width: 75%;
+    color: #333;
+    /* margin-left: 10px; */
+    padding-right: 12px;
 }
 
-.dialogtitle > .spanLable {
-  /* border: 1px #FF4040 solid !important; */
-  color: #ffffff !important;
-  background: #ff9900 !important;
-  height: 22px;
-  border-radius: 2px !important;
-  font-size: 12px !important;
-  padding: 0px 4px;
-  position: relative;
-  left: 10px;
-}
 
 #toTop {
   /* display: none; */

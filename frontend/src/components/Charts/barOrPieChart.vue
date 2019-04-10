@@ -1,5 +1,5 @@
 <template>
-    <div class="clear">
+    <div class="clear" id="chartParent">
          <div class="l" id="barChart" style="height:300px;width:50%"></div>
          <div class="l" id="pieChart" style="height:300px;width:50%"></div>
     </div>
@@ -7,7 +7,6 @@
 
 <script>
 import echarts from 'echarts'
-import { getTableData } from '@/api/ipoCase/tableDemo'
 export default {
   data() {
     return {
@@ -51,7 +50,7 @@ export default {
                 var dataList = this.mainTableList
                  this.initBarChart(dataList);
                // 最开始初始化饼状图，默认传的是第三年的数据
-                 this.initPieChart(dataList.mainIncomeInfoList,'','',dataList.onePeriodForIncome);
+                 this.initPieChart(dataList.mainIncomeInfoList.slice(0,-1),'','',dataList.onePeriodForIncome);
       },
        //   初始化柱状图
     initBarChart(dataList) {
@@ -64,20 +63,26 @@ export default {
       this.barChart = echarts.init(document.getElementById('barChart'))
 
     //  循环获取柱状图数据
-      for (var i = 0; i < dataList.mainIncomeInfoList.length; i++) {
-          this.lengendData.push(dataList.mainIncomeInfoList[i].businessName);
+      for (var i = 0; i < dataList.mainIncomeInfoList.slice(0,-1).length; i++) {
+          this.lengendData.push(dataList.mainIncomeInfoList.slice(0,-1)[i].businessName);
           this.barYY = [];
-          var a1 = dataList.mainIncomeInfoList[i].firstYearAmount;
-          var a2 = dataList.mainIncomeInfoList[i].secondYearAmount;
-          var a3 = dataList.mainIncomeInfoList[i].thirdYearAmount;
-          var a4 = dataList.mainIncomeInfoList[i].onePeriodAmount;
+          var a1 = dataList.mainIncomeInfoList.slice(0,-1)[i].firstYearAmount;
+          var a2 = dataList.mainIncomeInfoList.slice(0,-1)[i].secondYearAmount;
+          var a3 = dataList.mainIncomeInfoList.slice(0,-1)[i].thirdYearAmount;
+          var a4 = dataList.mainIncomeInfoList.slice(0,-1)[i].onePeriodAmount;
           this.barYY.push(a1)
           this.barYY.push(a2)
           this.barYY.push(a3)
           this.barYY.push(a4)
+          var barBusinessName;
+          // if(dataList.mainIncomeInfoList[i].businessName.length>7){
+          //   barBusinessName = dataList.mainIncomeInfoList[i].businessName.slice(0,10)+'..'
+          // }else{
+            barBusinessName = dataList.mainIncomeInfoList.slice(0,-1)[i].businessName
+          // }
           this.barChartY.push(
                                 {
-                                    name:dataList.mainIncomeInfoList[i].businessName,
+                                    name:barBusinessName,
                                     type:'bar',
                                     barWidth:'50%',
                                     stack: '总量',
@@ -102,23 +107,54 @@ export default {
                 bottom:175,
                 textStyle: {
                     color: "#333333",
-                    fontWeight: "normal",
+                    fontWeight: "bold",
                     fontSize: 16
                 }
                 },
-                tooltip: {
+            tooltip: {
                 trigger: "axis",
+                position:function (point, params, dom, rect, size) {
+                  dom.style.position = 'fixed';
+                  let pos;
+                  let posY;
+                  let posX;
+                  if ((window.navigator.userAgent.toLowerCase().indexOf("trident") > -1 && window.navigator.userAgent.indexOf("rv") > -1)) {
+                    pos = document.getElementById("chartParent").getClientRects()[0];
+                    posX = pos.left + point[0] + 20;
+                    posY = pos.top + point[1];
+                  }else {
+                    pos = document.getElementById("chartParent").getBoundingClientRect();
+                    console.log("1")
+                    posY = pos.y + point[1];
+                    posX = pos.x + point[0] + 20;
+                  }
+
+                  return [posX, posY];
+                },
                 axisPointer: {
                     type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
                 }
-                },
 
-                grid: {
+            },
+
+                //     legend: {
+                //     selectedMode:false,//取消图例上的点击事件
+                //     // orient: "vertical",
+                //     x: "0%", // 'center' | 'left' | {number},
+                //     y: "10%", // 'center' | 'bottom' | {number}
+                //     data: this.lengendData,
+                //     itemWidth: 10, // 图例图形宽度
+                //     itemHeight: 10, // 图例图形高度
+                //     textStyle: {
+                //     color: "#333" // 图例文字颜色
+                //     }
+                //  },
+            grid: {
                 left: "3%",
                 right: "4%",
                 bottom: "3%",
                 containLabel: true
-                },
+            },
             xAxis: {
                 type: 'category',
                 data:this.barChartX
@@ -153,8 +189,11 @@ initPieChart(dataList,nameTempO,num,flag) {
         name:"",
         value:""
       };
-      // debugger
-      obj.name = dataList[i].businessName
+      // if(dataList[i].businessName.length>7){
+      //   obj.name = dataList[i].businessName.slice(0,6)+'...';
+      // }else{
+        obj.name = dataList[i].businessName
+      // }
       obj.value = dataList[i].onePeriodAmount;
       this.pieData.push(obj);
     }
@@ -175,36 +214,45 @@ initPieChart(dataList,nameTempO,num,flag) {
                 text: "• "+nameTemp+" _ 主营业务分布",
                 textStyle: {
                     color: "#333",
-                    fontWeight: "normal",
+                    fontWeight: "bold",
                     fontSize: 14
                 },
-                left: 'center',
-                top:50,
+                left: '10%',
+                top:'10px',
                 // padding:'60%',
          },
         tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
-         legend: {
-                    selectedMode:false,//取消图例上的点击事件
-                    orient: "vertical",
-                    x: "360", // 'center' | 'left' | {number},
-                    y: "200", // 'center' | 'bottom' | {number}
-                    data: this.lengendData,
-                    itemWidth: 10, // 图例图形宽度
-                    itemHeight: 10, // 图例图形高度
-                    textStyle: {
-                    color: "#333" // 图例文字颜色
-                    }
-                 },
+        //  legend: {
+        //             selectedMode:false,//取消图例上的点击事件
+        //             // orient: "vertical",
+        //             x: "0%", // 'center' | 'left' | {number},
+        //             y: "80%", // 'center' | 'bottom' | {number}
+        //             data: this.lengendData,
+        //             itemWidth: 10, // 图例图形宽度
+        //             itemHeight: 10, // 图例图形高度
+        //             textStyle: {
+        //             color: "#333" // 图例文字颜色
+        //             }
+        //          },
         series: [
           {
             name: "访问来源",
             type: "pie",
-            radius: "60%",
-            center: ["55%", "67%"],
+            radius: "50%",
+            center: ["55%", "50%"],
             data:this.pieData,
+            label: {
+              formatter: function (params) {
+                let str = params.name;
+                if(str.length>7){
+                  str = str.substring(0, 6).concat('...');
+                }
+                return str;
+              }
+            },
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,

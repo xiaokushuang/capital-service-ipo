@@ -1,10 +1,9 @@
 package com.stock.capital.enterprise.ipoCase.controller;
 
+import com.stock.capital.enterprise.ipoCase.dao.IpoCaseListMapper;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo;
 import com.stock.capital.enterprise.ipoCase.service.IpoCaseListService;
-import com.stock.core.Constant;
-import com.stock.core.dao.RedisDao;
 import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.QueryInfo;
 import io.swagger.annotations.Api;
@@ -31,7 +30,7 @@ public class IpoCaseListController {
     private IpoCaseListService ipoCaseListService;
 
     @Autowired
-    private RedisDao redisDao;
+    private IpoCaseListMapper ipoCaseListMapper;
 
 
     @ApiOperation(value = "检索列表接口", notes = "检索列表接口描述")
@@ -44,9 +43,9 @@ public class IpoCaseListController {
         boolean signSymbol = false;
         String companyId = page.getCondition().getCompanyId();
         if (companyId != null && !"".equals(companyId)) {
-            Map<String, String> auth = (Map<String, String>) redisDao
-                .getObject(Constant.TENANT_AUTH_KEY_PREFIX + companyId);
-            if ("00".equals(auth.get("authorizeType"))) {// 授权类型:签约
+            int count = ipoCaseListMapper.queryAuthByCompanyId(companyId);
+            // 授权类型:签约 或 证监会 或 金融办
+            if (count > 0) {
                 //展示id
                 signSymbol = true;
             }

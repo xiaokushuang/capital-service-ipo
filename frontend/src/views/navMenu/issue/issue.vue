@@ -16,8 +16,8 @@
                         <span v-else> - - </span>
                       </el-col>
                       <el-col :span="6" class="label"><span>发行价格</span></el-col>
-                      <el-col :span="6" class="value"> 
-                           <span v-if="issueData.issuePrice"> {{issueData.issuePrice | dataInThRule}} 万元</span>
+                      <el-col :span="6" class="value">
+                           <span v-if="issueData.issuePrice"> {{issueData.issuePrice | dataInThRule}} 元/股</span>
                            <span v-else> - - </span>
                        </el-col>
                   </el-row>
@@ -48,11 +48,11 @@
                     <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>网上发行数量</span></el-col>
                       <el-col :span="6" class="value">
-                        <span v-if="issueData.shareIssueOn"> {{issueData.shareIssueOn | dataInThRule}} 万元</span>
+                        <span v-if="issueData.shareIssueOn"> {{issueData.shareIssueOn | dataInThRule}} 万股</span>
                         <span v-else> - - </span>
                       </el-col>
                       <el-col :span="6" class="label"><span>网下配售数量</span></el-col>
-                      <el-col :span="6" class="value"> 
+                      <el-col :span="6" class="value">
                         <span v-if="issueData.sharePlaceOff"> {{issueData.sharePlaceOff | dataInThRule}} 万股</span>
                         <span v-else> - - </span>
                       </el-col>
@@ -65,19 +65,19 @@
                       </el-col>
                       <el-col :span="6" class="label"><span>发行后市盈率</span></el-col>
                       <el-col :span="6" class="value">
-                         <span v-if="issueData.peIssueA"> {{issueData.peIssueA | dataInThRule}} %</span>
+                         <span v-if="issueData.peIssueA"> {{issueData.peIssueA | dataInThRule}} 倍</span>
                         <span v-else> - - </span>
                       </el-col>
-                  </el-row>  
+                  </el-row>
                   <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>发行前每股收益</span></el-col>
                       <el-col :span="6" class="value">
-                      <span v-if="issueData.epsIssueB"> {{issueData.epsIssueB | dataInThRule}} 万/股</span>
+                      <span v-if="issueData.epsIssueB"> {{issueData.epsIssueB | dataInThRule}} 元/股</span>
                       <span v-else> - - </span>
                       </el-col>
                       <el-col :span="6" class="label"><span>发行后每股收益</span></el-col>
                       <el-col :span="6" class="value">
-                        <span v-if="issueData.epsIssueA"> {{issueData.epsIssueA | dataInThRule}} 万/股</span>
+                        <span v-if="issueData.epsIssueA"> {{issueData.epsIssueA | dataInThRule}} 元/股</span>
                         <span v-else> - - </span>
                        </el-col>
                   </el-row>
@@ -86,7 +86,7 @@
                       <el-col :span="6" class="value">
                        <span v-if="issueData.issueMethod" @mouseenter="mouseOverSpreadText(issueData.issueMethod)" class="distribution" style="cursor:pointer">
                           {{getContent(issueData.issueMethod)}}
-                      </span> 
+                      </span>
                       <span v-else> - - </span>
                       </el-col>
                       <el-col :span="6" class="label"><span>承销方式</span></el-col>
@@ -100,13 +100,14 @@
             </el-row>
         </div>
         <!-- 发行费用 -->
-        <div class="issueMoney">
+        <div class="issueMoney" >
              <div class="title">
                 <span class="littleRectangle"></span>
                 <span class="titleText" id="distributionCosts">发行费用</span>
             </div>
             <!-- table2 -->
-             <el-table :data="issueFeeData" style="width: 100%" stripe border show-summary>
+            <p v-if="issueFeeData&&issueFeeData.length>0" style="font-size:12px;color:#666;float:right">人民币/万元</p>
+             <el-table v-if="issueFeeData&&issueFeeData.length>0" :data="issueFeeData" style="width: 100%" stripe border>
                 <el-table-column type="index" label="序号" align='center' width="117">
                 <template slot-scope="scope">
                             {{scope.$index+1}}
@@ -114,22 +115,20 @@
                 </el-table-column>
                 <el-table-column style="width:30%" prop="feeType" label="费用明细" align='left'>
                 </el-table-column>
-                <el-table-column style="width:30%" prop="feeAmount" label="金额（人民币/万元）" align='right'>
+                <el-table-column style="width:30%" prop="feeAmount" label="金额" align='right'>
                    <template slot-scope="scope">
                       <span v-if="scope.row.feeAmount"> {{scope.row.feeAmount | dataInThRule}}</span>
                       <span v-else> - - </span>
                   </template>
                 </el-table-column>
-                <el-table-column style="width:30%" prop="feeRatio" label="占募集资金总额比例(%)" align='right'>
+                <el-table-column style="width:30%" prop="feeRatio" label="占募集资金总额比例" align='right'>
                    <template slot-scope="scope">
-                      <span v-if="scope.row.feeRatio"> {{scope.row.feeRatio | dataInThRule}}</span>
+                      <span v-if="scope.row.feeRatio"> {{scope.row.feeRatio | dataInThRule}}%</span>
                       <span v-else> - - </span>
                   </template>
                 </el-table-column>
             </el-table>
         </div>
-        <!-- 占位取高度 -->
-        <div id="placeholderHeight" style="visibility:hidden">11111</div>
     </div>
 </template>
 <script>
@@ -158,12 +157,12 @@ export default {
             sumFina:'',
             uwMethod:'',
           },
+          dataFlag: false,
           caseId:this.$store.state.app.caseId,
       }
   },
    created() {
     this.initTableData()
-    this.getPosition()
   },
   mounted(){
   },
@@ -173,49 +172,63 @@ export default {
       const param = {
         id:this.caseId
       }
+         getIssueFeeData(param).then(res=>{
+           if(res.data.result&&res.data.result.length>0){
+             this.issueFeeData = res.data.result
+           }
+             this.getPosition()
+         })
        getIssueData(param).then(res => {
          if(res.data.result){
-           this.issueData = res.data.result
+           this.dataFlag = true;
+           this.issueData = res.data.result;
          }
-      }) 
-      getIssueFeeData(param).then(res=>{
-        if(res.data.result&&res.data.result.length>0){
-          this.issueFeeData = res.data.result
-          
-        }
+         this.getPosition();
       })
     },
      getPosition(){
-           //返回父组件用于锚点定位头
-                let titleList = [];
-                let distributionData = {
-                    id: 'distributionData',
-                    name: '发行数据',
-                    notes: '',
-                    important: false,
-                    tabId: 'tab-fifth',
-                    noClick: false
-                }
-                let distributionCosts = {
-                    id: 'distributionCosts',
-                    name: '发行费用',
-                    notes: '',
-                    important: false,
-                    tabId: 'tab-fifth',
-                    noClick: false
-                }              
-                titleList.push(distributionData)
-                titleList.push(distributionCosts)
-                this.$emit('headCallBack', titleList);
-            //返回父组件用于锚点定位尾
+    // //返回父组件用于锚点定位头
+        let titleList = [];
+        let distributionData = {
+            id: 'distributionData',
+            name: '发行数据',
+            notes: '',
+            important: false,
+            tabId: 'tab-fifth',
+            noClick: true
+        }
+        let distributionCosts = {
+            id: 'distributionCosts',
+            name: '发行费用',
+            notes: '',
+            important: false,
+            tabId: 'tab-fifth',
+            noClick: true
+        }
+        if(this.dataFlag){
+          distributionData.noClick = false;
+        }
+        if(this.issueFeeData&&this.issueFeeData.length>0){
+          distributionCosts.noClick = false;
+        }
+        titleList.push(distributionData)
+        titleList.push(distributionCosts)
+        this.$emit('headCallBack', titleList);
+    //         //返回父组件用于锚点定位尾
      },
-    //  
+    //
      // 鼠标移入表格内容加title
     mouseOverSpreadText(title){
+      if(title.length>13){
         $(".distribution").attr("title",title)
+      }
     },
    getContent(title){
-      return title.substring(0,13) + '...'
+     if(title.length>13){
+       return title.substring(0,13) + '...'
+     }else{
+       return title
+     }
    },
     // 非空判断
     isNotEmpty(param) {

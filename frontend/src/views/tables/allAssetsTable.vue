@@ -1,32 +1,45 @@
 <template>
   <div class="table-class allAssetsTable">
-    <el-table :data="tableContent" border style="width: 100%;margin-top: 20px">
-      <el-table-column align="left" class-name="table_cell" label="项目" width="156">
+    <el-table :data="allAssetsTableList[1]" border style="width: 100%;margin-top: 20px">
+      <el-table-column align="left" class-name="table_cell" label="项目" width="184">
          <template slot-scope="scope">
             <span>{{isNotEmpty(scope.row.itemName ) ? scope.row.itemName  : '- -'}}</span>
          </template>
       </el-table-column>
-      <el-table-column align="right" :label="tableTitle.forthYearDate">
+      <el-table-column align="right" :label="allAssetsTableList[0].forthYearDate">
           <template slot-scope="scope">
-                      <span v-if="scope.row.forthYearValue"> {{scope.row.forthYearValue | dataInThRule}}</span>
+                      <span v-if="scope.row.forthYearValue"> 
+                        {{scope.row.forthYearValue | dataInThRule}}
+                        <span v-if="scope.row.itemName === '资产负债率'">%</span>
+                        <span v-if="scope.row.itemName === '净资产收益率ROE(加权)'">%</span>
+                        </span>
                       <span v-else> - - </span>
           </template>
       </el-table-column>
-      <el-table-column align="right"  :label="tableTitle.thirdYearDate" header-align="right">
+      <el-table-column align="right"  :label="allAssetsTableList[0].thirdYearDate" header-align="right">
         <template slot-scope="scope">
-            <span v-if="scope.row.thirdYearValue"> {{scope.row.thirdYearValue | dataInThRule}}</span>
+            <span v-if="scope.row.thirdYearValue"> {{scope.row.thirdYearValue | dataInThRule}}
+               <span v-if="scope.row.itemName === '资产负债率'">%</span>
+                <span v-if="scope.row.itemName === '净资产收益率ROE(加权)'">%</span>
+            </span>
             <span v-else> - - </span>
         </template>
       </el-table-column>
-      <el-table-column align="right"  :label="tableTitle.secondYearDate" header-align="right">
+      <el-table-column align="right"  :label="allAssetsTableList[0].secondYearDate" header-align="right">
           <template slot-scope="scope">
-            <span v-if="scope.row.secondYearValue"> {{scope.row.secondYearValue | dataInThRule}}</span>
+            <span v-if="scope.row.secondYearValue"> {{scope.row.secondYearValue | dataInThRule}}
+               <span v-if="scope.row.itemName === '资产负债率'">%</span>
+                <span v-if="scope.row.itemName === '净资产收益率ROE(加权)'">%</span>
+            </span>
             <span v-else> - - </span>
         </template>
       </el-table-column>
-      <el-table-column align="right"  :label="tableTitle.firstYearDate" header-align="right">
+      <el-table-column align="right"  :label="allAssetsTableList[0].firstYearDate" header-align="right">
           <template slot-scope="scope">
-            <span v-if="scope.row.firstYearValue"> {{scope.row.firstYearValue | dataInThRule}}</span>
+            <span v-if="scope.row.firstYearValue"> {{scope.row.firstYearValue | dataInThRule}}
+               <span v-if="scope.row.itemName === '资产负债率'">%</span>
+                <span v-if="scope.row.itemName === '净资产收益率ROE(加权)'">%</span>
+            </span>
             <span v-else> - - </span>
           </template>
       </el-table-column>
@@ -35,7 +48,7 @@
         label="趋势"
         align="center">
         <template slot-scope="scope">
-            <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe">查看</span>           
+            <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe;cursor:pointer">查看</span>           
           </template>
       </el-table-column>
     </el-table>
@@ -47,42 +60,46 @@
   </div>
 </template>
 <script>
-import { getSelectFinanceOverList } from '@/api/ipoCase/tableDemo'
+// import { getSelectFinanceOverList } from '@/api/ipoCase/tableDemo'
 import tanZxChart1  from '@/components/Charts/tanZxChart1'
 export default {
   name: 'mainTable',
   data() {
     return {
-      tableTitle: {
+      allAssetsTableTitle: {
         forthYearDate:'',
         thirdYearValue:'',
         secondYearValue:'',
         firstYearValue:''
       },
-      tableContent: null,
+      allAssetsTableContent: null,
       zxChartData:null,
       // 控制弹窗是否展示
       dialogChartVisible: false,
       caseId:this.$store.state.app.caseId,
     }
   },
-  components:{
+  props:[ "allAssetsTableList"],
+
+    components:{
     tanZxChart1
   },
   created() {
-    this.initTableData()
+    // this.initTableData()
+  },
+  mounted () {
   },
   methods: {
-    initTableData() {
-       // 动态传id
-      const param = {
-        id:this.caseId
-      }
-      getSelectFinanceOverList(param).then(response => {
-          this.tableTitle = response.data.result.dateList
-          this.tableContent = response.data.result.ipoFinanceOverList 
-      })
-    },
+    // initTableData() {
+    //    // 动态传id
+    //   const param = {
+    //     id:this.caseId
+    //   }
+    //   getSelectFinanceOverList(param).then(response => {
+    //       this.allAssetsTableTitle = response.data.result.dateList
+    //       this.allAssetsTableContent = response.data.result.ipoFinanceOverList 
+    //   })
+    // },
     handleClose(){
         this.dialogChartVisible = false
         // this.zxChartData = null

@@ -38,6 +38,16 @@
               style="margin-top:24px;padding: 0 0 0 0"
               class="filter-tree"
               node-key="id"
+              :data="specialArrangeTag"
+              :props="left_tree"
+              :default-expand-all="true"
+              @node-click="handleNodeClickForSearch"
+              ref="specialArrangeTagRef">
+          </el-tree>
+          <el-tree
+              style="margin-top:24px;padding: 0 0 0 0"
+              class="filter-tree"
+              node-key="id"
               :data="sfcTreeTag"
               :props="left_tree"
               :default-expand-all="true"
@@ -151,13 +161,76 @@
           <el-row :gutter="24">
             <el-col :span='8'>
               <el-date-picker size='small' v-model="fsProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
-                              start-placeholder="发审会审核时间" end-placeholder="发审会审核时间" align="center">
+                              start-placeholder="审核时间" end-placeholder="审核时间" align="center">
               </el-date-picker>
             </el-col>
             <el-col :span='8'>
-              <el-multiple-selection v-if="durationShow" :range="true" :tree-data="optionAuditDuration" placeholder="申报审核历时（天）" size="small full" :multiple="false"
+              <el-multiple-selection v-if="durationShow" :range="true" :tree-data="optionAuditDuration" placeholder="审核历时" size="small full" :multiple="false"
                                      unit="天" :ran="optionDto" @sure-click="rangeAuditDuration">
               </el-multiple-selection>
+            </el-col>
+            <el-col :span='7'>
+              <el-select ref="selectIssueCondition" v-model="issueCondition" title="注册制上市条件检索" placeholder="注册制上市条件检索"
+                         size="small full" :tselect=true @visible-change="calls()"
+                         @sure-click="sure('selectIssueCondition')"
+                         @clear-click="clearLocal('treeIssueCondition')">
+                <el-option :label="issueCondition" :value="issueConditionValue">
+                  <el-tree :data="issueConditionList" show-checkbox node-key="id" ref="treeIssueCondition" highlight-current
+                           :props="default_tree" @check-change="selectHandleNodeClick('issueCondition','treeIssueCondition')"></el-tree>
+                </el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="1">
+              <el-popover
+                  placement="bottom"
+                  width="600"
+                  trigger="hover">
+                <div style="font-size: 12px">
+                  <div>
+                    <a style="color: #1990FE;margin-left: -5px" @click="openNewRule()">《上海证券交易所科创板股票上市规则》：</a>
+                  </div>
+                  <div style="margin-top: 5px">2.1.2</div>
+                  <div>发行人申请在本所科创板上市，市值及财务指标应当至少符合下列标准中的一项：</div>
+                  <div>
+                    （一）预计市值不低于人民币10亿元，最近两年净利润均为正且累计净利润不低于人民币5000万元，或者预计市值不低于人民币10亿元，最近一年净利润为正且营业收入不低于人民币1亿元；
+                  </div>
+                  <div>（二）预计市值不低于人民币15亿元，最近一年营业收入不低于人民币2亿元，且最近三年累计研发投入占最近三年累计营业收入的比例不低于15%；</div>
+                  <div>（三）预计市值不低于人民币20亿元，最近一年营业收入不低于人民币3亿元，且最近三年经营活动产生的现金流量净额累计不低于人民币1亿元；</div>
+                  <div>（四）预计市值不低于人民币30亿元，且最近一年营业收入不低于人民币3亿元；</div>
+                  <div>
+                    （五）预计市值不低于人民币40亿元，主要业务或产品需经国家有关部门批准，市场空间大，目前已取得阶段性成果。医药行业企业需至少有一项核心产品获准开展二期临床试验，其他符合科创板定位的企业需具备明显的技术优势并满足相应条件。
+                  </div>
+                  <div>
+                    本条所称净利润以扣除非经常性损益前后的孰低者为准，所称净利润、营业收入、经营活动产生的现金流量净额均指经审计的数值。
+                  </div>
+                  <div style="margin-top: 5px">2.1.3</div>
+                  <div>
+                    符合《国务院办公厅转发证监会关于开展创新企业境内发行股票或存托凭证试点若干意见的通知》（国办发﹝2018﹞21号）相关规定的红筹企业，可以申请发行股票或存托凭证并在科创板上市。
+                  </div>
+                  <div>
+                    营业收入快速增长，拥有自主研发、国际领先技术，同行业竞争中处于相对优势地位的尚未在境外上市红筹企业，申请在科创板上市的，市值及财务指标应当至少符合下列标准之一：
+                  </div>
+                  <div>（一）预计市值不低于人民币100亿元；</div>
+                  <div>（二）预计市值不低于人民币50亿元，且最近一年营业收入不低于人民币5亿元。</div>
+                  <div style="margin-top: 5px">2.1.4</div>
+                  <div>
+                    发行人具有表决权差异安排的，市值及财务指标应当至少符合下列标准中的一项：
+                  </div>
+                  <div>
+                    （一）预计市值不低于人民币100亿元；
+                  </div>
+                  <div>
+                    （二）预计市值不低于人民币50亿元，且最近一年营业收入不低于人民币5亿元。
+                  </div>
+                  <div>
+                    发行人特别表决权股份的持有人资格、公司章程关于表决权差异安排的具体规定，应当符合本规则第四章第五节的规定。
+                  </div>
+                  <div>
+                    本规则所称表决权差异安排，是指发行人依照《公司法》第一百三十一条的规定，在一般规定的普通股份之外，发行拥有特别表决权的股份（以下简称特别表决权股份）。每一特别表决权股份拥有的表决权数量大于每一普通股份拥有的表决权数量，其他股东权利与普通股份相同。
+                  </div>
+                </div>
+                <span slot="reference" class="home_new" style="margin-top: 5px;background-position:-69px -20px;cursor: pointer"></span>
+              </el-popover>
             </el-col>
           </el-row>
           <div v-show="searchFlag" style="display:flex">
@@ -265,7 +338,7 @@
                     <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:7px">
                       <span class="quan" style="position: relative; top: -17px;;">2</span>
                       <div style="display: inline-block;margin-left: 0.5%;">
-                        最近<span style="color:#14BCF5">3</span>个会计年度营业收入<span style="font-weight: 700; color: #14BCF5">累计超过3亿元</span>(人民币)；<br>
+                        最近<span style="color:#14BCF5">3</span>个会计年度营业收入<span style="color: #14BCF5">累计超过3亿元</span>(人民币)；<br>
                         <span><span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">3</span>个会计年度经营活动产生的现金流量净额<span style="color:#14BCF5">累计超过5000万元</span>(人民币)；</span>
                       </div>
                     </div>
@@ -299,7 +372,7 @@
                     <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
                       <span class="quan bottomQuan">2</span>
                       <div class="bottomTwo">
-                        最近<span style="font-weight: 700; color: #14BCF5">2</span>年连续盈利，最近两年净利润<span style="font-weight: 700; color: #14BCF5">累计不少于1000万元</span>;<br>
+                        最近<span style="color: #14BCF5">2</span>年连续盈利，最近两年净利润<span style="color: #14BCF5">累计不少于1000万元</span>;<br>
                         <span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">1</span>年盈利，最近一年营业收入<span style="color:#14BCF5">不少于5000万元。</span>(
                         净利润以扣除非经常性损益前后孰低者为计算依据)
                       </div>
@@ -329,8 +402,8 @@
               <span style="font-size: 12px;color: #333">发审会审核时间↓</span>
               <span style="font-size: 12px;color: #666">排序。</span>
               <a style="color:#1990fe;font-size: 12px" @click="searchFlag == false ? searchFlag=true : searchFlag=false">
-                <a v-if="searchFlag">收起高级检索</a>
-                <a v-else>展开高级检索</a>
+                <a v-if="searchFlag">收起核准制上市条件检索</a>
+                <a v-else>展开核准制上市条件检索</a>
               </a>
             </el-col>
             <el-col :span="12" style="text-align: right">
@@ -348,32 +421,33 @@
           <el-row :gutter="20">
             <el-col :span="24" style="padding-left: 8px; padding-right: 8px;">
               <div class="table">
-                <el-table @sort-change="sortChange" :data="tableData" border style="width: 100%;margin-top: 2%;" v-loading="tableLoading" ref="tables" element-loading-text="给我一点时间">
-                  <el-table-column align="left" prop="ipo_company_code_t" width="109" sortable="custom" label="公司">
+                <el-table @sort-change="sortChange" :data="tableData" style="width: 100%" v-loading="tableLoading" ref="tables" @row-click="itemClickHandler" class="case" element-loading-text="给我一点时间">
+                  <el-table-column align="left" width="100" label="公司">
                     <template slot-scope="scope">
                       {{scope.row.companyCode}}
                       <br/>
                       {{scope.row.companyName}}
                     </template>
                   </el-table-column>
-                  <el-table-column align="right" label="案例标题" min-width="11%">
+                  <el-table-column align="left" label="案例标题" min-width="22%">
                     <template slot-scope="scope">
-                      <a v-if="scope.row.id" class="bluetext" :title="scope.row.title" @click="clickHandler(scope.row.id)">{{scope.row.title}}</a>
-                      <a v-else :title="scope.row.title" @click="clickUnHandler()">{{scope.row.title}}</a>
+                      {{scope.row.titleStr}}
                     </template>
                   </el-table-column>
-                  <el-table-column align="right" prop="ipo_process_t" label="进程" sortable="custom" min-width="10%">
+                  <el-table-column align="left" prop="ipo_process_t" label="进程" sortable="custom" min-width="10%">
                     <template slot-scope="scope">
                       {{scope.row.processLabel}}
                       <br/>
+                      <span style="margin-left: -6%">
                       <svg-icon v-if="scope.row.iecResult==='00'" icon-class="ipoPass" class="svg-style"></svg-icon>
                       <svg-icon v-if="scope.row.iecResult==='01'" icon-class="ipoNoPass" class="svg-style"></svg-icon>
                       <svg-icon v-if="scope.row.iecResult==='02'" icon-class="ipoSuspendVote" class="svg-style"></svg-icon>
                       <svg-icon v-if="scope.row.iecResult==='03'" icon-class="ipoCancelReview" class="svg-style"></svg-icon>
+                        </span>
                     </template>
                   </el-table-column>
-                  <el-table-column :label="yearLabel">
-                    <el-table-column align="right" :prop="profit" label="净利润" sortable="custom" min-width="13%">
+                  <el-table-column :label="yearLabel" header-align="center">
+                    <el-table-column align="right" :prop="profit" label="净利润" sortable="custom" min-width="10%">
                       <template slot-scope="scope">
                         <span v-if="yearRadio===1">
                           <span v-if="scope.row.netProfitOne">{{scope.row.netProfitOne | dataInThRule}}亿元</span>
@@ -389,7 +463,7 @@
                         </span>
                       </template>
                     </el-table-column>
-                    <el-table-column align="right" :prop="reve" label="营业收入" sortable="custom" min-width="13%">
+                    <el-table-column align="right" :prop="reve" label="营业收入" sortable="custom" min-width="11%">
                       <template slot-scope="scope">
                         <span v-if="yearRadio===1">
                           <span v-if="scope.row.operateReveOne">{{scope.row.operateReveOne | dataInThRule}}亿元</span>
@@ -406,24 +480,24 @@
                       </template>
                     </el-table-column>
                   </el-table-column>
-                  <el-table-column align="right" prop="ipo_sum_asset_d" label="总资产" sortable="custom" min-width="12%">
+                  <el-table-column align="right" prop="ipo_sum_asset_d" label="总资产" sortable="custom" min-width="10%">
                     <template slot-scope="scope">
                       <span v-if="scope.row.sunAsset">{{scope.row.sunAsset | dataInThRule}}亿元</span>
                       <span v-else>--</span>
                     </template>
                   </el-table-column>
-                  <el-table-column align="right" label="拟上市板块" min-width="14%">
+                  <el-table-column align="left" label="拟上市板块" width="110">
                     <template slot-scope="scope">
                       {{scope.row.ipoPlateName}}
                     </template>
                   </el-table-column>
-                  <el-table-column align="right" prop="ipo_review_meeting_time_dt" label="发审会审核时间" sortable="custom" min-width="13%">
+                  <el-table-column align="right" prop="ipo_review_meeting_time_dt" label="审核时间" sortable="custom" width="100">
                     <template slot-scope="scope">
                       <span v-if="scope.row.reMeetingTime">{{scope.row.reMeetingTime}}</span>
                       <span v-else>--</span>
                     </template>
                   </el-table-column>
-                  <el-table-column align="right" prop="ipo_audit_duration_i" label="审核历时" sortable="custom" min-width="13%">
+                  <el-table-column align="right" prop="ipo_audit_duration_i" label="审核历时" sortable="custom" width="100">
                     <template slot-scope="scope">
                       <span v-if="scope.row.auditDuration">{{scope.row.auditDuration}}天</span>
                       <span v-else>--</span>
@@ -466,6 +540,8 @@
         marketTreeTagRef: '',
         greenTreeTag: [],
         greenTreeTagRef: '',
+        specialArrangeTag: [],
+        specialArrangeTagRef: '',
         sfcTreeTag: [],
         sfcTreeTagRef: '',
         default_tree: {
@@ -479,6 +555,8 @@
         title: '',
         industryCsrc: '',
         industryCsrcValue: '',
+        issueCondition: '',
+        issueConditionValue: '',
         companyNature: '',
         companyNatureValue: '',
         ipoNum: '',
@@ -494,6 +572,8 @@
         intermediaryCode: '',
         industryCrscList: [],
         treeIndustryCsrc: '',
+        issueConditionList: [],
+        treeIssueCondition: '',
         companyNatureList: [],
         treeCompanyNature: '',
         ipoNumList: [],
@@ -644,6 +724,7 @@
         ipoPlate: '',
         marketType: '',
         greenPassage: '',
+        specialArrange: '',
         belongsBureau: '',
         issueShow: true,
         issueFeeShow: true,
@@ -734,6 +815,7 @@
             companyId: _self.$store.state.app.companyId,
             title: _self.title,//标题关键字（包含全部以空格断开）
             industryCsrc: _self.industryCsrcValue,//发行人行业（证监会）
+            issueCondition: _self.issueConditionValue,//发行人选择的上市条件
             companyNature: _self.companyNatureValue,//企业性质
             ipoNum: _self.ipoNumValue,//申报次数
             caseStatus: _self.caseStatusValue,//IPO进程
@@ -768,6 +850,9 @@
             greenPassage: _self.$refs.greenTreeTagRef.getCheckedNodes().map((item) => {
               return item.labelValue
             }).join(','),//绿色通道
+            specialArrange: _self.$refs.specialArrangeTagRef.getCheckedNodes().map((item) => {
+              return item.labelValue
+            }).join(','),//公司治理特殊安排
             belongsBureau: _self.$refs.sfcTreeTagRef.getCheckedNodes().map((item) => {
               return item.labelValue
             }).join(','),//所属证监局
@@ -806,6 +891,15 @@
               label_level: 0,
               label_code: "IPO_GREEN_PASSAGE",
               children: response.data.result.greenTreeTag
+            }];
+            _self.specialArrangeTag = [{
+              label_sort: 1,
+              name: "公司治理特殊安排(" + response.data.result.arrangeTreeNum + ')',
+              id: "0",
+              label_name: "公司治理特殊安排",
+              label_level: 0,
+              label_code: "IPO_SPECIAL_ARRANGE",
+              children: response.data.result.specialArrangeTag
             }];
             _self.sfcTreeTag = [{
               label_sort: 1,
@@ -855,6 +949,9 @@
           case 'IPO_GREEN_PASSAGE':
             this.$refs.greenTreeTagRef.setCheckedKeys([node.data.id]);
             break;
+          case 'IPO_SPECIAL_ARRANGE':
+            this.$refs.specialArrangeTagRef.setCheckedKeys([node.data.id]);
+            break;
           case 'SFC':
             this.$refs.sfcTreeTagRef.setCheckedKeys([node.data.id]);
             break;
@@ -878,6 +975,8 @@
         _self.title = '';//标题
         _self.industryCsrcValue = '';//行业
         _self.industryCsrc = '';
+        _self.issueConditionValue = '';//发行人选择的上市条件
+        _self.issueCondition = '';
         _self.companyNatureValue = '';//企业性质
         _self.companyNature = '';
         _self.ipoNum = '';//ipo次数
@@ -896,8 +995,10 @@
         _self.$refs.plateTreeTagRef.setCheckedKeys([]);
         _self.$refs.marketTreeTagRef.setCheckedKeys([]);
         _self.$refs.greenTreeTagRef.setCheckedKeys([]);
+        _self.$refs.specialArrangeTagRef.setCheckedKeys([]);
         _self.$refs.sfcTreeTagRef.setCheckedKeys([]);
         _self.$refs.treeIndustryCsrc.setCheckedKeys([]);
+        _self.$refs.treeIssueCondition.setCheckedKeys([]);
         _self.$refs.treeCompanyNature.setCheckedKeys([]);
         _self.$refs.treeIpoNum.setCheckedKeys([]);
         _self.$refs.treeVerifyResult.setCheckedKeys([]);
@@ -976,6 +1077,9 @@
           if (response.data.result) {
             if (response.data.result.industryCrscList && response.data.result.industryCrscList.length > 0) {
               _self.industryCrscList = response.data.result.industryCrscList;
+            }
+            if (response.data.result.issueConditionList && response.data.result.issueConditionList.length > 0) {
+              _self.issueConditionList = response.data.result.issueConditionList;
             }
             if (response.data.result.companyNatureList && response.data.result.companyNatureList.length > 0) {
               _self.companyNatureList = response.data.result.companyNatureList;
@@ -1074,23 +1178,30 @@
       handleSelect(item) {
         this.intermediaryCode = item.labelValue;
       },
-      clickHandler(id) {
-        var caseId = id.substring(3, id.length);
-        const _self = this;
-        const {href} = _self.$router.resolve({
-          name: 'caseDetail',
-          query: {caseId: caseId, access_token: _self.$store.state.app.token}
-        });
-        window.open(href, '_blank');
-      },
-      clickUnHandler() {
-        let url = window.location.href;
-        url = url.replace(this.$route.path, '/ipoPopWin');
-        iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
+      itemClickHandler(row) {
+        let id = row.id;
+        if (id) {
+          var caseId = id.substring(3, id.length);
+          const _self = this;
+          const {href} = _self.$router.resolve({
+            name: 'caseDetail',
+            query: {caseId: caseId, access_token: _self.$store.state.app.token}
+          });
+          window.open(href, '_blank');
+        } else {
+          let url = window.location.href;
+          url = url.replace(this.$route.path, '/ipoPopWin');
+          iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
+        }
       },
       openNew() {
         const _self = this;
         const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=745777672757626842&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
+        window.open(href, '_blank');
+      },
+      openNewRule() {
+        const _self = this;
+        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=746412002825257522&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
         window.open(href, '_blank');
       }
     },
@@ -1355,7 +1466,6 @@
   .svg-style {
     width: 4em !important;
     font-size: 18px;
-    margin: 0 2px;
     vertical-align: middle;
   }
 
@@ -1389,44 +1499,85 @@
     color: #FFFFFF
   }
 
-  .container .table .el-table thead tr > th .cell {
-    padding: 10px;
-    text-align: center;
-  }
-  .topOne{
-    display: inline-block;margin-top: -4%;margin-left: 4%;
-  }
-  @media screen and (max-width: 1920px) and (min-width: 1400px) {
-    .topOne{
-      display: inline-block;margin-top: -4%;margin-left: 0.5%;
-    }
-  }
-  .bottomOne{
-    display: inline-block;margin-top: -4%;margin-left: 4%;
-  }
-  @media screen and (max-width: 1920px) and (min-width: 1400px) {
-    .bottomOne{
-      display: inline-block;margin-top: -4%;margin-left: 2.5%;
-    }
-  }
-  .bottomTwo{
-    display: inline-block;margin-top: -4%;margin-left: 4%;
+  .topOne {
+    display: inline-block;
+    margin-top: -4%;
+    margin-left: 4%;
   }
 
   @media screen and (max-width: 1920px) and (min-width: 1400px) {
-    .bottomTwo{
-      display: inline-block;margin-top: 0%;
+    .topOne {
+      display: inline-block;
+      margin-top: -4%;
+      margin-left: 0.5%;
+    }
+  }
+
+  .bottomOne {
+    display: inline-block;
+    margin-top: -4%;
+    margin-left: 4%;
+  }
+
+  @media screen and (max-width: 1920px) and (min-width: 1400px) {
+    .bottomOne {
+      display: inline-block;
+      margin-top: -4%;
+      margin-left: 2.5%;
+    }
+  }
+
+  .bottomTwo {
+    display: inline-block;
+    margin-top: -4%;
+    margin-left: 4%;
+  }
+
+  @media screen and (max-width: 1920px) and (min-width: 1400px) {
+    .bottomTwo {
+      display: inline-block;
+      margin-top: 0%;
       margin-left: 0.5%;
     }
   }
 
   .bottomQuan {
-    position: relative;top: -5px;
+    position: relative;
+    top: -5px;
   }
+
   @media screen and (max-width: 1920px) and (min-width: 1400px) {
     .bottomQuan {
-      position: relative;top: -17px;
+      position: relative;
+      top: -17px;
     }
+  }
+
+  .container .case .el-table__body tr:hover {
+    cursor: pointer;
+  }
+
+  .container .case .el-table__row td {
+    border-right: none;
+  }
+
+  .container .case .el-table__header th {
+    border-right: none;
+  }
+
+  .container .case .el-table__header th:nth-child(4) {
+    border-bottom-color: #fff;
+  }
+
+  .container .el-table th, .el-table tr {
+    height: 40px !important;
+  }
+
+  .home_new {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url(../../assets/images/home_new.png);
   }
 </style>
 

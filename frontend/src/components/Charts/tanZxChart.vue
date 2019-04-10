@@ -34,6 +34,8 @@ export default {
                 trigger: 'axis'
             },
             legend: {
+                    // x: "0%", // 'center' | 'left' | {number},
+                    // y: "90%", // 'center' | 'bottom' | {number}
             },
             grid: {
                 left: '3%',

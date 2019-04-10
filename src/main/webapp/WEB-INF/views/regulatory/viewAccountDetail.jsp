@@ -121,6 +121,7 @@ table tbody tr td.left {
                                 	<c:choose>
                                         <c:when test="${cl.hasedRandomInspection == '1'}">是</c:when>
                                         <c:when test="${cl.hasedRandomInspection == '0'}">否</c:when>
+                                        <c:when test="${cl.hasedRandomInspection == '2'}">不适用</c:when>
                                         <c:otherwise>${cl.hasedRandomInspection}</c:otherwise>
                                     </c:choose>
                                 </td>

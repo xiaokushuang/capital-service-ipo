@@ -45,7 +45,7 @@
         LEFT JOIN LICO_FP_ISSUEPLACE lfp ON linfo.FINANCECODE = lfp.FINANCECODE
         LEFT JOIN LICO_FP_UNDERWRITING lfu ON linfo.FINANCECODE = lfu.FINANCECODE
     WHERE
-        linfo.COMPANYCODE = #{orgCode}
+        linfo.COMPANYCODE = #{orgCode} AND linfo.FINATYPE = '001'
     limit 1
   </select>
 </mapper>

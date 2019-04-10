@@ -10,7 +10,7 @@
                             <img  v-if="boxDataItem.treeTypeCode" src="../../../assets/images/jinchengjian.png" alt="">
                             <p v-if="boxDataItem.treeTypeCode == '02'">上市</p>
                             <p v-if="boxDataItem.treeTypeCode == '01'">审核</p>
-                            <p v-if="boxDataItem.treeTypeCode == '00'">辅导工作进程</p>
+                            <p v-if="boxDataItem.treeTypeCode == '00'">辅导</p>
                             <p v-if="boxDataItem.treeTypeCode == '03'">股份公司设立</p>
                         </div>
 
@@ -68,31 +68,31 @@
                                             <span>
                                                 <span>
                                                     <a v-if="boxDataItem.treeTypeCode == '02'" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告 ></a>
-                                                    <a v-else @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多审核意见 ></a>
+                                                    <a v-else @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多文件 ></a>
                                                 </span>
                                             </span>
                                         </div>
                                         <div v-show="item.relaList.length!=0" v-if="!item.flag" style="margin-bottom: 14px;margin-top: 8px;">
                                             <span>
                                                 <span>
-                                                    <!-- 第一个进程展示的是‘查看公告’ -->
+                                                     <!-- 第一个进程展示的是‘查看公告’ -->
                                                     <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, null)" class="moreNoticeCss">查看公告 ></div>
-                                                    <!-- 第二个进程展示的是‘查看审核意见’ -->
-                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, null)" class="moreNoticeCss">查看审核意见 ></div>
+                                                    <!-- 第二个进程展示的是‘查看文件’ -->
+                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, null)" class="moreNoticeCss">查看文件 ></div>
                                                 </span>
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                                     <!-- 三个点展开全部  [在第一个和最后一个节点之间] -->
-                                <div v-if="!lastTab">
+                                <div v-if="!lastTab&&boxDataItem.proList.length>2">
                                     <div v-if="boxDataItem.treeTypeCode == '02'" >
                                         <p v-show="index == boxDataItem.proList.length-1" class="spread sandianClass" v-if="boxDataItem.spreadFlag" @click="handlePackUp(boxDataItem)" style="font-size:14px;cursor:pointer;line-height:17px"><span>收起</span></p>
                                         <p v-show=" index == 0" class="spread sandianClass spreadTitle" v-else  ><span  @click="handleSpread(boxDataItem)" @mouseenter="handleMouseenterSpread(boxDataItem)" @mouseleave="handleMouseleaveSpread(boxDataItem)">...</span></p>
                                     </div>
                                 </div>
                                 <!-- 当点击最后一个tab页时，上市没有展开收起，其他两个有展开收起 -->
-                                <div v-if="lastTab">
+                                <div v-if="lastTab&&boxDataItem.proList.length>2">
                                     <div v-if="boxDataItem.treeTypeCode == '00'||boxDataItem.treeTypeCode == '01'" >
                                         <p v-show="index == boxDataItem.proList.length-1" class="spread sandianClass" v-if="boxDataItem.spreadFlag" @click="handlePackUp(boxDataItem)" style="font-size:14px;cursor:pointer;line-height:17px"><span>收起</span></p>
                                         <p v-show=" index == 0" class="spread sandianClass spreadTitle" v-else  ><span  @click="handleSpread(boxDataItem)" @mouseenter="handleMouseenterSpread(boxDataItem)" @mouseleave="handleMouseleaveSpread(boxDataItem)">...</span></p>
@@ -151,31 +151,31 @@
                                             <span>
                                                 <span>
                                                     <a v-if="boxDataItem.treeTypeCode == '02'" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告 ></a>
-                                                    <a v-else @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多审核意见 ></a>
+                                                    <a v-else @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多文件 ></a>
                                                 </span>
                                             </span>
                                         </div>
                                         <div   v-show="item.relaList.length!=0" v-if="!item.flag" style="margin-bottom: 14px;margin-top: 8px;">
                                             <span>
                                                 <span>
-                                                    <!-- 第一个进程展示的是‘查看公告’ -->
-                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each'  + item.progressIndex,item, null)" class="moreNoticeCss">查看公告 ></div>
-                                                    <!-- 第二个进程展示的是‘查看审核意见’ -->
-                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each'  + item.progressIndex,item, null)" class="moreNoticeCss">查看审核意见 ></div>
+                                                     <!-- 第一个进程展示的是‘查看公告’ -->
+                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, null)" class="moreNoticeCss">查看公告 ></div>
+                                                    <!-- 第二个进程展示的是‘查看文件’ -->
+                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, null)" class="moreNoticeCss">查看文件 ></div>
                                                 </span>
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                                     <!-- 三个点展开全部  [在第一个和最后一个节点之间] -->
-                                <div v-if="!lastTab">
+                                <div v-if="!lastTab&&boxDataItem.proList.length>2">
                                     <div v-if="boxDataItem.treeTypeCode == '02'" >
                                         <p v-show="index == boxDataItem.proList.length-1" class="spread sandianClass" v-if="boxDataItem.spreadFlag" @click="handlePackUp(boxDataItem)" style="font-size:14px;cursor:pointer;line-height:17px"><span>收起</span></p>
                                         <p v-show=" index == 0" class="spread sandianClass spreadTitle" v-else  ><span  @click="handleSpread(boxDataItem)" @mouseenter="handleMouseenterSpread(boxDataItem)" @mouseleave="handleMouseleaveSpread(boxDataItem)">...</span></p>
                                     </div>
                                 </div>
                                 <!-- 当点击最后一个tab页时，上市没有展开收起，其他两个有展开收起 -->
-                                <div v-if="lastTab">
+                                <div v-if="lastTab&&boxDataItem.proList.length>2">
                                     <div v-if="boxDataItem.treeTypeCode == '00'||boxDataItem.treeTypeCode == '01'" >
                                         <p v-show="index == boxDataItem.proList.length-1" class="spread sandianClass" v-if="boxDataItem.spreadFlag" @click="handlePackUp(boxDataItem)" style="font-size:14px;cursor:pointer;line-height:17px"><span>收起</span></p>
                                         <p v-show=" index == 0" class="spread sandianClass spreadTitle" v-else  ><span  @click="handleSpread(boxDataItem)" @mouseenter="handleMouseenterSpread(boxDataItem)" @mouseleave="handleMouseleaveSpread(boxDataItem)">...</span></p>
@@ -188,7 +188,7 @@
                         </div>
                         <!-- 点击查看更多公告内容弹窗 -->
                         <div class="popWindow">
-                             <el-dialog :title= moreNoticeDailog :visible.sync="dialogVisible" :close-on-click-modal="false" width="73.5%" append-to-body id="moreNoticeDailog">
+                             <el-dialog :title= moreNoticeDailog :visible.sync="dialogVisible" :close-on-click-modal="false" append-to-body id="moreNoticeDailog">
                                 <div style="background: #cccccc">
                                     <moreNotice :moreNoticeList = "[moreNoticeList,fileType]"></moreNotice>
                                 </div>
@@ -383,7 +383,12 @@ export default {
              if(item.dateCompare == '0'){
                  document.getElementById('sign' + item.progressIndex).className = 'fa grayCircle fa-chevron-down'
             }else{
-               document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-down'
+                if(item.flag){
+                    document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-up'
+                }
+               else{
+                   document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-down'
+                   }
             }
             document.getElementById('num' + item.progressIndex).setAttribute("style", "display:none;");
         },
@@ -427,7 +432,7 @@ export default {
 
 <style scoped lang="scss">
 .gonggao{
-    color:#0099cc;
+    color:#14bcf5;
     font-size:14px;
     display:none;
     margin-bottom: 24px;
@@ -436,14 +441,14 @@ export default {
 .gonggao:hover {
     cursor: pointer;
     text-decoration: underline;
-    text-decoration-color: #0099cc;
+    text-decoration-color: #14bcf5;
 }
 .moreNoticeCss {
     font-family: "PingFangSC-Regular", "PingFang SC";
     font-weight: 400;
     font-style: normal;
     font-size: 12px;
-    color: #1990fe;
+    color: #999999;
 }
 
 .right {

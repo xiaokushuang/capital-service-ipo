@@ -1,8 +1,8 @@
 <template>
-    <div class="moreNotice">
+    <div class="moreNotice" >
          <el-table
             :data="moreNoticeList[0]"
-             height="380"
+             height="330"
             tooltip-effect="dark"
             style="width: 100%"
             @selection-change="handleSelectionChange">
@@ -10,31 +10,32 @@
             prop="relaId"
             type="selection"
             align="center"
-            width="100">
+            width="75">
             </el-table-column>
             <el-table-column
             label="公告日期"
             align="left"
-            width="150">
+            width="100">
             <template slot-scope="scope">{{ scope.row.publishTime }}</template>
             </el-table-column>
             <el-table-column
             style="color:#0099CC"
             prop="relationFileTitle"
             label="公告名称"
+            min-width="30%"
             align="left"
-            width="600">
+            >
             <template slot-scope="scope">
               <span style=" color:#0099CC">
                  <a v-if="scope.row.letterId!=''" @click="openLetterDetail(scope.row)">{{scope.row.relationFileTitle}}</a>
               </span>
             </template>
-                
+
             </el-table-column>
             <el-table-column
             label="操作"
-            width="100"
-            align="center"
+            width="50"
+            align="left"
             show-overflow-tooltip>
             <template slot-scope="scope">
               <i @click="handleDown(scope.row)" class="el-icon-download" style="font-size:20px;cursor:pointer"></i>
@@ -45,15 +46,28 @@
             <span @click="handleDownAll()" class="downloadAnnouncementSpan" v-if="this.multipleSelection.length==0">下载所选公告</span>
             <span @click="handleDownAll()" class="downloadAnnouncementSpan" v-else style="border:1px solid #0099CC">下载所选公告<span style="color:#0099CC">{{this.multipleSelection.length}}</span></span>
         </div>
+        <el-dialog
+        :modal="false"
+         class="noGonggao"
+          :visible.sync="dialogVisible"
+          width="30%"
+          :before-close="handleClose">
+          <span style="display: inline-block; margin-left: 83px; margin-top: 23px;">所选公告暂不支持下载</span>
+          <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+          </span>
+        </el-dialog>
     </div>
 </template>
 <script>
 import {getDownloadFileData} from '@/api/ipoCase/companyProfile'
+import {checkFile} from '@/api/ipoCase/companyProfile'
 export default {
     name:'moreNotice',
     data() {
       return {
         multipleSelection: [],
+        dialogVisible:false,
       }
     },
     props:["moreNoticeList"],
@@ -83,12 +97,20 @@ export default {
           fileId:fileIdLabel,
           fileType:fileType
         }
-        let url = window.location.href;
-        let token = this.$store.state.app.token
-        url = url.substr(0,url.indexOf("ui"));
-        url = url + 'ipo/ipoProcess/downloadFile?access_token='+token+
-              '&fileId='+ fileIdLabel + '&fileType='+ fileType;
-        window.open(url);
+        checkFile(param).then(res => {
+          let result = res.data.result;
+          if(result === '1'){
+            let url = window.location.href;
+            let token = this.$store.state.app.token
+            url = url.substr(0,url.indexOf("ui"));
+            url = url + 'ipo/ipoProcess/downloadFile?access_token='+token+
+                  '&fileId='+ fileIdLabel + '&fileType='+ fileType;
+            window.open(url);
+          }else{
+            this.dialogVisible = true
+          }
+
+        })
       },
         initDownloadFileData1(fileId,fileType) {
         // 动态传id
@@ -96,12 +118,23 @@ export default {
           fileId:fileId,
           fileType:fileType
         }
-        let url = window.location.href;
-        let token = this.$store.state.app.token
-        url = url.substr(0,url.indexOf("ui"));
-        url = url + 'ipo/ipoProcess/downloadFile?access_token='+token+
-              '&fileId='+ fileId + '&fileType='+ fileType;
-        window.open(url);
+          checkFile(param).then(res => {
+            let result = res.data.result;
+            if(result === '1'){
+              let url = window.location.href;
+              let token = this.$store.state.app.token
+              url = url.substr(0,url.indexOf("ui"));
+              url = url + 'ipo/ipoProcess/downloadFile?access_token='+token+
+                    '&fileId='+ fileId + '&fileType='+ fileType;
+              window.open(url);
+            }else{
+               this.dialogVisible = true
+            }
+
+          })
+
+
+
       },
       // 下载公告
       handleDown(v){
@@ -117,6 +150,9 @@ export default {
       openLetterDetail(v) {
          window.open(v.baseUrl)
       },
+      handleClose(done) {
+        this.dialogVisible = false
+      }
     }
 }
 </script>
