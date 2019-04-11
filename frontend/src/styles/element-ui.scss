@@ -606,6 +606,7 @@
 }
 // ipo tip提示框
 .el-tooltip__popper.is-light {
+  color:#666;
   background: #fff;
   border: 1px solid #eee;
   box-shadow:  0 0px 28px -5px #ccc;
@@ -647,4 +648,7 @@
   background-image: none;
   border: 1px solid transparent;
   border-radius: 2px;
+}
+.el-tooltip__popper.is-light[x-placement^=bottom] .popper__arrow {
+  border-bottom-color: #eee !important;
 }
