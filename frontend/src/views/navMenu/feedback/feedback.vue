@@ -962,6 +962,7 @@ export default {
       let length = 0;
       if(titleLength > width) {
          for(let i =0;i<title.length;i++) {
+          length += 14;
             if(length > width) {
                 if(type === 'answer') {
                   if(!data.isSpread || data.isSpread === 0) {
@@ -974,7 +975,7 @@ export default {
                  }
               return title.substring(0,(i-4)) + '...'
             }
-           length += 14;
+
       }
       }else {
           if(type === 'answer') {

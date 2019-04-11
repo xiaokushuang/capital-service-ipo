@@ -70,7 +70,7 @@
               <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('302')>-1">预计市值不低于人民币<span style="color:red">50亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">5亿元</span></div>
             </div>
           </li>
-          <li  class="clear" style="{'margin-bottom':'10px','position':'relative','margin-top':'0%'}">
+          <li class="clear" style="position:relative;margin-top:0%;margin-bottom:16px">
             <span class="l" >主营业务</span>
             <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 27px;" v-if="companyProfileList&&companyProfileList.majorBusinesses">{{companyProfileList.majorBusinesses}}</div>
             <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 27px;" v-else >- -</div>
