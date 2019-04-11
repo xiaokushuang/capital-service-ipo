@@ -894,8 +894,8 @@ export default {
   background:white;
   border:none;
   cursor:default;
-  color:#adadad;
-  color:#666;
+  color:#adadad !important;
+  // color:#666;
   font-size:14px;
 }
 </style>
