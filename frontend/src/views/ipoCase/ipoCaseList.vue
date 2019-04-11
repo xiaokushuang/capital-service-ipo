@@ -421,7 +421,7 @@
           <el-row :gutter="20">
             <el-col :span="24" style="padding-left: 8px; padding-right: 8px;">
               <div class="table">
-                <el-table @sort-change="sortChange" :data="tableData" style="width: 100%" v-loading="tableLoading" ref="tables" @row-click="itemClickHandler" class="case" element-loading-text="给我一点时间">
+                <el-table :cell-style="cellStyle" @sort-change="sortChange" :data="tableData" style="width: 100%" v-loading="tableLoading" ref="tables" @row-click="itemClickHandler" class="case" element-loading-text="给我一点时间">
                   <el-table-column align="left" width="100" label="公司">
                     <template slot-scope="scope">
                       {{scope.row.companyCode}}
@@ -1179,6 +1179,7 @@
         this.intermediaryCode = item.labelValue;
       },
       itemClickHandler(row) {
+        // console.log('row',row)
         let id = row.id;
         if (id) {
           var caseId = id.substring(3, id.length);
@@ -1203,6 +1204,12 @@
         const _self = this;
         const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=746412002825257522&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
         window.open(href, '_blank');
+      },
+      //没有权限数据背景色
+      cellStyle(row,column,rowIndex,columnIndex){
+        if(!row.row.id){
+          return 'background:#f9fafe'
+        }
       }
     },
     components: {
@@ -1366,7 +1373,7 @@
   }
 
   .container .el-table tr:hover {
-    background-color: #f5f5f5;
+    background-color: #f5f5f5 !important;
   }
 
   .container .el-table th, .el-table tr {
@@ -1579,5 +1586,8 @@
     height: 20px;
     background-image: url(../../assets/images/home_new.png);
   }
+  .container .el-table th, .el-table tr {
+    height: 40px !important;
+}
 </style>
 

@@ -51,19 +51,18 @@
                                     padding-left: 7px;
                                     padding-right:7px;
                                     margin-top: 6px;
-                                    cursor:pointer;
                                     margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
                                 <div>
                                     <span style="color: #666;">学历/专业：</span>
-                                    <span  class="xueli" style="color: #666;cursor:pointer;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
+                                    <span  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作单位：</span>
-                                    <span class="danwei" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
+                                    <span class="danwei" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作性质：</span>
-                                    <span class="xingzhi" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
+                                    <span class="xingzhi" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
                                 </div>
                             </li>
                         </ul>
@@ -119,19 +118,18 @@
                                     padding-left: 7px;
                                     padding-right:7px;
                                     margin-top: 6px;
-                                    cursor:pointer;
                                     margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
                                 <div>
                                     <span style="color: #666;">学历/专业：</span>
-                                    <span  class="xueli" style="color: #666;cursor:pointer;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
+                                    <span  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作单位：</span>
-                                    <span class="danwei" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
+                                    <span class="danwei" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作性质：</span>
-                                    <span class="xingzhi" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
+                                    <span class="xingzhi" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
                                 </div>
                             </li>
                         </ul>
@@ -188,19 +186,19 @@
                                     padding-left: 7px;
                                     padding-right:7px;
                                     margin-top: 6px;
-                                    cursor:pointer;
+                                    
                                     margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
                                 <div>
                                     <span style="color: #666;">学历/专业：</span>
-                                    <span  class="xueli" style="color: #666;cursor:pointer;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
+                                    <span  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作单位：</span>
-                                    <span class="danwei" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
+                                    <span class="danwei" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作性质：</span>
-                                    <span class="xingzhi" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
+                                    <span class="xingzhi" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
                                 </div>
                             </li>
                         </ul>
@@ -259,19 +257,19 @@
                                     padding-left: 7px;
                                     padding-right:7px;
                                     margin-top: 6px;
-                                    cursor:pointer;
+                                    
                                     margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
                                 <div>
                                     <span style="color: #666;">学历/专业：</span>
-                                    <span  class="xueli" style="color: #666;cursor:pointer;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
+                                    <span  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作单位：</span>
-                                    <span class="danwei" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
+                                    <span class="danwei" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作性质：</span>
-                                    <span class="xingzhi" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
+                                    <span class="xingzhi" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
                                 </div>
                             </li>
                         </ul>
@@ -328,19 +326,19 @@
                                     padding-left: 7px;
                                     padding-right:7px;
                                     margin-top: 6px;
-                                    cursor:pointer;
+                                    
                                     margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
                                 <div>
                                     <span style="color: #666;">学历/专业：</span>
-                                    <span  class="xueli" style="color: #666;cursor:pointer;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
+                                    <span  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作单位：</span>
-                                    <span class="danwei" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
+                                    <span class="danwei" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作性质：</span>
-                                    <span class="xingzhi" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
+                                    <span class="xingzhi" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
                                 </div>
                             </li>
                         </ul>
@@ -397,19 +395,19 @@
                                     padding-left: 7px;
                                     padding-right:7px;
                                     margin-top: 6px;
-                                    cursor:pointer;
+                                    
                                     margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
                                 <div>
                                     <span style="color: #666;">学历/专业：</span>
-                                    <span  class="xueli" style="color: #666;cursor:pointer;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
+                                    <span  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作单位：</span>
-                                    <span class="danwei" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
+                                    <span class="danwei" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作性质：</span>
-                                    <span class="xingzhi" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
+                                    <span class="xingzhi" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
                                 </div>
                             </li>
                         </ul>
@@ -537,16 +535,40 @@ export default {
     // 鼠标移入委员详情弹出窗的列
     mouseOverSpreadText(title){ 
         for(var a = 0;a< $(".position").length;a++){
-            $(".position").eq(a).attr("title",title)
+            if(title.length>15){
+                $(".position").eq(a).attr("title",title)
+                $(".position").eq(a).css({"cursor":"pointer"})
+            }else{
+                $(".position").eq(a).removeAttr("title",title)
+                $(".position").eq(a).css({"cursor":"auto"})
+            }
         }
          for(let a = 0;a< $(".xueli").length;a++){
+             if(title.length>9){
                 $(".xueli").eq(a).attr("title",title)
+                $(".xueli").eq(a).css({"cursor":"pointer"})
+            }else{
+                $(".xueli").eq(a).removeAttr("title",title)
+                $(".xueli").eq(a).css({"cursor":"auto"})
+            }
         }
         for(let a = 0;a< $(".danwei").length;a++){
-            $(".danwei").eq(a).attr("title",title)
+             if(title.length>9){
+                $(".danwei").eq(a).attr("title",title)
+                $(".danwei").eq(a).css({"cursor":"pointer"})
+            }else{
+                $(".danwei").eq(a).removeAttr("title",title)
+                $(".danwei").eq(a).css({"cursor":"auto"})
+            }
         }
         for(let a = 0;a< $(".xingzhi").length;a++){
-            $(".xingzhi").eq(a).attr("title",title)
+             if(title.length>9){
+                $(".xingzhi").eq(a).attr("title",title)
+                $(".xingzhi").eq(a).css({"cursor":"pointer"})
+            }else{
+                $(".xingzhi").eq(a).removeAttr("title",title)
+                $(".xingzhi").eq(a).css({"cursor":"auto"})
+            }
         }
     },
    getContent(title){
@@ -556,8 +578,8 @@ export default {
        return title
      }
    },
-  getContent1(title){
-     if(title.length>8){
+   getContent1(title){
+     if(title.length>9){
        return title.substring(0,9) + '...'
      }else{
        return title

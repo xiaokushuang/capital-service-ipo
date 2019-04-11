@@ -11,7 +11,7 @@
       <div  ref="titleHeader"
       id="titleHeader"
       style="width: 100%;height: 140px;position: relative">
-          <div style="width:1200px;position:absolute;left: 50%;top:50%; transform: translate(-50%,-50%);padding-left:97px;">
+       <div :style="{'padding-left':headList.iecResult == null?'0px':'97px','width':'1200px','position':'absolute','left': '50%','top':'50%', 'transform': 'translate(-50%,-50%)'}">
             <div class="imgMark" style="position: absolute; z-index: 2;left: 5%;top:50%; transform: translate(-50%,-50%);z-index: 2">
                 <div v-if="headList.iecResult&&headList.iecResult == '00'" >
                   <img src="../../assets/images/htg1.png" alt="">
@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="text" style="position:relative;z-index: 4">
-              <p class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">{{headList.title}}</p>
+              <p class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;" @mouseenter="mouseOverSpreadTitle(headList.title)">{{getTitle(headList.title)}}</p>
               <span style="font-size: 14px;opacity: 0.6;">股份公司设立时间：</span>
               <span style="font-size: 14px;opacity: 0.6;">{{headList.establishDate}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
               <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;辅导工作历时：</span>
@@ -70,9 +70,17 @@
                                             <div class="el-tabs__active-bar is-top" :style="{width: tabBarWidth + 'px', transform: 'translateX(' + tabBarOffset + 'px)'}"></div>
                                             <div id="tab-first"  ref="tab-first"  aria-controls="pane-first"  :class="['el-tabs__item is-top', {'is-active': isActive === '1'}]" @click="onTabClick('1', $event)" style="padding-left: 0">公司概览</div>
                                             <div id="tab-second" ref="tab-second" aria-controls="pane-second" :class="['el-tabs__item is-top', {'is-active': isActive === '2'}]" @click="onTabClick('2', $event)">财务信息</div>
-                                            <div v-if="headList.haveFeedback=='1' || headList.isTechBoard=='1'" id="tab-third"  ref="tab-third" class="el-tabs__item1" aria-controls="pane-third" style="cursor:default;color:gray">反馈意见</div>
+                                            <div v-if="headList.haveFeedback=='1' || headList.isTechBoard=='1'" id="tab-third"  ref="tab-third" class="el-tabs__item1" aria-controls="pane-third"  style="cursor:default;color:#adadad">
+                                              <el-tooltip class="ipoTip" content="提示：当前暂无反馈意见信息" placement="top" effect="light">
+                                                <el-button class="btnClass">反馈意见</el-button>
+                                              </el-tooltip>
+                                            </div>
                                             <div v-if="headList.haveFeedback=='0' && headList.isTechBoard=='0'" id="tab-third"  ref="tab-third" aria-controls="pane-third"  :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]" @click="onTabClick('3', $event)">反馈意见</div>
-                                            <div v-if="headList.haveExamine=='1' || headList.isTechBoard=='1'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" class="el-tabs__item1"  style="padding-right: 0;cursor:default;color:gray">审核结果及关注问题</div>
+                                            <div v-if="headList.haveExamine=='1' || headList.isTechBoard=='1'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" class="el-tabs__item1" style="padding-right: 0;cursor:default;color:#adadad">
+                                               <el-tooltip class="ipoTip" content="提示：当前暂无审核结果及关注问题信息" placement="top" effect="light">
+                                                <el-button class="btnClass">审核结果及关注问题</el-button>
+                                              </el-tooltip>
+                                            </div>
                                             <div v-if="headList.haveExamine=='0' && headList.isTechBoard=='0'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" :class="['el-tabs__item is-top', {'is-active': isActive === '4'}]" @click="onTabClick('4', $event)" style="padding-right: 0">审核结果及关注问题</div>
                                             <div id="tab-fifth"  ref="tab-fifth"  aria-controls="pane-fifth"  :class="['el-tabs__item is-top', {'is-active': isActive === '5'}]" @click="onTabClick('5', $event)">发行概况</div>
                                         </div>
@@ -163,6 +171,7 @@ import feedback from "../navMenu/feedback/feedback";
 import result from "../navMenu/result/result";
 import issue from "../navMenu/issue/issue";
 import processTree from "../navMenu/processTree";
+import $ from "jquery";
 export default {
   name: "ipo",
   components: {
@@ -335,6 +344,15 @@ export default {
     handleClick() {
       if (this.activeName == "fourth") {
         this.$refs.comshow.changeCart();
+      }
+    },
+    //鼠标移入不能点击的tab弹出tip
+    onTabNoClick(flag){
+      if(flag == '3'){
+        console.log('3')
+      }
+      if(flag == '4'){
+        console.log('4')
       }
     },
     onTabClick(isActive, event) {
@@ -522,6 +540,22 @@ export default {
       // this.topHeight = (parseInt(String(h1).split("px")[0]) - parseInt(String(h2).split("px")[0])) / 2;
 
     },
+    mouseOverSpreadTitle(title){ 
+        if(title.length>73){
+            $(".dialogtitle").attr("title",title)
+            $(".dialogtitle").css({"cursor":"pointer"})
+        }else{
+            $(".dialogtitle").removeAttr("title",title)
+            $(".dialogtitle").css({"cursor":"auto"})
+        }
+    },
+   getTitle(title){
+     if(title.length>73){
+       return title.substring(0,73) + '...'
+     }else{
+       return title
+     }
+   },
   },
   computed: {
   },
@@ -661,7 +695,6 @@ export default {
     font-size: 20px;
     width: 75%;
     color: #333;
-    /* margin-left: 10px; */
     padding-right: 12px;
 }
 
@@ -798,11 +831,11 @@ export default {
   color: #14bcf5 !important;
 }
 .el-tabs__item1:hover {
-  color: gray !important;
+  color: #adadad !important;
 }
 
 .el-tabs__item1.is-active {
-  color: gray !important;
+  color: #adadad !important;
 }
 
 .title-body {
@@ -849,5 +882,13 @@ export default {
 }
 #title-third{
   display:none
+}
+.btnClass{
+  background:white;
+  border:none;
+  cursor:default;
+  color:#adadad;
+  color:#666;
+  font-size:14px;
 }
 </style>

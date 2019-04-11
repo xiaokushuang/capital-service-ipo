@@ -124,11 +124,9 @@ export default {
                     posY = pos.top + point[1];
                   }else {
                     pos = document.getElementById("chartParent").getBoundingClientRect();
-                    console.log("1")
                     posY = pos.y + point[1];
                     posX = pos.x + point[0] + 20;
                   }
-
                   return [posX, posY];
                 },
                 axisPointer: {
@@ -223,6 +221,22 @@ initPieChart(dataList,nameTempO,num,flag) {
          },
         tooltip: {
           trigger: "item",
+          position:function (point, params, dom, rect, size) {
+                  dom.style.position = 'fixed';
+                  let pos;
+                  let posY;
+                  let posX;
+                  if ((window.navigator.userAgent.toLowerCase().indexOf("trident") > -1 && window.navigator.userAgent.indexOf("rv") > -1)) {
+                    pos = document.getElementById("chartParent").getClientRects()[0];
+                    posX = pos.left + point[0] + 20;
+                    posY = pos.top + point[1];
+                  }else {
+                    pos = document.getElementById("chartParent").getBoundingClientRect();
+                    posY = pos.y + point[1];
+                    posX = pos.x + point[0] + 200;
+                  }
+                  return [posX, posY];
+                },
           formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
         //  legend: {

@@ -604,3 +604,47 @@
 .el-table--striped .el-table__body tr.el-table__row--striped.current-row td, .el-table__body tr.current-row>td, .el-table__body tr.hover-row.current-row>td, .el-table__body tr.hover-row.el-table__row--striped.current-row>td, .el-table__body tr.hover-row.el-table__row--striped>td, .el-table__body tr.hover-row>td {
   background-color: #f5f7fa;
 }
+// ipo tip提示框
+.el-tooltip__popper.is-light {
+  background: #fff;
+  border: 1px solid #eee;
+  box-shadow:  0 0px 28px -5px #ccc;
+}
+.el-tooltip__popper[x-placement^=top] {
+  margin-bottom: 12px;
+}
+.el-tooltip__popper {
+  position: absolute;
+  border-radius: 4px;
+  padding: 16px;
+  z-index: 2000;
+  font-size: 14px;
+  line-height: 1.2;
+}
+.el-tooltip__popper.is-light[x-placement^=top] .popper__arrow {
+  border-top-color: #eee;
+}
+.el-tooltip__popper.is-light[x-placement] .popper__arrow {
+  border-top-color: #eee;
+}
+.ipoTip .el-button {
+  display: inline-block;
+  padding: 5px 0px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 2px;
+}

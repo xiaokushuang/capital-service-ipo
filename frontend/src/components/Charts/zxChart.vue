@@ -1,6 +1,6 @@
 <template>
     <div>
-         <div class="className" :id="'zxChart' + zxIndex " style="height:300px;width:100%"></div>
+         <div class="chartParent" :id="'zxChart' + zxIndex " style="height:300px;width:100%"></div>
     </div>
 </template>
 
@@ -16,7 +16,8 @@ export default {
         zxChartY:[],
         zxChartX:[],
         zxChartYSelect:{},
-        legendData:[]
+        legendData:[],
+        a:'qqq'
     }
   },
   props:["zxIndex"],
@@ -108,6 +109,25 @@ beforeDestroy() {
             },
             tooltip:{
              trigger: 'axis',
+              // position:function (point, params, dom, rect, size) {
+              //   console.log(this.a)
+              //   // console.log('zxChart' + this.zxIndex)
+              //   // console.log(document.getElementById("'zxChart' + this.zxIndex"))
+              //     dom.style.position = 'fixed';
+              //     let pos;
+              //     let posY;
+              //     let posX;
+              //     if ((window.navigator.userAgent.toLowerCase().indexOf("trident") > -1 && window.navigator.userAgent.indexOf("rv") > -1)) {
+              //       pos = document.getElementById("'zxChart' + this.zxIndex").getClientRects()[0];
+              //       posX = pos.left + point[0] + 20;
+              //       posY = pos.top + point[1];
+              //     }else {
+              //       pos = document.getElementById("'zxChart' + this.zxIndex").getBoundingClientRect();
+              //       posY = pos.y + point[1];
+              //       posX = pos.x + point[0] + 20;
+              //     }
+              //     return [posX, posY];
+              // },
               formatter: function (params) {
                 let str = params[0].name + '<br/>';
                 for(i=0;i<params.length;i++){
@@ -120,8 +140,8 @@ beforeDestroy() {
             },
             legend: {
               top:'2%',
-              //  x: "right", // 'center' | 'left' | {number},
-              //  y: "10%", // 'center' | 'bottom' | {number}
+               x: "right", // 'center' | 'left' | {number},
+              //  y: "100%", // 'center' | 'bottom' | {number}
               selected:this.zxChartYSelect
 
             },

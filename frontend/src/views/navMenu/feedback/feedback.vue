@@ -81,7 +81,7 @@
                                     <!-- 已经阅读完了 -->
                                     <p v-if="!showMore&&questionList.length>0" class="finishRead">已经阅读完了</p>
                                     <!-- 暂无更多数据 -->
-                                    <p v-if="!showMore&&questionList.length==0" class="finishRead">暂无更多数据</p>
+                                    <p v-if="!showMore&&questionList.length==0" class="finishRead">暂无相关数据</p>
                               </div>
                           </div>
                       </el-tab-pane>
@@ -158,7 +158,7 @@
                                     <!-- 已经阅读完了 -->
                                     <p v-if="!showMore2&&questionList2.length>0" class="finishRead">已经阅读完了</p>
                                     <!-- 暂无更多数据 -->
-                                    <p v-if="!showMore2&&questionList2.length==0" class="finishRead">暂无更多数据</p>
+                                    <p v-if="!showMore2&&questionList2.length==0" class="finishRead">暂无相关数据</p>
                               </div>
                           </div>
                       </el-tab-pane>
@@ -235,7 +235,7 @@
                                     <!-- 已经阅读完了 -->
                                     <p v-if="!showMore3&&questionList3.length>0" class="finishRead">已经阅读完了</p>
                                     <!-- 暂无更多数据 -->
-                                    <p v-if="!showMore3&&questionList3.length==0" class="finishRead">暂无更多数据</p>
+                                    <p v-if="!showMore3&&questionList3.length==0" class="finishRead">暂无相关数据</p>
 
                               </div>
                           </div>
@@ -317,7 +317,7 @@
                       <!-- 已经阅读完了 -->
                       <p v-if="!showMore&&questionList.length>0" class="finishRead">已经阅读完了</p>
                        <!-- 暂无更多数据 -->
-                      <p v-if="!showMore&&questionList.length==0" class="finishRead">暂无更多数据</p>
+                      <p v-if="!showMore&&questionList.length==0" class="finishRead">暂无相关数据</p>
                     </div>
                 </div>
            </div>

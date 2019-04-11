@@ -35,6 +35,10 @@ import 'babel-polyfill'
 
 import VueMoment from 'vue-moment'
 import moment from 'moment-timezone'
+// 点击图片放大插件
+import preview from 'vue-photo-preview'
+import 'vue-photo-preview/dist/skin.css'
+Vue.use(preview)
 
 Vue.use(VueMoment,{
     moment
