@@ -421,7 +421,7 @@
           <el-row :gutter="20">
             <el-col :span="24" style="padding-left: 8px; padding-right: 8px;">
               <div class="table">
-                <el-table :cell-style="cellStyle" @sort-change="sortChange" :data="tableData" style="width: 100%" v-loading="tableLoading" ref="tables" @row-click="itemClickHandler" class="case" element-loading-text="给我一点时间">
+                <el-table :cell-class-name="cellStyle" @sort-change="sortChange" :data="tableData" style="width: 100%" v-loading="tableLoading" ref="tables" @row-click="itemClickHandler" class="case" element-loading-text="给我一点时间">
                   <el-table-column align="left" width="100" label="公司">
                     <template slot-scope="scope">
                       {{scope.row.companyCode}}
@@ -1208,7 +1208,7 @@
       //没有权限数据背景色
       cellStyle(row,column,rowIndex,columnIndex){
         if(!row.row.id){
-          return 'background:#f9fafe'
+          return 'no_authority'
         }
       }
     },
@@ -1588,6 +1588,13 @@
   }
   .container .el-table th, .el-table tr {
     height: 40px !important;
+  }
+
+  .no_authority{
+    background: #F9FAFE;
+  }
+  .no_authority .cell{
+    color: #999999 !important;
   }
 </style>
 
