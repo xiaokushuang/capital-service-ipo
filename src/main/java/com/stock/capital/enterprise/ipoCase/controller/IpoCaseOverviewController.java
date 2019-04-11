@@ -154,6 +154,14 @@ public class IpoCaseOverviewController {
         }else{
             headDataVo.setHaveExamine(1);
         }
+        //判断是否显示发行概况
+        //检查是否有上市进程
+        List<String> publicProcessList = ipoFeedbackMapper.selectPublicProcess(id);
+        if(CollectionUtils.isNotEmpty(publicProcessList)){
+            headDataVo.setHavePublic(0);
+        }else{
+            headDataVo.setHavePublic(1);
+        }
         response.setResult(headDataVo);
         return response;
     }
