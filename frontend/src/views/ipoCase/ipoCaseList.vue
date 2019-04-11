@@ -5,54 +5,54 @@
        padding-right: 0px !important; !important;background-color: #f7f7f7">
         <div class="innnerbox">
           <el-tree
-              style="margin-top:24px;padding: 0 0 0 0"
-              class="filter-tree"
-              node-key="id"
-              :data="plateTreeTag"
-              :props="left_tree"
-              :default-expand-all="true"
-              @node-click="handleNodeClickForSearch"
-              ref="plateTreeTagRef">
+            style="margin-top:24px;padding: 0 0 0 0"
+            class="filter-tree"
+            node-key="id"
+            :data="plateTreeTag"
+            :props="left_tree"
+            :default-expand-all="true"
+            @node-click="handleNodeClickForSearch"
+            ref="plateTreeTagRef">
           </el-tree>
           <el-tree
-              style="margin-top:24px;padding: 0 0 0 0"
-              class="filter-tree"
-              node-key="id"
-              :data="marketTreeTag"
-              :props="left_tree"
-              :default-expand-all="true"
-              @node-click="handleNodeClickForSearch"
-              ref="marketTreeTagRef">
+            style="margin-top:24px;padding: 0 0 0 0"
+            class="filter-tree"
+            node-key="id"
+            :data="marketTreeTag"
+            :props="left_tree"
+            :default-expand-all="true"
+            @node-click="handleNodeClickForSearch"
+            ref="marketTreeTagRef">
           </el-tree>
           <el-tree
-              style="margin-top:24px;padding: 0 0 0 0"
-              class="filter-tree"
-              node-key="id"
-              :data="greenTreeTag"
-              :props="left_tree"
-              :default-expand-all="true"
-              @node-click="handleNodeClickForSearch"
-              ref="greenTreeTagRef">
+            style="margin-top:24px;padding: 0 0 0 0"
+            class="filter-tree"
+            node-key="id"
+            :data="greenTreeTag"
+            :props="left_tree"
+            :default-expand-all="true"
+            @node-click="handleNodeClickForSearch"
+            ref="greenTreeTagRef">
           </el-tree>
           <el-tree
-              style="margin-top:24px;padding: 0 0 0 0"
-              class="filter-tree"
-              node-key="id"
-              :data="specialArrangeTag"
-              :props="left_tree"
-              :default-expand-all="true"
-              @node-click="handleNodeClickForSearch"
-              ref="specialArrangeTagRef">
+            style="margin-top:24px;padding: 0 0 0 0"
+            class="filter-tree"
+            node-key="id"
+            :data="specialArrangeTag"
+            :props="left_tree"
+            :default-expand-all="true"
+            @node-click="handleNodeClickForSearch"
+            ref="specialArrangeTagRef">
           </el-tree>
           <el-tree
-              style="margin-top:24px;padding: 0 0 0 0"
-              class="filter-tree"
-              node-key="id"
-              :data="sfcTreeTag"
-              :props="left_tree"
-              :default-expand-all="true"
-              @node-click="handleNodeClickForSearch"
-              ref="sfcTreeTagRef">
+            style="margin-top:24px;padding: 0 0 0 0"
+            class="filter-tree"
+            node-key="id"
+            :data="sfcTreeTag"
+            :props="left_tree"
+            :default-expand-all="true"
+            @node-click="handleNodeClickForSearch"
+            ref="sfcTreeTagRef">
           </el-tree>
         </div>
       </el-col>
@@ -119,13 +119,13 @@
           <el-row :gutter="24">
             <el-col :span='8' class="repuramountlimitPan-class">
               <el-autocomplete
-                  class="inline-input"
-                  size='small full'
-                  v-model="intermediary"
-                  :fetch-suggestions="queryIntermediary"
-                  placeholder="中介机构"
-                  :trigger-on-focus="false"
-                  @select="handleSelect"
+                class="inline-input"
+                size='small full'
+                v-model="intermediary"
+                :fetch-suggestions="queryIntermediary"
+                placeholder="中介机构"
+                :trigger-on-focus="false"
+                @select="handleSelect"
               ></el-autocomplete>
             </el-col>
             <el-col :span='4'>
@@ -182,9 +182,9 @@
             </el-col>
             <el-col :span="1">
               <el-popover
-                  placement="bottom"
-                  width="600"
-                  trigger="hover">
+                placement="bottom"
+                width="600"
+                trigger="hover">
                 <div style="font-size: 12px">
                   <div>
                     <a style="color: #1990FE;margin-left: -5px" @click="openNewRule()">《上海证券交易所科创板股票上市规则》：</a>
@@ -335,9 +335,16 @@
                         最近<span style="color:#14BCF5">3</span>个会计年度净利润均为正数且<span style="color:#14BCF5">累计超过3000万元</span>（人民币），净利润以扣除非经常性损益前后较低者为计算依据；
                       </div>
                     </div>
-                    <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:7px">
+                    <!-- <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:7px">
                       <span class="quan" style="position: relative; top: -17px;;">2</span>
                       <div style="display: inline-block;margin-left: 0.5%;">
+                        最近<span style="color:#14BCF5">3</span>个会计年度营业收入<span style="color: #14BCF5">累计超过3亿元</span>(人民币)；<br>
+                        <span><span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">3</span>个会计年度经营活动产生的现金流量净额<span style="color:#14BCF5">累计超过5000万元</span>(人民币)；</span>
+                      </div>
+                    </div> -->
+                     <div class="clear" style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:7px">
+                      <span class="quan" style="float:left">2</span>
+                      <div style="display: inline-block;margin-left: 0.5%;float:left">
                         最近<span style="color:#14BCF5">3</span>个会计年度营业收入<span style="color: #14BCF5">累计超过3亿元</span>(人民币)；<br>
                         <span><span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">3</span>个会计年度经营活动产生的现金流量净额<span style="color:#14BCF5">累计超过5000万元</span>(人民币)；</span>
                       </div>
@@ -346,10 +353,9 @@
                       <span class="quan">3</span>
                       发行前股本总额<span style="color:#14BCF5">不少于3000万元</span> (人民币)；
                     </p>
-                    <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
-                      <span class="quan">4</span>
-
-                      最近一期末无形资产（扣除土地使用权、水面养殖权和采矿权等后）占净资产的比例<span style="color:#333333;">不高于20％</span>；
+                    <p class="clear" style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
+                      <span style="float:left" class="quan">4</span>
+                      <span style="float:left;display:inline-block;width: 93%; margin-left: 4px;">最近一期末无形资产（扣除土地使用权、水面养殖权和采矿权等后）占净资产的比例<span style="color:#333333;">不高于20％</span></span>；
                     </p>
                     <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
                       <span class="quan">5</span>
@@ -369,9 +375,17 @@
                         发行人是依法设立且持续经营三年以上的股份有限公司。有限责任公司按原账面净资产值折股整体变更为股份有限公司的，持续经营时间可以从有限责任公司成立之日起计算；
                       </div>
                     </div>
-                    <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
+                    <!-- <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
                       <span class="quan bottomQuan">2</span>
                       <div class="bottomTwo">
+                        最近<span style="color: #14BCF5">2</span>年连续盈利，最近两年净利润<span style="color: #14BCF5">累计不少于1000万元</span>;<br>
+                        <span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">1</span>年盈利，最近一年营业收入<span style="color:#14BCF5">不少于5000万元。</span>(
+                        净利润以扣除非经常性损益前后孰低者为计算依据)
+                      </div>
+                    </div> -->
+                     <div class="clear" style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
+                      <span class="quan" style="float:left">2</span>
+                      <div  style="display: inline-block;margin-left: 0.5%;float:left;width: 95%;">
                         最近<span style="color: #14BCF5">2</span>年连续盈利，最近两年净利润<span style="color: #14BCF5">累计不少于1000万元</span>;<br>
                         <span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">1</span>年盈利，最近一年营业收入<span style="color:#14BCF5">不少于5000万元。</span>(
                         净利润以扣除非经常性损益前后孰低者为计算依据)
@@ -421,7 +435,7 @@
           <el-row :gutter="20">
             <el-col :span="24" style="padding-left: 8px; padding-right: 8px;">
               <div class="table">
-                <el-table :cell-style="cellStyle" @sort-change="sortChange" :data="tableData" style="width: 100%" v-loading="tableLoading" ref="tables" @row-click="itemClickHandler" class="case" element-loading-text="给我一点时间">
+                <el-table :cell-class-name="cellStyle" @sort-change="sortChange" :data="tableData" style="width: 100%" v-loading="tableLoading" ref="tables" @row-click="itemClickHandler" class="case" element-loading-text="给我一点时间">
                   <el-table-column align="left" width="100" label="公司">
                     <template slot-scope="scope">
                       {{scope.row.companyCode}}
@@ -1208,7 +1222,7 @@
       //没有权限数据背景色
       cellStyle(row,column,rowIndex,columnIndex){
         if(!row.row.id){
-          return 'background:#f9fafe'
+          return 'no_authority'
         }
       }
     },
@@ -1516,7 +1530,7 @@
     .topOne {
       display: inline-block;
       margin-top: -4%;
-      margin-left: 0.5%;
+      margin-left: 0.1%;
     }
   }
 
@@ -1588,6 +1602,13 @@
   }
   .container .el-table th, .el-table tr {
     height: 40px !important;
-}
+  }
+
+  .no_authority{
+    background: #F9FAFE;
+  }
+  .no_authority .cell{
+    color: #999999 !important;
+  }
 </style>
 

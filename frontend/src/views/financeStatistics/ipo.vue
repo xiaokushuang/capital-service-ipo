@@ -351,15 +351,6 @@ export default {
         this.$refs.comshow.changeCart();
       }
     },
-    //鼠标移入不能点击的tab弹出tip
-    onTabNoClick(flag){
-      if(flag == '3'){
-        console.log('3')
-      }
-      if(flag == '4'){
-        console.log('4')
-      }
-    },
     onTabClick(isActive, event) {
             let that = this
             this.isActive = isActive;
@@ -399,8 +390,6 @@ export default {
                         targetList = document.getElementById('title-second').children;
                         let secondFlag = 0;
                         that.showComponent = financialInformation
-                        // that.$refs.finance.creatEchart()
-                        // alert("111")
                         for (let i = 0; i< targetList.length; i ++) {
                           if ((that.itemActiveSecond + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
                             document.documentElement.scrollTop = document.getElementById(that.itemActiveSecond).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;

@@ -453,6 +453,9 @@ export default {
 //   cursor: pointer;
   box-shadow: 0 0px 28px -5px #ccc;
 }
+.el-select-dropdown__item.selected {
+  color: #14bcf5 !important;
+}
 </style>
 
 

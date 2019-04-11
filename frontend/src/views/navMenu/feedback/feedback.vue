@@ -957,11 +957,14 @@ export default {
       })
     },
     getContent(data,title,index,type) {
+      // 5行的宽度和
       let width = (document.getElementById('componentId').offsetWidth - 48) * 5
+      // 所有字数的宽度【14是字体大小】
       let titleLength = title.length * 14
       let length = 0;
       if(titleLength > width) {
          for(let i =0;i<title.length;i++) {
+            length += 14;
             if(length > width) {
                 if(type === 'answer') {
                   if(!data.isSpread || data.isSpread === 0) {
@@ -974,48 +977,12 @@ export default {
                  }
               return title.substring(0,(i-4)) + '...'
             }
-           length += 14;
-      }
+        }
       }else {
           if(type === 'answer') {
               if(!data.isSpread || data.isSpread === 0) {
                 this.$set(data,'isSpread',0)
               }
-           }else {
-             if(!data.isSpreada || data.isSpreada === 0) {
-                this.$set(data,'isSpreada',0)
-              }
-           }
-        return title
-      }
-    },
-     getContent1(data,title,index,type) {
-      let width = (document.getElementById('componentId').offsetWidth - 48) * 5
-      let titleLength = title.length * 14
-      let length = 0;
-      if(titleLength > width) {
-         for(let i =0;i<title.length;i++) {
-         if(length > width) {
-            if(type === 'answer') {
-              if(!data.isSpread || data.isSpread === 0) {
-                this.$set(data,'isSpread',1)
-              }
-
-           }else {
-             if(!data.isSpreada || data.isSpreada === 0) {
-                this.$set(data,'isSpreada',1)
-              }
-           }
-           return title.substring(0,(i-4)) + '...'
-         }
-           length += 14;
-      }
-      }else {
-          if(type === 'answer') {
-              if(!data.isSpread || data.isSpread === 0) {
-                this.$set(data,'isSpread',0)
-              }
-
            }else {
              if(!data.isSpreada || data.isSpreada === 0) {
                 this.$set(data,'isSpreada',0)
@@ -1146,6 +1113,17 @@ export default {
   cursor:pointer;
 }
 .checkbox {
+  //   display: inline-block;
+  // text-align: center;
+  // border: 1px solid rgba(235, 235, 235, 1);
+  // font-family: "MicrosoftYaHei", "Microsoft YaHei";
+  // margin-left: 10px;
+  // padding: 4px;
+  // border-radius: 2px;
+  // font-weight: 400;
+  // font-style: normal;
+  // font-size: 14px;
+  // color: rgba(0, 0, 0, 0.647058823529412);
   font-size:12px;
   color:#14bcf5;
   background: #fafafa;
