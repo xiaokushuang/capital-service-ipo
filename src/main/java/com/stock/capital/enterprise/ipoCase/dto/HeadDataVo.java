@@ -49,6 +49,9 @@ public class HeadDataVo implements Serializable {
     @ApiModelProperty("是否有审核结果数据 0:显示 1:没有发审会进程")
     private Integer haveExamine;
 
+    @ApiModelProperty("是否有发行上市进程 0:显示 1:没有发审会进程")
+    private Integer havePublic;
+
     @ApiModelProperty("是否是科创板 0:否 1:是")
     private Integer isTechBoard;
 
@@ -138,5 +141,13 @@ public class HeadDataVo implements Serializable {
 
     public void setIsTechBoard(Integer isTechBoard) {
         this.isTechBoard = isTechBoard;
+    }
+
+    public Integer getHavePublic() {
+        return havePublic;
+    }
+
+    public void setHavePublic(Integer havePublic) {
+        this.havePublic = havePublic;
     }
 }

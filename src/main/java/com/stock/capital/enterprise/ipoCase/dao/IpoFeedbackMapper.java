@@ -46,7 +46,7 @@ public interface IpoFeedbackMapper {
     /**
      * 查询当前公司函件id
      */
-    List<String> selectLetterIds(@Param("orgId") String orgId,@Param("processDateList") List<String> processDateList);
+    List<String> selectLetterIds(@Param("orgId") String orgId, @Param("processDateList") List<String> processDateList);
 
     /**
      * 查询问题一级标签
@@ -55,5 +55,10 @@ public interface IpoFeedbackMapper {
     Map<String, Map<String, String>> selectFirstLabelMap();
 
     @MapKey("labelId")
-    Map<String,Map<String,String>> selectSecondLabelMap();
+    Map<String, Map<String, String>> selectSecondLabelMap();
+
+    /**
+     * 查询进程表上市进程日期
+     */
+    List<String> selectPublicProcess(String id);
 }
