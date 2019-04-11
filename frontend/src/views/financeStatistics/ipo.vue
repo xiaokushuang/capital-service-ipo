@@ -82,7 +82,12 @@
                                               </el-tooltip>
                                             </div>
                                             <div v-if="headList.haveExamine=='0' && headList.isTechBoard=='0'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" :class="['el-tabs__item is-top', {'is-active': isActive === '4'}]" @click="onTabClick('4', $event)" style="padding-right: 0">审核结果及关注问题</div>
-                                            <div id="tab-fifth"  ref="tab-fifth"  aria-controls="pane-fifth"  :class="['el-tabs__item is-top', {'is-active': isActive === '5'}]" @click="onTabClick('5', $event)">发行概况</div>
+                                            <div v-if="headList.havePublic=='1'" id="tab-fifth" ref="tab-fifth" aria-controls="pane-fifth" class="el-tabs__item1" style="padding-right: 0;cursor:default;color:#adadad">
+                                               <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无发行概况信息" placement="top" effect="light">
+                                                <el-button class="btnClass">发行概况</el-button>
+                                              </el-tooltip>
+                                            </div>
+                                            <div v-if="headList.havePublic=='0'" id="tab-fifth"  ref="tab-fifth"  aria-controls="pane-fifth"  :class="['el-tabs__item is-top', {'is-active': isActive === '5'}]" @click="onTabClick('5', $event)">发行概况</div>
                                         </div>
                                     </div>
                                 </div>
@@ -884,6 +889,8 @@ export default {
   display:none
 }
 .btnClass{
+  padding-left: 0;
+  padding-right: 0;
   background:white;
   border:none;
   cursor:default;
