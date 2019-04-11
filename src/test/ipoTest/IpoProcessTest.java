@@ -2,6 +2,10 @@ package ipoTest;
 
 import base.BaseTest;
 
+import com.stock.capital.enterprise.ipoCase.dto.IpoExamineDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
+import com.stock.capital.enterprise.ipoCase.service.IpoExamineService;
+import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFinanceService;
 import com.stock.capital.enterprise.ipoCase.service.IpoInvestService;
 import com.stock.capital.enterprise.ipoCase.service.IpoProcessService;
@@ -11,6 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -28,44 +34,91 @@ public class IpoProcessTest extends BaseTest {
     private IpoInvestService ipoInvestService;
     @Resource
     private IpoFinanceService ipoFinanceService;
+    @Resource
+    private IpoFeedbackService ipoFeedbackService;
+    @Resource
+    private IpoExamineService ipoExamineService;
 
     @Test
-    public void testSample() throws Exception {
-        ipoProcessService.selectProcessList("97952444248599350","02");
-//        mockMvc.perform(post("/regulatory_statistics/ipoQuery")
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andDo(print())
-//                .andReturn();
+    public void testSelectProcessList() throws Exception {
+        ipoProcessService.selectProcessList("97952444248599354","02");
     }
 
     @Test
     public void testInvestItem() throws Exception {
-        ipoInvestService.selectInvestItem("97952444248599350");
+        ipoInvestService.selectInvestItem("97952444248599344");
     }
 
     @Test
     public void testSelectFinanceList() throws Exception {
-        ipoFinanceService.selectFinanceList("97952444248599350");
+        ipoFinanceService.selectFinanceList("97952444248599344");
     }
 
     @Test
     public void testSelectFinanceOverList() throws Exception {
-        ipoFinanceService.selectFinanceOverList("97952444248599350");
+        ipoFinanceService.selectFinanceOverList("97952444248599344");
     }
 
     @Test
     public void testSelectFinanceProfitList() throws Exception {
-        ipoFinanceService.selectFinanceProfitList("97952444248599350");
+        ipoFinanceService.selectFinanceProfitList("97952444248599344");
+    }
+
+    @Test
+    public void selectFeedbackList() throws Exception {
+        IpoFeedbackDto paramDto = new IpoFeedbackDto();
+        paramDto.setId("97952444248599344");
+        List<IpoFeedbackDto> resultList =  ipoFeedbackService.selectFeedbackList(paramDto);
+    }
+
+    @Test
+    public void selectSecondLabelList() throws Exception {
+        ipoFeedbackService.selectSecondLabelList("745777672754254995","745652376752683397");
+    }
+
+    @Test
+    public void selectQuestionListByLetterId() throws Exception {
+        IpoFeedbackDto paramDto = new IpoFeedbackDto();
+        paramDto.setLetterId("745777672754254995");
+        paramDto.setFirstLabelId("745439065452960302");
+//        paramDto.setOnlyResponse("0");
+        paramDto.setSecondLabelId("745777672749757382,745652376752623338");
+        ipoFeedbackService.selectQuestionListByLetterId(paramDto);
+    }
+
+    @Test
+    public void selectExamineList() throws Exception {
+        IpoExamineDto resultDto = ipoExamineService.selectExamineList("97952444248599376");
+    }
+
+    @Test
+    public void selectMemberList() throws Exception {
+        ipoExamineService.selectMemberList("97952444248599344","2018-09-18");
     }
 
     @Test
     public void selectNewFeedbackList(){
-        ipoFeedbackService.selectNewFeedbackList("97952444248599344");
+        ipoFeedbackService.selectNewFeedbackList("97952444248599354");
     }
 
     @Test
-    public void selectNewSecondLabel(){
+    public void selectNewQuestionList(){
         ipoFeedbackService.selectNewQuestionList(
-                "745777672754254995","2200004","","1");
+                "745777672754254995","2200004","2200004006","0");
+    }
+
+    @Test
+    public void selectNewExamineList(){
+        ipoExamineService.selectNewExamineList("97952444248599434");
+    }
+
+    @Test
+    public void checkSingleAnnounce(){
+        ipoProcessService.checkSingleAnnounce("AN201902131295659791");
+    }
+
+    @Test
+    public void checkMultiplyFile(){
+        ipoProcessService.checkMultiplyFile("AN201902131295659791,AN201902131295659792");
     }
 }
