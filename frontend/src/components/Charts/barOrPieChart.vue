@@ -75,11 +75,7 @@ export default {
           this.barYY.push(a3)
           this.barYY.push(a4)
           var barBusinessName;
-          // if(dataList.mainIncomeInfoList[i].businessName.length>7){
-          //   barBusinessName = dataList.mainIncomeInfoList[i].businessName.slice(0,10)+'..'
-          // }else{
             barBusinessName = dataList.mainIncomeInfoList.slice(0,-1)[i].businessName
-          // }
           this.barChartY.push(
                                 {
                                     name:barBusinessName,
@@ -187,11 +183,7 @@ initPieChart(dataList,nameTempO,num,flag) {
         name:"",
         value:""
       };
-      // if(dataList[i].businessName.length>7){
-      //   obj.name = dataList[i].businessName.slice(0,6)+'...';
-      // }else{
         obj.name = dataList[i].businessName
-      // }
       obj.value = dataList[i].onePeriodAmount;
       this.pieData.push(obj);
     }

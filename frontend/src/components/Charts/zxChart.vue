@@ -77,7 +77,6 @@ beforeDestroy() {
         for(var i = 0;i < this.zxIndex + 1;i++){
           this.zxChartY = []
           for(var j = 0;j < dataList[i].industryCompareRateDetailList.length;j++){
-
             arr.push(dataList[i].industryCompareRateDetailList[j].companyName)
             if(j+2<dataList[i].industryCompareRateDetailList.length){
               this.zxChartYSelect[dataList[i].industryCompareRateDetailList[j].companyName]=false
