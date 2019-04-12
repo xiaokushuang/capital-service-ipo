@@ -539,7 +539,7 @@ function historyEChartInit() {
 		    dataZoom: [{
 		        type: 'inside',
 		        start: 0,
-		        end: 100
+		        end: 30
 		    }, {
 		        start: 0,
 		        end: 10,
@@ -671,6 +671,7 @@ function historyChartSetting(grabUpdateTime,hzbCount,zxbCount,cybCount,kcCount,t
 					    type:'line',
 					    data: totalCount
 					   
+
 					},*/
 			        {
 			            name:'沪主板',
