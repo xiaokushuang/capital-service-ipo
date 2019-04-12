@@ -159,9 +159,6 @@
                                 <span style="color:#1990FE;cursor:pointer" @click="handleMemberDetail(baseList[1].examineDate)">详情 &gt;</span>
                              </span>
                              <span v-else>- -</span>
-                             <!-- <span v-for="name in baseList[1].member" style="color:#333;">{{name}}</span>
-                             <span style="color:#333;"> ;</span>
-                             <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail(baseList[1].examineDate)">详情 &gt;</span> -->
                         </p>
                     </div>
                     <!-- 委员弹窗 -->

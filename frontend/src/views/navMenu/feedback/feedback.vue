@@ -1113,17 +1113,6 @@ export default {
   cursor:pointer;
 }
 .checkbox {
-  //   display: inline-block;
-  // text-align: center;
-  // border: 1px solid rgba(235, 235, 235, 1);
-  // font-family: "MicrosoftYaHei", "Microsoft YaHei";
-  // margin-left: 10px;
-  // padding: 4px;
-  // border-radius: 2px;
-  // font-weight: 400;
-  // font-style: normal;
-  // font-size: 14px;
-  // color: rgba(0, 0, 0, 0.647058823529412);
   font-size:12px;
   color:#14bcf5;
   background: #fafafa;
@@ -1131,7 +1120,7 @@ export default {
   margin-bottom: 10px;
   border-width: 0.1px;
   border-style: solid;
-  border-color: rgba(217, 217, 217, 1);
+  border-color: #ebebeb;
   border-radius: 3px;
 
 }

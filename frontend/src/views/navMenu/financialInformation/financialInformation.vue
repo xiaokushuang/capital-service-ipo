@@ -7,42 +7,42 @@
                 <span class="titleText" id="financialStatementData">主要财务数据</span>
             </div>
             <div class="allAssets">
-                <span v-if="this.allAssetsTableTitle.firstYearDate " style="font-size:16px;color:#333">财务总体情况</span>
-                <span v-if="this.allAssetsTableTitle.firstYearDate "  class="clear">
+                <span v-if="this.allAssetsTableTitle!=null&&this.allAssetsTableTitle.firstYearDate " style="font-size:16px;color:#333">财务总体情况</span>
+                <span v-if="this.allAssetsTableTitle!=null&&this.allAssetsTableTitle.firstYearDate "  class="clear">
                     <span style="float: right;font-size: 12px;color: #666666;">
                        单位：万元
                     </span>
                 </span>
                 <div class="allAssetsTable" style="margin-top: -10px;">
-                    <allAssetsTable v-if="this.allAssetsTableTitle.firstYearDate "  :allAssetsTableList="[this.allAssetsTableTitle,this.allAssetsTableContent]"></allAssetsTable>
+                    <allAssetsTable v-if="this.allAssetsTableTitle!=null&&this.allAssetsTableTitle.firstYearDate "  :allAssetsTableList="[this.allAssetsTableTitle,this.allAssetsTableContent]"></allAssetsTable>
                 </div>
             </div>
             <div class="assets">
                 <!-- <p>资产与负债情况</p> -->
                 <div style="margin-top:24px;margin-bottom:12px">
-                    <span  v-if="this.assetsOrDeptTableTitle.firstYearDate " style="font-size:16px;color:#333">资产与负债情况</span>
-                    <span v-if="this.assetsOrDeptTableTitle.firstYearDate "  class="clear">
+                    <span  v-if="this.assetsOrDeptTableTitle!=null&&this.assetsOrDeptTableTitle.firstYearDate " style="font-size:16px;color:#333">资产与负债情况</span>
+                    <span v-if="this.assetsOrDeptTableTitle!=null&&this.assetsOrDeptTableTitle.firstYearDate "  class="clear">
                         <span style="float: right;font-size: 12px;color: #666666;">
                         单位：万元
                         </span>
                     </span>
                 </div>
                 <div class="assetsTable1">
-                    <assetsOrDebtTable v-if="this.assetsOrDeptTableTitle.firstYearDate "  :assetsOrDeptTableList="[this.assetsOrDeptTableTitle,this.ipoAssetItemList,this.ipoDebtItemList,this.ipoEquityItemList]"></assetsOrDebtTable>
+                    <assetsOrDebtTable v-if="this.assetsOrDeptTableTitle!=null&&this.assetsOrDeptTableTitle.firstYearDate "  :assetsOrDeptTableList="[this.assetsOrDeptTableTitle,this.ipoAssetItemList,this.ipoDebtItemList,this.ipoEquityItemList]"></assetsOrDebtTable>
                 </div>
             </div>
             <div class="income">
                 <!-- <p>收入与利润情况</p>  -->
                 <div style="margin-top:24px;margin-bottom:12px">
-                    <span v-if="this.incomeTableTitle.firstYearDate " style="font-size:16px;color:#333">收入与利润情况</span>
-                    <span v-if="this.incomeTableTitle.firstYearDate " class="clear">
+                    <span v-if="this.incomeTableTitle!=null&&this.incomeTableTitle.firstYearDate " style="font-size:16px;color:#333">收入与利润情况</span>
+                    <span v-if="this.incomeTableTitle!=null&&this.incomeTableTitle.firstYearDate " class="clear">
                         <span style="float: right;font-size: 12px;color: #666666;">
                         单位：万元
                         </span>
                     </span>
                 </div>
                 <div class="assetsTable2">
-                    <incomeTable v-if="this.incomeTableTitle.firstYearDate "  :incomeTableList="[this.incomeTableTitle,this.ipoProfitItemList,this.ipoCostItemList,this.ipoReturnOverList]"></incomeTable>
+                    <incomeTable v-if="this.incomeTableTitle!=null&&this.incomeTableTitle.firstYearDate "  :incomeTableList="[this.incomeTableTitle,this.ipoProfitItemList,this.ipoCostItemList,this.ipoReturnOverList]"></incomeTable>
                 </div>
             </div>
         </div>
@@ -226,7 +226,7 @@ export default {
                     tabId: 'tab-second',
                     noClick: true
                 } 
-                 if(this.allAssetsTableTitle.firstYearDate ||  this.assetsOrDeptTableTitle.firstYearDate || this.incomeTableTitle.firstYearDate){
+                 if((this.allAssetsTableTitle!=null&&this.assetsOrDeptTableTitle!=null&&this.incomeTableTitle!=null)&&(this.allAssetsTableTitle.firstYearDate ||  this.assetsOrDeptTableTitle.firstYearDate || this.incomeTableTitle.firstYearDate)){
                     financialStatementData.noClick = false;
                     }
                  if(this.maoChartTableData&&this.maoChartTableData.length>0){
@@ -251,8 +251,10 @@ export default {
             }) 
             // 资产总体
              getSelectFinanceOverList(param).then(res => {
-                     this.allAssetsTableTitle = res.data.result.dateList
-                 if(res.data.result&&res.data.result.ipoFinanceOverList.length>0){
+                 if(res.data.result&&res.data.result.dateList!=null){
+                    this.allAssetsTableTitle = res.data.result.dateList
+                 }
+                 if(res.data.result&&res.data.result.ipoFinanceOverList!=null&&res.data.result.ipoFinanceOverList.length>0){
                      this.allAssetsTableContent = res.data.result.ipoFinanceOverList 
                  this.getPosition()
                  }
@@ -263,13 +265,13 @@ export default {
                         this.assetsOrDeptTableTitle = res.data.result.dateList
                         this.getPosition()
                     }
-                    if(res.data.result&&res.data.result.ipoAssetItemList.length>0){
+                    if(res.data.result&&res.data.result.ipoAssetItemList!=null&&res.data.result.ipoAssetItemList.length>0){
                         this.ipoAssetItemList = res.data.result.ipoAssetItemList//资产类项目列表
                     }
-                    if(res.data.result&&res.data.result.ipoDebtItemList.length>0){
+                    if(res.data.result&&res.data.result.ipoDebtItemList!=null&&res.data.result.ipoDebtItemList.length>0){
                         this.ipoDebtItemList = res.data.result.ipoDebtItemList//负债类项目列表
                     }
-                    if(res.data.result&&res.data.result.ipoEquityItemList.length>0){
+                    if(res.data.result&&res.data.result.ipoEquityItemList!=null&&res.data.result.ipoEquityItemList.length>0){
                         this.ipoEquityItemList = res.data.result.ipoEquityItemList//权益类项目列表
                     }
                 
@@ -280,13 +282,13 @@ export default {
                         this.incomeTableTitle = res.data.result.dateList
                         this.getPosition()
                     }
-                      if(res.data.result&&res.data.result.ipoProfitItemList.length>0){
+                      if(res.data.result&&res.data.result.ipoProfitItemList!=null&&res.data.result.ipoProfitItemList.length>0){
                           this.ipoProfitItemList = res.data.result.ipoProfitItemList//收益类项目列表
                       }
-                      if(res.data.result&&res.data.result.ipoCostItemList.length>0){
+                      if(res.data.result&&res.data.result.ipoCostItemList!=null&&res.data.result.ipoCostItemList.length>0){
                           this.ipoCostItemList = res.data.result.ipoCostItemList//成本类项目列表
                       }
-                      if(res.data.result&&res.data.result.ipoReturnOverList.length>0){
+                      if(res.data.result&&res.data.result.ipoReturnOverList!=null&&res.data.result.ipoReturnOverList.length>0){
                           this.ipoReturnOverList = res.data.result.ipoReturnOverList//利润类项目列表
                       }
                     
