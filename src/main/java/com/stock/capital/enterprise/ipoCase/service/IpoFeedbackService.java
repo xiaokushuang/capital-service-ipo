@@ -230,14 +230,13 @@ public class IpoFeedbackService extends BaseService {
         Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap();
         //定义问题标签集合
         List<IpoQuestionLabelDto> secondLabelList = new ArrayList<>();
-        //将二级标签用逗号分隔为数组
-        List<String> secondLabelParamList = Arrays.asList(secondLabelIds.split(","));
-
         Map<String, String> condition = Maps.newHashMap();
         StringBuilder conditionsStr = new StringBuilder("index_type_t: \"letterqa\"");
         conditionsStr.append(" AND " + "letter_letter_id_t:");
         conditionsStr.append(letterId);
-        if (StringUtils.isNotEmpty(secondLabelIds) && CollectionUtils.isNotEmpty(secondLabelParamList)) {
+        if (StringUtils.isNotEmpty(secondLabelIds)) {
+            //将二级标签用逗号分隔为数组
+            List<String> secondLabelParamList = Arrays.asList(secondLabelIds.split(","));
             conditionsStr.append(" AND " + "letter_question_class_new_id_txt:(").append(secondLabelParamList.get(0));
             for (int i = 1; i < secondLabelParamList.size(); i++) {
                 conditionsStr.append(" OR ").append(secondLabelParamList.get(i));
