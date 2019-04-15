@@ -226,7 +226,7 @@ table tbody tr td.left {
                                           cssClass="text-center" cssStyle="width:10%"/>
                             <e:gridColumn label="创业板" renderColumn="renderColumnLawcybCount" orderColumn="3"
                                           cssClass="text-center" cssStyle="width:10%;border-right-color: #14bcf5;"/>
-                            <e:gridColumn label="科创板" renderColumn="renderColumnByKC2"  orderColumn="3" 
+                            <e:gridColumn label="科创板" renderColumn="renderColumnByKC2"  orderColumn="6" 
                                            cssClass="text-center" cssStyle="width:10%;border-right-color: #14bcf5;"/> 
                             <e:gridColumn label="合计" renderColumn="renderColumnLawTotalCount" orderColumn="4"
                                           cssClass="text-center" cssStyle="width:10%"/>
@@ -249,7 +249,7 @@ table tbody tr td.left {
                                           cssClass="text-center" cssStyle="width:10%"/>
                             <e:gridColumn label="创业板" renderColumn="renderColumnAccountcybCount" orderColumn="3"
                                           cssClass="text-center" cssStyle="width:10%;border-right-color: #14bcf5;"/>
-                             <e:gridColumn label="科创板" renderColumn="renderColumnByKC3"  orderColumn="3" 
+                             <e:gridColumn label="科创板" renderColumn="renderColumnByKC3"  orderColumn="6" 
                                            cssClass="text-center" cssStyle="width:10%;border-right-color: #14bcf5;"/> 
                             <e:gridColumn label="合计" renderColumn="renderColumnAccountTotalCount" orderColumn="4"
                                           cssClass="text-center" cssStyle="width:10%"/>

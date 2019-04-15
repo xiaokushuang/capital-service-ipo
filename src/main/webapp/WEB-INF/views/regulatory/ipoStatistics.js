@@ -76,7 +76,7 @@ function chartSetting(lst) {
 		if(lst[i].label == "已反馈"){
 			newArray[1]= lst[i];
 		}
-		if(lst[i].label == "预披露更新"){
+		if(lst[i].label == "预先披露更新"){
 			newArray[2]= lst[i];
 		}
 		if(lst[i].label == "已通过发审会"){
@@ -109,7 +109,7 @@ function chartSetting(lst) {
 	var series = [];
 	for (var i = 0; i < lst.length; i++) {
 		if ((lst[i].hzbCount > 0 || lst[i].zxbCount > 0 || lst[i].cybCount > 0 || lst[i].kcCount >= 0) && i <= lst.length - 1) {
-			if(lst[i].label!='终止审查' && lst[i].label!="预先披露更新" && lst[i].label!="已上发审会，暂缓表决"){
+			if(lst[i].label!='终止审查' && lst[i].label!="预披露更新" && lst[i].label!="已上发审会，暂缓表决"){
 				lst[i].label = lableTurnToName(lst[i].label);
 				var value = [];
 				value[0] = lst[i].hzbCount;
@@ -240,9 +240,9 @@ function reviewTableSetting(lst) {
 	for (var i = 0; i < newArray.length; i++) {
 		if (newArray[i].hzbCount > 0 || newArray[i].zxbCount > 0 || newArray[i].cybCount > 0 || newArray[i].kcCount >= 0) {
 			if(newArray[i].label!="终止审查" && newArray[i].label!="预披露更新" && newArray[i].label!="已上发审会，暂缓表决"){
-				if(newArray[i].label=="预先披露更新"){
+				/*if(newArray[i].label=="预先披露更新"){
 					newArray[i].label="预披露更新"
-				}
+				}*/
 				
 				var backgroud = '';
 				var label = '<td class="left">' + lableTurnName(newArray[i].label) + '</td>';
@@ -539,7 +539,7 @@ function historyEChartInit() {
 		    dataZoom: [{
 		        type: 'inside',
 		        start: 0,
-		        end: 100
+		        end: 30
 		    }, {
 		        start: 0,
 		        end: 10,
@@ -671,6 +671,7 @@ function historyChartSetting(grabUpdateTime,hzbCount,zxbCount,cybCount,kcCount,t
 					    type:'line',
 					    data: totalCount
 					   
+
 					},*/
 			        {
 			            name:'沪主板',

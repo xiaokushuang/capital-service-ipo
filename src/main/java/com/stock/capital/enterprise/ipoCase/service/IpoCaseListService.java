@@ -253,9 +253,9 @@ public class IpoCaseListService extends BaseService {
 
         } else {
             if ("ascending".equals(orderByOrder)) {
-                orderByOrder = "asc";
+                orderByOrder = signSymbol ? "asc":"desc,asc";
             } else if ("descending".equals(orderByOrder)) {
-                orderByOrder = "desc";
+                orderByOrder = signSymbol ? "desc":"desc,desc";
             }
         }
         String orderByName = page.getOrderByName();
@@ -266,6 +266,10 @@ public class IpoCaseListService extends BaseService {
                 orderByName = "ipo_open_flag_t,ipo_review_meeting_time_dt";
             }
 
+        }else {
+            if (!signSymbol){
+                orderByName = "ipo_open_flag_t," + orderByName;
+            }
         }
         condition.put(Constant.SEARCH_CONDIATION, conditionsStr.toString());
         condition.put(Constant.SEARCH_FACET_FIELD, conditionTree.toString());

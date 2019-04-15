@@ -12,10 +12,10 @@
             <div v-if="companyProfileList&&companyProfileList.ipoPlate"  style="color: #333333;float:left;display:inline-block;width: 55%;margin-left: 13px;">{{companyProfileList.ipoPlate}}</div>
             <div v-else  style="color: #333333;float:left;display:inline-block;width: 55%;margin-left: 13px;">- -</div>
           </li>
-           <li  class="clear" style="margin-bottom:10px;position:relative" >
+          <li  class="clear" style="margin-bottom:10px;position:relative" >
             <span  class="l">所属行业(证监会)</span>
             <div v-if="companyProfileList&&companyProfileList.industryCsrc"  style="color: #333333;float:left;display:inline-block;width: 53%;margin-left: 27px;">{{companyProfileList.industryCsrc}}</div>
-            <div v-else  style="color: #333333;float:left;display:inline-block;width: 53%;margin-left: 27px;">- -</div>          
+            <div v-else  style="color: #333333;float:left;display:inline-block;width: 53%;margin-left: 27px;">- -</div>
           </li>
           <li  class="clear" style="margin-bottom:10px;position:relative" >
             <span  class="l">注册资本</span>
@@ -70,7 +70,7 @@
               <div v-if="companyProfileList.issueCondition&&companyProfileList.issueCondition.indexOf('302')>-1">预计市值不低于人民币<span style="color:red">50亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">5亿元</span></div>
             </div>
           </li>
-          <li  class="clear" style="position:relative;margin-top:0%;margin-bottom:16px">
+          <li class="clear" style="position:relative;margin-top:0%;margin-bottom:16px">
             <span class="l" >主营业务</span>
             <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 27px;" v-if="companyProfileList&&companyProfileList.majorBusinesses">{{companyProfileList.majorBusinesses}}</div>
             <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 27px;" v-else >- -</div>
@@ -80,7 +80,7 @@
       <div class="others" v-if="this.otherMarketInfoList&&this.otherMarketInfoList.length>0">
         <p style="color:black">登录其他资本市场</p>
         <ul v-for="item in otherMarketInfoList">
-           <li style=" width: 30%;position:relative">
+          <li style=" width: 30%;position:relative">
             <span>资本市场</span>&nbsp;&nbsp;
             <div style="color:black;margin-left: 25%;margin-top: -17.5px;">{{item.marketType}}</div>
           </li>
@@ -635,7 +635,7 @@ export default {
           }
               this.getPosition()
       })
-      
+
 
     },
     // 鼠标移入公司名
@@ -919,7 +919,7 @@ export default {
   box-shadow: 0 0px 28px -5px #ccc;
 }
 .majorBusinesses{
-  color:#333333; 
+  color:#333333;
   margin-left: 9.4%;
   margin-top: -18.5px;
   line-height: 20px;
