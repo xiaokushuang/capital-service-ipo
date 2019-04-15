@@ -452,11 +452,15 @@
                     <template slot-scope="scope">
                       {{scope.row.processLabel}}
                       <br/>
-                      <span style="margin-left: -6%">
-                      <svg-icon v-if="scope.row.iecResult==='00'" icon-class="ipoPass" class="svg-style"></svg-icon>
+                      <span>
+                        <span class="htgResult" v-if="scope.row.iecResult==='00'">获通过</span>
+                        <span class="whtgResult" v-if="scope.row.iecResult==='01'">未获通过</span>
+                        <span class="zhbjResult" v-if="scope.row.iecResult==='02'">暂缓表决</span>
+                        <span class="qxshResult" v-if="scope.row.iecResult==='03'">取消审核</span>
+                      <!-- <svg-icon v-if="scope.row.iecResult==='00'" icon-class="ipoPass" class="svg-style"></svg-icon>
                       <svg-icon v-if="scope.row.iecResult==='01'" icon-class="ipoNoPass" class="svg-style"></svg-icon>
                       <svg-icon v-if="scope.row.iecResult==='02'" icon-class="ipoSuspendVote" class="svg-style"></svg-icon>
-                      <svg-icon v-if="scope.row.iecResult==='03'" icon-class="ipoCancelReview" class="svg-style"></svg-icon>
+                      <svg-icon v-if="scope.row.iecResult==='03'" icon-class="ipoCancelReview" class="svg-style"></svg-icon> -->
                         </span>
                     </template>
                   </el-table-column>
@@ -1525,8 +1529,14 @@
     margin-top: -4%;
     margin-left: 4%;
   }
-
-  @media screen and (max-width: 1920px) and (min-width: 1400px) {
+    @media screen and (max-width: 1680px) and (min-width: 1359px) {
+    .topOne {
+      display: inline-block;
+      margin-top: -4%;
+      margin-left: 3.1%;
+    }
+  }
+    @media screen and (max-width: 1920px) and (min-width: 1679px) {
     .topOne {
       display: inline-block;
       margin-top: -4%;
@@ -1610,5 +1620,46 @@
   .no_authority .cell{
     color: #999999 !important;
   }
+  /* 是否通过 */
+  .zhbjResult{
+     font-size: 12px;
+     color: #FF9900;
+     padding:5px;
+     padding-left: 8px;
+     line-height:10px;
+     display:inline-block;
+      background-size:cover;
+     background:url('../../assets/images/zhbj.png') no-repeat;
+}
+.whtgResult{
+     font-size: 12px;
+     color: #FE5461;
+     padding:5px;
+     padding-left: 8px;
+     line-height:10px;
+     display:inline-block;
+     background-size:cover;
+     background:url('../../assets/images/whtg.png') no-repeat;
+}
+.htgResult{
+     font-size: 12px;
+     color: #14BCF5;
+     padding:5px;
+     padding-left: 8px;
+     line-height:10px;
+     display:inline-block;
+      background-size:cover;
+     background:url('../../assets/images/htg.png') no-repeat;
+}
+.qxshResult{
+     font-size: 12px;
+     color: #94A3B4;
+     padding:5px;
+     padding-left: 8px;
+     line-height:10px;
+     display:inline-block;
+      background-size:cover;
+     background:url('../../assets/images/qxsh.png') no-repeat;
+}
 </style>
 

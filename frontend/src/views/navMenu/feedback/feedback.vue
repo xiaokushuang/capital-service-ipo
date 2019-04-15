@@ -402,9 +402,20 @@ export default {
        this.initTableData()
        this.isShowAll = true
      },
-    mounted() {
-
-    },
+    // 滑轮滚到底部懒加载
+     mounted(){
+            let _this = this;
+            // 注册scroll事件并监听
+            window.addEventListener('scroll',function(){
+              let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop //滚动高度
+                // console.log(document.documentElement.clientHeight+'-----------'+window.innerHeight); // 可视区域高度
+                // console.log('222',document.body.offsetHeight); // 文档高度
+                // 判断是否滚动到底部
+                if(scrollTop + window.innerHeight + 2 >= document.body.offsetHeight) {
+                  _this.showMoreMethods()
+                }
+            });
+        },
   methods: {
     // 单选按钮
     handelChange(val){
@@ -436,7 +447,7 @@ export default {
     handelMoreChange2(val){
        this.checkboxGroup2 = val
        for(let i = 0;i<val.length;i++){
-         if(val[i] == ''){
+         if(val[i] == null){
            this.checkboxGroup2 = []
            document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor="white";
          }
@@ -447,7 +458,7 @@ export default {
     handelMoreChange3(val){
        this.checkboxGroup3 = val
        for(let i = 0;i<val.length;i++){
-         if(val[i] == ''){
+         if(val[i] == null){
            this.checkboxGroup3 = []
            document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor="white";
          }
@@ -485,6 +496,7 @@ export default {
     },
     // 点击加载更多
     showMoreMethods(){
+      // debugger;
       if(this.tabList.length==1){
         this.showLength+=15
         if(this.allQuestionList.length > this.showLength){

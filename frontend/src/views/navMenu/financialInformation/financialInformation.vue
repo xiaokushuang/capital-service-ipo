@@ -2,13 +2,13 @@
     <div class="financialInformation">
         <!-- 主要财务数据 -->
         <div class="financialData">
-            <div class="title">
+            <div v-if="(allAssetsTableTitle!=null&&assetsOrDeptTableTitle!=null&&incomeTableTitle!=null)&&(allAssetsTableTitle.firstYearDate ||  assetsOrDeptTableTitle.firstYearDate || incomeTableTitle.firstYearDate)" class="title">
                 <span class="littleRectangle"></span>
                 <span class="titleText" id="financialStatementData">主要财务数据</span>
             </div>
             <div class="allAssets">
-                <span v-if="this.allAssetsTableTitle!=null&&this.allAssetsTableTitle.firstYearDate " style="font-size:16px;color:#333">财务总体情况</span>
-                <span v-if="this.allAssetsTableTitle!=null&&this.allAssetsTableTitle.firstYearDate "  class="clear">
+                <span v-if="allAssetsTableTitle!=null&&allAssetsTableTitle.firstYearDate " style="font-size:16px;color:#333">财务总体情况</span>
+                <span v-if="allAssetsTableTitle!=null&&allAssetsTableTitle.firstYearDate "  class="clear">
                     <span style="float: right;font-size: 12px;color: #666666;">
                        单位：万元
                     </span>
@@ -48,87 +48,88 @@
         </div>
         <!-- 招股书列示同行业上市公司综合毛利率对比 -->
         <div class="compare">
-            <div class="title" >
+            <div v-if="maoChartTableData&&maoChartTableData.length>0" class="title" >
                 <span class="littleRectangle"></span>
                 <span class="titleText" id="comparison">招股书列示同行业上市公司综合毛利率对比</span>
             </div>
-            <div class="chartTable" v-for="item,index in maoChartTableData" :key="item.id">
-                <p style="font-family:'PingFang-SC-Regular', 'PingFang SC';font-weight:400;color:#666666;font-size:14px; margin-top: 30px;margin-bottom:0px">{{item.remark}}</p>
-                <div class="zxChart" style="height:300px;width:100%; ">
-                    <zxChart ref="zxChart" :zxIndex = "index"></zxChart>
-                </div>
-                <div class="table">
-                    <!-- <compareTable></compareTable> -->
-                    <!-- 其他公司对比 -->
-                     <el-table class="otherCompany" stripe :data="item.industryCompareRateDetailList.slice(0,-2)" border style="width: 100%;margin-top: 20px">
-                        <el-table-column prop="companyName" align="left" class-name="table_cell" label="企业名称" width="156" ></el-table-column>
-                        <el-table-column align="center" :label="item.thirdYear" header-align="center">
-                             <template slot-scope="scope">
-                                <span v-if="scope.row.thirdYearRate"> {{scope.row.thirdYearRate | dataInThRule}}%</span>
-                                <span v-else> - - </span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column align="center" :label="item.secondYear" header-align="center" >
-                             <template slot-scope="scope">
-                                <span v-if="scope.row.secondYearRate"> {{scope.row.secondYearRate | dataInThRule}}%</span>
-                                <span v-else> - - </span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column align="center" :label="item.firstYear" header-align="center" >
-                             <template slot-scope="scope">
-                                <span v-if="scope.row.firstYearRate"> {{scope.row.firstYearRate | dataInThRule}}%</span>
-                                <span v-else> - - </span>
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                    <!-- 平均值 -->
-                     <el-table class="average averageOrMyself" stripe :data="item.industryCompareRateDetailList.slice(-2,-1)" border style="width: 100%;margin-top: 20px">
-                        <el-table-column align="left" class-name="table_cell" label="企业名称" width="156" >
-                             <template slot-scope="scope">
-                                <span style="font-weight:bold;color:black">{{isNotEmpty(scope.row.companyName) ? scope.row.companyName: '- -'}}</span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column align="center" :label="item.thirdYear" header-align="center">
-                             <template slot-scope="scope">
-                                <span style="font-weight:bold;color:black" v-if="scope.row.thirdYearRate"> {{scope.row.thirdYearRate | dataInThRule}}%</span>
-                                <span style="font-weight:bold;color:black" v-else> - - </span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column align="center" :label="item.secondYear" header-align="center" >
-                             <template slot-scope="scope">
-                                <span style="font-weight:bold;color:black" v-if="scope.row.secondYearRate"> {{scope.row.secondYearRate | dataInThRule}}%</span>
-                                <span style="font-weight:bold;color:black" v-else> - - </span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column align="center" :label="item.firstYear" header-align="center" >
-                             <template slot-scope="scope">
-                                <span style="font-weight:bold;color:black" v-if="scope.row.firstYearRate"> {{scope.row.firstYearRate | dataInThRule}}%</span>
-                                <span style="font-weight:bold;color:black" v-else> - - </span>
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                    <!-- 自己公司 -->
-                      <el-table class="averageOrMyself myself" stripe :data="item.industryCompareRateDetailList.slice(-1)" border style="width: 100%;margin-top: 20px">
-                        <el-table-column prop="companyName" align="left" class-name="table_cell" label="企业名称" width="156" ></el-table-column>
-                        <el-table-column align="center" :label="item.thirdYear" header-align="center">
-                             <template slot-scope="scope">
-                                <span v-if="scope.row.thirdYearRate"> {{scope.row.thirdYearRate | dataInThRule}}%</span>
-                                <span v-else> - - </span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column align="center" :label="item.secondYear" header-align="center" >
-                             <template slot-scope="scope">
-                                <span v-if="scope.row.secondYearRate"> {{scope.row.secondYearRate | dataInThRule}}%</span>
-                                <span v-else> - - </span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column align="center" :label="item.firstYear" header-align="center" >
-                             <template slot-scope="scope">
-                                <span v-if="scope.row.firstYearRate"> {{scope.row.firstYearRate | dataInThRule}}%</span>
-                                <span v-else> - - </span>
-                            </template>
-                        </el-table-column>
-                    </el-table>
+            <div v-if="maoChartTableData&&maoChartTableData.length>0" >
+                <div class="chartTable" v-for="item,index in maoChartTableData" :key="item.id">
+                    <p style="font-family:'PingFang-SC-Regular', 'PingFang SC';font-weight:400;color:#666666;font-size:14px; margin-top: 30px;margin-bottom:0px">{{item.remark}}</p>
+                    <div class="zxChart" style="height:300px;width:100%; ">
+                        <zxChart ref="zxChart" :zxIndex = "index"></zxChart>
+                    </div>
+                    <div class="table">
+                        <!-- 其他公司对比 -->
+                        <el-table class="otherCompany" stripe :data="item.industryCompareRateDetailList.slice(0,-2)" border style="width: 100%;margin-top: 20px">
+                            <el-table-column prop="companyName" align="left" class-name="table_cell" label="企业名称" width="156" ></el-table-column>
+                            <el-table-column align="center" :label="item.thirdYear" header-align="center">
+                                <template slot-scope="scope">
+                                    <span v-if="scope.row.thirdYearRate"> {{scope.row.thirdYearRate | dataInThRule}}%</span>
+                                    <span v-else> - - </span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column align="center" :label="item.secondYear" header-align="center" >
+                                <template slot-scope="scope">
+                                    <span v-if="scope.row.secondYearRate"> {{scope.row.secondYearRate | dataInThRule}}%</span>
+                                    <span v-else> - - </span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column align="center" :label="item.firstYear" header-align="center" >
+                                <template slot-scope="scope">
+                                    <span v-if="scope.row.firstYearRate"> {{scope.row.firstYearRate | dataInThRule}}%</span>
+                                    <span v-else> - - </span>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                        <!-- 平均值 -->
+                        <el-table class="average averageOrMyself" stripe :data="item.industryCompareRateDetailList.slice(-2,-1)" border style="width: 100%;margin-top: 20px">
+                            <el-table-column align="left" class-name="table_cell" label="企业名称" width="156" >
+                                <template slot-scope="scope">
+                                    <span style="font-weight:bold;color:black">{{isNotEmpty(scope.row.companyName) ? scope.row.companyName: '- -'}}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column align="center" :label="item.thirdYear" header-align="center">
+                                <template slot-scope="scope">
+                                    <span style="font-weight:bold;color:black" v-if="scope.row.thirdYearRate"> {{scope.row.thirdYearRate | dataInThRule}}%</span>
+                                    <span style="font-weight:bold;color:black" v-else> - - </span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column align="center" :label="item.secondYear" header-align="center" >
+                                <template slot-scope="scope">
+                                    <span style="font-weight:bold;color:black" v-if="scope.row.secondYearRate"> {{scope.row.secondYearRate | dataInThRule}}%</span>
+                                    <span style="font-weight:bold;color:black" v-else> - - </span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column align="center" :label="item.firstYear" header-align="center" >
+                                <template slot-scope="scope">
+                                    <span style="font-weight:bold;color:black" v-if="scope.row.firstYearRate"> {{scope.row.firstYearRate | dataInThRule}}%</span>
+                                    <span style="font-weight:bold;color:black" v-else> - - </span>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                        <!-- 自己公司 -->
+                        <el-table class="averageOrMyself myself" stripe :data="item.industryCompareRateDetailList.slice(-1)" border style="width: 100%;margin-top: 20px">
+                            <el-table-column prop="companyName" align="left" class-name="table_cell" label="企业名称" width="156" ></el-table-column>
+                            <el-table-column align="center" :label="item.thirdYear" header-align="center">
+                                <template slot-scope="scope">
+                                    <span v-if="scope.row.thirdYearRate"> {{scope.row.thirdYearRate | dataInThRule}}%</span>
+                                    <span v-else> - - </span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column align="center" :label="item.secondYear" header-align="center" >
+                                <template slot-scope="scope">
+                                    <span v-if="scope.row.secondYearRate"> {{scope.row.secondYearRate | dataInThRule}}%</span>
+                                    <span v-else> - - </span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column align="center" :label="item.firstYear" header-align="center" >
+                                <template slot-scope="scope">
+                                    <span v-if="scope.row.firstYearRate"> {{scope.row.firstYearRate | dataInThRule}}%</span>
+                                    <span v-else> - - </span>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </div>
                 </div>
             </div>
         </div>

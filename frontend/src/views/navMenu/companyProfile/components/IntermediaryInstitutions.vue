@@ -297,61 +297,61 @@ export default {
         for(let a = 0;a< $(".bj").length;a++){
             if(title.length>38){
                 $(".bj").eq(a).attr("title",title)
-                $(".bj").eq(a).css({"cursor":"pointer"})
+                // $(".bj").eq(a).css({"cursor":"pointer"})
             }else{
                 $(".bj").eq(a).removeAttr("title",title)
-                $(".bj").eq(a).css({"cursor":"auto"})
+                // $(".bj").eq(a).css({"cursor":"auto"})
             }
         }
          for(let a = 0;a< $(".xb").length;a++){
            if(title.length>38){
                 $(".xb").eq(a).attr("title",title)
-                $(".xb").eq(a).css({"cursor":"pointer"})
+                // $(".xb").eq(a).css({"cursor":"pointer"})
             }else{
                 $(".xb").eq(a).removeAttr("title",title)
-                $(".xb").eq(a).css({"cursor":"auto"})
+                // $(".xb").eq(a).css({"cursor":"auto"})
             }
         }
         for(let a = 0;a< $(".jb").length;a++){
             if(title.length>38){
                 $(".jb").eq(a).attr("title",title)
-                $(".jb").eq(a).css({"cursor":"pointer"})
+                // $(".jb").eq(a).css({"cursor":"pointer"})
             }else{
                 $(".jb").eq(a).removeAttr("title",title)
-                $(".jb").eq(a).css({"cursor":"auto"})
+                // $(".jb").eq(a).css({"cursor":"auto"})
             }
         }
         for(let a = 0;a< $(".ls").length;a++){
             if(title.length>38){
                 $(".ls").eq(a).attr("title",title)
-                $(".ls").eq(a).css({"cursor":"pointer"})
+                // $(".ls").eq(a).css({"cursor":"pointer"})
             }else{
                 $(".ls").eq(a).removeAttr("title",title)
-                $(".ls").eq(a).css({"cursor":"auto"})
+                // $(".ls").eq(a).css({"cursor":"auto"})
             }
         }
          for(let a = 0;a< $(".kj").length;a++){
              if(title.length>38){
                 $(".kj").eq(a).attr("title",title)
-                $(".kj").eq(a).css({"cursor":"pointer"})
+                // $(".kj").eq(a).css({"cursor":"pointer"})
             }else{
                 $(".kj").eq(a).removeAttr("title",title)
-                $(".kj").eq(a).css({"cursor":"auto"})
+                // $(".kj").eq(a).css({"cursor":"auto"})
             }
         }
         for(let a = 0;a< $(".pg").length;a++){
             if(title.length>38){
                 $(".pg").eq(a).attr("title",title)
-                $(".pg").eq(a).css({"cursor":"pointer"})
+                // $(".pg").eq(a).css({"cursor":"pointer"})
             }else{
                 $(".pg").eq(a).removeAttr("title",title)
-                $(".pg").eq(a).css({"cursor":"auto"})
+                // $(".pg").eq(a).css({"cursor":"auto"})
             }
         }
     },
    getContent(title){
      if(title.length>38){
-       return title.substring(0,38) + '...'
+       return title.substring(0,37) + '...'
      }else{
        return title
      }

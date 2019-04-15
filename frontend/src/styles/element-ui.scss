@@ -430,15 +430,13 @@
   display: none;
 }
 .result .el-dialog{
-  width: 73.6%;
-  height:80%;
-  margin-top: 15vh;
+  height:520px;
+  margin-top: 30px !important;
 }
 @media screen and (max-width: 1920px) and (min-width: 1400px) {
   .result .el-dialog{
-    width: 73.6%;
-    height:75%;
-    margin-top: 15vh;
+    height:550px;
+    margin-top: 15vh !important;
   }
 }
 .mainTable .el-table .cell,.mainTable .el-table th div,.mainTable .el-table--border td:first-child .cell,.mainTable .el-table--border th:first-child .cell {

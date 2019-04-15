@@ -33,10 +33,10 @@
                     <el-dialog
                         title="发审会委员"
                         :visible.sync="dialogVisible"
-                        width="73.6%"
+                        width="1004px"
                         :before-close="handleClose">
-                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:65vh;">
-                            <li v-for="data in memberList" class="l positionLi" style="width:31.1%;border:1px solid lightgray;padding:20px">
+                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
+                            <li v-for="data in memberList" class="l positionLi" style="width:300px;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
                                     <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
@@ -102,7 +102,7 @@
                         :visible.sync="dialogVisible"
                         width="73.6%"
                         :before-close="handleClose">
-                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:65vh;">
+                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
                             <li v-for="data in memberList" class="l positionLi" style="width:31.1%;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
@@ -167,7 +167,7 @@
                         :visible.sync="dialogVisible"
                         width="73.6%"
                         :before-close="handleClose">
-                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:65vh;">
+                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
                             <li v-for="data in memberList" class="l positionLi" style="width:31.1%;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
@@ -238,7 +238,7 @@
                         :visible.sync="dialogVisible"
                         width="73.6%"
                         :before-close="handleClose">
-                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:65vh;">
+                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
                             <li v-for="data in memberList" class="l positionLi" style="width:31.1%;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
@@ -307,7 +307,7 @@
                         :visible.sync="dialogVisible"
                         width="73.6%"
                         :before-close="handleClose">
-                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:65vh;">
+                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
                             <li v-for="data in memberList" class="l positionLi" style="width:31.1%;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
@@ -376,7 +376,7 @@
                         :visible.sync="dialogVisible"
                         width="73.6%"
                         :before-close="handleClose">
-                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:65vh;">
+                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
                             <li v-for="data in memberList" class="l positionLi" style="width:31.1%;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
@@ -414,11 +414,9 @@
         </div> 
         <!-- 下 -->
         <div class="two">
-             <div class="title">
+             <div v-if="allQuestionList&&allQuestionList.length>0" class="title">
                 <span class="littleRectangle"></span>
                 <span class="titleText" id="result">发审会关注问题</span>
-                <!-- <span v-if="baseList.length==2" class="titleText" id="result">第二次发审会关注问题</span>
-                <span v-if="baseList.length==3" class="titleText" id="result">第三次发审会关注问题</span> -->
             </div>
             <div>
                 <ul style="padding-left:0">
@@ -444,8 +442,8 @@
         <div v-loading="flagLoading" element-loading-text="给我一点时间" v-if="showMore" @click="showMoreMethods()" class="more">加载更多</div>
         <!-- 已经阅读完了 -->
         <p v-if="questionList.length>0&&!showMore" class="finishRead">已经阅读完了</p>
-        <!-- 暂无数据 -->
-        <p v-if="questionList.length==0&&!showMore" class="finishRead">暂无相关数据</p>
+        <!-- 暂无相关数据 -->
+        <p v-if="allQuestionList&&allQuestionList.length>0&&questionList.length==0&&!showMore" class="finishRead">暂无相关数据</p>
         
 </div>
 </template>
@@ -532,52 +530,52 @@ export default {
     // 鼠标移入委员详情弹出窗的列
     mouseOverSpreadText(title){ 
         for(var a = 0;a< $(".position").length;a++){
-            if(title.length>15){
+            if(title.length>19){
                 $(".position").eq(a).attr("title",title)
-                $(".position").eq(a).css({"cursor":"pointer"})
+                // $(".position").eq(a).css({"cursor":"pointer"})
             }else{
                 $(".position").eq(a).removeAttr("title",title)
-                $(".position").eq(a).css({"cursor":"auto"})
+                // $(".position").eq(a).css({"cursor":"auto"})
             }
         }
          for(let a = 0;a< $(".xueli").length;a++){
-             if(title.length>9){
+             if(title.length>12){
                 $(".xueli").eq(a).attr("title",title)
-                $(".xueli").eq(a).css({"cursor":"pointer"})
+                // $(".xueli").eq(a).css({"cursor":"pointer"})
             }else{
                 $(".xueli").eq(a).removeAttr("title",title)
-                $(".xueli").eq(a).css({"cursor":"auto"})
+                // $(".xueli").eq(a).css({"cursor":"auto"})
             }
         }
         for(let a = 0;a< $(".danwei").length;a++){
-             if(title.length>9){
+             if(title.length>12){
                 $(".danwei").eq(a).attr("title",title)
-                $(".danwei").eq(a).css({"cursor":"pointer"})
+                // $(".danwei").eq(a).css({"cursor":"pointer"})
             }else{
                 $(".danwei").eq(a).removeAttr("title",title)
-                $(".danwei").eq(a).css({"cursor":"auto"})
+                // $(".danwei").eq(a).css({"cursor":"auto"})
             }
         }
         for(let a = 0;a< $(".xingzhi").length;a++){
-             if(title.length>9){
+             if(title.length>12){
                 $(".xingzhi").eq(a).attr("title",title)
-                $(".xingzhi").eq(a).css({"cursor":"pointer"})
+                // $(".xingzhi").eq(a).css({"cursor":"pointer"})
             }else{
                 $(".xingzhi").eq(a).removeAttr("title",title)
-                $(".xingzhi").eq(a).css({"cursor":"auto"})
+                // $(".xingzhi").eq(a).css({"cursor":"auto"})
             }
         }
     },
    getContent(title){
-     if(title.length>15){
-       return title.substring(0,15) + '...'
+     if(title.length>20){
+       return title.substring(0,19) + '...'
      }else{
        return title
      }
    },
    getContent1(title){
-     if(title.length>9){
-       return title.substring(0,9) + '...'
+     if(title.length>13){
+       return title.substring(0,12) + '...'
      }else{
        return title
      }
@@ -693,7 +691,7 @@ export default {
      padding:5px;
      line-height:10px;
      display:inline-block;
-      background-size:cover;
+     background-size:cover;
      background:url('../../../assets/images/whtg.png') no-repeat;
 }
 .htgResult{

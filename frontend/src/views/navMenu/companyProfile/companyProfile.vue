@@ -101,7 +101,7 @@
     </div>
     <!-- 股权结构图 -->
     <div class="ownershipStructure" style="margin-top:32px">
-      <div class="title">
+      <div v-if="(companyProfileList&&companyProfileList.structureUrl) || (gqTableList&&gqTableList.length>0)" class="title">
         <span class="littleRectangle"></span>
         <span class="titleText" id="ownershipStructureChart">股权结构图</span>
         <span v-if="companyProfileList&&companyProfileList.structureLabel">
@@ -147,7 +147,7 @@
     </div>
     <!-- 主营业务收入构成 -->
     <div class="incomeComposition">
-      <div class="title">
+      <div v-if="mainTableList&&mainTableList.firstYearForIncome" class="title">
         <span class="littleRectangle"></span>
         <span class="titleText" id="mainBusinessIncomeComposition">主营业务收入构成</span>
       </div>
@@ -156,7 +156,7 @@
       </div>
       <!-- table表格 -->
       <div class="incomeCompositionTable">
-         <mainTable :mainTableList = "mainTableList"></mainTable>
+         <mainTable  v-if="mainTableList.firstYearForIncome" :mainTableList = "mainTableList"></mainTable>
       </div>
     </div>
     <!-- 主要竞争对手简介 -->
@@ -197,7 +197,7 @@
     </div>
     <!-- 报告期主要供应商及客户情况 -->
     <div class="theTopFive">
-       <div  class="title">
+        <div v-if="(supplierMainList&&supplierMainList.length>0) || (customerMainList&&customerMainList.length>0)" class="title">
         <span class="littleRectangle"></span>
         <span class="titleText" id="majorSuppliers" style="font-size:18px">报告期主要供应商及客户情况</span>
       </div>
@@ -206,7 +206,7 @@
         <div v-for="item in supplierMainList" :key="item.id" >
             <p v-if="item.remark" style="font-size:14px;color:#666">{{item.remark}}</p>
             <span v-if="item.supplierCustomerInfoList&&item.supplierCustomerInfoList.length>0" style="font-size:12px;color:#666;float:right;margin-bottom: 5px;">单位：万元</span>
-             <el-table :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px">
+             <el-table v-if="item.supplierCustomerInfoList&&item.supplierCustomerInfoList.length>0" :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px">
               <el-table-column fixed align="center" class-name="table_cell" label="排名" width="52">
                 <template slot-scope="scope">
                   {{scope.$index+1}}
@@ -325,7 +325,7 @@
           <div v-for="item in customerMainList" :key="item.id" >
               <p style="font-size:14px;color:#666">{{item.remark}}</p>
               <span v-if="item.supplierCustomerInfoList&&item.supplierCustomerInfoList.length>0" style="font-size:12px;color:#666;float:right;margin-bottom: 5px;">单位：万元</span>
-              <el-table :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px">
+              <el-table v-if="customerMainList&&customerMainList.length>0" :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px">
                 <el-table-column fixed align="center" class-name="table_cell" label="排名" width="52">
                   <template slot-scope="scope">
                     {{scope.$index+1}}
@@ -445,7 +445,7 @@
     </div>
     <!-- 募集资金运用 -->
     <div class="raiseMoney">
-      <div class="title">
+      <div v-if="raiseMoneyTableList&&raiseMoneyTableList.length>0" class="title">
         <span class="littleRectangle"></span>
         <span class="titleText" id="utilizationOfRaisedFunds">募集资金运用</span>
       </div>
@@ -490,7 +490,7 @@
                 </template>
             </el-table-column>
         </el-table>
-        <p class="shuoming" style="font-family: 'PingFang-SC-Regular', 'PingFang SC';
+        <p v-if="raiseMoneyTableList&&raiseMoneyTableList.length>0" class="shuoming" style="font-family: 'PingFang-SC-Regular', 'PingFang SC';
             font-weight: 400;
             font-style: normal;
             color: #666666;
@@ -503,15 +503,14 @@
     </div>
     <!-- 中介机构 -->
     <div class="IntermediaryInstitutions">
-        <div class="title">
+        <div v-if="dataFlag" class="title">
           <span class="littleRectangle"></span>
           <span class="titleText" id="intermediaryInstitutions">中介机构</span>
       </div>
-      <IntermediaryInstitutions></IntermediaryInstitutions>
+      <IntermediaryInstitutions v-if="dataFlag"></IntermediaryInstitutions>
     </div>
   </div>
 </template>
-
 <script>
 
 
@@ -659,7 +658,7 @@ export default {
       }
     },
      getCompanyName(title){
-      if(title.length>20){
+      if(title.length>21){
         return title.substring(0,20) + '...'
       }else{
         return title
@@ -667,7 +666,7 @@ export default {
     },
     getContent(title){
       if(title.length>16){
-        return title.substring(0,16) + '...'
+        return title.substring(0,15) + '...'
       }else{
         return title
       }
