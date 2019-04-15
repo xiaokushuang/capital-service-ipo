@@ -71,13 +71,13 @@
                                             <div id="tab-first"  ref="tab-first"  aria-controls="pane-first"  :class="['el-tabs__item is-top', {'is-active': isActive === '1'}]" @click="onTabClick('1', $event)" style="padding-left: 0">公司概览</div>
                                             <div id="tab-second" ref="tab-second" aria-controls="pane-second" :class="['el-tabs__item is-top', {'is-active': isActive === '2'}]" @click="onTabClick('2', $event)">财务信息</div>
                                             <div v-if="headList.haveFeedback=='1' || headList.isTechBoard=='1'" id="tab-third"  ref="tab-third" class="el-tabs__item1" aria-controls="pane-third"  style="cursor:default;color:#adadad">
-                                              <el-tooltip class="ipoTip" content="提示：当前暂无反馈意见信息" placement="top" effect="light">
+                                              <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无反馈意见信息" placement="top" effect="light">
                                                 <el-button class="btnClass">反馈意见</el-button>
                                               </el-tooltip>
                                             </div>
                                             <div v-if="headList.haveFeedback=='0' && headList.isTechBoard=='0'" id="tab-third"  ref="tab-third" aria-controls="pane-third"  :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]" @click="onTabClick('3', $event)">反馈意见</div>
                                             <div v-if="headList.haveExamine=='1' || headList.isTechBoard=='1'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" class="el-tabs__item1" style="padding-right: 0;cursor:default;color:#adadad">
-                                               <el-tooltip class="ipoTip" content="提示：当前暂无审核结果及关注问题信息" placement="top" effect="light">
+                                               <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无审核结果及关注问题信息" placement="top" effect="light">
                                                 <el-button class="btnClass">审核结果及关注问题</el-button>
                                               </el-tooltip>
                                             </div>
@@ -351,6 +351,15 @@ export default {
         this.$refs.comshow.changeCart();
       }
     },
+    //鼠标移入不能点击的tab弹出tip
+    onTabNoClick(flag){
+      if(flag == '3'){
+        console.log('3')
+      }
+      if(flag == '4'){
+        console.log('4')
+      }
+    },
     onTabClick(isActive, event) {
             let that = this
             this.isActive = isActive;
@@ -534,7 +543,7 @@ export default {
       // this.topHeight = (parseInt(String(h1).split("px")[0]) - parseInt(String(h2).split("px")[0])) / 2;
 
     },
-    mouseOverSpreadTitle(title){ 
+    mouseOverSpreadTitle(title){
         if(title.length>73){
             $(".dialogtitle").attr("title",title)
             $(".dialogtitle").css({"cursor":"pointer"})
@@ -878,12 +887,12 @@ export default {
   display:none
 }
 .btnClass{
-  padding-left:0;
-  padding-right:0;
+  padding-left: 0;
+  padding-right: 0;
   background:white;
   border:none;
   cursor:default;
-  color:#adadad;
+  /*color:#adadad !important;*/
   color:#666;
   font-size:14px;
 }
