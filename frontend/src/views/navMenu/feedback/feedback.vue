@@ -436,7 +436,7 @@ export default {
     handelMoreChange2(val){
        this.checkboxGroup2 = val
        for(let i = 0;i<val.length;i++){
-         if(val[i] == ''){
+         if(val[i] == null){
            this.checkboxGroup2 = []
            document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor="white";
          }
@@ -447,7 +447,7 @@ export default {
     handelMoreChange3(val){
        this.checkboxGroup3 = val
        for(let i = 0;i<val.length;i++){
-         if(val[i] == ''){
+         if(val[i] == null){
            this.checkboxGroup3 = []
            document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor="white";
          }
