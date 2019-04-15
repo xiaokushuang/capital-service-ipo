@@ -357,9 +357,31 @@ public class StatisticsService extends BaseService {
                 cell = row.createCell(6);
                 cell.setCellValue(comDtos.get(i).getLawFirm());
                 cell.setCellStyle(conCenterStyle);
-                cell = row.createCell(7);
+               /* cell = row.createCell(7);
                 cell.setCellValue(comDtos.get(i).getStatusLabel());
-                cell.setCellStyle(conCenterStyle);
+                cell.setCellStyle(conCenterStyle);*/
+                if(comDtos.get(i).getIpoAreaLabel().contains("科创板")){
+                	if("已反馈".equals(comDtos.get(i).getStatusLabel())){
+                		comDtos.get(i).setStatusLabel("已问询");
+                	}
+                	if("已通过发审会".equals(comDtos.get(i).getStatusLabel())){
+                		comDtos.get(i).setStatusLabel("上市委会议通过");
+                	}
+                	if("中止审查".equals(comDtos.get(i).getStatusLabel())){
+                		comDtos.get(i).setStatusLabel("中止");
+                	}
+                	cell = row.createCell(7);
+                	cell.setCellValue(comDtos.get(i).getStatusLabel());
+                	cell.setCellStyle(conCenterStyle);
+                	cell.setCellStyle(conCenterStyle);
+                }else{
+                	cell = row.createCell(7);
+                	cell.setCellValue(comDtos.get(i).getStatusLabel());
+                	cell.setCellStyle(conCenterStyle);
+                	cell.setCellStyle(conCenterStyle);
+                }
+                
+                
                 cell = row.createCell(8);
                 cell.setCellValue(comDtos.get(i).getAttendLabel());
                 cell.setCellStyle(conCenterStyle);

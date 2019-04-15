@@ -5,54 +5,54 @@
        padding-right: 0px !important; !important;background-color: #f7f7f7">
         <div class="innnerbox">
           <el-tree
-              style="margin-top:24px;padding: 0 0 0 0"
-              class="filter-tree"
-              node-key="id"
-              :data="plateTreeTag"
-              :props="left_tree"
-              :default-expand-all="true"
-              @node-click="handleNodeClickForSearch"
-              ref="plateTreeTagRef">
+            style="margin-top:24px;padding: 0 0 0 0"
+            class="filter-tree"
+            node-key="id"
+            :data="plateTreeTag"
+            :props="left_tree"
+            :default-expand-all="true"
+            @node-click="handleNodeClickForSearch"
+            ref="plateTreeTagRef">
           </el-tree>
           <el-tree
-              style="margin-top:24px;padding: 0 0 0 0"
-              class="filter-tree"
-              node-key="id"
-              :data="marketTreeTag"
-              :props="left_tree"
-              :default-expand-all="true"
-              @node-click="handleNodeClickForSearch"
-              ref="marketTreeTagRef">
+            style="margin-top:24px;padding: 0 0 0 0"
+            class="filter-tree"
+            node-key="id"
+            :data="marketTreeTag"
+            :props="left_tree"
+            :default-expand-all="true"
+            @node-click="handleNodeClickForSearch"
+            ref="marketTreeTagRef">
           </el-tree>
           <el-tree
-              style="margin-top:24px;padding: 0 0 0 0"
-              class="filter-tree"
-              node-key="id"
-              :data="greenTreeTag"
-              :props="left_tree"
-              :default-expand-all="true"
-              @node-click="handleNodeClickForSearch"
-              ref="greenTreeTagRef">
+            style="margin-top:24px;padding: 0 0 0 0"
+            class="filter-tree"
+            node-key="id"
+            :data="greenTreeTag"
+            :props="left_tree"
+            :default-expand-all="true"
+            @node-click="handleNodeClickForSearch"
+            ref="greenTreeTagRef">
           </el-tree>
           <el-tree
-              style="margin-top:24px;padding: 0 0 0 0"
-              class="filter-tree"
-              node-key="id"
-              :data="specialArrangeTag"
-              :props="left_tree"
-              :default-expand-all="true"
-              @node-click="handleNodeClickForSearch"
-              ref="specialArrangeTagRef">
+            style="margin-top:24px;padding: 0 0 0 0"
+            class="filter-tree"
+            node-key="id"
+            :data="specialArrangeTag"
+            :props="left_tree"
+            :default-expand-all="true"
+            @node-click="handleNodeClickForSearch"
+            ref="specialArrangeTagRef">
           </el-tree>
           <el-tree
-              style="margin-top:24px;padding: 0 0 0 0"
-              class="filter-tree"
-              node-key="id"
-              :data="sfcTreeTag"
-              :props="left_tree"
-              :default-expand-all="true"
-              @node-click="handleNodeClickForSearch"
-              ref="sfcTreeTagRef">
+            style="margin-top:24px;padding: 0 0 0 0"
+            class="filter-tree"
+            node-key="id"
+            :data="sfcTreeTag"
+            :props="left_tree"
+            :default-expand-all="true"
+            @node-click="handleNodeClickForSearch"
+            ref="sfcTreeTagRef">
           </el-tree>
         </div>
       </el-col>
@@ -119,13 +119,13 @@
           <el-row :gutter="24">
             <el-col :span='8' class="repuramountlimitPan-class">
               <el-autocomplete
-                  class="inline-input"
-                  size='small full'
-                  v-model="intermediary"
-                  :fetch-suggestions="queryIntermediary"
-                  placeholder="中介机构"
-                  :trigger-on-focus="false"
-                  @select="handleSelect"
+                class="inline-input"
+                size='small full'
+                v-model="intermediary"
+                :fetch-suggestions="queryIntermediary"
+                placeholder="中介机构"
+                :trigger-on-focus="false"
+                @select="handleSelect"
               ></el-autocomplete>
             </el-col>
             <el-col :span='4'>
@@ -182,9 +182,9 @@
             </el-col>
             <el-col :span="1">
               <el-popover
-                  placement="bottom"
-                  width="600"
-                  trigger="hover">
+                placement="bottom"
+                width="600"
+                trigger="hover">
                 <div style="font-size: 12px">
                   <div>
                     <a style="color: #1990FE;margin-left: -5px" @click="openNewRule()">《上海证券交易所科创板股票上市规则》：</a>
@@ -421,7 +421,7 @@
           <el-row :gutter="20">
             <el-col :span="24" style="padding-left: 8px; padding-right: 8px;">
               <div class="table">
-                <el-table @sort-change="sortChange" :data="tableData" style="width: 100%" v-loading="tableLoading" ref="tables" @row-click="itemClickHandler" class="case" element-loading-text="给我一点时间">
+                <el-table :cell-class-name="cellStyle" @sort-change="sortChange" :data="tableData" style="width: 100%" v-loading="tableLoading" ref="tables" @row-click="itemClickHandler" class="case" element-loading-text="给我一点时间">
                   <el-table-column align="left" width="100" label="公司">
                     <template slot-scope="scope">
                       {{scope.row.companyCode}}
@@ -1179,6 +1179,7 @@
         this.intermediaryCode = item.labelValue;
       },
       itemClickHandler(row) {
+        // console.log('row',row)
         let id = row.id;
         if (id) {
           var caseId = id.substring(3, id.length);
@@ -1203,6 +1204,12 @@
         const _self = this;
         const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=746412002825257522&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
         window.open(href, '_blank');
+      },
+      //没有权限数据背景色
+      cellStyle(row,column,rowIndex,columnIndex){
+        if(!row.row.id){
+          return 'no_authority'
+        }
       }
     },
     components: {
@@ -1366,7 +1373,7 @@
   }
 
   .container .el-table tr:hover {
-    background-color: #f5f5f5;
+    background-color: #f5f5f5 !important;
   }
 
   .container .el-table th, .el-table tr {
@@ -1578,6 +1585,16 @@
     width: 20px;
     height: 20px;
     background-image: url(../../assets/images/home_new.png);
+  }
+  .container .el-table th, .el-table tr {
+    height: 40px !important;
+  }
+
+  .no_authority{
+    background: #F9FAFE;
+  }
+  .no_authority .cell{
+    color: #999999 !important;
   }
 </style>
 

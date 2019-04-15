@@ -263,4 +263,14 @@
     <select id="selectSecondLabelMap" resultMap="secondLabelResult">
         select id,letter_class_name from letter_class t1 where t1.`level` = 1
     </select>
+
+    <select id="selectPublicProcess" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT
+            process_time
+        FROM
+            ipo_process t1
+        WHERE
+            t1.bid = #{id}
+        AND t1.process_type_code > '10'
+    </select>
 </mapper>
