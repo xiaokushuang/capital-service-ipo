@@ -139,6 +139,8 @@ public class IpoFeedbackService extends BaseService {
             conditionsStr.append(" AND " + "letter_letter_id_t:");
             conditionsStr.append(letterId);
             String conditionsGroup = "letter_question_class_new_id_txt";
+            String orderByName = "letter_question_id_t";
+            String orderByOrder = "ASC";
             condition.put(Constant.SEARCH_CONDIATION, conditionsStr.toString());
             condition.put(Constant.SEARCH_FACET_FIELD, conditionsGroup);
             condition.put(Constant.SEARCH_FACET_MIN_COUNT, "1");
@@ -146,6 +148,8 @@ public class IpoFeedbackService extends BaseService {
             queryInfo.setCondition(condition);
             queryInfo.setStartRow(0);
             queryInfo.setPageSize(2000);
+            queryInfo.setOrderByName(orderByName);
+            queryInfo.setOrderByOrder(orderByOrder);
             FacetResult<IpoFeedbackIndexDto> facetResult =
                     searchServer.searchWithFacet("letterqa", queryInfo, IpoFeedbackIndexDto.class);
             List<StatisticsField> labelList =
