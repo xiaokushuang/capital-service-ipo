@@ -184,7 +184,11 @@ initPieChart(dataList,nameTempO,num,flag) {
         value:""
       };
         obj.name = dataList[i].businessName
-      obj.value = dataList[i].onePeriodAmount;
+        if(dataList[i].onePeriodAmount<0){
+          obj.value = 0
+        }else{
+          obj.value = dataList[i].onePeriodAmount;
+        }
       this.pieData.push(obj);
     }
   }else{
@@ -195,7 +199,12 @@ initPieChart(dataList,nameTempO,num,flag) {
         value:""
       };
       obj.name = dataList[i].name
-      obj.value = dataList[i].data[num];
+      if(dataList[i].data[num]<0){
+          obj.value = 0
+        }else{
+          obj.value = dataList[i].data[num];
+        }
+      // obj.value = dataList[i].data[num];
       this.pieData.push(obj);
     }
   }
@@ -245,7 +254,7 @@ initPieChart(dataList,nameTempO,num,flag) {
         //          },
         series: [
           {
-            name: "访问来源",
+            name: "",
             type: "pie",
             radius: "50%",
             center: ["55%", "50%"],

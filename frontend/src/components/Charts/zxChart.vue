@@ -138,12 +138,13 @@ beforeDestroy() {
               top:'2%',
                x: "right", // 'center' | 'left' | {number},
               //  y: "100%", // 'center' | 'bottom' | {number}
-              selected:this.zxChartYSelect
-
+              selected:this.zxChartYSelect,
+              //  type: 'scroll',
             },
             grid: {
                 left: '3%',
                 right: '4%',
+                // top:'20%',
                 bottom: '3%',
                 containLabel: true
             },
@@ -161,7 +162,6 @@ beforeDestroy() {
             series: this.zxChartY
       })
     }
-
   }
 }
 </script>
