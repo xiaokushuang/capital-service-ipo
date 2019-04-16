@@ -19,6 +19,7 @@
 </template>
 
 <script>
+  import { iframeDoMessage } from "@/utils/auth";
   export default {
     data() {
       return {
@@ -27,9 +28,11 @@
     created() {
     },
     methods: {
-      sure() {
-        window.open('https://vs.rainbowred.com/visitor/pc/chat.html?companyId=488&echatTag=网站咨询', 'height=600', 'width=854');
-      }
+      sure(){
+          setTimeout(function(){ iframeDoMessage(window.parent,'setStage',['', '', '', '']); }, 500);
+          let url =  "https://vs.rainbowred.com/visitor/pc/chat.html?companyId=488&amp;echatTag=网站咨询";
+          window.open(url,"","toolbar=0,scrollbars=0,location=0,menubar=0,resizable=1,width=854,height=600");
+        }
     },
     components: {}
   }
