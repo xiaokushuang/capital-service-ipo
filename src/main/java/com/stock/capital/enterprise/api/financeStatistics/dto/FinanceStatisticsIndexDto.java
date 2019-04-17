@@ -3,6 +3,7 @@ package com.stock.capital.enterprise.api.financeStatistics.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.stock.core.dto.Indexable;
+
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -63,7 +64,7 @@ public class FinanceStatisticsIndexDto extends Indexable implements Serializable
     @Field("finance_companycode_t")
     private String companyCode;
 
-    @Field("finance_companyname_s")
+    @Field("finance_companyname_t")
     private String companyName;
 
     @Field("finance_belongplate_t")
@@ -218,6 +219,18 @@ public class FinanceStatisticsIndexDto extends Indexable implements Serializable
 
     @Field("finance_pindname001_s")
     private String pIndName001;
+    
+    // 公司简称
+    @Field("finance_securityshortname_t")
+    private String securityShortName;
+    
+    public String getSecurityShortName() {
+        return securityShortName;
+    }
+
+    public void setSecurityShortName(String securityShortName) {
+        this.securityShortName = securityShortName;
+    }
 
     public String getCityName() {
         return cityName;

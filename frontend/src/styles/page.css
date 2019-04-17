@@ -1,0 +1,235 @@
+/* jm.zhang add */
+/* ����icon��С */
+.container .iconStyle{
+    font-size: 1.33333333em;
+    color:#333;
+}
+/* ���������ʾС�� */
+.container .hoverHand{
+    cursor:pointer;
+}
+/* ���岼�� */
+.container{
+    font-family: Microsoft YaHei, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #fff;
+    padding:20px 10px 0 0;
+    min-height: 600px;
+}
+/* zTree style */
+.container .zTreeOutBox{/* ����zTree��߿� */
+    border: 1px solid #eeeeee;
+    margin:0 0 0 10px;
+}
+.container .ztreeInnerBox{/* ����zTree�ڱ߿� */
+    margin:10px 0 0 10px;
+}
+.container .el-tree{
+    color:#333;
+    font-family: SimSun, Verdana, Arial, Helvetica, AppleGothic, sans-serif;
+}
+.container .el-tree span{/* ����zTree���ݳ������� */
+    white-space: normal;
+    display: inline-block;
+}
+.container .el-tree-node__content{/* ����zTree���ݸ߶� */
+    height: auto !important;
+    color:black;
+}
+
+.container .el-tree{/* ����zTreeλ�� */
+    padding:10px 5px 10px 0;
+}
+
+.container .blue-text {/*���ڵ����*/
+    color: #0099cc !important;
+}
+
+/* table style */
+.container .el-table__header thead tr>th{/* �����б�ͷ�и� */
+    padding:5px;
+    line-height: 23px;
+}
+
+.container .el-table__body-wrapper {/*������������ʾ*/
+    overflow: visible !important;
+    position: relative;
+}
+.container .el-table {/*������������ʾ*/
+    position: relative;
+    overflow: visible !important;
+    box-sizing: border-box;
+    -ms-flex: 1;
+    flex: 1;
+    width: 100%;
+    max-width: 100%;
+    font-size: 14px;
+    color: #606266;
+}
+.container .el-table .el-table__body .share{/* ���÷�����ʽ */
+    z-Index: 999;
+    position: absolute;
+    top: 5px;
+    right: 55px;
+    width: 82px;    
+}
+.container .el-table .el-table__body .title{/* ���ñ��ⳬ������ԡ�������ʾ */
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.container .el-table .el-table__body{
+    color: #333;
+}
+.container .el-form{/* ���ñ���ʽ */
+    /* border: 1px solid #eeeeee; */
+    padding: 10px 10px 0px 10px;
+}
+.container .el-row{/* ��������ʽ */
+    margin:0;
+    height:45px;
+}
+
+.container .erweima_share{
+    background:no-repeat center center;
+    width:180px;
+    height:180px; 
+    position:absolute;
+    top:73%;
+    left:21.5%; 
+    margin-left:-124px;
+    margin-top:-31px; 
+    border:1px solid #D7D7D7;
+    border-radius:8px;
+    z-index:9999;
+}
+.container .erweima_share1{
+    background:no-repeat center center;
+    width:180px;
+    height:180px; 
+    position:absolute;
+    top:73%;
+    left:21.5%; 
+    margin-left:-124px;
+    margin-top:-169px; 
+    border:1px solid #D7D7D7;
+    border-radius:8px;
+    z-index:9999; 
+ }
+ .container .titleClicked{
+     color:#999;
+ }
+
+ .container .bluetext{
+    text-decoration:none !important;
+    /* color: inherit !important */
+  }
+  .container a.bluetext:hover{
+    text-decoration:underline !important;
+    /* color: steelblue !important */
+  }
+
+ /* ����ͼ��� */
+ @font-face {
+    font-family: 'iconfont';  /* project id 802783 */
+    src: url('//at.alicdn.com/t/font_802783_l1vabx38y.eot');
+    src: url('//at.alicdn.com/t/font_802783_l1vabx38y.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_802783_l1vabx38y.woff') format('woff'),
+    url('//at.alicdn.com/t/font_802783_l1vabx38y.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_802783_l1vabx38y.svg#iconfont') format('svg');
+  }
+
+.iconfont {
+    font-family:"iconfont"!important;
+    font-size:1.3em;
+    font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #333;
+    line-height: 1;
+    cursor:pointer;
+}
+
+.iconfont:hover{
+    color:blue;
+}
+
+.container .el-table tr:hover{
+    background-color:rgb(245, 245, 245) !important;
+}
+
+.container .ztreeInnerBox label{
+    font-weight: 300;
+    cursor: pointer;
+}
+.container .ztreeInnerBox label:hover{
+    text-decoration: underline;
+}
+
+.container .el-tree-node__content span:hover{
+    text-decoration: underline;
+}
+
+.container input::-webkit-input-placeholder{
+    color: #c2c2c2 !important;
+    font-size:12px !important;
+}
+
+.container input:hover{
+    cursor: pointer;
+}
+
+.container .el-date-editor:hover{
+    cursor: pointer;
+}
+
+.container .el-table th>.cell{
+    line-height: 34px!important;
+}
+
+.container .bottomHeight{
+    height: 35px;
+}
+
+.container .el-table .el-table__body .cell{/* �����б��и� */
+    padding:10px;
+    position: relative;
+    overflow: visible;
+}
+
+.container .el-tree-node__content span{
+    font-size: 12px;
+}
+
+.container .el-tree-node__content .el-tree-node__label{
+    color:#333;
+}
+
+.favorite-tab{
+    padding-right:0px !important;
+}
+
+.favorite-table{
+    padding: 0px 10px 0px 10px;
+}
+
+.favorite-tab .el-form{
+    padding: 0px 10px 0px 10px;
+    border:none
+}
+
+.container .el-form .el-button--default{
+    width: 80px;
+}
+
+.el-button--small{
+    line-height: 15px;
+    padding:7px 12px 7px 12px;
+}
+
+.autoComplate.hover, .autoComplate:hover{
+    background-color: #f5f7fa;
+    color: #505050;
+}

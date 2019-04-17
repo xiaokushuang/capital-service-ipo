@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="finance">
     <!-- 标题 -->
     <el-row :gutter="20" class="no-margin-tb">
         <el-col :span="14">
-            <h3 class="no-margin" style="line-height:32px;margin-top:10px !important;">证券发行行业分布图</h3>
+            <h3 class="no-margin" style="margin-top:10px !important;">证券发行行业分布图</h3>
         </el-col>
         <el-col :span="6">
         </el-col>
@@ -37,6 +37,7 @@
         <el-col :span='4'>
             <el-select v-model="code_value" placeholder="" size='small full' @change="selectClass">
               <el-option
+                class="autoComplate"
                 v-for="item in getSFClass"
                 :key="item.code_value"
                 :label="item.code_name"
@@ -60,30 +61,31 @@
         <el-col :span="8" class="chart">
             <div class="fullDiv_border">
                 <el-tabs v-model="activeName" @tab-click="handleClick">
-                    <el-tab-pane label="全部" name="first">
+                    <el-tab-pane label="全部" class="tabName" name="first">
                         <div rightTable>
                            <el-table
                                 ref="table0"
                                 :data="data0"
-                                max-height="440"
+                                max-height="445"
                                 style="width: 100%;">
-                                <el-table-column align="center" label="行业" min-width="190px">
+                                <el-table-column align="left" label="行业" min-width="40%">
                                     <template slot-scope="scope">
-                                        <span>{{scope.row.name}}</span>
+                                        <span :title="scope.row.name" v-if="scope.row.name.length > 10">{{scope.row.name.substring(0,10) + '...'}}</span>
+                                        <span :title="scope.row.name" v-else>{{scope.row.name}}</span>
                                     </template>
                                 </el-table-column>
 
-                                <el-table-column align="center" label="金额（亿元）"  min-width="120px">
+                                <el-table-column align="center" label="金额（亿元）"  min-width="40%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.value.length==0">0.0000</span>
                                         <span>{{scope.row.value}}</span>
                                     </template>
                                 </el-table-column>
                                 
-                                <el-table-column align="center" label="数量"  min-width="60px">
+                                <el-table-column align="center" label="数量"  min-width="20%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.num.length==0">0</span>
-                                        <span>{{scope.row.num}}</span>
+                                        <a @click="companySel(scope.row,'004')">{{scope.row.num}}</a>
                                     </template>
                                 </el-table-column>
                             </el-table>     
@@ -94,25 +96,25 @@
                            <el-table
                                 ref="table1"
                                 :data="data2" 
-                                max-height="440"
+                                max-height="445"
                                 style="width: 100%">
-                                <el-table-column align="center" label="行业" min-width="190px">
+                                <el-table-column align="left" label="行业" min-width="40%">
                                     <template slot-scope="scope">
                                         <span>{{scope.row.name}}</span>
                                     </template>
                                 </el-table-column>
 
-                                <el-table-column align="center" label="金额（亿元）"  min-width="120px">
+                                <el-table-column align="center" label="金额（亿元）"  min-width="40%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.value.length==0">0.0000</span>
                                         <span>{{scope.row.value}}</span>
                                     </template>
                                 </el-table-column>
                                 
-                                <el-table-column align="center" label="数量"  min-width="60px">
+                                <el-table-column align="center" label="数量"  min-width="20%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.num.length==0">0</span>
-                                        <span>{{scope.row.num}}</span>
+                                        <a @click="companySel(scope.row,'001')">{{scope.row.num}}</a>
                                     </template>
                                 </el-table-column>
                             </el-table>     
@@ -123,25 +125,25 @@
                            <el-table
                                 ref="table2"
                                 :data="data3"
-                                max-height="440"
+                                max-height="445"
                                 style="width: 100%">
-                                <el-table-column align="center" label="行业" min-width="190px">
+                                <el-table-column align="left" label="行业" min-width="40%">
                                     <template slot-scope="scope">
                                         <span>{{scope.row.name}}</span>
                                     </template>
                                 </el-table-column>
 
-                                <el-table-column align="center" label="金额（亿元）"  min-width="120px">
+                                <el-table-column align="center" label="金额（亿元）"  min-width="40%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.value.length==0">0.0000</span>
                                         <span>{{scope.row.value}}</span>
                                     </template>
                                 </el-table-column>
                                 
-                                <el-table-column align="center" label="数量"  min-width="60px">
+                                <el-table-column align="center" label="数量"  min-width="20%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.num.length==0">0</span>
-                                        <span>{{scope.row.num}}</span>
+                                        <a @click="companySel(scope.row,'002')">{{scope.row.num}}</a>
                                     </template>
                                 </el-table-column>
                             </el-table>      
@@ -152,25 +154,25 @@
                            <el-table
                                 ref="table3"
                                 :data="data4"
-                                max-height="440"
+                                max-height="445"
                                 style="width: 100%">
-                                <el-table-column align="center" label="行业" min-width="190px">
+                                <el-table-column align="left" label="行业" min-width="40%">
                                     <template slot-scope="scope">
                                         <span>{{scope.row.name}}</span>
                                     </template>
                                 </el-table-column>
 
-                                <el-table-column align="center" label="金额（亿元）"  min-width="120px">
+                                <el-table-column align="center" label="金额（亿元）"  min-width="40%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.value.length==0">0.0000</span>
                                         <span>{{scope.row.value}}</span>
                                     </template>
                                 </el-table-column>
                                 
-                                <el-table-column align="center" label="数量"  min-width="60px">
+                                <el-table-column align="center" label="数量"  min-width="20%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.num.length==0">0</span>
-                                        <span>{{scope.row.num}}</span>
+                                        <a @click="companySel(scope.row,'003')">{{scope.row.num}}</a>
                                     </template>
                                 </el-table-column>
                             </el-table>      
@@ -189,27 +191,30 @@ import datepicker from "@/mixins/datepicker";
 import { mapGetters } from "vuex";
 import { GetDateDiff } from "@/utils";
 import chartBoxTwo from "./chartBoxTwo";
+import common from '@/mixins/common'
 export default {
   name: "chartBoxTwo",
-  mixins: [datepicker],
+  mixins: [datepicker,common],
   components: { Chart },
   data() {
     return {
       value5: "",
       code_value: "001",
-      flag: 1,
+      flag: 1,//记录点击的时间选择
       activeName: "first",
       param: {
-        countType: "",
+        countType: "",//时间选择
         chartType: "",
         type: "",
         finaType: "",
         dateSelect: "",
-        industrySelect: ""
+        industrySelect: ""//分类选择
       },
       tableData: [],
       options: [],
-      arr: ["001", "002", "003"]
+      arr: ["001", "002", "003"],
+      refreshFlag:false,//点击按钮不刷新右边表格
+      titleName:'证券发行'
     };
   },
   props: {
@@ -231,20 +236,27 @@ export default {
     }
   },
   methods: {
+    companySel(row,finaType) {//打开公司详情页
+      this.companyDetailShow("2",this.titleName,finaType,row.name,row.condition,this.code_value);
+    },
     //点击年度选项事件
     activeFun(data) {
       this.flag = data; //选中样式
       // 给chart换数据
-      // console.log(this.flag)
       this.param.countType = this.flag;
-      this.param.industrySelect = "001";
+      // this.param.industrySelect = "001";
+      this.param.industrySelect = this.code_value;
+      this.param.finaType = "001,002,003";
+      this.value5 = "";
       this.chartTwo(false);
     },
-    selectClass(val) {
-      this.param.countType = 1;
+    selectClass(val) {//改变分类
+      this.param.countType = this.flag;
       this.param.chartType = 2;
       this.param.industrySelect = val;
       this.param.type = "ipodata2";
+      this.param.finaType = "001,002,003";
+      this.refreshFlag = true;
       this.$store.dispatch("ipoGet", this.param).then()
     },
     //选项卡点击触发事件
@@ -261,9 +273,10 @@ export default {
         if (flag) {
           this.param.countType = 1;
           this.param.chartType = 2;
-          this.param.industrySelect = "008";
+          this.param.industrySelect = "001";
           this.param.type = "ipodata2";
         }
+        this.refreshFlag = true;
         this.$store.dispatch("ipoGet", this.param).then(() => {});
       }
     },
@@ -275,9 +288,10 @@ export default {
     clickClass(value, $event) {
       if ($event.target.classList.contains("clickSpan") === false) {
         $event.target.classList.add("clickSpan");
-        this.param.countType = 1;
+        this.param.countType = this.flag;
         this.param.chartType = 2;
-        this.param.industrySelect = "001";
+        // this.param.industrySelect = "001";
+        this.param.industrySelect = this.code_value;
         for (let i = 0; i < this.arr.length; i++) {
           if (this.arr[i] === value) {
             this.arr.splice(i, 1);
@@ -287,13 +301,15 @@ export default {
         this.param.type = "ipodata2";
       } else {
         $event.target.classList.remove("clickSpan");
-        this.param.countType = 1;
+        this.param.countType = this.flag;
         this.param.chartType = 2;
-        this.param.industrySelect = "001";
+        // this.param.industrySelect = "001";
+        this.param.industrySelect = this.code_value;
         this.arr.push(value);
         this.param.finaType = this.arr.join(",");
         this.param.type = "ipodata2";
       }
+      this.refreshFlag = false;
       this.$store.dispatch("ipoGet", this.param).then(() => {});
     }
   },
@@ -318,17 +334,20 @@ export default {
     this.classGet(true);
   },
   watch: {
-    value5(n, o) {
+    value5(n, o) {//改变时间时,监听事件,判断搜索日期大于一个月
       //依照操作取数据
-      if (n == null) {
-        this.dateSelect = "";
-        this.chartTwo(true);
-        for(let i =0; i< document.getElementById('listB').getElementsByTagName('a').length;i++) {
-          if (document.getElementById('listB').getElementsByTagName('a')[i].classList.contains("active") === false) {
-            document.getElementById('listB').getElementsByTagName('a')[3].classList.add("active")
-          }     
+      if (this.getValue(n) == '') {//清空时间
+        if(this.flag == 7) {
+          this.dateSelect = "";
+          this.flag = 1;
+          this.chartTwo(true);
+          for(let i =0; i< document.getElementById('listB').getElementsByTagName('a').length;i++) {
+            if (document.getElementById('listB').getElementsByTagName('a')[i].classList.contains("active") === false) {
+              document.getElementById('listB').getElementsByTagName('a')[3].classList.add("active")
+            }     
+          }
+          return false;
         }
-        return false;
       } else {
         var d = new Date(n[0]);
         const f = new Date(n[1]);
@@ -338,8 +357,9 @@ export default {
           f.getFullYear() + "-" + (f.getMonth() + 1) + "-" + f.getDate(); // + ' ' + f.getHours() + ':' + f.getMinutes() + ':' + f.getSeconds();
         const flg = GetDateDiff(start, end, "day");
         this.param.countType = 7;
-        this.param.industrySelect= '001'
-        if (flg >= 30) {
+        this.flag = 7;
+        // this.param.industrySelect= '001'
+        if (flg >= 31) {
           this.param.dateSelect = start + " 至 " + end;
           // console.log(this.param)
           this.chartTwo(false);
@@ -349,18 +369,19 @@ export default {
             }     
           }
         } else {
-          this.$message({
-            message: `统计范围应大于一个月,您现在的时间范围为${flg}天`,
-            type: "warning"
-          });
+          // this.$message({
+          //   message: `统计范围应大于一个月,您现在的时间范围为${flg}天`,
+          //   type: "warning"
+          // });
+          this.popAlert('统计范围应大于一个月');
         }
       }
     },
     getIpo2(n, o) {
-      //   console.log('getIpo变了')
-      //   console.log(n)
       //数据变化时更新chart
-      this.tableData = n;
+      if(this.refreshFlag) {//更改时间或者分类时,刷新右侧数据
+        this.tableData = n;
+      }
     }
   }
 };
@@ -420,5 +441,4 @@ export default {
   color: #333333;
   border: 1px solid #d5d5d5;
 }
-
 </style>

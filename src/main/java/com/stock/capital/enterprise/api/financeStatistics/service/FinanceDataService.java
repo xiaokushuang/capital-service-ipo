@@ -1,16 +1,53 @@
 package com.stock.capital.enterprise.api.financeStatistics.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.solr.client.solrj.response.PivotField;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
+import org.springframework.web.context.ServletContextAware;
+import org.springframework.web.context.support.ServletContextResource;
+
 import com.google.common.base.Throwables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.stock.capital.enterprise.api.financeStatistics.dto.BondStatisticsIndexDto;
+import com.stock.capital.enterprise.api.financeStatistics.dto.FinanceDataDto;
+import com.stock.capital.enterprise.api.financeStatistics.dto.FinanceParamDto;
+import com.stock.capital.enterprise.api.financeStatistics.dto.FinanceStatisticsIndexDto;
+import com.stock.capital.enterprise.common.constant.Global;
 import com.stock.capital.enterprise.common.dao.CodeMapper;
 import com.stock.capital.enterprise.common.entity.Code;
 import com.stock.capital.enterprise.common.entity.CodeExample;
 import com.stock.capital.enterprise.common.service.IndexFieldBindService;
-import com.stock.capital.enterprise.api.financeStatistics.dto.BondStatisticsIndexDto;
-import com.stock.capital.enterprise.api.financeStatistics.dto.FinanceStatisticsIndexDto;
-import com.stock.capital.enterprise.api.financeStatistics.dto.FinanceDataDto;
 import com.stock.core.Constant;
 import com.stock.core.dto.FacetResult;
+import com.stock.core.dto.Page;
 import com.stock.core.dto.QueryInfo;
 import com.stock.core.dto.StatsResult;
 import com.stock.core.search.SearchServer;
@@ -19,19 +56,10 @@ import com.stock.core.service.BaseService;
 import com.stock.core.util.DateSplitUtil;
 import com.stock.core.util.DateUtil;
 import com.stock.core.util.JsonUtil;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.solr.client.solrj.response.PivotField;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 
 @Service
-public class FinanceDataService extends BaseService {
+public class FinanceDataService extends BaseService implements ServletContextAware{
 
     private Logger logger = LoggerFactory.getLogger(FinanceDataService.class);
 	
@@ -43,8 +71,14 @@ public class FinanceDataService extends BaseService {
     
     @Autowired
     private IndexFieldBindService indexFieldBindService;
-
-   
+    
+    private ServletContext servletContext;
+    
+    @Override
+    public void setServletContext(ServletContext servletContext) {
+    this.servletContext = servletContext;
+    }
+    
     /**
      * 融资统计-证券发行图表数据
      * @author Wang Guili & Gerry
@@ -474,6 +508,8 @@ public class FinanceDataService extends BaseService {
                     logger.error("cause by：{}", Throwables.getStackTraceAsString(e));
                 } 
                 dataMap.put("num", sf.getCount()); 
+                dataMap.put("cityName", String.valueOf(sf.getValue())); 
+                dataMap.put("condition", conditionsStr); //增加查询条件
                 tempResult.add(dataMap);
             }
         }
@@ -608,5 +644,319 @@ public class FinanceDataService extends BaseService {
         map.put("finaType", dto.getFinaType());
 
         return map;
+    }
+    
+    /**
+     * 拼接查询公司详情条件
+     */
+    public QueryInfo<Map<String, String>> getQuery(FinanceParamDto queryInfo) {
+        QueryInfo<Map<String, String>> query = new QueryInfo<Map<String, String>>();
+        Map<String, String> condition = Maps.newHashMap();
+        String conditionsStr = "";
+        if("1".equals(queryInfo.getChartType())) {//柱状图
+            conditionsStr = "index_type_t: \"finance\"";
+            if(StringUtils.isNotEmpty(queryInfo.getSelCondition())) {
+                String[] time = queryInfo.getSelCondition().split("至");
+                String startDateStr = new String();
+                for (String timeFlag : time) {
+                    startDateStr = startDateStr + " 至 " + timeFlag;
+                }
+                startDateStr = startDateStr.substring(3);
+                conditionsStr = SolrSearchUtil.transDateStrToConditionStr(conditionsStr,startDateStr, "finance_startdate_dt");
+            }
+            if("债券发行".equals(queryInfo.getTypeFlag())) {//债券发行
+                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
+            } else {//证券发行
+                if("004".equals(queryInfo.getFinaType())) {
+                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, true);
+                } else {
+                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
+                }
+            }
+        } else if("2".equals(queryInfo.getChartType())){//饼状图
+            conditionsStr = queryInfo.getConditionStr();
+            if(!"004".equals(queryInfo.getFinaType())) {
+                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
+            } 
+            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getSelCondition(), " ", "finance_pindname"+queryInfo.getFinanceIndustry()+"_s", false, false, false);
+        } else if("3".equals(queryInfo.getChartType())){//地图
+            conditionsStr = queryInfo.getConditionStr();
+            if(!"004".equals(queryInfo.getFinaType())) {
+                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
+            } 
+            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getSelCondition(), " ", "finance_cityname_s", false, false, false);
+        }
+
+        // 处理关键字的检索条件
+        condition.put(Constant.SEARCH_CONDIATION, conditionsStr);
+        
+        query.setCondition(condition);
+        String orderby = "DESC";
+        // 排序顺序
+        if ("ascending".equals(queryInfo.getOrderByOrder())) {
+            orderby = "ASC";
+        } else if("descending".equals(queryInfo.getOrderByOrder())) {
+            orderby = "DESC";
+        }
+        String orderName = "finance_startdate_dt";
+        // 排序根据
+        if ("companyName".equals(queryInfo.getOrderByName())) {// 公司名称
+            orderName = "finance_companyname_sort_s";
+        } else if ("financeDate".equals(queryInfo.getOrderByName())) {// 上市日期
+            orderName = "finance_startdate_dt";
+        } else if ("securityCode".equals(queryInfo.getOrderByName())) {// 证券代码
+            orderName = "finance_securitycode_sort_s";
+        } else if ("securityShortName".equals(queryInfo.getOrderByName())) {// 证券简称
+            orderName = "finance_securityshortname_sort_s";
+        } else if ("financeIndustry".equals(queryInfo.getOrderByName())) {// 所属行业
+            if("2".equals(queryInfo.getChartType())) {
+                orderName = "finance_pindname"+queryInfo.getFinanceIndustry()+"_s";
+            } else {
+                orderName = "finance_pindname001_s";
+            }
+        } else if ("cityName".equals(queryInfo.getOrderByName())) {// 所属地区
+            orderName = "finance_cityname_s";
+        } else if ("belongPlate".equals(queryInfo.getOrderByName())) {// 所属板块
+            orderName = "finance_belongplate_t";
+        } else if ("sumFina".equals(queryInfo.getOrderByName())) {// 融资金额
+            orderName = "finance_sumfina_d";
+        }
+        query.setOrderByName(orderName);
+        query.setOrderByOrder(orderby);
+        query.setPageSize(queryInfo.getPageSize());
+        query.setStartRow(queryInfo.getStartRow());
+        return query;
+    }
+    
+    /**
+     * 导出Excel方法
+     * @param strPath
+     * @return
+     * @throws Exception 
+     */
+    public InputStream exportExcel(QueryInfo<Map<String, String>> query,String filePath,String chartType, String financeIndustry) throws Exception {
+        FacetResult<FinanceStatisticsIndexDto> facetResult = searchServer.searchWithFacet(
+                Global.FINANCE_INDEX_NAME, query, FinanceStatisticsIndexDto.class);
+        Page<FinanceStatisticsIndexDto> page = facetResult.getPage();
+        List<FinanceStatisticsIndexDto> resultList = Lists.newArrayList();
+        if(page != null) {
+            resultList = page.getData();
+        }
+        // 设置Excel内容
+        Workbook workbook = excelContentSetting(resultList, filePath, chartType, financeIndustry);
+        // 写成文件
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        workbook.write(os);
+        os.flush();
+        os.close();
+        return new ByteArrayInputStream(os.toByteArray());
+    }
+    
+    /**
+     * 设置Excel内容
+     * @param qaLst
+     * @param strPath
+     * @return
+     * @throws Exception
+     *
+     */
+    private Workbook excelContentSetting(List<FinanceStatisticsIndexDto> qaLst, String strPath,String chartType, String financeIndustry) throws Exception {
+        Resource resource = new ServletContextResource(this.servletContext, strPath);
+        InputStream file = resource.getInputStream();// 源文件流
+        Workbook workbook = WorkbookFactory.create(file);
+        
+         Sheet sheet = null;
+
+         sheet = workbook.getSheetAt(0);
+         Row row = null;
+         Cell cell = null;
+         FinanceStatisticsIndexDto dto = null;
+         CellStyle cellStyleWCS = workbook.createCellStyle();
+         DataFormat format = workbook.createDataFormat();
+         cellStyleWCS.setDataFormat(format.getFormat("@"));
+         cellStyleWCS.setWrapText(true);
+         cellStyleWCS.setAlignment(HorizontalAlignment.CENTER);
+         cellStyleWCS.setVerticalAlignment(VerticalAlignment.CENTER);
+         if(qaLst != null){
+            // 设置内容
+            for (int i = 0; i < qaLst.size(); i++) {
+                dto = qaLst.get(i);
+                row = sheet.getRow(i+1);
+                if(row==null){
+                   row = sheet.createRow(i+1);
+                 }
+                //序号
+                cell=row.getCell(0);
+                if(cell == null) {
+                         cell = row.createCell(0);
+                }
+                cell.setCellStyle(cellStyleWCS);
+                cell.setCellValue(i+1);
+              
+                // 设置公司名称
+                cell = row.getCell(1);
+                if (cell == null) {
+                    cell = row.createCell(1);
+                }
+                cell.setCellStyle(cellStyleWCS);
+                cell.setCellValue(dto.getCompanyName());
+                
+                // 上市日期
+                cell = row.getCell(2);
+                if (cell == null) {
+                    cell = row.createCell(2);
+                }
+                cell.setCellStyle(cellStyleWCS);
+                if (dto.getFinanceDate() != null) {
+                    cell.setCellValue(DateUtil.getDateStr(dto.getFinanceDate(), DateUtil.YYYY_MM_DD));
+                }
+              
+                //证券代码
+                cell = row.getCell(3);
+                if (cell == null) {
+                    cell = row.createCell(3);
+                }
+                cell.setCellStyle(cellStyleWCS);
+                cell.setCellValue(dto.getSecurityCode());
+              
+                // 证券简称
+                cell = row.getCell(4);
+                if (cell == null) {
+                    cell = row.createCell(4);
+                }
+                cell.setCellStyle(cellStyleWCS);
+                cell.setCellValue(dto.getSecurityShortName());
+                
+                // 所属行业
+                cell = row.getCell(5);
+                if (cell == null) {
+                    cell = row.createCell(5);
+                }
+                cell.setCellStyle(cellStyleWCS);
+                if("2".equals(chartType)) {
+                    cell.setCellValue(getpIndName(dto,financeIndustry));
+                } else {
+                    cell.setCellValue(dto.getpIndName001());
+                }
+                
+                // 所属地区
+                cell = row.getCell(6);
+                if (cell == null) {
+                    cell = row.createCell(6);
+                }
+                cell.setCellStyle(cellStyleWCS);
+                cell.setCellValue(dto.getCityName());
+                
+                // 所属行业
+                cell = row.getCell(7);
+                if (cell == null) {
+                    cell = row.createCell(7);
+                }
+                cell.setCellStyle(cellStyleWCS);
+                String belongPlate = "";
+                if("00".equals(dto.getBelongPlate())) {
+                    belongPlate = "深圳主板";
+                } else if("01".equals(dto.getBelongPlate())) {
+                    belongPlate = "深圳中小板";
+                } else if("02".equals(dto.getBelongPlate())) {
+                    belongPlate = "深圳创业板";
+                } else if("04".equals(dto.getBelongPlate())) {
+                    belongPlate = "上交所主板";
+                } else if("05".equals(dto.getBelongPlate())) {
+                    belongPlate = "新三板";
+                } else if("07".equals(dto.getBelongPlate())) {
+                    belongPlate = "上交所科创板";
+                }
+                cell.setCellValue(belongPlate);
+                
+                // 融资金额(亿元)
+                cell = row.getCell(8);
+                if (cell == null) {
+                    cell = row.createCell(8);
+                }
+                cell.setCellStyle(cellStyleWCS);
+                if("004".equals(dto.getFinaType())) {
+                    DecimalFormat df = new DecimalFormat("0.0000");
+                    cell.setCellValue(df.format(dto.getSumFina()).toString());
+                } else {
+                    cell.setCellValue(calcRates(dto.getSumFina(),null,null));
+                }
+            }
+        }
+        return workbook;
+     }
+    
+    /**
+     * 获取行业名称
+     */
+    public String getpIndName(FinanceStatisticsIndexDto dto, String financeIndustry) {
+        String pIndName = "";
+        if("001".equals(financeIndustry)) {
+            pIndName = dto.getpIndName001();
+        } else if("002".equals(financeIndustry)) {
+            pIndName = dto.getpIndName002();
+        } else if("003".equals(financeIndustry)) {
+            pIndName = dto.getpIndName003();
+        } else if("004".equals(financeIndustry)) {
+            pIndName = dto.getpIndName004();
+        } else if("005".equals(financeIndustry)) {
+            pIndName = dto.getpIndName005();
+        } else if("006".equals(financeIndustry)) {
+            pIndName = dto.getpIndName006();
+        } else if("008".equals(financeIndustry)) {
+            pIndName = dto.getpIndName008();
+        } else if("009".equals(financeIndustry)) {
+            pIndName = dto.getpIndName009();
+        } 
+        return pIndName;
+    }
+    
+    /**
+     * 
+     * 计算比例
+     *
+     * @param attend 除数
+     * @param total 总数
+     * @param scale 除法结果小数位数（默认为6）
+     * @param power 结果扩大比例（默认2:百分比比例）
+     * @return 比例（总数为0时，返回1）
+     */
+    private String calcRates(Double attend, Integer scale, Integer power) {
+        
+        // 设置默认值
+        if (scale == null) {
+            scale = 6;
+        }
+        if (power == null) {
+            power = 2;
+        }
+        BigDecimal rate = BigDecimal.ZERO;
+        BigDecimal totalBd = new BigDecimal(100000000);
+        BigDecimal attendBd = doubleBigDecimal(attend);
+        if (totalBd != BigDecimal.ZERO) {
+            
+            BigDecimal divide = attendBd.divide(totalBd, scale, BigDecimal.ROUND_HALF_DOWN);
+            rate = divide.setScale(4, BigDecimal.ROUND_HALF_UP);
+        }
+        
+        return rate.toString();
+    }
+    
+    /**
+     * Double型转为BigDecimal
+     *
+     * @param l
+     * @return 转换后的BigDecimal，如果NULL场合，返回0
+     *
+     */
+    private BigDecimal doubleBigDecimal(Double l) {
+        
+        BigDecimal ret = BigDecimal.ZERO;
+        
+        if (l != null) {
+            ret = BigDecimal.valueOf(l);
+        }
+        
+        return ret;
     }
 }

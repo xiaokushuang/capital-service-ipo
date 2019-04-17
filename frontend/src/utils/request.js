@@ -1,12 +1,11 @@
 import axios from 'axios';
 import {clearAllCookie, getToken} from '@/utils/auth';
 import {Message} from 'element-ui';
-import store from '../store'
 
 // create an axios instance
 const service = axios.create({
   baseURL: '',// process.env.BASE_API, // api的base_url
-  timeout: 20000 // request timeout
+  timeout: 5000 // request timeout
 });
 
 //console.log(process.env.BASE_API);
@@ -14,10 +13,12 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
     config => {
+      if(config.responseType == 'blob'){
+        config.timeout = 180000;
+      }
       // Do something before request is sent
       // set accessToken with request header
-      config.headers['Authorization'] = store.state.app.token;
-      config.headers['X-Tenant-Info'] = store.state.app.info;
+      config.headers['Authorization'] = getToken();
       // fixed GET request method caching problem
       config.headers['Cache-Control'] = 'no-cache';
       config.headers['Pragma'] = 'no-cache';
@@ -31,6 +32,28 @@ service.interceptors.request.use(
 // respone interceptor
 service.interceptors.response.use(
     (response) => {
+      if(response.config.responseType == 'blob'){
+        if(!response.data){
+          return;
+        }
+        let blob = new Blob([response.data]);
+        let fileName = decodeURIComponent(response.headers["filename"]);
+        if ('download' in document.createElement('a')) { // 非IE下载
+          let url = window.URL.createObjectURL(blob)
+          let link = document.createElement('a')
+          link.style.display = 'none';
+          link.href = url;
+          link.setAttribute('download', fileName)
+          document.body.appendChild(link)
+          link.click();
+          document.body.removeChild(link); //下载完成移除元素
+          window.URL.revokeObjectURL(url); //释放掉blob对象
+          return;
+        } else { // IE10+下载
+          window.navigator.msSaveOrOpenBlob(blob, fileName)
+          return;
+        }
+      }
       return response
     },
     (error) => {
