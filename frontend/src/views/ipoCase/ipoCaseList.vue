@@ -355,7 +355,7 @@
                     </p>
                     <p class="clear" style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
                       <span style="float:left" class="quan">4</span>
-                      <span style="float:left;display:inline-block;width: 93%; margin-left: 4px;">最近一期末无形资产（扣除土地使用权、水面养殖权和采矿权等后）占净资产的比例<span style="color:#333333;">不高于20％</span></span>；
+                      <span style="float:left;display:inline-block;width: 93%; margin-left: 4px;">最近一期末无形资产（扣除土地使用权、水面养殖权和采矿权等后）占净资产的比例<span style="color:#333333;">不高于20％；</span></span>
                     </p>
                     <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
                       <span class="quan">5</span>
@@ -1537,11 +1537,18 @@
       margin-left: 3.1%;
     }
   }
-    @media screen and (max-width: 1920px) and (min-width: 1679px) {
+    @media screen and (max-width: 1920px) and (min-width: 1681px) {
     .topOne {
       display: inline-block;
       margin-top: -4%;
       margin-left: 0.1%;
+    }
+  }
+    @media screen and (max-width: 3840px) and (min-width: 1919px) {
+    .topOne {
+      display: inline-block;
+      margin-top: -4%;
+      margin-left: 0.2%;
     }
   }
 
@@ -1558,7 +1565,13 @@
       margin-left: 2.5%;
     }
   }
-
+  @media screen and (max-width: 3840px) and (min-width: 1921px) {
+    .bottomOne {
+      display: inline-block;
+      margin-top: -4%;
+      margin-left: 0.2%;
+    }
+  }
   .bottomTwo {
     display: inline-block;
     margin-top: -4%;
