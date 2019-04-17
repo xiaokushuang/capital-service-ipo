@@ -135,16 +135,16 @@ beforeDestroy() {
               }
             },
             legend: {
-              top:'2%',
+              top:'5%',
                x: "right", // 'center' | 'left' | {number},
               //  y: "100%", // 'center' | 'bottom' | {number}
               selected:this.zxChartYSelect,
-              //  type: 'scroll',
+               type: 'scroll',
             },
             grid: {
                 left: '3%',
                 right: '4%',
-                // top:'20%',
+                top:'15%',
                 bottom: '3%',
                 containLabel: true
             },

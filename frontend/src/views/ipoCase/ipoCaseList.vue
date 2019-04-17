@@ -1286,6 +1286,7 @@
   .container .el-tree-node {
     outline: 0;
     white-space: normal;
+    /* height:100%; */
   }
 
   .container .el-tree-node__label {

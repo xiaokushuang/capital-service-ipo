@@ -238,7 +238,8 @@ initPieChart(dataList,nameTempO,num,flag) {
                   }
                   return [posX, posY];
                 },
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
+           //百分比显示，模板变量有 {a}、{b}、{c}、{d}，分别表示系列名，数据名，数据值，百分比。{d}数据会根据value值计算百分比                         
+          formatter: "{a}{b} : {c} ({d}%)"
         },
         //  legend: {
         //             selectedMode:false,//取消图例上的点击事件
