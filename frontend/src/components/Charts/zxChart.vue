@@ -86,6 +86,11 @@ beforeDestroy() {
                                   {
                                       name:dataList[i].industryCompareRateDetailList[j].companyName,
                                       type:'line',
+                                      // lineStyle:{
+                                      //   normal:{
+                                      //     color:'red',
+                                      //   },
+                                      // },
                                       data:[dataList[i].industryCompareRateDetailList[j].firstYearRate,dataList[i].industryCompareRateDetailList[j].secondYearRate,dataList[i].industryCompareRateDetailList[j].thirdYearRate],
                                       label: {
                                           formatter: function (params) {
