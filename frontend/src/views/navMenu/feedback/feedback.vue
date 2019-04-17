@@ -277,7 +277,7 @@
                     </div>
                     <div class="question" id="titleLength">
                         <ul style="padding-left:0">
-                            <li v-for="(data,index) in questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
+                            <li v-loading="flagLoading" element-loading-text="给我一点时间" v-for="(data,index) in questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
                                 <div class="text" style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:10px;position:relative">
                                  <!-- 问 -->
                                     <div  v-if="data.question&&data.question.length>0">
@@ -395,6 +395,7 @@ export default {
       // 多选按钮’全部‘
       showAll:false,
       firstClick:true,
+      flagLoading: false,
     };
   },
     created(){
@@ -412,6 +413,7 @@ export default {
                 // console.log('222',document.body.offsetHeight); // 文档高度
                 // 判断是否滚动到底部
                 if(scrollTop + window.innerHeight + 2 >= document.body.offsetHeight) {
+                   this.flagLoading = true;
                   _this.showMoreMethods()
                 }
             });
@@ -500,6 +502,7 @@ export default {
       if(this.tabList.length==1){
         this.showLength+=15
         if(this.allQuestionList.length > this.showLength){
+          this.flagLoading = false;
           this.showMore = true;
           this.questionList = this.allQuestionList.slice(0, this.showLength);
         }else{

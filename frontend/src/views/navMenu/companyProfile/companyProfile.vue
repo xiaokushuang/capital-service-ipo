@@ -641,20 +641,20 @@ export default {
     mouseOverCompanyName(title){
       if(title.length>20){
         $(".companyNameClass").attr("title",title)
-        $(".companyNameClass").css({"cursor":"pointer"})
+        // $(".companyNameClass").css({"cursor":"pointer"})
       }else{
         $(".companyNameClass").removeAttr("title",title)
-         $(".companyNameClass").css({"cursor":"auto"})
+        //  $(".companyNameClass").css({"cursor":"auto"})
       }
     },
     // 鼠标移入采购内容
     mouseOverContent(title){
       if(title.length>16){
         $(".contentClass").attr("title",title)
-        $(".contentClass").css({"cursor":"pointer"})
+        // $(".contentClass").css({"cursor":"pointer"})
       }else{
          $(".contentClass").removeAttr("title",title)
-         $(".contentClass").css({"cursor":"auto"})
+        //  $(".contentClass").css({"cursor":"auto"})
       }
     },
      getCompanyName(title){

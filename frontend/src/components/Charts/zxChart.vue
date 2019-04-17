@@ -86,11 +86,6 @@ beforeDestroy() {
                                   {
                                       name:dataList[i].industryCompareRateDetailList[j].companyName,
                                       type:'line',
-                                      // lineStyle:{
-                                      //   normal:{
-                                      //     color:'red',
-                                      //   },
-                                      // },
                                       data:[dataList[i].industryCompareRateDetailList[j].firstYearRate,dataList[i].industryCompareRateDetailList[j].secondYearRate,dataList[i].industryCompareRateDetailList[j].thirdYearRate],
                                       label: {
                                           formatter: function (params) {
@@ -108,7 +103,13 @@ beforeDestroy() {
           }
         }
        this.zxChart.setOption({
-           title: {
+            color:[ 
+                '#ca2428', '#237d9a', '#ffa127', '#2e434d', 
+                '#7bcbab', '#ff5f3a', '#045575', '#3badda', '#cc48c6', 
+                '#84a8ce', '#fb8056', '#be79c6', '#3a77ce', '#e8b142', 
+                '#876bc9', '#3c9bd6', 
+            ],
+            title: {
                 text: ''
             },
             tooltip:{
