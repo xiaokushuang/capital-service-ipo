@@ -75,11 +75,7 @@ export default {
           this.barYY.push(a3)
           this.barYY.push(a4)
           var barBusinessName;
-          // if(dataList.mainIncomeInfoList[i].businessName.length>7){
-          //   barBusinessName = dataList.mainIncomeInfoList[i].businessName.slice(0,10)+'..'
-          // }else{
             barBusinessName = dataList.mainIncomeInfoList.slice(0,-1)[i].businessName
-          // }
           this.barChartY.push(
                                 {
                                     name:barBusinessName,
@@ -124,11 +120,9 @@ export default {
                     posY = pos.top + point[1];
                   }else {
                     pos = document.getElementById("chartParent").getBoundingClientRect();
-                    console.log("1")
                     posY = pos.y + point[1];
                     posX = pos.x + point[0] + 20;
                   }
-
                   return [posX, posY];
                 },
                 axisPointer: {
@@ -189,12 +183,12 @@ initPieChart(dataList,nameTempO,num,flag) {
         name:"",
         value:""
       };
-      // if(dataList[i].businessName.length>7){
-      //   obj.name = dataList[i].businessName.slice(0,6)+'...';
-      // }else{
         obj.name = dataList[i].businessName
-      // }
-      obj.value = dataList[i].onePeriodAmount;
+        if(dataList[i].onePeriodAmount<0){
+          obj.value = 0
+        }else{
+          obj.value = dataList[i].onePeriodAmount;
+        }
       this.pieData.push(obj);
     }
   }else{
@@ -205,7 +199,12 @@ initPieChart(dataList,nameTempO,num,flag) {
         value:""
       };
       obj.name = dataList[i].name
-      obj.value = dataList[i].data[num];
+      if(dataList[i].data[num]<0){
+          obj.value = 0
+        }else{
+          obj.value = dataList[i].data[num];
+        }
+      // obj.value = dataList[i].data[num];
       this.pieData.push(obj);
     }
   }
@@ -223,7 +222,24 @@ initPieChart(dataList,nameTempO,num,flag) {
          },
         tooltip: {
           trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
+          position:function (point, params, dom, rect, size) {
+                  dom.style.position = 'fixed';
+                  let pos;
+                  let posY;
+                  let posX;
+                  if ((window.navigator.userAgent.toLowerCase().indexOf("trident") > -1 && window.navigator.userAgent.indexOf("rv") > -1)) {
+                    pos = document.getElementById("chartParent").getClientRects()[0];
+                    posX = pos.left + point[0] + 20;
+                    posY = pos.top + point[1];
+                  }else {
+                    pos = document.getElementById("chartParent").getBoundingClientRect();
+                    posY = pos.y + point[1];
+                    posX = pos.x + point[0] + 200;
+                  }
+                  return [posX, posY];
+                },
+           //百分比显示，模板变量有 {a}、{b}、{c}、{d}，分别表示系列名，数据名，数据值，百分比。{d}数据会根据value值计算百分比                         
+          formatter: "{a}{b} : {c} ({d}%)"
         },
         //  legend: {
         //             selectedMode:false,//取消图例上的点击事件
@@ -239,7 +255,7 @@ initPieChart(dataList,nameTempO,num,flag) {
         //          },
         series: [
           {
-            name: "访问来源",
+            name: "",
             type: "pie",
             radius: "50%",
             center: ["55%", "50%"],

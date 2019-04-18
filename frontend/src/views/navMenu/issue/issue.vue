@@ -2,12 +2,12 @@
     <div class="issue">
         <!-- 发行数据 -->
         <div class="issueData">
-             <div class="title">
+             <div v-if="dataFlag" class="title">
                 <span class="littleRectangle"></span>
                 <span class="titleText" id="distributionData">发行数据</span>
             </div>
             <!-- table1 -->
-             <el-row style="margin-bottom: 30px;padding: 0 12px;">
+             <el-row v-if="dataFlag" style="margin-bottom: 30px;padding: 0 12px;">
                 <el-col :span="24" :offset="0">
                   <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>每股面值</span></el-col>
@@ -84,7 +84,7 @@
                     <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>发行方式</span></el-col>
                       <el-col :span="6" class="value">
-                       <span v-if="issueData.issueMethod" @mouseenter="mouseOverSpreadText(issueData.issueMethod)" class="distribution" style="cursor:pointer">
+                       <span v-if="issueData.issueMethod" @mouseenter="mouseOverSpreadText(issueData.issueMethod)" class="distribution">
                           {{getContent(issueData.issueMethod)}}
                       </span>
                       <span v-else> - - </span>
@@ -101,7 +101,7 @@
         </div>
         <!-- 发行费用 -->
         <div class="issueMoney" >
-             <div class="title">
+             <div v-if="issueFeeData&&issueFeeData.length>0" class="title">
                 <span class="littleRectangle"></span>
                 <span class="titleText" id="distributionCosts">发行费用</span>
             </div>
@@ -110,7 +110,7 @@
              <el-table v-if="issueFeeData&&issueFeeData.length>0" :data="issueFeeData" style="width: 100%" stripe border>
                 <el-table-column type="index" label="序号" align='center' width="117">
                 <template slot-scope="scope">
-                            {{scope.$index+1}}
+                     {{scope.$index+1}}
                 </template>
                 </el-table-column>
                 <el-table-column style="width:30%" prop="feeType" label="费用明细" align='left'>
@@ -225,7 +225,7 @@ export default {
     },
    getContent(title){
      if(title.length>13){
-       return title.substring(0,13) + '...'
+       return title.substring(0,12) + '...'
      }else{
        return title
      }

@@ -335,9 +335,16 @@
                         最近<span style="color:#14BCF5">3</span>个会计年度净利润均为正数且<span style="color:#14BCF5">累计超过3000万元</span>（人民币），净利润以扣除非经常性损益前后较低者为计算依据；
                       </div>
                     </div>
-                    <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:7px">
+                    <!-- <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:7px">
                       <span class="quan" style="position: relative; top: -17px;;">2</span>
                       <div style="display: inline-block;margin-left: 0.5%;">
+                        最近<span style="color:#14BCF5">3</span>个会计年度营业收入<span style="color: #14BCF5">累计超过3亿元</span>(人民币)；<br>
+                        <span><span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">3</span>个会计年度经营活动产生的现金流量净额<span style="color:#14BCF5">累计超过5000万元</span>(人民币)；</span>
+                      </div>
+                    </div> -->
+                     <div class="clear" style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:7px">
+                      <span class="quan" style="float:left">2</span>
+                      <div style="display: inline-block;margin-left: 0.5%;float:left">
                         最近<span style="color:#14BCF5">3</span>个会计年度营业收入<span style="color: #14BCF5">累计超过3亿元</span>(人民币)；<br>
                         <span><span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">3</span>个会计年度经营活动产生的现金流量净额<span style="color:#14BCF5">累计超过5000万元</span>(人民币)；</span>
                       </div>
@@ -346,10 +353,9 @@
                       <span class="quan">3</span>
                       发行前股本总额<span style="color:#14BCF5">不少于3000万元</span> (人民币)；
                     </p>
-                    <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
-                      <span class="quan">4</span>
-
-                      最近一期末无形资产（扣除土地使用权、水面养殖权和采矿权等后）占净资产的比例<span style="color:#333333;">不高于20％</span>；
+                    <p class="clear" style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
+                      <span style="float:left" class="quan">4</span>
+                      <span style="float:left;display:inline-block;width: 93%; margin-left: 4px;">最近一期末无形资产（扣除土地使用权、水面养殖权和采矿权等后）占净资产的比例<span style="color:#333333;">不高于20％；</span></span>
                     </p>
                     <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
                       <span class="quan">5</span>
@@ -369,9 +375,17 @@
                         发行人是依法设立且持续经营三年以上的股份有限公司。有限责任公司按原账面净资产值折股整体变更为股份有限公司的，持续经营时间可以从有限责任公司成立之日起计算；
                       </div>
                     </div>
-                    <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
+                    <!-- <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
                       <span class="quan bottomQuan">2</span>
                       <div class="bottomTwo">
+                        最近<span style="color: #14BCF5">2</span>年连续盈利，最近两年净利润<span style="color: #14BCF5">累计不少于1000万元</span>;<br>
+                        <span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">1</span>年盈利，最近一年营业收入<span style="color:#14BCF5">不少于5000万元。</span>(
+                        净利润以扣除非经常性损益前后孰低者为计算依据)
+                      </div>
+                    </div> -->
+                     <div class="clear" style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
+                      <span class="quan" style="float:left">2</span>
+                      <div  style="display: inline-block;margin-left: 0.5%;float:left;width: 95%;">
                         最近<span style="color: #14BCF5">2</span>年连续盈利，最近两年净利润<span style="color: #14BCF5">累计不少于1000万元</span>;<br>
                         <span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">1</span>年盈利，最近一年营业收入<span style="color:#14BCF5">不少于5000万元。</span>(
                         净利润以扣除非经常性损益前后孰低者为计算依据)
@@ -438,11 +452,15 @@
                     <template slot-scope="scope">
                       {{scope.row.processLabel}}
                       <br/>
-                      <span style="margin-left: -6%">
-                      <svg-icon v-if="scope.row.iecResult==='00'" icon-class="ipoPass" class="svg-style"></svg-icon>
+                      <span>
+                        <span class="htgResult" v-if="scope.row.iecResult==='00'">获通过</span>
+                        <span class="whtgResult" v-if="scope.row.iecResult==='01'">未获通过</span>
+                        <span class="zhbjResult" v-if="scope.row.iecResult==='02'">暂缓表决</span>
+                        <span class="qxshResult" v-if="scope.row.iecResult==='03'">取消审核</span>
+                      <!-- <svg-icon v-if="scope.row.iecResult==='00'" icon-class="ipoPass" class="svg-style"></svg-icon>
                       <svg-icon v-if="scope.row.iecResult==='01'" icon-class="ipoNoPass" class="svg-style"></svg-icon>
                       <svg-icon v-if="scope.row.iecResult==='02'" icon-class="ipoSuspendVote" class="svg-style"></svg-icon>
-                      <svg-icon v-if="scope.row.iecResult==='03'" icon-class="ipoCancelReview" class="svg-style"></svg-icon>
+                      <svg-icon v-if="scope.row.iecResult==='03'" icon-class="ipoCancelReview" class="svg-style"></svg-icon> -->
                         </span>
                     </template>
                   </el-table-column>
@@ -1268,6 +1286,7 @@
   .container .el-tree-node {
     outline: 0;
     white-space: normal;
+    /* height:100%; */
   }
 
   .container .el-tree-node__label {
@@ -1511,12 +1530,25 @@
     margin-top: -4%;
     margin-left: 4%;
   }
-
-  @media screen and (max-width: 1920px) and (min-width: 1400px) {
+    @media screen and (max-width: 1680px) and (min-width: 1359px) {
     .topOne {
       display: inline-block;
       margin-top: -4%;
-      margin-left: 0.5%;
+      margin-left: 3.1%;
+    }
+  }
+    @media screen and (max-width: 1920px) and (min-width: 1681px) {
+    .topOne {
+      display: inline-block;
+      margin-top: -4%;
+      margin-left: 0.1%;
+    }
+  }
+    @media screen and (max-width: 3840px) and (min-width: 1919px) {
+    .topOne {
+      display: inline-block;
+      margin-top: -4%;
+      margin-left: 0.2%;
     }
   }
 
@@ -1533,7 +1565,13 @@
       margin-left: 2.5%;
     }
   }
-
+  @media screen and (max-width: 3840px) and (min-width: 1921px) {
+    .bottomOne {
+      display: inline-block;
+      margin-top: -4%;
+      margin-left: 0.2%;
+    }
+  }
   .bottomTwo {
     display: inline-block;
     margin-top: -4%;
@@ -1596,5 +1634,46 @@
   .no_authority .cell{
     color: #999999 !important;
   }
+  /* 是否通过 */
+  .zhbjResult{
+     font-size: 12px;
+     color: #FF9900;
+     padding:5px;
+     padding-left: 8px;
+     line-height:10px;
+     display:inline-block;
+      background-size:cover;
+     background:url('../../assets/images/zhbj.png') no-repeat;
+}
+.whtgResult{
+     font-size: 12px;
+     color: #FE5461;
+     padding:5px;
+     padding-left: 8px;
+     line-height:10px;
+     display:inline-block;
+     background-size:cover;
+     background:url('../../assets/images/whtg.png') no-repeat;
+}
+.htgResult{
+     font-size: 12px;
+     color: #14BCF5;
+     padding:5px;
+     padding-left: 8px;
+     line-height:10px;
+     display:inline-block;
+      background-size:cover;
+     background:url('../../assets/images/htg.png') no-repeat;
+}
+.qxshResult{
+     font-size: 12px;
+     color: #94A3B4;
+     padding:5px;
+     padding-left: 8px;
+     line-height:10px;
+     display:inline-block;
+      background-size:cover;
+     background:url('../../assets/images/qxsh.png') no-repeat;
+}
 </style>
 

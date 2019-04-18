@@ -253,7 +253,7 @@
         <result column="letter_class_name" property="letterClassName"/>
     </resultMap>
     <select id="selectFirstLabelMap" resultMap="firstLabelResult">
-        select id,letter_class_name from letter_class t1 where t1.`level` = 0
+        select id,letter_class_name from letter_class t1 where t1.`level` = 0 order by t1.sort
     </select>
 
     <resultMap id="secondLabelResult" type="java.util.HashMap">
@@ -261,7 +261,7 @@
         <result column="letter_class_name" property="letterClassName"/>
     </resultMap>
     <select id="selectSecondLabelMap" resultMap="secondLabelResult">
-        select id,letter_class_name from letter_class t1 where t1.`level` = 1
+        select id,letter_class_name from letter_class t1 where t1.`level` = 1 order by t1.sort
     </select>
 
     <select id="selectPublicProcess" parameterType="java.lang.String" resultType="java.lang.String">

@@ -147,12 +147,16 @@ public class IpoExamineService extends BaseService {
         StringBuilder conditionsStr = new StringBuilder("index_type_t: \"letterqa\"");
         conditionsStr.append(" AND " + "letter_letter_id_t:");
         conditionsStr.append(letterId);
+        String orderByName = "letter_question_id_t";
+        String orderByOrder = "ASC";
         condition.put(Constant.SEARCH_CONDIATION, conditionsStr.toString());
         condition.put(Constant.SEARCH_FACET_MIN_COUNT, "1");
         QueryInfo<Map<String, String>> queryInfo = new QueryInfo<>();
         queryInfo.setCondition(condition);
         queryInfo.setStartRow(0);
         queryInfo.setPageSize(2000);
+        queryInfo.setOrderByName(orderByName);
+        queryInfo.setOrderByOrder(orderByOrder);
         FacetResult<IpoFeedbackIndexDto> facetResult =
                 searchServer.searchWithFacet("letterqa", queryInfo, IpoFeedbackIndexDto.class);
         List<IpoFeedbackIndexDto> questionIndexList = facetResult.getPage().getData();

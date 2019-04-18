@@ -81,7 +81,7 @@
                                     <!-- 已经阅读完了 -->
                                     <p v-if="!showMore&&questionList.length>0" class="finishRead">已经阅读完了</p>
                                     <!-- 暂无更多数据 -->
-                                    <p v-if="!showMore&&questionList.length==0" class="finishRead">暂无更多数据</p>
+                                    <p v-if="!showMore&&questionList.length==0" class="finishRead">暂无相关数据</p>
                               </div>
                           </div>
                       </el-tab-pane>
@@ -158,7 +158,7 @@
                                     <!-- 已经阅读完了 -->
                                     <p v-if="!showMore2&&questionList2.length>0" class="finishRead">已经阅读完了</p>
                                     <!-- 暂无更多数据 -->
-                                    <p v-if="!showMore2&&questionList2.length==0" class="finishRead">暂无更多数据</p>
+                                    <p v-if="!showMore2&&questionList2.length==0" class="finishRead">暂无相关数据</p>
                               </div>
                           </div>
                       </el-tab-pane>
@@ -235,7 +235,7 @@
                                     <!-- 已经阅读完了 -->
                                     <p v-if="!showMore3&&questionList3.length>0" class="finishRead">已经阅读完了</p>
                                     <!-- 暂无更多数据 -->
-                                    <p v-if="!showMore3&&questionList3.length==0" class="finishRead">暂无更多数据</p>
+                                    <p v-if="!showMore3&&questionList3.length==0" class="finishRead">暂无相关数据</p>
 
                               </div>
                           </div>
@@ -277,7 +277,7 @@
                     </div>
                     <div class="question" id="titleLength">
                         <ul style="padding-left:0">
-                            <li v-for="(data,index) in questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
+                            <li v-loading="flagLoading" element-loading-text="给我一点时间" v-for="(data,index) in questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
                                 <div class="text" style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:10px;position:relative">
                                  <!-- 问 -->
                                     <div  v-if="data.question&&data.question.length>0">
@@ -317,7 +317,7 @@
                       <!-- 已经阅读完了 -->
                       <p v-if="!showMore&&questionList.length>0" class="finishRead">已经阅读完了</p>
                        <!-- 暂无更多数据 -->
-                      <p v-if="!showMore&&questionList.length==0" class="finishRead">暂无更多数据</p>
+                      <p v-if="!showMore&&questionList.length==0" class="finishRead">暂无相关数据</p>
                     </div>
                 </div>
            </div>
@@ -395,6 +395,7 @@ export default {
       // 多选按钮’全部‘
       showAll:false,
       firstClick:true,
+      flagLoading: false,
     };
   },
     created(){
@@ -402,9 +403,21 @@ export default {
        this.initTableData()
        this.isShowAll = true
      },
-    mounted() {
-
-    },
+    // 滑轮滚到底部懒加载
+     mounted(){
+            let _this = this;
+            // 注册scroll事件并监听
+            window.addEventListener('scroll',function(){
+              let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop //滚动高度
+                // console.log(document.documentElement.clientHeight+'-----------'+window.innerHeight); // 可视区域高度
+                // console.log('222',document.body.offsetHeight); // 文档高度
+                // 判断是否滚动到底部
+                if(scrollTop + window.innerHeight + 2 >= document.body.offsetHeight) {
+                   this.flagLoading = true;
+                  _this.showMoreMethods()
+                }
+            });
+        },
   methods: {
     // 单选按钮
     handelChange(val){
@@ -436,7 +449,7 @@ export default {
     handelMoreChange2(val){
        this.checkboxGroup2 = val
        for(let i = 0;i<val.length;i++){
-         if(val[i] == ''){
+         if(val[i] == null){
            this.checkboxGroup2 = []
            document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor="white";
          }
@@ -447,7 +460,7 @@ export default {
     handelMoreChange3(val){
        this.checkboxGroup3 = val
        for(let i = 0;i<val.length;i++){
-         if(val[i] == ''){
+         if(val[i] == null){
            this.checkboxGroup3 = []
            document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor="white";
          }
@@ -485,9 +498,11 @@ export default {
     },
     // 点击加载更多
     showMoreMethods(){
+      // debugger;
       if(this.tabList.length==1){
         this.showLength+=15
         if(this.allQuestionList.length > this.showLength){
+          this.flagLoading = false;
           this.showMore = true;
           this.questionList = this.allQuestionList.slice(0, this.showLength);
         }else{
@@ -957,7 +972,9 @@ export default {
       })
     },
     getContent(data,title,index,type) {
+      // 5行的宽度和
       let width = (document.getElementById('componentId').offsetWidth - 48) * 5
+      // 所有字数的宽度【14是字体大小】
       let titleLength = title.length * 14
       let length = 0;
       if(titleLength > width) {
@@ -982,41 +999,6 @@ export default {
               if(!data.isSpread || data.isSpread === 0) {
                 this.$set(data,'isSpread',0)
               }
-           }else {
-             if(!data.isSpreada || data.isSpreada === 0) {
-                this.$set(data,'isSpreada',0)
-              }
-           }
-        return title
-      }
-    },
-     getContent1(data,title,index,type) {
-      let width = (document.getElementById('componentId').offsetWidth - 48) * 5
-      let titleLength = title.length * 14
-      let length = 0;
-      if(titleLength > width) {
-         for(let i =0;i<title.length;i++) {
-         if(length > width) {
-            if(type === 'answer') {
-              if(!data.isSpread || data.isSpread === 0) {
-                this.$set(data,'isSpread',1)
-              }
-
-           }else {
-             if(!data.isSpreada || data.isSpreada === 0) {
-                this.$set(data,'isSpreada',1)
-              }
-           }
-           return title.substring(0,(i-4)) + '...'
-         }
-           length += 14;
-      }
-      }else {
-          if(type === 'answer') {
-              if(!data.isSpread || data.isSpread === 0) {
-                this.$set(data,'isSpread',0)
-              }
-
            }else {
              if(!data.isSpreada || data.isSpreada === 0) {
                 this.$set(data,'isSpreada',0)
@@ -1154,7 +1136,7 @@ export default {
   margin-bottom: 10px;
   border-width: 0.1px;
   border-style: solid;
-  border-color: rgba(217, 217, 217, 1);
+  border-color: #ebebeb;
   border-radius: 3px;
 
 }

@@ -139,6 +139,8 @@ public class IpoFeedbackService extends BaseService {
             conditionsStr.append(" AND " + "letter_letter_id_t:");
             conditionsStr.append(letterId);
             String conditionsGroup = "letter_question_class_new_id_txt";
+            String orderByName = "letter_question_id_t";
+            String orderByOrder = "ASC";
             condition.put(Constant.SEARCH_CONDIATION, conditionsStr.toString());
             condition.put(Constant.SEARCH_FACET_FIELD, conditionsGroup);
             condition.put(Constant.SEARCH_FACET_MIN_COUNT, "1");
@@ -146,6 +148,8 @@ public class IpoFeedbackService extends BaseService {
             queryInfo.setCondition(condition);
             queryInfo.setStartRow(0);
             queryInfo.setPageSize(2000);
+            queryInfo.setOrderByName(orderByName);
+            queryInfo.setOrderByOrder(orderByOrder);
             FacetResult<IpoFeedbackIndexDto> facetResult =
                     searchServer.searchWithFacet("letterqa", queryInfo, IpoFeedbackIndexDto.class);
             List<StatisticsField> labelList =
@@ -226,15 +230,13 @@ public class IpoFeedbackService extends BaseService {
         Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap();
         //定义问题标签集合
         List<IpoQuestionLabelDto> secondLabelList = new ArrayList<>();
-        //将二级标签用逗号分隔为数组
-        List<String> secondLabelParamList = Arrays.asList(secondLabelIds.split(","));
-
         Map<String, String> condition = Maps.newHashMap();
         StringBuilder conditionsStr = new StringBuilder("index_type_t: \"letterqa\"");
         conditionsStr.append(" AND " + "letter_letter_id_t:");
         conditionsStr.append(letterId);
-
-        if (StringUtils.isNotEmpty(secondLabelIds) && CollectionUtils.isNotEmpty(secondLabelParamList)) {
+        if (StringUtils.isNotEmpty(secondLabelIds)) {
+            //将二级标签用逗号分隔为数组
+            List<String> secondLabelParamList = Arrays.asList(secondLabelIds.split(","));
             conditionsStr.append(" AND " + "letter_question_class_new_id_txt:(").append(secondLabelParamList.get(0));
             for (int i = 1; i < secondLabelParamList.size(); i++) {
                 conditionsStr.append(" OR ").append(secondLabelParamList.get(i));
@@ -246,6 +248,8 @@ public class IpoFeedbackService extends BaseService {
             conditionsStr.append(firstLabelId);
         }
         String conditionsGroup = "letter_question_class_new_id_txt";
+        String orderByName = "letter_question_id_t";
+        String orderByOrder = "ASC";
         condition.put(Constant.SEARCH_CONDIATION, conditionsStr.toString());
         condition.put(Constant.SEARCH_FACET_FIELD, conditionsGroup);
         condition.put(Constant.SEARCH_FACET_MIN_COUNT, "1");
@@ -253,6 +257,8 @@ public class IpoFeedbackService extends BaseService {
         queryInfo.setCondition(condition);
         queryInfo.setStartRow(0);
         queryInfo.setPageSize(2000);
+        queryInfo.setOrderByName(orderByName);
+        queryInfo.setOrderByOrder(orderByOrder);
         FacetResult<IpoFeedbackIndexDto> facetResult =
                 searchServer.searchWithFacet("letterqa", queryInfo, IpoFeedbackIndexDto.class);
         List<StatisticsField> labelList =

@@ -58,7 +58,7 @@ public class IpoFinanceService extends BaseService {
             forthItemList.get(i).setThirdYearValue(thirdItemList.get(i).getForthYearValue());
             forthItemList.get(i).setSecondYearValue(secondItemList.get(i).getForthYearValue());
             forthItemList.get(i).setFirstYearValue(firstItemList.get(i).getForthYearValue());
-            if("应收账款".equals(forthItemList.get(i).getItemName())){
+            if ("应收账款".equals(forthItemList.get(i).getItemName())) {
                 forthItemList.get(i).setItemName("应收票据及应收账款");
             }
         }
@@ -74,7 +74,7 @@ public class IpoFinanceService extends BaseService {
             forthDebtItemList.get(i).setThirdYearValue(thirdDebtItemList.get(i).getForthYearValue());
             forthDebtItemList.get(i).setSecondYearValue(secondDebtItemList.get(i).getForthYearValue());
             forthDebtItemList.get(i).setFirstYearValue(firstDebtItemList.get(i).getForthYearValue());
-            if("应付账款".equals(forthDebtItemList.get(i).getItemName())){
+            if ("应付账款".equals(forthDebtItemList.get(i).getItemName())) {
                 forthDebtItemList.get(i).setItemName("应付票据及应付账款");
             }
         }
@@ -144,6 +144,21 @@ public class IpoFinanceService extends BaseService {
         sumEquityDto.setFirstYearValue(firstSumEquity);
         //将所有者权益合计行 放入第3位，前台页面不用排序
         forthItemList.add(2, sumEquityDto);
+        //为前台页面统一展示，将0的数据设置为Null
+        for (int i = 0; i < 3; i++) {
+            if(forthItemList.get(i).getForthYearValue().compareTo(BigDecimal.ZERO)==0){
+                forthItemList.get(i).setForthYearValue(null);
+            }
+            if(forthItemList.get(i).getThirdYearValue().compareTo(BigDecimal.ZERO)==0){
+                forthItemList.get(i).setThirdYearValue(null);
+            }
+            if(forthItemList.get(i).getSecondYearValue().compareTo(BigDecimal.ZERO)==0){
+                forthItemList.get(i).setSecondYearValue(null);
+            }
+            if(forthItemList.get(i).getFirstYearValue().compareTo(BigDecimal.ZERO)==0){
+                forthItemList.get(i).setFirstYearValue(null);
+            }
+        }
         //移除财务信息中，三年一期全部为空的项目
         List<IpoItemDto> allItemList = removeNullItem(forthItemList);
         resultDto.setIpoFinanceOverList(allItemList);

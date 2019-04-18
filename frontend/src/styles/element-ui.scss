@@ -303,10 +303,11 @@
 }
 // 公告弹窗复选框样式
 .moreNotice .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
-  background-color: #0099CC;
-  /* border-color: #409EFF; */
-  /* color: white; */
-  color: #0099CC;
+  background-color: #14bcf5;
+  border-color: #14bcf5;
+}
+.moreNotice .el-checkbox__input.is-focus .el-checkbox__inner{
+  border-color:#e2e2e2;
 }
 .moreNotice .el-checkbox__inner::after {
   -webkit-box-sizing: content-box;
@@ -429,9 +430,14 @@
   display: none;
 }
 .result .el-dialog{
-  width: 73.6%;
-  height:84%;
-  margin-top: 15vh;
+  height:520px;
+  margin-top: 30px !important;
+}
+@media screen and (max-width: 1920px) and (min-width: 1400px) {
+  .result .el-dialog{
+    height:550px;
+    margin-top: 15vh !important;
+  }
 }
 .mainTable .el-table .cell,.mainTable .el-table th div,.mainTable .el-table--border td:first-child .cell,.mainTable .el-table--border th:first-child .cell {
   padding-left: 0px;

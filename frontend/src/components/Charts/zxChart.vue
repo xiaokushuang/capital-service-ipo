@@ -1,6 +1,6 @@
 <template>
     <div>
-         <div class="className" :id="'zxChart' + zxIndex " style="height:300px;width:100%"></div>
+         <div class="chartParent" :id="'zxChart' + zxIndex " style="height:300px;width:100%"></div>
     </div>
 </template>
 
@@ -16,7 +16,7 @@ export default {
         zxChartY:[],
         zxChartX:[],
         zxChartYSelect:{},
-        legendData:[]
+        legendData:[],
     }
   },
   props:["zxIndex"],
@@ -31,7 +31,7 @@ export default {
   },
 beforeDestroy() {
     if (!this.zxChart) {
-    return
+     return
     }
     this.zxChart.dispose()
     this.zxChart = null
@@ -65,6 +65,7 @@ beforeDestroy() {
     },
     //   初始化折线图
     initChart(dataList) {
+      var zxIndex = this.zxIndex
        const _self = this
         if (this.zxChart) {
           this.zxChart.dispose()
@@ -76,38 +77,59 @@ beforeDestroy() {
         for(var i = 0;i < this.zxIndex + 1;i++){
           this.zxChartY = []
           for(var j = 0;j < dataList[i].industryCompareRateDetailList.length;j++){
-
             arr.push(dataList[i].industryCompareRateDetailList[j].companyName)
             if(j+2<dataList[i].industryCompareRateDetailList.length){
               this.zxChartYSelect[dataList[i].industryCompareRateDetailList[j].companyName]=false
             }
 
               this.zxChartY.push(
-                                {
-                                    name:dataList[i].industryCompareRateDetailList[j].companyName,
-                                    type:'line',
-                                    data:[dataList[i].industryCompareRateDetailList[j].firstYearRate,dataList[i].industryCompareRateDetailList[j].secondYearRate,dataList[i].industryCompareRateDetailList[j].thirdYearRate],
-                                     label: {
-                                        formatter: function (params) {
-                                          let str = params.name;
-                                          if(str.length>7){
-                                            str = str.substring(0, 6).concat('...');
+                                  {
+                                      name:dataList[i].industryCompareRateDetailList[j].companyName,
+                                      type:'line',
+                                      data:[dataList[i].industryCompareRateDetailList[j].firstYearRate,dataList[i].industryCompareRateDetailList[j].secondYearRate,dataList[i].industryCompareRateDetailList[j].thirdYearRate],
+                                      label: {
+                                          formatter: function (params) {
+                                            let str = params.name;
+                                            if(str.length>7){
+                                              str = str.substring(0, 6).concat('...');
+                                            }
+                                            return str;
                                           }
-                                          return str;
                                         }
-                                      }
-                                },
-                             )
+                                   },
+                                 )
 
-             this.zxChartX = [dataList[i].firstYear,dataList[i].secondYear,dataList[i].thirdYear]
+              this.zxChartX = [dataList[i].firstYear,dataList[i].secondYear,dataList[i].thirdYear]
           }
         }
        this.zxChart.setOption({
-           title: {
+            color:[ 
+                '#ca2428', '#237d9a', '#ffa127', '#2e434d', 
+                '#7bcbab', '#ff5f3a', '#045575', '#3badda', '#cc48c6', 
+                '#84a8ce', '#fb8056', '#be79c6', '#3a77ce', '#e8b142', 
+                '#876bc9', '#3c9bd6', 
+            ],
+            title: {
                 text: ''
             },
             tooltip:{
              trigger: 'axis',
+              position:function (point, params, dom, rect, size) {
+                  dom.style.position = 'fixed';
+                  let pos;
+                  let posY;
+                  let posX;
+                  if ((window.navigator.userAgent.toLowerCase().indexOf("trident") > -1 && window.navigator.userAgent.indexOf("rv") > -1)) {
+                    pos = document.getElementById('zxChart' + zxIndex).getClientRects()[0];
+                    posX = pos.left + point[0] + 20;
+                    posY = pos.top + point[1];
+                  }else {
+                    pos = document.getElementById('zxChart' + zxIndex).getBoundingClientRect();
+                    posY = pos.y + point[1];
+                    posX = pos.x + point[0] + 20;
+                  }
+                  return [posX, posY];
+              },
               formatter: function (params) {
                 let str = params[0].name + '<br/>';
                 for(i=0;i<params.length;i++){
@@ -119,15 +141,16 @@ beforeDestroy() {
               }
             },
             legend: {
-              top:'2%',
-              //  x: "right", // 'center' | 'left' | {number},
-              //  y: "10%", // 'center' | 'bottom' | {number}
-              selected:this.zxChartYSelect
-
+              top:'5%',
+               x: "right", // 'center' | 'left' | {number},
+              //  y: "100%", // 'center' | 'bottom' | {number}
+              selected:this.zxChartYSelect,
+               type: 'scroll',
             },
             grid: {
                 left: '3%',
                 right: '4%',
+                top:'15%',
                 bottom: '3%',
                 containLabel: true
             },
@@ -145,7 +168,6 @@ beforeDestroy() {
             series: this.zxChartY
       })
     }
-
   }
 }
 </script>

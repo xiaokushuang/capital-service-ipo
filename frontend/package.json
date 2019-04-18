@@ -43,6 +43,7 @@
     "vue-count-to": "1.0.13",
     "vue-i18n": "7.3.2",
     "vue-multiselect": "2.0.8",
+    "vue-photo-preview": "^1.1.3",
     "vue-router": "3.0.1",
     "vue-scrollwatch": "^1.0.2",
     "vue-splitpane": "1.0.2",

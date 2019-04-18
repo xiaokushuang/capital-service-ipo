@@ -26,7 +26,7 @@
             align="left"
             >
             <template slot-scope="scope">
-              <span style=" color:#0099CC">
+              <span style=" color:#14bcf5">
                  <a v-if="scope.row.letterId!=''" @click="openLetterDetail(scope.row)">{{scope.row.relationFileTitle}}</a>
               </span>
             </template>
