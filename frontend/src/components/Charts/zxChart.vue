@@ -104,10 +104,10 @@ beforeDestroy() {
         }
        this.zxChart.setOption({
             color:[ 
-                '#ca2428', '#237d9a', '#ffa127', '#2e434d', 
-                '#7bcbab', '#ff5f3a', '#045575', '#3badda', '#cc48c6', 
-                '#84a8ce', '#fb8056', '#be79c6', '#3a77ce', '#e8b142', 
-                '#876bc9', '#3c9bd6', 
+                '#ca2428', '#237d9a', '#ffa127', '#2e434d', '#7bcbab',
+                '#ff5f3a', '#045575', '#3badda', '#cc48c6', '#84a8ce',
+                '#fb8056', '#be79c6', '#3a77ce', '#e8b142', '#876bc9',
+                '#3c9bd6', 
             ],
             title: {
                 text: ''

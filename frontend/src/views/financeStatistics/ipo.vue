@@ -361,7 +361,9 @@ export default {
                         let firstFlag = 0;
                         for (let i = 0; i < targetList.length; i++) {
                             if ((that.itemActiveFirst + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
-                                document.documentElement.scrollTop = document.getElementById(that.itemActiveFirst).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
+                              that.$nextTick(()=>{
+                                document.documentElement.scrollTop = document.getElementById(that.itemActiveFirst).offsetTop + document.getElementById('titleHeader').offsetHeight - 50;
+                              })
                                 firstFlag = 1;
                             }
                         }
@@ -374,7 +376,8 @@ export default {
                         break
                     case '2':
                     // 财务信息
-                        that.showComponent = financialInformation
+                         that.showComponent = financialInformation
+                         console.log('毛利率',document.getElementById('comparison'))
                          console.log('2',that.itemActiveSecond)
                          console.log('id2',document.getElementById(that.itemActiveSecond))
                         that.$refs.rightModule.treeListMethods(false);
@@ -382,7 +385,9 @@ export default {
                         let secondFlag = 0;
                         for (let i = 0; i< targetList.length; i ++) {
                           if ((that.itemActiveSecond + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
-                            document.documentElement.scrollTop = document.getElementById(that.itemActiveSecond).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
+                            that.$nextTick(()=>{
+                              document.documentElement.scrollTop = document.getElementById(that.itemActiveSecond).offsetTop + document.getElementById('titleHeader').offsetHeight - 50;
+                            })
                             secondFlag = 1;
                           }
                         }
@@ -431,7 +436,9 @@ export default {
                         // 点击最后tab页，进程树展示不同内容
                         for (let i = 0; i < targetList.length; i++) {
                             if ((that.itemActiveFifth + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
-                                document.documentElement.scrollTop = document.getElementById(that.itemActiveFifth).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
+                              that.$nextTick(()=>{
+                                document.documentElement.scrollTop = document.getElementById(that.itemActiveFifth).offsetTop + document.getElementById('titleHeader').offsetHeight - 50;
+                              })
                                 fifthFlag = 1;
                             }
                         }
@@ -485,7 +492,7 @@ export default {
     },
     // 点击锚点跳转
     jump(param, num) {
-        document.documentElement.scrollTop = document.getElementById(param).offsetTop + document.getElementById('titleHeader').offsetHeight - 100 ;
+        document.documentElement.scrollTop = document.getElementById(param).offsetTop + document.getElementById('titleHeader').offsetHeight - 50 ;
         switch (num) {
             case 1:
                 this.itemActiveFirst = param;
