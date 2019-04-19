@@ -539,7 +539,8 @@ function historyEChartInit() {
 		    dataZoom: [{
 		        type: 'inside',
 		        start: 0,
-		        end: 30
+		        end: 30,
+		        startValue:'2019-03-21'
 		    }, {
 		        start: 0,
 		        end: 10,
@@ -890,7 +891,6 @@ function renderColumnAccountTotalCount(data, type, row, meta){
 }
 
 function viewAccountDetail(label,quasiListedLand) {
-	debugger;
 	var industry = $("#industrySelect").val();
 	var registAddr = $("#registAddrSelect").val();
 	var data = {
