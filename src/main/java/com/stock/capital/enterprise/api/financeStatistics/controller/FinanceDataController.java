@@ -284,8 +284,15 @@ public class FinanceDataController extends BaseController{
         QueryInfo<Map<String, String>> query = new QueryInfo<Map<String, String>>();
         query = financeDataService.getQuery(dto);
         String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMddHHmmssSSS");
-        String filePath = "/WEB-INF/templates/financeStatistics/companyDetailExportModel.xlsx";
-        mv.addObject(DownloadView.EXPORT_FILE, financeDataService.exportExcel(query, filePath,dto.getChartType(),dto.getFinanceIndustry()));
+        String filePath = "";
+        String statistics = "";
+        if("004".equals(dto.getFinaType()) && "undefined".equals(dto.getTypeFlag())) {//证券发行全部(有融资统计)
+            filePath = "/WEB-INF/templates/financeStatistics/companyDetailAllExportModel.xlsx";
+            statistics = "1";
+        } else {
+            filePath = "/WEB-INF/templates/financeStatistics/companyDetailExportModel.xlsx";
+        }
+        mv.addObject(DownloadView.EXPORT_FILE, financeDataService.exportExcel(query, filePath,dto.getChartType(),dto.getFinanceIndustry(),statistics));
         mv.addObject(DownloadView.EXPORT_FILE_NAME, "公司详情导出" + timeStr +".xlsx");
         mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLSX);
         response.setHeader("fileName", java.net.URLEncoder.encode("公司详情导出" + timeStr +".xlsx", "utf-8"));

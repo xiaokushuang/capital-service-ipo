@@ -218,6 +218,7 @@ export default {
 				this.$refs.paper.search(this.queryParam.orderByName,this.queryParam.orderByOrder);	
 		},
     search(data){//通过给定条件查询数据
+      this.queryParam.pageSize = data.pageSize;
       this.$store.dispatch('ipoSearchGet', data).then((data) => {//(方法名，参数)
           this.financeSearchData = data.data;
           this.totalCount = data.total;
