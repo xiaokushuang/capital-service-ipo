@@ -7,9 +7,9 @@
         </el-row>
         <div class="favorite-table">
           <el-table :data="companyDetailData" style="width: 100%" class="paddingControl" border tooltip-effect="dark"
-            @sort-change="sortChange" ref="multipleSelection">
+            @sort-change="sortChange" ref="multipleSelection" height="350">
             <el-table-column align="center" type="index" label="序号" width="60"></el-table-column>
-            <el-table-column align="left" prop="companyName" label="公司" min-width="17%" sortable="custom">
+            <el-table-column align="left" prop="companyName" label="公司名称" min-width="17%" sortable="custom">
               <template slot-scope="scope">
                 <span v-html="scope.row.companyName"></span>
               </template>
@@ -55,6 +55,7 @@
           </el-table>
           <papers ref="paper" :sdefault="condition_copy" :length1="20" :total="totalCount" @searchTable="search"></papers>
         </div>
+        <div class="bottomHeight"></div>
     </div>
 </template>
 <script>

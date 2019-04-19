@@ -135,7 +135,6 @@ export default {
         return data;
       })();
       // this.chart.setOption({
-        
       var chartOption = {
         tooltip: {
           trigger: "axis",
@@ -172,7 +171,9 @@ export default {
 								max : 20000,
 								interval : 2000,*/
             axisLabel: {
-              formatter: "{value}"
+              formatter: function (value, index) {  //y轴千分位格式化
+                return value.toString().replace(/(\d{1,3})(?=(\d{3})+$)/g,'$1,');      
+              }  
             }
           },
           {
@@ -182,7 +183,9 @@ export default {
 									max : 5000,
 									interval : 500,*/
             axisLabel: {
-              formatter: "{value}"
+              formatter: function (value, index) {  //y轴千分位格式化
+                return value.toString().replace(/(\d{1,3})(?=(\d{3})+$)/g,'$1,');      
+              }
             }
           }
         ],

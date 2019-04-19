@@ -357,6 +357,15 @@ body{
 [rightTable] .has-gutter .el-table_5_column_13>.cell {
     margin-left: 50px;
 }
+[rightTable] .has-gutter .el-table_6_column_16>.cell {
+    margin-left: 50px;
+}
+[rightTable] .has-gutter .el-table_7_column_19>.cell {
+    margin-left: 50px;
+}
+[rightTable] .has-gutter .el-table_8_column_22>.cell {
+    margin-left: 50px;
+}
 .el-table__header thead tr>th{
     padding:10px;
 }
