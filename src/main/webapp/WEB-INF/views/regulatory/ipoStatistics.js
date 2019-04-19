@@ -538,9 +538,8 @@ function historyEChartInit() {
 		    },
 		    dataZoom: [{
 		        type: 'inside',
-		        start: 0,
-		        end: 30,
-		        startValue:'2019-03-21'
+		        start: 70,
+		        end: 100
 		    }, {
 		        start: 0,
 		        end: 10,
