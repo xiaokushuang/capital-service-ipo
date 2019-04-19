@@ -68,7 +68,13 @@
                                           <div class="el-tabs__nav">
                                               <div class="el-tabs__active-bar is-top" :style="{width: tabBarWidth + 'px', transform: 'translateX(' + tabBarOffset + 'px)'}"></div>
                                               <div id="tab-first"  ref="tab-first"  aria-controls="pane-first"  :class="['el-tabs__item is-top', {'is-active': isActive === '1'}]" @click="onTabClick('1', $event)" style="padding-left: 0">公司概览</div>
-                                              <div id="tab-second" ref="tab-second" aria-controls="pane-second" :class="['el-tabs__item is-top', {'is-active': isActive === '2'}]" @click="onTabClick('2', $event)">财务信息</div>
+                                              <!-- <div v-if="tabSecondList&&tabSecondList.length>0&&tabSecondList[0].noClick==true" id="tab-second" ref="tab-second" aria-controls="pane-second"  class="el-tabs__item1" style="cursor:default;color:#adadad">
+                                                <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无财务信息信息" placement="top" effect="light">
+                                                  <el-button class="btnClass">财务信息</el-button>
+                                                </el-tooltip>
+                                              </div> -->
+                                              <!-- <div v-if="tabSecondList[0].noClick==false || tabSecondList[1].noClick==false" id="tab-second" ref="tab-second" aria-controls="pane-second" :class="['el-tabs__item is-top', {'is-active': isActive === '2'}]" @click="onTabClick('2', $event)">财务信息</div> -->
+                                             <div id="tab-second" ref="tab-second" aria-controls="pane-second" :class="['el-tabs__item is-top', {'is-active': isActive === '2'}]" @click="onTabClick('2', $event)">财务信息</div>
                                               <div v-if="headList.haveFeedback=='1' || headList.isTechBoard=='1'" id="tab-third"  ref="tab-third" class="el-tabs__item1" aria-controls="pane-third"  style="cursor:default;color:#adadad">
                                                 <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无反馈意见信息" placement="top" effect="light">
                                                   <el-button class="btnClass">反馈意见</el-button>
@@ -349,13 +355,10 @@ export default {
             // 切换tab页，锚点定位
             let targetList
             setTimeout(function () {
-              // debugger;
                 switch (isActive) {
                     case '1':
                     // 公司概览
                         that.showComponent = companyProfile
-                        console.log('1',that.itemActiveFirst)
-                        console.log('id1',document.getElementById(that.itemActiveFirst))
                         that.$refs.rightModule.treeListMethods(false);
                         targetList = document.getElementById('title-first').children;
                         let firstFlag = 0;
@@ -376,10 +379,7 @@ export default {
                         break
                     case '2':
                     // 财务信息
-                         that.showComponent = financialInformation
-                         console.log('毛利率',document.getElementById('comparison'))
-                         console.log('2',that.itemActiveSecond)
-                         console.log('id2',document.getElementById(that.itemActiveSecond))
+                        that.showComponent = financialInformation
                         that.$refs.rightModule.treeListMethods(false);
                         targetList = document.getElementById('title-second').children;
                         let secondFlag = 0;
@@ -427,8 +427,6 @@ export default {
                          case '5':
                         //  发行概况
                         that.showComponent = issue
-                        console.log('5',that.itemActiveFifth)
-                        console.log(document.getElementById(that.itemActiveFifth))
                         //  最后tab页形态不一样
                         that.$refs.rightModule.treeListMethods(true);
                         targetList = document.getElementById('title-fifth').children;
@@ -472,7 +470,7 @@ export default {
         this.headerFix = false;
       }
     },
-    // 用于锚点定位【从子组件里传过来的值】
+    // 用于锚点定位【从子组件里传过来的值】[子传父]
     headCall(param) {
       if (param != null && param != undefined && param.length > 0) {
         switch (param[0].tabId) {

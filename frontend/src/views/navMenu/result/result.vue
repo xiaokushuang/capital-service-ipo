@@ -100,10 +100,10 @@
                     <el-dialog
                         title="发审会委员"
                         :visible.sync="dialogVisible"
-                        width="73.6%"
+                        width="1004px"
                         :before-close="handleClose">
                         <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
-                            <li v-for="data in memberList" class="l positionLi" style="width:31.1%;border:1px solid lightgray;padding:20px">
+                            <li v-for="data in memberList" class="l positionLi" style="width:300px;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
                                     <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
@@ -165,10 +165,10 @@
                     <el-dialog
                         title="发审会委员"
                         :visible.sync="dialogVisible"
-                        width="73.6%"
+                        width="1004px"
                         :before-close="handleClose">
                         <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
-                            <li v-for="data in memberList" class="l positionLi" style="width:31.1%;border:1px solid lightgray;padding:20px">
+                            <li v-for="data in memberList" class="l positionLi" style="width:300px;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
                                     <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
@@ -183,7 +183,6 @@
                                     padding-left: 7px;
                                     padding-right:7px;
                                     margin-top: 6px;
-                                    
                                     margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
                                 <div>
                                     <span style="color: #666;">学历/专业：</span>
@@ -227,19 +226,16 @@
                                 <span style="color:#1990FE;cursor:pointer" @click="handleMemberDetail(baseList[0].examineDate)">详情 &gt;</span>
                              </span>
                              <span v-else>- -</span>
-                             <!-- <span v-for="name in baseList[0].member" style="color:#333;">{{name}}</span>
-                             <span style="color:#6B6B6B;"> </span>
-                             <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail()">详情 &gt;</span> -->
                         </p>
                     </div>
-                   <!-- 委员弹窗 -->
+                    <!-- 委员弹窗 -->
                     <el-dialog
                         title="发审会委员"
                         :visible.sync="dialogVisible"
-                        width="73.6%"
+                        width="1004px"
                         :before-close="handleClose">
                         <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
-                            <li v-for="data in memberList" class="l positionLi" style="width:31.1%;border:1px solid lightgray;padding:20px">
+                            <li v-for="data in memberList" class="l positionLi" style="width:300px;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
                                     <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
@@ -254,7 +250,6 @@
                                     padding-left: 7px;
                                     padding-right:7px;
                                     margin-top: 6px;
-                                    
                                     margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
                                 <div>
                                     <span style="color: #666;">学历/专业：</span>
@@ -296,19 +291,16 @@
                                 <span style="color:#1990FE;cursor:pointer" @click="handleMemberDetail(baseList[1].examineDate)">详情 &gt;</span>
                              </span>
                              <span v-else>- -</span>
-                             <!-- <span v-for="name in baseList[1].member" style="color:#333;">{{name}}</span>
-                             <span style="color:#6B6B6B;"> </span>
-                             <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail()">详情 &gt;</span> -->
                         </p>
                     </div>
                     <!-- 委员弹窗 -->
                     <el-dialog
                         title="发审会委员"
                         :visible.sync="dialogVisible"
-                        width="73.6%"
+                        width="1004px"
                         :before-close="handleClose">
                         <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
-                            <li v-for="data in memberList" class="l positionLi" style="width:31.1%;border:1px solid lightgray;padding:20px">
+                            <li v-for="data in memberList" class="l positionLi" style="width:300px;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
                                     <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
@@ -323,7 +315,6 @@
                                     padding-left: 7px;
                                     padding-right:7px;
                                     margin-top: 6px;
-                                    
                                     margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
                                 <div>
                                     <span style="color: #666;">学历/专业：</span>
@@ -365,19 +356,16 @@
                                 <span style="color:#1990FE;cursor:pointer" @click="handleMemberDetail(baseList[2].examineDate)">详情 &gt;</span>
                              </span>
                              <span v-else>- -</span>
-                             <!-- <span v-for="name in baseList[2].member" style="color:#333;">{{name}}</span>
-                             <span style="color:#6B6B6B;"> </span>
-                             <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail()">详情 &gt;</span> -->
                         </p>
                     </div>
                    <!-- 委员弹窗 -->
                     <el-dialog
                         title="发审会委员"
                         :visible.sync="dialogVisible"
-                        width="73.6%"
+                        width="1004px"
                         :before-close="handleClose">
                         <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
-                            <li v-for="data in memberList" class="l positionLi" style="width:31.1%;border:1px solid lightgray;padding:20px">
+                            <li v-for="data in memberList" class="l positionLi" style="width:300px;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
                                     <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
@@ -392,7 +380,6 @@
                                     padding-left: 7px;
                                     padding-right:7px;
                                     margin-top: 6px;
-                                    
                                     margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
                                 <div>
                                     <span style="color: #666;">学历/专业：</span>
@@ -491,7 +478,6 @@ export default {
               this.showMore = false;
               this.questionList = this.allQuestionList;
             }
-        //    this.questionList = res.data.result.questionList
         })
     },
     // 初始化委员数据
@@ -532,37 +518,29 @@ export default {
         for(var a = 0;a< $(".position").length;a++){
             if(title.length>19){
                 $(".position").eq(a).attr("title",title)
-                // $(".position").eq(a).css({"cursor":"pointer"})
             }else{
                 $(".position").eq(a).removeAttr("title",title)
-                // $(".position").eq(a).css({"cursor":"auto"})
             }
         }
          for(let a = 0;a< $(".xueli").length;a++){
              if(title.length>12){
                 $(".xueli").eq(a).attr("title",title)
-                // $(".xueli").eq(a).css({"cursor":"pointer"})
             }else{
                 $(".xueli").eq(a).removeAttr("title",title)
-                // $(".xueli").eq(a).css({"cursor":"auto"})
             }
         }
         for(let a = 0;a< $(".danwei").length;a++){
              if(title.length>12){
                 $(".danwei").eq(a).attr("title",title)
-                // $(".danwei").eq(a).css({"cursor":"pointer"})
             }else{
                 $(".danwei").eq(a).removeAttr("title",title)
-                // $(".danwei").eq(a).css({"cursor":"auto"})
             }
         }
         for(let a = 0;a< $(".xingzhi").length;a++){
              if(title.length>12){
                 $(".xingzhi").eq(a).attr("title",title)
-                // $(".xingzhi").eq(a).css({"cursor":"pointer"})
             }else{
                 $(".xingzhi").eq(a).removeAttr("title",title)
-                // $(".xingzhi").eq(a).css({"cursor":"auto"})
             }
         }
     },
