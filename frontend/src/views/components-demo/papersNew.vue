@@ -74,21 +74,13 @@ export default {
   },
   computed:{
         fromPaper(){//从多少条开始
-            //console.log(this.total+'-----------------------------total')
-            if(this.total == 0 ) {
-                if(this.submitData.start != 0){
-                    this.submitData.start = 0
-                }
-                return 0;
-            }
+            if(this.total == 0 ) return 0;
             let mid = this.now_paper_number;
             if(mid == 0) mid = 1
             let star = (Math.ceil(this.submitData.pageSize)*mid-Math.ceil(this.submitData.pageSize))+1
             // debugger;
             if(star>this.total){
-                //console.log(star + '> '+this.total)
                 if(this.total!=0){
-                     //console.log('_____________toPaper = '+this.submitData.pageSize)
                     //  this.submitData.start = this.total-Math.ceil(this.submitData.pageSize)+1
                     this.submitData.start = this.total-(this.total%this.submitData.pageSize==0?this.submitData.pageSize:this.total%this.submitData.pageSize) +1
                     //  this.toPaper = this.submitData.pageSize
@@ -99,14 +91,12 @@ export default {
                     }
                 }else{
                     return 0
-                } 
+                }
             }else{
-                //console.log(star + '《 '+this.total)
                 return star
             }
         },
         toPaper(){//查到多少条
-            //console.log(this.total)
             if(this.total ==0){
                 return 0
             }
@@ -119,7 +109,7 @@ export default {
                         // return  this.total
                         return this.submitData.pageSize;
                 }
-               
+
             }else{
                 return this.submitData.start+Math.ceil(this.submitData.pageSize)-1
             }
@@ -142,7 +132,7 @@ export default {
                 return Math.ceil(mid/Math.ceil(this.submitData.pageSize))
             },
             set:function(val){
-                if(this.total == 0){ 
+                if(this.total == 0){
                     this.submitData.start = 0;
                     return
                 }
@@ -154,13 +144,12 @@ export default {
                     this.submitData.start --;
                     // this.now_paper_number = Math.ceil(this.total/Math.ceil(this.submitData.pageSize))
                 }
-                
+
             }
         }
   },
   methods: {
     resize() {
-      //console.log('resize')
     },
     setPageParam(start,length){//重新设置分页参数
         this.submitData.start = start;
@@ -181,13 +170,11 @@ export default {
         // console.log(`按照${data.orderByName}字段排序`)
         // console.log(`排序方式：${data.orderByOrder}`)
         // console.log(data)
-        //console.log(this.sdefault)
         let _this = this;
         setTimeout(()=>{
             let orgob = Object.assign(_this.orgob,_this.sdefault)
             let queryParam  = {condition:orgob};
             queryParam = Object.assign(queryParam,data)
-            //console.log(queryParam);
             _this.$emit('searchTable',queryParam)
         },100)
     },
@@ -219,7 +206,6 @@ export default {
         }
     },
     paper_chose(){//选择每页显示多少条
-        //console.log(typeof Math.ceil(this.submitData.pageSize))
         if((this.submitData.start+parseInt(Math.ceil(this.submitData.pageSize)))==this.total){
             if(this.total == 0){
                 this.submitData.start = 0;
@@ -243,9 +229,9 @@ export default {
   },
   watch:{
       fromPaper(n,o){
-          if(n!=o && n!=0 && o!=0){
-            this.search(); 
-          } 
+          if(o!=0 && n!=o){
+            this.search();
+          }
       },
       now_paper_number(n,o){
         if(this.now_paper_number*Math.ceil(this.submitData.pageSize)>=this.total){
