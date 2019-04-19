@@ -133,7 +133,9 @@ export default {
 			            max: 200000,
 			            interval: 20000,*/
             axisLabel: {
-              formatter: "{value}"
+              formatter: function (value, index) {  //y轴千分位格式化
+                return value.toString().replace(/(\d{1,3})(?=(\d{3})+$)/g,'$1,');      
+              }
             }
           },
           {
@@ -143,7 +145,9 @@ export default {
 			            max: 15000,
 			            interval: 3000,*/
             axisLabel: {
-              formatter: "{value}"
+              formatter: function (value, index) {  //y轴千分位格式化
+                return value.toString().replace(/(\d{1,3})(?=(\d{3})+$)/g,'$1,');      
+              }
             }
           }
         ],

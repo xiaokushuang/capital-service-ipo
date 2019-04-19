@@ -37,14 +37,18 @@ export default{
         //typeFlag：区分tab页
         companyDetailShow(chartType,titleName,finaType,selCondition,condition,financeIndustry,typeFlag) {
             let title = ''
-            if(finaType == '001') {
-                title = titleName + '-IPO'
-            } else if(finaType == '002') {
-                title = titleName + '-增发'
-            } else if(finaType == '003') {
-                title = titleName + '-配股'
-            } else if(finaType == '004') {
-                title = titleName + '-全部'
+            if(typeFlag == '债券发行') {
+                title = titleName;
+            } else {
+                if(finaType == '001') {
+                    title = titleName + '-IPO'
+                } else if(finaType == '002') {
+                    title = titleName + '-增发'
+                } else if(finaType == '003') {
+                    title = titleName + '-配股'
+                } else if(finaType == '004') {
+                    title = titleName + '-全部'
+                }
             }
             let url = window.location.href;
             url = url.replace(this.$route.path,'/companyDetailPopWin');
@@ -55,7 +59,7 @@ export default{
                 url = url + '&condition=' + condition;
             }
 			//参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
-			iframeDoMessage(window.parent,'popWinOut',[title,url,'1100','560']);
+			iframeDoMessage(window.parent,'popWinOut',[title,url,'1200','580']);
         }
     }
 }

@@ -13,7 +13,7 @@
         <el-col :span="2">
             <span>时间选择：</span>
         </el-col>
-        <el-col :span="12" id="listB">
+        <el-col :span="11" id="listB">
             <a @click="activeFun(5)" :class="{active:flag==5}" href="javascript:void(0)">近一个月</a>
             <a @click="activeFun(6)" :class="{active:flag==6}" href="javascript:void(0)">近三个月</a>
             <a @click="activeFun(0)" :class="{active:flag==0}" href="javascript:void(0)">近半年</a>
@@ -34,7 +34,7 @@
                 :picker-options="pickerOptions2">
             </el-date-picker>
         </el-col>
-        <el-col :span='4'>
+        <el-col :span='5'>
             <el-select v-model="code_value" placeholder="" size='small full' @change="selectClass">
               <template v-for="item in getSFClass">
                 <el-option

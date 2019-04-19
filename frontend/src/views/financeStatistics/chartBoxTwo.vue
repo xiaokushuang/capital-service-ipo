@@ -13,7 +13,7 @@
         <el-col :span="2">
             <span>时间选择：</span>
         </el-col>
-        <el-col :span="12" id="listB">
+        <el-col :span="11" id="listB">
             <a @click="activeFun(5)" :class="{active:flag==5}" href="javascript:void(0)">近一个月</a>
             <a @click="activeFun(6)" :class="{active:flag==6}" href="javascript:void(0)">近三个月</a>
             <a @click="activeFun(0)" :class="{active:flag==0}" href="javascript:void(0)">近半年</a>
@@ -34,7 +34,7 @@
                 :picker-options="pickerOptions2">
             </el-date-picker>
         </el-col>
-        <el-col :span='4'>
+        <el-col :span='5'>
             <el-select v-model="code_value" placeholder="" size='small full' @change="selectClass">
               <el-option
                 class="autoComplate"
@@ -70,7 +70,7 @@
                                 style="width: 100%;">
                                 <el-table-column align="left" label="行业" min-width="40%">
                                     <template slot-scope="scope">
-                                        <span :title="scope.row.name" v-if="scope.row.name.length > 10">{{scope.row.name.substring(0,10) + '...'}}</span>
+                                        <span :title="scope.row.name" v-if="scope.row.name.length > 8">{{scope.row.name.substring(0,8) + '...'}}</span>
                                         <span :title="scope.row.name" v-else>{{scope.row.name}}</span>
                                     </template>
                                 </el-table-column>

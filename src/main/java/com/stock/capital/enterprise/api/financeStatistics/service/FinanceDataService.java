@@ -710,12 +710,12 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
             orderName = "finance_securityshortname_sort_s";
         } else if ("financeIndustry".equals(queryInfo.getOrderByName())) {// 所属行业
             if("2".equals(queryInfo.getChartType())) {
-                orderName = "finance_pindname"+queryInfo.getFinanceIndustry()+"_s";
+                orderName = "finance_pindcode"+queryInfo.getFinanceIndustry()+"_t";
             } else {
-                orderName = "finance_pindname001_s";
+                orderName = "finance_pindcode001_t";
             }
         } else if ("cityName".equals(queryInfo.getOrderByName())) {// 所属地区
-            orderName = "finance_cityname_s";
+            orderName = "finance_citycode_t";
         } else if ("belongPlate".equals(queryInfo.getOrderByName())) {// 所属板块
             orderName = "finance_belongplate_t";
         } else if ("sumFina".equals(queryInfo.getOrderByName())) {// 融资金额
