@@ -407,4 +407,9 @@ export default {
     color: #333333;
     border: 1px solid #D5D5D5;
 }
+.singleBtn {
+  font-size:14px;
+  font-family:'Microsoft YaHei'!important;
+  line-height:1.42857143;
+}
 </style>

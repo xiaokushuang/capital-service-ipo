@@ -46,6 +46,14 @@
                   <span v-else>--</span>
               </template>
             </el-table-column>
+            <el-table-column v-if="finaType == '004' && typeFlag != '债券发行'" align="center" sortable="custom" prop="finaType" label="融资方式" min-width="11%">
+                <template slot-scope="scope">
+                  <span v-if="getValue(scope.row.finaType) == '001'">IPO</span>
+                  <span v-else-if="getValue(scope.row.finaType) == '002'">增发</span>
+                  <span v-else-if="getValue(scope.row.finaType) == '003'">配股</span>
+                  <span v-else>债券</span>
+              </template>
+            </el-table-column>
             <el-table-column align="center" prop="sumFina" label="融资金额(亿元)" min-width="15%" sortable="custom">
               <template slot-scope="scope">
                 <span v-if="getValue(scope.row.finaType) == '004'">{{parseFloat(scope.row.sumFina).toFixed(4)}}</span>
@@ -93,6 +101,8 @@ import {exportExcelPostWindow} from '@/utils'
                 chartType:'',
                 financeIndustry:'',
                 queryParam_copy:{},//导出Excel查询条件
+                finaType:'',
+                typeFlag:'',
             }
         },
         computed:{
@@ -101,6 +111,8 @@ import {exportExcelPostWindow} from '@/utils'
         created(){
             this.chartType = this.$route.query.chartType;
             this.financeIndustry = this.$route.query.financeIndustry;
+            this.finaType = this.$route.query.finaType;
+            this.typeFlag = this.$route.query.typeFlag;
         },
         mounted() {
             //页面加载完成时刷新echart图表
@@ -123,6 +135,7 @@ import {exportExcelPostWindow} from '@/utils'
                 this.$refs.paper.search(this.queryParam.orderByName,this.queryParam.orderByOrder);	
             },
             search(data){//通过给定条件查询数据
+                this.queryParam.pageSize = data.pageSize;
                 data.condition.chartType = this.$route.query.chartType;
                 data.condition.selCondition = this.$route.query.selCondition;
                 data.condition.finaType = this.$route.query.finaType;

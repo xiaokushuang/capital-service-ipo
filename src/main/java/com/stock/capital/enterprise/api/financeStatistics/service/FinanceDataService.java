@@ -718,6 +718,8 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
             orderName = "finance_citycode_t";
         } else if ("belongPlate".equals(queryInfo.getOrderByName())) {// 所属板块
             orderName = "finance_belongplate_t";
+        } else if ("finaType".equals(queryInfo.getOrderByName())) {// 融资方式
+            orderName = "finance_finatype_t";
         } else if ("sumFina".equals(queryInfo.getOrderByName())) {// 融资金额
             orderName = "finance_sumfina_d";
         }
@@ -734,7 +736,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
      * @return
      * @throws Exception 
      */
-    public InputStream exportExcel(QueryInfo<Map<String, String>> query,String filePath,String chartType, String financeIndustry) throws Exception {
+    public InputStream exportExcel(QueryInfo<Map<String, String>> query, String filePath, String chartType, String financeIndustry, String statistics) throws Exception {
         FacetResult<FinanceStatisticsIndexDto> facetResult = searchServer.searchWithFacet(
                 Global.FINANCE_INDEX_NAME, query, FinanceStatisticsIndexDto.class);
         Page<FinanceStatisticsIndexDto> page = facetResult.getPage();
@@ -743,7 +745,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
             resultList = page.getData();
         }
         // 设置Excel内容
-        Workbook workbook = excelContentSetting(resultList, filePath, chartType, financeIndustry);
+        Workbook workbook = excelContentSetting(resultList, filePath, chartType, financeIndustry, statistics);
         // 写成文件
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         workbook.write(os);
@@ -760,7 +762,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
      * @throws Exception
      *
      */
-    private Workbook excelContentSetting(List<FinanceStatisticsIndexDto> qaLst, String strPath,String chartType, String financeIndustry) throws Exception {
+    private Workbook excelContentSetting(List<FinanceStatisticsIndexDto> qaLst, String strPath,String chartType, String financeIndustry, String statistics) throws Exception {
         Resource resource = new ServletContextResource(this.servletContext, strPath);
         InputStream file = resource.getInputStream();// 源文件流
         Workbook workbook = WorkbookFactory.create(file);
@@ -833,11 +835,16 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                     cell = row.createCell(5);
                 }
                 cell.setCellStyle(cellStyleWCS);
+                String pIndName = "";
                 if("2".equals(chartType)) {
-                    cell.setCellValue(getpIndName(dto,financeIndustry));
+                    pIndName = getpIndName(dto,financeIndustry);
                 } else {
-                    cell.setCellValue(dto.getpIndName001());
+                    pIndName = dto.getpIndName001();
                 }
+                if(StringUtils.isEmpty(pIndName)) {
+                    pIndName = "--";
+                }
+                cell.setCellValue(pIndName);
                 
                 // 所属地区
                 cell = row.getCell(6);
@@ -847,7 +854,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                 cell.setCellStyle(cellStyleWCS);
                 cell.setCellValue(dto.getCityName());
                 
-                // 所属行业
+                // 所属板块
                 cell = row.getCell(7);
                 if (cell == null) {
                     cell = row.createCell(7);
@@ -869,17 +876,50 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                 }
                 cell.setCellValue(belongPlate);
                 
-                // 融资金额(亿元)
-                cell = row.getCell(8);
-                if (cell == null) {
-                    cell = row.createCell(8);
-                }
-                cell.setCellStyle(cellStyleWCS);
-                if("004".equals(dto.getFinaType())) {
-                    DecimalFormat df = new DecimalFormat("0.0000");
-                    cell.setCellValue(df.format(dto.getSumFina()).toString());
+                if("1".equals(statistics)) {
+                    // 融资方式
+                    cell = row.getCell(8);
+                    if (cell == null) {
+                        cell = row.createCell(8);
+                    }
+                    cell.setCellStyle(cellStyleWCS);
+                    String finaType = "";
+                    if("001".equals(dto.getFinaType())) {
+                        finaType = "IPO";
+                    } else if("002".equals(dto.getFinaType())) {
+                        finaType = "增发";
+                    } else if("003".equals(dto.getFinaType())) {
+                        finaType = "配股";
+                    } else {
+                        finaType = "债券";
+                    }
+                    cell.setCellValue(finaType);
+                    
+                    // 融资金额(亿元)
+                    cell = row.getCell(9);
+                    if (cell == null) {
+                        cell = row.createCell(9);
+                    }
+                    cell.setCellStyle(cellStyleWCS);
+                    if("004".equals(dto.getFinaType())) {
+                        DecimalFormat df = new DecimalFormat("0.0000");
+                        cell.setCellValue(df.format(dto.getSumFina()).toString());
+                    } else {
+                        cell.setCellValue(calcRates(dto.getSumFina(),null,null));
+                    }
                 } else {
-                    cell.setCellValue(calcRates(dto.getSumFina(),null,null));
+                    // 融资金额(亿元)
+                    cell = row.getCell(8);
+                    if (cell == null) {
+                        cell = row.createCell(8);
+                    }
+                    cell.setCellStyle(cellStyleWCS);
+                    if("004".equals(dto.getFinaType())) {
+                        DecimalFormat df = new DecimalFormat("0.0000");
+                        cell.setCellValue(df.format(dto.getSumFina()).toString());
+                    } else {
+                        cell.setCellValue(calcRates(dto.getSumFina(),null,null));
+                    }
                 }
             }
         }

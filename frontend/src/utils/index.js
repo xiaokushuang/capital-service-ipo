@@ -420,7 +420,7 @@ export function exportExcelPostWindow(url, param) {
   let condtionParam = Object.assign({}, condition);
   condtionParam.orderByName = param.orderByName;
   condtionParam.orderByOrder = param.orderByOrder;
-  condtionParam.startRow = param.startRow;
+  condtionParam.startRow = 0;
   condtionParam.pageSize = condtionParam.exportTotal;
   request({
       url: url,

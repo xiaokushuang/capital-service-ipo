@@ -7,7 +7,7 @@
             <el-select v-model="queryParam.condition.financeIndustry" placeholder="请选择" size='small full' @change="changeFinanceIndustry">
               <template v-for="item in getSFClass">
               <el-option
-                  class="autoComplate"
+                  size="full"
                   :key="item.code_value"
                   :label="item.code_name"
                   :value="item.code_value">
@@ -88,12 +88,12 @@
           <el-table :data="financeSearchData" style="width: 100%" class="paddingControl" border tooltip-effect="dark"
           @sort-change="sortChange" ref="multipleSelection">
             <el-table-column align="center" type="index" label="序号" width="60"></el-table-column>
-            <el-table-column align="left" prop="companyName" label="公司" min-width="20%" sortable="custom">
+            <el-table-column align="left" prop="companyName" label="公司名称" min-width="20%" sortable="custom">
               <template slot-scope="scope">
                 <span v-html="scope.row.companyName"></span>
               </template>
             </el-table-column>
-            <el-table-column align="center" prop="financeDate" label="日期" min-width="10%" sortable="custom"></el-table-column>
+            <el-table-column align="center" prop="financeDate" label="活动日期" min-width="10%" sortable="custom"></el-table-column>
             <el-table-column align="center" prop="securityCode" label="证券(债券)代码" min-width="13%" sortable="custom"></el-table-column>
             <el-table-column align="center" prop="securityShortName" label="证券(债券)简称" min-width="13%" sortable="custom"></el-table-column>
             <el-table-column align="center" prop="financeIndustry" label="所属行业" min-width="8%">
@@ -218,6 +218,7 @@ export default {
 				this.$refs.paper.search(this.queryParam.orderByName,this.queryParam.orderByOrder);	
 		},
     search(data){//通过给定条件查询数据
+      this.queryParam.pageSize = data.pageSize;
       this.$store.dispatch('ipoSearchGet', data).then((data) => {//(方法名，参数)
           this.financeSearchData = data.data;
           this.totalCount = data.total;
