@@ -621,3 +621,7 @@
 .el-tooltip__popper.is-light[x-placement^=bottom] .popper__arrow {
   border-bottom-color: #eee !important;
 }
+// 表头右边
+.ipoContainer .el-table--border td, .el-table--border th {
+  border-right: 1px solid #e4e4e4 !important;
+}

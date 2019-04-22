@@ -1607,7 +1607,7 @@
   }
 
   .container .case .el-table__header th {
-    border-right: none;
+    /* border-right: none; */
   }
 
   .container .case .el-table__header th:nth-child(4) {
@@ -1675,5 +1675,9 @@
       background-size:cover;
      background:url('../../assets/images/qxsh.png') no-repeat;
 }
+ .ipoCaseTable .el-table--border td, .el-table--border th {
+  border-right: none !important;
+}
+
 </style>
 
