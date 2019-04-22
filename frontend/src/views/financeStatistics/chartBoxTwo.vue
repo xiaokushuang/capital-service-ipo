@@ -37,7 +37,6 @@
         <el-col :span='5' style="padding-left:10px;">
             <el-select v-model="code_value" placeholder="" size='small full' @change="selectClass">
               <el-option
-                class="autoComplate"
                 v-for="item in getSFClass"
                 :key="item.code_value"
                 :label="item.code_name"

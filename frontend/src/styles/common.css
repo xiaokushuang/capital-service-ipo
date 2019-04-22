@@ -321,14 +321,14 @@ body{
 
 [rightTable]>.el-table>.el-table__body-wrapper tr td,[rightTable]>.el-table>.el-table__header-wrapper tr th{
     background: #fff!important;
-    padding:5px!important;
+    padding:4px!important;
     color: #333!important;
     border:0;
 /*     text-align:center; */
 }
 [rightTable] thead tr th,[rightTable] tbody tr td {
     background: #fff!important;
-    padding:5px!important;
+    padding:4px!important;
     color: #333!important;
     border:0;
 }
