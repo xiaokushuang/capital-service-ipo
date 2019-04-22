@@ -50,7 +50,7 @@
             </div>
          </div>
       </div>
-      <div id="concentBody" style="width:1200px;margin: 0 auto;">
+      <div id="concentBody" style="width:1200px;margin: 0 auto;" class="ipoContainer">
           <el-row :gutter="24" class="h100">
               <el-col :span="18" class="chart" style="padding:0 40px 0 0">
                   <div class='chart-container'>
