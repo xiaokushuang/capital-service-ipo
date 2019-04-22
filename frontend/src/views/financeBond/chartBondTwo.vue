@@ -9,7 +9,7 @@
         </el-col>
     </el-row>
     <!-- 时间选项 -->
-    <el-row class="list" :gutter="20">
+    <el-row class="list">
         <el-col :span="2">
             <span>时间选择：</span>
         </el-col>
@@ -21,7 +21,7 @@
             <a @click="activeFun(2)" :class="{active:flag==2}" href="javascript:void(0)">近三年</a>
         </el-col>
         <!-- 双日历 -->
-        <el-col :span="6">
+        <el-col :span="6" style="padding-right:10px;">
             <el-date-picker
                 v-model="value5"
                 type="daterange"
@@ -34,7 +34,7 @@
                 :picker-options="pickerOptions2">
             </el-date-picker>
         </el-col>
-        <el-col :span='5'>
+        <el-col :span='5' style="padding-left:10px;">
             <el-select v-model="code_value" placeholder="" size='small full' @change="selectClass">
               <template v-for="item in getSFClass">
                 <el-option
@@ -66,7 +66,8 @@
                       style="width: 100%">
                       <el-table-column align="left" label="行业" min-width="40%">
                           <template slot-scope="scope">
-                              <span>{{scope.row.name}}</span>
+                              <span :title="scope.row.name" v-if="scope.row.name.length > 8">{{scope.row.name.substring(0,8) + '...'}}</span>
+                              <span :title="scope.row.name" v-else>{{scope.row.name}}</span>
                           </template>
                       </el-table-column>
 
@@ -174,7 +175,7 @@ export default {
         if (flag) {
           this.param.countType = 1;
           this.param.chartType = 2;
-          this.param.industrySelect = "001";
+          this.param.industrySelect = this.code_value;
           this.param.type = "ipoBondData2";
         }
         this.$store.dispatch("ipoBondGet", this.param).then(() => {});
