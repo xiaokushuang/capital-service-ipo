@@ -852,7 +852,11 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                     cell = row.createCell(6);
                 }
                 cell.setCellStyle(cellStyleWCS);
-                cell.setCellValue(dto.getCityName());
+                String cityName = "--";
+                if(StringUtils.isNotEmpty(dto.getCityName())) {
+                    cityName = dto.getCityName();
+                }
+                cell.setCellValue(cityName);
                 
                 // 所属板块
                 cell = row.getCell(7);

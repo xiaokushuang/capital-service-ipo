@@ -43,7 +43,7 @@
                 <span class="singleBtn" @click="clickClass('001',$event)">IPO</span><span class="singleBtn" @click="clickClass('002',$event)">增发</span><span class="singleBtn" @click="clickClass('003',$event)">配股</span>
             </div>
             <div class="fullDiv_border">
-                <chart height='100%' width='100%' id="three" :chartData = "getIpo3"></chart>
+                <chart style="padding-left:5px;padding-right:11px;" height='100%' width='100%' id="three" :chartData = "getIpo3"></chart>
             </div>
         </el-col>
         <!-- 右侧选项卡和table -->

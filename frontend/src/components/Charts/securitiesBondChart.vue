@@ -111,6 +111,10 @@ export default {
         },
         legend: {
           x: "right",
+          selected: {
+            募集资金: true,
+            发行家数:true
+          },
           data: ["募集资金", "发行家数"]
         },
         xAxis: [
