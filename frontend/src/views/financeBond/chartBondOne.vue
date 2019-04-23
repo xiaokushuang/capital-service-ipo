@@ -58,7 +58,7 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column align="center" label="金额（亿元）"  min-width="32%">
+                        <el-table-column align="center" label="金额（亿元）"  min-width="31%">
                             <template slot-scope="scope">
                                 <span v-if="scope.row.dataSum.length==0">0.0000</span>
                                 <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
@@ -67,7 +67,7 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column align="center" label="数量"  min-width="18%">
+                        <el-table-column align="center" label="数量"  min-width="19%">
                             <template slot-scope="scope">
                                 <span v-if="scope.row.dataSum.length==0">0</span>
                                 <a v-else v-for='(o,i) in scope.row.dataSum' :key="i" @click="companySel(scope.row,'004')">

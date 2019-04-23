@@ -158,10 +158,10 @@ export default {
           data: ["IPO", "增发", "配股", "发行家数"]
         },
         grid: {
-          left: "3%",
-          right: "4%",
-          bottom: "3%",
-          containLabel: true
+          // left: "6%",
+          // right: "6%",
+          bottom: "7%",
+          // containLabel: true
         },
         yAxis: [
           {
