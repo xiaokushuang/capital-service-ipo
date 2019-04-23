@@ -1,6 +1,6 @@
 
 <template>
-  <div class="container">
+  <div class="financeTable container">
     <el-form class="el-form" v-model="queryParam" :label-position="labelPosition" >
       <el-row :gutter="24">
         <el-col :span='8'>
@@ -301,5 +301,8 @@ export default {
   height:32px!important;
   cursor: pointer;
 }
+.financeTable .el-table--border td, .el-table--border th {
+    border-right: none!important;
+  }
 </style>
 

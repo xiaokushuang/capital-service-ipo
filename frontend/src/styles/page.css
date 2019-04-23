@@ -239,7 +239,7 @@
     padding: 6px 10px;
 }
 
-.container .el-table--border td, .el-table--border th {
+.financeTable .el-table--border td, .el-table--border th {
     border-right: none!important;
   }
 
