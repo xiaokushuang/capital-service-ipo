@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="popFinanceTable container">
         <el-row>
             <el-col align="right" :span="24">
                 <el-button size="small" class="searchBtn" @click="exportExcel">导出excel</el-button>
@@ -161,5 +161,11 @@ import {exportExcelPostWindow} from '@/utils'
 }
 .container {
     min-height:500px!important;
+}
+.popFinanceTable .el-table--border td, .el-table--border th, .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
+    border-right: none !important; 
+}
+.popFinanceTable .el-table--border td, .el-table--border th {
+    border-right: none!important;
 }
 </style>
