@@ -179,12 +179,12 @@ import datepicker from "@/mixins/datepicker";
 import { mapGetters } from "vuex";
 import { GetDateDiff } from "@/utils";
 import chartBoxThree from "./chartBoxThree";
-import china from "echarts/map/js/china"
+// import china from "echarts/map/js/china"
 import common from '@/mixins/common'
 export default {
   name: "chartBoxThree",
   mixins: [datepicker,common],
-  components: { Chart, china},
+  components: { Chart},
   data() {
     return {
       value5: "",

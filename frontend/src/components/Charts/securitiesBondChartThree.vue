@@ -4,6 +4,7 @@
 
 <script>
 import echarts from "echarts";
+// import 'echarts/map/js/china.js'
 
 export default {
   //props: ['className','id','width','height','chartData'],
@@ -37,6 +38,12 @@ export default {
     };
   },
   mounted() {
+    setTimeout(function (){
+      window.onresize = function () {
+        let chart = echarts.init(document.querySelector('#three'));
+        chart.resize();
+      }
+    },200);
     this.initChart();
     this.chart = null;
     // console.log(this.chartData)
@@ -123,7 +130,6 @@ export default {
           series: [
             {
               type: "effectScatter",
-
               coordinateSystem: "geo",
               symbolSize: function(val) {
                 return 20;

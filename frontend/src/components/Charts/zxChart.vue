@@ -1,6 +1,6 @@
 <template>
     <div>
-         <div class="chartParent" :id="'zxChart' + zxIndex " style="height:300px;width:100%"></div>
+         <div class="chartParent" :id="'zxChart' + zxIndex " style="height:300px;width:100%">{{zxIndex[0]}}</div>
     </div>
 </template>
 

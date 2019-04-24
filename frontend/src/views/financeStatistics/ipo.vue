@@ -24,6 +24,9 @@
                 <div v-if="headList.iecResult&&headList.iecResult == '03'">
                   <img src="../../assets/images/qxsh1.png" alt="">
                 </div>
+                <div v-if="headList.iecResult&&headList.iecResult == '04'">
+                  <img src="../../assets/images/dsh1.png" alt="">
+                </div>
             </div>
             <div class="text" style="position:relative;z-index: 4">
               <p class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;" @mouseenter="mouseOverSpreadTitle(headList.title)">{{getTitle(headList.title)}}</p>
@@ -68,13 +71,7 @@
                                           <div class="el-tabs__nav">
                                               <div class="el-tabs__active-bar is-top" :style="{width: tabBarWidth + 'px', transform: 'translateX(' + tabBarOffset + 'px)'}"></div>
                                               <div id="tab-first"  ref="tab-first"  aria-controls="pane-first"  :class="['el-tabs__item is-top', {'is-active': isActive === '1'}]" @click="onTabClick('1', $event)" style="padding-left: 0">公司概览</div>
-                                              <!-- <div v-if="tabSecondList&&tabSecondList.length>0&&tabSecondList[0].noClick==true" id="tab-second" ref="tab-second" aria-controls="pane-second"  class="el-tabs__item1" style="cursor:default;color:#adadad">
-                                                <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无财务信息信息" placement="top" effect="light">
-                                                  <el-button class="btnClass">财务信息</el-button>
-                                                </el-tooltip>
-                                              </div> -->
-                                              <!-- <div v-if="tabSecondList[0].noClick==false || tabSecondList[1].noClick==false" id="tab-second" ref="tab-second" aria-controls="pane-second" :class="['el-tabs__item is-top', {'is-active': isActive === '2'}]" @click="onTabClick('2', $event)">财务信息</div> -->
-                                             <div id="tab-second" ref="tab-second" aria-controls="pane-second" :class="['el-tabs__item is-top', {'is-active': isActive === '2'}]" @click="onTabClick('2', $event)">财务信息</div>
+                                              <div id="tab-second" ref="tab-second" aria-controls="pane-second" :class="['el-tabs__item is-top', {'is-active': isActive === '2'}]" @click="onTabClick('2', $event)">财务信息</div>
                                               <div v-if="headList.haveFeedback=='1' || headList.isTechBoard=='1'" id="tab-third"  ref="tab-third" class="el-tabs__item1" aria-controls="pane-third"  style="cursor:default;color:#adadad">
                                                 <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无反馈意见信息" placement="top" effect="light">
                                                   <el-button class="btnClass">反馈意见</el-button>
