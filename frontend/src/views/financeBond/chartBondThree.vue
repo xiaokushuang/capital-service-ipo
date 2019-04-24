@@ -40,7 +40,7 @@
         <!-- 图表 -->
         <el-col :span="16" class="chart" style="position:relative">
             <div class="fullDiv_border">
-                <chart height='100%' width='100%' id="three" :chartData = "getBondIpo3"></chart>
+                <chart height='100%' width='98%' id="three" :chartData = "getBondIpo3"></chart>
             </div>
         </el-col>
         <!-- 右侧选项卡和table -->
