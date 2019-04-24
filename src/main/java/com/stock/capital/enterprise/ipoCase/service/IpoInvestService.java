@@ -4,6 +4,7 @@ import com.stock.capital.enterprise.ipoCase.dao.IpoInvestItemMapper;
 import com.stock.capital.enterprise.ipoCase.dto.IpoInvestItemDto;
 import com.stock.core.service.BaseService;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,13 +35,15 @@ public class IpoInvestService extends BaseService {
             sumPre = sumPre.add(dto.getInvestPre());
             sumRate = sumRate.add(rate);
         }
-        sumDto.setItemName("总计");
-        sumDto.setInvestTotal(sumTotal);
-        sumDto.setInvestPlan(sumPlan);
-        sumDto.setInvestPre(sumPre);
-        sumDto.setInvestRateStr(String.valueOf(sumRate.multiply(new BigDecimal("100")
-                , new MathContext(4, RoundingMode.HALF_UP))) + "%");
-        investItemList.add(sumDto);
+        if(CollectionUtils.isNotEmpty(investItemList)){
+            sumDto.setItemName("总计");
+            sumDto.setInvestTotal(sumTotal);
+            sumDto.setInvestPlan(sumPlan);
+            sumDto.setInvestPre(sumPre);
+            sumDto.setInvestRateStr(String.valueOf(sumRate.multiply(new BigDecimal("100")
+                    , new MathContext(4, RoundingMode.HALF_UP))) + "%");
+            investItemList.add(sumDto);
+        }
         return investItemList;
     }
 
