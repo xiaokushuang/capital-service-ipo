@@ -172,7 +172,7 @@ public class IpoFeedbackService extends BaseService {
             questionLabelDto.setLabelCode("");
             questionLabelDto.setLabelName("全部");
             questionLabelDto.setLabelCount(String.valueOf(questionList.size()));
-            firstLabelList.add(questionLabelDto);
+            firstLabelList.add(0,questionLabelDto);
 
             ipoFeedbackResultDto.setQuestionLabelList(firstLabelList);
             //定义一个问题列表数组
