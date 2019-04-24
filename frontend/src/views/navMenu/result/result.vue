@@ -15,7 +15,7 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03'}">{{ baseList[0].iecResultStr}}</span>
+                            <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span>
                         </p>
                     </div>
                     <div class="text ">
@@ -82,7 +82,7 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第一次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03'}">{{ baseList[0].iecResultStr}}</span>
+                            <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span>
                         </p>
                     </div>
                     <div class="text ">
@@ -147,7 +147,7 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第二次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[1].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03'}">{{ baseList[1].iecResultStr}}</span>
+                            <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03','dshResult' : baseList[1].iecResult == '04'}">{{ baseList[1].iecResultStr}}</span>
                         </p>
                     </div>
                     <div class="text ">
@@ -214,7 +214,7 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第一次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03'}">{{ baseList[0].iecResultStr}}</span>
+                            <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span>
                         </p>
                     </div>
                     <div class="text ">
@@ -279,7 +279,7 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第二次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[1].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03'}">{{ baseList[1].iecResultStr}}</span>
+                            <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03','dshResult' : baseList[1].iecResult == '04'}">{{ baseList[1].iecResultStr}}</span>
                         </p>
                     </div>
                     <div class="text ">
@@ -344,7 +344,7 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第三次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[2].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[2].iecResult == '00','whtgResult' : baseList[2].iecResult == '01','zhbjResult' : baseList[2].iecResult == '02','qxshResult' : baseList[2].iecResult == '03'}">{{ baseList[2].iecResultStr}}</span>
+                            <span  :class="{'htgResult' : baseList[2].iecResult == '00','whtgResult' : baseList[2].iecResult == '01','zhbjResult' : baseList[2].iecResult == '02','qxshResult' : baseList[2].iecResult == '03','dshResult' : baseList[2].iecResult == '04'}">{{ baseList[2].iecResultStr}}</span>
                         </p>
                     </div>
                     <div class="text ">
@@ -689,6 +689,15 @@ export default {
      display:inline-block;
       background-size:cover;
      background:url('../../../assets/images/qxsh.png') no-repeat;
+}
+.dshResult{
+     font-size: 14px;
+     color: #ffd800;
+     padding:5px;
+     line-height:10px;
+     display:inline-block;
+     background-size:cover;
+     background:url('../../../assets/images/dsh.png') no-repeat;
 }
 .positionLi{
     margin-right:16px;

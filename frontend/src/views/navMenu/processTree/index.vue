@@ -50,6 +50,7 @@
                                             <span v-if="item.progressType=='07'&&item.iecResult=='01'" :style={background:whtg} class="whtg">未获通过</span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='02'" :style={background:zhbj} class="zhbj">暂缓表决 </span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='03'" :style={background:qxsh} class="qxsh">取消审核</span>
+                                            <span v-if="item.progressType=='07'&&item.iecResult=='04'" :style={background:dsh} class="dsh">待审核</span>
                                         </div>
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)" style="cursor: pointer;"
@@ -137,6 +138,7 @@
                                             <span v-if="item.progressType=='07'&&item.iecResult=='01'" :style={background:whtg} class="whtg">未获通过</span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='02'" :style={background:zhbj} class="zhbj">暂缓表决 </span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='03'" :style={background:qxsh} class="qxsh">取消审核</span>
+                                            <span v-if="item.progressType=='07'&&item.iecResult=='04'" :style={background:dsh} class="dsh">待审核</span>
                                         </div>
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)" style="cursor: pointer;"
@@ -232,6 +234,7 @@ export default {
             htg:'url('+ require('../../../assets/images/htg.png')+') no-repeat',
             whtg:'url('+ require('../../../assets/images/whtg.png')+') no-repeat',
             qxsh:'url('+ require('../../../assets/images/qxsh.png')+') no-repeat',
+            dsh:'url('+ require('../../../assets/images/dsh.png')+') no-repeat',
             moreNoticeDailog: '',
             dialogVisible: false,
             showArray: [],
@@ -702,6 +705,17 @@ export default {
     left: 38%;
     top: -20px;
     color: #94A3B4;
+    padding:5px;
+    padding-right:5px;
+    line-height:10px;
+    display:inline-block;
+}
+.dsh{
+    font-size: 14px;
+    position: relative;
+    left: 38%;
+    top: -20px;
+    color: #ffd800;
     padding:5px;
     padding-right:5px;
     line-height:10px;

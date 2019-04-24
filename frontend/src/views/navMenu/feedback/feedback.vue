@@ -34,7 +34,7 @@
                                           <span>{{answerCount}}</span>
                                           <span>个回复</span>
                                           <el-checkbox  @change="handleOnlyChange(onlyShowAnswer)" v-model="onlyShowAnswer" style="margin-left:20px;margin-right:15px">只展示回复问题</el-checkbox>
-                                          <el-button @click="toggleSelection()" class="reset" type="primary" plain>重置</el-button>
+                                          <!-- <el-button @click="toggleSelection()" class="reset" type="primary" plain>重置</el-button> -->
                                       </div>
                                   </div>
                               </div>
@@ -112,7 +112,7 @@
                                           <span>{{answerCount2}}</span>
                                           <span>个回复</span>
                                           <el-checkbox  @change="handleOnlyChange2(onlyShowAnswer2)" v-model="onlyShowAnswer2" style="margin-left:20px;margin-right:15px">只展示回复问题</el-checkbox>
-                                          <el-button @click="toggleSelection2()" class="reset" type="primary" plain>重置</el-button>
+                                          <!-- <el-button @click="toggleSelection2()" class="reset" type="primary" plain>重置</el-button> -->
                                       </div>
                                   </div>
                               </div>
@@ -189,7 +189,7 @@
                                           <span>{{answerCount3}}</span>
                                           <span>个回复</span>
                                           <el-checkbox  @change="handleOnlyChange3(onlyShowAnswer3)" v-model="onlyShowAnswer3" style="margin-left:20px;margin-right:15px">只展示回复问题</el-checkbox>
-                                          <el-button @click="toggleSelection3()" class="reset" type="primary" plain>重置</el-button>
+                                          <!-- <el-button @click="toggleSelection3()" class="reset" type="primary" plain>重置</el-button> -->
                                       </div>
                                   </div>
                               </div>
@@ -271,7 +271,7 @@
                                 <span>{{answerCount}}</span>
                                 <span>个回复</span>
                                 <el-checkbox  @change="handleOnlyChange(onlyShowAnswer)" v-model="onlyShowAnswer" style="margin-left:20px;margin-right:15px">只展示回复问题</el-checkbox>
-                                <el-button @click="toggleSelection()" class="reset" type="primary" plain>重置</el-button>
+                                <!-- <el-button @click="toggleSelection()" class="reset" type="primary" plain>重置</el-button> -->
                             </div>
                         </div>
                     </div>
@@ -405,6 +405,7 @@ export default {
      },
     // 滑轮滚到底部懒加载
      mounted(){
+       console.log(this.radio)
             let _this = this;
             // 注册scroll事件并监听
             window.addEventListener('scroll',function(){
@@ -422,6 +423,8 @@ export default {
     // 单选按钮
     handelChange(val){
       this.radioVal = val
+      // if(val == ''){
+      // }
       this.initQuestionData(this.o_letterId,val,'',this.onlyShowAnswerFlag)
     },
     // 单选按钮
@@ -656,8 +659,11 @@ export default {
           secondLabelId:secondLabel,
           onlyResponse:onlyResponse,
         }
+        console.log('获取二级菜单及问题id',param)
         getSelectQuestionList(param).then(res => {
           // 当只有一个tab页时
+          // debugger;
+          console.log('点击一级菜单获取结果',res.data.result)
           if(this.tabList.length==1){
             if(res.data.result.length  > 0){
               this.allQuestionList = res.data.result[0].questionList;
@@ -806,7 +812,9 @@ export default {
           secondLabelId:secondLabel,
           onlyResponse:onlyResponse,
         }
+        console.log('点击二级菜单获取问题id',param)
         getSelectQuestionList(param).then(res => {
+          console.log('点击二级菜单获取问题结果',res.data.result)
           // 当只有一个tab页时
           if(this.tabList.length==1){
             if(res.data.result.length  > 0){
