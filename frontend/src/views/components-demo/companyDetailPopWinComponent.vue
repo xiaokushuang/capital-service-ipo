@@ -9,14 +9,14 @@
           <el-table :data="companyDetailData" style="width: 100%" class="paddingControl" border tooltip-effect="dark"
             @sort-change="sortChange" ref="multipleSelection" height="350">
             <el-table-column align="center" type="index" label="序号" width="60"></el-table-column>
-            <el-table-column align="left" prop="companyName" label="公司名称" min-width="17%" sortable="custom">
+            <el-table-column align="left" prop="companyName" label="公司名称" min-width="16%" sortable="custom">
               <template slot-scope="scope">
                 <span v-html="scope.row.companyName"></span>
               </template>
             </el-table-column>
             <el-table-column align="center" prop="financeDate" label="上市日期" min-width="11%" sortable="custom"></el-table-column>
             <el-table-column align="center" prop="securityCode" label="证券代码" min-width="11%" sortable="custom"></el-table-column>
-            <el-table-column align="center" prop="securityShortName" label="证券简称" min-width="11%" sortable="custom"></el-table-column>
+            <el-table-column align="center" prop="securityShortName" label="证券简称" min-width="12%" sortable="custom"></el-table-column>
             <el-table-column align="center" prop="financeIndustry" label="所属行业" sortable="custom" min-width="11%">
                 <template slot-scope="scope">
                     <div v-if="chartType == '2'">

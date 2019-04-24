@@ -272,3 +272,8 @@
 .container .el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
     background-color: rgb(245, 247, 250)!important;
 }
+
+.container .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+    background-color: #fff!important;
+    border-color: #409EFF;
+}

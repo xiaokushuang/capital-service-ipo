@@ -37,6 +37,12 @@ export default {
     };
   },
   mounted() {
+    setTimeout(function (){
+      window.onresize = function () {
+        let chart = echarts.init(document.querySelector('#two'));
+        chart.resize();
+      }
+    },200);
     this.initChart();
     this.chart = null;
     // console.log(this.chartData)

@@ -38,6 +38,12 @@ export default {
     };
   },
   mounted() {
+    setTimeout(function (){
+      window.onresize = function () {
+        let chart = echarts.init(document.querySelector('#one'));
+        chart.resize();
+      }
+    },200);
     this.chart = null;
   },
   watch: {
@@ -153,7 +159,8 @@ export default {
           selected: {
             IPO: true,
             增发: true,
-            配股: true
+            配股: true,
+            发行家数:true
           },
           data: ["IPO", "增发", "配股", "发行家数"]
         },

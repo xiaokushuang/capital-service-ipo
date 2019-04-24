@@ -21,6 +21,15 @@ $(document).ready(function() {
 		$('input[name="industry"]').val('');
 		search();
 	});
+	
+	setTimeout(function (){
+        window.onresize = function () {
+          myChart = echarts.init(document.getElementById('ipoChart'));
+          myHistoryChart = echarts.init(document.getElementById('ipoHistoryChart'));
+          myChart.resize();
+          myHistoryChart.resize();
+        }
+      },200)
 });
 function initDataTableParam(d){
 	return $.extend( {}, d, {

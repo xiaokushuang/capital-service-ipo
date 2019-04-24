@@ -43,7 +43,7 @@
                 <span class="singleBtn" @click="clickClass('001',$event)">IPO</span><span class="singleBtn" @click="clickClass('002',$event)">增发</span><span class="singleBtn" @click="clickClass('003',$event)">配股</span>
             </div>
             <div class="fullDiv_border">
-                <chart height='100%' width='100%' id="three" :chartData = "getIpo3"></chart>
+                <chart height='100%' width='98%' id="three" :chartData = "getIpo3"></chart>
             </div>
         </el-col>
         <!-- 右侧选项卡和table -->
@@ -179,12 +179,12 @@ import datepicker from "@/mixins/datepicker";
 import { mapGetters } from "vuex";
 import { GetDateDiff } from "@/utils";
 import chartBoxThree from "./chartBoxThree";
-import china from "echarts/map/js/china"
+// import china from "echarts/map/js/china"
 import common from '@/mixins/common'
 export default {
   name: "chartBoxThree",
   mixins: [datepicker,common],
-  components: { Chart, china},
+  components: { Chart},
   data() {
     return {
       value5: "",

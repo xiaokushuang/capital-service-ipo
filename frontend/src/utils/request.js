@@ -1,11 +1,12 @@
 import axios from 'axios';
 import {clearAllCookie, getToken} from '@/utils/auth';
 import {Message} from 'element-ui';
+import {showFullScreenLoading, tryHideFullScreenLoading} from './axiosHelperLoading'
 
 // create an axios instance
 const service = axios.create({
   baseURL: '',// process.env.BASE_API, // api的base_url
-  timeout: 5000 // request timeout
+  timeout: 20000 // request timeout
 });
 
 //console.log(process.env.BASE_API);
@@ -14,6 +15,8 @@ const service = axios.create({
 service.interceptors.request.use(
     config => {
       if(config.responseType == 'blob'){
+    	  //设置全局加载
+        showFullScreenLoading();
         config.timeout = 180000;
       }
       // Do something before request is sent
@@ -33,6 +36,8 @@ service.interceptors.request.use(
 service.interceptors.response.use(
     (response) => {
       if(response.config.responseType == 'blob'){
+        //去除全局加载
+    	  tryHideFullScreenLoading();
         if(!response.data){
           return;
         }
@@ -57,7 +62,10 @@ service.interceptors.response.use(
       return response
     },
     (error) => {
-
+    	if(response.config.responseType == 'blob'){
+          //去除全局加载
+        	tryHideFullScreenLoading();
+    	}
       let tipError = false;
       // TODO Reservation processing error response
       if (error && error.response) {

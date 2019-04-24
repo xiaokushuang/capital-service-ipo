@@ -7,6 +7,8 @@ import 'font-awesome/css/font-awesome.min.css'
 // 引入echarts
 import echarts from 'echarts'
 Vue.prototype.$echarts = echarts
+import 'echarts/map/js/china.js';
+
 import '@/styles/index.scss' // global css
 import App from './App'
 import router from './router'
