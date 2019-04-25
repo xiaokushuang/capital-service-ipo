@@ -24,8 +24,8 @@ $(document).ready(function() {
 	
 	setTimeout(function (){
         window.onresize = function () {
-          myChart = echarts.init(document.getElementById('ipoChart'));
-          myHistoryChart = echarts.init(document.getElementById('ipoHistoryChart'));
+          var myChart = echarts.init(document.getElementById('ipoChart'));
+          var myHistoryChart = echarts.init(document.getElementById('ipoHistoryChart'));
           myChart.resize();
           myHistoryChart.resize();
         }
