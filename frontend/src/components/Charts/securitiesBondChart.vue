@@ -38,6 +38,12 @@ export default {
   },
   mounted() {
     //this.initChart()
+    setTimeout(function (){
+      window.onresize = function () {
+        let chart = echarts.init(document.querySelector('#one'));
+        chart.resize();
+      }
+    },200);
     this.chart = null;
     // console.log(this.chartData)
   },

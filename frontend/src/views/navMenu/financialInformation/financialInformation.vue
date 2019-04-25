@@ -56,7 +56,7 @@
                 <div class="chartTable" v-for="item,index in maoChartTableData" :key="item.id">
                     <p style="font-family:'PingFang-SC-Regular', 'PingFang SC';font-weight:400;color:#666666;font-size:14px; margin-top: 30px;margin-bottom:0px">{{item.remark}}</p>
                     <div class="zxChart" style="height:300px;width:100%; ">
-                        <zxChart ref="zxChart" :zxIndex = "index"></zxChart>
+                        <zxChart v-if="maoChartTableData&&maoChartTableData.length>0" ref="zxChart" :zxIndex = "index"></zxChart>
                     </div>
                     <div class="table">
                         <!-- 其他公司对比 -->
@@ -246,7 +246,7 @@ export default {
             }
             getMaoChartTableData(param).then(res => {
                 if(res.data.result&&res.data.result.length>0){
-                    this.maoChartTableData = res.data.result                 
+                    this.maoChartTableData = res.data.result              
                 this.getPosition()
                 }
             }) 

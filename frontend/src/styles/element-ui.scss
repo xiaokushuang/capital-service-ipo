@@ -279,7 +279,15 @@
   border-color: #14bcf5;
 }
 .moreNotice .el-checkbox__input.is-focus .el-checkbox__inner{
-  border-color:#e2e2e2;
+  // background:red;
+  width:16px;
+  height:16px;
+  border:1px solid #e2e2e2;
+}
+.moreNotice th .el-checkbox__input.is-focus .el-checkbox__inner{
+  width:15px;
+  height:15px;
+  border:1px solid #e2e2e2;
 }
 .moreNotice .el-checkbox__inner::after {
   -webkit-box-sizing: content-box;
@@ -484,6 +492,13 @@
   font-weight: bold
 }
 .raiseMoneyTable table tr:last-of-type{
+  font-weight: bold
+}
+// 前五名供应商用户表格最后一行合计
+.theTopFiveKh table tr:last-of-type{
+  font-weight: bold
+}
+.theTopFiveSupplier table tr:last-of-type{
   font-weight: bold
 }
 #componentId .el-checkbox-button.is-focus .el-checkbox-button__inner {
