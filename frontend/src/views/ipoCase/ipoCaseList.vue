@@ -1687,6 +1687,7 @@
      color: #ffd800;
      padding:5px;
      padding-left: 8px;
+     padding-right: 6px;
      line-height:10px;
      display:inline-block;
      background-size:cover;

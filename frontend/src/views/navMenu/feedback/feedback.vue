@@ -405,7 +405,6 @@ export default {
      },
     // 滑轮滚到底部懒加载
      mounted(){
-       console.log(this.radio)
             let _this = this;
             // 注册scroll事件并监听
             window.addEventListener('scroll',function(){
@@ -422,43 +421,45 @@ export default {
   methods: {
     // 单选按钮
     handelChange(val){
-      this.radioVal = val
+       this.radioVal = val
+       this.checkboxGroup = []
       if(val == null){
-        this.initQuestionData(this.o_letterId,'','',this.onlyShowAnswerFlag)
+        this.initQuestionData(this.o_letterId,'',this.checkboxGroup,this.onlyShowAnswerFlag)
       }
       else{
-        this.initQuestionData(this.o_letterId,val,'',this.onlyShowAnswerFlag)
+        this.initQuestionData(this.o_letterId,val,this.checkboxGroup,this.onlyShowAnswerFlag)
       }
     },
     // 单选按钮
      handelChange2(val){
       this.radioVal2 = val
+      this.checkboxGroup2 = []
       if(val == null){
-        this.initQuestionData(this.o_letterId,'','',this.onlyShowAnswerFlag2)
+        this.initQuestionData(this.o_letterId,'',this.checkboxGroup2,this.onlyShowAnswerFlag2)
       }
       else{
-        this.initQuestionData(this.o_letterId,val,'',this.onlyShowAnswerFlag2)
+        this.initQuestionData(this.o_letterId,val,this.checkboxGroup2,this.onlyShowAnswerFlag2)
       }
     },
         // 单选按钮
      handelChange3(val){
       this.radioVal3 = val
+      this.checkboxGroup3 = []
       if(val == null){
-        this.initQuestionData(this.o_letterId,'','',this.onlyShowAnswerFlag3)
+        this.initQuestionData(this.o_letterId,'',this.checkboxGroup3,this.onlyShowAnswerFlag3)
       }
       else{
-        this.initQuestionData(this.o_letterId,val,'',this.onlyShowAnswerFlag3)
+        this.initQuestionData(this.o_letterId,val,this.checkboxGroup3,this.onlyShowAnswerFlag3)
       }
     },
     // 多选按钮
     handelMoreChange(val){
        this.checkboxGroup = val
-       console.log('111111111111111111111111111111111111111',this.checkboxGroup)
+       console.log('11111',this.checkboxGroup)
        for(let i = 0;i<val.length;i++){
          if(val[i] == null){
            this.checkboxGroup = []
           //  document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor="white";
-          //  console.log('背景色',document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor)
          }
        }
        if(this.radioVal == null ){
@@ -471,6 +472,7 @@ export default {
         // 多选按钮
     handelMoreChange2(val){
        this.checkboxGroup2 = val
+       console.log('22222222',this.checkboxGroup2)
        for(let i = 0;i<val.length;i++){
          if(val[i] == null){
            this.checkboxGroup2 = []
@@ -654,11 +656,11 @@ export default {
               this.allQuestionList = res.data.result[0].questionList
               this.allQuestionList2 = res.data.result[1].questionList
               this.allQuestionList3 = res.data.result[2].questionList
-               this.questionCount = res.data.result[0].questionCount
+              this.questionCount = res.data.result[0].questionCount
               this.answerCount = res.data.result[0].answerCount
-               this.questionCount1 = res.data.result[1].questionCount
+              this.questionCount1 = res.data.result[1].questionCount
               this.answerCount1 = res.data.result[1].answerCount
-               this.questionCount2 = res.data.result[2].questionCount
+              this.questionCount2 = res.data.result[2].questionCount
               this.answerCount2 = res.data.result[2].answerCount
               if(this.allQuestionList.length > 15){
                 this.showMore = true;
