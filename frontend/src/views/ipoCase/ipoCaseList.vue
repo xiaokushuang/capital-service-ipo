@@ -1361,7 +1361,7 @@
 
   .ipoCaseList .el-tree > .el-tree-node > .el-tree-node__content span {
     font-family: Microsoft YaHei, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
+    font-size: 14px !important;
     line-height: 1.42857143;
     display: inline-block;
     max-width: 100%;

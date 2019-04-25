@@ -423,30 +423,50 @@ export default {
     // 单选按钮
     handelChange(val){
       this.radioVal = val
-      // if(val == ''){
-      // }
-      this.initQuestionData(this.o_letterId,val,'',this.onlyShowAnswerFlag)
+      if(val == null){
+        this.initQuestionData(this.o_letterId,'','',this.onlyShowAnswerFlag)
+      }
+      else{
+        this.initQuestionData(this.o_letterId,val,'',this.onlyShowAnswerFlag)
+      }
     },
     // 单选按钮
      handelChange2(val){
       this.radioVal2 = val
-      this.initQuestionData(this.o_letterId,val,'',this.onlyShowAnswerFlag2)
+      if(val == null){
+        this.initQuestionData(this.o_letterId,'','',this.onlyShowAnswerFlag2)
+      }
+      else{
+        this.initQuestionData(this.o_letterId,val,'',this.onlyShowAnswerFlag2)
+      }
     },
         // 单选按钮
      handelChange3(val){
       this.radioVal3 = val
-      this.initQuestionData(this.o_letterId,val,'',this.onlyShowAnswerFlag3)
+      if(val == null){
+        this.initQuestionData(this.o_letterId,'','',this.onlyShowAnswerFlag3)
+      }
+      else{
+        this.initQuestionData(this.o_letterId,val,'',this.onlyShowAnswerFlag3)
+      }
     },
     // 多选按钮
     handelMoreChange(val){
        this.checkboxGroup = val
+       console.log('111111111111111111111111111111111111111',this.checkboxGroup)
        for(let i = 0;i<val.length;i++){
          if(val[i] == null){
            this.checkboxGroup = []
-           document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor="white";
+          //  document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor="white";
+          //  console.log('背景色',document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor)
          }
        }
-       this.initOnlyQuestionData(this.o_letterId,this.radioVal, this.checkboxGroup,this.onlyShowAnswerFlag)
+       if(this.radioVal == null ){
+          this.initOnlyQuestionData(this.o_letterId,'', this.checkboxGroup,this.onlyShowAnswerFlag)
+       }
+       else{
+         this.initOnlyQuestionData(this.o_letterId,this.radioVal, this.checkboxGroup,this.onlyShowAnswerFlag)
+       }
     },
         // 多选按钮
     handelMoreChange2(val){
@@ -457,7 +477,12 @@ export default {
            document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor="white";
          }
        }
-       this.initOnlyQuestionData(this.o_letterId,this.radioVal2, this.checkboxGroup2,this.onlyShowAnswerFlag2)
+       if(this.radioVal2 == null ){
+          this.initOnlyQuestionData(this.o_letterId,'', this.checkboxGroup2,this.onlyShowAnswerFlag2)
+       }
+       else{
+         this.initOnlyQuestionData(this.o_letterId,this.radioVal2, this.checkboxGroup2,this.onlyShowAnswerFlag2)
+       }
     },
             // 多选按钮
     handelMoreChange3(val){
@@ -468,7 +493,12 @@ export default {
            document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor="white";
          }
        }
-       this.initOnlyQuestionData(this.o_letterId,this.radioVal3, this.checkboxGroup3,this.onlyShowAnswerFlag3)
+        if(this.radioVal3 == null ){
+          this.initOnlyQuestionData(this.o_letterId,'', this.checkboxGroup3,this.onlyShowAnswerFlag3)
+        }
+        else{
+          this.initOnlyQuestionData(this.o_letterId,this.radioVal3, this.checkboxGroup3,this.onlyShowAnswerFlag3)
+        }
     },
     // 是否只展示回复问题
     handleOnlyChange(val){
@@ -477,7 +507,12 @@ export default {
       }else{
         this.onlyShowAnswerFlag = ''
       }
-        this.initOnlyQuestionData(this.o_letterId,this.radioVal,this.checkboxGroup,this.onlyShowAnswerFlag)
+       if(this.radioVal == null ){
+          this.initOnlyQuestionData(this.o_letterId,'', this.checkboxGroup,this.onlyShowAnswerFlag)
+       }
+       else{
+         this.initOnlyQuestionData(this.o_letterId,this.radioVal,this.checkboxGroup,this.onlyShowAnswerFlag)
+       }
     },
        // 是否只展示回复问题
     handleOnlyChange2(val){
@@ -486,7 +521,12 @@ export default {
       }else{
         this.onlyShowAnswerFlag2 = ''
       }
-        this.initOnlyQuestionData(this.o_letterId,this.radioVal2,this.checkboxGroup2,this.onlyShowAnswerFlag2)
+       if(this.radioVal2 == null ){
+          this.initOnlyQuestionData(this.o_letterId,'', this.checkboxGroup2,this.onlyShowAnswerFlag2)
+       }
+       else{
+         this.initOnlyQuestionData(this.o_letterId,this.radioVal2,this.checkboxGroup2,this.onlyShowAnswerFlag2)
+       }
 
     },
      // 是否只展示回复问题
@@ -496,7 +536,12 @@ export default {
       }else{
         this.onlyShowAnswerFlag3 = ''
       }
-        this.initOnlyQuestionData(this.o_letterId,this.radioVal3,this.checkboxGroup3,this.onlyShowAnswerFlag3)
+      if(this.radioVal3 == null ){
+          this.initOnlyQuestionData(this.o_letterId,'', this.checkboxGroup3,this.onlyShowAnswerFlag3)
+       }
+       else{
+         this.initOnlyQuestionData(this.o_letterId,this.radioVal3,this.checkboxGroup3,this.onlyShowAnswerFlag3)
+       }
 
     },
     // 点击加载更多
@@ -931,38 +976,38 @@ export default {
         this.o_letterId = tab.name
     },
     // 点击重置按钮
-    toggleSelection(){
-      this.checkboxGroup = []
-      this.radio = ''
-      this.radioVal = ''
-      this.feedbackduoxuanList = [],
-      this.onlyShowAnswerFlag = ''
-      this.onlyShowAnswer = false;
-      this.showAll = true;
-      this.initQuestionData(this.o_letterId,'','','',"0")
-    },
-        // 点击重置按钮
-    toggleSelection2(){
-      this.checkboxGroup2 = []
-       this.radio2 = ''
-      this.radioVal2 = ''
-      this.feedbackduoxuanList2 = [],
-      this.onlyShowAnswerFlag2 = ''
-      this.onlyShowAnswer2 = false;
-      this.showAll = true;
-      this.initQuestionData(this.o_letterId,'','','',"0")
-    },
-            // 点击重置按钮
-    toggleSelection3(){
-      this.checkboxGroup3 = []
-       this.radio3 = ''
-      this.radioVal3 = ''
-      this.feedbackduoxuanList3 = [],
-      this.onlyShowAnswerFlag3 = ''
-      this.onlyShowAnswer3 = false;
-      this.showAll = true;
-      this.initQuestionData(this.o_letterId,'','','',"0")
-    },
+    // toggleSelection(){
+    //   this.checkboxGroup = []
+    //   this.radio = ''
+    //   this.radioVal = ''
+    //   this.feedbackduoxuanList = [],
+    //   this.onlyShowAnswerFlag = ''
+    //   this.onlyShowAnswer = false;
+    //   this.showAll = true;
+    //   this.initQuestionData(this.o_letterId,'','','',"0")
+    // },
+    //     // 点击重置按钮
+    // toggleSelection2(){
+    //   this.checkboxGroup2 = []
+    //    this.radio2 = ''
+    //   this.radioVal2 = ''
+    //   this.feedbackduoxuanList2 = [],
+    //   this.onlyShowAnswerFlag2 = ''
+    //   this.onlyShowAnswer2 = false;
+    //   this.showAll = true;
+    //   this.initQuestionData(this.o_letterId,'','','',"0")
+    // },
+    //         // 点击重置按钮
+    // toggleSelection3(){
+    //   this.checkboxGroup3 = []
+    //    this.radio3 = ''
+    //   this.radioVal3 = ''
+    //   this.feedbackduoxuanList3 = [],
+    //   this.onlyShowAnswerFlag3 = ''
+    //   this.onlyShowAnswer3 = false;
+    //   this.showAll = true;
+    //   this.initQuestionData(this.o_letterId,'','','',"0")
+    // },
     // 问【收起展开】
     spread(item) {
      this.$set(item,'isSpread',2)
