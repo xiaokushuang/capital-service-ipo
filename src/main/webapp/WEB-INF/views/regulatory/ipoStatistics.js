@@ -22,14 +22,6 @@ $(document).ready(function() {
 		search();
 	});
 	
-//	setTimeout(function (){
-//        window.onresize = function () {
-//          var myChart = echarts.init(document.getElementById('ipoChart'));
-//          var myHistoryChart = echarts.init(document.getElementById('ipoHistoryChart'));
-//          myChart.resize();
-//          myHistoryChart.resize();
-//        }
-//      },200)
 });
 function initDataTableParam(d){
 	return $.extend( {}, d, {
