@@ -130,7 +130,7 @@ public class IpoFeedbackService extends BaseService {
 
             //从云端查询标一二级标签
             Map<String, Map<String, String>> firstLabelMap = ipoFeedbackMapper.selectFirstLabelMap();
-            Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap();
+            Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap("");
 
             //从索引中查询分类个数
             Map<String, String> condition = Maps.newHashMap();
@@ -235,7 +235,7 @@ public class IpoFeedbackService extends BaseService {
         List<IpoFeedbackDto> resultList = new ArrayList<>();
         IpoFeedbackDto resultDto = new IpoFeedbackDto();
         //从云端查询标一二级标签
-        Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap();
+        Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap(firstLabelId);
         //定义问题标签集合
         List<IpoQuestionLabelDto> secondLabelList = new ArrayList<>();
         //将二级标签用逗号分隔为数组

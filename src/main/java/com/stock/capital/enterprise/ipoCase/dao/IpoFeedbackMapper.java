@@ -55,7 +55,7 @@ public interface IpoFeedbackMapper {
     Map<String, Map<String, String>> selectFirstLabelMap();
 
     @MapKey("labelId")
-    Map<String, Map<String, String>> selectSecondLabelMap();
+    Map<String, Map<String, String>> selectSecondLabelMap(@Param("firstLabelId") String firstLabelId);
 
     /**
      * 查询进程表上市进程日期
