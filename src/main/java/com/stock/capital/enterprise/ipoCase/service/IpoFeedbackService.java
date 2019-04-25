@@ -275,6 +275,13 @@ public class IpoFeedbackService extends BaseService {
         List<StatisticsField> labelList =
                 facetResult.getStatisticsFieldMap().get("letter_question_class_new_id_txt");
         List<IpoFeedbackIndexDto> questionList = facetResult.getPage().getData();
+        //如果选择一级标签全部，二级标签的全部要特殊处理
+        if (firstLabelId.equals("")) {
+            IpoQuestionLabelDto allLabelDto = new IpoQuestionLabelDto();
+            allLabelDto.setLabelName("全部");
+            allLabelDto.setLabelCount(String.valueOf(questionList.size()));
+            secondLabelList.add(0, allLabelDto);
+        }
         //循环标签，将标签个数赋值
         for (StatisticsField labelDto : labelList) {
             //如果标签id等于父id,则将此标签统计个数赋值给全部标签
@@ -282,14 +289,6 @@ public class IpoFeedbackService extends BaseService {
                 IpoQuestionLabelDto allLabelDto = new IpoQuestionLabelDto();
                 allLabelDto.setLabelName("全部");
                 allLabelDto.setLabelCount(String.valueOf(labelDto.getCount()));
-                secondLabelList.add(0, allLabelDto);
-            }
-
-            //如果选择一级标签全部，二级标签的全部要特殊处理
-            if (firstLabelId.equals("")) {
-                IpoQuestionLabelDto allLabelDto = new IpoQuestionLabelDto();
-                allLabelDto.setLabelName("全部");
-                allLabelDto.setLabelCount(String.valueOf(questionList.size()));
                 secondLabelList.add(0, allLabelDto);
             }
 
