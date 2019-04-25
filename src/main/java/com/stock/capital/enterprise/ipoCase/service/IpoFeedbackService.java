@@ -235,7 +235,9 @@ public class IpoFeedbackService extends BaseService {
         List<IpoFeedbackDto> resultList = new ArrayList<>();
         IpoFeedbackDto resultDto = new IpoFeedbackDto();
         //从云端查询标一二级标签
-        Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap(firstLabelId);
+        Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap("");
+        //如果存在一级标签，则查询一级标签下的二级标签
+        Map<String, Map<String, String>> secondSelLabelMap = ipoFeedbackMapper.selectSecondLabelMap(firstLabelId);
         //定义问题标签集合
         List<IpoQuestionLabelDto> secondLabelList = new ArrayList<>();
         //将二级标签用逗号分隔为数组
@@ -292,10 +294,10 @@ public class IpoFeedbackService extends BaseService {
                 secondLabelList.add(0, allLabelDto);
             }
 
-            if (null != secondLabelMap.get(labelDto.getFieldId())) {
+            if (null != secondSelLabelMap.get(labelDto.getFieldId())) {
                 IpoQuestionLabelDto questionLabelDto = new IpoQuestionLabelDto();
                 questionLabelDto.setLabelCode(labelDto.getFieldId());
-                questionLabelDto.setLabelName(secondLabelMap.get(labelDto.getFieldId()).get("letterClassName"));
+                questionLabelDto.setLabelName(secondSelLabelMap.get(labelDto.getFieldId()).get("letterClassName"));
                 questionLabelDto.setLabelCount(String.valueOf(labelDto.getCount()));
                 secondLabelList.add(questionLabelDto);
             }
