@@ -169,7 +169,7 @@ public class IpoFeedbackService extends BaseService {
             List<IpoFeedbackIndexDto> questionList = facetResult.getPage().getData();
             //一级标签添加全部标签
             IpoQuestionLabelDto questionLabelDto = new IpoQuestionLabelDto();
-            questionLabelDto.setLabelCode("");
+            questionLabelDto.setLabelCode(null);
             questionLabelDto.setLabelName("全部");
             questionLabelDto.setLabelCount(String.valueOf(questionList.size()));
             firstLabelList.add(0,questionLabelDto);
