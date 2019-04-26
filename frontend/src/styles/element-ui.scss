@@ -276,10 +276,14 @@
 // 公告弹窗复选框样式
 .moreNotice .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
   background-color: #14bcf5;
-  border-color: #14bcf5;
+  color: #14bcf5;
+  border-color:#14bcf5
+}
+.moreNotice .el-checkbox__input{
+  border-color:#14bcf5;
 }
 .moreNotice .el-checkbox__input.is-focus .el-checkbox__inner{
-  border-color:#e2e2e2;
+  border-color:#14bcf5;
 }
 .moreNotice .el-checkbox__inner::after {
   -webkit-box-sizing: content-box;
@@ -462,7 +466,7 @@
   font-size: 16px;
 }
 .el-dialog__body {
-  padding: 24px 24px;
+  padding: 24px 18px;
   color: #555;
   line-height: 24px;
   font-size: 14px;
@@ -486,6 +490,13 @@
 .raiseMoneyTable table tr:last-of-type{
   font-weight: bold
 }
+// 前五名供应商用户表格最后一行合计
+// .theTopFiveKh table tr:last-of-type{
+//   font-weight: bold
+// }
+// .theTopFiveSupplier table tr:last-of-type{
+//   font-weight: bold
+// }
 #componentId .el-checkbox-button.is-focus .el-checkbox-button__inner {
   border-color: #e2e2e2;
   border-left-color:#e2e2e2 

@@ -130,7 +130,7 @@ public class IpoFeedbackService extends BaseService {
 
             //从云端查询标一二级标签
             Map<String, Map<String, String>> firstLabelMap = ipoFeedbackMapper.selectFirstLabelMap();
-            Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap();
+            Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap("");
 
             //从索引中查询分类个数
             Map<String, String> condition = Maps.newHashMap();
@@ -169,7 +169,7 @@ public class IpoFeedbackService extends BaseService {
             List<IpoFeedbackIndexDto> questionList = facetResult.getPage().getData();
             //一级标签添加全部标签
             IpoQuestionLabelDto questionLabelDto = new IpoQuestionLabelDto();
-            questionLabelDto.setLabelCode("");
+            questionLabelDto.setLabelCode(null);
             questionLabelDto.setLabelName("全部");
             questionLabelDto.setLabelCount(String.valueOf(questionList.size()));
             firstLabelList.add(0,questionLabelDto);
@@ -235,7 +235,9 @@ public class IpoFeedbackService extends BaseService {
         List<IpoFeedbackDto> resultList = new ArrayList<>();
         IpoFeedbackDto resultDto = new IpoFeedbackDto();
         //从云端查询标一二级标签
-        Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap();
+        Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap("");
+        //如果存在一级标签，则查询一级标签下的二级标签
+        Map<String, Map<String, String>> secondSelLabelMap = ipoFeedbackMapper.selectSecondLabelMap(firstLabelId);
         //定义问题标签集合
         List<IpoQuestionLabelDto> secondLabelList = new ArrayList<>();
         //将二级标签用逗号分隔为数组
@@ -274,6 +276,14 @@ public class IpoFeedbackService extends BaseService {
                 searchServer.searchWithFacet("letterqa", queryInfo, IpoFeedbackIndexDto.class);
         List<StatisticsField> labelList =
                 facetResult.getStatisticsFieldMap().get("letter_question_class_new_id_txt");
+        List<IpoFeedbackIndexDto> questionList = facetResult.getPage().getData();
+        //如果选择一级标签全部，二级标签的全部要特殊处理
+        if (firstLabelId.equals("")) {
+            IpoQuestionLabelDto allLabelDto = new IpoQuestionLabelDto();
+            allLabelDto.setLabelName("全部");
+            allLabelDto.setLabelCount(String.valueOf(questionList.size()));
+            secondLabelList.add(0, allLabelDto);
+        }
         //循环标签，将标签个数赋值
         for (StatisticsField labelDto : labelList) {
             //如果标签id等于父id,则将此标签统计个数赋值给全部标签
@@ -284,16 +294,15 @@ public class IpoFeedbackService extends BaseService {
                 secondLabelList.add(0, allLabelDto);
             }
 
-            if (null != secondLabelMap.get(labelDto.getFieldId())) {
+            if (null != secondSelLabelMap.get(labelDto.getFieldId())) {
                 IpoQuestionLabelDto questionLabelDto = new IpoQuestionLabelDto();
                 questionLabelDto.setLabelCode(labelDto.getFieldId());
-                questionLabelDto.setLabelName(secondLabelMap.get(labelDto.getFieldId()).get("letterClassName"));
+                questionLabelDto.setLabelName(secondSelLabelMap.get(labelDto.getFieldId()).get("letterClassName"));
                 questionLabelDto.setLabelCount(String.valueOf(labelDto.getCount()));
                 secondLabelList.add(questionLabelDto);
             }
         }
         resultDto.setQuestionLabelList(secondLabelList);
-        List<IpoFeedbackIndexDto> questionList = facetResult.getPage().getData();
         //定义一个问题列表数组
         List<IpoFeedbackQuestionDto> questionResultList = new ArrayList<>();
         int questionCount = questionList.size();

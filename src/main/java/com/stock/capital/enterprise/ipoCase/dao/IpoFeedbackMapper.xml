@@ -261,7 +261,11 @@
         <result column="letter_class_name" property="letterClassName"/>
     </resultMap>
     <select id="selectSecondLabelMap" resultMap="secondLabelResult">
-        select id,letter_class_name from letter_class t1 where t1.`level` = 1 order by t1.sort
+        select id,letter_class_name from letter_class t1 where t1.`level` = 1
+        <if test="firstLabelId != null and firstLabelId != ''">
+          and t1.parent_id = #{firstLabelId}
+        </if>
+        order by t1.sort
     </select>
 
     <select id="selectPublicProcess" parameterType="java.lang.String" resultType="java.lang.String">
