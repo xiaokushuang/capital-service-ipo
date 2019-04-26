@@ -36,6 +36,7 @@ import org.springframework.web.context.support.ServletContextResource;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.stock.capital.enterprise.api.financeStatistics.dao.FinanceStatisticsBizMapper;
 import com.stock.capital.enterprise.api.financeStatistics.dto.BondStatisticsIndexDto;
 import com.stock.capital.enterprise.api.financeStatistics.dto.FinanceDataDto;
 import com.stock.capital.enterprise.api.financeStatistics.dto.FinanceParamDto;
@@ -78,6 +79,9 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
     public void setServletContext(ServletContext servletContext) {
     this.servletContext = servletContext;
     }
+    
+    @Autowired
+    private FinanceStatisticsBizMapper financeStatisticsBizMapper;
     
     /**
      * 融资统计-证券发行图表数据
@@ -272,8 +276,10 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                 }
                 facetField = "finance_cityname_s";
                 resultSum = searchWithStatsInfo(facetField, conditionsStr,"1");
+                resultSum = areaString(resultSum);
+                resultSum = addProvincesData(resultSum);//补齐省份的数据
                 Map<String, Object> dataMap = new HashMap<String, Object>();
-                dataMap.put("dataSum", areaString(resultSum));
+                dataMap.put("dataSum", resultSum);
                 result.add(dataMap);
                 
                 //得到证券行业分布图右侧列表数据
@@ -426,7 +432,14 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                 resultSum = searchWithStatsInfo(facetField, conditionsStr,"2");
                 Map<String, Object> dataMap = new HashMap<String, Object>();
                 dataMap.put("dataSum", areaString(resultSum));
-                result.add(dataMap); 
+                result.add(dataMap);
+                //补齐省份的数据
+                Map<String, Object> chartDataMap = new HashMap<String, Object>();
+                List<Map<String, Object>> resultTotalSum = new ArrayList<Map<String, Object>>();
+                resultTotalSum = searchWithStatsInfo(facetField, conditionsStr,"2");
+                resultTotalSum = addProvincesData(areaString(resultTotalSum));
+                chartDataMap.put("dataSum", resultTotalSum);
+                result.add(chartDataMap); 
             }
         }
         logger.debug("*******getResearchBondDataInfo*******DATA ： {}", JsonUtil.toJson(result));
@@ -1002,5 +1015,27 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
         }
         
         return ret;
+    }
+    
+    /**
+     * 地图查询结果,补足值为空的省份名字
+     *
+     */
+    private List<Map<String, Object>> addProvincesData(List<Map<String, Object>> map) {
+        List<String> provincesList = financeStatisticsBizMapper.getProvincesMap();
+        List<String> list =new ArrayList<String>();
+        for(Map<String, Object> map1 : map) {
+            list.add(map1.get("name").toString());
+        }
+        provincesList.removeAll(list);
+        if(provincesList.size() > 0) {
+            Map<String, Object> dataMap = Maps.newHashMap();
+            for(String name : provincesList) {
+                dataMap = new HashMap<String, Object>();
+                dataMap.put("name", name);
+                map.add(dataMap);
+            }
+        }
+        return map;
     }
 }

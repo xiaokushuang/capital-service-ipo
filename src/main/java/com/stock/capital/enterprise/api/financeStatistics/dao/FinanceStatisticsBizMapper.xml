@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.capital.enterprise.api.financeStatistics.dao.FinanceStatisticsBizMapper">
+<select id="getProvincesMap" resultType="String">
+    select case when t.area_name = '台湾省' then LEFT(t.area_name,'2')
+           else t.area_name end as name
+    from provinces t
+    where (t.parent_id is null or t.parent_id = '') and t.area_name != '香港特别行政区' and t.area_name != '澳门特别行政区'
+</select>
+</mapper>

@@ -165,15 +165,15 @@ export default {
     data0(){
         return this.tableData.length>0?this.tableData[0].dataSum:[]
     },
-    data2(){
-        return this.tableData.length>0?this.tableData[2].dataSum:[]
-    },
-    data3(){
-        return this.tableData.length>0?this.tableData[3].dataSum:[]
-    },
-    data4(){
-        return this.tableData.length>0?this.tableData[4].dataSum:[]
-    }
+    // data2(){
+    //     return this.tableData.length>0?this.tableData[2].dataSum:[]
+    // },
+    // data3(){
+    //     return this.tableData.length>0?this.tableData[3].dataSum:[]
+    // },
+    // data4(){
+    //     return this.tableData.length>0?this.tableData[4].dataSum:[]
+    // }
   },
   mounted() {
     //页面加载完成时刷新echart图表
