@@ -51,58 +51,57 @@
                 </span>
               </span>
             </div>
-<<<<<<< HEAD
-          </div>
-        </div>
-    <div id="concentBody" style="width:1200px;margin: 0 auto;" class="ipoContainer">
-        <el-row :gutter="24" class="h100">
-            <el-col :span="18" class="chart" style="padding:0 40px 0 0">
-                <div class='chart-container'>
-                    <div class="el-tabs el-tabs--top" style="margin: 0 0 15px;width:100%">
-                        <div id="headerTop" :class="['is-top title-fix', {'is-fixed': isFixed}]" :style="isFixed ? 'position: fixed; left: 0px; top: 0px;' : ''">
-                          <!-- 吸顶效果 -->
-                            <div v-if="isFixed" :style="{ 'width': '70px','height': '40px', 'margin-top': 'auto','margin-right': '40px', 'margin-bottom': 'auto', 'margin-left': clientLeft}">
-                                <span style="font-size: 20px;color: #333;display: block;margin-bottom: 10px;">IPO</span>
-                                <span v-show="this.companyProfileList&&this.companyProfileList.companyName" style="font-size: 14px;color: #333;">{{this.companyProfileList.companyName}}</span>
-                            </div>
-                            <div :style="{width:isFixed?'55.7%':'100%'}">
-                              <!-- 菜单导航栏 -->
-                                <div class="el-tabs__nav-wrap is-top">
-                                    <div class="el-tabs__nav-scroll">
-                                        <div class="el-tabs__nav">
-                                            <div class="el-tabs__active-bar is-top" :style="{width: tabBarWidth + 'px', transform: 'translateX(' + tabBarOffset + 'px)'}"></div>
-                                            <div id="tab-first"  ref="tab-first"  aria-controls="pane-first"  :class="['el-tabs__item is-top', {'is-active': isActive === '1'}]" @click="onTabClick('1', $event)" style="padding-left: 0">公司概览</div>
-                                            <div id="tab-second" ref="tab-second" aria-controls="pane-second" :class="['el-tabs__item is-top', {'is-active': isActive === '2'}]" @click="onTabClick('2', $event)">财务信息</div>
-                                            <div v-if="headList.haveFeedback=='1'" id="tab-third"  ref="tab-third" class="el-tabs__item1" aria-controls="pane-third"  style="cursor:default;color:#adadad">
-                                              <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无反馈意见信息" placement="top" effect="light">
-                                                <el-button class="btnClass">反馈意见</el-button>
-                                              </el-tooltip>
-                                            </div>
-                                            <div v-if="headList.haveFeedback=='0'" id="tab-third"  ref="tab-third" aria-controls="pane-third"  :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]" @click="onTabClick('3', $event)">反馈意见</div>
-                                            <div v-if="headList.haveExamine=='1'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" class="el-tabs__item1" style="padding-right: 0;cursor:default;color:#adadad">
-                                               <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无审核结果及关注问题信息" placement="top" effect="light">
-                                                <el-button class="btnClass">审核结果及关注问题</el-button>
-                                              </el-tooltip>
-                                            </div>
-                                            <div v-if="headList.haveExamine=='0'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" :class="['el-tabs__item is-top', {'is-active': isActive === '4'}]" @click="onTabClick('4', $event)" style="padding-right: 0">审核结果及关注问题</div>
-                                            <div v-if="headList.havePublic=='1'" id="tab-fifth" ref="tab-fifth" aria-controls="pane-fifth" class="el-tabs__item1" style="padding-right: 0;cursor:default;color:#adadad">
-                                               <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无发行概况信息" placement="top" effect="light">
-                                                <el-button class="btnClass">发行概况</el-button>
-                                              </el-tooltip>
-                                            </div>
-                                            <div v-if="headList.havePublic=='0'" id="tab-fifth"  ref="tab-fifth"  aria-controls="pane-fifth"  :class="['el-tabs__item is-top', {'is-active': isActive === '5'}]" @click="onTabClick('5', $event)">发行概况</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 菜单栏下面的小分类 -->
-                                <!-- 1 -->
-                                <div id="title-first" class="title-body" v-show="isActive == '1'">
-                                    <span v-for="(item, index) in tabFirstList">
-                                        <a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveFirst === item.id}, {'disabled': item.noClick}]" :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 1)">{{item.name}}</a>
-                                        <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFirstList.length - 1">|</span>
-                                    </span>
-                                </div>
-                                         <!-- 2 -->
+         </div>
+      </div>
+      <div id="concentBody" style="width:1200px;margin: 0 auto;" class="ipoContainer">
+          <el-row :gutter="24" class="h100">
+              <el-col :span="18" class="chart" style="padding:0 40px 0 0">
+                  <div class='chart-container'>
+                      <div class="el-tabs el-tabs--top" style="margin: 0 0 15px;width:100%">
+                          <div id="headerTop" :class="['is-top title-fix', {'is-fixed': isFixed}]" :style="isFixed ? 'position: fixed; left: 0px; top: 0px;' : ''">
+                            <!-- 吸顶效果 -->
+                              <div v-if="isFixed" :style="{ 'width': '70px','height': '40px', 'margin-top': 'auto','margin-right': '40px', 'margin-bottom': 'auto', 'margin-left': clientLeft}">
+                                  <span style="font-size: 20px;color: #333;display: block;margin-bottom: 10px;">IPO</span>
+                                  <span v-show="this.companyProfileList&&this.companyProfileList.companyName" style="font-size: 14px;color: #333;">{{this.companyProfileList.companyName}}</span>
+                              </div>
+                              <div :style="{width:isFixed?'55.7%':'100%'}">
+                                <!-- 菜单导航栏 -->
+                                  <div class="el-tabs__nav-wrap is-top">
+                                      <div class="el-tabs__nav-scroll">
+                                          <div class="el-tabs__nav">
+                                              <div class="el-tabs__active-bar is-top" :style="{width: tabBarWidth + 'px', transform: 'translateX(' + tabBarOffset + 'px)'}"></div>
+                                              <div id="tab-first"  ref="tab-first"  aria-controls="pane-first"  :class="['el-tabs__item is-top', {'is-active': isActive === '1'}]" @click="onTabClick('1', $event)" style="padding-left: 0">公司概览</div>
+                                              <div id="tab-second" ref="tab-second" aria-controls="pane-second" :class="['el-tabs__item is-top', {'is-active': isActive === '2'}]" @click="onTabClick('2', $event)">财务信息</div>
+                                              <div v-if="headList.haveFeedback=='1'" id="tab-third"  ref="tab-third" class="el-tabs__item1" aria-controls="pane-third"  style="cursor:default;color:#adadad">
+                                                <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无反馈意见信息" placement="top" effect="light">
+                                                  <el-button class="btnClass">反馈意见</el-button>
+                                                </el-tooltip>
+                                              </div>
+                                              <div v-if="headList.haveFeedback=='0'" id="tab-third"  ref="tab-third" aria-controls="pane-third"  :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]" @click="onTabClick('3', $event)">反馈意见</div>
+                                              <div v-if="headList.haveExamine=='1'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" class="el-tabs__item1" style="padding-right: 0;cursor:default;color:#adadad">
+                                                <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无审核结果及关注问题信息" placement="top" effect="light">
+                                                  <el-button class="btnClass">审核结果及关注问题</el-button>
+                                                </el-tooltip>
+                                              </div>
+                                              <div v-if="headList.haveExamine=='0'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" :class="['el-tabs__item is-top', {'is-active': isActive === '4'}]" @click="onTabClick('4', $event)" style="padding-right: 0">审核结果及关注问题</div>
+                                              <div v-if="headList.havePublic=='1'" id="tab-fifth" ref="tab-fifth" aria-controls="pane-fifth" class="el-tabs__item1" style="padding-right: 0;cursor:default;color:#adadad">
+                                                <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无发行概况信息" placement="top" effect="light">
+                                                  <el-button class="btnClass">发行概况</el-button>
+                                                </el-tooltip>
+                                              </div>
+                                              <div v-if="headList.havePublic=='0'" id="tab-fifth"  ref="tab-fifth"  aria-controls="pane-fifth"  :class="['el-tabs__item is-top', {'is-active': isActive === '5'}]" @click="onTabClick('5', $event)">发行概况</div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <!-- 菜单栏下面的小分类 -->
+                                  <!-- 1 -->
+                                  <div id="title-first" class="title-body" v-show="isActive == '1'">
+                                      <span v-for="(item, index) in tabFirstList">
+                                          <a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveFirst === item.id}, {'disabled': item.noClick}]" :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 1)">{{item.name}}</a>
+                                          <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFirstList.length - 1">|</span>
+                                      </span>
+                                  </div>
+                                  <!-- 2 -->
                                   <div id="title-second" class="title-body" v-show="isActive == '2'">
                                     <span v-for="(item, index) in tabSecondList">
                                           <a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveSecond === item.id}, {'disabled': item.noClick}]" :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 2)">{{item.name}}</a>
