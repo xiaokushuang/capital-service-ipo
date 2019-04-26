@@ -44,7 +44,7 @@ export default {
         chart.resize();
       }
     },200);
-    this.initChart();
+    // this.initChart();
     this.chart = null;
     // console.log(this.chartData)
   },
@@ -159,7 +159,7 @@ export default {
               geoIndex: 0,
               // tooltip: {show: false},
               //data : data[0].dataSum
-              data: this.chartData[0].dataSum
+              data: this.chartData[1].dataSum
             }
           ]
         });

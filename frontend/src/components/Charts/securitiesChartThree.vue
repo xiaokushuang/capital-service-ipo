@@ -43,7 +43,7 @@ export default {
         chart.resize();
       }
     },200);
-    this.initChart();
+    // this.initChart();
     this.chart = null;
     // console.log(this.chartData)
   },
