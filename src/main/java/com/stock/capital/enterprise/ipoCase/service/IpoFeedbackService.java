@@ -130,7 +130,7 @@ public class IpoFeedbackService extends BaseService {
 
             //从云端查询标一二级标签
             Map<String, Map<String, String>> firstLabelMap = ipoFeedbackMapper.selectFirstLabelMap();
-            Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap();
+            Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap("");
 
             //从索引中查询分类个数
             Map<String, String> condition = Maps.newHashMap();
@@ -162,11 +162,27 @@ public class IpoFeedbackService extends BaseService {
                     questionLabelDto.setLabelCode(labelDto.getFieldId());
                     questionLabelDto.setLabelName(firstLabelMap.get(labelDto.getFieldId()).get("letterClassName"));
                     questionLabelDto.setLabelCount(String.valueOf(labelDto.getCount()));
+                    String sort = firstLabelMap.get(labelDto.getFieldId()).get("sort");
+                    if(StringUtils.isEmpty(sort)){
+                        sort = "1";
+                    }
+                    questionLabelDto.setSort(Integer.parseInt(sort));
                     firstLabelList.add(questionLabelDto);
                 }
             }
-            ipoFeedbackResultDto.setQuestionLabelList(firstLabelList);
+            //一级标签排序
+            firstLabelList.sort((IpoQuestionLabelDto c1, IpoQuestionLabelDto c2) ->
+                    (c1.getSort() > c2.getSort() ? 1 : (c1.getSort() == c2.getSort() ? 0 : -1)));
+
             List<IpoFeedbackIndexDto> questionList = facetResult.getPage().getData();
+            //一级标签添加全部标签
+            IpoQuestionLabelDto questionLabelDto = new IpoQuestionLabelDto();
+            questionLabelDto.setLabelCode(null);
+            questionLabelDto.setLabelName("全部");
+            questionLabelDto.setLabelCount(String.valueOf(questionList.size()));
+            firstLabelList.add(0, questionLabelDto);
+
+            ipoFeedbackResultDto.setQuestionLabelList(firstLabelList);
             //定义一个问题列表数组
             List<IpoFeedbackQuestionDto> questionResultList = new ArrayList<>();
             int questionCount = questionList.size();
@@ -227,23 +243,28 @@ public class IpoFeedbackService extends BaseService {
         List<IpoFeedbackDto> resultList = new ArrayList<>();
         IpoFeedbackDto resultDto = new IpoFeedbackDto();
         //从云端查询标一二级标签
-        Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap();
+        Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap("");
+        //如果存在一级标签，则查询一级标签下的二级标签
+        Map<String, Map<String, String>> secondSelLabelMap = ipoFeedbackMapper.selectSecondLabelMap(firstLabelId);
         //定义问题标签集合
         List<IpoQuestionLabelDto> secondLabelList = new ArrayList<>();
+        //将二级标签用逗号分隔为数组
+        List<String> secondLabelParamList = Arrays.asList(secondLabelIds.split(","));
         Map<String, String> condition = Maps.newHashMap();
         StringBuilder conditionsStr = new StringBuilder("index_type_t: \"letterqa\"");
         conditionsStr.append(" AND " + "letter_letter_id_t:");
         conditionsStr.append(letterId);
-        if (StringUtils.isNotEmpty(secondLabelIds)) {
-            //将二级标签用逗号分隔为数组
-            List<String> secondLabelParamList = Arrays.asList(secondLabelIds.split(","));
+
+        if (StringUtils.isNotEmpty(secondLabelIds) && CollectionUtils.isNotEmpty(secondLabelParamList)) {
             conditionsStr.append(" AND " + "letter_question_class_new_id_txt:(").append(secondLabelParamList.get(0));
             for (int i = 1; i < secondLabelParamList.size(); i++) {
                 conditionsStr.append(" OR ").append(secondLabelParamList.get(i));
             }
             conditionsStr.append(")");
-            conditionsStr.append(" AND " + "letter_question_class_new_id_txt:").append(firstLabelId);
-        } else if(StringUtils.isNotEmpty(firstLabelId)) {
+            if (StringUtils.isNotEmpty(firstLabelId)) {
+                conditionsStr.append(" AND " + "letter_question_class_new_id_txt:").append(firstLabelId);
+            }
+        } else if (StringUtils.isNotEmpty(firstLabelId)) {
             conditionsStr.append(" AND " + "letter_question_class_new_id_txt:");
             conditionsStr.append(firstLabelId);
         }
@@ -263,6 +284,15 @@ public class IpoFeedbackService extends BaseService {
                 searchServer.searchWithFacet("letterqa", queryInfo, IpoFeedbackIndexDto.class);
         List<StatisticsField> labelList =
                 facetResult.getStatisticsFieldMap().get("letter_question_class_new_id_txt");
+        List<IpoFeedbackIndexDto> questionList = facetResult.getPage().getData();
+        //如果选择一级标签全部，二级标签的全部要特殊处理
+        if (firstLabelId.equals("")) {
+            IpoQuestionLabelDto allLabelDto = new IpoQuestionLabelDto();
+            allLabelDto.setLabelName("全部");
+            allLabelDto.setLabelCount(String.valueOf(questionList.size()));
+            allLabelDto.setSort(0);
+            secondLabelList.add(0, allLabelDto);
+        }
         //循环标签，将标签个数赋值
         for (StatisticsField labelDto : labelList) {
             //如果标签id等于父id,则将此标签统计个数赋值给全部标签
@@ -270,19 +300,27 @@ public class IpoFeedbackService extends BaseService {
                 IpoQuestionLabelDto allLabelDto = new IpoQuestionLabelDto();
                 allLabelDto.setLabelName("全部");
                 allLabelDto.setLabelCount(String.valueOf(labelDto.getCount()));
+                allLabelDto.setSort(0);
                 secondLabelList.add(0, allLabelDto);
             }
 
-            if (null != secondLabelMap.get(labelDto.getFieldId())) {
+            if (null != secondSelLabelMap.get(labelDto.getFieldId())) {
                 IpoQuestionLabelDto questionLabelDto = new IpoQuestionLabelDto();
                 questionLabelDto.setLabelCode(labelDto.getFieldId());
-                questionLabelDto.setLabelName(secondLabelMap.get(labelDto.getFieldId()).get("letterClassName"));
+                questionLabelDto.setLabelName(secondSelLabelMap.get(labelDto.getFieldId()).get("letterClassName"));
                 questionLabelDto.setLabelCount(String.valueOf(labelDto.getCount()));
+                String sort = secondSelLabelMap.get(labelDto.getFieldId()).get("sort");
+                if(StringUtils.isEmpty(sort)){
+                    sort = "1";
+                }
+                questionLabelDto.setSort(Integer.parseInt(sort));
                 secondLabelList.add(questionLabelDto);
             }
         }
+        //二级标签排序
+        secondLabelList.sort((IpoQuestionLabelDto c1, IpoQuestionLabelDto c2) ->
+                (c1.getSort() > c2.getSort() ? 1 : (c1.getSort() == c2.getSort() ? 0 : -1)));
         resultDto.setQuestionLabelList(secondLabelList);
-        List<IpoFeedbackIndexDto> questionList = facetResult.getPage().getData();
         //定义一个问题列表数组
         List<IpoFeedbackQuestionDto> questionResultList = new ArrayList<>();
         int questionCount = questionList.size();

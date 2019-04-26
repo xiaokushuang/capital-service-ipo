@@ -1,17 +1,16 @@
 <template>
-<div style="overflow-x:hidden">
-   <div style="width: 100%;height: 46px;background: #343b4a;line-height: 46px;">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAaCAYAAABPY4eKAAABS2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDIgNzkuMTYwOTI0LCAyMDE3LzA3LzEzLTAxOjA2OjM5ICAgICAgICAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIi8+CiA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgo8P3hwYWNrZXQgZW5kPSJyIj8+nhxg7wAAAexJREFUSInFlj1rVFEQhp9JYiSia0RELURBEMTKiKJFRNBCLGxErf0DQgptxEJMsBBU8gsUUlgZBBsLxUJtouBXodGAxMJCQkIQiZHNY3EneBGMe7PL5m2GOWfeeeZyOYcT6nngCHAUqFHoJfAdmMm8BqwGeoENwDfgPfAcGI2ISZqRul2ds9DGJepWqX3qBXVcXVDvqTubHeBVwnsbrO9Wr6VnVj3eDPxJFXjJdyl9P9R97YaH+ji979TOtsHTu98/OtWIp6PyhP9QRIwBbzI93VZ46mHGAysBf5txy0rAv2bsUf/bu9VwM85HxEK74Ys345dGilsN78v4YiXgxzLer+xs8pLpS++k2t2IpyVfrgZwI9OBiJhfTpPl3u2D6bteGVpq8jSbbG6wvku9pdbVy1V5XX/lWzNeVGeATmAa+ACMRcRUQjuAk8AgMAccjohnVeGRzdYBV4CBXJ8GRoAJYA2wg+IY9eZeDRgDbkfEo6rQRXWpN4FNwFrgTmmvBuwFFoBZiuPzGdgFnAW6gboaESHtktqjDqnz6oR6Vd3TtgFyiN3qg9Ij4pM6rJ5o5MREi4boB4aA/vIyxfP6NTAOTFI8xesUv3RbK9jlIQ6qd9WfLq26eqal8NIQ69Vz6oj6Uf2V0Cl1VD0E8BuLL6cTC+UXbQAAAABJRU5ErkJggg=="
-           style="height: 20px;padding-left: 16px;vertical-align: middle;">
-        <p style="display:inline-block;margin:0px;">
-            <span style="color:#ffffff;margin-left:8px;font-size: 14px;opacity:0.8">易董</span><span style="font-size:16px;color:#ffffff;opacity:0.18;margin-left: 16px">|</span><span style="color:#ffffff;opacity:0.8;font-size: 14px;margin-left: 16px">IPO详情</span>
-        </p>
-    </div>
+  <div style="overflow-x:hidden">
+  <!-- 易董头条 -->
+      <div style="width: 100%;height: 46px;background: #343b4a;line-height: 46px;">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAaCAYAAABPY4eKAAABS2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDIgNzkuMTYwOTI0LCAyMDE3LzA3LzEzLTAxOjA2OjM5ICAgICAgICAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIi8+CiA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgo8P3hwYWNrZXQgZW5kPSJyIj8+nhxg7wAAAexJREFUSInFlj1rVFEQhp9JYiSia0RELURBEMTKiKJFRNBCLGxErf0DQgptxEJMsBBU8gsUUlgZBBsLxUJtouBXodGAxMJCQkIQiZHNY3EneBGMe7PL5m2GOWfeeeZyOYcT6nngCHAUqFHoJfAdmMm8BqwGeoENwDfgPfAcGI2ISZqRul2ds9DGJepWqX3qBXVcXVDvqTubHeBVwnsbrO9Wr6VnVj3eDPxJFXjJdyl9P9R97YaH+ji979TOtsHTu98/OtWIp6PyhP9QRIwBbzI93VZ46mHGAysBf5txy0rAv2bsUf/bu9VwM85HxEK74Ys345dGilsN78v4YiXgxzLer+xs8pLpS++k2t2IpyVfrgZwI9OBiJhfTpPl3u2D6bteGVpq8jSbbG6wvku9pdbVy1V5XX/lWzNeVGeATmAa+ACMRcRUQjuAk8AgMAccjohnVeGRzdYBV4CBXJ8GRoAJYA2wg+IY9eZeDRgDbkfEo6rQRXWpN4FNwFrgTmmvBuwFFoBZiuPzGdgFnAW6gboaESHtktqjDqnz6oR6Vd3TtgFyiN3qg9Ij4pM6rJ5o5MREi4boB4aA/vIyxfP6NTAOTFI8xesUv3RbK9jlIQ6qd9WfLq26eqal8NIQ69Vz6oj6Uf2V0Cl1VD0E8BuLL6cTC+UXbQAAAABJRU5ErkJggg=="
+            style="height: 20px;padding-left: 16px;vertical-align: middle;">
+          <p style="display:inline-block;margin:0px;">
+              <span style="color:#ffffff;margin-left:8px;font-size: 14px;opacity:0.8">易董</span><span style="font-size:16px;color:#ffffff;opacity:0.18;margin-left: 16px">|</span><span style="color:#ffffff;opacity:0.8;font-size: 14px;margin-left: 16px">IPO详情</span>
+          </p>
+      </div>
      <!-- IPO标题头部 -->
-      <div  ref="titleHeader"
-      id="titleHeader"
-      style="width: 100%;height: 140px;position: relative">
-       <div :style="{'padding-left':headList.iecResult == null?'0px':'97px','width':'1200px','position':'absolute','left': '50%','top':'50%', 'transform': 'translate(-50%,-50%)'}">
+      <div  ref="titleHeader"  id="titleHeader" style="width: 100%;height: 140px;position: relative">
+         <div :style="{'padding-left':headList.iecResult == null?'0px':'97px','width':'1200px','position':'absolute','left': '50%','top':'50%', 'transform': 'translate(-50%,-50%)'}">
             <div class="imgMark" style="position: absolute; z-index: 2;left: 5%;top:50%; transform: translate(-50%,-50%);z-index: 2">
                 <div v-if="headList.iecResult&&headList.iecResult == '00'" >
                   <img src="../../assets/images/htg1.png" alt="">
@@ -24,6 +23,9 @@
                 </div>
                 <div v-if="headList.iecResult&&headList.iecResult == '03'">
                   <img src="../../assets/images/qxsh1.png" alt="">
+                </div>
+                <div v-if="headList.iecResult&&headList.iecResult == '04'">
+                  <img src="../../assets/images/dsh1.png" alt="">
                 </div>
             </div>
             <div class="text" style="position:relative;z-index: 4">
@@ -49,9 +51,10 @@
                 </span>
               </span>
             </div>
+<<<<<<< HEAD
           </div>
         </div>
-    <div id="concentBody" style="width:1200px;margin: 0 auto;">
+    <div id="concentBody" style="width:1200px;margin: 0 auto;" class="ipoContainer">
         <el-row :gutter="24" class="h100">
             <el-col :span="18" class="chart" style="padding:0 40px 0 0">
                 <div class='chart-container'>
@@ -99,73 +102,67 @@
                                         <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFirstList.length - 1">|</span>
                                     </span>
                                 </div>
-                                <!-- 2 -->
-                                <div id="title-second" class="title-body" v-show="isActive == '2'">
-                                  <span v-for="(item, index) in tabSecondList">
-                                        <a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveSecond === item.id}, {'disabled': item.noClick}]" :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 2)">{{item.name}}</a>
-                                        <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabSecondList.length - 1">|</span>
-                                  </span>
-                                </div>
-                                <!-- 3 -->
-                                <div id="title-third" class="title-body" v-show="isActive == '3'"><br/>
-                                </div>
-                                <!-- 4 -->
-                                <div id="title-fourth" class="title-body" v-show="isActive == '4'"><br/>
-                                </div>
-                                <!-- 5 -->
-                                <div id="title-fifth" class="title-body" v-show="isActive == '5'">
-                                    <span v-for="(item, index) in tabFifthList">
-                                        <a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveFifth === item.id}, {'disabled': item.noClick}]" :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 5)">{{item.name}}</a>
-                                        <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFifthList.length - 1">|</span>
+                                         <!-- 2 -->
+                                  <div id="title-second" class="title-body" v-show="isActive == '2'">
+                                    <span v-for="(item, index) in tabSecondList">
+                                          <a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveSecond === item.id}, {'disabled': item.noClick}]" :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 2)">{{item.name}}</a>
+                                          <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabSecondList.length - 1">|</span>
                                     </span>
-                                </div>
-                                </div>
-                            </div>
-                            <!-- 点击不同菜单展示不同下面内容 -->
-                            <div class="el-tabs__content">
-                                <!-- 动态加载tab -->
+                                  </div>
+                                  <!-- 3 -->
+                                  <div id="title-third" class="title-body" v-show="isActive == '3'"><br/>
+                                  </div>
+                                  <!-- 4 -->
+                                  <div id="title-fourth" class="title-body" v-show="isActive == '4'"><br/>
+                                  </div>
+                                  <!-- 5 -->
+                                  <div id="title-fifth" class="title-body" v-show="isActive == '5'">
+                                      <span v-for="(item, index) in tabFifthList">
+                                          <a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveFifth === item.id}, {'disabled': item.noClick}]" :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 5)">{{item.name}}</a>
+                                          <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFifthList.length - 1">|</span>
+                                      </span>
+                                  </div>
+                              </div>
+                          </div>
+                          <!-- 点击不同菜单展示不同下面内容 -->
+                          <div class="el-tabs__content">
+                              <!-- 动态加载tab -->
                               <keep-alive>
                                 <component :is = "showComponent" id="componentId" v-on:headCallBack="headCall" :companyProfileList="this.companyProfileList"></component>
                               </keep-alive>
-                            </div>
-                        </div>
-                    </div>
-            </el-col>
-            <el-col :span="6" class="chart" style="position:relative;padding-top: 6px;">
-                <div class="headClass">
-                    <el-row>
-                        <el-col :span="14">
-                            <span>IPO进程</span>
-                        </el-col>
-                        <span v-if="statusButtonFlag == '1'">
-                            <el-col :span="5" style="text-align: right;">
-                              <span class="mmpClass" v-if="expandAllflag" @click="expandAll(false)">收起全部</span>
-                              <span class="mmpClass" v-else @click="expandAll(true)">展开全部</span>
-                            </el-col>
-                            <el-col :span="1">
+                          </div>
+                      </div>
+                  </div>
+              </el-col>
+              <el-col :span="6" class="chart" style="position:relative;padding-top: 6px;">
+                  <div class="headClass">
+                      <el-row>
+                          <el-col :span="14">
+                              <span>IPO进程</span>
+                          </el-col>
+                          <span v-if="statusButtonFlag == '1'">
+                              <el-col :span="5" style="text-align: right;">
+                                <span class="mmpClass" v-if="expandAllflag" @click="expandAll(false)">收起全部</span>
+                                <span class="mmpClass" v-else @click="expandAll(true)">展开全部</span>
+                              </el-col>
+                              <el-col :span="1">
                                 <span style="text-align: center;color: #14bcf5;padding-left: 4px;">|</span>
-                            </el-col>
-                            <el-col :span="4">
+                              </el-col>
+                              <el-col :span="4">
                                 <span class="mmpClass" v-if="flag =='1'" @click="sortTime('02')">排序 ↓</span>
                                 <span class="mmpClass" v-else @click="sortTime('01')">排序 ↑</span>
-                            </el-col>
-                        </span>
-                     </el-row>
-                 </div>
-                    <span style="padding: 0px;">
-                        <processTree ref="rightModule" @statusButtonClick="statusButtonClick" :caseId="caseId"
-                        ></processTree>
-                    </span>
-                </el-col>
-    <el-col :span="24">
-        <!-- <a href="#top1"  title="回到顶部">11111</a> -->
-        <!-- <a href="javascript:scroll(0, 0)" title="返回顶部">返回顶部</a> -->
-    </el-col>
-    </el-row>
+                              </el-col>
+                          </span>
+                      </el-row>
+                  </div>
+                  <span style="padding: 0px;">
+                    <processTree ref="rightModule" :caseId="caseId"></processTree>
+                  </span>
+              </el-col>
+          </el-row>
+      </div>
   </div>
-</div>
 </template>
-
 <script>
 import { getHeadData } from "@/api/ipoCase/companyProfile";
 import { getCaseDetail } from "@/api/ipoCase/companyProfile";
@@ -212,8 +209,6 @@ export default {
         {
           id:'1',
           name:'股权结构图',
-          // tabId: 'tab-first',
-          // noClick: false
         },
          {
           id:'2',
@@ -245,14 +240,9 @@ export default {
           id:'2',
           name:'同行业毛利率对比'
         },
-
       ],
-      tabThreeList: [
-
-      ],
-      tabFourthList: [
-
-      ],
+      tabThreeList: [],
+      tabFourthList: [],
       tabFifthList:[
          {
           id:'1',
@@ -262,7 +252,6 @@ export default {
           id:'2',
           name:'发行费用'
         },
-
       ],
       isActive: "1",
       tabBarWidth: "",
@@ -309,6 +298,7 @@ export default {
     };
   },
   methods: {
+    // 初始化数据
     initTableData() {
        // 动态传id
       const param = {
@@ -328,14 +318,12 @@ export default {
           }
       });
     },
-    statusButtonClick(data) {
-      this.statusButtonFlag = data;
-    },
     // 展开全部
     expandAll(flag) {
       this.expandAllflag = !this.expandAllflag
       this.$refs.rightModule.expandAlltoC(flag);
     },
+    // 排序
     sortTime(sortType) {
       if(sortType == '02'){
         this.flag = "0";
@@ -346,23 +334,12 @@ export default {
       }
       this.$refs.rightModule.orderByProcess(sortType)
     },
-    handleClick() {
-      if (this.activeName == "fourth") {
-        this.$refs.comshow.changeCart();
-      }
-    },
-    //鼠标移入不能点击的tab弹出tip
-    onTabNoClick(flag){
-      if(flag == '3'){
-        console.log('3')
-      }
-      if(flag == '4'){
-        console.log('4')
-      }
-    },
+    // 点击tab导航栏
     onTabClick(isActive, event) {
             let that = this
+            // tabs标签页焦点
             this.isActive = isActive;
+            // 控制tabs标签的下边边框长度和位置
             if (isActive === '1' || isActive === '4') {
                 this.tabBarWidth = event.currentTarget.offsetWidth - 20;
             } else {
@@ -373,17 +350,21 @@ export default {
             } else {
                 this.tabBarOffset = event.currentTarget.offsetLeft;
             }
+            // 切换tab页，锚点定位
             let targetList
             setTimeout(function () {
                 switch (isActive) {
                     case '1':
+                    // 公司概览
+                        that.showComponent = companyProfile
                         that.$refs.rightModule.treeListMethods(false);
                         targetList = document.getElementById('title-first').children;
                         let firstFlag = 0;
-                        that.showComponent = companyProfile
                         for (let i = 0; i < targetList.length; i++) {
                             if ((that.itemActiveFirst + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
-                                document.documentElement.scrollTop = document.getElementById(that.itemActiveFirst).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
+                              that.$nextTick(()=>{
+                                document.documentElement.scrollTop = document.getElementById(that.itemActiveFirst).offsetTop + document.getElementById('titleHeader').offsetHeight - 50;
+                              })
                                 firstFlag = 1;
                             }
                         }
@@ -395,15 +376,16 @@ export default {
                         }
                         break
                     case '2':
+                    // 财务信息
+                        that.showComponent = financialInformation
                         that.$refs.rightModule.treeListMethods(false);
                         targetList = document.getElementById('title-second').children;
                         let secondFlag = 0;
-                        that.showComponent = financialInformation
-                        // that.$refs.finance.creatEchart()
-                        // alert("111")
                         for (let i = 0; i< targetList.length; i ++) {
                           if ((that.itemActiveSecond + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
-                            document.documentElement.scrollTop = document.getElementById(that.itemActiveSecond).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
+                            that.$nextTick(()=>{
+                              document.documentElement.scrollTop = document.getElementById(that.itemActiveSecond).offsetTop + document.getElementById('titleHeader').offsetHeight - 50;
+                            })
                             secondFlag = 1;
                           }
                         }
@@ -415,18 +397,11 @@ export default {
                         }
                         break
                     case '3':
+                    // 反馈意见【没有锚点定位】
+                        that.showComponent = feedback
                         that.$refs.rightModule.treeListMethods(false);
                         targetList = document.getElementById('title-third').children;
                         let thirdFlag = 0
-                        that.showComponent = feedback
-
-                        // 第三tab页暂不需要锚点定位先注掉
-                        // for (let i = 0; i < targetList.length; i++) {
-                        //     if ((that.itemActiveThird + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
-                        //         document.documentElement.scrollTop = document.getElementById(that.itemActiveThird).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
-                        //         thirdFlag = 1;
-                        //     }
-                        // }
                         if (thirdFlag === 0) {
                             var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
                             if (document.documentElement.scrollTop > scrollhight) {
@@ -435,18 +410,11 @@ export default {
                         }
                         break
                     case '4':
+                    // 审核结果及关注问题【没有锚点定位】
+                        that.showComponent = result
                         that.$refs.rightModule.treeListMethods(false);
                         targetList = document.getElementById('title-fourth').children;
                         let fourthFlag = 0
-                        that.showComponent = result
-
-                        // 第四tab页暂不需要锚点定位先注掉
-                        // for (let i = 0; i < targetList.length; i++) {
-                        //     if ((that.itemActiveFourth + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
-                        //         document.documentElement.scrollTop = document.getElementById(that.itemActiveFourth).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
-                        //         fourthFlag = 1
-                        //     }
-                        // }
                         if (fourthFlag === 0) {
                             var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
                             if (document.documentElement.scrollTop > scrollhight) {
@@ -455,17 +423,18 @@ export default {
                         }
                         break
                          case '5':
+                        //  发行概况
+                        that.showComponent = issue
                         //  最后tab页形态不一样
                         that.$refs.rightModule.treeListMethods(true);
                         targetList = document.getElementById('title-fifth').children;
                         let fifthFlag = 0;
-
-                        that.showComponent = issue
                         // 点击最后tab页，进程树展示不同内容
-
                         for (let i = 0; i < targetList.length; i++) {
                             if ((that.itemActiveFifth + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
-                                document.documentElement.scrollTop = document.getElementById(that.itemActiveFifth).offsetTop + document.getElementById('titleHeader').offsetHeight + 56;
+                              that.$nextTick(()=>{
+                                document.documentElement.scrollTop = document.getElementById(that.itemActiveFifth).offsetTop + document.getElementById('titleHeader').offsetHeight - 50;
+                              })
                                 fifthFlag = 1;
                             }
                         }
@@ -479,20 +448,15 @@ export default {
                     default:
                         break
                 }
-            }, 100);
+            }, 0);
 
         },
+    // 滑轮滚动，顶部固定定位
     handleScroll() {
-      let scrollTop =
-        window.parent.pageYOffset ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop;
+      let scrollTop = window.parent.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
       let offsetTop = document.querySelector("#titleHeader").offsetHeight + 10;
       let fixBody = document.querySelector("#headerTop").offsetHeight + 10;
-      let clientLeft = window.getComputedStyle(
-        document.querySelector("#concentBody"),
-        null
-      )["margin-left"];
+      let clientLeft = window.getComputedStyle( document.querySelector("#concentBody"), null)["margin-left"];
       this.scrollTop = scrollTop;
       if (scrollTop > offsetTop) {
         this.isFixed = true;
@@ -504,8 +468,8 @@ export default {
         this.headerFix = false;
       }
     },
+    // 用于锚点定位【从子组件里传过来的值】[子传父]
     headCall(param) {
-      // debugger;
       if (param != null && param != undefined && param.length > 0) {
         switch (param[0].tabId) {
           case "tab-first":
@@ -522,50 +486,39 @@ export default {
         }
       }
     },
+    // 点击锚点跳转
     jump(param, num) {
-            document.documentElement.scrollTop = document.getElementById(param).offsetTop + document.getElementById('titleHeader').offsetHeight - 100 ;
-            switch (num) {
-                case 1:
-                    this.itemActiveFirst = param;
-                    break
-                case 2:
-                    this.itemActiveSecond = param;
-                    break
-                case 5:
-                    this.itemActiveFifth = param;
-                    break
-                default:
-                    break
-            }
-        },
-
-    styleInit() {
-      // var h1 = this.$refs.titleHeader.offsetHeight;
-      // var h2 = this.$refs.titleBody.offsetHeight;
-      // this.topHeight = (parseInt(String(h1).split("px")[0]) - parseInt(String(h2).split("px")[0])) / 2;
-
+        document.documentElement.scrollTop = document.getElementById(param).offsetTop + document.getElementById('titleHeader').offsetHeight - 50 ;
+        switch (num) {
+            case 1:
+                this.itemActiveFirst = param;
+                break
+            case 2:
+                this.itemActiveSecond = param;
+                break
+            case 5:
+                this.itemActiveFifth = param;
+                break
+            default:
+                break
+        }
     },
+    // 鼠标移入大标题展示全部内容
     mouseOverSpreadTitle(title){
         if(title.length>73){
             $(".dialogtitle").attr("title",title)
-            $(".dialogtitle").css({"cursor":"pointer"})
         }else{
             $(".dialogtitle").removeAttr("title",title)
-            $(".dialogtitle").css({"cursor":"auto"})
         }
     },
-   getTitle(title){
-     if(title.length>73){
-       return title.substring(0,73) + '...'
-     }else{
-       return title
-     }
-   },
-  },
-  computed: {
-  },
-
-  props: {
+    // 标题最多只展示2行字
+    getTitle(title){
+      if(title.length>73){
+        return title.substring(0,72) + '...'
+      }else{
+        return title
+      }
+    },
   },
   watch: {
     caseId(n, o) {}
@@ -575,38 +528,6 @@ export default {
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
-    this.styleInit();
-    if (this.isActive === "1" || this.isActive === "4") {
-      if (this.isActive === "1") {
-        this.tabBarWidth =
-          document.getElementById("tab-first").offsetWidth - 20;
-      } else {
-        this.tabBarWidth =
-          document.getElementById("tab-fourth").offsetWidth - 20;
-      }
-    } else {
-      if (this.isActive === "2") {
-        this.tabBarWidth =
-          document.getElementById("tab-second").offsetWidth - 40;
-      } else {
-        this.tabBarWidth =
-          document.getElementById("tab-third").offsetWidth - 40;
-      }
-    }
-    if (this.isActive != "1") {
-      if (this.isActive === "2") {
-        this.tabBarOffset =
-          document.getElementById("tab-second").offsetLeft + 20;
-      } else if (this.isActive === "3") {
-        this.tabBarOffset =
-          document.getElementById("tab-third").offsetLeft + 20;
-      } else {
-        this.tabBarOffset =
-          document.getElementById("tab-fourth").offsetLeft + 20;
-      }
-    } else {
-      // this.tabBarOffset = document.getElementById$("tab-first").offsetLeft;
-    }
   }
 };
 </script>
@@ -646,21 +567,7 @@ export default {
 }
 /* 头部文字标题 */
 .bottomContent {
-  // width: 1200px;
   color: #fff;
-  // padding-left: 165px;
-  p {
-    // width: 66%;
-    // margin-bottom:12px;
-    // margin-top:10px;
-    // font-size: 22px;
-    // color: rgb(255, 255, 255);
-    // overflow: hidden;
-    // text-overflow: ellipsis;
-    // display: -webkit-box;
-    // -webkit-line-clamp: 2;
-    // -webkit-box-orient: vertical;
-  }
   .text {
     margin-bottom: 8px;
     margin-left:7px;
@@ -690,7 +597,6 @@ export default {
   position: relative;
   padding: 10px 0px 0px;
   width: 100%;
-  /* height:85vh; */
 }
 
 .dialogtitle {
@@ -701,54 +607,6 @@ export default {
     width: 75%;
     color: #333;
     padding-right: 12px;
-}
-
-
-#toTop {
-  /* display: none; */
-  position: fixed;
-  right: 10px;
-  bottom: 30px;
-  background-color: #b7b7b7;
-  height: 46px;
-  line-height: 40px;
-  width: 40px;
-  transition: all 0.4s ease 0.1s;
-}
-
-#toTop:hover {
-  background-color: #424242;
-}
-
-#toTop span {
-  position: relative;
-  /* 相对定位，以便其伪元素绝对定位 */
-  top: 5px;
-  left: 15px;
-  /* 变换为顺时针旋转 30°，通过数学角度计算后适当调整位置 */
-  display: inline-block;
-  width: 3px;
-  height: 20px;
-  background-color: #fff;
-  border-radius: 3px;
-  -webkit-transform: rotate(30deg);
-  -ms-transform: rotate(30deg);
-  transform: rotate(30deg);
-}
-
-#toTop span:after {
-  content: "";
-  position: absolute;
-  top: -5px;
-  left: 8px;
-  display: inline-block;
-  width: 3px;
-  height: 20px;
-  background-color: #fff;
-  border-radius: 3px;
-  -webkit-transform: rotate(-60deg);
-  -ms-transform: rotate(-60deg);
-  transform: rotate(-60deg);
 }
 
 .chart-container .el-tabs__item.is-active {
@@ -777,7 +635,6 @@ export default {
   padding-right: 12px;
 }
 
-/* ('el-tabs__active-bar')[0].style = 'width: 56px; transform: translateX(0px);' */
 .el-tabs__active-bar {
   width: 56px;
   transform: translateX(0px);
@@ -872,7 +729,6 @@ export default {
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
 }
-
 .disabled {
   color: #c1c1c1 !important;
   cursor: default !important;
@@ -895,7 +751,6 @@ export default {
   border:none;
   cursor:default;
   color:#adadad !important;
-  // color:#666;
   font-size:14px;
 }
 </style>

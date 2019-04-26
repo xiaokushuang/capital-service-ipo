@@ -1,5 +1,5 @@
 <template>
-  <div :class="className" :id="id" :style="{height:height,width:width}"></div>
+  <div style="padding-left:15px!important" :class="className" :id="id" :style="{height:height,width:width}"></div>
 </template>
 
 <script>
@@ -19,7 +19,7 @@ export default {
     },
     width: {
       type: String,
-      default: "100%"
+      default: "98%"
     },
     height: {
       type: String,
@@ -37,7 +37,13 @@ export default {
     };
   },
   mounted() {
-    this.initChart();
+    setTimeout(function (){
+      window.onresize = function () {
+        let chart = echarts.init(document.querySelector('#three'));
+        chart.resize();
+      }
+    },200);
+    // this.initChart();
     this.chart = null;
     // console.log(this.chartData)
   },

@@ -116,7 +116,7 @@ public class IpoExamineService extends BaseService {
         String orgCode = ipoFeedbackMapper.getOrgCode(id);
         IpoExamineDto resultDto = new IpoExamineDto();
         //从数据库查询所有二级标签
-        Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap();
+        Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap("");
         //查询发审会基础信息
         List<IpoExamineBaseDto> baseList = ipoExamineMapper.selectExamineBaseList(id);
         //如果没有发审会信息，则返回空对象

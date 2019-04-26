@@ -14,6 +14,8 @@ public class IpoQuestionLabelDto implements Serializable {
     private String labelName;
     @ApiModelProperty("标签包含问题个数")
     private String labelCount;
+    @ApiModelProperty("排序序号")
+    private int sort;
 
     public String getLabelCode() {
         return labelCode;
@@ -37,5 +39,13 @@ public class IpoQuestionLabelDto implements Serializable {
 
     public void setLabelCount(String labelCount) {
         this.labelCount = labelCount;
+    }
+
+    public int getSort() {
+        return sort;
+    }
+
+    public void setSort(int sort) {
+        this.sort = sort;
     }
 }

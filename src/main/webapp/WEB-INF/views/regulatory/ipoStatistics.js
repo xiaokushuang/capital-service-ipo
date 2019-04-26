@@ -21,6 +21,7 @@ $(document).ready(function() {
 		$('input[name="industry"]').val('');
 		search();
 	});
+	
 });
 function initDataTableParam(d){
 	return $.extend( {}, d, {
@@ -358,8 +359,11 @@ function eChartInit() {
 	myChart.on('click', function(params) {
 		var d = params.data;
 	});
-	// 自适应
-	window.onresize = myChart.resize;
+	
+	setTimeout(function (){
+		// 自适应
+		window.onresize = myChart.resize;
+	},200)
 }
 
 function search(){
@@ -538,8 +542,8 @@ function historyEChartInit() {
 		    },
 		    dataZoom: [{
 		        type: 'inside',
-		        start: 0,
-		        end: 30
+		        start: 70,
+		        end: 100
 		    }, {
 		        start: 0,
 		        end: 10,
@@ -890,7 +894,6 @@ function renderColumnAccountTotalCount(data, type, row, meta){
 }
 
 function viewAccountDetail(label,quasiListedLand) {
-	debugger;
 	var industry = $("#industrySelect").val();
 	var registAddr = $("#registAddrSelect").val();
 	var data = {

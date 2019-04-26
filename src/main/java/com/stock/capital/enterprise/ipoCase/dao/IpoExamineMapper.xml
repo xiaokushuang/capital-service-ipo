@@ -10,23 +10,13 @@
             t2.relation_file_title relationFileTitle,
             t1.company_zh_name companyName,
             t2.iec_result iecResult,
-            (
-                CASE t2.iec_result
-                WHEN '00' THEN
-                    '获通过'
-                WHEN '01' THEN
-                    '未获通过'
-                WHEN '02' THEN
-                    '暂缓表决'
-                WHEN '03' THEN
-                    '取消审核'
-                END
-            ) iecResultStr,
+            t3.label_name iecResultStr,
             date_format(t2.process_time,'%Y-%m-%d') examineDate,
             date_format(t2.process_time,'%Y年%m月%d日') examineDateStr
         FROM
             ipo_case t1
         LEFT JOIN ipo_process t2 ON t1.id = t2.bid
+        LEFT JOIN maa_conf_label t3 on t3.label_code = 'IPO_VERIFY_RESULT' and t3.label_value = t2.iec_result
         WHERE
             t2.process_type_code = '07'
         AND t1.id = #{id}

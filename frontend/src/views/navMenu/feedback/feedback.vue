@@ -34,7 +34,7 @@
                                           <span>{{answerCount}}</span>
                                           <span>个回复</span>
                                           <el-checkbox  @change="handleOnlyChange(onlyShowAnswer)" v-model="onlyShowAnswer" style="margin-left:20px;margin-right:15px">只展示回复问题</el-checkbox>
-                                          <el-button @click="toggleSelection()" class="reset" type="primary" plain>重置</el-button>
+                                          <!-- <el-button @click="toggleSelection()" class="reset" type="primary" plain>重置</el-button> -->
                                       </div>
                                   </div>
                               </div>
@@ -81,7 +81,7 @@
                                     <!-- 已经阅读完了 -->
                                     <p v-if="!showMore&&questionList.length>0" class="finishRead">已经阅读完了</p>
                                     <!-- 暂无更多数据 -->
-                                    <p v-if="!showMore&&questionList.length==0" class="finishRead">暂无更多数据</p>
+                                    <p v-if="!showMore&&questionList.length==0" class="finishRead">暂无相关数据</p>
                               </div>
                           </div>
                       </el-tab-pane>
@@ -112,7 +112,7 @@
                                           <span>{{answerCount2}}</span>
                                           <span>个回复</span>
                                           <el-checkbox  @change="handleOnlyChange2(onlyShowAnswer2)" v-model="onlyShowAnswer2" style="margin-left:20px;margin-right:15px">只展示回复问题</el-checkbox>
-                                          <el-button @click="toggleSelection2()" class="reset" type="primary" plain>重置</el-button>
+                                          <!-- <el-button @click="toggleSelection2()" class="reset" type="primary" plain>重置</el-button> -->
                                       </div>
                                   </div>
                               </div>
@@ -158,7 +158,7 @@
                                     <!-- 已经阅读完了 -->
                                     <p v-if="!showMore2&&questionList2.length>0" class="finishRead">已经阅读完了</p>
                                     <!-- 暂无更多数据 -->
-                                    <p v-if="!showMore2&&questionList2.length==0" class="finishRead">暂无更多数据</p>
+                                    <p v-if="!showMore2&&questionList2.length==0" class="finishRead">暂无相关数据</p>
                               </div>
                           </div>
                       </el-tab-pane>
@@ -189,7 +189,7 @@
                                           <span>{{answerCount3}}</span>
                                           <span>个回复</span>
                                           <el-checkbox  @change="handleOnlyChange3(onlyShowAnswer3)" v-model="onlyShowAnswer3" style="margin-left:20px;margin-right:15px">只展示回复问题</el-checkbox>
-                                          <el-button @click="toggleSelection3()" class="reset" type="primary" plain>重置</el-button>
+                                          <!-- <el-button @click="toggleSelection3()" class="reset" type="primary" plain>重置</el-button> -->
                                       </div>
                                   </div>
                               </div>
@@ -235,7 +235,7 @@
                                     <!-- 已经阅读完了 -->
                                     <p v-if="!showMore3&&questionList3.length>0" class="finishRead">已经阅读完了</p>
                                     <!-- 暂无更多数据 -->
-                                    <p v-if="!showMore3&&questionList3.length==0" class="finishRead">暂无更多数据</p>
+                                    <p v-if="!showMore3&&questionList3.length==0" class="finishRead">暂无相关数据</p>
 
                               </div>
                           </div>
@@ -271,13 +271,13 @@
                                 <span>{{answerCount}}</span>
                                 <span>个回复</span>
                                 <el-checkbox  @change="handleOnlyChange(onlyShowAnswer)" v-model="onlyShowAnswer" style="margin-left:20px;margin-right:15px">只展示回复问题</el-checkbox>
-                                <el-button @click="toggleSelection()" class="reset" type="primary" plain>重置</el-button>
+                                <!-- <el-button @click="toggleSelection()" class="reset" type="primary" plain>重置</el-button> -->
                             </div>
                         </div>
                     </div>
                     <div class="question" id="titleLength">
                         <ul style="padding-left:0">
-                            <li v-for="(data,index) in questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
+                            <li v-loading="flagLoading" element-loading-text="给我一点时间" v-for="(data,index) in questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
                                 <div class="text" style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:10px;position:relative">
                                  <!-- 问 -->
                                     <div  v-if="data.question&&data.question.length>0">
@@ -317,7 +317,7 @@
                       <!-- 已经阅读完了 -->
                       <p v-if="!showMore&&questionList.length>0" class="finishRead">已经阅读完了</p>
                        <!-- 暂无更多数据 -->
-                      <p v-if="!showMore&&questionList.length==0" class="finishRead">暂无更多数据</p>
+                      <p v-if="!showMore&&questionList.length==0" class="finishRead">暂无相关数据</p>
                     </div>
                 </div>
            </div>
@@ -395,6 +395,7 @@ export default {
       // 多选按钮’全部‘
       showAll:false,
       firstClick:true,
+      flagLoading: false,
     };
   },
     created(){
@@ -402,46 +403,88 @@ export default {
        this.initTableData()
        this.isShowAll = true
      },
-    mounted() {
-
-    },
+    // 滑轮滚到底部懒加载
+     mounted(){
+            let _this = this;
+            // 注册scroll事件并监听
+            window.addEventListener('scroll',function(){
+              let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop //滚动高度
+                // console.log(document.documentElement.clientHeight+'-----------'+window.innerHeight); // 可视区域高度
+                // console.log('222',document.body.offsetHeight); // 文档高度
+                // 判断是否滚动到底部
+                if(scrollTop + window.innerHeight + 2 >= document.body.offsetHeight) {
+                   this.flagLoading = true;
+                  _this.showMoreMethods()
+                }
+            });
+        },
   methods: {
     // 单选按钮
     handelChange(val){
-      this.radioVal = val
-      this.initQuestionData(this.o_letterId,val,'',this.onlyShowAnswerFlag)
+       this.radioVal = val
+       this.checkboxGroup = []
+      if(val == null){
+        this.initQuestionData(this.o_letterId,'',this.checkboxGroup,this.onlyShowAnswerFlag)
+      }
+      else{
+        this.initQuestionData(this.o_letterId,val,this.checkboxGroup,this.onlyShowAnswerFlag)
+      }
     },
     // 单选按钮
      handelChange2(val){
       this.radioVal2 = val
-      this.initQuestionData(this.o_letterId,val,'',this.onlyShowAnswerFlag2)
+      this.checkboxGroup2 = []
+      if(val == null){
+        this.initQuestionData(this.o_letterId,'',this.checkboxGroup2,this.onlyShowAnswerFlag2)
+      }
+      else{
+        this.initQuestionData(this.o_letterId,val,this.checkboxGroup2,this.onlyShowAnswerFlag2)
+      }
     },
         // 单选按钮
      handelChange3(val){
       this.radioVal3 = val
-      this.initQuestionData(this.o_letterId,val,'',this.onlyShowAnswerFlag3)
+      this.checkboxGroup3 = []
+      if(val == null){
+        this.initQuestionData(this.o_letterId,'',this.checkboxGroup3,this.onlyShowAnswerFlag3)
+      }
+      else{
+        this.initQuestionData(this.o_letterId,val,this.checkboxGroup3,this.onlyShowAnswerFlag3)
+      }
     },
     // 多选按钮
     handelMoreChange(val){
        this.checkboxGroup = val
+       console.log('11111',this.checkboxGroup)
        for(let i = 0;i<val.length;i++){
          if(val[i] == null){
            this.checkboxGroup = []
-           document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor="white";
+          //  document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor="white";
          }
        }
-       this.initOnlyQuestionData(this.o_letterId,this.radioVal, this.checkboxGroup,this.onlyShowAnswerFlag)
+       if(this.radioVal == null ){
+          this.initOnlyQuestionData(this.o_letterId,'', this.checkboxGroup,this.onlyShowAnswerFlag)
+       }
+       else{
+         this.initOnlyQuestionData(this.o_letterId,this.radioVal, this.checkboxGroup,this.onlyShowAnswerFlag)
+       }
     },
         // 多选按钮
     handelMoreChange2(val){
        this.checkboxGroup2 = val
+       console.log('22222222',this.checkboxGroup2)
        for(let i = 0;i<val.length;i++){
          if(val[i] == null){
            this.checkboxGroup2 = []
            document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor="white";
          }
        }
-       this.initOnlyQuestionData(this.o_letterId,this.radioVal2, this.checkboxGroup2,this.onlyShowAnswerFlag2)
+       if(this.radioVal2 == null ){
+          this.initOnlyQuestionData(this.o_letterId,'', this.checkboxGroup2,this.onlyShowAnswerFlag2)
+       }
+       else{
+         this.initOnlyQuestionData(this.o_letterId,this.radioVal2, this.checkboxGroup2,this.onlyShowAnswerFlag2)
+       }
     },
             // 多选按钮
     handelMoreChange3(val){
@@ -452,7 +495,12 @@ export default {
            document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor="white";
          }
        }
-       this.initOnlyQuestionData(this.o_letterId,this.radioVal3, this.checkboxGroup3,this.onlyShowAnswerFlag3)
+        if(this.radioVal3 == null ){
+          this.initOnlyQuestionData(this.o_letterId,'', this.checkboxGroup3,this.onlyShowAnswerFlag3)
+        }
+        else{
+          this.initOnlyQuestionData(this.o_letterId,this.radioVal3, this.checkboxGroup3,this.onlyShowAnswerFlag3)
+        }
     },
     // 是否只展示回复问题
     handleOnlyChange(val){
@@ -461,7 +509,12 @@ export default {
       }else{
         this.onlyShowAnswerFlag = ''
       }
-        this.initOnlyQuestionData(this.o_letterId,this.radioVal,this.checkboxGroup,this.onlyShowAnswerFlag)
+       if(this.radioVal == null ){
+          this.initOnlyQuestionData(this.o_letterId,'', this.checkboxGroup,this.onlyShowAnswerFlag)
+       }
+       else{
+         this.initOnlyQuestionData(this.o_letterId,this.radioVal,this.checkboxGroup,this.onlyShowAnswerFlag)
+       }
     },
        // 是否只展示回复问题
     handleOnlyChange2(val){
@@ -470,7 +523,12 @@ export default {
       }else{
         this.onlyShowAnswerFlag2 = ''
       }
-        this.initOnlyQuestionData(this.o_letterId,this.radioVal2,this.checkboxGroup2,this.onlyShowAnswerFlag2)
+       if(this.radioVal2 == null ){
+          this.initOnlyQuestionData(this.o_letterId,'', this.checkboxGroup2,this.onlyShowAnswerFlag2)
+       }
+       else{
+         this.initOnlyQuestionData(this.o_letterId,this.radioVal2,this.checkboxGroup2,this.onlyShowAnswerFlag2)
+       }
 
     },
      // 是否只展示回复问题
@@ -480,14 +538,21 @@ export default {
       }else{
         this.onlyShowAnswerFlag3 = ''
       }
-        this.initOnlyQuestionData(this.o_letterId,this.radioVal3,this.checkboxGroup3,this.onlyShowAnswerFlag3)
+      if(this.radioVal3 == null ){
+          this.initOnlyQuestionData(this.o_letterId,'', this.checkboxGroup3,this.onlyShowAnswerFlag3)
+       }
+       else{
+         this.initOnlyQuestionData(this.o_letterId,this.radioVal3,this.checkboxGroup3,this.onlyShowAnswerFlag3)
+       }
 
     },
     // 点击加载更多
     showMoreMethods(){
+      // debugger;
       if(this.tabList.length==1){
         this.showLength+=15
         if(this.allQuestionList.length > this.showLength){
+          this.flagLoading = false;
           this.showMore = true;
           this.questionList = this.allQuestionList.slice(0, this.showLength);
         }else{
@@ -591,11 +656,11 @@ export default {
               this.allQuestionList = res.data.result[0].questionList
               this.allQuestionList2 = res.data.result[1].questionList
               this.allQuestionList3 = res.data.result[2].questionList
-               this.questionCount = res.data.result[0].questionCount
+              this.questionCount = res.data.result[0].questionCount
               this.answerCount = res.data.result[0].answerCount
-               this.questionCount1 = res.data.result[1].questionCount
+              this.questionCount1 = res.data.result[1].questionCount
               this.answerCount1 = res.data.result[1].answerCount
-               this.questionCount2 = res.data.result[2].questionCount
+              this.questionCount2 = res.data.result[2].questionCount
               this.answerCount2 = res.data.result[2].answerCount
               if(this.allQuestionList.length > 15){
                 this.showMore = true;
@@ -641,8 +706,11 @@ export default {
           secondLabelId:secondLabel,
           onlyResponse:onlyResponse,
         }
+        console.log('获取二级菜单及问题id',param)
         getSelectQuestionList(param).then(res => {
           // 当只有一个tab页时
+          // debugger;
+          console.log('点击一级菜单获取结果',res.data.result)
           if(this.tabList.length==1){
             if(res.data.result.length  > 0){
               this.allQuestionList = res.data.result[0].questionList;
@@ -791,7 +859,9 @@ export default {
           secondLabelId:secondLabel,
           onlyResponse:onlyResponse,
         }
+        console.log('点击二级菜单获取问题id',param)
         getSelectQuestionList(param).then(res => {
+          console.log('点击二级菜单获取问题结果',res.data.result)
           // 当只有一个tab页时
           if(this.tabList.length==1){
             if(res.data.result.length  > 0){
@@ -908,38 +978,38 @@ export default {
         this.o_letterId = tab.name
     },
     // 点击重置按钮
-    toggleSelection(){
-      this.checkboxGroup = []
-      this.radio = ''
-      this.radioVal = ''
-      this.feedbackduoxuanList = [],
-      this.onlyShowAnswerFlag = ''
-      this.onlyShowAnswer = false;
-      this.showAll = true;
-      this.initQuestionData(this.o_letterId,'','','',"0")
-    },
-        // 点击重置按钮
-    toggleSelection2(){
-      this.checkboxGroup2 = []
-       this.radio2 = ''
-      this.radioVal2 = ''
-      this.feedbackduoxuanList2 = [],
-      this.onlyShowAnswerFlag2 = ''
-      this.onlyShowAnswer2 = false;
-      this.showAll = true;
-      this.initQuestionData(this.o_letterId,'','','',"0")
-    },
-            // 点击重置按钮
-    toggleSelection3(){
-      this.checkboxGroup3 = []
-       this.radio3 = ''
-      this.radioVal3 = ''
-      this.feedbackduoxuanList3 = [],
-      this.onlyShowAnswerFlag3 = ''
-      this.onlyShowAnswer3 = false;
-      this.showAll = true;
-      this.initQuestionData(this.o_letterId,'','','',"0")
-    },
+    // toggleSelection(){
+    //   this.checkboxGroup = []
+    //   this.radio = ''
+    //   this.radioVal = ''
+    //   this.feedbackduoxuanList = [],
+    //   this.onlyShowAnswerFlag = ''
+    //   this.onlyShowAnswer = false;
+    //   this.showAll = true;
+    //   this.initQuestionData(this.o_letterId,'','','',"0")
+    // },
+    //     // 点击重置按钮
+    // toggleSelection2(){
+    //   this.checkboxGroup2 = []
+    //    this.radio2 = ''
+    //   this.radioVal2 = ''
+    //   this.feedbackduoxuanList2 = [],
+    //   this.onlyShowAnswerFlag2 = ''
+    //   this.onlyShowAnswer2 = false;
+    //   this.showAll = true;
+    //   this.initQuestionData(this.o_letterId,'','','',"0")
+    // },
+    //         // 点击重置按钮
+    // toggleSelection3(){
+    //   this.checkboxGroup3 = []
+    //    this.radio3 = ''
+    //   this.radioVal3 = ''
+    //   this.feedbackduoxuanList3 = [],
+    //   this.onlyShowAnswerFlag3 = ''
+    //   this.onlyShowAnswer3 = false;
+    //   this.showAll = true;
+    //   this.initQuestionData(this.o_letterId,'','','',"0")
+    // },
     // 问【收起展开】
     spread(item) {
      this.$set(item,'isSpread',2)
@@ -957,7 +1027,9 @@ export default {
       })
     },
     getContent(data,title,index,type) {
+      // 5行的宽度和
       let width = (document.getElementById('componentId').offsetWidth - 48) * 5
+      // 所有字数的宽度【14是字体大小】
       let titleLength = title.length * 14
       let length = 0;
       if(titleLength > width) {
@@ -982,41 +1054,6 @@ export default {
               if(!data.isSpread || data.isSpread === 0) {
                 this.$set(data,'isSpread',0)
               }
-           }else {
-             if(!data.isSpreada || data.isSpreada === 0) {
-                this.$set(data,'isSpreada',0)
-              }
-           }
-        return title
-      }
-    },
-     getContent1(data,title,index,type) {
-      let width = (document.getElementById('componentId').offsetWidth - 48) * 5
-      let titleLength = title.length * 14
-      let length = 0;
-      if(titleLength > width) {
-         for(let i =0;i<title.length;i++) {
-         if(length > width) {
-            if(type === 'answer') {
-              if(!data.isSpread || data.isSpread === 0) {
-                this.$set(data,'isSpread',1)
-              }
-
-           }else {
-             if(!data.isSpreada || data.isSpreada === 0) {
-                this.$set(data,'isSpreada',1)
-              }
-           }
-           return title.substring(0,(i-4)) + '...'
-         }
-           length += 14;
-      }
-      }else {
-          if(type === 'answer') {
-              if(!data.isSpread || data.isSpread === 0) {
-                this.$set(data,'isSpread',0)
-              }
-
            }else {
              if(!data.isSpreada || data.isSpreada === 0) {
                 this.$set(data,'isSpreada',0)
@@ -1154,7 +1191,7 @@ export default {
   margin-bottom: 10px;
   border-width: 0.1px;
   border-style: solid;
-  border-color: rgba(217, 217, 217, 1);
+  border-color: #ebebeb;
   border-radius: 3px;
 
 }

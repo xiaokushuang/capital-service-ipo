@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {clearAllCookie, getToken} from '@/utils/auth';
 import {Message} from 'element-ui';
-import store from '../store'
+import {showFullScreenLoading, tryHideFullScreenLoading} from './axiosHelperLoading'
 
 // create an axios instance
 const service = axios.create({
@@ -14,10 +14,14 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
     config => {
+      if(config.responseType == 'blob'){
+    	  //设置全局加载
+        showFullScreenLoading();
+        config.timeout = 180000;
+      }
       // Do something before request is sent
       // set accessToken with request header
-      config.headers['Authorization'] = store.state.app.token;
-      config.headers['X-Tenant-Info'] = store.state.app.info;
+      config.headers['Authorization'] = getToken();
       // fixed GET request method caching problem
       config.headers['Cache-Control'] = 'no-cache';
       config.headers['Pragma'] = 'no-cache';
@@ -31,10 +35,37 @@ service.interceptors.request.use(
 // respone interceptor
 service.interceptors.response.use(
     (response) => {
+      if(response.config.responseType == 'blob'){
+        //去除全局加载
+    	  tryHideFullScreenLoading();
+        if(!response.data){
+          return;
+        }
+        let blob = new Blob([response.data]);
+        let fileName = decodeURIComponent(response.headers["filename"]);
+        if ('download' in document.createElement('a')) { // 非IE下载
+          let url = window.URL.createObjectURL(blob)
+          let link = document.createElement('a')
+          link.style.display = 'none';
+          link.href = url;
+          link.setAttribute('download', fileName)
+          document.body.appendChild(link)
+          link.click();
+          document.body.removeChild(link); //下载完成移除元素
+          window.URL.revokeObjectURL(url); //释放掉blob对象
+          return;
+        } else { // IE10+下载
+          window.navigator.msSaveOrOpenBlob(blob, fileName)
+          return;
+        }
+      }
       return response
     },
     (error) => {
-
+    	if(response.config.responseType == 'blob'){
+          //去除全局加载
+        	tryHideFullScreenLoading();
+    	}
       let tipError = false;
       // TODO Reservation processing error response
       if (error && error.response) {

@@ -7,6 +7,8 @@ import 'font-awesome/css/font-awesome.min.css'
 // 引入echarts
 import echarts from 'echarts'
 Vue.prototype.$echarts = echarts
+import 'echarts/map/js/china.js';
+
 import '@/styles/index.scss' // global css
 import App from './App'
 import router from './router'
@@ -35,6 +37,10 @@ import 'babel-polyfill'
 
 import VueMoment from 'vue-moment'
 import moment from 'moment-timezone'
+// 点击图片放大插件
+import preview from 'vue-photo-preview'
+import 'vue-photo-preview/dist/skin.css'
+Vue.use(preview)
 
 Vue.use(VueMoment,{
     moment

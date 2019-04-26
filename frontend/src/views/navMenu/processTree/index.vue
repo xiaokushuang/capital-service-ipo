@@ -50,11 +50,15 @@
                                             <span v-if="item.progressType=='07'&&item.iecResult=='01'" :style={background:whtg} class="whtg">未获通过</span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='02'" :style={background:zhbj} class="zhbj">暂缓表决 </span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='03'" :style={background:qxsh} class="qxsh">取消审核</span>
+                                            <span v-if="item.progressType=='07'&&item.iecResult=='04'" :style={background:dsh} class="dsh">待审核</span>
                                         </div>
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
-                                            <span v-text='item.processTime'></span>
-                                            &nbsp;&nbsp;
-                                            <span v-if="item.lastDay != undefined">距离上个进程{{item.lastDay}}天</span>
+                                            <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)" style="cursor: pointer;"
+                                                   @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)" @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')" v-text='item.processTime'></span>
+                                            <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)" style="cursor: pointer;"
+                                                   @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)" @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')">&nbsp;&nbsp;</span>
+                                            <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)"
+                                                   @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)" @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')" v-if="item.lastDay != undefined" style="display:inline-block;width: 69%;cursor: pointer;">距离上个进程{{item.lastDay}}天</span>
                                             <!-- 前面图标 -->
                                             <div :id="'each' +  item.progressIndex" style="display:none;">
                                                 <div :ref=' item.progressIndex' :class="'abc'+ item.progressIndex"></div>
@@ -76,9 +80,9 @@
                                             <span>
                                                 <span>
                                                      <!-- 第一个进程展示的是‘查看公告’ -->
-                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, null)" class="moreNoticeCss">查看公告 ></div>
+                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看公告 ></div>
                                                     <!-- 第二个进程展示的是‘查看文件’ -->
-                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, null)" class="moreNoticeCss">查看文件 ></div>
+                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看文件 ></div>
                                                 </span>
                                             </span>
                                         </div>
@@ -134,11 +138,15 @@
                                             <span v-if="item.progressType=='07'&&item.iecResult=='01'" :style={background:whtg} class="whtg">未获通过</span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='02'" :style={background:zhbj} class="zhbj">暂缓表决 </span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='03'" :style={background:qxsh} class="qxsh">取消审核</span>
+                                            <span v-if="item.progressType=='07'&&item.iecResult=='04'" :style={background:dsh} class="dsh">待审核</span>
                                         </div>
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
-                                            <span v-text='item.processTime'></span>
-                                            &nbsp;&nbsp;
-                                            <span v-if="item.lastDay != undefined">距离上个进程{{item.lastDay}}天</span>
+                                            <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)" style="cursor: pointer;"
+                                                   @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)"  @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')" v-text='item.processTime'></span>
+                                            <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)" style="cursor: pointer;"
+                                                   @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)" @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')">&nbsp;&nbsp;</span>
+                                            <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)"
+                                                   @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)"  @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')" v-if="item.lastDay != undefined" style="display:inline-block;width: 69%;cursor: pointer;">距离上个进程{{item.lastDay}}天</span>
                                             <!-- 前面图标 -->
                                             <div :id="'each' +  item.progressIndex" style="display:none;">
                                                 <div :ref=' item.progressIndex' :class="'abc'+ item.progressIndex"></div>
@@ -159,9 +167,9 @@
                                             <span>
                                                 <span>
                                                      <!-- 第一个进程展示的是‘查看公告’ -->
-                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, null)" class="moreNoticeCss">查看公告 ></div>
+                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看公告 ></div>
                                                     <!-- 第二个进程展示的是‘查看文件’ -->
-                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, null)" class="moreNoticeCss">查看文件 ></div>
+                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看文件 ></div>
                                                 </span>
                                             </span>
                                         </div>
@@ -226,6 +234,7 @@ export default {
             htg:'url('+ require('../../../assets/images/htg.png')+') no-repeat',
             whtg:'url('+ require('../../../assets/images/whtg.png')+') no-repeat',
             qxsh:'url('+ require('../../../assets/images/qxsh.png')+') no-repeat',
+            dsh:'url('+ require('../../../assets/images/dsh.png')+') no-repeat',
             moreNoticeDailog: '',
             dialogVisible: false,
             showArray: [],
@@ -324,55 +333,73 @@ export default {
 
         },
         showAndHideParent(obj, exAllFlag,item) {
-            if (
-                exAllFlag == '0'
-            ) {
+            if (exAllFlag == '0' ) {
                 document.getElementById(obj).setAttribute("style", "display:none;");
-                if(  document.getElementById('more' +   item.progressIndex)) {
+                if(document.getElementById('more' +   item.progressIndex)) {
                      document.getElementById('more' +   item.progressIndex).setAttribute("style", "display:none;");
+                    //  超过时间的进程颜色置灰
                      if(item.dateCompare == '0'){
                          document.getElementById('sign' +  item.progressIndex).className = 'grayCircle'
                      }else{
                          document.getElementById('sign' +  item.progressIndex).className = 'circle'
                      }
-                     document.getElementById('num' +  item.progressIndex).setAttribute("style", "display:inline-block;");
                 }
             } else {
+                document .getElementById(obj).setAttribute("style", "display:block;");
                 if( document.getElementById('more' +   item.progressIndex)) {
                     document.getElementById('more' +   item.progressIndex).setAttribute("style", "display:block;");
+                    //  超过时间的进程颜色置灰
                      if(item.dateCompare == '0'){
                          document.getElementById('sign' +  item.progressIndex).className = 'grayCircle'
                      }else{
                          document.getElementById('sign' +  item.progressIndex).className = 'circle'
                      }
-                    document.getElementById('num' +  item.progressIndex).setAttribute("style", "display:inline-block;");
                 }
-                document .getElementById(obj).setAttribute("style", "display:block;");
-
             }
         },
         // 点击查看公告
          showAndHide(param,obj,item, type) {
+            //  点击title展开收起
              if (type == 'title'){
+                item.flag = !item.flag;
+                if(item.flag){
+                    if(item.dateCompare == '0'){
+                            document.getElementById('sign' + item.progressIndex).className = 'fa grayCircle fa-chevron-up'
+                        }else{
+                            document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-up'
+                        }
+                } else{
+                    if(item.dateCompare == '0'){
+                            document.getElementById('sign' + item.progressIndex).className = 'fa grayCircle fa-chevron-down'
+                        }else{
+                            document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-down'
+                        }
+                    
+                    } 
+             }
+            //  点击灰色进程时间展开收起
+             if (type == 'time'){
                  item.flag = !item.flag;
-              if(item.flag){
-                   if(item.dateCompare == '0'){
-                        document.getElementById('sign' + item.progressIndex).className = 'fa grayCircle fa-chevron-up'
-                     }else{
-                         document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-up'
-                     }
-              } else{
-                  if(item.dateCompare == '0'){
-                        document.getElementById('sign' + item.progressIndex).className = 'fa grayCircle fa-chevron-down'
-                     }else{
-                        document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-down'
-                     }
-                
-              }
-             }else {
-                  item.flag = true;
-
-              }
+                 document.getElementById('num' +  item.progressIndex).setAttribute("style", "display:none;");
+                    if(item.flag){
+                        if(item.dateCompare == '0'){
+                                document.getElementById('sign' + item.progressIndex).className = 'fa grayCircle fa-chevron-up'
+                            }else{
+                                document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-up'
+                            }
+                    } else{
+                        if(item.dateCompare == '0'){
+                                document.getElementById('sign' + item.progressIndex).className = 'fa grayCircle fa-chevron-down'
+                            }else{
+                                document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-down'
+                            }
+                        
+                    }
+                 }
+            // 点击‘查看文件’
+             if(type == "file") {
+                item.flag = true;
+             }
         },
 
         // 点击展示的第一条公告名
@@ -457,7 +484,7 @@ export default {
     padding-top:10px;
 }
 .right:hover {
-    cursor: pointer;
+    // cursor: pointer;
     width: 100%;
     float: left;
     box-shadow:  0 0px 28px -5px #ccc;
@@ -683,12 +710,22 @@ export default {
     line-height:10px;
     display:inline-block;
 }
+.dsh{
+    font-size: 14px;
+    position: relative;
+    left: 38%;
+    top: -20px;
+    color: #ffd800;
+    padding:5px;
+    padding-right:5px;
+    line-height:10px;
+    display:inline-block;
+}
+// 先注释掉，因为之前是点击最后一个tab页，进程树出滚动条
 .processTree{
-    overflow-y:auto;
-    max-height:660px;
-    // height: 660px;
-    // overflow-y: scroll;
-    overflow-x: hidden;
+    // overflow-y:auto;
+    // max-height:660px;
+    // overflow-x: hidden;
     margin-top:16px;
 }
 .allJincheng{

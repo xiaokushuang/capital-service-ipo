@@ -1,5 +1,5 @@
 <template>
-  <div class="ipoCaseList container">
+  <div class="ipoCaseList">
     <el-row :gutter="24">
       <el-col class="chart" style="position:relative;width:285px;padding-left: 24px !important;
        padding-right: 0px !important; !important;background-color: #f7f7f7">
@@ -335,9 +335,16 @@
                         最近<span style="color:#14BCF5">3</span>个会计年度净利润均为正数且<span style="color:#14BCF5">累计超过3000万元</span>（人民币），净利润以扣除非经常性损益前后较低者为计算依据；
                       </div>
                     </div>
-                    <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:7px">
+                    <!-- <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:7px">
                       <span class="quan" style="position: relative; top: -17px;;">2</span>
                       <div style="display: inline-block;margin-left: 0.5%;">
+                        最近<span style="color:#14BCF5">3</span>个会计年度营业收入<span style="color: #14BCF5">累计超过3亿元</span>(人民币)；<br>
+                        <span><span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">3</span>个会计年度经营活动产生的现金流量净额<span style="color:#14BCF5">累计超过5000万元</span>(人民币)；</span>
+                      </div>
+                    </div> -->
+                     <div class="clear" style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:7px">
+                      <span class="quan" style="float:left">2</span>
+                      <div style="display: inline-block;margin-left: 0.5%;float:left">
                         最近<span style="color:#14BCF5">3</span>个会计年度营业收入<span style="color: #14BCF5">累计超过3亿元</span>(人民币)；<br>
                         <span><span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">3</span>个会计年度经营活动产生的现金流量净额<span style="color:#14BCF5">累计超过5000万元</span>(人民币)；</span>
                       </div>
@@ -346,10 +353,9 @@
                       <span class="quan">3</span>
                       发行前股本总额<span style="color:#14BCF5">不少于3000万元</span> (人民币)；
                     </p>
-                    <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
-                      <span class="quan">4</span>
-
-                      最近一期末无形资产（扣除土地使用权、水面养殖权和采矿权等后）占净资产的比例<span style="color:#333333;">不高于20％</span>；
+                    <p class="clear" style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
+                      <span style="float:left" class="quan">4</span>
+                      <span style="float:left;display:inline-block;width: 93%; margin-left: 4px;">最近一期末无形资产（扣除土地使用权、水面养殖权和采矿权等后）占净资产的比例<span style="color:#333333;">不高于20％；</span></span>
                     </p>
                     <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
                       <span class="quan">5</span>
@@ -369,9 +375,17 @@
                         发行人是依法设立且持续经营三年以上的股份有限公司。有限责任公司按原账面净资产值折股整体变更为股份有限公司的，持续经营时间可以从有限责任公司成立之日起计算；
                       </div>
                     </div>
-                    <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
+                    <!-- <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
                       <span class="quan bottomQuan">2</span>
                       <div class="bottomTwo">
+                        最近<span style="color: #14BCF5">2</span>年连续盈利，最近两年净利润<span style="color: #14BCF5">累计不少于1000万元</span>;<br>
+                        <span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">1</span>年盈利，最近一年营业收入<span style="color:#14BCF5">不少于5000万元。</span>(
+                        净利润以扣除非经常性损益前后孰低者为计算依据)
+                      </div>
+                    </div> -->
+                     <div class="clear" style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
+                      <span class="quan" style="float:left">2</span>
+                      <div  style="display: inline-block;margin-left: 0.5%;float:left;width: 95%;">
                         最近<span style="color: #14BCF5">2</span>年连续盈利，最近两年净利润<span style="color: #14BCF5">累计不少于1000万元</span>;<br>
                         <span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">1</span>年盈利，最近一年营业收入<span style="color:#14BCF5">不少于5000万元。</span>(
                         净利润以扣除非经常性损益前后孰低者为计算依据)
@@ -438,11 +452,16 @@
                     <template slot-scope="scope">
                       {{scope.row.processLabel}}
                       <br/>
-                      <span style="margin-left: -6%">
-                      <svg-icon v-if="scope.row.iecResult==='00'" icon-class="ipoPass" class="svg-style"></svg-icon>
+                      <span>
+                        <span class="htgResult" v-if="scope.row.iecResult==='00'">获通过</span>
+                        <span class="whtgResult" v-if="scope.row.iecResult==='01'">未获通过</span>
+                        <span class="zhbjResult" v-if="scope.row.iecResult==='02'">暂缓表决</span>
+                        <span class="qxshResult" v-if="scope.row.iecResult==='03'">取消审核</span>
+                        <span class="dshResult" v-if="scope.row.iecResult==='04'">待审核</span>
+                      <!-- <svg-icon v-if="scope.row.iecResult==='00'" icon-class="ipoPass" class="svg-style"></svg-icon>
                       <svg-icon v-if="scope.row.iecResult==='01'" icon-class="ipoNoPass" class="svg-style"></svg-icon>
                       <svg-icon v-if="scope.row.iecResult==='02'" icon-class="ipoSuspendVote" class="svg-style"></svg-icon>
-                      <svg-icon v-if="scope.row.iecResult==='03'" icon-class="ipoCancelReview" class="svg-style"></svg-icon>
+                      <svg-icon v-if="scope.row.iecResult==='03'" icon-class="ipoCancelReview" class="svg-style"></svg-icon> -->
                         </span>
                     </template>
                   </el-table-column>
@@ -1179,7 +1198,6 @@
         this.intermediaryCode = item.labelValue;
       },
       itemClickHandler(row) {
-        // console.log('row',row)
         let id = row.id;
         if (id) {
           var caseId = id.substring(3, id.length);
@@ -1233,7 +1251,7 @@
     clear: both;
   }
 
-  .container {
+  .ipoCaseList {
     font-family: Microsoft YaHei, "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.42857143;
@@ -1242,48 +1260,56 @@
     padding: 0 0;
   }
 
-  .container .innnerbox {
+  .ipoCaseList .innnerbox {
     margin-left: 0px;
     /*border: #e4e4e4 solid 1px*/
   }
 
-  .container .innnerbox1 {
+  .ipoCaseList .innnerbox1 {
     margin: 0 10 0 0;
     padding: 0;
   }
 
-  .container .bluetext {
+  .ipoCaseList .bluetext {
     text-decoration: none !important;
     color: inherit !important
   }
 
-  .container a.bluetext:hover {
+  .ipoCaseList a.bluetext:hover {
     text-decoration: underline !important;
   }
 
-  .container .filter-tree {
+  .ipoCaseList .filter-tree {
     white-space: normal;
   }
 
-  .container .el-tree-node {
+  .ipoCaseList .el-tree-node {
     outline: 0;
     white-space: normal;
+    /* height:100%; */
   }
 
-  .container .el-tree-node__label {
-    font-size: 12px;
+  .ipoCaseList .el-tree-node__label {
+    font-size: 12px !important;
     color: #333;
     display: inline-block;
     max-width: 100%;
     cursor: pointer;
     padding: 0 3px;
   }
-
-  .container .el-tree-node__content {
+.ipoCaseList .has-gutter .cell {
+    font-size: 14px !important;
+    color: #333333 !important;
+    font-weight: 400 !important;
+}
+.ipoCaseList .has-gutter th {
+    background-color: #f2f2f2 !important;
+}
+  .ipoCaseList .el-tree-node__content {
     height: 23px;
   }
 
-  .container .el-tree-node__label:visited {
+  .ipoCaseList .el-tree-node__label:visited {
     color: #0000FF
   }
 
@@ -1294,20 +1320,20 @@
     height: 26px;
   }
 
-  .container .el-dialog__header {
+  .ipoCaseList .el-dialog__header {
     padding: 0;
   }
 
-  .container .el-dialog__body {
+  .ipoCaseList .el-dialog__body {
     PADDING: 10PX;
     padding-left: 0;
   }
 
-  .container .table .el-table .cell {
+  .ipoCaseList .table .el-table .cell {
     padding: 10px;
   }
 
-  .container .table .el-table th .cell {
+  .ipoCaseList .table .el-table th .cell {
     padding: 10px;
     margin: 0;
     border-color: #A0ADB5 !important;
@@ -1317,25 +1343,25 @@
     font-family: 'Microsoft YaHei';
   }
 
-  .container .table .el-table__header thead tr > th {
+  .ipoCaseList .table .el-table__header thead tr > th {
     padding: 0
   }
 
-  .container .table .el-table .cell p {
+  .ipoCaseList .table .el-table .cell p {
     margin: 0;
   }
 
-  .container .table .el-table .cell {
+  .ipoCaseList .table .el-table .cell {
     color: #333;
   }
 
-  .container .table .el-table thead tr > th .cell {
+  .ipoCaseList .table .el-table thead tr > th .cell {
     padding: 10px;
   }
 
-  .container .el-tree > .el-tree-node > .el-tree-node__content span {
+  .ipoCaseList .el-tree > .el-tree-node > .el-tree-node__content span {
     font-family: Microsoft YaHei, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
+    font-size: 14px !important;
     line-height: 1.42857143;
     display: inline-block;
     max-width: 100%;
@@ -1345,38 +1371,38 @@
     color: #333;
   }
 
-  .container .el-input--small .el-input__inner {
+  .ipoCaseList .el-input--small .el-input__inner {
     height: 30px !important;
   }
 
-  .container .el-row {
+  .ipoCaseList .el-row {
     margin-bottom: 10px;
     margin-left: 0 !important;
     margin-right: 0 !important;
   }
 
-  .container .el-range-editor--small.el-input__inner {
+  .ipoCaseList .el-range-editor--small.el-input__inner {
     height: 30px;
   }
 
-  .container .smallbutton .el-button {
+  .ipoCaseList .smallbutton .el-button {
     line-height: 0;
   }
 
-  .container .el-col {
+  .ipoCaseList .el-col {
     padding-left: 5px !important;
     padding-right: 5px !important;
   }
 
-  .container .el-row {
+  .ipoCaseList .el-row {
     height: 30px;
   }
 
-  .container .el-table tr:hover {
+  .ipoCaseList .el-table tr:hover {
     background-color: #f5f5f5 !important;
   }
 
-  .container .el-table th, .el-table tr {
+  .ipoCaseList .el-table th, .el-table tr {
     background-color: #fff;
     height: 67px;
   }
@@ -1424,7 +1450,7 @@
     padding: 0px 4px;
   }
 
-  .container .blue-text {
+  .ipoCaseList .blue-text {
     color: #0099cc !important;
   }
 
@@ -1511,12 +1537,25 @@
     margin-top: -4%;
     margin-left: 4%;
   }
-
-  @media screen and (max-width: 1920px) and (min-width: 1400px) {
+    @media screen and (max-width: 1680px) and (min-width: 1359px) {
     .topOne {
       display: inline-block;
       margin-top: -4%;
-      margin-left: 0.5%;
+      margin-left: 3.1%;
+    }
+  }
+    @media screen and (max-width: 1920px) and (min-width: 1681px) {
+    .topOne {
+      display: inline-block;
+      margin-top: -4%;
+      margin-left: 0.1%;
+    }
+  }
+    @media screen and (max-width: 3840px) and (min-width: 1919px) {
+    .topOne {
+      display: inline-block;
+      margin-top: -4%;
+      margin-left: 0.2%;
     }
   }
 
@@ -1533,7 +1572,13 @@
       margin-left: 2.5%;
     }
   }
-
+  @media screen and (max-width: 3840px) and (min-width: 1921px) {
+    .bottomOne {
+      display: inline-block;
+      margin-top: -4%;
+      margin-left: 0.2%;
+    }
+  }
   .bottomTwo {
     display: inline-block;
     margin-top: -4%;
@@ -1560,23 +1605,23 @@
     }
   }
 
-  .container .case .el-table__body tr:hover {
+  .ipoCaseList .case .el-table__body tr:hover {
     cursor: pointer;
   }
 
-  .container .case .el-table__row td {
+  .ipoCaseList .case .el-table__row td {
     border-right: none;
   }
 
-  .container .case .el-table__header th {
-    border-right: none;
+  .ipoCaseList .case .el-table__header th {
+    /* border-right: none; */
   }
 
-  .container .case .el-table__header th:nth-child(4) {
+  .ipoCaseList .case .el-table__header th:nth-child(4) {
     border-bottom-color: #fff;
   }
 
-  .container .el-table th, .el-table tr {
+  .ipoCaseList .el-table th, .el-table tr {
     height: 40px !important;
   }
 
@@ -1586,7 +1631,7 @@
     height: 20px;
     background-image: url(../../assets/images/home_new.png);
   }
-  .container .el-table th, .el-table tr {
+  .ipoCaseList .el-table th, .el-table tr {
     height: 40px !important;
   }
 
@@ -1596,5 +1641,61 @@
   .no_authority .cell{
     color: #999999 !important;
   }
+  /* 是否通过 */
+  .zhbjResult{
+     font-size: 12px;
+     color: #FF9900;
+     padding:5px;
+     padding-left: 8px;
+     line-height:10px;
+     display:inline-block;
+      background-size:cover;
+     background:url('../../assets/images/zhbj.png') no-repeat;
+}
+.whtgResult{
+     font-size: 12px;
+     color: #FE5461;
+     padding:5px;
+     padding-left: 8px;
+     line-height:10px;
+     display:inline-block;
+     background-size:cover;
+     background:url('../../assets/images/whtg.png') no-repeat;
+}
+.htgResult{
+     font-size: 12px;
+     color: #14BCF5;
+     padding:5px;
+     padding-left: 8px;
+     line-height:10px;
+     display:inline-block;
+      background-size:cover;
+     background:url('../../assets/images/htg.png') no-repeat;
+}
+.qxshResult{
+     font-size: 12px;
+     color: #94A3B4;
+     padding:5px;
+     padding-left: 8px;
+     line-height:10px;
+     display:inline-block;
+      background-size:cover;
+     background:url('../../assets/images/qxsh.png') no-repeat;
+}
+.dshResult{
+     font-size: 12px;
+     color: #ffd800;
+     padding:5px;
+     padding-left: 8px;
+     padding-right: 6px;
+     line-height:10px;
+     display:inline-block;
+     background-size:cover;
+     background:url('../../assets/images/dsh.png') no-repeat;
+}
+ .ipoCaseTable .el-table--border td, .el-table--border th {
+  border-right: none !important;
+}
+
 </style>
 

@@ -15,7 +15,7 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03'}">{{ baseList[0].iecResultStr}}</span>
+                            <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span>
                         </p>
                     </div>
                     <div class="text ">
@@ -33,10 +33,10 @@
                     <el-dialog
                         title="发审会委员"
                         :visible.sync="dialogVisible"
-                        width="73.6%"
+                        width="1004px"
                         :before-close="handleClose">
-                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:65vh;">
-                            <li v-for="data in memberList" class="l positionLi" style="width:31.1%;border:1px solid lightgray;padding:20px">
+                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
+                            <li v-for="data in memberList" class="l positionLi" style="width:300px;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
                                     <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
@@ -51,19 +51,18 @@
                                     padding-left: 7px;
                                     padding-right:7px;
                                     margin-top: 6px;
-                                    cursor:pointer;
                                     margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
                                 <div>
                                     <span style="color: #666;">学历/专业：</span>
-                                    <span  class="xueli" style="color: #666;cursor:pointer;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
+                                    <span  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作单位：</span>
-                                    <span class="danwei" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
+                                    <span class="danwei" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作性质：</span>
-                                    <span class="xingzhi" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
+                                    <span class="xingzhi" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
                                 </div>
                             </li>
                         </ul>
@@ -83,7 +82,7 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第一次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03'}">{{ baseList[0].iecResultStr}}</span>
+                            <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span>
                         </p>
                     </div>
                     <div class="text ">
@@ -101,10 +100,10 @@
                     <el-dialog
                         title="发审会委员"
                         :visible.sync="dialogVisible"
-                        width="73.6%"
+                        width="1004px"
                         :before-close="handleClose">
-                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:65vh;">
-                            <li v-for="data in memberList" class="l positionLi" style="width:31.1%;border:1px solid lightgray;padding:20px">
+                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
+                            <li v-for="data in memberList" class="l positionLi" style="width:300px;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
                                     <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
@@ -119,19 +118,18 @@
                                     padding-left: 7px;
                                     padding-right:7px;
                                     margin-top: 6px;
-                                    cursor:pointer;
                                     margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
                                 <div>
                                     <span style="color: #666;">学历/专业：</span>
-                                    <span  class="xueli" style="color: #666;cursor:pointer;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
+                                    <span  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作单位：</span>
-                                    <span class="danwei" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
+                                    <span class="danwei" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作性质：</span>
-                                    <span class="xingzhi" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
+                                    <span class="xingzhi" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
                                 </div>
                             </li>
                         </ul>
@@ -149,7 +147,7 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第二次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[1].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03'}">{{ baseList[1].iecResultStr}}</span>
+                            <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03','dshResult' : baseList[1].iecResult == '04'}">{{ baseList[1].iecResultStr}}</span>
                         </p>
                     </div>
                     <div class="text ">
@@ -161,19 +159,16 @@
                                 <span style="color:#1990FE;cursor:pointer" @click="handleMemberDetail(baseList[1].examineDate)">详情 &gt;</span>
                              </span>
                              <span v-else>- -</span>
-                             <!-- <span v-for="name in baseList[1].member" style="color:#333;">{{name}}</span>
-                             <span style="color:#333;"> ;</span>
-                             <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail(baseList[1].examineDate)">详情 &gt;</span> -->
                         </p>
                     </div>
                     <!-- 委员弹窗 -->
                     <el-dialog
                         title="发审会委员"
                         :visible.sync="dialogVisible"
-                        width="73.6%"
+                        width="1004px"
                         :before-close="handleClose">
-                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:65vh;">
-                            <li v-for="data in memberList" class="l positionLi" style="width:31.1%;border:1px solid lightgray;padding:20px">
+                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
+                            <li v-for="data in memberList" class="l positionLi" style="width:300px;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
                                     <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
@@ -188,19 +183,18 @@
                                     padding-left: 7px;
                                     padding-right:7px;
                                     margin-top: 6px;
-                                    cursor:pointer;
                                     margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
                                 <div>
                                     <span style="color: #666;">学历/专业：</span>
-                                    <span  class="xueli" style="color: #666;cursor:pointer;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
+                                    <span  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作单位：</span>
-                                    <span class="danwei" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
+                                    <span class="danwei" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作性质：</span>
-                                    <span class="xingzhi" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
+                                    <span class="xingzhi" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
                                 </div>
                             </li>
                         </ul>
@@ -220,7 +214,7 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第一次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03'}">{{ baseList[0].iecResultStr}}</span>
+                            <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span>
                         </p>
                     </div>
                     <div class="text ">
@@ -232,19 +226,16 @@
                                 <span style="color:#1990FE;cursor:pointer" @click="handleMemberDetail(baseList[0].examineDate)">详情 &gt;</span>
                              </span>
                              <span v-else>- -</span>
-                             <!-- <span v-for="name in baseList[0].member" style="color:#333;">{{name}}</span>
-                             <span style="color:#6B6B6B;"> </span>
-                             <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail()">详情 &gt;</span> -->
                         </p>
                     </div>
-                   <!-- 委员弹窗 -->
+                    <!-- 委员弹窗 -->
                     <el-dialog
                         title="发审会委员"
                         :visible.sync="dialogVisible"
-                        width="73.6%"
+                        width="1004px"
                         :before-close="handleClose">
-                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:65vh;">
-                            <li v-for="data in memberList" class="l positionLi" style="width:31.1%;border:1px solid lightgray;padding:20px">
+                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
+                            <li v-for="data in memberList" class="l positionLi" style="width:300px;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
                                     <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
@@ -259,19 +250,18 @@
                                     padding-left: 7px;
                                     padding-right:7px;
                                     margin-top: 6px;
-                                    cursor:pointer;
                                     margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
                                 <div>
                                     <span style="color: #666;">学历/专业：</span>
-                                    <span  class="xueli" style="color: #666;cursor:pointer;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
+                                    <span  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作单位：</span>
-                                    <span class="danwei" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
+                                    <span class="danwei" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作性质：</span>
-                                    <span class="xingzhi" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
+                                    <span class="xingzhi" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
                                 </div>
                             </li>
                         </ul>
@@ -289,7 +279,7 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第二次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[1].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03'}">{{ baseList[1].iecResultStr}}</span>
+                            <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03','dshResult' : baseList[1].iecResult == '04'}">{{ baseList[1].iecResultStr}}</span>
                         </p>
                     </div>
                     <div class="text ">
@@ -301,19 +291,16 @@
                                 <span style="color:#1990FE;cursor:pointer" @click="handleMemberDetail(baseList[1].examineDate)">详情 &gt;</span>
                              </span>
                              <span v-else>- -</span>
-                             <!-- <span v-for="name in baseList[1].member" style="color:#333;">{{name}}</span>
-                             <span style="color:#6B6B6B;"> </span>
-                             <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail()">详情 &gt;</span> -->
                         </p>
                     </div>
                     <!-- 委员弹窗 -->
                     <el-dialog
                         title="发审会委员"
                         :visible.sync="dialogVisible"
-                        width="73.6%"
+                        width="1004px"
                         :before-close="handleClose">
-                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:65vh;">
-                            <li v-for="data in memberList" class="l positionLi" style="width:31.1%;border:1px solid lightgray;padding:20px">
+                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
+                            <li v-for="data in memberList" class="l positionLi" style="width:300px;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
                                     <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
@@ -328,19 +315,18 @@
                                     padding-left: 7px;
                                     padding-right:7px;
                                     margin-top: 6px;
-                                    cursor:pointer;
                                     margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
                                 <div>
                                     <span style="color: #666;">学历/专业：</span>
-                                    <span  class="xueli" style="color: #666;cursor:pointer;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
+                                    <span  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作单位：</span>
-                                    <span class="danwei" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
+                                    <span class="danwei" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作性质：</span>
-                                    <span class="xingzhi" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
+                                    <span class="xingzhi" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
                                 </div>
                             </li>
                         </ul>
@@ -358,7 +344,7 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第三次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[2].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[2].iecResult == '00','whtgResult' : baseList[2].iecResult == '01','zhbjResult' : baseList[2].iecResult == '02','qxshResult' : baseList[2].iecResult == '03'}">{{ baseList[2].iecResultStr}}</span>
+                            <span  :class="{'htgResult' : baseList[2].iecResult == '00','whtgResult' : baseList[2].iecResult == '01','zhbjResult' : baseList[2].iecResult == '02','qxshResult' : baseList[2].iecResult == '03','dshResult' : baseList[2].iecResult == '04'}">{{ baseList[2].iecResultStr}}</span>
                         </p>
                     </div>
                     <div class="text ">
@@ -370,19 +356,16 @@
                                 <span style="color:#1990FE;cursor:pointer" @click="handleMemberDetail(baseList[2].examineDate)">详情 &gt;</span>
                              </span>
                              <span v-else>- -</span>
-                             <!-- <span v-for="name in baseList[2].member" style="color:#333;">{{name}}</span>
-                             <span style="color:#6B6B6B;"> </span>
-                             <span style="color:#6699FF;cursor:pointer" @click="handleMemberDetail()">详情 &gt;</span> -->
                         </p>
                     </div>
                    <!-- 委员弹窗 -->
                     <el-dialog
                         title="发审会委员"
                         :visible.sync="dialogVisible"
-                        width="73.6%"
+                        width="1004px"
                         :before-close="handleClose">
-                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:65vh;">
-                            <li v-for="data in memberList" class="l positionLi" style="width:31.1%;border:1px solid lightgray;padding:20px">
+                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
+                            <li v-for="data in memberList" class="l positionLi" style="width:300px;border:1px solid lightgray;padding:20px">
                                 <div>
                                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
                                     <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
@@ -397,19 +380,18 @@
                                     padding-left: 7px;
                                     padding-right:7px;
                                     margin-top: 6px;
-                                    cursor:pointer;
                                     margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
                                 <div>
                                     <span style="color: #666;">学历/专业：</span>
-                                    <span  class="xueli" style="color: #666;cursor:pointer;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
+                                    <span  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作单位：</span>
-                                    <span class="danwei" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
+                                    <span class="danwei" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
                                 </div>
                                 <div>
                                     <span style="color: #666;">工作性质：</span>
-                                    <span class="xingzhi" style="color: #666;cursor:pointer;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
+                                    <span class="xingzhi" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
                                 </div>
                             </li>
                         </ul>
@@ -419,11 +401,9 @@
         </div> 
         <!-- 下 -->
         <div class="two">
-             <div class="title">
+             <div v-if="allQuestionList&&allQuestionList.length>0" class="title">
                 <span class="littleRectangle"></span>
                 <span class="titleText" id="result">发审会关注问题</span>
-                <!-- <span v-if="baseList.length==2" class="titleText" id="result">第二次发审会关注问题</span>
-                <span v-if="baseList.length==3" class="titleText" id="result">第三次发审会关注问题</span> -->
             </div>
             <div>
                 <ul style="padding-left:0">
@@ -449,8 +429,8 @@
         <div v-loading="flagLoading" element-loading-text="给我一点时间" v-if="showMore" @click="showMoreMethods()" class="more">加载更多</div>
         <!-- 已经阅读完了 -->
         <p v-if="questionList.length>0&&!showMore" class="finishRead">已经阅读完了</p>
-        <!-- 暂无数据 -->
-        <p v-if="questionList.length==0&&!showMore" class="finishRead">暂无相关数据</p>
+        <!-- 暂无相关数据 -->
+        <p v-if="allQuestionList&&allQuestionList.length>0&&questionList.length==0&&!showMore" class="finishRead">暂无相关数据</p>
         
 </div>
 </template>
@@ -498,7 +478,6 @@ export default {
               this.showMore = false;
               this.questionList = this.allQuestionList;
             }
-        //    this.questionList = res.data.result.questionList
         })
     },
     // 初始化委员数据
@@ -537,28 +516,44 @@ export default {
     // 鼠标移入委员详情弹出窗的列
     mouseOverSpreadText(title){ 
         for(var a = 0;a< $(".position").length;a++){
-            $(".position").eq(a).attr("title",title)
+            if(title.length>19){
+                $(".position").eq(a).attr("title",title)
+            }else{
+                $(".position").eq(a).removeAttr("title",title)
+            }
         }
          for(let a = 0;a< $(".xueli").length;a++){
+             if(title.length>12){
                 $(".xueli").eq(a).attr("title",title)
+            }else{
+                $(".xueli").eq(a).removeAttr("title",title)
+            }
         }
         for(let a = 0;a< $(".danwei").length;a++){
-            $(".danwei").eq(a).attr("title",title)
+             if(title.length>12){
+                $(".danwei").eq(a).attr("title",title)
+            }else{
+                $(".danwei").eq(a).removeAttr("title",title)
+            }
         }
         for(let a = 0;a< $(".xingzhi").length;a++){
-            $(".xingzhi").eq(a).attr("title",title)
+             if(title.length>12){
+                $(".xingzhi").eq(a).attr("title",title)
+            }else{
+                $(".xingzhi").eq(a).removeAttr("title",title)
+            }
         }
     },
    getContent(title){
-     if(title.length>15){
-       return title.substring(0,15) + '...'
+     if(title.length>20){
+       return title.substring(0,19) + '...'
      }else{
        return title
      }
    },
-  getContent1(title){
-     if(title.length>8){
-       return title.substring(0,9) + '...'
+   getContent1(title){
+     if(title.length>13){
+       return title.substring(0,12) + '...'
      }else{
        return title
      }
@@ -674,7 +669,7 @@ export default {
      padding:5px;
      line-height:10px;
      display:inline-block;
-      background-size:cover;
+     background-size:cover;
      background:url('../../../assets/images/whtg.png') no-repeat;
 }
 .htgResult{
@@ -694,6 +689,15 @@ export default {
      display:inline-block;
       background-size:cover;
      background:url('../../../assets/images/qxsh.png') no-repeat;
+}
+.dshResult{
+     font-size: 14px;
+     color: #ffd800;
+     padding:5px;
+     line-height:10px;
+     display:inline-block;
+     background-size:cover;
+     background:url('../../../assets/images/dsh.png') no-repeat;
 }
 .positionLi{
     margin-right:16px;

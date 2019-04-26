@@ -26,7 +26,7 @@
             align="left"
             >
             <template slot-scope="scope">
-              <span style=" color:#0099CC">
+              <span style=" color:#14bcf5">
                  <a v-if="scope.row.letterId!=''" @click="openLetterDetail(scope.row)">{{scope.row.relationFileTitle}}</a>
               </span>
             </template>
@@ -38,7 +38,7 @@
             align="left"
             show-overflow-tooltip>
             <template slot-scope="scope">
-              <i @click="handleDown(scope.row)" class="el-icon-download" style="font-size:20px;cursor:pointer"></i>
+              <i @click="handleDown(scope.row)" class="el-icon-download" style="font-size:20px !important;cursor:pointer"></i>
             </template>
             </el-table-column>
         </el-table>

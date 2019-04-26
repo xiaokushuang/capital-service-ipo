@@ -38,6 +38,12 @@ export default {
   },
   mounted() {
     //this.initChart()
+    setTimeout(function (){
+      window.onresize = function () {
+        let chart = echarts.init(document.querySelector('#one'));
+        chart.resize();
+      }
+    },200);
     this.chart = null;
     // console.log(this.chartData)
   },
@@ -111,6 +117,10 @@ export default {
         },
         legend: {
           x: "right",
+          selected: {
+            募集资金: true,
+            发行家数:true
+          },
           data: ["募集资金", "发行家数"]
         },
         xAxis: [
@@ -133,7 +143,9 @@ export default {
 			            max: 200000,
 			            interval: 20000,*/
             axisLabel: {
-              formatter: "{value}"
+              formatter: function (value, index) {  //y轴千分位格式化
+                return value.toString().replace(/(\d{1,3})(?=(\d{3})+$)/g,'$1,');      
+              }
             }
           },
           {
@@ -143,7 +155,9 @@ export default {
 			            max: 15000,
 			            interval: 3000,*/
             axisLabel: {
-              formatter: "{value}"
+              formatter: function (value, index) {  //y轴千分位格式化
+                return value.toString().replace(/(\d{1,3})(?=(\d{3})+$)/g,'$1,');      
+              }
             }
           }
         ],

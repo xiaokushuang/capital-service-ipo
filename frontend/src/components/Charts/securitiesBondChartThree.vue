@@ -1,9 +1,10 @@
 <template>
-  <div :class="className" :id="id" :style="{height:height,width:width}"></div>
+  <div style="padding-left:15px!important" :class="className" :id="id" :style="{height:height,width:width}"></div>
 </template>
 
 <script>
 import echarts from "echarts";
+// import 'echarts/map/js/china.js'
 
 export default {
   //props: ['className','id','width','height','chartData'],
@@ -19,7 +20,7 @@ export default {
     },
     width: {
       type: String,
-      default: "100%"
+      default: "98%"
     },
     height: {
       type: String,
@@ -37,7 +38,13 @@ export default {
     };
   },
   mounted() {
-    this.initChart();
+    setTimeout(function (){
+      window.onresize = function () {
+        let chart = echarts.init(document.querySelector('#three'));
+        chart.resize();
+      }
+    },200);
+    // this.initChart();
     this.chart = null;
     // console.log(this.chartData)
   },
@@ -123,7 +130,6 @@ export default {
           series: [
             {
               type: "effectScatter",
-
               coordinateSystem: "geo",
               symbolSize: function(val) {
                 return 20;
@@ -153,7 +159,7 @@ export default {
               geoIndex: 0,
               // tooltip: {show: false},
               //data : data[0].dataSum
-              data: this.chartData[0].dataSum
+              data: this.chartData[1].dataSum
             }
           ]
         });
