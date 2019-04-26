@@ -284,7 +284,7 @@ export default {
   computed: {
     ...mapGetters(["getIpo3"]),
     data0(){
-        return this.tableData.length>0?this.tableData[0].dataSum:[]
+        return this.tableData.length>0?this.tableData[1].dataSum:[]
     },
     data2(){
         return this.tableData.length>0?this.tableData[2].dataSum:[]
