@@ -249,20 +249,21 @@
     </select>
 
     <resultMap id="firstLabelResult" type="java.util.HashMap">
-        <result column="id" property="labelId"/>
-        <result column="letter_class_name" property="letterClassName"/>
-        <result column="sort" property="sort"/>
+        <result column="id" property="labelId" jdbcType="VARCHAR"/>
+        <result column="letter_class_name" property="letterClassName" jdbcType="VARCHAR"/>
+        <result column="sort" property="sort" jdbcType="VARCHAR"/>
     </resultMap>
     <select id="selectFirstLabelMap" resultMap="firstLabelResult">
-        select id,letter_class_name,t1.sort from letter_class t1 where t1.`level` = 0 order by t1.sort
+        select id,letter_class_name,concat(t1.sort) sort from letter_class t1 where t1.`level` = 0 order by t1.sort
     </select>
 
     <resultMap id="secondLabelResult" type="java.util.HashMap">
-        <result column="id" property="labelId"/>
-        <result column="letter_class_name" property="letterClassName"/>
+        <result column="id" property="labelId" jdbcType="VARCHAR"/>
+        <result column="letter_class_name" property="letterClassName" jdbcType="VARCHAR"/>
+        <result column="sort" property="sort" jdbcType="VARCHAR"/>
     </resultMap>
     <select id="selectSecondLabelMap" resultMap="secondLabelResult">
-        select id,letter_class_name from letter_class t1 where t1.`level` = 1
+        select id,letter_class_name,concat(t1.sort) sort from letter_class t1 where t1.`level` = 1
         <if test="firstLabelId != null and firstLabelId != ''">
           and t1.parent_id = #{firstLabelId}
         </if>

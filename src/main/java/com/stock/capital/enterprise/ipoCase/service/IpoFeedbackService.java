@@ -162,7 +162,11 @@ public class IpoFeedbackService extends BaseService {
                     questionLabelDto.setLabelCode(labelDto.getFieldId());
                     questionLabelDto.setLabelName(firstLabelMap.get(labelDto.getFieldId()).get("letterClassName"));
                     questionLabelDto.setLabelCount(String.valueOf(labelDto.getCount()));
-                    questionLabelDto.setSort(Integer.valueOf(firstLabelMap.get(labelDto.getFieldId()).get("sort")));
+                    String sort = firstLabelMap.get(labelDto.getFieldId()).get("sort");
+                    if(StringUtils.isEmpty(sort)){
+                        sort = "1";
+                    }
+                    questionLabelDto.setSort(Integer.parseInt(sort));
                     firstLabelList.add(questionLabelDto);
                 }
             }
@@ -305,7 +309,11 @@ public class IpoFeedbackService extends BaseService {
                 questionLabelDto.setLabelCode(labelDto.getFieldId());
                 questionLabelDto.setLabelName(secondSelLabelMap.get(labelDto.getFieldId()).get("letterClassName"));
                 questionLabelDto.setLabelCount(String.valueOf(labelDto.getCount()));
-                questionLabelDto.setSort(Integer.valueOf(secondSelLabelMap.get(labelDto.getFieldId()).get("sort")));
+                String sort = secondSelLabelMap.get(labelDto.getFieldId()).get("sort");
+                if(StringUtils.isEmpty(sort)){
+                    sort = "1";
+                }
+                questionLabelDto.setSort(Integer.parseInt(sort));
                 secondLabelList.add(questionLabelDto);
             }
         }
