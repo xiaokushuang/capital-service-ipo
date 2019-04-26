@@ -351,6 +351,10 @@ body{
 [rightTable1] .el-table th>.cell {
     padding: 5px;
 }
+[rightTable1] .el-table--border td:first-child .cell, .el-table--border th:first-child .cell, .el-table .cell, .el-table th div{
+    padding-left:8px;
+}
+
 [rightTable1] .has-gutter .el-table_2_column_4>.cell {
     margin-left: 50px;
 }
