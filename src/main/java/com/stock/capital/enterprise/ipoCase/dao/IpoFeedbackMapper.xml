@@ -251,9 +251,10 @@
     <resultMap id="firstLabelResult" type="java.util.HashMap">
         <result column="id" property="labelId"/>
         <result column="letter_class_name" property="letterClassName"/>
+        <result column="sort" property="sort"/>
     </resultMap>
     <select id="selectFirstLabelMap" resultMap="firstLabelResult">
-        select id,letter_class_name from letter_class t1 where t1.`level` = 0 order by t1.sort
+        select id,letter_class_name,t1.sort from letter_class t1 where t1.`level` = 0 order by t1.sort
     </select>
 
     <resultMap id="secondLabelResult" type="java.util.HashMap">
