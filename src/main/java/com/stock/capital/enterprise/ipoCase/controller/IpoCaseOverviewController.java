@@ -13,6 +13,7 @@ import com.stock.capital.enterprise.ipoCase.dto.MainIncomeVo;
 import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
+import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.core.dto.JsonResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -39,6 +40,8 @@ public class IpoCaseOverviewController {
     private IpoFeedbackMapper ipoFeedbackMapper;
     @Autowired
     private IpoExamineMapper ipoExamineMapper;
+    @Autowired
+    private IpoFeedbackService ipoFeedbackService;
 
     @ApiOperation(value = "案例详细接口", notes = "案例详细接接口描述")
     @ApiImplicitParams({
@@ -140,8 +143,9 @@ public class IpoCaseOverviewController {
         JsonResponse<HeadDataVo> response = new JsonResponse<>();
         HeadDataVo headDataVo = companyOverviewService.getHeadData(id);
         //判断是否显示反馈意见
-        List<String> processDateList = ipoFeedbackMapper.selectFeedbackProcess(id);
-        if(CollectionUtils.isNotEmpty(processDateList)){
+        List<IpoFeedbackDto> ipoFeedbackList = ipoFeedbackService.selectNewFeedbackList(id);
+//        List<String> processDateList = ipoFeedbackMapper.selectFeedbackProcess(id);
+        if(CollectionUtils.isNotEmpty(ipoFeedbackList)){
             headDataVo.setHaveFeedback(0);
         }else{
             headDataVo.setHaveFeedback(1);
