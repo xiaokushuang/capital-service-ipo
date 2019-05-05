@@ -208,9 +208,12 @@ function tSelectDataInit() {
 			name : 'name',
 			value : 'name',
 			grade : 2,
+			openDown:false,
 			resultType : 'children',
 			style : {},			
-			allCheck : true
+			allCheck : true,
+			allShow:true
+			
 		};
 	$('#registAddr').tselectInit(null, tSelectOptions1);
 	$('#industry').tselectInit(null, tSelectOptions2);
