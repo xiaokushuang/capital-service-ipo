@@ -32,7 +32,7 @@
 </template>
 
 <script>
-
+import {iframeDoMessage} from '@/utils/auth'
 export default {
   name: 'papers',
   components: {  },
@@ -116,6 +116,7 @@ export default {
         console.log(`按照${data.orderByName}字段排序`)
         console.log(`排序方式：${data.orderByOrder}`)
         this.$emit('searchTable',data)
+        iframeDoMessage(window.parent,'scrollTop',[]);
     },
     firstPage(){//首页
         this.submitData.startRow = 1;
