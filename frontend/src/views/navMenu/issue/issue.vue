@@ -57,6 +57,18 @@
                         <span v-else> - - </span>
                       </el-col>
                   </el-row>
+                   <el-row :gutter="24" class="simulation_table">
+                      <el-col :span="6" class="label"><span>战略配售数量</span></el-col>
+                      <el-col :span="6" class="value">
+                        <span v-if="issueData.shareIssueOn"> {{issueData.shareIssueOn | dataInThRule}} 万股</span>
+                        <span v-else> - - </span>
+                      </el-col>
+                      <el-col :span="6" class="label"><span>超额配售数量</span></el-col>
+                      <el-col :span="6" class="value">
+                        <span v-if="issueData.sharePlaceOff"> {{issueData.sharePlaceOff | dataInThRule}} 万股</span>
+                        <span v-else> - - </span>
+                      </el-col>
+                  </el-row>
                     <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>老股东公开发售股份</span></el-col>
                       <el-col :span="6" class="value">

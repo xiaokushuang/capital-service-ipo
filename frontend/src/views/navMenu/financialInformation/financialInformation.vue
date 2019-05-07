@@ -1,15 +1,16 @@
 <template>
     <div class="financialInformation">
-        <!-- 主要财务数据 -->
+        <!-- 财务数据 -->
         <div class="financialData">
-            <div v-if="(allAssetsTableTitle!=null&&assetsOrDeptTableTitle!=null&&incomeTableTitle!=null)&&(allAssetsTableTitle.firstYearDate ||  assetsOrDeptTableTitle.firstYearDate || incomeTableTitle.firstYearDate)" class="title">
-                <span class="littleRectangle"></span>
-                <span class="titleText" id="financialStatementData">主要财务数据</span>
-            </div>
+            <!-- 财务总体情况 -->
             <div class="allAssets">
-                <span v-if="allAssetsTableTitle!=null&&allAssetsTableTitle.firstYearDate " style="font-size:16px;color:#333">财务总体情况</span>
+                <div style="margin-top:61px" v-if="allAssetsTableTitle!=null&&allAssetsTableTitle.firstYearDate " class="title">
+                    <span class="littleRectangle"></span>
+                    <span class="titleText" id="allAssets">财务总体情况</span>
+                </div>
+                <!-- <span v-if="allAssetsTableTitle!=null&&allAssetsTableTitle.firstYearDate " style="font-size:16px;color:#333">财务总体情况</span> -->
                 <span v-if="allAssetsTableTitle!=null&&allAssetsTableTitle.firstYearDate "  class="clear">
-                    <span style="float: right;font-size: 12px;color: #666666;">
+                    <span style="float: right;font-size: 12px;color: #666666;display:inline-block;margin-bottom:12px">
                        单位：万元
                     </span>
                 </span>
@@ -17,10 +18,14 @@
                     <allAssetsTable v-if="this.allAssetsTableTitle!=null&&this.allAssetsTableTitle.firstYearDate "  :allAssetsTableList="[this.allAssetsTableTitle,this.allAssetsTableContent]"></allAssetsTable>
                 </div>
             </div>
-            <div class="assets">
-                <!-- <p>资产与负债情况</p> -->
+                <!-- 资产与负债情况 -->
+            <div class="assetsDebts">
                 <div style="margin-top:24px;margin-bottom:12px">
-                    <span  v-if="this.assetsOrDeptTableTitle!=null&&this.assetsOrDeptTableTitle.firstYearDate " style="font-size:16px;color:#333">资产与负债情况</span>
+                    <div v-if="this.assetsOrDeptTableTitle!=null&&this.assetsOrDeptTableTitle.firstYearDate " class="title">
+                        <span class="littleRectangle"></span>
+                        <span class="titleText" id="assetsDebts">资产与负债情况</span>
+                    </div>
+                    <!-- <span  v-if="this.assetsOrDeptTableTitle!=null&&this.assetsOrDeptTableTitle.firstYearDate " style="font-size:16px;color:#333">资产与负债情况</span> -->
                     <span v-if="this.assetsOrDeptTableTitle!=null&&this.assetsOrDeptTableTitle.firstYearDate "  class="clear">
                         <span style="float: right;font-size: 12px;color: #666666;">
                         单位：万元
@@ -31,10 +36,14 @@
                     <assetsOrDebtTable v-if="this.assetsOrDeptTableTitle!=null&&this.assetsOrDeptTableTitle.firstYearDate "  :assetsOrDeptTableList="[this.assetsOrDeptTableTitle,this.ipoAssetItemList,this.ipoDebtItemList,this.ipoEquityItemList]"></assetsOrDebtTable>
                 </div>
             </div>
+            <!-- 收入与利润情况 -->
             <div class="income">
-                <!-- <p>收入与利润情况</p>  -->
                 <div style="margin-top:24px;margin-bottom:12px">
-                    <span v-if="this.incomeTableTitle!=null&&this.incomeTableTitle.firstYearDate " style="font-size:16px;color:#333">收入与利润情况</span>
+                     <div v-if="this.incomeTableTitle!=null&&this.incomeTableTitle.firstYearDate " class="title">
+                        <span class="littleRectangle"></span>
+                        <span class="titleText" id="income">收入与利润情况</span>
+                    </div>
+                    <!-- <span v-if="this.incomeTableTitle!=null&&this.incomeTableTitle.firstYearDate " style="font-size:16px;color:#333">收入与利润情况</span> -->
                     <span v-if="this.incomeTableTitle!=null&&this.incomeTableTitle.firstYearDate " class="clear">
                         <span style="float: right;font-size: 12px;color: #666666;">
                         单位：万元
@@ -45,92 +54,13 @@
                     <incomeTable v-if="this.incomeTableTitle!=null&&this.incomeTableTitle.firstYearDate "  :incomeTableList="[this.incomeTableTitle,this.ipoProfitItemList,this.ipoCostItemList,this.ipoReturnOverList]"></incomeTable>
                 </div>
             </div>
-        </div>
-        <!-- 招股书列示同行业上市公司综合毛利率对比 -->
-        <div class="compare">
-            <div v-if="maoChartTableData&&maoChartTableData.length>0" class="title" >
-                <span class="littleRectangle"></span>
-                <span class="titleText" id="comparison">招股书列示同行业上市公司综合毛利率对比</span>
-            </div>
-            <div v-if="maoChartTableData&&maoChartTableData.length>0" >
-                <div class="chartTable" v-for="item,index in maoChartTableData" :key="item.id">
-                    <p style="font-family:'PingFang-SC-Regular', 'PingFang SC';font-weight:400;color:#666666;font-size:14px; margin-top: 30px;margin-bottom:0px">{{item.remark}}</p>
-                    <div class="zxChart" style="height:300px;width:100%; ">
-                        <zxChart v-if="maoChartTableData&&maoChartTableData.length>0" ref="zxChart" :zxIndex = "index"></zxChart>
-                    </div>
-                    <div class="table">
-                        <!-- 其他公司对比 -->
-                        <el-table class="otherCompany" stripe :data="item.industryCompareRateDetailList.slice(0,-2)" border style="width: 100%;margin-top: 20px">
-                            <el-table-column prop="companyName" align="left" class-name="table_cell" label="企业名称" width="156" ></el-table-column>
-                            <el-table-column align="center" :label="item.thirdYear" header-align="center">
-                                <template slot-scope="scope">
-                                    <span v-if="scope.row.thirdYearRate"> {{scope.row.thirdYearRate | dataInThRule}}%</span>
-                                    <span v-else> - - </span>
-                                </template>
-                            </el-table-column>
-                            <el-table-column align="center" :label="item.secondYear" header-align="center" >
-                                <template slot-scope="scope">
-                                    <span v-if="scope.row.secondYearRate"> {{scope.row.secondYearRate | dataInThRule}}%</span>
-                                    <span v-else> - - </span>
-                                </template>
-                            </el-table-column>
-                            <el-table-column align="center" :label="item.firstYear" header-align="center" >
-                                <template slot-scope="scope">
-                                    <span v-if="scope.row.firstYearRate"> {{scope.row.firstYearRate | dataInThRule}}%</span>
-                                    <span v-else> - - </span>
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                        <!-- 平均值 -->
-                        <el-table class="average averageOrMyself" stripe :data="item.industryCompareRateDetailList.slice(-2,-1)" border style="width: 100%;margin-top: 20px">
-                            <el-table-column align="left" class-name="table_cell" label="企业名称" width="156" >
-                                <template slot-scope="scope">
-                                    <span style="font-weight:bold;color:black">{{isNotEmpty(scope.row.companyName) ? scope.row.companyName: '- -'}}</span>
-                                </template>
-                            </el-table-column>
-                            <el-table-column align="center" :label="item.thirdYear" header-align="center">
-                                <template slot-scope="scope">
-                                    <span style="font-weight:bold;color:black" v-if="scope.row.thirdYearRate"> {{scope.row.thirdYearRate | dataInThRule}}%</span>
-                                    <span style="font-weight:bold;color:black" v-else> - - </span>
-                                </template>
-                            </el-table-column>
-                            <el-table-column align="center" :label="item.secondYear" header-align="center" >
-                                <template slot-scope="scope">
-                                    <span style="font-weight:bold;color:black" v-if="scope.row.secondYearRate"> {{scope.row.secondYearRate | dataInThRule}}%</span>
-                                    <span style="font-weight:bold;color:black" v-else> - - </span>
-                                </template>
-                            </el-table-column>
-                            <el-table-column align="center" :label="item.firstYear" header-align="center" >
-                                <template slot-scope="scope">
-                                    <span style="font-weight:bold;color:black" v-if="scope.row.firstYearRate"> {{scope.row.firstYearRate | dataInThRule}}%</span>
-                                    <span style="font-weight:bold;color:black" v-else> - - </span>
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                        <!-- 自己公司 -->
-                        <el-table class="averageOrMyself myself" stripe :data="item.industryCompareRateDetailList.slice(-1)" border style="width: 100%;margin-top: 20px">
-                            <el-table-column prop="companyName" align="left" class-name="table_cell" label="企业名称" width="156" ></el-table-column>
-                            <el-table-column align="center" :label="item.thirdYear" header-align="center">
-                                <template slot-scope="scope">
-                                    <span v-if="scope.row.thirdYearRate"> {{scope.row.thirdYearRate | dataInThRule}}%</span>
-                                    <span v-else> - - </span>
-                                </template>
-                            </el-table-column>
-                            <el-table-column align="center" :label="item.secondYear" header-align="center" >
-                                <template slot-scope="scope">
-                                    <span v-if="scope.row.secondYearRate"> {{scope.row.secondYearRate | dataInThRule}}%</span>
-                                    <span v-else> - - </span>
-                                </template>
-                            </el-table-column>
-                            <el-table-column align="center" :label="item.firstYear" header-align="center" >
-                                <template slot-scope="scope">
-                                    <span v-if="scope.row.firstYearRate"> {{scope.row.firstYearRate | dataInThRule}}%</span>
-                                    <span v-else> - - </span>
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                    </div>
-                </div>
+            <!-- 主要财务指标 -->
+            <div class="keyFinancialIndicators">
+                 <div class="title">
+                    <span class="littleRectangle"></span>
+                    <span class="titleText" id="keyFinancialIndicators">主要财务指标</span>
+                 </div>
+
             </div>
         </div>
     </div>
@@ -139,7 +69,6 @@
 import assetsOrDebtTable from "@/views/tables/assetsOrDebtTable";
 import allAssetsTable from "@/views/tables/allAssetsTable";
 import incomeTable from "@/views/tables/incomeTable";
-import zxChart from "@/components/Charts/zxChart";
 import compareTable from "@/views/tables/compareTable";
 import echarts from 'echarts'
 // 财务总体情况
@@ -148,7 +77,6 @@ import echarts from 'echarts'
  import { getAssetsOrDebtData } from '@/api/ipoCase/tableDemo'
 //  收入与利润
 import { getSelectFinanceProfitList } from '@/api/ipoCase/tableDemo'
-import { getMaoChartTableData } from '@/api/ipoCase/tableDemo'
 export default {
     name:'financialInformation',
     data(){
@@ -198,7 +126,6 @@ export default {
         allAssetsTable,
         assetsOrDebtTable,
         incomeTable,
-        zxChart,
         compareTable
     },
     created(){
@@ -211,30 +138,57 @@ export default {
         getPosition(){
            //返回父组件用于锚点定位头
                 let titleList = [];
-                let financialStatementData = {
-                    id: 'financialStatementData',
-                    name: '主要财务数据',
+                let allAssets = {
+                    id: 'allAssets',
+                    name: '财务总体情况',
                     notes: '',
                     important: false,
                     tabId: 'tab-second',
                     noClick: true
                 }
-                let comparison = {
-                    id: 'comparison',
-                    name: '同行业毛利率对比',
+                let assetsDebts = {
+                    id: 'assetsDebts',
+                    name: '资产与负债情况',
                     notes: '',
                     important: false,
                     tabId: 'tab-second',
                     noClick: true
-                } 
-                 if((this.allAssetsTableTitle!=null&&this.assetsOrDeptTableTitle!=null&&this.incomeTableTitle!=null)&&(this.allAssetsTableTitle.firstYearDate ||  this.assetsOrDeptTableTitle.firstYearDate || this.incomeTableTitle.firstYearDate)){
-                    financialStatementData.noClick = false;
-                    }
-                 if(this.maoChartTableData&&this.maoChartTableData.length>0){
-                    comparison.noClick = false;
-                 }             
-                titleList.push(financialStatementData)
-                titleList.push(comparison)
+                }
+                let income = {
+                    id: 'income',
+                    name: '收入与利润情况',
+                    notes: '',
+                    important: false,
+                    tabId: 'tab-second',
+                    noClick: true
+                }
+                let keyFinancialIndicators = {
+                    id: 'keyFinancialIndicators',
+                    name: '主要财务指标',
+                    notes: '',
+                    important: false,
+                    tabId: 'tab-second',
+                    noClick: true
+                }
+
+               
+                 if(this.allAssetsTableTitle!=null&&this.allAssetsTableTitle.firstYearDate){
+                    allAssets.noClick = false;
+                 }
+                 if(this.assetsOrDeptTableTitle!=null&&this.assetsOrDeptTableTitle.firstYearDate){
+                    assetsDebts.noClick = false;
+                 }
+                 if(this.incomeTableTitle!=null&&this.incomeTableTitle.firstYearDate){
+                    income.noClick = false;
+                 }
+                 if(this.allAssetsTableTitle!=null&&this.allAssetsTableTitle.firstYearDate){
+                    keyFinancialIndicators.noClick = false;
+                 }
+                titleList.push(allAssets)
+                titleList.push(assetsDebts)
+                titleList.push(income)
+                titleList.push(keyFinancialIndicators)
+               
                 this.$emit('headCallBack', titleList);
             //返回父组件用于锚点定位尾
         },
@@ -244,12 +198,6 @@ export default {
             const param = {
              id:this.caseId
             }
-            getMaoChartTableData(param).then(res => {
-                if(res.data.result&&res.data.result.length>0){
-                    this.maoChartTableData = res.data.result              
-                this.getPosition()
-                }
-            }) 
             // 资产总体
              getSelectFinanceOverList(param).then(res => {
                  if(res.data.result&&res.data.result.dateList!=null){

@@ -327,7 +327,6 @@
 <script>
 import {getSelectFeedbackList} from '@/api/ipoCase/companyProfile'
 import {getSelectQuestionList} from '@/api/ipoCase/companyProfile'
-// import {getSelectSecondLabelList} from '@/api/ipoCase/companyProfile'
 import $ from "jquery";
 export default {
   name: "feedback",
@@ -455,11 +454,9 @@ export default {
     // 多选按钮
     handelMoreChange(val){
        this.checkboxGroup = val
-       console.log('11111',this.checkboxGroup)
        for(let i = 0;i<val.length;i++){
          if(val[i] == null){
            this.checkboxGroup = []
-          //  document.querySelector('.el-checkbox-button__inner:nth-of-type(1)').style.backgroundColor="white";
          }
        }
        if(this.radioVal == null ){
@@ -472,7 +469,6 @@ export default {
         // 多选按钮
     handelMoreChange2(val){
        this.checkboxGroup2 = val
-       console.log('22222222',this.checkboxGroup2)
        for(let i = 0;i<val.length;i++){
          if(val[i] == null){
            this.checkboxGroup2 = []
@@ -544,11 +540,9 @@ export default {
        else{
          this.initOnlyQuestionData(this.o_letterId,this.radioVal3,this.checkboxGroup3,this.onlyShowAnswerFlag3)
        }
-
     },
     // 点击加载更多
     showMoreMethods(){
-      // debugger;
       if(this.tabList.length==1){
         this.showLength+=15
         if(this.allQuestionList.length > this.showLength){
@@ -689,7 +683,6 @@ export default {
       },
       // 获取筛选二级标签和问题列表
       initQuestionData(letterId,firstLabelId,secondLabelId,onlyResponse,ifReset) {
-        // debugger
         // 动态传id
         // 将second多选按钮参数用字符串，隔开
         let secondLabel = '';
@@ -706,11 +699,8 @@ export default {
           secondLabelId:secondLabel,
           onlyResponse:onlyResponse,
         }
-        console.log('获取二级菜单及问题id',param)
         getSelectQuestionList(param).then(res => {
           // 当只有一个tab页时
-          // debugger;
-          console.log('点击一级菜单获取结果',res.data.result)
           if(this.tabList.length==1){
             if(res.data.result.length  > 0){
               this.allQuestionList = res.data.result[0].questionList;
@@ -719,7 +709,6 @@ export default {
               if(ifReset != '0'){
                 this. feedbackduoxuanList = res.data.result[0].questionLabelList
               }
-
               if(this.allQuestionList.length > 15){
                 this.showMore = true;
                 this.questionList = this.allQuestionList.slice(0,15);
@@ -859,9 +848,7 @@ export default {
           secondLabelId:secondLabel,
           onlyResponse:onlyResponse,
         }
-        console.log('点击二级菜单获取问题id',param)
         getSelectQuestionList(param).then(res => {
-          console.log('点击二级菜单获取问题结果',res.data.result)
           // 当只有一个tab页时
           if(this.tabList.length==1){
             if(res.data.result.length  > 0){

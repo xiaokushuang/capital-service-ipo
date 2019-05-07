@@ -17,10 +17,10 @@
             <div v-if="companyProfileList&&companyProfileList.industryCsrc"  style="color: #333333;float:left;display:inline-block;width: 53%;margin-left: 27px;">{{companyProfileList.industryCsrc}}</div>
             <div v-else  style="color: #333333;float:left;display:inline-block;width: 53%;margin-left: 27px;">- -</div>
           </li>
-          <li  class="clear" style="margin-bottom:10px;position:relative" >
-            <span  class="l">注册资本</span>
-            <div v-if="companyProfileList&&companyProfileList.registeredAssets" style="color: #333333;float:left;display:inline-block;width: 60%;margin-left: 27px;">{{companyProfileList.registeredAssets | dataInThRule}}万元</div>
-            <div v-else style="color: #333333;float:left;display:inline-block;width: 60%;margin-left: 27px;">- -</div>
+            <li  class="clear" style="margin-bottom:10px;position:relative" >
+            <span  class="l">所属行业(战略新兴)</span>
+            <div v-if="companyProfileList&&companyProfileList.industryCsrc"  style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;">{{companyProfileList.industryCsrc.slice(0,5)}}</div>
+            <div v-else  style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;">- -</div>
           </li>
           <li  class="clear" style="margin-bottom:10px;position:relative" >
             <span  class="l">公司简称</span>
@@ -33,17 +33,28 @@
             <div v-else  style="color: #333333;float:left;display:inline-block;width: 60%;line-height:19px;margin-left: 27px;">- -</div>
           </li>
           <li  class="clear" style="margin-bottom:10px;position:relative" >
+            <span  class="l">注册资本</span>
+            <div v-if="companyProfileList&&companyProfileList.registeredAssets" style="color: #333333;float:left;display:inline-block;width: 60%;margin-left: 27px;">{{companyProfileList.registeredAssets | dataInThRule}}万元</div>
+            <div v-else style="color: #333333;float:left;display:inline-block;width: 60%;margin-left: 27px;">- -</div>
+          </li>
+           <li class="clear" style="margin-bottom:10px;position:relative" >
+            <span class="l">注册地址</span>
+            <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-if="companyProfileList&&(companyProfileList.addrProv || companyProfileList.addrCity || companyProfileList.addrArea)" >{{companyProfileList.addrProv}}{{companyProfileList.addrCity}}{{companyProfileList.addrArea}}</div>
+            <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-else >- -</div>
+          </li>
+          <li  class="clear" style="margin-bottom:10px;position:relative" >
             <span  class="l">企业性质</span>
+            <div v-if="companyProfileList&&companyProfileList.companyNature"  style="color: #333333;float:left;display:inline-block;width: 60%;margin-left: 27px;">{{companyProfileList.companyNature}}</div>
+            <div v-else  style="color: #333333;float:left;display:inline-block;width: 60%;margin-left: 27px;">- -</div>
+          </li>
+          <li  class="clear" style="margin-bottom:10px;position:relative" >
+            <span  class="l">配售机制</span>
             <div v-if="companyProfileList&&companyProfileList.companyNature"  style="color: #333333;float:left;display:inline-block;width: 60%;margin-left: 27px;">{{companyProfileList.companyNature}}</div>
             <div v-else  style="color: #333333;float:left;display:inline-block;width: 60%;margin-left: 27px;">- -</div>
           </li>
         </ul>
         <div>
-          <li class="clear" style="margin-bottom:10px;position:relative" >
-            <span class="l">注册地址</span>
-            <div style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 27px;" v-if="companyProfileList&&(companyProfileList.addrProv || companyProfileList.addrCity || companyProfileList.addrArea)" >{{companyProfileList.addrProv}}{{companyProfileList.addrCity}}{{companyProfileList.addrArea}}</div>
-            <div style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 27px;" v-else >- -</div>
-          </li>
+         
           <li class="clear" style="margin-bottom:10px;position:relative" >
             <span class="l">控股股东</span>
             <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 27px;" v-if="companyProfileList&&companyProfileList.controlShareholder">{{companyProfileList.controlShareholder}}</div>
@@ -77,6 +88,7 @@
           </li>
         </div>
       </div>
+      <!-- 登录其他资本市场 -->
       <div class="others" v-if="this.otherMarketInfoList&&this.otherMarketInfoList.length>0">
         <p style="color:black">登录其他资本市场</p>
         <ul v-for="item in otherMarketInfoList">
@@ -98,6 +110,67 @@
           </li>
         </ul>
       </div>
+      <!-- 拆分上市情况 -->
+       <div class="splitListing" v-if="this.otherMarketInfoList&&this.otherMarketInfoList.length>0">
+        <p style="color:black;margin-top:16px">拆分上市情况</p>
+        <ul v-for="item in otherMarketInfoList">
+          <li style=" width: 33%;position:relative">
+            <span>上市公司</span>&nbsp;&nbsp;
+            <div style="color:black;margin-left: 25%;margin-top: -17.5px;">{{item.marketType}}</div>
+          </li>
+          <li style=" width: 33%;">
+            <span>所在市场</span>&nbsp;&nbsp;
+            <span style="color:black">{{item.companyCode}}</span>
+          </li>
+          <li style=" width: 33%;">
+            <span>直接或间接持有发行人股份</span>&nbsp;&nbsp;
+            <span style="color:black">{{item.listTime}}</span>
+          </li>
+          <li style="width: 100%; ">
+            <span>拆分详情</span>&nbsp;&nbsp;
+            <span style="color:black">2019 年 3 月 29 日，香港联交所向微创医疗发出书面通知，同意微创医疗分拆心脉医疗在上交所科创板上市。</span>
+          </li>
+           <li style="width: 100%; ">
+            <span>相关文件</span>&nbsp;&nbsp;
+            <span style="color:#3399fe">上海微創心脈醫療科技股份有限公司並於上海證券交易所科創板獨立上</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- 最后一次估值情况 -->
+    <div class="lastValuation" style="margin-top:32px">
+      <div v-if="(companyProfileList&&companyProfileList.structureUrl) || (gqTableList&&gqTableList.length>0)" class="title">
+        <span class="littleRectangle"></span>
+        <span class="titleText" id="lastValuation">最后一次估值情况</span>
+        <span v-if="companyProfileList&&companyProfileList.structureLabel">
+           <span v-for="(item,index) in companyProfileList.structureLabel.split(',')" class="hongkuang">{{item}}</span>
+        </span>
+      </div>
+      <ul style=" width: 100%;
+        font-size:14px;
+        display: flex;
+        flex-wrap: wrap;
+        padding-left: 0;">
+          <li style=" width: 25%;position:relative">
+            <span style="color:#999">时间</span>&nbsp;&nbsp;
+            <div style="color:#333;margin-left: 25%;margin-top: -17.5px;">2018年12月14日</div>
+          </li>
+          <li style=" width: 25%;">
+            <span style="color:#999">股价</span>&nbsp;&nbsp;
+            <span style="color:#333">13.05元/股</span>
+          </li>
+          <li style=" width: 25%;">
+            <span style="color:#999">总股本</span>&nbsp;&nbsp;
+            <span style="color:#333">18195.00万股</span>
+          </li>
+          <li style=" width: 25%;">
+            <span style="color:#999">市值</span>&nbsp;&nbsp;
+            <span style="color:#333">23.74亿元</span>
+          </li>
+        </ul>
+        <p style="color:#666;font-size:14px">2016 年 12 月 8 日，程晓阳分别与天目空间与上海庸顺签署《股权转让协议》，约定程晓阳以 13.05 元/股的价格将其持有的公司股权转让给天目空间和上海庸顺，其中天目空间受让 300 万股，上海庸顺受让 283.466 万股。
+
+2016 年 12 月 8 日，程晓阳分别与天目空间和上海庸顺签署《出资协议》，约定程晓阳以 13.05 元/股的价格将其持有的公司 255 万股股票与 216.534 万股股票分别作价33,277,500 元与 28,257,687 元，向天目空间与上海庸顺进行出资。</p>
     </div>
     <!-- 股权结构图 -->
     <div class="ownershipStructure" style="margin-top:32px">
@@ -159,50 +232,13 @@
          <mainTable  v-if="mainTableList.firstYearForIncome" :mainTableList = "mainTableList"></mainTable>
       </div>
     </div>
-    <!-- 主要竞争对手简介 -->
-    <div class="MajorCompetitors">
-      <div v-if="MajorCompetitors&&MajorCompetitors.length>0" class="title">
-        <span class="littleRectangle"></span>
-        <span class="titleText" id="mainCompetitors">主要竞争对手简介</span>
-      </div>
-      <div class="competitorContent">
-        <ul class="competitorUl" style="padding-left:0">
-          <li class="clear competitorLi" v-for="data in MajorCompetitors" style="display: table;	width: 100%;height: 100%;*position: relative;">
-            <div class="leftTitle" style="width: 16%;display: table-cell;vertical-align: middle;*position: absolute;*top: 50%;">
-              <p style="font-family: 'PingFang-SC-Bold', 'PingFang SC Bold', 'PingFang SC';
-                font-weight: 700;
-                font-style: normal;
-                font-size: 14px;
-                color: #363636;
-                text-align: center;
-                line-height: 14px;"
-              >{{data.companyName}}</p>
-              <p style="color: #999999;font-size: 12px;text-align: center;">{{data.companyCode}}</p>
-            </div>
-            <div class="rightContent right" style=" font-family: 'PingFang-SC-Regular', 'PingFang SC';
-                font-weight: 400;
-                font-style: normal;
-                font-size: 14px;
-                color: #555555;
-                line-height: 22px;
-                float: right;
-                width: 84%;
-                margin-left: 39px;
-                display: table-cell;vertical-align: middle;*position: absolute;*top: 50%;">
-             <p class="moreText">{{data.situation}}</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
     <!-- 报告期主要供应商及客户情况 -->
     <div class="theTopFive">
-        <div v-if="(supplierMainList&&supplierMainList.length>0) || (customerMainList&&customerMainList.length>0)" class="title">
-        <span class="littleRectangle"></span>
-        <span class="titleText" id="majorSuppliers" style="font-size:18px">报告期主要供应商及客户情况</span>
-      </div>
       <div class="theTopFiveSupplier">
-        <p style="font-size:16px" v-if="supplierMainList&&supplierMainList.length>0">报告期前五名供应商情况</p>
+        <div v-if="supplierMainList&&supplierMainList.length>0" class="title">
+          <span class="littleRectangle"></span>
+          <span class="titleText" id="majorSuppliers" style="font-size:18px">报告期主要供应商情况</span>
+        </div>
         <div v-for="item in supplierMainList" :key="item.id" >
             <p v-if="item.remark" style="font-size:14px;color:#666">{{item.remark}}</p>
             <span v-if="item.supplierCustomerInfoList&&item.supplierCustomerInfoList.length>0" style="font-size:12px;color:#666;float:right;margin-bottom: 5px;">单位：万元</span>
@@ -321,7 +357,10 @@
         </div>
       </div>
        <div class="theTopFiveKh">
-        <p v-if="customerMainList&&customerMainList.length>0" style="font-size:16px">报告期前五名客户情况</p>
+         <div v-if="customerMainList&&customerMainList.length>0" class="title">
+          <span class="littleRectangle"></span>
+          <span class="titleText" id="majorCustomer" style="font-size:18px">报告期主要客户情况</span>
+        </div>
           <div v-for="item in customerMainList" :key="item.id" >
               <p style="font-size:14px;color:#666">{{item.remark}}</p>
               <span v-if="item.supplierCustomerInfoList&&item.supplierCustomerInfoList.length>0" style="font-size:12px;color:#666;float:right;margin-bottom: 5px;">单位：万元</span>
@@ -347,9 +386,6 @@
                         </span>
                         <span v-else> - - </span>
                     </template>
-                    <!-- <template slot-scope="scope">
-                      <span>{{isNotEmpty(scope.row.onePeriodContent) ? scope.row.onePeriodContent : '- -'}}</span>
-                    </template> -->
                   </el-table-column>
                   <el-table-column align="right"  class-name="table_cell" label="金额" width="96">
                     <template slot-scope="scope">
@@ -366,9 +402,6 @@
                 </el-table-column>
                 <el-table-column :label="item.thirdYearForCustomer" header-align="center">
                   <el-table-column align="left"  class-name="table_cell" label="采购内容" width="136">
-                    <!-- <template slot-scope="scope">
-                      <span>{{isNotEmpty(scope.row.thirdYearContent) ? scope.row.thirdYearContent : '- -'}}</span>
-                    </template> -->
                      <template slot-scope="scope">
                         <span class="contentClass" v-if="scope.row.thirdYearContent" @mouseenter="mouseOverContent(scope.row.thirdYearContent)" >
                             {{getContent(scope.row.thirdYearContent)}}
@@ -397,9 +430,6 @@
                         </span>
                         <span v-else> - - </span>
                     </template>
-                    <!-- <template slot-scope="scope">
-                      <span>{{isNotEmpty(scope.row.secondYearContent ) ? scope.row.secondYearContent  : '- -'}}</span>
-                    </template> -->
                   </el-table-column>
                   <el-table-column align="right"  class-name="table_cell" label="金额" width="96">
                     <template slot-scope="scope">
@@ -422,9 +452,6 @@
                         </span>
                         <span v-else> - - </span>
                     </template>
-                    <!-- <template slot-scope="scope">
-                      <span>{{isNotEmpty(scope.row.firstYearContent ) ? scope.row.firstYearContent  : '- -'}}</span>
-                    </template> -->
                   </el-table-column>
                   <el-table-column align="right"  class-name="table_cell" label="金额" width="96">
                     <template slot-scope="scope">
@@ -509,16 +536,16 @@
       </div>
       <IntermediaryInstitutions v-if="dataFlag"></IntermediaryInstitutions>
     </div>
+    <!-- 已经到底了 -->
+    <div style="text-align:center;color:#888888;margin-top:32px;">已经到底了</div>
   </div>
 </template>
 <script>
 
 
 import $ from "jquery";
-// import { getCaseDetail } from "@/api/ipoCase/companyProfile";
 import { getMarketData } from "@/api/ipoCase/companyProfile";
 import { getShareHolderData } from "@/api/ipoCase/companyProfile";
-import { getCompetitorData } from "@/api/ipoCase/companyProfile";
 import { getRaiseMoneyTableList } from "@/api/ipoCase/companyProfile";
 import { getSupplierCustomerData } from '@/api/ipoCase/tableDemo';
 import { getTableData } from '@/api/ipoCase/tableDemo';
@@ -554,7 +581,7 @@ export default {
       //其他资本市场
       otherMarketInfoList:[],//其他登陆市场
       // 主要竞争者
-      MajorCompetitors: [],
+      // MajorCompetitors: [],
       // 前五名供应商数据
       supplierMainList:[],
       // 前五名客户
@@ -594,12 +621,6 @@ export default {
       getShareHolderData(param).then(res=>{
         if(res.data.result&&res.data.result.length>0){
           this.gqTableList = res.data.result
-        }
-          this.getPosition()
-      });
-      getCompetitorData(param).then(res=>{
-        if(res.data.result&&res.data.result.length>0){
-          this.MajorCompetitors = res.data.result
         }
           this.getPosition()
       });
@@ -673,8 +694,16 @@ export default {
     },
     //返回父组件用于锚点定位头
     getPosition() {
-          var titleList = [];
-          var ownershipStructureChart = {
+          let titleList = [];
+          let lastValuation = {
+              id: 'lastValuation',
+              name: '最后一次估值情况',
+              notes: '',
+              important: false,
+              tabId: 'tab-first',
+              noClick: true
+          }
+          let ownershipStructureChart = {
               id: 'ownershipStructureChart',
               name: '股权结构图',
               notes: '',
@@ -682,7 +711,7 @@ export default {
               tabId: 'tab-first',
               noClick: true
           }
-          var mainBusinessIncomeComposition = {
+          let mainBusinessIncomeComposition = {
               id: 'mainBusinessIncomeComposition',
               name: '主营业务收入构成',
               notes: '',
@@ -690,23 +719,23 @@ export default {
               tabId: 'tab-first',
               noClick: true
           }
-          var mainCompetitors = {
-              id: 'mainCompetitors',
-              name: '主要竞争对手简介',
-              notes: '',
-              important: false,
-              tabId: 'tab-first',
-              noClick: true
-          }
-          var majorSuppliers = {
+          let majorSuppliers = {
               id: 'majorSuppliers',
-              name: '前五名供应商及用户',
+              name: '前五名供应商',
               notes: '',
               important: false,
               tabId: 'tab-first',
               noClick: true
           }
-          var utilizationOfRaisedFunds = {
+            let majorCustomer = {
+              id: 'majorCustomer',
+              name: '前五名用户',
+              notes: '',
+              important: false,
+              tabId: 'tab-first',
+              noClick: true
+          }
+          let utilizationOfRaisedFunds = {
               id: 'utilizationOfRaisedFunds',
               name: '募集资金运用',
               notes: '',
@@ -714,7 +743,7 @@ export default {
               tabId: 'tab-first',
               noClick: true
           }
-          var intermediaryInstitutions = {
+          let intermediaryInstitutions = {
               id: 'intermediaryInstitutions',
               name: '中介机构',
               notes: '',
@@ -723,16 +752,19 @@ export default {
               noClick: true
           }
           if((this.companyProfileList&&this.companyProfileList.structureUrl) || (this.gqTableList&&this.gqTableList.length>0)){
+             lastValuation.noClick = false;
+          }
+          if((this.companyProfileList&&this.companyProfileList.structureUrl) || (this.gqTableList&&this.gqTableList.length>0)){
              ownershipStructureChart.noClick = false;
           }
           if(this.mainTableList.firstYearForIncome){
             mainBusinessIncomeComposition.noClick = false;
           }
-          if(this.MajorCompetitors&&this.MajorCompetitors.length>0){
-             mainCompetitors.noClick = false;
-          }
-          if((this.supplierMainList&&this.supplierMainList.length>0) || (this.customerMainList&&this.customerMainList.length>0)){
+          if(this.supplierMainList&&this.supplierMainList.length>0){
            majorSuppliers.noClick = false;
+          }
+          if(this.customerMainList&&this.customerMainList.length>0){
+           majorCustomer.noClick = false;
           }
           if(this.raiseMoneyTableList&&this.raiseMoneyTableList.length>0){
             utilizationOfRaisedFunds.noClick = false;
@@ -740,10 +772,11 @@ export default {
           if(this.dataFlag){
             intermediaryInstitutions.noClick = false;
           }
+          titleList.push(lastValuation)
           titleList.push(ownershipStructureChart)
           titleList.push(mainBusinessIncomeComposition)
-          titleList.push(mainCompetitors)
           titleList.push(majorSuppliers)
+          titleList.push(majorCustomer)
           titleList.push(utilizationOfRaisedFunds)
           titleList.push(intermediaryInstitutions)
           this.$emit('headCallBack', titleList);
@@ -843,11 +876,23 @@ export default {
       }
     }
     .others {
+      border-bottom:1px solid #f1f1f1;
       ul {
         width: 100%;
         display: flex;
         flex-wrap: wrap;
         padding-left: 0;
+      }
+    }
+    .splitListing{
+       ul {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        padding-left: 0;
+        li{
+          margin-bottom:20px
+        }
       }
     }
   }
