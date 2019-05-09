@@ -60,7 +60,6 @@
   </div>
 </template>
 <script>
-// import { getSelectFinanceOverList } from '@/api/ipoCase/tableDemo'
 import tanZxChart1  from '@/components/Charts/tanZxChart1'
 export default {
   name: 'mainTable',
@@ -85,7 +84,6 @@ export default {
     tanZxChart1
   },
   created() {
-    // this.initTableData()
   },
   mounted () {
   },

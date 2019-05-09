@@ -399,6 +399,8 @@
                 </li>
             </ul>
         </div> 
+        <!-- 筛选问题列表 -->
+        <singleAndMultiple></singleAndMultiple>
         <!-- 下 -->
         <div class="two">
              <div v-if="allQuestionList&&allQuestionList.length>0" class="title">
@@ -437,9 +439,14 @@
 <script>
 import {geSelectFeedbackList } from '@/api/ipoCase/companyProfile'
 import {geSelectMemberList } from '@/api/ipoCase/companyProfile'
+// 导入筛选问题列表组件
+import singleAndMultiple from "@/views/navMenu/singleAndMultiple/singleAndMultiple"
 import $ from "jquery";
 export default {
   name: "result",
+  components: {
+      singleAndMultiple
+  },
   data() {
     return {
          caseId:this.$store.state.app.caseId,
@@ -573,7 +580,6 @@ export default {
       }
     }
   },
-  components: {}
 };
 </script>
 <style scoped lang="scss">

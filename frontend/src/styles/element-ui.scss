@@ -248,6 +248,9 @@
   -webkit-box-shadow: -1px 0 0 0 #66b7ca;
   box-shadow: -1px 0 0 0 #66b7ca;
 }
+.el-checkbox__input.is-checked+.el-checkbox__label {
+  color: #14bcf5;
+}
 // 反馈意见  单选按钮
 .el-radio-button .el-radio-button__inner {
   border: none;
@@ -635,4 +638,11 @@
 // 表头右边
 .ipoContainer .el-table--border td, .el-table--border th {
   border-right: 1px solid #e4e4e4 !important;
+}
+// 专利情况表格
+.patentSituationTable table tr td:first-of-type{
+  background:#f2f2f2 !important;
+}
+.patentSituationTable table tr:last-of-type td:last-of-type{
+  background:#f2f2f2 !important;
 }

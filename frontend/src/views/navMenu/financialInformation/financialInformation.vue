@@ -60,9 +60,20 @@
                     <span class="littleRectangle"></span>
                     <span class="titleText" id="keyFinancialIndicators">主要财务指标</span>
                  </div>
-
+                 <div class="allAssetsTable" style="">
+                    <keyFinancialIndicatorTable v-if="this.allAssetsTableTitle!=null&&this.allAssetsTableTitle.firstYearDate "  :allAssetsTableList="[this.allAssetsTableTitle,this.allAssetsTableContent]"></keyFinancialIndicatorTable>
+                </div>
             </div>
         </div>
+        <!-- 已经到底了 -->
+    <div style="text-align: center;
+        font-size: 14px;
+        color: rgb(136, 136, 136);
+        margin-top: 32px;
+        padding-top: 37px;
+        border-top:1px solid #ebeef5">
+        已经到底了
+    </div>
     </div>
 </template>
 <script>
@@ -70,6 +81,7 @@ import assetsOrDebtTable from "@/views/tables/assetsOrDebtTable";
 import allAssetsTable from "@/views/tables/allAssetsTable";
 import incomeTable from "@/views/tables/incomeTable";
 import compareTable from "@/views/tables/compareTable";
+import keyFinancialIndicatorTable from "@/views/tables/keyFinancialIndicatorTable";
 import echarts from 'echarts'
 // 财务总体情况
  import { getSelectFinanceOverList } from '@/api/ipoCase/tableDemo'
@@ -126,7 +138,8 @@ export default {
         allAssetsTable,
         assetsOrDebtTable,
         incomeTable,
-        compareTable
+        compareTable,
+        keyFinancialIndicatorTable
     },
     created(){
         this.initTableData()

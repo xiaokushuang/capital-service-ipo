@@ -138,7 +138,9 @@
             <span class="littleRectangle"></span>
             <span class="titleText" id="patentSituation">专利情况</span>
         </div>
+        <p style="font-size:14px;color:#666">截至报告期末，公司及其子公司共持有65项发明专利，发明专利自申请日起有效期20年</p>
         <el-table
+          class="patentSituationTable"
           :data="patentSituationTableData"
           border
           style="width: 100%">
@@ -176,11 +178,12 @@
             <span class="littleRectangle"></span>
             <span class="titleText" id="yfSpending">研发投入</span>
         </div>
+         <p style="font-size:14px;color:#666;margin-bottom:5px">截至报告期末，公司及其子公司共持有65项发明专利，发明专利自申请日起有效期20年</p>
          <span  class="clear">
-                    <span style="float: right;font-size: 12px;color: #666666;display:inline-block;">
-                       单位：万元
-                    </span>
-                </span>
+            <span style="float: right;font-size: 12px;color: #666666;display:inline-block;">
+                单位：万元
+            </span>
+        </span>
          <el-table :data="yfSpendingTableData" border style="width: 100%;margin-top: 20px">
             <el-table-column align="left" class-name="table_cell" label="项目" width="184">
               <template slot-scope="scope">
@@ -235,6 +238,89 @@
             <span class="littleRectangle"></span>
             <span class="titleText" id="coreTechnology">核心技术及研发技术人员</span>
         </div>
+         <p style="font-size:14px;color:#666;margin-bottom:5px">截至报告期末，公司及其子公司共持有65项发明专利，发明专利自申请日起有效期20年</p>
+         <span  class="clear">
+            <span style="float: right;font-size: 12px;color: #666666;display:inline-block;">
+                单位：人
+            </span>
+        </span>
+         <el-table :data="yfSpendingTableData" border style="width: 100%;margin-top: 20px">
+            <el-table-column align="left" class-name="table_cell" label="类别" min-width="100">
+              <template slot-scope="scope">
+                  <span>{{isNotEmpty(scope.row.itemName ) ? scope.row.itemName  : '- -'}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="right" :label="yfSpendingTitle.forthYearDate">
+                <template slot-scope="scope">
+                            <span v-if="scope.row.forthYearValue"> 
+                              {{scope.row.forthYearValue | dataInThRule}}
+                              </span>
+                            <span v-else> - - </span>
+                </template>
+            </el-table-column>
+             <el-table-column align="right" label="占比">
+                <template slot-scope="scope">
+                              <span v-if="scope.row.forthYearValue"> 
+                                {{scope.row.forthYearValue | dataInThRule}}
+                              </span>
+                            <span v-else> - - </span>
+                </template>
+            </el-table-column>
+            <el-table-column align="right"  :label="yfSpendingTitle.thirdYearDate" header-align="right">
+              <template slot-scope="scope">
+                  <span v-if="scope.row.thirdYearValue"> {{scope.row.thirdYearValue | dataInThRule}}
+                  </span>
+                  <span v-else> - - </span>
+              </template>
+            </el-table-column>
+             <el-table-column align="right" label="占比">
+                <template slot-scope="scope">
+                              <span v-if="scope.row.forthYearValue"> 
+                                {{scope.row.forthYearValue | dataInThRule}}
+                              </span>
+                            <span v-else> - - </span>
+                </template>
+            </el-table-column>
+            <el-table-column align="right"  :label="yfSpendingTitle.secondYearDate" header-align="right">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.secondYearValue"> {{scope.row.secondYearValue | dataInThRule}}
+                  </span>
+                  <span v-else> - - </span>
+              </template>
+            </el-table-column>
+             <el-table-column align="right" label="占比">
+                <template slot-scope="scope">
+                              <span v-if="scope.row.forthYearValue"> 
+                                {{scope.row.forthYearValue | dataInThRule}}
+                              </span>
+                            <span v-else> - - </span>
+                </template>
+            </el-table-column>
+            <el-table-column align="right"  :label="yfSpendingTitle.firstYearDate" header-align="right">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.firstYearValue"> {{scope.row.firstYearValue | dataInThRule}}
+                  </span>
+                  <span v-else> - - </span>
+                </template>
+            </el-table-column>
+             <el-table-column align="right" label="占比">
+                <template slot-scope="scope">
+                              <span v-if="scope.row.forthYearValue"> 
+                                {{scope.row.forthYearValue | dataInThRule}}
+                              </span>
+                            <span v-else> - - </span>
+                </template>
+            </el-table-column>
+         </el-table>
+    </div>
+    <!-- 已经到底了 -->
+    <div style="text-align: center;
+        font-size: 14px;
+        color: rgb(136, 136, 136);
+        margin-top: 32px;
+        padding-top: 37px;
+        border-top: 1px solid #ebeef5">
+        已经到底了
     </div>
   </div>
 </template>
