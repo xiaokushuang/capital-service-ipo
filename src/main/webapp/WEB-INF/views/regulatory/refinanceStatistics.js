@@ -135,8 +135,8 @@ function commonTableSetting(tbody, lst) {
 		if (i == lst.length - 1) {
 			label = '<td></td><td style="text-align: center;">' + lst[i].label + '</td>';
 			backgroud = 'style="background: #E8E8E8;"';
-		}
-		var str = '<tr ' + backgroud + '>' + label + '<td><a href="javascript:void(0)" onclick="viewRefinanceDetail(\'' + lst[i].label
+		}		
+		var str = '<tr ' + backgroud + '>' + label + '<td><a href="javascript:void(0)" onclick=" (\'' + lst[i].label
 		+ '\',\'000\')">' + lst[i].szbCount + '</a></td>' + '<td><a href="javascript:void(0)" onclick="viewRefinanceDetail(\'' + lst[i].label
 		+ '\',\'6\')">' + lst[i].hzbCount + '</a></td>' + '<td><a href="javascript:void(0)" onclick="viewRefinanceDetail(\'' + lst[i].label
 		+ '\',\'002\')">' + lst[i].zxbCount + '</a></td>' + '<td><a href="javascript:void(0)" onclick="viewRefinanceDetail(\'' + lst[i].label
@@ -173,7 +173,6 @@ function eChartInit() {
 }
 
 function viewRefinanceDetail(label, stockCode) {
-	debugger;
 	var industry = $("#industrySelect").val();
 	var registAddr = $("#registAddrSelect").val();
 	var data = {
@@ -183,7 +182,27 @@ function viewRefinanceDetail(label, stockCode) {
 			stockCode : stockCode
 	};
 	var accessToken = $('#tokenValue').val();
-	popWin(label, "/regulatory_statistics/queryRefinanceDetail?access_token="+accessToken, data, "95%","98%");
+	var url = window.location.href.split("/ipo")[0] + "/ipo/regulatory_statistics/queryRefinanceDetail?access_token="+accessToken;
+	iframeDoMessage(window.parent, 'popWinForMicro', [label, url, data, '95%', '98%']);
+}
+
+function viewRefinanceDetailchar(label, stockCode) {
+	debugger
+	var strs = [];
+	strs = label.split(",");
+	var charlabel =strs[0]+"\\"+strs[1];
+//	var str = label.replace("，", "\\");
+	var industry = $("#industrySelect").val();
+	var registAddr = $("#registAddrSelect").val();
+	var data = {
+			label : charlabel,
+			industry : industry,
+			registAddr : registAddr,
+			stockCode : stockCode
+	};
+	var accessToken = $('#tokenValue').val();
+	var url = window.location.href.split("/ipo")[0] + "/ipo/regulatory_statistics/queryRefinanceDetail?access_token="+accessToken;
+	iframeDoMessage(window.parent, 'popWinForMicro', [charlabel, url, data, '95%', '98%']);
 }
 
 //下拉多选初始化
@@ -273,46 +292,111 @@ function renderColumnIndex(data, type, row, meta) {
 
 //查询当前保荐机构下所有深主板公司
 function renderColumnszbCount(data, type, row, meta){
+	var label = "";
+    var strs = [];
+    var end = "";
+    label = data.label;
+    end = label.indexOf("\\");
     var operationStr = "";
     var quasiListedLand = "000";
+	if (end > 0){
+		strs = label.split("\\");
+				label=strs[0]+"\\"+strs[1];
+			    	operationStr += '<a href="javascript:void(0)" onclick="viewRefinanceDetailchar(\'' + strs
+					+ '\',\'' + quasiListedLand+ '\')">' + data.szbCount + '</a>';
+			    	
+	}else{
     	operationStr += '<a href="javascript:void(0)" onclick="viewRefinanceDetail(\'' + data.label
 		+ '\',\'' + quasiListedLand+ '\')">' + data.szbCount + '</a>';
+	}
     	return operationStr;
 }
 
 //查询当前保荐机构下所有沪主板公司
 function renderColumnhzbCount(data, type, row, meta){
+	var label = "";
+    var strs = [];
+    var end = "";
+    label = data.label;
+    end = label.indexOf("\\");
     var operationStr = "";
     var quasiListedLand = "6";
+	if (end > 0){
+		strs = label.split("\\");
+				label=strs[0]+"\\"+strs[1];
+			    	operationStr += '<a href="javascript:void(0)" onclick="viewRefinanceDetailchar(\'' + strs
+					+ '\',\'' + quasiListedLand+ '\')">' + data.hzbCount + '</a>';
+			    	
+	}else{
     	operationStr += '<a href="javascript:void(0)" onclick="viewRefinanceDetail(\'' + data.label
 		+ '\',\'' + quasiListedLand+ '\')">' + data.hzbCount + '</a>';
+	}
     	return operationStr;
 }
 
 //查询当前保荐机构下所有中小板公司
 function renderColumnzxbCount(data, type, row, meta){
+	var label = "";
+    var strs = [];
+    var end = "";
+    label = data.label;
+    end = label.indexOf("\\");
     var operationStr = "";
     var quasiListedLand = "002";
-    	operationStr += '<a href="javascript:void(0)" onclick="viewRefinanceDetail(\'' + data.label
-		+ '\',\'' + quasiListedLand+ '\')">' + data.zxbCount + '</a>';
-    	return operationStr;
+	if (end > 0){
+		strs = label.split("\\");
+				label=strs[0]+"\\"+strs[1];
+			    	operationStr += '<a href="javascript:void(0)" onclick="viewRefinanceDetailchar(\'' + strs
+					+ '\',\'' + quasiListedLand+ '\')">' + data.zxbCount + '</a>';
+			    	
+	}else{
+	    	operationStr += '<a href="javascript:void(0)" onclick="viewRefinanceDetail(\'' + data.label
+			+ '\',\'' + quasiListedLand+ '\')">' + data.zxbCount + '</a>';
+	}
+	return operationStr;
 }
 
 //查询当前保荐机构下所有创业板公司
 function renderColumncybCount(data, type, row, meta){
+	var label = "";
+    var strs = [];
+    var end = "";
+    label = data.label;
+    end = label.indexOf("\\");
     var operationStr = "";
     var quasiListedLand = "300";
+	if (end > 0){
+		strs = label.split("\\");
+				label=strs[0]+"\\"+strs[1];
+			    	operationStr += '<a href="javascript:void(0)" onclick="viewRefinanceDetailchar(\'' + strs
+					+ '\',\'' + quasiListedLand+ '\')">' + data.cybCount + '</a>';
+			    	
+	}else{
     	operationStr += '<a href="javascript:void(0)" onclick="viewRefinanceDetail(\'' + data.label
 		+ '\',\'' + quasiListedLand+ '\')">' + data.cybCount + '</a>';
+	}
     	return operationStr;
 }
 
 //查询当前保荐机构下所有公司
 function renderColumnTotalCount(data, type, row, meta){
+	var label = "";
+    var strs = [];
+    var end = "";
+    label = data.label;
+    end = label.indexOf("\\");
     var operationStr = "";
     var quasiListedLand = "";
+	if (end > 0){
+		strs = label.split("\\");
+				label=strs[0]+"\\"+strs[1];
+			    	operationStr += '<a href="javascript:void(0)" onclick="viewRefinanceDetailchar(\'' + strs
+					+ '\',\'' + quasiListedLand+ '\')">' + data.totalCount + '</a>';
+			    	
+	}else{
     	operationStr += '<a href="javascript:void(0)" onclick="viewRefinanceDetail(\'' + data.label
 		+ '\',\'' + quasiListedLand+ '\')">' + data.totalCount + '</a>';
+	}
     	return operationStr;
 }
 
