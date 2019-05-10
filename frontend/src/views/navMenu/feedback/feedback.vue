@@ -10,13 +10,25 @@
              <div v-if="tabList&&tabList.length > 1" class="clear">
                 <div v-if="tabList.length==2" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共两轮反馈：</div>
                 <div v-if="tabList.length==3" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共三轮反馈：</div>
+                <div v-if="tabList.length==4" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共四轮反馈：</div>
+                <div v-if="tabList.length==5" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共五轮反馈：</div>
                 <div>
                     <el-tabs v-model="activeName" @tab-click="handleTabClick">
-                      <el-tab-pane label="第一次反馈意见" :name="tabList[0].letterId">
+                      <!-- :label="companyProfileList.headList.isTechBoard==0?'第一次反馈意见':'第一次问询与回复'"  判断是否是科创版 -->
+                       <el-tab-pane :label="companyProfileList.headList.isTechBoard==0?'第一次反馈意见':'第一次问询与回复'" :name="tabList[0].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[0].questionLabelList,checkbox:feedbackduoxuanList,answerCount:answerCount,questionCount:questionCount,questionList:questionList,o_letterId:this.o_letterId,showMore:showMore,allQuestionList:allQuestionList}></singleAndMultiple>
-                      </el-tab-pane>
-                       <el-tab-pane label="第二次反馈意见" :name="tabList[1].letterId">
+                       </el-tab-pane>
+                       <el-tab-pane :label="companyProfileList.headList.isTechBoard==0?'第二次反馈意见':'第二次问询与回复'" :name="tabList[1].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[1].questionLabelList,checkbox:feedbackduoxuanList2,answerCount:answerCount2,questionCount:questionCount2,questionList:questionList2,o_letterId:this.o_letterId,showMore:showMore2,allQuestionList:allQuestionList2}></singleAndMultiple>
+                       </el-tab-pane>
+                        <el-tab-pane v-if="tabList&&tabList.length>2" :label="companyProfileList.headList.isTechBoard==0?'第三次反馈意见':'第三次问询与回复'" :name="tabList[2].letterId">
+                          <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[2].questionLabelList,checkbox:feedbackduoxuanList3,answerCount:answerCount3,questionCount:questionCount3,questionList:questionList3,o_letterId:this.o_letterId,showMore:showMore3,allQuestionList:allQuestionList3}></singleAndMultiple>
+                       </el-tab-pane>
+                        <el-tab-pane v-if="this.tabList&&this.tabList.length>3" :label="companyProfileList.headList.isTechBoard==0?'第四次反馈意见':'第四次问询与回复'" :name="tabList[3].letterId">
+                          <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[3].questionLabelList,checkbox:feedbackduoxuanList4,answerCount:answerCount4,questionCount:questionCount4,questionList:questionList4,o_letterId:this.o_letterId,showMore:showMore4,allQuestionList:allQuestionList4}></singleAndMultiple>
+                       </el-tab-pane>
+                        <el-tab-pane v-if="this.tabList&&this.tabList.length>4" :label="companyProfileList.headList.isTechBoard==0?'第五次反馈意见':'第五次问询与回复'" :name="tabList[4].letterId">
+                          <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[4].questionLabelList,checkbox:feedbackduoxuanList5,answerCount:answerCount5,questionCount:questionCount5,questionList:questionList5,o_letterId:this.o_letterId,showMore:showMore5,allQuestionList:allQuestionList5}></singleAndMultiple>
                        </el-tab-pane>
                     </el-tabs>
                 </div>
@@ -35,6 +47,7 @@ export default {
   components: {
       singleAndMultiple
   },
+  props:["companyProfileList"],
   data() {
     return {
       caseId: this.$store.state.app.caseId,
@@ -44,25 +57,9 @@ export default {
       feedbackduoxuanList: [],
       feedbackduoxuanList2: [],
       feedbackduoxuanList3: [],
+      feedbackduoxuanList4: [],
+      feedbackduoxuanList5: [],
       flag: false,
-      // 单选按钮绑定值
-      radio: "",
-      radio2: "",
-      radio3: "",
-      // 单选按钮选中的值
-      radioVal: "",
-      radioVal2: "",
-      radioVal3: "",
-      // 多选按钮绑定值
-      checkboxGroup: [],
-      checkboxGroup2: [],
-      checkboxGroup3: [],
-      onlyShowAnswer: false,
-      onlyShowAnswer2: false,
-      onlyShowAnswer3: false,
-      onlyShowAnswerFlag: "",
-      onlyShowAnswerFlag2: "",
-      onlyShowAnswerFlag3: "",
       // 默认展示第一个label页
       activeName: "",
       // 函件id,通过这个id区分不同tab页
@@ -75,14 +72,20 @@ export default {
       questionList: [],
       questionList2: [],
       questionList3: [],
+      questionList4: [],
+      questionList5: [],
       // // 回复个数
       answerCount: "",
       answerCount2: "",
       answerCount3: "",
+      answerCount4: "",
+      answerCount5: "",
       // // 问题个数
       questionCount: "",
       questionCount2: "",
       questionCount3: "",
+      questionCount4: "",
+      questionCount5: "",
       // 是否展示全部问题
       isShowAll: true,
       // 默认有moreText类
@@ -90,12 +93,18 @@ export default {
       showLength: 15,
       showLength2: 15,
       showLength3: 15,
+      showLength4: 15,
+      showLength5: 15,
       allQuestionList: [],
       allQuestionList2: [],
       allQuestionList3: [],
+      allQuestionList4: [],
+      allQuestionList5: [],
       showMore: false,
       showMore2: false,
       showMore3: false,
+      showMore4: false,
+      showMore5: false,
       // 多选按钮’全部‘
       showAll: false,
       firstClick: true,
@@ -107,334 +116,7 @@ export default {
     this.initTableData();
     this.isShowAll = true;
   },
-  // 滑轮滚到底部懒加载
-  mounted() {
-    // let _this = this;
-    // // 注册scroll事件并监听
-    // window.addEventListener("scroll", function() {
-    //   let scrollTop =
-    //     window.pageYOffset ||
-    //     document.documentElement.scrollTop ||
-    //     document.body.scrollTop; //滚动高度
-    //   // console.log(document.documentElement.clientHeight+'-----------'+window.innerHeight); // 可视区域高度
-    //   // console.log('222',document.body.offsetHeight); // 文档高度
-    //   // 判断是否滚动到底部
-    //   if (scrollTop + window.innerHeight + 2 >= document.body.offsetHeight) {
-    //     this.flagLoading = true;
-    //     _this.showMoreMethods();
-    //   }
-    // });
-  },
   methods: {
-    // // 单选按钮
-    // handelChange(val) {
-    //   this.radioVal = val;
-    //   this.checkboxGroup = [];
-    //   if (val == null) {
-    //     this.initQuestionData(
-    //       this.o_letterId,
-    //       "",
-    //       this.checkboxGroup,
-    //       this.onlyShowAnswerFlag
-    //     );
-    //   } else {
-    //     this.initQuestionData(
-    //       this.o_letterId,
-    //       val,
-    //       this.checkboxGroup,
-    //       this.onlyShowAnswerFlag
-    //     );
-    //   }
-    // },
-    // // 单选按钮
-    // handelChange2(val) {
-    //   this.radioVal2 = val;
-    //   this.checkboxGroup2 = [];
-    //   if (val == null) {
-    //     this.initQuestionData(
-    //       this.o_letterId,
-    //       "",
-    //       this.checkboxGroup2,
-    //       this.onlyShowAnswerFlag2
-    //     );
-    //   } else {
-    //     this.initQuestionData(
-    //       this.o_letterId,
-    //       val,
-    //       this.checkboxGroup2,
-    //       this.onlyShowAnswerFlag2
-    //     );
-    //   }
-    // },
-    // // 单选按钮
-    // handelChange3(val) {
-    //   this.radioVal3 = val;
-    //   this.checkboxGroup3 = [];
-    //   if (val == null) {
-    //     this.initQuestionData(
-    //       this.o_letterId,
-    //       "",
-    //       this.checkboxGroup3,
-    //       this.onlyShowAnswerFlag3
-    //     );
-    //   } else {
-    //     this.initQuestionData(
-    //       this.o_letterId,
-    //       val,
-    //       this.checkboxGroup3,
-    //       this.onlyShowAnswerFlag3
-    //     );
-    //   }
-    // },
-    // // 多选按钮
-    // handelMoreChange(val) {
-    //   //  this.checkboxGroup = val
-    //   console.log("checkgroup", this.checkboxGroup);
-    //   for (let i = 0; i < val.length; i++) {
-    //     //  如果点击了多选按钮‘全部’,就将绑定的数组变成【null】,然后重新请求数据，传空数组[]
-    //     if (val[i] == null) {
-    //       this.checkboxGroup = [null];
-    //       if (this.radioVal == null) {
-    //         this.initOnlyQuestionData(
-    //           this.o_letterId,
-    //           "",
-    //           [],
-    //           this.onlyShowAnswerFlag
-    //         );
-    //       } else {
-    //         this.initOnlyQuestionData(
-    //           this.o_letterId,
-    //           this.radioVal,
-    //           [],
-    //           this.onlyShowAnswerFlag
-    //         );
-    //       }
-    //     } else {
-    //       // 当点击其他的多选按钮时候，之前有点击过‘全部’按钮，需要将这个全部的null去掉，
-    //       if (val.indexOf(null) != -1) {
-    //         this.checkboxGroup = val.slice(1);
-    //       } else {
-    //         this.checkboxGroup = val;
-    //       }
-    //       if (this.radioVal == null) {
-    //         this.initOnlyQuestionData(
-    //           this.o_letterId,
-    //           "",
-    //           this.checkboxGroup,
-    //           this.onlyShowAnswerFlag
-    //         );
-    //       } else {
-    //         this.initOnlyQuestionData(
-    //           this.o_letterId,
-    //           this.radioVal,
-    //           this.checkboxGroup,
-    //           this.onlyShowAnswerFlag
-    //         );
-    //       }
-    //     }
-    //   }
-    // },
-    // // 多选按钮
-    // handelMoreChange2(val) {
-    //   this.checkboxGroup2 = val;
-    //   for (let i = 0; i < val.length; i++) {
-    //     if (val[i] == null) {
-    //       this.checkboxGroup2 = [];
-    //       document.querySelector(
-    //         ".el-checkbox-button__inner:nth-of-type(1)"
-    //       ).style.backgroundColor =
-    //         "white";
-    //     }
-    //   }
-    //   if (this.radioVal2 == null) {
-    //     this.initOnlyQuestionData(
-    //       this.o_letterId,
-    //       "",
-    //       this.checkboxGroup2,
-    //       this.onlyShowAnswerFlag2
-    //     );
-    //   } else {
-    //     this.initOnlyQuestionData(
-    //       this.o_letterId,
-    //       this.radioVal2,
-    //       this.checkboxGroup2,
-    //       this.onlyShowAnswerFlag2
-    //     );
-    //   }
-    // },
-    // // 多选按钮
-    // handelMoreChange3(val) {
-    //   this.checkboxGroup3 = val;
-    //   for (let i = 0; i < val.length; i++) {
-    //     if (val[i] == null) {
-    //       this.checkboxGroup3 = [];
-    //       document.querySelector(
-    //         ".el-checkbox-button__inner:nth-of-type(1)"
-    //       ).style.backgroundColor =
-    //         "white";
-    //     }
-    //   }
-    //   if (this.radioVal3 == null) {
-    //     this.initOnlyQuestionData(
-    //       this.o_letterId,
-    //       "",
-    //       this.checkboxGroup3,
-    //       this.onlyShowAnswerFlag3
-    //     );
-    //   } else {
-    //     this.initOnlyQuestionData(
-    //       this.o_letterId,
-    //       this.radioVal3,
-    //       this.checkboxGroup3,
-    //       this.onlyShowAnswerFlag3
-    //     );
-    //   }
-    // },
-    // // 是否只展示回复问题
-    // handleOnlyChange(val) {
-    //   if (val == true) {
-    //     this.onlyShowAnswerFlag = "1";
-    //   } else {
-    //     this.onlyShowAnswerFlag = "";
-    //   }
-    //   if (this.radioVal == null) {
-    //     if (this.checkboxGroup[0] == null) {
-    //       this.initOnlyQuestionData(
-    //         this.o_letterId,
-    //         "",
-    //         [],
-    //         this.onlyShowAnswerFlag
-    //       );
-    //     } else {
-    //       this.initOnlyQuestionData(
-    //         this.o_letterId,
-    //         "",
-    //         this.checkboxGroup,
-    //         this.onlyShowAnswerFlag
-    //       );
-    //     }
-    //   } else {
-    //     if (this.checkboxGroup[0] == null) {
-    //       this.initOnlyQuestionData(
-    //         this.o_letterId,
-    //         this.radioVal,
-    //         [],
-    //         this.onlyShowAnswerFlag
-    //       );
-    //     } else {
-    //       this.initOnlyQuestionData(
-    //         this.o_letterId,
-    //         this.radioVal,
-    //         this.checkboxGroup,
-    //         this.onlyShowAnswerFlag
-    //       );
-    //     }
-    //   }
-    // },
-    // // 是否只展示回复问题
-    // handleOnlyChange2(val) {
-    //   if (val == true) {
-    //     this.onlyShowAnswerFlag2 = "1";
-    //   } else {
-    //     this.onlyShowAnswerFlag2 = "";
-    //   }
-    //   if (this.radioVal2 == null) {
-    //     this.initOnlyQuestionData(
-    //       this.o_letterId,
-    //       "",
-    //       this.checkboxGroup2,
-    //       this.onlyShowAnswerFlag2
-    //     );
-    //   } else {
-    //     this.initOnlyQuestionData(
-    //       this.o_letterId,
-    //       this.radioVal2,
-    //       this.checkboxGroup2,
-    //       this.onlyShowAnswerFlag2
-    //     );
-    //   }
-    // },
-    // // 是否只展示回复问题
-    // handleOnlyChange3(val) {
-    //   if (val == true) {
-    //     this.onlyShowAnswerFlag3 = "1";
-    //   } else {
-    //     this.onlyShowAnswerFlag3 = "";
-    //   }
-    //   if (this.radioVal3 == null) {
-    //     this.initOnlyQuestionData(
-    //       this.o_letterId,
-    //       "",
-    //       this.checkboxGroup3,
-    //       this.onlyShowAnswerFlag3
-    //     );
-    //   } else {
-    //     this.initOnlyQuestionData(
-    //       this.o_letterId,
-    //       this.radioVal3,
-    //       this.checkboxGroup3,
-    //       this.onlyShowAnswerFlag3
-    //     );
-    //   }
-    // },
-    // // 点击加载更多
-    // showMoreMethods() {
-    //   if (this.tabList.length == 1) {
-    //     this.showLength += 15;
-    //     if (this.allQuestionList.length > this.showLength) {
-    //       this.flagLoading = false;
-    //       this.showMore = true;
-    //       this.questionList = this.allQuestionList.slice(0, this.showLength);
-    //     } else {
-    //       this.showMore = false;
-    //       this.questionList = this.allQuestionList;
-    //     }
-    //   }
-    //   if (this.tabList.length == 2) {
-    //     this.showLength += 15;
-    //     if (this.allQuestionList.length > this.showLength) {
-    //       this.showMore = true;
-    //       this.questionList = this.allQuestionList.slice(0, this.showLength);
-    //     } else {
-    //       this.showMore = false;
-    //       this.questionList = this.allQuestionList;
-    //     }
-    //     this.showLength2 += 15;
-    //     if (this.allQuestionList2.length > this.showLength2) {
-    //       this.showMore2 = true;
-    //       this.questionList2 = this.allQuestionList2.slice(0, this.showLength2);
-    //     } else {
-    //       this.showMore2 = false;
-    //       this.questionList2 = this.allQuestionList2;
-    //     }
-    //   }
-    //   if (this.tabList.length == 3) {
-    //     this.showLength += 15;
-    //     if (this.allQuestionList.length > this.showLength) {
-    //       this.showMore = true;
-    //       this.questionList = this.allQuestionList.slice(0, this.showLength);
-    //     } else {
-    //       this.showMore = false;
-    //       this.questionList = this.allQuestionList;
-    //     }
-    //     this.showLength2 += 15;
-    //     if (this.allQuestionList2.length > this.showLength2) {
-    //       this.showMore2 = true;
-    //       this.questionList2 = this.allQuestionList2.slice(0, this.showLength2);
-    //     } else {
-    //       this.showMore2 = false;
-    //       this.questionList2 = this.allQuestionList2;
-    //     }
-    //     this.showLength3 += 15;
-    //     if (this.allQuestionList3.length > this.showLength3) {
-    //       this.showMore3 = true;
-    //       this.questionList3 = this.allQuestionList3.slice(0, this.showLength3);
-    //     } else {
-    //       this.showMore3 = false;
-    //       this.questionList3 = this.allQuestionList3;
-    //     }
-    //   }
-    // },
     // 获取单选按钮数据
     initTableData() {
       // 动态传id
@@ -675,6 +357,199 @@ export default {
             }
           }
         }
+                // 当有4个tab页时
+        if (this.tabList.length == 4) {
+          if (param.letterId == this.tabList[0].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount;
+              this.answerCount = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList = res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList.length > 15) {
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0, 15);
+              } else {
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            } else {
+              this.showMore = false;
+              this.questionList = [];
+            }
+          }
+          if (param.letterId == this.tabList[1].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList2 = res.data.result[0].questionList;
+              this.questionCount2 = res.data.result[0].questionCount;
+              this.answerCount2 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList2 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList2.length > 15) {
+                this.showMore2 = true;
+                this.questionList2 = this.allQuestionList2.slice(0, 15);
+              } else {
+                this.showMore2 = false;
+                this.questionList2 = this.allQuestionList2;
+              }
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = [];
+            }
+          }
+          if (param.letterId == this.tabList[2].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList3 = res.data.result[0].questionList;
+              this.questionCount3 = res.data.result[0].questionCount;
+              this.answerCount3 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList3 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList3.length > 15) {
+                this.showMore3 = true;
+                this.questionList3 = this.allQuestionList3.slice(0, 15);
+              } else {
+                this.showMore3 = false;
+                this.questionList3 = this.allQuestionList3;
+              }
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = [];
+            }
+          }
+          if (param.letterId == this.tabList[3].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList4 = res.data.result[0].questionList;
+              this.questionCount4 = res.data.result[0].questionCount;
+              this.answerCount4 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList4 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList4.length > 15) {
+                this.showMore4 = true;
+                this.questionList4 = this.allQuestionList4.slice(0, 15);
+              } else {
+                this.showMore4 = false;
+                this.questionList4 = this.allQuestionList4;
+              }
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = [];
+            }
+          }
+        }
+             // 当有5个tab页时
+        if (this.tabList.length == 5) {
+          if (param.letterId == this.tabList[0].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount;
+              this.answerCount = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList = res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList.length > 15) {
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0, 15);
+              } else {
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            } else {
+              this.showMore = false;
+              this.questionList = [];
+            }
+          }
+          if (param.letterId == this.tabList[1].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList2 = res.data.result[0].questionList;
+              this.questionCount2 = res.data.result[0].questionCount;
+              this.answerCount2 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList2 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList2.length > 15) {
+                this.showMore2 = true;
+                this.questionList2 = this.allQuestionList2.slice(0, 15);
+              } else {
+                this.showMore2 = false;
+                this.questionList2 = this.allQuestionList2;
+              }
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = [];
+            }
+          }
+          if (param.letterId == this.tabList[2].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList3 = res.data.result[0].questionList;
+              this.questionCount3 = res.data.result[0].questionCount;
+              this.answerCount3 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList3 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList3.length > 15) {
+                this.showMore3 = true;
+                this.questionList3 = this.allQuestionList3.slice(0, 15);
+              } else {
+                this.showMore3 = false;
+                this.questionList3 = this.allQuestionList3;
+              }
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = [];
+            }
+          }
+          if (param.letterId == this.tabList[3].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList4 = res.data.result[0].questionList;
+              this.questionCount4 = res.data.result[0].questionCount;
+              this.answerCount4 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList4 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList4.length > 15) {
+                this.showMore4 = true;
+                this.questionList4 = this.allQuestionList4.slice(0, 15);
+              } else {
+                this.showMore4 = false;
+                this.questionList4 = this.allQuestionList4;
+              }
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = [];
+            }
+          }
+           if (param.letterId == this.tabList[4].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList5 = res.data.result[0].questionList;
+              this.questionCount5 = res.data.result[0].questionCount;
+              this.answerCount5 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList5 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList5.length > 15) {
+                this.showMore5 = true;
+                this.questionList5 = this.allQuestionList5.slice(0, 15);
+              } else {
+                this.showMore5 = false;
+                this.questionList5 = this.allQuestionList5;
+              }
+            } else {
+              this.showMore5 = false;
+              this.questionList5 = [];
+            }
+          }
+        }
       });
     },
     // 点击二级菜单过滤出问题列表
@@ -809,64 +684,171 @@ export default {
             }
           }
         }
+         // 当有4个tab页时
+        if (this.tabList.length == 4) {
+          if (param.letterId == this.tabList[0].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount;
+              this.answerCount = res.data.result[0].answerCount;
+              if (this.allQuestionList.length > 15) {
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0, 15);
+              } else {
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            } else {
+              this.showMore = false;
+              this.questionList = [];
+            }
+          }
+          if (param.letterId == this.tabList[1].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList2 = res.data.result[0].questionList;
+              this.questionCount2 = res.data.result[0].questionCount;
+              this.answerCount2 = res.data.result[0].answerCount;
+              if (this.allQuestionList2.length > 15) {
+                this.showMore2 = true;
+                this.questionList2 = this.allQuestionList2.slice(0, 15);
+              } else {
+                this.showMore2 = false;
+                this.questionList2 = this.allQuestionList2;
+              }
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = [];
+            }
+          }
+          if (param.letterId == this.tabList[2].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList3 = res.data.result[0].questionList;
+              this.questionCount3 = res.data.result[0].questionCount;
+              this.answerCount3 = res.data.result[0].answerCount;
+              if (this.allQuestionList3.length > 15) {
+                this.showMore3 = true;
+                this.questionList3 = this.allQuestionList3.slice(0, 15);
+              } else {
+                this.showMore3 = false;
+                this.questionList3 = this.allQuestionList3;
+              }
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = [];
+            }
+          }
+          if (param.letterId == this.tabList[3].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList4 = res.data.result[0].questionList;
+              this.questionCount4 = res.data.result[0].questionCount;
+              this.answerCount4 = res.data.result[0].answerCount;
+              if (this.allQuestionList4.length > 15) {
+                this.showMore4 = true;
+                this.questionList4 = this.allQuestionList4.slice(0, 15);
+              } else {
+                this.showMore4 = false;
+                this.questionList4 = this.allQuestionList4;
+              }
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = [];
+            }
+          }
+        }
+                 // 当有5个tab页时
+        if (this.tabList.length == 5) {
+          if (param.letterId == this.tabList[0].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount;
+              this.answerCount = res.data.result[0].answerCount;
+              if (this.allQuestionList.length > 15) {
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0, 15);
+              } else {
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            } else {
+              this.showMore = false;
+              this.questionList = [];
+            }
+          }
+          if (param.letterId == this.tabList[1].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList2 = res.data.result[0].questionList;
+              this.questionCount2 = res.data.result[0].questionCount;
+              this.answerCount2 = res.data.result[0].answerCount;
+              if (this.allQuestionList2.length > 15) {
+                this.showMore2 = true;
+                this.questionList2 = this.allQuestionList2.slice(0, 15);
+              } else {
+                this.showMore2 = false;
+                this.questionList2 = this.allQuestionList2;
+              }
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = [];
+            }
+          }
+          if (param.letterId == this.tabList[2].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList3 = res.data.result[0].questionList;
+              this.questionCount3 = res.data.result[0].questionCount;
+              this.answerCount3 = res.data.result[0].answerCount;
+              if (this.allQuestionList3.length > 15) {
+                this.showMore3 = true;
+                this.questionList3 = this.allQuestionList3.slice(0, 15);
+              } else {
+                this.showMore3 = false;
+                this.questionList3 = this.allQuestionList3;
+              }
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = [];
+            }
+          }
+          if (param.letterId == this.tabList[3].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList4 = res.data.result[0].questionList;
+              this.questionCount4 = res.data.result[0].questionCount;
+              this.answerCount4 = res.data.result[0].answerCount;
+              if (this.allQuestionList4.length > 15) {
+                this.showMore4 = true;
+                this.questionList4 = this.allQuestionList4.slice(0, 15);
+              } else {
+                this.showMore4 = false;
+                this.questionList4 = this.allQuestionList4;
+              }
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = [];
+            }
+          }
+          if (param.letterId == this.tabList[4].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList5 = res.data.result[0].questionList;
+              this.questionCount5 = res.data.result[0].questionCount;
+              this.answerCount5 = res.data.result[0].answerCount;
+              if (this.allQuestionList5.length > 15) {
+                this.showMore5 = true;
+                this.questionList5 = this.allQuestionList5.slice(0, 15);
+              } else {
+                this.showMore5 = false;
+                this.questionList5 = this.allQuestionList5;
+              }
+            } else {
+              this.showMore5 = false;
+              this.questionList5 = [];
+            }
+          }
+        }
       });
     },
     // 点击tab页
     handleTabClick(tab, event) {
       this.o_letterId = tab.name;
     },
-   
-    // // 问【收起展开】
-    // spread(item) {
-    //   this.$set(item, "isSpread", 2);
-    // },
-    // packUp(item) {
-    //   this.$set(item, "isSpread", 1);
-    // },
-    // // 答【收起展开】
-    // daSpread(item) {
-    //   this.$set(item, "isSpreada", 2);
-    // },
-    // daPackUp(item) {
-    //   this.$nextTick(() => {
-    //     this.$set(item, "isSpreada", 1);
-    //   });
-    // },
-    // getContent(data, title, index, type) {
-    //   // 5行的宽度和
-    //   let width = (document.getElementById("componentId").offsetWidth - 48) * 5;
-    //   // 所有字数的宽度【14是字体大小】
-    //   let titleLength = title.length * 14;
-    //   let length = 0;
-    //   if (titleLength > width) {
-    //     for (let i = 0; i < title.length; i++) {
-    //       length += 14;
-    //       if (length > width) {
-    //         if (type === "answer") {
-    //           if (!data.isSpread || data.isSpread === 0) {
-    //             this.$set(data, "isSpread", 1);
-    //           }
-    //         } else {
-    //           if (!data.isSpreada || data.isSpreada === 0) {
-    //             this.$set(data, "isSpreada", 1);
-    //           }
-    //         }
-    //         return title.substring(0, i - 4) + "...";
-    //       }
-    //     }
-    //   } else {
-    //     if (type === "answer") {
-    //       if (!data.isSpread || data.isSpread === 0) {
-    //         this.$set(data, "isSpread", 0);
-    //       }
-    //     } else {
-    //       if (!data.isSpreada || data.isSpreada === 0) {
-    //         this.$set(data, "isSpreada", 0);
-    //       }
-    //     }
-    //     return title;
-    //   }
-    // }
   }
 };
 </script>

@@ -73,12 +73,20 @@
                                               <div id="tab-first"  ref="tab-first"  aria-controls="pane-first"  :class="['el-tabs__item is-top', {'is-active': isActive === '1'}]" @click="onTabClick('1', $event)" style="padding-left: 0">公司概览</div>
                                               <div id="tab-sixth" ref="tab-sixth" aria-controls="pane-sixth" :class="['el-tabs__item is-top', {'is-active': isActive === '6'}]" @click="onTabClick('6', $event)">行业与技术</div>
                                               <div id="tab-second" ref="tab-second" aria-controls="pane-second" :class="['el-tabs__item is-top', {'is-active': isActive === '2'}]" @click="onTabClick('2', $event)">财务信息</div>
-                                              <div v-if="headList.haveFeedback=='1'" id="tab-third"  ref="tab-third" class="el-tabs__item1" aria-controls="pane-third"  style="cursor:default;color:#adadad">
+                                              <div v-if="headList.haveFeedback=='1'&&headList.isTechBoard =='0'" id="tab-third"  ref="tab-third" class="el-tabs__item1" aria-controls="pane-third"  style="cursor:default;color:#adadad">
                                                 <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无反馈意见信息" placement="top" effect="light">
                                                   <el-button class="btnClass">反馈意见</el-button>
                                                 </el-tooltip>
                                               </div>
-                                              <div v-if="headList.haveFeedback=='0'" id="tab-third"  ref="tab-third" aria-controls="pane-third"  :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]" @click="onTabClick('3', $event)">反馈意见</div>
+                                              <!-- 1是科创版 -->
+                                               <div v-if="headList.haveFeedback=='1'&&headList.isTechBoard =='1'" id="tab-third"  ref="tab-third" class="el-tabs__item1" aria-controls="pane-third"  style="cursor:default;color:#adadad">
+                                                <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无问询与回复信息" placement="top" effect="light">
+                                                  <el-button class="btnClass">问询与回复</el-button>
+                                                </el-tooltip>
+                                              </div>
+                                              <!-- 1是科创版 -->
+                                              <div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='1'" id="tab-third"  ref="tab-third" aria-controls="pane-third"  :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]" @click="onTabClick('3', $event)">问询与回复</div>
+                                              <div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='0'" id="tab-third"  ref="tab-third" aria-controls="pane-third"  :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]" @click="onTabClick('3', $event)">反馈意见</div>
                                               <div v-if="headList.haveExamine=='1'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" class="el-tabs__item1" style="padding-right: 0;cursor:default;color:#adadad">
                                                 <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无审核结果及关注问题信息" placement="top" effect="light">
                                                   <el-button class="btnClass">审核结果及关注问题</el-button>
@@ -135,7 +143,7 @@
                           <div class="el-tabs__content">
                               <!-- 动态加载tab -->
                               <keep-alive>
-                                <component :is = "showComponent" id="componentId" v-on:headCallBack="headCall" :companyProfileList="this.companyProfileList"></component>
+                                <component :is = "showComponent" id="componentId" v-on:headCallBack="headCall" :companyProfileList={companyProfileList:this.companyProfileList,headList:this.headList}></component>
                               </keep-alive>
                           </div>
                       </div>

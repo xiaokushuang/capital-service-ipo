@@ -8,7 +8,6 @@
                     <span class="littleRectangle"></span>
                     <span class="titleText" id="allAssets">财务总体情况</span>
                 </div>
-                <!-- <span v-if="allAssetsTableTitle!=null&&allAssetsTableTitle.firstYearDate " style="font-size:16px;color:#333">财务总体情况</span> -->
                 <span v-if="allAssetsTableTitle!=null&&allAssetsTableTitle.firstYearDate "  class="clear">
                     <span style="float: right;font-size: 12px;color: #666666;display:inline-block;margin-bottom:12px">
                        单位：万元

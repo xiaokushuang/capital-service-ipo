@@ -3,19 +3,20 @@
        <div class="label">
             <div class="clear">
                 <div>
-                    <!-- {{singleAndMultiplDdata.tabList[0]}} -->
                     <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px;margin-bottom: 30px;">
                         <div class="firstLabel" >
                             <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
-                              <div style="border-bottom: 1px solid rgb(235, 235, 235);">
-                                <el-radio-group  @change="handelChange(radio)" v-model="radio" size="small" style="padding-bottom:10px;">
+                              <div class="clear" style="border-bottom: 1px solid rgb(235, 235, 235);position:relative">
+                                <p style="float:left;margin-left: 8px;margin-top:6px">问题类型：</p>
+                                <el-radio-group  @change="handelChange(radio)" v-model="radio" size="small" style="padding-bottom:10px;float:left">
                                     <el-radio-button :key="item.labelCode" v-for="item in singleAndMultiplDdata.radio" class="l firstLabelFocus" style="margin-right:10px;margin-bottom:10px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-radio-button>
                                 </el-radio-group>
                               </div>
                             </ul>
                              <ul class="clear" style="padding:0px 25px;margin-top:0px;padding-bottom:10px">
-                                <el-checkbox-group  @change="handelMoreChange(checkboxGroup)" v-model="checkboxGroup" size="mini">
-                                    <el-checkbox  class="checkbox" v-for="item in singleAndMultiplDdata.checkbox" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-checkbox>
+                                <p style="float:left;margin-left: 8px;margin-top:6px" v-if="singleAndMultiplDdata.checkbox&&singleAndMultiplDdata.checkbox.length>0">二级标签:</p>
+                                <el-checkbox-group  @change="handelMoreChange(checkboxGroup)" v-model="checkboxGroup" size="mini" style="float:left">
+                                    <el-checkbox-button  class="checkbox" v-for="item in singleAndMultiplDdata.checkbox" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-checkbox-button>
                                 </el-checkbox-group>
                             </ul>
                             <div class="kaiguan" style="text-align:left;font-size: 12px;
@@ -34,7 +35,7 @@
                     </div>
                     <div class="question" id="titleLength">
                         <ul style="padding-left:0">
-                            <li v-for="(data,index) in singleAndMultiplDdata.questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
+                            <li v-for="(data,index) in questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
                                 <div class="text" style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:10px;position:relative">
                                  <!-- 问 -->
                                     <div  v-if="data.question&&data.question.length>0">
@@ -70,13 +71,11 @@
                         </ul>
 
                       <!-- 加载更多 -->
-                      <div  v-if="singleAndMultiplDdata.showMore" @click="showMoreMethods()" class="more">加载更多</div>
-                      {{singleAndMultiplDdata.showMore}}<br>
-                      {{singleAndMultiplDdata.questionList.length}}
+                      <div  v-if="showMore" @click="showMoreMethods()" class="more">加载更多</div>
                       <!-- 已经阅读完了 -->
-                      <p v-if="!singleAndMultiplDdata.showMore&&singleAndMultiplDdata.questionList.length>0" class="finishRead">已经阅读完了</p>
+                      <p v-if="!showMore&&questionList.length>0" class="finishRead">已经阅读完了</p>
                        <!-- 暂无更多数据 -->
-                      <p v-if="!singleAndMultiplDdata.showMore&&singleAndMultiplDdata.questionList.length==0" class="finishRead">暂无相关数据</p>
+                      <p v-if="!showMore&&questionList.length==0" class="finishRead">暂无相关数据</p>
                     </div>
                 </div>
            </div>
@@ -84,8 +83,6 @@
    </div>
 </template>
 <script>
-import { getSelectFeedbackList } from "@/api/ipoCase/companyProfile";
-import { getSelectQuestionList } from "@/api/ipoCase/companyProfile";
 import $ from "jquery";
 export default {
   name: "singleAndMultiple",
@@ -115,7 +112,7 @@ export default {
       // 多选
       o_secondtLabelId: "",
       // 所有问题列表
-      questionList: [],
+      questionList: this.singleAndMultiplDdata.allQuestionList.slice(0, 15),
       // // 回复个数
       answerCount: "",
       // // 问题个数
@@ -127,7 +124,7 @@ export default {
       showLength: 15,
       allQuestionList: [],
     //   点击加载更多是否展示该按钮
-      showMore: false,
+      showMore: this.singleAndMultiplDdata.showMore,
     };
   },
   created() {
@@ -135,17 +132,17 @@ export default {
   },
   // 滑轮滚到底部懒加载
   mounted() {
-    // let _this = this;
-    // // 注册scroll事件并监听
-    // window.addEventListener("scroll", function() {
-    //   let scrollTop =
-    //     window.pageYOffset ||
-    //     document.documentElement.scrollTop ||
-    //     document.body.scrollTop; 
-    //   if (scrollTop + window.innerHeight + 2 >= document.body.offsetHeight) {
-    //     _this.showMoreMethods();
-    //   }
-    // });
+    let _this = this;
+    // 注册scroll事件并监听
+    window.addEventListener("scroll", function() {
+      let scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop; 
+      if (scrollTop + window.innerHeight + 2 >= document.body.offsetHeight) {
+        _this.showMoreMethods();
+      }
+    });
   },
   methods: {
     // 单选按钮
@@ -359,15 +356,13 @@ export default {
     },
     // 点击加载更多
     showMoreMethods() {
-        debugger;
-        console.log(this.showLength)
         this.showLength += 15;
         if (this.singleAndMultiplDdata.allQuestionList.length > this.showLength) {
-          this.singleAndMultiplDdata.showMore = true;
-          this.singleAndMultiplDdata.questionList = this.singleAndMultiplDdata.allQuestionList.slice(0, this.showLength);
+          this.showMore = true;
+          this.questionList = this.singleAndMultiplDdata.allQuestionList.slice(0, this.showLength);
         } else {
-          this.singleAndMultiplDdata.showMore = false;
-          this.singleAndMultiplDdata.questionList = this.singleAndMultiplDdata.allQuestionList;
+          this.showMore = false;
+          this.questionList = this.singleAndMultiplDdata.allQuestionList;
         }
     },
     
