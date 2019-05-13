@@ -84,6 +84,12 @@ public class IpoCaseListBo implements Serializable {
 
     private String issueCondition;
 
+    private String strageticIndustries;
+
+    private String placingMechanism;
+
+    private Double[] valuationValue;
+
     public String getTitle() {
         return title;
     }
@@ -362,5 +368,29 @@ public class IpoCaseListBo implements Serializable {
 
     public void setIssueCondition(String issueCondition) {
         this.issueCondition = issueCondition;
+    }
+
+    public String getStrageticIndustries() {
+        return strageticIndustries;
+    }
+
+    public void setStrageticIndustries(String strageticIndustries) {
+        this.strageticIndustries = strageticIndustries;
+    }
+
+    public String getPlacingMechanism() {
+        return placingMechanism;
+    }
+
+    public void setPlacingMechanism(String placingMechanism) {
+        this.placingMechanism = placingMechanism;
+    }
+
+    public Double[] getValuationValue() {
+        return valuationValue;
+    }
+
+    public void setValuationValue(Double[] valuationValue) {
+        this.valuationValue = valuationValue;
     }
 }
