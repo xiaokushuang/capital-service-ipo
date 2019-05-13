@@ -15,8 +15,25 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span>
+                            <span :class=
+                             "{'htgResult' : baseList[0].iecResult == '00',
+                            'whtgResult' : baseList[0].iecResult == '01',
+                            'zhbjResult' : baseList[0].iecResult == '02',
+                            'qxshResult' : baseList[0].iecResult == '03',
+                            'dshResult'  : baseList[0].iecResult == '04',
+                           }"
+                            >{{ baseList[0].iecResultStr}}</span>
                         </p>
+                            <!-- 'htgResult'  : baseList[0].iecResult == '05',
+                            'whtgResult' : baseList[0].iecResult == '06',
+                            'htgResult'  : baseList[0].iecResult == '07',
+                            'whtgResult' : baseList[0].iecResult == '08',
+                            'dshResult'  : baseList[0].iecResult == '09', -->
+                         <!-- <span v-if="item.progressType=='07'&&item.iecResult=='05'" :style={background:htg}  class="htg" >通过</span>
+                        <span v-if="item.progressType=='07'&&item.iecResult=='06'" :style={background:whtg} class="whtg">未通过</span>
+                        <span v-if="item.progressType=='07'&&item.iecResult=='07'" :style={background:htg} class="htg">注册生效 </span>
+                        <span v-if="item.progressType=='07'&&item.iecResult=='08'" :style={background:whtg} class="whtg">不予注册</span>
+                        <span v-if="item.progressType=='07'&&item.iecResult=='09'" :style={background:dsh} class="dsh">待审核</span> -->
                     </div>
                     <div class="text ">
                          <p style="font-size:14px;">

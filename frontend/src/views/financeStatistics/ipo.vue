@@ -27,6 +27,17 @@
                 <div v-if="headList.iecResult&&headList.iecResult == '04'">
                   <img src="../../assets/images/dsh1.png" alt="">
                 </div>
+                
+                 <!-- 'htgResult'  : baseList[0].iecResult == '05',
+                            'whtgResult' : baseList[0].iecResult == '06',
+                            'htgResult'  : baseList[0].iecResult == '07',
+                            'whtgResult' : baseList[0].iecResult == '08',
+                            'dshResult'  : baseList[0].iecResult == '09', -->
+                         <!-- <span v-if="item.progressType=='07'&&item.iecResult=='05'" :style={background:htg}  class="htg" >通过</span>
+                        <span v-if="item.progressType=='07'&&item.iecResult=='06'" :style={background:whtg} class="whtg">未通过</span>
+                        <span v-if="item.progressType=='07'&&item.iecResult=='07'" :style={background:htg} class="htg">注册生效 </span>
+                        <span v-if="item.progressType=='07'&&item.iecResult=='08'" :style={background:whtg} class="whtg">不予注册</span>
+                        <span v-if="item.progressType=='07'&&item.iecResult=='09'" :style={background:dsh} class="dsh">待审核</span> -->
             </div>
             <div class="text" style="position:relative;z-index: 4">
               <p class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;" @mouseenter="mouseOverSpreadTitle(headList.title)">{{getTitle(headList.title)}}</p>
@@ -72,6 +83,11 @@
                                               <div class="el-tabs__active-bar is-top" :style="{width: tabBarWidth + 'px', transform: 'translateX(' + tabBarOffset + 'px)'}"></div>
                                               <div id="tab-first"  ref="tab-first"  aria-controls="pane-first"  :class="['el-tabs__item is-top', {'is-active': isActive === '1'}]" @click="onTabClick('1', $event)" style="padding-left: 0">公司概览</div>
                                               <div id="tab-sixth" ref="tab-sixth" aria-controls="pane-sixth" :class="['el-tabs__item is-top', {'is-active': isActive === '6'}]" @click="onTabClick('6', $event)">行业与技术</div>
+                                              <div v-if="headList.haveFeedback=='1'" id="tab-sixth"  ref="tab-sixth" class="el-tabs__item1" aria-controls="pane-third"  style="cursor:default;color:#adadad">
+                                                <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无行业与技术信息" placement="top" effect="light">
+                                                  <el-button class="btnClass">行业与技术</el-button>
+                                                </el-tooltip>
+                                              </div>
                                               <div id="tab-second" ref="tab-second" aria-controls="pane-second" :class="['el-tabs__item is-top', {'is-active': isActive === '2'}]" @click="onTabClick('2', $event)">财务信息</div>
                                               <div v-if="headList.haveFeedback=='1'&&headList.isTechBoard =='0'" id="tab-third"  ref="tab-third" class="el-tabs__item1" aria-controls="pane-third"  style="cursor:default;color:#adadad">
                                                 <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无反馈意见信息" placement="top" effect="light">

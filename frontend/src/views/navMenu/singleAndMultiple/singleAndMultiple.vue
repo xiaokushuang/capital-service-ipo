@@ -1,85 +1,81 @@
 <template>
     <div class="singleAndMultiple feedback" id="componentId">
-       <div class="label">
-            <div class="clear">
-                <div>
-                    <div style="background-color: rgba(250, 250, 250, 1);font-size: 14px;color: #777777;padding-bottom:12px;margin-bottom: 30px;">
-                        <div class="firstLabel" >
-                            <ul class="clear" style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
-                              <div class="clear" style="border-bottom: 1px solid rgb(235, 235, 235);position:relative">
-                                <p style="float:left;margin-left: 8px;margin-top:6px">问题类型：</p>
-                                <el-radio-group  @change="handelChange(radio)" v-model="radio" size="small" style="padding-bottom:10px;float:left">
-                                    <el-radio-button :key="item.labelCode" v-for="item in singleAndMultiplDdata.radio" class="l firstLabelFocus" style="margin-right:10px;margin-bottom:10px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-radio-button>
-                                </el-radio-group>
-                              </div>
-                            </ul>
-                             <ul class="clear" style="padding:0px 25px;margin-top:0px;padding-bottom:10px">
-                                <p style="float:left;margin-left: 8px;margin-top:6px" v-if="singleAndMultiplDdata.checkbox&&singleAndMultiplDdata.checkbox.length>0">二级标签:</p>
-                                <el-checkbox-group  @change="handelMoreChange(checkboxGroup)" v-model="checkboxGroup" size="mini" style="float:left">
-                                    <el-checkbox-button  class="checkbox" v-for="item in singleAndMultiplDdata.checkbox" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-checkbox-button>
-                                </el-checkbox-group>
-                            </ul>
-                            <div class="kaiguan" style="text-align:left;font-size: 12px;
-                                  margin-left:25px;
-                                  color: #999999;
-                                  text-align: left;
-                                  line-height: 14px;">
-                                <span>共计</span>
-                                <span>{{singleAndMultiplDdata.questionCount}}</span>
-                                <span>个问题，</span>
-                                <span>{{singleAndMultiplDdata.answerCount}}</span>
-                                <span>个回复</span>
-                                <el-checkbox  @change="handleOnlyChange(onlyShowAnswer)" v-model="onlyShowAnswer" style="margin-left:20px;margin-right:15px">只展示回复问题</el-checkbox>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="question" id="titleLength">
-                        <ul style="padding-left:0">
-                            <li v-for="(data,index) in questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
-                                <div class="text" style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:10px;position:relative">
-                                 <!-- 问 -->
-                                    <div  v-if="data.question&&data.question.length>0">
-                                      <div class="wen">问</div>
-                                      <div  style="font-size:14px;color:#333;line-height:22px">
-                                          <p style="width:100%;" v-if="!data.isSpread || (data.isSpread && data.isSpread !== 2)">&nbsp;&nbsp;{{getContent(data,data.question,index,'answer')}}</p>
-                                          <p style="width:100%;"  v-if="data.isSpread && data.isSpread === 2">&nbsp;&nbsp;{{data.question}}</p>
-                                      </div>
-                                      <!-- 收起展开 -->
-                                      <div class="btn" style="color: #4F91D1;font-size:14px">
-                                          <span style="cursor:pointer" v-if="data.isSpread && data.isSpread === 2" class="packUp" @click="packUp(data)">收起 <i style="font-size:12px;cursor:pointer" class="el-icon-arrow-up"></i></span>
-                                          <span style="cursor:pointer" v-if="data.isSpread && data.isSpread === 1" class="spread" @click="spread(data)">展开 <i style="font-size:12px;cursor:pointer" class="el-icon-arrow-down"></i></span>
-                                      </div>
-                                    </div>
-                                    <!-- 答 -->
-                                    <div  v-if="data.answer&&data.answer.length>0">
-                                      <div class="da">答</div>
-                                      <div style="font-size:14px;color:#333;line-height:22px">
-                                          <p style="width:100%;" v-if="!data.isSpreada || (data.isSpreada && data.isSpreada !== 2)">&nbsp;&nbsp;{{getContent(data,data.answer,index,'question')}}</p>
-                                          <p class="daImg" v-html="data.formatAnswer" style="width:100%;"  v-if="data.isSpreada && data.isSpreada === 2">&nbsp;&nbsp;{{data.formatAnswer}}</p>
-                                      </div>
-                                      <!-- 收起展开 -->
-                                       <div class="btn" style="color: #4F91D1;font-size:14px">
-                                          <span style="cursor:pointer" v-if="data.isSpreada && data.isSpreada === 2" class="packUp" @click="daPackUp(data)">收起 <i style="font-size:12px" class="el-icon-arrow-up"></i></span>
-                                          <span style="cursor:pointer" v-if="data.isSpreada && data.isSpreada === 1" class="spread" @click="daSpread(data)">展开 <i style="font-size:12px" class="el-icon-arrow-down"></i></span>
-                                      </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <span v-for="biaoqian in data.labelList" class="biaoqian" style="margin-right:2px;margin-bottom:12px">{{biaoqian}}</span>
-                                </div>
-                            </li>
-                        </ul>
-
-                      <!-- 加载更多 -->
-                      <div  v-if="showMore" @click="showMoreMethods()" class="more">加载更多</div>
-                      <!-- 已经阅读完了 -->
-                      <p v-if="!showMore&&questionList.length>0" class="finishRead">已经阅读完了</p>
-                       <!-- 暂无更多数据 -->
-                      <p v-if="!showMore&&questionList.length==0" class="finishRead">暂无相关数据</p>
-                    </div>
+      <div style="font-size: 14px;color: #777777;padding-bottom:12px;margin-bottom: 30px;">
+          <div class="firstLabel" >
+              <div style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
+                <div class="clear" style="border-bottom: 1px solid rgb(235, 235, 235);position:relative">
+                  <p style="float:left;margin-left: 8px;margin-top:3px;">问题类型：</p>
+                  <el-radio-group  @change="handelChange(radio)" v-model="radio" size="small" style="padding-bottom:10px;float:left;width:88%">
+                      <el-radio-button :key="item.labelCode" v-for="item in singleAndMultiplDdata.radio" class="l firstLabelFocus" style="margin-right:10px;margin-bottom:10px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-radio-button>
+                  </el-radio-group>
                 </div>
-           </div>
-       </div>
+              </div>
+                <div class="clear" style="padding:0px 25px;margin-top:12px;padding-bottom:10px">
+                  <p style="float: left; margin-left: -6px; margin-top: 2px;margin-right: 15px;" v-if="singleAndMultiplDdata.checkbox&&singleAndMultiplDdata.checkbox.length>0">二级标签:</p>
+                  <el-checkbox-group  @change="handelMoreChange(checkboxGroup)" v-model="checkboxGroup" size="mini" style="float:left;width:88%">
+                      <el-checkbox  class="checkbox" v-for="item in singleAndMultiplDdata.checkbox" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-checkbox>
+                  </el-checkbox-group>
+                </div>
+              <div class="kaiguan" style="text-align:left;font-size: 12px;
+                    background: #f9f9f9;
+                    padding: 14px;
+                    margin-left:25px;
+                    color: #999999;
+                    text-align: left;
+                    line-height: 14px;">
+                  <span>共计</span>
+                  <span style="color:black;font-weight:bold">{{singleAndMultiplDdata.questionCount}}</span>
+                  <span>个问题，</span>
+                  <span style="color:black;font-weight:bold">{{singleAndMultiplDdata.answerCount}}</span>
+                  <span>个回复</span>
+                  <el-checkbox  @change="handleOnlyChange(onlyShowAnswer)" v-model="onlyShowAnswer" style="margin-left:20px;margin-right:15px">只展示回复问题</el-checkbox>
+              </div>
+          </div>
+      </div>
+      <div class="question" id="titleLength">
+          <ul style="padding-left:0">
+              <li v-for="(data,index) in questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
+                  <div class="text" style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:10px;position:relative">
+                    <!-- 问 -->
+                      <div  v-if="data.question&&data.question.length>0">
+                        <div class="wen">问</div>
+                        <div  style="font-size:14px;color:#333;line-height:22px">
+                            <p style="width:100%;" v-if="!data.isSpread || (data.isSpread && data.isSpread !== 2)">&nbsp;&nbsp;{{getContent(data,data.question,index,'answer')}}</p>
+                            <p style="width:100%;"  v-if="data.isSpread && data.isSpread === 2">&nbsp;&nbsp;{{data.question}}</p>
+                        </div>
+                        <!-- 收起展开 -->
+                        <div class="btn" style="color: #4F91D1;font-size:14px">
+                            <span style="cursor:pointer" v-if="data.isSpread && data.isSpread === 2" class="packUp" @click="packUp(data)">收起 <i style="font-size:12px;cursor:pointer" class="el-icon-arrow-up"></i></span>
+                            <span style="cursor:pointer" v-if="data.isSpread && data.isSpread === 1" class="spread" @click="spread(data)">展开 <i style="font-size:12px;cursor:pointer" class="el-icon-arrow-down"></i></span>
+                        </div>
+                      </div>
+                      <!-- 答 -->
+                      <div  v-if="data.answer&&data.answer.length>0">
+                        <div class="da">答</div>
+                        <div style="font-size:14px;color:#333;line-height:22px">
+                            <p style="width:100%;" v-if="!data.isSpreada || (data.isSpreada && data.isSpreada !== 2)">&nbsp;&nbsp;{{getContent(data,data.answer,index,'question')}}</p>
+                            <p class="daImg" v-html="data.formatAnswer" style="width:100%;"  v-if="data.isSpreada && data.isSpreada === 2">&nbsp;&nbsp;{{data.formatAnswer}}</p>
+                        </div>
+                        <!-- 收起展开 -->
+                          <div class="btn" style="color: #4F91D1;font-size:14px">
+                            <span style="cursor:pointer" v-if="data.isSpreada && data.isSpreada === 2" class="packUp" @click="daPackUp(data)">收起 <i style="font-size:12px" class="el-icon-arrow-up"></i></span>
+                            <span style="cursor:pointer" v-if="data.isSpreada && data.isSpreada === 1" class="spread" @click="daSpread(data)">展开 <i style="font-size:12px" class="el-icon-arrow-down"></i></span>
+                        </div>
+                      </div>
+                  </div>
+                  <div>
+                      <span v-for="biaoqian in data.labelList" class="biaoqian" style="margin-right:2px;margin-bottom:12px">{{biaoqian}}</span>
+                  </div>
+              </li>
+          </ul>
+
+        <!-- 加载更多 -->
+        <div  v-if="showMore" @click="showMoreMethods()" class="more">加载更多</div>
+        <!-- 已经阅读完了 -->
+        <p v-if="!showMore&&questionList.length>0" class="finishRead">已经阅读完了</p>
+          <!-- 暂无更多数据 -->
+        <p v-if="!showMore&&questionList.length==0" class="finishRead">暂无相关数据</p>
+      </div>
    </div>
 </template>
 <script>
