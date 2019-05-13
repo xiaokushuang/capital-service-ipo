@@ -62,22 +62,35 @@
             <el-col :span='8'>
               <el-input size='small full' v-model="title" placeholder="标题关键字（包含全部以空格断开）"></el-input>
             </el-col>
-
-            <el-col :span='8' class="stockIncreasePan-class">
-              <el-multiple-selection v-if="issueShow" :range="true" :tree-data="optionPeIssueA" placeholder="发行后市盈率" size="small full" :multiple="false"
-                                     unit="%" :ran="optionDto" @sure-click="rangeCallPeIssueA">
-              </el-multiple-selection>
+             <el-col :span='8'>
+              <el-input size='small full' v-model="codeOrName" placeholder="公司名称/代码"></el-input>
             </el-col>
-            <el-col :span='8' class="stockIncreasePan-class">
-              <el-multiple-selection v-if="issueFeeShow" :range="true" :tree-data="optionIssueFee" placeholder="发行费用" size="small full" :multiple="false"
-                                     unit="万元" :ran="optionDto" @sure-click="rangeCallIssueFee">
-              </el-multiple-selection>
+             <el-col :span='8' class="repuramountlimitPan-class">
+              <el-autocomplete
+                class="inline-input"
+                size='small full'
+                v-model="intermediary"
+                :fetch-suggestions="queryIntermediary"
+                placeholder="中介机构"
+                :trigger-on-focus="false"
+                @select="handleSelect"
+              ></el-autocomplete>
             </el-col>
-
           </el-row>
 
           <el-row :gutter="24">
             <el-col :span='8'>
+              <el-select ref="selectCompanyNature" v-model="companyNature" title="企业性质" placeholder="企业性质"
+                         size="small full" :tselect=true @visible-change="calls()"
+                         @sure-click="sure('selectCompanyNature')"
+                         @clear-click="clearLocal('treeCompanyNature')">
+                <el-option :label="companyNature" :value="companyNatureValue">
+                  <el-tree :data="companyNatureList" show-checkbox node-key="id" ref="treeCompanyNature" highlight-current
+                           :props="default_tree" @check-change="selectHandleNodeClick('companyNature','treeCompanyNature')"></el-tree>
+                </el-option>
+              </el-select>
+            </el-col>
+            <el-col :span='4'>
               <el-select ref="selectIndustryCsrc" v-model="industryCsrc" title="发行人行业（证监会）" placeholder="发行人行业（证监会）"
                          size="small full" :tselect=true @visible-change="calls()"
                          @sure-click="sure('selectIndustryCsrc')"
@@ -88,17 +101,14 @@
                 </el-option>
               </el-select>
             </el-col>
-            <el-col :span='8'>
-              <el-input size='small full' v-model="codeOrName" placeholder="公司名称/代码"></el-input>
-            </el-col>
             <el-col :span='4'>
-              <el-select ref="selectCompanyNature" v-model="companyNature" title="企业性质" placeholder="企业性质"
+              <el-select ref="selectIndustryCsrc" v-model="industryCsrc" title="发行人行业（战略新兴）" placeholder="发行人行业（证监会）"
                          size="small full" :tselect=true @visible-change="calls()"
-                         @sure-click="sure('selectCompanyNature')"
-                         @clear-click="clearLocal('treeCompanyNature')">
-                <el-option :label="companyNature" :value="companyNatureValue">
-                  <el-tree :data="companyNatureList" show-checkbox node-key="id" ref="treeCompanyNature" highlight-current
-                           :props="default_tree" @check-change="selectHandleNodeClick('companyNature','treeCompanyNature')"></el-tree>
+                         @sure-click="sure('selectIndustryCsrc')"
+                         @clear-click="clearLocal('treeIndustryCsrc')">
+                <el-option :label="industryCsrc" :value="industryCsrcValue">
+                  <el-tree :data="industryCrscList" show-checkbox node-key="id" ref="treeIndustryCsrc" highlight-current
+                           :props="default_tree" @check-change="selectHandleNodeClick('industryCsrc','treeIndustryCsrc')"></el-tree>
                 </el-option>
               </el-select>
             </el-col>
@@ -113,33 +123,21 @@
                 </el-option>
               </el-select>
             </el-col>
-
-          </el-row>
-
-          <el-row :gutter="24">
-            <el-col :span='8' class="repuramountlimitPan-class">
-              <el-autocomplete
-                class="inline-input"
-                size='small full'
-                v-model="intermediary"
-                :fetch-suggestions="queryIntermediary"
-                placeholder="中介机构"
-                :trigger-on-focus="false"
-                @select="handleSelect"
-              ></el-autocomplete>
-            </el-col>
-            <el-col :span='4'>
-              <el-select ref="selectVerifyResult" v-model="iecResult" title="审核结果" placeholder="审核结果"
+             <el-col :span='4'>
+              <el-select ref="selectIpoNum" v-model="ipoNum" title="配售机制" placeholder="配售机制"
                          size="small full" :tselect=true @visible-change="calls()"
-                         @sure-click="sure('selectVerifyResult')"
-                         @clear-click="clearLocal('treeVerifyResult')">
-                <el-option :label="iecResult" :value="iecResultValue">
-                  <el-tree :data="verifyResultList" show-checkbox node-key="id" ref="treeVerifyResult" highlight-current
-                           :props="default_tree" @check-change="selectHandleNodeClick('iecResult','treeVerifyResult')"></el-tree>
+                         @sure-click="sure('selectIpoNum')"
+                         @clear-click="clearLocal('treeIpoNum')">
+                <el-option :label="ipoNum" :value="ipoNumValue">
+                  <el-tree :data="ipoNumList" show-checkbox node-key="id" ref="treeIpoNum" highlight-current
+                           :props="default_tree" @check-change="selectHandleNodeClick('ipoNum','treeIpoNum')"></el-tree>
                 </el-option>
               </el-select>
             </el-col>
-            <el-col :span='4'>
+          </el-row>
+
+          <el-row :gutter="24">
+             <el-col :span='8'>
               <el-select ref="selectProcess" v-model="caseStatus" title="IPO进程" placeholder="IPO进程"
                          size="small full" :tselect=true @visible-change="calls()"
                          @sure-click="sure('selectProcess')"
@@ -151,15 +149,57 @@
               </el-select>
             </el-col>
             <el-col :span='8'>
-              <el-date-picker size='small' v-model="ypProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
-                              start-placeholder="预先披露时间" end-placeholder="预先披露时间" align="center">
-              </el-date-picker>
+              <el-select ref="selectVerifyResult" v-model="iecResult" title="审核结果" placeholder="审核结果"
+                         size="small full" :tselect=true @visible-change="calls()"
+                         @sure-click="sure('selectVerifyResult')"
+                         @clear-click="clearLocal('treeVerifyResult')">
+                <el-option :label="iecResult" :value="iecResultValue">
+                  <el-tree :data="verifyResultList" show-checkbox node-key="id" ref="treeVerifyResult" highlight-current
+                           :props="default_tree" @check-change="selectHandleNodeClick('iecResult','treeVerifyResult')"></el-tree>
+                </el-option>
+              </el-select>
             </el-col>
-
+            <el-col :span='8'>
+              <el-select ref="selectCompanyNature" v-model="companyNature" title="发行人选择的上市条件" placeholder="发行人选择的上市条件"
+                         size="small full" :tselect=true @visible-change="calls()"
+                         @sure-click="sure('selectCompanyNature')"
+                         @clear-click="clearLocal('treeCompanyNature')">
+                <el-option :label="companyNature" :value="companyNatureValue">
+                  <el-tree :data="companyNatureList" show-checkbox node-key="id" ref="treeCompanyNature" highlight-current
+                           :props="default_tree" @check-change="selectHandleNodeClick('companyNature','treeCompanyNature')"></el-tree>
+                </el-option>
+              </el-select>
+            </el-col>
           </el-row>
 
           <el-row :gutter="24">
+            <el-col :span='8' class="stockIncreasePan-class">
+              <el-multiple-selection v-if="issueShow" :range="true" :tree-data="optionPeIssueA" placeholder="发行后市盈率" size="small full" :multiple="false"
+                                     unit="%" :ran="optionDto" @sure-click="rangeCallPeIssueA">
+              </el-multiple-selection>
+            </el-col>
+            <el-col :span='8' class="stockIncreasePan-class">
+              <el-multiple-selection v-if="issueFeeShow" :range="true" :tree-data="optionIssueFee" placeholder="发行费用" size="small full" :multiple="false"
+                                     unit="万元" :ran="optionDto" @sure-click="rangeCallIssueFee">
+              </el-multiple-selection>
+            </el-col>
             <el-col :span='8'>
+              <el-select ref="selectCompanyNature" v-model="companyNature" title="招股书最近一次估值" placeholder="招股书最近一次估值"
+                         size="small full" :tselect=true @visible-change="calls()"
+                         @sure-click="sure('selectCompanyNature')"
+                         @clear-click="clearLocal('treeCompanyNature')">
+                <el-option :label="companyNature" :value="companyNatureValue">
+                  <el-tree :data="companyNatureList" show-checkbox node-key="id" ref="treeCompanyNature" highlight-current
+                           :props="default_tree" @check-change="selectHandleNodeClick('companyNature','treeCompanyNature')"></el-tree>
+                </el-option>
+              </el-select>
+            </el-col>
+             <!-- <el-col :span='8'>
+              <el-date-picker size='small' v-model="ypProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
+                              start-placeholder="预先披露时间" end-placeholder="预先披露时间" align="center">
+              </el-date-picker>
+            </el-col> -->
+            <!-- <el-col :span='8'>
               <el-date-picker size='small' v-model="fsProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
                               start-placeholder="审核时间" end-placeholder="审核时间" align="center">
               </el-date-picker>
@@ -231,6 +271,13 @@
                 </div>
                 <span slot="reference" class="home_new" style="margin-top: 5px;background-position:-69px -20px;cursor: pointer"></span>
               </el-popover>
+            </el-col> -->
+          </el-row>
+          <el-row :gutter="24">
+            <el-col :span='8'>
+              <el-date-picker size='small' v-model="fsProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
+                              start-placeholder="审核时间" end-placeholder="审核时间" align="center">
+              </el-date-picker>
             </el-col>
           </el-row>
           <div v-show="searchFlag" style="display:flex">

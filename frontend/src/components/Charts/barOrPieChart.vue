@@ -97,10 +97,10 @@ export default {
         _self.initPieChart(series,params.name,params.dataIndex,'');
       });
        this.barChart.setOption({
-            // color:[ 
-            //     '#ea5365', '#f9b162', '#36a2eb', '#4ec8e5', '#f98962',
-            //     '#8780e4', '#d192e0', '#ed7ae2', '#aabfe2', '#5b6878',
-            // ],
+            color:[ 
+                '#ea5365', '#f9b162', '#36a2eb', '#4ec8e5', '#f98962',
+                '#8780e4', '#d192e0', '#ed7ae2', '#aabfe2', '#5b6878',
+            ],
            title: {
                 text: "最近3年主营业务趋势",
                 padding: [8, 10,106,10],
@@ -200,10 +200,10 @@ initPieChart(dataList,nameTempO,num,flag) {
     }
   }
   var option = {
-        //  color:[ 
-        //         '#ea5365', '#f9b162', '#36a2eb', '#4ec8e5', '#f98962',
-        //         '#8780e4', '#d192e0', '#ed7ae2', '#aabfe2', '#5b6878', 
-        //     ],
+         color:[ 
+                '#ea5365', '#f9b162', '#36a2eb', '#4ec8e5', '#f98962',
+                '#8780e4', '#d192e0', '#ed7ae2', '#aabfe2', '#5b6878', 
+            ],
          title: {
                 text: "• "+nameTemp+" _ 主营业务分布",
                 textStyle: {
