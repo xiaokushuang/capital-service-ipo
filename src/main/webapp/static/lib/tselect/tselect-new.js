@@ -610,7 +610,7 @@
     							 ]
     							);
     			}
-    			var somes = $this.options.allShow?el('span',{class:'btn t-select-clear tabindex openDowns colloge',style:{'margin-right':'20px'},onclick:this.someAny,onblur:this.blur},$this.store.get('tree').openDowns?'全部合并':'全部展开'):el('span',null);
+    			var somes = $this.options.allShow?el('span',{class:'btn t-select-clear tabindex openDowns colloge',style:{'margin-right':'20px'},onclick:this.someAny,onblur:this.blur},$this.store.get('tree').openDowns?'收起':'展开'):el('span',null);
     			var allCheck = $this.getRecord('allCheck')?el('span',{class:'btn t-select-allcheck tabindex',style:{'margin-right':'20px'},onclick:this.allCheck,onblur:this.blur},'全选'):el('span',null);
     			
     			//确定清空按钮结构
