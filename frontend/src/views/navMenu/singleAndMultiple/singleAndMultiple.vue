@@ -13,7 +13,7 @@
                 <div class="clear" style="padding:0px 25px;margin-top:12px;padding-bottom:10px">
                   <p style="float: left; margin-left: -6px; margin-top: 2px;margin-right: 15px;" v-if="singleAndMultiplDdata.checkbox&&singleAndMultiplDdata.checkbox.length>0">二级标签:</p>
                   <el-checkbox-group  @change="handelMoreChange(checkboxGroup)" v-model="checkboxGroup" size="mini" style="float:left;width:88%">
-                      <el-checkbox  class="checkbox" v-for="item in singleAndMultiplDdata.checkbox" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-checkbox>
+                      <el-checkbox :key="item.labelCode" class="checkbox" v-for="item in singleAndMultiplDdata.checkbox" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-checkbox>
                   </el-checkbox-group>
                 </div>
               <div class="kaiguan" style="text-align:left;font-size: 12px;

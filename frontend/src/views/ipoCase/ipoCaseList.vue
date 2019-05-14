@@ -234,12 +234,12 @@
             </el-col>
             <el-col :span='8' class="stockIncreasePan-class">
               <el-multiple-selection class="prospectus" v-if="prospectusShow" :range="true" :tree-data="optionProspectus" placeholder="招股书最近一次估值" size="small full" :multiple="false"
-                                     unit="亿" :ran="optionDto" @sure-click="rangeCallIssueFee">
+                                     unit="亿" :ran="optionDto" @sure-click="rangeCallProspectus">
               </el-multiple-selection>
             </el-col>
           </el-row>
            <el-row :gutter="24">
-             <el-col :span='8'>
+             <!-- <el-col :span='8'>
               <el-date-picker class="acceptTime" size='small' v-model="ypProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
                               start-placeholder="受理时间范围"  align="center">
               </el-date-picker>
@@ -248,17 +248,17 @@
               <el-date-picker class="acceptTime" size='small' v-model="fsProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
                               start-placeholder="审核时间范围" align="center">
               </el-date-picker>
-            </el-col>
-             <!-- <el-col :span='8'>
+            </el-col> -->
+             <el-col :span='8'>
               <el-date-picker size='small' v-model="ypProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
-                              start-placeholder="受理时间范围" end-placeholder="受理时间范围" align="center">
+                              start-placeholder="受理时间" end-placeholder="受理时间" align="center">
               </el-date-picker>
             </el-col>
             <el-col :span='8'>
               <el-date-picker size='small' v-model="fsProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
-                              start-placeholder="审核时间范围" end-placeholder="审核时间范围" align="center">
+                               start-placeholder="审核时间" end-placeholder="审核时间" align="center">
               </el-date-picker>
-            </el-col> -->
+            </el-col>
             <el-col :span='8'>
               <el-multiple-selection v-if="durationShow" :range="true" :tree-data="optionAuditDuration" placeholder="审核历时（天）" size="small full" :multiple="false"
                                      unit="天" :ran="optionDto" @sure-click="rangeAuditDuration">
@@ -485,11 +485,16 @@
                       {{scope.row.processLabel}}
                       <br/>
                       <span>
-                        <span class="htgResult" v-if="scope.row.iecResult==='00'">获通过</span>
+                        <span class="htgResult"  v-if="scope.row.iecResult==='00'">获通过</span>
                         <span class="whtgResult" v-if="scope.row.iecResult==='01'">未获通过</span>
                         <span class="zhbjResult" v-if="scope.row.iecResult==='02'">暂缓表决</span>
                         <span class="qxshResult" v-if="scope.row.iecResult==='03'">取消审核</span>
-                        <span class="dshResult" v-if="scope.row.iecResult==='04'">待审核</span>
+                        <span class="dshResult"  v-if="scope.row.iecResult==='04'">待审核</span>
+                        <span class="htgResult"  v-if="scope.row.iecResult==='05'">通过</span>
+                        <span class="whtgResult" v-if="scope.row.iecResult==='06'">未通过</span>
+                        <span class="htgResult"  v-if="scope.row.iecResult==='07'">注册生效</span>
+                        <span class="whtgResult" v-if="scope.row.iecResult==='08'">不予注册</span>
+                        <span class="dshResult"  v-if="scope.row.iecResult==='09'">待审核</span>
                       </span>
                     </template>
                   </el-table-column>
@@ -658,6 +663,7 @@
         totalShareIssueA: [],
         peIssueA: [],
         issueFee: [],
+        prospectus:[],
         timeDiff: [],
         optionPeIssueA: [
           {id: 1, value: '0-10'},
@@ -913,6 +919,7 @@
             totalShareIssueA: _self.totalShareIssueA,//发行后股本总额
             peIssueA: _self.peIssueA,//发行后市盈率
             issueFee: _self.issueFee,//发行费用
+            prospectus: _self.prospectus,//招股书最近一次估值
             timeDiff: _self.timeDiff,//申报审核历时（天）
             ipoPlate: _self.$refs.plateTreeTagRef.getCheckedNodes().map((item) => {
               return item.labelValue
@@ -1098,6 +1105,7 @@
         _self.totalShareIssueA = [];
         _self.peIssueA = [];
         _self.issueFee = [];
+        _self.prospectus = [];//招股书最近一次估值
         _self.timeDiff = [];
         _self.searchFlag = false;
         _self.yearRadio = 1;
@@ -1204,6 +1212,10 @@
       },
       rangeCallIssueFee(data) {
         this.issueFee = data;
+      },
+      // 招股书最近一次估值
+       rangeCallProspectus(data) {
+        this.prospectus = data;
       },
       rangeCallProfitOne(data) {
         this.profitOne = data;
@@ -1770,16 +1782,16 @@
       text-align:center;
 }
 /* 受理时间及审核时间日期控件样式 */
-.acceptTime .el-range-separator{
+/* .acceptTime .el-range-separator{
   display:none
 }
 .acceptTime .el-range-editor--small .el-range__close-icon, .el-range-editor--small .el-range__icon {
     position: relative;
     left: 97%;
     line-height: 24px;
-}
+} */
 /* ipocaseList受理时间及审核时间日期控件样式 */
-  @media screen and (max-width: 1680px) and (min-width: 1359px) {
+  /* @media screen and (max-width: 1680px) and (min-width: 1359px) {
     .acceptTime.el-date-editor .el-range-input {
         width: 26%;
         position: relative;
@@ -1799,7 +1811,7 @@
         position: relative;
         left: -17px;
       }
-  }
+  } */
 
 </style>
 
