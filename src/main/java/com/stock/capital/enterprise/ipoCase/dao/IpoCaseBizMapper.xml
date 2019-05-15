@@ -26,6 +26,7 @@
     <result column="report_period" property="reportPeriod" jdbcType="TIMESTAMP" />
     <result column="main_type" property="mainType" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
     <collection property="supplierCustomerInfoList" ofType="com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerInfoDto">
       <id column="e_id" property="id" jdbcType="VARCHAR" />
       <result column="e_bid" property="bid" jdbcType="VARCHAR" />
@@ -129,8 +130,83 @@
     SELECT id, bid, company_code AS companyCode, company_name AS companyName, situation FROM ipo_main_competitor_info WHERE bid = #{bid}
   </select>
 
+  <select id="getCompetitorData" parameterType="string"
+    resultType="com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyPatentDto">
+    SELECT '国内专利' AS labelName, domestic_invention AS fm,domestic_newtype AS sy, domestic_design as wg,  (domestic_invention+domestic_newtype+domestic_design) AS hj FROM ipo_technology AS t1 WHERE bid = #{bid}
+    UNION
+    SELECT '国外专利' AS labelName, foreign_invention AS fm,foreign_newtype AS sy, foreign_design as wg,  (foreign_invention+foreign_newtype+foreign_design) AS hj FROM ipo_technology AS t2 WHERE bid = #{bid}
+    UNION
+    SELECT '合计' AS labelName, domestic_invention + foreign_invention AS fm,domestic_newtype + foreign_newtype AS sy, domestic_design + foreign_design AS wg,
+    (domestic_invention+domestic_newtype+domestic_design + foreign_invention+foreign_newtype+foreign_design) AS hj FROM ipo_technology WHERE bid = #{bid}
+  </select>
+
+
+  <select id="getDevCompute" parameterType="string"
+    resultType="com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyTableDto">
+    SELECT '研发费用' AS labelName, dev_input_fi AS firstYearValue, dev_input_se AS secondYearValue,
+    dev_input_th AS thirdYearValue, dev_input_fo AS forthYearValue, dev_input_fi + dev_input_se + dev_input_th + dev_input_fo AS allNumValue
+    FROM ipo_technology WHERE bid = #{bid}
+    UNION
+    SELECT '营业收入' AS labelName, trade_fi AS firstYearValue, trade_se AS secondYearValue,
+    trade_th AS thirdYearValue, trade_fo AS forthYearValue, trade_fi + trade_se + trade_th + trade_fo AS allNumValue
+    FROM ipo_technology WHERE bid =  #{bid}
+    UNION
+    SELECT '研发费用占营业收入的比例' AS labelName, TRUNCATE(dev_input_fi/trade_fi,4)*100 AS firstYearValue, TRUNCATE(dev_input_se/trade_se,4)*100 AS secondYearValue, TRUNCATE(dev_input_th/trade_th,4)*100 AS thirdYearValue, TRUNCATE(dev_input_fo/trade_fo,4)*100 AS forthYearValue,
+    TRUNCATE((dev_input_fi + dev_input_se + dev_input_th + dev_input_fo)/(trade_fi + trade_se + trade_th + trade_fo),4)*100 AS allNumValue
+    FROM ipo_technology WHERE bid =  #{bid}
+  </select>
+
+
+  <select id="getCoreCompute" parameterType="string"
+    resultType="com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyTableDto">
+    SELECT '核心技术人员' AS labelName,
+    core_fi AS firstYearValue, TRUNCATE(core_fi/count_fi,4)*100 AS firstYearPro,
+    core_se AS secondYearValue, TRUNCATE(core_se/count_se,4)*100 AS secondYearPro,
+    core_th AS thirdYearValue,  TRUNCATE(core_th/count_th,4)*100 AS thirdYearPro,
+    core_fo AS forthYearValue, TRUNCATE(core_fo/count_fo,4)*100 AS forthYearPro
+    FROM ipo_technology WHERE bid = #{bid}
+    UNION
+    SELECT '研发技术人员' AS labelName,
+    dev_fi AS firstYearValue, TRUNCATE(dev_fi/count_fi,4)*100 AS firstYearPro,
+    dev_se AS secondYearValue, TRUNCATE(dev_se/count_se,4)*100 AS secondYearPro,
+    dev_th AS thirdYearValue, TRUNCATE(dev_th/count_th,4)*100 AS thirdYearPro,
+    dev_fo AS forthYearValue, TRUNCATE(dev_fo/count_fo,4)*100 AS forthYearPro
+    FROM ipo_technology WHERE bid = #{bid}
+    UNION
+    SELECT '公司员工总数' AS labelName,
+    count_fi AS firstYearValue, TRUNCATE(count_fi/count_fi,4)*100 AS firstYearPro,
+    count_se AS secondYearValue, TRUNCATE(count_se/count_se,4)*100 AS secondYearPro,
+    count_th AS thirdYearValue, TRUNCATE(count_th/count_th,4)*100 AS thirdYearPro,
+    count_fo AS forthYearValue, TRUNCATE(count_fo/count_fo,4)*100 AS forthYearPro
+    FROM ipo_technology WHERE bid = #{bid}
+  </select>
+
+  <select id="getDate" parameterType="string"
+    resultType="com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyDateDto">
+    SELECT '项目时间' AS dateName,
+    DATE_FORMAT(project_date_fi,'%Y-%m-%d') AS firstYearDate,
+    DATE_FORMAT(project_date_se,'%Y-%m-%d') AS secondYearDate,
+    DATE_FORMAT(project_date_th,'%Y-%m-%d') AS thirdYearDate,
+    DATE_FORMAT(project_date_fo,'%Y-%m-%d') AS forthYearDate
+    FROM ipo_technology WHERE bid=#{bid}
+    UNION
+    SELECT '类别时间' AS dateName,
+    DATE_FORMAT(category_date_fi,'%Y-%m-%d') AS firstYearDate,
+    DATE_FORMAT(category_date_se,'%Y-%m-%d') AS secondYearDate,
+    DATE_FORMAT(category_date_th,'%Y-%m-%d') AS thirdYearDate,
+    DATE_FORMAT(category_date_fo,'%Y-%m-%d') AS forthYearDate
+    FROM ipo_technology WHERE bid=#{bid}
+  </select>
+
+  <select id="getRemarks" parameterType="string"
+    resultType="com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyRemarksDto">
+    SELECT dev_remarks as devRemarks,patent_remarks AS patentRemarks,core_remarks AS coreRemarks
+    FROM ipo_technology WHERE bid=#{bid}
+  </select>
+
+
   <select id="getSupplierOrCustomerData" resultMap="SupCusResultMap">
-    SELECT iscm.id,iscm.bid,iscm.report_period,iscm.main_type,iscm.remark,isci.id e_id,isci.bid e_bid,isci.company_code, isci.company_name, isci.first_year_content, isci.first_year_amount, isci.first_year_ratio,
+    SELECT iscm.id,iscm.bid,iscm.report_period,iscm.main_type,iscm.title,iscm.remark,isci.id e_id,isci.bid e_bid,isci.company_code, isci.company_name, isci.first_year_content, isci.first_year_amount, isci.first_year_ratio,
     isci.second_year_content, isci.second_year_amount, isci.second_year_ratio, isci.third_year_content, isci.third_year_amount,
     isci.third_year_ratio, isci.one_period_content, isci.one_period_amount, isci.one_period_ratio
     FROM ipo_supplier_customer_main iscm

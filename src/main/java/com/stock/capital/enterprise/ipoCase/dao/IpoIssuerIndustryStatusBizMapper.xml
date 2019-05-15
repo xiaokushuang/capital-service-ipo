@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stock.capital.enterprise.ipoCase.dao.IpoIssuerIndustryStatusBizMapper">
+
+  <resultMap id="IssuerIndustryStatusResultMap" type="com.stock.capital.enterprise.ipoCase.dto.IssuerIndustryStatusDto" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="bid" property="bid" jdbcType="VARCHAR" />
+    <result column="ranking_range" property="rankingRange" jdbcType="VARCHAR" />
+    <result column="ranking_indicator" property="rankingIndicator" jdbcType="VARCHAR" />
+    <result column="ranking" property="ranking" jdbcType="VARCHAR" />
+    <result column="industry_status_overview" property="industryStatusOverview" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getindustryStatusData" parameterType="string" resultMap="IssuerIndustryStatusResultMap">
+    SELECT  
+            t.id, 
+            t.bid, 
+            t.ranking_range, 
+            t.ranking_indicator, 
+            t.ranking,
+            t1.industry_status_overview 
+    FROM 
+            ipo_issuer_industry_status t
+            left join ipo_case t1
+    ON 
+            t.bid=t1.id
+    WHERE            
+            t.bid = #{bid}
+  </select>
+
+</mapper>

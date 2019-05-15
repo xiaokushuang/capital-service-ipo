@@ -4,6 +4,10 @@ import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
 import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
 import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyDateDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyPatentDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyRemarksDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyTableDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainIncomeInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
@@ -28,6 +32,16 @@ public interface IpoCaseBizMapper {
         @Param("bid") String bid, @Param("mainType") String mainType);
 
     List<MainIncomeInfoDto> getIncomeData(String bid);
+
+    List<IpoTechnologyPatentDto> getCompetitorData(@Param("bid") String bid);
+
+    List<IpoTechnologyTableDto> getDevCompute(@Param("bid") String bid);
+
+    List<IpoTechnologyTableDto> getCoreCompute(@Param("bid") String bid);
+
+    List<IpoTechnologyDateDto> getDate(@Param("bid") String bid);
+
+    IpoTechnologyRemarksDto getRemarks(@Param("bid") String bid);
 
     List<IntermediaryOrgDto> getIntermediaryOrgData(
         @Param("bid") String bid, @Param("validFlag") String validFlag);

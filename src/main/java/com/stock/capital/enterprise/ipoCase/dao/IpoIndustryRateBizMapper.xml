@@ -11,6 +11,7 @@
     <result column="second_year_rate" property="secondYearRate" jdbcType="DECIMAL" />
     <result column="third_year_rate" property="thirdYearRate" jdbcType="DECIMAL" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />    
     <result column="firstAvg" property="firstAvg" jdbcType="DECIMAL" />
     <result column="secondAvg" property="secondAvg" jdbcType="DECIMAL" />
     <result column="thirdAvg" property="thirdAvg" jdbcType="DECIMAL" />
@@ -27,7 +28,7 @@
 
   <select id="selectIndustryRateByBid" parameterType="string" resultMap="RateResultMap">
     SELECT t.*,t1.* FROM
-    (SELECT iicr.id,iicr.bid,iicr.remark,iicr.report_period,iicr.company_code,iicr.company_name,CONVERT(iicr.first_year_rate,DECIMAL(18,2)) first_year_rate,
+    (SELECT iicr.id,iicr.bid,iicr.title,iicr.remark,iicr.report_period,iicr.company_code,iicr.company_name,CONVERT(iicr.first_year_rate,DECIMAL(18,2)) first_year_rate,
         CONVERT(iicr.second_year_rate,DECIMAL(18,2)) second_year_rate,CONVERT(iicr.third_year_rate,DECIMAL(18,2)) third_year_rate,iicrd.id e_id,iicrd.bid e_bid,iicrd.company_code e_company_code,
         iicrd.company_name e_company_name,CONVERT(iicrd.first_year_rate,DECIMAL(18,2)) e_first_year_rate,CONVERT(iicrd.second_year_rate,DECIMAL(18,2)) e_second_year_rate,
         CONVERT(iicrd.third_year_rate,DECIMAL(18,2)) e_third_year_rate

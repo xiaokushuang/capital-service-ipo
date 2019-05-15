@@ -133,19 +133,19 @@ public class IpoFinanceService extends BaseService {
         }
         //计算所有者权益合计
         IpoItemDto sumEquityDto = new IpoItemDto();
-        BigDecimal forthSumEquity = forthItemList.get(0).getForthYearValue().subtract(forthItemList.get(1).getForthYearValue());
-        BigDecimal thirdSumEquity = forthItemList.get(0).getThirdYearValue().subtract(forthItemList.get(1).getThirdYearValue());
-        BigDecimal secondSumEquity = forthItemList.get(0).getSecondYearValue().subtract(forthItemList.get(1).getSecondYearValue());
-        BigDecimal firstSumEquity = forthItemList.get(0).getFirstYearValue().subtract(forthItemList.get(1).getFirstYearValue());
+        BigDecimal forthSumEquity = forthItemList.get(2).getForthYearValue().subtract(forthItemList.get(5).getForthYearValue());
+        BigDecimal thirdSumEquity = forthItemList.get(2).getThirdYearValue().subtract(forthItemList.get(5).getThirdYearValue());
+        BigDecimal secondSumEquity = forthItemList.get(2).getSecondYearValue().subtract(forthItemList.get(5).getSecondYearValue());
+        BigDecimal firstSumEquity = forthItemList.get(2).getFirstYearValue().subtract(forthItemList.get(5).getFirstYearValue());
         sumEquityDto.setItemName("所有者权益合计");
         sumEquityDto.setForthYearValue(forthSumEquity);
         sumEquityDto.setThirdYearValue(thirdSumEquity);
         sumEquityDto.setSecondYearValue(secondSumEquity);
         sumEquityDto.setFirstYearValue(firstSumEquity);
         //将所有者权益合计行 放入第3位，前台页面不用排序
-        forthItemList.add(2, sumEquityDto);
+        forthItemList.add(7, sumEquityDto);
         //为前台页面统一展示，将0的数据设置为Null
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 8; i++) {
             if(forthItemList.get(i).getForthYearValue().compareTo(BigDecimal.ZERO)==0){
                 forthItemList.get(i).setForthYearValue(null);
             }
@@ -272,4 +272,84 @@ public class IpoFinanceService extends BaseService {
         return resultList;
     }
 
+    /**
+     * 财务信息 主要财务指标
+     */
+    public IpoFinanceDto selectMainIndexList(String id) {
+        IpoFinanceDto resultDto = new IpoFinanceDto();
+        IpoFinanceDateDto dateDto = new IpoFinanceDateDto();
+        Date forthYear = ipoFinanceMapper.getForthYear(id);
+        //如果日期为空则说明没有填写主营收入
+        if (forthYear == null) {
+            return new IpoFinanceDto();
+        }
+        //计算前3年时间
+        Date thirdYear = getLastYearDate(forthYear);
+        Date secondYear = getLastYearDate(thirdYear);
+        Date firstYear = getLastYearDate(secondYear);
+        //存入时间
+        dateDto.setFirstYearDate(getDateStr(firstYear));
+        dateDto.setSecondYearDate(getDateStr(secondYear));
+        dateDto.setThirdYearDate(getDateStr(thirdYear));
+        dateDto.setForthYearDate(getDateStr(forthYear));
+        resultDto.setDateList(dateDto);
+        //根据时间和id查询财务信息，三年一期的 主要财务指标
+        List<IpoItemDto> forthItemList = ipoFinanceMapper.selectMainIndexList(id, forthYear);
+        List<IpoItemDto> thirdItemList = ipoFinanceMapper.selectMainIndexList(id, thirdYear);
+        List<IpoItemDto> secondItemList = ipoFinanceMapper.selectMainIndexList(id, secondYear);
+        List<IpoItemDto> firstItemList = ipoFinanceMapper.selectMainIndexList(id, firstYear);
+        //循环一年的 主要财务指标，因为查询顺序相同，直接用角标合并4年数据
+        for (int i = 0; i < forthItemList.size(); i++) {
+            forthItemList.get(i).setThirdYearValue(thirdItemList.get(i).getForthYearValue());
+            forthItemList.get(i).setSecondYearValue(secondItemList.get(i).getForthYearValue());
+            forthItemList.get(i).setFirstYearValue(firstItemList.get(i).getForthYearValue());
+        }
+        //根据时间和id查询财务信息，三年一期的 无形资产占净资产的比例
+        List<IpoItemDto> forthRatio = ipoFinanceMapper.selectRatio(id, forthYear);
+        List<IpoItemDto> thirdRatio = ipoFinanceMapper.selectRatio(id, thirdYear);
+        List<IpoItemDto> secondRatio = ipoFinanceMapper.selectRatio(id, secondYear);
+        List<IpoItemDto> firstRatio = ipoFinanceMapper.selectRatio(id, firstYear);
+        IpoItemDto itemRatio = new IpoItemDto();
+        //分别计算 无形资产与净资产比例
+        if(firstRatio.size() == 2){
+            if(null != forthRatio.get(0).getForthYearValue() &&
+                    null != forthRatio.get(1).getForthYearValue()){
+                Double ratio =
+                        forthRatio.get(0).getForthYearValue()
+                                .divide(forthRatio.get(1).getForthYearValue(), 4, BigDecimal.ROUND_HALF_UP)
+                                .multiply(new BigDecimal("100")).doubleValue();
+                itemRatio.setForthYearValue(BigDecimal.valueOf(ratio));
+            }
+            if(null != thirdRatio.get(0).getForthYearValue() &&
+                    null != thirdRatio.get(1).getForthYearValue()){
+                Double ratio =
+                        thirdRatio.get(0).getForthYearValue()
+                                .divide(thirdRatio.get(1).getForthYearValue(), 4, BigDecimal.ROUND_HALF_UP)
+                                .multiply(new BigDecimal("100")).doubleValue();
+                itemRatio.setThirdYearValue(BigDecimal.valueOf(ratio));
+            }
+            if(null != secondRatio.get(0).getForthYearValue() &&
+                    null != secondRatio.get(1).getForthYearValue()){
+                Double ratio =
+                        secondRatio.get(0).getForthYearValue()
+                                .divide(secondRatio.get(1).getForthYearValue(), 4, BigDecimal.ROUND_HALF_UP)
+                                .multiply(new BigDecimal("100")).doubleValue();
+                itemRatio.setSecondYearValue(BigDecimal.valueOf(ratio));
+            }
+            if(null != firstRatio.get(0).getForthYearValue() &&
+                    null != firstRatio.get(1).getForthYearValue()){
+                Double ratio =
+                        firstRatio.get(0).getForthYearValue()
+                                .divide(firstRatio.get(1).getForthYearValue(), 4, BigDecimal.ROUND_HALF_UP)
+                                .multiply(new BigDecimal("100")).doubleValue();
+                itemRatio.setFirstYearValue(BigDecimal.valueOf(ratio));
+            }
+        }
+        itemRatio.setItemName("无形资产占净资产的比例");
+        //移除财务信息中，三年一期全部为空的项目
+        forthItemList.add(3,itemRatio);
+        List<IpoItemDto> returnItemList = removeNullItem(forthItemList);
+        resultDto.setIpoMainIndexList(returnItemList);
+        return resultDto;
+    }
 }
