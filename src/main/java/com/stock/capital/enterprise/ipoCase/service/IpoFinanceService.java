@@ -143,9 +143,9 @@ public class IpoFinanceService extends BaseService {
         sumEquityDto.setSecondYearValue(secondSumEquity);
         sumEquityDto.setFirstYearValue(firstSumEquity);
         //将所有者权益合计行 放入第3位，前台页面不用排序
-        forthItemList.add(2, sumEquityDto);
+        forthItemList.add(7, sumEquityDto);
         //为前台页面统一展示，将0的数据设置为Null
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 8; i++) {
             if(forthItemList.get(i).getForthYearValue().compareTo(BigDecimal.ZERO)==0){
                 forthItemList.get(i).setForthYearValue(null);
             }

@@ -259,7 +259,7 @@ SELECT
         FROM
             vc_dic_rgincome_ipo t1
         LEFT JOIN vc_fin_report_base_rgincome_ipo t2 ON t1.ID = t2.MEASURE_ID
-        AND t2.REPORTDATE = #{data}
+        AND t2.REPORTDATE = #{date}
         AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
         where t1.COLUMN_NAME in ('OPERATEEXP','OPERATETAX','SALEEXP','MANAGEEXP','RDEXP'
         ,'FINANCEEXP','ASSETDEVALUELOSS')

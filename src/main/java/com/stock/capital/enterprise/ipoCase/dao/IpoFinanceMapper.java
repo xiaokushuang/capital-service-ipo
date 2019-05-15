@@ -59,5 +59,5 @@ public interface IpoFinanceMapper {
     /**
      * 查询无形资产占净资产比例
      */
-    List<IpoItemDto> selectRatio(String id, Date forthYear);
+    List<IpoItemDto> selectRatio(@Param("id") String id, @Param("date") Date date);
 }
