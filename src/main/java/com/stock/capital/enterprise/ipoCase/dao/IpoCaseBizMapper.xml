@@ -26,6 +26,7 @@
     <result column="report_period" property="reportPeriod" jdbcType="TIMESTAMP" />
     <result column="main_type" property="mainType" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
     <collection property="supplierCustomerInfoList" ofType="com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerInfoDto">
       <id column="e_id" property="id" jdbcType="VARCHAR" />
       <result column="e_bid" property="bid" jdbcType="VARCHAR" />
@@ -130,7 +131,7 @@
   </select>
 
   <select id="getSupplierOrCustomerData" resultMap="SupCusResultMap">
-    SELECT iscm.id,iscm.bid,iscm.report_period,iscm.main_type,iscm.remark,isci.id e_id,isci.bid e_bid,isci.company_code, isci.company_name, isci.first_year_content, isci.first_year_amount, isci.first_year_ratio,
+    SELECT iscm.id,iscm.bid,iscm.report_period,iscm.main_type,iscm.title,iscm.remark,isci.id e_id,isci.bid e_bid,isci.company_code, isci.company_name, isci.first_year_content, isci.first_year_amount, isci.first_year_ratio,
     isci.second_year_content, isci.second_year_amount, isci.second_year_ratio, isci.third_year_content, isci.third_year_amount,
     isci.third_year_ratio, isci.one_period_content, isci.one_period_amount, isci.one_period_ratio
     FROM ipo_supplier_customer_main iscm

@@ -36,6 +36,9 @@ public class SupplierCustomerMainDto implements Serializable {
 
     @ApiModelProperty("备注")
     private String remark;
+    
+    @ApiModelProperty("标题")
+    private String title;
 
     @ApiModelProperty("报告期供应商或客户详细数据")
     private List<SupplierCustomerInfoDto> supplierCustomerInfoList;
