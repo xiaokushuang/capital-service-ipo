@@ -81,7 +81,7 @@ public class CompanyOverviewService extends BaseService {
     }
 
     /**
-     *
+     *  科技创新接口
      *
      * @param bid 案例id
      * @return list

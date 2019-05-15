@@ -107,7 +107,7 @@ public class IpoCaseOverviewController {
        return response;
     }
 
-    @ApiOperation(value = "专利情况", notes = "专利情况")
+    @ApiOperation(value = "科技创新", notes = "科技创新情况")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "bid", value = "案例id", required = true, paramType = "query", dataType = "String")
     })
