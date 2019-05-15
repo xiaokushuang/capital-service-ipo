@@ -4,6 +4,7 @@ import base.BaseTest;
 
 import com.stock.capital.enterprise.ipoCase.dto.IpoExamineDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
+import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.ipoCase.service.IpoExamineService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFinanceService;
@@ -38,6 +39,8 @@ public class IpoProcessTest extends BaseTest {
     private IpoFeedbackService ipoFeedbackService;
     @Resource
     private IpoExamineService ipoExamineService;
+    @Resource
+    private CompanyOverviewService companyOverviewService;
 
     @Test
     public void testSelectProcessList() throws Exception {
@@ -120,5 +123,10 @@ public class IpoProcessTest extends BaseTest {
     @Test
     public void checkMultiplyFile(){
         ipoProcessService.checkMultiplyFile("AN201902131295659791,AN201902131295659792");
+    }
+
+    @Test
+    public void getData(){
+        companyOverviewService.getPatentData("98171333342458409");
     }
 }
