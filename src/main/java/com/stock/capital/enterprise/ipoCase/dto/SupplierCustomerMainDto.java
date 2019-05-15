@@ -36,7 +36,7 @@ public class SupplierCustomerMainDto implements Serializable {
 
     @ApiModelProperty("备注")
     private String remark;
-    
+
     @ApiModelProperty("标题")
     private String title;
 
@@ -117,6 +117,13 @@ public class SupplierCustomerMainDto implements Serializable {
         this.remark = remark;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
     public List<SupplierCustomerInfoDto> getSupplierCustomerInfoList() {
         return supplierCustomerInfoList;
     }

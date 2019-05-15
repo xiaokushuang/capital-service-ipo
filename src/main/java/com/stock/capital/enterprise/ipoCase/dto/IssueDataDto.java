@@ -48,6 +48,12 @@ public class IssueDataDto implements Serializable {
     @ApiModelProperty("发行后市盈率")
     private BigDecimal peIssueA;
 
+    @ApiModelProperty("战略配售数量")
+    private BigDecimal sharesTrategicPlace;
+    
+    @ApiModelProperty("超额配售数量")
+    private BigDecimal shareOverPlace;
+    
     @ApiModelProperty("网上发行数量")
     private BigDecimal shareIssueOn;
 
@@ -143,6 +149,22 @@ public class IssueDataDto implements Serializable {
 
     public void setPeIssueA(BigDecimal peIssueA) {
         this.peIssueA = peIssueA;
+    }
+
+    public BigDecimal getSharesTrategicPlace() {
+        return sharesTrategicPlace;
+    }
+
+    public void setSharesTrategicPlace(BigDecimal sharesTrategicPlace) {
+        this.sharesTrategicPlace = sharesTrategicPlace;
+    }
+
+    public BigDecimal getShareOverPlace() {
+        return shareOverPlace;
+    }
+
+    public void setShareOverPlace(BigDecimal shareOverPlace) {
+        this.shareOverPlace = shareOverPlace;
     }
 
     public BigDecimal getShareIssueOn() {

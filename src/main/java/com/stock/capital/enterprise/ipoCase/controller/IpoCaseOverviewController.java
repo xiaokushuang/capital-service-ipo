@@ -6,6 +6,7 @@ import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
 import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
 import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoExamineBaseDto;
+import com.stock.capital.enterprise.ipoCase.dto.IssuerIndustryStatusDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
@@ -90,6 +91,18 @@ public class IpoCaseOverviewController {
         JsonResponse<List<MainCompetitorInfoDto>> response = new JsonResponse<>();
         response.setResult(companyOverviewService.getCompetitorData(id));
         return response;
+    }
+    
+   @ApiOperation(value = "发行人的行业地位接口", notes = "发行人的行业地位接口描述")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
+            dataType = "String")
+    })
+    @RequestMapping(value = "/industryStatusData", method = RequestMethod.GET)
+    public JsonResponse<List<IssuerIndustryStatusDto>> industryStatusData(@RequestParam("id") String id) {
+       JsonResponse<List<IssuerIndustryStatusDto>> response = new JsonResponse<>();
+        response.setResult(companyOverviewService.getindustryStatusData(id));
+       return response;
     }
 
     @ApiOperation(value = "报告期主要供应商及客户接口", notes = "报告期主要供应商及客户接口描述")

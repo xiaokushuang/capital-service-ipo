@@ -1,6 +1,7 @@
 package com.stock.capital.enterprise.ipoCase.service;
 
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseBizMapper;
+import com.stock.capital.enterprise.ipoCase.dao.IpoIssuerIndustryStatusBizMapper;
 import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
 import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
 import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
@@ -10,6 +11,7 @@ import com.stock.capital.enterprise.ipoCase.dto.MainIncomeInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainIncomeVo;
 import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
+import com.stock.capital.enterprise.ipoCase.dto.IssuerIndustryStatusDto;
 import com.stock.core.service.BaseService;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -27,6 +29,9 @@ public class CompanyOverviewService extends BaseService {
 
     @Autowired
     private IpoCaseBizMapper ipoCaseBizMapper;
+    
+    @Autowired
+    private IpoIssuerIndustryStatusBizMapper ipoIssuerIndustryStatusBizMapper;
 
     /**
      * 案例基础信息
@@ -68,6 +73,16 @@ public class CompanyOverviewService extends BaseService {
         return ipoCaseBizMapper.getIpoCompetitorData(id);
     }
 
+    /**
+     * 发行人的行业地位
+     *
+     * @param id 案例id
+     * @return list
+     */
+    public List<IssuerIndustryStatusDto> getindustryStatusData(String id) {
+        return ipoIssuerIndustryStatusBizMapper.getindustryStatusData(id);
+    }    
+    
     /**
      * 报告期主要供应商及客户情况
      *

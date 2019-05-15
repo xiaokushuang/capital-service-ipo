@@ -131,6 +131,13 @@ public class IndustryCompareRateDto implements Serializable {
         this.thirdYearRate = thirdYearRate;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
     public String getRemark() {
         return remark;
     }
