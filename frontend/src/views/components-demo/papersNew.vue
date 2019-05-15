@@ -156,6 +156,7 @@ export default {
         this.submitData.pageSize = length;
     },
     search(a,b){//搜索
+    // debugger;
         if(arguments.length!=0){
             this.submitData.orderByName = a;
             this.submitData.orderByOrder = b;

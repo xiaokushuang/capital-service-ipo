@@ -4,7 +4,7 @@
     <div class="industryStatus">
       <div class="clear">
         <img  src="../../../assets/images/status.png" alt="" style="width:20px;height:20px;float:left;margin-right:10px">
-        <p style="font-size:14px;font-weight:bold;color:#333;float:left;margin-top:0px">{{companyProfileList.companyName}}的行业地位</p>
+        <p style="font-size:14px;font-weight:bold;color:#333;float:left;margin-top:0px">{{companyProfileList.companyProfileList.companyName}}的行业地位</p>
       </div>
       <div style="font-size:16px;color:#333;">中国行业内<span style="color:#FE5461">总资产</span>排名第<span style="color:#FE5461;font-weight:bold">37</span>名，2018年度全球<span style="color:#FE5461">市场份额占比</span>排名第<span style="color:#FE5461;font-weight:bold">3</span>名</div>
       <p style="font-size:14px;color:#666;margin-top:12px;">根据中国证券业协会发布的《2017年证券公司经营业绩排名情况》，公司多项财务和业务数据均排名靠前。截至2017年（末），公司总资产在行业内排名第37名，净资产排名第30名，净资本排名第38名，营业收入排名第35名，净利润排名第28名。融资融券业务利息收入、并购重组财务顾问业务收入等指标排名较2016年均有上升。</p>
@@ -227,7 +227,10 @@
               prop=""
               label="合计"
               align="center">
-              <template slot-scope="scope">          
+              <template slot-scope="scope"> 
+                  <span v-if="scope.row.allNumValue"> {{scope.row.allNumValue | dataInThRule}}
+                
+                  </span>       
               </template>
             </el-table-column>
          </el-table>
@@ -244,13 +247,13 @@
                 单位：人
             </span>
         </span>
-         <el-table :data="yfSpendingTableData" border style="width: 100%;margin-top: 20px">
+         <el-table :data="coreTechnologyTableData" border style="width: 100%;margin-top: 20px">
             <el-table-column align="left" class-name="table_cell" label="类别" min-width="100">
               <template slot-scope="scope">
                   <span>{{isNotEmpty(scope.row.itemName ) ? scope.row.itemName  : '- -'}}</span>
               </template>
             </el-table-column>
-            <el-table-column align="right" :label="yfSpendingTitle.forthYearDate">
+            <el-table-column align="right" :label="coreTechnologyTitle.forthYearDate">
                 <template slot-scope="scope">
                             <span v-if="scope.row.forthYearValue"> 
                               {{scope.row.forthYearValue | dataInThRule}}
@@ -260,13 +263,13 @@
             </el-table-column>
              <el-table-column align="right" label="占比">
                 <template slot-scope="scope">
-                              <span v-if="scope.row.forthYearValue"> 
-                                {{scope.row.forthYearValue | dataInThRule}}
+                              <span v-if="scope.row.proportion4"> 
+                                {{scope.row.proportion4 | dataInThRule}}
                               </span>
                             <span v-else> - - </span>
                 </template>
             </el-table-column>
-            <el-table-column align="right"  :label="yfSpendingTitle.thirdYearDate" header-align="right">
+            <el-table-column align="right"  :label="coreTechnologyTitle.thirdYearDate" header-align="right">
               <template slot-scope="scope">
                   <span v-if="scope.row.thirdYearValue"> {{scope.row.thirdYearValue | dataInThRule}}
                   </span>
@@ -275,13 +278,13 @@
             </el-table-column>
              <el-table-column align="right" label="占比">
                 <template slot-scope="scope">
-                              <span v-if="scope.row.forthYearValue"> 
-                                {{scope.row.forthYearValue | dataInThRule}}
+                              <span v-if="scope.row.proportion3"> 
+                                {{scope.row.proportion3 | dataInThRule}}
                               </span>
                             <span v-else> - - </span>
                 </template>
             </el-table-column>
-            <el-table-column align="right"  :label="yfSpendingTitle.secondYearDate" header-align="right">
+            <el-table-column align="right"  :label="coreTechnologyTitle.secondYearDate" header-align="right">
                 <template slot-scope="scope">
                   <span v-if="scope.row.secondYearValue"> {{scope.row.secondYearValue | dataInThRule}}
                   </span>
@@ -290,13 +293,13 @@
             </el-table-column>
              <el-table-column align="right" label="占比">
                 <template slot-scope="scope">
-                              <span v-if="scope.row.forthYearValue"> 
-                                {{scope.row.forthYearValue | dataInThRule}}
+                              <span v-if="scope.row.proportion2"> 
+                                {{scope.row.proportion2 | dataInThRule}}
                               </span>
                             <span v-else> - - </span>
                 </template>
             </el-table-column>
-            <el-table-column align="right"  :label="yfSpendingTitle.firstYearDate" header-align="right">
+            <el-table-column align="right"  :label="coreTechnologyTitle.firstYearDate" header-align="right">
                 <template slot-scope="scope">
                   <span v-if="scope.row.firstYearValue"> {{scope.row.firstYearValue | dataInThRule}}
                   </span>
@@ -305,8 +308,8 @@
             </el-table-column>
              <el-table-column align="right" label="占比">
                 <template slot-scope="scope">
-                              <span v-if="scope.row.forthYearValue"> 
-                                {{scope.row.forthYearValue | dataInThRule}}
+                              <span v-if="scope.row.proportion1"> 
+                                {{scope.row.proportion1 | dataInThRule}}
                               </span>
                             <span v-else> - - </span>
                 </template>
@@ -348,49 +351,85 @@ export default {
         firstYearDate : "2015-12-31",
         forthYearDate : "2018-06-30",
         secondYearDate : "2016-12-31",
-        thirdYearDate : "2017-12-31"
+        thirdYearDate : "2017-12-31",
       },
       yfSpendingTableData:[
         {
-          firstYearValue: 468753.43,
-          forthYearValue: 650551.2,
-          itemName: "资产总计",
-          secondYearValue: 446662.68,
-          thirdYearValue: 595554.31,
+          itemName: "研发投入",//研发项目名称
+          firstYearValue: 468753.43,//第一年值
+          secondYearValue: 446662.68,//第二年值
+          thirdYearValue: 595554.31,//第三年值
+          forthYearValue: 650551.2,//第四年值
+          allNumValue:323232//合计值
         },
         {
+          itemName: "营业收入",
           firstYearValue: 468753.43,
-          forthYearValue: 650551.2,
-          itemName: "资产总计",
           secondYearValue: 446662.68,
           thirdYearValue: 595554.31,
+          forthYearValue: 650551.2,
+          allNumValue:323232
         },
         {
+          itemName: "研发投入与营业收入的比例",
           firstYearValue: 468753.43,
-          forthYearValue: 650551.2,
-          itemName: "资产总计",
           secondYearValue: 446662.68,
           thirdYearValue: 595554.31,
+          forthYearValue: 650551.2,
+          allNumValue:323232
         },
-        {
-          firstYearValue: 468753.43,
-          forthYearValue: 650551.2,
-          itemName: "资产总计",
-          secondYearValue: 446662.68,
-          thirdYearValue: 595554.31,
-        }
       ],
       // 核心技术及研发技术人员
-      coreTechnologyTableData:[],
+       coreTechnologyTitle:{
+        firstYearDate : "2015-12-31",
+        secondYearDate : "2016-12-31",
+        thirdYearDate : "2017-12-31",
+        forthYearDate : "2018-06-30",
+      },
+      coreTechnologyTableData:[
+        {
+          itemName: "核心技术人员",//研发项目名称
+          firstYearValue: 468753.43,//第一年值
+          secondYearValue: 446662.68,//第二年值
+          thirdYearValue: 595554.31,//第三年值
+          forthYearValue: 650551.2,//第四年值
+          proportion1:12,//第一年占比
+          proportion2:34,//第二年占比
+          proportion3:52,//第三年占比
+          proportion4:72//第四年占比
+        },
+        {
+          itemName: "研发技术人员",
+          firstYearValue: 468753.43,
+          secondYearValue: 446662.68,
+          thirdYearValue: 595554.31,
+          forthYearValue: 650551.2,
+          proportion1:12,//第一年占比
+          proportion2:34,//第二年占比
+          proportion3:52,//第三年占比
+          proportion4:72//第四年占比
+        },
+        {
+          itemName: "公司员工总数",
+          firstYearValue: 468753.43,
+          secondYearValue: 446662.68,
+          thirdYearValue: 595554.31,
+          forthYearValue: 650551.2,
+          proportion1:12,//第一年占比
+          proportion2:34,//第二年占比
+          proportion3:52,//第三年占比
+          proportion4:72//第四年占比
+        },
+      ],
       // 专利情况
       patentSituationTableData: [
         {
           country: '国内专利',
-          fm: '23',
-          sy: ' 1518 ',
-          wg:'4',
-          hj:'34',
-          zb:'67'
+          fm: '23',//发明专利
+          sy: ' 1518 ',//实用新型专利
+          wg:'4',//外观设计专利
+          hj:'34',//合计
+          zb:'67'//占比
         }, {
           country: '国外专利',
           fm: '22',
