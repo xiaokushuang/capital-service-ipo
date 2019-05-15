@@ -307,7 +307,7 @@ SELECT
     <select id="selectMainIndexList"  resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
           SELECT
             t1.COLUMN_COMMENT itemName,
-            round(t2.CURR_VAL / 10000, 2) forthYearValue,
+            t2.CURR_VAL forthYearValue,
             (
                 CASE t1.column_name
                 WHEN 'LD' THEN
@@ -350,7 +350,7 @@ SELECT
         UNION
             SELECT
                 t1.COLUMN_COMMENT itemName,
-                round(t2.CURR_VAL / 10000, 2) forthYearValue,
+                t2.CURR_VAL forthYearValue,
                 (
                     CASE t1.column_name
                     WHEN 'BASICEPS' THEN
@@ -382,7 +382,7 @@ SELECT
     <select id="selectRatio" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
         SELECT
                     t1.COLUMN_COMMENT itemName,
-                    round(t2.CURR_VAL / 10000, 2) forthYearValue,
+                    t2.CURR_VAL forthYearValue,
                     (
                         CASE t1.column_name
                         WHEN 'INTANGIBLEASSET' THEN

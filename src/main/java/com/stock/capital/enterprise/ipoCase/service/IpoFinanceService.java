@@ -345,7 +345,7 @@ public class IpoFinanceService extends BaseService {
                 itemRatio.setFirstYearValue(BigDecimal.valueOf(ratio));
             }
         }
-
+        itemRatio.setItemName("无形资产占净资产的比例");
         //移除财务信息中，三年一期全部为空的项目
         forthItemList.add(3,itemRatio);
         List<IpoItemDto> returnItemList = removeNullItem(forthItemList);
