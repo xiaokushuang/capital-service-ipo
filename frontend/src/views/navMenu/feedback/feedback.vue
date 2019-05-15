@@ -117,6 +117,140 @@ export default {
     this.isShowAll = true;
   },
   methods: {
+    showMoreMethods(){
+      if(this.tabList.length==1){
+        this.showLength+=15
+        if(this.allQuestionList.length > this.showLength){
+          this.flagLoading = false;
+          this.showMore = true;
+          this.questionList = this.allQuestionList.slice(0, this.showLength);
+        }else{
+          this.showMore = false;
+          this.questionList = this.allQuestionList;
+        }
+      }
+      if(this.tabList.length==2){
+        this.showLength+=15
+        if(this.allQuestionList.length > this.showLength){
+          this.showMore = true;
+          this.questionList = this.allQuestionList.slice(0, this.showLength);
+        }else{
+          this.showMore = false;
+          this.questionList = this.allQuestionList;
+        }
+        this.showLength2+=15
+        if(this.allQuestionList2.length > this.showLength2){
+          this.showMore2 = true;
+          this.questionList2 = this.allQuestionList2.slice(0, this.showLength2);
+        }else{
+          this.showMore2 = false;
+          this.questionList2 = this.allQuestionList2;
+        }
+      }
+      if(this.tabList.length==3){
+        this.showLength+=15
+        if(this.allQuestionList.length > this.showLength){
+          this.showMore = true;
+          this.questionList = this.allQuestionList.slice(0, this.showLength);
+        }else{
+          this.showMore = false;
+          this.questionList = this.allQuestionList;
+        }
+        this.showLength2+=15
+        if(this.allQuestionList2.length > this.showLength2){
+          this.showMore2 = true;
+          this.questionList2 = this.allQuestionList2.slice(0, this.showLength2);
+        }else{
+          this.showMore2 = false;
+          this.questionList2 = this.allQuestionList2;
+        }
+         this.showLength3+=15
+        if(this.allQuestionList3.length > this.showLength3){
+          this.showMore3 = true;
+          this.questionList3 = this.allQuestionList3.slice(0, this.showLength3);
+        }else{
+          this.showMore3 = false;
+          this.questionList3 = this.allQuestionList3;
+        }
+      }
+       if(this.tabList.length==4){
+        this.showLength+=15
+        if(this.allQuestionList.length > this.showLength){
+          this.showMore = true;
+          this.questionList = this.allQuestionList.slice(0, this.showLength);
+        }else{
+          this.showMore = false;
+          this.questionList = this.allQuestionList;
+        }
+        this.showLength2+=15
+        if(this.allQuestionList2.length > this.showLength2){
+          this.showMore2 = true;
+          this.questionList2 = this.allQuestionList2.slice(0, this.showLength2);
+        }else{
+          this.showMore2 = false;
+          this.questionList2 = this.allQuestionList2;
+        }
+         this.showLength3+=15
+        if(this.allQuestionList3.length > this.showLength3){
+          this.showMore3 = true;
+          this.questionList3 = this.allQuestionList3.slice(0, this.showLength3);
+        }else{
+          this.showMore3 = false;
+          this.questionList3 = this.allQuestionList3;
+        }
+         this.showLength4+=15
+        if(this.allQuestionList4.length > this.showLength4){
+          this.showMore4 = true;
+          this.questionList4 = this.allQuestionList4.slice(0, this.showLength4);
+        }else{
+          this.showMore4 = false;
+          this.questionList4 = this.allQuestionList4;
+        }
+      }
+        if(this.tabList.length==5){
+        this.showLength+=15
+        if(this.allQuestionList.length > this.showLength){
+          this.showMore = true;
+          this.questionList = this.allQuestionList.slice(0, this.showLength);
+        }else{
+          this.showMore = false;
+          this.questionList = this.allQuestionList;
+        }
+        this.showLength2+=15
+        if(this.allQuestionList2.length > this.showLength2){
+          this.showMore2 = true;
+          this.questionList2 = this.allQuestionList2.slice(0, this.showLength2);
+        }else{
+          this.showMore2 = false;
+          this.questionList2 = this.allQuestionList2;
+        }
+         this.showLength3+=15
+        if(this.allQuestionList3.length > this.showLength3){
+          this.showMore3 = true;
+          this.questionList3 = this.allQuestionList3.slice(0, this.showLength3);
+        }else{
+          this.showMore3 = false;
+          this.questionList3 = this.allQuestionList3;
+        }
+         this.showLength4+=15
+        if(this.allQuestionList4.length > this.showLength4){
+          this.showMore4 = true;
+          this.questionList4 = this.allQuestionList4.slice(0, this.showLength4);
+        }else{
+          this.showMore4 = false;
+          this.questionList4 = this.allQuestionList4;
+        }
+         this.showLength5+=15
+        if(this.allQuestionList5.length > this.showLength5){
+          this.showMore5 = true;
+          this.questionList5 = this.allQuestionList5.slice(0, this.showLength5);
+        }else{
+          this.showMore5 = false;
+          this.questionList5 = this.allQuestionList5;
+        }
+      }
+      
+    },
     // 获取单选按钮数据
     initTableData() {
       // 动态传id
@@ -230,6 +364,7 @@ export default {
         if (this.tabList.length == 1) {
           if (res.data.result.length > 0) {
             this.allQuestionList = res.data.result[0].questionList;
+            console.log('all222',this.allQuestionList)
             this.questionCount = res.data.result[0].questionCount;
             this.answerCount = res.data.result[0].answerCount;
             if (ifReset != "0") {

@@ -55,12 +55,11 @@
        <!-- 点击放大镜弹出的折线图 -->
     <el-dialog :title="this.zxChartData?'公司最近三年'  +this.zxChartData.itemName+'_趋势':''" :visible.sync="dialogChartVisible" :before-close="handleClose">
        <tanZxChart1 :zxChartData = "this.zxChartData"></tanZxChart1>
+       <!-- <tanZxChart1 :zxChartData={zxChartDataContent:this.zxChartData,zxChartDataTitle:allAssetsTableList[0]}></tanZxChart1> -->
     </el-dialog>
-
   </div>
 </template>
 <script>
-// import { getSelectFinanceOverList } from '@/api/ipoCase/tableDemo'
 import tanZxChart1  from '@/components/Charts/tanZxChart1'
 export default {
   name: 'mainTable',

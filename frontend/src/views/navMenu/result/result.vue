@@ -27,25 +27,7 @@
                                 <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
                                 <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待审核</span>
                             </span>
-                            <!-- <span :class=
-                             "{'htgResult' : baseList[0].iecResult == '00',
-                            'whtgResult' : baseList[0].iecResult == '01',
-                            'zhbjResult' : baseList[0].iecResult == '02',
-                            'qxshResult' : baseList[0].iecResult == '03',
-                            'dshResult'  : baseList[0].iecResult == '04' || baseList[0].iecResult == '09',
-                           }"
-                            >{{ baseList[0].iecResultStr}}</span> -->
                         </p>
-                            <!-- 'htgResult'  : baseList[0].iecResult == '05',
-                            'whtgResult' : baseList[0].iecResult == '06',
-                            'htgResult'  : baseList[0].iecResult == '07',
-                            'whtgResult' : baseList[0].iecResult == '08',
-                            'dshResult'  : baseList[0].iecResult == '09', -->
-                         <!-- <span v-if="item.progressType=='07'&&item.iecResult=='05'" :style={background:htg}  class="htg" >通过</span>
-                        <span v-if="item.progressType=='07'&&item.iecResult=='06'" :style={background:whtg} class="whtg">未通过</span>
-                        <span v-if="item.progressType=='07'&&item.iecResult=='07'" :style={background:htg} class="htg">注册生效 </span>
-                        <span v-if="item.progressType=='07'&&item.iecResult=='08'" :style={background:whtg} class="whtg">不予注册</span>
-                        <span v-if="item.progressType=='07'&&item.iecResult=='09'" :style={background:dsh} class="dsh">待审核</span> -->
                     </div>
                     <div class="text ">
                          <p style="font-size:14px;">
@@ -257,35 +239,36 @@
             <div class="label">
                     <!-- 导入的组件 -->
                     <!-- 只有一级标签 -->
-                    <div v-if="tabList&&tabList.length==1" class="clear"> 
-                      <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[0].questionLabelList,checkbox:feedbackduoxuanList,answerCount:answerCount,questionCount:questionCount,questionList:questionList,o_letterId:this.o_letterId,showMore:showMore,allQuestionList:allQuestionList}></singleAndMultiple>
-                    </div>
-                    <!-- 有多级标签选择 -->
-                    <div v-if="tabList&&tabList.length > 1" class="clear">
-                        <div v-if="tabList.length==2" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共两轮关注：</div>
-                        <div v-if="tabList.length==3" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共三轮关注：</div>
-                        <div v-if="tabList.length==4" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共四轮关注：</div>
-                        <div v-if="tabList.length==5" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共五轮关注：</div>
-                        <div>
-                            <el-tabs v-model="activeName" @tab-click="handleTabClick">
-                                <el-tab-pane label="第一次审核关注问题" :name="tabList[0].letterId">
-                                    <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[0].questionLabelList,checkbox:feedbackduoxuanList,answerCount:answerCount,questionCount:questionCount,questionList:questionList,o_letterId:this.o_letterId,showMore:showMore,allQuestionList:allQuestionList}></singleAndMultiple>
-                                </el-tab-pane>
-                                <el-tab-pane label="第二次审核关注问题" :name="tabList[1].letterId">
-                                    <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[1].questionLabelList,checkbox:feedbackduoxuanList2,answerCount:answerCount2,questionCount:questionCount2,questionList:questionList2,o_letterId:this.o_letterId,showMore:showMore2,allQuestionList:allQuestionList2}></singleAndMultiple>
-                                </el-tab-pane>
-                                    <el-tab-pane v-if="tabList&&tabList.length>2" label="第三次审核关注问题" :name="tabList[2].letterId">
-                                    <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[2].questionLabelList,checkbox:feedbackduoxuanList3,answerCount:answerCount3,questionCount:questionCount3,questionList:questionList3,o_letterId:this.o_letterId,showMore:showMore3,allQuestionList:allQuestionList3}></singleAndMultiple>
-                                </el-tab-pane>
-                                    <el-tab-pane v-if="this.tabList&&this.tabList.length>3" label="第四次审核关注问题" :name="tabList[3].letterId">
-                                    <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[3].questionLabelList,checkbox:feedbackduoxuanList4,answerCount:answerCount4,questionCount:questionCount4,questionList:questionList4,o_letterId:this.o_letterId,showMore:showMore4,allQuestionList:allQuestionList4}></singleAndMultiple>
-                                </el-tab-pane>
-                                    <el-tab-pane v-if="this.tabList&&this.tabList.length>4" label="第五次审核关注问题" :name="tabList[4].letterId">
-                                    <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[4].questionLabelList,checkbox:feedbackduoxuanList5,answerCount:answerCount5,questionCount:questionCount5,questionList:questionList5,o_letterId:this.o_letterId,showMore:showMore5,allQuestionList:allQuestionList5}></singleAndMultiple>
-                                </el-tab-pane>
-                            </el-tabs>
-                        </div>
-                    </div>
+            <div v-if="tabList&&tabList.length==1" class="clear"> 
+              <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[0].questionLabelList,checkbox:feedbackduoxuanList,answerCount:answerCount,questionCount:questionCount,questionList:questionList,o_letterId:this.o_letterId,showMore:showMore,allQuestionList:allQuestionList}></singleAndMultiple>
+            </div>
+            <!-- 有多级标签选择 -->
+             <div v-if="tabList&&tabList.length > 1" class="clear">
+                <div v-if="tabList.length==2" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共两轮反馈：</div>
+                <div v-if="tabList.length==3" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共三轮反馈：</div>
+                <div v-if="tabList.length==4" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共四轮反馈：</div>
+                <div v-if="tabList.length==5" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共五轮反馈：</div>
+                <div>
+                    <el-tabs v-model="activeName" @tab-click="handleTabClick">
+                      <!-- :label="companyProfileList.headList.isTechBoard==0?'第一次反馈意见':'第一次问询与回复'"  判断是否是科创版 -->
+                       <el-tab-pane :label="companyProfileList.headList.isTechBoard==0?'第一次反馈意见':'第一次问询与回复'" :name="tabList[0].letterId">
+                          <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[0].questionLabelList,checkbox:feedbackduoxuanList,answerCount:answerCount,questionCount:questionCount,questionList:questionList,o_letterId:this.o_letterId,showMore:showMore,allQuestionList:allQuestionList}></singleAndMultiple>
+                       </el-tab-pane>
+                       <el-tab-pane :label="companyProfileList.headList.isTechBoard==0?'第二次反馈意见':'第二次问询与回复'" :name="tabList[1].letterId">
+                          <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[1].questionLabelList,checkbox:feedbackduoxuanList2,answerCount:answerCount2,questionCount:questionCount2,questionList:questionList2,o_letterId:this.o_letterId,showMore:showMore2,allQuestionList:allQuestionList2}></singleAndMultiple>
+                       </el-tab-pane>
+                        <el-tab-pane v-if="tabList&&tabList.length>2" :label="companyProfileList.headList.isTechBoard==0?'第三次反馈意见':'第三次问询与回复'" :name="tabList[2].letterId">
+                          <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[2].questionLabelList,checkbox:feedbackduoxuanList3,answerCount:answerCount3,questionCount:questionCount3,questionList:questionList3,o_letterId:this.o_letterId,showMore:showMore3,allQuestionList:allQuestionList3}></singleAndMultiple>
+                       </el-tab-pane>
+                        <el-tab-pane v-if="this.tabList&&this.tabList.length>3" :label="companyProfileList.headList.isTechBoard==0?'第四次反馈意见':'第四次问询与回复'" :name="tabList[3].letterId">
+                          <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[3].questionLabelList,checkbox:feedbackduoxuanList4,answerCount:answerCount4,questionCount:questionCount4,questionList:questionList4,o_letterId:this.o_letterId,showMore:showMore4,allQuestionList:allQuestionList4}></singleAndMultiple>
+                       </el-tab-pane>
+                        <el-tab-pane v-if="this.tabList&&this.tabList.length>4" :label="companyProfileList.headList.isTechBoard==0?'第五次反馈意见':'第五次问询与回复'" :name="tabList[4].letterId">
+                          <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[4].questionLabelList,checkbox:feedbackduoxuanList5,answerCount:answerCount5,questionCount:questionCount5,questionList:questionList5,o_letterId:this.o_letterId,showMore:showMore5,allQuestionList:allQuestionList5}></singleAndMultiple>
+                       </el-tab-pane>
+                    </el-tabs>
+                </div>
+             </div>
             </div>
         </div>
         
@@ -383,6 +366,140 @@ export default {
     this.isShowAll = true;
   },
   methods: {
+     showMoreMethods(){
+      if(this.tabList.length==1){
+        this.showLength+=15
+        if(this.allQuestionList.length > this.showLength){
+          this.flagLoading = false;
+          this.showMore = true;
+          this.questionList = this.allQuestionList.slice(0, this.showLength);
+        }else{
+          this.showMore = false;
+          this.questionList = this.allQuestionList;
+        }
+      }
+      if(this.tabList.length==2){
+        this.showLength+=15
+        if(this.allQuestionList.length > this.showLength){
+          this.showMore = true;
+          this.questionList = this.allQuestionList.slice(0, this.showLength);
+        }else{
+          this.showMore = false;
+          this.questionList = this.allQuestionList;
+        }
+        this.showLength2+=15
+        if(this.allQuestionList2.length > this.showLength2){
+          this.showMore2 = true;
+          this.questionList2 = this.allQuestionList2.slice(0, this.showLength2);
+        }else{
+          this.showMore2 = false;
+          this.questionList2 = this.allQuestionList2;
+        }
+      }
+      if(this.tabList.length==3){
+        this.showLength+=15
+        if(this.allQuestionList.length > this.showLength){
+          this.showMore = true;
+          this.questionList = this.allQuestionList.slice(0, this.showLength);
+        }else{
+          this.showMore = false;
+          this.questionList = this.allQuestionList;
+        }
+        this.showLength2+=15
+        if(this.allQuestionList2.length > this.showLength2){
+          this.showMore2 = true;
+          this.questionList2 = this.allQuestionList2.slice(0, this.showLength2);
+        }else{
+          this.showMore2 = false;
+          this.questionList2 = this.allQuestionList2;
+        }
+         this.showLength3+=15
+        if(this.allQuestionList3.length > this.showLength3){
+          this.showMore3 = true;
+          this.questionList3 = this.allQuestionList3.slice(0, this.showLength3);
+        }else{
+          this.showMore3 = false;
+          this.questionList3 = this.allQuestionList3;
+        }
+      }
+       if(this.tabList.length==4){
+        this.showLength+=15
+        if(this.allQuestionList.length > this.showLength){
+          this.showMore = true;
+          this.questionList = this.allQuestionList.slice(0, this.showLength);
+        }else{
+          this.showMore = false;
+          this.questionList = this.allQuestionList;
+        }
+        this.showLength2+=15
+        if(this.allQuestionList2.length > this.showLength2){
+          this.showMore2 = true;
+          this.questionList2 = this.allQuestionList2.slice(0, this.showLength2);
+        }else{
+          this.showMore2 = false;
+          this.questionList2 = this.allQuestionList2;
+        }
+         this.showLength3+=15
+        if(this.allQuestionList3.length > this.showLength3){
+          this.showMore3 = true;
+          this.questionList3 = this.allQuestionList3.slice(0, this.showLength3);
+        }else{
+          this.showMore3 = false;
+          this.questionList3 = this.allQuestionList3;
+        }
+         this.showLength4+=15
+        if(this.allQuestionList4.length > this.showLength4){
+          this.showMore4 = true;
+          this.questionList4 = this.allQuestionList4.slice(0, this.showLength4);
+        }else{
+          this.showMore4 = false;
+          this.questionList4 = this.allQuestionList4;
+        }
+      }
+        if(this.tabList.length==5){
+        this.showLength+=15
+        if(this.allQuestionList.length > this.showLength){
+          this.showMore = true;
+          this.questionList = this.allQuestionList.slice(0, this.showLength);
+        }else{
+          this.showMore = false;
+          this.questionList = this.allQuestionList;
+        }
+        this.showLength2+=15
+        if(this.allQuestionList2.length > this.showLength2){
+          this.showMore2 = true;
+          this.questionList2 = this.allQuestionList2.slice(0, this.showLength2);
+        }else{
+          this.showMore2 = false;
+          this.questionList2 = this.allQuestionList2;
+        }
+         this.showLength3+=15
+        if(this.allQuestionList3.length > this.showLength3){
+          this.showMore3 = true;
+          this.questionList3 = this.allQuestionList3.slice(0, this.showLength3);
+        }else{
+          this.showMore3 = false;
+          this.questionList3 = this.allQuestionList3;
+        }
+         this.showLength4+=15
+        if(this.allQuestionList4.length > this.showLength4){
+          this.showMore4 = true;
+          this.questionList4 = this.allQuestionList4.slice(0, this.showLength4);
+        }else{
+          this.showMore4 = false;
+          this.questionList4 = this.allQuestionList4;
+        }
+         this.showLength5+=15
+        if(this.allQuestionList5.length > this.showLength5){
+          this.showMore5 = true;
+          this.questionList5 = this.allQuestionList5.slice(0, this.showLength5);
+        }else{
+          this.showMore5 = false;
+          this.questionList5 = this.allQuestionList5;
+        }
+      }
+      
+    },
     //   初始化所有数据
     initTableData() { 
     // 动态传id
