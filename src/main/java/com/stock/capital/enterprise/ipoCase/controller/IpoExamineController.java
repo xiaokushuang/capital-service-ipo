@@ -1,8 +1,10 @@
 package com.stock.capital.enterprise.ipoCase.controller;
 
 import com.stock.capital.enterprise.ipoCase.dto.IpoExamineDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoMemberDto;
 import com.stock.capital.enterprise.ipoCase.service.IpoExamineService;
+import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.core.controller.BaseController;
 import com.stock.core.dto.JsonResponse;
 
@@ -24,6 +26,8 @@ import io.swagger.annotations.ApiOperation;
 public class IpoExamineController extends BaseController {
     @Autowired
     private IpoExamineService ipoExamineService;
+    @Autowired
+    private IpoFeedbackService ipoFeedbackService;
 
     @ApiOperation(value = "IPO审核反馈初始化接口", notes = "IPO审核反馈初始化接口描述")
     @ApiImplicitParams({
@@ -55,9 +59,38 @@ public class IpoExamineController extends BaseController {
             @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String"),
     })
     @RequestMapping(value = "/selectNewExamineList", method = RequestMethod.GET)
-    public JsonResponse<IpoExamineDto> selectNewExamineList(String id){
-        JsonResponse<IpoExamineDto> response = new JsonResponse<>();
-        IpoExamineDto resultDto = ipoExamineService.selectNewExamineList(id);
+    public JsonResponse<IpoFeedbackDto> selectNewExamineList(String id){
+        JsonResponse<IpoFeedbackDto> response = new JsonResponse<>();
+        IpoFeedbackDto resultDto = ipoExamineService.selectNewExamineList(id);
+        response.setResult(resultDto);
+        return response;
+    }
+
+    @ApiOperation(value = "IPO审核反馈问题列表接口", notes = "IPO审核反馈问题列表接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "letterId", value = "函件id", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "firstLabelId", value = "所属一级标签", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "secondLabelId", value = "所属二级标签", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "onlyResponse", value = "是否只展示有回复问题 1:是", paramType = "query", dataType = "String")
+    })
+    @RequestMapping(value = "/selectNewQuestionList", method = RequestMethod.GET)
+    public JsonResponse<List<IpoFeedbackDto>> selectNewQuestionList(
+            String letterId, String firstLabelId, String secondLabelId, String onlyResponse) {
+        JsonResponse<List<IpoFeedbackDto>> response = new JsonResponse<>();
+        List<IpoFeedbackDto> resultList = ipoFeedbackService.selectNewQuestionList(
+                letterId, firstLabelId, secondLabelId, onlyResponse);
+        response.setResult(resultList);
+        return response;
+    }
+
+    @ApiOperation(value = "IPO审核反馈基础信息接口", notes = "IPO审核反馈基础信息接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String"),
+    })
+    @RequestMapping(value = "/selectExamineBaseList", method = RequestMethod.GET)
+    public JsonResponse<IpoFeedbackDto> selectExamineBaseList(String id){
+        JsonResponse<IpoFeedbackDto> response = new JsonResponse<>();
+        IpoFeedbackDto resultDto = ipoExamineService.selectExamineBaseList(id);
         response.setResult(resultDto);
         return response;
     }

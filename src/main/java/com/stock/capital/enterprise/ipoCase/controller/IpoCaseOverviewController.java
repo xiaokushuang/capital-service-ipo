@@ -9,6 +9,8 @@ import com.stock.capital.enterprise.ipoCase.dto.IpoExamineBaseDto;
 import com.stock.capital.enterprise.ipoCase.dto.IssuerIndustryStatusDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyPatentDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyVo;
 import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainIncomeVo;
 import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
@@ -104,6 +106,18 @@ public class IpoCaseOverviewController {
         response.setResult(companyOverviewService.getindustryStatusData(id));
        return response;
     }
+
+    @ApiOperation(value = "科技创新", notes = "科技创新情况")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "bid", value = "案例id", required = true, paramType = "query", dataType = "String")
+    })
+    @RequestMapping(value = "/patentData", method = RequestMethod.GET)
+    public JsonResponse<IpoTechnologyVo> patentData(@RequestParam("bid") String bid){
+        JsonResponse<IpoTechnologyVo> response = new JsonResponse<>();
+        response.setResult(companyOverviewService.getPatentData(bid));
+        return response;
+    }
+
 
     @ApiOperation(value = "报告期主要供应商及客户接口", notes = "报告期主要供应商及客户接口描述")
     @ApiImplicitParams({
