@@ -57,4 +57,16 @@ public class IpoFinanceController extends BaseController {
         response.setResult(ipoFinanceDto);
         return response;
     }
+
+    @ApiOperation(value = "财务信息 主要财务指标接口", notes = "主要财务指标接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String")
+    })
+    @RequestMapping(value = "/selectMainIndexList", method = RequestMethod.GET)
+    public JsonResponse<IpoFinanceDto> selectMainIndexList(String id) {
+        JsonResponse<IpoFinanceDto> response = new JsonResponse<>();
+        IpoFinanceDto ipoFinanceDto = ipoFinanceService.selectMainIndexList(id);
+        response.setResult(ipoFinanceDto);
+        return response;
+    }
 }
