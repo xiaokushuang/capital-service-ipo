@@ -315,32 +315,32 @@ public class IpoFinanceService extends BaseService {
             if(null != forthRatio.get(0).getForthYearValue() &&
                     null != forthRatio.get(1).getForthYearValue()){
                 Double ratio =
-                        forthRatio.get(1).getForthYearValue()
-                                .divide(forthRatio.get(0).getForthYearValue(), 4, BigDecimal.ROUND_HALF_UP)
+                        forthRatio.get(0).getForthYearValue()
+                                .divide(forthRatio.get(1).getForthYearValue(), 4, BigDecimal.ROUND_HALF_UP)
                                 .multiply(new BigDecimal("100")).doubleValue();
                 itemRatio.setForthYearValue(BigDecimal.valueOf(ratio));
             }
             if(null != thirdRatio.get(0).getForthYearValue() &&
                     null != thirdRatio.get(1).getForthYearValue()){
                 Double ratio =
-                        thirdRatio.get(1).getForthYearValue()
-                                .divide(thirdRatio.get(0).getForthYearValue(), 4, BigDecimal.ROUND_HALF_UP)
+                        thirdRatio.get(0).getForthYearValue()
+                                .divide(thirdRatio.get(1).getForthYearValue(), 4, BigDecimal.ROUND_HALF_UP)
                                 .multiply(new BigDecimal("100")).doubleValue();
                 itemRatio.setThirdYearValue(BigDecimal.valueOf(ratio));
             }
             if(null != secondRatio.get(0).getForthYearValue() &&
                     null != secondRatio.get(1).getForthYearValue()){
                 Double ratio =
-                        secondRatio.get(1).getForthYearValue()
-                                .divide(secondRatio.get(0).getForthYearValue(), 4, BigDecimal.ROUND_HALF_UP)
+                        secondRatio.get(0).getForthYearValue()
+                                .divide(secondRatio.get(1).getForthYearValue(), 4, BigDecimal.ROUND_HALF_UP)
                                 .multiply(new BigDecimal("100")).doubleValue();
                 itemRatio.setSecondYearValue(BigDecimal.valueOf(ratio));
             }
             if(null != firstRatio.get(0).getForthYearValue() &&
                     null != firstRatio.get(1).getForthYearValue()){
                 Double ratio =
-                        firstRatio.get(1).getForthYearValue()
-                                .divide(firstRatio.get(0).getForthYearValue(), 4, BigDecimal.ROUND_HALF_UP)
+                        firstRatio.get(0).getForthYearValue()
+                                .divide(firstRatio.get(1).getForthYearValue(), 4, BigDecimal.ROUND_HALF_UP)
                                 .multiply(new BigDecimal("100")).doubleValue();
                 itemRatio.setFirstYearValue(BigDecimal.valueOf(ratio));
             }
