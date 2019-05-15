@@ -109,7 +109,7 @@ public class IpoProcessTest extends BaseTest {
 
     @Test
     public void selectNewExamineList(){
-        ipoExamineService.selectNewExamineList("97952444248599434");
+        ipoExamineService.selectNewExamineList("97952444248599354");
     }
 
     @Test
