@@ -51,7 +51,7 @@ public class IpoExamineService extends BaseService {
         //查询发审会基础信息
         List<IpoExamineBaseDto> baseList = ipoExamineMapper.selectExamineBaseList(id);
         //如果没有发审会信息，则返回空对象
-        if(CollectionUtils.isEmpty(baseList)){
+        if (CollectionUtils.isEmpty(baseList)) {
             return new IpoExamineDto();
         }
         //处理会议标题
@@ -117,31 +117,30 @@ public class IpoExamineService extends BaseService {
 
     public IpoFeedbackDto selectNewExamineList(String id) {
         String orgCode = ipoFeedbackMapper.getOrgCode(id);
-        IpoExamineDto resultDto = new IpoExamineDto();
         //从数据库查询所有二级标签
         Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap("");
         //查询发审会基础信息
         List<IpoExamineBaseDto> baseList = ipoExamineMapper.selectExamineBaseList(id);
         //如果没有发审会信息，则返回空对象
-        if(CollectionUtils.isEmpty(baseList)){
+        if (CollectionUtils.isEmpty(baseList)) {
             return new IpoFeedbackDto();
         }
         //处理会议标题
-        for (IpoExamineBaseDto baseDto : baseList) {
-            String title = baseDto.getRelationFileTitle();
-            title = title.substring(0, title.indexOf("会议")) + "工作会议";
-            baseDto.setRelationFileTitle(title);
-            //查询发审会委员
-            String examineDate = baseDto.getExamineDate();
-            //查询发审委委员名单
-            DynamicDataSourceHolder.setDataSource("dongcai");
-            String member = ipoExamineMapper.selectExamineMember(orgCode, examineDate);
-            DynamicDataSourceHolder.cleanDataSource();
-            baseDto.setMember(member);
-        }
+//        for (IpoExamineBaseDto baseDto : baseList) {
+//            String title = baseDto.getRelationFileTitle();
+//            title = title.substring(0, title.indexOf("会议")) + "工作会议";
+//            baseDto.setRelationFileTitle(title);
+//            //查询发审会委员
+//            String examineDate = baseDto.getExamineDate();
+//            //查询发审委委员名单
+//            DynamicDataSourceHolder.setDataSource("dongcai");
+//            String member = ipoExamineMapper.selectExamineMember(orgCode, examineDate);
+//            DynamicDataSourceHolder.cleanDataSource();
+//            baseDto.setMember(member);
+//        }
         //查询发审会问题及答案列表
 
-        String letterId = ipoExamineMapper.selectExamineLetterId(orgCode,baseList.get(baseList.size()-1).getExamineDate());
+        String letterId = ipoExamineMapper.selectExamineLetterId(orgCode, baseList.get(baseList.size() - 1).getExamineDate());
 
 
 //        List<IpoFeedbackQuestionDto> questionList = ipoExamineMapper.selectQuestionList(orgCode);
@@ -184,7 +183,7 @@ public class IpoExamineService extends BaseService {
                 questionLabelDto.setLabelName(firstLabelMap.get(labelDto.getFieldId()).get("letterClassName"));
                 questionLabelDto.setLabelCount(String.valueOf(labelDto.getCount()));
                 String sort = firstLabelMap.get(labelDto.getFieldId()).get("sort");
-                if(StringUtils.isEmpty(sort)){
+                if (StringUtils.isEmpty(sort)) {
                     sort = "1";
                 }
                 questionLabelDto.setSort(Integer.parseInt(sort));
@@ -243,4 +242,32 @@ public class IpoExamineService extends BaseService {
     }
 
 
+    /**
+     * IPO审核反馈基础信息接口
+     */
+    public IpoFeedbackDto selectExamineBaseList(String id) {
+        String orgCode = ipoFeedbackMapper.getOrgCode(id);
+        IpoFeedbackDto ipoFeedbackResultDto = new IpoFeedbackDto();
+        //查询发审会基础信息
+        List<IpoExamineBaseDto> baseList = ipoExamineMapper.selectExamineBaseList(id);
+        //如果没有发审会信息，则返回空对象
+        if (CollectionUtils.isEmpty(baseList)) {
+            return new IpoFeedbackDto();
+        }
+        //处理会议标题
+        for (IpoExamineBaseDto baseDto : baseList) {
+            String title = baseDto.getRelationFileTitle();
+            title = title.substring(0, title.indexOf("会议")) + "工作会议";
+            baseDto.setRelationFileTitle(title);
+            //查询发审会委员
+            String examineDate = baseDto.getExamineDate();
+            //查询发审委委员名单
+            DynamicDataSourceHolder.setDataSource("dongcai");
+            String member = ipoExamineMapper.selectExamineMember(orgCode, examineDate);
+            DynamicDataSourceHolder.cleanDataSource();
+            baseDto.setMember(member);
+        }
+        ipoFeedbackResultDto.setBaseList(baseList);
+        return ipoFeedbackResultDto;
+    }
 }
