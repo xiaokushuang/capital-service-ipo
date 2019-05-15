@@ -66,7 +66,7 @@ public class IpoExamineController extends BaseController {
         return response;
     }
 
-    @ApiOperation(value = "新反馈意见问题列表接口", notes = "反馈意见问题列表接口描述")
+    @ApiOperation(value = "IPO审核反馈问题列表接口", notes = "IPO审核反馈问题列表接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "letterId", value = "函件id", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "firstLabelId", value = "所属一级标签", paramType = "query", dataType = "String"),
