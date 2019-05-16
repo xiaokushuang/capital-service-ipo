@@ -75,7 +75,8 @@ public class CompanyOverviewService extends BaseService {
     public List<IpoSplitDto> getSpliteData(String id) {
         List<IpoSplitDto> list = ipoCaseBizMapper.getSpliteData(id);
         for (IpoSplitDto ipoSplitDto : list) {
-            String baseUrl = fileViewPath + "open/ipoFile/" + ipoSplitDto.getSplitFileId();
+            String fileType = ipoSplitDto.getSplitFileName().substring(ipoSplitDto.getSplitFileName().lastIndexOf("."));
+            String baseUrl = fileViewPath + "open/ipoFile/" + ipoSplitDto.getSplitFileId() + fileType;
             ipoSplitDto.setFilePath(baseUrl);
         }
         return list;
