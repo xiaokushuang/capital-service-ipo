@@ -45,7 +45,7 @@ public class IpoExamineService extends BaseService {
     private SearchServer searchServer;
 
     public IpoExamineDto selectExamineList(String id) {
-        String orgCode = ipoFeedbackMapper.getOrgCode(id);
+        String orgCode = ipoFeedbackMapper.getOrgCode(id).getOrgCode();
         IpoExamineDto resultDto = new IpoExamineDto();
         resultDto.setId(id);
         //查询发审会基础信息
@@ -81,7 +81,7 @@ public class IpoExamineService extends BaseService {
      */
     public List<IpoMemberDto> selectMemberList(String id, String examineDate) {
         //查询发审委委员列表
-        String orgCode = ipoFeedbackMapper.getOrgCode(id);
+        String orgCode = ipoFeedbackMapper.getOrgCode(id).getOrgCode();
         DynamicDataSourceHolder.setDataSource("dongcai");
         String member = ipoExamineMapper.selectExamineMember(orgCode, examineDate);
         DynamicDataSourceHolder.cleanDataSource();
@@ -116,7 +116,7 @@ public class IpoExamineService extends BaseService {
     }
 
     public IpoFeedbackDto selectNewExamineList(String id) {
-        String orgCode = ipoFeedbackMapper.getOrgCode(id);
+        String orgCode = ipoFeedbackMapper.getOrgCode(id).getOrgCode();
         //从数据库查询所有二级标签
         Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap("");
         //查询发审会基础信息
@@ -246,7 +246,7 @@ public class IpoExamineService extends BaseService {
      * IPO审核反馈基础信息接口
      */
     public IpoFeedbackDto selectExamineBaseList(String id) {
-        String orgCode = ipoFeedbackMapper.getOrgCode(id);
+        String orgCode = ipoFeedbackMapper.getOrgCode(id).getOrgCode();
         IpoFeedbackDto ipoFeedbackResultDto = new IpoFeedbackDto();
         //查询发审会基础信息
         List<IpoExamineBaseDto> baseList = ipoExamineMapper.selectExamineBaseList(id);

@@ -69,6 +69,9 @@ public class CompanyOverviewVo implements Serializable {
     @ApiModelProperty("发行人选择的上市条件")
     private String issueCondition; //发行人选择的上市条件
 
+    @ApiModelProperty("东财内码")
+    private String orgCode; //东财内码
+
     public String getId() {
         return id;
     }
@@ -203,5 +206,13 @@ public class CompanyOverviewVo implements Serializable {
 
     public void setIssueCondition(String issueCondition) {
         this.issueCondition = issueCondition;
+    }
+
+    public String getOrgCode() {
+        return orgCode;
+    }
+
+    public void setOrgCode(String orgCode) {
+        this.orgCode = orgCode;
     }
 }
