@@ -258,6 +258,7 @@ export default {
         id: this.caseId
       };
       getSelectFeedbackList(param).then(res => {
+        console.log('反馈意见一级标签',res.data.result)
          // 第一个tab
         if (res.data.result && res.data.result.length > 0) {
           this.o_letterId = res.data.result[0].letterId;

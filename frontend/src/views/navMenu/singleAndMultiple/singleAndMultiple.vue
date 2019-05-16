@@ -11,7 +11,7 @@
                 </div>
               </div>
                 <div class="clear" style="padding:0px 25px;margin-top:12px;padding-bottom:10px">
-                  <p style="float: left; margin-left: -6px; margin-top: 2px;margin-right: 15px;" v-if="singleAndMultiplDdata.checkbox&&singleAndMultiplDdata.checkbox.length>0">二级标签:</p>
+                  <p style="float: left; margin-left: -6px; margin-top: 2px;margin-right: 15px;" v-if="singleAndMultiplDdata.checkbox&&singleAndMultiplDdata.checkbox.length>0">子集分类:</p>
                   <el-checkbox-group  @change="handelMoreChange(checkboxGroup)" v-model="checkboxGroup" size="mini" style="float:left;width:88%">
                       <el-checkbox :key="item.labelCode" class="checkbox" v-for="item in singleAndMultiplDdata.checkbox" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-checkbox>
                   </el-checkbox-group>
@@ -70,11 +70,11 @@
           </ul>
 
         <!-- 加载更多 -->
-        <div  v-if="singleAndMultiplDdata.showMore" @click="showMoreMethods()" class="more">加载更多</div>
+        <div  v-if="singleAndMultiplDdata.showMore" @click="showMoreMethods()" class="more">加载更多{{singleAndMultiplDdata.showMore}}</div>
         <!-- 已经阅读完了 -->
-        <p v-if="!singleAndMultiplDdata.showMore&&singleAndMultiplDdata.questionList.length>0" class="finishRead">已经阅读完了</p>
+        <p v-if="!singleAndMultiplDdata.showMore&&singleAndMultiplDdata.questionList.length>0" class="finishRead">已经阅读完了{{singleAndMultiplDdata.showMore}}</p>
           <!-- 暂无更多数据 -->
-        <p v-if="!singleAndMultiplDdata.showMore&&singleAndMultiplDdata.questionList.length==0" class="finishRead">暂无相关数据</p>
+        <p v-if="!singleAndMultiplDdata.showMore&&singleAndMultiplDdata.questionList.length==0" class="finishRead">暂无相关数据{{singleAndMultiplDdata.showMore}}</p>
       </div>
    </div>
 </template>
@@ -123,17 +123,17 @@ export default {
   },
   // 滑轮滚到底部懒加载
   mounted() {
-    let _this = this;
-    // 注册scroll事件并监听
-    window.addEventListener("scroll", function() {
-      let scrollTop =
-        window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop; 
-      if (scrollTop + window.innerHeight + 2 >= document.body.offsetHeight) {
-        _this.showMoreMethods();
-      }
-    });
+    // let _this = this;
+    // // 注册scroll事件并监听
+    // window.addEventListener("scroll", function() {
+    //   let scrollTop =
+    //     window.pageYOffset ||
+    //     document.documentElement.scrollTop ||
+    //     document.body.scrollTop; 
+    //   if (scrollTop + window.innerHeight + 2 >= document.body.offsetHeight) {
+    //     _this.showMoreMethods();
+    //   }
+    // });
   },
   methods: {
     // 单选按钮

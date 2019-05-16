@@ -28,6 +28,9 @@ public class IpoSplitDto implements Serializable {
   @ApiModelProperty("直接或间接持有发行人股份比例（%）")
   private BigDecimal shareProportion;
 
+  @ApiModelProperty("文件路径")
+  private String filePath;
+
   public String getSplitMemo() {
     return splitMemo;
   }
@@ -77,5 +80,13 @@ public class IpoSplitDto implements Serializable {
 
   public void setShareProportion(BigDecimal shareProportion) {
     this.shareProportion = shareProportion;
+  }
+
+  public String getFilePath() {
+    return filePath;
+  }
+
+  public void setFilePath(String filePath) {
+    this.filePath = filePath;
   }
 }

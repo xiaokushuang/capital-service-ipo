@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,6 +42,9 @@ public class CompanyOverviewService extends BaseService {
     
     @Autowired
     private IpoIssuerIndustryStatusBizMapper ipoIssuerIndustryStatusBizMapper;
+
+    @Value("#{app['file.viewPath']}")
+    private String fileViewPath;
 
     /**
      * 案例基础信息
@@ -69,7 +73,13 @@ public class CompanyOverviewService extends BaseService {
      * @return list
      */
     public List<IpoSplitDto> getSpliteData(String id) {
-        return ipoCaseBizMapper.getSpliteData(id);
+        List<IpoSplitDto> list = ipoCaseBizMapper.getSpliteData(id);
+        for (IpoSplitDto ipoSplitDto : list) {
+            String fileType = ipoSplitDto.getSplitFileName().substring(ipoSplitDto.getSplitFileName().lastIndexOf("."));
+            String baseUrl = fileViewPath + "open/ipoFile/" + ipoSplitDto.getSplitFileId() + fileType;
+            ipoSplitDto.setFilePath(baseUrl);
+        }
+        return list;
     }
 
     /**

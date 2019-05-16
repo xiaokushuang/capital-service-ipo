@@ -1,7 +1,7 @@
 <template>
   <div class="industryTechnology">
     <!-- 公司简介 -->
-    <div class="industryStatus">
+    <div v-if="industryStatus&&industryStatus.length>0" class="industryStatus">
       <div class="clear">
         <img  src="../../../assets/images/status.png" alt="" style="width:20px;height:20px;float:left;margin-right:10px">
         <p style="font-size:14px;font-weight:bold;color:#333;float:left;margin-top:0px">{{companyProfileList.companyProfileList.companyName}}的行业地位</p>
@@ -10,7 +10,7 @@
         <span style="color:#FE5461">{{data.rankingIndicator }}</span>排名第<span style="color:#FE5461;font-weight:bold">{{data.ranking }}</span>名
       </div>
       <!-- <div style="font-size:16px;color:#333;">中国行业内<span style="color:#FE5461">总资产</span>排名第<span style="color:#FE5461;font-weight:bold">37</span>名，2018年度全球<span style="color:#FE5461">市场份额占比</span>排名第<span style="color:#FE5461;font-weight:bold">3</span>名</div> -->
-      <p style="font-size:14px;color:#666;margin-top:12px;">{{industryStatus[0].industryStatusOverview }}</p>
+      <p v-if="industryStatus.length>0&&industryStatus[0].industryStatusOverview" style="font-size:14px;color:#666;margin-top:12px;">{{industryStatus[0].industryStatusOverview }}</p>
     </div>
     <!-- 主要竞争对手简介 -->
     <div class="MajorCompetitors">
@@ -56,6 +56,7 @@
         </div>
         <div v-if="maoChartTableData&&maoChartTableData.length>0" >
             <div class="chartTable" v-for="item,index in maoChartTableData" :key="item.id">
+                <p style="font-family:'PingFang-SC-Regular', 'PingFang SC';font-weight:400;color:#333;font-size:16px; margin-top: 30px;margin-bottom:0px">{{item.title}}</p>
                 <p style="font-family:'PingFang-SC-Regular', 'PingFang SC';font-weight:400;color:#666666;font-size:14px; margin-top: 30px;margin-bottom:0px">{{item.remark}}</p>
                 <div class="zxChart" style="height:300px;width:100%; ">
                     <zxChart v-if="maoChartTableData&&maoChartTableData.length>0" ref="zxChart" :zxIndex = "index"></zxChart>
@@ -136,94 +137,129 @@
         </div>
     </div>
     <!-- 专利情况 -->
-    <div class="patentSituation">
-       <div class="title" >
+    <div  class="patentSituation">
+       <div v-if="patentSituationTableData&&patentSituationTableData.length>0"  class="title" >
             <span class="littleRectangle"></span>
             <span class="titleText" id="patentSituation">专利情况</span>
         </div>
-        <p style="font-size:14px;color:#666">截至报告期末，公司及其子公司共持有65项发明专利，发明专利自申请日起有效期20年</p>
+        <p v-if="remarksData!=null&&remarksData.patentRemarks" style="font-size:14px;color:#666">{{remarksData.patentRemarks}}</p>
         <el-table
+         v-if="patentSituationTableData&&patentSituationTableData.length>0"
           class="patentSituationTable"
           :data="patentSituationTableData"
           border
           style="width: 100%">
           <el-table-column
-            prop="country"
+            prop="labelName"
             label=""
             width="180">
+            <template slot-scope="scope">
+              <span v-if="scope.row.labelName"> {{scope.row.labelName}}</span>
+              <span v-else> - - </span>
+           </template>
           </el-table-column>
           <el-table-column
             prop="fm"
             label="发明专利"
             width="180">
+            <template slot-scope="scope">
+              <span v-if="scope.row.fm"> {{scope.row.fm | dataInThRule}}
+                 <span v-if="scope.row.labelName === '占比'">%</span>
+              </span>
+              <span v-else> - - </span>
+           </template>
           </el-table-column>
           <el-table-column
             prop="sy"
             label="实用新型专利">
+            <template slot-scope="scope">
+              <span v-if="scope.row.sy"> {{scope.row.sy | dataInThRule}}
+                <span v-if="scope.row.labelName === '占比'">%</span>
+              </span>
+              <span v-else> - - </span>
+           </template>
           </el-table-column>
           <el-table-column
             prop="wg"
             label="外观设计专利">
+            <template slot-scope="scope">
+              <span v-if="scope.row.wg"> {{scope.row.wg | dataInThRule}}
+                <span v-if="scope.row.labelName === '占比'">%</span>
+              </span>
+              <span v-else> - - </span>
+           </template>
           </el-table-column>
           <el-table-column
             prop="hj"
             label="合计">
+            <template slot-scope="scope">
+              <span v-if="scope.row.hj"> {{scope.row.hj | dataInThRule}}
+                <span v-if="scope.row.labelName === '占比'">%</span>
+              </span>
+              <span v-else> - - </span>
+           </template>
           </el-table-column>
           <el-table-column
             prop="zb"
             label="占比">
+             <template slot-scope="scope">
+              <span v-if="scope.row.zb"> {{scope.row.zb | dataInThRule}}%
+                <!-- <span v-if="scope.row.labelName === '占比'">%</span> -->
+              </span>
+              <span v-else> - - </span>
+           </template>
           </el-table-column>
         </el-table>
     </div>
     <!-- 研发投入 -->
     <div class="yfSpending">
-        <div class="title" >
+        <div v-if="yfSpendingTableData&&yfSpendingTableData.length>0"  class="title" >
             <span class="littleRectangle"></span>
             <span class="titleText" id="yfSpending">研发投入</span>
         </div>
-         <p style="font-size:14px;color:#666;margin-bottom:5px">截至报告期末，公司及其子公司共持有65项发明专利，发明专利自申请日起有效期20年</p>
+         <p v-if="remarksData!=null&&remarksData.devRemarks" style="font-size:14px;color:#666;margin-bottom:5px">{{remarksData.devRemarks}}</p>
          <span  class="clear">
-            <span style="float: right;font-size: 12px;color: #666666;display:inline-block;">
+            <span v-if="yfSpendingTableData&&yfSpendingTableData.length>0"  style="float: right;font-size: 12px;color: #666666;display:inline-block;">
                 单位：万元
             </span>
         </span>
-         <el-table :data="yfSpendingTableData" border style="width: 100%;margin-top: 20px">
+         <el-table v-if="yfSpendingTableData&&yfSpendingTableData.length>0" :data="yfSpendingTableData" border style="width: 100%;margin-top: 20px">
             <el-table-column align="left" class-name="table_cell" label="项目" width="184">
               <template slot-scope="scope">
-                  <span>{{isNotEmpty(scope.row.itemName ) ? scope.row.itemName  : '- -'}}</span>
+                  <span>{{isNotEmpty(scope.row.labelName ) ? scope.row.labelName  : '- -'}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="right"  :label="yfSpendingTitle.firstYearDate" header-align="right">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.firstYearValue"> {{scope.row.firstYearValue | dataInThRule}}
+                   <span v-if="scope.row.labelName === '研发费用占营业收入的比例'">%</span>
+                  </span>
+                  <span v-else> - - </span>
+                </template>
+            </el-table-column>
+             <el-table-column align="right"  :label="yfSpendingTitle.secondYearDate" header-align="right">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.secondYearValue"> {{scope.row.secondYearValue | dataInThRule}}
+                   <span v-if="scope.row.labelName === '研发费用占营业收入的比例'">%</span>
+                  </span>
+                  <span v-else> - - </span>
+              </template>
+            </el-table-column>
+            <el-table-column align="right"  :label="yfSpendingTitle.thirdYearDate" header-align="right">
+              <template slot-scope="scope">
+                  <span v-if="scope.row.thirdYearValue"> {{scope.row.thirdYearValue | dataInThRule}}
+                    <span v-if="scope.row.labelName === '研发费用占营业收入的比例'">%</span>
+                  </span>
+                  <span v-else> - - </span>
               </template>
             </el-table-column>
             <el-table-column align="right" :label="yfSpendingTitle.forthYearDate">
                 <template slot-scope="scope">
                             <span v-if="scope.row.forthYearValue"> 
                               {{scope.row.forthYearValue | dataInThRule}}
-                              <span v-if="scope.row.itemName === '研发费用占营业收入的比例'">%</span>
-                              </span>
+                              <span v-if="scope.row.labelName === '研发费用占营业收入的比例'">%</span>
+                            </span>
                             <span v-else> - - </span>
-                </template>
-            </el-table-column>
-            <el-table-column align="right"  :label="yfSpendingTitle.thirdYearDate" header-align="right">
-              <template slot-scope="scope">
-                  <span v-if="scope.row.thirdYearValue"> {{scope.row.thirdYearValue | dataInThRule}}
-                    <span v-if="scope.row.itemName === '研发费用占营业收入的比例'">%</span>
-                  </span>
-                  <span v-else> - - </span>
-              </template>
-            </el-table-column>
-            <el-table-column align="right"  :label="yfSpendingTitle.secondYearDate" header-align="right">
-                <template slot-scope="scope">
-                  <span v-if="scope.row.secondYearValue"> {{scope.row.secondYearValue | dataInThRule}}
-                   <span v-if="scope.row.itemName === '研发费用占营业收入的比例'">%</span>
-                  </span>
-                  <span v-else> - - </span>
-              </template>
-            </el-table-column>
-            <el-table-column align="right"  :label="yfSpendingTitle.firstYearDate" header-align="right">
-                <template slot-scope="scope">
-                  <span v-if="scope.row.firstYearValue"> {{scope.row.firstYearValue | dataInThRule}}
-                   <span v-if="scope.row.itemName === '研发费用占营业收入的比例'">%</span>
-                  </span>
-                  <span v-else> - - </span>
                 </template>
             </el-table-column>
             <el-table-column
@@ -232,7 +268,7 @@
               align="center">
               <template slot-scope="scope"> 
                   <span v-if="scope.row.allNumValue"> {{scope.row.allNumValue | dataInThRule}}
-                
+                    <span v-if="scope.row.labelName === '研发费用占营业收入的比例'">%</span>
                   </span>       
               </template>
             </el-table-column>
@@ -240,49 +276,33 @@
     </div>
     <!-- 核心技术及研发技术人员 -->
      <div class="coreTechnology">
-        <div class="title" >
+        <div v-if="coreTechnologyTableData&&coreTechnologyTableData.length>0"  class="title" >
             <span class="littleRectangle"></span>
             <span class="titleText" id="coreTechnology">核心技术及研发技术人员</span>
         </div>
-         <p style="font-size:14px;color:#666;margin-bottom:5px">截至报告期末，公司及其子公司共持有65项发明专利，发明专利自申请日起有效期20年</p>
+         <p v-if="remarksData!=null&&remarksData.coreRemarks" style="font-size:14px;color:#666;margin-bottom:5px">{{remarksData.coreRemarks}}</p>
          <span  class="clear">
-            <span style="float: right;font-size: 12px;color: #666666;display:inline-block;">
+            <span v-if="coreTechnologyTableData&&coreTechnologyTableData.length>0" style="float: right;font-size: 12px;color: #666666;display:inline-block;">
                 单位：人
             </span>
         </span>
-         <el-table :data="coreTechnologyTableData" border style="width: 100%;margin-top: 20px">
+         <el-table v-if="coreTechnologyTableData&&coreTechnologyTableData.length>0" :data="coreTechnologyTableData" border style="width: 100%;margin-top: 20px">
             <el-table-column align="left" class-name="table_cell" label="类别" min-width="100">
               <template slot-scope="scope">
-                  <span>{{isNotEmpty(scope.row.itemName ) ? scope.row.itemName  : '- -'}}</span>
+                  <span>{{isNotEmpty(scope.row.labelName ) ? scope.row.labelName  : '- -'}}</span>
               </template>
             </el-table-column>
-            <el-table-column align="right" :label="coreTechnologyTitle.forthYearDate">
+            <el-table-column align="right"  :label="coreTechnologyTitle.firstYearDate" header-align="right">
                 <template slot-scope="scope">
-                            <span v-if="scope.row.forthYearValue"> 
-                              {{scope.row.forthYearValue | dataInThRule}}
-                              </span>
-                            <span v-else> - - </span>
-                </template>
-            </el-table-column>
-             <el-table-column align="right" label="占比">
-                <template slot-scope="scope">
-                              <span v-if="scope.row.proportion4"> 
-                                {{scope.row.proportion4 | dataInThRule}}
-                              </span>
-                            <span v-else> - - </span>
-                </template>
-            </el-table-column>
-            <el-table-column align="right"  :label="coreTechnologyTitle.thirdYearDate" header-align="right">
-              <template slot-scope="scope">
-                  <span v-if="scope.row.thirdYearValue"> {{scope.row.thirdYearValue | dataInThRule}}
+                  <span v-if="scope.row.firstYearValue"> {{scope.row.firstYearValue | dataInThRule}}
                   </span>
                   <span v-else> - - </span>
-              </template>
+                </template>
             </el-table-column>
              <el-table-column align="right" label="占比">
                 <template slot-scope="scope">
-                              <span v-if="scope.row.proportion3"> 
-                                {{scope.row.proportion3 | dataInThRule}}
+                              <span v-if="scope.row.firstYearPro"> 
+                                {{scope.row.firstYearPro | dataInThRule}}%
                               </span>
                             <span v-else> - - </span>
                 </template>
@@ -296,23 +316,39 @@
             </el-table-column>
              <el-table-column align="right" label="占比">
                 <template slot-scope="scope">
-                              <span v-if="scope.row.proportion2"> 
-                                {{scope.row.proportion2 | dataInThRule}}
+                              <span v-if="scope.row.secondYearPro"> 
+                                {{scope.row.secondYearPro | dataInThRule}}%
                               </span>
                             <span v-else> - - </span>
                 </template>
             </el-table-column>
-            <el-table-column align="right"  :label="coreTechnologyTitle.firstYearDate" header-align="right">
-                <template slot-scope="scope">
-                  <span v-if="scope.row.firstYearValue"> {{scope.row.firstYearValue | dataInThRule}}
+            <el-table-column align="right"  :label="coreTechnologyTitle.thirdYearDate" header-align="right">
+              <template slot-scope="scope">
+                  <span v-if="scope.row.thirdYearValue"> {{scope.row.thirdYearValue | dataInThRule}}
                   </span>
                   <span v-else> - - </span>
+              </template>
+            </el-table-column>
+             <el-table-column align="right" label="占比">
+                <template slot-scope="scope">
+                              <span v-if="scope.row.thirdYearPro"> 
+                                {{scope.row.thirdYearPro | dataInThRule}}%
+                              </span>
+                            <span v-else> - - </span>
+                </template>
+            </el-table-column>
+            <el-table-column align="right" :label="coreTechnologyTitle.forthYearDate">
+                <template slot-scope="scope">
+                            <span v-if="scope.row.forthYearValue"> 
+                              {{scope.row.forthYearValue | dataInThRule}}
+                              </span>
+                            <span v-else> - - </span>
                 </template>
             </el-table-column>
              <el-table-column align="right" label="占比">
                 <template slot-scope="scope">
-                              <span v-if="scope.row.proportion1"> 
-                                {{scope.row.proportion1 | dataInThRule}}
+                              <span v-if="scope.row.forthYearPro"> 
+                                {{scope.row.forthYearPro | dataInThRule}}%
                               </span>
                             <span v-else> - - </span>
                 </template>
@@ -336,6 +372,7 @@ import echarts from 'echarts'
 import zxChart from "@/components/Charts/zxChart";
 import { getIndustryStatus } from "@/api/ipoCase/companyProfile";
 import { getCompetitorData } from "@/api/ipoCase/companyProfile";
+import { getTechnologyInnovation } from "@/api/ipoCase/companyProfile";
 import { getMaoChartTableData } from '@/api/ipoCase/tableDemo';
 export default {
   name: "industryTechnology",
@@ -352,114 +389,32 @@ export default {
       MajorCompetitors: [],
       // 同行业毛利率对比
       maoChartTableData:[],
-      // 研发投入
-      yfSpendingTitle:{
-        firstYearDate : "2015-12-31",
-        forthYearDate : "2018-06-30",
-        secondYearDate : "2016-12-31",
-        thirdYearDate : "2017-12-31",
+      // 研发投入标题
+       yfSpendingTitle:{
+        firstYearDate : "",
+        forthYearDate : "",
+        secondYearDate : "",
+        thirdYearDate : "",
       },
-      yfSpendingTableData:[
-        {
-          itemName: "研发投入",//研发项目名称
-          firstYearValue: 468753.43,//第一年值
-          secondYearValue: 446662.68,//第二年值
-          thirdYearValue: 595554.31,//第三年值
-          forthYearValue: 650551.2,//第四年值
-          allNumValue:323232//合计值
-        },
-        {
-          itemName: "营业收入",
-          firstYearValue: 468753.43,
-          secondYearValue: 446662.68,
-          thirdYearValue: 595554.31,
-          forthYearValue: 650551.2,
-          allNumValue:323232
-        },
-        {
-          itemName: "研发投入与营业收入的比例",
-          firstYearValue: 468753.43,
-          secondYearValue: 446662.68,
-          thirdYearValue: 595554.31,
-          forthYearValue: 650551.2,
-          allNumValue:323232
-        },
-      ],
-      // 核心技术及研发技术人员
+      // 研发投入表格内容
+      yfSpendingTableData:[],
+      // 核心技术及研发技术人员标题
        coreTechnologyTitle:{
-        firstYearDate : "2015-12-31",
-        secondYearDate : "2016-12-31",
-        thirdYearDate : "2017-12-31",
-        forthYearDate : "2018-06-30",
+        firstYearDate : "",
+        secondYearDate : "",
+        thirdYearDate : "",
+        forthYearDate : "",
       },
-      coreTechnologyTableData:[
-        {
-          itemName: "核心技术人员",//研发项目名称
-          firstYearValue: 468753.43,//第一年值
-          secondYearValue: 446662.68,//第二年值
-          thirdYearValue: 595554.31,//第三年值
-          forthYearValue: 650551.2,//第四年值
-          proportion1:12,//第一年占比
-          proportion2:34,//第二年占比
-          proportion3:52,//第三年占比
-          proportion4:72//第四年占比
-        },
-        {
-          itemName: "研发技术人员",
-          firstYearValue: 468753.43,
-          secondYearValue: 446662.68,
-          thirdYearValue: 595554.31,
-          forthYearValue: 650551.2,
-          proportion1:12,//第一年占比
-          proportion2:34,//第二年占比
-          proportion3:52,//第三年占比
-          proportion4:72//第四年占比
-        },
-        {
-          itemName: "公司员工总数",
-          firstYearValue: 468753.43,
-          secondYearValue: 446662.68,
-          thirdYearValue: 595554.31,
-          forthYearValue: 650551.2,
-          proportion1:12,//第一年占比
-          proportion2:34,//第二年占比
-          proportion3:52,//第三年占比
-          proportion4:72//第四年占比
-        },
-      ],
+      // 核心技术及研发技术人员内容
+      coreTechnologyTableData:[],
       // 专利情况
-      patentSituationTableData: [
-        {
-          country: '国内专利',
-          fm: '23',//发明专利
-          sy: ' 1518 ',//实用新型专利
-          wg:'4',//外观设计专利
-          hj:'34',//合计
-          zb:'67'//占比
-        }, {
-          country: '国外专利',
-          fm: '22',
-          sy: ' 1518 ',
-          wg:'4',
-          hj:'34',
-          zb:'67'
-        },
-         {
-          country: '合计',
-          fm: '23',
-          sy: ' 1518 ',
-          wg:'4',
-          hj:'34',
-          zb:'67'
-        }, {
-          country: '占比',
-          fm: '22',
-          sy: ' 1518 ',
-          wg:'4',
-          hj:'34',
-          zb:''
-        },
-      ]
+      patentSituationTableData: [],
+      // 科技创新表格备注框
+      remarksData:{
+        patentRemarks:'',//专利
+        devRemarks:'',//研发
+        coreRemarks:'',//核心技术
+      },
     };
   },
   props:["companyProfileList"],
@@ -478,7 +433,7 @@ export default {
       getIndustryStatus(param).then(res=>{
         if(res.data.result&&res.data.result.length>0){
           this.industryStatus = res.data.result
-          console.log('行业地位',res)
+          console.log('行业地位',this.industryStatus)
         }
       })
     //   主要竞争对手简介接口
@@ -495,7 +450,44 @@ export default {
           }
               this.getPosition()
       }) 
+    // 专利情况，研发投入，核心技术及研发技术人员接口
+          getTechnologyInnovation(param).then(res => {
+            if(res.data.result&&res.data.result.patentData.length>0){
+              // 专利情况
+              this.patentSituationTableData = res.data.result.patentData
+              this.getPosition()
+              }
+               if(res.data.result&&res.data.result.devDate.firstYearDate){
+                  // 研发投入时间
+                 this.yfSpendingTitle = res.data.result.devDate
+              }
+              if(res.data.result&&res.data.result.devData.length>0){
+                  // 研发投入内容
+                 this.yfSpendingTableData = res.data.result.devData
+                 this.getPosition()
+              }
+               if(res.data.result&&res.data.result.coreDate.firstYearDate){
+                  // 核心技术时间
+                 this.coreTechnologyTitle = res.data.result.coreDate
+                 console.log('核心技术时间',this.coreTechnologyTitle)
+              }
+              if(res.data.result&&res.data.result.coreData.length>0){
+                  // 核心技术内容
+                 this.coreTechnologyTableData = res.data.result.coreData
+                 console.log('核心技术内容',this.coreTechnologyTableData)
+                 this.getPosition()
+              }
+              // 备注框
+                if(res.data.result&&res.data.result.remarksData!=null){
+                 this.remarksData = res.data.result.remarksData
+              }
+           
+            console.log('科技创新',res)
+            console.log('专利情况',this.patentSituationTableData)
+              this.getPosition()
+          }) 
     },
+    
   
     //返回父组件用于锚点定位头
     getPosition() {
@@ -522,7 +514,7 @@ export default {
                     notes: '',
                     important: false,
                     tabId: 'tab-sixth',
-                    noClick: false
+                    noClick: true
           } 
            let yfSpending = {
                     id: 'yfSpending',
@@ -530,7 +522,7 @@ export default {
                     notes: '',
                     important: false,
                     tabId: 'tab-sixth',
-                    noClick: false
+                    noClick: true
           } 
            let coreTechnology = {
                     id: 'coreTechnology',
@@ -538,13 +530,22 @@ export default {
                     notes: '',
                     important: false,
                     tabId: 'tab-sixth',
-                    noClick: false
+                    noClick: true
           } 
           if(this.maoChartTableData&&this.maoChartTableData.length>0){
             comparison.noClick = false;
           }             
           if(this.MajorCompetitors&&this.MajorCompetitors.length>0){
             mainCompetitors.noClick = false;
+          }
+           if(this.patentSituationTableData&&this.patentSituationTableData.length>0){
+            patentSituation.noClick = false;
+          }             
+          if(this.yfSpendingTableData&&this.yfSpendingTableData.length>0){
+            yfSpending.noClick = false;
+          }
+          if(this.coreTechnologyTableData&&this.coreTechnologyTableData.length>0){
+            coreTechnology.noClick = false;
           }
           titleList.push(mainCompetitors)
           titleList.push(comparison)

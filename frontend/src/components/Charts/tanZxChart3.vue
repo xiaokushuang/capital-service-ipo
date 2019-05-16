@@ -19,7 +19,21 @@ export default {
         unitName:''
     }
   },
-  props:["zxChartData"],
+  props:{
+    zxChartData:{
+      type:Object,
+      default:10
+    },
+    zxChartTitle:{
+      type:Object,
+      default:10
+    },
+  },
+  mounted(){
+    this.$nextTick(()=>{
+      this.initTableData()
+    })
+  },
   methods: {
     unitNameMethods(){
         if(this.zxChartData.itemName=='流动比率' || this.zxChartData.itemName=='速动比率'){
@@ -75,16 +89,7 @@ export default {
     },
       // 初始化数据
     initTableData() {
-          // 动态传id
-      const param = {
-        id:this.caseId
-      }
-      getSelectMainIndexList(param).then(response => {
-        if(response.data.result&&response.data.result.dateList){
-          this.tableTitle = response.data.result.dateList
-        }
-          // 获取表头数据
-        this.zxChartX =[this.tableTitle.firstYearDate,this.tableTitle.secondYearDate,this.tableTitle.thirdYearDate,this.tableTitle.forthYearDate]
+        this.zxChartX =[this.zxChartTitle.firstYearDate,this.zxChartTitle.secondYearDate,this.zxChartTitle.thirdYearDate,this.zxChartTitle.forthYearDate]
         this.zxChartY = [
                       {
                           name:this.zxChartData.itemName,
@@ -96,8 +101,7 @@ export default {
                           }
                       },
                   ]
-        this.initChart()
-      })
+            this.initChart()
     },
   },
   // 动态实时监听刷新折线图的数据
@@ -111,7 +115,16 @@ export default {
 
 　　　　deep: true,  //对象内部的属性监听，也叫深度监听
        immediate: true //immediate表示在watch中首次绑定的时候，是否执行handler，值为true则表示在watch中声明的时候，就立即执行handler方法，值为false，则和一般使用watch一样，在数据发生变化的时候才执行handler
-　　}  
+　　},
+    zxChartTitle: {  
+　　　　handler(newValue, oldValue) {  
+        this.zxChartTitle = newValue
+        //折线图数据的初始化 
+        this.initTableData()
+　　　　},  
+　　　　deep: true,  //对象内部的属性监听，也叫深度监听
+       immediate: true //immediate表示在watch中首次绑定的时候，是否执行handler，值为true则表示在watch中声明的时候，就立即执行handler方法，值为false，则和一般使用watch一样，在数据发生变化的时候才执行handler
+　　}    
   },
 }
 </script>
