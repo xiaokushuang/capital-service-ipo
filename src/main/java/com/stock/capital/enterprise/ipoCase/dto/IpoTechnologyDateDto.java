@@ -16,54 +16,46 @@ public class IpoTechnologyDateDto implements Serializable {
   private String dateName;
 
   @ApiModelProperty("第一列时间")
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
-  @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-  private Date firstYearDate;
+  private String firstYearDate;
 
   @ApiModelProperty("第二列时间")
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
-  @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-  private Date secondYearDate;
+  private String secondYearDate;
 
   @ApiModelProperty("第三列时间")
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
-  @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-  private Date thirdYearDate;
+  private String thirdYearDate;
 
   @ApiModelProperty("第四列时间")
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
-  @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-  private Date forthYearDate;
+  private String forthYearDate;
 
-  public Date getFirstYearDate() {
+  public String getFirstYearDate() {
     return firstYearDate;
   }
 
-  public void setFirstYearDate(Date firstYearDate) {
+  public void setFirstYearDate(String firstYearDate) {
     this.firstYearDate = firstYearDate;
   }
 
-  public Date getSecondYearDate() {
+  public String getSecondYearDate() {
     return secondYearDate;
   }
 
-  public void setSecondYearDate(Date secondYearDate) {
+  public void setSecondYearDate(String secondYearDate) {
     this.secondYearDate = secondYearDate;
   }
 
-  public Date getThirdYearDate() {
+  public String getThirdYearDate() {
     return thirdYearDate;
   }
 
-  public void setThirdYearDate(Date thirdYearDate) {
+  public void setThirdYearDate(String thirdYearDate) {
     this.thirdYearDate = thirdYearDate;
   }
 
-  public Date getForthYearDate() {
+  public String getForthYearDate() {
     return forthYearDate;
   }
 
-  public void setForthYearDate(Date forthYearDate) {
+  public void setForthYearDate(String forthYearDate) {
     this.forthYearDate = forthYearDate;
   }
 

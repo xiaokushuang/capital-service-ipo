@@ -55,12 +55,12 @@
             </div>
             <!-- 主要财务指标 -->
             <div class="keyFinancialIndicators">
-                 <div class="title">
+                 <div v-if="MainIndexTableTitle!=null&&MainIndexTableTitle.firstYearDate "  class="title">
                     <span class="littleRectangle"></span>
                     <span class="titleText" id="keyFinancialIndicators">主要财务指标</span>
                  </div>
                  <div class="allAssetsTable" style="">
-                    <keyFinancialIndicatorTable v-if="this.allAssetsTableTitle!=null&&this.allAssetsTableTitle.firstYearDate "  :allAssetsTableList="[this.allAssetsTableTitle,this.allAssetsTableContent]"></keyFinancialIndicatorTable>
+                    <keyFinancialIndicatorTable v-if="MainIndexTableTitle!=null&&MainIndexTableTitle.firstYearDate "  :MainIndexTableList={title:this.MainIndexTableTitle,content:this.MainIndexTableContent}></keyFinancialIndicatorTable>
                 </div>
             </div>
         </div>
@@ -88,6 +88,8 @@ import echarts from 'echarts'
  import { getAssetsOrDebtData } from '@/api/ipoCase/tableDemo'
 //  收入与利润
 import { getSelectFinanceProfitList } from '@/api/ipoCase/tableDemo'
+//  主要财务指标
+import { getSelectMainIndexList } from '@/api/ipoCase/tableDemo'
 export default {
     name:'financialInformation',
     data(){
@@ -106,17 +108,25 @@ export default {
             // 财务总体情况
              allAssetsTableTitle: {
                 forthYearDate:'',
-                thirdYearValue:'',
-                secondYearValue:'',
-                firstYearValue:''
+                thirdYearDate:'',
+                secondYearDate:'',
+                firstYearDate:''
             },
             allAssetsTableContent: null,
+            // 主要财务指标
+             MainIndexTableTitle: {
+                forthYearDate:'',
+                thirdYearDate:'',
+                secondYearDate:'',
+                firstYearDate:''
+            },
+            MainIndexTableContent: null,
             // 资产负债
              assetsOrDeptTableTitle: {
                 forthYearDate:'',
-                thirdYearValue:'',
-                secondYearValue:'',
-                firstYearValue:''
+                thirdYearDate:'',
+                secondYearDate:'',
+                firstYearDate:''
             },
                 ipoAssetItemList:[],//资产类项目列表
                 ipoDebtItemList:[],//负债类项目列表
@@ -124,9 +134,9 @@ export default {
            //收入与利润情况
             incomeTableTitle: {
                 forthYearDate:'',
-                thirdYearValue:'',
-                secondYearValue:'',
-                firstYearValue:''
+                thirdYearDate:'',
+                secondYearDate:'',
+                firstYearDate:''
                 },
             ipoProfitItemList :[],//收益类项目列表 
             ipoCostItemList :[],//成本类项目列表
@@ -193,7 +203,7 @@ export default {
                  if(this.incomeTableTitle!=null&&this.incomeTableTitle.firstYearDate){
                     income.noClick = false;
                  }
-                 if(this.allAssetsTableTitle!=null&&this.allAssetsTableTitle.firstYearDate){
+                 if(this.MainIndexTableTitle!=null&&this.MainIndexTableTitle.firstYearDate){
                     keyFinancialIndicators.noClick = false;
                  }
                 titleList.push(allAssets)
@@ -214,6 +224,7 @@ export default {
              getSelectFinanceOverList(param).then(res => {
                  if(res.data.result&&res.data.result.dateList!=null){
                     this.allAssetsTableTitle = res.data.result.dateList
+                    console.log('财务总体',this.allAssetsTableTitle)
                  }
                  if(res.data.result&&res.data.result.ipoFinanceOverList!=null&&res.data.result.ipoFinanceOverList.length>0){
                      this.allAssetsTableContent = res.data.result.ipoFinanceOverList 
@@ -254,6 +265,16 @@ export default {
                       }
                     
              })
+              //   主要财务指标
+            getSelectMainIndexList(param).then(res => {
+                 if(res.data.result&&res.data.result.dateList!=null){
+                    this.MainIndexTableTitle = res.data.result.dateList
+                 }
+                 if(res.data.result&&res.data.result.ipoMainIndexList!=null&&res.data.result.ipoMainIndexList.length>0){
+                     this.MainIndexTableContent = res.data.result.ipoMainIndexList 
+                     this.getPosition()
+                 }
+            })
         },
         // 非空判断
         isNotEmpty(param) {

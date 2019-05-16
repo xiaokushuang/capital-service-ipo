@@ -34,7 +34,7 @@
       </div>
       <div class="question" id="titleLength">
           <ul style="padding-left:0">
-              <li v-for="(data,index) in questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
+              <li v-for="(data,index) in singleAndMultiplDdata.questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
                   <div class="text" style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:10px;position:relative">
                     <!-- 问 -->
                       <div  v-if="data.question&&data.question.length>0">
@@ -70,11 +70,11 @@
           </ul>
 
         <!-- 加载更多 -->
-        <div  v-if="showMore" @click="showMoreMethods()" class="more">加载更多</div>
+        <div  v-if="singleAndMultiplDdata.showMore" @click="showMoreMethods()" class="more">加载更多</div>
         <!-- 已经阅读完了 -->
-        <p v-if="!showMore&&questionList.length>0" class="finishRead">已经阅读完了</p>
+        <p v-if="!singleAndMultiplDdata.showMore&&singleAndMultiplDdata.questionList.length>0" class="finishRead">已经阅读完了</p>
           <!-- 暂无更多数据 -->
-        <p v-if="!showMore&&questionList.length==0" class="finishRead">暂无相关数据</p>
+        <p v-if="!singleAndMultiplDdata.showMore&&singleAndMultiplDdata.questionList.length==0" class="finishRead">暂无相关数据</p>
       </div>
    </div>
 </template>
@@ -107,8 +107,6 @@ export default {
       o_letterId: "",
       // 多选
       o_secondtLabelId: "",
-      // 所有问题列表
-      questionList: this.singleAndMultiplDdata.allQuestionList.slice(0, 15),
       // // 回复个数
       answerCount: "",
       // // 问题个数
@@ -117,10 +115,7 @@ export default {
       isShowAll: true,
       // 默认有moreText类
       isMoreText: true,
-      showLength: 15,
       allQuestionList: [],
-    //   点击加载更多是否展示该按钮
-      showMore: this.singleAndMultiplDdata.showMore,
     };
   },
   created() {
@@ -145,8 +140,9 @@ export default {
     handelChange(val) {
       this.radioVal = val;
       this.checkboxGroup = [];
+      // 判断点击的是否是单选按钮的’全部‘按钮
       if (val == null) {
-        //   当tab只有一个时【this.$parent】
+        //   当tab只有一个时，只有一轮反馈意见【this.$parent】
           if(this.singleAndMultiplDdata.tabList.length==1){
               this.$parent.initQuestionData(
                this.singleAndMultiplDdata.o_letterId,
@@ -155,7 +151,7 @@ export default {
                this.onlyShowAnswerFlag
             );
           }
-          //   当tab有多个时【this.$parent.$parent.$parent】
+          //   当tab有多个时，多轮反馈意见【this.$parent.$parent.$parent】
           if(this.singleAndMultiplDdata.tabList.length>1){
               this.$parent.$parent.$parent.initQuestionData(
                 this.singleAndMultiplDdata.o_letterId,
@@ -352,14 +348,12 @@ export default {
     },
     // 点击加载更多
     showMoreMethods() {
-        this.showLength += 15;
-        if (this.singleAndMultiplDdata.allQuestionList.length > this.showLength) {
-          this.showMore = true;
-          this.questionList = this.singleAndMultiplDdata.allQuestionList.slice(0, this.showLength);
-        } else {
-          this.showMore = false;
-          this.questionList = this.singleAndMultiplDdata.allQuestionList;
-        }
+      if(this.singleAndMultiplDdata.tabList.length==1){
+        this.$parent.showMoreMethods()
+      }
+      if(this.singleAndMultiplDdata.tabList.length>1){
+        this.$parent.$parent.$parent.showMoreMethods()
+      }
     },
     
     // 问【收起展开】

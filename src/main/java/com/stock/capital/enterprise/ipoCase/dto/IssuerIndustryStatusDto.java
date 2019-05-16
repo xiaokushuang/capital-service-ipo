@@ -30,6 +30,9 @@ public class IssuerIndustryStatusDto implements Serializable {
   @ApiModelProperty("排名")
   private String ranking;
   
+  @ApiModelProperty("概述")
+  private String industryStatusOverview;
+  
 
     public String getId() {
         return id;
@@ -70,6 +73,12 @@ public class IssuerIndustryStatusDto implements Serializable {
     public void setRanking(String ranking) {
         this.ranking = ranking;
     }
-    
-  
+
+  public String getIndustryStatusOverview() {
+    return industryStatusOverview;
+  }
+
+  public void setIndustryStatusOverview(String industryStatusOverview) {
+    this.industryStatusOverview = industryStatusOverview;
+  }
 }

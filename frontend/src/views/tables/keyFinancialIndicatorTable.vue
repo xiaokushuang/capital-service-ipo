@@ -1,44 +1,47 @@
 <template>
   <div class="table-class allAssetsTable">
-    <el-table :data="allAssetsTableList[1]" border style="width: 100%;margin-top: 20px">
+    <el-table :data="MainIndexTableList.content" border style="width: 100%;margin-top: 20px">
       <el-table-column align="left" class-name="table_cell" label="项目" width="184">
          <template slot-scope="scope">
-            <span>{{isNotEmpty(scope.row.itemName ) ? scope.row.itemName  : '- -'}}</span>
+            <span>
+              {{isNotEmpty(scope.row.itemName ) ? scope.row.itemName  : '- -'}}
+              <span v-if="scope.row.itemName === '流动比率'">(倍)</span>
+              <span v-if="scope.row.itemName === '速动比率'">(倍)</span>
+              <span v-if="scope.row.itemName === '资产负债率'">(%)</span>
+              <span v-if="scope.row.itemName === '无形资产占净资产的比例'">(%)</span>
+              <span v-if="scope.row.itemName === '加权平均净资产收益率'">(%)</span>
+              <span v-if="scope.row.itemName === '应收账款周转率'">(次)</span>
+              <span v-if="scope.row.itemName === '息税折旧摊销前利润/负债合计'">(万元)</span>
+              <span v-if="scope.row.itemName === '基本每股收益'">(元/股)</span>
+              <span v-if="scope.row.itemName === '扣除非经常性损益后基本每股收益'">(元/股)</span>
+            </span>
          </template>
       </el-table-column>
-      <el-table-column align="right" :label="allAssetsTableList[0].forthYearDate">
+      <el-table-column align="right" :label="MainIndexTableList.title.forthYearDate">
           <template slot-scope="scope">
                       <span v-if="scope.row.forthYearValue"> 
                         {{scope.row.forthYearValue | dataInThRule}}
-                        <span v-if="scope.row.itemName === '资产负债率'">%</span>
-                        <span v-if="scope.row.itemName === '净资产收益率ROE(加权)'">%</span>
-                        </span>
+                      </span>
                       <span v-else> - - </span>
           </template>
       </el-table-column>
-      <el-table-column align="right"  :label="allAssetsTableList[0].thirdYearDate" header-align="right">
+      <el-table-column align="right"  :label="MainIndexTableList.title.thirdYearDate" header-align="right">
         <template slot-scope="scope">
             <span v-if="scope.row.thirdYearValue"> {{scope.row.thirdYearValue | dataInThRule}}
-               <span v-if="scope.row.itemName === '资产负债率'">%</span>
-                <span v-if="scope.row.itemName === '净资产收益率ROE(加权)'">%</span>
             </span>
             <span v-else> - - </span>
         </template>
       </el-table-column>
-      <el-table-column align="right"  :label="allAssetsTableList[0].secondYearDate" header-align="right">
+      <el-table-column align="right"  :label="MainIndexTableList.title.secondYearDate" header-align="right">
           <template slot-scope="scope">
             <span v-if="scope.row.secondYearValue"> {{scope.row.secondYearValue | dataInThRule}}
-               <span v-if="scope.row.itemName === '资产负债率'">%</span>
-                <span v-if="scope.row.itemName === '净资产收益率ROE(加权)'">%</span>
             </span>
             <span v-else> - - </span>
         </template>
       </el-table-column>
-      <el-table-column align="right"  :label="allAssetsTableList[0].firstYearDate" header-align="right">
+      <el-table-column align="right"  :label="MainIndexTableList.title.firstYearDate" header-align="right">
           <template slot-scope="scope">
             <span v-if="scope.row.firstYearValue"> {{scope.row.firstYearValue | dataInThRule}}
-               <span v-if="scope.row.itemName === '资产负债率'">%</span>
-                <span v-if="scope.row.itemName === '净资产收益率ROE(加权)'">%</span>
             </span>
             <span v-else> - - </span>
           </template>
@@ -54,13 +57,13 @@
     </el-table>
        <!-- 点击放大镜弹出的折线图 -->
     <el-dialog :title="this.zxChartData?'公司最近三年'  +this.zxChartData.itemName+'_趋势':''" :visible.sync="dialogChartVisible" :before-close="handleClose">
-       <tanZxChart1 :zxChartData = "this.zxChartData"></tanZxChart1>
+       <tanZxChart3 :zxChartData = "this.zxChartData"></tanZxChart3>
     </el-dialog>
 
   </div>
 </template>
 <script>
-import tanZxChart1  from '@/components/Charts/tanZxChart1'
+import tanZxChart3  from '@/components/Charts/tanZxChart3'
 export default {
   name: 'mainTable',
   data() {
@@ -78,10 +81,10 @@ export default {
       caseId:this.$store.state.app.caseId,
     }
   },
-  props:[ "allAssetsTableList"],
+  props:[ "MainIndexTableList"],
 
     components:{
-    tanZxChart1
+    tanZxChart3
   },
   created() {
   },

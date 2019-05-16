@@ -6,8 +6,11 @@
         <img  src="../../../assets/images/status.png" alt="" style="width:20px;height:20px;float:left;margin-right:10px">
         <p style="font-size:14px;font-weight:bold;color:#333;float:left;margin-top:0px">{{companyProfileList.companyProfileList.companyName}}的行业地位</p>
       </div>
-      <div style="font-size:16px;color:#333;">中国行业内<span style="color:#FE5461">总资产</span>排名第<span style="color:#FE5461;font-weight:bold">37</span>名，2018年度全球<span style="color:#FE5461">市场份额占比</span>排名第<span style="color:#FE5461;font-weight:bold">3</span>名</div>
-      <p style="font-size:14px;color:#666;margin-top:12px;">根据中国证券业协会发布的《2017年证券公司经营业绩排名情况》，公司多项财务和业务数据均排名靠前。截至2017年（末），公司总资产在行业内排名第37名，净资产排名第30名，净资本排名第38名，营业收入排名第35名，净利润排名第28名。融资融券业务利息收入、并购重组财务顾问业务收入等指标排名较2016年均有上升。</p>
+      <div v-for="data in industryStatus" :key="data.id" style="font-size:16px;color:#333;display:inline-block">{{data.rankingRange }}
+        <span style="color:#FE5461">{{data.rankingIndicator }}</span>排名第<span style="color:#FE5461;font-weight:bold">{{data.ranking }}</span>名
+      </div>
+      <!-- <div style="font-size:16px;color:#333;">中国行业内<span style="color:#FE5461">总资产</span>排名第<span style="color:#FE5461;font-weight:bold">37</span>名，2018年度全球<span style="color:#FE5461">市场份额占比</span>排名第<span style="color:#FE5461;font-weight:bold">3</span>名</div> -->
+      <p style="font-size:14px;color:#666;margin-top:12px;">{{industryStatus[0].industryStatusOverview }}</p>
     </div>
     <!-- 主要竞争对手简介 -->
     <div class="MajorCompetitors">
@@ -331,6 +334,7 @@
 import $ from "jquery";
 import echarts from 'echarts'
 import zxChart from "@/components/Charts/zxChart";
+import { getIndustryStatus } from "@/api/ipoCase/companyProfile";
 import { getCompetitorData } from "@/api/ipoCase/companyProfile";
 import { getMaoChartTableData } from '@/api/ipoCase/tableDemo';
 export default {
@@ -342,6 +346,8 @@ export default {
   data() {
     return {
       caseId:this.$store.state.app.caseId,
+      // 行业地位
+      industryStatus:[],
       // 主要竞争者
       MajorCompetitors: [],
       // 同行业毛利率对比
@@ -468,6 +474,13 @@ export default {
       const param = {
         id:this.caseId,
       }
+      // 行业地位 接口
+      getIndustryStatus(param).then(res=>{
+        if(res.data.result&&res.data.result.length>0){
+          this.industryStatus = res.data.result
+          console.log('行业地位',res)
+        }
+      })
     //   主要竞争对手简介接口
       getCompetitorData(param).then(res=>{
         if(res.data.result&&res.data.result.length>0){
