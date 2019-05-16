@@ -257,6 +257,9 @@ public class IpoExamineService extends BaseService {
         //处理会议标题
         for (IpoExamineBaseDto baseDto : baseList) {
             String title = baseDto.getRelationFileTitle();
+            if(StringUtils.isEmpty(title)){
+                title = baseDto.getCompanyName()+"会议";
+            }
             title = title.substring(0, title.indexOf("会议")) + "工作会议";
             baseDto.setRelationFileTitle(title);
             //查询发审会委员
