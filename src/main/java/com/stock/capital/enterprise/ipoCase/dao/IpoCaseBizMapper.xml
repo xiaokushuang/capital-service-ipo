@@ -125,6 +125,27 @@
     WHERE bid = #{bid}
   </select>
 
+  <select id="getSpliteData" parameterType="string"
+    resultType="com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto">
+    SELECT t1.split_memo AS splitMemo, t1.split_file_id AS splitFileId, t1.split_file_name AS splitFileName,
+    t2.split_market AS splitMarket, CONCAT(t2.company_name,'(',t2.company_code,')') AS companyName,
+    t2.share_proportion AS shareProportion
+    FROM ipo_split_map AS t1, ipo_split AS t2
+    WHERE t1.id = t2.bid AND t1.bid = #{bid}
+  </select>
+
+  <select id="getVluationData" parameterType="string"
+    resultType="com.stock.capital.enterprise.ipoCase.dto.IpoValuationDto">
+    SELECT valuation_type AS valuationType,
+    DATE_FORMAT(valuation_date,'%Y-%m-%d') AS valuationDate,
+    valuation_price AS valuationPrice,
+    valuation_equity AS valuationEquity,
+    valuation_value AS valuationValue,
+    valuation_memo AS valuationMemo
+    FROM ipo_valuation
+    WHERE bid = #{bid}
+  </select>
+
   <select id="getIpoCompetitorData" parameterType="string"
           resultType="com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto">
     SELECT id, bid, company_code AS companyCode, company_name AS companyName, situation FROM ipo_main_competitor_info WHERE bid = #{bid}

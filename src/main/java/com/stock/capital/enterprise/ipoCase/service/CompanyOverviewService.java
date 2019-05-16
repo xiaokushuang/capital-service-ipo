@@ -8,11 +8,13 @@ import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
 import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
 import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyDateDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyPatentDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyRemarksDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyTableDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyVo;
+import com.stock.capital.enterprise.ipoCase.dto.IpoValuationDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainIncomeInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainIncomeVo;
@@ -58,6 +60,26 @@ public class CompanyOverviewService extends BaseService {
      */
     public List<OtherMarketInfoDto> getMarketData(String id) {
         return ipoCaseBizMapper.getIpoMarketData(id);
+    }
+
+    /**
+     * 登陆其他资本市场信息
+     *
+     * @param id 案例id
+     * @return list
+     */
+    public List<IpoSplitDto> getSpliteData(String id) {
+        return ipoCaseBizMapper.getSpliteData(id);
+    }
+
+    /**
+     * 最近一次估值情况
+     *
+     * @param id 案例id
+     * @return list
+     */
+    public List<IpoValuationDto> getVluationData(String id) {
+            return ipoCaseBizMapper.getVluationData(id);
     }
 
     /**

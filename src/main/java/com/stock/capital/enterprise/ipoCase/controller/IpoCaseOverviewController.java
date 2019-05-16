@@ -6,6 +6,8 @@ import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
 import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
 import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoExamineBaseDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoValuationDto;
 import com.stock.capital.enterprise.ipoCase.dto.IssuerIndustryStatusDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
@@ -70,6 +72,27 @@ public class IpoCaseOverviewController {
         response.setResult(companyOverviewService.getMarketData(id));
         return response;
     }
+
+  @ApiOperation(value = "拆分上市情况接口", notes = "拆分上市情况接口描述")
+  @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
+          dataType = "String")
+  })
+  public JsonResponse< List<IpoSplitDto>> spliteData(@RequestParam("id") String id){
+    JsonResponse< List<IpoSplitDto>> response = new JsonResponse<>();
+    response.setResult(companyOverviewService.getSpliteData(id));
+    return response;
+  }
+
+  @ApiOperation(value = "最近一次估值情况接口", notes = "最近一次估值情况接口描述")
+  @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
+      dataType = "String")
+  })
+  public JsonResponse< List<IpoValuationDto>> valuationData(@RequestParam("id") String id){
+    JsonResponse< List<IpoValuationDto>> response = new JsonResponse<>();
+    response.setResult(companyOverviewService.getVluationData(id));
+    return response;
+  }
+
 
     @ApiOperation(value = "股东信息接口", notes = "股东信息接口描述")
     @ApiImplicitParams({

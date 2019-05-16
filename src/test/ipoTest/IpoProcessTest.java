@@ -126,7 +126,13 @@ public class IpoProcessTest extends BaseTest {
     }
 
     @Test
-    public void getData(){
+    public void getPatentData(){
         companyOverviewService.getPatentData("98171333342458409");
+    }
+
+    @Test
+    public void getSpliteData(){
+        companyOverviewService.getSpliteData("97952444248599344");
+        companyOverviewService.getVluationData("97952444248599344");
     }
 }
