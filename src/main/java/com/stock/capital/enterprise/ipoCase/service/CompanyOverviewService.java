@@ -79,7 +79,7 @@ public class CompanyOverviewService extends BaseService {
      * @return list
      */
     public List<IpoValuationDto> getVluationData(String id) {
-            return ipoCaseBizMapper.getVluationData(id);
+        return ipoCaseBizMapper.getVluationData(id);
     }
 
     /**
