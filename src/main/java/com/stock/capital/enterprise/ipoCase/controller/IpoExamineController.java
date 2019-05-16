@@ -59,9 +59,9 @@ public class IpoExamineController extends BaseController {
             @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String"),
     })
     @RequestMapping(value = "/selectNewExamineList", method = RequestMethod.GET)
-    public JsonResponse<IpoFeedbackDto> selectNewExamineList(String id){
-        JsonResponse<IpoFeedbackDto> response = new JsonResponse<>();
-        IpoFeedbackDto resultDto = ipoExamineService.selectNewExamineList(id);
+    public JsonResponse<List<IpoFeedbackDto>> selectNewExamineList(String id){
+        JsonResponse<List<IpoFeedbackDto>> response = new JsonResponse<>();
+        List<IpoFeedbackDto> resultDto = ipoExamineService.selectNewExamineList(id);
         response.setResult(resultDto);
         return response;
     }
