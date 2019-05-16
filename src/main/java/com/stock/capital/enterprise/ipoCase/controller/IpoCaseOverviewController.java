@@ -132,12 +132,12 @@ public class IpoCaseOverviewController {
 
     @ApiOperation(value = "科技创新", notes = "科技创新情况")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "bid", value = "案例id", required = true, paramType = "query", dataType = "String")
+        @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String")
     })
     @RequestMapping(value = "/patentData", method = RequestMethod.GET)
-    public JsonResponse<IpoTechnologyVo> patentData(@RequestParam("bid") String bid){
+    public JsonResponse<IpoTechnologyVo> patentData(@RequestParam("id") String id){
         JsonResponse<IpoTechnologyVo> response = new JsonResponse<>();
-        response.setResult(companyOverviewService.getPatentData(bid));
+        response.setResult(companyOverviewService.getPatentData(id));
         return response;
     }
 
