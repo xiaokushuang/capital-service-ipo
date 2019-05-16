@@ -77,6 +77,7 @@ public class IpoCaseOverviewController {
   @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
           dataType = "String")
   })
+  @RequestMapping(value = "/spliteData", method = RequestMethod.GET)
   public JsonResponse< List<IpoSplitDto>> spliteData(@RequestParam("id") String id){
     JsonResponse< List<IpoSplitDto>> response = new JsonResponse<>();
     response.setResult(companyOverviewService.getSpliteData(id));
@@ -87,6 +88,7 @@ public class IpoCaseOverviewController {
   @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
       dataType = "String")
   })
+  @RequestMapping(value = "/valuationData", method = RequestMethod.GET)
   public JsonResponse< List<IpoValuationDto>> valuationData(@RequestParam("id") String id){
     JsonResponse< List<IpoValuationDto>> response = new JsonResponse<>();
     response.setResult(companyOverviewService.getVluationData(id));
