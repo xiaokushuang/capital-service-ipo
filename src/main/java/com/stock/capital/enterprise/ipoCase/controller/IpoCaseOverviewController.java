@@ -6,6 +6,8 @@ import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
 import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
 import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoExamineBaseDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoValuationDto;
 import com.stock.capital.enterprise.ipoCase.dto.IssuerIndustryStatusDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
@@ -71,6 +73,29 @@ public class IpoCaseOverviewController {
         return response;
     }
 
+  @ApiOperation(value = "拆分上市情况接口", notes = "拆分上市情况接口描述")
+  @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
+          dataType = "String")
+  })
+  @RequestMapping(value = "/spliteData", method = RequestMethod.GET)
+  public JsonResponse< List<IpoSplitDto>> spliteData(@RequestParam("id") String id){
+    JsonResponse< List<IpoSplitDto>> response = new JsonResponse<>();
+    response.setResult(companyOverviewService.getSpliteData(id));
+    return response;
+  }
+
+  @ApiOperation(value = "最近一次估值情况接口", notes = "最近一次估值情况接口描述")
+  @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
+      dataType = "String")
+  })
+  @RequestMapping(value = "/valuationData", method = RequestMethod.GET)
+  public JsonResponse< List<IpoValuationDto>> valuationData(@RequestParam("id") String id){
+    JsonResponse< List<IpoValuationDto>> response = new JsonResponse<>();
+    response.setResult(companyOverviewService.getVluationData(id));
+    return response;
+  }
+
+
     @ApiOperation(value = "股东信息接口", notes = "股东信息接口描述")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
@@ -109,12 +134,12 @@ public class IpoCaseOverviewController {
 
     @ApiOperation(value = "科技创新", notes = "科技创新情况")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "bid", value = "案例id", required = true, paramType = "query", dataType = "String")
+        @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String")
     })
     @RequestMapping(value = "/patentData", method = RequestMethod.GET)
-    public JsonResponse<IpoTechnologyVo> patentData(@RequestParam("bid") String bid){
+    public JsonResponse<IpoTechnologyVo> patentData(@RequestParam("id") String id){
         JsonResponse<IpoTechnologyVo> response = new JsonResponse<>();
-        response.setResult(companyOverviewService.getPatentData(bid));
+        response.setResult(companyOverviewService.getPatentData(id));
         return response;
     }
 

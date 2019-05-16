@@ -4,10 +4,12 @@ import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
 import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
 import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyDateDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyPatentDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyRemarksDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyTableDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoValuationDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainIncomeInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
@@ -23,6 +25,10 @@ public interface IpoCaseBizMapper {
     Map<String, String> getCodeAndNameById(String id);
 
     List<OtherMarketInfoDto> getIpoMarketData(String bid);
+
+    List<IpoSplitDto> getSpliteData(String bid);
+
+    List<IpoValuationDto> getVluationData(String bid);
 
     List<IpoPersonInfoDto> getIpoShareData(String bid);
 

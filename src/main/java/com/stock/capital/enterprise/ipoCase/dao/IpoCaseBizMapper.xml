@@ -18,6 +18,8 @@
     <result column="structure_label" jdbcType="VARCHAR" property="structureLabel"/>
     <result column="structure_url" property="structureUrl" jdbcType="VARCHAR"/>
     <result column="issue_condition" property="issueCondition" jdbcType="VARCHAR"/>
+    <result column="stragetic_industries" property="strageticIndustries" jdbcType="VARCHAR"/>
+    <result column="placing_mechanism" property="placingMechanism" jdbcType="VARCHAR"/>
   </resultMap>
 
   <resultMap id="SupCusResultMap" type="com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto" >
@@ -65,7 +67,9 @@
     (SELECT group_concat(mcl2.label_name) FROM maa_conf_label mcl2 WHERE mcl2.label_code = 'REP_COMPANY_NATURE' AND find_in_set(mcl2.label_value,ic.company_nature)) AS company_nature,
     ic.major_businesses,
     (SELECT group_concat(mcl3.label_name) FROM maa_conf_label mcl3 WHERE mcl3.label_code = 'IPO_STRUCTURE_TYPE' AND find_in_set(mcl3.label_value,ic.structure_label)) AS structure_label,
-    ic.structure_url
+    ic.structure_url,
+    (SELECT group_concat(mcl4.label_name) FROM maa_conf_label mcl4 WHERE mcl4.label_code = 'STRAGETIC_EMERGING_INDUSTRIES' AND find_in_set(mcl4.label_value,ic.stragetic_industries)) AS stragetic_industries,
+    (SELECT group_concat(mcl5.label_name) FROM maa_conf_label mcl5 WHERE mcl5.label_code = 'IPO_PLACING_MECHANISM' AND find_in_set(mcl5.label_value,ic.placing_mechanism)) AS placing_mechanism
   FROM
     ipo_case ic
   WHERE
@@ -125,6 +129,29 @@
     WHERE bid = #{bid}
   </select>
 
+  <select id="getSpliteData" parameterType="string"
+    resultType="com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto">
+    SELECT t1.split_memo AS splitMemo, t1.split_file_id AS splitFileId, t1.split_file_name AS splitFileName,
+    (SELECT group_concat(mcl4.label_name) FROM maa_conf_label mcl4 WHERE mcl4.label_code = 'IPO_SPLIT_MARKET' AND find_in_set(mcl4.label_value,t2.split_market)) AS splitMarket,
+    CONCAT(t2.company_name,'(',t2.company_code,')') AS companyName,
+    t2.share_proportion AS shareProportion
+    FROM ipo_split_map AS t1, ipo_split AS t2
+    WHERE t1.id = t2.bid AND t1.bid = #{bid}
+  </select>
+
+  <select id="getVluationData" parameterType="string"
+    resultType="com.stock.capital.enterprise.ipoCase.dto.IpoValuationDto">
+    SELECT
+    (SELECT group_concat(mc.label_name) FROM maa_conf_label mc WHERE mc.label_code = 'valuation_type' AND find_in_set(mc.label_value,valuation_type)) AS valuationType,
+    DATE_FORMAT(valuation_date,'%Y-%m-%d') AS valuationDate,
+    valuation_price AS valuationPrice,
+    valuation_equity AS valuationEquity,
+    valuation_value AS valuationValue,
+    valuation_memo AS valuationMemo
+    FROM ipo_valuation
+    WHERE bid = #{bid}
+  </select>
+
   <select id="getIpoCompetitorData" parameterType="string"
           resultType="com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto">
     SELECT id, bid, company_code AS companyCode, company_name AS companyName, situation FROM ipo_main_competitor_info WHERE bid = #{bid}
@@ -136,8 +163,9 @@
     UNION
     SELECT '国外专利' AS labelName, foreign_invention AS fm,foreign_newtype AS sy, foreign_design as wg,  (foreign_invention+foreign_newtype+foreign_design) AS hj FROM ipo_technology AS t2 WHERE bid = #{bid}
     UNION
-    SELECT '合计' AS labelName, domestic_invention + foreign_invention AS fm,domestic_newtype + foreign_newtype AS sy, domestic_design + foreign_design AS wg,
-    (domestic_invention+domestic_newtype+domestic_design + foreign_invention+foreign_newtype+foreign_design) AS hj FROM ipo_technology WHERE bid = #{bid}
+    SELECT '合计' AS labelName, IFNULL(domestic_invention,0) + IFNULL(foreign_invention,0) AS fm, IFNULL(domestic_newtype,0) + IFNULL(foreign_newtype,0) AS sy, IFNULL(domestic_design,0) + IFNULL(foreign_design,0) AS wg,
+    (IFNULL(domestic_invention,0)+IFNULL(domestic_newtype,0)+IFNULL(domestic_design,0) + IFNULL(foreign_invention,0)+
+		IFNULL(foreign_newtype,0)+IFNULL(foreign_design,0)) AS hj FROM ipo_technology WHERE bid = #{bid}
   </select>
 
 

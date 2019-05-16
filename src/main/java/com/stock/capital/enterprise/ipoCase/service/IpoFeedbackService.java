@@ -3,6 +3,7 @@ package com.stock.capital.enterprise.ipoCase.service;
 import com.google.common.collect.Maps;
 
 import com.stock.capital.enterprise.ipoCase.dao.IpoFeedbackMapper;
+import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
@@ -43,9 +44,10 @@ public class IpoFeedbackService extends BaseService {
         if (CollectionUtils.isEmpty(feedbackProcess)) {
             return new ArrayList<>();
         }
+        CompanyOverviewVo companyOverviewVo = ipoFeedbackMapper.getOrgCode(ipoFeedbackDto.getId());
 
         //根据案例id查询公司的东财内码
-        ipoFeedbackDto.setOrgCode(ipoFeedbackMapper.getOrgCode(ipoFeedbackDto.getId()));
+        ipoFeedbackDto.setOrgCode(companyOverviewVo.getOrgCode());
         //查询问题答案列表
         List<IpoFeedbackDto> resultList = ipoFeedbackMapper.selectFeedbackList(ipoFeedbackDto);
 
@@ -113,14 +115,21 @@ public class IpoFeedbackService extends BaseService {
     public List<IpoFeedbackDto> selectNewFeedbackList(String id) {
         List<IpoFeedbackDto> resultList = new ArrayList<>();
         //根据案例id查询公司的东财内码
-        String orgId = ipoFeedbackMapper.getOrgCode(id);
+        CompanyOverviewVo companyOverviewVo = ipoFeedbackMapper.getOrgCode(id);
+        String ipoPlate = companyOverviewVo.getIpoPlate();
         List<String> processDateList = ipoFeedbackMapper.selectFeedbackProcess(id);
+        processDateList = ipoFeedbackMapper.selectFeedbackProcess(id);
         if (CollectionUtils.isEmpty(processDateList)) {
             return new ArrayList<>();
         }
-        List<String> letterIds = ipoFeedbackMapper.selectLetterIds(orgId, processDateList);
-//        letterIds = new ArrayList<>();
-//        letterIds.add("745777672754254995");
+
+        List<String> letterIds = new ArrayList<>();
+        if ("069001001006".equals(ipoPlate)) {
+            letterIds = ipoFeedbackMapper.selectKcbLetterIds(companyOverviewVo.getOrgCode(), processDateList);
+        } else {
+            letterIds = ipoFeedbackMapper.selectLetterIds(companyOverviewVo.getOrgCode(), processDateList);
+        }
+
         for (int i = 0; i < letterIds.size(); i++) {
             //定义函件对象
             IpoFeedbackDto ipoFeedbackResultDto = new IpoFeedbackDto();
@@ -163,7 +172,7 @@ public class IpoFeedbackService extends BaseService {
                     questionLabelDto.setLabelName(firstLabelMap.get(labelDto.getFieldId()).get("letterClassName"));
                     questionLabelDto.setLabelCount(String.valueOf(labelDto.getCount()));
                     String sort = firstLabelMap.get(labelDto.getFieldId()).get("sort");
-                    if(StringUtils.isEmpty(sort)){
+                    if (StringUtils.isEmpty(sort)) {
                         sort = "1";
                     }
                     questionLabelDto.setSort(Integer.parseInt(sort));
@@ -222,12 +231,30 @@ public class IpoFeedbackService extends BaseService {
         if (CollectionUtils.isNotEmpty(resultList)) {
             for (int i = 0; i < resultList.size(); i++) {
                 if (resultList.size() > 1) {
-                    if (i == 0) {
-                        resultList.get(i).setLetterName("第一次反馈意见");
-                    } else if (i == 1) {
-                        resultList.get(i).setLetterName("第二次反馈意见");
-                    } else if (i == 2) {
-                        resultList.get(i).setLetterName("第三次反馈意见");
+                    if ("069001001006".equals(ipoPlate)) {
+                        if (i == 0) {
+                            resultList.get(i).setLetterName("第一次问询");
+                        } else if (i == 1) {
+                            resultList.get(i).setLetterName("第二次问询");
+                        } else if (i == 2) {
+                            resultList.get(i).setLetterName("第三次问询");
+                        } else if (i == 3) {
+                            resultList.get(i).setLetterName("第四次问询");
+                        } else if (i == 4) {
+                            resultList.get(i).setLetterName("第五次问询");
+                        }
+                    }else{
+                        if (i == 0) {
+                            resultList.get(i).setLetterName("第一次反馈意见");
+                        } else if (i == 1) {
+                            resultList.get(i).setLetterName("第二次反馈意见");
+                        } else if (i == 2) {
+                            resultList.get(i).setLetterName("第三次反馈意见");
+                        } else if (i == 3) {
+                            resultList.get(i).setLetterName("第四次反馈意见");
+                        } else if (i == 4) {
+                            resultList.get(i).setLetterName("第五次反馈意见");
+                        }
                     }
                 }
             }
@@ -310,7 +337,7 @@ public class IpoFeedbackService extends BaseService {
                 questionLabelDto.setLabelName(secondSelLabelMap.get(labelDto.getFieldId()).get("letterClassName"));
                 questionLabelDto.setLabelCount(String.valueOf(labelDto.getCount()));
                 String sort = secondSelLabelMap.get(labelDto.getFieldId()).get("sort");
-                if(StringUtils.isEmpty(sort)){
+                if (StringUtils.isEmpty(sort)) {
                     sort = "1";
                 }
                 questionLabelDto.setSort(Integer.parseInt(sort));
