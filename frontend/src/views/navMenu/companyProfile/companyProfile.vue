@@ -19,7 +19,7 @@
           </li>
             <li  class="clear" style="margin-bottom:10px;position:relative" >
             <span  class="l">所属行业(战略新兴)</span>
-            <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.industryCsrc"  style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;">{{companyProfileList.companyProfileList.industryCsrc.slice(0,5)}}</div>
+            <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.strageticIndustries "  style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;">{{companyProfileList.companyProfileList.strageticIndustries}}</div>
             <div v-else  style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;">- -</div>
           </li>
           <li  class="clear" style="margin-bottom:10px;position:relative" >
@@ -49,7 +49,7 @@
           </li>
           <li  class="clear" style="margin-bottom:10px;position:relative" >
             <span  class="l">配售机制</span>
-            <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.companyNature"  style="color: #333333;float:left;display:inline-block;width: 71%;margin-left: 27px;">{{companyProfileList.companyProfileList.companyNature}}的就啥都节点点非法人单</div>
+            <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.placingMechanism "  style="color: #333333;float:left;display:inline-block;width: 71%;margin-left: 27px;">{{companyProfileList.companyProfileList.placingMechanism }}</div>
             <div v-else  style="color: #333333;float:left;display:inline-block;width: 71%;margin-left: 27px;">- -</div>
           </li>
         </ul>
@@ -94,57 +94,66 @@
         <ul v-for="item in otherMarketInfoList">
           <li style=" width: 30%;position:relative">
             <span>资本市场</span>&nbsp;&nbsp;
-            <div style="color:black;margin-left: 25%;margin-top: -17.5px;">{{item.marketType}}</div>
+            <div v-if="item.marketType" style="color:black;margin-left: 25%;margin-top: -17.5px;">{{item.marketType}}</div>
+            <div v-else style="color:black;margin-left: 25%;margin-top: -17.5px;">- -</div>
           </li>
           <li style=" width: 20%;">
             <span>公司代码</span>&nbsp;&nbsp;
-            <span style="color:black">{{item.companyCode}}</span>
+            <span v-if="item.companyCode" style="color:black">{{item.companyCode}}</span>
+            <span v-else style="color:black">- -</span>
           </li>
           <li style=" width: 25%;">
             <span>上市日/挂牌日</span>&nbsp;&nbsp;
-            <span style="color:black">{{item.listTime}}</span>
+            <span v-if="item.listTime" style="color:black">{{item.listTime}}</span>
+            <span v-else style="color:black">- -</span>
           </li>
           <li style=" width: 25%;">
             <span>退市日/摘牌日</span>&nbsp;&nbsp;
-            <span style="color:black">{{item.delistTime }}</span>
+            <span v-if="item.delistTime" style="color:black">{{item.delistTime }}</span>
+            <span v-else style="color:black">- -</span>
           </li>
         </ul>
       </div>
       <!-- 拆分上市情况 -->
-       <div class="splitListing" v-if="this.otherMarketInfoList&&this.otherMarketInfoList.length>0">
+       <div class="splitListing" v-if="spliteList&&spliteList.length>0">
         <p style="color:black;margin-top:16px">拆分上市情况</p>
-        <ul v-for="item in otherMarketInfoList">
+        <ul v-for="item in spliteList">
           <li style=" width: 33%;position:relative">
             <span>上市公司</span>&nbsp;&nbsp;
-            <div style="color:black;margin-left: 25%;margin-top: -17.5px;">{{item.marketType}}</div>
+            <div v-if="item.companyName" style="color:black;margin-left: 25%;margin-top: -17.5px;">{{item.companyName}}</div>
+            <span v-else style="color:black">- -</span>
           </li>
           <li style=" width: 33%;">
             <span>所在市场</span>&nbsp;&nbsp;
-            <span style="color:black">{{item.companyCode}}</span>
+            <span v-if="item.splitMarket" style="color:black">{{item.splitMarket}}</span>
+            <span v-else style="color:black">- -</span>
           </li>
           <li style=" width: 33%;">
             <span>直接或间接持有发行人股份</span>&nbsp;&nbsp;
-            <span style="color:black">{{item.listTime}}</span>
+            <span v-if="item.shareProportion" style="color:black">{{item.shareProportion}}</span>
+            <span v-else style="color:black">- -</span>
           </li>
-          <li style="width: 100%; ">
+        </ul>
+        <ul>
+          <li style="width: 100%; margin-bottom:10px">
             <span>拆分详情</span>&nbsp;&nbsp;
-            <span style="color:black">2019 年 3 月 29 日，香港联交所向微创医疗发出书面通知，同意微创医疗分拆心脉医疗在上交所科创板上市。</span>
+            <span v-if="spliteList[0].splitMemo" style="color:black">{{spliteList[0].splitMemo}}</span>
+            <span v-else style="color:black">- -</span>
           </li>
-           <li style="width: 100%; ">
+           <li style="width: 100%;margin-bottom:10px ">
             <span>相关文件</span>&nbsp;&nbsp;
-            <span style="color:#3399fe">上海微創心脈醫療科技股份有限公司並於上海證券交易所科創板獨立上</span>
+            <span v-if="spliteList[0].splitFileName"  @click="openLetterDetail(spliteList[0])" style="color:#3399fe;text-decoration:underline;cursor:pointer;">{{spliteList[0].splitFileName}}</span>
+            <span v-else style="color:black">- -</span>
           </li>
         </ul>
       </div>
     </div>
     <!-- 最后一次估值情况 -->
     <div class="lastValuation" style="margin-top:32px">
-      <div v-if="(companyProfileList.companyProfileList&&companyProfileList.companyProfileList.structureUrl) || (gqTableList&&gqTableList.length>0)" class="title">
+      <div v-if="recentValuationFlag" class="title">
         <span class="littleRectangle"></span>
         <span class="titleText" id="lastValuation">最后一次估值情况</span>
-        <span v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.structureLabel">
-           <span v-for="(item,index) in companyProfileList.companyProfileList.structureLabel.split(',')" class="hongkuang">{{item}}</span>
-        </span>
+        <span class="hongkuang">{{recentValuation.valuationType}}</span>
       </div>
       <ul style=" width: 100%;
         font-size:14px;
@@ -153,24 +162,22 @@
         padding-left: 0;">
           <li style=" width: 25%;position:relative">
             <span style="color:#999">时间</span>&nbsp;&nbsp;
-            <div style="color:#333;margin-left: 25%;margin-top: -17.5px;">2018年12月14日</div>
+            <div style="color:#333;margin-left: 25%;margin-top: -17.5px;">{{recentValuation.valuationDate}}</div>
           </li>
           <li style=" width: 25%;">
             <span style="color:#999">股价</span>&nbsp;&nbsp;
-            <span style="color:#333">13.05元/股</span>
+            <span style="color:#333">{{recentValuation.valuationPrice}}元/股</span>
           </li>
           <li style=" width: 25%;">
             <span style="color:#999">总股本</span>&nbsp;&nbsp;
-            <span style="color:#333">18195.00万股</span>
+            <span style="color:#333">{{recentValuation.valuationEquity }}万股</span>
           </li>
           <li style=" width: 25%;">
             <span style="color:#999">市值</span>&nbsp;&nbsp;
-            <span style="color:#333">23.74亿元</span>
+            <span style="color:#333">{{recentValuation.valuationValue }}亿元</span>
           </li>
         </ul>
-        <p style="color:#666;font-size:14px">2016 年 12 月 8 日，程晓阳分别与天目空间与上海庸顺签署《股权转让协议》，约定程晓阳以 13.05 元/股的价格将其持有的公司股权转让给天目空间和上海庸顺，其中天目空间受让 300 万股，上海庸顺受让 283.466 万股。
-
-2016 年 12 月 8 日，程晓阳分别与天目空间和上海庸顺签署《出资协议》，约定程晓阳以 13.05 元/股的价格将其持有的公司 255 万股股票与 216.534 万股股票分别作价33,277,500 元与 28,257,687 元，向天目空间与上海庸顺进行出资。</p>
+        <p style="color:#666;font-size:14px">{{recentValuation.valuationMemo}}</p>
     </div>
     <!-- 股权结构图 -->
     <div class="ownershipStructure" style="margin-top:32px">
@@ -560,6 +567,10 @@ import { getSupplierCustomerData } from '@/api/ipoCase/tableDemo';
 import { getTableData } from '@/api/ipoCase/tableDemo';
 // 中介机构数据
 import { getIntermediaryOrgDataList } from '@/api/ipoCase/companyProfile'
+// 拆分上市情况
+import { getSpliteData } from '@/api/ipoCase/companyProfile'
+// 最近一次估值
+import { getValuationData } from '@/api/ipoCase/companyProfile'
 // 导入主营业务收入构成表格
 import mainTable from "@/views/tables/mainTable";
 // 导入柱形图和饼图
@@ -606,6 +617,11 @@ export default {
       moreList:[],
       mainList:[],
       dataFlag:false,
+      // 拆分上市情况
+      spliteList:[],
+      // 最近一次估值情况
+      recentValuation:[],
+      recentValuationFlag:false
     };
   },
   props:["companyProfileList"],
@@ -615,14 +631,35 @@ export default {
   mounted() {
   },
   methods: {
+    openLetterDetail(v) {
+         window.open(v.filePath)
+     },
     getData() {
       // 动态传id
       const param = {
         id:this.caseId,
       }
+      // 其他登录市场
       getMarketData(param).then(res=>{
         if(res.data.result&&res.data.result.length>0){
           this.otherMarketInfoList = res.data.result//其他登录市场
+        }
+          this.getPosition()
+      });
+      // 拆分上市情况
+      getSpliteData(param).then(res=>{
+        if(res.data.result&&res.data.result.length>0){
+          this.spliteList = res.data.result
+          console.log('拆分上市情况',this.spliteList)
+        }
+          this.getPosition()
+      });
+      // 最近一次估值情况
+      getValuationData(param).then(res=>{
+        if(res.data.result&&res.data.result.length>0){
+          this.recentValuationFlag = true
+          this.recentValuation = res.data.result[0]
+          console.log('最近一次估值',this.recentValuation)
         }
           this.getPosition()
       });
@@ -760,7 +797,7 @@ export default {
               tabId: 'tab-first',
               noClick: true
           }
-          if((this.companyProfileList.companyProfileList&&this.companyProfileList.companyProfileList.structureUrl) || (this.gqTableList&&this.gqTableList.length>0)){
+          if(this.recentValuationFlag){
              lastValuation.noClick = false;
           }
           if((this.companyProfileList.companyProfileList&&this.companyProfileList.companyProfileList.structureUrl) || (this.gqTableList&&this.gqTableList.length>0)){
@@ -899,8 +936,9 @@ export default {
         display: flex;
         flex-wrap: wrap;
         padding-left: 0;
+        margin-bottom:0px;
         li{
-          margin-bottom:20px
+          margin-bottom:0px
         }
       }
     }

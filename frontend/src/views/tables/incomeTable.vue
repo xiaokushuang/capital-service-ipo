@@ -163,7 +163,8 @@
     </el-table>
     <!-- 点击放大镜弹出的折线图 -->
     <el-dialog :title="this.zxChartData?'公司最近三年'  +this.zxChartData.itemName+'_趋势':''" :visible.sync="dialogChartVisible">
-       <tanZxChart2 :zxChartData = "this.zxChartData"></tanZxChart2>
+       <!-- <tanZxChart2 :zxChartData = "this.zxChartData"></tanZxChart2> -->
+       <tanZxChart3 :zxChartData = "this.zxChartData" :zxChartTitle = "incomeTableList[0]"></tanZxChart3>
     </el-dialog>
 
   </div>
@@ -173,7 +174,7 @@
 // 引入点击放大镜弹出来的表头年限数据
 import { getSelectFinanceProfitList } from '@/api/ipoCase/tableDemo'
 import echarts from 'echarts'
-import tanZxChart2  from '@/components/Charts/tanZxChart2'
+import tanZxChart3  from '@/components/Charts/tanZxChart3'
   export default {
     name:"incomeTable",
     data() {
@@ -197,7 +198,7 @@ import tanZxChart2  from '@/components/Charts/tanZxChart2'
     }
   },
     components:{
-      tanZxChart2
+      tanZxChart3
     },
     created(){
       // this.initTableData()

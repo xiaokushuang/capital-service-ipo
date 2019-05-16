@@ -276,11 +276,11 @@
 </template>
 <script>
 // 审核结果数据
-import {geSelectFeedbackList } from '@/api/ipoCase/companyProfile'
+import {getReviewMeeting } from '@/api/ipoCase/companyProfile'
 import {geSelectMemberList } from '@/api/ipoCase/companyProfile'
 // 引用反馈意见数据
-import { getSelectFeedbackList } from "@/api/ipoCase/companyProfile";
-import { getSelectQuestionList } from "@/api/ipoCase/companyProfile";
+import { getResultInitializeList } from "@/api/ipoCase/companyProfile";
+import { getResultQuestionList } from "@/api/ipoCase/companyProfile";
 // 导入筛选问题列表组件
 import singleAndMultiple from "@/views/navMenu/singleAndMultiple/singleAndMultiple"
 // 导入委员详情组件
@@ -288,6 +288,7 @@ import member from "@/views/navMenu/result/member"
 import $ from "jquery";
 export default {
   name: "result",
+  props:["companyProfileList"],
   components: {
       singleAndMultiple,
       member
@@ -506,12 +507,15 @@ export default {
         const param = {
             id:this.caseId,
         }
-        geSelectFeedbackList(param).then(res => {
+        getReviewMeeting(param).then(res => {
             if(res.data.result&&res.data.result.baseList&&res.data.result.baseList.length>0){
                 this.baseList = res.data.result.baseList
+                console.log('会议',this.baseList)
             }
         })
-        getSelectFeedbackList(param).then(res => {
+        getResultInitializeList(param).then(res => {
+          console.log('审核结果一级标签',res)
+          // debugger;
             // 第一个tab
             if (res.data.result && res.data.result.length > 0) {
             this.o_letterId = res.data.result[0].letterId;
@@ -613,7 +617,7 @@ export default {
         onlyResponse: onlyResponse
       };
       console.log('子组件调用父组件方法',param)
-      getSelectQuestionList(param).then(res => {
+      getResultQuestionList(param).then(res => {
         // 当只有一个tab页时
         if (this.tabList.length == 1) {
           if (res.data.result.length > 0) {
@@ -962,7 +966,7 @@ export default {
         onlyResponse: onlyResponse
       };
       console.log("param", param);
-      getSelectQuestionList(param).then(res => {
+      getResultQuestionList(param).then(res => {
         // 当只有一个tab页时
         if (this.tabList.length == 1) {
           if (res.data.result.length > 0) {
@@ -1247,6 +1251,7 @@ export default {
         geSelectMemberList(param).then(res => {
             if(res.data.result&&res.data.result.length>0){
                 this.memberList = res.data.result
+                console.log('委员详情',this.memberList)
                 
             }
         })
