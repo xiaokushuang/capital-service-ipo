@@ -341,25 +341,52 @@ public class CompanyOverviewService extends BaseService {
      * @return
      */
     private List<IpoTechnologyPatentDto> getPatent(List<IpoTechnologyPatentDto> patent){
-        BigDecimal firstHj = patent.get(0).getHj();
-        BigDecimal secondHj = patent.get(1).getHj();
-        BigDecimal thirdHj = patent.get(2).getHj();
+        if (patent != null) {
+            if (patent.size() > 0){
+                BigDecimal firstHj = patent.get(0).getHj();
+                BigDecimal secondHj = patent.get(1).getHj();
+                BigDecimal thirdHj = patent.get(2).getHj();
 
-        BigDecimal firstZb = firstHj.divide(thirdHj,4,ROUND_HALF_DOWN).multiply(new BigDecimal(100));
-        BigDecimal secondZb = secondHj.divide(thirdHj,4,ROUND_HALF_DOWN).multiply(new BigDecimal(100));
-        BigDecimal thirdZb = thirdHj.divide(thirdHj,4,ROUND_HALF_DOWN).multiply(new BigDecimal(100));
+                BigDecimal firstZb = null;
+                BigDecimal secondZb = null;
+                BigDecimal thirdZb = null;
+                if (firstHj != null && thirdHj != null){
+                   firstZb = firstHj.divide(thirdHj, 4, ROUND_HALF_DOWN)
+                    .multiply(new BigDecimal(100));
+                }
+                if (secondHj != null && thirdHj != null){
+                    secondZb = secondHj.divide(thirdHj, 4, ROUND_HALF_DOWN)
+                        .multiply(new BigDecimal(100));
+                }
+                if (thirdHj != null) {
+                    thirdZb = thirdHj.divide(thirdHj, 4, ROUND_HALF_DOWN)
+                        .multiply(new BigDecimal(100));
+                }
+                patent.get(0).setZb(firstZb);
+                patent.get(1).setZb(secondZb);
+                patent.get(2).setZb(thirdZb);
 
-        patent.get(0).setZb(firstZb);
-        patent.get(1).setZb(secondZb);
-        patent.get(2).setZb(thirdZb);
-
-        IpoTechnologyPatentDto hjRow = new IpoTechnologyPatentDto();
-        hjRow.setLabelName("占比");
-        hjRow.setFm(patent.get(2).getFm().divide(thirdHj,4,ROUND_HALF_DOWN).multiply(new BigDecimal(100)));
-        hjRow.setSy(patent.get(2).getSy().divide(thirdHj,4,ROUND_HALF_DOWN).multiply(new BigDecimal(100)));
-        hjRow.setWg(patent.get(2).getWg().divide(thirdHj,4,ROUND_HALF_DOWN).multiply(new BigDecimal(100)));
-        hjRow.setHj(thirdHj.divide(thirdHj,4,ROUND_HALF_DOWN).multiply(new BigDecimal(100)));
-        patent.add(hjRow);
+                IpoTechnologyPatentDto hjRow = new IpoTechnologyPatentDto();
+                hjRow.setLabelName("占比");
+                if (patent.get(2).getFm() != null && thirdHj != null) {
+                    hjRow.setFm(patent.get(2).getFm().divide(thirdHj, 4, ROUND_HALF_DOWN)
+                        .multiply(new BigDecimal(100)));
+                }
+                if (patent.get(2).getSy() != null && thirdHj != null) {
+                    hjRow.setSy(patent.get(2).getSy().divide(thirdHj, 4, ROUND_HALF_DOWN)
+                        .multiply(new BigDecimal(100)));
+                }
+                if (patent.get(2).getWg() != null && thirdHj != null) {
+                    hjRow.setWg(patent.get(2).getWg().divide(thirdHj, 4, ROUND_HALF_DOWN)
+                        .multiply(new BigDecimal(100)));
+                }
+                if (thirdHj != null) {
+                    hjRow.setHj(
+                        thirdHj.divide(thirdHj, 4, ROUND_HALF_DOWN).multiply(new BigDecimal(100)));
+                }
+                patent.add(hjRow);
+            }
+        }
         return patent;
     }
 }

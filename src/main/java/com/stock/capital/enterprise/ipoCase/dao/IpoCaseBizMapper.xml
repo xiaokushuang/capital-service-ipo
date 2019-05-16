@@ -157,8 +157,9 @@
     UNION
     SELECT '国外专利' AS labelName, foreign_invention AS fm,foreign_newtype AS sy, foreign_design as wg,  (foreign_invention+foreign_newtype+foreign_design) AS hj FROM ipo_technology AS t2 WHERE bid = #{bid}
     UNION
-    SELECT '合计' AS labelName, domestic_invention + foreign_invention AS fm,domestic_newtype + foreign_newtype AS sy, domestic_design + foreign_design AS wg,
-    (domestic_invention+domestic_newtype+domestic_design + foreign_invention+foreign_newtype+foreign_design) AS hj FROM ipo_technology WHERE bid = #{bid}
+    SELECT '合计' AS labelName, IFNULL(domestic_invention,0) + IFNULL(foreign_invention,0) AS fm, IFNULL(domestic_newtype,0) + IFNULL(foreign_newtype,0) AS sy, IFNULL(domestic_design,0) + IFNULL(foreign_design,0) AS wg,
+    (IFNULL(domestic_invention,0)+IFNULL(domestic_newtype,0)+IFNULL(domestic_design,0) + IFNULL(foreign_invention,0)+
+		IFNULL(foreign_newtype,0)+IFNULL(foreign_design,0)) AS hj FROM ipo_technology WHERE bid = #{bid}
   </select>
 
 
