@@ -135,4 +135,9 @@ public class IpoProcessTest extends BaseTest {
         companyOverviewService.getSpliteData("97952444248599344");
         companyOverviewService.getVluationData("97952444248599344");
     }
+
+    @Test
+    public void getIpoCaseDetail(){
+        companyOverviewService.getIpoCaseDetail("97952444248599344");
+    }
 }

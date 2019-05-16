@@ -69,6 +69,12 @@ public class CompanyOverviewVo implements Serializable {
     @ApiModelProperty("发行人选择的上市条件")
     private String issueCondition; //发行人选择的上市条件
 
+    @ApiModelProperty("战略新兴行业分类")
+    private String strageticIndustries; //战略新兴行业分类
+
+    @ApiModelProperty("配售机制")
+    private String placingMechanism; //配售机制
+
     public String getId() {
         return id;
     }
@@ -203,5 +209,21 @@ public class CompanyOverviewVo implements Serializable {
 
     public void setIssueCondition(String issueCondition) {
         this.issueCondition = issueCondition;
+    }
+
+    public String getStrageticIndustries() {
+        return strageticIndustries;
+    }
+
+    public void setStrageticIndustries(String strageticIndustries) {
+        this.strageticIndustries = strageticIndustries;
+    }
+
+    public String getPlacingMechanism() {
+        return placingMechanism;
+    }
+
+    public void setPlacingMechanism(String placingMechanism) {
+        this.placingMechanism = placingMechanism;
     }
 }

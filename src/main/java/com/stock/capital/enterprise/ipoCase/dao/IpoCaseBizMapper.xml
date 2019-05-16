@@ -18,6 +18,8 @@
     <result column="structure_label" jdbcType="VARCHAR" property="structureLabel"/>
     <result column="structure_url" property="structureUrl" jdbcType="VARCHAR"/>
     <result column="issue_condition" property="issueCondition" jdbcType="VARCHAR"/>
+    <result column="stragetic_industries" property="strageticIndustries" jdbcType="VARCHAR"/>
+    <result column="placing_mechanism" property="placingMechanism" jdbcType="VARCHAR"/>
   </resultMap>
 
   <resultMap id="SupCusResultMap" type="com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto" >
@@ -65,7 +67,9 @@
     (SELECT group_concat(mcl2.label_name) FROM maa_conf_label mcl2 WHERE mcl2.label_code = 'REP_COMPANY_NATURE' AND find_in_set(mcl2.label_value,ic.company_nature)) AS company_nature,
     ic.major_businesses,
     (SELECT group_concat(mcl3.label_name) FROM maa_conf_label mcl3 WHERE mcl3.label_code = 'IPO_STRUCTURE_TYPE' AND find_in_set(mcl3.label_value,ic.structure_label)) AS structure_label,
-    ic.structure_url
+    ic.structure_url,
+    stragetic_industries,
+    placing_mechanism
   FROM
     ipo_case ic
   WHERE
