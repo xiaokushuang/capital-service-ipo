@@ -115,7 +115,8 @@ public class IpoExamineService extends BaseService {
         return date;
     }
 
-    public IpoFeedbackDto selectNewExamineList(String id) {
+    public List<IpoFeedbackDto> selectNewExamineList(String id) {
+        List<IpoFeedbackDto> resultList = new ArrayList<>();
         String orgCode = ipoFeedbackMapper.getOrgCode(id).getOrgCode();
         //从数据库查询所有二级标签
         Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap("");
@@ -123,7 +124,7 @@ public class IpoExamineService extends BaseService {
         List<IpoExamineBaseDto> baseList = ipoExamineMapper.selectExamineBaseList(id);
         //如果没有发审会信息，则返回空对象
         if (CollectionUtils.isEmpty(baseList)) {
-            return new IpoFeedbackDto();
+            return new ArrayList<>();
         }
         //处理会议标题
 //        for (IpoExamineBaseDto baseDto : baseList) {
@@ -142,11 +143,11 @@ public class IpoExamineService extends BaseService {
 
         String letterId = ipoExamineMapper.selectExamineLetterId(orgCode, baseList.get(baseList.size() - 1).getExamineDate());
 
-
 //        List<IpoFeedbackQuestionDto> questionList = ipoExamineMapper.selectQuestionList(orgCode);
 
         //定义函件对象
         IpoFeedbackDto ipoFeedbackResultDto = new IpoFeedbackDto();
+        ipoFeedbackResultDto.setLetterId(letterId);
         //定义问题标签集合
         List<IpoQuestionLabelDto> firstLabelList = new ArrayList<>();
 
@@ -238,7 +239,8 @@ public class IpoExamineService extends BaseService {
         ipoFeedbackResultDto.setAnswerCount(answerCount);
         ipoFeedbackResultDto.setQuestionList(questionResultList);
         ipoFeedbackResultDto.setBaseList(baseList);
-        return ipoFeedbackResultDto;
+        resultList.add(ipoFeedbackResultDto);
+        return resultList;
     }
 
 

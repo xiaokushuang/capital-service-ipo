@@ -218,6 +218,13 @@ public class IpoCaseOverviewController {
         }else{
             headDataVo.setHavePublic(1);
         }
+
+        if (CollectionUtils.isEmpty(ipoFeedbackList) &&
+         CollectionUtils.isEmpty(baseList) && CollectionUtils.isEmpty(publicProcessList)){
+            headDataVo.setIsGray(1);
+        } else {
+            headDataVo.setIsGray(0);
+        }
         response.setResult(headDataVo);
         return response;
     }
