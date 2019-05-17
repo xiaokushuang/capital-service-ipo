@@ -143,11 +143,11 @@ public class IpoExamineService extends BaseService {
 
         String letterId = ipoExamineMapper.selectExamineLetterId(orgCode, baseList.get(baseList.size() - 1).getExamineDate());
 
-
 //        List<IpoFeedbackQuestionDto> questionList = ipoExamineMapper.selectQuestionList(orgCode);
 
         //定义函件对象
         IpoFeedbackDto ipoFeedbackResultDto = new IpoFeedbackDto();
+        ipoFeedbackResultDto.setLetterId(letterId);
         //定义问题标签集合
         List<IpoQuestionLabelDto> firstLabelList = new ArrayList<>();
 
