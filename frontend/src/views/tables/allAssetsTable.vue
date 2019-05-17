@@ -54,14 +54,14 @@
     </el-table>
        <!-- 点击放大镜弹出的折线图 -->
     <el-dialog :title="this.zxChartData?'公司最近三年'  +this.zxChartData.itemName+'_趋势':''" :visible.sync="dialogChartVisible" :before-close="handleClose">
-      <tanZxChart3 :zxChartData = "this.zxChartData" :zxChartTitle = "allAssetsTableList[0]"></tanZxChart3>
-       <!-- <tanZxChart1 :zxChartData = "this.zxChartData"></tanZxChart1> -->
+      <!-- <tanZxChart3 :zxChartData = "this.zxChartData" :zxChartTitle = "allAssetsTableList[0]"></tanZxChart3> -->
+       <tanZxChart1 :zxChartData = "this.zxChartData"></tanZxChart1>
        <!-- <tanZxChart1 :zxChartData={zxChartDataContent:this.zxChartData,zxChartDataTitle:allAssetsTableList[0]}></tanZxChart1> -->
     </el-dialog>
   </div>
 </template>
 <script>
-import tanZxChart3  from '@/components/Charts/tanZxChart3'
+import tanZxChart1  from '@/components/Charts/tanZxChart1'
 export default {
   name: 'mainTable',
   data() {
@@ -82,7 +82,7 @@ export default {
   props:[ "allAssetsTableList"],
 
     components:{
-    tanZxChart3
+    tanZxChart1
   },
   created() {
     // this.initTableData()

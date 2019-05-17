@@ -13,7 +13,7 @@
               <span v-if="scope.row.itemName === '应收账款周转率'">(次)</span>
               <span v-if="scope.row.itemName === '息税折旧摊销前利润/负债合计'">(万元)</span>
               <span v-if="scope.row.itemName === '基本每股收益'">(元/股)</span>
-              <span v-if="scope.row.itemName === '扣除非经常性损益后基本每股收益'">(元/股)</span>
+              <span v-if="scope.row.itemName === '扣除非经常性损益后的基本每股收益'">(元/股)</span>
             </span>
          </template>
       </el-table-column>
@@ -57,8 +57,9 @@
     </el-table>
        <!-- 点击放大镜弹出的折线图 -->
     <el-dialog :title="this.zxChartData?'公司最近三年'  +this.zxChartData.itemName+'_趋势':''" :visible.sync="dialogChartVisible" :before-close="handleClose">
-       <tanZxChart3 :zxChartData = "this.zxChartData" :zxChartTitle = "MainIndexTableList.title"></tanZxChart3>
+       <!-- <tanZxChart3 :zxChartData = "this.zxChartData" :zxChartTitle = "MainIndexTableList.title"></tanZxChart3> -->
        <!-- <tanZxChart3 :zxChartData = {zxChartTitle:this.zxChartData,zxChartContent:MainIndexTableList.content}></tanZxChart3> -->
+        <tanZxChart3 :zxChartData = "this.zxChartData"></tanZxChart3>
     </el-dialog>
 
   </div>

@@ -19,7 +19,7 @@
               <div class="kaiguan" style="text-align:left;font-size: 12px;
                     background: #f9f9f9;
                     padding: 14px;
-                    margin-left:25px;
+                    margin-left:4px;
                     color: #999999;
                     text-align: left;
                     line-height: 14px;">
@@ -70,11 +70,11 @@
           </ul>
 
         <!-- 加载更多 -->
-        <div  v-if="singleAndMultiplDdata.showMore" @click="showMoreMethods()" class="more">加载更多{{singleAndMultiplDdata.showMore}}</div>
+        <div  v-if="singleAndMultiplDdata.showMore" @click="showMoreMethods()" class="more">加载更多</div>
         <!-- 已经阅读完了 -->
-        <p v-if="!singleAndMultiplDdata.showMore&&singleAndMultiplDdata.questionList.length>0" class="finishRead">已经阅读完了{{singleAndMultiplDdata.showMore}}</p>
+        <p v-if="!singleAndMultiplDdata.showMore&&singleAndMultiplDdata.questionList.length>0" class="finishRead">已经阅读完了</p>
           <!-- 暂无更多数据 -->
-        <p v-if="!singleAndMultiplDdata.showMore&&singleAndMultiplDdata.questionList.length==0" class="finishRead">暂无相关数据{{singleAndMultiplDdata.showMore}}</p>
+        <p v-if="!singleAndMultiplDdata.showMore&&singleAndMultiplDdata.questionList.length==0" class="finishRead">暂无相关数据</p>
       </div>
    </div>
 </template>
