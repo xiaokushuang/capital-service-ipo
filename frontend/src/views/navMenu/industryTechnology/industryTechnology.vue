@@ -9,7 +9,6 @@
       <div v-for="data in industryStatus" :key="data.id" style="font-size:16px;color:#333;display:inline-block">{{data.rankingRange }}
         <span style="color:#FE5461">{{data.rankingIndicator }}</span>排名第<span style="color:#FE5461;font-weight:bold">{{data.ranking }}</span>名
       </div>
-      <!-- <div style="font-size:16px;color:#333;">中国行业内<span style="color:#FE5461">总资产</span>排名第<span style="color:#FE5461;font-weight:bold">37</span>名，2018年度全球<span style="color:#FE5461">市场份额占比</span>排名第<span style="color:#FE5461;font-weight:bold">3</span>名</div> -->
       <p v-if="industryStatus.length>0&&industryStatus[0].industryStatusOverview" style="font-size:14px;color:#666;margin-top:12px;">{{industryStatus[0].industryStatusOverview }}</p>
     </div>
     <!-- 主要竞争对手简介 -->
