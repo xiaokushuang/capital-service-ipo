@@ -325,7 +325,7 @@
           <div v-for="item in customerMainList" :key="item.id" >
               <p style="font-size:14px;color:#666">{{item.remark}}</p>
               <span v-if="item.supplierCustomerInfoList&&item.supplierCustomerInfoList.length>0" style="font-size:12px;color:#666;float:right;margin-bottom: 5px;">单位：万元</span>
-              <el-table v-if="customerMainList&&customerMainList.length>0" :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px">
+              <el-table v-if="item.supplierCustomerInfoList&&item.supplierCustomerInfoList.length>0" :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px">
                 <el-table-column fixed align="center" class-name="table_cell" label="排名" width="52">
                   <template slot-scope="scope">
                     {{scope.$index+1}}

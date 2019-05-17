@@ -135,6 +135,7 @@ import {exportExcelPostWindow} from '@/utils'
                 this.$refs.paper.search(this.queryParam.orderByName,this.queryParam.orderByOrder);	
             },
             search(data){//通过给定条件查询数据
+                document.getElementsByClassName("is-scrolling-none")[0].scrollTop = 0;
                 this.queryParam.pageSize = data.pageSize;
                 data.condition.chartType = this.$route.query.chartType;
                 data.condition.selCondition = this.$route.query.selCondition;

@@ -29,7 +29,7 @@
 </template>
 
 <script>
-
+import {iframeDoMessage} from '@/utils/auth'
 export default {
   name: 'papers',
   components: {  },
@@ -183,6 +183,7 @@ export default {
         // console.log(data)
         //console.log(this.sdefault)
         let _this = this;
+        iframeDoMessage(window.parent,'scrollTop',[]);
         setTimeout(()=>{
             let orgob = Object.assign(_this.orgob,_this.sdefault)
             let queryParam  = {condition:orgob};
