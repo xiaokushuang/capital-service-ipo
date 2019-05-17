@@ -123,17 +123,17 @@ export default {
   },
   // 滑轮滚到底部懒加载
   mounted() {
-    // let _this = this;
-    // // 注册scroll事件并监听
-    // window.addEventListener("scroll", function() {
-    //   let scrollTop =
-    //     window.pageYOffset ||
-    //     document.documentElement.scrollTop ||
-    //     document.body.scrollTop; 
-    //   if (scrollTop + window.innerHeight + 2 >= document.body.offsetHeight) {
-    //     _this.showMoreMethods();
-    //   }
-    // });
+    let _this = this;
+    // 注册scroll事件并监听
+    window.addEventListener("scroll", function() {
+      let scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop; 
+      if (scrollTop + window.innerHeight + 2 >= document.body.offsetHeight) {
+        _this.showMoreMethods();
+      }
+    });
   },
   methods: {
     // 单选按钮

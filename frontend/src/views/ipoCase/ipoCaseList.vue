@@ -833,14 +833,6 @@
       this.search(_data);
       this.getSelectData();
     },
-    updated(){
-      // console.log('证监会',this.industryCsrcValue)
-      // console.log('战略新兴',this.strageIndustryCsrcValue)
-      // console.log('申报次数',this.ipoNumValue)
-      // console.log('配售机制',this.ipoMechanismValue)
-      // console.log('发行费用',this.issueFee)
-      // console.log('招股书最近一次估值',this.valuationValue)
-    },
     watch: {
       'yearRadio'() {
         const _self = this;
@@ -1167,12 +1159,6 @@
       },
       //查询
       querySearch() {
-      console.log('证监会',this.industryCsrcValue)
-      console.log('战略新兴',this.strageticIndustriesValue)
-      console.log('申报次数',this.ipoNumValue)
-      console.log('配售机制',this.placingMechanismValue)
-      console.log('发行费用',this.issueFee)
-      console.log('招股书最近一次估值------------------------------------------------',this.valuationValue)
         this.$refs.paper.search();
       },
       //下拉框数据
