@@ -278,7 +278,7 @@
             ipo_process t1
         WHERE
             t1.bid = #{id}
-        AND t1.process_type_code > '10'
+        AND CONVERT(t1.process_type_code,SIGNED) > 10 and CONVERT(t1.process_type_code,SIGNED) <![CDATA[<]]> 31
     </select>
 
     <select id="selectKcbLetterIds" resultType="java.lang.String">
