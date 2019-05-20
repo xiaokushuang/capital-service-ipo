@@ -53,11 +53,11 @@
                                             <span v-if="item.progressType=='07'&&item.iecResult=='03'" :style={background:qxsh} class="qxsh">取消审核</span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='04'" :style={background:dsh} class="dsh">待审核</span>
                                             <!-- 科创版 -->
-                                            <span v-if="item.progressType=='07'&&item.iecResult=='05'" :style={background:htg}  class="htg" >通过</span>
-                                            <span v-if="item.progressType=='07'&&item.iecResult=='06'" :style={background:whtg} class="whtg">未通过</span>
-                                            <span v-if="item.progressType=='07'&&item.iecResult=='07'" :style={background:htg} class="htg">注册生效 </span>
-                                            <span v-if="item.progressType=='07'&&item.iecResult=='08'" :style={background:whtg} class="whtg">不予注册</span>
-                                            <span v-if="item.progressType=='07'&&item.iecResult=='09'" :style={background:dsh} class="dsh">待审核</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='05'" :style={background:tg}  class="tg" >通过</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='06'" :style={background:whtg} class="whtg">未通过</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='07'" :style={background:zcsx} class="htg">注册生效 </span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='08'" :style={background:whtg} class="whtg">不予注册</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='09'" :style={background:dsh} class="dsh">待审核</span>
                                         </div>
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)" style="cursor: pointer;"
@@ -147,11 +147,11 @@
                                             <span v-if="item.progressType=='07'&&item.iecResult=='03'" :style={background:qxsh} class="qxsh">取消审核</span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='04'" :style={background:dsh} class="dsh">待审核</span>
                                              <!-- 科创版 -->
-                                            <span v-if="item.progressType=='07'&&item.iecResult=='05'" :style={background:htg}  class="htg" >通过</span>
-                                            <span v-if="item.progressType=='07'&&item.iecResult=='06'" :style={background:whtg} class="whtg">未通过</span>
-                                            <span v-if="item.progressType=='07'&&item.iecResult=='07'" :style={background:htg} class="htg">注册生效 </span>
-                                            <span v-if="item.progressType=='07'&&item.iecResult=='08'" :style={background:whtg} class="whtg">不予注册</span>
-                                            <span v-if="item.progressType=='07'&&item.iecResult=='09'" :style={background:dsh} class="dsh">待审核</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='05'" :style={background:tg}  class="tg" >通过</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='06'" :style={background:whtg} class="whtg">未通过</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='07'" :style={background:zcsx} class="htg">注册生效 </span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='08'" :style={background:whtg} class="whtg">不予注册</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='09'" :style={background:dsh} class="dsh">待审核</span>
                                         </div>
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)" style="cursor: pointer;"
@@ -244,7 +244,9 @@ export default {
              moreNoticeList:[],
             //  图片路径
             zhbj:'url('+ require('../../../assets/images/zhbj.png')+') no-repeat',
-            htg:'url('+ require('../../../assets/images/htg.png')+') no-repeat',
+            tg:'url('+ require('../../../assets/images/tg.png')+') no-repeat',
+            htg:'url('+ require('../../../assets/images/htg.png')+')  no-repeat',
+            zcsx:'url('+ require('../../../assets/images/zcsx.png')+')  no-repeat',
             whtg:'url('+ require('../../../assets/images/whtg.png')+') no-repeat',
             qxsh:'url('+ require('../../../assets/images/qxsh.png')+') no-repeat',
             dsh:'url('+ require('../../../assets/images/dsh.png')+') no-repeat',
@@ -686,6 +688,18 @@ export default {
     top: -20px;
     color: #14BCF5;
     padding:5px;
+    padding-right:5px;
+    line-height:10px;
+    display:inline-block;
+}
+.tg{
+    font-size: 14px;
+    position: relative;
+    left: 38%;
+    top: -20px;
+    color: #14BCF5;
+    padding:5px;
+    padding-left:10px;
     padding-right:5px;
     line-height:10px;
     display:inline-block;
