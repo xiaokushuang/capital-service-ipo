@@ -306,7 +306,14 @@ SELECT
 
     <select id="selectMainIndexList"  resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
           SELECT
-            t1.COLUMN_COMMENT itemName,
+			(
+                CASE t1.column_name
+                WHEN 'ROEJQ' THEN
+                    '加权平均净资产收益率'
+                ELSE
+					t1.column_comment
+                END
+            ) itemName,
             t2.CURR_VAL forthYearValue,
             (
                 CASE t1.column_name

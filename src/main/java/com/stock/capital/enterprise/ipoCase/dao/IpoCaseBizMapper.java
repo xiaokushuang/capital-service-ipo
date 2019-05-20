@@ -47,6 +47,8 @@ public interface IpoCaseBizMapper {
 
     List<IpoTechnologyDateDto> getDate(@Param("bid") String bid);
 
+    List<Map> selectTechnologyByBid(@Param("bid") String bid);
+
     IpoTechnologyRemarksDto getRemarks(@Param("bid") String bid);
 
     List<IntermediaryOrgDto> getIntermediaryOrgData(

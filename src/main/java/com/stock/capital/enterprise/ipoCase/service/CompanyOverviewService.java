@@ -313,6 +313,11 @@ public class CompanyOverviewService extends BaseService {
                     if ("5".equals(intermediaryOrgDto.getIntermediaryType())) {
                         moreList.add(intermediaryOrgDto);
                     }
+
+                    // 存托机构
+                    if ("6".equals(intermediaryOrgDto.getIntermediaryType())) {
+                        moreList.add(intermediaryOrgDto);
+                    }
                 }
             }
         }

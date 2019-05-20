@@ -6,7 +6,7 @@
         <img  src="../../../assets/images/status.png" alt="" style="width:20px;height:20px;float:left;margin-right:10px;margin-top: 7px;">
         <p style="font-size:14px;font-weight:bold;color:#333;float:left;margin-top:10px">{{companyProfileList.companyProfileList.companyName}}的行业地位</p>
       </div>
-      <div v-for="data in industryStatus" :key="data.id" style="font-size:16px;color:#333;display:inline-block">{{data.rankingRange }}
+      <div v-for="data in industryStatus" :key="data.id" style="font-size:16px;color:#333;">{{data.rankingRange }}
         <span style="color:#FE5461">{{data.rankingIndicator }}</span>排名第<span style="color:#FE5461;font-weight:bold">{{data.ranking }}</span>名
       </div>
       <p v-if="industryStatus.length>0&&industryStatus[0].industryStatusOverview" style="font-size:14px;color:#666;margin-top:12px;">{{industryStatus[0].industryStatusOverview }}</p>
