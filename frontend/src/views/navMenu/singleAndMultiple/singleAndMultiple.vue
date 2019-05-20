@@ -1,6 +1,6 @@
 <template>
     <div class="singleAndMultiple feedback" id="componentId">
-      <div style="font-size: 14px;color: #777777;padding-bottom:12px;margin-bottom: 30px;">
+      <div style="font-size: 14px;color: #777777;padding-bottom:0px;margin-bottom: 0px;">
           <div class="firstLabel" >
               <div style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
                 <div class="clear" style="border-bottom: 1px solid rgb(235, 235, 235);position:relative">
@@ -34,8 +34,8 @@
       </div>
       <div class="question" id="titleLength">
           <ul style="padding-left:0">
-              <li v-for="(data,index) in singleAndMultiplDdata.questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:30px">
-                  <div class="text" style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:10px;position:relative">
+              <li v-for="(data,index) in singleAndMultiplDdata.questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:4px;margin-bottom:16px">
+                  <div class="text" style="background:rgba(250, 250, 250, 1); padding: 1px 24px;margin-bottom:10px;position:relative">
                     <!-- 问 -->
                       <div  v-if="data.question&&data.question.length>0">
                         <div class="wen">问</div>
@@ -64,7 +64,7 @@
                       </div>
                   </div>
                   <div>
-                      <span v-for="biaoqian in data.labelList" class="biaoqian" style="margin-right:2px;margin-bottom:12px">{{biaoqian}}</span>
+                      <span v-for="biaoqian in data.labelList" class="biaoqian" style="margin-bottom:12px">{{biaoqian}}</span>
                   </div>
               </li>
           </ul>
@@ -181,6 +181,62 @@ export default {
     },
     // 多选按钮
     handelMoreChange(val) {
+      // 如果多选按钮只剩一个的时候，点击取消的时候没有过滤数据
+      if(val!=null&&val.length == 0){
+         if (this.radioVal == null) {
+              if(this.singleAndMultiplDdata.tabList.length==1){
+                  this.$parent.initOnlyQuestionData(
+                    this.singleAndMultiplDdata.o_letterId,
+                    "",
+                    [],
+                    this.onlyShowAnswerFlag
+                  );
+              }
+              if(this.singleAndMultiplDdata.tabList.length>1){
+                    this.$parent.$parent.$parent.initOnlyQuestionData(
+                    this.singleAndMultiplDdata.o_letterId,
+                    "",
+                    [],
+                    this.onlyShowAnswerFlag
+                  );
+              }
+          } 
+          else {
+              if(this.singleAndMultiplDdata.tabList.length==1){
+                  this.$parent.initOnlyQuestionData(
+                    this.singleAndMultiplDdata.o_letterId,
+                    this.radioVal,
+                    [],
+                    this.onlyShowAnswerFlag
+                  );
+              }
+              if(this.singleAndMultiplDdata.tabList.length>1){
+                    this.$parent.$parent.$parent.initOnlyQuestionData(
+                    this.singleAndMultiplDdata.o_letterId,
+                    this.radioVal,
+                    [],
+                    this.onlyShowAnswerFlag
+                  );
+              }
+          }
+        //  if(this.singleAndMultiplDdata.tabList.length==1){
+        //           this.$parent.initOnlyQuestionData(
+        //             this.singleAndMultiplDdata.o_letterId,
+        //             this.radioVal,
+        //             [],
+        //             this.onlyShowAnswerFlag
+        //           );
+        //       }
+        //       if(this.singleAndMultiplDdata.tabList.length>1){
+        //             this.$parent.$parent.$parent.initOnlyQuestionData(
+        //             this.singleAndMultiplDdata.o_letterId,
+        //             this.radioVal,
+        //             [],
+        //             this.onlyShowAnswerFlag
+        //           );
+        //       }
+      }
+      // 当多选按钮点击多个的时候
       for (let i = 0; i < val.length; i++) {
         //  如果点击了多选按钮‘全部’,就将绑定的数组变成【null】,然后重新请求数据，传空数组[]
         if (val[i] == null) {
@@ -202,7 +258,8 @@ export default {
                     this.onlyShowAnswerFlag
                   );
               }
-          } else {
+          } 
+          else {
               if(this.singleAndMultiplDdata.tabList.length==1){
                   this.$parent.initOnlyQuestionData(
                     this.singleAndMultiplDdata.o_letterId,
@@ -264,6 +321,41 @@ export default {
           }
         }
       }
+      // if (this.radioVal == null) {
+      //     if(this.singleAndMultiplDdata.tabList.length==1){
+      //         this.$parent.initOnlyQuestionData(
+      //           this.singleAndMultiplDdata.o_letterId,
+      //             "",
+      //             this.checkboxGroup,
+      //           this.onlyShowAnswerFlag
+      //         );
+      //     }
+      //     if(this.singleAndMultiplDdata.tabList.length>1){
+      //           this.$parent.$parent.$parent.initOnlyQuestionData(
+      //           this.singleAndMultiplDdata.o_letterId,
+      //             "",
+      //           this.checkboxGroup,
+      //           this.onlyShowAnswerFlag
+      //         );
+      //     }
+      // } else {
+      //     if(this.singleAndMultiplDdata.tabList.length==1){
+      //         this.$parent.initOnlyQuestionData(
+      //           this.singleAndMultiplDdata.o_letterId,
+      //           this.radioVal,
+      //           this.checkboxGroup,
+      //           this.onlyShowAnswerFlag
+      //         );
+      //     }
+      //     if(this.singleAndMultiplDdata.tabList.length>1){
+      //           this.$parent.$parent.$parent.initOnlyQuestionData(
+      //           this.singleAndMultiplDdata.o_letterId,
+      //           this.radioVal,
+      //           this.checkboxGroup,
+      //           this.onlyShowAnswerFlag
+      //         );
+      //     }
+      // }
     },
     // 是否只展示回复问题
     handleOnlyChange(val) {
@@ -440,7 +532,7 @@ export default {
   text-align: center;
   border: 1px solid rgba(235, 235, 235, 1);
   font-family: "MicrosoftYaHei", "Microsoft YaHei";
-  margin-left: 10px;
+  margin-right: 12px;
   padding: 4px;
   border-radius: 2px;
   font-weight: 400;

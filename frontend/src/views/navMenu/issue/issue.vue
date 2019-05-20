@@ -2,7 +2,7 @@
     <div class="issue">
         <!-- 发行数据 -->
         <div class="issueData">
-             <div v-if="dataFlag" class="title">
+             <div v-if="dataFlag" class="title" style="margin-top:36px">
                 <span class="littleRectangle"></span>
                 <span class="titleText" id="distributionData">发行数据</span>
             </div>
@@ -113,7 +113,7 @@
         </div>
         <!-- 发行费用 -->
         <div class="issueMoney" >
-             <div v-if="issueFeeData&&issueFeeData.length>0" class="title">
+             <div v-if="issueFeeData&&issueFeeData.length>0" class="title" style="margin-bottom:0px">
                 <span class="littleRectangle"></span>
                 <span class="titleText" id="distributionCosts">发行费用</span>
             </div>
