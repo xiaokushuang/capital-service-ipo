@@ -499,4 +499,20 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
     public void setValuationValue(Double valuationValue) {
         this.valuationValue = valuationValue;
     }
+
+    public String getRegisterResult() {
+        return registerResult;
+    }
+
+    public void setRegisterResult(String registerResult) {
+        this.registerResult = registerResult;
+    }
+
+    public String getRegisterResultLabel() {
+        return registerResultLabel;
+    }
+
+    public void setRegisterResultLabel(String registerResultLabel) {
+        this.registerResultLabel = registerResultLabel;
+    }
 }

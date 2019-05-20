@@ -497,6 +497,51 @@ public class IpoProcessService extends BaseService {
         return downFileName;
     }
 
+    public String downloadSplitFile(String id, HttpServletResponse response,HttpServletRequest request) {
+        //根据文件id查询相关信息
+        IpoFileRelationDto fileDto = ipoProcessMapper.selectSplitFileDto(id);
+        String title = fileDto.getRelationFileTitle();
+        String suffix = title.substring(title.indexOf(".")+1);
+        if (title.length() >= 40) {
+            title = title.substring(0, 40);
+        }
+        String fileName = title;
+//        String url = fileViewPath + "open/ipoFile/" + id + "." + suffix;
+//        String url = "D:\\data\\capital\\upload\\cloud\\open\\ipoFile\\" + id + "." + suffix;
+        String url = filePath + id + "." + suffix;
+        InputStream in = null;
+        try {
+            in = new FileInputStream(url);
+
+            String userAgent = request.getHeader("user-agent").toLowerCase();
+            if (userAgent.contains("msie") || userAgent.contains("like gecko") ) {
+                // win10 ie edge 浏览器 和其他系统的ie
+                fileName = URLEncoder.encode(fileName, "UTF-8");
+            } else {
+                // fe
+                fileName = new String(fileName.getBytes("utf-8"), "iso-8859-1");
+            }
+//            fileName = new String(fileName.getBytes(), "ISO-8859-1");
+
+//            in = Resources.asByteSource(new URL(url)).openBufferedStream();
+            // 设置输出的格式
+            response.reset();
+            response.setContentType("text/html;charset=utf-8");
+            response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+            // 循环取出流中的数据
+            byte[] b = new byte[100];
+            int len;
+            while ((len = in.read(b)) > 0) {
+                response.getOutputStream().write(b, 0, len);
+            }
+        } catch (Exception e) {
+            logger.error("下载公告错误cause by：{}", Throwables.getStackTraceAsString(e));
+        } finally {
+            IOUtils.closeQuietly(in);
+        }
+        return fileName;
+    }
+
     private InputStream compress(List<Map<String, String>> srcFileList) {
         OutputStream out = null;
         String srcDir = FileUtils.getTempDirectoryPath();

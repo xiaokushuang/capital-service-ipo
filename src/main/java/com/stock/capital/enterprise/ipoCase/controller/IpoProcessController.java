@@ -72,6 +72,18 @@ public class IpoProcessController extends BaseController {
         return result;
     }
 
+    @ApiOperation(value = "拆分上市文件下载接口", notes = "拆分上市文件下载接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "fileId", value = "文件id", required = true, paramType = "query", dataType = "String")
+    })
+    @RequestMapping(value = "/downloadSplitFile", method = RequestMethod.GET)
+    public JsonResponse<String> downLoadSplitFile(String fileId, HttpServletResponse response, HttpServletRequest request) {
+        JsonResponse<String> result = new JsonResponse<>();
+        String fileName =  ipoProcessService.downloadSplitFile(fileId,response,request);
+        result.setResult(fileName);
+        return result;
+    }
+
     @ApiOperation(value = "检查所选文件是否存在", notes = "检查所选文件是否存在")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "fileId", value = "文件id", required = true, paramType = "query", dataType = "String"),
