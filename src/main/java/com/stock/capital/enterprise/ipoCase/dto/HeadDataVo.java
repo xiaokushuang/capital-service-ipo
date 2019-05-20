@@ -55,6 +55,9 @@ public class HeadDataVo implements Serializable {
     @ApiModelProperty("是否是科创板 0:否 1:是")
     private Integer isTechBoard;
 
+    @ApiModelProperty("页面是否置灰显示 1: 灰色 0: 不是灰色")
+    private Integer isGray;
+
     public String getTitle() {
         return title;
     }
@@ -149,5 +152,13 @@ public class HeadDataVo implements Serializable {
 
     public void setHavePublic(Integer havePublic) {
         this.havePublic = havePublic;
+    }
+
+    public Integer getIsGray() {
+        return isGray;
+    }
+
+    public void setIsGray(Integer isGray) {
+        this.isGray = isGray;
     }
 }

@@ -149,10 +149,10 @@
       </div>
     </div>
     <!-- 最后一次估值情况 -->
-    <div class="lastValuation" style="margin-top:32px">
-      <div v-if="recentValuationFlag" class="title">
+    <div v-if="recentValuationFlag" class="lastValuation" style="margin-top:32px">
+      <div  class="title">
         <span class="littleRectangle"></span>
-        <span class="titleText" id="lastValuation">最后一次估值情况</span>
+        <span class="titleText" id="lastValuation">最近一次估值情况</span>
         <span class="hongkuang">{{recentValuation.valuationType}}</span>
       </div>
       <ul style=" width: 100%;
@@ -743,7 +743,7 @@ export default {
           let titleList = [];
           let lastValuation = {
               id: 'lastValuation',
-              name: '最后一次估值情况',
+              name: '最近一次估值情况',
               notes: '',
               important: false,
               tabId: 'tab-first',

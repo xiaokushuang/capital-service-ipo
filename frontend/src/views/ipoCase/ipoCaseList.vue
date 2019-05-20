@@ -101,13 +101,13 @@
               </el-select>
             </el-col>
              <el-col :span='4'>
-              <el-select ref="strageSelectIndustryCsrc" v-model="strageIndustryCsrc" title="发行人行业（战略新兴）" placeholder="发行人行业（战略新兴）"
+              <el-select ref="selectStrageticIndustries" v-model="strageticIndustries" title="发行人行业（战略新兴）" placeholder="发行人行业（战略新兴）"
                          size="small full" :tselect=true @visible-change="calls()"
-                         @sure-click="sure('strageSelectIndustryCsrc')"
-                         @clear-click="clearLocal('strageTreeIndustryCsrc')">
-                <el-option :label="strageIndustryCsrc" :value="strageIndustryCsrcValue">
-                  <el-tree :data="strageticIndustriesList" show-checkbox node-key="id" ref="strageTreeIndustryCsrc" highlight-current
-                           :props="default_tree" @check-change="selectHandleNodeClick('strageIndustryCsrc','strageTreeIndustryCsrc')"></el-tree>
+                         @sure-click="sure('selectStrageticIndustries')"
+                         @clear-click="clearLocal('treeStrageticIndustries')">
+                <el-option :label="strageticIndustries" :value="strageticIndustriesValue">
+                  <el-tree :data="strageticIndustriesList" show-checkbox node-key="id" ref="treeStrageticIndustries" highlight-current
+                           :props="default_tree" @check-change="selectHandleNodeClick('strageticIndustries','treeStrageticIndustries')"></el-tree>
                 </el-option>
               </el-select>
             </el-col>
@@ -123,13 +123,13 @@
               </el-select>
             </el-col>
             <el-col :span='4'>
-              <el-select ref="selectIpoMechanism" v-model="ipoMechanism" title="配售机制" placeholder="配售机制"
+              <el-select ref="selectPlacingMechanism" v-model="placingMechanism" title="配售机制" placeholder="配售机制"
                          size="small full" :tselect=true @visible-change="calls()"
-                         @sure-click="sure('selectIpoMechanism')"
-                         @clear-click="clearLocal('treeIpoMechanism')">
-                <el-option :label="ipoMechanism" :value="ipoMechanismValue">
-                  <el-tree :data="ipoMechanismList" default-expand-all show-checkbox node-key="id" ref="treeIpoMechanism" highlight-current
-                           :props="default_tree" @check-change="selectHandleNodeClick('ipoMechanism','treeIpoMechanism')"></el-tree>
+                         @sure-click="sure('selectPlacingMechanism')"
+                         @clear-click="clearLocal('treePlacingMechanism')">
+                <el-option class="psjz" :label="placingMechanism" :value="placingMechanismValue">
+                  <el-tree :data="ipoMechanismList" default-expand-all show-checkbox node-key="id" ref="treePlacingMechanism" highlight-current
+                           :props="default_tree" @check-change="selectHandleNodeClick('placingMechanism','treePlacingMechanism')"></el-tree>
                 </el-option>
               </el-select>
             </el-col>
@@ -540,7 +540,8 @@
                   </el-table-column> -->
                    <el-table-column align="right" prop="ipo_sum_asset_d" label="最近一次估值" sortable="custom" min-width="10%">
                     <template slot-scope="scope">
-                      <span v-if="scope.row.valuationValue ">{{scope.row.valuationValue  | dataInThRule}}亿元</span>
+                       <span v-if="scope.row.valuationValue ">{{scope.row.valuationValue/1000 | dataInThRule}}亿元</span>
+                      <!-- <span v-if="scope.row.valuationValue ">{{Math.round(scope.row.valuationValue/1000  | dataInThRule)}}亿元</span> -->
                       <span v-else>--</span>
                     </template>
                   </el-table-column>
@@ -613,16 +614,16 @@
         title: '',
         industryCsrc: '',
         industryCsrcValue: '',
-        strageIndustryCsrc: '',//战略新兴
-        strageIndustryCsrcValue: '',//战略新兴
+        strageticIndustries: '',//战略新兴
+        strageticIndustriesValue: '',//战略新兴
         issueCondition: '',
         issueConditionValue: '',
         companyNature: '',
         companyNatureValue: '',
         ipoNum: '',
         ipoNumValue: '',
-        ipoMechanism: '',//配售机制
-        ipoMechanismValue: '',//配售机制
+        placingMechanism: '',//配售机制
+        placingMechanismValue: '',//配售机制
         caseStatus: '',
         caseStatusValue: '',
         iecResult: '',
@@ -635,7 +636,7 @@
         industryCrscList: [],
         treeIndustryCsrc: '',
         strageticIndustriesList: [],//战略新兴
-        strageTreeIndustryCsrc: '',//战略新兴
+        treeStrageticIndustries: '',//战略新兴
         issueConditionList: [],
         treeIssueCondition: '',
         companyNatureList: [],
@@ -643,6 +644,7 @@
         ipoNumList: [],
         ipoMechanismList: [],//配售机制
         treeIpoNum: '',
+        treePlacingMechanism:'',//配售机制
         verifyResultList: [],
         treeVerifyResult: '',
         processList: [],
@@ -663,7 +665,7 @@
         totalShareIssueA: [],
         peIssueA: [],
         issueFee: [],
-        prospectus:[],
+        valuationValue:[],
         timeDiff: [],
         optionPeIssueA: [
           {id: 1, value: '0-10'},
@@ -892,11 +894,11 @@
             companyId: _self.$store.state.app.companyId,
             title: _self.title,//标题关键字（包含全部以空格断开）
             industryCsrc: _self.industryCsrcValue,//发行人行业（证监会）
-            strageIndustryCsrc: _self.strageIndustryCsrcValue,//发行人行业（战略新兴）
+            strageticIndustries: _self.strageticIndustriesValue,//发行人行业（战略新兴）
             issueCondition: _self.issueConditionValue,//发行人选择的上市条件
             companyNature: _self.companyNatureValue,//企业性质
             ipoNum: _self.ipoNumValue,//申报次数
-            ipoMechanism: _self.ipoMechanismValue,//配售机制
+            placingMechanism: _self.placingMechanismValue,//配售机制
             caseStatus: _self.caseStatusValue,//IPO进程
             iecResult: _self.iecResultValue,//审核结果
             codeOrName: _self.codeOrName,//公司名称/代码
@@ -919,7 +921,7 @@
             totalShareIssueA: _self.totalShareIssueA,//发行后股本总额
             peIssueA: _self.peIssueA,//发行后市盈率
             issueFee: _self.issueFee,//发行费用
-            prospectus: _self.prospectus,//招股书最近一次估值
+            valuationValue: _self.valuationValue,//招股书最近一次估值
             timeDiff: _self.timeDiff,//申报审核历时（天）
             ipoPlate: _self.$refs.plateTreeTagRef.getCheckedNodes().map((item) => {
               return item.labelValue
@@ -1055,16 +1057,16 @@
         _self.title = '';//标题
         _self.industryCsrcValue = '';//行业
         _self.industryCsrc = '';
-        _self.strageIndustryCsrcValue = '';//战略新兴
-        _self.strageIndustryCsrc = '';
+        _self.strageticIndustriesValue = '';//战略新兴
+        _self.strageticIndustries = '';
         _self.issueConditionValue = '';//发行人选择的上市条件
         _self.issueCondition = '';
         _self.companyNatureValue = '';//企业性质
         _self.companyNature = '';
         _self.ipoNum = '';//ipo次数
         _self.ipoNumValue = '';
-         _self.ipoMechanism = '';//配售机制
-        _self.ipoMechanismValue = '';
+         _self.placingMechanism = '';//配售机制
+        _self.placingMechanismValue = '';
         _self.caseStatus = '';//IPO进程
         _self.caseStatusValue = '';
         _self.iecResult = '';//审核结果
@@ -1082,11 +1084,11 @@
         _self.$refs.specialArrangeTagRef.setCheckedKeys([]);
         _self.$refs.sfcTreeTagRef.setCheckedKeys([]);
         _self.$refs.treeIndustryCsrc.setCheckedKeys([]);
-        _self.$refs.strageTreeIndustryCsrc.setCheckedKeys([]);//战略新兴
+        _self.$refs.treeStrageticIndustries.setCheckedKeys([]);//战略新兴
         _self.$refs.treeIssueCondition.setCheckedKeys([]);
         _self.$refs.treeCompanyNature.setCheckedKeys([]);
         _self.$refs.treeIpoNum.setCheckedKeys([]);
-        _self.$refs.treeIpoMechanism.setCheckedKeys([]);//配售机制
+        _self.$refs.treePlacingMechanism.setCheckedKeys([]);//配售机制
         _self.$refs.treeVerifyResult.setCheckedKeys([]);
         _self.$refs.treeProcess.setCheckedKeys([]);
         _self.profitOne = [];
@@ -1105,7 +1107,7 @@
         _self.totalShareIssueA = [];
         _self.peIssueA = [];
         _self.issueFee = [];
-        _self.prospectus = [];//招股书最近一次估值
+        _self.valuationValue = [];//招股书最近一次估值
         _self.timeDiff = [];
         _self.searchFlag = false;
         _self.yearRadio = 1;
@@ -1215,7 +1217,7 @@
       },
       // 招股书最近一次估值
        rangeCallProspectus(data) {
-        this.prospectus = data;
+        this.valuationValue = [data[0]*1000,data[1]*1000];
       },
       rangeCallProfitOne(data) {
         this.profitOne = data;

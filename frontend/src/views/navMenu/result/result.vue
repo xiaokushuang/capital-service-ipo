@@ -239,8 +239,10 @@
             <div class="label">
                     <!-- 导入的组件 -->
                     <!-- 只有一级标签 -->
-            <div v-if="tabList&&tabList.length==1" class="clear"> 
-              <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[0].questionLabelList,checkbox:feedbackduoxuanList,answerCount:answerCount,questionCount:questionCount,questionList:questionList,o_letterId:this.o_letterId,showMore:showMore,allQuestionList:allQuestionList}></singleAndMultiple>
+            <div v-if="allQuestionList&&allQuestionList.length>0">
+              <div  v-if="tabList&&tabList.length==1" class="clear"> 
+                <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[0].questionLabelList,checkbox:feedbackduoxuanList,answerCount:answerCount,questionCount:questionCount,questionList:questionList,o_letterId:this.o_letterId,showMore:showMore,allQuestionList:allQuestionList}></singleAndMultiple>
+              </div>
             </div>
             <!-- 有多级标签选择 -->
              <div v-if="tabList&&tabList.length > 1" class="clear">

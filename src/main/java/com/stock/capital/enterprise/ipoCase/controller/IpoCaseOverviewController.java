@@ -1,9 +1,11 @@
 package com.stock.capital.enterprise.ipoCase.controller;
 
+import com.stock.capital.enterprise.ipoCase.dao.IpoCaseBizMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoExamineMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoFeedbackMapper;
 import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
 import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
+import com.stock.capital.enterprise.ipoCase.dto.IndustryCompareRateDto;
 import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoExamineBaseDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto;
@@ -19,6 +21,7 @@ import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
+import com.stock.capital.enterprise.ipoCase.service.IssueSituationService;
 import com.stock.core.dto.JsonResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -46,7 +49,12 @@ public class IpoCaseOverviewController {
     @Autowired
     private IpoExamineMapper ipoExamineMapper;
     @Autowired
+    private IpoCaseBizMapper ipoCaseBizMapper;
+    @Autowired
     private IpoFeedbackService ipoFeedbackService;
+    @Autowired
+    private IssueSituationService issueSituationService;
+
 
     @ApiOperation(value = "案例详细接口", notes = "案例详细接接口描述")
     @ApiImplicitParams({
@@ -217,6 +225,17 @@ public class IpoCaseOverviewController {
             headDataVo.setHavePublic(0);
         }else{
             headDataVo.setHavePublic(1);
+        }
+
+        List<IssuerIndustryStatusDto> industryList =  companyOverviewService.getindustryStatusData(id);
+        List<MainCompetitorInfoDto> companyOverviewList = companyOverviewService.getCompetitorData(id);
+        List<Map> techList = ipoCaseBizMapper.selectTechnologyByBid(id);
+        List<IndustryCompareRateDto> indusList = issueSituationService.getIndustryRateData(id);
+        if (CollectionUtils.isEmpty(industryList) && CollectionUtils.isEmpty(indusList) &&
+         CollectionUtils.isEmpty(companyOverviewList) && CollectionUtils.isEmpty(techList)){
+            headDataVo.setIsGray(1);
+        } else {
+            headDataVo.setIsGray(0);
         }
         response.setResult(headDataVo);
         return response;
