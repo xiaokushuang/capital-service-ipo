@@ -4,7 +4,7 @@
         <div class="financialData">
             <!-- 财务总体情况 -->
             <div class="allAssets">
-                <div style="margin-top:61px" v-if="allAssetsTableTitle!=null&&allAssetsTableTitle.firstYearDate " class="title">
+                <div style="margin-top:36px" v-if="allAssetsTableTitle!=null&&allAssetsTableTitle.firstYearDate " class="title">
                     <span class="littleRectangle"></span>
                     <span class="titleText" id="allAssets">财务总体情况</span>
                 </div>

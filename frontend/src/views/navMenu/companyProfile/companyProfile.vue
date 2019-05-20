@@ -47,10 +47,10 @@
             <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.companyNature"  style="color: #333333;float:left;display:inline-block;width: 60%;margin-left: 27px;">{{companyProfileList.companyProfileList.companyNature}}</div>
             <div v-else  style="color: #333333;float:left;display:inline-block;width: 60%;margin-left: 27px;">- -</div>
           </li>
-          <li  class="clear" style="margin-bottom:10px;position:relative" >
+          <li v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.placingMechanism "  class="clear" style="margin-bottom:10px;position:relative" >
             <span  class="l">配售机制</span>
-            <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.placingMechanism "  style="color: #333333;float:left;display:inline-block;width: 71%;margin-left: 27px;">{{companyProfileList.companyProfileList.placingMechanism }}</div>
-            <div v-else  style="color: #333333;float:left;display:inline-block;width: 71%;margin-left: 27px;">- -</div>
+            <div  style="color: #333333;float:left;display:inline-block;width: 71%;margin-left: 27px;">{{companyProfileList.companyProfileList.placingMechanism }}</div>
+            <!-- <div v-else  style="color: #333333;float:left;display:inline-block;width: 71%;margin-left: 27px;">- -</div> -->
           </li>
         </ul>
         <div>
@@ -136,9 +136,9 @@
         </ul>
         <ul>
           <li style="width: 100%; margin-bottom:10px">
-            <span>拆分详情</span>&nbsp;&nbsp;
-            <span v-if="spliteList[0].splitMemo" style="color:black">{{spliteList[0].splitMemo}}</span>
-            <span v-else style="color:black">- -</span>
+            <span  class="l">拆分详情</span>&nbsp;&nbsp;
+            <span v-if="spliteList[0].splitMemo" style="color:black;float:left;margin-left: 18px;">{{spliteList[0].splitMemo}}</span>
+            <span v-else style="color:black;float:left;margin-left: 18px;">- -</span>
           </li>
            <li style="width: 100%;margin-bottom:10px ">
             <span>相关文件</span>&nbsp;&nbsp;
@@ -160,24 +160,28 @@
         display: flex;
         flex-wrap: wrap;
         padding-left: 0;">
-          <li style=" width: 25%;position:relative">
+          <li v-if="recentValuation.valuationDate" style=" width: 25%;position:relative">
             <span style="color:#999">时间</span>&nbsp;&nbsp;
-            <div style="color:#333;margin-left: 25%;margin-top: -17.5px;">{{recentValuation.valuationDate}}</div>
+            <div  style="color:#333;margin-left: 25%;margin-top: -17.5px;">{{recentValuation.valuationDate}}</div>
+            <!-- <div v-else style="color:#333;margin-left: 25%;margin-top: -17.5px;">- -</div> -->
           </li>
-          <li style=" width: 25%;">
+          <li v-if="recentValuation.valuationPrice" style=" width: 25%;">
             <span style="color:#999">股价</span>&nbsp;&nbsp;
-            <span style="color:#333">{{recentValuation.valuationPrice}}元/股</span>
+            <span v-if="recentValuation.valuationPrice" style="color:#333">{{recentValuation.valuationPrice}}元/股</span>
+            <!-- <span v-else style="color:#333">- -元/股</span> -->
           </li>
-          <li style=" width: 25%;">
+          <li v-if="recentValuation.valuationEquity" style=" width: 25%;">
             <span style="color:#999">总股本</span>&nbsp;&nbsp;
-            <span style="color:#333">{{recentValuation.valuationEquity }}万股</span>
+            <span v-if="recentValuation.valuationEquity" style="color:#333">{{recentValuation.valuationEquity  | dataInThRule }}万股</span>
+            <!-- <span v-else style="color:#333">- -万股</span> -->
           </li>
-          <li style=" width: 25%;">
+          <li v-if="recentValuation.valuationValue" style=" width: 25%;">
             <span style="color:#999">市值</span>&nbsp;&nbsp;
-            <span style="color:#333">{{recentValuation.valuationValue }}亿元</span>
+            <span v-if="recentValuation.valuationValue" style="color:#333">{{recentValuation.valuationValue/10000  | dataInThRule }}亿元</span>
+            <!-- <span v-else style="color:#333">- -亿元</span> -->
           </li>
         </ul>
-        <p style="color:#666;font-size:14px">{{recentValuation.valuationMemo}}</p>
+        <p v-if="recentValuation.valuationMemo" style="color:#666;font-size:14px">{{recentValuation.valuationMemo}}</p>
     </div>
     <!-- 股权结构图 -->
     <div class="ownershipStructure" style="margin-top:32px">
@@ -247,9 +251,9 @@
           <span class="titleText" id="majorSuppliers" style="font-size:18px">报告期主要供应商情况</span>
         </div>
         <div v-for="item in supplierMainList" :key="item.id" >
-            <p v-if="item.title" style="font-size:16px;color:#333">{{item.title}}</p>
-            <p v-if="item.remark" style="font-size:14px;color:#666">{{item.remark}}</p>
-            <span v-if="item.supplierCustomerInfoList&&item.supplierCustomerInfoList.length>0" style="font-size:12px;color:#666;float:right;margin-bottom: 5px;">单位：万元</span>
+            <p v-if="item.title" style="font-size:16px;color:#333;font-weight:500;margin-top:12px">{{item.title}}</p>
+            <p v-if="item.remark" style="font-size:14px;color:#666;margin-top:12px;margin-bottom:0px">{{item.remark}}</p>
+            <span v-if="item.supplierCustomerInfoList&&item.supplierCustomerInfoList.length>0" style="font-size:12px;color:#666;float:right;margin-bottom: 8px;margin-top:8px">单位：万元</span>
              <el-table v-if="item.supplierCustomerInfoList&&item.supplierCustomerInfoList.length>0" :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px">
               <el-table-column fixed align="center" class-name="table_cell" label="排名" width="52">
                 <template slot-scope="scope">
@@ -370,9 +374,9 @@
           <span class="titleText" id="majorCustomer" style="font-size:18px">报告期主要客户情况</span>
         </div>
           <div v-for="item in customerMainList" :key="item.id" >
-              <p v-if="item.title" style="font-size:16px;color:#333">{{item.title}}</p>
-              <p v-if="item.remark" style="font-size:14px;color:#666">{{item.remark}}</p>
-              <span v-if="item.supplierCustomerInfoList&&item.supplierCustomerInfoList.length>0" style="font-size:12px;color:#666;float:right;margin-bottom: 5px;">单位：万元</span>
+              <p v-if="item.title" style="font-size:16px;color:#333;font-weight:500;margin-top:12px">{{item.title}}</p>
+              <p v-if="item.remark" style="font-size:14px;color:#666;margin-top:12px;margin-bottom:0px">{{item.remark}}</p>
+              <span v-if="item.supplierCustomerInfoList&&item.supplierCustomerInfoList.length>0" style="font-size:12px;color:#666;float:right;margin-bottom: 5px;margin-top:8px">单位：万元</span>
               <el-table v-if="customerMainList&&customerMainList.length>0" :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px">
                 <el-table-column fixed align="center" class-name="table_cell" label="排名" width="52">
                   <template slot-scope="scope">
@@ -881,7 +885,6 @@ export default {
     }
     .hongkuang {
       display: inline-block;
-      // width: 52px;
       height: 22px;
       text-align: center;
       border: 1px solid rgba(255, 176, 173, 1);
@@ -890,9 +893,9 @@ export default {
       font-style: normal;
       font-size: 12px;
       color: #fe5461;
-      line-height: 18px;
+      line-height: 10px;
       margin-left: 10px;
-      padding: 1px;
+      padding: 4px;
       border-radius: 2px;
     }
   }
@@ -909,7 +912,7 @@ export default {
     padding: 5px 10px;
     margin-top: 32px;
     .briefIntroduction {
-      border-bottom: 1px solid #ebebeb;
+      // border-bottom: 1px solid #ebebeb;
       ul {
         width: 100%;
         display: flex;
@@ -922,7 +925,7 @@ export default {
       }
     }
     .others {
-      border-bottom:1px solid #f1f1f1;
+      border-top:1px solid #ebebeb;
       ul {
         width: 100%;
         display: flex;
@@ -931,6 +934,7 @@ export default {
       }
     }
     .splitListing{
+       border-top:1px solid #ebebeb;
        ul {
         width: 100%;
         display: flex;

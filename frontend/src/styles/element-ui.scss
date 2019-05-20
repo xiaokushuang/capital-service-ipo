@@ -664,7 +664,9 @@
 // 专利情况表格
 .patentSituationTable table tr td:first-of-type{
   background:#f2f2f2 !important;
+  font-weight:bold;
 }
+
 .patentSituationTable table tr:last-of-type td:last-of-type{
   background:#f2f2f2 !important;
 }

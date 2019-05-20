@@ -89,7 +89,7 @@
                 </el-option>
               </el-select>
             </el-col>
-            <el-col :span='4'>
+            <el-col :span='8'>
               <el-select ref="selectIndustryCsrc" v-model="industryCsrc" title="发行人行业（证监会）" placeholder="发行人行业（证监会）"
                          size="small full" :tselect=true @visible-change="calls()"
                          @sure-click="sure('selectIndustryCsrc')"
@@ -100,7 +100,7 @@
                 </el-option>
               </el-select>
             </el-col>
-             <el-col :span='4'>
+             <!-- <el-col :span='4'>
               <el-select ref="selectStrageticIndustries" v-model="strageticIndustries" title="发行人行业（战略新兴）" placeholder="发行人行业（战略新兴）"
                          size="small full" :tselect=true @visible-change="calls()"
                          @sure-click="sure('selectStrageticIndustries')"
@@ -110,8 +110,8 @@
                            :props="default_tree" @check-change="selectHandleNodeClick('strageticIndustries','treeStrageticIndustries')"></el-tree>
                 </el-option>
               </el-select>
-            </el-col>
-            <el-col :span='4'>
+            </el-col> -->
+            <el-col :span='8'>
               <el-select ref="selectIpoNum" v-model="ipoNum" title="申报次数" placeholder="申报次数"
                          size="small full" :tselect=true @visible-change="calls()"
                          @sure-click="sure('selectIpoNum')"
@@ -122,7 +122,7 @@
                 </el-option>
               </el-select>
             </el-col>
-            <el-col :span='4'>
+            <!-- <el-col :span='4'>
               <el-select ref="selectPlacingMechanism" v-model="placingMechanism" title="配售机制" placeholder="配售机制"
                          size="small full" :tselect=true @visible-change="calls()"
                          @sure-click="sure('selectPlacingMechanism')"
@@ -132,7 +132,7 @@
                            :props="default_tree" @check-change="selectHandleNodeClick('placingMechanism','treePlacingMechanism')"></el-tree>
                 </el-option>
               </el-select>
-            </el-col>
+            </el-col> -->
           </el-row>
           <el-row :gutter="24">
             <el-col :span='8'>
@@ -147,7 +147,7 @@
               </el-select>
             </el-col>
             <el-col :span='8'>
-              <el-select ref="selectVerifyResult" v-model="iecResult" title="审核结果" placeholder="审核结果"
+              <el-select ref="selectVerifyResult" v-model="iecResult" title="审核/注册结果" placeholder="审核/注册结果"
                          size="small full" :tselect=true @visible-change="calls()"
                          @sure-click="sure('selectVerifyResult')"
                          @clear-click="clearLocal('treeVerifyResult')">
@@ -224,7 +224,7 @@
           <el-row :gutter="24">
             <el-col :span='8' class="stockIncreasePan-class">
               <el-multiple-selection v-if="issueShow" :range="true" :tree-data="optionPeIssueA" placeholder="发行后市盈率" size="small full" :multiple="false"
-                                     unit="%" :ran="optionDto" @sure-click="rangeCallPeIssueA">
+                                     unit="倍" :ran="optionDto" @sure-click="rangeCallPeIssueA">
               </el-multiple-selection>
             </el-col>
             <el-col :span='8' class="stockIncreasePan-class">
@@ -232,23 +232,24 @@
                                      unit="万元" :ran="optionDto" @sure-click="rangeCallIssueFee">
               </el-multiple-selection>
             </el-col>
-            <el-col :span='8' class="stockIncreasePan-class">
+              <el-col :span='8'>
+              <el-select ref="selectPlacingMechanism" v-model="placingMechanism" title="配售机制" placeholder="配售机制"
+                         size="small full" :tselect=true @visible-change="calls()"
+                         @sure-click="sure('selectPlacingMechanism')"
+                         @clear-click="clearLocal('treePlacingMechanism')">
+                <el-option class="psjz" :label="placingMechanism" :value="placingMechanismValue">
+                  <el-tree :data="ipoMechanismList" default-expand-all show-checkbox node-key="id" ref="treePlacingMechanism" highlight-current
+                           :props="default_tree" @check-change="selectHandleNodeClick('placingMechanism','treePlacingMechanism')"></el-tree>
+                </el-option>
+              </el-select>
+            </el-col>
+            <!-- <el-col :span='8' class="stockIncreasePan-class">
               <el-multiple-selection class="prospectus" v-if="prospectusShow" :range="true" :tree-data="optionProspectus" placeholder="招股书最近一次估值" size="small full" :multiple="false"
                                      unit="亿" :ran="optionDto" @sure-click="rangeCallProspectus">
               </el-multiple-selection>
-            </el-col>
+            </el-col> -->
           </el-row>
            <el-row :gutter="24">
-             <!-- <el-col :span='8'>
-              <el-date-picker class="acceptTime" size='small' v-model="ypProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
-                              start-placeholder="受理时间范围"  align="center">
-              </el-date-picker>
-            </el-col>
-            <el-col :span='8'>
-              <el-date-picker class="acceptTime" size='small' v-model="fsProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
-                              start-placeholder="审核时间范围" align="center">
-              </el-date-picker>
-            </el-col> -->
              <el-col :span='8'>
               <el-date-picker size='small' v-model="ypProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
                               start-placeholder="受理时间" end-placeholder="受理时间" align="center">
@@ -532,19 +533,18 @@
                       </template>
                     </el-table-column>
                   </el-table-column>
-                  <!-- <el-table-column align="right" prop="ipo_sum_asset_d" label="总资产" sortable="custom" min-width="10%">
+                  <el-table-column align="right" prop="ipo_sum_asset_d" label="总资产" sortable="custom" min-width="10%">
                     <template slot-scope="scope">
                       <span v-if="scope.row.sunAsset">{{scope.row.sunAsset | dataInThRule}}亿元</span>
                       <span v-else>--</span>
                     </template>
-                  </el-table-column> -->
-                   <el-table-column align="right" prop="ipo_sum_asset_d" label="最近一次估值" sortable="custom" min-width="10%">
+                  </el-table-column>
+                   <!-- <el-table-column align="right" prop="ipo_sum_asset_d" label="最近一次估值" sortable="custom" min-width="10%">
                     <template slot-scope="scope">
-                       <span v-if="scope.row.valuationValue ">{{scope.row.valuationValue/1000 | dataInThRule}}亿元</span>
-                      <!-- <span v-if="scope.row.valuationValue ">{{Math.round(scope.row.valuationValue/1000  | dataInThRule)}}亿元</span> -->
+                       <span v-if="scope.row.valuationValue ">{{scope.row.valuationValue/10000 | dataInThRule}}亿元</span>
                       <span v-else>--</span>
                     </template>
-                  </el-table-column>
+                  </el-table-column> -->
                   <el-table-column align="left" label="拟上市板块" width="110">
                     <template slot-scope="scope">
                       {{scope.row.ipoPlateName}}
@@ -1084,7 +1084,7 @@
         _self.$refs.specialArrangeTagRef.setCheckedKeys([]);
         _self.$refs.sfcTreeTagRef.setCheckedKeys([]);
         _self.$refs.treeIndustryCsrc.setCheckedKeys([]);
-        _self.$refs.treeStrageticIndustries.setCheckedKeys([]);//战略新兴
+        // _self.$refs.treeStrageticIndustries.setCheckedKeys([]);//战略新兴
         _self.$refs.treeIssueCondition.setCheckedKeys([]);
         _self.$refs.treeCompanyNature.setCheckedKeys([]);
         _self.$refs.treeIpoNum.setCheckedKeys([]);
@@ -1217,7 +1217,7 @@
       },
       // 招股书最近一次估值
        rangeCallProspectus(data) {
-        this.valuationValue = [data[0]*1000,data[1]*1000];
+        this.valuationValue = [data[0]*10000,data[1]*10000];
       },
       rangeCallProfitOne(data) {
         this.profitOne = data;

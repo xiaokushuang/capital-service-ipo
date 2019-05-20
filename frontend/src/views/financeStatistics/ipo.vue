@@ -47,10 +47,10 @@
               <p class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;" @mouseenter="mouseOverSpreadTitle(headList.title)">{{getTitle(headList.title)}}</p>
               <span style="font-size: 14px;opacity: 0.6;">股份公司设立时间：</span>
               <span style="font-size: 14px;opacity: 0.6;">{{headList.establishDate}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-              <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;辅导工作历时：</span>
+              <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;辅导历时：</span>
               <span style="font-size: 14px;opacity: 0.6;" v-if="headList.supportDuration">{{headList.supportDuration}}天</span>
               <span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
-              <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;申报审核历时：</span>
+              <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;审核历时：</span>
               <span style="font-size: 14px;opacity: 0.6;" v-if="headList.auditDuration">{{headList.auditDuration}}天</span>
               <span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
               <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;最新进程：</span>
@@ -61,7 +61,7 @@
                  >{{headList.greenPassage}}
               </span>
               <span v-if="specialArrange&&specialArrange.length>0">
-                <span v-for="data in specialArrange" style=" display: inline-block;margin-top:8px;background: #fe5461; font-size: 12px; color: #fff;border-radius: 2px;padding: 4.5px; position:relative;z-index:10;margin-right:10px"
+                <span v-for="data in specialArrange" style=" display: inline-block;margin-top:8px;background: #ff9900; font-size: 12px; color: #fff;border-radius: 2px;padding: 4.5px; position:relative;z-index:10;margin-right:10px"
                   >{{data}}
                 </span>
               </span>
@@ -86,12 +86,12 @@
                                           <div class="el-tabs__nav">
                                               <div class="el-tabs__active-bar is-top" :style="{width: tabBarWidth + 'px', transform: 'translateX(' + tabBarOffset + 'px)'}"></div>
                                               <div id="tab-first"  ref="tab-first"  aria-controls="pane-first"  :class="['el-tabs__item is-top', {'is-active': isActive === '1'}]" @click="onTabClick('1', $event)" style="padding-left: 0">公司概览</div>
-                                              <div  id="tab-sixth" ref="tab-sixth" aria-controls="pane-sixth" :class="['el-tabs__item is-top', {'is-active': isActive === '6'}]" @click="onTabClick('6', $event)">行业与技术</div>
-                                              <!-- <div  id="tab-sixth"  ref="tab-sixth" class="el-tabs__item1" aria-controls="pane-third"  style="cursor:default;color:#adadad">
+                                              <div v-if="headList.isGray=='0'" id="tab-sixth" ref="tab-sixth" aria-controls="pane-sixth" :class="['el-tabs__item is-top', {'is-active': isActive === '6'}]" @click="onTabClick('6', $event)">行业与技术</div>
+                                              <div v-if="headList.isGray=='1'" id="tab-sixth"  ref="tab-sixth" class="el-tabs__item1" aria-controls="pane-third"  style="cursor:default;color:#adadad">
                                                 <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无行业与技术信息" placement="top" effect="light">
                                                   <el-button class="btnClass">行业与技术</el-button>
                                                 </el-tooltip>
-                                              </div> -->
+                                              </div>
                                               <div id="tab-second" ref="tab-second" aria-controls="pane-second" :class="['el-tabs__item is-top', {'is-active': isActive === '2'}]" @click="onTabClick('2', $event)">财务信息</div>
                                               <div v-if="headList.haveFeedback=='1'&&headList.isTechBoard =='0'" id="tab-third"  ref="tab-third" class="el-tabs__item1" aria-controls="pane-third"  style="cursor:default;color:#adadad">
                                                 <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无反馈意见信息" placement="top" effect="light">
@@ -373,6 +373,7 @@ export default {
        getHeadData(param).then(res => {
          if(res.data.result){
            this.headList = res.data.result
+           console.log('tou',this.headList)
          }
          if(res.data.result&&res.data.result.specialArrange!=null){
            this.specialArrange = res.data.result.specialArrange.split(',');
@@ -578,7 +579,7 @@ export default {
     },
     // 点击锚点跳转
     jump(param, num) {
-        document.documentElement.scrollTop = document.getElementById(param).offsetTop + document.getElementById('titleHeader').offsetHeight - 50 ;
+        document.documentElement.scrollTop = document.getElementById(param).offsetTop + document.getElementById('titleHeader').offsetHeight - 25 ;
         switch (num) {
             case 1:
                 this.itemActiveFirst = param;

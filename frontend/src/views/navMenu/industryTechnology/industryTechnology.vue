@@ -3,8 +3,8 @@
     <!-- 公司简介 -->
     <div v-if="industryStatus&&industryStatus.length>0" class="industryStatus">
       <div class="clear">
-        <img  src="../../../assets/images/status.png" alt="" style="width:20px;height:20px;float:left;margin-right:10px">
-        <p style="font-size:14px;font-weight:bold;color:#333;float:left;margin-top:0px">{{companyProfileList.companyProfileList.companyName}}的行业地位</p>
+        <img  src="../../../assets/images/status.png" alt="" style="width:20px;height:20px;float:left;margin-right:10px;margin-top: 7px;">
+        <p style="font-size:14px;font-weight:bold;color:#333;float:left;margin-top:10px">{{companyProfileList.companyProfileList.companyName}}的行业地位</p>
       </div>
       <div v-for="data in industryStatus" :key="data.id" style="font-size:16px;color:#333;display:inline-block">{{data.rankingRange }}
         <span style="color:#FE5461">{{data.rankingIndicator }}</span>排名第<span style="color:#FE5461;font-weight:bold">{{data.ranking }}</span>名
@@ -142,6 +142,11 @@
             <span class="titleText" id="patentSituation">专利情况</span>
         </div>
         <p v-if="remarksData!=null&&remarksData.patentRemarks" style="font-size:14px;color:#666">{{remarksData.patentRemarks}}</p>
+         <span v-if="patentSituationTableData&&patentSituationTableData.length>0"  class="clear">
+            <span style="float: right;font-size: 12px;color: #666666;display:inline-block;margin-bottom:12px">
+                单位：项
+            </span>
+         </span>
         <el-table
          v-if="patentSituationTableData&&patentSituationTableData.length>0"
           class="patentSituationTable"
@@ -158,47 +163,52 @@
            </template>
           </el-table-column>
           <el-table-column
+            align="right"
             prop="fm"
             label="发明专利"
             width="180">
             <template slot-scope="scope">
-              <span v-if="scope.row.fm"> {{scope.row.fm | dataInThRule}}
+              <span v-if="scope.row.fm"> {{scope.row.fm}}
                  <span v-if="scope.row.labelName === '占比'">%</span>
               </span>
               <span v-else> - - </span>
            </template>
           </el-table-column>
           <el-table-column
+            align="right"
             prop="sy"
             label="实用新型专利">
             <template slot-scope="scope">
-              <span v-if="scope.row.sy"> {{scope.row.sy | dataInThRule}}
+              <span v-if="scope.row.sy"> {{scope.row.sy}}
                 <span v-if="scope.row.labelName === '占比'">%</span>
               </span>
               <span v-else> - - </span>
            </template>
           </el-table-column>
           <el-table-column
+            align="right"
             prop="wg"
             label="外观设计专利">
             <template slot-scope="scope">
-              <span v-if="scope.row.wg"> {{scope.row.wg | dataInThRule}}
+              <span v-if="scope.row.wg"> {{scope.row.wg}}
                 <span v-if="scope.row.labelName === '占比'">%</span>
               </span>
               <span v-else> - - </span>
            </template>
           </el-table-column>
           <el-table-column
+            align="right"
             prop="hj"
             label="合计">
             <template slot-scope="scope">
-              <span v-if="scope.row.hj"> {{scope.row.hj | dataInThRule}}
+              <span v-if="scope.row.hj"> {{scope.row.hj}}
                 <span v-if="scope.row.labelName === '占比'">%</span>
               </span>
               <span v-else> - - </span>
            </template>
           </el-table-column>
           <el-table-column
+            align="right"
             prop="zb"
             label="占比">
              <template slot-scope="scope">
@@ -223,7 +233,7 @@
             </span>
         </span>
          <el-table v-if="yfSpendingTableData&&yfSpendingTableData.length>0" :data="yfSpendingTableData" border style="width: 100%;margin-top: 20px">
-            <el-table-column align="left" class-name="table_cell" label="项目" width="184">
+            <el-table-column align="left" class-name="table_cell" label="项目" width="190">
               <template slot-scope="scope">
                   <span>{{isNotEmpty(scope.row.labelName ) ? scope.row.labelName  : '- -'}}</span>
               </template>
@@ -231,7 +241,7 @@
             <el-table-column align="right"  :label="yfSpendingTitle.firstYearDate" header-align="right">
                 <template slot-scope="scope">
                   <span v-if="scope.row.firstYearValue"> {{scope.row.firstYearValue | dataInThRule}}
-                   <span v-if="scope.row.labelName === '研发费用占营业收入的比例'">%</span>
+                   <span v-if="scope.row.labelName === '研发投入占营业收入的比例'">%</span>
                   </span>
                   <span v-else> - - </span>
                 </template>
@@ -239,7 +249,7 @@
              <el-table-column align="right"  :label="yfSpendingTitle.secondYearDate" header-align="right">
                 <template slot-scope="scope">
                   <span v-if="scope.row.secondYearValue"> {{scope.row.secondYearValue | dataInThRule}}
-                   <span v-if="scope.row.labelName === '研发费用占营业收入的比例'">%</span>
+                   <span v-if="scope.row.labelName === '研发投入占营业收入的比例'">%</span>
                   </span>
                   <span v-else> - - </span>
               </template>
@@ -247,7 +257,7 @@
             <el-table-column align="right"  :label="yfSpendingTitle.thirdYearDate" header-align="right">
               <template slot-scope="scope">
                   <span v-if="scope.row.thirdYearValue"> {{scope.row.thirdYearValue | dataInThRule}}
-                    <span v-if="scope.row.labelName === '研发费用占营业收入的比例'">%</span>
+                    <span v-if="scope.row.labelName === '研发投入占营业收入的比例'">%</span>
                   </span>
                   <span v-else> - - </span>
               </template>
@@ -256,7 +266,7 @@
                 <template slot-scope="scope">
                             <span v-if="scope.row.forthYearValue"> 
                               {{scope.row.forthYearValue | dataInThRule}}
-                              <span v-if="scope.row.labelName === '研发费用占营业收入的比例'">%</span>
+                              <span v-if="scope.row.labelName === '研发投入占营业收入的比例'">%</span>
                             </span>
                             <span v-else> - - </span>
                 </template>
@@ -264,10 +274,10 @@
             <el-table-column
               prop=""
               label="合计"
-              align="center">
+              align="right">
               <template slot-scope="scope"> 
                   <span v-if="scope.row.allNumValue"> {{scope.row.allNumValue | dataInThRule}}
-                    <span v-if="scope.row.labelName === '研发费用占营业收入的比例'">%</span>
+                    <span v-if="scope.row.labelName === '研发投入占营业收入的比例'">%</span>
                   </span>       
               </template>
             </el-table-column>
@@ -293,7 +303,7 @@
             </el-table-column>
             <el-table-column align="right"  :label="coreTechnologyTitle.firstYearDate" header-align="right">
                 <template slot-scope="scope">
-                  <span v-if="scope.row.firstYearValue"> {{scope.row.firstYearValue | dataInThRule}}
+                  <span v-if="scope.row.firstYearValue"> {{scope.row.firstYearValue}}
                   </span>
                   <span v-else> - - </span>
                 </template>
@@ -308,7 +318,7 @@
             </el-table-column>
             <el-table-column align="right"  :label="coreTechnologyTitle.secondYearDate" header-align="right">
                 <template slot-scope="scope">
-                  <span v-if="scope.row.secondYearValue"> {{scope.row.secondYearValue | dataInThRule}}
+                  <span v-if="scope.row.secondYearValue"> {{scope.row.secondYearValue}}
                   </span>
                   <span v-else> - - </span>
               </template>
@@ -323,7 +333,7 @@
             </el-table-column>
             <el-table-column align="right"  :label="coreTechnologyTitle.thirdYearDate" header-align="right">
               <template slot-scope="scope">
-                  <span v-if="scope.row.thirdYearValue"> {{scope.row.thirdYearValue | dataInThRule}}
+                  <span v-if="scope.row.thirdYearValue"> {{scope.row.thirdYearValue}}
                   </span>
                   <span v-else> - - </span>
               </template>
@@ -339,7 +349,7 @@
             <el-table-column align="right" :label="coreTechnologyTitle.forthYearDate">
                 <template slot-scope="scope">
                             <span v-if="scope.row.forthYearValue"> 
-                              {{scope.row.forthYearValue | dataInThRule}}
+                              {{scope.row.forthYearValue}}
                               </span>
                             <span v-else> - - </span>
                 </template>
