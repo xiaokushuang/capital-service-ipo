@@ -288,6 +288,8 @@
     'IPO_ACCOUNT_TYPE'
     WHEN iio.intermediary_type = '5' THEN
     'IPO_ASSET_VALUATION_TYPE'
+    WHEN iio.intermediary_type = '6' THEN
+    'ipo_depository_type'
     ELSE
     ''
     END AS labelCode

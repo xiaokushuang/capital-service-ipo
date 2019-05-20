@@ -149,6 +149,12 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
     @Field("ipo_valuation_d")
     private Double valuationValue;//最近一次估值
 
+    @Field("ipo_register_result_t")
+    private String registerResult;//注册结果
+
+    @Field("ipo_register_result_label_t")
+    private String registerResultLabel;//注册结果名称
+
 
     public String getOrgCode() {
         return orgCode;
