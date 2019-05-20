@@ -14,8 +14,8 @@
     SELECT  
             t.id, 
             t.bid, 
-            t.ranking_range, 
-            t.ranking_indicator, 
+            t.ranking_range,
+            (SELECT group_concat(mcl4.label_name) FROM maa_conf_label mcl4 WHERE mcl4.label_code = 'IPO_RANKING_INDICATOR' AND find_in_set(mcl4.label_value,t.ranking_indicator)) AS ranking_indicator,
             t.ranking,
             t1.industry_status_overview 
     FROM 
