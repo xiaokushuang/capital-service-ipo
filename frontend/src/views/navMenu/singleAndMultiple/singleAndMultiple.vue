@@ -183,7 +183,26 @@ export default {
     handelMoreChange(val) {
       // 如果多选按钮只剩一个的时候，点击取消的时候没有过滤数据
       if(val!=null&&val.length == 0){
-         if(this.singleAndMultiplDdata.tabList.length==1){
+         if (this.radioVal == null) {
+              if(this.singleAndMultiplDdata.tabList.length==1){
+                  this.$parent.initOnlyQuestionData(
+                    this.singleAndMultiplDdata.o_letterId,
+                    "",
+                    [],
+                    this.onlyShowAnswerFlag
+                  );
+              }
+              if(this.singleAndMultiplDdata.tabList.length>1){
+                    this.$parent.$parent.$parent.initOnlyQuestionData(
+                    this.singleAndMultiplDdata.o_letterId,
+                    "",
+                    [],
+                    this.onlyShowAnswerFlag
+                  );
+              }
+          } 
+          else {
+              if(this.singleAndMultiplDdata.tabList.length==1){
                   this.$parent.initOnlyQuestionData(
                     this.singleAndMultiplDdata.o_letterId,
                     this.radioVal,
@@ -199,8 +218,25 @@ export default {
                     this.onlyShowAnswerFlag
                   );
               }
+          }
+        //  if(this.singleAndMultiplDdata.tabList.length==1){
+        //           this.$parent.initOnlyQuestionData(
+        //             this.singleAndMultiplDdata.o_letterId,
+        //             this.radioVal,
+        //             [],
+        //             this.onlyShowAnswerFlag
+        //           );
+        //       }
+        //       if(this.singleAndMultiplDdata.tabList.length>1){
+        //             this.$parent.$parent.$parent.initOnlyQuestionData(
+        //             this.singleAndMultiplDdata.o_letterId,
+        //             this.radioVal,
+        //             [],
+        //             this.onlyShowAnswerFlag
+        //           );
+        //       }
       }
-      // 当多选按钮多个的时候
+      // 当多选按钮点击多个的时候
       for (let i = 0; i < val.length; i++) {
         //  如果点击了多选按钮‘全部’,就将绑定的数组变成【null】,然后重新请求数据，传空数组[]
         if (val[i] == null) {
