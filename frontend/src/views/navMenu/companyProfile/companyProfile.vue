@@ -137,12 +137,12 @@
         <ul>
           <li style="width: 100%; margin-bottom:10px">
             <span  class="l">拆分详情</span>&nbsp;&nbsp;
-            <span v-if="spliteList[0].splitMemo" style="color:black;float:left;margin-left: 18px;">{{spliteList[0].splitMemo}}</span>
-            <span v-else style="color:black;float:left;margin-left: 18px;">- -</span>
+            <span v-if="spliteList[0].splitMemo" style="color:black;float:left;margin-left: 18px;width: 80%">{{spliteList[0].splitMemo}}</span>
+            <span v-else style="color:black;float:left;margin-left: 18px;width: 80%">- -</span>
           </li>
            <li style="width: 100%;margin-bottom:10px ">
             <span>相关文件</span>&nbsp;&nbsp;
-            <span v-if="spliteList[0].splitFileName"  @click="openLetterDetail(spliteList[0])" style="color:#3399fe;text-decoration:underline;cursor:pointer;">{{spliteList[0].splitFileName}}</span>
+            <span v-if="spliteList[0].splitFileName"  @click="openLetterDetail(spliteList[0].splitFileId)" style="color:#3399fe;text-decoration:underline;cursor:pointer;">{{spliteList[0].splitFileName}}</span>
             <span v-else style="color:black">- -</span>
           </li>
         </ul>
@@ -153,7 +153,7 @@
       <div  class="title">
         <span class="littleRectangle"></span>
         <span class="titleText" id="lastValuation">最近一次估值情况</span>
-        <span class="hongkuang">{{recentValuation.valuationType}}</span>
+        <span v-if="recentValuation.valuationType" class="hongkuang">{{recentValuation.valuationType}}</span>
       </div>
       <ul style=" width: 100%;
         font-size:14px;
@@ -635,9 +635,14 @@ export default {
   mounted() {
   },
   methods: {
-    openLetterDetail(v) {
-         window.open(v.filePath)
-     },
+    openLetterDetail(fileId) {
+            let url = window.location.href;
+            let token = this.$store.state.app.token
+            url = url.substr(0,url.indexOf("ui"));
+            url = url + 'ipo/ipoProcess/downloadSplitFile?access_token='+token+
+                    '&fileId='+ fileId;
+              window.open(url);
+      },
     getData() {
       // 动态传id
       const param = {
@@ -660,10 +665,11 @@ export default {
       });
       // 最近一次估值情况
       getValuationData(param).then(res=>{
-        if(res.data.result&&res.data.result.length>0){
+        console.log('最近一次估值',res.data.result)
+        if(res.data.result&&res.data.result.length>0&&(res.data.result[0].valuationDate || res.data.result[0].valuationMemo || res.data.result[0].valuationEquity || res.data.result[0].valuationType || res.data.result[0].valuationValue)){
           this.recentValuationFlag = true
+          console.log('最近估值flag',this.recentValuationFlag)
           this.recentValuation = res.data.result[0]
-          console.log('最近一次估值',this.recentValuation)
         }
           this.getPosition()
       });

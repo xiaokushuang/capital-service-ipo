@@ -491,7 +491,7 @@
                         <span class="zhbjResult" v-if="scope.row.iecResult==='02'">暂缓表决</span>
                         <span class="qxshResult" v-if="scope.row.iecResult==='03'">取消审核</span>
                         <span class="dshResult"  v-if="scope.row.iecResult==='04'">待审核</span>
-                        <span class="htgResult"  v-if="scope.row.iecResult==='05'">通过</span>
+                        <span class="tgResult"  v-if="scope.row.iecResult==='05'">通过</span>
                         <span class="whtgResult" v-if="scope.row.iecResult==='06'">未通过</span>
                         <span class="htgResult"  v-if="scope.row.iecResult==='07'">注册生效</span>
                         <span class="whtgResult" v-if="scope.row.iecResult==='08'">不予注册</span>
@@ -1728,7 +1728,7 @@
      font-size: 12px;
      color: #FF9900;
      padding:5px;
-     padding-left: 8px;
+     padding-left: 10px;
      line-height:10px;
      display:inline-block;
       background-size:cover;
@@ -1738,7 +1738,7 @@
      font-size: 12px;
      color: #FE5461;
      padding:5px;
-     padding-left: 8px;
+     padding-left: 10px;
      line-height:10px;
      display:inline-block;
      background-size:cover;
@@ -1748,17 +1748,27 @@
      font-size: 12px;
      color: #14BCF5;
      padding:5px;
-     padding-left: 8px;
+     padding-left: 10px;
      line-height:10px;
      display:inline-block;
       background-size:cover;
      background:url('../../assets/images/htg.png') no-repeat;
 }
+.tgResult{
+     font-size: 13px;
+     color: #14BCF5;
+     padding:5px;
+     padding-left: 10px;
+     line-height:10px;
+     display:inline-block;
+      background-size:cover;
+     background:url('../../assets/images/tg.png') no-repeat;
+}
 .qxshResult{
      font-size: 12px;
      color: #94A3B4;
      padding:5px;
-     padding-left: 8px;
+     padding-left: 10px;
      line-height:10px;
      display:inline-block;
       background-size:cover;
@@ -1768,7 +1778,7 @@
      font-size: 12px;
      color: #ffd800;
      padding:5px;
-     padding-left: 8px;
+     padding-left: 10px;
      padding-right: 6px;
      line-height:10px;
      display:inline-block;
