@@ -505,7 +505,7 @@ public class IpoProcessService extends BaseService {
         if (title.length() >= 40) {
             title = title.substring(0, 40);
         }
-        String fileName = title;
+        String fileName = title + suffix;
 //        String url = fileViewPath + "open/ipoFile/" + id + "." + suffix;
 //        String url = "D:\\data\\capital\\upload\\cloud\\open\\ipoFile\\" + id + "." + suffix;
         String url = filePath + id + "." + suffix;
