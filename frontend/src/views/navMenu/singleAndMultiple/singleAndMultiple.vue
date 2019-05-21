@@ -11,7 +11,7 @@
                 </div>
               </div>
                 <div class="clear" style="padding:0px 25px;margin-top:12px;padding-bottom:10px">
-                  <p style="float: left; margin-left: -6px; margin-top: 2px;margin-right: 15px;" v-if="singleAndMultiplDdata.checkbox&&singleAndMultiplDdata.checkbox.length>0">子集分类:</p>
+                  <p style="float: left; margin-left: -6px; margin-top: 2px;margin-right: 15px;" v-if="singleAndMultiplDdata.checkbox&&singleAndMultiplDdata.checkbox.length>0">子级分类:</p>
                   <el-checkbox-group  @change="handelMoreChange(checkboxGroup)" v-model="checkboxGroup" size="mini" style="float:left;width:88%">
                       <el-checkbox :key="item.labelCode" class="checkbox" v-for="item in singleAndMultiplDdata.checkbox" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-checkbox>
                   </el-checkbox-group>
@@ -321,41 +321,6 @@ export default {
           }
         }
       }
-      // if (this.radioVal == null) {
-      //     if(this.singleAndMultiplDdata.tabList.length==1){
-      //         this.$parent.initOnlyQuestionData(
-      //           this.singleAndMultiplDdata.o_letterId,
-      //             "",
-      //             this.checkboxGroup,
-      //           this.onlyShowAnswerFlag
-      //         );
-      //     }
-      //     if(this.singleAndMultiplDdata.tabList.length>1){
-      //           this.$parent.$parent.$parent.initOnlyQuestionData(
-      //           this.singleAndMultiplDdata.o_letterId,
-      //             "",
-      //           this.checkboxGroup,
-      //           this.onlyShowAnswerFlag
-      //         );
-      //     }
-      // } else {
-      //     if(this.singleAndMultiplDdata.tabList.length==1){
-      //         this.$parent.initOnlyQuestionData(
-      //           this.singleAndMultiplDdata.o_letterId,
-      //           this.radioVal,
-      //           this.checkboxGroup,
-      //           this.onlyShowAnswerFlag
-      //         );
-      //     }
-      //     if(this.singleAndMultiplDdata.tabList.length>1){
-      //           this.$parent.$parent.$parent.initOnlyQuestionData(
-      //           this.singleAndMultiplDdata.o_letterId,
-      //           this.radioVal,
-      //           this.checkboxGroup,
-      //           this.onlyShowAnswerFlag
-      //         );
-      //     }
-      // }
     },
     // 是否只展示回复问题
     handleOnlyChange(val) {
@@ -420,6 +385,10 @@ export default {
               }
         } else {
             if(this.singleAndMultiplDdata.tabList.length==1){
+              console.log('是否回复1', this.singleAndMultiplDdata.o_letterId,
+                     this.radioVal,
+                     this.checkboxGroup,
+                     this.onlyShowAnswerFlag)
                   this.$parent.initOnlyQuestionData(
                      this.singleAndMultiplDdata.o_letterId,
                      this.radioVal,
@@ -428,6 +397,10 @@ export default {
                   );
               }
               if(this.singleAndMultiplDdata.tabList.length>1){
+                console.log('是否回复2', this.singleAndMultiplDdata.o_letterId,
+                     this.radioVal,
+                     this.checkboxGroup,
+                     this.onlyShowAnswerFlag)
                     this.$parent.$parent.$parent.initOnlyQuestionData(
                      this.singleAndMultiplDdata.o_letterId,
                      this.radioVal,

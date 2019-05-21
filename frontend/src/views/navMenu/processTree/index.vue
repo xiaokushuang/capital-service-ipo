@@ -54,7 +54,7 @@
                                             <span v-if="item.progressType=='07'&&item.iecResult=='04'" :style={background:dsh} class="dsh">待审核</span>
                                             <!-- 科创版 -->
                                             <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='05'" :style={background:tg}  class="tg" >通过</span>
-                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='06'" :style={background:whtg} class="whtg">未通过</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='06'" :style={background:whtg} class="wtg">未通过</span>
                                             <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='07'" :style={background:zcsx} class="htg">注册生效 </span>
                                             <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='08'" :style={background:whtg} class="whtg">不予注册</span>
                                             <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='09'" :style={background:dsh} class="dsh">待审核</span>
@@ -148,7 +148,7 @@
                                             <span v-if="item.progressType=='07'&&item.iecResult=='04'" :style={background:dsh} class="dsh">待审核</span>
                                              <!-- 科创版 -->
                                             <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='05'" :style={background:tg}  class="tg" >通过</span>
-                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='06'" :style={background:whtg} class="whtg">未通过</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='06'" :style={background:whtg} class="wtg">未通过</span>
                                             <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='07'" :style={background:zcsx} class="htg">注册生效 </span>
                                             <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='08'" :style={background:whtg} class="whtg">不予注册</span>
                                             <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='09'" :style={background:dsh} class="dsh">待审核</span>
@@ -691,6 +691,18 @@ export default {
     padding-right:5px;
     line-height:10px;
     display:inline-block;
+}
+.wtg{
+    font-size: 14px;
+    position: relative;
+    left: 38%;
+    top: -20px;
+    color: #FE5461;
+    padding: 5px;
+    padding-right: 10px;
+    padding-left: 12px;
+    line-height: 10px;
+    display: inline-block;
 }
 .tg{
     font-size: 14px;

@@ -231,7 +231,7 @@
             </ul>
         </div> 
        <!-- 筛选问题列表 -->
-         <div v-if="allQuestionList&&allQuestionList.length>0" class="title">
+         <div v-if="tabList&&tabList.length>0&&tabList[0].questionList&&tabList[0].questionList.length>0" class="title">
                 <span class="littleRectangle"></span>
                 <span class="titleText" id="result">上市会关注问题</span>
          </div>
@@ -239,33 +239,32 @@
             <div class="label">
                     <!-- 导入的组件 -->
                     <!-- 只有一级标签 -->
-            <div v-if="allQuestionList&&allQuestionList.length>0">
+            <div v-if="tabList&&tabList.length==1&&tabList[0].questionList&&tabList[0].questionList.length>0">
               <div  v-if="tabList&&tabList.length==1" class="clear"> 
                 <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[0].questionLabelList,checkbox:feedbackduoxuanList,answerCount:answerCount,questionCount:questionCount,questionList:questionList,o_letterId:this.o_letterId,showMore:showMore,allQuestionList:allQuestionList}></singleAndMultiple>
               </div>
             </div>
             <!-- 有多级标签选择 -->
              <div v-if="tabList&&tabList.length > 1" class="clear">
-                <div v-if="tabList.length==2" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共两轮反馈：</div>
-                <div v-if="tabList.length==3" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共三轮反馈：</div>
-                <div v-if="tabList.length==4" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共四轮反馈：</div>
-                <div v-if="tabList.length==5" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共五轮反馈：</div>
+                <div v-if="tabList.length==2" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共两轮关注：</div>
+                <div v-if="tabList.length==3" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共三轮关注：</div>
+                <div v-if="tabList.length==4" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共四轮关注：</div>
+                <div v-if="tabList.length==5" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共五轮关注：</div>
                 <div>
                     <el-tabs v-model="activeName" @tab-click="handleTabClick">
-                      <!-- :label="companyProfileList.headList.isTechBoard==0?'第一次反馈意见':'第一次问询与回复'"  判断是否是科创版 -->
-                       <el-tab-pane :label="companyProfileList.headList.isTechBoard==0?'第一次反馈意见':'第一次问询与回复'" :name="tabList[0].letterId">
+                       <el-tab-pane label="第一次审核关注问题" :name="tabList[0].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[0].questionLabelList,checkbox:feedbackduoxuanList,answerCount:answerCount,questionCount:questionCount,questionList:questionList,o_letterId:this.o_letterId,showMore:showMore,allQuestionList:allQuestionList}></singleAndMultiple>
                        </el-tab-pane>
-                       <el-tab-pane :label="companyProfileList.headList.isTechBoard==0?'第二次反馈意见':'第二次问询与回复'" :name="tabList[1].letterId">
+                       <el-tab-pane label="第二次审核关注问题" :name="tabList[1].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[1].questionLabelList,checkbox:feedbackduoxuanList2,answerCount:answerCount2,questionCount:questionCount2,questionList:questionList2,o_letterId:this.o_letterId,showMore:showMore2,allQuestionList:allQuestionList2}></singleAndMultiple>
                        </el-tab-pane>
-                        <el-tab-pane v-if="tabList&&tabList.length>2" :label="companyProfileList.headList.isTechBoard==0?'第三次反馈意见':'第三次问询与回复'" :name="tabList[2].letterId">
+                        <el-tab-pane v-if="tabList&&tabList.length>2" label="第三次审核关注问题" :name="tabList[2].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[2].questionLabelList,checkbox:feedbackduoxuanList3,answerCount:answerCount3,questionCount:questionCount3,questionList:questionList3,o_letterId:this.o_letterId,showMore:showMore3,allQuestionList:allQuestionList3}></singleAndMultiple>
                        </el-tab-pane>
-                        <el-tab-pane v-if="this.tabList&&this.tabList.length>3" :label="companyProfileList.headList.isTechBoard==0?'第四次反馈意见':'第四次问询与回复'" :name="tabList[3].letterId">
+                        <el-tab-pane v-if="this.tabList&&this.tabList.length>3" label="第四次审核关注问题" :name="tabList[3].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[3].questionLabelList,checkbox:feedbackduoxuanList4,answerCount:answerCount4,questionCount:questionCount4,questionList:questionList4,o_letterId:this.o_letterId,showMore:showMore4,allQuestionList:allQuestionList4}></singleAndMultiple>
                        </el-tab-pane>
-                        <el-tab-pane v-if="this.tabList&&this.tabList.length>4" :label="companyProfileList.headList.isTechBoard==0?'第五次反馈意见':'第五次问询与回复'" :name="tabList[4].letterId">
+                        <el-tab-pane v-if="this.tabList&&this.tabList.length>4" label="第五次审核关注问题" :name="tabList[4].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[4].questionLabelList,checkbox:feedbackduoxuanList5,answerCount:answerCount5,questionCount:questionCount5,questionList:questionList5,o_letterId:this.o_letterId,showMore:showMore5,allQuestionList:allQuestionList5}></singleAndMultiple>
                        </el-tab-pane>
                     </el-tabs>
@@ -620,6 +619,7 @@ export default {
       };
       console.log('子组件调用父组件方法',param)
       getResultQuestionList(param).then(res => {
+       
         // 当只有一个tab页时
         if (this.tabList.length == 1) {
           if (res.data.result.length > 0) {
@@ -969,6 +969,7 @@ export default {
       };
       console.log("param", param);
       getResultQuestionList(param).then(res => {
+         console.log('回复结果111',res.data.result)
         // 当只有一个tab页时
         if (this.tabList.length == 1) {
           if (res.data.result.length > 0) {

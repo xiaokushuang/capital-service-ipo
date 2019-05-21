@@ -8,10 +8,14 @@
             </div>
             <!-- 有多级标签选择 -->
              <div v-if="tabList&&tabList.length > 1" class="clear">
-                <div v-if="tabList.length==2" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共两轮反馈：</div>
-                <div v-if="tabList.length==3" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共三轮反馈：</div>
-                <div v-if="tabList.length==4" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共四轮反馈：</div>
-                <div v-if="tabList.length==5" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共五轮反馈：</div>
+                <div v-if="tabList.length==2&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共两轮反馈：</div>
+                <div v-if="tabList.length==3&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共三轮反馈：</div>
+                <div v-if="tabList.length==4&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共四轮反馈：</div>
+                <div v-if="tabList.length==5&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共五轮反馈：</div>
+                <div v-if="tabList.length==2&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 21;font-style: normal;font-size: 14px;color: #A1A1A1;">共两轮问询：</div>
+                <div v-if="tabList.length==3&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共三轮问询：</div>
+                <div v-if="tabList.length==4&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共四轮问询：</div>
+                <div v-if="tabList.length==5&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共五轮问询：</div>
                 <div>
                     <el-tabs v-model="activeName" @tab-click="handleTabClick">
                       <!-- :label="companyProfileList.headList.isTechBoard==0?'第一次反馈意见':'第一次问询与回复'"  判断是否是科创版 -->
@@ -711,6 +715,7 @@ export default {
       };
       console.log("param", param);
       getSelectQuestionList(param).then(res => {
+        console.log('反馈结果',res.data.result)
         // 当只有一个tab页时
         if (this.tabList.length == 1) {
           if (res.data.result.length > 0) {
