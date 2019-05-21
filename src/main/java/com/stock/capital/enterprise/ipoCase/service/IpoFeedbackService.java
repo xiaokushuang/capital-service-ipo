@@ -3,6 +3,7 @@ package com.stock.capital.enterprise.ipoCase.service;
 import com.google.common.collect.Maps;
 
 import com.stock.capital.enterprise.ipoCase.dao.IpoFeedbackMapper;
+import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
@@ -43,9 +44,10 @@ public class IpoFeedbackService extends BaseService {
         if (CollectionUtils.isEmpty(feedbackProcess)) {
             return new ArrayList<>();
         }
+        CompanyOverviewVo companyOverviewVo = ipoFeedbackMapper.getOrgCode(ipoFeedbackDto.getId());
 
         //根据案例id查询公司的东财内码
-        ipoFeedbackDto.setOrgCode(ipoFeedbackMapper.getOrgCode(ipoFeedbackDto.getId()));
+        ipoFeedbackDto.setOrgCode(companyOverviewVo.getOrgCode());
         //查询问题答案列表
         List<IpoFeedbackDto> resultList = ipoFeedbackMapper.selectFeedbackList(ipoFeedbackDto);
 
@@ -113,14 +115,21 @@ public class IpoFeedbackService extends BaseService {
     public List<IpoFeedbackDto> selectNewFeedbackList(String id) {
         List<IpoFeedbackDto> resultList = new ArrayList<>();
         //根据案例id查询公司的东财内码
-        String orgId = ipoFeedbackMapper.getOrgCode(id);
+        CompanyOverviewVo companyOverviewVo = ipoFeedbackMapper.getOrgCode(id);
+        String ipoPlate = companyOverviewVo.getIpoPlate();
         List<String> processDateList = ipoFeedbackMapper.selectFeedbackProcess(id);
+        processDateList = ipoFeedbackMapper.selectFeedbackProcess(id);
         if (CollectionUtils.isEmpty(processDateList)) {
             return new ArrayList<>();
         }
-        List<String> letterIds = ipoFeedbackMapper.selectLetterIds(orgId, processDateList);
-//        letterIds = new ArrayList<>();
-//        letterIds.add("745777672754254995");
+
+        List<String> letterIds = new ArrayList<>();
+        if ("069001001006".equals(ipoPlate)) {
+            letterIds = ipoFeedbackMapper.selectKcbLetterIds(companyOverviewVo.getOrgCode(), processDateList);
+        } else {
+            letterIds = ipoFeedbackMapper.selectLetterIds(companyOverviewVo.getOrgCode(), processDateList);
+        }
+
         for (int i = 0; i < letterIds.size(); i++) {
             //定义函件对象
             IpoFeedbackDto ipoFeedbackResultDto = new IpoFeedbackDto();

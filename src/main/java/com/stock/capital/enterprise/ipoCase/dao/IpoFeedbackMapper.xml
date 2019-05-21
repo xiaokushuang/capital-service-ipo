@@ -3,8 +3,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.stock.capital.enterprise.ipoCase.dao.IpoFeedbackMapper">
 
-    <select id="getOrgCode" parameterType="java.lang.String" resultType="java.lang.String">
-        select org_code orgCode from ipo_case where id = #{id}
+    <select id="getOrgCode" parameterType="java.lang.String"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo">
+        select org_code orgCode,ipo_plate ipoPlate from ipo_case where id = #{id}
     </select>
 
     <resultMap id="baseResultMap" type="com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto">
@@ -226,7 +227,7 @@
             ipo_process t1
         WHERE
             t1.bid = #{id}
-        AND t1.process_type_code = '05'
+        AND t1.process_type_code in ('05','32')
         AND t1.process_time IS NOT NULL
     </select>
 
@@ -238,7 +239,7 @@
         LEFT JOIN letter_class t2 ON t2.id = t1.letter_type
         WHERE
             t2.letter_class_name = 'IPO预披露反馈意见'
-        AND t1.rela_code = #{orgId}
+        AND t1.rela_code = #{orgId} and t1.post_status = '1'
         <if test="processDateList != null and processDateList.size()>0">
           and t1.letter_date in
           <foreach collection="processDateList" index="index" item="item" open="(" close=")" separator="," >
@@ -277,6 +278,24 @@
             ipo_process t1
         WHERE
             t1.bid = #{id}
-        AND t1.process_type_code > '10'
+        AND CONVERT(t1.process_type_code,SIGNED) > 10 and CONVERT(t1.process_type_code,SIGNED) <![CDATA[<]]> 31
+    </select>
+
+    <select id="selectKcbLetterIds" resultType="java.lang.String">
+        SELECT
+        t1.id
+        FROM
+        sa_letter t1
+        LEFT JOIN letter_class t2 ON t2.id = t1.letter_type
+        WHERE
+        t2.letter_class_name = '科创板上市申请文件审核问询函'
+        AND t1.rela_code = #{orgId} and t1.post_status = '1'
+        <if test="processDateList != null and processDateList.size()>0">
+            and t1.letter_date in
+            <foreach collection="processDateList" index="index" item="item" open="(" close=")" separator="," >
+                #{item}
+            </foreach>
+        </if>
+        order by t1.letter_date
     </select>
 </mapper>

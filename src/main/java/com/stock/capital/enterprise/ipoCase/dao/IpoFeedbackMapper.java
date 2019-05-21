@@ -1,5 +1,6 @@
 package com.stock.capital.enterprise.ipoCase.dao;
 
+import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoQuestionLabelDto;
 
@@ -21,7 +22,7 @@ public interface IpoFeedbackMapper {
     /**
      * 查询东财内码
      */
-    String getOrgCode(String id);
+    CompanyOverviewVo getOrgCode(String id);
 
     /**
      * 查询所属一级标签列表
@@ -61,4 +62,9 @@ public interface IpoFeedbackMapper {
      * 查询进程表上市进程日期
      */
     List<String> selectPublicProcess(String id);
+
+    /**
+     * 查询科创板函件id
+     */
+    List<String> selectKcbLetterIds(@Param("orgId") String orgId, @Param("processDateList") List<String> processDateList);
 }
