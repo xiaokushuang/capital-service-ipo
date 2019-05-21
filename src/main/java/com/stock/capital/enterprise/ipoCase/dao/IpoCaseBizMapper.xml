@@ -171,7 +171,7 @@
 
   <select id="getDevCompute" parameterType="string"
     resultType="com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyTableDto">
-    SELECT '研发费用' AS labelName, dev_input_fi AS firstYearValue, dev_input_se AS secondYearValue,
+    SELECT '研发投入' AS labelName, dev_input_fi AS firstYearValue, dev_input_se AS secondYearValue,
     dev_input_th AS thirdYearValue, dev_input_fo AS forthYearValue, dev_input_fi + dev_input_se + dev_input_th + dev_input_fo AS allNumValue
     FROM ipo_technology WHERE bid = #{bid}
     UNION
@@ -179,7 +179,7 @@
     trade_th AS thirdYearValue, trade_fo AS forthYearValue, trade_fi + trade_se + trade_th + trade_fo AS allNumValue
     FROM ipo_technology WHERE bid =  #{bid}
     UNION
-    SELECT '研发费用占营业收入的比例' AS labelName, TRUNCATE(dev_input_fi/trade_fi,4)*100 AS firstYearValue, TRUNCATE(dev_input_se/trade_se,4)*100 AS secondYearValue, TRUNCATE(dev_input_th/trade_th,4)*100 AS thirdYearValue, TRUNCATE(dev_input_fo/trade_fo,4)*100 AS forthYearValue,
+    SELECT '研发投入占营业收入的比例' AS labelName, TRUNCATE(dev_input_fi/trade_fi,4)*100 AS firstYearValue, TRUNCATE(dev_input_se/trade_se,4)*100 AS secondYearValue, TRUNCATE(dev_input_th/trade_th,4)*100 AS thirdYearValue, TRUNCATE(dev_input_fo/trade_fo,4)*100 AS forthYearValue,
     TRUNCATE((dev_input_fi + dev_input_se + dev_input_th + dev_input_fo)/(trade_fi + trade_se + trade_th + trade_fo),4)*100 AS allNumValue
     FROM ipo_technology WHERE bid =  #{bid}
   </select>
