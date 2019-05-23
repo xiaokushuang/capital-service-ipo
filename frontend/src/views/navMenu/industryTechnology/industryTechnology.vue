@@ -441,7 +441,6 @@ export default {
       getIndustryStatus(param).then(res=>{
         if(res.data.result&&res.data.result.length>0){
           this.industryStatus = res.data.result
-          console.log('行业地位',this.industryStatus)
         }
       })
     //   主要竞争对手简介接口
@@ -477,12 +476,10 @@ export default {
                if(res.data.result&&res.data.result.coreDate.firstYearDate){
                   // 核心技术时间
                  this.coreTechnologyTitle = res.data.result.coreDate
-                 console.log('核心技术时间',this.coreTechnologyTitle)
               }
               if(res.data.result&&res.data.result.coreData.length>0){
                   // 核心技术内容
                  this.coreTechnologyTableData = res.data.result.coreData
-                 console.log('核心技术内容',this.coreTechnologyTableData)
                  this.getPosition()
               }
               // 备注框

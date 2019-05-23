@@ -65,7 +65,7 @@
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)" style="cursor: pointer;"
                                                    @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)" @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')">&nbsp;&nbsp;</span>
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)"
-                                                   @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)" @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')" v-if="item.lastDay != undefined" style="display:inline-block;width: 69%;cursor: pointer;">距离上个进程{{item.lastDay}}天</span>
+                                                   @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)" @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')" v-if="item.lastDay != undefined" style="display:inline-block;width: 68%;cursor: pointer;">距离上个进程{{item.lastDay}}天</span>
                                             <!-- 前面图标 -->
                                             <div :id="'each' +  item.progressIndex" style="display:none;">
                                                 <div :ref=' item.progressIndex' :class="'abc'+ item.progressIndex"></div>
@@ -159,7 +159,7 @@
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)" style="cursor: pointer;"
                                                    @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)" @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')">&nbsp;&nbsp;</span>
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)"
-                                                   @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)"  @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')" v-if="item.lastDay != undefined" style="display:inline-block;width: 69%;cursor: pointer;">距离上个进程{{item.lastDay}}天</span>
+                                                   @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)"  @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')" v-if="item.lastDay != undefined" style="display:inline-block;width: 68%;cursor: pointer;">距离上个进程{{item.lastDay}}天</span>
                                             <!-- 前面图标 -->
                                             <div :id="'each' +  item.progressIndex" style="display:none;">
                                                 <div :ref=' item.progressIndex' :class="'abc'+ item.progressIndex"></div>
@@ -682,81 +682,87 @@ export default {
     }
 }
 .htg{
-    font-size: 14px;
+    font-size: 12px;
     position: relative;
     left: 38%;
     top: -20px;
     color: #14BCF5;
     padding:5px;
+    padding-left: 10px;
+    padding-right: 7px;
     padding-right:5px;
     line-height:10px;
     display:inline-block;
 }
 .wtg{
-    font-size: 14px;
+    font-size: 12px;
     position: relative;
     left: 38%;
     top: -20px;
     color: #FE5461;
     padding: 5px;
-    padding-right: 10px;
-    padding-left: 12px;
+    padding-left: 10px;
+    padding-right: 7px;
     line-height: 10px;
     display: inline-block;
 }
 .tg{
-    font-size: 14px;
+    font-size: 12px;
     position: relative;
     left: 38%;
     top: -20px;
     color: #14BCF5;
     padding:5px;
-    padding-left:10px;
-    padding-right:5px;
+    padding-left: 10px;
+    padding-right: 7px;
     line-height:10px;
     display:inline-block;
 }
 .whtg{
-    font-size: 14px;
+    font-size: 12px;
     position: relative;
     left: 38%;
     top: -20px;
     color: #FE5461;
     padding:5px;
-    padding-right:5px;
+    padding-left: 10px;
+    padding-right: 7px;
     line-height:10px;
     display:inline-block;
 }
 .zhbj{
-    font-size: 14px;
+    font-size: 12px;
     position: relative;
     left: 38%;
     top: -20px;
     color: #FF9900;
-    padding:5px;
-    padding-right:5px;
+    padding:5px;   
+     padding-left: 10px;
+    padding-right: 7px;
     line-height:10px;
     display:inline-block;
 }
 .qxsh{
-    font-size: 14px;
+    font-size: 12px;
     position: relative;
     left: 38%;
     top: -20px;
     color: #94A3B4;
     padding:5px;
-    padding-right:5px;
+        padding-left: 10px;
+    padding-right: 7px;
     line-height:10px;
     display:inline-block;
 }
 .dsh{
-    font-size: 14px;
+    font-size: 12px;
     position: relative;
     left: 38%;
     top: -20px;
     color: #ffd800;
     padding:5px;
-    padding-right:5px;
+    padding-left: 10px;
+    padding-right: 7px;
     line-height:10px;
     display:inline-block;
 }

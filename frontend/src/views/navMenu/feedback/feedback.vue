@@ -261,7 +261,6 @@ export default {
         id: this.caseId
       };
       getSelectFeedbackList(param).then(res => {
-        console.log('反馈意见一级标签',res.data.result)
          
         if (res.data.result && res.data.result.length > 0) {
           this.o_letterId = res.data.result[0].letterId;
@@ -459,18 +458,15 @@ export default {
         secondLabelId: secondLabel,
         onlyResponse: onlyResponse
       };
-      console.log('子组件调用父组件方法',param)
       getSelectQuestionList(param).then(res => {
         // 当只有一个tab页时
         if (this.tabList.length == 1) {
           if (res.data.result.length > 0) {
             this.allQuestionList = res.data.result[0].questionList;
-            console.log('all222',this.allQuestionList)
             this.questionCount = res.data.result[0].questionCount;
             this.answerCount = res.data.result[0].answerCount;
             if (ifReset != "0") {
               this.feedbackduoxuanList = res.data.result[0].questionLabelList;
-              console.log('多选数据',this.feedbackduoxuanList)
             }
             if (this.allQuestionList.length > 15) {
               this.showMore = true;
@@ -790,7 +786,6 @@ export default {
     },
     // 点击二级菜单过滤出问题列表
     initOnlyQuestionData(letterId, firstLabelId, secondLabelId, onlyResponse) {
-      console.log("多选按钮参数", secondLabelId);
       // 动态传id
       // 将second多选按钮参数用字符串，隔开
       let secondLabel = "";
@@ -808,9 +803,7 @@ export default {
         secondLabelId: secondLabel,
         onlyResponse: onlyResponse
       };
-      console.log("param", param);
       getSelectQuestionList(param).then(res => {
-        console.log('反馈结果',res.data.result)
         // 当只有一个tab页时
         if (this.tabList.length == 1) {
           if (res.data.result.length > 0) {

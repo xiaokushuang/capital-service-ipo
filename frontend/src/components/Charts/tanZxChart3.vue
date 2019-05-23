@@ -6,41 +6,45 @@
 
 <script>
 import echarts from 'echarts'
-// 引入点击放大镜弹出来的表头年限数据
-import { getSelectMainIndexList } from '@/api/ipoCase/tableDemo'
 export default {
   name:'tanZxChart3',
   data() {
     return {
-        tableTitle:null,
         zxChartX:[],
         zxChartY:[],
-        caseId:this.$store.state.app.caseId,
         unitName:''
     }
   },
   props:["zxChartData"],
+  mounted(){
+    this.initChart()
+  },
   methods: {
     unitNameMethods(){
-        if(this.zxChartData.itemName=='流动比率' || this.zxChartData.itemName=='速动比率'){
+      if(this.zxChartData[2]){
+        if(this.zxChartData[0].itemName=='流动比率' || this.zxChartData[0].itemName=='速动比率'){
             this.unitName = '(倍)'
         }
-         if(this.zxChartData.itemName=='资产负债率' || this.zxChartData.itemName=='无形资产占净资产的比例' || this.zxChartData.itemName=='加权平均净资产收益率' ){
+         if(this.zxChartData[0].itemName=='资产负债率' || this.zxChartData[0].itemName=='无形资产占净资产的比例' || this.zxChartData[0].itemName=='加权平均净资产收益率' ){
             this.unitName = '(%)'
         }
-         if(this.zxChartData.itemName=='应收账款周转率'){
+         if(this.zxChartData[0].itemName=='应收账款周转率'){
             this.unitName = '(次)'
         }
-         if(this.zxChartData.itemName=='息税折旧摊销前利润/负债合计'){
+         if(this.zxChartData[0].itemName=='息税折旧摊销前利润/负债合计'){
             this.unitName = '(万元)'
         }
-         if(this.zxChartData.itemName=='基本每股收益' || this.zxChartData.itemName=='扣除非经常性损益后的基本每股收益'){
+         if(this.zxChartData[0].itemName=='基本每股收益' || this.zxChartData[0].itemName=='扣除非经常性损益后的基本每股收益'){
             this.unitName = '(元/股)'
+        }
+      }
+        else{
+           this.unitName = '(万元)'
         }
     },
     initChart() {
       this.unitNameMethods()
-      let tanZxChart3 = echarts.init(document.getElementById('tanZxChart3'))
+        let tanZxChart3 = echarts.init(document.getElementById('tanZxChart3'))
        tanZxChart3.setOption({
            title: {
                 text: ''
@@ -75,29 +79,19 @@ export default {
     },
       // 初始化数据
     initTableData() {
-          // 动态传id
-      const param = {
-        id:this.caseId
-      }
-      getSelectMainIndexList(param).then(response => {
-        if(response.data.result&&response.data.result.dateList){
-          this.tableTitle = response.data.result.dateList
-        }
-          // 获取表头数据
-        this.zxChartX =[this.tableTitle.firstYearDate,this.tableTitle.secondYearDate,this.tableTitle.thirdYearDate,this.tableTitle.forthYearDate]
+        this.zxChartX =[this.zxChartData[1].firstYearDate,this.zxChartData[1].secondYearDate,this.zxChartData[1].thirdYearDate,this.zxChartData[1].forthYearDate]
         this.zxChartY = [
                       {
-                          name:this.zxChartData.itemName,
+                          name:this.zxChartData[0].itemName,
                           type:'line',
-                          data:[this.zxChartData.firstYearValue, this.zxChartData.secondYearValue, this.zxChartData.thirdYearValue,this.zxChartData.forthYearValue],
+                          data:[this.zxChartData[0].firstYearValue, this.zxChartData[0].secondYearValue, this.zxChartData[0].thirdYearValue,this.zxChartData[0].forthYearValue],
                           areaStyle: {
                             shadowColor: ['#ffefeb','#fff8f6'],
                             opacity: 0.1
                           }
                       },
                   ]
-        this.initChart()
-      })
+        
     },
   },
   // 动态实时监听刷新折线图的数据
@@ -105,11 +99,9 @@ export default {
     zxChartData: {  
 　　　　handler(newValue, oldValue) {  
         this.zxChartData = newValue
-        console.log('33333333',this.zxChartData)
         //折线图数据的初始化 
         this.initTableData()
 　　　　},  
-
 　　　　deep: true,  //对象内部的属性监听，也叫深度监听
        immediate: true //immediate表示在watch中首次绑定的时候，是否执行handler，值为true则表示在watch中声明的时候，就立即执行handler方法，值为false，则和一般使用watch一样，在数据发生变化的时候才执行handler
 　　}  

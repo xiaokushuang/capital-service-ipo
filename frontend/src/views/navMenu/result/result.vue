@@ -21,7 +21,7 @@
                                 <span class="zhbjResult" v-if="baseList[0].iecResult=='02'">暂缓表决</span>
                                 <span class="qxshResult" v-if="baseList[0].iecResult=='03'">取消审核</span>
                                 <span class="dshResult"  v-if="baseList[0].iecResult=='04'">待审核</span>
-                                <span class="htgResult"  v-if="baseList[0].iecResult=='05'">通过</span>
+                                <span class="tgResult"  v-if="baseList[0].iecResult=='05'">通过</span>
                                 <span class="whtgResult" v-if="baseList[0].iecResult=='06'">未通过</span>
                                 <span class="htgResult"  v-if="baseList[0].iecResult=='07'">注册生效</span>
                                 <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
@@ -63,7 +63,19 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第一次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span>
+                            <span>
+                                <span class="htgResult"  v-if="baseList[0].iecResult=='00'">获通过</span>
+                                <span class="whtgResult" v-if="baseList[0].iecResult=='01'">未获通过</span>
+                                <span class="zhbjResult" v-if="baseList[0].iecResult=='02'">暂缓表决</span>
+                                <span class="qxshResult" v-if="baseList[0].iecResult=='03'">取消审核</span>
+                                <span class="dshResult"  v-if="baseList[0].iecResult=='04'">待审核</span>
+                                <span class="tgResult"   v-if="baseList[0].iecResult=='05'">通过</span>
+                                <span class="whtgResult" v-if="baseList[0].iecResult=='06'">未通过</span>
+                                <span class="htgResult"  v-if="baseList[0].iecResult=='07'">注册生效</span>
+                                <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
+                                <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待审核</span>
+                            </span>
+                            <!-- <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span> -->
                         </p>
                     </div>
                     <div class="text ">
@@ -98,7 +110,19 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第二次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[1].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03','dshResult' : baseList[1].iecResult == '04'}">{{ baseList[1].iecResultStr}}</span>
+                            <span>
+                                <span class="htgResult"  v-if="baseList[1].iecResult=='00'">获通过</span>
+                                <span class="whtgResult" v-if="baseList[1].iecResult=='01'">未获通过</span>
+                                <span class="zhbjResult" v-if="baseList[1].iecResult=='02'">暂缓表决</span>
+                                <span class="qxshResult" v-if="baseList[1].iecResult=='03'">取消审核</span>
+                                <span class="dshResult"  v-if="baseList[1].iecResult=='04'">待审核</span>
+                                <span class="tgResult"  v-if="baseList[1].iecResult=='05'">通过</span>
+                                <span class="whtgResult" v-if="baseList[1].iecResult=='06'">未通过</span>
+                                <span class="htgResult"  v-if="baseList[1].iecResult=='07'">注册生效</span>
+                                <span class="whtgResult" v-if="baseList[1].iecResult=='08'">不予注册</span>
+                                <span class="dshResult"  v-if="baseList[1].iecResult=='09'">待审核</span>
+                            </span>
+                            <!-- <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03','dshResult' : baseList[1].iecResult == '04'}">{{ baseList[1].iecResultStr}}</span> -->
                         </p>
                     </div>
                     <div class="text ">
@@ -135,7 +159,19 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第一次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span>
+                            <span>
+                                <span class="htgResult"  v-if="baseList[0].iecResult=='00'">获通过</span>
+                                <span class="whtgResult" v-if="baseList[0].iecResult=='01'">未获通过</span>
+                                <span class="zhbjResult" v-if="baseList[0].iecResult=='02'">暂缓表决</span>
+                                <span class="qxshResult" v-if="baseList[0].iecResult=='03'">取消审核</span>
+                                <span class="dshResult"  v-if="baseList[0].iecResult=='04'">待审核</span>
+                                <span class="tgResult"  v-if="baseList[0].iecResult=='05'">通过</span>
+                                <span class="whtgResult" v-if="baseList[0].iecResult=='06'">未通过</span>
+                                <span class="htgResult"  v-if="baseList[0].iecResult=='07'">注册生效</span>
+                                <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
+                                <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待审核</span>
+                            </span>
+                            <!-- <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span> -->
                         </p>
                     </div>
                     <div class="text ">
@@ -170,7 +206,19 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第二次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[1].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03','dshResult' : baseList[1].iecResult == '04'}">{{ baseList[1].iecResultStr}}</span>
+                            <span>
+                                <span class="htgResult"  v-if="baseList[1].iecResult=='00'">获通过</span>
+                                <span class="whtgResult" v-if="baseList[1].iecResult=='01'">未获通过</span>
+                                <span class="zhbjResult" v-if="baseList[1].iecResult=='02'">暂缓表决</span>
+                                <span class="qxshResult" v-if="baseList[1].iecResult=='03'">取消审核</span>
+                                <span class="dshResult"  v-if="baseList[1].iecResult=='04'">待审核</span>
+                                <span class="tgResult"  v-if="baseList[1].iecResult=='05'">通过</span>
+                                <span class="whtgResult" v-if="baseList[1].iecResult=='06'">未通过</span>
+                                <span class="htgResult"  v-if="baseList[1].iecResult=='07'">注册生效</span>
+                                <span class="whtgResult" v-if="baseList[1].iecResult=='08'">不予注册</span>
+                                <span class="dshResult"  v-if="baseList[1].iecResult=='09'">待审核</span>
+                            </span>
+                            <!-- <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03','dshResult' : baseList[1].iecResult == '04'}">{{ baseList[1].iecResultStr}}</span> -->
                         </p>
                     </div>
                     <div class="text ">
@@ -205,7 +253,19 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第三次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[2].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[2].iecResult == '00','whtgResult' : baseList[2].iecResult == '01','zhbjResult' : baseList[2].iecResult == '02','qxshResult' : baseList[2].iecResult == '03','dshResult' : baseList[2].iecResult == '04'}">{{ baseList[2].iecResultStr}}</span>
+                            <span>
+                                <span class="htgResult"  v-if="baseList[2].iecResult=='00'">获通过</span>
+                                <span class="whtgResult" v-if="baseList[2].iecResult=='01'">未获通过</span>
+                                <span class="zhbjResult" v-if="baseList[2].iecResult=='02'">暂缓表决</span>
+                                <span class="qxshResult" v-if="baseList[2].iecResult=='03'">取消审核</span>
+                                <span class="dshResult"  v-if="baseList[2].iecResult=='04'">待审核</span>
+                                <span class="tgResult"  v-if="baseList[2].iecResult=='05'">通过</span>
+                                <span class="whtgResult" v-if="baseList[2].iecResult=='06'">未通过</span>
+                                <span class="htgResult"  v-if="baseList[2].iecResult=='07'">注册生效</span>
+                                <span class="whtgResult" v-if="baseList[2].iecResult=='08'">不予注册</span>
+                                <span class="dshResult"  v-if="baseList[2].iecResult=='09'">待审核</span>
+                            </span>
+                            <!-- <span  :class="{'htgResult' : baseList[2].iecResult == '00','whtgResult' : baseList[2].iecResult == '01','zhbjResult' : baseList[2].iecResult == '02','qxshResult' : baseList[2].iecResult == '03','dshResult' : baseList[2].iecResult == '04'}">{{ baseList[2].iecResultStr}}</span> -->
                         </p>
                     </div>
                     <div class="text ">
@@ -1449,45 +1509,66 @@ export default {
     background:url('../../../assets/images/quan.png') no-repeat;
 }
 .zhbjResult{
-     font-size: 14px;
+     font-size: 12px;
      color: #FF9900;
      padding:5px;
      line-height:10px;
+    padding-left: 10px;
+    padding-right: 7px;
      display:inline-block;
       background-size:cover;
      background:url('../../../assets/images/zhbj.png') no-repeat;
 }
 .whtgResult{
-     font-size: 14px;
+     font-size: 12px;
      color: #FE5461;
      padding:5px;
      line-height:10px;
+    padding-left: 10px;
+    padding-right: 7px;
      display:inline-block;
      background-size:cover;
      background:url('../../../assets/images/whtg.png') no-repeat;
 }
 .htgResult{
-     font-size: 14px;
+     font-size: 12px;
      color: #14BCF5;
      padding:5px;
+     padding-left: 10px;
+    padding-right: 7px;
      line-height:10px;
      display:inline-block;
       background-size:cover;
      background:url('../../../assets/images/htg.png') no-repeat;
 }
+.tgResult{
+     font-size: 12px;
+     color: #14BCF5;
+     padding:5px;
+     line-height:10px;
+     display:inline-block;
+     background-size:cover;
+    padding-left: 10px;
+    padding-right: 7px;
+     background:url('../../../assets/images/tg.png') no-repeat;
+}
 .qxshResult{
-     font-size: 14px;
+     font-size: 12px;
      color: #94A3B4;
      padding:5px;
+     padding-left: 10px;
+    padding-right: 7px;
      line-height:10px;
      display:inline-block;
       background-size:cover;
      background:url('../../../assets/images/qxsh.png') no-repeat;
 }
 .dshResult{
-     font-size: 14px;
+     font-size: 12px;
      color: #ffd800;
      padding:5px;
+     padding-left: 10px;
+    padding-right: 7px;
      line-height:10px;
      display:inline-block;
      background-size:cover;

@@ -161,8 +161,9 @@
      
     </el-table>
     <!-- 点击放大镜弹出的折线图 -->
-    <el-dialog :title="this.zxChartData?'公司最近三年'  +this.zxChartData.itemName+'_趋势':''" :visible.sync="dialogChartVisible">
-       <tanZxChart :zxChartData = "this.zxChartData"></tanZxChart>
+    <el-dialog :title="this.zxChartData?'公司最近三年'  +this.zxChartData.itemName+'_趋势':''" :visible.sync="dialogChartVisible" v-if="dialogChartVisible">
+       <!-- <tanZxChart :zxChartData = "this.zxChartData"></tanZxChart> -->
+        <tanZxChart3 :zxChartData = "[this.zxChartData,this.assetsOrDeptTableList[0],this.flag]"></tanZxChart3>
        <!-- <tanZxChart3 :zxChartData = "this.zxChartData" :zxChartTitle = "assetsOrDeptTableList[0]"></tanZxChart3> -->
     </el-dialog>
 
@@ -173,12 +174,13 @@
 // 引入点击放大镜弹出来的表头年限数据
 import { getAssetsOrDebtData } from '@/api/ipoCase/tableDemo'
 import echarts from 'echarts'
-import tanZxChart  from '@/components/Charts/tanZxChart'
+import tanZxChart3  from '@/components/Charts/tanZxChart3'
   export default {
     data() {
     return {
       // 弹窗
-        tanZxChart:null,
+        flag:false,//判断是否是主要财务指标
+        tanZxChart3:null,
          assetsOrDeptTableTitle: {
         forthYearDate:'',
         thirdYearValue:'',
@@ -197,7 +199,7 @@ import tanZxChart  from '@/components/Charts/tanZxChart'
     }
   },
     components:{
-      tanZxChart
+      tanZxChart3
     },
     props:[ "assetsOrDeptTableList"],
     created(){
