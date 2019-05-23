@@ -260,9 +260,9 @@ public class IpoExamineService extends BaseService {
         for (IpoExamineBaseDto baseDto : baseList) {
             String title = baseDto.getRelationFileTitle();
             if(StringUtils.isEmpty(title)){
-                title = baseDto.getCompanyName()+"会议";
+                title = baseDto.getCompanyName()+"次";
             }
-            title = title.substring(0, title.indexOf("会议")) + "工作会议";
+            title = title.substring(0, title.indexOf("次")) + "会议";
             baseDto.setRelationFileTitle(title);
             //查询发审会委员
             String examineDate = baseDto.getExamineDate();
