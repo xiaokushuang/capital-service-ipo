@@ -177,7 +177,7 @@ export default {
           this.questionList3 = this.allQuestionList3;
         }
       }
-       if(this.tabList.length==4){
+      if(this.tabList.length==4){
         this.showLength+=15
         if(this.allQuestionList.length > this.showLength){
           this.showMore = true;
@@ -211,7 +211,7 @@ export default {
           this.questionList4 = this.allQuestionList4;
         }
       }
-        if(this.tabList.length==5){
+      if(this.tabList.length==5){
         this.showLength+=15
         if(this.allQuestionList.length > this.showLength){
           this.showMore = true;
@@ -253,7 +253,6 @@ export default {
           this.questionList5 = this.allQuestionList5;
         }
       }
-      
     },
     // 获取单选按钮数据
     initTableData() {
@@ -263,11 +262,12 @@ export default {
       };
       getSelectFeedbackList(param).then(res => {
         console.log('反馈意见一级标签',res.data.result)
-         // 第一个tab
+         
         if (res.data.result && res.data.result.length > 0) {
           this.o_letterId = res.data.result[0].letterId;
           this.tabList = res.data.result;
           this.activeName = this.tabList[0].letterId;
+          // 第一个tab
           if (this.tabList && this.tabList.length == 1) {
             this.allQuestionList = res.data.result[0].questionList;
             this.questionCount = res.data.result[0].questionCount;
@@ -309,11 +309,11 @@ export default {
             this.allQuestionList2 = res.data.result[1].questionList;
             this.allQuestionList3 = res.data.result[2].questionList;
             this.questionCount = res.data.result[0].questionCount;
+            this.questionCount2 = res.data.result[1].questionCount;
+            this.questionCount3 = res.data.result[2].questionCount;
             this.answerCount = res.data.result[0].answerCount;
-            this.questionCount1 = res.data.result[1].questionCount;
-            this.answerCount1 = res.data.result[1].answerCount;
-            this.questionCount2 = res.data.result[2].questionCount;
-            this.answerCount2 = res.data.result[2].answerCount;
+            this.answerCount2 = res.data.result[1].answerCount;
+            this.answerCount3 = res.data.result[2].answerCount;
             if (this.allQuestionList.length > 15) {
               this.showMore = true;
               this.questionList = this.allQuestionList.slice(0, 15);
@@ -334,6 +334,102 @@ export default {
             } else {
               this.showMore3 = false;
               this.questionList3 = this.allQuestionList3;
+            }
+          }
+          // 第四个tab
+          if (this.tabList && this.tabList.length == 4) {
+            this.allQuestionList = res.data.result[0].questionList;
+            this.allQuestionList2 = res.data.result[1].questionList;
+            this.allQuestionList3 = res.data.result[2].questionList;
+            this.allQuestionList4 = res.data.result[3].questionList;
+            this.questionCount = res.data.result[0].questionCount;
+            this.questionCount2 = res.data.result[1].questionCount;
+            this.questionCount3 = res.data.result[2].questionCount;
+            this.questionCount4 = res.data.result[3].questionCount;
+            this.answerCount = res.data.result[0].answerCount;
+            this.answerCount2 = res.data.result[1].answerCount;
+            this.answerCount3 = res.data.result[2].answerCount;
+            this.answerCount4 = res.data.result[3].answerCount;
+            if (this.allQuestionList.length > 15) {
+              this.showMore = true;
+              this.questionList = this.allQuestionList.slice(0, 15);
+            } else {
+              this.showMore = false;
+              this.questionList = this.allQuestionList;
+            }
+            if (this.allQuestionList2.length > 15) {
+              this.showMore2 = true;
+              this.questionList2 = this.allQuestionList2.slice(0, 15);
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = this.allQuestionList2;
+            }
+            if (this.allQuestionList3.length > 15) {
+              this.showMore3 = true;
+              this.questionList3 = this.allQuestionList3.slice(0, 15);
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = this.allQuestionList3;
+            }
+            if (this.allQuestionList4.length > 15) {
+              this.showMore4 = true;
+              this.questionList4 = this.allQuestionList4.slice(0, 15);
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = this.allQuestionList4;
+            }
+          }
+           // 第五个tab
+          if (this.tabList && this.tabList.length == 5) {
+            this.allQuestionList = res.data.result[0].questionList;
+            this.allQuestionList2 = res.data.result[1].questionList;
+            this.allQuestionList3 = res.data.result[2].questionList;
+            this.allQuestionList4 = res.data.result[3].questionList;
+            this.allQuestionList5 = res.data.result[4].questionList;
+            this.questionCount = res.data.result[0].questionCount;
+            this.questionCount2 = res.data.result[1].questionCount;
+            this.questionCount3 = res.data.result[2].questionCount;
+            this.questionCount4 = res.data.result[3].questionCount;
+            this.questionCount5 = res.data.result[4].questionCount;
+            this.answerCount = res.data.result[0].answerCount;
+            this.answerCount2 = res.data.result[1].answerCount;
+            this.answerCount3 = res.data.result[2].answerCount;
+            this.answerCount4 = res.data.result[3].answerCount;
+            this.answerCount5 = res.data.result[4].answerCount;
+            if (this.allQuestionList.length > 15) {
+              this.showMore = true;
+              this.questionList = this.allQuestionList.slice(0, 15);
+            } else {
+              this.showMore = false;
+              this.questionList = this.allQuestionList;
+            }
+            if (this.allQuestionList2.length > 15) {
+              this.showMore2 = true;
+              this.questionList2 = this.allQuestionList2.slice(0, 15);
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = this.allQuestionList2;
+            }
+            if (this.allQuestionList3.length > 15) {
+              this.showMore3 = true;
+              this.questionList3 = this.allQuestionList3.slice(0, 15);
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = this.allQuestionList3;
+            }
+            if (this.allQuestionList4.length > 15) {
+              this.showMore4 = true;
+              this.questionList4 = this.allQuestionList4.slice(0, 15);
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = this.allQuestionList4;
+            }
+            if (this.allQuestionList5.length > 15) {
+              this.showMore5 = true;
+              this.questionList5 = this.allQuestionList5.slice(0, 15);
+            } else {
+              this.showMore5 = false;
+              this.questionList5 = this.allQuestionList5;
             }
           }
         }
@@ -668,7 +764,7 @@ export default {
               this.questionList4 = [];
             }
           }
-           if (param.letterId == this.tabList[4].letterId) {
+          if (param.letterId == this.tabList[4].letterId) {
             if (res.data.result.length > 0) {
               this.allQuestionList5 = res.data.result[0].questionList;
               this.questionCount5 = res.data.result[0].questionCount;
@@ -695,7 +791,6 @@ export default {
     // 点击二级菜单过滤出问题列表
     initOnlyQuestionData(letterId, firstLabelId, secondLabelId, onlyResponse) {
       console.log("多选按钮参数", secondLabelId);
-      // debugger
       // 动态传id
       // 将second多选按钮参数用字符串，隔开
       let secondLabel = "";
