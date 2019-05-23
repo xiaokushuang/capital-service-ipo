@@ -486,16 +486,20 @@
                       {{scope.row.processLabel}}
                       <br/>
                       <span>
-                        <span class="htgResult"  v-if="scope.row.iecResult==='00'">获通过</span>
-                        <span class="whtgResult" v-if="scope.row.iecResult==='01'">未获通过</span>
-                        <span class="zhbjResult" v-if="scope.row.iecResult==='02'">暂缓表决</span>
-                        <span class="qxshResult" v-if="scope.row.iecResult==='03'">取消审核</span>
-                        <span class="dshResult"  v-if="scope.row.iecResult==='04'">待审核</span>
-                        <span class="tgResult"  v-if="scope.row.iecResult==='05'">通过</span>
-                        <span class="wtgResult" v-if="scope.row.iecResult==='06'">未通过</span>
-                        <span class="htgResult"  v-if="scope.row.iecResult==='07'">注册生效</span>
-                        <span class="whtgResult" v-if="scope.row.iecResult==='08'">不予注册</span>
-                        <span class="dshResult"  v-if="scope.row.iecResult==='09'">待审核</span>
+                        <span v-if="scope.row.registerResult!=null">
+                          <span class="zcsxResult"  v-if="scope.row.registerResult==='07'">注册生效</span>
+                          <span class="whtgResult" v-if="scope.row.registerResult==='08'">不予注册</span>
+                        </span>
+                        <span v-else>
+                          <span class="htgResult"  v-if="scope.row.iecResult==='00'">获通过</span>
+                          <span class="whtgResult" v-if="scope.row.iecResult==='01'">未获通过</span>
+                          <span class="zhbjResult" v-if="scope.row.iecResult==='02'">暂缓表决</span>
+                          <span class="qxshResult" v-if="scope.row.iecResult==='03'">取消审核</span>
+                          <span class="dshResult"  v-if="scope.row.iecResult==='04'">待审核</span>
+                          <span class="tgResult"  v-if="scope.row.iecResult==='05'">通过</span>
+                          <span class="wtgResult" v-if="scope.row.iecResult==='06'">未通过</span>
+                          <span class="dshResult"  v-if="scope.row.iecResult==='09'">待审核</span>
+                        </span>
                       </span>
                     </template>
                   </el-table-column>
@@ -1765,6 +1769,16 @@
      display:inline-block;
       background-size:cover;
      background:url('../../assets/images/htg.png') no-repeat;
+}
+.zcsxResult{
+   font-size: 12px;
+     color: #14BCF5;
+     padding:5px;
+     padding-left: 10px;
+     line-height:10px;
+     display:inline-block;
+      background-size:cover;
+     background:url('../../assets/images/zcsx.png') no-repeat;
 }
 .tgResult{
      font-size: 13px;
