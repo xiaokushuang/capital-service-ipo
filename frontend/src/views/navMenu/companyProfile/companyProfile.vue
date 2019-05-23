@@ -130,7 +130,7 @@
           </li>
           <li style=" width: 33%;">
             <span>直接或间接持有发行人股份</span>&nbsp;&nbsp;
-            <span v-if="item.shareProportion" style="color:black">{{item.shareProportion}}</span>
+            <span v-if="item.shareProportion" style="color:black">{{item.shareProportion}}%</span>
             <span v-else style="color:black">- -</span>
           </li>
         </ul>

@@ -55,8 +55,8 @@
         </div>
         <div v-if="maoChartTableData&&maoChartTableData.length>0" >
             <div class="chartTable" v-for="item,index in maoChartTableData" :key="item.id">
-                <p style="font-family:'PingFang-SC-Regular', 'PingFang SC';font-weight:400;color:#333;font-size:16px; margin-top: 30px;margin-bottom:0px">{{item.title}}</p>
-                <p style="font-family:'PingFang-SC-Regular', 'PingFang SC';font-weight:400;color:#666666;font-size:14px; margin-top: 30px;margin-bottom:0px">{{item.remark}}</p>
+                <p style="font-family:'PingFang-SC-Regular', 'PingFang SC';font-weight:400;color:#333;font-size:16px; margin-top: 0px;margin-bottom:0px">{{item.title}}</p>
+                <p style="font-family:'PingFang-SC-Regular', 'PingFang SC';font-weight:400;color:#666666;font-size:14px; margin-top: 12px;margin-bottom:0px">{{item.remark}}</p>
                 <div class="zxChart" style="height:300px;width:100%; ">
                     <zxChart v-if="maoChartTableData&&maoChartTableData.length>0" ref="zxChart" :zxIndex = "index"></zxChart>
                 </div>
@@ -136,7 +136,7 @@
         </div>
     </div>
     <!-- 专利情况 -->
-    <div  class="patentSituation">
+    <!-- <div  class="patentSituation">
        <div v-if="patentSituationTableData&&patentSituationTableData.length>0"  class="title" >
             <span class="littleRectangle"></span>
             <span class="titleText" id="patentSituation">专利情况</span>
@@ -213,13 +213,12 @@
             label="占比">
              <template slot-scope="scope">
               <span v-if="scope.row.zb"> {{scope.row.zb | dataInThRule}}%
-                <!-- <span v-if="scope.row.labelName === '占比'">%</span> -->
               </span>
               <span v-else> - - </span>
            </template>
           </el-table-column>
         </el-table>
-    </div>
+    </div> -->
     <!-- 研发投入 -->
     <div class="yfSpending">
         <div v-if="yfSpendingTableData&&yfSpendingTableData.length>0"  class="title" >
@@ -490,9 +489,6 @@ export default {
                 if(res.data.result&&res.data.result.remarksData!=null){
                  this.remarksData = res.data.result.remarksData
               }
-           
-            console.log('科技创新',res)
-            console.log('专利情况',this.patentSituationTableData)
               this.getPosition()
           }) 
     },
@@ -517,14 +513,14 @@ export default {
                     tabId: 'tab-sixth',
                     noClick: true
           } 
-           let patentSituation = {
-                    id: 'patentSituation',
-                    name: '专利情况',
-                    notes: '',
-                    important: false,
-                    tabId: 'tab-sixth',
-                    noClick: true
-          } 
+          //  let patentSituation = {
+          //           id: 'patentSituation',
+          //           name: '专利情况',
+          //           notes: '',
+          //           important: false,
+          //           tabId: 'tab-sixth',
+          //           noClick: true
+          // } 
            let yfSpending = {
                     id: 'yfSpending',
                     name: '研发投入',
@@ -547,9 +543,10 @@ export default {
           if(this.MajorCompetitors&&this.MajorCompetitors.length>0){
             mainCompetitors.noClick = false;
           }
-           if(this.patentSituationTableData&&this.patentSituationTableData.length>0){
-            patentSituation.noClick = false;
-          }             
+          // 专利情况
+          //  if(this.patentSituationTableData&&this.patentSituationTableData.length>0){
+          //   patentSituation.noClick = false;
+          // }             
           if(this.yfSpendingTableData&&this.yfSpendingTableData.length>0){
             yfSpending.noClick = false;
           }
@@ -558,7 +555,7 @@ export default {
           }
           titleList.push(mainCompetitors)
           titleList.push(comparison)
-          titleList.push(patentSituation)
+          // titleList.push(patentSituation)
           titleList.push(yfSpending)
           titleList.push(coreTechnology)
           this.$emit('headCallBack', titleList);
