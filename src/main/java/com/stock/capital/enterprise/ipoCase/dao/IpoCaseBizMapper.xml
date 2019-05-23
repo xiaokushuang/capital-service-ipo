@@ -367,7 +367,7 @@
     FROM
       ipo_process
     WHERE
-      process_type_code = '07' or process_type_code = '35'
+      (process_type_code = '07' or process_type_code = '35')
     AND bid = #{id}
     ORDER BY
       process_time DESC
