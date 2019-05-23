@@ -262,7 +262,7 @@ public class IpoExamineService extends BaseService {
             if(StringUtils.isEmpty(title)){
                 title = baseDto.getCompanyName()+"次";
             }
-            title = title.substring(0, title.indexOf("次")) + "会议";
+            title = title.substring(0, title.indexOf("次")+1) + "会议";
             baseDto.setRelationFileTitle(title);
             //查询发审会委员
             String examineDate = baseDto.getExamineDate();
