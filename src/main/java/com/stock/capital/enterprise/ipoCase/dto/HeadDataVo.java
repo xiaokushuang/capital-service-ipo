@@ -58,6 +58,9 @@ public class HeadDataVo implements Serializable {
     @ApiModelProperty("页面是否置灰显示 1: 灰色 0: 不是灰色")
     private Integer isGray;
 
+    @ApiModelProperty("注册结果 07：注册生效 08：不予注册")
+    private String registerResult;
+
     public String getTitle() {
         return title;
     }
@@ -160,5 +163,13 @@ public class HeadDataVo implements Serializable {
 
     public void setIsGray(Integer isGray) {
         this.isGray = isGray;
+    }
+
+    public String getRegisterResult() {
+        return registerResult;
+    }
+
+    public void setRegisterResult(String registerResult) {
+        this.registerResult = registerResult;
     }
 }

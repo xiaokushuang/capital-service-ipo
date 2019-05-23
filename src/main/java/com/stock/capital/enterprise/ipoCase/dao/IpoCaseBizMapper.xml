@@ -334,6 +334,7 @@
     (SELECT mcl1.label_name FROM maa_conf_label mcl1 WHERE mcl1.label_code = 'IPO_STATUS' AND
     mcl1.label_value = ic.case_status) AS processLabel,
     ip.iec_result AS iecResult,
+    ip3.iec_result AS registerResult,
     DATEDIFF(
       (
         SELECT
@@ -366,12 +367,25 @@
     FROM
       ipo_process
     WHERE
-      process_type_code = '07'
+      process_type_code = '07' or process_type_code = '35'
     AND bid = #{id}
     ORDER BY
       process_time DESC
     LIMIT 1
   ) ip ON ic.id = ip.bid
+  LEFT JOIN (
+    SELECT
+      bid,
+      iec_result
+    FROM
+      ipo_process
+    WHERE
+      process_type_code = '38'
+    AND bid = #{id}
+    ORDER BY
+      process_time DESC
+    LIMIT 1
+  ) ip3 ON ic.id = ip3.bid
   LEFT JOIN (
     SELECT
       bid,

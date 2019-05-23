@@ -2,6 +2,7 @@ package ipoTest;
 
 import base.BaseTest;
 
+import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
 import com.stock.capital.enterprise.ipoCase.dto.IpoExamineDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
@@ -139,5 +140,11 @@ public class IpoProcessTest extends BaseTest {
     @Test
     public void getIpoCaseDetail(){
         companyOverviewService.getIpoCaseDetail("97952444248599344");
+    }
+
+    @Test
+    public void getHeadData(){
+        HeadDataVo result = companyOverviewService.getHeadData("98114881248925362");
+        int x = 5;
     }
 }
