@@ -18,7 +18,7 @@
         LEFT JOIN ipo_process t2 ON t1.id = t2.bid
         LEFT JOIN maa_conf_label t3 on t3.label_code = 'IPO_VERIFY_RESULT' and t3.label_value = t2.iec_result
         WHERE
-            t2.process_type_code = '07'
+            (t2.process_type_code = '07' or t2.process_type_code = '35')
         AND t1.id = #{id}
         AND t2.table_sort = '1'
         order by t2.process_time
