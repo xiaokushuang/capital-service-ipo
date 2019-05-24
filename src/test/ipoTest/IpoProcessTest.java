@@ -2,8 +2,10 @@ package ipoTest;
 
 import base.BaseTest;
 
+import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
 import com.stock.capital.enterprise.ipoCase.dto.IpoExamineDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
+import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.ipoCase.service.IpoExamineService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFinanceService;
@@ -38,6 +40,8 @@ public class IpoProcessTest extends BaseTest {
     private IpoFeedbackService ipoFeedbackService;
     @Resource
     private IpoExamineService ipoExamineService;
+    @Resource
+    private CompanyOverviewService companyOverviewService;
 
     @Test
     public void testSelectProcessList() throws Exception {
@@ -109,7 +113,7 @@ public class IpoProcessTest extends BaseTest {
 
     @Test
     public void selectNewExamineList(){
-        ipoExamineService.selectNewExamineList("97952444248599434");
+        ipoExamineService.selectNewExamineList("97952444248599354");
     }
 
     @Test
@@ -120,5 +124,27 @@ public class IpoProcessTest extends BaseTest {
     @Test
     public void checkMultiplyFile(){
         ipoProcessService.checkMultiplyFile("AN201902131295659791,AN201902131295659792");
+    }
+
+    @Test
+    public void getPatentData(){
+        companyOverviewService.getPatentData("97952444248599435");
+    }
+
+    @Test
+    public void getSpliteData(){
+        companyOverviewService.getSpliteData("97952444248599344");
+        companyOverviewService.getVluationData("97952444248599344");
+    }
+
+    @Test
+    public void getIpoCaseDetail(){
+        companyOverviewService.getIpoCaseDetail("97952444248599344");
+    }
+
+    @Test
+    public void getHeadData(){
+        HeadDataVo result = companyOverviewService.getHeadData("98114881248925362");
+        int x = 5;
     }
 }

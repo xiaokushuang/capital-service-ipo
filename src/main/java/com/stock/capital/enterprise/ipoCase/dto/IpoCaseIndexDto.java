@@ -140,6 +140,21 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
     @Field("ipo_issue_condition_ss")
     private List<String> issueCondition;//发行人选择的上市条件
 
+    @Field("ipo_stragetic_industries_t")
+    private String strageticIndustries;//发行人行业（战略新兴）
+
+    @Field("ipo_placing_mechanism_t")
+    private String placingMechanism;//配售机制
+
+    @Field("ipo_valuation_d")
+    private Double valuationValue;//最近一次估值
+
+    @Field("ipo_register_result_t")
+    private String registerResult;//注册结果
+
+    @Field("ipo_register_result_label_t")
+    private String registerResultLabel;//注册结果名称
+
 
     public String getOrgCode() {
         return orgCode;
@@ -459,5 +474,45 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
 
     public void setIssueCondition(List<String> issueCondition) {
         this.issueCondition = issueCondition;
+    }
+
+    public String getStrageticIndustries() {
+        return strageticIndustries;
+    }
+
+    public void setStrageticIndustries(String strageticIndustries) {
+        this.strageticIndustries = strageticIndustries;
+    }
+
+    public String getPlacingMechanism() {
+        return placingMechanism;
+    }
+
+    public void setPlacingMechanism(String placingMechanism) {
+        this.placingMechanism = placingMechanism;
+    }
+
+    public Double getValuationValue() {
+        return valuationValue;
+    }
+
+    public void setValuationValue(Double valuationValue) {
+        this.valuationValue = valuationValue;
+    }
+
+    public String getRegisterResult() {
+        return registerResult;
+    }
+
+    public void setRegisterResult(String registerResult) {
+        this.registerResult = registerResult;
+    }
+
+    public String getRegisterResultLabel() {
+        return registerResultLabel;
+    }
+
+    public void setRegisterResultLabel(String registerResultLabel) {
+        this.registerResultLabel = registerResultLabel;
     }
 }

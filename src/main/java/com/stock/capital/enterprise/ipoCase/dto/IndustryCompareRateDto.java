@@ -39,6 +39,9 @@ public class IndustryCompareRateDto implements Serializable {
 
     @ApiModelProperty("第三年毛利率")
     private BigDecimal thirdYearRate;
+    
+    @ApiModelProperty("标题")
+    private String title;
 
     @ApiModelProperty("备注")
     private String remark;
@@ -128,6 +131,13 @@ public class IndustryCompareRateDto implements Serializable {
         this.thirdYearRate = thirdYearRate;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
     public String getRemark() {
         return remark;
     }

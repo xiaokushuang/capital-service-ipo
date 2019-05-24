@@ -53,19 +53,18 @@
       </el-table-column>
     </el-table>
        <!-- 点击放大镜弹出的折线图 -->
-    <el-dialog :title="this.zxChartData?'公司最近三年'  +this.zxChartData.itemName+'_趋势':''" :visible.sync="dialogChartVisible" :before-close="handleClose">
-       <tanZxChart1 :zxChartData = "this.zxChartData"></tanZxChart1>
+    <el-dialog :title="this.zxChartData?'公司最近三年'  +this.zxChartData.itemName+'_趋势':''" :visible.sync="dialogChartVisible" :before-close="handleClose" v-if="dialogChartVisible">
+       <tanZxChart3 :zxChartData = "[this.zxChartData,this.allAssetsTableList[0],this.flag]"></tanZxChart3>
     </el-dialog>
-
   </div>
 </template>
 <script>
-// import { getSelectFinanceOverList } from '@/api/ipoCase/tableDemo'
-import tanZxChart1  from '@/components/Charts/tanZxChart1'
+import tanZxChart3  from '@/components/Charts/tanZxChart3'
 export default {
   name: 'mainTable',
   data() {
     return {
+      flag:false,//判断是否是主要财务指标
       allAssetsTableTitle: {
         forthYearDate:'',
         thirdYearValue:'',
@@ -82,7 +81,7 @@ export default {
   props:[ "allAssetsTableList"],
 
     components:{
-    tanZxChart1
+    tanZxChart3
   },
   created() {
     // this.initTableData()
@@ -90,19 +89,8 @@ export default {
   mounted () {
   },
   methods: {
-    // initTableData() {
-    //    // 动态传id
-    //   const param = {
-    //     id:this.caseId
-    //   }
-    //   getSelectFinanceOverList(param).then(response => {
-    //       this.allAssetsTableTitle = response.data.result.dateList
-    //       this.allAssetsTableContent = response.data.result.ipoFinanceOverList 
-    //   })
-    // },
     handleClose(){
         this.dialogChartVisible = false
-        // this.zxChartData = null
     },
     // 非空判断
     isNotEmpty(param) {

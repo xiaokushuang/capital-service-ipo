@@ -12,30 +12,50 @@
       <div  ref="titleHeader"  id="titleHeader" style="width: 100%;height: 140px;position: relative">
          <div :style="{'padding-left':headList.iecResult == null?'0px':'97px','width':'1200px','position':'absolute','left': '50%','top':'50%', 'transform': 'translate(-50%,-50%)'}">
             <div class="imgMark" style="position: absolute; z-index: 2;left: 5%;top:50%; transform: translate(-50%,-50%);z-index: 2">
-                <div v-if="headList.iecResult&&headList.iecResult == '00'" >
-                  <img src="../../assets/images/htg1.png" alt="">
+                <!-- 注册制是否是科创版的标签显示 -->
+                <div v-if="headList.registerResult!=null ">
+                  <div v-if="headList.registerResult&&headList.registerResult == '07'">
+                    <img src="../../assets/images/kczcsx.png" alt="">
+                  </div>
+                  <div v-if="headList.registerResult&&headList.registerResult == '08'">
+                    <img src="../../assets/images/kcbyzc.png" alt="">
+                  </div>
                 </div>
-                <div v-if="headList.iecResult&&headList.iecResult == '01'">
-                  <img src="../../assets/images/whtg1.png" alt="">
-                </div>
-                <div v-if="headList.iecResult&&headList.iecResult == '02'">
-                  <img src="../../assets/images/zhbj1.png" alt="">
-                </div>
-                <div v-if="headList.iecResult&&headList.iecResult == '03'">
-                  <img src="../../assets/images/qxsh1.png" alt="">
-                </div>
-                <div v-if="headList.iecResult&&headList.iecResult == '04'">
-                  <img src="../../assets/images/dsh1.png" alt="">
+                <div v-else>
+                  <div v-if="headList.iecResult&&headList.iecResult == '00'" >
+                    <img src="../../assets/images/htg1.png" alt="">
+                  </div>
+                  <div v-if="headList.iecResult&&headList.iecResult == '01'">
+                    <img src="../../assets/images/whtg1.png" alt="">
+                  </div>
+                  <div v-if="headList.iecResult&&headList.iecResult == '02'">
+                    <img src="../../assets/images/zhbj1.png" alt="">
+                  </div>
+                  <div v-if="headList.iecResult&&headList.iecResult == '03'">
+                    <img src="../../assets/images/qxsh1.png" alt="">
+                  </div>
+                  <div v-if="headList.iecResult&&headList.iecResult == '04'">
+                    <img src="../../assets/images/dsh1.png" alt="">
+                  </div>
+                  <div v-if="headList.iecResult&&headList.iecResult == '05'" >
+                    <img src="../../assets/images/kctg.png" alt="">
+                  </div>
+                  <div v-if="headList.iecResult&&headList.iecResult == '06'">
+                    <img src="../../assets/images/kcwtg.png" alt="">
+                  </div>
+                  <div v-if="headList.iecResult&&headList.iecResult == '09'">
+                    <img src="../../assets/images/kcdsh.png" alt="">
+                  </div>
                 </div>
             </div>
             <div class="text" style="position:relative;z-index: 4">
               <p class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;" @mouseenter="mouseOverSpreadTitle(headList.title)">{{getTitle(headList.title)}}</p>
               <span style="font-size: 14px;opacity: 0.6;">股份公司设立时间：</span>
               <span style="font-size: 14px;opacity: 0.6;">{{headList.establishDate}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-              <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;辅导工作历时：</span>
+              <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;辅导历时：</span>
               <span style="font-size: 14px;opacity: 0.6;" v-if="headList.supportDuration">{{headList.supportDuration}}天</span>
               <span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
-              <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;申报审核历时：</span>
+              <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;审核历时：</span>
               <span style="font-size: 14px;opacity: 0.6;" v-if="headList.auditDuration">{{headList.auditDuration}}天</span>
               <span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
               <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;最新进程：</span>
@@ -46,7 +66,7 @@
                  >{{headList.greenPassage}}
               </span>
               <span v-if="specialArrange&&specialArrange.length>0">
-                <span v-for="data in specialArrange" style=" display: inline-block;margin-top:8px;background: #fe5461; font-size: 12px; color: #fff;border-radius: 2px;padding: 4.5px; position:relative;z-index:10;margin-right:10px"
+                <span v-for="data in specialArrange" style=" display: inline-block;margin-top:8px;background: #ff9900; font-size: 12px; color: #fff;border-radius: 2px;padding: 4.5px; position:relative;z-index:10;margin-right:10px"
                   >{{data}}
                 </span>
               </span>
@@ -71,13 +91,27 @@
                                           <div class="el-tabs__nav">
                                               <div class="el-tabs__active-bar is-top" :style="{width: tabBarWidth + 'px', transform: 'translateX(' + tabBarOffset + 'px)'}"></div>
                                               <div id="tab-first"  ref="tab-first"  aria-controls="pane-first"  :class="['el-tabs__item is-top', {'is-active': isActive === '1'}]" @click="onTabClick('1', $event)" style="padding-left: 0">公司概览</div>
+                                              <div v-if="headList.isGray=='0'" id="tab-sixth" ref="tab-sixth" aria-controls="pane-sixth" :class="['el-tabs__item is-top', {'is-active': isActive === '6'}]" @click="onTabClick('6', $event)">行业与技术</div>
+                                              <div v-if="headList.isGray=='1'" id="tab-sixth"  ref="tab-sixth" class="el-tabs__item1" aria-controls="pane-third"  style="cursor:default;color:#adadad">
+                                                <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无行业与技术信息" placement="top" effect="light">
+                                                  <el-button class="btnClass">行业与技术</el-button>
+                                                </el-tooltip>
+                                              </div>
                                               <div id="tab-second" ref="tab-second" aria-controls="pane-second" :class="['el-tabs__item is-top', {'is-active': isActive === '2'}]" @click="onTabClick('2', $event)">财务信息</div>
-                                              <div v-if="headList.haveFeedback=='1'" id="tab-third"  ref="tab-third" class="el-tabs__item1" aria-controls="pane-third"  style="cursor:default;color:#adadad">
+                                              <div v-if="headList.haveFeedback=='1'&&headList.isTechBoard =='0'" id="tab-third"  ref="tab-third" class="el-tabs__item1" aria-controls="pane-third"  style="cursor:default;color:#adadad">
                                                 <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无反馈意见信息" placement="top" effect="light">
                                                   <el-button class="btnClass">反馈意见</el-button>
                                                 </el-tooltip>
                                               </div>
-                                              <div v-if="headList.haveFeedback=='0'" id="tab-third"  ref="tab-third" aria-controls="pane-third"  :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]" @click="onTabClick('3', $event)">反馈意见</div>
+                                              <!-- 1是科创版 -->
+                                               <div v-if="headList.haveFeedback=='1'&&headList.isTechBoard =='1'" id="tab-third"  ref="tab-third" class="el-tabs__item1" aria-controls="pane-third"  style="cursor:default;color:#adadad">
+                                                <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无问询与回复信息" placement="top" effect="light">
+                                                  <el-button class="btnClass">问询与回复</el-button>
+                                                </el-tooltip>
+                                              </div>
+                                              <!-- 1是科创版 -->
+                                              <div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='1'" id="tab-third"  ref="tab-third" aria-controls="pane-third"  :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]" @click="onTabClick('3', $event)">问询与回复</div>
+                                              <div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='0'" id="tab-third"  ref="tab-third" aria-controls="pane-third"  :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]" @click="onTabClick('3', $event)">反馈意见</div>
                                               <div v-if="headList.haveExamine=='1'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" class="el-tabs__item1" style="padding-right: 0;cursor:default;color:#adadad">
                                                 <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无审核结果及关注问题信息" placement="top" effect="light">
                                                   <el-button class="btnClass">审核结果及关注问题</el-button>
@@ -121,13 +155,20 @@
                                           <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFifthList.length - 1">|</span>
                                       </span>
                                   </div>
+                                  <!-- 6 -->
+                                  <div id="title-sixth" class="title-body" v-show="isActive == '6'">
+                                      <span v-for="(item, index) in tabSixthList">
+                                          <a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveSixth === item.id}, {'disabled': item.noClick}]" :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 6)">{{item.name}}</a>
+                                          <span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabSixthList.length - 1">|</span>
+                                      </span>
+                                  </div>
                               </div>
                           </div>
                           <!-- 点击不同菜单展示不同下面内容 -->
                           <div class="el-tabs__content">
                               <!-- 动态加载tab -->
                               <keep-alive>
-                                <component :is = "showComponent" id="componentId" v-on:headCallBack="headCall" :companyProfileList="this.companyProfileList"></component>
+                                <component :is = "showComponent" id="componentId" v-on:headCallBack="headCall" :companyProfileList={companyProfileList:this.companyProfileList,headList:this.headList}></component>
                               </keep-alive>
                           </div>
                       </div>
@@ -171,6 +212,7 @@ import financialInformation from "../navMenu/financialInformation/financialInfor
 import feedback from "../navMenu/feedback/feedback";
 import result from "../navMenu/result/result";
 import issue from "../navMenu/issue/issue";
+import industryTechnology from "../navMenu/industryTechnology/industryTechnology";
 import processTree from "../navMenu/processTree";
 import $ from "jquery";
 export default {
@@ -182,6 +224,7 @@ export default {
     feedback,
     result,
     issue,
+    industryTechnology,
     processTree
   },
   data() {
@@ -192,7 +235,9 @@ export default {
       financialInformation:financialInformation,
       feedback:feedback,
       result:result,
+      issue:issue,
       processTree:processTree,
+      industryTechnology:industryTechnology,
       showComponent:companyProfile,
 
       fixBody: "",
@@ -204,29 +249,34 @@ export default {
       itemActiveThird: "",
       itemActiveFourth: "",
       itemActiveFifth: "",
+      itemActiveSixth: "",
       tabFirstList: [
         {
           id:'1',
+          name:'最后一次估值情况',
+        },
+        {
+          id:'2',
           name:'股权结构图',
         },
          {
-          id:'2',
-          name:'主营业务收入构成'
-        },
-        {
           id:'3',
-          name:'主要竞争对手简介'
+          name:'主营业务收入构成'
         },
          {
           id:'4',
-          name:'前五名供应商及用户'
+          name:'前五名供应商'
         },
          {
           id:'5',
-          name:'募集资金运用'
+          name:'前五名客户'
         },
          {
           id:'6',
+          name:'募集资金运用'
+        },
+         {
+          id:'7',
           name:'中介机构'
         },
       ],
@@ -250,6 +300,28 @@ export default {
          {
           id:'2',
           name:'发行费用'
+        },
+      ],
+       tabSixthList: [
+         {
+          id:'1',
+          name:'主要竞争对手简介'
+        },
+        {
+          id:'2',
+          name:'同行业毛利率对比'
+        },
+        //  {
+        //   id:'3',
+        //   name:'专利情况'
+        // },
+         {
+          id:'4',
+          name:'研发投入'
+        },
+         {
+          id:'5',
+          name:'核心技术及研发技术人员'
         },
       ],
       isActive: "1",
@@ -444,6 +516,27 @@ export default {
                             }
                         }
                         break
+                         case '6':
+                    // 行业与技术
+                        that.showComponent = industryTechnology
+                        that.$refs.rightModule.treeListMethods(false);
+                        targetList = document.getElementById('title-sixth').children;
+                        let sixthFlag = 0;
+                        for (let i = 0; i < targetList.length; i++) {
+                            if ((that.itemActiveSixth + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
+                              that.$nextTick(()=>{
+                                document.documentElement.scrollTop = document.getElementById(that.itemActiveSixth).offsetTop + document.getElementById('titleHeader').offsetHeight - 50;
+                              })
+                                sixthFlag = 1;
+                            }
+                        }
+                        if (sixthFlag === 0) {
+                            var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
+                            if (document.documentElement.scrollTop > scrollhight) {
+                                document.documentElement.scrollTop = scrollhight;
+                            }
+                        }
+                        break
                     default:
                         break
                 }
@@ -480,6 +573,9 @@ export default {
           case "tab-fifth":
             this.tabFifthList = param;
             break;
+          case "tab-sixth":
+            this.tabSixthList = param;
+            break;
           default:
             break;
         }
@@ -487,7 +583,7 @@ export default {
     },
     // 点击锚点跳转
     jump(param, num) {
-        document.documentElement.scrollTop = document.getElementById(param).offsetTop + document.getElementById('titleHeader').offsetHeight - 50 ;
+        document.documentElement.scrollTop = document.getElementById(param).offsetTop + document.getElementById('titleHeader').offsetHeight - 25 ;
         switch (num) {
             case 1:
                 this.itemActiveFirst = param;
@@ -497,6 +593,9 @@ export default {
                 break
             case 5:
                 this.itemActiveFifth = param;
+                break
+            case 6:
+                this.itemActiveSixth = param;
                 break
             default:
                 break

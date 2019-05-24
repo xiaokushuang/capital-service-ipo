@@ -46,11 +46,18 @@
                                                 class="tinyHand">
                                             </div>
                                         <!-- 审核结果 -->
+
                                             <span v-if="item.progressType=='07'&&item.iecResult=='00'" :style={background:htg}  class="htg" >获通过</span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='01'" :style={background:whtg} class="whtg">未获通过</span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='02'" :style={background:zhbj} class="zhbj">暂缓表决 </span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='03'" :style={background:qxsh} class="qxsh">取消审核</span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='04'" :style={background:dsh} class="dsh">待审核</span>
+                                            <!-- 科创版 -->
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='05'" :style={background:tg}  class="tg" >通过</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='06'" :style={background:wtg} class="wtg">未通过</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='07'" :style={background:zcsx} class="htg">注册生效 </span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='08'" :style={background:whtg} class="whtg">不予注册</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='09'" :style={background:dsh} class="dsh">待审核</span>
                                         </div>
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)" style="cursor: pointer;"
@@ -58,7 +65,7 @@
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)" style="cursor: pointer;"
                                                    @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)" @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')">&nbsp;&nbsp;</span>
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)"
-                                                   @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)" @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')" v-if="item.lastDay != undefined" style="display:inline-block;width: 69%;cursor: pointer;">距离上个进程{{item.lastDay}}天</span>
+                                                   @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)" @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')" v-if="item.lastDay != undefined" style="display:inline-block;width: 68%;cursor: pointer;">距离上个进程{{item.lastDay}}天</span>
                                             <!-- 前面图标 -->
                                             <div :id="'each' +  item.progressIndex" style="display:none;">
                                                 <div :ref=' item.progressIndex' :class="'abc'+ item.progressIndex"></div>
@@ -139,6 +146,12 @@
                                             <span v-if="item.progressType=='07'&&item.iecResult=='02'" :style={background:zhbj} class="zhbj">暂缓表决 </span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='03'" :style={background:qxsh} class="qxsh">取消审核</span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='04'" :style={background:dsh} class="dsh">待审核</span>
+                                             <!-- 科创版 -->
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='05'" :style={background:tg}  class="tg" >通过</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='06'" :style={background:wtg} class="wtg">未通过</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='07'" :style={background:zcsx} class="htg">注册生效 </span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='08'" :style={background:whtg} class="whtg">不予注册</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='09'" :style={background:dsh} class="dsh">待审核</span>
                                         </div>
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)" style="cursor: pointer;"
@@ -146,7 +159,7 @@
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)" style="cursor: pointer;"
                                                    @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)" @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')">&nbsp;&nbsp;</span>
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)"
-                                                   @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)"  @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')" v-if="item.lastDay != undefined" style="display:inline-block;width: 69%;cursor: pointer;">距离上个进程{{item.lastDay}}天</span>
+                                                   @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)"  @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')" v-if="item.lastDay != undefined" style="display:inline-block;width: 68%;cursor: pointer;">距离上个进程{{item.lastDay}}天</span>
                                             <!-- 前面图标 -->
                                             <div :id="'each' +  item.progressIndex" style="display:none;">
                                                 <div :ref=' item.progressIndex' :class="'abc'+ item.progressIndex"></div>
@@ -231,10 +244,13 @@ export default {
              moreNoticeList:[],
             //  图片路径
             zhbj:'url('+ require('../../../assets/images/zhbj.png')+') no-repeat',
-            htg:'url('+ require('../../../assets/images/htg.png')+') no-repeat',
+            tg:'url('+ require('../../../assets/images/tg.png')+') no-repeat',
+            htg:'url('+ require('../../../assets/images/htg.png')+')  no-repeat',
+            zcsx:'url('+ require('../../../assets/images/zcsx.png')+')  no-repeat',
             whtg:'url('+ require('../../../assets/images/whtg.png')+') no-repeat',
             qxsh:'url('+ require('../../../assets/images/qxsh.png')+') no-repeat',
             dsh:'url('+ require('../../../assets/images/dsh.png')+') no-repeat',
+            wtg:'url('+ require('../../../assets/images/wtg.png')+') no-repeat',
             moreNoticeDailog: '',
             dialogVisible: false,
             showArray: [],
@@ -667,57 +683,87 @@ export default {
     }
 }
 .htg{
-    font-size: 14px;
+    font-size: 12px;
     position: relative;
     left: 38%;
     top: -20px;
     color: #14BCF5;
     padding:5px;
+    padding-left: 10px;
+    padding-right: 7px;
     padding-right:5px;
     line-height:10px;
     display:inline-block;
 }
+.wtg{
+    font-size: 12px;
+    position: relative;
+    left: 38%;
+    top: -20px;
+    color: #FE5461;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 7px;
+    line-height: 10px;
+    display: inline-block;
+}
+.tg{
+    font-size: 12px;
+    position: relative;
+    left: 38%;
+    top: -20px;
+    color: #14BCF5;
+    padding:5px;
+    padding-left: 10px;
+    padding-right: 7px;
+    line-height:10px;
+    display:inline-block;
+}
 .whtg{
-    font-size: 14px;
+    font-size: 12px;
     position: relative;
     left: 38%;
     top: -20px;
     color: #FE5461;
     padding:5px;
-    padding-right:5px;
+    padding-left: 10px;
+    padding-right: 7px;
     line-height:10px;
     display:inline-block;
 }
 .zhbj{
-    font-size: 14px;
+    font-size: 12px;
     position: relative;
     left: 38%;
     top: -20px;
     color: #FF9900;
-    padding:5px;
-    padding-right:5px;
+    padding:5px;   
+     padding-left: 10px;
+    padding-right: 7px;
     line-height:10px;
     display:inline-block;
 }
 .qxsh{
-    font-size: 14px;
+    font-size: 12px;
     position: relative;
     left: 38%;
     top: -20px;
     color: #94A3B4;
     padding:5px;
-    padding-right:5px;
+        padding-left: 10px;
+    padding-right: 7px;
     line-height:10px;
     display:inline-block;
 }
 .dsh{
-    font-size: 14px;
+    font-size: 12px;
     position: relative;
     left: 38%;
     top: -20px;
     color: #ffd800;
     padding:5px;
-    padding-right:5px;
+    padding-left: 10px;
+    padding-right: 7px;
     line-height:10px;
     display:inline-block;
 }

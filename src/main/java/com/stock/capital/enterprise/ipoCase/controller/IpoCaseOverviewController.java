@@ -1,19 +1,27 @@
 package com.stock.capital.enterprise.ipoCase.controller;
 
+import com.stock.capital.enterprise.ipoCase.dao.IpoCaseBizMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoExamineMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoFeedbackMapper;
 import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
 import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
+import com.stock.capital.enterprise.ipoCase.dto.IndustryCompareRateDto;
 import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoExamineBaseDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoValuationDto;
+import com.stock.capital.enterprise.ipoCase.dto.IssuerIndustryStatusDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyPatentDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyVo;
 import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainIncomeVo;
 import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
+import com.stock.capital.enterprise.ipoCase.service.IssueSituationService;
 import com.stock.core.dto.JsonResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -41,7 +49,12 @@ public class IpoCaseOverviewController {
     @Autowired
     private IpoExamineMapper ipoExamineMapper;
     @Autowired
+    private IpoCaseBizMapper ipoCaseBizMapper;
+    @Autowired
     private IpoFeedbackService ipoFeedbackService;
+    @Autowired
+    private IssueSituationService issueSituationService;
+
 
     @ApiOperation(value = "案例详细接口", notes = "案例详细接接口描述")
     @ApiImplicitParams({
@@ -68,6 +81,29 @@ public class IpoCaseOverviewController {
         return response;
     }
 
+  @ApiOperation(value = "拆分上市情况接口", notes = "拆分上市情况接口描述")
+  @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
+          dataType = "String")
+  })
+  @RequestMapping(value = "/spliteData", method = RequestMethod.GET)
+  public JsonResponse< List<IpoSplitDto>> spliteData(@RequestParam("id") String id){
+    JsonResponse< List<IpoSplitDto>> response = new JsonResponse<>();
+    response.setResult(companyOverviewService.getSpliteData(id));
+    return response;
+  }
+
+  @ApiOperation(value = "最近一次估值情况接口", notes = "最近一次估值情况接口描述")
+  @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
+      dataType = "String")
+  })
+  @RequestMapping(value = "/valuationData", method = RequestMethod.GET)
+  public JsonResponse< List<IpoValuationDto>> valuationData(@RequestParam("id") String id){
+    JsonResponse< List<IpoValuationDto>> response = new JsonResponse<>();
+    response.setResult(companyOverviewService.getVluationData(id));
+    return response;
+  }
+
+
     @ApiOperation(value = "股东信息接口", notes = "股东信息接口描述")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
@@ -91,6 +127,30 @@ public class IpoCaseOverviewController {
         response.setResult(companyOverviewService.getCompetitorData(id));
         return response;
     }
+    
+   @ApiOperation(value = "发行人的行业地位接口", notes = "发行人的行业地位接口描述")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
+            dataType = "String")
+    })
+    @RequestMapping(value = "/industryStatusData", method = RequestMethod.GET)
+    public JsonResponse<List<IssuerIndustryStatusDto>> industryStatusData(@RequestParam("id") String id) {
+       JsonResponse<List<IssuerIndustryStatusDto>> response = new JsonResponse<>();
+        response.setResult(companyOverviewService.getindustryStatusData(id));
+       return response;
+    }
+
+    @ApiOperation(value = "科技创新", notes = "科技创新情况")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String")
+    })
+    @RequestMapping(value = "/patentData", method = RequestMethod.GET)
+    public JsonResponse<IpoTechnologyVo> patentData(@RequestParam("id") String id){
+        JsonResponse<IpoTechnologyVo> response = new JsonResponse<>();
+        response.setResult(companyOverviewService.getPatentData(id));
+        return response;
+    }
+
 
     @ApiOperation(value = "报告期主要供应商及客户接口", notes = "报告期主要供应商及客户接口描述")
     @ApiImplicitParams({
@@ -165,6 +225,17 @@ public class IpoCaseOverviewController {
             headDataVo.setHavePublic(0);
         }else{
             headDataVo.setHavePublic(1);
+        }
+
+        List<IssuerIndustryStatusDto> industryList =  companyOverviewService.getindustryStatusData(id);
+        List<MainCompetitorInfoDto> companyOverviewList = companyOverviewService.getCompetitorData(id);
+        List<Map> techList = ipoCaseBizMapper.selectTechnologyByBid(id);
+        List<IndustryCompareRateDto> indusList = issueSituationService.getIndustryRateData(id);
+        if (CollectionUtils.isEmpty(industryList) && CollectionUtils.isEmpty(indusList) &&
+         CollectionUtils.isEmpty(companyOverviewList) && CollectionUtils.isEmpty(techList)){
+            headDataVo.setIsGray(1);
+        } else {
+            headDataVo.setIsGray(0);
         }
         response.setResult(headDataVo);
         return response;

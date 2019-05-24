@@ -64,7 +64,14 @@ export function getSelectFinanceProfitList(query) {
     params: query
   })
 }
-
+//主要财务指标
+export function getSelectMainIndexList(query) {
+  return request({
+    url: '/ipo/ipoFinance/selectMainIndexList',
+    method: 'get',
+    params: query
+  })
+}
 // 毛利率接口
 export function getMaoChartTableData(query) {
   return request({

@@ -72,4 +72,11 @@
           suffix
         from ipo_file where id = #{id}
     </select>
+
+    <select id="selectSplitFileDto" parameterType="java.lang.String"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IpoFileRelationDto">
+        select
+          split_file_name relationFileTitle
+        from ipo_split_map where split_file_id = #{id}
+    </select>
 </mapper>

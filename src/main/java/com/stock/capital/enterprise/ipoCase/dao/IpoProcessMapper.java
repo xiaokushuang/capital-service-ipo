@@ -23,4 +23,9 @@ public interface IpoProcessMapper {
      * 查询文件信息
      */
     IpoFileRelationDto selectFileDto(String id);
+
+    /**
+     * 查询拆分上市文件
+     */
+    IpoFileRelationDto selectSplitFileDto(String id);
 }
