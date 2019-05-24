@@ -31,9 +31,9 @@ public class IpoInvestService extends BaseService {
                 BigDecimal rate = new BigDecimal("0");
                 if(dto.getInvestPlanLimit().compareTo(BigDecimal.ZERO) != 0){
                     rate = dto.getInvestPlan().divide(dto.getInvestPlanLimit(), 4, BigDecimal.ROUND_HALF_UP);
+                    dto.setInvestRateStr(String.valueOf(rate.multiply(new BigDecimal("100"),
+                            new MathContext(4, RoundingMode.HALF_UP))) + "%");
                 }
-                dto.setInvestRateStr(String.valueOf(rate.multiply(new BigDecimal("100"),
-                        new MathContext(4, RoundingMode.HALF_UP))) + "%");
                 sumPlan = sumPlan.add(dto.getInvestPlan());
                 sumTotal = sumTotal.add(dto.getInvestTotal());
                 sumPre = sumPre.add(dto.getInvestPre());
@@ -45,8 +45,10 @@ public class IpoInvestService extends BaseService {
             sumDto.setInvestTotal(sumTotal);
             sumDto.setInvestPlan(sumPlan);
             sumDto.setInvestPre(sumPre);
-            sumDto.setInvestRateStr(String.valueOf(sumRate.multiply(new BigDecimal("100")
-                    , new MathContext(4, RoundingMode.HALF_UP))) + "%");
+            if(sumRate.compareTo(BigDecimal.ZERO) != 0){
+                sumDto.setInvestRateStr(String.valueOf(sumRate.multiply(new BigDecimal("100")
+                        , new MathContext(4, RoundingMode.HALF_UP))) + "%");
+            }
             investItemList.add(sumDto);
         }
         return investItemList;
