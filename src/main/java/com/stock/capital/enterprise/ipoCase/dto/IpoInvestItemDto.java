@@ -69,6 +69,9 @@ public class IpoInvestItemDto implements Serializable {
     @ApiModelProperty("编辑状态")
     private String editStatus;
 
+    @ApiModelProperty("编辑状态")
+    private String investRemark;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -213,5 +216,13 @@ public class IpoInvestItemDto implements Serializable {
 
     public void setInvestRateStr(String investRateStr) {
         this.investRateStr = investRateStr;
+    }
+
+    public String getInvestRemark() {
+        return investRemark;
+    }
+
+    public void setInvestRemark(String investRemark) {
+        this.investRemark = investRemark;
     }
 }
