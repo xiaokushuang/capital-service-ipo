@@ -21,7 +21,7 @@
                                 <span class="zhbjResult" v-if="baseList[0].iecResult=='02'">暂缓表决</span>
                                 <span class="qxshResult" v-if="baseList[0].iecResult=='03'">取消审核</span>
                                 <span class="dshResult"  v-if="baseList[0].iecResult=='04'">待审核</span>
-                                <span class="htgResult"  v-if="baseList[0].iecResult=='05'">通过</span>
+                                <span class="tgResult"  v-if="baseList[0].iecResult=='05'">通过</span>
                                 <span class="whtgResult" v-if="baseList[0].iecResult=='06'">未通过</span>
                                 <span class="htgResult"  v-if="baseList[0].iecResult=='07'">注册生效</span>
                                 <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
@@ -63,7 +63,19 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第一次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span>
+                            <span>
+                                <span class="htgResult"  v-if="baseList[0].iecResult=='00'">获通过</span>
+                                <span class="whtgResult" v-if="baseList[0].iecResult=='01'">未获通过</span>
+                                <span class="zhbjResult" v-if="baseList[0].iecResult=='02'">暂缓表决</span>
+                                <span class="qxshResult" v-if="baseList[0].iecResult=='03'">取消审核</span>
+                                <span class="dshResult"  v-if="baseList[0].iecResult=='04'">待审核</span>
+                                <span class="tgResult"   v-if="baseList[0].iecResult=='05'">通过</span>
+                                <span class="whtgResult" v-if="baseList[0].iecResult=='06'">未通过</span>
+                                <span class="htgResult"  v-if="baseList[0].iecResult=='07'">注册生效</span>
+                                <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
+                                <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待审核</span>
+                            </span>
+                            <!-- <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span> -->
                         </p>
                     </div>
                     <div class="text ">
@@ -98,7 +110,19 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第二次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[1].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03','dshResult' : baseList[1].iecResult == '04'}">{{ baseList[1].iecResultStr}}</span>
+                            <span>
+                                <span class="htgResult"  v-if="baseList[1].iecResult=='00'">获通过</span>
+                                <span class="whtgResult" v-if="baseList[1].iecResult=='01'">未获通过</span>
+                                <span class="zhbjResult" v-if="baseList[1].iecResult=='02'">暂缓表决</span>
+                                <span class="qxshResult" v-if="baseList[1].iecResult=='03'">取消审核</span>
+                                <span class="dshResult"  v-if="baseList[1].iecResult=='04'">待审核</span>
+                                <span class="tgResult"  v-if="baseList[1].iecResult=='05'">通过</span>
+                                <span class="whtgResult" v-if="baseList[1].iecResult=='06'">未通过</span>
+                                <span class="htgResult"  v-if="baseList[1].iecResult=='07'">注册生效</span>
+                                <span class="whtgResult" v-if="baseList[1].iecResult=='08'">不予注册</span>
+                                <span class="dshResult"  v-if="baseList[1].iecResult=='09'">待审核</span>
+                            </span>
+                            <!-- <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03','dshResult' : baseList[1].iecResult == '04'}">{{ baseList[1].iecResultStr}}</span> -->
                         </p>
                     </div>
                     <div class="text ">
@@ -135,7 +159,19 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第一次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span>
+                            <span>
+                                <span class="htgResult"  v-if="baseList[0].iecResult=='00'">获通过</span>
+                                <span class="whtgResult" v-if="baseList[0].iecResult=='01'">未获通过</span>
+                                <span class="zhbjResult" v-if="baseList[0].iecResult=='02'">暂缓表决</span>
+                                <span class="qxshResult" v-if="baseList[0].iecResult=='03'">取消审核</span>
+                                <span class="dshResult"  v-if="baseList[0].iecResult=='04'">待审核</span>
+                                <span class="tgResult"  v-if="baseList[0].iecResult=='05'">通过</span>
+                                <span class="whtgResult" v-if="baseList[0].iecResult=='06'">未通过</span>
+                                <span class="htgResult"  v-if="baseList[0].iecResult=='07'">注册生效</span>
+                                <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
+                                <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待审核</span>
+                            </span>
+                            <!-- <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span> -->
                         </p>
                     </div>
                     <div class="text ">
@@ -170,7 +206,19 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第二次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[1].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03','dshResult' : baseList[1].iecResult == '04'}">{{ baseList[1].iecResultStr}}</span>
+                            <span>
+                                <span class="htgResult"  v-if="baseList[1].iecResult=='00'">获通过</span>
+                                <span class="whtgResult" v-if="baseList[1].iecResult=='01'">未获通过</span>
+                                <span class="zhbjResult" v-if="baseList[1].iecResult=='02'">暂缓表决</span>
+                                <span class="qxshResult" v-if="baseList[1].iecResult=='03'">取消审核</span>
+                                <span class="dshResult"  v-if="baseList[1].iecResult=='04'">待审核</span>
+                                <span class="tgResult"  v-if="baseList[1].iecResult=='05'">通过</span>
+                                <span class="whtgResult" v-if="baseList[1].iecResult=='06'">未通过</span>
+                                <span class="htgResult"  v-if="baseList[1].iecResult=='07'">注册生效</span>
+                                <span class="whtgResult" v-if="baseList[1].iecResult=='08'">不予注册</span>
+                                <span class="dshResult"  v-if="baseList[1].iecResult=='09'">待审核</span>
+                            </span>
+                            <!-- <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03','dshResult' : baseList[1].iecResult == '04'}">{{ baseList[1].iecResultStr}}</span> -->
                         </p>
                     </div>
                     <div class="text ">
@@ -205,7 +253,19 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第三次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[2].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[2].iecResult == '00','whtgResult' : baseList[2].iecResult == '01','zhbjResult' : baseList[2].iecResult == '02','qxshResult' : baseList[2].iecResult == '03','dshResult' : baseList[2].iecResult == '04'}">{{ baseList[2].iecResultStr}}</span>
+                            <span>
+                                <span class="htgResult"  v-if="baseList[2].iecResult=='00'">获通过</span>
+                                <span class="whtgResult" v-if="baseList[2].iecResult=='01'">未获通过</span>
+                                <span class="zhbjResult" v-if="baseList[2].iecResult=='02'">暂缓表决</span>
+                                <span class="qxshResult" v-if="baseList[2].iecResult=='03'">取消审核</span>
+                                <span class="dshResult"  v-if="baseList[2].iecResult=='04'">待审核</span>
+                                <span class="tgResult"  v-if="baseList[2].iecResult=='05'">通过</span>
+                                <span class="whtgResult" v-if="baseList[2].iecResult=='06'">未通过</span>
+                                <span class="htgResult"  v-if="baseList[2].iecResult=='07'">注册生效</span>
+                                <span class="whtgResult" v-if="baseList[2].iecResult=='08'">不予注册</span>
+                                <span class="dshResult"  v-if="baseList[2].iecResult=='09'">待审核</span>
+                            </span>
+                            <!-- <span  :class="{'htgResult' : baseList[2].iecResult == '00','whtgResult' : baseList[2].iecResult == '01','zhbjResult' : baseList[2].iecResult == '02','qxshResult' : baseList[2].iecResult == '03','dshResult' : baseList[2].iecResult == '04'}">{{ baseList[2].iecResultStr}}</span> -->
                         </p>
                     </div>
                     <div class="text ">
@@ -424,7 +484,7 @@ export default {
           this.questionList3 = this.allQuestionList3;
         }
       }
-       if(this.tabList.length==4){
+      if(this.tabList.length==4){
         this.showLength+=15
         if(this.allQuestionList.length > this.showLength){
           this.showMore = true;
@@ -458,7 +518,7 @@ export default {
           this.questionList4 = this.allQuestionList4;
         }
       }
-        if(this.tabList.length==5){
+      if(this.tabList.length==5){
         this.showLength+=15
         if(this.allQuestionList.length > this.showLength){
           this.showMore = true;
@@ -500,7 +560,6 @@ export default {
           this.questionList5 = this.allQuestionList5;
         }
       }
-      
     },
     //   初始化所有数据
     initTableData() { 
@@ -508,88 +567,183 @@ export default {
         const param = {
             id:this.caseId,
         }
+        // 获取会议数据
         getReviewMeeting(param).then(res => {
             if(res.data.result&&res.data.result.baseList&&res.data.result.baseList.length>0){
                 this.baseList = res.data.result.baseList
-                console.log('会议',this.baseList)
             }
         })
+        // 获取筛选问题数据
         getResultInitializeList(param).then(res => {
-          console.log('审核结果一级标签',res)
-          // debugger;
-            // 第一个tab
             if (res.data.result && res.data.result.length > 0) {
             this.o_letterId = res.data.result[0].letterId;
             this.tabList = res.data.result;
             this.activeName = this.tabList[0].letterId;
-            if (this.tabList && this.tabList.length == 1) {
-                this.allQuestionList = res.data.result[0].questionList;
-                this.questionCount = res.data.result[0].questionCount;
-                this.answerCount = res.data.result[0].answerCount;
-                if (this.allQuestionList.length > 15) {
-                this.showMore = true;
-                this.questionList = this.allQuestionList.slice(0, 15);
-                } else {
-                this.showMore = false;
-                this.questionList = this.allQuestionList;
-                }
-            }
-            // 第二个tab
-            if (this.tabList && this.tabList.length == 2) {
-                this.allQuestionList = res.data.result[0].questionList;
-                this.allQuestionList2 = res.data.result[1].questionList;
-                this.questionCount = res.data.result[0].questionCount;
-                this.answerCount = res.data.result[0].answerCount;
-                this.questionCount2 = res.data.result[1].questionCount;
-                this.answerCount2 = res.data.result[1].answerCount;
-                if (this.allQuestionList.length > 15) {
-                this.showMore = true;
-                this.questionList = this.allQuestionList.slice(0, 15);
-                } else {
-                this.showMore = false;
-                this.questionList = this.allQuestionList;
-                }
-                if (this.allQuestionList2.length > 15) {
-                this.showMore2 = true;
-                this.questionList2 = this.allQuestionList2.slice(0, 15);
-                } else {
-                this.showMore2 = false;
-                this.questionList2 = this.allQuestionList2;
-                }
-            }
-            // 第三个tab
-            if (this.tabList && this.tabList.length == 3) {
+               // 第一个tab
+              if (this.tabList && this.tabList.length == 1) {
+                  this.allQuestionList = res.data.result[0].questionList;
+                  this.questionCount = res.data.result[0].questionCount;
+                  this.answerCount = res.data.result[0].answerCount;
+                  if (this.allQuestionList.length > 15) {
+                  this.showMore = true;
+                  this.questionList = this.allQuestionList.slice(0, 15);
+                  } else {
+                  this.showMore = false;
+                  this.questionList = this.allQuestionList;
+                  }
+              }
+                // 第二个tab
+              if (this.tabList && this.tabList.length == 2) {
+                  this.allQuestionList = res.data.result[0].questionList;
+                  this.allQuestionList2 = res.data.result[1].questionList;
+                  this.questionCount = res.data.result[0].questionCount;
+                  this.answerCount = res.data.result[0].answerCount;
+                  this.questionCount2 = res.data.result[1].questionCount;
+                  this.answerCount2 = res.data.result[1].answerCount;
+                  if (this.allQuestionList.length > 15) {
+                  this.showMore = true;
+                  this.questionList = this.allQuestionList.slice(0, 15);
+                  } else {
+                  this.showMore = false;
+                  this.questionList = this.allQuestionList;
+                  }
+                  if (this.allQuestionList2.length > 15) {
+                  this.showMore2 = true;
+                  this.questionList2 = this.allQuestionList2.slice(0, 15);
+                  } else {
+                  this.showMore2 = false;
+                  this.questionList2 = this.allQuestionList2;
+                  }
+              }
+                // 第三个tab
+              if (this.tabList && this.tabList.length == 3) {
                 this.allQuestionList = res.data.result[0].questionList;
                 this.allQuestionList2 = res.data.result[1].questionList;
                 this.allQuestionList3 = res.data.result[2].questionList;
                 this.questionCount = res.data.result[0].questionCount;
+                this.questionCount2 = res.data.result[1].questionCount;
+                this.questionCount3 = res.data.result[2].questionCount;
                 this.answerCount = res.data.result[0].answerCount;
-                this.questionCount1 = res.data.result[1].questionCount;
-                this.answerCount1 = res.data.result[1].answerCount;
-                this.questionCount2 = res.data.result[2].questionCount;
-                this.answerCount2 = res.data.result[2].answerCount;
+                this.answerCount2 = res.data.result[1].answerCount;
+                this.answerCount3 = res.data.result[2].answerCount;
                 if (this.allQuestionList.length > 15) {
-                this.showMore = true;
-                this.questionList = this.allQuestionList.slice(0, 15);
+                  this.showMore = true;
+                  this.questionList = this.allQuestionList.slice(0, 15);
                 } else {
-                this.showMore = false;
-                this.questionList = this.allQuestionList;
+                  this.showMore = false;
+                  this.questionList = this.allQuestionList;
                 }
                 if (this.allQuestionList2.length > 15) {
-                this.showMore2 = true;
-                this.questionList2 = this.allQuestionList2.slice(0, 15);
+                  this.showMore2 = true;
+                  this.questionList2 = this.allQuestionList2.slice(0, 15);
                 } else {
-                this.showMore2 = false;
-                this.questionList2 = this.allQuestionList2;
+                  this.showMore2 = false;
+                  this.questionList2 = this.allQuestionList2;
                 }
                 if (this.allQuestionList3.length > 15) {
-                this.showMore3 = true;
-                this.questionList3 = this.allQuestionList3.slice(0, 15);
+                  this.showMore3 = true;
+                  this.questionList3 = this.allQuestionList3.slice(0, 15);
                 } else {
-                this.showMore3 = false;
-                this.questionList3 = this.allQuestionList3;
+                  this.showMore3 = false;
+                  this.questionList3 = this.allQuestionList3;
                 }
-            }
+              }
+              // 第四个tab
+              if (this.tabList && this.tabList.length == 4) {
+                this.allQuestionList = res.data.result[0].questionList;
+                this.allQuestionList2 = res.data.result[1].questionList;
+                this.allQuestionList3 = res.data.result[2].questionList;
+                this.allQuestionList4 = res.data.result[3].questionList;
+                this.questionCount = res.data.result[0].questionCount;
+                this.questionCount2 = res.data.result[1].questionCount;
+                this.questionCount3 = res.data.result[2].questionCount;
+                this.questionCount4 = res.data.result[3].questionCount;
+                this.answerCount = res.data.result[0].answerCount;
+                this.answerCount2 = res.data.result[1].answerCount;
+                this.answerCount3 = res.data.result[2].answerCount;
+                this.answerCount4 = res.data.result[3].answerCount;
+                if (this.allQuestionList.length > 15) {
+                  this.showMore = true;
+                  this.questionList = this.allQuestionList.slice(0, 15);
+                } else {
+                  this.showMore = false;
+                  this.questionList = this.allQuestionList;
+                }
+                if (this.allQuestionList2.length > 15) {
+                  this.showMore2 = true;
+                  this.questionList2 = this.allQuestionList2.slice(0, 15);
+                } else {
+                  this.showMore2 = false;
+                  this.questionList2 = this.allQuestionList2;
+                }
+                if (this.allQuestionList3.length > 15) {
+                  this.showMore3 = true;
+                  this.questionList3 = this.allQuestionList3.slice(0, 15);
+                } else {
+                  this.showMore3 = false;
+                  this.questionList3 = this.allQuestionList3;
+                }
+                if (this.allQuestionList4.length > 15) {
+                  this.showMore4 = true;
+                  this.questionList4 = this.allQuestionList4.slice(0, 15);
+                } else {
+                  this.showMore4 = false;
+                  this.questionList4 = this.allQuestionList4;
+                }
+              }
+              // 第五个tab
+              if (this.tabList && this.tabList.length == 5) {
+                this.allQuestionList = res.data.result[0].questionList;
+                this.allQuestionList2 = res.data.result[1].questionList;
+                this.allQuestionList3 = res.data.result[2].questionList;
+                this.allQuestionList4 = res.data.result[3].questionList;
+                this.allQuestionList5 = res.data.result[4].questionList;
+                this.questionCount = res.data.result[0].questionCount;
+                this.questionCount2 = res.data.result[1].questionCount;
+                this.questionCount3 = res.data.result[2].questionCount;
+                this.questionCount4 = res.data.result[3].questionCount;
+                this.questionCount5 = res.data.result[4].questionCount;
+                this.answerCount = res.data.result[0].answerCount;
+                this.answerCount2 = res.data.result[1].answerCount;
+                this.answerCount3 = res.data.result[2].answerCount;
+                this.answerCount4 = res.data.result[3].answerCount;
+                this.answerCount5 = res.data.result[4].answerCount;
+                if (this.allQuestionList.length > 15) {
+                  this.showMore = true;
+                  this.questionList = this.allQuestionList.slice(0, 15);
+                } else {
+                  this.showMore = false;
+                  this.questionList = this.allQuestionList;
+                }
+                if (this.allQuestionList2.length > 15) {
+                  this.showMore2 = true;
+                  this.questionList2 = this.allQuestionList2.slice(0, 15);
+                } else {
+                  this.showMore2 = false;
+                  this.questionList2 = this.allQuestionList2;
+                }
+                if (this.allQuestionList3.length > 15) {
+                  this.showMore3 = true;
+                  this.questionList3 = this.allQuestionList3.slice(0, 15);
+                } else {
+                  this.showMore3 = false;
+                  this.questionList3 = this.allQuestionList3;
+                }
+                if (this.allQuestionList4.length > 15) {
+                  this.showMore4 = true;
+                  this.questionList4 = this.allQuestionList4.slice(0, 15);
+                } else {
+                  this.showMore4 = false;
+                  this.questionList4 = this.allQuestionList4;
+                }
+                if (this.allQuestionList5.length > 15) {
+                  this.showMore5 = true;
+                  this.questionList5 = this.allQuestionList5.slice(0, 15);
+                } else {
+                  this.showMore5 = false;
+                  this.questionList5 = this.allQuestionList5;
+                }
+              }
             }
         });
     },
@@ -617,9 +771,7 @@ export default {
         secondLabelId: secondLabel,
         onlyResponse: onlyResponse
       };
-      console.log('子组件调用父组件方法',param)
       getResultQuestionList(param).then(res => {
-       
         // 当只有一个tab页时
         if (this.tabList.length == 1) {
           if (res.data.result.length > 0) {
@@ -628,7 +780,6 @@ export default {
             this.answerCount = res.data.result[0].answerCount;
             if (ifReset != "0") {
               this.feedbackduoxuanList = res.data.result[0].questionLabelList;
-              console.log('多选数据',this.feedbackduoxuanList)
             }
             if (this.allQuestionList.length > 15) {
               this.showMore = true;
@@ -948,8 +1099,6 @@ export default {
     },
     // 点击二级菜单过滤出问题列表
     initOnlyQuestionData(letterId, firstLabelId, secondLabelId, onlyResponse) {
-      console.log("多选按钮参数", secondLabelId);
-      // debugger
       // 动态传id
       // 将second多选按钮参数用字符串，隔开
       let secondLabel = "";
@@ -967,9 +1116,7 @@ export default {
         secondLabelId: secondLabel,
         onlyResponse: onlyResponse
       };
-      console.log("param", param);
       getResultQuestionList(param).then(res => {
-         console.log('回复结果111',res.data.result)
         // 当只有一个tab页时
         if (this.tabList.length == 1) {
           if (res.data.result.length > 0) {
@@ -1150,7 +1297,7 @@ export default {
             }
           }
         }
-                 // 当有5个tab页时
+        // 当有5个tab页时
         if (this.tabList.length == 5) {
           if (param.letterId == this.tabList[0].letterId) {
             if (res.data.result.length > 0) {
@@ -1254,7 +1401,6 @@ export default {
         geSelectMemberList(param).then(res => {
             if(res.data.result&&res.data.result.length>0){
                 this.memberList = res.data.result
-                console.log('委员详情',this.memberList)
                 
             }
         })
@@ -1363,45 +1509,66 @@ export default {
     background:url('../../../assets/images/quan.png') no-repeat;
 }
 .zhbjResult{
-     font-size: 14px;
+     font-size: 12px;
      color: #FF9900;
      padding:5px;
      line-height:10px;
+    padding-left: 10px;
+    padding-right: 7px;
      display:inline-block;
       background-size:cover;
      background:url('../../../assets/images/zhbj.png') no-repeat;
 }
 .whtgResult{
-     font-size: 14px;
+     font-size: 12px;
      color: #FE5461;
      padding:5px;
      line-height:10px;
+    padding-left: 10px;
+    padding-right: 7px;
      display:inline-block;
      background-size:cover;
      background:url('../../../assets/images/whtg.png') no-repeat;
 }
 .htgResult{
-     font-size: 14px;
+     font-size: 12px;
      color: #14BCF5;
      padding:5px;
+     padding-left: 10px;
+    padding-right: 7px;
      line-height:10px;
      display:inline-block;
       background-size:cover;
      background:url('../../../assets/images/htg.png') no-repeat;
 }
+.tgResult{
+     font-size: 12px;
+     color: #14BCF5;
+     padding:5px;
+     line-height:10px;
+     display:inline-block;
+     background-size:cover;
+    padding-left: 10px;
+    padding-right: 7px;
+     background:url('../../../assets/images/tg.png') no-repeat;
+}
 .qxshResult{
-     font-size: 14px;
+     font-size: 12px;
      color: #94A3B4;
      padding:5px;
+     padding-left: 10px;
+    padding-right: 7px;
      line-height:10px;
      display:inline-block;
       background-size:cover;
      background:url('../../../assets/images/qxsh.png') no-repeat;
 }
 .dshResult{
-     font-size: 14px;
+     font-size: 12px;
      color: #ffd800;
      padding:5px;
+     padding-left: 10px;
+    padding-right: 7px;
      line-height:10px;
      display:inline-block;
      background-size:cover;

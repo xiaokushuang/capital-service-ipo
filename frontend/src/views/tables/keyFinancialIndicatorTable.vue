@@ -56,12 +56,9 @@
       </el-table-column>
     </el-table>
        <!-- 点击放大镜弹出的折线图 -->
-    <el-dialog :title="this.zxChartData?'公司最近三年'  +this.zxChartData.itemName+'_趋势':''" :visible.sync="dialogChartVisible" :before-close="handleClose">
-       <!-- <tanZxChart3 :zxChartData = "this.zxChartData" :zxChartTitle = "MainIndexTableList.title"></tanZxChart3> -->
-       <!-- <tanZxChart3 :zxChartData = {zxChartTitle:this.zxChartData,zxChartContent:MainIndexTableList.content}></tanZxChart3> -->
-        <tanZxChart3 :zxChartData = "this.zxChartData"></tanZxChart3>
+    <el-dialog :title="this.zxChartData?'公司最近三年'  +this.zxChartData.itemName+'_趋势':''" :visible.sync="dialogChartVisible" :before-close="handleClose" v-if="dialogChartVisible">
+        <tanZxChart3 :zxChartData = "[this.zxChartData,this.MainIndexTableList.title,this.flag]"></tanZxChart3>
     </el-dialog>
-
   </div>
 </template>
 <script>
@@ -70,6 +67,7 @@ export default {
   name: 'mainTable',
   data() {
     return {
+      flag:true,//判断是否是主要财务指标
       allAssetsTableTitle: {
         forthYearDate:'',
         thirdYearValue:'',
@@ -107,14 +105,9 @@ export default {
       // 点击放大镜弹出折线图
     handleShowChart(i,r){
       this.zxChartData = r
-      console.log('111', this.zxChartData)
-      console.log('222',this.MainIndexTableList.title)
       this.dialogChartVisible = true;
     }
   },
-  computed: {
-
-  }
 }
 </script>
 

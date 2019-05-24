@@ -14,12 +14,13 @@
           </li>
           <li  class="clear" style="margin-bottom:10px;position:relative" >
             <span  class="l">所属行业(证监会)</span>
-            <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.industryCsrc"  style="color: #333333;float:left;display:inline-block;width: 53%;margin-left: 27px;">{{companyProfileList.companyProfileList.industryCsrc}}</div>
+            <!-- <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.industryCsrc"  style="color: #333333;float:left;display:inline-block;width: 53%;margin-left: 27px;">{{companyProfileList.companyProfileList.industryCsrc}}</div> -->
+             <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.industryCsrc"  style="color: #333333;float:left;display:inline-block;width: 53%;margin-left: 27px;" :title="companyProfileList.companyProfileList.industryCsrc.length>24 ? companyProfileList.companyProfileList.industryCsrc:''">{{getContentHy1(companyProfileList.companyProfileList.industryCsrc)}}</div>
             <div v-else  style="color: #333333;float:left;display:inline-block;width: 53%;margin-left: 27px;">- -</div>
           </li>
             <li  class="clear" style="margin-bottom:10px;position:relative" >
             <span  class="l">所属行业(战略新兴)</span>
-            <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.strageticIndustries "  style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;">{{companyProfileList.companyProfileList.strageticIndustries}}</div>
+            <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.strageticIndustries "  style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" :title="companyProfileList.companyProfileList.strageticIndustries.length>22 ? companyProfileList.companyProfileList.strageticIndustries:''">{{getContentHy(companyProfileList.companyProfileList.strageticIndustries)}}</div>
             <div v-else  style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;">- -</div>
           </li>
           <li  class="clear" style="margin-bottom:10px;position:relative" >
@@ -39,7 +40,8 @@
           </li>
            <li class="clear" style="margin-bottom:10px;position:relative" >
             <span class="l">注册地址</span>
-            <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&(companyProfileList.companyProfileList.addrProv || companyProfileList.companyProfileList.addrCity || companyProfileList.companyProfileList.addrArea)" >{{companyProfileList.companyProfileList.addrProv}}{{companyProfileList.companyProfileList.addrCity}}{{companyProfileList.companyProfileList.addrArea}}</div>
+            <!-- <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&(companyProfileList.companyProfileList.addrProv || companyProfileList.companyProfileList.addrCity || companyProfileList.companyProfileList.addrArea)" >{{companyProfileList.companyProfileList.addrProv}}{{companyProfileList.companyProfileList.addrCity}}{{companyProfileList.companyProfileList.addrArea}}</div> -->
+            <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&(companyProfileList.companyProfileList.addrProv || companyProfileList.companyProfileList.addrCity || companyProfileList.companyProfileList.addrArea)" :title="(companyProfileList.companyProfileList.addrProv + companyProfileList.companyProfileList.addrCity + companyProfileList.companyProfileList.addrArea ).length>20 ? (companyProfileList.companyProfileList.addrProv + companyProfileList.companyProfileList.addrCity + companyProfileList.companyProfileList.addrArea ):''">{{getAdress(companyProfileList.companyProfileList.addrProv + companyProfileList.companyProfileList.addrCity + companyProfileList.companyProfileList.addrArea)}}</div>
             <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-else >- -</div>
           </li>
           <li  class="clear" style="margin-bottom:10px;position:relative" >
@@ -635,6 +637,27 @@ export default {
   mounted() {
   },
   methods: {
+    getContentHy1(title){
+     if(title.length>24){
+       return title.substring(0,23) + '...'
+     }else{
+       return title
+     }
+   },
+   getContentHy(title){
+     if(title.length>22){
+       return title.substring(0,21) + '...'
+     }else{
+       return title
+     }
+   },
+    getAdress(title){
+     if(title.length>20){
+       return title.substring(0,19) + '...'
+     }else{
+       return title
+     }
+   },
     openLetterDetail(fileId) {
             let url = window.location.href;
             let token = this.$store.state.app.token
@@ -659,16 +682,13 @@ export default {
       getSpliteData(param).then(res=>{
         if(res.data.result&&res.data.result.length>0){
           this.spliteList = res.data.result
-          console.log('拆分上市情况',this.spliteList)
         }
           this.getPosition()
       });
       // 最近一次估值情况
       getValuationData(param).then(res=>{
-        console.log('最近一次估值',res.data.result)
         if(res.data.result&&res.data.result.length>0&&(res.data.result[0].valuationDate || res.data.result[0].valuationMemo || res.data.result[0].valuationEquity || res.data.result[0].valuationType || res.data.result[0].valuationValue)){
           this.recentValuationFlag = true
-          console.log('最近估值flag',this.recentValuationFlag)
           this.recentValuation = res.data.result[0]
         }
           this.getPosition()
@@ -785,7 +805,7 @@ export default {
           }
             let majorCustomer = {
               id: 'majorCustomer',
-              name: '前五名用户',
+              name: '前五名客户',
               notes: '',
               important: false,
               tabId: 'tab-first',

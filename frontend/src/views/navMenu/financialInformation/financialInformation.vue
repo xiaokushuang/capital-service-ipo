@@ -224,7 +224,6 @@ export default {
              getSelectFinanceOverList(param).then(res => {
                  if(res.data.result&&res.data.result.dateList!=null){
                     this.allAssetsTableTitle = res.data.result.dateList
-                    console.log('财务总体',this.allAssetsTableTitle)
                  }
                  if(res.data.result&&res.data.result.ipoFinanceOverList!=null&&res.data.result.ipoFinanceOverList.length>0){
                      this.allAssetsTableContent = res.data.result.ipoFinanceOverList 
