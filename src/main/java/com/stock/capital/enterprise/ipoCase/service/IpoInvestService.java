@@ -26,14 +26,19 @@ public class IpoInvestService extends BaseService {
         BigDecimal sumTotal = new BigDecimal("0");
         BigDecimal sumPre = new BigDecimal("0");
         BigDecimal sumRate = new BigDecimal("0");
-        for (IpoInvestItemDto dto : investItemList) {
-            BigDecimal rate = dto.getInvestPlan().divide(dto.getInvestPlanLimit(), 4, BigDecimal.ROUND_HALF_UP);
-            dto.setInvestRateStr(String.valueOf(rate.multiply(new BigDecimal("100"),
-                    new MathContext(4, RoundingMode.HALF_UP))) + "%");
-            sumPlan = sumPlan.add(dto.getInvestPlan());
-            sumTotal = sumTotal.add(dto.getInvestTotal());
-            sumPre = sumPre.add(dto.getInvestPre());
-            sumRate = sumRate.add(rate);
+        if(CollectionUtils.isNotEmpty(investItemList)){
+            for (IpoInvestItemDto dto : investItemList) {
+                BigDecimal rate = new BigDecimal("0");
+                if(dto.getInvestPlanLimit().compareTo(BigDecimal.ZERO) != 0){
+                    rate = dto.getInvestPlan().divide(dto.getInvestPlanLimit(), 4, BigDecimal.ROUND_HALF_UP);
+                }
+                dto.setInvestRateStr(String.valueOf(rate.multiply(new BigDecimal("100"),
+                        new MathContext(4, RoundingMode.HALF_UP))) + "%");
+                sumPlan = sumPlan.add(dto.getInvestPlan());
+                sumTotal = sumTotal.add(dto.getInvestTotal());
+                sumPre = sumPre.add(dto.getInvestPre());
+                sumRate = sumRate.add(rate);
+            }
         }
         if(CollectionUtils.isNotEmpty(investItemList)){
             sumDto.setItemName("总计");
