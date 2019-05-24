@@ -55,7 +55,7 @@
         </div>
         <div v-if="maoChartTableData&&maoChartTableData.length>0" >
             <div class="chartTable" v-for="item,index in maoChartTableData" :key="item.id">
-                <p style="font-family:'PingFang-SC-Regular', 'PingFang SC';font-weight:400;color:#333;font-size:16px; margin-top: 0px;margin-bottom:0px">{{item.title}}</p>
+                <p style="font-family:'PingFang-SC-Regular', 'PingFang SC';font-weight:400;color:#333;font-size:16px; margin-top: 25px;margin-bottom:0px">{{item.title}}</p>
                 <p style="font-family:'PingFang-SC-Regular', 'PingFang SC';font-weight:400;color:#666666;font-size:14px; margin-top: 12px;margin-bottom:0px">{{item.remark}}</p>
                 <div class="zxChart" style="height:300px;width:100%; ">
                     <zxChart v-if="maoChartTableData&&maoChartTableData.length>0" ref="zxChart" :zxIndex = "index"></zxChart>

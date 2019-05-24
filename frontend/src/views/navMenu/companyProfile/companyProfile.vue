@@ -143,7 +143,7 @@
             <span v-else style="color:black;float:left;margin-left: 18px;width: 80%">- -</span>
           </li>
            <li style="width: 100%;margin-bottom:10px ">
-            <span>相关文件</span>&nbsp;&nbsp;
+            <span>相关文件</span>&nbsp;&nbsp;&nbsp;&nbsp;
             <span v-if="spliteList[0].splitFileName"  @click="openLetterDetail(spliteList[0].splitFileId)" style="color:#3399fe;text-decoration:underline;cursor:pointer;">{{spliteList[0].splitFileName}}</span>
             <span v-else style="color:black">- -</span>
           </li>

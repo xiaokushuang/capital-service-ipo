@@ -293,7 +293,8 @@
        <!-- 筛选问题列表 -->
          <div v-if="tabList&&tabList.length>0&&tabList[0].questionList&&tabList[0].questionList.length>0" class="title">
                 <span class="littleRectangle"></span>
-                <span class="titleText" id="result">上市会关注问题</span>
+                <span v-if="companyProfileList.headList.isTechBoard==1" class="titleText" id="result">上市会关注问题</span>
+                <span v-if="companyProfileList.headList.isTechBoard==0" class="titleText" id="result">发审会关注问题</span>
          </div>
         <div class="feedback" id="componentId">
             <div class="label">
@@ -426,6 +427,9 @@ export default {
   created() {
     this.initTableData();
     this.isShowAll = true;
+  },
+  mounted(){
+    console.log(this.companyProfileList)
   },
   methods: {
      showMoreMethods(){

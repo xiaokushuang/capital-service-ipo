@@ -365,15 +365,15 @@ public class CompanyOverviewService extends BaseService {
                 BigDecimal firstZb = null;
                 BigDecimal secondZb = null;
                 BigDecimal thirdZb = null;
-                if (firstHj != null && thirdHj != null){
+                if (firstHj != null && thirdHj != null && thirdHj.compareTo(BigDecimal.ZERO) != 0){
                    firstZb = firstHj.divide(thirdHj, 4, ROUND_HALF_DOWN)
                     .multiply(new BigDecimal(100));
                 }
-                if (secondHj != null && thirdHj != null){
+                if (secondHj != null && thirdHj != null && thirdHj.compareTo(BigDecimal.ZERO) != 0){
                     secondZb = secondHj.divide(thirdHj, 4, ROUND_HALF_DOWN)
                         .multiply(new BigDecimal(100));
                 }
-                if (thirdHj != null) {
+                if (thirdHj != null && thirdHj.compareTo(BigDecimal.ZERO) != 0) {
                     thirdZb = thirdHj.divide(thirdHj, 4, ROUND_HALF_DOWN)
                         .multiply(new BigDecimal(100));
                 }
@@ -383,19 +383,19 @@ public class CompanyOverviewService extends BaseService {
 
                 IpoTechnologyPatentDto hjRow = new IpoTechnologyPatentDto();
                 hjRow.setLabelName("占比");
-                if (patent.get(2).getFm() != null && thirdHj != null) {
+                if (patent.get(2).getFm() != null && thirdHj != null && thirdHj.compareTo(BigDecimal.ZERO) != 0) {
                     hjRow.setFm(patent.get(2).getFm().divide(thirdHj, 4, ROUND_HALF_DOWN)
                         .multiply(new BigDecimal(100)));
                 }
-                if (patent.get(2).getSy() != null && thirdHj != null) {
+                if (patent.get(2).getSy() != null && thirdHj != null && thirdHj.compareTo(BigDecimal.ZERO) != 0) {
                     hjRow.setSy(patent.get(2).getSy().divide(thirdHj, 4, ROUND_HALF_DOWN)
                         .multiply(new BigDecimal(100)));
                 }
-                if (patent.get(2).getWg() != null && thirdHj != null) {
+                if (patent.get(2).getWg() != null && thirdHj != null && thirdHj.compareTo(BigDecimal.ZERO) != 0) {
                     hjRow.setWg(patent.get(2).getWg().divide(thirdHj, 4, ROUND_HALF_DOWN)
                         .multiply(new BigDecimal(100)));
                 }
-                if (thirdHj != null) {
+                if (thirdHj != null && thirdHj.compareTo(BigDecimal.ZERO) != 0) {
                     hjRow.setHj(
                         thirdHj.divide(thirdHj, 4, ROUND_HALF_DOWN).multiply(new BigDecimal(100)));
                 }
