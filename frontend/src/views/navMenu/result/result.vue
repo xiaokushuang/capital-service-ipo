@@ -22,7 +22,7 @@
                                 <span class="qxshResult" v-if="baseList[0].iecResult=='03'">取消审核</span>
                                 <span class="dshResult"  v-if="baseList[0].iecResult=='04'">待审核</span>
                                 <span class="tgResult"  v-if="baseList[0].iecResult=='05'">通过</span>
-                                <span class="whtgResult" v-if="baseList[0].iecResult=='06'">未通过</span>
+                                <span class="wtgResult" v-if="baseList[0].iecResult=='06'">未通过</span>
                                 <span class="htgResult"  v-if="baseList[0].iecResult=='07'">注册生效</span>
                                 <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
                                 <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待审核</span>
@@ -70,7 +70,7 @@
                                 <span class="qxshResult" v-if="baseList[0].iecResult=='03'">取消审核</span>
                                 <span class="dshResult"  v-if="baseList[0].iecResult=='04'">待审核</span>
                                 <span class="tgResult"   v-if="baseList[0].iecResult=='05'">通过</span>
-                                <span class="whtgResult" v-if="baseList[0].iecResult=='06'">未通过</span>
+                                <span class="wtgResult" v-if="baseList[0].iecResult=='06'">未通过</span>
                                 <span class="htgResult"  v-if="baseList[0].iecResult=='07'">注册生效</span>
                                 <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
                                 <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待审核</span>
@@ -117,7 +117,7 @@
                                 <span class="qxshResult" v-if="baseList[1].iecResult=='03'">取消审核</span>
                                 <span class="dshResult"  v-if="baseList[1].iecResult=='04'">待审核</span>
                                 <span class="tgResult"  v-if="baseList[1].iecResult=='05'">通过</span>
-                                <span class="whtgResult" v-if="baseList[1].iecResult=='06'">未通过</span>
+                                <span class="wtgResult" v-if="baseList[1].iecResult=='06'">未通过</span>
                                 <span class="htgResult"  v-if="baseList[1].iecResult=='07'">注册生效</span>
                                 <span class="whtgResult" v-if="baseList[1].iecResult=='08'">不予注册</span>
                                 <span class="dshResult"  v-if="baseList[1].iecResult=='09'">待审核</span>
@@ -166,7 +166,7 @@
                                 <span class="qxshResult" v-if="baseList[0].iecResult=='03'">取消审核</span>
                                 <span class="dshResult"  v-if="baseList[0].iecResult=='04'">待审核</span>
                                 <span class="tgResult"  v-if="baseList[0].iecResult=='05'">通过</span>
-                                <span class="whtgResult" v-if="baseList[0].iecResult=='06'">未通过</span>
+                                <span class="wtgResult" v-if="baseList[0].iecResult=='06'">未通过</span>
                                 <span class="htgResult"  v-if="baseList[0].iecResult=='07'">注册生效</span>
                                 <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
                                 <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待审核</span>
@@ -213,7 +213,7 @@
                                 <span class="qxshResult" v-if="baseList[1].iecResult=='03'">取消审核</span>
                                 <span class="dshResult"  v-if="baseList[1].iecResult=='04'">待审核</span>
                                 <span class="tgResult"  v-if="baseList[1].iecResult=='05'">通过</span>
-                                <span class="whtgResult" v-if="baseList[1].iecResult=='06'">未通过</span>
+                                <span class="wtgResult" v-if="baseList[1].iecResult=='06'">未通过</span>
                                 <span class="htgResult"  v-if="baseList[1].iecResult=='07'">注册生效</span>
                                 <span class="whtgResult" v-if="baseList[1].iecResult=='08'">不予注册</span>
                                 <span class="dshResult"  v-if="baseList[1].iecResult=='09'">待审核</span>
@@ -260,7 +260,7 @@
                                 <span class="qxshResult" v-if="baseList[2].iecResult=='03'">取消审核</span>
                                 <span class="dshResult"  v-if="baseList[2].iecResult=='04'">待审核</span>
                                 <span class="tgResult"  v-if="baseList[2].iecResult=='05'">通过</span>
-                                <span class="whtgResult" v-if="baseList[2].iecResult=='06'">未通过</span>
+                                <span class="wtgResult" v-if="baseList[2].iecResult=='06'">未通过</span>
                                 <span class="htgResult"  v-if="baseList[2].iecResult=='07'">注册生效</span>
                                 <span class="whtgResult" v-if="baseList[2].iecResult=='08'">不予注册</span>
                                 <span class="dshResult"  v-if="baseList[2].iecResult=='09'">待审核</span>
@@ -1551,6 +1551,17 @@ export default {
     padding-left: 10px;
     padding-right: 7px;
      background:url('../../../assets/images/tg.png') no-repeat;
+}
+.wtgResult{
+     font-size: 12px;
+     color: #FE5461;
+     padding:5px;
+     line-height:10px;
+     display:inline-block;
+     background-size:cover;
+    padding-left: 10px;
+    padding-right: 7px;
+     background:url('../../../assets/images/wtg.png') no-repeat;
 }
 .qxshResult{
      font-size: 12px;

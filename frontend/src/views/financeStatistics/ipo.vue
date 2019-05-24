@@ -378,7 +378,6 @@ export default {
        getHeadData(param).then(res => {
          if(res.data.result){
            this.headList = res.data.result
-           console.log('tou',this.headList)
          }
          if(res.data.result&&res.data.result.specialArrange!=null){
            this.specialArrange = res.data.result.specialArrange.split(',');

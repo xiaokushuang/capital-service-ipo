@@ -539,7 +539,7 @@
             font-size:14px;
             line-height:20px;
             text-align: left;">
-            说明：本次募集资金到位前，公司拟以自筹资金和银行借款先行实施；募集资金到位后，公司将用募集资金置换已投入的资金。如果实际募集资金净额不足以完成上述投资项目，不足部分公司将自筹解决。
+            {{'备注：'+raiseMoneyTableList[0].investRemark}}
         </p>
       </div>
     </div>

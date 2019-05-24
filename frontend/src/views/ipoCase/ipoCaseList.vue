@@ -152,7 +152,7 @@
                          @sure-click="sure('selectVerifyResult')"
                          @clear-click="clearLocal('treeVerifyResult')">
                 <el-option :label="iecResult" :value="iecResultValue">
-                  <el-tree :data="verifyResultList" show-checkbox node-key="id" ref="treeVerifyResult" highlight-current
+                  <el-tree :data="verifyResultList" default-expand-all show-checkbox node-key="id" ref="treeVerifyResult" highlight-current
                            :props="default_tree" @check-change="selectHandleNodeClick('iecResult','treeVerifyResult')"></el-tree>
                 </el-option>
               </el-select>
@@ -163,7 +163,7 @@
                          @sure-click="sure('selectIssueCondition')"
                          @clear-click="clearLocal('treeIssueCondition')">
                 <el-option :label="issueCondition" :value="issueConditionValue">
-                  <el-tree :data="issueConditionList" show-checkbox node-key="id" ref="treeIssueCondition" highlight-current
+                  <el-tree :data="issueConditionList" default-expand-all show-checkbox node-key="id" ref="treeIssueCondition" highlight-current
                            :props="default_tree" @check-change="selectHandleNodeClick('issueCondition','treeIssueCondition')"></el-tree>
                 </el-option>
               </el-select>
@@ -1752,12 +1752,11 @@
     font-size: 12px;
     color: #FE5461;
     padding: 5px;
-    padding-left: 14px;
-    padding-right: 11px;
+    padding-left: 10px;
     line-height: 10px;
     display: inline-block;
     background-size: cover;
-    background:url('../../assets/images/whtg.png') no-repeat;
+    background:url('../../assets/images/wtg.png') no-repeat;
 
 }
 .htgResult{

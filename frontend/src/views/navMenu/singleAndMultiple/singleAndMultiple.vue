@@ -12,7 +12,7 @@
               </div>
                 <div class="clear" style="padding:0px 25px;margin-top:12px;padding-bottom:10px">
                   <p style="float: left; margin-left: -6px; margin-top: 2px;margin-right: 15px;" v-if="singleAndMultiplDdata.checkbox&&singleAndMultiplDdata.checkbox.length>0">子级分类:</p>
-                  <el-checkbox-group  @change="handelMoreChange(checkboxGroup)" v-model="checkboxGroup" size="mini" style="float:left;width:88%">
+                  <el-checkbox-group  @change="handelMoreChange(checkboxGroup,currentCheck)" true-label="currentCheck" v-model="checkboxGroup" size="mini" style="float:left;width:88%">
                       <el-checkbox :key="item.labelCode" class="checkbox" v-for="item in singleAndMultiplDdata.checkbox" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-checkbox>
                   </el-checkbox-group>
                 </div>
@@ -88,6 +88,7 @@ export default {
       caseId: this.$store.state.app.caseId,
       // 总共数据
       tabList: [],
+      currentCheck:'',//多选当前选中的值
       // 多选按钮数据
       feedbackduoxuanList: [],
       flag: false,
@@ -116,6 +117,8 @@ export default {
       // 默认有moreText类
       isMoreText: true,
       allQuestionList: [],
+      radioRealVal:'',//单选
+      checkboxRealGroup:[],//多选
     };
   },
   created() {
@@ -138,6 +141,7 @@ export default {
   methods: {
     // 单选按钮
     handelChange(val) {
+      // debugger;
       this.radioVal = val;
       this.checkboxGroup = [];
       // 判断点击的是否是单选按钮的’全部‘按钮
@@ -180,146 +184,61 @@ export default {
       }
     },
     // 多选按钮
-    handelMoreChange(val) {
+    handelMoreChange(val,current) {
       // 如果多选按钮只剩一个的时候，点击取消的时候没有过滤数据
       if(val!=null&&val.length == 0){
          if (this.radioVal == null) {
-              if(this.singleAndMultiplDdata.tabList.length==1){
-                  this.$parent.initOnlyQuestionData(
-                    this.singleAndMultiplDdata.o_letterId,
-                    "",
-                    [],
-                    this.onlyShowAnswerFlag
-                  );
-              }
-              if(this.singleAndMultiplDdata.tabList.length>1){
-                    this.$parent.$parent.$parent.initOnlyQuestionData(
-                    this.singleAndMultiplDdata.o_letterId,
-                    "",
-                    [],
-                    this.onlyShowAnswerFlag
-                  );
-              }
+              this.radioRealVal = "";
           } 
           else {
-              if(this.singleAndMultiplDdata.tabList.length==1){
-                  this.$parent.initOnlyQuestionData(
-                    this.singleAndMultiplDdata.o_letterId,
-                    this.radioVal,
-                    [],
-                    this.onlyShowAnswerFlag
-                  );
-              }
-              if(this.singleAndMultiplDdata.tabList.length>1){
-                    this.$parent.$parent.$parent.initOnlyQuestionData(
-                    this.singleAndMultiplDdata.o_letterId,
-                    this.radioVal,
-                    [],
-                    this.onlyShowAnswerFlag
-                  );
-              }
+            this.radioRealVal = this.radioVal;
           }
-        //  if(this.singleAndMultiplDdata.tabList.length==1){
-        //           this.$parent.initOnlyQuestionData(
-        //             this.singleAndMultiplDdata.o_letterId,
-        //             this.radioVal,
-        //             [],
-        //             this.onlyShowAnswerFlag
-        //           );
-        //       }
-        //       if(this.singleAndMultiplDdata.tabList.length>1){
-        //             this.$parent.$parent.$parent.initOnlyQuestionData(
-        //             this.singleAndMultiplDdata.o_letterId,
-        //             this.radioVal,
-        //             [],
-        //             this.onlyShowAnswerFlag
-        //           );
-        //       }
-      }
-      // 当多选按钮点击多个的时候
-      for (let i = 0; i < val.length; i++) {
-        //  如果点击了多选按钮‘全部’,就将绑定的数组变成【null】,然后重新请求数据，传空数组[]
-        if (val[i] == null) {
-          this.checkboxGroup = [null];
-          if (this.radioVal == null) {
-              if(this.singleAndMultiplDdata.tabList.length==1){
-                  this.$parent.initOnlyQuestionData(
-                    this.singleAndMultiplDdata.o_letterId,
-                    "",
-                    [],
-                    this.onlyShowAnswerFlag
-                  );
-              }
-              if(this.singleAndMultiplDdata.tabList.length>1){
-                    this.$parent.$parent.$parent.initOnlyQuestionData(
-                    this.singleAndMultiplDdata.o_letterId,
-                    "",
-                    [],
-                    this.onlyShowAnswerFlag
-                  );
-              }
+      } else{  // 当多选按钮点击多个的时候
+        for (let i = 0; i < val.length; i++) {
+          //  如果点击了多选按钮‘全部’,就将绑定的数组变成【null】,然后重新请求数据，传空数组[]
+          if (val[i] == null) {
+            if(i==0 && val.length > 1){
+              this.checkboxGroup = val.slice(1);
+              this.checkboxRealGroup = this.checkboxGroup;
+            }else{
+              this.checkboxGroup = [null];
+              this.checkboxRealGroup = [];
+            }
+            
+            if (this.radioVal == null) {
+                this.radioRealVal = "";
+            } else {
+                this.radioRealVal = this.radioVal;
+            }
           } 
-          else {
-              if(this.singleAndMultiplDdata.tabList.length==1){
-                  this.$parent.initOnlyQuestionData(
-                    this.singleAndMultiplDdata.o_letterId,
-                    this.radioVal,
-                    [],
-                    this.onlyShowAnswerFlag
-                  );
-              }
-              if(this.singleAndMultiplDdata.tabList.length>1){
-                    this.$parent.$parent.$parent.initOnlyQuestionData(
-                    this.singleAndMultiplDdata.o_letterId,
-                    this.radioVal,
-                    [],
-                    this.onlyShowAnswerFlag
-                  );
-              }
-          }
-        } else {
-          // 当点击其他的多选按钮时候，之前有点击过‘全部’按钮，需要将这个全部的null去掉，
-          if (val.indexOf(null) != -1) {
-            this.checkboxGroup = val.slice(1);
-          } else {
-            this.checkboxGroup = val;
-          }
-          if (this.radioVal == null) {
-              if(this.singleAndMultiplDdata.tabList.length==1){
-                  this.$parent.initOnlyQuestionData(
-                    this.singleAndMultiplDdata.o_letterId,
-                     "",
-                     this.checkboxGroup,
-                    this.onlyShowAnswerFlag
-                  );
-              }
-              if(this.singleAndMultiplDdata.tabList.length>1){
-                    this.$parent.$parent.$parent.initOnlyQuestionData(
-                    this.singleAndMultiplDdata.o_letterId,
-                     "",
-                    this.checkboxGroup,
-                    this.onlyShowAnswerFlag
-                  );
-              }
-          } else {
-              if(this.singleAndMultiplDdata.tabList.length==1){
-                  this.$parent.initOnlyQuestionData(
-                    this.singleAndMultiplDdata.o_letterId,
-                    this.radioVal,
-                    this.checkboxGroup,
-                    this.onlyShowAnswerFlag
-                  );
-              }
-              if(this.singleAndMultiplDdata.tabList.length>1){
-                    this.$parent.$parent.$parent.initOnlyQuestionData(
-                    this.singleAndMultiplDdata.o_letterId,
-                    this.radioVal,
-                    this.checkboxGroup,
-                    this.onlyShowAnswerFlag
-                  );
-              }
-          }
+        
         }
+      }
+      if(this.radioVal == null){
+        this.radioRealVal = '';
+      }else{
+        this.radioRealVal = this.radioVal;
+      }
+      if(this.checkboxGroup.length == 1 && this.checkboxGroup[0] == null){
+        this.checkboxRealGroup = [];
+      }else{
+        this.checkboxRealGroup = this.checkboxGroup;
+      }
+      if(this.singleAndMultiplDdata.tabList.length==1){
+                      this.$parent.initOnlyQuestionData(
+                      this.singleAndMultiplDdata.o_letterId,
+                      this.radioRealVal,
+                      this.checkboxRealGroup,
+                      this.onlyShowAnswerFlag
+                    );
+                }
+      if(this.singleAndMultiplDdata.tabList.length>1){
+                    this.$parent.$parent.$parent.initOnlyQuestionData(
+                    this.singleAndMultiplDdata.o_letterId,
+                    this.radioRealVal,
+                    this.checkboxRealGroup,
+                    this.onlyShowAnswerFlag
+          );
       }
     },
     // 是否只展示回复问题
@@ -385,10 +304,6 @@ export default {
               }
         } else {
             if(this.singleAndMultiplDdata.tabList.length==1){
-              console.log('是否回复1', this.singleAndMultiplDdata.o_letterId,
-                     this.radioVal,
-                     this.checkboxGroup,
-                     this.onlyShowAnswerFlag)
                   this.$parent.initOnlyQuestionData(
                      this.singleAndMultiplDdata.o_letterId,
                      this.radioVal,
@@ -397,10 +312,6 @@ export default {
                   );
               }
               if(this.singleAndMultiplDdata.tabList.length>1){
-                console.log('是否回复2', this.singleAndMultiplDdata.o_letterId,
-                     this.radioVal,
-                     this.checkboxGroup,
-                     this.onlyShowAnswerFlag)
                     this.$parent.$parent.$parent.initOnlyQuestionData(
                      this.singleAndMultiplDdata.o_letterId,
                      this.radioVal,

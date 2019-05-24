@@ -786,6 +786,7 @@ export default {
     },
     // 点击二级菜单过滤出问题列表
     initOnlyQuestionData(letterId, firstLabelId, secondLabelId, onlyResponse) {
+     
       // 动态传id
       // 将second多选按钮参数用字符串，隔开
       let secondLabel = "";
@@ -804,6 +805,8 @@ export default {
         onlyResponse: onlyResponse
       };
       getSelectQuestionList(param).then(res => {
+        // debugger;
+        console.log('222',param)
         // 当只有一个tab页时
         if (this.tabList.length == 1) {
           if (res.data.result.length > 0) {
@@ -984,7 +987,7 @@ export default {
             }
           }
         }
-                 // 当有5个tab页时
+         // 当有5个tab页时
         if (this.tabList.length == 5) {
           if (param.letterId == this.tabList[0].letterId) {
             if (res.data.result.length > 0) {
