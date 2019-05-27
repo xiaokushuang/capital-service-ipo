@@ -60,6 +60,9 @@ public class CompanyOverviewVo implements Serializable {
     @ApiModelProperty("主营业务")
     private String majorBusinesses; // 主营业务
 
+    @ApiModelProperty("主营业务")
+    private String industryStatusOverview; // 主营业务
+
     @ApiModelProperty("股权结构标签")
     private String structureLabel; //股权结构标签
 
@@ -164,6 +167,14 @@ public class CompanyOverviewVo implements Serializable {
 
     public void setActualController(String actualController) {
         this.actualController = actualController;
+    }
+
+    public String getIndustryStatusOverview() {
+        return industryStatusOverview;
+    }
+
+    public void setIndustryStatusOverview(String industryStatusOverview) {
+        this.industryStatusOverview = industryStatusOverview;
     }
 
     public String getControlShareholder() {

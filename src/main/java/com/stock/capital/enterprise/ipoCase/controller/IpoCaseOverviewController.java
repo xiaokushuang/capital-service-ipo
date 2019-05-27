@@ -27,6 +27,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -231,6 +232,7 @@ public class IpoCaseOverviewController {
         List<MainCompetitorInfoDto> companyOverviewList = companyOverviewService.getCompetitorData(id);
         List<Map> techList = ipoCaseBizMapper.selectTechnologyByBid(id);
         List<IndustryCompareRateDto> indusList = issueSituationService.getIndustryRateData(id);
+        techList.removeAll(Collections.singleton(null));
         if (CollectionUtils.isEmpty(industryList) && CollectionUtils.isEmpty(indusList) &&
          CollectionUtils.isEmpty(companyOverviewList) && CollectionUtils.isEmpty(techList)){
             headDataVo.setIsGray(1);
