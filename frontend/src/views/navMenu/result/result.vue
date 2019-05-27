@@ -33,7 +33,7 @@
                          <p style="font-size:14px;">
                              <span style="color:#999;">发审会委员: </span>
                               <span v-if="baseList[0].member&&baseList[0].member.length>0">
-                               <span style="color:#333;">{{baseList[0].member}}</span>
+                               <span style="color:#333;font-family:'微软雅黑'">{{baseList[0].member}}</span>
                                 <span  style="color:#333;"> ;</span>
                                 <span style="color:#1990FE;cursor:pointer" @click="handleMemberDetail(baseList[0].examineDate)">详情 &gt;</span>
                              </span>

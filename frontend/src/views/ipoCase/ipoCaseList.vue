@@ -567,7 +567,6 @@
                     </template>
                   </el-table-column>
                 </el-table>
-
                 <papers style="margin-bottom: 2%" ref="paper" :length1="20" :total="totalCount" @searchTable="search"></papers>
               </div>
             </el-col>

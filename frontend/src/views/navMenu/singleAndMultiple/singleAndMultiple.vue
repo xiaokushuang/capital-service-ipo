@@ -2,7 +2,7 @@
     <div class="singleAndMultiple feedback" id="componentId">
       <div style="font-size: 14px;color: #777777;padding-bottom:0px;margin-bottom: 0px;">
           <div class="firstLabel" >
-              <div style="padding:15px 25px 0 25px;margin-top:0px;padding-left:10px;">
+              <div style="padding: 15px 0px 0px 0px;margin-top:0px;padding-left:0px;">
                 <div class="clear" style="border-bottom: 1px solid rgb(235, 235, 235);position:relative">
                   <p style="float:left;margin-left: 8px;margin-top:3px;">问题类型：</p>
                   <el-radio-group  @change="handelChange(radio)" v-model="radio" size="small" style="padding-bottom:10px;float:left;width:88%">
@@ -11,7 +11,7 @@
                 </div>
               </div>
                 <div class="clear" style="padding:0px 25px;margin-top:12px;padding-bottom:10px">
-                  <p style="float: left; margin-left: -6px; margin-top: 2px;margin-right: 15px;" v-if="singleAndMultiplDdata.checkbox&&singleAndMultiplDdata.checkbox.length>0">子级分类:</p>
+                  <p style="float: left; margin-left: -17px; margin-top: 2px;margin-right: 15px;" v-if="singleAndMultiplDdata.checkbox&&singleAndMultiplDdata.checkbox.length>0">子级分类:</p>
                   <el-checkbox-group  @change="handelMoreChange(checkboxGroup,currentCheck)" true-label="currentCheck" v-model="checkboxGroup" size="mini" style="float:left;width:88%">
                       <el-checkbox :key="item.labelCode" class="checkbox" v-for="item in singleAndMultiplDdata.checkbox" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-checkbox>
                   </el-checkbox-group>
@@ -144,86 +144,55 @@ export default {
       // debugger;
       this.radioVal = val;
       this.checkboxGroup = [];
-      // 判断点击的是否是单选按钮的’全部‘按钮
-      if (val == null) {
-        //   当tab只有一个时，只有一轮反馈意见【this.$parent】
-          if(this.singleAndMultiplDdata.tabList.length==1){
-              this.$parent.initQuestionData(
-               this.singleAndMultiplDdata.o_letterId,
-               '',
-               this.checkboxGroup,
-               this.onlyShowAnswerFlag
-            );
-          }
-          //   当tab有多个时，多轮反馈意见【this.$parent.$parent.$parent】
-          if(this.singleAndMultiplDdata.tabList.length>1){
-              this.$parent.$parent.$parent.initQuestionData(
-                this.singleAndMultiplDdata.o_letterId,
-                '',
-                this.checkboxGroup,
-                this.onlyShowAnswerFlag
-              );
-          }
-      } else {
-          if(this.singleAndMultiplDdata.tabList.length==1){
-              this.$parent.initQuestionData(
-               this.singleAndMultiplDdata.o_letterId,
-               val,
-               this.checkboxGroup,
-               this.onlyShowAnswerFlag
-            );
-          }
-          if(this.singleAndMultiplDdata.tabList.length > 1){
-              this.$parent.$parent.$parent.initQuestionData(
-                this.singleAndMultiplDdata.o_letterId,
-                val,
-                this.checkboxGroup,
-                this.onlyShowAnswerFlag
-              );
-          }
-      }
-    },
-    // 多选按钮
-    handelMoreChange(val,current) {
-      // 如果多选按钮只剩一个的时候，点击取消的时候没有过滤数据
-      if(val!=null&&val.length == 0){
-         if (this.radioVal == null) {
-              this.radioRealVal = "";
-          } 
-          else {
-            this.radioRealVal = this.radioVal;
-          }
-      } else{  // 当多选按钮点击多个的时候
-        for (let i = 0; i < val.length; i++) {
-          //  如果点击了多选按钮‘全部’,就将绑定的数组变成【null】,然后重新请求数据，传空数组[]
-          if (val[i] == null) {
-            if(i==0 && val.length > 1){
-              this.checkboxGroup = val.slice(1);
-              this.checkboxRealGroup = this.checkboxGroup;
-            }else{
-              this.checkboxGroup = [null];
-              this.checkboxRealGroup = [];
-            }
-            
-            if (this.radioVal == null) {
-                this.radioRealVal = "";
-            } else {
-                this.radioRealVal = this.radioVal;
-            }
-          } 
-        
-        }
-      }
-      if(this.radioVal == null){
+      this.checkboxRealGroup = this.checkboxGroup;
+       if(this.radioVal == null){//如果单选按钮为’全部‘
         this.radioRealVal = '';
       }else{
         this.radioRealVal = this.radioVal;
       }
-      if(this.checkboxGroup.length == 1 && this.checkboxGroup[0] == null){
+      // 用来判断是否有tab分页
+      if(this.singleAndMultiplDdata.tabList.length==1){
+                      this.$parent.initQuestionData(
+                      this.singleAndMultiplDdata.o_letterId,
+                      this.radioRealVal,
+                      this.checkboxRealGroup,
+                      this.onlyShowAnswerFlag
+                    );
+                }
+      if(this.singleAndMultiplDdata.tabList.length>1){
+                    this.$parent.$parent.$parent.initQuestionData(
+                    this.singleAndMultiplDdata.o_letterId,
+                    this.radioRealVal,
+                    this.checkboxRealGroup,
+                    this.onlyShowAnswerFlag
+          );
+      }
+    },
+    // 多选按钮
+    handelMoreChange(val,current) {
+        for (let i = 0; i < val.length; i++) {
+          //  如果点击了多选按钮‘全部’,就将绑定的数组变成【null】,然后重新请求数据，传空数组[]
+          if (val[i] == null) {
+            if(i==0 && val.length > 1){//当先点击’全部‘，后点击其他多选的时候
+              this.checkboxGroup = val.slice(1);//将’全部‘切掉
+              this.checkboxRealGroup = this.checkboxGroup;
+            }else{
+              this.checkboxGroup = [null];//是为了让’全部‘高亮
+              this.checkboxRealGroup = [];
+            }
+          } 
+        }
+      if(this.radioVal == null){//如果单选按钮为’全部‘
+        this.radioRealVal = '';
+      }else{
+        this.radioRealVal = this.radioVal;
+      }
+      if(this.checkboxGroup.length == 1 && this.checkboxGroup[0] == null){//当多选按钮只点击’全部‘的时候
         this.checkboxRealGroup = [];
       }else{
         this.checkboxRealGroup = this.checkboxGroup;
       }
+      // 用来判断是否有tab分页
       if(this.singleAndMultiplDdata.tabList.length==1){
                       this.$parent.initOnlyQuestionData(
                       this.singleAndMultiplDdata.o_letterId,
@@ -248,78 +217,32 @@ export default {
       } else {
         this.onlyShowAnswerFlag = "";
       }
-      if (this.radioVal == null) {
-        if (this.checkboxGroup[0] == null) {
-            if(this.singleAndMultiplDdata.tabList.length==1){
-                  this.$parent.initOnlyQuestionData(
-                    this.singleAndMultiplDdata.o_letterId,
-                     "",
-                    [],
-                    this.onlyShowAnswerFlag
-                  );
-              }
-              if(this.singleAndMultiplDdata.tabList.length>1){
+       if(this.radioVal == null){//如果单选按钮为’全部‘
+        this.radioRealVal = '';
+      }else{
+        this.radioRealVal = this.radioVal;
+      }
+      if(this.checkboxGroup.length == 1 && this.checkboxGroup[0] == null){//当多选按钮只点击’全部‘的时候
+        this.checkboxRealGroup = [];
+      }else{
+        this.checkboxRealGroup = this.checkboxGroup;
+      }
+       // 用来判断是否有tab分页
+      if(this.singleAndMultiplDdata.tabList.length==1){
+                      this.$parent.initOnlyQuestionData(
+                      this.singleAndMultiplDdata.o_letterId,
+                      this.radioRealVal,
+                      this.checkboxRealGroup,
+                      this.onlyShowAnswerFlag
+                    );
+                }
+      if(this.singleAndMultiplDdata.tabList.length>1){
                     this.$parent.$parent.$parent.initOnlyQuestionData(
                     this.singleAndMultiplDdata.o_letterId,
-                     "",
-                    [],
+                    this.radioRealVal,
+                    this.checkboxRealGroup,
                     this.onlyShowAnswerFlag
-                  );
-              }
-        } else {
-            if(this.singleAndMultiplDdata.tabList.length==1){
-                  this.$parent.initOnlyQuestionData(
-                    this.singleAndMultiplDdata.o_letterId,
-                     "",
-                     this.checkboxGroup,
-                    this.onlyShowAnswerFlag
-                  );
-              }
-              if(this.singleAndMultiplDdata.tabList.length>1){
-                    this.$parent.$parent.$parent.initOnlyQuestionData(
-                    this.singleAndMultiplDdata.o_letterId,
-                     "",
-                     this.checkboxGroup,
-                    this.onlyShowAnswerFlag
-                  );
-              }
-        }
-      } else {
-        if (this.checkboxGroup[0] == null) {
-            if(this.singleAndMultiplDdata.tabList.length==1){
-                  this.$parent.initOnlyQuestionData(
-                    this.singleAndMultiplDdata.o_letterId,
-                     this.radioVal,
-                    [],
-                    this.onlyShowAnswerFlag
-                  );
-              }
-              if(this.singleAndMultiplDdata.tabList.length>1){
-                    this.$parent.$parent.$parent.initOnlyQuestionData(
-                    this.singleAndMultiplDdata.o_letterId,
-                     this.radioVal,
-                    [],
-                    this.onlyShowAnswerFlag
-                  );
-              }
-        } else {
-            if(this.singleAndMultiplDdata.tabList.length==1){
-                  this.$parent.initOnlyQuestionData(
-                     this.singleAndMultiplDdata.o_letterId,
-                     this.radioVal,
-                     this.checkboxGroup,
-                     this.onlyShowAnswerFlag
-                  );
-              }
-              if(this.singleAndMultiplDdata.tabList.length>1){
-                    this.$parent.$parent.$parent.initOnlyQuestionData(
-                     this.singleAndMultiplDdata.o_letterId,
-                     this.radioVal,
-                     this.checkboxGroup,
-                     this.onlyShowAnswerFlag
-                  );
-              }
-        }
+          );
       }
     },
     // 点击加载更多

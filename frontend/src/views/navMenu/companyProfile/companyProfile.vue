@@ -2,6 +2,7 @@
   <div class="companyProfile" v-loading="listLoading" element-loading-text="给我一点时间">
     <!-- 公司简介 -->
     <div class="companey">
+      <span id="briefIntroduction"></span>
       <div class="briefIntroduction">
         <p v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.companyZhName" style="color: #333; font-weight: bold;font-size: 14px;">
           {{companyProfileList.companyProfileList.companyZhName}}
@@ -497,13 +498,13 @@
           <el-table v-if="raiseMoneyTableList&&raiseMoneyTableList.length>0" :data="raiseMoneyTableList" class="raiseMoneyTable" border style="width:100%;">
             <el-table-column label="项目名称" align="left">
                 <template slot-scope="scope">
-                    <span v-if="scope.row.itemName">{{scope.row.itemName}}</span>
+                    <span v-if="scope.row.itemName" :title="scope.row.itemName.length>16?scope.row.itemName:''">{{getContent(scope.row.itemName)}}</span>
                     <span v-else>- -</span>
                 </template>
             </el-table-column>
             <el-table-column label="项目类型" align="left">
                 <template slot-scope="scope">
-                      <span v-if="scope.row.itemTypeStr">{{scope.row.itemTypeStr}}</span>
+                      <span v-if="scope.row.itemTypeStr" :title="scope.row.itemTypeStr.length>16?scope.row.itemTypeStr:''">{{getContent(scope.row.itemTypeStr)}}</span>
                     <span v-else>- -</span>
                 </template>
             </el-table-column>
@@ -635,6 +636,7 @@ export default {
     this.getData();
   },
   mounted() {
+    console.log('11',this.companyProfileList)
   },
   methods: {
     getContentHy1(title){
@@ -738,20 +740,16 @@ export default {
     mouseOverCompanyName(title){
       if(title.length>20){
         $(".companyNameClass").attr("title",title)
-        // $(".companyNameClass").css({"cursor":"pointer"})
       }else{
         $(".companyNameClass").removeAttr("title",title)
-        //  $(".companyNameClass").css({"cursor":"auto"})
       }
     },
     // 鼠标移入采购内容
     mouseOverContent(title){
       if(title.length>16){
         $(".contentClass").attr("title",title)
-        // $(".contentClass").css({"cursor":"pointer"})
       }else{
          $(".contentClass").removeAttr("title",title)
-        //  $(".contentClass").css({"cursor":"auto"})
       }
     },
      getCompanyName(title){
@@ -771,6 +769,14 @@ export default {
     //返回父组件用于锚点定位头
     getPosition() {
           let titleList = [];
+          let briefIntroduction = {
+              id: 'briefIntroduction',
+              name: '公司概览',
+              notes: '',
+              important: false,
+              tabId: 'tab-first',
+              noClick: true
+          }
           let lastValuation = {
               id: 'lastValuation',
               name: '最近一次估值情况',
@@ -827,6 +833,9 @@ export default {
               tabId: 'tab-first',
               noClick: true
           }
+          if(this.companyProfileList.companyProfileList){
+             briefIntroduction.noClick = false;
+          }
           if(this.recentValuationFlag){
              lastValuation.noClick = false;
           }
@@ -848,6 +857,7 @@ export default {
           if(this.dataFlag){
             intermediaryInstitutions.noClick = false;
           }
+          titleList.push(briefIntroduction)
           titleList.push(lastValuation)
           titleList.push(ownershipStructureChart)
           titleList.push(mainBusinessIncomeComposition)

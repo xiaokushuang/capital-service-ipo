@@ -2,12 +2,15 @@
   <div class="industryTechnology">
     <!-- 公司简介 -->
     <div v-if="industryStatus&&industryStatus.length>0" class="industryStatus">
+      <span id="industryStatus"></span>
       <div class="clear">
         <img  src="../../../assets/images/status.png" alt="" style="width:20px;height:20px;float:left;margin-right:10px;margin-top: 7px;">
         <p style="font-size:14px;font-weight:bold;color:#333;float:left;margin-top:10px">{{companyProfileList.companyProfileList.companyName}}的行业地位</p>
       </div>
-      <div v-for="data in industryStatus" :key="data.id" style="font-size:15px;color:#333;margin-bottom:8px">{{data.rankingRange }}
-        <span style="color:#FE5461">{{data.rankingIndicator }}</span>排名第<span style="color:#FE5461;font-weight:bold">{{data.ranking }}</span>名
+      <div v-for="data in industryStatus" :key="data.id" style="font-size:15px;color:#333;margin-bottom:8px">
+        <span>{{data.rankingRange}}</span>
+        <span style="color:#FE5461; position: relative; left: -3px;">
+         {{data.rankingIndicator}}</span>排名第<span style="color:#FE5461;font-weight:bold">{{data.ranking }}</span>名
       </div>
       <p v-if="industryStatus.length>0&&industryStatus[0].industryStatusOverview" style="font-size:14px;color:#666;margin-top:12px;">{{industryStatus[0].industryStatusOverview }}</p>
     </div>
@@ -51,7 +54,7 @@
     <div class="compare">
         <div v-if="maoChartTableData&&maoChartTableData.length>0" class="title" >
             <span class="littleRectangle"></span>
-            <span class="titleText" id="comparison">招股书列示同行业上市公司综合毛利率对比</span>
+            <span class="titleText" id="comparison">招股书列示同行业上市公司毛利率对比</span>
         </div>
         <div v-if="maoChartTableData&&maoChartTableData.length>0" >
             <div class="chartTable" v-for="item,index in maoChartTableData" :key="item.id">
@@ -494,6 +497,14 @@ export default {
     //返回父组件用于锚点定位头
     getPosition() {
           let titleList = [];
+          let industryStatus = {
+              id: 'industryStatus',
+              name: '行业地位',
+              notes: '',
+              important: false,
+              tabId: 'tab-sixth',
+              noClick: true
+          }
           let mainCompetitors = {
               id: 'mainCompetitors',
               name: '主要竞争对手简介',
@@ -534,6 +545,9 @@ export default {
                     tabId: 'tab-sixth',
                     noClick: true
           } 
+          if(this.industryStatus&&this.industryStatus.length>0){
+            industryStatus.noClick = false;
+          }  
           if(this.maoChartTableData&&this.maoChartTableData.length>0){
             comparison.noClick = false;
           }             
@@ -550,6 +564,7 @@ export default {
           if(this.coreTechnologyTableData&&this.coreTechnologyTableData.length>0){
             coreTechnology.noClick = false;
           }
+          titleList.push(industryStatus)
           titleList.push(mainCompetitors)
           titleList.push(comparison)
           // titleList.push(patentSituation)
