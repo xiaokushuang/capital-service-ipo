@@ -68,6 +68,16 @@ public class IpoCaseListService extends BaseService {
             conditionsStr =
                 assebleBoxCondition(conditionsStr, "ipo_industry_csrc_t", bo.getIndustryCsrc());
         }
+        //发行人行业（战略新兴）
+        if (StringUtils.isNotBlank(bo.getStrageticIndustries())) {
+            conditionsStr =
+                    assebleBoxCondition(conditionsStr, "ipo_stragetic_industries_t", bo.getStrageticIndustries());
+        }
+        //配售机制
+        if (StringUtils.isNotBlank(bo.getPlacingMechanism())) {
+            conditionsStr =
+                    assebleBoxCondition(conditionsStr, "ipo_placing_mechanism_t", bo.getPlacingMechanism());
+        }
         //发行人选择的上市条件
         if (StringUtils.isNotBlank(bo.getIssueCondition())) {
             conditionsStr =
@@ -212,6 +222,12 @@ public class IpoCaseListService extends BaseService {
             conditionsStr =
                 assebleCondition(
                     conditionsStr, "ipo_total_share_issuea_d", bo.getTotalShareIssueA(), false);
+        }
+        //最近一次估值
+        if (bo.getValuationValue() != null && bo.getValuationValue().length > 0) {
+            conditionsStr =
+                    assebleCondition(
+                            conditionsStr, "ipo_valuation_d", bo.getValuationValue(), false);
         }
         //左侧树 筛选
         StringBuilder conditionTree = new StringBuilder();
@@ -364,6 +380,12 @@ public class IpoCaseListService extends BaseService {
         //发行人选择的上市条件
         List<RegTreeDto> issueConditionList = ipoCaseListMapper.getLabelByCode("IPO_ISSUE_CONDITION_SIMPLE");
         resultMap.put("issueConditionList", sortSelectList(issueConditionList));
+        //战略新兴行业
+        List<RegTreeDto> strageticIndustriesList = ipoCaseListMapper.getLabelByCode("STRAGETIC_EMERGING_INDUSTRIES");
+        resultMap.put("strageticIndustriesList", sortSelectList(strageticIndustriesList));
+        //配售机制
+        List<RegTreeDto> placingMechanism = ipoCaseListMapper.getLabelByCode("IPO_PLACING_MECHANISM");
+        resultMap.put("placingMechanism", sortSelectList(placingMechanism));
         return resultMap;
     }
 

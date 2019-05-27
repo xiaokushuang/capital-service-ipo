@@ -58,65 +58,13 @@
       </el-col>
       <el-col style="padding:0 0 0 19px !important;width:calc(100% - 300px);">
         <div class="innnerbox1" style="padding-top: 24px">
-          <el-row :gutter="24">
+           <el-row :gutter="24">
             <el-col :span='8'>
               <el-input size='small full' v-model="title" placeholder="标题关键字（包含全部以空格断开）"></el-input>
-            </el-col>
-
-            <el-col :span='8' class="stockIncreasePan-class">
-              <el-multiple-selection v-if="issueShow" :range="true" :tree-data="optionPeIssueA" placeholder="发行后市盈率" size="small full" :multiple="false"
-                                     unit="%" :ran="optionDto" @sure-click="rangeCallPeIssueA">
-              </el-multiple-selection>
-            </el-col>
-            <el-col :span='8' class="stockIncreasePan-class">
-              <el-multiple-selection v-if="issueFeeShow" :range="true" :tree-data="optionIssueFee" placeholder="发行费用" size="small full" :multiple="false"
-                                     unit="万元" :ran="optionDto" @sure-click="rangeCallIssueFee">
-              </el-multiple-selection>
-            </el-col>
-
-          </el-row>
-
-          <el-row :gutter="24">
-            <el-col :span='8'>
-              <el-select ref="selectIndustryCsrc" v-model="industryCsrc" title="发行人行业（证监会）" placeholder="发行人行业（证监会）"
-                         size="small full" :tselect=true @visible-change="calls()"
-                         @sure-click="sure('selectIndustryCsrc')"
-                         @clear-click="clearLocal('treeIndustryCsrc')">
-                <el-option :label="industryCsrc" :value="industryCsrcValue">
-                  <el-tree :data="industryCrscList" show-checkbox node-key="id" ref="treeIndustryCsrc" highlight-current
-                           :props="default_tree" @check-change="selectHandleNodeClick('industryCsrc','treeIndustryCsrc')"></el-tree>
-                </el-option>
-              </el-select>
             </el-col>
             <el-col :span='8'>
               <el-input size='small full' v-model="codeOrName" placeholder="公司名称/代码"></el-input>
             </el-col>
-            <el-col :span='4'>
-              <el-select ref="selectCompanyNature" v-model="companyNature" title="企业性质" placeholder="企业性质"
-                         size="small full" :tselect=true @visible-change="calls()"
-                         @sure-click="sure('selectCompanyNature')"
-                         @clear-click="clearLocal('treeCompanyNature')">
-                <el-option :label="companyNature" :value="companyNatureValue">
-                  <el-tree :data="companyNatureList" show-checkbox node-key="id" ref="treeCompanyNature" highlight-current
-                           :props="default_tree" @check-change="selectHandleNodeClick('companyNature','treeCompanyNature')"></el-tree>
-                </el-option>
-              </el-select>
-            </el-col>
-            <el-col :span='4'>
-              <el-select ref="selectIpoNum" v-model="ipoNum" title="申报次数" placeholder="申报次数"
-                         size="small full" :tselect=true @visible-change="calls()"
-                         @sure-click="sure('selectIpoNum')"
-                         @clear-click="clearLocal('treeIpoNum')">
-                <el-option :label="ipoNum" :value="ipoNumValue">
-                  <el-tree :data="ipoNumList" show-checkbox node-key="id" ref="treeIpoNum" highlight-current
-                           :props="default_tree" @check-change="selectHandleNodeClick('ipoNum','treeIpoNum')"></el-tree>
-                </el-option>
-              </el-select>
-            </el-col>
-
-          </el-row>
-
-          <el-row :gutter="24">
             <el-col :span='8' class="repuramountlimitPan-class">
               <el-autocomplete
                 class="inline-input"
@@ -128,18 +76,66 @@
                 @select="handleSelect"
               ></el-autocomplete>
             </el-col>
-            <el-col :span='4'>
-              <el-select ref="selectVerifyResult" v-model="iecResult" title="审核结果" placeholder="审核结果"
+          </el-row>
+           <el-row :gutter="24">
+            <el-col :span='8'>
+              <el-select ref="selectCompanyNature" v-model="companyNature" title="企业性质" placeholder="企业性质"
                          size="small full" :tselect=true @visible-change="calls()"
-                         @sure-click="sure('selectVerifyResult')"
-                         @clear-click="clearLocal('treeVerifyResult')">
-                <el-option :label="iecResult" :value="iecResultValue">
-                  <el-tree :data="verifyResultList" show-checkbox node-key="id" ref="treeVerifyResult" highlight-current
-                           :props="default_tree" @check-change="selectHandleNodeClick('iecResult','treeVerifyResult')"></el-tree>
+                         @sure-click="sure('selectCompanyNature')"
+                         @clear-click="clearLocal('treeCompanyNature')">
+                <el-option :label="companyNature" :value="companyNatureValue">
+                  <el-tree :data="companyNatureList" show-checkbox node-key="id" ref="treeCompanyNature" highlight-current
+                           :props="default_tree" @check-change="selectHandleNodeClick('companyNature','treeCompanyNature')"></el-tree>
                 </el-option>
               </el-select>
             </el-col>
-            <el-col :span='4'>
+            <el-col :span='8'>
+              <el-select ref="selectIndustryCsrc" v-model="industryCsrc" title="发行人行业（证监会）" placeholder="发行人行业（证监会）"
+                         size="small full" :tselect=true @visible-change="calls()"
+                         @sure-click="sure('selectIndustryCsrc')"
+                         @clear-click="clearLocal('treeIndustryCsrc')">
+                <el-option :label="industryCsrc" :value="industryCsrcValue">
+                  <el-tree :data="industryCrscList" show-checkbox node-key="id" ref="treeIndustryCsrc" highlight-current
+                           :props="default_tree" @check-change="selectHandleNodeClick('industryCsrc','treeIndustryCsrc')"></el-tree>
+                </el-option>
+              </el-select>
+            </el-col>
+             <!-- <el-col :span='4'>
+              <el-select ref="selectStrageticIndustries" v-model="strageticIndustries" title="发行人行业（战略新兴）" placeholder="发行人行业（战略新兴）"
+                         size="small full" :tselect=true @visible-change="calls()"
+                         @sure-click="sure('selectStrageticIndustries')"
+                         @clear-click="clearLocal('treeStrageticIndustries')">
+                <el-option :label="strageticIndustries" :value="strageticIndustriesValue">
+                  <el-tree :data="strageticIndustriesList" show-checkbox node-key="id" ref="treeStrageticIndustries" highlight-current
+                           :props="default_tree" @check-change="selectHandleNodeClick('strageticIndustries','treeStrageticIndustries')"></el-tree>
+                </el-option>
+              </el-select>
+            </el-col> -->
+            <el-col :span='8'>
+              <el-select ref="selectIpoNum" v-model="ipoNum" title="申报次数" placeholder="申报次数"
+                         size="small full" :tselect=true @visible-change="calls()"
+                         @sure-click="sure('selectIpoNum')"
+                         @clear-click="clearLocal('treeIpoNum')">
+                <el-option :label="ipoNum" :value="ipoNumValue">
+                  <el-tree :data="ipoNumList" show-checkbox node-key="id" ref="treeIpoNum" highlight-current
+                           :props="default_tree" @check-change="selectHandleNodeClick('ipoNum','treeIpoNum')"></el-tree>
+                </el-option>
+              </el-select>
+            </el-col>
+            <!-- <el-col :span='4'>
+              <el-select ref="selectPlacingMechanism" v-model="placingMechanism" title="配售机制" placeholder="配售机制"
+                         size="small full" :tselect=true @visible-change="calls()"
+                         @sure-click="sure('selectPlacingMechanism')"
+                         @clear-click="clearLocal('treePlacingMechanism')">
+                <el-option class="psjz" :label="placingMechanism" :value="placingMechanismValue">
+                  <el-tree :data="ipoMechanismList" default-expand-all show-checkbox node-key="id" ref="treePlacingMechanism" highlight-current
+                           :props="default_tree" @check-change="selectHandleNodeClick('placingMechanism','treePlacingMechanism')"></el-tree>
+                </el-option>
+              </el-select>
+            </el-col> -->
+          </el-row>
+          <el-row :gutter="24">
+            <el-col :span='8'>
               <el-select ref="selectProcess" v-model="caseStatus" title="IPO进程" placeholder="IPO进程"
                          size="small full" :tselect=true @visible-change="calls()"
                          @sure-click="sure('selectProcess')"
@@ -151,31 +147,23 @@
               </el-select>
             </el-col>
             <el-col :span='8'>
-              <el-date-picker size='small' v-model="ypProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
-                              start-placeholder="预先披露时间" end-placeholder="预先披露时间" align="center">
-              </el-date-picker>
-            </el-col>
-
-          </el-row>
-
-          <el-row :gutter="24">
-            <el-col :span='8'>
-              <el-date-picker size='small' v-model="fsProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
-                              start-placeholder="审核时间" end-placeholder="审核时间" align="center">
-              </el-date-picker>
-            </el-col>
-            <el-col :span='8'>
-              <el-multiple-selection v-if="durationShow" :range="true" :tree-data="optionAuditDuration" placeholder="审核历时" size="small full" :multiple="false"
-                                     unit="天" :ran="optionDto" @sure-click="rangeAuditDuration">
-              </el-multiple-selection>
+              <el-select ref="selectVerifyResult" v-model="iecResult" title="审核/注册结果" placeholder="审核/注册结果"
+                         size="small full" :tselect=true @visible-change="calls()"
+                         @sure-click="sure('selectVerifyResult')"
+                         @clear-click="clearLocal('treeVerifyResult')">
+                <el-option :label="iecResult" :value="iecResultValue">
+                  <el-tree :data="verifyResultList" default-expand-all show-checkbox node-key="id" ref="treeVerifyResult" highlight-current
+                           :props="default_tree" @check-change="selectHandleNodeClick('iecResult','treeVerifyResult')"></el-tree>
+                </el-option>
+              </el-select>
             </el-col>
             <el-col :span='7'>
-              <el-select ref="selectIssueCondition" v-model="issueCondition" title="注册制上市条件检索" placeholder="注册制上市条件检索"
+              <el-select ref="selectIssueCondition" v-model="issueCondition" title="发行人选择的上市条件" placeholder="发行人选择的上市条件"
                          size="small full" :tselect=true @visible-change="calls()"
                          @sure-click="sure('selectIssueCondition')"
                          @clear-click="clearLocal('treeIssueCondition')">
                 <el-option :label="issueCondition" :value="issueConditionValue">
-                  <el-tree :data="issueConditionList" show-checkbox node-key="id" ref="treeIssueCondition" highlight-current
+                  <el-tree :data="issueConditionList" default-expand-all show-checkbox node-key="id" ref="treeIssueCondition" highlight-current
                            :props="default_tree" @check-change="selectHandleNodeClick('issueCondition','treeIssueCondition')"></el-tree>
                 </el-option>
               </el-select>
@@ -231,6 +219,51 @@
                 </div>
                 <span slot="reference" class="home_new" style="margin-top: 5px;background-position:-69px -20px;cursor: pointer"></span>
               </el-popover>
+            </el-col>
+          </el-row>
+          <el-row :gutter="24">
+            <el-col :span='8' class="stockIncreasePan-class">
+              <el-multiple-selection v-if="issueShow" :range="true" :tree-data="optionPeIssueA" placeholder="发行后市盈率" size="small full" :multiple="false"
+                                     unit="倍" :ran="optionDto" @sure-click="rangeCallPeIssueA">
+              </el-multiple-selection>
+            </el-col>
+            <el-col :span='8' class="stockIncreasePan-class">
+              <el-multiple-selection v-if="issueFeeShow" :range="true" :tree-data="optionIssueFee" placeholder="发行费用" size="small full" :multiple="false"
+                                     unit="万元" :ran="optionDto" @sure-click="rangeCallIssueFee">
+              </el-multiple-selection>
+            </el-col>
+              <el-col :span='8'>
+              <el-select ref="selectPlacingMechanism" v-model="placingMechanism" title="配售机制" placeholder="配售机制"
+                         size="small full" :tselect=true @visible-change="calls()"
+                         @sure-click="sure('selectPlacingMechanism')"
+                         @clear-click="clearLocal('treePlacingMechanism')">
+                <el-option class="psjz" :label="placingMechanism" :value="placingMechanismValue">
+                  <el-tree :data="ipoMechanismList" default-expand-all show-checkbox node-key="id" ref="treePlacingMechanism" highlight-current
+                           :props="default_tree" @check-change="selectHandleNodeClick('placingMechanism','treePlacingMechanism')"></el-tree>
+                </el-option>
+              </el-select>
+            </el-col>
+            <!-- <el-col :span='8' class="stockIncreasePan-class">
+              <el-multiple-selection class="prospectus" v-if="prospectusShow" :range="true" :tree-data="optionProspectus" placeholder="招股书最近一次估值" size="small full" :multiple="false"
+                                     unit="亿" :ran="optionDto" @sure-click="rangeCallProspectus">
+              </el-multiple-selection>
+            </el-col> -->
+          </el-row>
+           <el-row :gutter="24">
+             <el-col :span='8'>
+              <el-date-picker size='small' v-model="ypProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
+                              start-placeholder="受理时间" end-placeholder="受理时间" align="center">
+              </el-date-picker>
+            </el-col>
+            <el-col :span='8'>
+              <el-date-picker size='small' v-model="fsProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
+                               start-placeholder="审核时间" end-placeholder="审核时间" align="center">
+              </el-date-picker>
+            </el-col>
+            <el-col :span='8'>
+              <el-multiple-selection v-if="durationShow" :range="true" :tree-data="optionAuditDuration" placeholder="审核历时（天）" size="small full" :multiple="false"
+                                     unit="天" :ran="optionDto" @sure-click="rangeAuditDuration">
+              </el-multiple-selection>
             </el-col>
           </el-row>
           <div v-show="searchFlag" style="display:flex">
@@ -453,16 +486,21 @@
                       {{scope.row.processLabel}}
                       <br/>
                       <span>
-                        <span class="htgResult" v-if="scope.row.iecResult==='00'">获通过</span>
-                        <span class="whtgResult" v-if="scope.row.iecResult==='01'">未获通过</span>
-                        <span class="zhbjResult" v-if="scope.row.iecResult==='02'">暂缓表决</span>
-                        <span class="qxshResult" v-if="scope.row.iecResult==='03'">取消审核</span>
-                        <span class="dshResult" v-if="scope.row.iecResult==='04'">待审核</span>
-                      <!-- <svg-icon v-if="scope.row.iecResult==='00'" icon-class="ipoPass" class="svg-style"></svg-icon>
-                      <svg-icon v-if="scope.row.iecResult==='01'" icon-class="ipoNoPass" class="svg-style"></svg-icon>
-                      <svg-icon v-if="scope.row.iecResult==='02'" icon-class="ipoSuspendVote" class="svg-style"></svg-icon>
-                      <svg-icon v-if="scope.row.iecResult==='03'" icon-class="ipoCancelReview" class="svg-style"></svg-icon> -->
+                        <span v-if="scope.row.registerResult!=null">
+                          <span class="zcsxResult"  v-if="scope.row.registerResult==='07'">注册生效</span>
+                          <span class="whtgResult" v-if="scope.row.registerResult==='08'">不予注册</span>
                         </span>
+                        <span v-else>
+                          <span class="htgResult"  v-if="scope.row.iecResult==='00'">获通过</span>
+                          <span class="whtgResult" v-if="scope.row.iecResult==='01'">未获通过</span>
+                          <span class="zhbjResult" v-if="scope.row.iecResult==='02'">暂缓表决</span>
+                          <span class="qxshResult" v-if="scope.row.iecResult==='03'">取消审核</span>
+                          <span class="dshResult"  v-if="scope.row.iecResult==='04'">待审核</span>
+                          <span class="tgResult"  v-if="scope.row.iecResult==='05'">通过</span>
+                          <span class="wtgResult" v-if="scope.row.iecResult==='06'">未通过</span>
+                          <span class="dshResult"  v-if="scope.row.iecResult==='09'">待审核</span>
+                        </span>
+                      </span>
                     </template>
                   </el-table-column>
                   <el-table-column :label="yearLabel" header-align="center">
@@ -505,6 +543,12 @@
                       <span v-else>--</span>
                     </template>
                   </el-table-column>
+                   <!-- <el-table-column align="right" prop="ipo_sum_asset_d" label="最近一次估值" sortable="custom" min-width="10%">
+                    <template slot-scope="scope">
+                       <span v-if="scope.row.valuationValue ">{{scope.row.valuationValue/10000 | dataInThRule}}亿元</span>
+                      <span v-else>--</span>
+                    </template>
+                  </el-table-column> -->
                   <el-table-column align="left" label="拟上市板块" width="110">
                     <template slot-scope="scope">
                       {{scope.row.ipoPlateName}}
@@ -574,12 +618,16 @@
         title: '',
         industryCsrc: '',
         industryCsrcValue: '',
+        strageticIndustries: '',//战略新兴
+        strageticIndustriesValue: '',//战略新兴
         issueCondition: '',
         issueConditionValue: '',
         companyNature: '',
         companyNatureValue: '',
         ipoNum: '',
         ipoNumValue: '',
+        placingMechanism: '',//配售机制
+        placingMechanismValue: '',//配售机制
         caseStatus: '',
         caseStatusValue: '',
         iecResult: '',
@@ -591,12 +639,16 @@
         intermediaryCode: '',
         industryCrscList: [],
         treeIndustryCsrc: '',
+        strageticIndustriesList: [],//战略新兴
+        treeStrageticIndustries: '',//战略新兴
         issueConditionList: [],
         treeIssueCondition: '',
         companyNatureList: [],
         treeCompanyNature: '',
         ipoNumList: [],
+        ipoMechanismList: [],//配售机制
         treeIpoNum: '',
+        treePlacingMechanism:'',//配售机制
         verifyResultList: [],
         treeVerifyResult: '',
         processList: [],
@@ -617,6 +669,7 @@
         totalShareIssueA: [],
         peIssueA: [],
         issueFee: [],
+        valuationValue:[],
         timeDiff: [],
         optionPeIssueA: [
           {id: 1, value: '0-10'},
@@ -629,6 +682,16 @@
           {id: 2, value: '3000-5000'},
           {id: 3, value: '5000-8000'},
           {id: 4, value: '10000'}
+        ],
+        //招股书最近一次估值
+         optionProspectus: [
+          {id: 1, value: '0-10'},
+          {id: 2, value: '10-20'},
+          {id: 3, value: '20-30'},
+          {id: 4, value: '30-40'},
+          {id: 5, value: '40-50'},
+          {id: 6, value: '50-100'},
+          {id: 7, value: '100'}
         ],
         optionAuditDuration: [
           {id: 1, value: '0-90'},
@@ -747,6 +810,7 @@
         belongsBureau: '',
         issueShow: true,
         issueFeeShow: true,
+        prospectusShow:true,//招股书最近一次估值
         durationShow: true,
         profitOneShow: true,
         profitTwoShow: true,
@@ -834,9 +898,11 @@
             companyId: _self.$store.state.app.companyId,
             title: _self.title,//标题关键字（包含全部以空格断开）
             industryCsrc: _self.industryCsrcValue,//发行人行业（证监会）
+            strageticIndustries: _self.strageticIndustriesValue,//发行人行业（战略新兴）
             issueCondition: _self.issueConditionValue,//发行人选择的上市条件
             companyNature: _self.companyNatureValue,//企业性质
             ipoNum: _self.ipoNumValue,//申报次数
+            placingMechanism: _self.placingMechanismValue,//配售机制
             caseStatus: _self.caseStatusValue,//IPO进程
             iecResult: _self.iecResultValue,//审核结果
             codeOrName: _self.codeOrName,//公司名称/代码
@@ -859,6 +925,7 @@
             totalShareIssueA: _self.totalShareIssueA,//发行后股本总额
             peIssueA: _self.peIssueA,//发行后市盈率
             issueFee: _self.issueFee,//发行费用
+            valuationValue: _self.valuationValue,//招股书最近一次估值
             timeDiff: _self.timeDiff,//申报审核历时（天）
             ipoPlate: _self.$refs.plateTreeTagRef.getCheckedNodes().map((item) => {
               return item.labelValue
@@ -994,12 +1061,16 @@
         _self.title = '';//标题
         _self.industryCsrcValue = '';//行业
         _self.industryCsrc = '';
+        _self.strageticIndustriesValue = '';//战略新兴
+        _self.strageticIndustries = '';
         _self.issueConditionValue = '';//发行人选择的上市条件
         _self.issueCondition = '';
         _self.companyNatureValue = '';//企业性质
         _self.companyNature = '';
         _self.ipoNum = '';//ipo次数
         _self.ipoNumValue = '';
+         _self.placingMechanism = '';//配售机制
+        _self.placingMechanismValue = '';
         _self.caseStatus = '';//IPO进程
         _self.caseStatusValue = '';
         _self.iecResult = '';//审核结果
@@ -1017,9 +1088,11 @@
         _self.$refs.specialArrangeTagRef.setCheckedKeys([]);
         _self.$refs.sfcTreeTagRef.setCheckedKeys([]);
         _self.$refs.treeIndustryCsrc.setCheckedKeys([]);
+        // _self.$refs.treeStrageticIndustries.setCheckedKeys([]);//战略新兴
         _self.$refs.treeIssueCondition.setCheckedKeys([]);
         _self.$refs.treeCompanyNature.setCheckedKeys([]);
         _self.$refs.treeIpoNum.setCheckedKeys([]);
+        _self.$refs.treePlacingMechanism.setCheckedKeys([]);//配售机制
         _self.$refs.treeVerifyResult.setCheckedKeys([]);
         _self.$refs.treeProcess.setCheckedKeys([]);
         _self.profitOne = [];
@@ -1038,6 +1111,7 @@
         _self.totalShareIssueA = [];
         _self.peIssueA = [];
         _self.issueFee = [];
+        _self.valuationValue = [];//招股书最近一次估值
         _self.timeDiff = [];
         _self.searchFlag = false;
         _self.yearRadio = 1;
@@ -1048,6 +1122,7 @@
         }
         _self.issueShow = false;
         _self.issueFeeShow = false;
+        _self.prospectusShow = false;//招股书最近一次估值
         _self.durationShow = false;
         _self.profitOneShow = false;
         _self.profitTwoShow = false;
@@ -1066,6 +1141,7 @@
         _self.$nextTick(() => {
           _self.issueShow = true;
           _self.issueFeeShow = true;
+          _self.prospectusShow = true;//招股书最近一次估值
           _self.durationShow = true;
           _self.profitOneShow = true;
           _self.profitTwoShow = true;
@@ -1097,6 +1173,9 @@
             if (response.data.result.industryCrscList && response.data.result.industryCrscList.length > 0) {
               _self.industryCrscList = response.data.result.industryCrscList;
             }
+             if (response.data.result.strageticIndustriesList && response.data.result.strageticIndustriesList.length > 0) {
+               _self.strageticIndustriesList = response.data.result.strageticIndustriesList;
+            }
             if (response.data.result.issueConditionList && response.data.result.issueConditionList.length > 0) {
               _self.issueConditionList = response.data.result.issueConditionList;
             }
@@ -1105,6 +1184,9 @@
             }
             if (response.data.result.ipoNumList && response.data.result.ipoNumList.length > 0) {
               _self.ipoNumList = response.data.result.ipoNumList;
+            }
+            if (response.data.result.placingMechanism && response.data.result.placingMechanism.length > 0) {
+              _self.ipoMechanismList = response.data.result.placingMechanism;
             }
             if (response.data.result.verifyResultList && response.data.result.verifyResultList.length > 0) {
               _self.verifyResultList = response.data.result.verifyResultList;
@@ -1136,6 +1218,10 @@
       },
       rangeCallIssueFee(data) {
         this.issueFee = data;
+      },
+      // 招股书最近一次估值
+       rangeCallProspectus(data) {
+        this.valuationValue = [data[0]*10000,data[1]*10000];
       },
       rangeCallProfitOne(data) {
         this.profitOne = data;
@@ -1551,7 +1637,7 @@
       margin-left: 0.1%;
     }
   }
-    @media screen and (max-width: 3840px) and (min-width: 1919px) {
+    @media screen and (max-width: 3840px) and (min-width: 1921px) {
     .topOne {
       display: inline-block;
       margin-top: -4%;
@@ -1646,7 +1732,7 @@
      font-size: 12px;
      color: #FF9900;
      padding:5px;
-     padding-left: 8px;
+     padding-left: 10px;
      line-height:10px;
      display:inline-block;
       background-size:cover;
@@ -1656,27 +1742,58 @@
      font-size: 12px;
      color: #FE5461;
      padding:5px;
-     padding-left: 8px;
+     padding-left: 10px;
      line-height:10px;
      display:inline-block;
      background-size:cover;
      background:url('../../assets/images/whtg.png') no-repeat;
 }
+.wtgResult{
+    font-size: 12px;
+    color: #FE5461;
+    padding: 5px;
+    padding-left: 10px;
+    line-height: 10px;
+    display: inline-block;
+    background-size: cover;
+    background:url('../../assets/images/wtg.png') no-repeat;
+
+}
 .htgResult{
      font-size: 12px;
      color: #14BCF5;
      padding:5px;
-     padding-left: 8px;
+     padding-left: 10px;
      line-height:10px;
      display:inline-block;
       background-size:cover;
      background:url('../../assets/images/htg.png') no-repeat;
 }
+.zcsxResult{
+   font-size: 12px;
+     color: #14BCF5;
+     padding:5px;
+     padding-left: 10px;
+     line-height:10px;
+     display:inline-block;
+      background-size:cover;
+     background:url('../../assets/images/zcsx.png') no-repeat;
+}
+.tgResult{
+     font-size: 13px;
+     color: #14BCF5;
+     padding:5px;
+     padding-left: 10px;
+     line-height:10px;
+     display:inline-block;
+      background-size:cover;
+     background:url('../../assets/images/tg.png') no-repeat;
+}
 .qxshResult{
      font-size: 12px;
      color: #94A3B4;
      padding:5px;
-     padding-left: 8px;
+     padding-left: 10px;
      line-height:10px;
      display:inline-block;
       background-size:cover;
@@ -1686,7 +1803,7 @@
      font-size: 12px;
      color: #ffd800;
      padding:5px;
-     padding-left: 8px;
+     padding-left: 10px;
      padding-right: 6px;
      line-height:10px;
      display:inline-block;
@@ -1696,6 +1813,42 @@
  .ipoCaseTable .el-table--border td, .el-table--border th {
   border-right: none !important;
 }
+/* 招股书样式 */
+.prospectus li {
+      width: 30%;
+      text-align:center;
+}
+/* 受理时间及审核时间日期控件样式 */
+/* .acceptTime .el-range-separator{
+  display:none
+}
+.acceptTime .el-range-editor--small .el-range__close-icon, .el-range-editor--small .el-range__icon {
+    position: relative;
+    left: 97%;
+    line-height: 24px;
+} */
+/* ipocaseList受理时间及审核时间日期控件样式 */
+  /* @media screen and (max-width: 1680px) and (min-width: 1359px) {
+    .acceptTime.el-date-editor .el-range-input {
+        width: 26%;
+        position: relative;
+        left: -17px;
+    }
+  }
+  @media screen and (max-width: 1920px) and (min-width: 1681px) {
+      .acceptTime.el-date-editor .el-range-input {
+        width: 16%;
+        position: relative;
+        left: -17px;
+      }
+  }
+    @media screen and (max-width: 3840px) and (min-width: 1921px) {
+    .acceptTime.el-date-editor .el-range-input {
+        width: 6%;
+        position: relative;
+        left: -17px;
+      }
+  } */
 
 </style>
 

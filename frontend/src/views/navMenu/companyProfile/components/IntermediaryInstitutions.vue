@@ -26,6 +26,9 @@
                             <div v-if="item.intermediaryType=='5'" class="image l" >
                                  <img src="../../../../assets/images/assets.png" alt>
                             </div>
+                            <div v-if="item.intermediaryType=='6'" class="image l" >
+                                 <img src="../../../../assets/images/cuntuo.png" alt>
+                            </div>
                             <div class="text l">
                                 <div>
                                     <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
@@ -106,6 +109,9 @@
                             <div v-if="item.intermediaryType=='5'" class="image l" >
                                  <img src="../../../../assets/images/assets.png" alt>
                             </div>
+                             <div v-if="item.intermediaryType=='6'" class="image l" >
+                                 <img src="../../../../assets/images/cuntuo.png" alt>
+                            </div>
                             <div class="text l">
                                 <div>
                                     <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
@@ -159,6 +165,14 @@
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">项目经办人：</span>
+                                        <span style="font-size:14px;color:black" class="jb" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                    </li>
+                                </ul>
+                                <!-- 存托机构 -->
+                                 <ul v-if="item.intermediaryType=='6'">
+                                    <li class="people">
+                                        <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                                        font-style: normal;  font-size: 14px; color: #999999;">经办人：</span>
                                         <span style="font-size:14px;color:black" class="jb" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
                                     </li>
                                 </ul>

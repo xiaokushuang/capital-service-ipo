@@ -35,6 +35,9 @@ public class IpoFinanceDto implements Serializable {
     @ApiModelProperty("利润类项目列表")
     private List<IpoItemDto> IpoReturnOverList;
 
+    @ApiModelProperty("主要财务指标列表")
+    private List<IpoItemDto> IpoMainIndexList;
+
     public IpoFinanceDateDto getDateList() {
         return dateList;
     }
@@ -97,5 +100,13 @@ public class IpoFinanceDto implements Serializable {
 
     public void setIpoReturnOverList(List<IpoItemDto> ipoReturnOverList) {
         IpoReturnOverList = ipoReturnOverList;
+    }
+
+    public List<IpoItemDto> getIpoMainIndexList() {
+        return IpoMainIndexList;
+    }
+
+    public void setIpoMainIndexList(List<IpoItemDto> ipoMainIndexList) {
+        IpoMainIndexList = ipoMainIndexList;
     }
 }

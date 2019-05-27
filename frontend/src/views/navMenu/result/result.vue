@@ -15,7 +15,18 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span>
+                             <span>
+                                <span class="htgResult"  v-if="baseList[0].iecResult=='00'">获通过</span>
+                                <span class="whtgResult" v-if="baseList[0].iecResult=='01'">未获通过</span>
+                                <span class="zhbjResult" v-if="baseList[0].iecResult=='02'">暂缓表决</span>
+                                <span class="qxshResult" v-if="baseList[0].iecResult=='03'">取消审核</span>
+                                <span class="dshResult"  v-if="baseList[0].iecResult=='04'">待审核</span>
+                                <span class="tgResult"  v-if="baseList[0].iecResult=='05'">通过</span>
+                                <span class="wtgResult" v-if="baseList[0].iecResult=='06'">未通过</span>
+                                <span class="htgResult"  v-if="baseList[0].iecResult=='07'">注册生效</span>
+                                <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
+                                <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待审核</span>
+                            </span>
                         </p>
                     </div>
                     <div class="text ">
@@ -35,37 +46,7 @@
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
-                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
-                            <li v-for="data in memberList" class="l positionLi" style="width:300px;border:1px solid lightgray;padding:20px">
-                                <div>
-                                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
-                                    <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
-                                </div>
-                                <span class="position"  @mouseenter="mouseOverSpreadText(data.memberPost)" style="background: #14bcf5;
-                                    font-weight: 400;
-                                    font-style: normal;
-                                    font-size: 12px;
-                                    line-height: 18px;
-                                    color: #fff;
-                                    display:inline-block;
-                                    padding-left: 7px;
-                                    padding-right:7px;
-                                    margin-top: 6px;
-                                    margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
-                                <div>
-                                    <span style="color: #666;">学历/专业：</span>
-                                    <span  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
-                                </div>
-                                <div>
-                                    <span style="color: #666;">工作单位：</span>
-                                    <span class="danwei" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
-                                </div>
-                                <div>
-                                    <span style="color: #666;">工作性质：</span>
-                                    <span class="xingzhi" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
-                                </div>
-                            </li>
-                        </ul>
+                        <member :memberData={memberList:memberList}></member>
                     </el-dialog>
                 </li>
             </ul>
@@ -82,7 +63,19 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第一次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span>
+                            <span>
+                                <span class="htgResult"  v-if="baseList[0].iecResult=='00'">获通过</span>
+                                <span class="whtgResult" v-if="baseList[0].iecResult=='01'">未获通过</span>
+                                <span class="zhbjResult" v-if="baseList[0].iecResult=='02'">暂缓表决</span>
+                                <span class="qxshResult" v-if="baseList[0].iecResult=='03'">取消审核</span>
+                                <span class="dshResult"  v-if="baseList[0].iecResult=='04'">待审核</span>
+                                <span class="tgResult"   v-if="baseList[0].iecResult=='05'">通过</span>
+                                <span class="wtgResult" v-if="baseList[0].iecResult=='06'">未通过</span>
+                                <span class="htgResult"  v-if="baseList[0].iecResult=='07'">注册生效</span>
+                                <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
+                                <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待审核</span>
+                            </span>
+                            <!-- <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span> -->
                         </p>
                     </div>
                     <div class="text ">
@@ -102,37 +95,7 @@
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
-                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
-                            <li v-for="data in memberList" class="l positionLi" style="width:300px;border:1px solid lightgray;padding:20px">
-                                <div>
-                                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
-                                    <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
-                                </div>
-                                <span class="position"  @mouseenter="mouseOverSpreadText(data.memberPost)" style="background: #14bcf5;
-                                    font-weight: 400;
-                                    font-style: normal;
-                                    font-size: 12px;
-                                    line-height: 18px;
-                                    color: #fff;
-                                    display:inline-block;
-                                    padding-left: 7px;
-                                    padding-right:7px;
-                                    margin-top: 6px;
-                                    margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
-                                <div>
-                                    <span style="color: #666;">学历/专业：</span>
-                                    <span  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
-                                </div>
-                                <div>
-                                    <span style="color: #666;">工作单位：</span>
-                                    <span class="danwei" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
-                                </div>
-                                <div>
-                                    <span style="color: #666;">工作性质：</span>
-                                    <span class="xingzhi" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
-                                </div>
-                            </li>
-                        </ul>
+                        <member :memberData={memberList:memberList}></member>
                     </el-dialog>
                 </li>
                  <li style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
@@ -147,7 +110,19 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第二次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[1].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03','dshResult' : baseList[1].iecResult == '04'}">{{ baseList[1].iecResultStr}}</span>
+                            <span>
+                                <span class="htgResult"  v-if="baseList[1].iecResult=='00'">获通过</span>
+                                <span class="whtgResult" v-if="baseList[1].iecResult=='01'">未获通过</span>
+                                <span class="zhbjResult" v-if="baseList[1].iecResult=='02'">暂缓表决</span>
+                                <span class="qxshResult" v-if="baseList[1].iecResult=='03'">取消审核</span>
+                                <span class="dshResult"  v-if="baseList[1].iecResult=='04'">待审核</span>
+                                <span class="tgResult"  v-if="baseList[1].iecResult=='05'">通过</span>
+                                <span class="wtgResult" v-if="baseList[1].iecResult=='06'">未通过</span>
+                                <span class="htgResult"  v-if="baseList[1].iecResult=='07'">注册生效</span>
+                                <span class="whtgResult" v-if="baseList[1].iecResult=='08'">不予注册</span>
+                                <span class="dshResult"  v-if="baseList[1].iecResult=='09'">待审核</span>
+                            </span>
+                            <!-- <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03','dshResult' : baseList[1].iecResult == '04'}">{{ baseList[1].iecResultStr}}</span> -->
                         </p>
                     </div>
                     <div class="text ">
@@ -167,37 +142,7 @@
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
-                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
-                            <li v-for="data in memberList" class="l positionLi" style="width:300px;border:1px solid lightgray;padding:20px">
-                                <div>
-                                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
-                                    <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
-                                </div>
-                                <span class="position"  @mouseenter="mouseOverSpreadText(data.memberPost)" style="background: #14bcf5;
-                                    font-weight: 400;
-                                    font-style: normal;
-                                    font-size: 12px;
-                                    line-height: 18px;
-                                    color: #fff;
-                                    display:inline-block;
-                                    padding-left: 7px;
-                                    padding-right:7px;
-                                    margin-top: 6px;
-                                    margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
-                                <div>
-                                    <span style="color: #666;">学历/专业：</span>
-                                    <span  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
-                                </div>
-                                <div>
-                                    <span style="color: #666;">工作单位：</span>
-                                    <span class="danwei" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
-                                </div>
-                                <div>
-                                    <span style="color: #666;">工作性质：</span>
-                                    <span class="xingzhi" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
-                                </div>
-                            </li>
-                        </ul>
+                        <member :memberData={memberList:memberList}></member>
                     </el-dialog>
                 </li>
             </ul>
@@ -214,7 +159,19 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第一次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span>
+                            <span>
+                                <span class="htgResult"  v-if="baseList[0].iecResult=='00'">获通过</span>
+                                <span class="whtgResult" v-if="baseList[0].iecResult=='01'">未获通过</span>
+                                <span class="zhbjResult" v-if="baseList[0].iecResult=='02'">暂缓表决</span>
+                                <span class="qxshResult" v-if="baseList[0].iecResult=='03'">取消审核</span>
+                                <span class="dshResult"  v-if="baseList[0].iecResult=='04'">待审核</span>
+                                <span class="tgResult"  v-if="baseList[0].iecResult=='05'">通过</span>
+                                <span class="wtgResult" v-if="baseList[0].iecResult=='06'">未通过</span>
+                                <span class="htgResult"  v-if="baseList[0].iecResult=='07'">注册生效</span>
+                                <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
+                                <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待审核</span>
+                            </span>
+                            <!-- <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span> -->
                         </p>
                     </div>
                     <div class="text ">
@@ -234,37 +191,7 @@
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
-                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
-                            <li v-for="data in memberList" class="l positionLi" style="width:300px;border:1px solid lightgray;padding:20px">
-                                <div>
-                                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
-                                    <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
-                                </div>
-                                <span class="position"  @mouseenter="mouseOverSpreadText(data.memberPost)" style="background: #14bcf5;
-                                    font-weight: 400;
-                                    font-style: normal;
-                                    font-size: 12px;
-                                    line-height: 18px;
-                                    color: #fff;
-                                    display:inline-block;
-                                    padding-left: 7px;
-                                    padding-right:7px;
-                                    margin-top: 6px;
-                                    margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
-                                <div>
-                                    <span style="color: #666;">学历/专业：</span>
-                                    <span  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
-                                </div>
-                                <div>
-                                    <span style="color: #666;">工作单位：</span>
-                                    <span class="danwei" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
-                                </div>
-                                <div>
-                                    <span style="color: #666;">工作性质：</span>
-                                    <span class="xingzhi" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
-                                </div>
-                            </li>
-                        </ul>
+                       <member :memberData={memberList:memberList}></member>
                     </el-dialog>
                 </li>
                  <li  style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
@@ -279,7 +206,19 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第二次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[1].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03','dshResult' : baseList[1].iecResult == '04'}">{{ baseList[1].iecResultStr}}</span>
+                            <span>
+                                <span class="htgResult"  v-if="baseList[1].iecResult=='00'">获通过</span>
+                                <span class="whtgResult" v-if="baseList[1].iecResult=='01'">未获通过</span>
+                                <span class="zhbjResult" v-if="baseList[1].iecResult=='02'">暂缓表决</span>
+                                <span class="qxshResult" v-if="baseList[1].iecResult=='03'">取消审核</span>
+                                <span class="dshResult"  v-if="baseList[1].iecResult=='04'">待审核</span>
+                                <span class="tgResult"  v-if="baseList[1].iecResult=='05'">通过</span>
+                                <span class="wtgResult" v-if="baseList[1].iecResult=='06'">未通过</span>
+                                <span class="htgResult"  v-if="baseList[1].iecResult=='07'">注册生效</span>
+                                <span class="whtgResult" v-if="baseList[1].iecResult=='08'">不予注册</span>
+                                <span class="dshResult"  v-if="baseList[1].iecResult=='09'">待审核</span>
+                            </span>
+                            <!-- <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03','dshResult' : baseList[1].iecResult == '04'}">{{ baseList[1].iecResultStr}}</span> -->
                         </p>
                     </div>
                     <div class="text ">
@@ -299,37 +238,7 @@
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
-                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
-                            <li v-for="data in memberList" class="l positionLi" style="width:300px;border:1px solid lightgray;padding:20px">
-                                <div>
-                                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
-                                    <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
-                                </div>
-                                <span class="position"  @mouseenter="mouseOverSpreadText(data.memberPost)" style="background: #14bcf5;
-                                    font-weight: 400;
-                                    font-style: normal;
-                                    font-size: 12px;
-                                    line-height: 18px;
-                                    color: #fff;
-                                    display:inline-block;
-                                    padding-left: 7px;
-                                    padding-right:7px;
-                                    margin-top: 6px;
-                                    margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
-                                <div>
-                                    <span style="color: #666;">学历/专业：</span>
-                                    <span  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
-                                </div>
-                                <div>
-                                    <span style="color: #666;">工作单位：</span>
-                                    <span class="danwei" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
-                                </div>
-                                <div>
-                                    <span style="color: #666;">工作性质：</span>
-                                    <span class="xingzhi" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
-                                </div>
-                            </li>
-                        </ul>
+                       <member :memberData={memberList:memberList}></member>
                     </el-dialog>
                 </li>
                  <li  style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
@@ -344,7 +253,19 @@
                         <p style="font-size:14px;">
                             <span style="font-size:14px;color:#999;">第三次审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[2].companyName}}</span>
-                            <span  :class="{'htgResult' : baseList[2].iecResult == '00','whtgResult' : baseList[2].iecResult == '01','zhbjResult' : baseList[2].iecResult == '02','qxshResult' : baseList[2].iecResult == '03','dshResult' : baseList[2].iecResult == '04'}">{{ baseList[2].iecResultStr}}</span>
+                            <span>
+                                <span class="htgResult"  v-if="baseList[2].iecResult=='00'">获通过</span>
+                                <span class="whtgResult" v-if="baseList[2].iecResult=='01'">未获通过</span>
+                                <span class="zhbjResult" v-if="baseList[2].iecResult=='02'">暂缓表决</span>
+                                <span class="qxshResult" v-if="baseList[2].iecResult=='03'">取消审核</span>
+                                <span class="dshResult"  v-if="baseList[2].iecResult=='04'">待审核</span>
+                                <span class="tgResult"  v-if="baseList[2].iecResult=='05'">通过</span>
+                                <span class="wtgResult" v-if="baseList[2].iecResult=='06'">未通过</span>
+                                <span class="htgResult"  v-if="baseList[2].iecResult=='07'">注册生效</span>
+                                <span class="whtgResult" v-if="baseList[2].iecResult=='08'">不予注册</span>
+                                <span class="dshResult"  v-if="baseList[2].iecResult=='09'">待审核</span>
+                            </span>
+                            <!-- <span  :class="{'htgResult' : baseList[2].iecResult == '00','whtgResult' : baseList[2].iecResult == '01','zhbjResult' : baseList[2].iecResult == '02','qxshResult' : baseList[2].iecResult == '03','dshResult' : baseList[2].iecResult == '04'}">{{ baseList[2].iecResultStr}}</span> -->
                         </p>
                     </div>
                     <div class="text ">
@@ -364,121 +285,1115 @@
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
-                        <ul  v-show="memberList&&memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
-                            <li v-for="data in memberList" class="l positionLi" style="width:300px;border:1px solid lightgray;padding:20px">
-                                <div>
-                                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
-                                    <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
-                                </div>
-                                <span class="position"  @mouseenter="mouseOverSpreadText(data.memberPost)" style="background: #14bcf5;
-                                    font-weight: 400;
-                                    font-style: normal;
-                                    font-size: 12px;
-                                    line-height: 18px;
-                                    color: #fff;
-                                    display:inline-block;
-                                    padding-left: 7px;
-                                    padding-right:7px;
-                                    margin-top: 6px;
-                                    margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
-                                <div>
-                                    <span style="color: #666;">学历/专业：</span>
-                                    <span  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
-                                </div>
-                                <div>
-                                    <span style="color: #666;">工作单位：</span>
-                                    <span class="danwei" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
-                                </div>
-                                <div>
-                                    <span style="color: #666;">工作性质：</span>
-                                    <span class="xingzhi" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
-                                </div>
-                            </li>
-                        </ul>
+                       <member :memberData={memberList:memberList}></member>
                     </el-dialog>
                 </li>
             </ul>
         </div> 
-        <!-- 下 -->
-        <div class="two">
-             <div v-if="allQuestionList&&allQuestionList.length>0" class="title">
+       <!-- 筛选问题列表 -->
+         <div v-if="tabList&&tabList.length>0&&tabList[0].questionList&&tabList[0].questionList.length>0" class="title">
                 <span class="littleRectangle"></span>
-                <span class="titleText" id="result">发审会关注问题</span>
+                <span v-if="companyProfileList.headList.isTechBoard==1" class="titleText" id="result">上市会关注问题</span>
+                <span v-if="companyProfileList.headList.isTechBoard==0" class="titleText" id="result">发审会关注问题</span>
+         </div>
+        <div class="feedback" id="componentId">
+            <div class="label">
+                    <!-- 导入的组件 -->
+                    <!-- 只有一级标签 -->
+            <div v-if="tabList&&tabList.length==1&&tabList[0].questionList&&tabList[0].questionList.length>0">
+              <div  v-if="tabList&&tabList.length==1" class="clear"> 
+                <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[0].questionLabelList,checkbox:feedbackduoxuanList,answerCount:answerCount,questionCount:questionCount,questionList:questionList,o_letterId:this.o_letterId,showMore:showMore,allQuestionList:allQuestionList}></singleAndMultiple>
+              </div>
             </div>
-            <div>
-                <ul style="padding-left:0">
-                    <li v-for="data in questionList" :key="data.questionId" style="border-bottom:1px solid #e1e1e1;padding-bottom:15px;margin-bottom:17px">
-                        <div class="text" style="position:relative">
-                            <div style="background:rgba(250, 250, 250, 1); padding: 10px 24px;margin-bottom:12px;position:relative">
-                                <div v-if="data.question&&data.question.length>0" class="wen">问</div>
-                                <p v-if="data.question&&data.question.length>0" style="font-size: 14px;color: rgb(51, 51, 51);line-height: 22px;">{{data.question}}</p>
-                                <div v-if="data.answer&&data.answer.length>0" class="da">答</div>
-                                <p v-if="data.answer&&data.answer.length>0" style="font-size: 14px;color: rgb(51, 51, 51);line-height: 22px;">{{data.answer}}</p>
-                            </div>
-                            
-                            <div>
-                              <span v-for="item in data.labelList" class="biaoqian" style="margin-right:2px">{{item}}</span>
-                            </div>
-                        </div>
-                        
-                    </li>
-                </ul>
-            </div> 
+            <!-- 有多级标签选择 -->
+             <div v-if="tabList&&tabList.length > 1" class="clear">
+                <div v-if="tabList.length==2" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共两轮关注：</div>
+                <div v-if="tabList.length==3" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共三轮关注：</div>
+                <div v-if="tabList.length==4" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共四轮关注：</div>
+                <div v-if="tabList.length==5" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共五轮关注：</div>
+                <div>
+                    <el-tabs v-model="activeName" @tab-click="handleTabClick">
+                       <el-tab-pane label="第一次审核关注问题" :name="tabList[0].letterId">
+                          <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[0].questionLabelList,checkbox:feedbackduoxuanList,answerCount:answerCount,questionCount:questionCount,questionList:questionList,o_letterId:this.o_letterId,showMore:showMore,allQuestionList:allQuestionList}></singleAndMultiple>
+                       </el-tab-pane>
+                       <el-tab-pane label="第二次审核关注问题" :name="tabList[1].letterId">
+                          <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[1].questionLabelList,checkbox:feedbackduoxuanList2,answerCount:answerCount2,questionCount:questionCount2,questionList:questionList2,o_letterId:this.o_letterId,showMore:showMore2,allQuestionList:allQuestionList2}></singleAndMultiple>
+                       </el-tab-pane>
+                        <el-tab-pane v-if="tabList&&tabList.length>2" label="第三次审核关注问题" :name="tabList[2].letterId">
+                          <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[2].questionLabelList,checkbox:feedbackduoxuanList3,answerCount:answerCount3,questionCount:questionCount3,questionList:questionList3,o_letterId:this.o_letterId,showMore:showMore3,allQuestionList:allQuestionList3}></singleAndMultiple>
+                       </el-tab-pane>
+                        <el-tab-pane v-if="this.tabList&&this.tabList.length>3" label="第四次审核关注问题" :name="tabList[3].letterId">
+                          <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[3].questionLabelList,checkbox:feedbackduoxuanList4,answerCount:answerCount4,questionCount:questionCount4,questionList:questionList4,o_letterId:this.o_letterId,showMore:showMore4,allQuestionList:allQuestionList4}></singleAndMultiple>
+                       </el-tab-pane>
+                        <el-tab-pane v-if="this.tabList&&this.tabList.length>4" label="第五次审核关注问题" :name="tabList[4].letterId">
+                          <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[4].questionLabelList,checkbox:feedbackduoxuanList5,answerCount:answerCount5,questionCount:questionCount5,questionList:questionList5,o_letterId:this.o_letterId,showMore:showMore5,allQuestionList:allQuestionList5}></singleAndMultiple>
+                       </el-tab-pane>
+                    </el-tabs>
+                </div>
+             </div>
+            </div>
         </div>
-       <!-- 加载更多 -->
-        <div v-loading="flagLoading" element-loading-text="给我一点时间" v-if="showMore" @click="showMoreMethods()" class="more">加载更多</div>
-        <!-- 已经阅读完了 -->
-        <p v-if="questionList.length>0&&!showMore" class="finishRead">已经阅读完了</p>
-        <!-- 暂无相关数据 -->
-        <p v-if="allQuestionList&&allQuestionList.length>0&&questionList.length==0&&!showMore" class="finishRead">暂无相关数据</p>
         
-</div>
+    </div>
 </template>
 <script>
-import {geSelectFeedbackList } from '@/api/ipoCase/companyProfile'
+// 审核结果数据
+import {getReviewMeeting } from '@/api/ipoCase/companyProfile'
 import {geSelectMemberList } from '@/api/ipoCase/companyProfile'
+// 引用反馈意见数据
+import { getResultInitializeList } from "@/api/ipoCase/companyProfile";
+import { getResultQuestionList } from "@/api/ipoCase/companyProfile";
+// 导入筛选问题列表组件
+import singleAndMultiple from "@/views/navMenu/singleAndMultiple/singleAndMultiple"
+// 导入委员详情组件
+import member from "@/views/navMenu/result/member"
 import $ from "jquery";
 export default {
   name: "result",
+  props:["companyProfileList"],
+  components: {
+      singleAndMultiple,
+      member
+  },
   data() {
     return {
          caseId:this.$store.state.app.caseId,
          dialogVisible:false,
         //  第几次会议列表
          baseList:[],
-        //  问题列表
-         questionList:[],
         //  委员列表
         memberList:[],
-        showMore:false,
-        allQuestionList:[]
+        // 筛选问题列表
+         // 总共数据
+      tabList: [],
+      // 多选按钮数据
+      feedbackduoxuanList: [],
+      feedbackduoxuanList2: [],
+      feedbackduoxuanList3: [],
+      feedbackduoxuanList4: [],
+      feedbackduoxuanList5: [],
+      flag: false,
+      // 默认展示第一个label页
+      activeName: "",
+      // 函件id,通过这个id区分不同tab页
+      letterId: "",
+      // 自己定义的
+      o_letterId: "",
+      // 多选
+      o_secondtLabelId: "",
+      // 所有问题列表
+      questionList: [],
+      questionList2: [],
+      questionList3: [],
+      questionList4: [],
+      questionList5: [],
+      // // 回复个数
+      answerCount: "",
+      answerCount2: "",
+      answerCount3: "",
+      answerCount4: "",
+      answerCount5: "",
+      // // 问题个数
+      questionCount: "",
+      questionCount2: "",
+      questionCount3: "",
+      questionCount4: "",
+      questionCount5: "",
+      // 是否展示全部问题
+      isShowAll: true,
+      // 默认有moreText类
+      isMoreText: true,
+      showLength: 15,
+      showLength2: 15,
+      showLength3: 15,
+      showLength4: 15,
+      showLength5: 15,
+      allQuestionList: [],
+      allQuestionList2: [],
+      allQuestionList3: [],
+      allQuestionList4: [],
+      allQuestionList5: [],
+      showMore: false,
+      showMore2: false,
+      showMore3: false,
+      showMore4: false,
+      showMore5: false,
+      // 多选按钮’全部‘
+      showAll: false,
+      firstClick: true,
+      flagLoading: false
     };
   },
   created() {
     this.initTableData();
+    this.isShowAll = true;
+  },
+  mounted(){
+    console.log(this.companyProfileList)
   },
   methods: {
+     showMoreMethods(){
+      if(this.tabList.length==1){
+        this.showLength+=15
+        if(this.allQuestionList.length > this.showLength){
+          this.flagLoading = false;
+          this.showMore = true;
+          this.questionList = this.allQuestionList.slice(0, this.showLength);
+        }else{
+          this.showMore = false;
+          this.questionList = this.allQuestionList;
+        }
+      }
+      if(this.tabList.length==2){
+        this.showLength+=15
+        if(this.allQuestionList.length > this.showLength){
+          this.showMore = true;
+          this.questionList = this.allQuestionList.slice(0, this.showLength);
+        }else{
+          this.showMore = false;
+          this.questionList = this.allQuestionList;
+        }
+        this.showLength2+=15
+        if(this.allQuestionList2.length > this.showLength2){
+          this.showMore2 = true;
+          this.questionList2 = this.allQuestionList2.slice(0, this.showLength2);
+        }else{
+          this.showMore2 = false;
+          this.questionList2 = this.allQuestionList2;
+        }
+      }
+      if(this.tabList.length==3){
+        this.showLength+=15
+        if(this.allQuestionList.length > this.showLength){
+          this.showMore = true;
+          this.questionList = this.allQuestionList.slice(0, this.showLength);
+        }else{
+          this.showMore = false;
+          this.questionList = this.allQuestionList;
+        }
+        this.showLength2+=15
+        if(this.allQuestionList2.length > this.showLength2){
+          this.showMore2 = true;
+          this.questionList2 = this.allQuestionList2.slice(0, this.showLength2);
+        }else{
+          this.showMore2 = false;
+          this.questionList2 = this.allQuestionList2;
+        }
+         this.showLength3+=15
+        if(this.allQuestionList3.length > this.showLength3){
+          this.showMore3 = true;
+          this.questionList3 = this.allQuestionList3.slice(0, this.showLength3);
+        }else{
+          this.showMore3 = false;
+          this.questionList3 = this.allQuestionList3;
+        }
+      }
+      if(this.tabList.length==4){
+        this.showLength+=15
+        if(this.allQuestionList.length > this.showLength){
+          this.showMore = true;
+          this.questionList = this.allQuestionList.slice(0, this.showLength);
+        }else{
+          this.showMore = false;
+          this.questionList = this.allQuestionList;
+        }
+        this.showLength2+=15
+        if(this.allQuestionList2.length > this.showLength2){
+          this.showMore2 = true;
+          this.questionList2 = this.allQuestionList2.slice(0, this.showLength2);
+        }else{
+          this.showMore2 = false;
+          this.questionList2 = this.allQuestionList2;
+        }
+         this.showLength3+=15
+        if(this.allQuestionList3.length > this.showLength3){
+          this.showMore3 = true;
+          this.questionList3 = this.allQuestionList3.slice(0, this.showLength3);
+        }else{
+          this.showMore3 = false;
+          this.questionList3 = this.allQuestionList3;
+        }
+         this.showLength4+=15
+        if(this.allQuestionList4.length > this.showLength4){
+          this.showMore4 = true;
+          this.questionList4 = this.allQuestionList4.slice(0, this.showLength4);
+        }else{
+          this.showMore4 = false;
+          this.questionList4 = this.allQuestionList4;
+        }
+      }
+      if(this.tabList.length==5){
+        this.showLength+=15
+        if(this.allQuestionList.length > this.showLength){
+          this.showMore = true;
+          this.questionList = this.allQuestionList.slice(0, this.showLength);
+        }else{
+          this.showMore = false;
+          this.questionList = this.allQuestionList;
+        }
+        this.showLength2+=15
+        if(this.allQuestionList2.length > this.showLength2){
+          this.showMore2 = true;
+          this.questionList2 = this.allQuestionList2.slice(0, this.showLength2);
+        }else{
+          this.showMore2 = false;
+          this.questionList2 = this.allQuestionList2;
+        }
+         this.showLength3+=15
+        if(this.allQuestionList3.length > this.showLength3){
+          this.showMore3 = true;
+          this.questionList3 = this.allQuestionList3.slice(0, this.showLength3);
+        }else{
+          this.showMore3 = false;
+          this.questionList3 = this.allQuestionList3;
+        }
+         this.showLength4+=15
+        if(this.allQuestionList4.length > this.showLength4){
+          this.showMore4 = true;
+          this.questionList4 = this.allQuestionList4.slice(0, this.showLength4);
+        }else{
+          this.showMore4 = false;
+          this.questionList4 = this.allQuestionList4;
+        }
+         this.showLength5+=15
+        if(this.allQuestionList5.length > this.showLength5){
+          this.showMore5 = true;
+          this.questionList5 = this.allQuestionList5.slice(0, this.showLength5);
+        }else{
+          this.showMore5 = false;
+          this.questionList5 = this.allQuestionList5;
+        }
+      }
+    },
     //   初始化所有数据
     initTableData() { 
     // 动态传id
         const param = {
             id:this.caseId,
         }
-        geSelectFeedbackList(param).then(res => {
+        // 获取会议数据
+        getReviewMeeting(param).then(res => {
             if(res.data.result&&res.data.result.baseList&&res.data.result.baseList.length>0){
                 this.baseList = res.data.result.baseList
             }
-            if(res.data.result&&res.data.result.questionList&&res.data.result.questionList.length>0){
-                this.allQuestionList = res.data.result.questionList
+        })
+        // 获取筛选问题数据
+        getResultInitializeList(param).then(res => {
+            if (res.data.result && res.data.result.length > 0) {
+            this.o_letterId = res.data.result[0].letterId;
+            this.tabList = res.data.result;
+            this.activeName = this.tabList[0].letterId;
+               // 第一个tab
+              if (this.tabList && this.tabList.length == 1) {
+                  this.allQuestionList = res.data.result[0].questionList;
+                  this.questionCount = res.data.result[0].questionCount;
+                  this.answerCount = res.data.result[0].answerCount;
+                  if (this.allQuestionList.length > 15) {
+                  this.showMore = true;
+                  this.questionList = this.allQuestionList.slice(0, 15);
+                  } else {
+                  this.showMore = false;
+                  this.questionList = this.allQuestionList;
+                  }
+              }
+                // 第二个tab
+              if (this.tabList && this.tabList.length == 2) {
+                  this.allQuestionList = res.data.result[0].questionList;
+                  this.allQuestionList2 = res.data.result[1].questionList;
+                  this.questionCount = res.data.result[0].questionCount;
+                  this.answerCount = res.data.result[0].answerCount;
+                  this.questionCount2 = res.data.result[1].questionCount;
+                  this.answerCount2 = res.data.result[1].answerCount;
+                  if (this.allQuestionList.length > 15) {
+                  this.showMore = true;
+                  this.questionList = this.allQuestionList.slice(0, 15);
+                  } else {
+                  this.showMore = false;
+                  this.questionList = this.allQuestionList;
+                  }
+                  if (this.allQuestionList2.length > 15) {
+                  this.showMore2 = true;
+                  this.questionList2 = this.allQuestionList2.slice(0, 15);
+                  } else {
+                  this.showMore2 = false;
+                  this.questionList2 = this.allQuestionList2;
+                  }
+              }
+                // 第三个tab
+              if (this.tabList && this.tabList.length == 3) {
+                this.allQuestionList = res.data.result[0].questionList;
+                this.allQuestionList2 = res.data.result[1].questionList;
+                this.allQuestionList3 = res.data.result[2].questionList;
+                this.questionCount = res.data.result[0].questionCount;
+                this.questionCount2 = res.data.result[1].questionCount;
+                this.questionCount3 = res.data.result[2].questionCount;
+                this.answerCount = res.data.result[0].answerCount;
+                this.answerCount2 = res.data.result[1].answerCount;
+                this.answerCount3 = res.data.result[2].answerCount;
+                if (this.allQuestionList.length > 15) {
+                  this.showMore = true;
+                  this.questionList = this.allQuestionList.slice(0, 15);
+                } else {
+                  this.showMore = false;
+                  this.questionList = this.allQuestionList;
+                }
+                if (this.allQuestionList2.length > 15) {
+                  this.showMore2 = true;
+                  this.questionList2 = this.allQuestionList2.slice(0, 15);
+                } else {
+                  this.showMore2 = false;
+                  this.questionList2 = this.allQuestionList2;
+                }
+                if (this.allQuestionList3.length > 15) {
+                  this.showMore3 = true;
+                  this.questionList3 = this.allQuestionList3.slice(0, 15);
+                } else {
+                  this.showMore3 = false;
+                  this.questionList3 = this.allQuestionList3;
+                }
+              }
+              // 第四个tab
+              if (this.tabList && this.tabList.length == 4) {
+                this.allQuestionList = res.data.result[0].questionList;
+                this.allQuestionList2 = res.data.result[1].questionList;
+                this.allQuestionList3 = res.data.result[2].questionList;
+                this.allQuestionList4 = res.data.result[3].questionList;
+                this.questionCount = res.data.result[0].questionCount;
+                this.questionCount2 = res.data.result[1].questionCount;
+                this.questionCount3 = res.data.result[2].questionCount;
+                this.questionCount4 = res.data.result[3].questionCount;
+                this.answerCount = res.data.result[0].answerCount;
+                this.answerCount2 = res.data.result[1].answerCount;
+                this.answerCount3 = res.data.result[2].answerCount;
+                this.answerCount4 = res.data.result[3].answerCount;
+                if (this.allQuestionList.length > 15) {
+                  this.showMore = true;
+                  this.questionList = this.allQuestionList.slice(0, 15);
+                } else {
+                  this.showMore = false;
+                  this.questionList = this.allQuestionList;
+                }
+                if (this.allQuestionList2.length > 15) {
+                  this.showMore2 = true;
+                  this.questionList2 = this.allQuestionList2.slice(0, 15);
+                } else {
+                  this.showMore2 = false;
+                  this.questionList2 = this.allQuestionList2;
+                }
+                if (this.allQuestionList3.length > 15) {
+                  this.showMore3 = true;
+                  this.questionList3 = this.allQuestionList3.slice(0, 15);
+                } else {
+                  this.showMore3 = false;
+                  this.questionList3 = this.allQuestionList3;
+                }
+                if (this.allQuestionList4.length > 15) {
+                  this.showMore4 = true;
+                  this.questionList4 = this.allQuestionList4.slice(0, 15);
+                } else {
+                  this.showMore4 = false;
+                  this.questionList4 = this.allQuestionList4;
+                }
+              }
+              // 第五个tab
+              if (this.tabList && this.tabList.length == 5) {
+                this.allQuestionList = res.data.result[0].questionList;
+                this.allQuestionList2 = res.data.result[1].questionList;
+                this.allQuestionList3 = res.data.result[2].questionList;
+                this.allQuestionList4 = res.data.result[3].questionList;
+                this.allQuestionList5 = res.data.result[4].questionList;
+                this.questionCount = res.data.result[0].questionCount;
+                this.questionCount2 = res.data.result[1].questionCount;
+                this.questionCount3 = res.data.result[2].questionCount;
+                this.questionCount4 = res.data.result[3].questionCount;
+                this.questionCount5 = res.data.result[4].questionCount;
+                this.answerCount = res.data.result[0].answerCount;
+                this.answerCount2 = res.data.result[1].answerCount;
+                this.answerCount3 = res.data.result[2].answerCount;
+                this.answerCount4 = res.data.result[3].answerCount;
+                this.answerCount5 = res.data.result[4].answerCount;
+                if (this.allQuestionList.length > 15) {
+                  this.showMore = true;
+                  this.questionList = this.allQuestionList.slice(0, 15);
+                } else {
+                  this.showMore = false;
+                  this.questionList = this.allQuestionList;
+                }
+                if (this.allQuestionList2.length > 15) {
+                  this.showMore2 = true;
+                  this.questionList2 = this.allQuestionList2.slice(0, 15);
+                } else {
+                  this.showMore2 = false;
+                  this.questionList2 = this.allQuestionList2;
+                }
+                if (this.allQuestionList3.length > 15) {
+                  this.showMore3 = true;
+                  this.questionList3 = this.allQuestionList3.slice(0, 15);
+                } else {
+                  this.showMore3 = false;
+                  this.questionList3 = this.allQuestionList3;
+                }
+                if (this.allQuestionList4.length > 15) {
+                  this.showMore4 = true;
+                  this.questionList4 = this.allQuestionList4.slice(0, 15);
+                } else {
+                  this.showMore4 = false;
+                  this.questionList4 = this.allQuestionList4;
+                }
+                if (this.allQuestionList5.length > 15) {
+                  this.showMore5 = true;
+                  this.questionList5 = this.allQuestionList5.slice(0, 15);
+                } else {
+                  this.showMore5 = false;
+                  this.questionList5 = this.allQuestionList5;
+                }
+              }
             }
-            if(this.allQuestionList.length > 15){
+        });
+    },
+     // 获取筛选二级标签和问题列表
+    initQuestionData(
+      letterId,
+      firstLabelId,
+      secondLabelId,
+      onlyResponse,
+      ifReset
+    ) {
+      // 动态传id
+      // 将second多选按钮参数用字符串，隔开
+      let secondLabel = "";
+      for (let i = 0; i < secondLabelId.length; i++) {
+        secondLabel = secondLabelId[i] + "," + secondLabel;
+      }
+      // 将second多选按钮参数最后一个  ，号去掉
+      if (secondLabel && secondLabel.length > 0) {
+        secondLabel = secondLabel.substring(0, secondLabel.length - 1);
+      }
+      const param = {
+        letterId: letterId,
+        firstLabelId: firstLabelId,
+        secondLabelId: secondLabel,
+        onlyResponse: onlyResponse
+      };
+      getResultQuestionList(param).then(res => {
+        // 当只有一个tab页时
+        if (this.tabList.length == 1) {
+          if (res.data.result.length > 0) {
+            this.allQuestionList = res.data.result[0].questionList;
+            this.questionCount = res.data.result[0].questionCount;
+            this.answerCount = res.data.result[0].answerCount;
+            if (ifReset != "0") {
+              this.feedbackduoxuanList = res.data.result[0].questionLabelList;
+            }
+            if (this.allQuestionList.length > 15) {
               this.showMore = true;
-              this.questionList = this.allQuestionList.slice(0,15);
-            }else{
+              this.questionList = this.allQuestionList.slice(0, 15);
+            } else {
               this.showMore = false;
               this.questionList = this.allQuestionList;
             }
-        })
+          } else {
+            this.showMore = false;
+            this.questionList = [];
+          }
+        }
+        // 当有2个tab页时
+        if (this.tabList.length == 2) {
+          if (param.letterId == this.tabList[0].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount;
+              this.answerCount = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList = res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList.length > 15) {
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0, 15);
+              } else {
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            } else {
+              this.showMore = false;
+              this.questionList = [];
+            }
+          }
+          if (param.letterId == this.tabList[1].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList2 = res.data.result[0].questionList;
+              this.questionCount2 = res.data.result[0].questionCount;
+              this.answerCount2 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList2 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList2.length > 15) {
+                this.showMore2 = true;
+                this.questionList2 = this.allQuestionList2.slice(0, 15);
+              } else {
+                this.showMore2 = false;
+                this.questionList2 = this.allQuestionList2;
+              }
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = [];
+            }
+          }
+        }
+        // 当有3个tab页时
+        if (this.tabList.length == 3) {
+          if (param.letterId == this.tabList[0].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount;
+              this.answerCount = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList = res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList.length > 15) {
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0, 15);
+              } else {
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            } else {
+              this.showMore = false;
+              this.questionList = [];
+            }
+          }
+          if (param.letterId == this.tabList[1].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList2 = res.data.result[0].questionList;
+              this.questionCount2 = res.data.result[0].questionCount;
+              this.answerCount2 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList2 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList2.length > 15) {
+                this.showMore2 = true;
+                this.questionList2 = this.allQuestionList2.slice(0, 15);
+              } else {
+                this.showMore2 = false;
+                this.questionList2 = this.allQuestionList2;
+              }
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = [];
+            }
+          }
+          if (param.letterId == this.tabList[2].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList3 = res.data.result[0].questionList;
+              this.questionCount3 = res.data.result[0].questionCount;
+              this.answerCount3 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList3 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList3.length > 15) {
+                this.showMore3 = true;
+                this.questionList3 = this.allQuestionList3.slice(0, 15);
+              } else {
+                this.showMore3 = false;
+                this.questionList3 = this.allQuestionList3;
+              }
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = [];
+            }
+          }
+        }
+                // 当有4个tab页时
+        if (this.tabList.length == 4) {
+          if (param.letterId == this.tabList[0].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount;
+              this.answerCount = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList = res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList.length > 15) {
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0, 15);
+              } else {
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            } else {
+              this.showMore = false;
+              this.questionList = [];
+            }
+          }
+          if (param.letterId == this.tabList[1].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList2 = res.data.result[0].questionList;
+              this.questionCount2 = res.data.result[0].questionCount;
+              this.answerCount2 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList2 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList2.length > 15) {
+                this.showMore2 = true;
+                this.questionList2 = this.allQuestionList2.slice(0, 15);
+              } else {
+                this.showMore2 = false;
+                this.questionList2 = this.allQuestionList2;
+              }
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = [];
+            }
+          }
+          if (param.letterId == this.tabList[2].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList3 = res.data.result[0].questionList;
+              this.questionCount3 = res.data.result[0].questionCount;
+              this.answerCount3 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList3 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList3.length > 15) {
+                this.showMore3 = true;
+                this.questionList3 = this.allQuestionList3.slice(0, 15);
+              } else {
+                this.showMore3 = false;
+                this.questionList3 = this.allQuestionList3;
+              }
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = [];
+            }
+          }
+          if (param.letterId == this.tabList[3].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList4 = res.data.result[0].questionList;
+              this.questionCount4 = res.data.result[0].questionCount;
+              this.answerCount4 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList4 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList4.length > 15) {
+                this.showMore4 = true;
+                this.questionList4 = this.allQuestionList4.slice(0, 15);
+              } else {
+                this.showMore4 = false;
+                this.questionList4 = this.allQuestionList4;
+              }
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = [];
+            }
+          }
+        }
+             // 当有5个tab页时
+        if (this.tabList.length == 5) {
+          if (param.letterId == this.tabList[0].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount;
+              this.answerCount = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList = res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList.length > 15) {
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0, 15);
+              } else {
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            } else {
+              this.showMore = false;
+              this.questionList = [];
+            }
+          }
+          if (param.letterId == this.tabList[1].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList2 = res.data.result[0].questionList;
+              this.questionCount2 = res.data.result[0].questionCount;
+              this.answerCount2 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList2 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList2.length > 15) {
+                this.showMore2 = true;
+                this.questionList2 = this.allQuestionList2.slice(0, 15);
+              } else {
+                this.showMore2 = false;
+                this.questionList2 = this.allQuestionList2;
+              }
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = [];
+            }
+          }
+          if (param.letterId == this.tabList[2].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList3 = res.data.result[0].questionList;
+              this.questionCount3 = res.data.result[0].questionCount;
+              this.answerCount3 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList3 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList3.length > 15) {
+                this.showMore3 = true;
+                this.questionList3 = this.allQuestionList3.slice(0, 15);
+              } else {
+                this.showMore3 = false;
+                this.questionList3 = this.allQuestionList3;
+              }
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = [];
+            }
+          }
+          if (param.letterId == this.tabList[3].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList4 = res.data.result[0].questionList;
+              this.questionCount4 = res.data.result[0].questionCount;
+              this.answerCount4 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList4 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList4.length > 15) {
+                this.showMore4 = true;
+                this.questionList4 = this.allQuestionList4.slice(0, 15);
+              } else {
+                this.showMore4 = false;
+                this.questionList4 = this.allQuestionList4;
+              }
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = [];
+            }
+          }
+           if (param.letterId == this.tabList[4].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList5 = res.data.result[0].questionList;
+              this.questionCount5 = res.data.result[0].questionCount;
+              this.answerCount5 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList5 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList5.length > 15) {
+                this.showMore5 = true;
+                this.questionList5 = this.allQuestionList5.slice(0, 15);
+              } else {
+                this.showMore5 = false;
+                this.questionList5 = this.allQuestionList5;
+              }
+            } else {
+              this.showMore5 = false;
+              this.questionList5 = [];
+            }
+          }
+        }
+      });
+    },
+    // 点击二级菜单过滤出问题列表
+    initOnlyQuestionData(letterId, firstLabelId, secondLabelId, onlyResponse) {
+      // 动态传id
+      // 将second多选按钮参数用字符串，隔开
+      let secondLabel = "";
+      for (let i = 0; i < secondLabelId.length; i++) {
+        secondLabel = secondLabelId[i] + "," + secondLabel;
+      }
+      // 将second多选按钮参数最后一个  ，号去掉
+      if (secondLabel && secondLabel.length > 0) {
+        secondLabel = secondLabel.substring(0, secondLabel.length - 1);
+      }
+
+      const param = {
+        letterId: letterId,
+        firstLabelId: firstLabelId,
+        secondLabelId: secondLabel,
+        onlyResponse: onlyResponse
+      };
+      getResultQuestionList(param).then(res => {
+        // 当只有一个tab页时
+        if (this.tabList.length == 1) {
+          if (res.data.result.length > 0) {
+            this.allQuestionList = res.data.result[0].questionList;
+            this.questionCount = res.data.result[0].questionCount;
+            this.answerCount = res.data.result[0].answerCount;
+            if (this.allQuestionList.length > 15) {
+              this.showMore = true;
+              this.questionList = this.allQuestionList.slice(0, 15);
+            } else {
+              this.showMore = false;
+              this.questionList = this.allQuestionList;
+            }
+          } else {
+            this.showMore = false;
+            this.questionList = [];
+          }
+        }
+        // 当有2个tab页时
+        if (this.tabList.length == 2) {
+          if (param.letterId == this.tabList[0].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount;
+              this.answerCount = res.data.result[0].answerCount;
+              if (this.allQuestionList.length > 15) {
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0, 15);
+              } else {
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            } else {
+              this.showMore = false;
+              this.questionList = [];
+            }
+          }
+          if (param.letterId == this.tabList[1].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList2 = res.data.result[0].questionList;
+              this.questionCount2 = res.data.result[0].questionCount;
+              this.answerCount2 = res.data.result[0].answerCount;
+              if (this.allQuestionList2.length > 15) {
+                this.showMore2 = true;
+                this.questionList2 = this.allQuestionList2.slice(0, 15);
+              } else {
+                this.showMore2 = false;
+                this.questionList2 = this.allQuestionList2;
+              }
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = [];
+            }
+          }
+        }
+        // 当有3个tab页时
+        if (this.tabList.length == 3) {
+          if (param.letterId == this.tabList[0].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount;
+              this.answerCount = res.data.result[0].answerCount;
+              if (this.allQuestionList.length > 15) {
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0, 15);
+              } else {
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            } else {
+              this.showMore = false;
+              this.questionList = [];
+            }
+          }
+          if (param.letterId == this.tabList[1].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList2 = res.data.result[0].questionList;
+              this.questionCount2 = res.data.result[0].questionCount;
+              this.answerCount2 = res.data.result[0].answerCount;
+              if (this.allQuestionList2.length > 15) {
+                this.showMore2 = true;
+                this.questionList2 = this.allQuestionList2.slice(0, 15);
+              } else {
+                this.showMore2 = false;
+                this.questionList2 = this.allQuestionList2;
+              }
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = [];
+            }
+          }
+          if (param.letterId == this.tabList[2].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList3 = res.data.result[0].questionList;
+              this.questionCount3 = res.data.result[0].questionCount;
+              this.answerCount3 = res.data.result[0].answerCount;
+              if (this.allQuestionList3.length > 15) {
+                this.showMore3 = true;
+                this.questionList3 = this.allQuestionList3.slice(0, 15);
+              } else {
+                this.showMore3 = false;
+                this.questionList3 = this.allQuestionList3;
+              }
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = [];
+            }
+          }
+        }
+         // 当有4个tab页时
+        if (this.tabList.length == 4) {
+          if (param.letterId == this.tabList[0].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount;
+              this.answerCount = res.data.result[0].answerCount;
+              if (this.allQuestionList.length > 15) {
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0, 15);
+              } else {
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            } else {
+              this.showMore = false;
+              this.questionList = [];
+            }
+          }
+          if (param.letterId == this.tabList[1].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList2 = res.data.result[0].questionList;
+              this.questionCount2 = res.data.result[0].questionCount;
+              this.answerCount2 = res.data.result[0].answerCount;
+              if (this.allQuestionList2.length > 15) {
+                this.showMore2 = true;
+                this.questionList2 = this.allQuestionList2.slice(0, 15);
+              } else {
+                this.showMore2 = false;
+                this.questionList2 = this.allQuestionList2;
+              }
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = [];
+            }
+          }
+          if (param.letterId == this.tabList[2].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList3 = res.data.result[0].questionList;
+              this.questionCount3 = res.data.result[0].questionCount;
+              this.answerCount3 = res.data.result[0].answerCount;
+              if (this.allQuestionList3.length > 15) {
+                this.showMore3 = true;
+                this.questionList3 = this.allQuestionList3.slice(0, 15);
+              } else {
+                this.showMore3 = false;
+                this.questionList3 = this.allQuestionList3;
+              }
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = [];
+            }
+          }
+          if (param.letterId == this.tabList[3].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList4 = res.data.result[0].questionList;
+              this.questionCount4 = res.data.result[0].questionCount;
+              this.answerCount4 = res.data.result[0].answerCount;
+              if (this.allQuestionList4.length > 15) {
+                this.showMore4 = true;
+                this.questionList4 = this.allQuestionList4.slice(0, 15);
+              } else {
+                this.showMore4 = false;
+                this.questionList4 = this.allQuestionList4;
+              }
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = [];
+            }
+          }
+        }
+        // 当有5个tab页时
+        if (this.tabList.length == 5) {
+          if (param.letterId == this.tabList[0].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount;
+              this.answerCount = res.data.result[0].answerCount;
+              if (this.allQuestionList.length > 15) {
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0, 15);
+              } else {
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            } else {
+              this.showMore = false;
+              this.questionList = [];
+            }
+          }
+          if (param.letterId == this.tabList[1].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList2 = res.data.result[0].questionList;
+              this.questionCount2 = res.data.result[0].questionCount;
+              this.answerCount2 = res.data.result[0].answerCount;
+              if (this.allQuestionList2.length > 15) {
+                this.showMore2 = true;
+                this.questionList2 = this.allQuestionList2.slice(0, 15);
+              } else {
+                this.showMore2 = false;
+                this.questionList2 = this.allQuestionList2;
+              }
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = [];
+            }
+          }
+          if (param.letterId == this.tabList[2].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList3 = res.data.result[0].questionList;
+              this.questionCount3 = res.data.result[0].questionCount;
+              this.answerCount3 = res.data.result[0].answerCount;
+              if (this.allQuestionList3.length > 15) {
+                this.showMore3 = true;
+                this.questionList3 = this.allQuestionList3.slice(0, 15);
+              } else {
+                this.showMore3 = false;
+                this.questionList3 = this.allQuestionList3;
+              }
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = [];
+            }
+          }
+          if (param.letterId == this.tabList[3].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList4 = res.data.result[0].questionList;
+              this.questionCount4 = res.data.result[0].questionCount;
+              this.answerCount4 = res.data.result[0].answerCount;
+              if (this.allQuestionList4.length > 15) {
+                this.showMore4 = true;
+                this.questionList4 = this.allQuestionList4.slice(0, 15);
+              } else {
+                this.showMore4 = false;
+                this.questionList4 = this.allQuestionList4;
+              }
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = [];
+            }
+          }
+          if (param.letterId == this.tabList[4].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList5 = res.data.result[0].questionList;
+              this.questionCount5 = res.data.result[0].questionCount;
+              this.answerCount5 = res.data.result[0].answerCount;
+              if (this.allQuestionList5.length > 15) {
+                this.showMore5 = true;
+                this.questionList5 = this.allQuestionList5.slice(0, 15);
+              } else {
+                this.showMore5 = false;
+                this.questionList5 = this.allQuestionList5;
+              }
+            } else {
+              this.showMore5 = false;
+              this.questionList5 = [];
+            }
+          }
+        }
+      });
+    },
+    // 点击tab页
+    handleTabClick(tab, event) {
+      this.o_letterId = tab.name;
     },
     // 初始化委员数据
     initMemberData(examineDate) { 
@@ -502,62 +1417,6 @@ export default {
         this.dialogVisible = true;
         this.initMemberData(examineDate)
     },
-        // 点击加载更多
-    showMoreMethods(){
-        this.showLength+=15
-        if(this.allQuestionList.length > this.showLength){
-          this.showMore = true;
-          this.questionList = this.allQuestionList.slice(0, this.showLength);
-        }else{
-          this.showMore = false;
-          this.questionList = this.allQuestionList;
-        }
-    },
-    // 鼠标移入委员详情弹出窗的列
-    mouseOverSpreadText(title){ 
-        for(var a = 0;a< $(".position").length;a++){
-            if(title.length>19){
-                $(".position").eq(a).attr("title",title)
-            }else{
-                $(".position").eq(a).removeAttr("title",title)
-            }
-        }
-         for(let a = 0;a< $(".xueli").length;a++){
-             if(title.length>12){
-                $(".xueli").eq(a).attr("title",title)
-            }else{
-                $(".xueli").eq(a).removeAttr("title",title)
-            }
-        }
-        for(let a = 0;a< $(".danwei").length;a++){
-             if(title.length>12){
-                $(".danwei").eq(a).attr("title",title)
-            }else{
-                $(".danwei").eq(a).removeAttr("title",title)
-            }
-        }
-        for(let a = 0;a< $(".xingzhi").length;a++){
-             if(title.length>12){
-                $(".xingzhi").eq(a).attr("title",title)
-            }else{
-                $(".xingzhi").eq(a).removeAttr("title",title)
-            }
-        }
-    },
-   getContent(title){
-     if(title.length>20){
-       return title.substring(0,19) + '...'
-     }else{
-       return title
-     }
-   },
-   getContent1(title){
-     if(title.length>13){
-       return title.substring(0,12) + '...'
-     }else{
-       return title
-     }
-   },
     // 非空判断
     isNotEmpty(param) {
       if (
@@ -573,7 +1432,6 @@ export default {
       }
     }
   },
-  components: {}
 };
 </script>
 <style scoped lang="scss">
@@ -655,45 +1513,77 @@ export default {
     background:url('../../../assets/images/quan.png') no-repeat;
 }
 .zhbjResult{
-     font-size: 14px;
+     font-size: 12px;
      color: #FF9900;
      padding:5px;
      line-height:10px;
+    padding-left: 10px;
+    padding-right: 7px;
      display:inline-block;
       background-size:cover;
      background:url('../../../assets/images/zhbj.png') no-repeat;
 }
 .whtgResult{
-     font-size: 14px;
+     font-size: 12px;
      color: #FE5461;
      padding:5px;
      line-height:10px;
+    padding-left: 10px;
+    padding-right: 7px;
      display:inline-block;
      background-size:cover;
      background:url('../../../assets/images/whtg.png') no-repeat;
 }
 .htgResult{
-     font-size: 14px;
+     font-size: 12px;
      color: #14BCF5;
      padding:5px;
+     padding-left: 10px;
+    padding-right: 7px;
      line-height:10px;
      display:inline-block;
       background-size:cover;
      background:url('../../../assets/images/htg.png') no-repeat;
 }
+.tgResult{
+     font-size: 12px;
+     color: #14BCF5;
+     padding:5px;
+     line-height:10px;
+     display:inline-block;
+     background-size:cover;
+    padding-left: 10px;
+    padding-right: 7px;
+     background:url('../../../assets/images/tg.png') no-repeat;
+}
+.wtgResult{
+     font-size: 12px;
+     color: #FE5461;
+     padding:5px;
+     line-height:10px;
+     display:inline-block;
+     background-size:cover;
+    padding-left: 10px;
+    padding-right: 7px;
+     background:url('../../../assets/images/wtg.png') no-repeat;
+}
 .qxshResult{
-     font-size: 14px;
+     font-size: 12px;
      color: #94A3B4;
      padding:5px;
+     padding-left: 10px;
+    padding-right: 7px;
      line-height:10px;
      display:inline-block;
       background-size:cover;
      background:url('../../../assets/images/qxsh.png') no-repeat;
 }
 .dshResult{
-     font-size: 14px;
+     font-size: 12px;
      color: #ffd800;
      padding:5px;
+     padding-left: 10px;
+    padding-right: 7px;
      line-height:10px;
      display:inline-block;
      background-size:cover;
@@ -725,7 +1615,168 @@ export default {
   font-size: 14px;
   text-align: center;
 }
+.firstLabelFocus:hover {
+  cursor: pointer;
+}
+.secondLabelFocus:hover {
+  cursor: pointer;
+  color: #14bcf5 !important;
+}
+.secondLabelFocus:focus {
+  cursor: pointer;
+  color: #14bcf5 !important;
+  border-color: #14bcf5;
+  background: white;
+}
+.biaoqian {
+  display: inline-block;
+  text-align: center;
+  border: 1px solid rgba(235, 235, 235, 1);
+  font-family: "MicrosoftYaHei", "Microsoft YaHei";
+  margin-left: 10px;
+  padding: 4px;
+  border-radius: 2px;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.647058823529412);
+}
+.wen {
+  width: 24px;
+  height: 24px;
+  padding-top: 6px;
+  padding-left: 6px;
+  color: #ffffff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 12px;
+  background: url("../../../assets/images/wen.png") no-repeat;
+  background-size: contain;
+}
+.da {
+  width: 24px;
+  height: 24px;
+  padding-top: 6px;
+  padding-left: 6px;
+  color: #ffffff;
+  font-size: 12px;
+  background: url("../../../assets/images/da.png") no-repeat;
+  background-size: contain;
+  position: relative;
+  top: 15px;
+  left: -23px;
+}
+.quan {
+  background-size: contain;
+  background: url("../../../assets/images/quan.png") no-repeat;
+}
+.reset {
+  background: inherit;
+  background-color: #fff;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #cacaca;
+  box-shadow: none;
+  font-family: "Microsoft YaHei Regular", "Microsoft YaHei";
+  font-weight: 400;
+  font-style: normal;
+  color: #666;
+  text-align: center;
+  line-height: 12px;
+  position: relative;
+  left: 5%;
+  top: -2px;
+  cursor: pointer;
+  height: 28px;
+}
+// 展开
+.spread {
+  position: relative;
+  left: 94%;
+}
+.spread:hover {
+  text-decoration: underline;
+}
 
+// 收起
+.packUp {
+  position: relative;
+  left: 94%;
+}
+.packUp:hover {
+  text-decoration: underline;
+}
+.more {
+  width: 100%;
+  height: 46px;
+  font-family: "Microsoft Tai Le Normal", "Microsoft Tai Le";
+  font-weight: 400;
+  font-size: 14px;
+  color: #252b3f;
+  line-height: 46px;
+  background: #f7f7f7;
+  text-align: center;
+  cursor: pointer;
+}
+.checkbox {
+  font-size: 12px !important;
+  color: #555555;
+  background: #fafafa;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  border-width: 0.1px;
+  border-style: solid;
+  border-color: #ebebeb;
+  border-radius: 3px;
+}
+.moreText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+}
+.title {
+  border-bottom: 1px solid;
+  border-bottom-color: #ebebeb;
+  height: 42px;
+  line-height: 42px;
+  background-color: #fafafa;
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 16px;
+  .littleRectangle {
+    width: 3px;
+    height: 18px;
+    background-color: #999999;
+    display: inline-block;
+    margin-right: 12px;
+    margin-top: 0px;
+    .titleText {
+      font-size: 18px;
+      color: #333333;
+    }
+  }
+}
+.finishRead {
+  font-family: "PingFang-SC-Regular", "PingFang SC";
+  font-weight: 400;
+  font-style: normal;
+  color: #888888;
+  line-height: 24px;
+  font-size: 14px;
+  text-align: center;
+}
+</style>
+<style>
+.daImg img {
+  width: 100%;
+}
+</style>
 </style>
 
 

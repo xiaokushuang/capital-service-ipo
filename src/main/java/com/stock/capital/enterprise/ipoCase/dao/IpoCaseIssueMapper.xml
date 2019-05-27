@@ -35,6 +35,8 @@
       lf.EPSISSUEB AS epsIssueB,
       lf.EPSISSUEA AS epsIssueA,
       lf.PEISSUEA peIssueA,
+      lfp.SHARESTRATEGICPLACE AS sharesTrategicPlace,
+      lfp.SHAREOVERPLACE AS shareOverPlace,
       CONVERT(lfp.SHAREISSUEON/10000,DECIMAL(18,2)) AS shareIssueOn,
       CONVERT(lfp.SHAREPLACEOFF/10000,DECIMAL(18,2)) AS sharePlaceOff,
       (SELECT c.PARAMCHNAME FROM CFP_PVALUE c WHERE c.NIPMID = '127000000005078644' AND lfu.UWMETHOD = c.PARAMCODE) AS uwMethod

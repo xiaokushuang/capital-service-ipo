@@ -33,6 +33,8 @@ public class IpoFeedbackDto implements Serializable {
     private String onlyResponse;
     @ApiModelProperty("二级标签问题数组")
     private List<String> secondLabelList;
+    @ApiModelProperty("基本信息列表")
+    private List<IpoExamineBaseDto> baseList;
 
 
     private static final long serialVersionUID = 1L;
@@ -131,5 +133,17 @@ public class IpoFeedbackDto implements Serializable {
 
     public List<String> getSecondLabelList() {
         return secondLabelList;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public List<IpoExamineBaseDto> getBaseList() {
+        return baseList;
+    }
+
+    public void setBaseList(List<IpoExamineBaseDto> baseList) {
+        this.baseList = baseList;
     }
 }

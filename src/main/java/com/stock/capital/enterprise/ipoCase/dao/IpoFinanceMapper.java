@@ -50,4 +50,14 @@ public interface IpoFinanceMapper {
      * 查询利润类项目财务情况
      */
     List<IpoItemDto> selectReturnItemList(@Param("id") String id, @Param("date") Date date);
+
+    /**
+     * 查询主要财务指标
+     */
+    List<IpoItemDto> selectMainIndexList(@Param("id") String id, @Param("date") Date date);
+
+    /**
+     * 查询无形资产占净资产比例
+     */
+    List<IpoItemDto> selectRatio(@Param("id") String id, @Param("date") Date date);
 }

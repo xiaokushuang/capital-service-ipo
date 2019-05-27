@@ -161,16 +161,17 @@
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 2px;
-  background-color: white;
+  height: 1px;
+  background-color: #e4e7ed;
   z-index: 1;
 }
 .feedback .el-tabs__active-bar {
   position: absolute;
   bottom: 0;
   left: 0;
-  height: 2px;
-  background-color: white;
+  height: 1px;
+  // background-color: #fff;
+  background-color: #e4e7ed;
   z-index: 1;
   -webkit-transition: -webkit-transform .3s cubic-bezier(.645,.045,.355,1);
   transition: -webkit-transform .3s cubic-bezier(.645,.045,.355,1);
@@ -178,6 +179,25 @@
   transition: transform .3s cubic-bezier(.645,.045,.355,1), -webkit-transform .3s cubic-bezier(.645,.045,.355,1);
   transition: transform .3s cubic-bezier(.645,.045,.355,1),-webkit-transform .3s cubic-bezier(.645,.045,.355,1);
   list-style: none;
+}
+// css伪类加三角形边框
+.feedback .el-tabs__active-bar:before{
+    content:" ";
+		position:absolute;
+		top:-6px;
+		left:58px;
+		border-bottom:6px solid #14bcf5;
+		border-left:6px solid transparent;
+    border-right:6px solid transparent;
+}
+.feedback .el-tabs__active-bar::after{
+  content:" ";
+  position:absolute;
+  top:-5px;
+  left:52px;
+  border-bottom:12px solid white;
+  border-left:12px solid transparent;
+  border-right:12px solid transparent;
 }
 .feedback .el-tabs__item {
   padding: 0 20px;
@@ -192,8 +212,9 @@
   color: #777777;
   position: relative;
 }
-.feedback .el-tabs__header.is-top{
+.feedback .el-tabs__header.is-top {
   padding-left: 75px;
+  border-bottom: 1px solid #e4e7ed;
 }
 .feedback .el-tabs__item:hover {
   color: #0087a7;
@@ -248,10 +269,13 @@
   -webkit-box-shadow: -1px 0 0 0 #66b7ca;
   box-shadow: -1px 0 0 0 #66b7ca;
 }
+.el-checkbox__input.is-checked+.el-checkbox__label {
+  color: #14bcf5;
+}
 // 反馈意见  单选按钮
-.el-radio-button .el-radio-button__inner {
+.singleAndMultiple .el-radio-button .el-radio-button__inner {
   border: none;
-  background-color: rgba(250, 250, 250, 1);
+  background-color: #fff;
   border-radius: 4px 0 0 4px;
   -webkit-box-shadow: none!important;
   box-shadow: none!important;
@@ -273,66 +297,7 @@
 .el-input--medium .el-input__inner {
   height: 30px;
 }
-// 公告弹窗复选框样式
-.moreNotice .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
-  background-color: #14bcf5;
-  color: #14bcf5;
-  border-color:#14bcf5
-}
-.moreNotice .el-checkbox__input{
-  border-color:#14bcf5;
-}
-.moreNotice .el-checkbox__input.is-focus .el-checkbox__inner{
-  border-color:#14bcf5;
-}
-.moreNotice .el-checkbox__inner::after {
-  -webkit-box-sizing: content-box;
-  box-sizing: content-box;
-  content: "";
-  border: 2px solid white;
-  border-left: 0;
-  border-top: 0;
-  height: 8px;
-  left: 3px;
-  position: absolute;
-  top: 0px;
-  -webkit-transform: rotate(45deg) scaleY(0);
-  transform: rotate(45deg) scaleY(0);
-  width: 4px;
-  -webkit-transition: -webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
-  transition: -webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
-  transition: transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
-  transition: transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms, -webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
-  transition: transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms,-webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
-  -webkit-transform-origin: center;
-  transform-origin: center;
-}
-.feedback .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
-  background-color: #0099CC;
-  color: #0099CC;
-}
-.feedback .el-checkbox__inner::after {
-  -webkit-box-sizing: content-box;
-  box-sizing: content-box;
-  content: "";
-  border: 2px solid white;
-  border-left: 0;
-  border-top: 0;
-  height: 8px;
-  left: 3px;
-  position: absolute;
-  top: 0px;
-  -webkit-transform: rotate(45deg) scaleY(0);
-  transform: rotate(45deg) scaleY(0);
-  width: 4px;
-  -webkit-transition: -webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
-  transition: -webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
-  transition: transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
-  transition: transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms, -webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
-  transition: transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms,-webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
-  -webkit-transform-origin: center;
-  transform-origin: center;
-}
+
 // 下载小图标变大
 [class*=" el-icon-"], [class^=el-icon-] {
   font-size: 20px;
@@ -365,27 +330,21 @@
 .myself.el-table {
  border:1px solid #14bcf5;
 }
-// 反馈意见单选
-.feedback .el-radio-button:first-child .el-radio-button__inner {
-  border-left: none;
-  border-radius: 3px;
-}
 .feedback .el-radio-button__orig-radio:checked + .el-radio-button__inner {
-  background-color: #14bcf5;
-  color: #fff;
+  background-color: #fff;
+  color: #14bcf5;
   border-radius: 3px;
-  border-color: #3399ff;
-  -webkit-box-shadow: -1px 0 0 0 #0087a7;
-  box-shadow: -1px 0 0 0 #0087a7;
+  border:1px solid #14bcf5;
 }
 
 .feedback .el-radio-button--small .el-radio-button__inner {
-  padding: 8px;
+  padding: 5px;
   font-size: 12px;
   border-radius: 0;
+  border:1px solid #fff
 }
 .feedback .el-checkbox-button__inner{
-  padding:8px;
+  padding:5px;
   border-radius: 3px !important;
 }
 // 财务信息其他公司和平均值没有数据时，不显示，‘暂无数据’
@@ -533,23 +492,89 @@
   color: #14bcf5;
   cursor: pointer;
 }
+// 公告多选按钮
+.moreNotice .el-checkbox__inner:hover {
+  border-color: #14bcf5;
+}
+.moreNotice .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+  background-color: #14bcf5;
+  border-color: #14bcf5 !important;
+}
+.moreNotice .el-checkbox__input.is-focus .el-checkbox__inner{
+  border-color:#cacaca;
+}
+.moreNotice .el-checkbox__inner{
+  border-color:#cacaca;
+  border-radius:3px;
+}
+.moreNotice .el-button--primary.is-plain:focus, .el-button--primary.is-plain:hover {
+  background: #fff !important;
+  border-color: #14bcf5!important;
+  color: #14bcf5!important;
+}
+.moreNotice .el-checkbox__inner::after {
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  content: "";
+  border: 2px solid white;
+  border-left: 0;
+  border-top: 0;
+  height: 8px;
+  left: 3px;
+  position: absolute;
+  top: 0px;
+  -webkit-transform: rotate(45deg) scaleY(0);
+  transform: rotate(45deg) scaleY(0);
+  width: 4px;
+  -webkit-transition: -webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
+  transition: -webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
+  transition: transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
+  transition: transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms, -webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
+  transition: transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms,-webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
+  -webkit-transform-origin: center;
+  transform-origin: center;
+}
+//未
 .feedback .el-checkbox__inner:hover {
   border-color: #14bcf5;
 }
 .feedback .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
   background-color: #14bcf5;
-  border-color: #14bcf5;
+  border-color: #14bcf5 !important;
 }
 .feedback .el-checkbox__input.is-focus .el-checkbox__inner{
   border-color:#cacaca;
 }
 .feedback .el-checkbox__inner{
   border-color:#cacaca;
+  border-radius:3px;
 }
 .feedback .el-button--primary.is-plain:focus, .el-button--primary.is-plain:hover {
   background: #fff !important;
   border-color: #14bcf5!important;
   color: #14bcf5!important;
+}
+.feedback .el-checkbox__inner::after {
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  content: "";
+  border: 2px solid white;
+  border-left: 0;
+  border-top: 0;
+  height: 8px;
+  left: 3px;
+  position: absolute;
+  top: 0px;
+  -webkit-transform: rotate(45deg) scaleY(0);
+  transform: rotate(45deg) scaleY(0);
+  width: 4px;
+  -webkit-transition: -webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
+  transition: -webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
+  transition: transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
+  transition: transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms, -webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
+  transition: transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms,-webkit-transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms;
+  -webkit-transform-origin: center;
+  transform-origin: center;
 }
 #componentId .el-checkbox-button.is-checked .el-checkbox-button__inner {
   background-color: #fff;
@@ -635,4 +660,13 @@
 // 表头右边
 .ipoContainer .el-table--border td, .el-table--border th {
   border-right: 1px solid #e4e4e4 !important;
+}
+// 专利情况表格
+.patentSituationTable table tr td:first-of-type{
+  background:#f2f2f2 !important;
+  font-weight:bold;
+}
+
+.patentSituationTable table tr:last-of-type td:last-of-type{
+  background:#f2f2f2 !important;
 }

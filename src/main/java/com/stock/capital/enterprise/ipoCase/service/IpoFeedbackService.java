@@ -172,7 +172,7 @@ public class IpoFeedbackService extends BaseService {
                     questionLabelDto.setLabelName(firstLabelMap.get(labelDto.getFieldId()).get("letterClassName"));
                     questionLabelDto.setLabelCount(String.valueOf(labelDto.getCount()));
                     String sort = firstLabelMap.get(labelDto.getFieldId()).get("sort");
-                    if(StringUtils.isEmpty(sort)){
+                    if (StringUtils.isEmpty(sort)) {
                         sort = "1";
                     }
                     questionLabelDto.setSort(Integer.parseInt(sort));
@@ -231,12 +231,30 @@ public class IpoFeedbackService extends BaseService {
         if (CollectionUtils.isNotEmpty(resultList)) {
             for (int i = 0; i < resultList.size(); i++) {
                 if (resultList.size() > 1) {
-                    if (i == 0) {
-                        resultList.get(i).setLetterName("第一次反馈意见");
-                    } else if (i == 1) {
-                        resultList.get(i).setLetterName("第二次反馈意见");
-                    } else if (i == 2) {
-                        resultList.get(i).setLetterName("第三次反馈意见");
+                    if ("069001001006".equals(ipoPlate)) {
+                        if (i == 0) {
+                            resultList.get(i).setLetterName("第一次问询");
+                        } else if (i == 1) {
+                            resultList.get(i).setLetterName("第二次问询");
+                        } else if (i == 2) {
+                            resultList.get(i).setLetterName("第三次问询");
+                        } else if (i == 3) {
+                            resultList.get(i).setLetterName("第四次问询");
+                        } else if (i == 4) {
+                            resultList.get(i).setLetterName("第五次问询");
+                        }
+                    }else{
+                        if (i == 0) {
+                            resultList.get(i).setLetterName("第一次反馈意见");
+                        } else if (i == 1) {
+                            resultList.get(i).setLetterName("第二次反馈意见");
+                        } else if (i == 2) {
+                            resultList.get(i).setLetterName("第三次反馈意见");
+                        } else if (i == 3) {
+                            resultList.get(i).setLetterName("第四次反馈意见");
+                        } else if (i == 4) {
+                            resultList.get(i).setLetterName("第五次反馈意见");
+                        }
                     }
                 }
             }
@@ -319,7 +337,7 @@ public class IpoFeedbackService extends BaseService {
                 questionLabelDto.setLabelName(secondSelLabelMap.get(labelDto.getFieldId()).get("letterClassName"));
                 questionLabelDto.setLabelCount(String.valueOf(labelDto.getCount()));
                 String sort = secondSelLabelMap.get(labelDto.getFieldId()).get("sort");
-                if(StringUtils.isEmpty(sort)){
+                if (StringUtils.isEmpty(sort)) {
                     sort = "1";
                 }
                 questionLabelDto.setSort(Integer.parseInt(sort));
