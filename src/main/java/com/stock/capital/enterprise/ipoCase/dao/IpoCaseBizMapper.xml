@@ -13,6 +13,7 @@
     <result column="addr_area" property="addrArea" jdbcType="VARCHAR"/>
     <result column="company_nature" property="companyNature" jdbcType="VARCHAR"/>
     <result column="major_businesses" property="majorBusinesses" jdbcType="VARCHAR"/>
+    <result column="industry_status_overview" property="industryStatusOverview" jdbcType="VARCHAR"/>
     <result column="industry_csrc" property="industryCsrc" jdbcType="VARCHAR"/>
     <result column="registered_assets" property="registeredAssets" jdbcType="DECIMAL"/>
     <result column="structure_label" jdbcType="VARCHAR" property="structureLabel"/>
@@ -53,6 +54,7 @@
     SELECT
     ic.id,
     ic.company_zh_name,
+    ic.industry_status_overview,
     (SELECT mcl.label_name FROM maa_conf_label mcl WHERE mcl.label_code = 'IPO_PLATE' AND mcl.label_value = ic.ipo_plate) AS ipo_plate,
     (SELECT group_concat(mcl1.label_name) FROM maa_conf_label mcl1 WHERE mcl1.label_code = 'INDUSTRY_CSRC_2012' AND find_in_set(mcl1.label_value,TRIM(LEADING '0' FROM ic.industry_csrc))) AS industry_csrc,
     ic.company_name,
