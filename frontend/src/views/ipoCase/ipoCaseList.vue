@@ -567,6 +567,7 @@
                     </template>
                   </el-table-column>
                 </el-table>
+
                 <papers style="margin-bottom: 2%" ref="paper" :length1="20" :total="totalCount" @searchTable="search"></papers>
               </div>
             </el-col>
@@ -586,6 +587,7 @@
   export default {
     data() {
       return {
+        tenantInfo:'',//日志
         tableData: [],
         tableLoading: false,
         searchFlag: false,
@@ -827,7 +829,21 @@
         shareIssueAShow: true
       }
     },
+    created(){
+      // 日志
+      let param = {
+      client_type:'pc',//手机或pc
+      recordType:'menu',//跳转页面方式:
+      recordModule:'ipo',//跳转模块
+      recordTab:"ipo案例",//跳转tab
+      recordTabChild:null,//跳转子集tab
+      popTitle:null//弹窗title
+      }
+      this.$store.commit('SET_TOKEN',param)
+    },
     mounted() {
+      // 日志caseId:this.$store.state.app.caseId,
+      this.tenantInfo = this.$route.query.info;
       this.tableLoading = true;
       const _data = {
         startRow: 0,
@@ -1289,9 +1305,10 @@
           const _self = this;
           const {href} = _self.$router.resolve({
             name: 'caseDetail',
-            query: {caseId: caseId, access_token: _self.$store.state.app.token}
+            query: {caseId: caseId, access_token: _self.$store.state.app.token,tenant_info:_self.$store.state.app.info}
           });
-          window.open(href, '_blank');
+          console.log('1111',href + '&tenant_info='+ this.tenantInfo);
+          window.open(href + '&tenant_info='+ this.tenantInfo, '_blank');
         } else {
           let url = window.location.href;
           url = url.replace(this.$route.path, '/ipoPopWin');

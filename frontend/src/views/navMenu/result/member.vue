@@ -6,7 +6,8 @@
                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
                     <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
                 </div>
-                <span class="position"  @mouseenter="mouseOverSpreadText(data.memberPost)" style="background: #14bcf5;
+                <!-- @mouseenter="mouseOverSpreadText(data.memberPost)" -->
+                <span class="position" :title="data.memberPost.length>19?data.memberPost:''" style="background: #14bcf5;
                     font-weight: 400;
                     font-style: normal;
                     font-size: 12px;
@@ -17,17 +18,17 @@
                     padding-right:7px;
                     margin-top: 6px;
                     margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
-                <div>
+                <!-- <div>
                     <span style="color: #666;">学历/专业：</span>
                     <span  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
-                </div>
+                </div> -->
                 <div>
                     <span style="color: #666;">工作单位：</span>
-                    <span class="danwei" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
+                    <span class="danwei" style="color: #666;" :title="data.memberCompany.length>12?data.memberCompany:''" >{{getContent1(data.memberCompany)}}</span>
                 </div>
                 <div>
-                    <span style="color: #666;">工作性质：</span>
-                    <span class="xingzhi" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
+                    <span style="color: #666;">职务：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+                    <span class="xingzhi" style="color: #666;" :title="data.memberCompany.length>12?data.memberType:''">{{getContent1(data.memberType)}}</span>
                 </div>
             </li>
         </ul>

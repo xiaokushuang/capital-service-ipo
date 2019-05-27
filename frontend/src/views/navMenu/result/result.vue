@@ -21,8 +21,8 @@
                                 <span class="zhbjResult" v-if="baseList[0].iecResult=='02'">暂缓表决</span>
                                 <span class="qxshResult" v-if="baseList[0].iecResult=='03'">取消审核</span>
                                 <span class="dshResult"  v-if="baseList[0].iecResult=='04'">待审核</span>
-                                <span class="tgResult"  v-if="baseList[0].iecResult=='05'">通过</span>
-                                <span class="wtgResult" v-if="baseList[0].iecResult=='06'">未通过</span>
+                                <span class="tgResult"   v-if="baseList[0].iecResult=='05'">通过</span>
+                                <span class="wtgResult"  v-if="baseList[0].iecResult=='06'">未通过</span>
                                 <span class="htgResult"  v-if="baseList[0].iecResult=='07'">注册生效</span>
                                 <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
                                 <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待审核</span>

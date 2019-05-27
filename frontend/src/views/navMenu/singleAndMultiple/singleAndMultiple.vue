@@ -4,15 +4,15 @@
           <div class="firstLabel" >
               <div style="padding: 15px 0px 0px 0px;margin-top:0px;padding-left:0px;">
                 <div class="clear" style="border-bottom: 1px solid rgb(235, 235, 235);position:relative">
-                  <p style="float:left;margin-left: 8px;margin-top:3px;">问题类型：</p>
+                  <p style="float:left;margin-left: 8px;margin-top:6px;font-size:12px">问题类型：</p>
                   <el-radio-group  @change="handelChange(radio)" v-model="radio" size="small" style="padding-bottom:10px;float:left;width:88%">
                       <el-radio-button :key="item.labelCode" v-for="item in singleAndMultiplDdata.radio" class="l firstLabelFocus" style="margin-right:10px;margin-bottom:10px;font-size: 12px; color: rgba(0, 0, 0, 0.647058823529412);" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-radio-button>
                   </el-radio-group>
                 </div>
               </div>
                 <div class="clear" style="padding:0px 25px;margin-top:12px;padding-bottom:10px">
-                  <p style="float: left; margin-left: -17px; margin-top: 2px;margin-right: 15px;" v-if="singleAndMultiplDdata.checkbox&&singleAndMultiplDdata.checkbox.length>0">子级分类:</p>
-                  <el-checkbox-group  @change="handelMoreChange(checkboxGroup,currentCheck)" true-label="currentCheck" v-model="checkboxGroup" size="mini" style="float:left;width:88%">
+                  <p style="float: left; margin-left: -17px; margin-top: 2px;margin-right: 15px;font-size:12px" v-if="singleAndMultiplDdata.checkbox&&singleAndMultiplDdata.checkbox.length>0">子级分类:</p>
+                  <el-checkbox-group class="secondLabel" @change="handelMoreChange(checkboxGroup,currentCheck)" true-label="currentCheck" v-model="checkboxGroup" size="mini" style="float:left;width:88%">
                       <el-checkbox :key="item.labelCode" class="checkbox" v-for="item in singleAndMultiplDdata.checkbox" :label="item.labelCode">{{item.labelName}}({{item.labelCount}})</el-checkbox>
                   </el-checkbox-group>
                 </div>
@@ -44,7 +44,7 @@
                             <p style="width:100%;"  v-if="data.isSpread && data.isSpread === 2">&nbsp;&nbsp;{{data.question}}</p>
                         </div>
                         <!-- 收起展开 -->
-                        <div class="btn" style="color: #4F91D1;font-size:14px">
+                        <div class="btn" style="color: #1990fe;font-size:14px">
                             <span style="cursor:pointer" v-if="data.isSpread && data.isSpread === 2" class="packUp" @click="packUp(data)">收起 <i style="font-size:12px;cursor:pointer" class="el-icon-arrow-up"></i></span>
                             <span style="cursor:pointer" v-if="data.isSpread && data.isSpread === 1" class="spread" @click="spread(data)">展开 <i style="font-size:12px;cursor:pointer" class="el-icon-arrow-down"></i></span>
                         </div>
@@ -57,7 +57,7 @@
                             <p class="daImg" v-html="data.formatAnswer" style="width:100%;"  v-if="data.isSpreada && data.isSpreada === 2">&nbsp;&nbsp;{{data.formatAnswer}}</p>
                         </div>
                         <!-- 收起展开 -->
-                          <div class="btn" style="color: #4F91D1;font-size:14px">
+                          <div class="btn" style="color: #1990fe;font-size:14px">
                             <span style="cursor:pointer" v-if="data.isSpreada && data.isSpreada === 2" class="packUp" @click="daPackUp(data)">收起 <i style="font-size:12px" class="el-icon-arrow-up"></i></span>
                             <span style="cursor:pointer" v-if="data.isSpreada && data.isSpreada === 1" class="spread" @click="daSpread(data)">展开 <i style="font-size:12px" class="el-icon-arrow-down"></i></span>
                         </div>
@@ -477,6 +477,7 @@ export default {
   font-size: 14px;
   text-align: center;
 }
+
 </style>
 <style>
 .daImg img {
