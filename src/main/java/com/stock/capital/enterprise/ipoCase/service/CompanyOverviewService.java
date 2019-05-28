@@ -2,11 +2,15 @@ package com.stock.capital.enterprise.ipoCase.service;
 
 import static java.math.BigDecimal.ROUND_HALF_DOWN;
 
+import com.stock.capital.enterprise.common.dao.AttachmentMapper;
+import com.stock.capital.enterprise.common.entity.Attachment;
+import com.stock.capital.enterprise.common.entity.AttachmentExample;
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseBizMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoIssuerIndustryStatusBizMapper;
 import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
 import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
 import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoFileDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyDateDto;
@@ -44,6 +48,9 @@ public class CompanyOverviewService extends BaseService {
     @Autowired
     private IpoIssuerIndustryStatusBizMapper ipoIssuerIndustryStatusBizMapper;
 
+    @Autowired
+    private AttachmentMapper attachmentMapper;
+
     @Value("#{app['file.viewPath']}")
     private String fileViewPath;
 
@@ -76,9 +83,23 @@ public class CompanyOverviewService extends BaseService {
     public List<IpoSplitDto> getSpliteData(String id) {
         List<IpoSplitDto> list = ipoCaseBizMapper.getSpliteData(id);
         for (IpoSplitDto ipoSplitDto : list) {
-            String fileType = ipoSplitDto.getSplitFileName().substring(ipoSplitDto.getSplitFileName().lastIndexOf("."));
-            String baseUrl = fileViewPath + "open/ipoFile/" + ipoSplitDto.getSplitFileId() + fileType;
-            ipoSplitDto.setFilePath(baseUrl);
+            AttachmentExample example = new AttachmentExample();
+            example.createCriteria().andBusinessIdEqualTo(ipoSplitDto.getId());
+            List<Attachment> attachmentList = attachmentMapper.selectByExample(example);
+//            String fileType = ipoSplitDto.getSplitFileName().substring(ipoSplitDto.getSplitFileName().lastIndexOf("."));
+//            String baseUrl = fileViewPath + "open/ipoFile/" + ipoSplitDto.getSplitFileId() + fileType;
+//            ipoSplitDto.setFilePath(baseUrl);
+
+            List<IpoFileDto> fileList = new ArrayList<>();
+            for (Attachment attachment : attachmentList) {
+                IpoFileDto fileDto = new IpoFileDto();
+                fileDto.setSplitFileName(attachment.getAttName());
+                fileDto.setSplitFileId(attachment.getId());
+                String baseUrl = fileViewPath + attachment.getAttUrl().substring(1,attachment.getAttUrl().length());
+                fileDto.setFilePath(baseUrl);
+                fileList.add(fileDto);
+            }
+            ipoSplitDto.setFileList(fileList);
         }
         return list;
     }
