@@ -687,7 +687,7 @@ export default {
     position: relative;
     left: 38%;
     top: -20px;
-    color: #14BCF5;
+    color: #4ec8e5;
     padding:5px;
     padding-left: 10px;
     padding-right: 7px;
@@ -700,7 +700,7 @@ export default {
     position: relative;
     left: 38%;
     top: -20px;
-    color: #FE5461;
+    color: #ea5365;
     padding: 5px;
     padding-left: 10px;
     padding-right: 7px;
@@ -712,7 +712,7 @@ export default {
     position: relative;
     left: 38%;
     top: -20px;
-    color: #14BCF5;
+    color: #4ec8e5 ;
     padding:5px;
     padding-left: 10px;
     padding-right: 7px;
@@ -724,7 +724,7 @@ export default {
     position: relative;
     left: 38%;
     top: -20px;
-    color: #FE5461;
+    color: #ea5365;
     padding:5px;
     padding-left: 10px;
     padding-right: 7px;
@@ -736,7 +736,7 @@ export default {
     position: relative;
     left: 38%;
     top: -20px;
-    color: #FF9900;
+    color: #f9b162;
     padding:5px;   
      padding-left: 10px;
     padding-right: 7px;
@@ -748,9 +748,9 @@ export default {
     position: relative;
     left: 38%;
     top: -20px;
-    color: #94A3B4;
+    color: #aabfe2;
     padding:5px;
-        padding-left: 10px;
+    padding-left: 10px;
     padding-right: 7px;
     line-height:10px;
     display:inline-block;
@@ -760,7 +760,7 @@ export default {
     position: relative;
     left: 38%;
     top: -20px;
-    color: #ffd800;
+    color: #f98962;
     padding:5px;
     padding-left: 10px;
     padding-right: 7px;

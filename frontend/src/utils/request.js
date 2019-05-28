@@ -17,6 +17,19 @@ service.interceptors.request.use(
       if(config.responseType == 'blob'){
     	  //设置全局加载
         showFullScreenLoading();
+        // 日志-------------------头
+        if(store.state.app.parentCookieFlag && config.url != '/log/collect'){
+          // iframeDoMessage(window.parent,'microServiceCallBack',[store.state.app.parentCookie]);
+          // console.log(store.state.app.parentCookie)
+          service({
+              url: '/log/collect',
+              method: 'post',
+              //controller接收用 @requestbody
+              data: store.state.app.parentCookie
+          })
+          store.commit('SET_PARENT_COOKIE_FLAG',false)
+        }
+        // 日志-------------------尾
         config.timeout = 180000;
       }
       // Do something before request is sent

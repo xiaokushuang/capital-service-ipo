@@ -1514,7 +1514,7 @@ export default {
 }
 .zhbjResult{
      font-size: 12px;
-     color: #FF9900;
+     color: #f9b162;
      padding:5px;
      line-height:10px;
     padding-left: 10px;
@@ -1525,7 +1525,7 @@ export default {
 }
 .whtgResult{
      font-size: 12px;
-     color: #FE5461;
+     color: #ea5365;
      padding:5px;
      line-height:10px;
     padding-left: 10px;
@@ -1536,7 +1536,7 @@ export default {
 }
 .htgResult{
      font-size: 12px;
-     color: #14BCF5;
+     color: #4ec8e5;
      padding:5px;
      padding-left: 10px;
     padding-right: 7px;
@@ -1547,7 +1547,7 @@ export default {
 }
 .tgResult{
      font-size: 12px;
-     color: #14BCF5;
+     color: #4ec8e5;
      padding:5px;
      line-height:10px;
      display:inline-block;
@@ -1558,7 +1558,7 @@ export default {
 }
 .wtgResult{
      font-size: 12px;
-     color: #FE5461;
+     color: #ea5365;
      padding:5px;
      line-height:10px;
      display:inline-block;
@@ -1569,7 +1569,7 @@ export default {
 }
 .qxshResult{
      font-size: 12px;
-     color: #94A3B4;
+     color: #aabfe2;
      padding:5px;
      padding-left: 10px;
     padding-right: 7px;
@@ -1580,7 +1580,7 @@ export default {
 }
 .dshResult{
      font-size: 12px;
-     color: #ffd800;
+     color: #f98962;
      padding:5px;
      padding-left: 10px;
     padding-right: 7px;

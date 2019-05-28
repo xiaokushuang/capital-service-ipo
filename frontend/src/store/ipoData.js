@@ -71,6 +71,10 @@ const ipo = {
     SET_TOKEN: (state, code) => {
       state.caseId = code
     },
+    // 存日志
+    CREATE_MESSAGE: (state, code) => {
+      state.info = code
+    },
   },
 
   actions: {

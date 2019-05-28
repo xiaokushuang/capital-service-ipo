@@ -383,8 +383,8 @@ export default {
   },
   mounted(){
       // 日志--------------------功能头
-      // this.tenantInfo = this.$route.query['tenant_info'];
-      this.tenantInfo = this.$store.state.app.info;
+      this.tenantInfo = this.$route.query['tenant_info'];
+      // this.tenantInfo = this.$store.state.app.info;
        // 日志------------------功能尾
   },
   methods: {

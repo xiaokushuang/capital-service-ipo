@@ -450,12 +450,12 @@
   font-weight: bold
 }
 // 前五名供应商用户表格最后一行合计
-// .theTopFiveKh table tr:last-of-type{
-//   font-weight: bold
-// }
-// .theTopFiveSupplier table tr:last-of-type{
-//   font-weight: bold
-// }
+.theTopFiveKh table tr:last-of-type{
+  font-weight: bold
+}
+.theTopFiveSupplier table tr:last-of-type{
+  font-weight: bold
+}
 #componentId .el-checkbox-button.is-focus .el-checkbox-button__inner {
   border-color: #e2e2e2;
   border-left-color:#e2e2e2 
