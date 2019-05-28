@@ -4,20 +4,21 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 @ApiModel("IPO函件为题标签类")
 public class IpoSplitDto implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  @ApiModelProperty("map_id")
+  private String id;
+
   @ApiModelProperty("拆分详情")
   private String splitMemo;
 
-  @ApiModelProperty("文件id")
-  private String splitFileId;
-
-  @ApiModelProperty("文件名字")
-  private String splitFileName;
+  @ApiModelProperty("文件相关")
+  private List<IpoFileDto> fileList;
 
   @ApiModelProperty("所在资本市场")
   private String splitMarket;
@@ -28,31 +29,12 @@ public class IpoSplitDto implements Serializable {
   @ApiModelProperty("直接或间接持有发行人股份比例（%）")
   private BigDecimal shareProportion;
 
-  @ApiModelProperty("文件路径")
-  private String filePath;
-
   public String getSplitMemo() {
     return splitMemo;
   }
 
   public void setSplitMemo(String splitMemo) {
     this.splitMemo = splitMemo;
-  }
-
-  public String getSplitFileId() {
-    return splitFileId;
-  }
-
-  public void setSplitFileId(String splitFileId) {
-    this.splitFileId = splitFileId;
-  }
-
-  public String getSplitFileName() {
-    return splitFileName;
-  }
-
-  public void setSplitFileName(String splitFileName) {
-    this.splitFileName = splitFileName;
   }
 
   public String getSplitMarket() {
@@ -82,11 +64,19 @@ public class IpoSplitDto implements Serializable {
     this.shareProportion = shareProportion;
   }
 
-  public String getFilePath() {
-    return filePath;
+  public String getId() {
+    return id;
   }
 
-  public void setFilePath(String filePath) {
-    this.filePath = filePath;
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public List<IpoFileDto> getFileList() {
+    return fileList;
+  }
+
+  public void setFileList(List<IpoFileDto> fileList) {
+    this.fileList = fileList;
   }
 }

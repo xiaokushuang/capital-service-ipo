@@ -133,7 +133,7 @@
 
   <select id="getSpliteData" parameterType="string"
     resultType="com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto">
-    SELECT t1.split_memo AS splitMemo, t1.split_file_id AS splitFileId, t1.split_file_name AS splitFileName,
+    SELECT t1.split_memo AS splitMemo,t1.id AS id,
     (SELECT group_concat(mcl4.label_name) FROM maa_conf_label mcl4 WHERE mcl4.label_code = 'IPO_SPLIT_MARKET' AND find_in_set(mcl4.label_value,t2.split_market)) AS splitMarket,
     CONCAT(t2.company_name,'(',t2.company_code,')') AS companyName,
     t2.share_proportion AS shareProportion
