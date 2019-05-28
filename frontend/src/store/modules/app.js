@@ -46,7 +46,13 @@ const app = {
       state.info = data.info;
       state.companyId = data.companyId;
       state.caseId = data.caseId;
-    }
+    },
+    // 添加日志功能
+    CREATE_MESSAGE: (state,data) => {
+      Object.keys(data).map((obj)=>{
+        state.parentCookie[obj] = data[obj]
+      })
+  },
 
   },
   actions: {

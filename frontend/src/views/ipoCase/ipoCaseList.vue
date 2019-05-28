@@ -835,15 +835,16 @@
       client_type:'pc',//手机或pc
       recordType:'menu',//跳转页面方式:
       recordModule:'ipo',//跳转模块
-      recordTab:"ipo案例",//跳转tab
+      recordTab:"ipo案例列表页",//跳转tab
       recordTabChild:null,//跳转子集tab
       popTitle:null//弹窗title
       }
-      this.$store.commit('SET_TOKEN',param)
+      this.$store.commit('CREATE_MESSAGE',param)
     },
     mounted() {
-      // 日志caseId:this.$store.state.app.caseId,
-      this.tenantInfo = this.$route.query.info;
+      // 日志
+      // this.tenantInfo = this.$route.query['tenant_info'];
+      this.tenantInfo = this.$store.state.app.info;
       this.tableLoading = true;
       const _data = {
         startRow: 0,
@@ -1307,8 +1308,8 @@
             name: 'caseDetail',
             query: {caseId: caseId, access_token: _self.$store.state.app.token,tenant_info:_self.$store.state.app.info}
           });
-          console.log('1111',href + '&tenant_info='+ this.tenantInfo);
-          window.open(href + '&tenant_info='+ this.tenantInfo, '_blank');
+          console.log('1111',href + '&tenant_info=' + this.tenantInfo);
+          window.open(href + '&tenant_info=' + this.tenantInfo, '_blank');
         } else {
           let url = window.location.href;
           url = url.replace(this.$route.path, '/ipoPopWin');
