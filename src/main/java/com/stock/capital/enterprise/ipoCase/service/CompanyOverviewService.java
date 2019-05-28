@@ -19,6 +19,7 @@ import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainIncomeInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainIncomeVo;
 import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
+import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
 import com.stock.capital.enterprise.ipoCase.dto.IssuerIndustryStatusDto;
 import com.stock.core.service.BaseService;
@@ -181,6 +182,9 @@ public class CompanyOverviewService extends BaseService {
                 supplierMainDto.setFirstYearForSupplier((lastYearSupplier - 3) + "-12-31");
                 supplierMainDto.setSecondYearForSupplier((lastYearSupplier - 2) + "-12-31");
                 supplierMainDto.setThirdYearForSupplier((lastYearSupplier - 1) + "-12-31");
+
+
+                supplierMainDto.getSupplierCustomerInfoList().add(addInfoRow(supplierMainDto.getSupplierCustomerInfoList()));
             }
             result.put("supplierMainList", supplierList);
         }
@@ -193,10 +197,58 @@ public class CompanyOverviewService extends BaseService {
                 customerMainDto.setFirstYearForCustomer((lastYearCustomer - 3) + "-12-31");
                 customerMainDto.setSecondYearForCustomer((lastYearCustomer - 2) + "-12-31");
                 customerMainDto.setThirdYearForCustomer((lastYearCustomer - 1) + "-12-31");
+
+                customerMainDto.getSupplierCustomerInfoList().add(addInfoRow(customerMainDto.getSupplierCustomerInfoList()));
             }
             result.put("customerMainList", customerList);
         }
         return result;
+    }
+
+//    private SupplierCustomerMainDto addMainRow(List<SupplierCustomerInfoDto> list){
+//        SupplierCustomerMainDto lastDto = new SupplierCustomerMainDto();
+//        lastDto.setCompanyName("合计");
+//
+//    }
+
+    private SupplierCustomerInfoDto addInfoRow(List<SupplierCustomerInfoDto> list){
+        SupplierCustomerInfoDto lastDto = new SupplierCustomerInfoDto();
+        lastDto.setCompanyName("合计");
+        lastDto.setFirstYearAmount(new BigDecimal(0));
+        lastDto.setFirstYearRatio(new BigDecimal(0));
+        lastDto.setSecondYearAmount(new BigDecimal(0));
+        lastDto.setSecondYearRatio(new BigDecimal(0));
+        lastDto.setThirdYearAmount(new BigDecimal(0));
+        lastDto.setThirdYearRatio(new BigDecimal(0));
+        lastDto.setOnePeriodAmount(new BigDecimal(0));
+        lastDto.setOnePeriodRatio(new BigDecimal(0));
+        for (SupplierCustomerInfoDto supplierCustomerInfoDto : list) {
+            if (supplierCustomerInfoDto.getFirstYearAmount() != null) {
+                lastDto.setFirstYearAmount(lastDto.getFirstYearAmount().add(supplierCustomerInfoDto.getFirstYearAmount()));
+            }
+            if (supplierCustomerInfoDto.getFirstYearRatio() != null) {
+                lastDto.setFirstYearRatio(lastDto.getFirstYearRatio().add(supplierCustomerInfoDto.getFirstYearRatio()));
+            }
+            if (supplierCustomerInfoDto.getSecondYearAmount() != null) {
+                lastDto.setSecondYearAmount(lastDto.getSecondYearAmount().add(supplierCustomerInfoDto.getSecondYearAmount()));
+            }
+            if (supplierCustomerInfoDto.getSecondYearRatio() != null) {
+                lastDto.setSecondYearRatio(lastDto.getSecondYearRatio().add(supplierCustomerInfoDto.getSecondYearRatio()));
+            }
+            if (supplierCustomerInfoDto.getThirdYearAmount() != null) {
+                lastDto.setThirdYearAmount(lastDto.getThirdYearAmount().add(supplierCustomerInfoDto.getThirdYearAmount()));
+            }
+            if (supplierCustomerInfoDto.getThirdYearRatio() != null) {
+                lastDto.setThirdYearRatio(lastDto.getThirdYearRatio().add(supplierCustomerInfoDto.getThirdYearRatio()));
+            }
+            if (supplierCustomerInfoDto.getOnePeriodAmount() != null) {
+                lastDto.setOnePeriodAmount(lastDto.getOnePeriodAmount().add(supplierCustomerInfoDto.getOnePeriodAmount()));
+            }
+            if (supplierCustomerInfoDto.getOnePeriodRatio() != null) {
+                lastDto.setOnePeriodRatio(lastDto.getOnePeriodRatio().add(supplierCustomerInfoDto.getOnePeriodRatio()));
+            }
+        }
+        return lastDto;
     }
 
     /**
