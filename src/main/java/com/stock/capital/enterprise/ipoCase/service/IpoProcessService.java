@@ -515,8 +515,9 @@ public class IpoProcessService extends BaseService {
         }
         String fileName = attachment.getAttName();
 //        String url = fileViewPath + "open/ipoFile/" + id + "." + suffix;
+
 //        String url = "D:\\data\\capital\\upload\\cloud\\open\\ipoFile\\" + id + "." + suffix;
-        String url = fileViewPath + attachment.getAttUrl();
+        String url = "/data/remote_dir/upload/cloud/formal/" + attachment.getAttUrl().substring(1,attachment.getAttUrl().length()-1);
         InputStream in = null;
         try {
             in = new FileInputStream(url);
