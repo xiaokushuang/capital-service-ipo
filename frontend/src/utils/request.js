@@ -51,9 +51,9 @@ service.interceptors.request.use(
 // respone interceptor
 service.interceptors.response.use(
     (response) => {
+      //去除全局加载
+      tryHideFullScreenLoading();
       if(response.config.responseType == 'blob'){
-        //去除全局加载
-    	  tryHideFullScreenLoading();
         if(!response.data){
           return;
         }
