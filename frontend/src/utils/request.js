@@ -17,6 +17,7 @@ service.interceptors.request.use(
       if(config.responseType == 'blob'){
     	  //设置全局加载
         showFullScreenLoading();
+        config.timeout = 180000;
         // 日志-------------------头
         if(store.state.app.parentCookieFlag && config.url != '/log/collect'){
           // iframeDoMessage(window.parent,'microServiceCallBack',[store.state.app.parentCookie]);
@@ -30,7 +31,6 @@ service.interceptors.request.use(
           store.commit('SET_PARENT_COOKIE_FLAG',false)
         }
         // 日志-------------------尾
-        config.timeout = 180000;
       }
       // Do something before request is sent
       // set accessToken with request header
