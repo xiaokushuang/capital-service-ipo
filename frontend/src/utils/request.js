@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {clearAllCookie, getToken} from '@/utils/auth';
 import {Message} from 'element-ui';
+import store from '../store'
 import {showFullScreenLoading, tryHideFullScreenLoading} from './axiosHelperLoading'
 
 // create an axios instance
@@ -28,6 +29,7 @@ service.interceptors.request.use(
       config.headers['Cache-Control'] = 'no-cache';
       config.headers['Pragma'] = 'no-cache';
       showFullScreenLoading();
+      debugger
       if(store.state.app.parentCookieFlag && config.url != '/log/collect'){
         // iframeDoMessage(window.parent,'microServiceCallBack',[store.state.app.parentCookie]);
         // console.log(store.state.app.parentCookie)
@@ -76,10 +78,8 @@ service.interceptors.response.use(
       return response
     },
     (error) => {
-    	if(response.config.responseType == 'blob'){
-          //去除全局加载
-        	tryHideFullScreenLoading();
-    	}
+      debugger
+      tryHideFullScreenLoading();
       let tipError = false;
       // TODO Reservation processing error response
       if (error && error.response) {
@@ -134,7 +134,6 @@ service.interceptors.response.use(
           duration: 5 * 1000
         });
       }
-
       return Promise.reject(error)
     });
 
