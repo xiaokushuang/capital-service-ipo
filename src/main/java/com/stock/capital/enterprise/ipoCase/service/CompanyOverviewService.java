@@ -27,6 +27,7 @@ import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
 import com.stock.capital.enterprise.ipoCase.dto.IssuerIndustryStatusDto;
 import com.stock.core.service.BaseService;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -146,12 +148,52 @@ public class CompanyOverviewService extends BaseService {
 
         //专利情况
         List<IpoTechnologyPatentDto> patent =ipoCaseBizMapper.getCompetitorData(bid);
-        // TODO: 2019/5/15 对专利情况数据做数据处理  
-        patent = getPatent(patent);
+        int isNotPatentNull = 0;
+        for (IpoTechnologyPatentDto dto : patent) {
+            if (dto.getFm() != null && dto.getFm().compareTo(BigDecimal.ZERO)!=0
+                && dto.getSy() != null && dto.getSy().compareTo(BigDecimal.ZERO) != 0
+                && dto.getWg() != null && dto.getWg().compareTo(BigDecimal.ZERO) != 0){
+                isNotPatentNull++;
+            }
+        }
+        if (isNotPatentNull == 0){
+            patent = new ArrayList<>();
+        } else {
+            // TODO: 2019/5/15 对专利情况数据做数据处理
+            patent = getPatent(patent);
+        }
+
+
         // 研发投入
         List<IpoTechnologyTableDto> dev = ipoCaseBizMapper.getDevCompute(bid);
+        int isNotDevNull = 0;
+        for (IpoTechnologyTableDto dto : dev) {
+            if (dto.getFirstYearValue() != null && dto.getFirstYearValue().compareTo(BigDecimal.ZERO)!=0
+                && dto.getSecondYearValue() != null && dto.getSecondYearValue().compareTo(BigDecimal.ZERO) != 0
+                && dto.getThirdYearValue() != null && dto.getThirdYearValue().compareTo(BigDecimal.ZERO) != 0
+                && dto.getForthYearValue() != null && dto.getForthYearValue().compareTo(BigDecimal.ZERO) != 0){
+                isNotDevNull++;
+            }
+        }
+        if (isNotDevNull == 0){
+            dev = new ArrayList<>();
+        }
+
         // 核心技术人员
         List<IpoTechnologyTableDto> core = ipoCaseBizMapper.getCoreCompute(bid);
+        int isNotCoreNull = 0;
+        for (IpoTechnologyTableDto dto : core) {
+            if (dto.getFirstYearPro() != null && dto.getFirstYearPro().compareTo(BigDecimal.ZERO)!=0
+                && dto.getSecondYearPro() != null && dto.getSecondYearPro().compareTo(BigDecimal.ZERO) != 0
+                && dto.getThirdYearPro() != null && dto.getThirdYearPro().compareTo(BigDecimal.ZERO) != 0
+                && dto.getForthYearPro() != null && dto.getForthYearPro().compareTo(BigDecimal.ZERO) != 0){
+                isNotCoreNull++;
+            }
+        }
+        if (isNotCoreNull == 0){
+            core = new ArrayList<>();
+        }
+
         // 时间
         List<IpoTechnologyDateDto> date = ipoCaseBizMapper.getDate(bid);
         // 备注
