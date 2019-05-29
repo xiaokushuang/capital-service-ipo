@@ -4,6 +4,8 @@ import com.google.common.base.Throwables;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
 
+import com.stock.capital.enterprise.common.dao.AttachmentMapper;
+import com.stock.capital.enterprise.common.entity.Attachment;
 import com.stock.capital.enterprise.ipoCase.dao.IpoProcessMapper;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFileRelationDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoProListDto;
@@ -61,6 +63,10 @@ public class IpoProcessService extends BaseService {
 
     @Autowired
     private RestClient restClient;
+
+    @Autowired
+    private AttachmentMapper attachmentMapper;
+
 
     @Value("#{app['pdf.baseUrl']}")
     private String pdfBaseUrl;
@@ -499,8 +505,10 @@ public class IpoProcessService extends BaseService {
 
     public String downloadSplitFile(String id, HttpServletResponse response,HttpServletRequest request) {
         //根据文件id查询相关信息
-        IpoFileRelationDto fileDto = ipoProcessMapper.selectSplitFileDto(id);
-        String title = fileDto.getRelationFileTitle();
+//        IpoFileRelationDto fileDto = ipoProcessMapper.selectSplitFileDto(id);
+        Attachment attachment = attachmentMapper.selectByPrimaryKey(id);
+//        String title = fileDto.getRelationFileTitle();
+        String title = attachment.getAttName();
         String suffix = title.substring(title.indexOf(".")+1);
         if (title.length() >= 40) {
             title = title.substring(0, 40);
@@ -508,7 +516,7 @@ public class IpoProcessService extends BaseService {
         String fileName = title + suffix;
 //        String url = fileViewPath + "open/ipoFile/" + id + "." + suffix;
 //        String url = "D:\\data\\capital\\upload\\cloud\\open\\ipoFile\\" + id + "." + suffix;
-        String url = filePath + id + "." + suffix;
+        String url = fileViewPath + attachment.getAttUrl();
         InputStream in = null;
         try {
             in = new FileInputStream(url);

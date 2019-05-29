@@ -143,10 +143,16 @@
             <span v-if="spliteList[0].splitMemo" style="color:black;float:left;margin-left: 18px;width: 80%">{{spliteList[0].splitMemo}}</span>
             <span v-else style="color:black;float:left;margin-left: 18px;width: 80%">- -</span>
           </li>
-           <li style="width: 100%;margin-bottom:10px ">
+          <li v-if="spliteList[0].fileList&&spliteList[0].fileList.length>0" style="width: 100%;margin-bottom:10px "
+              v-for="(item,index) in spliteList[0].fileList">
+           <span v-if="index == 0">相关文件</span>&nbsp;&nbsp;&nbsp;&nbsp;
+           <span v-if="index != 0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+           <span v-if="item.splitFileName"  @click="openLetterDetail(item.splitFileId)" style="color:#3399fe;text-decoration:underline;cursor:pointer;">{{item.splitFileName}}</span>
+           <span v-else style="color:black">- -</span>
+          </li>
+          <li v-if="spliteList[0].fileList.length==0" style="width: 100%;margin-bottom:10px ">
             <span>相关文件</span>&nbsp;&nbsp;&nbsp;&nbsp;
-            <span v-if="spliteList[0].splitFileName"  @click="openLetterDetail(spliteList[0].splitFileId)" style="color:#3399fe;text-decoration:underline;cursor:pointer;">{{spliteList[0].splitFileName}}</span>
-            <span v-else style="color:black">- -</span>
+            <span style="color:black">- -</span>
           </li>
         </ul>
       </div>
@@ -661,6 +667,7 @@ export default {
      }
    },
     openLetterDetail(fileId) {
+      debugger;
             let url = window.location.href;
             let token = this.$store.state.app.token
             url = url.substr(0,url.indexOf("ui"));
@@ -685,6 +692,7 @@ export default {
         if(res.data.result&&res.data.result.length>0){
           this.spliteList = res.data.result
         }
+        debugger;
           this.getPosition()
       });
       // 最近一次估值情况
