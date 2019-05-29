@@ -18,19 +18,6 @@ service.interceptors.request.use(
     	  //设置全局加载
         showFullScreenLoading();
         config.timeout = 180000;
-        // 日志-------------------头
-        if(store.state.app.parentCookieFlag && config.url != '/log/collect'){
-          // iframeDoMessage(window.parent,'microServiceCallBack',[store.state.app.parentCookie]);
-          // console.log(store.state.app.parentCookie)
-          service({
-              url: '/log/collect',
-              method: 'post',
-              //controller接收用 @requestbody
-              data: store.state.app.parentCookie
-          })
-          store.commit('SET_PARENT_COOKIE_FLAG',false)
-        }
-        // 日志-------------------尾
       }
       // Do something before request is sent
       // set accessToken with request header
@@ -38,10 +25,23 @@ service.interceptors.request.use(
       // fixed GET request method caching problem
       config.headers['Cache-Control'] = 'no-cache';
       config.headers['Pragma'] = 'no-cache';
+       // 日志-------------------头
+       if(store.state.app.parentCookieFlag && config.url != '/log/collect'){
+        // iframeDoMessage(window.parent,'microServiceCallBack',[store.state.app.parentCookie]);
+        // console.log(store.state.app.parentCookie)
+        service({
+            url: '/log/collect',
+            method: 'post',
+            //controller接收用 @requestbody
+            data: store.state.app.parentCookie
+        })
+        store.commit('SET_PARENT_COOKIE_FLAG',false)
+      }
+      // 日志-------------------尾
       return config
     }, error => {
       // Do something with request error
-      console.log(error);// for debug
+      // console.log(error);// for debug
       Promise.reject(error)
     });
 

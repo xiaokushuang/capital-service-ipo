@@ -60,11 +60,13 @@ const app = {
     },
     // 添加日志功能1
     CREATE_MESSAGE: (state,data) => {
+      console.log('created',state.parentCookie,data)
       Object.keys(data).map((obj)=>{
         state.parentCookie[obj] = data[obj]
       })
     },
     SET_TEMPORARY_UPDATE_FLAGg: (state,data)=>{
+      console.log('window.open跳转',state,data)
       state.temporaryUpdateFlag = data;
     },
     CREATE_TEMP_MESSAGE: (state,data) => {
@@ -72,6 +74,7 @@ const app = {
       state.tempParentCookie = JSON.parse(JSON.stringify(state.parentCookie));
       Object.keys(data).map((obj)=>{
         state.tempParentCookie[obj] = data[obj]
+        console.log('跳转页面是传进来的参数', state.tempParentCookie[obj])
       })
     }
   },

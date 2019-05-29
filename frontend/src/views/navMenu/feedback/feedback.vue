@@ -125,7 +125,7 @@ export default {
       recordTabChild:null,//跳转子集tab
       popTitle:null//弹窗title
       }
-      this.$store.commit('CREATE_MESSAGE',param)
+      // this.$store.commit('CREATE_MESSAGE',param)
       // 日志------------------功能尾
     //   请求数据
     this.initTableData();
