@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 
 import com.stock.capital.enterprise.ipoCase.dao.IpoExamineMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoFeedbackMapper;
+import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
 import com.stock.capital.enterprise.ipoCase.dto.IpoExamineBaseDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoExamineDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
@@ -81,7 +82,9 @@ public class IpoExamineService extends BaseService {
      */
     public List<IpoMemberDto> selectMemberList(String id, String examineDate) {
         //查询发审委委员列表
-        String orgCode = ipoFeedbackMapper.getOrgCode(id).getOrgCode();
+        CompanyOverviewVo companyOverviewVo = ipoFeedbackMapper.getOrgCode(id);
+        String orgCode = companyOverviewVo.getOrgCode();
+        String belongPlate = companyOverviewVo.getIpoPlate();
         DynamicDataSourceHolder.setDataSource("dongcai");
         String member = ipoExamineMapper.selectExamineMember(orgCode, examineDate);
         DynamicDataSourceHolder.cleanDataSource();
@@ -92,12 +95,16 @@ public class IpoExamineService extends BaseService {
         Date seventeenDate = changeStrToDate("2017-10-16");
         String sessionYear = "";
         //根据发审会日期判断发审会委员届次
-        if (processDate.compareTo(eighteenDate) > 0) {
-            sessionYear = "18";
-        } else if (processDate.compareTo(seventeenDate) > 0 && processDate.compareTo(eighteenDate) < 0) {
-            sessionYear = "17";
-        } else {
-            sessionYear = "16";
+        if("069001001006".equals(belongPlate)){
+            sessionYear = "1";
+        }else{
+            if (processDate.compareTo(eighteenDate) > 0) {
+                sessionYear = "18";
+            } else if (processDate.compareTo(seventeenDate) > 0 && processDate.compareTo(eighteenDate) < 0) {
+                sessionYear = "17";
+            } else {
+                sessionYear = "16";
+            }
         }
         List<IpoMemberDto> memberInformationList =
                 ipoExamineMapper.selectMemberInformationList(memberList, sessionYear);
