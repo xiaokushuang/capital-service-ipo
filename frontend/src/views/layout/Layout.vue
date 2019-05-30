@@ -67,6 +67,11 @@
       // this.tenantInfo = this.$store.state.app.info;
        // 日志------------------功能尾
       this.chartOne()
+      let t = this
+      document.body.addEventListener('mousedown',function(e){
+        t.$store.commit('SET_PARENT_COOKIE',{title:t.$route.meta.title,target:e.target.innerText,type:'func'})
+        t.$store.commit('SET_PARENT_COOKIE_FLAG',true)
+      })
     },
     methods:{
       chartOne(){
