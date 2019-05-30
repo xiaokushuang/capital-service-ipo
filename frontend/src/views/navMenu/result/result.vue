@@ -31,7 +31,8 @@
                     </div>
                     <div class="text ">
                          <p style="font-size:14px;">
-                             <span style="color:#999;">发审会委员: </span>
+                             <span v-if="companyProfileList.headList.isTechBoard==0" style="color:#999;">发审会委员: </span>
+                             <span v-if="companyProfileList.headList.isTechBoard==1" style="color:#999;">上市会委员: </span>
                               <span v-if="baseList[0].member&&baseList[0].member.length>0">
                                <span style="color:#333;font-family:'微软雅黑'">{{baseList[0].member}}</span>
                                 <span  style="color:#333;"> ;</span>
@@ -42,11 +43,13 @@
                     </div>
                     <!-- 委员弹窗 -->
                     <el-dialog
-                        title="发审会委员"
+                        :title="companyProfileList.headList.isTechBoard==0?'发审会委员':'上市会委员'"
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
-                        <member :memberData={memberList:memberList}></member>
+                        <member v-if="companyProfileList.headList.isTechBoard==0" :memberData={memberList:memberList}></member>
+                        <!-- 科创版上市委委员 -->
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1" :memberData={memberList:memberList}></kcMember>
                     </el-dialog>
                 </li>
             </ul>
@@ -80,7 +83,8 @@
                     </div>
                     <div class="text ">
                          <p style="font-size:14px;">
-                             <span style="color:#999;">发审会委员: </span>
+                             <span v-if="companyProfileList.headList.isTechBoard==0" style="color:#999;">发审会委员: </span>
+                             <span v-if="companyProfileList.headList.isTechBoard==1" style="color:#999;">上市会委员: </span>
                              <span v-if="baseList[0].member&&baseList[0].member.length>0">
                                 <span style="color:#333;">{{baseList[0].member}}</span>
                                 <span  style="color:#333;"> ;</span>
@@ -91,11 +95,13 @@
                     </div>
                     <!-- 委员弹窗 -->
                     <el-dialog
-                        title="发审会委员"
+                        :title="companyProfileList.headList.isTechBoard==0?'发审会委员':'上市会委员'"
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
-                        <member :memberData={memberList:memberList}></member>
+                        <member v-if="companyProfileList.headList.isTechBoard==0" :memberData={memberList:memberList}></member>
+                        <!-- 科创版上市委委员 -->
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1" :memberData={memberList:memberList}></kcMember>
                     </el-dialog>
                 </li>
                  <li style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
@@ -127,7 +133,8 @@
                     </div>
                     <div class="text ">
                          <p style="font-size:14px;">
-                             <span style="color:#999;">发审会委员: </span>
+                              <span v-if="companyProfileList.headList.isTechBoard==0" style="color:#999;">发审会委员: </span>
+                              <span v-if="companyProfileList.headList.isTechBoard==1" style="color:#999;">上市会委员: </span>
                               <span v-if="baseList[1].member&&baseList[1].member.length>0">
                                 <span style="color:#333;">{{baseList[1].member}}</span>
                                 <span  style="color:#333;"> ;</span>
@@ -137,12 +144,14 @@
                         </p>
                     </div>
                     <!-- 委员弹窗 -->
-                    <el-dialog
-                        title="发审会委员"
+                   <el-dialog
+                        :title="companyProfileList.headList.isTechBoard==0?'发审会委员':'上市会委员'"
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
-                        <member :memberData={memberList:memberList}></member>
+                        <member v-if="companyProfileList.headList.isTechBoard==0" :memberData={memberList:memberList}></member>
+                        <!-- 科创版上市委委员 -->
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1" :memberData={memberList:memberList}></kcMember>
                     </el-dialog>
                 </li>
             </ul>
@@ -176,7 +185,8 @@
                     </div>
                     <div class="text ">
                          <p style="font-size:14px;">
-                             <span style="color:#999;">发审会委员: </span>
+                              <span v-if="companyProfileList.headList.isTechBoard==0" style="color:#999;">发审会委员: </span>
+                              <span v-if="companyProfileList.headList.isTechBoard==1" style="color:#999;">上市会委员: </span>
                               <span v-if="baseList[0].member&&baseList[0].member.length>0">
                                 <span style="color:#333;">{{baseList[0].member}}</span>
                                 <span  style="color:#333;"> ;</span>
@@ -186,12 +196,14 @@
                         </p>
                     </div>
                     <!-- 委员弹窗 -->
-                    <el-dialog
-                        title="发审会委员"
+                   <el-dialog
+                        :title="companyProfileList.headList.isTechBoard==0?'发审会委员':'上市会委员'"
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
-                       <member :memberData={memberList:memberList}></member>
+                        <member v-if="companyProfileList.headList.isTechBoard==0" :memberData={memberList:memberList}></member>
+                        <!-- 科创版上市委委员 -->
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1" :memberData={memberList:memberList}></kcMember>
                     </el-dialog>
                 </li>
                  <li  style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
@@ -223,7 +235,8 @@
                     </div>
                     <div class="text ">
                          <p style="font-size:14px;">
-                             <span style="color:#999;">发审会委员: </span>
+                              <span v-if="companyProfileList.headList.isTechBoard==0" style="color:#999;">发审会委员: </span>
+                              <span v-if="companyProfileList.headList.isTechBoard==1" style="color:#999;">上市会委员: </span>
                               <span v-if="baseList[1].member&&baseList[1].member.length>0">
                                 <span style="color:#333;">{{baseList[1].member}}</span>
                                 <span  style="color:#333;"> ;</span>
@@ -233,12 +246,14 @@
                         </p>
                     </div>
                     <!-- 委员弹窗 -->
-                    <el-dialog
-                        title="发审会委员"
+                   <el-dialog
+                        :title="companyProfileList.headList.isTechBoard==0?'发审会委员':'上市会委员'"
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
-                       <member :memberData={memberList:memberList}></member>
+                        <member v-if="companyProfileList.headList.isTechBoard==0" :memberData={memberList:memberList}></member>
+                        <!-- 科创版上市委委员 -->
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1" :memberData={memberList:memberList}></kcMember>
                     </el-dialog>
                 </li>
                  <li  style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
@@ -270,7 +285,8 @@
                     </div>
                     <div class="text ">
                          <p style="font-size:14px;">
-                             <span style="color:#999;">发审会委员: </span>
+                              <span v-if="companyProfileList.headList.isTechBoard==0" style="color:#999;">发审会委员: </span>
+                              <span v-if="companyProfileList.headList.isTechBoard==1" style="color:#999;">上市会委员: </span>
                               <span v-if="baseList[2].member&&baseList[2].member.length>0">
                                 <span style="color:#333;">{{baseList[2].member}}</span>
                                 <span  style="color:#333;"> ;</span>
@@ -280,12 +296,14 @@
                         </p>
                     </div>
                    <!-- 委员弹窗 -->
-                    <el-dialog
-                        title="发审会委员"
+                   <el-dialog
+                        :title="companyProfileList.headList.isTechBoard==0?'发审会委员':'上市会委员'"
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
-                       <member :memberData={memberList:memberList}></member>
+                        <member v-if="companyProfileList.headList.isTechBoard==0" :memberData={memberList:memberList}></member>
+                        <!-- 科创版上市委委员 -->
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1" :memberData={memberList:memberList}></kcMember>
                     </el-dialog>
                 </li>
             </ul>
@@ -296,7 +314,7 @@
                 <span v-if="companyProfileList.headList.isTechBoard==1" class="titleText" id="result">上市会关注问题</span>
                 <span v-if="companyProfileList.headList.isTechBoard==0" class="titleText" id="result">发审会关注问题</span>
          </div>
-        <div class="feedback" id="componentId">
+         <div class="feedback" id="componentId">
             <div class="label">
                     <!-- 导入的组件 -->
                     <!-- 只有一级标签 -->
@@ -332,8 +350,7 @@
                 </div>
              </div>
             </div>
-        </div>
-        
+         </div>
     </div>
 </template>
 <script>
@@ -347,13 +364,15 @@ import { getResultQuestionList } from "@/api/ipoCase/companyProfile";
 import singleAndMultiple from "@/views/navMenu/singleAndMultiple/singleAndMultiple"
 // 导入委员详情组件
 import member from "@/views/navMenu/result/member"
+import kcMember from "@/views/navMenu/result/kcMember"
 import $ from "jquery";
 export default {
   name: "result",
   props:["companyProfileList"],
   components: {
       singleAndMultiple,
-      member
+      member,
+      kcMember
   },
   data() {
     return {
@@ -1416,6 +1435,7 @@ export default {
         geSelectMemberList(param).then(res => {
             if(res.data.result&&res.data.result.length>0){
                 this.memberList = res.data.result
+                console.log('详情',this.memberList)
                 
             }
         })

@@ -185,7 +185,7 @@
             <!-- <span v-else style="color:#333">- -万股</span> -->
           </li>
           <li v-if="recentValuation.valuationValue" style=" width: 25%;">
-            <span style="color:#999">市值</span>&nbsp;&nbsp;
+            <span style="color:#999">估值</span>&nbsp;&nbsp;
             <span v-if="recentValuation.valuationValue" style="color:#333">{{recentValuation.valuationValue/10000  | dataInThRule }}亿元</span>
             <!-- <span v-else style="color:#333">- -亿元</span> -->
           </li>
@@ -653,7 +653,6 @@ export default {
     this.getData();
   },
   mounted() {
-    console.log('11',this.companyProfileList)
   },
   methods: {
     getContentHy1(title){
@@ -678,7 +677,6 @@ export default {
      }
    },
     openLetterDetail(fileId) {
-      debugger;
             let url = window.location.href;
             let token = this.$store.state.app.token
             url = url.substr(0,url.indexOf("ui"));
@@ -703,7 +701,6 @@ export default {
         if(res.data.result&&res.data.result.length>0){
           this.spliteList = res.data.result
         }
-        debugger;
           this.getPosition()
       });
       // 最近一次估值情况
