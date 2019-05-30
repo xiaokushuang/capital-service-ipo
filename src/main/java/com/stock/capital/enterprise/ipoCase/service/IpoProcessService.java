@@ -76,6 +76,8 @@ public class IpoProcessService extends BaseService {
     private String apiBaseUrl;
     @Value("#{app['file.path']}")
     private String filePath;
+    @Value("#{app['commonfile.path']}")
+    private String commonFilePath;
 
     public TreeTypeProgressDto selectProcessList(String id, String sortType) {
         TreeTypeProgressDto resultDto = ipoProcessMapper.selectProcessList(id);
@@ -516,7 +518,7 @@ public class IpoProcessService extends BaseService {
         String fileName = attachment.getAttName();
 //        String url = fileViewPath + "open/ipoFile/" + id + "." + suffix;
 //        String url = "E:\\upload_file\\" +attachment.getAttUrl().substring(1,attachment.getAttUrl().length()).replace("/","\\");
-        String url = "/data/remote_dir/upload/cloud/" + attachment.getAttUrl().substring(1,attachment.getAttUrl().length());
+        String url = commonFilePath + attachment.getAttUrl().substring(1,attachment.getAttUrl().length());
         InputStream in = null;
         try {
             in = new FileInputStream(url);
