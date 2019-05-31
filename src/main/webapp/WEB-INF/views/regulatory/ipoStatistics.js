@@ -393,7 +393,7 @@ function tSelectDataInit() {
 			id : 'value',
 			pid : '',
 			name : 'label',
-			value : 'label',
+			value : 'originContent',
 			grade : 1,
 			// resultType : 'children',
 			style : {},	
