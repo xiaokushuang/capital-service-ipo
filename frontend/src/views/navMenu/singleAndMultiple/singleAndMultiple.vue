@@ -430,12 +430,12 @@ export default {
 .checkbox {
   font-size: 12px !important;
   color: #555555;
-  background: #fafafa;
+  // background: #fafafa;
   margin-right: 20px;
   margin-bottom: 10px;
   border-width: 0.1px;
   border-style: solid;
-  border-color: #ebebeb;
+  border-color: #fff;
   border-radius: 3px;
 }
 .moreText {

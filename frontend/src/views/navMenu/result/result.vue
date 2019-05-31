@@ -459,7 +459,6 @@ export default {
     this.isShowAll = true;
   },
   mounted(){
-    console.log(this.companyProfileList)
   },
   methods: {
      showMoreMethods(){
@@ -1435,7 +1434,6 @@ export default {
         geSelectMemberList(param).then(res => {
             if(res.data.result&&res.data.result.length>0){
                 this.memberList = res.data.result
-                console.log('详情',this.memberList)
                 
             }
         })
