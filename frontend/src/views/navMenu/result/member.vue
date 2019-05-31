@@ -48,12 +48,10 @@ export default {
     return {};
   },
   updated(){
-    console.log('委员',this.memberData.memberList)
   },
   watch: {
   memberData: {
 　　　　handler(newValue, oldValue) {
-　　　　　　console.log('new',newValue)
 　　　　},
 　　　　deep: true
 　　}
