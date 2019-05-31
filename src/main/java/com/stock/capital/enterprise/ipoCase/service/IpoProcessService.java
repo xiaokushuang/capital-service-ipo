@@ -87,8 +87,22 @@ public class IpoProcessService extends BaseService {
             treeList.get(i).setSpread(false);
             treeList.get(i).setSpreadFlag(false);
             List<IpoProListDto> proList = treeList.get(i) == null ? new ArrayList<>() : treeList.get(i).getProList();
+            int inquiryTimes = 1;
             for (int j = 0; j < proList.size(); j++) {
                 proList.get(j).setProgressIndex(treeList.get(i).getTreeTypeCode() + proList.get(j).getProSort());
+
+                //标出第几次问询，第几次回复
+                if("问询".equals(proList.get(j).getProgressName())){
+                    proList.get(j).setProgressName("第 "+inquiryTimes+" 次问询");
+                    inquiryTimes++;
+                }
+                if("回复".equals(proList.get(j).getProgressName())){
+                    if(inquiryTimes == 1){
+                        proList.get(j).setProgressName("第 "+inquiryTimes+" 次回复");
+                    }else{
+                        proList.get(j).setProgressName("第 "+(inquiryTimes-1)+" 次回复");
+                    }
+                }
 
                 //每个进程只有第一个节点储存了时间，补全进程时间
                 List<IpoFileRelationDto> fileList = proList.get(j).getRelaList();
