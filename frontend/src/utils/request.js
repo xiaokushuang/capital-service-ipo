@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {clearAllCookie, getToken} from '@/utils/auth';
 import {Message} from 'element-ui';
+import store from '../store'
 import {showFullScreenLoading, tryHideFullScreenLoading} from './axiosHelperLoading'
 
 // create an axios instance
@@ -16,15 +17,30 @@ service.interceptors.request.use(
     config => {
       if(config.responseType == 'blob'){
     	  //设置全局加载
-        showFullScreenLoading();
+        //showFullScreenLoading();
         config.timeout = 180000;
       }
       // Do something before request is sent
       // set accessToken with request header
-      config.headers['Authorization'] = getToken();
+      //config.headers['Authorization'] = getToken();
+      config.headers['Authorization'] = store.state.app.token;
+      config.headers['X-Tenant-Info'] = store.state.app.info;
       // fixed GET request method caching problem
       config.headers['Cache-Control'] = 'no-cache';
       config.headers['Pragma'] = 'no-cache';
+      showFullScreenLoading();
+      // debugger
+      if(store.state.app.parentCookieFlag && config.url != '/log/collect'){
+        // iframeDoMessage(window.parent,'microServiceCallBack',[store.state.app.parentCookie]);
+        // console.log(store.state.app.parentCookie)
+        service({
+          url: '/log/collect',
+          method: 'post',
+          //controller接收用 @requestbody
+          data: store.state.app.parentCookie
+        })
+        store.commit('SET_PARENT_COOKIE_FLAG',false)
+      }
       return config
     }, error => {
       // Do something with request error
@@ -35,9 +51,9 @@ service.interceptors.request.use(
 // respone interceptor
 service.interceptors.response.use(
     (response) => {
+      //去除全局加载
+      tryHideFullScreenLoading();
       if(response.config.responseType == 'blob'){
-        //去除全局加载
-    	  tryHideFullScreenLoading();
         if(!response.data){
           return;
         }
@@ -62,10 +78,8 @@ service.interceptors.response.use(
       return response
     },
     (error) => {
-    	if(response.config.responseType == 'blob'){
-          //去除全局加载
-        	tryHideFullScreenLoading();
-    	}
+      // debugger
+      tryHideFullScreenLoading();
       let tipError = false;
       // TODO Reservation processing error response
       if (error && error.response) {
@@ -120,7 +134,6 @@ service.interceptors.response.use(
           duration: 5 * 1000
         });
       }
-
       return Promise.reject(error)
     });
 

@@ -4,6 +4,8 @@ import com.google.common.base.Throwables;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
 
+import com.stock.capital.enterprise.common.dao.AttachmentMapper;
+import com.stock.capital.enterprise.common.entity.Attachment;
 import com.stock.capital.enterprise.ipoCase.dao.IpoProcessMapper;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFileRelationDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoProListDto;
@@ -62,6 +64,10 @@ public class IpoProcessService extends BaseService {
     @Autowired
     private RestClient restClient;
 
+    @Autowired
+    private AttachmentMapper attachmentMapper;
+
+
     @Value("#{app['pdf.baseUrl']}")
     private String pdfBaseUrl;
     @Value("#{app['file.viewPath']}")
@@ -70,6 +76,8 @@ public class IpoProcessService extends BaseService {
     private String apiBaseUrl;
     @Value("#{app['file.path']}")
     private String filePath;
+    @Value("#{app['commonfile.path']}")
+    private String commonFilePath;
 
     public TreeTypeProgressDto selectProcessList(String id, String sortType) {
         TreeTypeProgressDto resultDto = ipoProcessMapper.selectProcessList(id);
@@ -79,8 +87,22 @@ public class IpoProcessService extends BaseService {
             treeList.get(i).setSpread(false);
             treeList.get(i).setSpreadFlag(false);
             List<IpoProListDto> proList = treeList.get(i) == null ? new ArrayList<>() : treeList.get(i).getProList();
+            int inquiryTimes = 1;
             for (int j = 0; j < proList.size(); j++) {
                 proList.get(j).setProgressIndex(treeList.get(i).getTreeTypeCode() + proList.get(j).getProSort());
+
+                //标出第几次问询，第几次回复
+                if("问询".equals(proList.get(j).getProgressName())){
+                    proList.get(j).setProgressName("第 "+inquiryTimes+" 次问询");
+                    inquiryTimes++;
+                }
+                if("回复".equals(proList.get(j).getProgressName())){
+                    if(inquiryTimes == 1){
+                        proList.get(j).setProgressName("第 "+inquiryTimes+" 次回复");
+                    }else{
+                        proList.get(j).setProgressName("第 "+(inquiryTimes-1)+" 次回复");
+                    }
+                }
 
                 //每个进程只有第一个节点储存了时间，补全进程时间
                 List<IpoFileRelationDto> fileList = proList.get(j).getRelaList();
@@ -499,16 +521,18 @@ public class IpoProcessService extends BaseService {
 
     public String downloadSplitFile(String id, HttpServletResponse response,HttpServletRequest request) {
         //根据文件id查询相关信息
-        IpoFileRelationDto fileDto = ipoProcessMapper.selectSplitFileDto(id);
-        String title = fileDto.getRelationFileTitle();
+//        IpoFileRelationDto fileDto = ipoProcessMapper.selectSplitFileDto(id);
+        Attachment attachment = attachmentMapper.selectByPrimaryKey(id);
+//        String title = fileDto.getRelationFileTitle();
+        String title = attachment.getAttName();
         String suffix = title.substring(title.indexOf(".")+1);
         if (title.length() >= 40) {
             title = title.substring(0, 40);
         }
-        String fileName = title + suffix;
+        String fileName = attachment.getAttName();
 //        String url = fileViewPath + "open/ipoFile/" + id + "." + suffix;
-//        String url = "D:\\data\\capital\\upload\\cloud\\open\\ipoFile\\" + id + "." + suffix;
-        String url = filePath + id + "." + suffix;
+//        String url = "E:\\upload_file\\" +attachment.getAttUrl().substring(1,attachment.getAttUrl().length()).replace("/","\\");
+        String url = commonFilePath + attachment.getAttUrl().substring(1,attachment.getAttUrl().length());
         InputStream in = null;
         try {
             in = new FileInputStream(url);

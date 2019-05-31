@@ -2,6 +2,7 @@
   <div class="companyProfile" v-loading="listLoading" element-loading-text="给我一点时间">
     <!-- 公司简介 -->
     <div class="companey">
+      <span id="briefIntroduction"></span>
       <div class="briefIntroduction">
         <p v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.companyZhName" style="color: #333; font-weight: bold;font-size: 14px;">
           {{companyProfileList.companyProfileList.companyZhName}}
@@ -142,10 +143,16 @@
             <span v-if="spliteList[0].splitMemo" style="color:black;float:left;margin-left: 18px;width: 80%">{{spliteList[0].splitMemo}}</span>
             <span v-else style="color:black;float:left;margin-left: 18px;width: 80%">- -</span>
           </li>
-           <li style="width: 100%;margin-bottom:10px ">
+          <li v-if="spliteList[0].fileList&&spliteList[0].fileList.length>0" style="width: 100%;margin-bottom:10px "
+              v-for="(item,index) in spliteList[0].fileList">
+           <span v-if="index == 0">相关文件</span>&nbsp;&nbsp;&nbsp;&nbsp;
+           <span v-if="index != 0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+           <span v-if="item.splitFileName"  @click="openLetterDetail(item.splitFileId)" style="color:#3399fe;text-decoration:underline;cursor:pointer;">{{item.splitFileName}}</span>
+           <span v-else style="color:black">- -</span>
+          </li>
+          <li v-if="spliteList[0].fileList.length==0" style="width: 100%;margin-bottom:10px ">
             <span>相关文件</span>&nbsp;&nbsp;&nbsp;&nbsp;
-            <span v-if="spliteList[0].splitFileName"  @click="openLetterDetail(spliteList[0].splitFileId)" style="color:#3399fe;text-decoration:underline;cursor:pointer;">{{spliteList[0].splitFileName}}</span>
-            <span v-else style="color:black">- -</span>
+            <span style="color:black">- -</span>
           </li>
         </ul>
       </div>
@@ -178,7 +185,7 @@
             <!-- <span v-else style="color:#333">- -万股</span> -->
           </li>
           <li v-if="recentValuation.valuationValue" style=" width: 25%;">
-            <span style="color:#999">市值</span>&nbsp;&nbsp;
+            <span style="color:#999">估值</span>&nbsp;&nbsp;
             <span v-if="recentValuation.valuationValue" style="color:#333">{{recentValuation.valuationValue/10000  | dataInThRule }}亿元</span>
             <!-- <span v-else style="color:#333">- -亿元</span> -->
           </li>
@@ -497,13 +504,13 @@
           <el-table v-if="raiseMoneyTableList&&raiseMoneyTableList.length>0" :data="raiseMoneyTableList" class="raiseMoneyTable" border style="width:100%;">
             <el-table-column label="项目名称" align="left">
                 <template slot-scope="scope">
-                    <span v-if="scope.row.itemName">{{scope.row.itemName}}</span>
+                    <span v-if="scope.row.itemName" :title="scope.row.itemName.length>16?scope.row.itemName:''">{{getContent(scope.row.itemName)}}</span>
                     <span v-else>- -</span>
                 </template>
             </el-table-column>
             <el-table-column label="项目类型" align="left">
                 <template slot-scope="scope">
-                      <span v-if="scope.row.itemTypeStr">{{scope.row.itemTypeStr}}</span>
+                      <span v-if="scope.row.itemTypeStr" :title="scope.row.itemTypeStr.length>16?scope.row.itemTypeStr:''">{{getContent(scope.row.itemTypeStr)}}</span>
                     <span v-else>- -</span>
                 </template>
             </el-table-column>
@@ -632,6 +639,17 @@ export default {
   },
   props:["companyProfileList"],
   created() {
+     // 日志--------------------功能头
+      let param = {
+      client_type:'pc',//手机或pc
+      recordType:'menu',//跳转页面方式:
+      recordModule:'我的ipo',//跳转模块
+      recordTab:"ipo案例详情页",//跳转tab
+      recordTabChild:null,//跳转子集tab
+      popTitle:null//弹窗title
+      }
+      // this.$store.commit('CREATE_MESSAGE',param)
+      // 日志------------------功能尾
     this.getData();
   },
   mounted() {
@@ -738,20 +756,16 @@ export default {
     mouseOverCompanyName(title){
       if(title.length>20){
         $(".companyNameClass").attr("title",title)
-        // $(".companyNameClass").css({"cursor":"pointer"})
       }else{
         $(".companyNameClass").removeAttr("title",title)
-        //  $(".companyNameClass").css({"cursor":"auto"})
       }
     },
     // 鼠标移入采购内容
     mouseOverContent(title){
       if(title.length>16){
         $(".contentClass").attr("title",title)
-        // $(".contentClass").css({"cursor":"pointer"})
       }else{
          $(".contentClass").removeAttr("title",title)
-        //  $(".contentClass").css({"cursor":"auto"})
       }
     },
      getCompanyName(title){
@@ -771,6 +785,14 @@ export default {
     //返回父组件用于锚点定位头
     getPosition() {
           let titleList = [];
+          let briefIntroduction = {
+              id: 'briefIntroduction',
+              name: '公司概览',
+              notes: '',
+              important: false,
+              tabId: 'tab-first',
+              noClick: true
+          }
           let lastValuation = {
               id: 'lastValuation',
               name: '最近一次估值情况',
@@ -827,6 +849,9 @@ export default {
               tabId: 'tab-first',
               noClick: true
           }
+          if(this.companyProfileList.companyProfileList){
+             briefIntroduction.noClick = false;
+          }
           if(this.recentValuationFlag){
              lastValuation.noClick = false;
           }
@@ -848,6 +873,7 @@ export default {
           if(this.dataFlag){
             intermediaryInstitutions.noClick = false;
           }
+          titleList.push(briefIntroduction)
           titleList.push(lastValuation)
           titleList.push(ownershipStructureChart)
           titleList.push(mainBusinessIncomeComposition)

@@ -450,12 +450,12 @@
   font-weight: bold
 }
 // 前五名供应商用户表格最后一行合计
-// .theTopFiveKh table tr:last-of-type{
-//   font-weight: bold
-// }
-// .theTopFiveSupplier table tr:last-of-type{
-//   font-weight: bold
-// }
+.theTopFiveKh table tr:last-of-type{
+  font-weight: bold
+}
+.theTopFiveSupplier table tr:last-of-type{
+  font-weight: bold
+}
 #componentId .el-checkbox-button.is-focus .el-checkbox-button__inner {
   border-color: #e2e2e2;
   border-left-color:#e2e2e2 
@@ -661,7 +661,7 @@
 .ipoContainer .el-table--border td, .el-table--border th {
   border-right: 1px solid #e4e4e4 !important;
 }
-// 专利情况表格
+// 专利情况表
 .patentSituationTable table tr td:first-of-type{
   background:#f2f2f2 !important;
   font-weight:bold;
@@ -669,4 +669,11 @@
 
 .patentSituationTable table tr:last-of-type td:last-of-type{
   background:#f2f2f2 !important;
+}
+.secondLabel .el-checkbox__label {
+  display: inline-block;
+  padding-left: 10px;
+  line-height: 19px;
+  font-size: 12px;
+  background:white !important;
 }

@@ -70,7 +70,10 @@ const ipo = {
     // 存动态caseId
     SET_TOKEN: (state, code) => {
       state.caseId = code
-      console.log(state.caseId )
+    },
+    // 存日志
+    CREATE_MESSAGE: (state, code) => {
+      state.info = code
     },
   },
 

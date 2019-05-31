@@ -13,6 +13,7 @@
     <result column="addr_area" property="addrArea" jdbcType="VARCHAR"/>
     <result column="company_nature" property="companyNature" jdbcType="VARCHAR"/>
     <result column="major_businesses" property="majorBusinesses" jdbcType="VARCHAR"/>
+    <result column="industry_status_overview" property="industryStatusOverview" jdbcType="VARCHAR"/>
     <result column="industry_csrc" property="industryCsrc" jdbcType="VARCHAR"/>
     <result column="registered_assets" property="registeredAssets" jdbcType="DECIMAL"/>
     <result column="structure_label" jdbcType="VARCHAR" property="structureLabel"/>
@@ -53,6 +54,7 @@
     SELECT
     ic.id,
     ic.company_zh_name,
+    ic.industry_status_overview,
     (SELECT mcl.label_name FROM maa_conf_label mcl WHERE mcl.label_code = 'IPO_PLATE' AND mcl.label_value = ic.ipo_plate) AS ipo_plate,
     (SELECT group_concat(mcl1.label_name) FROM maa_conf_label mcl1 WHERE mcl1.label_code = 'INDUSTRY_CSRC_2012' AND find_in_set(mcl1.label_value,TRIM(LEADING '0' FROM ic.industry_csrc))) AS industry_csrc,
     ic.company_name,
@@ -131,7 +133,7 @@
 
   <select id="getSpliteData" parameterType="string"
     resultType="com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto">
-    SELECT t1.split_memo AS splitMemo, t1.split_file_id AS splitFileId, t1.split_file_name AS splitFileName,
+    SELECT t1.split_memo AS splitMemo,t1.id AS id,
     (SELECT group_concat(mcl4.label_name) FROM maa_conf_label mcl4 WHERE mcl4.label_code = 'IPO_SPLIT_MARKET' AND find_in_set(mcl4.label_value,t2.split_market)) AS splitMarket,
     CONCAT(t2.company_name,'(',t2.company_code,')') AS companyName,
     t2.share_proportion AS shareProportion
@@ -228,13 +230,16 @@
 
   <select id="selectTechnologyByBid" resultType="java.util.Map" parameterType="java.lang.String" >
     select
-    dev_remarks AS devRemarks, project_date_fi AS projectDateFi, project_date_se AS projectDateSe,
+		CASE dev_remarks WHEN "" THEN NULL ELSE dev_remarks END AS devRemarks,
+		project_date_fi AS projectDateFi, project_date_se AS projectDateSe,
     project_date_th AS projectDateTh, project_date_fo AS projectDateFo, dev_input_fi AS devInputFi,
     dev_input_se AS devInputSe, dev_input_th AS devInputTh, dev_input_fo AS devInputFo, trade_fi AS tradeFi,
-    trade_se AS tradeSe, trade_th AS tradeTh, trade_fo AS tradeFo, patent_remarks AS patentRemarks,
+    trade_se AS tradeSe, trade_th AS tradeTh, trade_fo AS tradeFo,
+		CASE patent_remarks WHEN "" THEN NULL ELSE patent_remarks END AS patentRemarks,
     domestic_invention AS domesticInvention, domestic_newtype AS domesticNewtype,domestic_design AS domesticDesign,
     foreign_invention AS foreignInvention,foreign_newtype AS foreignNewtype, foreign_design AS foreignDesign,
-    core_remarks AS coreRemarks,category_date_fi AS categoryDateFi, category_date_se AS categoryDateSe,
+		CASE core_remarks WHEN "" THEN NULL ELSE core_remarks END AS coreRemarks,
+    category_date_fi AS categoryDateFi, category_date_se AS categoryDateSe,
     category_date_th AS categoryDateTh, category_date_fo AS categoryDateFo, core_fi AS coreFi,
     core_se AS coreSe, core_th AS coreTh, core_fo AS coreFo, dev_fi AS devFi, dev_se AS devSe,
     dev_th AS devTh, dev_fo AS devFo, count_fi AS countFi, count_se AS countSe, count_th AS countTh,

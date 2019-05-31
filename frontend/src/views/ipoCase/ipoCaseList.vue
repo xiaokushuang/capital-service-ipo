@@ -587,6 +587,7 @@
   export default {
     data() {
       return {
+        tenantInfo:'',//日志
         tableData: [],
         tableLoading: false,
         searchFlag: false,
@@ -828,7 +829,22 @@
         shareIssueAShow: true
       }
     },
+    created(){
+      // 日志
+      let param = {
+      client_type:'pc',//手机或pc
+      recordType:'menu',//跳转页面方式:
+      recordModule:'ipo',//跳转模块
+      recordTab:"ipo案例列表页",//跳转tab
+      recordTabChild:null,//跳转子集tab
+      popTitle:null//弹窗title
+      }
+      this.$store.commit('CREATE_MESSAGE',param)
+    },
     mounted() {
+      // 日志
+      this.tenantInfo = this.$route.query['tenant_info'];
+      // this.tenantInfo = this.$store.state.app.info;
       this.tableLoading = true;
       const _data = {
         startRow: 0,
@@ -1290,9 +1306,17 @@
           const _self = this;
           const {href} = _self.$router.resolve({
             name: 'caseDetail',
-            query: {caseId: caseId, access_token: _self.$store.state.app.token}
+            query: {caseId: caseId, access_token: _self.$store.state.app.token,tenant_info:_self.$store.state.app.info}
           });
-          window.open(href, '_blank');
+          // 日志---------------------头
+          let param = {
+              recordType:'open',//跳转页面方式:
+              recordTab:"IPO案例详情页"//跳转tab
+            }
+            this.$store.commit('CREATE_TEMP_MESSAGE',param);
+           // 日志---------------------尾
+          // window.open(href + '&tenant_info=' + this.tenantInfo, '_blank');
+            this.$open(href + '&tenant_info=' + this.tenantInfo, '_blank');
         } else {
           let url = window.location.href;
           url = url.replace(this.$route.path, '/ipoPopWin');
@@ -1730,7 +1754,7 @@
   /* 是否通过 */
   .zhbjResult{
      font-size: 12px;
-     color: #FF9900;
+     color:  #f9b162;
      padding:5px;
      padding-left: 10px;
      line-height:10px;
@@ -1740,7 +1764,7 @@
 }
 .whtgResult{
      font-size: 12px;
-     color: #FE5461;
+     color: #ea5365;
      padding:5px;
      padding-left: 10px;
      line-height:10px;
@@ -1750,7 +1774,7 @@
 }
 .wtgResult{
     font-size: 12px;
-    color: #FE5461;
+    color: #ea5365;
     padding: 5px;
     padding-left: 10px;
     line-height: 10px;
@@ -1761,7 +1785,7 @@
 }
 .htgResult{
      font-size: 12px;
-     color: #14BCF5;
+     color: #4ec8e5;
      padding:5px;
      padding-left: 10px;
      line-height:10px;
@@ -1771,7 +1795,7 @@
 }
 .zcsxResult{
    font-size: 12px;
-     color: #14BCF5;
+     color: #4ec8e5;
      padding:5px;
      padding-left: 10px;
      line-height:10px;
@@ -1781,7 +1805,7 @@
 }
 .tgResult{
      font-size: 13px;
-     color: #14BCF5;
+     color: #4ec8e5;
      padding:5px;
      padding-left: 10px;
      line-height:10px;
@@ -1791,7 +1815,7 @@
 }
 .qxshResult{
      font-size: 12px;
-     color: #94A3B4;
+     color: #aabfe2;
      padding:5px;
      padding-left: 10px;
      line-height:10px;
@@ -1801,7 +1825,7 @@
 }
 .dshResult{
      font-size: 12px;
-     color: #ffd800;
+     color: #f98962;
      padding:5px;
      padding-left: 10px;
      padding-right: 6px;

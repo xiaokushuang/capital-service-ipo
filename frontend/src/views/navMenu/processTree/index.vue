@@ -272,6 +272,17 @@ export default {
     },
     name: "processTree",
     created(){
+         // 日志--------------------功能头
+      let param = {
+      client_type:'pc',//手机或pc
+      recordType:'menu',//跳转页面方式:
+      recordModule:'我的ipo',//跳转模块
+      recordTab:"ipo案例详情页",//跳转tab
+      recordTabChild:null,//跳转子集tab
+      popTitle:null//弹窗title
+      }
+    //   this.$store.commit('CREATE_MESSAGE',param)
+      // 日志------------------功能尾
          //   请求数据
          this.initTableData()
          this.flagLoading = true;
@@ -687,7 +698,7 @@ export default {
     position: relative;
     left: 38%;
     top: -20px;
-    color: #14BCF5;
+    color: #4ec8e5;
     padding:5px;
     padding-left: 10px;
     padding-right: 7px;
@@ -700,7 +711,7 @@ export default {
     position: relative;
     left: 38%;
     top: -20px;
-    color: #FE5461;
+    color: #ea5365;
     padding: 5px;
     padding-left: 10px;
     padding-right: 7px;
@@ -712,7 +723,7 @@ export default {
     position: relative;
     left: 38%;
     top: -20px;
-    color: #14BCF5;
+    color: #4ec8e5 ;
     padding:5px;
     padding-left: 10px;
     padding-right: 7px;
@@ -724,7 +735,7 @@ export default {
     position: relative;
     left: 38%;
     top: -20px;
-    color: #FE5461;
+    color: #ea5365;
     padding:5px;
     padding-left: 10px;
     padding-right: 7px;
@@ -736,7 +747,7 @@ export default {
     position: relative;
     left: 38%;
     top: -20px;
-    color: #FF9900;
+    color: #f9b162;
     padding:5px;   
      padding-left: 10px;
     padding-right: 7px;
@@ -748,9 +759,9 @@ export default {
     position: relative;
     left: 38%;
     top: -20px;
-    color: #94A3B4;
+    color: #aabfe2;
     padding:5px;
-        padding-left: 10px;
+    padding-left: 10px;
     padding-right: 7px;
     line-height:10px;
     display:inline-block;
@@ -760,7 +771,7 @@ export default {
     position: relative;
     left: 38%;
     top: -20px;
-    color: #ffd800;
+    color: #f98962;
     padding:5px;
     padding-left: 10px;
     padding-right: 7px;

@@ -1,36 +1,42 @@
 <template>
     <div class="member">
        <ul  v-show="memberData.memberList&&memberData.memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
-            <li v-for="data in memberData.memberList" class="l positionLi" style="width:300px;border:1px solid lightgray;padding:20px">
-                <div>
-                    <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
-                    <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
-                </div>
-                <span class="position"  @mouseenter="mouseOverSpreadText(data.memberPost)" style="background: #14bcf5;
-                    font-weight: 400;
-                    font-style: normal;
-                    font-size: 12px;
-                    line-height: 18px;
-                    color: #fff;
-                    display:inline-block;
-                    padding-left: 7px;
-                    padding-right:7px;
-                    margin-top: 6px;
-                    margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
-                <div>
-                    <span style="color: #666;">学历/专业：</span>
-                    <span  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
-                </div>
-                <div>
-                    <span style="color: #666;">工作单位：</span>
-                    <span class="danwei" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
-                </div>
-                <div>
-                    <span style="color: #666;">工作性质：</span>
-                    <span class="xingzhi" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
-                </div>
-            </li>
-        </ul>
+         <!-- {{memberData.memberList[0]}} -->
+          <li v-for="data in memberData.memberList" class="l positionLi" style="width:300px;border:1px solid lightgray;padding:20px">
+              <div>
+                  <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
+                  <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
+              </div>
+              <span class="position"  @mouseenter="mouseOverSpreadText(data.memberPost)" style="background: #14bcf5;
+                  font-weight: 400;
+                  font-style: normal;
+                  font-size: 12px;
+                  line-height: 18px;
+                  color: #fff;
+                  display:inline-block;
+                  padding-left: 7px;
+                  padding-right:7px;
+                  margin-top: 6px;
+                  margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
+              <div>
+                  <span style="color: #666;">学历/专业：</span>
+                  <span  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
+                  <!-- <span v-if="data.memberEducation==''&&data.memberMajor!=''"  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText('- -/'+data.memberMajor)">{{getContent1('- -/'+data.memberMajor)}}</span>
+                  <span v-if="data.memberEducation!=''&&data.memberMajor==''"  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/- -')">{{getContent1(data.memberEducation+'/- -')}}</span>
+                  <span v-if="data.memberEducation==''&&data.memberMajor==''"  class="xueli" style="color: #666;" >- -/- -</span> -->
+              </div>
+              <div>
+                  <span style="color: #666;">工作单位：</span>
+                  <span v-if="data.memberCompany!=''" class="danwei" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberCompany)">{{getContent1(data.memberCompany)}}</span>
+                  <span v-else class="danwei" style="color: #666;">- -</span>
+              </div>
+              <div>
+                  <span style="color: #666;">工作性质：</span>
+                  <span v-if="data.memberType!=''" class="xingzhi" style="color: #666;" @mouseenter="mouseOverSpreadText(data.memberType)">{{getContent1(data.memberType)}}</span>
+                  <span v-else class="xingzhi" style="color: #666;" >- -</span>
+              </div>
+          </li>
+      </ul>
    </div>
 </template>
 <script>
@@ -41,7 +47,17 @@ export default {
   data() {
     return {};
   },
-
+  updated(){
+    console.log('委员',this.memberData.memberList)
+  },
+  watch: {
+  memberData: {
+　　　　handler(newValue, oldValue) {
+　　　　　　console.log('new',newValue)
+　　　　},
+　　　　deep: true
+　　}
+},
   methods: {
     // 鼠标移入委员详情弹出窗的列
     mouseOverSpreadText(title) {

@@ -13,7 +13,7 @@ import '@/styles/index.scss' // global css
 import App from './App'
 import router from './router'
 import store from './store'
-
+import request from '@/utils/request'
 import i18n from './lang' // Internationalization
 import './icons' // icon
 import './errorLog' // error log
@@ -55,7 +55,23 @@ Vue.use(Element, {
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
-
+// 日志-----头
+Vue.prototype.$open = function(url){
+  url = url||null;
+  // debugger
+  let data = store.state.app.parentCookie;
+  if(store.state.app.temporaryUpdateFlag){//如果使用临时Cookie
+    data = store.state.app.tempParentCookie;
+    store.commit('SET_TEMPORARY_UPDATE_FLAGg',false);
+  }
+  request({
+    url: '/log/collect',
+    method: 'post',
+    data:data
+  })
+  return window.open(url)
+}
+// 日志-----尾
 Vue.config.productionTip = false
 
 new Vue({

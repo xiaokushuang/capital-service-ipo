@@ -116,6 +116,17 @@ export default {
     };
   },
   created() {
+     // 日志--------------------功能头
+      let param = {
+      client_type:'pc',//手机或pc
+      recordType:'menu',//跳转页面方式:
+      recordModule:'我的ipo',//跳转模块
+      recordTab:"ipo案例详情页",//跳转tab
+      recordTabChild:null,//跳转子集tab
+      popTitle:null//弹窗title
+      }
+      // this.$store.commit('CREATE_MESSAGE',param)
+      // 日志------------------功能尾
     //   请求数据
     this.initTableData();
     this.isShowAll = true;
