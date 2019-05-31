@@ -2,7 +2,7 @@
     <div class="member">
        <ul  v-show="memberData.memberList&&memberData.memberList.length>0"  class="clear" style="width:100%;padding-left:2px;overflow-x: hidden;overflow-y:auto;max-height:450px;">
             <li v-for="data in memberData.memberList" class="l positionLi" style="width:300px;border:1px solid lightgray;padding:20px">
-                <div>
+                <div style="margin-bottom:8px">
                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
                     <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
                 </div>
@@ -17,8 +17,8 @@
                     padding-left: 7px;
                     padding-right:7px;
                     margin-top: 6px;
-                    margin-bottom: 10px;">第{{data.sessionYear}}届上市委委员</span>
-                <div>
+                    margin-bottom: 16px;">第{{data.sessionYear}}届上市委委员</span>
+                <div style="margin-bottom:8px">
                     <span style="color: #666;">工作单位：</span>
                     <span v-if="data.memberCompany!=null" class="danwei" style="color: #666;" :title="data.memberCompany.length>12?data.memberCompany:''" >{{getContent1(data.memberCompany)}}</span>
                     <span v-else class="danwei" style="color: #666;">- -</span>

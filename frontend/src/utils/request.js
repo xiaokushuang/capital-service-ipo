@@ -29,7 +29,7 @@ service.interceptors.request.use(
       config.headers['Cache-Control'] = 'no-cache';
       config.headers['Pragma'] = 'no-cache';
       showFullScreenLoading();
-      debugger
+      // debugger
       if(store.state.app.parentCookieFlag && config.url != '/log/collect'){
         // iframeDoMessage(window.parent,'microServiceCallBack',[store.state.app.parentCookie]);
         // console.log(store.state.app.parentCookie)
@@ -78,7 +78,7 @@ service.interceptors.response.use(
       return response
     },
     (error) => {
-      debugger
+      // debugger
       tryHideFullScreenLoading();
       let tipError = false;
       // TODO Reservation processing error response

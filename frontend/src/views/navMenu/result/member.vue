@@ -20,10 +20,10 @@
                   margin-bottom: 10px;">{{getContent(data.memberPost)}}</span>
               <div>
                   <span style="color: #666;">学历/专业：</span>
-                  <span v-if="data.memberEducation!=''&&data.memberMajor!=''"  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
-                  <span v-if="data.memberEducation==''&&data.memberMajor!=''"  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText('- -/'+data.memberMajor)">{{getContent1('- -/'+data.memberMajor)}}</span>
+                  <span  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/'+data.memberMajor)">{{getContent1(data.memberEducation+'/'+data.memberMajor)}}</span>
+                  <!-- <span v-if="data.memberEducation==''&&data.memberMajor!=''"  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText('- -/'+data.memberMajor)">{{getContent1('- -/'+data.memberMajor)}}</span>
                   <span v-if="data.memberEducation!=''&&data.memberMajor==''"  class="xueli" style="color: #666;"  @mouseenter="mouseOverSpreadText(data.memberEducation+'/- -')">{{getContent1(data.memberEducation+'/- -')}}</span>
-                  <span v-if="data.memberEducation==''&&data.memberMajor==''"  class="xueli" style="color: #666;" >- -/- -</span>
+                  <span v-if="data.memberEducation==''&&data.memberMajor==''"  class="xueli" style="color: #666;" >- -/- -</span> -->
               </div>
               <div>
                   <span style="color: #666;">工作单位：</span>
