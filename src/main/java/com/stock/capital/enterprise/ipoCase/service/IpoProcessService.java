@@ -93,14 +93,14 @@ public class IpoProcessService extends BaseService {
 
                 //标出第几次问询，第几次回复
                 if("问询".equals(proList.get(j).getProgressName())){
-                    proList.get(j).setProgressName("第"+inquiryTimes+"次问询");
+                    proList.get(j).setProgressName("第 "+inquiryTimes+" 次问询");
                     inquiryTimes++;
                 }
                 if("回复".equals(proList.get(j).getProgressName())){
                     if(inquiryTimes == 1){
-                        proList.get(j).setProgressName("第"+inquiryTimes+"次回复");
+                        proList.get(j).setProgressName("第 "+inquiryTimes+" 次回复");
                     }else{
-                        proList.get(j).setProgressName("第"+(inquiryTimes-1)+"次回复");
+                        proList.get(j).setProgressName("第 "+(inquiryTimes-1)+" 次回复");
                     }
                 }
 
