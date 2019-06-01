@@ -144,7 +144,9 @@ import {exportExcelPostWindow} from '@/utils'
                 data.condition.financeIndustry = this.$route.query.financeIndustry;
                 data.condition.typeFlag = this.$route.query.typeFlag;
                 this.queryParam_copy = data;
+                console.log(data);
                 this.$store.dispatch('searchCompanyDetail', data).then((data) => {//(方法名，参数)
+                    console.log(data);
                     this.companyDetailData = data.data;
                     this.totalCount = data.total;
                 });
