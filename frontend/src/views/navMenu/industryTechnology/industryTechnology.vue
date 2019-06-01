@@ -478,7 +478,7 @@ export default {
               this.patentSituationTableData = res.data.result.patentData
               this.getPosition()
               }
-               if(res.data.result&&res.data.result.devDate.firstYearDate){
+               if(res.data.result&&res.data.result.devDate!=null){
                   // 研发投入时间
                  this.yfSpendingTitle = res.data.result.devDate
               }
@@ -487,7 +487,7 @@ export default {
                  this.yfSpendingTableData = res.data.result.devData
                  this.getPosition()
               }
-               if(res.data.result&&res.data.result.coreDate.firstYearDate){
+               if(res.data.result&&res.data.result.coreDate!=null){
                   // 核心技术时间
                  this.coreTechnologyTitle = res.data.result.coreDate
               }
