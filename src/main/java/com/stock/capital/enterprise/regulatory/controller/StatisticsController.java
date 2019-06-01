@@ -92,18 +92,16 @@ public class StatisticsController extends BaseController {
         ModelAndView mv = new ModelAndView("regulatory/refinanceStatistics");
         // demand 5955 start
         List<OptionDto> areaList = statisticsService.getAreaList();
-        for (int i = 0; i < areaList.size(); i++) {
-            if(areaList != null && StringUtils.isNotBlank(areaList.get(i).getLabel())){
-                //地区特殊处理
-                if ("深圳市".equals(areaList.get(i).getLabel())
-                        || "大连市".equals(areaList.get(i).getLabel())
-                        || "宁波市".equals(areaList.get(i).getLabel())
-                        || "厦门市".equals(areaList.get(i).getLabel())
-                        || "青岛市".equals(areaList.get(i).getLabel())) {
-                    areaList.get(i).setLabel(areaList.get(i).getLabel().replace("市", ""));
-                } else{
-                    areaList.get(i).setLabel(statisticsService.changeAreaName(areaList.get(i).getLabel()));
-                } 
+        if (CollectionUtils.isNotEmpty(areaList)) {
+            for (OptionDto optionDto : areaList) {
+                if (Arrays.asList(TRANS_AREA_CITY).contains(optionDto.getLabel())) {
+                   optionDto.setLabel(optionDto.getLabel().replace("市", "")); 
+                }
+                optionDto.setOriginContent(optionDto.getLabel());
+                int indexOf = Arrays.asList(TRANS_AREA_PROVINCE).indexOf(optionDto.getLabel());
+                if (indexOf > -1) {
+                    optionDto.setLabel(TRANS_AREA_PROVINCE_SHOW[indexOf]); 
+                 }
             }
         }
         //地区
@@ -127,18 +125,16 @@ public class StatisticsController extends BaseController {
         mv.addObject("belongsPlateList", JsonUtil.toJsonNoNull(statisticsService.getCodeAndName("IPODATA_BELONG_PLATE")));
         //地区特殊处理
         List<OptionDto> areaList = statisticsService.getAreaList();
-        for (int i = 0; i < areaList.size(); i++) {
-            if(areaList != null && StringUtils.isNotBlank(areaList.get(i).getLabel())){
-                //地区特殊处理
-                if ("深圳市".equals(areaList.get(i).getLabel())
-                        || "大连市".equals(areaList.get(i).getLabel())
-                        || "宁波市".equals(areaList.get(i).getLabel())
-                        || "厦门市".equals(areaList.get(i).getLabel())
-                        || "青岛市".equals(areaList.get(i).getLabel())) {
-                    areaList.get(i).setLabel(areaList.get(i).getLabel().replace("市", ""));
-                } else{
-                    areaList.get(i).setLabel(statisticsService.changeAreaName(areaList.get(i).getLabel()));
-                } 
+        if (CollectionUtils.isNotEmpty(areaList)) {
+            for (OptionDto optionDto : areaList) {
+                if (Arrays.asList(TRANS_AREA_CITY).contains(optionDto.getLabel())) {
+                   optionDto.setLabel(optionDto.getLabel().replace("市", "")); 
+                }
+                optionDto.setOriginContent(optionDto.getLabel());
+                int indexOf = Arrays.asList(TRANS_AREA_PROVINCE).indexOf(optionDto.getLabel());
+                if (indexOf > -1) {
+                    optionDto.setLabel(TRANS_AREA_PROVINCE_SHOW[indexOf]); 
+                 }
             }
         }
         mv.addObject("areaList", JsonUtil.toJsonNoNull(areaList));
@@ -163,18 +159,16 @@ public class StatisticsController extends BaseController {
         // 所在地区  
          //地区特殊处理
          List<OptionDto> areaList = statisticsService.getAreaList();
-         for (int i = 0; i < areaList.size(); i++) {
-             if(areaList != null && StringUtils.isNotBlank(areaList.get(i).getLabel())){
-                 //地区特殊处理
-                 if ("深圳市".equals(areaList.get(i).getLabel())
-                         || "大连市".equals(areaList.get(i).getLabel())
-                         || "宁波市".equals(areaList.get(i).getLabel())
-                         || "厦门市".equals(areaList.get(i).getLabel())
-                         || "青岛市".equals(areaList.get(i).getLabel())) {
-                     areaList.get(i).setLabel(areaList.get(i).getLabel().replace("市", ""));
-                 } else{
-                     areaList.get(i).setLabel(statisticsService.changeAreaName(areaList.get(i).getLabel()));
-                 } 
+         if (CollectionUtils.isNotEmpty(areaList)) {
+             for (OptionDto optionDto : areaList) {
+                 if (Arrays.asList(TRANS_AREA_CITY).contains(optionDto.getLabel())) {
+                    optionDto.setLabel(optionDto.getLabel().replace("市", "")); 
+                 }
+                 optionDto.setOriginContent(optionDto.getLabel());
+                 int indexOf = Arrays.asList(TRANS_AREA_PROVINCE).indexOf(optionDto.getLabel());
+                 if (indexOf > -1) {
+                     optionDto.setLabel(TRANS_AREA_PROVINCE_SHOW[indexOf]); 
+                  }
              }
          }
          response.put("areaList", areaList);
