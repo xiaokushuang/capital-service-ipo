@@ -3,6 +3,7 @@ package com.stock.capital.enterprise.regulatory.controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,6 +45,10 @@ public class StatisticsController extends BaseController {
     
     @Resource
 	private ServletContext servletContext; 
+    
+    public String[] TRANS_AREA_CITY = { "深圳市", "大连市", "宁波市", "厦门市", "青岛市" };
+    public String[] TRANS_AREA_PROVINCE = { "广东", "辽宁", "浙江", "福建", "山东" };
+    public String[] TRANS_AREA_PROVINCE_SHOW = { "广东(不含深圳)", "辽宁(不含大连)", "浙江(不含宁波)", "福建(不含厦门)", "山东(不含青岛)" };
 
     /**
      * IPO页面初始化
@@ -54,18 +60,16 @@ public class StatisticsController extends BaseController {
         ModelAndView mv = new ModelAndView("regulatory/ipoStatistics");
         //需求4399 2018/5/24 by liuh Start
         List<OptionDto> areaList = statisticsService.getAreaList();
-        for (int i = 0; i < areaList.size(); i++) {
-            if(areaList != null && StringUtils.isNotBlank(areaList.get(i).getLabel())){
-                //地区特殊处理
-                if ("深圳市".equals(areaList.get(i).getLabel())
-                        || "大连市".equals(areaList.get(i).getLabel())
-                        || "宁波市".equals(areaList.get(i).getLabel())
-                        || "厦门市".equals(areaList.get(i).getLabel())
-                        || "青岛市".equals(areaList.get(i).getLabel())) {
-                    areaList.get(i).setLabel(areaList.get(i).getLabel().replace("市", ""));
-                } else{
-                    areaList.get(i).setLabel(statisticsService.changeAreaName(areaList.get(i).getLabel()));
-                } 
+        if (CollectionUtils.isNotEmpty(areaList)) {
+            for (OptionDto optionDto : areaList) {
+                if (Arrays.asList(TRANS_AREA_CITY).contains(optionDto.getLabel())) {
+                   optionDto.setLabel(optionDto.getLabel().replace("市", "")); 
+                }
+                optionDto.setOriginContent(optionDto.getLabel());
+                int indexOf = Arrays.asList(TRANS_AREA_PROVINCE).indexOf(optionDto.getLabel());
+                if (indexOf > -1) {
+                    optionDto.setLabel(TRANS_AREA_PROVINCE_SHOW[indexOf]); 
+                 }
             }
         }
         //地区
