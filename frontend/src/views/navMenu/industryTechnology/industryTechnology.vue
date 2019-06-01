@@ -1,7 +1,7 @@
 <template>
   <div class="industryTechnology">
     <!-- 公司简介 -->
-    <div v-if="(industryStatus&&industryStatus.length>0) || companyProfileList.companyProfileList.industryStatusOverview !=''" class="industryStatus">
+    <div v-if="(industryStatus&&industryStatus.length>0) || companyProfileList.companyProfileList.industryStatusOverview" class="industryStatus">
       <span id="industryStatus"></span>
       <div class="clear">
         <img  src="../../../assets/images/status.png" alt="" style="width:20px;height:20px;float:left;margin-right:10px;margin-top: 7px;">
@@ -12,7 +12,7 @@
         <span style="color:#FE5461; position: relative; left: -3px;">
          {{data.rankingIndicator}}</span>排名第<span style="color:#FE5461;font-weight:bold">{{data.ranking }}</span>名
       </div>
-      <p v-if="companyProfileList.companyProfileList.industryStatusOverview !=''" style="font-size:14px;color:#666;margin-top:12px;">{{companyProfileList.companyProfileList.industryStatusOverview }}</p>
+      <p v-if="companyProfileList.companyProfileList.industryStatusOverview" style="font-size:14px;color:#666;margin-top:12px;">{{companyProfileList.companyProfileList.industryStatusOverview }}</p>
     </div>
     <!-- 主要竞争对手简介 -->
     <div class="MajorCompetitors">
@@ -478,7 +478,7 @@ export default {
               this.patentSituationTableData = res.data.result.patentData
               this.getPosition()
               }
-               if(res.data.result&&res.data.result.devDate.firstYearDate){
+               if(res.data.result&&res.data.result.devDate!=null){
                   // 研发投入时间
                  this.yfSpendingTitle = res.data.result.devDate
               }
@@ -487,7 +487,7 @@ export default {
                  this.yfSpendingTableData = res.data.result.devData
                  this.getPosition()
               }
-               if(res.data.result&&res.data.result.coreDate.firstYearDate){
+               if(res.data.result&&res.data.result.coreDate!=null){
                   // 核心技术时间
                  this.coreTechnologyTitle = res.data.result.coreDate
               }
@@ -556,7 +556,7 @@ export default {
                     tabId: 'tab-sixth',
                     noClick: true
           } 
-          if((this.industryStatus&&this.industryStatus.length>0) || this.companyProfileList.companyProfileList.industryStatusOverview !=''){
+          if((this.industryStatus&&this.industryStatus.length>0) || this.companyProfileList.companyProfileList.industryStatusOverview){
             industryStatus.noClick = false; 
           }  
           if(this.maoChartTableData&&this.maoChartTableData.length>0){

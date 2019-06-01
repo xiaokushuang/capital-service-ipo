@@ -56,16 +56,11 @@
               //param:param
           },'*')
           if(e.data['type']=='times'){
-            // console.log(e.data.bodyClass)
             e.data.bodyClass != undefined && _this.$store.commit('BODY_CLASS',e.data.bodyClass)
           }
       });
     },
     mounted(){
-       // 日志--------------------功能头
-      // this.tenantInfo = this.$route.query['tenant_info'];
-      // this.tenantInfo = this.$store.state.app.info;
-       // 日志------------------功能尾
       this.chartOne()
       let t = this
       document.body.addEventListener('mousedown',function(e){

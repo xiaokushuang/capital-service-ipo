@@ -539,7 +539,7 @@
                 </template>
             </el-table-column>
         </el-table>
-        <p v-if="raiseMoneyTableList&&raiseMoneyTableList.length>0" class="shuoming" style="font-family: 'PingFang-SC-Regular', 'PingFang SC';
+        <p v-if="raiseMoneyTableList&&raiseMoneyTableList.length>0&&raiseMoneyTableList[0].investRemark!=null" class="shuoming" style="font-family: 'PingFang-SC-Regular', 'PingFang SC';
             font-weight: 400;
             font-style: normal;
             color: #666666;
