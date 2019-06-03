@@ -80,15 +80,10 @@ public class IpoInterfaceController extends BaseController {
 
     /**
      * dxy
-     * 科技创新接口
+     * 行业与技术接口
      * @param id 案例id
      * @return
      */
-    @ApiOperation(value = "科技创新接口", notes = "科技创新接口描述")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
-            dataType = "String")
-    })
     @RequestMapping(value = "/getTechnology", method = RequestMethod.GET)
     public JsonResponse<Map> getTechnology(@RequestParam("id") String id) {
         JsonResponse<Map> response = new JsonResponse<>();
