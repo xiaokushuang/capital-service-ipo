@@ -1,16 +1,27 @@
 package com.stock.capital.enterprise.ipoInterfaceH5.controller;
 
+import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
+import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.common.constant.Global;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo;
 import com.stock.capital.enterprise.ipoCase.service.IpoCaseListService;
 import com.stock.capital.enterprise.ipoInterfaceH5.service.IpoInterfaceService;
 import com.stock.core.controller.BaseController;
+import com.stock.core.dto.JsonResponse;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import java.lang.reflect.MalformedParameterizedTypeException;
+import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 import com.stock.core.dto.QueryInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -64,6 +75,25 @@ public class IpoInterfaceController extends BaseController {
         Map<String, Object> result = ipoCaseListService.getIpoCaseList(page, false);
 //        可能需要  对重复数据 进行名称的处理
         return result;
+    }
+
+
+    /**
+     * dxy
+     * 科技创新接口
+     * @param id 案例id
+     * @return
+     */
+    @ApiOperation(value = "科技创新接口", notes = "科技创新接口描述")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
+            dataType = "String")
+    })
+    @RequestMapping(value = "/getTechnology", method = RequestMethod.GET)
+    public JsonResponse<Map> getTechnology(@RequestParam("id") String id) {
+        JsonResponse<Map> response = new JsonResponse<>();
+        response.setResult(ipoInterfaceService.getIpoTechnology(id));
+        return response;
     }
 
 }
