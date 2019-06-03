@@ -34,7 +34,11 @@ public class IpoInterfaceService extends BaseService {
   @Autowired
   private IssueSituationService issueSituationService;
 
+  @Autowired
+  private IpoCaseListMapper ipoCaseListMapper;
+
   /**
+   * dxy
    * 科技创新页面
    * @param id
    * @return
@@ -53,11 +57,6 @@ public class IpoInterfaceService extends BaseService {
     result.put("industryCompareRateInfo", industryCompareRateDtos);
     return result;
   }
-
-
-
-    @Autowired
-    private IpoCaseListMapper ipoCaseListMapper;
 
     /**
      * 获取下拉框数据
