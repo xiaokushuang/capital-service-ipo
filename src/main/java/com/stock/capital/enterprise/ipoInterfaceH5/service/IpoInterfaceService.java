@@ -4,14 +4,10 @@ import com.google.common.collect.Maps;
 import com.netflix.discovery.converters.Auto;
 import com.stock.capital.enterprise.common.constant.Global;
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseListMapper;
-import com.stock.capital.enterprise.ipoCase.dto.RegTreeDto;
-import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
-import com.stock.capital.enterprise.ipoCase.dto.IndustryCompareRateDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyVo;
-import com.stock.capital.enterprise.ipoCase.dto.IssuerIndustryStatusDto;
-import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
+import com.stock.capital.enterprise.ipoCase.dto.*;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.ipoCase.service.IssueSituationService;
+import com.stock.capital.enterprise.ipoInterfaceH5.dao.IpoInterfaceBizMapper;
 import com.stock.core.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.HashMap;
@@ -36,6 +32,9 @@ public class IpoInterfaceService extends BaseService {
 
   @Autowired
   private IpoCaseListMapper ipoCaseListMapper;
+
+  @Autowired
+  private IpoInterfaceBizMapper ipoInterfaceBizMapper;
 
   /**
    * dxy
@@ -75,5 +74,9 @@ public class IpoInterfaceService extends BaseService {
         result.put("industryCrscList",industryCrscList);
         result.put("verifyResultList",verifyResultList);
         return result;
+    }
+
+    public List<IpoCaseIndexDto> otherIpoCase(IpoCaseIndexDto ipoCaseIndexDto) {
+        return ipoInterfaceBizMapper.otherIpoCase(ipoCaseIndexDto);
     }
 }

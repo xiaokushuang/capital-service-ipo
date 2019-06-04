@@ -1,10 +1,11 @@
 package com.stock.capital.enterprise.ipoInterfaceH5.controller;
 
-import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
+import com.stock.capital.enterprise.ipoCase.controller.IpoCaseOverviewController;
+import com.stock.capital.enterprise.ipoCase.controller.IpoFeedbackController;
+import com.stock.capital.enterprise.ipoCase.controller.IpoProcessController;
+import com.stock.capital.enterprise.ipoCase.dto.*;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.common.constant.Global;
-import com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo;
 import com.stock.capital.enterprise.ipoCase.service.IpoCaseListService;
 import com.stock.capital.enterprise.ipoInterfaceH5.service.IpoInterfaceService;
 import com.stock.core.controller.BaseController;
@@ -36,6 +37,12 @@ public class IpoInterfaceController extends BaseController {
     private IpoInterfaceService ipoInterfaceService;
     @Autowired
     private IpoCaseListService ipoCaseListService;
+    @Autowired
+    private IpoProcessController ipoProcessController;
+    @Autowired
+    private IpoCaseOverviewController ipoCaseOverviewController;
+    @Autowired
+    private IpoFeedbackController ipoFeedbackController;
 
     /**
      * 获取下拉框数据
@@ -88,6 +95,109 @@ public class IpoInterfaceController extends BaseController {
     public JsonResponse<Map> getTechnology(@RequestParam("id") String id) {
         JsonResponse<Map> response = new JsonResponse<>();
         response.setResult(ipoInterfaceService.getIpoTechnology(id));
+        return response;
+    }
+
+    /**
+     *  lixinwei 上市进展
+     * @param id 案例主键
+     * @param sortType
+     * @return
+     */
+    @RequestMapping(value = "/selectProcessList", method = RequestMethod.GET)
+    public JsonResponse<TreeTypeProgressDto> selectProcessList(String id) {
+        return ipoProcessController.selectProcessList(id,"");
+    }
+
+    /**
+     *  lixinwei 最新估值
+     * @param id 案例主键
+     * @param sortType
+     * @return
+     */
+    @RequestMapping(value = "/valuationData", method = RequestMethod.GET)
+    public JsonResponse<List<IpoValuationDto>> valuationData(String id){
+        return ipoCaseOverviewController.valuationData(id);
+    }
+
+    /**
+     *  lixinwei 上市条件、公司信息
+     * @param id 案例主键
+     * @param sortType
+     * @return
+     */
+    @RequestMapping(value = "/caseDetail", method = RequestMethod.GET)
+    public JsonResponse<CompanyOverviewVo> caseDetail(String id) {
+        return ipoCaseOverviewController.caseDetail(id);
+    }
+
+    /**
+     *  lixinwei 主营业务构成
+     * @param id 案例主键
+     * @param sortType
+     * @return
+     */
+    @RequestMapping(value = "/incomeData", method = RequestMethod.GET)
+    public JsonResponse<MainIncomeVo> incomeData(String id) {
+        return ipoCaseOverviewController.incomeData(id);
+    }
+
+    /**
+     *  lixinwei 主营业务构成
+     * @param id 案例主键
+     * @param sortType
+     * @return
+     */
+    @RequestMapping(value = "/shareHolderData", method = RequestMethod.GET)
+    public JsonResponse<List<IpoPersonInfoDto>> shareHolderData(String id) {
+        return ipoCaseOverviewController.shareHolderData(id);
+    }
+
+    /**
+     *  lixinwei 登录其他资本市场
+     * @param id 案例主键
+     * @param sortType
+     * @return
+     */
+    @RequestMapping(value = "/marketData", method = RequestMethod.GET)
+    public JsonResponse<List<OtherMarketInfoDto>> marketData(String id) {
+        return ipoCaseOverviewController.marketData(id);
+    }
+
+    /**
+     *  lixinwei 上交所问询情况
+     * @param id 案例主键
+     * @param sortType
+     * @return
+     */
+    @RequestMapping(value = "/selectNewFeedbackList", method = RequestMethod.GET)
+    public JsonResponse<List<IpoFeedbackDto>> selectNewFeedbackList(String id) {
+        return ipoFeedbackController.selectNewFeedbackList(id);
+    }
+
+    /**
+     *  lixinwei 中介结构
+     * @param id 案例主键
+     * @param validFlag 生效失效
+     * @return
+     */
+    @RequestMapping(value = "/intermediaryOrgData", method = RequestMethod.GET)
+    public JsonResponse<Map<String, List<IntermediaryOrgDto>>> intermediaryOrgData(
+            @RequestParam("id") String id,
+            @RequestParam(value = "validFlag", required = false) String validFlag) {
+        return ipoCaseOverviewController.intermediaryOrgData(id,validFlag);
+    }
+
+    /**
+     *  lixinwei 可能还想看
+     * @param ipoPlate 上市板块
+     * @param industryCsrc 证监会行业
+     * @return
+     */
+    @RequestMapping(value = "/otherIpoCase", method = RequestMethod.GET)
+    public JsonResponse<List<IpoCaseIndexDto>> otherIpoCase(IpoCaseIndexDto ipoCaseIndexDto) {
+        JsonResponse<List<IpoCaseIndexDto>> response = new JsonResponse<>();
+        response.setResult(ipoInterfaceService.otherIpoCase(ipoCaseIndexDto));
         return response;
     }
 
