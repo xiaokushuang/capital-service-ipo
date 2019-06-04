@@ -51,13 +51,13 @@
                                             <span v-if="item.progressType=='07'&&item.iecResult=='01'" :style={background:whtg} class="whtg">未获通过</span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='02'" :style={background:zhbj} class="zhbj">暂缓表决 </span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='03'" :style={background:qxsh} class="qxsh">取消审核</span>
-                                            <span v-if="item.progressType=='07'&&item.iecResult=='04'" :style={background:dsh} class="dsh">待审核</span>
+                                            <span v-if="item.progressType=='07'&&item.iecResult=='04'" :style={background:dsh} class="dsh">待上会</span>
                                             <!-- 科创版 -->
                                             <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='05'" :style={background:tg}  class="tg" >通过</span>
                                             <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='06'" :style={background:wtg} class="wtg">未通过</span>
                                             <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='07'" :style={background:zcsx} class="htg">注册生效 </span>
                                             <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='08'" :style={background:whtg} class="whtg">不予注册</span>
-                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='09'" :style={background:dsh} class="dsh">待审核</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='09'" :style={background:dsh} class="dsh">待上会</span>
                                         </div>
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)" style="cursor: pointer;"
@@ -145,13 +145,13 @@
                                             <span v-if="item.progressType=='07'&&item.iecResult=='01'" :style={background:whtg} class="whtg">未获通过</span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='02'" :style={background:zhbj} class="zhbj">暂缓表决 </span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='03'" :style={background:qxsh} class="qxsh">取消审核</span>
-                                            <span v-if="item.progressType=='07'&&item.iecResult=='04'" :style={background:dsh} class="dsh">待审核</span>
+                                            <span v-if="item.progressType=='07'&&item.iecResult=='04'" :style={background:dsh} class="dsh">待上会</span>
                                              <!-- 科创版 -->
                                             <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='05'" :style={background:tg}  class="tg" >通过</span>
                                             <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='06'" :style={background:wtg} class="wtg">未通过</span>
                                             <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='07'" :style={background:zcsx} class="htg">注册生效 </span>
                                             <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='08'" :style={background:whtg} class="whtg">不予注册</span>
-                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='09'" :style={background:dsh} class="dsh">待审核</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='09'" :style={background:dsh} class="dsh">待上会</span>
                                         </div>
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)" style="cursor: pointer;"

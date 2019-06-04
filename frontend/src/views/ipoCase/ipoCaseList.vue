@@ -495,10 +495,18 @@
                           <span class="whtgResult" v-if="scope.row.iecResult==='01'">未获通过</span>
                           <span class="zhbjResult" v-if="scope.row.iecResult==='02'">暂缓表决</span>
                           <span class="qxshResult" v-if="scope.row.iecResult==='03'">取消审核</span>
-                          <span class="dshResult"  v-if="scope.row.iecResult==='04'">待审核</span>
+                          <span class="dshResult"  v-if="scope.row.iecResult==='04'">待上会</span>
                           <span class="tgResult"  v-if="scope.row.iecResult==='05'">通过</span>
                           <span class="wtgResult" v-if="scope.row.iecResult==='06'">未通过</span>
-                          <span class="dshResult"  v-if="scope.row.iecResult==='09'">待审核</span>
+                          <span class="dshResult"  v-if="scope.row.iecResult==='09'">待上会</span>
+                          <!-- <span class="htgResult"  v-if="scope.row.iecResult==='00'">{{scope.row.iecResultLabel}}</span>
+                          <span class="whtgResult" v-if="scope.row.iecResult==='01'">{{scope.row.iecResultLabel}}</span>
+                          <span class="zhbjResult" v-if="scope.row.iecResult==='02'">{{scope.row.iecResultLabel}}</span>
+                          <span class="qxshResult" v-if="scope.row.iecResult==='03'">{{scope.row.iecResultLabel}}</span>
+                          <span class="dshResult"  v-if="scope.row.iecResult==='04'">{{scope.row.iecResultLabel}}</span>
+                          <span class="tgResult"   v-if="scope.row.iecResult==='05'">{{scope.row.iecResultLabel}}</span>
+                          <span class="wtgResult"  v-if="scope.row.iecResult==='06'">{{scope.row.iecResultLabel}}</span>
+                          <span class="dshResult"  v-if="scope.row.iecResult==='09'">{{scope.row.iecResultLabel}}</span> -->
                         </span>
                       </span>
                     </template>
