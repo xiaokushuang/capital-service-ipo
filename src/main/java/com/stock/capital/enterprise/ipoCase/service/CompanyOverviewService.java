@@ -150,9 +150,9 @@ public class CompanyOverviewService extends BaseService {
         List<IpoTechnologyPatentDto> patent =ipoCaseBizMapper.getCompetitorData(bid);
         int isNotPatentNull = 0;
         for (IpoTechnologyPatentDto dto : patent) {
-            if (dto.getFm() != null && dto.getFm().compareTo(BigDecimal.ZERO)!=0
-                && dto.getSy() != null && dto.getSy().compareTo(BigDecimal.ZERO) != 0
-                && dto.getWg() != null && dto.getWg().compareTo(BigDecimal.ZERO) != 0){
+            if ((dto.getFm() != null && dto.getFm().compareTo(BigDecimal.ZERO)!=0)
+                || (dto.getSy() != null && dto.getSy().compareTo(BigDecimal.ZERO) != 0)
+                || (dto.getWg() != null && dto.getWg().compareTo(BigDecimal.ZERO) != 0)){
                 isNotPatentNull++;
             }
         }
@@ -168,10 +168,10 @@ public class CompanyOverviewService extends BaseService {
         List<IpoTechnologyTableDto> dev = ipoCaseBizMapper.getDevCompute(bid);
         int isNotDevNull = 0;
         for (IpoTechnologyTableDto dto : dev) {
-            if (dto.getFirstYearValue() != null && dto.getFirstYearValue().compareTo(BigDecimal.ZERO)!=0
-                && dto.getSecondYearValue() != null && dto.getSecondYearValue().compareTo(BigDecimal.ZERO) != 0
-                && dto.getThirdYearValue() != null && dto.getThirdYearValue().compareTo(BigDecimal.ZERO) != 0
-                && dto.getForthYearValue() != null && dto.getForthYearValue().compareTo(BigDecimal.ZERO) != 0){
+            if ((dto.getFirstYearValue() != null && dto.getFirstYearValue().compareTo(BigDecimal.ZERO)!=0)
+                || (dto.getSecondYearValue() != null && dto.getSecondYearValue().compareTo(BigDecimal.ZERO) != 0)
+                || (dto.getThirdYearValue() != null && dto.getThirdYearValue().compareTo(BigDecimal.ZERO) != 0)
+                || (dto.getForthYearValue() != null && dto.getForthYearValue().compareTo(BigDecimal.ZERO) != 0)){
                 isNotDevNull++;
             }
         }
@@ -183,10 +183,10 @@ public class CompanyOverviewService extends BaseService {
         List<IpoTechnologyTableDto> core = ipoCaseBizMapper.getCoreCompute(bid);
         int isNotCoreNull = 0;
         for (IpoTechnologyTableDto dto : core) {
-            if (dto.getFirstYearPro() != null && dto.getFirstYearPro().compareTo(BigDecimal.ZERO)!=0
-                && dto.getSecondYearPro() != null && dto.getSecondYearPro().compareTo(BigDecimal.ZERO) != 0
-                && dto.getThirdYearPro() != null && dto.getThirdYearPro().compareTo(BigDecimal.ZERO) != 0
-                && dto.getForthYearPro() != null && dto.getForthYearPro().compareTo(BigDecimal.ZERO) != 0){
+            if ((dto.getFirstYearPro() != null && dto.getFirstYearPro().compareTo(BigDecimal.ZERO)!=0)
+                || (dto.getSecondYearPro() != null && dto.getSecondYearPro().compareTo(BigDecimal.ZERO) != 0)
+                || (dto.getThirdYearPro() != null && dto.getThirdYearPro().compareTo(BigDecimal.ZERO) != 0)
+                || (dto.getForthYearPro() != null && dto.getForthYearPro().compareTo(BigDecimal.ZERO) != 0)){
                 isNotCoreNull++;
             }
         }

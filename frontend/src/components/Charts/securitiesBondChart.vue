@@ -121,6 +121,7 @@ export default {
             募集资金: true,
             发行家数:true
           },
+          padding:[10, 10, 0, 15],
           data: ["募集资金", "发行家数"]
         },
         xAxis: [
