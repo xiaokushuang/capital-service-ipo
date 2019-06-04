@@ -27,6 +27,22 @@ public interface Global {
      * IPO在融资 —— 创业板
      */
     public static final String OPO_BOARD_03 = "03";
+    /**
+     * IPO  -- -- 科创板
+     */
+    public static final String OPO_BOARD_61 = "069001001006";
+    /**
+     *  证监局
+     */
+    public static final String IPO_SFC = "SFC";
+    /**
+     * 证监会行业
+     */
+    public static final String IPO_SFC_INDUSTRY="INDUSTRY_CSRC_2012";
+    /**
+     * 审核状态
+     */
+    public static final String IPO_VERIFY_RESULT = "IPO_VERIFY_RESULT";
 	/**
      * 用户ID
      */
