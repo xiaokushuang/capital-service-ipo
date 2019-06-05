@@ -60,6 +60,8 @@
     ic.company_name,
     ic.company_code,
     ic.issue_condition,
+    (select GROUP_CONCAT(m.label_name) FROM maa_conf_label m where m.label_code = 'IPO_ISSUE_CONDITION'
+    AND m.status = '1' and FIND_IN_SET(m.label_value,ic.issue_condition)) AS issueConditionName,
     (SELECT p.area_name FROM provinces p WHERE p.area_no = ic.addr_prov) AS addr_prov,
     (SELECT p.area_name FROM provinces p WHERE p.area_no = ic.addr_city) AS addr_city,
     (SELECT p.area_name FROM provinces p WHERE p.area_no = ic.addr_area) AS addr_area,

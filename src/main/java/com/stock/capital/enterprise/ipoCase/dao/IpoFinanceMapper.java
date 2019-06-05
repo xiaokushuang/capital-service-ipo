@@ -60,4 +60,9 @@ public interface IpoFinanceMapper {
      * 查询无形资产占净资产比例
      */
     List<IpoItemDto> selectRatio(@Param("id") String id, @Param("date") Date date);
+
+    /**
+     * 查询H5财务信息
+     */
+    List<IpoItemDto> selectFinanceOverListH5(@Param("id") String id, @Param("date") Date date);
 }

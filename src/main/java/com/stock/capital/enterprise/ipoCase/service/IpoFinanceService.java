@@ -1,5 +1,7 @@
 package com.stock.capital.enterprise.ipoCase.service;
 
+import com.google.common.base.Throwables;
+
 import com.stock.capital.enterprise.ipoCase.dao.IpoFinanceMapper;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFinanceDateDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFinanceDto;
@@ -146,16 +148,16 @@ public class IpoFinanceService extends BaseService {
         forthItemList.add(7, sumEquityDto);
         //为前台页面统一展示，将0的数据设置为Null
         for (int i = 0; i < 8; i++) {
-            if(forthItemList.get(i).getForthYearValue().compareTo(BigDecimal.ZERO)==0){
+            if(forthItemList.get(i).getForthYearValue() != null && forthItemList.get(i).getForthYearValue().compareTo(BigDecimal.ZERO)==0){
                 forthItemList.get(i).setForthYearValue(null);
             }
-            if(forthItemList.get(i).getThirdYearValue().compareTo(BigDecimal.ZERO)==0){
+            if(forthItemList.get(i).getThirdYearValue() != null && forthItemList.get(i).getThirdYearValue().compareTo(BigDecimal.ZERO)==0){
                 forthItemList.get(i).setThirdYearValue(null);
             }
-            if(forthItemList.get(i).getSecondYearValue().compareTo(BigDecimal.ZERO)==0){
+            if(forthItemList.get(i).getSecondYearValue() != null && forthItemList.get(i).getSecondYearValue().compareTo(BigDecimal.ZERO)==0){
                 forthItemList.get(i).setSecondYearValue(null);
             }
-            if(forthItemList.get(i).getFirstYearValue().compareTo(BigDecimal.ZERO)==0){
+            if(forthItemList.get(i).getFirstYearValue() != null && forthItemList.get(i).getFirstYearValue().compareTo(BigDecimal.ZERO)==0){
                 forthItemList.get(i).setFirstYearValue(null);
             }
         }
@@ -351,5 +353,114 @@ public class IpoFinanceService extends BaseService {
         List<IpoItemDto> returnItemList = removeNullItem(forthItemList);
         resultDto.setIpoMainIndexList(returnItemList);
         return resultDto;
+    }
+
+
+    /**
+     * 查询H5财务信息
+     */
+    public IpoFinanceDto selectFinanceOverListH5(String id) {
+        IpoFinanceDto resultDto = new IpoFinanceDto();
+        IpoFinanceDateDto dateDto = new IpoFinanceDateDto();
+        //先查询主营业务收入构成里面的时间，确定三年一期时间
+        Date forthYear = ipoFinanceMapper.getForthYear(id);
+        //如果日期为空则说明没有填写主营收入
+        if (forthYear == null) {
+            return new IpoFinanceDto();
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String forthYearStr = sdf.format(forthYear);
+        String year=String.format("%tY", forthYear);
+        String mon=String .format("%tm", forthYear);
+        String day=String .format("%td", forthYear);
+        if(!"12-31".equals(mon+"-"+day)){
+            try {
+                forthYearStr = String.valueOf(Integer.valueOf(year)-1)+"-12-31";
+                forthYear = sdf.parse(forthYearStr);
+            } catch (ParseException e) {
+                logger.error("ipoH5获取最近一年日期转换错误,caused by:{}", Throwables.getStackTraceAsString(e));
+            }
+        }
+        //计算前3年时间
+        Date thirdYear = getLastYearDate(forthYear);
+        Date secondYear = getLastYearDate(thirdYear);
+        Date firstYear = getLastYearDate(secondYear);
+        //存入时间
+        dateDto.setFirstYearDate(getDateStr(firstYear));
+        dateDto.setSecondYearDate(getDateStr(secondYear));
+        dateDto.setThirdYearDate(getDateStr(thirdYear));
+        dateDto.setForthYearDate(getDateStr(forthYear));
+        resultDto.setDateList(dateDto);
+        //根据时间和id查询财务信息，三年一期的 财务总体情况
+        List<IpoItemDto> forthItemList = ipoFinanceMapper.selectFinanceOverListH5(id, forthYear);
+        List<IpoItemDto> thirdItemList = ipoFinanceMapper.selectFinanceOverListH5(id, thirdYear);
+        List<IpoItemDto> secondItemList = ipoFinanceMapper.selectFinanceOverListH5(id, secondYear);
+        List<IpoItemDto> firstItemList = ipoFinanceMapper.selectFinanceOverListH5(id, firstYear);
+        //循环一年的 财务总体情况，因为查询顺序相同，直接用角标合并4年数据
+        for (int i = 0; i < forthItemList.size(); i++) {
+            forthItemList.get(i).setThirdYearValue(thirdItemList.get(i).getForthYearValue());
+            forthItemList.get(i).setSecondYearValue(secondItemList.get(i).getForthYearValue());
+            forthItemList.get(i).setFirstYearValue(firstItemList.get(i).getForthYearValue());
+        }
+        //计算所有者权益合计
+        IpoItemDto sumEquityDto = new IpoItemDto();
+        BigDecimal forthSumEquity = forthItemList.get(2).getForthYearValue().subtract(forthItemList.get(5).getForthYearValue());
+        BigDecimal thirdSumEquity = forthItemList.get(2).getThirdYearValue().subtract(forthItemList.get(5).getThirdYearValue());
+        BigDecimal secondSumEquity = forthItemList.get(2).getSecondYearValue().subtract(forthItemList.get(5).getSecondYearValue());
+        BigDecimal firstSumEquity = forthItemList.get(2).getFirstYearValue().subtract(forthItemList.get(5).getFirstYearValue());
+        sumEquityDto.setItemName("所有者权益合计");
+        sumEquityDto.setForthYearValue(forthSumEquity);
+        sumEquityDto.setThirdYearValue(thirdSumEquity);
+        sumEquityDto.setSecondYearValue(secondSumEquity);
+        sumEquityDto.setFirstYearValue(firstSumEquity);
+        //将所有者权益合计行 放入第3位，前台页面不用排序
+        forthItemList.add(7, sumEquityDto);
+        //为前台页面统一展示，将0的数据设置为Null
+        for (int i = 0; i < forthItemList.size(); i++) {
+            if(forthItemList.get(i).getForthYearValue() != null && forthItemList.get(i).getForthYearValue().compareTo(BigDecimal.ZERO)==0){
+                forthItemList.get(i).setForthYearValue(null);
+            }
+            if(forthItemList.get(i).getThirdYearValue() != null && forthItemList.get(i).getThirdYearValue().compareTo(BigDecimal.ZERO)==0){
+                forthItemList.get(i).setThirdYearValue(null);
+            }
+            if(forthItemList.get(i).getSecondYearValue() != null && forthItemList.get(i).getSecondYearValue().compareTo(BigDecimal.ZERO)==0){
+                forthItemList.get(i).setSecondYearValue(null);
+            }
+            if(forthItemList.get(i).getFirstYearValue() != null && forthItemList.get(i).getFirstYearValue().compareTo(BigDecimal.ZERO)==0){
+                forthItemList.get(i).setFirstYearValue(null);
+            }
+            //计算各个复合增长率
+            double growthRate = getGrowthRate(forthItemList.get(i));
+            forthItemList.get(i).setGrowthRate(growthRate == 0D?null:new BigDecimal(String.valueOf(growthRate)));
+            if("净利润".equals(forthItemList.get(i).getItemName())){
+                IpoItemDto profitGrowthRateItemDto = new IpoItemDto();
+                BigDecimal profitGrowthRate = null;
+                if(!(null == forthItemList.get(i).getForthYearValue() || forthItemList.get(i).getForthYearValue().compareTo(BigDecimal.ZERO) == 0
+                        || null == forthItemList.get(i).getThirdYearValue() || forthItemList.get(i).getThirdYearValue().compareTo(BigDecimal.ZERO)==0) ){
+                    profitGrowthRate = forthItemList.get(i).getForthYearValue().
+                            divide(forthItemList.get(i).getThirdYearValue(),4,BigDecimal.ROUND_HALF_UP).
+                            subtract(new BigDecimal("1")).multiply(new BigDecimal("100"));
+                }
+                profitGrowthRateItemDto.setItemName("净利润增长率");
+                profitGrowthRateItemDto.setForthYearValue(profitGrowthRate);
+                forthItemList.add(profitGrowthRateItemDto);
+            }
+        }
+        //移除财务信息中，三年一期全部为空的项目
+//        List<IpoItemDto> allItemList = removeNullItem(forthItemList);
+        resultDto.setIpoFinanceOverList(forthItemList);
+        return resultDto;
+    }
+
+    //计算复合增长率
+    private double getGrowthRate(IpoItemDto ipoItemDto){
+        if(null != ipoItemDto.getForthYearValue() && null != ipoItemDto.getSecondYearValue()){
+            double rate = Math.pow(ipoItemDto.getForthYearValue().divide(ipoItemDto.getSecondYearValue(),4,BigDecimal.ROUND_HALF_UP).doubleValue(),1.0/3);
+            rate = new BigDecimal((rate - 1D)*100).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
+            return rate;
+        } else {
+            return 0D;
+        }
+
     }
 }

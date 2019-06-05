@@ -81,6 +81,17 @@ public class CompanyOverviewVo implements Serializable {
     @ApiModelProperty("配售机制")
     private String placingMechanism; //配售机制
 
+    @ApiModelProperty("上市条件")
+    private String issueConditionName; //上市条件
+
+    public String getIssueConditionName() {
+        return issueConditionName;
+    }
+
+    public void setIssueConditionName(String issueConditionName) {
+        this.issueConditionName = issueConditionName;
+    }
+
     public String getId() {
         return id;
     }

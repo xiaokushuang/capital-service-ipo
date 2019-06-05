@@ -418,4 +418,210 @@ SELECT
                 HAVING
                     sort IS NOT NULL
     </select>
+
+    <select id="selectFinanceOverListH5" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
+        SELECT
+	t1.COLUMN_COMMENT itemName,
+	round(
+		(
+			CASE
+			WHEN t2.CURR_VAL IS NULL THEN
+				0
+			ELSE
+				t2.curr_val
+			END
+		) / 10000,
+		2
+	) forthYearValue,
+	(
+		CASE t1.column_name
+		WHEN 'SUMLASSET' THEN
+			1
+		WHEN 'SUMNONLASSET' THEN
+			2
+		WHEN 'SUMASSET' THEN
+			3
+		WHEN 'SUMLLIAB' THEN
+			4
+		WHEN 'SUMNONLLIAB' THEN
+			5
+		WHEN 'SUMLIAB' THEN
+			6
+		WHEN 'SUMPARENTEQUITY' THEN
+			7
+		END
+	) sort
+FROM
+	vc_dic_rgbalance_ipo t1
+LEFT JOIN vc_fin_report_base_rgbalance_ipo t2 ON t1.ID = t2.MEASURE_ID
+AND t2.REPORTDATE = #{date}
+AND T2.COMPANY_ID = (
+	SELECT
+		org_code
+	FROM
+		ipo_case
+	WHERE
+		ID = #{id}
+)
+WHERE
+	t1.column_name IN (
+		'SUMLASSET',
+		'SUMNONLASSET',
+		'SUMASSET',
+		'SUMLLIAB',
+		'SUMNONLLIAB',
+		'SUMLIAB',
+		'SUMPARENTEQUITY'
+	)
+UNION
+	SELECT
+		t1.COLUMN_COMMENT itemName,
+		round(
+			(
+				CASE
+				WHEN t2.CURR_VAL IS NULL THEN
+					0
+				ELSE
+					t2.curr_val
+				END
+			) / 10000,
+			2
+		) forthYearValue,
+		(
+			CASE t1.column_name
+			WHEN 'OPERATEREVE' THEN
+				8
+			WHEN 'NETPROFIT' THEN
+				9
+			END
+		) sort
+	FROM
+		vc_dic_rgincome_ipo t1
+	LEFT JOIN vc_fin_report_base_rgincome_ipo t2 ON t1.ID = t2.MEASURE_ID
+	AND t2.REPORTDATE = #{date}
+	AND T2.COMPANY_ID = (
+		SELECT
+			org_code
+		FROM
+			ipo_case
+		WHERE
+			ID = #{id}
+	)
+	WHERE
+		t1.COLUMN_NAME IN ('OPERATEREVE', 'NETPROFIT')
+	HAVING
+		sort IS NOT NULL
+	UNION
+		SELECT
+			t1.COLUMN_COMMENT itemName,
+			round(
+				(
+					CASE
+					WHEN t2.CURR_VAL IS NULL THEN
+						0
+					ELSE
+						t2.curr_val
+					END
+				) / 10000,
+				2
+			) forthYearValue,
+			(
+				CASE t1.column_name
+				WHEN 'NETOPERATECASHFLOW' THEN
+					10
+				WHEN 'NICASHEQUI' THEN
+					11
+				END
+			) sort
+		FROM
+			vc_dic_rgcashflow_ipo t1
+		LEFT JOIN vc_fin_report_base_rgcashflow_ipo t2 ON t1.ID = t2.MEASURE_ID
+		AND t2.REPORTDATE = #{date}
+		AND T2.COMPANY_ID = (
+			SELECT
+				org_code
+			FROM
+				ipo_case
+			WHERE
+				ID = #{id}
+		)
+		WHERE
+			t1.COLUMN_NAME IN (
+				'NETOPERATECASHFLOW',
+				'NICASHEQUI'
+			)
+		HAVING
+			sort IS NOT NULL
+		UNION
+			SELECT
+				t1.COLUMN_COMMENT itemName,
+				t2.CURR_VAL forthYearValue,
+				(
+					CASE t1.column_name
+					WHEN 'XSJLL' THEN
+						12
+					WHEN 'XSMLL' THEN
+						13
+					WHEN 'JCSXJECYS' THEN
+						14
+					WHEN 'ROEJQ' THEN
+						15
+					WHEN 'ZCFZL' THEN
+						16
+					WHEN 'TOAZZL' THEN
+						17
+					END
+				) sort
+			FROM
+				vc_dic_generalfina_ipo t1
+			LEFT JOIN vc_fin_report_base_generalfina_ipo t2 ON t1.ID = t2.MEASURE_ID
+			AND t2.REPORTDATE = #{date}
+			AND T2.COMPANY_ID = (
+				SELECT
+					org_code
+				FROM
+					ipo_case
+				WHERE
+					ID = #{id}
+			)
+			WHERE
+				t1.COLUMN_NAME IN (
+					'XSJLL',
+					'XSMLL',
+					'JCSXJECYS',
+					'ROEJQ',
+					'ZCFZL',
+					'TOAZZL'
+				)
+			HAVING
+				sort IS NOT NULL
+			UNION
+				SELECT
+					t1.COLUMN_COMMENT itemName,
+					t2.CURR_VAL forthYearValue,
+					(
+						CASE t1.column_name
+						WHEN 'BASICEPS' THEN
+							19
+						END
+					) sort
+				FROM
+					vc_dic_rgincome_ipo t1
+				LEFT JOIN vc_fin_report_base_rgincome_ipo t2 ON t1.ID = t2.MEASURE_ID
+				AND t2.REPORTDATE = #{date}
+				AND T2.COMPANY_ID = (
+					SELECT
+						org_code
+					FROM
+						ipo_case
+					WHERE
+						ID = #{id}
+				)
+				WHERE
+					t1.COLUMN_NAME = 'BASICEPS'
+				HAVING
+					sort IS NOT NULL
+				ORDER BY
+					sort
+    </select>
 </mapper>
