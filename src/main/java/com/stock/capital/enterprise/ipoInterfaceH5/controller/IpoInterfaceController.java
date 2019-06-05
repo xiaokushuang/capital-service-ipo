@@ -1,5 +1,7 @@
 package com.stock.capital.enterprise.ipoInterfaceH5.controller;
 
+import com.google.common.base.Throwables;
+import com.google.common.collect.Maps;
 import com.stock.capital.enterprise.ipoCase.controller.IpoCaseOverviewController;
 import com.stock.capital.enterprise.ipoCase.controller.IpoFeedbackController;
 import com.stock.capital.enterprise.ipoCase.controller.IpoProcessController;
@@ -15,14 +17,15 @@ import com.stock.capital.enterprise.ipoCase.dto.MainIncomeVo;
 import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
 import com.stock.capital.enterprise.ipoCase.dto.TreeTypeProgressDto;
-import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
-import com.stock.capital.enterprise.ipoCase.service.IpoCaseListService;
-import com.stock.capital.enterprise.ipoCase.service.IpoFinanceService;
+import com.stock.capital.enterprise.ipoCase.service.*;
 import com.stock.capital.enterprise.ipoInterfaceH5.service.IpoInterfaceService;
 import com.stock.core.controller.BaseController;
 import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.QueryInfo;
 
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,11 +51,143 @@ public class IpoInterfaceController extends BaseController {
     @Autowired
     private IpoCaseListService ipoCaseListService;
     @Autowired
-    private IpoProcessController ipoProcessController;
+    private IpoFeedbackService ipoFeedbackService;
     @Autowired
-    private IpoCaseOverviewController ipoCaseOverviewController;
-    @Autowired
-    private IpoFeedbackController ipoFeedbackController;
+    private IpoProcessService ipoProcessService;
+
+    private static final Logger logger = LoggerFactory.getLogger(IpoInterfaceController.class);
+
+    /**
+     *  IpoH5接口汇总
+     * @param id 案例主键
+     * @return
+     */
+    @RequestMapping(value = "ipoCaseH5")
+    @ResponseBody
+    public Map<String,Object> ipoCaseH5(String id) {
+        Map<String,Object> resultMap = Maps.newHashMap();
+        String ipoPlate = "069001001006";//科创版
+        IpoCaseListBo ipoCaseListBo = new IpoCaseListBo();
+        ipoCaseListBo.setIpoPlate(ipoPlate);
+        //获取科创板IPO数据
+        try {
+            Map<String, Object> ipoCaseList = getIpoCaseList(ipoCaseListBo);
+            resultMap.put("ipoCaseList",ipoCaseList);
+        }catch  (Exception e){
+            resultMap.put("ipoCaseList","0");
+            logger.error("ipoCaseH5获取科创板IPO数据发生错误:{}", Throwables.getStackTraceAsString(e));
+        }
+        //下拉框数据
+        try {
+            Map<String,Object> selectData = querySelectData();
+            resultMap.put("selectData",selectData);
+        }catch  (Exception e){
+            resultMap.put("selectData","0");
+            logger.error("ipoCaseH5获取下拉框数据发生错误:{}", Throwables.getStackTraceAsString(e));
+        }
+        //上市进展
+        try {
+            TreeTypeProgressDto processList = selectProcessList(id);
+            resultMap.put("processList",processList);
+        }catch  (Exception e){
+            resultMap.put("processList","0");
+            logger.error("ipoCaseH5获取上市进展发生错误:{}", Throwables.getStackTraceAsString(e));
+        }
+        //最新估值
+        try {
+            List<IpoValuationDto> valuationData = valuationData(id);
+            resultMap.put("valuationData",valuationData);
+        }catch  (Exception e){
+            resultMap.put("valuationData","0");
+            logger.error("ipoCaseH5获取最新估值发生错误:{}", Throwables.getStackTraceAsString(e));
+        }
+        IpoCaseIndexDto ipoCaseIndex = new IpoCaseIndexDto();
+        //上市条件、公司信息
+        try {
+            CompanyOverviewVo caseDetaild = caseDetail(id);
+            if (caseDetaild != null){
+                ipoCaseIndex.setIndustryCsrc(caseDetaild.getIndustryCsrc());
+            }
+            resultMap.put("caseDetaild",caseDetaild);
+        }catch  (Exception e){
+            resultMap.put("caseDetaild","0");
+            logger.error("ipoCaseH5获取上市条件、公司信息发生错误:{}", Throwables.getStackTraceAsString(e));
+        }
+        //主营业务构成
+        try {
+            MainIncomeVo incomeData = incomeData(id);
+            resultMap.put("incomeData",incomeData);
+        }catch  (Exception e){
+            resultMap.put("incomeData","0");
+            logger.error("ipoCaseH5获取主营业务构成发生错误:{}", Throwables.getStackTraceAsString(e));
+        }
+        //股东信息
+        try {
+            List<IpoPersonInfoDto> shareHolderData = shareHolderData(id);
+            resultMap.put("shareHolderData",shareHolderData);
+        }catch  (Exception e){
+            resultMap.put("shareHolderData","0");
+            logger.error("ipoCaseH5获取股东信息发生错误:{}", Throwables.getStackTraceAsString(e));
+        }
+        //登录其他资本市场
+        try {
+            List<OtherMarketInfoDto> marketData = marketData(id);
+            resultMap.put("marketData",marketData);
+        }catch  (Exception e){
+            resultMap.put("marketData","0");
+            logger.error("ipoCaseH5获取登录其他资本市场发生错误:{}", Throwables.getStackTraceAsString(e));
+        }
+        //上交所问询情况
+        try {
+            List<IpoFeedbackDto> selectNewFeedbackList = selectNewFeedbackList(id);
+            resultMap.put("selectNewFeedbackList",selectNewFeedbackList);
+        }catch  (Exception e){
+            resultMap.put("selectNewFeedbackList","0");
+            logger.error("ipoCaseH5获取上交所问询情况发生错误:{}", Throwables.getStackTraceAsString(e));
+        }
+        //中介结构
+        try {
+            Map<String, List<IntermediaryOrgDto>> intermediaryOrgData = intermediaryOrgData(id,"");
+            resultMap.put("intermediaryOrgData",intermediaryOrgData);
+        }catch  (Exception e){
+            resultMap.put("intermediaryOrgData","0");
+            logger.error("ipoCaseH5获取中介结构发生错误:{}", Throwables.getStackTraceAsString(e));
+        }
+        //可能还想看
+        try {
+            List<IpoCaseIndexDto> otherIpoCase = otherIpoCase(ipoCaseIndex);
+            resultMap.put("otherIpoCase",otherIpoCase);
+        }catch  (Exception e){
+            resultMap.put("otherIpoCase","0");
+            logger.error("ipoCaseH5获取可能还想看发生错误:{}", Throwables.getStackTraceAsString(e));
+        }
+        //行业与技术接口
+        try {
+            JsonResponse<Map> technology = getTechnology(id);
+            resultMap.put("technology",technology);
+        }catch  (Exception e){
+            resultMap.put("technology","0");
+            logger.error("ipoCaseH5获取行业与技术发生错误:{}", Throwables.getStackTraceAsString(e));
+        }
+        //报告期主要供应商及客户情况
+        try {
+            JsonResponse<Map<String, List<SupplierCustomerMainDto>>> supplierCustomerData = supplierCustomerData(id);
+            resultMap.put("supplierCustomerData",supplierCustomerData);
+        }catch  (Exception e){
+            resultMap.put("supplierCustomerData","0");
+            logger.error("ipoCaseH5获取报告期主要供应商及客户情况发生错误:{}", Throwables.getStackTraceAsString(e));
+        }
+        //发行人财务数据
+        try {
+            JsonResponse<IpoFinanceDto> financeOverListH5 = selectFinanceOverListH5(id);
+            resultMap.put("financeOverListH5",financeOverListH5);
+        }catch  (Exception e){
+            resultMap.put("financeOverListH5","0");
+            logger.error("ipoCaseH5获取发行人财务数据发生错误:{}", Throwables.getStackTraceAsString(e));
+        }
+        return resultMap;
+
+    }
 
     /**
      * GK 报告期主要供应商及客户情况
@@ -137,8 +272,9 @@ public class IpoInterfaceController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/selectProcessList", method = RequestMethod.GET)
-    public JsonResponse<TreeTypeProgressDto> selectProcessList(String id) {
-        return ipoProcessController.selectProcessList(id,"");
+    public TreeTypeProgressDto selectProcessList(String id) {
+        TreeTypeProgressDto resultList = ipoProcessService.selectProcessList(id, "02");
+        return resultList;
     }
 
     /**
@@ -148,8 +284,8 @@ public class IpoInterfaceController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/valuationData", method = RequestMethod.GET)
-    public JsonResponse<List<IpoValuationDto>> valuationData(String id){
-        return ipoCaseOverviewController.valuationData(id);
+    public List<IpoValuationDto> valuationData(String id){
+        return companyOverviewService.getVluationData(id);
     }
 
     /**
@@ -159,8 +295,8 @@ public class IpoInterfaceController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/caseDetail", method = RequestMethod.GET)
-    public JsonResponse<CompanyOverviewVo> caseDetail(String id) {
-        return ipoCaseOverviewController.caseDetail(id);
+    public CompanyOverviewVo caseDetail(String id) {
+        return companyOverviewService.getIpoCaseDetail(id);
     }
 
     /**
@@ -170,19 +306,19 @@ public class IpoInterfaceController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/incomeData", method = RequestMethod.GET)
-    public JsonResponse<MainIncomeVo> incomeData(String id) {
-        return ipoCaseOverviewController.incomeData(id);
+    public MainIncomeVo incomeData(String id) {
+        return companyOverviewService.getIncomeData(id);
     }
 
     /**
-     *  lixinwei 主营业务构成
+     *  lixinwei 股东信息
      * @param id 案例主键
      * @param sortType
      * @return
      */
     @RequestMapping(value = "/shareHolderData", method = RequestMethod.GET)
-    public JsonResponse<List<IpoPersonInfoDto>> shareHolderData(String id) {
-        return ipoCaseOverviewController.shareHolderData(id);
+    public List<IpoPersonInfoDto> shareHolderData(String id) {
+        return companyOverviewService.getShareData(id);
     }
 
     /**
@@ -192,8 +328,8 @@ public class IpoInterfaceController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/marketData", method = RequestMethod.GET)
-    public JsonResponse<List<OtherMarketInfoDto>> marketData(String id) {
-        return ipoCaseOverviewController.marketData(id);
+    public List<OtherMarketInfoDto> marketData(String id) {
+        return companyOverviewService.getMarketData(id);
     }
 
     /**
@@ -203,8 +339,8 @@ public class IpoInterfaceController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/selectNewFeedbackList", method = RequestMethod.GET)
-    public JsonResponse<List<IpoFeedbackDto>> selectNewFeedbackList(String id) {
-        return ipoFeedbackController.selectNewFeedbackList(id);
+    public List<IpoFeedbackDto> selectNewFeedbackList(String id) {
+        return ipoFeedbackService.selectNewFeedbackList(id);
     }
 
     /**
@@ -214,10 +350,10 @@ public class IpoInterfaceController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/intermediaryOrgData", method = RequestMethod.GET)
-    public JsonResponse<Map<String, List<IntermediaryOrgDto>>> intermediaryOrgData(
+    public Map<String, List<IntermediaryOrgDto>> intermediaryOrgData(
             @RequestParam("id") String id,
             @RequestParam(value = "validFlag", required = false) String validFlag) {
-        return ipoCaseOverviewController.intermediaryOrgData(id,validFlag);
+        return companyOverviewService.getIntermediaryOrgData(id,validFlag);
     }
 
     /**
@@ -227,10 +363,8 @@ public class IpoInterfaceController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/otherIpoCase", method = RequestMethod.GET)
-    public JsonResponse<List<IpoCaseIndexDto>> otherIpoCase(IpoCaseIndexDto ipoCaseIndexDto) {
-        JsonResponse<List<IpoCaseIndexDto>> response = new JsonResponse<>();
-        response.setResult(ipoInterfaceService.otherIpoCase(ipoCaseIndexDto));
-        return response;
+    public List<IpoCaseIndexDto> otherIpoCase(IpoCaseIndexDto ipoCaseIndexDto) {
+        return ipoInterfaceService.otherIpoCase(ipoCaseIndexDto);
     }
 
 }
