@@ -71,7 +71,7 @@ public class IpoInterfaceController extends BaseController {
         IpoCaseListBo ipoCaseListBo = new IpoCaseListBo();
         ipoCaseListBo.setIpoPlate(ipoPlate);
         //获取科创板IPO数据
-        try {
+        /*try {
             Map<String, Object> ipoCaseList = getIpoCaseList(ipoCaseListBo);
             resultMap.put("ipoCaseList",ipoCaseList);
         }catch  (Exception e){
@@ -85,7 +85,7 @@ public class IpoInterfaceController extends BaseController {
         }catch  (Exception e){
             resultMap.put("selectData","0");
             logger.error("ipoCaseH5获取下拉框数据发生错误:{}", Throwables.getStackTraceAsString(e));
-        }
+        }*/
         //上市进展
         try {
             TreeTypeProgressDto processList = selectProcessList(id);
