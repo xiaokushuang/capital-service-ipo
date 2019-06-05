@@ -65,7 +65,6 @@ public class IpoInterfaceController extends BaseController {
     @RequestMapping(value = "ipoCaseH5")
     @ResponseBody
     public Map<String,Object> ipoCaseH5(String id) {
-        logger.info("#######【ipoCaseH5接口数据查询开始###########");
         Map<String,Object> resultMap = Maps.newHashMap();
         String ipoPlate = "069001001006";//科创版
         IpoCaseListBo ipoCaseListBo = new IpoCaseListBo();
@@ -186,7 +185,6 @@ public class IpoInterfaceController extends BaseController {
             resultMap.put("financeOverListH5","0");
             logger.error("ipoCaseH5获取发行人财务数据发生错误:{}", Throwables.getStackTraceAsString(e));
         }
-        logger.info("#######【ipoCaseH5接口数据查询结束###########");
         return resultMap;
 
     }
