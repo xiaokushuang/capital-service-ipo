@@ -432,6 +432,19 @@ public class IpoFinanceService extends BaseService {
             //计算各个复合增长率
             double growthRate = getGrowthRate(forthItemList.get(i));
             forthItemList.get(i).setGrowthRate(growthRate == 0D?null:new BigDecimal(String.valueOf(growthRate)));
+            if("净利润".equals(forthItemList.get(i).getItemName())){
+                IpoItemDto profitGrowthRateItemDto = new IpoItemDto();
+                BigDecimal profitGrowthRate = null;
+                if(!(null == forthItemList.get(i).getForthYearValue() || forthItemList.get(i).getForthYearValue().compareTo(BigDecimal.ZERO) == 0
+                        || null == forthItemList.get(i).getThirdYearValue() || forthItemList.get(i).getThirdYearValue().compareTo(BigDecimal.ZERO)==0) ){
+                    profitGrowthRate = forthItemList.get(i).getForthYearValue().
+                            divide(forthItemList.get(i).getThirdYearValue(),4,BigDecimal.ROUND_HALF_UP).
+                            subtract(new BigDecimal("1")).multiply(new BigDecimal("100"));
+                }
+                profitGrowthRateItemDto.setItemName("净利润增长率");
+                profitGrowthRateItemDto.setForthYearValue(profitGrowthRate);
+                forthItemList.add(profitGrowthRateItemDto);
+            }
         }
         //移除财务信息中，三年一期全部为空的项目
 //        List<IpoItemDto> allItemList = removeNullItem(forthItemList);

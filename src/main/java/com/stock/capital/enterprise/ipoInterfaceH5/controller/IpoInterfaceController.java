@@ -45,6 +45,14 @@ public class IpoInterfaceController extends BaseController {
     private CompanyOverviewService companyOverviewService;
     @Autowired
     private IpoFinanceService ipoFinanceService;
+    @Autowired
+    private IpoCaseListService ipoCaseListService;
+    @Autowired
+    private IpoProcessController ipoProcessController;
+    @Autowired
+    private IpoCaseOverviewController ipoCaseOverviewController;
+    @Autowired
+    private IpoFeedbackController ipoFeedbackController;
 
     /**
      * GK 报告期主要供应商及客户情况
@@ -60,21 +68,13 @@ public class IpoInterfaceController extends BaseController {
     /**
      * GK 发行人财务数据
      */
-    @RequestMapping(value = "/supplierCustomerData", method = RequestMethod.GET)
+    @RequestMapping(value = "/selectFinanceOverListH5", method = RequestMethod.GET)
     public JsonResponse<IpoFinanceDto> selectFinanceOverListH5(
             @RequestParam("id") String id) {
         JsonResponse<IpoFinanceDto> response = new JsonResponse<>();
         response.setResult(ipoFinanceService.selectFinanceOverListH5(id));
         return response;
     }
-    @Autowired
-    private IpoCaseListService ipoCaseListService;
-    @Autowired
-    private IpoProcessController ipoProcessController;
-    @Autowired
-    private IpoCaseOverviewController ipoCaseOverviewController;
-    @Autowired
-    private IpoFeedbackController ipoFeedbackController;
 
     /**
      * 获取下拉框数据
