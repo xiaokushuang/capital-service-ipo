@@ -20,12 +20,12 @@
                                 <span class="whtgResult" v-if="baseList[0].iecResult=='01'">未获通过</span>
                                 <span class="zhbjResult" v-if="baseList[0].iecResult=='02'">暂缓表决</span>
                                 <span class="qxshResult" v-if="baseList[0].iecResult=='03'">取消审核</span>
-                                <span class="dshResult"  v-if="baseList[0].iecResult=='04'">待审核</span>
+                                <span class="dshResult"  v-if="baseList[0].iecResult=='04'">待上会</span>
                                 <span class="tgResult"   v-if="baseList[0].iecResult=='05'">通过</span>
                                 <span class="wtgResult"  v-if="baseList[0].iecResult=='06'">未通过</span>
                                 <span class="htgResult"  v-if="baseList[0].iecResult=='07'">注册生效</span>
                                 <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
-                                <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待审核</span>
+                                <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待上会</span>
                             </span>
                         </p>
                     </div>
@@ -71,12 +71,12 @@
                                 <span class="whtgResult" v-if="baseList[0].iecResult=='01'">未获通过</span>
                                 <span class="zhbjResult" v-if="baseList[0].iecResult=='02'">暂缓表决</span>
                                 <span class="qxshResult" v-if="baseList[0].iecResult=='03'">取消审核</span>
-                                <span class="dshResult"  v-if="baseList[0].iecResult=='04'">待审核</span>
+                                <span class="dshResult"  v-if="baseList[0].iecResult=='04'">待上会</span>
                                 <span class="tgResult"   v-if="baseList[0].iecResult=='05'">通过</span>
                                 <span class="wtgResult" v-if="baseList[0].iecResult=='06'">未通过</span>
                                 <span class="htgResult"  v-if="baseList[0].iecResult=='07'">注册生效</span>
                                 <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
-                                <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待审核</span>
+                                <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待上会</span>
                             </span>
                             <!-- <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span> -->
                         </p>
@@ -121,12 +121,12 @@
                                 <span class="whtgResult" v-if="baseList[1].iecResult=='01'">未获通过</span>
                                 <span class="zhbjResult" v-if="baseList[1].iecResult=='02'">暂缓表决</span>
                                 <span class="qxshResult" v-if="baseList[1].iecResult=='03'">取消审核</span>
-                                <span class="dshResult"  v-if="baseList[1].iecResult=='04'">待审核</span>
+                                <span class="dshResult"  v-if="baseList[1].iecResult=='04'">待上会</span>
                                 <span class="tgResult"  v-if="baseList[1].iecResult=='05'">通过</span>
                                 <span class="wtgResult" v-if="baseList[1].iecResult=='06'">未通过</span>
                                 <span class="htgResult"  v-if="baseList[1].iecResult=='07'">注册生效</span>
                                 <span class="whtgResult" v-if="baseList[1].iecResult=='08'">不予注册</span>
-                                <span class="dshResult"  v-if="baseList[1].iecResult=='09'">待审核</span>
+                                <span class="dshResult"  v-if="baseList[1].iecResult=='09'">待上会</span>
                             </span>
                             <!-- <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03','dshResult' : baseList[1].iecResult == '04'}">{{ baseList[1].iecResultStr}}</span> -->
                         </p>
@@ -173,12 +173,12 @@
                                 <span class="whtgResult" v-if="baseList[0].iecResult=='01'">未获通过</span>
                                 <span class="zhbjResult" v-if="baseList[0].iecResult=='02'">暂缓表决</span>
                                 <span class="qxshResult" v-if="baseList[0].iecResult=='03'">取消审核</span>
-                                <span class="dshResult"  v-if="baseList[0].iecResult=='04'">待审核</span>
+                                <span class="dshResult"  v-if="baseList[0].iecResult=='04'">待上会</span>
                                 <span class="tgResult"  v-if="baseList[0].iecResult=='05'">通过</span>
                                 <span class="wtgResult" v-if="baseList[0].iecResult=='06'">未通过</span>
                                 <span class="htgResult"  v-if="baseList[0].iecResult=='07'">注册生效</span>
                                 <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
-                                <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待审核</span>
+                                <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待上会</span>
                             </span>
                             <!-- <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span> -->
                         </p>
@@ -223,12 +223,12 @@
                                 <span class="whtgResult" v-if="baseList[1].iecResult=='01'">未获通过</span>
                                 <span class="zhbjResult" v-if="baseList[1].iecResult=='02'">暂缓表决</span>
                                 <span class="qxshResult" v-if="baseList[1].iecResult=='03'">取消审核</span>
-                                <span class="dshResult"  v-if="baseList[1].iecResult=='04'">待审核</span>
+                                <span class="dshResult"  v-if="baseList[1].iecResult=='04'">待上会</span>
                                 <span class="tgResult"  v-if="baseList[1].iecResult=='05'">通过</span>
                                 <span class="wtgResult" v-if="baseList[1].iecResult=='06'">未通过</span>
                                 <span class="htgResult"  v-if="baseList[1].iecResult=='07'">注册生效</span>
                                 <span class="whtgResult" v-if="baseList[1].iecResult=='08'">不予注册</span>
-                                <span class="dshResult"  v-if="baseList[1].iecResult=='09'">待审核</span>
+                                <span class="dshResult"  v-if="baseList[1].iecResult=='09'">待上会</span>
                             </span>
                             <!-- <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03','dshResult' : baseList[1].iecResult == '04'}">{{ baseList[1].iecResultStr}}</span> -->
                         </p>
@@ -273,12 +273,12 @@
                                 <span class="whtgResult" v-if="baseList[2].iecResult=='01'">未获通过</span>
                                 <span class="zhbjResult" v-if="baseList[2].iecResult=='02'">暂缓表决</span>
                                 <span class="qxshResult" v-if="baseList[2].iecResult=='03'">取消审核</span>
-                                <span class="dshResult"  v-if="baseList[2].iecResult=='04'">待审核</span>
+                                <span class="dshResult"  v-if="baseList[2].iecResult=='04'">待上会</span>
                                 <span class="tgResult"  v-if="baseList[2].iecResult=='05'">通过</span>
                                 <span class="wtgResult" v-if="baseList[2].iecResult=='06'">未通过</span>
                                 <span class="htgResult"  v-if="baseList[2].iecResult=='07'">注册生效</span>
                                 <span class="whtgResult" v-if="baseList[2].iecResult=='08'">不予注册</span>
-                                <span class="dshResult"  v-if="baseList[2].iecResult=='09'">待审核</span>
+                                <span class="dshResult"  v-if="baseList[2].iecResult=='09'">待上会</span>
                             </span>
                             <!-- <span  :class="{'htgResult' : baseList[2].iecResult == '00','whtgResult' : baseList[2].iecResult == '01','zhbjResult' : baseList[2].iecResult == '02','qxshResult' : baseList[2].iecResult == '03','dshResult' : baseList[2].iecResult == '04'}">{{ baseList[2].iecResultStr}}</span> -->
                         </p>
