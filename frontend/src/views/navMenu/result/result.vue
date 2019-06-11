@@ -307,19 +307,19 @@
                     </el-dialog>
                 </li>
             </ul>
-        </div> 
+        </div>
        <!-- 筛选问题列表 -->
          <div v-if="tabList&&tabList.length>0&&tabList[0].questionList&&tabList[0].questionList.length>0" class="title">
                 <span class="littleRectangle"></span>
-                <span v-if="companyProfileList.headList.isTechBoard==1" class="titleText" id="result">上市会关注问题</span>
-                <span v-if="companyProfileList.headList.isTechBoard==0" class="titleText" id="result">发审会关注问题</span>
+                <span v-if="companyProfileList.headList.isTechBoard==1" class="titleText" id="result">上市委会议关注问题</span>
+                <span v-if="companyProfileList.headList.isTechBoard==0" class="titleText" id="result">发审委会议关注问题</span>
          </div>
          <div class="feedback" id="componentId">
             <div class="label">
                     <!-- 导入的组件 -->
                     <!-- 只有一级标签 -->
             <div v-if="tabList&&tabList.length==1&&tabList[0].questionList&&tabList[0].questionList.length>0">
-              <div  v-if="tabList&&tabList.length==1" class="clear"> 
+              <div  v-if="tabList&&tabList.length==1" class="clear">
                 <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[0].questionLabelList,checkbox:feedbackduoxuanList,answerCount:answerCount,questionCount:questionCount,questionList:questionList,o_letterId:this.o_letterId,showMore:showMore,allQuestionList:allQuestionList}></singleAndMultiple>
               </div>
             </div>
@@ -595,7 +595,7 @@ export default {
       }
     },
     //   初始化所有数据
-    initTableData() { 
+    initTableData() {
     // 动态传id
         const param = {
             id:this.caseId,
@@ -1425,7 +1425,7 @@ export default {
       this.o_letterId = tab.name;
     },
     // 初始化委员数据
-    initMemberData(examineDate) { 
+    initMemberData(examineDate) {
     // 动态传id
         const param = {
             id:this.caseId,
@@ -1434,7 +1434,7 @@ export default {
         geSelectMemberList(param).then(res => {
             if(res.data.result&&res.data.result.length>0){
                 this.memberList = res.data.result
-                
+
             }
         })
     },
