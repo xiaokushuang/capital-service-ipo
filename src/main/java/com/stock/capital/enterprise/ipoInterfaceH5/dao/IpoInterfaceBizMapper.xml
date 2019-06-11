@@ -15,7 +15,9 @@
     </select>
 
     <select id="ipoCompanyRank" parameterType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto" resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto">
-        SELECT t.id AS id,
+        SELECT (SELECT COUNT(m.id) FROM ipo_h5 m)AS ipoCompanyCount,
+        (SELECT COUNT(m.id) FROM sa_company m WHERE m.belongs_plate = '02' AND m.ipo_flag = '1' AND m.liststate = '0') AS saCompanyCount,
+        t.id AS id,
         t.bid AS bid,
         t.research AS research,
         t.research_ranking AS researchRanking,

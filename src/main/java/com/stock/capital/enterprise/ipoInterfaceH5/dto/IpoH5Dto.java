@@ -36,6 +36,24 @@ public class IpoH5Dto implements Serializable {
     private String researchPeoCore;//核心研发
     private String companyPeo;//公司总员工
     private String orgCode;
+    private String ipoCompanyCount;//ipo库中科创板公司总数
+    private String saCompanyCount;//sa_company中创业板公司总数
+
+    public String getIpoCompanyCount() {
+        return ipoCompanyCount;
+    }
+
+    public void setIpoCompanyCount(String ipoCompanyCount) {
+        this.ipoCompanyCount = ipoCompanyCount;
+    }
+
+    public String getSaCompanyCount() {
+        return saCompanyCount;
+    }
+
+    public void setSaCompanyCount(String saCompanyCount) {
+        this.saCompanyCount = saCompanyCount;
+    }
 
     public String getOrgCode() {
         return orgCode;
