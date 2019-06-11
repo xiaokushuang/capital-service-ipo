@@ -8,6 +8,8 @@ import com.stock.capital.enterprise.ipoCase.dto.*;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.ipoCase.service.IssueSituationService;
 import com.stock.capital.enterprise.ipoInterfaceH5.dao.IpoInterfaceBizMapper;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5DetailDto;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto;
 import com.stock.core.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.HashMap;
@@ -78,5 +80,23 @@ public class IpoInterfaceService extends BaseService {
 
     public List<IpoCaseIndexDto> otherIpoCase(IpoCaseIndexDto ipoCaseIndexDto) {
         return ipoInterfaceBizMapper.otherIpoCase(ipoCaseIndexDto);
+    }
+
+    /**
+     *  必传：bid 案例主键
+     * @param ipoH5Dto
+     * @return
+     */
+    public IpoH5Dto ipoCompanyRank(IpoH5Dto ipoH5Dto) {
+        return ipoInterfaceBizMapper.ipoCompanyRank(ipoH5Dto);
+    }
+
+    /**
+     *  必传：orgCode 公司code，columnComment 指标类型（具体有："经营活动产生的现金流量净额","现金及现金等价物净增加额","流动资产/总资产","非流动资产/总资产","流动负债/负债合计","非流动负债/负债合计","营业收入","净利润","销售净利率,","销售毛利率"）
+     * @param ipoH5DetailDto
+     * @return
+     */
+    public List<IpoH5DetailDto> ipoAvg(IpoH5DetailDto ipoH5DetailDto) {
+        return ipoInterfaceBizMapper.ipoAvg(ipoH5DetailDto);
     }
 }
