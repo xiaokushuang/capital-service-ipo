@@ -11,6 +11,8 @@ import com.stock.capital.enterprise.ipoInterfaceH5.dao.IpoInterfaceBizMapper;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5DetailDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto;
 import com.stock.core.service.BaseService;
+import java.util.ArrayList;
+import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.HashMap;
 import java.util.List;
@@ -49,13 +51,23 @@ public class IpoInterfaceService extends BaseService {
 //    CompanyOverviewVo companyOverviewVo = companyOverviewService.getIpoCaseDetail(id); // 顶部地位备注
     List<IssuerIndustryStatusDto> industryStatusDtoList = companyOverviewService.getindustryStatusData(id);//发行人的行业地位接口
     List<MainCompetitorInfoDto> mainCompetitorInfoDtoList = companyOverviewService.getCompetitorData(id); // 主要竞争对手
-    IpoTechnologyVo ipoTechnologyVo = companyOverviewService.getPatentData(id); // 科技创新
+    IpoTechnologyVo ipoTechnologyVo = companyOverviewService.getPatentData(id); // 研发投入 核心技术与研发技术人员
     List<IndustryCompareRateDto> industryCompareRateDtos = issueSituationService.getIndustryRateData(id);// 同行业上市公司综合毛利率接口
+    // 新增一个数组, 把年份排序放入
+    List yearList = new ArrayList();
+    for (IndustryCompareRateDto compareRateDto : industryCompareRateDtos) {
+      yearList.add(compareRateDto.getFirstYear());
+      yearList.add(compareRateDto.getSecondYear());
+      yearList.add(compareRateDto.getThirdYear());
+    }
+    Collections.sort(yearList);
+
 //    result.put("companyInfo", companyOverviewVo);
     result.put("industryStatusInfo", industryStatusDtoList);
     result.put("mainCompetitorInfo", mainCompetitorInfoDtoList);
     result.put("technologyInfo", ipoTechnologyVo);
     result.put("industryCompareRateInfo", industryCompareRateDtos);
+    result.put("sortYear", yearList);
     return result;
   }
 
