@@ -9,6 +9,7 @@ import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoFinanceDateDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFinanceDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoItemDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
@@ -28,7 +29,10 @@ import com.stock.capital.enterprise.ipoCase.service.IpoCaseListService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFinanceService;
 import com.stock.capital.enterprise.ipoCase.service.IpoProcessService;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoFinanceH5Dto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5FinanceListDto;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5FinanceResultDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.service.IpoInterfaceService;
 import com.stock.core.controller.BaseController;
 import com.stock.core.dto.QueryInfo;
@@ -470,32 +474,80 @@ public class IpoInterfaceController extends BaseController {
         }
         //发行人财务数据
         try {
-            IpoFinanceDto financeOverListH5 = selectFinanceOverListH5(id);
-            List<IpoItemDto> incomeList = financeOverListH5.getIpoReturnOverList();
+            IpoH5FinanceResultDto financeOverListH5 = selectFinanceOverListH5(id);
+            List<IpoFinanceH5Dto> incomeList = financeOverListH5.getIncomeList();
             if(CollectionUtils.isNotEmpty(incomeList)){
                 dataMap = new HashMap<>();
-                dataMap.put("paramName", "营业收入与毛利润");
+                dataMap.put("paramName", "营业收入");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(incomeList));
                 resultMap.put("incomeList", dataMap);
             }else{
                 dataMap = new HashMap<>();
-                dataMap.put("paramName", "营业收入与毛利润");
+                dataMap.put("paramName", "营业收入");
                 dataMap.put("paramData", "0");
                 resultMap.put("incomeList", dataMap);
             }
-            List<IpoItemDto> profitList = financeOverListH5.getIpoProfitItemList();
+            List<IpoFinanceH5Dto> grossList = financeOverListH5.getGrossList();
+            if(CollectionUtils.isNotEmpty(grossList)){
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "毛利润");
+                dataMap.put("paramData", JsonUtil.toJsonNoNull(incomeList));
+                resultMap.put("grossList", dataMap);
+            }else{
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "毛利润");
+                dataMap.put("paramData", "0");
+                resultMap.put("grossList", dataMap);
+            }
+            IpoFinanceH5Dto incomeRate = financeOverListH5.getIncomeRate();
+            if(null != incomeRate){
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "营业收入复合增长率");
+                dataMap.put("paramData", JsonUtil.toJsonNoNull(incomeRate));
+                resultMap.put("incomeRate", dataMap);
+            }else{
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "营业收入复合增长率");
+                dataMap.put("paramData", "0");
+                resultMap.put("incomeRate", dataMap);
+            }
+            List<IpoFinanceH5Dto> profitList = financeOverListH5.getProfitList();
             if(CollectionUtils.isNotEmpty(profitList)){
                 dataMap = new HashMap<>();
-                dataMap.put("paramName", "净利润与净利润率");
+                dataMap.put("paramName", "净利润");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(profitList));
                 resultMap.put("profitList", dataMap);
             }else{
                 dataMap = new HashMap<>();
-                dataMap.put("paramName", "净利润与净利润率");
+                dataMap.put("paramName", "净利润");
                 dataMap.put("paramData", "0");
                 resultMap.put("profitList", dataMap);
             }
-            List<IpoItemDto> indexList = financeOverListH5.getIpoMainIndexList();
+            List<IpoFinanceH5Dto> profitRateList = financeOverListH5.getProfitRateList();
+            if(CollectionUtils.isNotEmpty(profitRateList)){
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "净利润率");
+                dataMap.put("paramData", JsonUtil.toJsonNoNull(profitRateList));
+                resultMap.put("profitRateList", dataMap);
+            }else{
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "净利润率");
+                dataMap.put("paramData", "0");
+                resultMap.put("profitRateList", dataMap);
+            }
+            IpoFinanceH5Dto profitRate = financeOverListH5.getProfitRate();
+            if(null != profitRate){
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "净利润复合增长率");
+                dataMap.put("paramData", JsonUtil.toJsonNoNull(profitRate));
+                resultMap.put("profitRate", dataMap);
+            }else{
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "净利润复合增长率");
+                dataMap.put("paramData", "0");
+                resultMap.put("profitRate", dataMap);
+            }
+            List<IpoFinanceH5Dto> indexList = financeOverListH5.getMainIndexList();
             if(CollectionUtils.isNotEmpty(indexList)){
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "财务比率");
@@ -507,7 +559,7 @@ public class IpoInterfaceController extends BaseController {
                 dataMap.put("paramData", "0");
                 resultMap.put("indexList", dataMap);
             }
-            List<IpoItemDto> debtList = financeOverListH5.getIpoDebtItemList();
+            List<IpoH5FinanceListDto> debtList = financeOverListH5.getDebtList();
             if(CollectionUtils.isNotEmpty(debtList)){
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "资产负债情况");
@@ -519,39 +571,98 @@ public class IpoInterfaceController extends BaseController {
                 dataMap.put("paramData", "0");
                 resultMap.put("debtList", dataMap);
             }
-            List<IpoItemDto> cashFlowList =financeOverListH5.getIpoFinanceOverList();
+            List<IpoFinanceH5Dto> cashFlowList =financeOverListH5.getCashFlowList();
             if(CollectionUtils.isNotEmpty(cashFlowList)){
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "现金流量情况");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(cashFlowList));
-                resultMap.put("debtList", dataMap);
+                resultMap.put("cashFlowList", dataMap);
             }else{
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "现金流量情况");
                 dataMap.put("paramData", "0");
                 resultMap.put("cashFlowList", dataMap);
             }
-            List<IpoItemDto> cashList = financeOverListH5.getIpoAssetItemList();
+            IpoFinanceH5Dto cashFlowRate = financeOverListH5.getCashFlowRate();
+            if(null != cashFlowRate){
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "现金流量复合增长率");
+                dataMap.put("paramData", JsonUtil.toJsonNoNull(cashFlowRate));
+                resultMap.put("cashFlowRate", dataMap);
+            }else{
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "现金流量复合增长率");
+                dataMap.put("paramData", "0");
+                resultMap.put("cashFlowRate", dataMap);
+            }
+            List<IpoFinanceH5Dto> cashList = financeOverListH5.getCashList();
             if(CollectionUtils.isNotEmpty(cashList)){
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "现金及现金等价物净增加额");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(cashList));
-                resultMap.put("debtList", dataMap);
+                resultMap.put("cashList", dataMap);
             }else{
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "现金及现金等价物净增加额");
                 dataMap.put("paramData", "0");
                 resultMap.put("cashList", dataMap);
             }
+            IpoFinanceH5Dto cashRate = financeOverListH5.getCashRate();
+            if(null != cashRate){
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "现金及现金等价物净增加额复合增长率");
+                dataMap.put("paramData", JsonUtil.toJsonNoNull(cashRate));
+                resultMap.put("cashRate", dataMap);
+            }else{
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "现金及现金等价物净增加额复合增长率");
+                dataMap.put("paramData", "0");
+                resultMap.put("cashRate", dataMap);
+            }
+            IpoFinanceH5Dto sumAssetRate = financeOverListH5.getSumAssetRate();
+            if(null != sumAssetRate){
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "总资产复合增长率");
+                dataMap.put("paramData", JsonUtil.toJsonNoNull(sumAssetRate));
+                resultMap.put("sumAssetRate", dataMap);
+            }else{
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "总资产复合增长率");
+                dataMap.put("paramData", "0");
+                resultMap.put("sumAssetRate", dataMap);
+            }
+            IpoFinanceDateDto dateDto = financeOverListH5.getDateList();
+            if(null != dateDto){
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "统计日期");
+                dataMap.put("paramData", JsonUtil.toJsonNoNull(dateDto));
+                resultMap.put("dateDto", dataMap);
+            }
         } catch (Exception e) {
             dataMap = new HashMap<>();
-            dataMap.put("paramName", "营业收入与毛利润");
+            dataMap.put("paramName", "营业收入");
             dataMap.put("paramData", "0");
             resultMap.put("incomeList", dataMap);
             dataMap = new HashMap<>();
-            dataMap.put("paramName", "净利润与净利润率");
+            dataMap.put("paramName", "毛利润");
+            dataMap.put("paramData", "0");
+            resultMap.put("grossList", dataMap);
+            dataMap = new HashMap<>();
+            dataMap.put("paramName", "营业收入复合增长率");
+            dataMap.put("paramData", "0");
+            resultMap.put("incomeRate", dataMap);
+            dataMap = new HashMap<>();
+            dataMap.put("paramName", "净利润");
             dataMap.put("paramData", "0");
             resultMap.put("profitList", dataMap);
+            dataMap = new HashMap<>();
+            dataMap.put("paramName", "净利润率");
+            dataMap.put("paramData", "0");
+            resultMap.put("profitRateList", dataMap);
+            dataMap = new HashMap<>();
+            dataMap.put("paramName", "净利润复合增长率");
+            dataMap.put("paramData", "0");
+            resultMap.put("profitRate", dataMap);
             dataMap = new HashMap<>();
             dataMap.put("paramName", "财务比率");
             dataMap.put("paramData", "0");
@@ -565,9 +676,21 @@ public class IpoInterfaceController extends BaseController {
             dataMap.put("paramData", "0");
             resultMap.put("cashFlowList", dataMap);
             dataMap = new HashMap<>();
+            dataMap.put("paramName", "现金流量复合增长率");
+            dataMap.put("paramData", "0");
+            resultMap.put("cashFlowRate", dataMap);
+            dataMap = new HashMap<>();
             dataMap.put("paramName", "现金及现金等价物净增加额");
             dataMap.put("paramData", "0");
             resultMap.put("cashList", dataMap);
+            dataMap = new HashMap<>();
+            dataMap.put("paramName", "现金及现金等价物净增加额复合增长率");
+            dataMap.put("paramData", "0");
+            resultMap.put("cashRate", dataMap);
+            dataMap = new HashMap<>();
+            dataMap.put("paramName", "总资产复合增长率");
+            dataMap.put("paramData", "0");
+            resultMap.put("sumAssetRate", dataMap);
             logger.error("ipoCaseH5获取发行人财务数据发生错误:{}", Throwables.getStackTraceAsString(e));
         }
         //公司的所有排名情况
@@ -610,7 +733,7 @@ public class IpoInterfaceController extends BaseController {
      * GK 发行人财务数据
      */
     @RequestMapping(value = "/selectFinanceOverListH5", method = RequestMethod.GET)
-    public IpoFinanceDto selectFinanceOverListH5(@RequestParam("id") String id) {
+    public IpoH5FinanceResultDto selectFinanceOverListH5(@RequestParam("id") String id) {
         return ipoFinanceService.selectFinanceOverListH5(id);
     }
 

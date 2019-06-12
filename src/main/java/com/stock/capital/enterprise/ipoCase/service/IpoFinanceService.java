@@ -6,6 +6,9 @@ import com.stock.capital.enterprise.ipoCase.dao.IpoFinanceMapper;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFinanceDateDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFinanceDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoItemDto;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoFinanceH5Dto;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5FinanceListDto;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5FinanceResultDto;
 import com.stock.core.service.BaseService;
 
 import org.apache.commons.lang3.time.DateUtils;
@@ -359,14 +362,14 @@ public class IpoFinanceService extends BaseService {
     /**
      * 查询H5财务信息
      */
-    public IpoFinanceDto selectFinanceOverListH5(String id) {
-        IpoFinanceDto resultDto = new IpoFinanceDto();
+    public IpoH5FinanceResultDto selectFinanceOverListH5(String id) {
+        IpoH5FinanceResultDto resultDto = new IpoH5FinanceResultDto();
         IpoFinanceDateDto dateDto = new IpoFinanceDateDto();
         //先查询主营业务收入构成里面的时间，确定三年一期时间
         Date forthYear = ipoFinanceMapper.getForthYear(id);
         //如果日期为空则说明没有填写主营收入
         if (forthYear == null) {
-            return new IpoFinanceDto();
+            return new IpoH5FinanceResultDto();
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String forthYearStr = sdf.format(forthYear);
@@ -390,7 +393,6 @@ public class IpoFinanceService extends BaseService {
         dateDto.setSecondYearDate(getDateStr(secondYear));
         dateDto.setThirdYearDate(getDateStr(thirdYear));
         dateDto.setForthYearDate(getDateStr(forthYear));
-        resultDto.setDateList(dateDto);
         //根据时间和id查询财务信息，三年一期的 财务总体情况
         List<IpoItemDto> forthItemList = ipoFinanceMapper.selectFinanceOverListH5(id, forthYear);
         List<IpoItemDto> thirdItemList = ipoFinanceMapper.selectFinanceOverListH5(id, thirdYear);
@@ -448,68 +450,8 @@ public class IpoFinanceService extends BaseService {
         }
         //移除财务信息中，三年一期全部为空的项目
         List<IpoItemDto> allItemList = removeNullItem(forthItemList);
-        List<IpoItemDto> incomeList = new ArrayList<>();
-        List<IpoItemDto> profitList = new ArrayList<>();
-        List<IpoItemDto> indexList = new ArrayList<>();
-        List<IpoItemDto> debtList = new ArrayList<>();
-        List<IpoItemDto> cashFlowList = new ArrayList<>();
-        List<IpoItemDto> cashList = new ArrayList<>();
-        for (IpoItemDto dto : allItemList) {
-            if ("营业收入".equals(dto.getItemName())) {
-                incomeList.add(dto);
-            } else if ("销售毛利率".equals(dto.getItemName())) {
-                dto.setItemName("毛利率");
-                incomeList.add(dto);
-            } else if ("净利润".equals(dto.getItemName())) {
-                profitList.add(dto);
-            } else if ("销售净利率".equals(dto.getItemName())) {
-                dto.setItemName("净利润率");
-                profitList.add(dto);
-            }else if ("净资产收益率ROE(加权)".equals(dto.getItemName())) {
-                dto.setItemName("加权平均净资产收益率");
-                indexList.add(dto);
-            }else if ("净利润增长率".equals(dto.getItemName())) {
-                indexList.add(dto);
-            }else if ("资产负债率".equals(dto.getItemName())) {
-                indexList.add(dto);
-            }else if ("总资产周转率".equals(dto.getItemName())) {
-                indexList.add(dto);
-            } else if ("经营活动产生的现金流量净额/营业收入".equals(dto.getItemName())) {
-                dto.setItemName("销售现金比率");
-                indexList.add(dto);
-            }else if ("基本每股收益".equals(dto.getItemName())) {
-                indexList.add(dto);
-            }else if ("流动资产合计".equals(dto.getItemName())) {
-                dto.setItemName("流动资产");
-                debtList.add(dto);
-            }else if ("非流动资产合计".equals(dto.getItemName())) {
-                dto.setItemName("非流动资产");
-                debtList.add(dto);
-            }else if ("流动负债合计".equals(dto.getItemName())) {
-                dto.setItemName("流动负债");
-                debtList.add(dto);
-            }else if ("非流动负债合计".equals(dto.getItemName())) {
-                dto.setItemName("非流动负债");
-                debtList.add(dto);
-            }else if ("非流动负债合计".equals(dto.getItemName())) {
-                dto.setItemName("非流动负债");
-                debtList.add(dto);
-            }else if ("所有者权益合计".equals(dto.getItemName())) {
-                debtList.add(dto);
-            }else if ("经营活动产生的现金流量净额".equals(dto.getItemName())) {
-                dto.setItemName("现金流量情况");
-                cashFlowList.add(dto);
-            }else if ("现金及现金等价物净增加额".equals(dto.getItemName())) {
-                dto.setItemName("现金及现金等价物净增加额（亿元）");
-                cashList.add(dto);
-            }
-        }
-        resultDto.setIpoReturnOverList(incomeList);
-        resultDto.setIpoProfitItemList(profitList);
-        resultDto.setIpoMainIndexList(indexList);
-        resultDto.setIpoDebtItemList(debtList);
-        resultDto.setIpoFinanceOverList(cashFlowList);
-        resultDto.setIpoAssetItemList(cashList);
+        resultDto = transData(allItemList,dateDto);
+        resultDto.setDateList(dateDto);
         return resultDto;
     }
 
@@ -524,4 +466,120 @@ public class IpoFinanceService extends BaseService {
         }
 
     }
+
+    private IpoH5FinanceResultDto transData(List<IpoItemDto> allItemList, IpoFinanceDateDto dateDto) {
+        IpoH5FinanceResultDto resultDto = new IpoH5FinanceResultDto();
+        List<IpoFinanceH5Dto> mainIndexList = new ArrayList<>();
+        List<IpoH5FinanceListDto> debtList = new ArrayList<>();
+        for (IpoItemDto dto : allItemList) {
+            if ("营业收入".equals(dto.getItemName())) {
+                List<IpoFinanceH5Dto> incomeList = insertFinanceData(dto, dateDto);
+                IpoFinanceH5Dto incomeRate = new IpoFinanceH5Dto();
+                incomeRate.setIssueData(dto.getGrowthRate());
+                resultDto.setIncomeList(incomeList);
+                resultDto.setIncomeRate(incomeRate);
+            } else if ("销售毛利率".equals(dto.getItemName())) {
+//                dto.setItemName("毛利率");
+                List<IpoFinanceH5Dto> grossList = insertFinanceData(dto, dateDto);
+                resultDto.setGrossList(grossList);
+            } else if ("净利润".equals(dto.getItemName())) {
+                List<IpoFinanceH5Dto> profitList = insertFinanceData(dto, dateDto);
+                IpoFinanceH5Dto profitRate = new IpoFinanceH5Dto();
+                profitRate.setIssueData(dto.getGrowthRate());
+                resultDto.setProfitList(profitList);
+                resultDto.setProfitRate(profitRate);
+            } else if ("销售净利率".equals(dto.getItemName())) {
+//                dto.setItemName("净利润率");
+                List<IpoFinanceH5Dto> profitRateList = insertFinanceData(dto, dateDto);
+                resultDto.setProfitList(profitRateList);
+            } else if ("净资产收益率ROE(加权)".equals(dto.getItemName())) {
+                dto.setItemName("加权平均净资产收益率");
+                insertMainIndexData(dto, mainIndexList);
+            } else if ("净利润增长率".equals(dto.getItemName())) {
+                insertMainIndexData(dto, mainIndexList);
+            } else if ("资产负债率".equals(dto.getItemName())) {
+                insertMainIndexData(dto, mainIndexList);
+            } else if ("总资产周转率".equals(dto.getItemName())) {
+                insertMainIndexData(dto, mainIndexList);
+            } else if ("经营活动产生的现金流量净额/营业收入".equals(dto.getItemName())) {
+                dto.setItemName("销售现金比率");
+                insertMainIndexData(dto, mainIndexList);
+            } else if ("基本每股收益".equals(dto.getItemName())) {
+                insertMainIndexData(dto, mainIndexList);
+            } else if ("流动资产合计".equals(dto.getItemName())) {
+                dto.setItemName("流动资产");
+                insertDebtData(dto, debtList);
+            } else if ("非流动资产合计".equals(dto.getItemName())) {
+                dto.setItemName("非流动资产");
+                insertDebtData(dto, debtList);
+            } else if ("流动负债合计".equals(dto.getItemName())) {
+                dto.setItemName("流动负债");
+                insertDebtData(dto, debtList);
+            } else if ("非流动负债合计".equals(dto.getItemName())) {
+                dto.setItemName("非流动负债");
+                insertDebtData(dto, debtList);
+            } else if ("非流动负债合计".equals(dto.getItemName())) {
+                dto.setItemName("非流动负债");
+                insertDebtData(dto, debtList);
+            } else if ("所有者权益合计".equals(dto.getItemName())) {
+                insertDebtData(dto, debtList);
+            } else if ("经营活动产生的现金流量净额".equals(dto.getItemName())) {
+//                dto.setItemName("现金流量情况");
+                List<IpoFinanceH5Dto> cashFlowList = insertFinanceData(dto, dateDto);
+                IpoFinanceH5Dto cashFlowRate = new IpoFinanceH5Dto();
+                cashFlowRate.setIssueData(dto.getGrowthRate());
+                resultDto.setCashFlowList(cashFlowList);
+                resultDto.setCashFlowRate(cashFlowRate);
+            } else if ("现金及现金等价物净增加额".equals(dto.getItemName())) {
+//                dto.setItemName("现金及现金等价物净增加额（亿元）");
+                List<IpoFinanceH5Dto> cashList = insertFinanceData(dto, dateDto);
+                IpoFinanceH5Dto cashRate = new IpoFinanceH5Dto();
+                cashRate.setIssueData(dto.getGrowthRate());
+                resultDto.setCashList(cashList);
+                resultDto.setCashRate(cashRate);
+            } else if ("资产总计".equals(dto.getItemName())) {
+                IpoFinanceH5Dto sumAssetRate = new IpoFinanceH5Dto();
+                sumAssetRate.setIssueData(dto.getGrowthRate());
+                resultDto.setSumAssetRate(sumAssetRate);
+            }
+        }
+        resultDto.setMainIndexList(mainIndexList);
+        resultDto.setDebtList(debtList);
+        return resultDto;
+    }
+
+    private List<IpoFinanceH5Dto> insertFinanceData(IpoItemDto dto, IpoFinanceDateDto dateDto) {
+        List<IpoFinanceH5Dto> incomeList = new ArrayList<>();
+        IpoFinanceH5Dto newDto = new IpoFinanceH5Dto();
+        newDto.setYear(dateDto.getForthYearDate());
+        newDto.setIssueData(dto.getForthYearValue());
+        incomeList.add(newDto);
+        newDto = new IpoFinanceH5Dto();
+        newDto.setYear(dateDto.getThirdYearDate());
+        newDto.setIssueData(dto.getThirdYearValue());
+        incomeList.add(newDto);
+        newDto = new IpoFinanceH5Dto();
+        newDto.setYear(dateDto.getSecondYearDate());
+        newDto.setIssueData(dto.getSecondYearValue());
+        incomeList.add(newDto);
+        return incomeList;
+    }
+
+    private void insertMainIndexData(IpoItemDto dto, List<IpoFinanceH5Dto> mainIndexList) {
+        IpoFinanceH5Dto newDto = new IpoFinanceH5Dto();
+        newDto.setName(dto.getItemName());
+        newDto.setIssueData(dto.getForthYearValue());
+        mainIndexList.add(newDto);
+    }
+
+    private void insertDebtData(IpoItemDto dto, List<IpoH5FinanceListDto> debtList) {
+        IpoH5FinanceListDto newDto = new IpoH5FinanceListDto();
+        newDto.setName(dto.getItemName());
+        IpoFinanceH5Dto dataDto = new IpoFinanceH5Dto();
+        dataDto.setIssueData(dto.getSecondYearValue());
+        newDto.setBeforeYear(dataDto);
+        debtList.add(newDto);
+    }
+
+
 }
