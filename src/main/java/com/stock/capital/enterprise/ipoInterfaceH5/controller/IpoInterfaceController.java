@@ -28,6 +28,7 @@ import com.stock.capital.enterprise.ipoCase.service.IpoCaseListService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFinanceService;
 import com.stock.capital.enterprise.ipoCase.service.IpoProcessService;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto;
 import com.stock.capital.enterprise.ipoInterfaceH5.service.IpoInterfaceService;
 import com.stock.core.controller.BaseController;
 import com.stock.core.dto.QueryInfo;
@@ -568,6 +569,29 @@ public class IpoInterfaceController extends BaseController {
             dataMap.put("paramData", "0");
             resultMap.put("cashList", dataMap);
             logger.error("ipoCaseH5获取发行人财务数据发生错误:{}", Throwables.getStackTraceAsString(e));
+        }
+        //公司的所有排名情况
+        try {
+            IpoH5Dto dto = new IpoH5Dto();
+            dto.setBid(id);
+            IpoH5Dto ipoCompanyRank = ipoInterfaceService.ipoCompanyRank(dto);
+            if(ipoCompanyRank != null){
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "公司排名情况");
+                dataMap.put("paramData", JsonUtil.toJsonNoNull(ipoCompanyRank));
+                resultMap.put("ipoCompanyRank", dataMap);
+            }else{
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "公司排名情况");
+                dataMap.put("paramData", "0");
+                resultMap.put("ipoCompanyRank", dataMap);
+            }
+        }catch (Exception e){
+            dataMap = new HashMap<>();
+            dataMap.put("paramName", "公司排名情况");
+            dataMap.put("paramData", "0");
+            resultMap.put("ipoCompanyRank", dataMap);
+            logger.error("ipoCaseH5获取公司排名情况数据发生错误:{}", Throwables.getStackTraceAsString(e));
         }
         return resultMap;
 
