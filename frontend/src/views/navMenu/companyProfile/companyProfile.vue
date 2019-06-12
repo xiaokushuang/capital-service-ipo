@@ -176,7 +176,7 @@
           </li>
           <li v-if="recentValuation.valuationPrice" style=" width: 25%;">
             <span style="color:#999">股价</span>&nbsp;&nbsp;
-            <span v-if="recentValuation.valuationPrice" style="color:#333">{{recentValuation.valuationPrice}}元/股</span>
+            <span v-if="recentValuation.valuationPrice" style="color:#333">{{recentValuation.valuationPrice}}{{recentValuation.valuationPriceUnit}}/股</span>
             <!-- <span v-else style="color:#333">- -元/股</span> -->
           </li>
           <li v-if="recentValuation.valuationEquity" style=" width: 25%;">
@@ -186,7 +186,7 @@
           </li>
           <li v-if="recentValuation.valuationValue" style=" width: 25%;">
             <span style="color:#999">估值</span>&nbsp;&nbsp;
-            <span v-if="recentValuation.valuationValue" style="color:#333">{{recentValuation.valuationValue/10000  | dataInThRule }}亿元</span>
+            <span v-if="recentValuation.valuationValue" style="color:#333">{{recentValuation.valuationValue/10000  | dataInThRule }}亿{{recentValuation.valuationEquityUnit}}</span>
             <!-- <span v-else style="color:#333">- -亿元</span> -->
           </li>
         </ul>
