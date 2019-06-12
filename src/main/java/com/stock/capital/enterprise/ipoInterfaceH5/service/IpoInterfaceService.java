@@ -94,7 +94,7 @@ public class IpoInterfaceService extends BaseService {
         return ipoInterfaceBizMapper.otherIpoCase(ipoCaseIndexDto);
     }
 
-    /**
+    /** 行业排名
      *  必传：bid 案例主键
      * @param ipoH5Dto
      * @return
@@ -103,14 +103,17 @@ public class IpoInterfaceService extends BaseService {
         return ipoInterfaceBizMapper.ipoCompanyRank(ipoH5Dto);
     }
 
-    /**
+    /** 行业平均
      *  必传：plateType 板块类型（科创板：0，创业板：1）
-     *  industryCsrc 行业类型
+     *  bid 案例主键
      *  columnComment 指标类型（具体有：经营活动产生的现金流量净额：046，现金及现金等价物净增加额：091,流动资产/总资产：150,非流动资产/总资产：151,流动负债/负债合计：155,非流动负债/负债合计：156,营业收入：016,净利润：056,销售净利率：114,销售毛利率：115）
      * @param ipoH5DetailDto
      * @return
      */
     public List<IpoH5DetailDto> ipoAvg(IpoH5DetailDto ipoH5DetailDto) {
+        //查询所属行业
+        IpoH5DetailDto dto = ipoInterfaceBizMapper.queryIndustryCsrc(ipoH5DetailDto);
+        ipoH5DetailDto.setIndustryCsrc(dto.getIndustryCsrc());
         return ipoInterfaceBizMapper.ipoAvg(ipoH5DetailDto);
     }
 }

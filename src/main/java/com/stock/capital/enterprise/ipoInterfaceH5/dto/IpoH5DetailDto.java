@@ -4,6 +4,7 @@ public class IpoH5DetailDto {
     private static final long serialVersionUID = 1L;
 
     private String id;// 主键
+    private String bid;
     private String columnComment;//数据指标
     private String reportDate;
     private String year;
@@ -12,6 +13,30 @@ public class IpoH5DetailDto {
     private String orgCode;
     private String industryCsrc;//行业
     private String currValAvg;//平均
+
+    public String getBid() {
+        return bid;
+    }
+
+    public void setBid(String bid) {
+        this.bid = bid;
+    }
+
+    public String getIndustryCsrc() {
+        return industryCsrc;
+    }
+
+    public void setIndustryCsrc(String industryCsrc) {
+        this.industryCsrc = industryCsrc;
+    }
+
+    public String getCurrValAvg() {
+        return currValAvg;
+    }
+
+    public void setCurrValAvg(String currValAvg) {
+        this.currValAvg = currValAvg;
+    }
 
     public String getId() {
         return id;

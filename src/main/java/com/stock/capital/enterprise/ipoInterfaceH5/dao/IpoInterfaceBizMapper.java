@@ -14,4 +14,6 @@ public interface IpoInterfaceBizMapper {
     IpoH5Dto ipoCompanyRank(IpoH5Dto ipoH5Dto);
 
     List<IpoH5DetailDto> ipoAvg(IpoH5DetailDto ipoH5DetailDto);
+
+    IpoH5DetailDto queryIndustryCsrc(IpoH5DetailDto ipoH5DetailDto);
 }
