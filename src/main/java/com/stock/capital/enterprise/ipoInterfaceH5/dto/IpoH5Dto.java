@@ -16,12 +16,15 @@ public class IpoH5Dto implements Serializable {
     private String researchPeoRanking;//  研发人员占比排名
     private String taking;//  营业收入
     private String takingRanking;//  营业收入排名
+    private String takingRankingGem;//  营业收入创业板排名
     private String takingRankingYear;//  营业收入年度
     private String profits;//  净利润
     private String profitsRanking;//  净利润排名
+    private String profitsRankingGem;//  净利润创业板排名
     private String profitsRankingYear;//  净利润年度
     private String assets;//  资产总额
     private String assetsRanking;//  资产总额排名
+    private String assetsRankingGem;//  资产总额创业板排名
     private String assetsRankingYear;//  资产总额年度
     private String researchYear;//研发投入排名年度
     private String researchPeoYear;//研发人员占比排名年度
@@ -35,9 +38,51 @@ public class IpoH5Dto implements Serializable {
     private String industryCsrc;//行业
     private String researchPeoCore;//核心研发
     private String companyPeo;//公司总员工
+    private String researchYearSe;
+    private String researchYearTh;
     private String orgCode;
     private String ipoCompanyCount;//ipo库中科创板公司总数
     private String saCompanyCount;//sa_company中创业板公司总数
+
+    public String getResearchYearSe() {
+        return researchYearSe;
+    }
+
+    public void setResearchYearSe(String researchYearSe) {
+        this.researchYearSe = researchYearSe;
+    }
+
+    public String getResearchYearTh() {
+        return researchYearTh;
+    }
+
+    public void setResearchYearTh(String researchYearTh) {
+        this.researchYearTh = researchYearTh;
+    }
+
+    public String getTakingRankingGem() {
+        return takingRankingGem;
+    }
+
+    public void setTakingRankingGem(String takingRankingGem) {
+        this.takingRankingGem = takingRankingGem;
+    }
+
+    public String getProfitsRankingGem() {
+        return profitsRankingGem;
+    }
+
+    public void setProfitsRankingGem(String profitsRankingGem) {
+        this.profitsRankingGem = profitsRankingGem;
+    }
+
+    public String getAssetsRankingGem() {
+        return assetsRankingGem;
+    }
+
+    public void setAssetsRankingGem(String assetsRankingGem) {
+        this.assetsRankingGem = assetsRankingGem;
+    }
 
     public String getIpoCompanyCount() {
         return ipoCompanyCount;

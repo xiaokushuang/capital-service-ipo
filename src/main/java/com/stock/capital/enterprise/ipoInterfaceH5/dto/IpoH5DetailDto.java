@@ -10,6 +10,8 @@ public class IpoH5DetailDto {
     private String currVal;
     private String plateType;//科创板：0，创业板：1
     private String orgCode;
+    private String industryCsrc;//行业
+    private String currValAvg;//平均
 
     public String getId() {
         return id;
