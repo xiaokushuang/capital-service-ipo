@@ -48,7 +48,9 @@
         t.taking_fiavg AS takingFiavg,
         t.taking_seavg AS takingSeavg,
         t.taking_thavg AS takingThavg,
-        t.industry_csrc AS industryCsrc
+        t.industry_csrc AS industryCsrc,
+        t.research_year_se AS researchYearSe,
+				t.research_year_th AS researchYearTh
         FROM ipo_h5 t
         WHERE t.bid = #{bid}
     </select>
