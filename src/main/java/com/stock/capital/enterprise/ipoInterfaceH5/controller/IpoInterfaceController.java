@@ -25,6 +25,7 @@ import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
 import com.stock.capital.enterprise.ipoCase.dto.TreeTypeProgressDto;
+import com.stock.capital.enterprise.ipoCase.dto.*;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.ipoCase.service.IpoCaseListService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
@@ -721,6 +722,27 @@ public class IpoInterfaceController extends BaseController {
             resultMap.put("ipoCompanyRank", dataMap);
             logger.error("ipoCaseH5获取公司排名情况数据发生错误:{}", Throwables.getStackTraceAsString(e));
         }
+        //案例是否通过
+        try {
+            HeadDataVo headDataVo = getHeadData(id);
+            if(headDataVo != null){
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "案例是否通过");
+                dataMap.put("paramData", JsonUtil.toJsonNoNull(headDataVo));
+                resultMap.put("headDataVo", dataMap);
+            }else{
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "案例是否通过");
+                dataMap.put("paramData", "0");
+                resultMap.put("headDataVo", dataMap);
+            }
+        }catch (Exception e){
+            dataMap = new HashMap<>();
+            dataMap.put("paramName", "案例是否通过");
+            dataMap.put("paramData", "0");
+            resultMap.put("headDataVo", dataMap);
+            logger.error("ipoCaseH5获取案例是否通过数据发生错误:{}", Throwables.getStackTraceAsString(e));
+        }
         return resultMap;
 
     }
@@ -887,6 +909,16 @@ public class IpoInterfaceController extends BaseController {
     @RequestMapping(value = "/caseDetail", method = RequestMethod.GET)
     public CompanyOverviewVo caseDetail(String id) {
         return companyOverviewService.getIpoCaseDetail(id);
+    }
+
+    /**
+     * lixinwei 案例是否通过
+     *
+     * @param id 案例主键
+     */
+    @RequestMapping(value = "/getHeadData", method = RequestMethod.GET)
+    public HeadDataVo getHeadData(String id) {
+        return companyOverviewService.getHeadData(id);
     }
 
     /**

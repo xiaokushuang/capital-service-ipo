@@ -53,6 +53,7 @@
   <select id="getIpoCaseDetail" parameterType="string" resultMap="BaseResultMap">
     SELECT
     ic.id,
+    (SELECT GROUP_CONCAT(m.label_name) FROM maa_conf_label m WHERE m.label_code = 'IPO_SPECIAL_ARRANGE' AND m.status = '1' AND FIND_IN_SET(m.label_value,ic.special_arrange))AS specialArrange,
     ic.company_zh_name,
     ic.industry_status_overview,
     (SELECT mcl.label_name FROM maa_conf_label mcl WHERE mcl.label_code = 'IPO_PLATE' AND mcl.label_value = ic.ipo_plate) AS ipo_plate,
