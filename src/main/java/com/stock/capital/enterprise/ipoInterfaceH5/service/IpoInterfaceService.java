@@ -11,6 +11,14 @@ import com.stock.capital.enterprise.ipoCase.service.IssueSituationService;
 import com.stock.capital.enterprise.ipoInterfaceH5.dao.IpoInterfaceBizMapper;
 import com.stock.capital.enterprise.ipoInterfaceH5.dao.IpoWechatPermisionBizMapper;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.*;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5CoreDevDto;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5DetailDto;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5IndustryBodyDto;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5IndustryDto;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5IndustryTitleDto;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5TechnologyDevDto;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5TechnologyDto;
 import com.stock.core.service.BaseService;
 
 import java.math.BigDecimal;
@@ -324,13 +332,18 @@ public class IpoInterfaceService extends BaseService {
     private IpoH5TechnologyDto ipoTechnologyDataProcessing(IpoTechnologyVo ipoTechnologyVo, String id) {
         IpoH5TechnologyDto resultDto = new IpoH5TechnologyDto();
 
-        IpoH5Dto dto = new IpoH5Dto();
-        dto.setBid(id);
-        IpoH5Dto ipoCompanyRank = ipoCompanyRank(dto);
-        Map<String, List<IpoH5TechnologyDevDto>> devResult = ipoDevDataProcessing(ipoTechnologyVo, ipoCompanyRank);// 研发营收
-        resultDto.setDevData(devResult);
-        return resultDto;
-    }
+    IpoH5Dto dto = new IpoH5Dto();
+    dto.setBid(id);
+    IpoH5Dto ipoCompanyRank = ipoCompanyRank(dto);
+    /**研发投入**/
+    Map<String, List<IpoH5TechnologyDevDto>> devResult = ipoDevDataProcessing(ipoTechnologyVo,ipoCompanyRank);// 研发营收
+    resultDto.setDevData(devResult);// 研发投入数据存储
+
+    // 核心技术及研发技术人员
+    resultDto.setCoreData(coreDevProcessing(ipoCompanyRank, id));
+
+    return resultDto;
+}
 
     /**
      * 研发投入数据处理
@@ -502,6 +515,34 @@ public class IpoInterfaceService extends BaseService {
         devResult.put("expensesCost", expensesCostList);
         return devResult;
     }
+
+private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompanyRank, String id){
+  // 核心技术及研发技术人员
+  IpoH5CoreDevDto companyStaff = new IpoH5CoreDevDto();
+  IpoH5CoreDevDto industryStaff = new IpoH5CoreDevDto();
+  List<IpoH5CoreDevDto> company = ipoInterfaceBizMapper.getCoreDevFromIpoTech(id);
+  if (CollectionUtils.isNotEmpty(company)){
+    if (company.get(0).getIndexDate().indexOf("12-31") >= 0){// 头一年日期为12月31日
+      companyStaff = company.get(0);
+    } else {// 第二年日期为12月31日, 取第二年
+      companyStaff = company.get(1);
+    }
+  }
+  industryStaff.setIndexDate(companyStaff.getIndexDate());
+  industryStaff.setCore(ipoCompanyRank.getResearchPeoCore());
+  industryStaff.setDev(ipoCompanyRank.getResearchPeo());
+  industryStaff.setPeople(ipoCompanyRank.getCompanyPeo());
+
+  List<Map<String, IpoH5CoreDevDto>> coreData = new ArrayList<>();
+  Map<String, IpoH5CoreDevDto> companyMap = new HashMap<>();
+  companyMap.put("companyStaff", companyStaff);
+  coreData.add(companyMap);
+  Map<String, IpoH5CoreDevDto> industryMap = new HashMap<>();
+  industryMap.put("industryStaff", industryStaff);
+  coreData.add(industryMap);
+
+  return coreData;
+}
 
 
     //  保存用户信息

@@ -3,36 +3,20 @@ package com.stock.capital.enterprise.ipoInterfaceH5.controller;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Maps;
 
-import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
-import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
-import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo;
-import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoFinanceDateDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyDateDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyPatentDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyTableDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyVo;
-import com.stock.capital.enterprise.ipoCase.dto.IpoValuationDto;
-import com.stock.capital.enterprise.ipoCase.dto.IssuerIndustryStatusDto;
-import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.MainIncomeVo;
-import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
-import com.stock.capital.enterprise.ipoCase.dto.TreeTypeProgressDto;
+import com.stock.capital.enterprise.ipoCase.dto.*;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.ipoCase.service.IpoCaseListService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFinanceService;
 import com.stock.capital.enterprise.ipoCase.service.IpoProcessService;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoFinanceH5Dto;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5CoreDevDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5FinanceListDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5FinanceResultDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5IndustryDto;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5TechnologyDevDto;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5TechnologyDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.service.IpoInterfaceService;
 import com.stock.core.controller.BaseController;
 import com.stock.core.dto.QueryInfo;
@@ -347,60 +331,56 @@ public class IpoInterfaceController extends BaseController {
             }
             //毛利率对比
             IpoH5IndustryDto ipoH5IndustryDto = (IpoH5IndustryDto) technology.get("industryCompareRateInfo");
-            if (CollectionUtils.isNotEmpty(ipoH5IndustryDto.getTitles()) || CollectionUtils.isNotEmpty(ipoH5IndustryDto.getBody())) {
+            if(CollectionUtils.isNotEmpty(ipoH5IndustryDto.getTitles()) || CollectionUtils.isNotEmpty(ipoH5IndustryDto.getBody())){
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "毛利率对比");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(ipoH5IndustryDto));
                 resultMap.put("industryCompareRateInfo", dataMap);
-            } else {
+            }else{
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "毛利率对比");
                 dataMap.put("paramData", "0");
                 resultMap.put("industryCompareRateInfo", dataMap);
             }
             //科技创新
-            IpoTechnologyVo ipoTechnologyVo = (IpoTechnologyVo) technology.get("technologyInfo");
-            if (ipoTechnologyVo != null) {
+            IpoH5TechnologyDto ipoTechnologyVo = (IpoH5TechnologyDto) technology.get("technologyInfo");
+            if(ipoTechnologyVo != null){
                 //研发投入
-                List<IpoTechnologyTableDto> devData = ipoTechnologyVo.getDevData();
-                if (CollectionUtils.isNotEmpty(devData)) {
+                Map<String, List<IpoH5TechnologyDevDto>> devData = ipoTechnologyVo.getDevData();
+                if(CollectionUtils.isNotEmpty(devData.get("income")) &&
+                    CollectionUtils.isNotEmpty(devData.get("expensesCost"))){
                     dataMap = new HashMap<>();
                     dataMap.put("paramName", "研发投入");
                     dataMap.put("paramData", JsonUtil.toJsonNoNull(devData));
                     resultMap.put("devData", dataMap);
-                } else {
+                }else{
                     dataMap = new HashMap<>();
                     dataMap.put("paramName", "研发投入");
                     dataMap.put("paramData", "0");
                     resultMap.put("devData", dataMap);
                 }
-                //研发投入时间
-                IpoTechnologyDateDto devDate = ipoTechnologyVo.getDevDate();
-                dataMap = new HashMap<>();
-                dataMap.put("paramName", "研发投入时间");
-                dataMap.put("paramData", JsonUtil.toJsonNoNull(devDate));
-                resultMap.put("devDate", dataMap);
-                //专利情况
-                List<IpoTechnologyPatentDto> patentData = ipoTechnologyVo.getPatentData();
-                if (CollectionUtils.isNotEmpty(patentData)) {
-                    dataMap = new HashMap<>();
-                    dataMap.put("paramName", "专利情况");
-                    dataMap.put("paramData", JsonUtil.toJsonNoNull(patentData));
-                    resultMap.put("patentData", dataMap);
-                } else {
-                    dataMap = new HashMap<>();
-                    dataMap.put("paramName", "专利情况");
-                    dataMap.put("paramData", "0");
-                    resultMap.put("patentData", dataMap);
-                }
+//                //专利情况
+//                List<IpoTechnologyPatentDto> patentData = ipoTechnologyVo.getPatentData();
+//                if(CollectionUtils.isNotEmpty(patentData)){
+//                    dataMap = new HashMap<>();
+//                    dataMap.put("paramName", "专利情况");
+//                    dataMap.put("paramData", JsonUtil.toJsonNoNull(patentData));
+//                    resultMap.put("patentData", dataMap);
+//                }else{
+//                    dataMap = new HashMap<>();
+//                    dataMap.put("paramName", "专利情况");
+//                    dataMap.put("paramData", "0");
+//                    resultMap.put("patentData", dataMap);
+//                }
                 //核心技术及研发技术人员
-                List<IpoTechnologyTableDto> coreData = ipoTechnologyVo.getCoreData();
-                if (CollectionUtils.isNotEmpty(coreData)) {
+                List<Map<String, IpoH5CoreDevDto>> coreData = ipoTechnologyVo.getCoreData();
+                if(StringUtils.isNotBlank(coreData.get(0).get("companyStaff").getIndexDate()) &&
+                     StringUtils.isNotBlank(coreData.get(1).get("industryStaff").getIndexDate())){
                     dataMap = new HashMap<>();
                     dataMap.put("paramName", "核心技术及研发技术人员");
                     dataMap.put("paramData", JsonUtil.toJsonNoNull(coreData));
                     resultMap.put("coreData", dataMap);
-                } else {
+                }else{
                     dataMap = new HashMap<>();
                     dataMap.put("paramName", "核心技术及研发技术人员");
                     dataMap.put("paramData", "0");
