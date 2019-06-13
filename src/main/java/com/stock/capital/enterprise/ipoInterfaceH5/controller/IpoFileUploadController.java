@@ -22,6 +22,8 @@ public class IpoFileUploadController extends BaseController {
 
     /**
      * 文件上传
+     * @param content 上传的json内容
+     * @param fileName 上传的文件名字
      */
     @RequestMapping(value = "/fileUpload", method = RequestMethod.GET)
     public void fileUpload(String content,String fileName) {
