@@ -56,6 +56,7 @@
     (SELECT GROUP_CONCAT(m.label_name) FROM maa_conf_label m WHERE m.label_code = 'IPO_SPECIAL_ARRANGE' AND m.status = '1' AND FIND_IN_SET(m.label_value,ic.special_arrange))AS specialArrange,
     ic.company_zh_name,
     ic.industry_status_overview,
+    ic.industry_csrc AS industryCsrcCode,
     (SELECT mcl.label_name FROM maa_conf_label mcl WHERE mcl.label_code = 'IPO_PLATE' AND mcl.label_value = ic.ipo_plate) AS ipo_plate,
     (SELECT group_concat(mcl1.label_name) FROM maa_conf_label mcl1 WHERE mcl1.label_code = 'INDUSTRY_CSRC_2012' AND find_in_set(mcl1.label_value,TRIM(LEADING '0' FROM ic.industry_csrc))) AS industry_csrc,
     ic.company_name,
@@ -129,7 +130,7 @@
 
   <select id="getIpoMarketData" parameterType="string"
           resultType="com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto">
-    SELECT id, bid, (SELECT mcl.label_name FROM maa_conf_label mcl WHERE mcl.label_code = 'IPO_CAPITAL_MARKET' AND mcl.label_value = market_type) AS marketType,
+    SELECT id, bid, market_type AS marketTypeCode,(SELECT mcl.label_name FROM maa_conf_label mcl WHERE mcl.label_code = 'IPO_CAPITAL_MARKET' AND mcl.label_value = market_type) AS marketType,
      company_code AS companyCode, company_name AS companyName, list_time AS listTime, delist_time AS delistTime FROM ipo_other_market_info
     WHERE bid = #{bid}
   </select>

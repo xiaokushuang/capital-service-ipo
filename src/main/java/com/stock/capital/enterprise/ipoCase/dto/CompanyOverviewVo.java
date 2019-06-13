@@ -87,6 +87,17 @@ public class CompanyOverviewVo implements Serializable {
     @ApiModelProperty("公司治理特殊安排")
     private String specialArrange;//公司治理特殊安排
 
+    @ApiModelProperty("行业code")
+    private String industryCsrcCode;
+
+    public String getIndustryCsrcCode() {
+        return industryCsrcCode;
+    }
+
+    public void setIndustryCsrcCode(String industryCsrcCode) {
+        this.industryCsrcCode = industryCsrcCode;
+    }
+
     public String getSpecialArrange() {
         return specialArrange;
     }
