@@ -490,12 +490,12 @@ public class IpoInterfaceController extends BaseController {
             List<IpoFinanceH5Dto> grossList = financeOverListH5.getGrossList();
             if(CollectionUtils.isNotEmpty(grossList)){
                 dataMap = new HashMap<>();
-                dataMap.put("paramName", "毛利润");
+                dataMap.put("paramName", "毛利率");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(incomeList));
                 resultMap.put("grossList", dataMap);
             }else{
                 dataMap = new HashMap<>();
-                dataMap.put("paramName", "毛利润");
+                dataMap.put("paramName", "毛利率");
                 dataMap.put("paramData", "0");
                 resultMap.put("grossList", dataMap);
             }

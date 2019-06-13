@@ -578,6 +578,12 @@ public class IpoFinanceService extends BaseService {
         IpoFinanceH5Dto dataDto = new IpoFinanceH5Dto();
         dataDto.setIssueData(dto.getSecondYearValue());
         newDto.setBeforeYear(dataDto);
+        dataDto = new IpoFinanceH5Dto();
+        dataDto.setIssueData(dto.getThirdYearValue());
+        newDto.setLastYear(dataDto);
+        dataDto = new IpoFinanceH5Dto();
+        dataDto.setIssueData(dto.getForthYearValue());
+        newDto.setTodayYear(dataDto);
         debtList.add(newDto);
     }
 
