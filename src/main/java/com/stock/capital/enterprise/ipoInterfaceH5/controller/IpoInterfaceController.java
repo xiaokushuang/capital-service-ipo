@@ -3,39 +3,24 @@ package com.stock.capital.enterprise.ipoInterfaceH5.controller;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Maps;
 
-import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
-import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
-import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo;
-import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoFinanceDateDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyDateDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyPatentDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyTableDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyVo;
-import com.stock.capital.enterprise.ipoCase.dto.IpoValuationDto;
-import com.stock.capital.enterprise.ipoCase.dto.IssuerIndustryStatusDto;
-import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.MainIncomeVo;
-import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
-import com.stock.capital.enterprise.ipoCase.dto.TreeTypeProgressDto;
+import com.stock.capital.enterprise.ipoCase.dto.*;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.ipoCase.service.IpoCaseListService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFinanceService;
 import com.stock.capital.enterprise.ipoCase.service.IpoProcessService;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoFinanceH5Dto;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5CoreDevDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5FinanceListDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5FinanceResultDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5IndustryDto;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5TechnologyDevDto;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5TechnologyDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.service.IpoInterfaceService;
 import com.stock.core.controller.BaseController;
 import com.stock.core.dto.QueryInfo;
+import com.stock.core.rest.RestClient;
 import com.stock.core.util.JsonUtil;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -44,6 +29,7 @@ import org.apache.http.client.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,10 +38,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -360,11 +343,12 @@ public class IpoInterfaceController extends BaseController {
                 resultMap.put("industryCompareRateInfo", dataMap);
             }
             //科技创新
-            IpoTechnologyVo ipoTechnologyVo = (IpoTechnologyVo) technology.get("technologyInfo");
+            IpoH5TechnologyDto ipoTechnologyVo = (IpoH5TechnologyDto) technology.get("technologyInfo");
             if(ipoTechnologyVo != null){
                 //研发投入
-                List<IpoTechnologyTableDto> devData = ipoTechnologyVo.getDevData();
-                if(CollectionUtils.isNotEmpty(devData)){
+                Map<String, List<IpoH5TechnologyDevDto>> devData = ipoTechnologyVo.getDevData();
+                if(CollectionUtils.isNotEmpty(devData.get("income")) &&
+                    CollectionUtils.isNotEmpty(devData.get("expensesCost"))){
                     dataMap = new HashMap<>();
                     dataMap.put("paramName", "研发投入");
                     dataMap.put("paramData", JsonUtil.toJsonNoNull(devData));
@@ -375,28 +359,23 @@ public class IpoInterfaceController extends BaseController {
                     dataMap.put("paramData", "0");
                     resultMap.put("devData", dataMap);
                 }
-                //研发投入时间
-                IpoTechnologyDateDto devDate = ipoTechnologyVo.getDevDate();
-                dataMap = new HashMap<>();
-                dataMap.put("paramName", "研发投入时间");
-                dataMap.put("paramData", JsonUtil.toJsonNoNull(devDate));
-                resultMap.put("devDate", dataMap);
-                //专利情况
-                List<IpoTechnologyPatentDto> patentData = ipoTechnologyVo.getPatentData();
-                if(CollectionUtils.isNotEmpty(patentData)){
-                    dataMap = new HashMap<>();
-                    dataMap.put("paramName", "专利情况");
-                    dataMap.put("paramData", JsonUtil.toJsonNoNull(patentData));
-                    resultMap.put("patentData", dataMap);
-                }else{
-                    dataMap = new HashMap<>();
-                    dataMap.put("paramName", "专利情况");
-                    dataMap.put("paramData", "0");
-                    resultMap.put("patentData", dataMap);
-                }
+//                //专利情况
+//                List<IpoTechnologyPatentDto> patentData = ipoTechnologyVo.getPatentData();
+//                if(CollectionUtils.isNotEmpty(patentData)){
+//                    dataMap = new HashMap<>();
+//                    dataMap.put("paramName", "专利情况");
+//                    dataMap.put("paramData", JsonUtil.toJsonNoNull(patentData));
+//                    resultMap.put("patentData", dataMap);
+//                }else{
+//                    dataMap = new HashMap<>();
+//                    dataMap.put("paramName", "专利情况");
+//                    dataMap.put("paramData", "0");
+//                    resultMap.put("patentData", dataMap);
+//                }
                 //核心技术及研发技术人员
-                List<IpoTechnologyTableDto> coreData = ipoTechnologyVo.getCoreData();
-                if(CollectionUtils.isNotEmpty(coreData)){
+                List<Map<String, IpoH5CoreDevDto>> coreData = ipoTechnologyVo.getCoreData();
+                if(StringUtils.isNotBlank(coreData.get(0).get("companyStaff").getIndexDate()) &&
+                     StringUtils.isNotBlank(coreData.get(1).get("industryStaff").getIndexDate())){
                     dataMap = new HashMap<>();
                     dataMap.put("paramName", "核心技术及研发技术人员");
                     dataMap.put("paramData", JsonUtil.toJsonNoNull(coreData));
@@ -439,25 +418,25 @@ public class IpoInterfaceController extends BaseController {
         //报告期主要供应商及客户情况
         try {
             Map<String, Object> supplierCustomerData = supplierCustomerData(id);
-            List<Map<String,Object>> supplierMainList = (List<Map<String,Object>>)supplierCustomerData.get("supplierMainList");
-            if(CollectionUtils.isNotEmpty(supplierMainList)){
+            List<Map<String, Object>> supplierMainList = (List<Map<String, Object>>) supplierCustomerData.get("supplierMainList");
+            if (CollectionUtils.isNotEmpty(supplierMainList)) {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "前五大供应商占比情况");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(supplierMainList));
                 resultMap.put("supplierMainList", dataMap);
-            }else{
+            } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "前五大供应商占比情况");
                 dataMap.put("paramData", "0");
                 resultMap.put("supplierMainList", dataMap);
             }
-            List<Map<String,Object>> customerList = (List<Map<String,Object>>)supplierCustomerData.get("customerMainList");
-            if(CollectionUtils.isNotEmpty(customerList)){
+            List<Map<String, Object>> customerList = (List<Map<String, Object>>) supplierCustomerData.get("customerMainList");
+            if (CollectionUtils.isNotEmpty(customerList)) {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "前五大客户占比情况");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(customerList));
                 resultMap.put("customerMainList", dataMap);
-            }else{
+            } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "前五大客户占比情况");
                 dataMap.put("paramData", "0");
@@ -478,163 +457,163 @@ public class IpoInterfaceController extends BaseController {
         try {
             IpoH5FinanceResultDto financeOverListH5 = selectFinanceOverListH5(id);
             List<IpoFinanceH5Dto> incomeList = financeOverListH5.getIncomeList();
-            if(CollectionUtils.isNotEmpty(incomeList)){
+            if (CollectionUtils.isNotEmpty(incomeList)) {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "营业收入");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(incomeList));
                 resultMap.put("incomeList", dataMap);
-            }else{
+            } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "营业收入");
                 dataMap.put("paramData", "0");
                 resultMap.put("incomeList", dataMap);
             }
             List<IpoFinanceH5Dto> grossList = financeOverListH5.getGrossList();
-            if(CollectionUtils.isNotEmpty(grossList)){
+            if (CollectionUtils.isNotEmpty(grossList)) {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "毛利率");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(incomeList));
                 resultMap.put("grossList", dataMap);
-            }else{
+            } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "毛利率");
                 dataMap.put("paramData", "0");
                 resultMap.put("grossList", dataMap);
             }
             IpoFinanceH5Dto incomeRate = financeOverListH5.getIncomeRate();
-            if(null != incomeRate){
+            if (null != incomeRate) {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "营业收入复合增长率");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(incomeRate));
                 resultMap.put("incomeRate", dataMap);
-            }else{
+            } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "营业收入复合增长率");
                 dataMap.put("paramData", "0");
                 resultMap.put("incomeRate", dataMap);
             }
             List<IpoFinanceH5Dto> profitList = financeOverListH5.getProfitList();
-            if(CollectionUtils.isNotEmpty(profitList)){
+            if (CollectionUtils.isNotEmpty(profitList)) {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "净利润");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(profitList));
                 resultMap.put("profitList", dataMap);
-            }else{
+            } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "净利润");
                 dataMap.put("paramData", "0");
                 resultMap.put("profitList", dataMap);
             }
             List<IpoFinanceH5Dto> profitRateList = financeOverListH5.getProfitRateList();
-            if(CollectionUtils.isNotEmpty(profitRateList)){
+            if (CollectionUtils.isNotEmpty(profitRateList)) {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "净利润率");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(profitRateList));
                 resultMap.put("profitRateList", dataMap);
-            }else{
+            } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "净利润率");
                 dataMap.put("paramData", "0");
                 resultMap.put("profitRateList", dataMap);
             }
             IpoFinanceH5Dto profitRate = financeOverListH5.getProfitRate();
-            if(null != profitRate){
+            if (null != profitRate) {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "净利润复合增长率");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(profitRate));
                 resultMap.put("profitRate", dataMap);
-            }else{
+            } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "净利润复合增长率");
                 dataMap.put("paramData", "0");
                 resultMap.put("profitRate", dataMap);
             }
             List<IpoFinanceH5Dto> indexList = financeOverListH5.getMainIndexList();
-            if(CollectionUtils.isNotEmpty(indexList)){
+            if (CollectionUtils.isNotEmpty(indexList)) {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "财务比率");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(indexList));
                 resultMap.put("indexList", dataMap);
-            }else{
+            } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "财务比率");
                 dataMap.put("paramData", "0");
                 resultMap.put("indexList", dataMap);
             }
             List<IpoH5FinanceListDto> debtList = financeOverListH5.getDebtList();
-            if(CollectionUtils.isNotEmpty(debtList)){
+            if (CollectionUtils.isNotEmpty(debtList)) {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "资产负债情况");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(debtList));
                 resultMap.put("debtList", dataMap);
-            }else{
+            } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "资产负债情况");
                 dataMap.put("paramData", "0");
                 resultMap.put("debtList", dataMap);
             }
-            List<IpoFinanceH5Dto> cashFlowList =financeOverListH5.getCashFlowList();
-            if(CollectionUtils.isNotEmpty(cashFlowList)){
+            List<IpoFinanceH5Dto> cashFlowList = financeOverListH5.getCashFlowList();
+            if (CollectionUtils.isNotEmpty(cashFlowList)) {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "现金流量情况");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(cashFlowList));
                 resultMap.put("cashFlowList", dataMap);
-            }else{
+            } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "现金流量情况");
                 dataMap.put("paramData", "0");
                 resultMap.put("cashFlowList", dataMap);
             }
             IpoFinanceH5Dto cashFlowRate = financeOverListH5.getCashFlowRate();
-            if(null != cashFlowRate){
+            if (null != cashFlowRate) {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "现金流量复合增长率");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(cashFlowRate));
                 resultMap.put("cashFlowRate", dataMap);
-            }else{
+            } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "现金流量复合增长率");
                 dataMap.put("paramData", "0");
                 resultMap.put("cashFlowRate", dataMap);
             }
             List<IpoFinanceH5Dto> cashList = financeOverListH5.getCashList();
-            if(CollectionUtils.isNotEmpty(cashList)){
+            if (CollectionUtils.isNotEmpty(cashList)) {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "现金及现金等价物净增加额");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(cashList));
                 resultMap.put("cashList", dataMap);
-            }else{
+            } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "现金及现金等价物净增加额");
                 dataMap.put("paramData", "0");
                 resultMap.put("cashList", dataMap);
             }
             IpoFinanceH5Dto cashRate = financeOverListH5.getCashRate();
-            if(null != cashRate){
+            if (null != cashRate) {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "现金及现金等价物净增加额复合增长率");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(cashRate));
                 resultMap.put("cashRate", dataMap);
-            }else{
+            } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "现金及现金等价物净增加额复合增长率");
                 dataMap.put("paramData", "0");
                 resultMap.put("cashRate", dataMap);
             }
             IpoFinanceH5Dto sumAssetRate = financeOverListH5.getSumAssetRate();
-            if(null != sumAssetRate){
+            if (null != sumAssetRate) {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "总资产复合增长率");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(sumAssetRate));
                 resultMap.put("sumAssetRate", dataMap);
-            }else{
+            } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "总资产复合增长率");
                 dataMap.put("paramData", "0");
                 resultMap.put("sumAssetRate", dataMap);
             }
             IpoFinanceDateDto dateDto = financeOverListH5.getDateList();
-            if(null != dateDto){
+            if (null != dateDto) {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "统计日期");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(dateDto));
@@ -700,18 +679,18 @@ public class IpoInterfaceController extends BaseController {
             IpoH5Dto dto = new IpoH5Dto();
             dto.setBid(id);
             IpoH5Dto ipoCompanyRank = ipoInterfaceService.ipoCompanyRank(dto);
-            if(ipoCompanyRank != null){
+            if (ipoCompanyRank != null) {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "公司排名情况");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(ipoCompanyRank));
                 resultMap.put("ipoCompanyRank", dataMap);
-            }else{
+            } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "公司排名情况");
                 dataMap.put("paramData", "0");
                 resultMap.put("ipoCompanyRank", dataMap);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             dataMap = new HashMap<>();
             dataMap.put("paramName", "公司排名情况");
             dataMap.put("paramData", "0");
@@ -721,18 +700,18 @@ public class IpoInterfaceController extends BaseController {
         //案例是否通过
         try {
             HeadDataVo headDataVo = getHeadData(id);
-            if(headDataVo != null){
+            if (headDataVo != null) {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "案例是否通过");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(headDataVo));
                 resultMap.put("headDataVo", dataMap);
-            }else{
+            } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "案例是否通过");
                 dataMap.put("paramData", "0");
                 resultMap.put("headDataVo", dataMap);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             dataMap = new HashMap<>();
             dataMap.put("paramName", "案例是否通过");
             dataMap.put("paramData", "0");
@@ -752,11 +731,11 @@ public class IpoInterfaceController extends BaseController {
         Map<String, Object> resultMap = Maps.newHashMap();
         Map<String, List<SupplierCustomerMainDto>> result = companyOverviewService.getSupCusData(id);
         List<SupplierCustomerMainDto> supplierMainList = result.get("supplierMainList");
-        List<Map<String,Object>> supplierResultList = new ArrayList<>();
-        for(int i=0;i<supplierMainList.size();i++){
-            Map<String,Object> supplierTitleMap = Maps.newHashMap();
-            List<Map<String,Object>> supplierDataList = new ArrayList<>();
-            supplierTitleMap.put("name",supplierMainList.get(i).getTitle());
+        List<Map<String, Object>> supplierResultList = new ArrayList<>();
+        for (int i = 0; i < supplierMainList.size(); i++) {
+            Map<String, Object> supplierTitleMap = Maps.newHashMap();
+            List<Map<String, Object>> supplierDataList = new ArrayList<>();
+            supplierTitleMap.put("name", supplierMainList.get(i).getTitle());
             List<SupplierCustomerInfoDto> dataList = supplierMainList.get(i).getSupplierCustomerInfoList();
             List<String> timeList = new ArrayList<>();
             List<BigDecimal> sumValueList = new ArrayList<>();
@@ -804,15 +783,15 @@ public class IpoInterfaceController extends BaseController {
             supplierTitleMap.put("sumValueList",sumValueList);
             supplierResultList.add(supplierTitleMap);
         }
-        resultMap.put("supplierMainList",supplierResultList);
+        resultMap.put("supplierMainList", supplierResultList);
 
 
         List<SupplierCustomerMainDto> customerMainList = result.get("customerMainList");
-        List<Map<String,Object>> customerResultList = new ArrayList<>();
-        for(int i=0;i<customerMainList.size();i++){
-            Map<String,Object> customerTitleMap = Maps.newHashMap();
-            List<Map<String,Object>> customerDataList = new ArrayList<>();
-            customerTitleMap.put("name",customerMainList.get(i).getTitle());
+        List<Map<String, Object>> customerResultList = new ArrayList<>();
+        for (int i = 0; i < customerMainList.size(); i++) {
+            Map<String, Object> customerTitleMap = Maps.newHashMap();
+            List<Map<String, Object>> customerDataList = new ArrayList<>();
+            customerTitleMap.put("name", customerMainList.get(i).getTitle());
             List<SupplierCustomerInfoDto> dataList = customerMainList.get(i).getSupplierCustomerInfoList();
             List<String> timeList = new ArrayList<>();
             List<BigDecimal> sumValueList = new ArrayList<>();
@@ -860,7 +839,7 @@ public class IpoInterfaceController extends BaseController {
             customerTitleMap.put("sumValueList",sumValueList);
             customerResultList.add(customerTitleMap);
         }
-        resultMap.put("customerMainList",customerResultList);
+        resultMap.put("customerMainList", customerResultList);
         return resultMap;
     }
 
@@ -1026,4 +1005,102 @@ public class IpoInterfaceController extends BaseController {
         return ipoInterfaceService.otherIpoCase(ipoCaseIndexDto);
     }
 
+    @Autowired
+    private RestClient restClient;
+
+    /**
+     * @return 调用微信接口获取信息
+     * @author yangj
+     */
+    @RequestMapping(value = "/getWXUserInfo")
+    @ResponseBody
+    public Map<String, Object> getWXUserInfo(String code) {
+//        TODO  可以appid 这些 可以写到配置里
+        String getOpenid = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxc7764eee8019ffa6&secret=ad19ed5c7a60694da781131097db7336&code=" +
+                code + "&grant_type=authorization_code";
+        ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
+        };
+        String openStr = restClient.get(getOpenid, responseType, Maps.newHashMap());
+        Map<String, String> openMap = JsonUtil.fromJson(openStr, new ParameterizedTypeReference<Map<String, String>>() {
+        });
+        String access_token = openMap.get("access_token");
+//        String refresh_token = openMap.get("refresh_token");
+        String openid = openMap.get("openid");
+//        openMap.get("unionid");
+//        根据accesstoken 和 openid 获取用户信息
+        String getUserInfo = "https://api.weixin.qq.com/sns/userinfo?access_token=" + access_token + "&openid=" + openid + "&lang=zh_CN";
+        String userInfoStr = restClient.get(getUserInfo, responseType, Maps.newHashMap());
+        System.out.println(userInfoStr);
+        Map<String, Object> userInfoMap = JsonUtil.fromJson(userInfoStr, new ParameterizedTypeReference<Map<String, Object>>() {
+        });
+        userInfoMap.put("access_token", access_token);
+        userInfoMap.put("openid", openid);
+        ipoInterfaceService.saveUserInfo(userInfoMap);
+        return userInfoMap;
+    }
+
+    /**
+     * @return
+     * @author yangj  提交评论
+     */
+    @RequestMapping(value = "/submitReplay", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> submitReplay(@RequestBody Map<String, Object> map) {
+//        set 时间
+        map.put("commentTime", new Date());
+        ipoInterfaceService.submitReplay(map);
+        logger.info("提交评论：" + map);
+        Map<String, Object> result = new HashMap();
+        result.put("status", "success");
+        return result;
+    }
+
+    /**
+     * 点赞
+     * @return
+     * @author yangj
+     */
+    @RequestMapping(value = "/fabulousYes", method = RequestMethod.POST)
+    public void fabulousYes(@RequestBody Map<String, Object> map) {
+        ipoInterfaceService.fabulousYes(map);
+    }
+
+    /**
+     * 获取评论列表和其他信息
+     *
+     * @return
+     * @author yangj
+     */
+    @RequestMapping(value = "/getReplay", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> getReplay(@RequestBody Map<String, Object> param) {
+//      查询评论
+        List<Map<String, Object>> commentList = ipoInterfaceService.getCommentList((String) param.get("caseid"));
+        List<Map<String, Object>> selectedList = new ArrayList<>();
+        for (Map<String, Object> map : commentList) {
+//            前端展示名称
+            map.put("headPortrait", map.get("avatar"));
+            map.put("username", map.get("comment_from_user"));
+            map.put("commentText", map.get("comment_content"));
+            map.put("commentTime", map.get("comment_time"));
+//            如果是精选评论
+            if ("1".equals(map.get("is_selected_comment"))) {
+                selectedList.add(map);
+            }
+        }
+//        从数据库获取 TODO
+//        评论数
+        int commentNum = commentList.size();
+//        点赞数
+        int fabulous = ipoInterfaceService.fabulousCount(param);
+//        是否点赞
+        boolean fabulousYes = ipoInterfaceService.isFabulousYes(param);
+        Map<String, Object> result = new HashMap();
+        result.put("commentList", commentList);
+        result.put("selectedList", selectedList);
+        result.put("commentNum", commentNum);
+        result.put("fabulous", fabulous);
+        result.put("fabulousYes", fabulousYes);
+        return result;
+    }
 }

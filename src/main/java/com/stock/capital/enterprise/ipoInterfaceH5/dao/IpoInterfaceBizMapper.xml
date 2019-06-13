@@ -66,4 +66,11 @@
     <select id="queryIndustryCsrc" parameterType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5DetailDto" resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5DetailDto">
         SELECT t.industry_csrc AS industryCsrc FROM ipo_case t WHERE t.id = #{bid}
     </select>
+
+
+  <select id="getCoreDevFromIpoTech" parameterType="java.lang.String" resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5CoreDevDto">
+      SELECT core_fi AS core, dev_fi AS dev, count_fi AS people, category_date_fi AS indexDate FROM ipo_technology WHERE bid = #{id}
+      UNION
+      SELECT core_se AS core, dev_se AS dev, count_se AS people, category_date_se AS indexDate FROM ipo_technology WHERE bid =  #{id}
+    </select>
 </mapper>
