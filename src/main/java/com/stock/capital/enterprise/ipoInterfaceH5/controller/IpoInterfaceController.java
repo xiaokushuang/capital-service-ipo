@@ -139,10 +139,12 @@ public class IpoInterfaceController extends BaseController {
         }
 
         IpoCaseIndexDto ipoCaseIndex = new IpoCaseIndexDto();
+        String industryCsrcCode = "";
         //上市条件、公司信息
         try {
             CompanyOverviewVo caseDetaild = caseDetail(id);
             if (caseDetaild != null) {
+                industryCsrcCode = caseDetaild.getIndustryCsrcCode();
                 ipoCaseIndex.setIndustryCsrc(caseDetaild.getIndustryCsrc());
 
             }
@@ -279,6 +281,9 @@ public class IpoInterfaceController extends BaseController {
         }
         //可能还想看
         try {
+            if (StringUtils.isNotEmpty(industryCsrcCode)){
+                ipoCaseIndex.setIndustryCsrc(industryCsrcCode);
+            }
             List<IpoCaseIndexDto> otherIpoCase = otherIpoCase(ipoCaseIndex);
             if (CollectionUtils.isNotEmpty(otherIpoCase)) {
                 dataMap = new HashMap<>();
@@ -679,18 +684,18 @@ public class IpoInterfaceController extends BaseController {
             IpoH5Dto dto = new IpoH5Dto();
             dto.setBid(id);
             IpoH5Dto ipoCompanyRank = ipoInterfaceService.ipoCompanyRank(dto);
-            if (ipoCompanyRank != null) {
+            if(ipoCompanyRank != null){
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "公司排名情况");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(ipoCompanyRank));
                 resultMap.put("ipoCompanyRank", dataMap);
-            } else {
+            }else{
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "公司排名情况");
                 dataMap.put("paramData", "0");
                 resultMap.put("ipoCompanyRank", dataMap);
             }
-        } catch (Exception e) {
+        }catch (Exception e){
             dataMap = new HashMap<>();
             dataMap.put("paramName", "公司排名情况");
             dataMap.put("paramData", "0");
@@ -700,18 +705,18 @@ public class IpoInterfaceController extends BaseController {
         //案例是否通过
         try {
             HeadDataVo headDataVo = getHeadData(id);
-            if (headDataVo != null) {
+            if(headDataVo != null){
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "案例是否通过");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(headDataVo));
                 resultMap.put("headDataVo", dataMap);
-            } else {
+            }else{
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "案例是否通过");
                 dataMap.put("paramData", "0");
                 resultMap.put("headDataVo", dataMap);
             }
-        } catch (Exception e) {
+        }catch (Exception e){
             dataMap = new HashMap<>();
             dataMap.put("paramName", "案例是否通过");
             dataMap.put("paramData", "0");
