@@ -31,6 +31,7 @@ import com.stock.capital.enterprise.ipoCase.service.IpoFinanceService;
 import com.stock.capital.enterprise.ipoCase.service.IpoProcessService;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoFinanceH5Dto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5IndustryDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5FinanceListDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5FinanceResultDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.service.IpoInterfaceService;
@@ -345,11 +346,11 @@ public class IpoInterfaceController extends BaseController {
                 resultMap.put("mainCompetitorInfo", dataMap);
             }
             //毛利率对比
-            List<IndustryCompareRateDto> industryCompareRateDtos = (List<IndustryCompareRateDto>) technology.get("industryCompareRateInfo");
-            if(CollectionUtils.isNotEmpty(industryCompareRateDtos)){
+            IpoH5IndustryDto ipoH5IndustryDto = (IpoH5IndustryDto) technology.get("industryCompareRateInfo");
+            if(CollectionUtils.isNotEmpty(ipoH5IndustryDto.getTitles()) || CollectionUtils.isNotEmpty(ipoH5IndustryDto.getBody())){
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "毛利率对比");
-                dataMap.put("paramData", JsonUtil.toJsonNoNull(industryCompareRateDtos));
+                dataMap.put("paramData", JsonUtil.toJsonNoNull(ipoH5IndustryDto));
                 resultMap.put("industryCompareRateInfo", dataMap);
             }else{
                 dataMap = new HashMap<>();

@@ -75,6 +75,53 @@ public class IpoInterfaceService extends BaseService {
     return result;
   }
 
+    /**
+     * 获取下拉框数据
+     * @return
+     */
+    public Map<String,Object> querySelectData() {
+        Map<String,Object> result = Maps.newHashMap();
+//        所属行业（证监局）
+        List<RegTreeDto> sfcList = ipoCaseListMapper.getTreeTagByCode(Global.IPO_SFC);
+//        证监会行业
+        List<RegTreeDto> industryCrscList = ipoCaseListMapper.getLabelByCode(Global.IPO_SFC_INDUSTRY);
+//        审核结果
+        List<RegTreeDto> verifyResultList = ipoCaseListMapper.getLabelByCode(Global.IPO_VERIFY_RESULT);
+
+        result.put("sfcList",sfcList);
+        result.put("industryCrscList",industryCrscList);
+        result.put("verifyResultList",verifyResultList);
+        return result;
+    }
+
+    public List<IpoCaseIndexDto> otherIpoCase(IpoCaseIndexDto ipoCaseIndexDto) {
+        return ipoInterfaceBizMapper.otherIpoCase(ipoCaseIndexDto);
+    }
+
+    /** 行业排名
+     *  必传：bid 案例主键
+     * @param ipoH5Dto
+     * @return
+     */
+    public IpoH5Dto ipoCompanyRank(IpoH5Dto ipoH5Dto) {
+        return ipoInterfaceBizMapper.ipoCompanyRank(ipoH5Dto);
+    }
+
+    /** 行业平均
+     *  必传：plateType 板块类型（科创板：0，创业板：1）
+     *  bid 案例主键
+     *  columnComment 指标类型（具体有：经营活动产生的现金流量净额：046，现金及现金等价物净增加额：091,流动资产/总资产：150,非流动资产/总资产：151,流动负债/负债合计：155,非流动负债/负债合计：156,营业收入：016,净利润：056,销售净利率：114,销售毛利率：115）
+     * @param ipoH5DetailDto
+     * @return
+     */
+    public List<IpoH5DetailDto> ipoAvg(IpoH5DetailDto ipoH5DetailDto) {
+        //查询所属行业
+        IpoH5DetailDto dto = ipoInterfaceBizMapper.queryIndustryCsrc(ipoH5DetailDto);
+        ipoH5DetailDto.setIndustryCsrc(dto.getIndustryCsrc());
+        return ipoInterfaceBizMapper.ipoAvg(ipoH5DetailDto);
+    }
+
+
   /**
    * 毛利率数据加工处理
    * @param industryCompareRateDtos
@@ -250,50 +297,4 @@ public class IpoInterfaceService extends BaseService {
     industryDto.setTitles(titleDtoList);// 赋值
     return industryDto;
   }
-
-    /**
-     * 获取下拉框数据
-     * @return
-     */
-    public Map<String,Object> querySelectData() {
-        Map<String,Object> result = Maps.newHashMap();
-//        所属行业（证监局）
-        List<RegTreeDto> sfcList = ipoCaseListMapper.getTreeTagByCode(Global.IPO_SFC);
-//        证监会行业
-        List<RegTreeDto> industryCrscList = ipoCaseListMapper.getLabelByCode(Global.IPO_SFC_INDUSTRY);
-//        审核结果
-        List<RegTreeDto> verifyResultList = ipoCaseListMapper.getLabelByCode(Global.IPO_VERIFY_RESULT);
-
-        result.put("sfcList",sfcList);
-        result.put("industryCrscList",industryCrscList);
-        result.put("verifyResultList",verifyResultList);
-        return result;
-    }
-
-    public List<IpoCaseIndexDto> otherIpoCase(IpoCaseIndexDto ipoCaseIndexDto) {
-        return ipoInterfaceBizMapper.otherIpoCase(ipoCaseIndexDto);
-    }
-
-    /** 行业排名
-     *  必传：bid 案例主键
-     * @param ipoH5Dto
-     * @return
-     */
-    public IpoH5Dto ipoCompanyRank(IpoH5Dto ipoH5Dto) {
-        return ipoInterfaceBizMapper.ipoCompanyRank(ipoH5Dto);
-    }
-
-    /** 行业平均
-     *  必传：plateType 板块类型（科创板：0，创业板：1）
-     *  bid 案例主键
-     *  columnComment 指标类型（具体有：经营活动产生的现金流量净额：046，现金及现金等价物净增加额：091,流动资产/总资产：150,非流动资产/总资产：151,流动负债/负债合计：155,非流动负债/负债合计：156,营业收入：016,净利润：056,销售净利率：114,销售毛利率：115）
-     * @param ipoH5DetailDto
-     * @return
-     */
-    public List<IpoH5DetailDto> ipoAvg(IpoH5DetailDto ipoH5DetailDto) {
-        //查询所属行业
-        IpoH5DetailDto dto = ipoInterfaceBizMapper.queryIndustryCsrc(ipoH5DetailDto);
-        ipoH5DetailDto.setIndustryCsrc(dto.getIndustryCsrc());
-        return ipoInterfaceBizMapper.ipoAvg(ipoH5DetailDto);
-    }
 }
