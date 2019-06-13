@@ -22,6 +22,7 @@ import com.stock.capital.enterprise.ipoCase.dto.IssuerIndustryStatusDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainIncomeVo;
 import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
+import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
 import com.stock.capital.enterprise.ipoCase.dto.TreeTypeProgressDto;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
@@ -41,6 +42,7 @@ import com.stock.core.util.JsonUtil;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.client.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +53,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -437,8 +441,8 @@ public class IpoInterfaceController extends BaseController {
 
         //报告期主要供应商及客户情况
         try {
-            Map<String, List<SupplierCustomerMainDto>> supplierCustomerData = supplierCustomerData(id);
-            List<SupplierCustomerMainDto> supplierMainList = supplierCustomerData.get("supplierMainList");
+            Map<String, Object> supplierCustomerData = supplierCustomerData(id);
+            List<Map<String,Object>> supplierMainList = (List<Map<String,Object>>)supplierCustomerData.get("supplierMainList");
             if(CollectionUtils.isNotEmpty(supplierMainList)){
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "前五大供应商占比情况");
@@ -450,7 +454,7 @@ public class IpoInterfaceController extends BaseController {
                 dataMap.put("paramData", "0");
                 resultMap.put("supplierMainList", dataMap);
             }
-            List<SupplierCustomerMainDto> customerList = supplierCustomerData.get("customerMainList");
+            List<Map<String,Object>> customerList = (List<Map<String,Object>>)supplierCustomerData.get("customerMainList");
             if(CollectionUtils.isNotEmpty(customerList)){
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "前五大客户占比情况");
@@ -725,9 +729,73 @@ public class IpoInterfaceController extends BaseController {
      * GK 报告期主要供应商及客户情况
      */
     @RequestMapping(value = "/supplierCustomerData", method = RequestMethod.GET)
-    public Map<String, List<SupplierCustomerMainDto>> supplierCustomerData(
+    public Map<String, Object> supplierCustomerData(
             @RequestParam("id") String id) {
-        return companyOverviewService.getSupCusData(id);
+        Map<String, Object> resultMap = Maps.newHashMap();
+        Map<String, List<SupplierCustomerMainDto>> result = companyOverviewService.getSupCusData(id);
+        List<SupplierCustomerMainDto> supplierMainList = result.get("supplierMainList");
+        List<Map<String,Object>> supplierResultList = new ArrayList<>();
+        for(int i=0;i<supplierMainList.size();i++){
+            Map<String,Object> supplierTitleMap = Maps.newHashMap();
+            List<Map<String,Object>> supplierDataList = new ArrayList<>();
+            supplierTitleMap.put("name",supplierMainList.get(i).getTitle());
+            List<SupplierCustomerInfoDto> dataList = supplierMainList.get(i).getSupplierCustomerInfoList();
+            for(int j = 0;j<dataList.size()-1;j++){
+                Map<String,Object> supplierDataMap = Maps.newHashMap();
+                supplierDataMap.put("name",dataList.get(j).getCompanyName());
+                supplierDataMap.put("ratio",dataList.get(j).getOnePeriodRatio());
+                supplierDataMap.put("number",dataList.get(j).getOnePeriodAmount());
+                supplierDataList.add(supplierDataMap);
+            }
+            List<String> timeList = new ArrayList<>();
+            timeList.add(supplierMainList.get(i).getSecondYearForSupplier());
+            timeList.add(supplierMainList.get(i).getThirdYearForSupplier());
+            timeList.add(DateUtils.formatDate(supplierMainList.get(i).getReportPeriod(),"yyyy-MM-dd"));
+            List<BigDecimal> sumValueList = new ArrayList<>();
+            if(dataList.size()>1){
+                sumValueList.add(dataList.get(dataList.size()-1).getSecondYearRatio());
+                sumValueList.add(dataList.get(dataList.size()-1).getThirdYearRatio());
+                sumValueList.add(dataList.get(dataList.size()-1).getOnePeriodRatio());
+            }
+            supplierTitleMap.put("supplierDataList",supplierDataList);
+            supplierTitleMap.put("timeList",timeList);
+            supplierTitleMap.put("sumValueList",sumValueList);
+            supplierResultList.add(supplierTitleMap);
+        }
+        resultMap.put("supplierMainList",supplierResultList);
+
+
+        List<SupplierCustomerMainDto> customerMainList = result.get("customerMainList");
+        List<Map<String,Object>> customerResultList = new ArrayList<>();
+        for(int i=0;i<customerMainList.size();i++){
+            Map<String,Object> customerTitleMap = Maps.newHashMap();
+            List<Map<String,Object>> customerDataList = new ArrayList<>();
+            customerTitleMap.put("name",customerMainList.get(i).getTitle());
+            List<SupplierCustomerInfoDto> dataList = customerMainList.get(i).getSupplierCustomerInfoList();
+            for(int j = 0;j<dataList.size()-1;j++){
+                Map<String,Object> customerDataMap = Maps.newHashMap();
+                customerDataMap.put("name",dataList.get(j).getCompanyName());
+                customerDataMap.put("ratio",dataList.get(j).getOnePeriodRatio());
+                customerDataMap.put("number",dataList.get(j).getOnePeriodAmount());
+                customerDataList.add(customerDataMap);
+            }
+            List<String> timeList = new ArrayList<>();
+            timeList.add(supplierMainList.get(i).getSecondYearForSupplier());
+            timeList.add(supplierMainList.get(i).getThirdYearForSupplier());
+            timeList.add(DateUtils.formatDate(supplierMainList.get(i).getReportPeriod(),"yyyy-MM-dd"));
+            List<BigDecimal> sumValueList = new ArrayList<>();
+            if(dataList.size()>1){
+                sumValueList.add(dataList.get(dataList.size()-1).getSecondYearRatio());
+                sumValueList.add(dataList.get(dataList.size()-1).getThirdYearRatio());
+                sumValueList.add(dataList.get(dataList.size()-1).getOnePeriodRatio());
+            }
+            customerTitleMap.put("timeList",timeList);
+            customerTitleMap.put("customerDataList",customerDataList);
+            customerTitleMap.put("sumValueList",sumValueList);
+            customerResultList.add(customerTitleMap);
+        }
+        resultMap.put("customerMainList",customerResultList);
+        return resultMap;
     }
 
     /**
