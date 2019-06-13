@@ -21,6 +21,7 @@
     <result column="issue_condition" property="issueCondition" jdbcType="VARCHAR"/>
     <result column="stragetic_industries" property="strageticIndustries" jdbcType="VARCHAR"/>
     <result column="placing_mechanism" property="placingMechanism" jdbcType="VARCHAR"/>
+      <result column="industryCsrcCode" property="industryCsrcCode" jdbcType="VARCHAR"/>
   </resultMap>
 
   <resultMap id="SupCusResultMap" type="com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto" >
