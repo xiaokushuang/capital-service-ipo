@@ -76,21 +76,12 @@ public class IpoInterfaceService extends BaseService {
         List<MainCompetitorInfoDto> mainCompetitorInfoDtoList = companyOverviewService.getCompetitorData(id); // 主要竞争对手
         IpoTechnologyVo ipoTechnologyVo = companyOverviewService.getPatentData(id); // 研发投入 核心技术与研发技术人员
         List<IndustryCompareRateDto> industryCompareRateDtos = issueSituationService.getIndustryRateData(id);// 同行业上市公司综合毛利率接口
-        // 新增一个数组, 把年份排序放入
-        List yearList = new ArrayList();
-        for (IndustryCompareRateDto compareRateDto : industryCompareRateDtos) {
-            yearList.add(compareRateDto.getFirstYear());
-            yearList.add(compareRateDto.getSecondYear());
-            yearList.add(compareRateDto.getThirdYear());
-        }
-        Collections.sort(yearList);
 
 //    result.put("companyInfo", companyOverviewVo);
         result.put("industryStatusInfo", industryStatusDtoList);
         result.put("mainCompetitorInfo", mainCompetitorInfoDtoList);
         result.put("technologyInfo", ipoTechnologyDataProcessing(ipoTechnologyVo, id));// 科技创新模块
         result.put("industryCompareRateInfo", industryCompareRateDataProcessing(industryCompareRateDtos));//毛利率数据处理加工
-        result.put("sortYear", yearList);
         return result;
     }
 
@@ -163,7 +154,11 @@ public class IpoInterfaceService extends BaseService {
             List<IpoH5IndustryBodyDto> subResultList = new ArrayList<>();// body中的数据
             List<String> companys = new ArrayList<>();// 子标题公司名字
             companys.add(compareRateDto.getCompanyName());//新增本公司名字
-
+            List<String> yearList = new ArrayList<>();//年度
+            yearList.add(compareRateDto.getFirstYear().substring(0,compareRateDto.getFirstYear().length() -1 ));
+            yearList.add(compareRateDto.getSecondYear().substring(0,compareRateDto.getSecondYear().length() -1 ));
+            yearList.add(compareRateDto.getThirdYear().substring(0,compareRateDto.getThirdYear().length() -1 ));
+            title.setYears(yearList); // 给年赋值
 
             if (compareRateDto.getIndustryCompareRateDetailList().size() >= 4) {// 代表多于两家别的公司
                 // 如果返回的表格中数量>= 4 代表着至少有两家别的公司,所以company 取值应该是 本公司,低的公司,高的公司
