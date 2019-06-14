@@ -24,6 +24,7 @@ import com.stock.core.rest.RestClient;
 import com.stock.core.util.JsonUtil;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.utils.DateUtils;
 import org.slf4j.Logger;
@@ -38,6 +39,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import io.swagger.annotations.Api;
@@ -1038,7 +1040,7 @@ public class IpoInterfaceController extends BaseController {
         System.out.println(userInfoStr);
         Map<String, Object> userInfoMap = JsonUtil.fromJson(userInfoStr, new ParameterizedTypeReference<Map<String, Object>>() {
         });
-        userInfoMap.put("access_token", access_token);
+        userInfoMap.put("access_token", "test");
         userInfoMap.put("openid", openid);
         ipoInterfaceService.saveUserInfo(userInfoMap);
         return userInfoMap;
@@ -1048,7 +1050,7 @@ public class IpoInterfaceController extends BaseController {
      * @return
      * @author yangj  提交评论
      */
-    @RequestMapping(value = "/submitReplay", method = RequestMethod.GET)
+    @RequestMapping(value = "/submitReplay")
     @ResponseBody
     public Map<String, Object> submitReplay(@RequestBody Map<String, Object> map) {
 //        set 时间
@@ -1065,10 +1067,18 @@ public class IpoInterfaceController extends BaseController {
      * @return
      * @author yangj
      */
-    @RequestMapping(value = "/fabulousYes", method = RequestMethod.GET)
+    @RequestMapping(value = "/fabulousYes")
     @ResponseBody
-    public void fabulousYes(@RequestBody Map<String, Object> map) {
+    public Map<String ,Object> fabulousYes(@RequestBody Map<String, Object> map) {
         ipoInterfaceService.fabulousYes(map);
+        int fabulous = ipoInterfaceService.fabulousCount(map);
+//        int fabulousCount = 1;
+//        if (fabulous >= 1000){
+//            fabulousCount = fabulous / 10;
+//        }
+        Map<String ,Object> result = new HashedMap();
+//        result.put("fabulous",fabulousCount+"K");
+        return result;
     }
 
     /**
@@ -1077,24 +1087,25 @@ public class IpoInterfaceController extends BaseController {
      * @return
      * @author yangj
      */
-    @RequestMapping(value = "/getReplay", method = RequestMethod.GET)
+    @RequestMapping(value = "/getReplay")
     @ResponseBody
     public Map<String, Object> getReplay(@RequestBody Map<String, Object> param) {
 //      查询评论
         List<Map<String, Object>> commentList = ipoInterfaceService.getCommentList((String) param.get("caseid"));
         List<Map<String, Object>> selectedList = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("MM-dd hh:mm");
         for (Map<String, Object> map : commentList) {
 //            前端展示名称
+            String comment_time = format.format(map.get("comment_time"));
             map.put("headPortrait", map.get("avatar"));
             map.put("username", map.get("comment_from_user"));
             map.put("commentText", map.get("comment_content"));
-            map.put("commentTime", map.get("comment_time"));
+            map.put("commentTime", comment_time);
 //            如果是精选评论
             if ("1".equals(map.get("is_selected_comment"))) {
                 selectedList.add(map);
             }
         }
-//        从数据库获取 TODO
 //        评论数
         int commentNum = commentList.size();
 //        点赞数
