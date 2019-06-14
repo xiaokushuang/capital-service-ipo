@@ -21,7 +21,7 @@
         </selectKey>
         insert into ipo_wechat_permision
         (id,unionid,openid,nickname,sex,province,city,country,headimgurl,access_token)
-        values(#{id},#{unionid},#{openid},#{nickname},#{sex},#{province},#{city},#{country},#{headimgurl},#{access_token},)
+        values(#{id},#{unionid},#{openid},#{nickname},#{sex},#{province},#{city},#{country},#{headimgurl},#{access_token})
     </insert>
     <!--更新用户-->
     <update id="update" parameterType="map">
