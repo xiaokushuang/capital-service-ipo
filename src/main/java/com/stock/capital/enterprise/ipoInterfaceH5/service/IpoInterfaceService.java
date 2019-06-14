@@ -85,6 +85,20 @@ public class IpoInterfaceService extends BaseService {
         result.put("industryCompareRateInfo", industryCompareRateDataProcessing(industryCompareRateDtos));//毛利率数据处理加工
         return result;
     }
+    /**
+     * 拆分上市情况
+     * dxy
+     * @param id 案例id
+     * @return list
+     */
+    public List<IpoSplitDto> getSpliteData(String id) {
+        List<IpoSplitDto> resultList = companyOverviewService.getSpliteData(id);
+        if (resultList.size() != 0){
+            return resultList;
+        }
+        return null;
+    }
+
 
     /**
      * 获取下拉框数据

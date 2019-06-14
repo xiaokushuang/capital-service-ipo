@@ -320,11 +320,30 @@ public class IpoInterfaceController extends BaseController {
             }
             resultMap.put("valuationData", dataMap);
         } catch (Exception e) {
-            dataMap.put("paramName", "最新估值");
+            dataMap.put("paramName", "发行情况");
             dataMap.put("paramData", "0");
             resultMap.put("valuationData", dataMap);
-            logger.error("ipoCaseH5获取最新估值发生错误:{}", Throwables.getStackTraceAsString(e));
+            logger.error("ipoCaseH5获取发行情况发生错误:{}", Throwables.getStackTraceAsString(e));
         }
+
+        //拆分上市情况
+        try {
+            List<IpoSplitDto> spliteDataList = spliteData(id);
+            if (CollectionUtils.isNotEmpty(spliteDataList) ) {
+                dataMap.put("paramName", "拆分上市情况");
+                dataMap.put("paramData", JsonUtil.toJsonNoNull(spliteDataList));
+            } else {
+                dataMap.put("paramName", "拆分上市情况");
+                dataMap.put("paramData", "0");
+            }
+            resultMap.put("valuationData", dataMap);
+        } catch (Exception e) {
+            dataMap.put("paramName", "拆分上市情况");
+            dataMap.put("paramData", "0");
+            resultMap.put("valuationData", dataMap);
+            logger.error("ipoCaseH5获取拆分上市情况发生错误:{}", Throwables.getStackTraceAsString(e));
+        }
+
 
         //行业与技术接口
         try {
@@ -927,6 +946,16 @@ public class IpoInterfaceController extends BaseController {
     @RequestMapping(value = "/getTechnology", method = RequestMethod.GET)
     public Map getTechnology(@RequestParam("id") String id) {
         return ipoInterfaceService.getIpoTechnology(id);
+    }
+
+    /**
+     * dxy 拆分上市情况
+     * @param id 案例id
+     * @return 数组
+     */
+    @RequestMapping(value = "/spliteData", method = RequestMethod.GET)
+    public List<IpoSplitDto> spliteData(@RequestParam("id") String id){
+        return ipoInterfaceService.getSpliteData(id);
     }
 
     /**
