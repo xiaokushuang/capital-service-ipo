@@ -33,6 +33,12 @@ public class IpoValuationDto implements Serializable {
   @ApiModelProperty("估值详情")
   private String valuationMemo;
 
+  @ApiModelProperty("股价货币单位")
+  private String valuationPriceUnit;
+
+  @ApiModelProperty("估值货币单位")
+  private String valuationEquityUnit;
+
   public String getValuationType() {
     return valuationType;
   }
@@ -79,5 +85,21 @@ public class IpoValuationDto implements Serializable {
 
   public void setValuationMemo(String valuationMemo) {
     this.valuationMemo = valuationMemo;
+  }
+
+  public String getValuationPriceUnit() {
+    return valuationPriceUnit;
+  }
+
+  public void setValuationPriceUnit(String valuationPriceUnit) {
+    this.valuationPriceUnit = valuationPriceUnit;
+  }
+
+  public String getValuationEquityUnit() {
+    return valuationEquityUnit;
+  }
+
+  public void setValuationEquityUnit(String valuationEquityUnit) {
+    this.valuationEquityUnit = valuationEquityUnit;
   }
 }
