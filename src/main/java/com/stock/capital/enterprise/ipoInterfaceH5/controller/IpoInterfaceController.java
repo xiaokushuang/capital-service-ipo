@@ -30,6 +30,7 @@ import org.apache.http.client.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -65,6 +66,11 @@ public class IpoInterfaceController extends BaseController {
     private IpoFeedbackService ipoFeedbackService;
     @Autowired
     private IpoProcessService ipoProcessService;
+
+    @Value("${wechat.appid}")
+    private String wechatAppid;
+    @Value("${wechat.secret}")
+    private String wechatSecret;
 
     private static final Logger logger = LoggerFactory.getLogger(IpoInterfaceController.class);
 
@@ -1022,8 +1028,7 @@ public class IpoInterfaceController extends BaseController {
     @RequestMapping(value = "/getWXUserInfo")
     @ResponseBody
     public Map<String, Object> getWXUserInfo(String code) {
-//        TODO  可以appid 这些 可以写到配置里
-        String getOpenid = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxc7764eee8019ffa6&secret=ad19ed5c7a60694da781131097db7336&code=" +
+        String getOpenid = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="+wechatAppid+"&secret="+wechatSecret+"&code=" +
                 code + "&grant_type=authorization_code";
         ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
         };
@@ -1033,13 +1038,13 @@ public class IpoInterfaceController extends BaseController {
         String access_token = openMap.get("access_token");
 //        String refresh_token = openMap.get("refresh_token");
         String openid = openMap.get("openid");
-//        openMap.get("unionid");
 //        根据accesstoken 和 openid 获取用户信息
         String getUserInfo = "https://api.weixin.qq.com/sns/userinfo?access_token=" + access_token + "&openid=" + openid + "&lang=zh_CN";
         String userInfoStr = restClient.get(getUserInfo, responseType, Maps.newHashMap());
         System.out.println(userInfoStr);
         Map<String, Object> userInfoMap = JsonUtil.fromJson(userInfoStr, new ParameterizedTypeReference<Map<String, Object>>() {
         });
+//        后续可能要把这个做成 记录的 每个用户进来就记录一下 统计点击数
         userInfoMap.put("access_token", "test");
         userInfoMap.put("openid", openid);
         ipoInterfaceService.saveUserInfo(userInfoMap);
@@ -1093,7 +1098,7 @@ public class IpoInterfaceController extends BaseController {
 //      查询评论
         List<Map<String, Object>> commentList = ipoInterfaceService.getCommentList((String) param.get("caseid"));
         List<Map<String, Object>> selectedList = new ArrayList<>();
-        SimpleDateFormat format = new SimpleDateFormat("MM-dd hh:mm");
+        SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
         for (Map<String, Object> map : commentList) {
 //            前端展示名称
             String comment_time = format.format(map.get("comment_time"));
