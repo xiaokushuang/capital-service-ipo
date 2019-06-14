@@ -1048,7 +1048,7 @@ public class IpoInterfaceController extends BaseController {
      * @return
      * @author yangj  提交评论
      */
-    @RequestMapping(value = "/submitReplay", method = RequestMethod.POST)
+    @RequestMapping(value = "/submitReplay", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> submitReplay(@RequestBody Map<String, Object> map) {
 //        set 时间
@@ -1065,7 +1065,8 @@ public class IpoInterfaceController extends BaseController {
      * @return
      * @author yangj
      */
-    @RequestMapping(value = "/fabulousYes", method = RequestMethod.POST)
+    @RequestMapping(value = "/fabulousYes", method = RequestMethod.GET)
+    @ResponseBody
     public void fabulousYes(@RequestBody Map<String, Object> map) {
         ipoInterfaceService.fabulousYes(map);
     }
@@ -1076,7 +1077,7 @@ public class IpoInterfaceController extends BaseController {
      * @return
      * @author yangj
      */
-    @RequestMapping(value = "/getReplay", method = RequestMethod.POST)
+    @RequestMapping(value = "/getReplay", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> getReplay(@RequestBody Map<String, Object> param) {
 //      查询评论
