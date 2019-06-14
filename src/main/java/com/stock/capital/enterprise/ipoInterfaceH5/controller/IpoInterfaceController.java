@@ -315,6 +315,7 @@ public class IpoInterfaceController extends BaseController {
         }
 
         //发行情况
+        dataMap = Maps.newHashMap();
         try {
             IpoH5IssueDataDto issueData = issueData(id);
             if (issueData != null ) {
@@ -333,6 +334,7 @@ public class IpoInterfaceController extends BaseController {
         }
 
         //拆分上市情况
+        dataMap = Maps.newHashMap();
         try {
             List<IpoSplitDto> spliteDataList = spliteData(id);
             if (CollectionUtils.isNotEmpty(spliteDataList) ) {
