@@ -318,11 +318,11 @@ public class IpoInterfaceController extends BaseController {
                 dataMap.put("paramName", "发行情况");
                 dataMap.put("paramData", "0");
             }
-            resultMap.put("valuationData", dataMap);
+            resultMap.put("issueData", dataMap);
         } catch (Exception e) {
             dataMap.put("paramName", "发行情况");
             dataMap.put("paramData", "0");
-            resultMap.put("valuationData", dataMap);
+            resultMap.put("issueData", dataMap);
             logger.error("ipoCaseH5获取发行情况发生错误:{}", Throwables.getStackTraceAsString(e));
         }
 
@@ -336,11 +336,11 @@ public class IpoInterfaceController extends BaseController {
                 dataMap.put("paramName", "拆分上市情况");
                 dataMap.put("paramData", "0");
             }
-            resultMap.put("valuationData", dataMap);
+            resultMap.put("spliteDataList", dataMap);
         } catch (Exception e) {
             dataMap.put("paramName", "拆分上市情况");
             dataMap.put("paramData", "0");
-            resultMap.put("valuationData", dataMap);
+            resultMap.put("spliteDataList", dataMap);
             logger.error("ipoCaseH5获取拆分上市情况发生错误:{}", Throwables.getStackTraceAsString(e));
         }
 
