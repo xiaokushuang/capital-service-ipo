@@ -399,7 +399,7 @@ public class IpoInterfaceController extends BaseController {
             IpoH5TechnologyDto ipoTechnologyVo = (IpoH5TechnologyDto) technology.get("technologyInfo");
             if(ipoTechnologyVo != null){
                 //研发投入
-                Map<String, List<IpoH5TechnologyDevDto>> devData = ipoTechnologyVo.getDevData();
+                Map<String, List> devData = ipoTechnologyVo.getDevData();
                 if(CollectionUtils.isNotEmpty(devData.get("income")) &&
                     CollectionUtils.isNotEmpty(devData.get("expensesCost"))){
                     dataMap = new HashMap<>();

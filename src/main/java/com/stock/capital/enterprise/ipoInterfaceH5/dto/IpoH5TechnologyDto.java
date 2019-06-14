@@ -6,16 +6,15 @@ import java.util.Map;
 
 public class IpoH5TechnologyDto implements Serializable {
 
-  private Map<String, List<IpoH5TechnologyDevDto>> devData;//研发投入营业收入
+  private Map<String, List> devData;//研发投入营业收入
 
   private List<Map<String, IpoH5CoreDevDto>> coreData; // 核心以及研发人员
 
-  public Map<String, List<IpoH5TechnologyDevDto>> getDevData() {
+  public Map<String, List> getDevData() {
     return devData;
   }
 
-  public void setDevData(
-      Map<String, List<IpoH5TechnologyDevDto>> devData) {
+  public void setDevData(Map<String, List> devData) {
     this.devData = devData;
   }
 

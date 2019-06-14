@@ -81,7 +81,7 @@ public class IpoInterfaceService extends BaseService {
 //    result.put("companyInfo", companyOverviewVo);
         result.put("industryStatusInfo", industryStatusDtoList);
         result.put("mainCompetitorInfo", mainCompetitorInfoDtoList);
-        result.put("technologyInfo", ipoTechnologyDataProcessing(ipoTechnologyVo, id));// 科技创新模块
+        result.put("technologyInfo", ipoTechnologyDataProcessing(ipoTechnologyVo, id));// 研发投入 核心技术与研发技术人员
         result.put("industryCompareRateInfo", industryCompareRateDataProcessing(industryCompareRateDtos));//毛利率数据处理加工
         return result;
     }
@@ -361,7 +361,7 @@ public class IpoInterfaceService extends BaseService {
     dto.setBid(id);
     IpoH5Dto ipoCompanyRank = ipoCompanyRank(dto);
     /**研发投入**/
-    Map<String, List<IpoH5TechnologyDevDto>> devResult = ipoDevDataProcessing(ipoTechnologyVo,ipoCompanyRank);// 研发营收
+    Map<String, List> devResult = ipoDevDataProcessing(ipoTechnologyVo,ipoCompanyRank);// 研发营收
     resultDto.setDevData(devResult);// 研发投入数据存储
 
     // 核心技术及研发技术人员
@@ -377,13 +377,13 @@ public class IpoInterfaceService extends BaseService {
      * @param ipoCompanyRank
      * @return
      */
-    private Map<String, List<IpoH5TechnologyDevDto>> ipoDevDataProcessing(IpoTechnologyVo ipoTechnologyVo, IpoH5Dto ipoCompanyRank) {
-        Map<String, List<IpoH5TechnologyDevDto>> devResult = new HashMap<>();// 研发营收
+    private Map<String, List> ipoDevDataProcessing(IpoTechnologyVo ipoTechnologyVo, IpoH5Dto ipoCompanyRank) {
+        Map<String, List> devResult = new HashMap<>();// 研发营收
         List<IpoH5TechnologyDevDto> incomeList = new ArrayList<>();
         List<IpoH5TechnologyDevDto> expensesCostList = new ArrayList<>();
 
         List<IpoTechnologyTableDto> devData = ipoTechnologyVo.getDevData();//研发投入数据
-
+        List yearList = new ArrayList();
         if (CollectionUtils.isNotEmpty(devData) &&
                 StringUtil.isNotBlank(ipoTechnologyVo.getDevDate().getFirstYearDate())) {// 时间不为空
             if (ipoTechnologyVo.getDevDate().getFirstYearDate().indexOf("12-31") >= 0) {// 若头一年时间是以12-31日为结束
@@ -393,6 +393,7 @@ public class IpoInterfaceService extends BaseService {
                 IpoH5TechnologyDevDto incomeDto = new IpoH5TechnologyDevDto();// 营业收入
                 IpoH5TechnologyDevDto expensesCostDto = new IpoH5TechnologyDevDto(); // 研发支出
 
+                yearList.add(year.substring(0,4));
                 incomeDto.setYear(year);//year
                 expensesCostDto.setYear(year);//year
                 BigDecimal researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateFiavg());//研发投入平均
@@ -415,7 +416,7 @@ public class IpoInterfaceService extends BaseService {
 
                 incomeDto = new IpoH5TechnologyDevDto();// 营业收入
                 expensesCostDto = new IpoH5TechnologyDevDto(); // 研发支出
-
+                yearList.add(year.substring(0,4));
                 incomeDto.setYear(year);//year
                 expensesCostDto.setYear(year);//year
                 researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateSeavg());//研发投入平均
@@ -438,7 +439,7 @@ public class IpoInterfaceService extends BaseService {
 
                 incomeDto = new IpoH5TechnologyDevDto();// 营业收入
                 expensesCostDto = new IpoH5TechnologyDevDto(); // 研发支出
-
+                yearList.add(year.substring(0,4));
                 incomeDto.setYear(year);//year
                 expensesCostDto.setYear(year);//year
                 researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateThavg());//研发投入平均
@@ -460,7 +461,7 @@ public class IpoInterfaceService extends BaseService {
                 String year = ipoTechnologyVo.getDevDate().getSecondYearDate();//年份赋值
                 IpoH5TechnologyDevDto incomeDto = new IpoH5TechnologyDevDto();// 营业收入
                 IpoH5TechnologyDevDto expensesCostDto = new IpoH5TechnologyDevDto(); // 研发支出
-
+                yearList.add(year.substring(0,4));
                 incomeDto.setYear(year);//year
                 expensesCostDto.setYear(year);//year
                 BigDecimal researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateFiavg());//研发投入平均
@@ -482,7 +483,7 @@ public class IpoInterfaceService extends BaseService {
 
                 incomeDto = new IpoH5TechnologyDevDto();// 营业收入
                 expensesCostDto = new IpoH5TechnologyDevDto(); // 研发支出
-
+                yearList.add(year.substring(0,4));
                 incomeDto.setYear(year);//year
                 expensesCostDto.setYear(year);//year
                 researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateSeavg());//研发投入平均
@@ -504,7 +505,7 @@ public class IpoInterfaceService extends BaseService {
 
                 incomeDto = new IpoH5TechnologyDevDto();// 营业收入
                 expensesCostDto = new IpoH5TechnologyDevDto(); // 研发支出
-
+                yearList.add(year.substring(0,4));
                 incomeDto.setYear(year);//year
                 expensesCostDto.setYear(year);//year
                 researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateThavg());//研发投入平均
@@ -536,8 +537,12 @@ public class IpoInterfaceService extends BaseService {
                 return o1.getYear().compareTo(o2.getYear());
             }
         });
+
+        Collections.sort(yearList);
+
         devResult.put("income", incomeList);
         devResult.put("expensesCost", expensesCostList);
+        devResult.put("years", yearList);
         return devResult;
     }
 
