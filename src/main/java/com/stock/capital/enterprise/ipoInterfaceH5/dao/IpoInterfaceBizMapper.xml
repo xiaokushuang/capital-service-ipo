@@ -3,8 +3,8 @@
 <mapper namespace="com.stock.capital.enterprise.ipoInterfaceH5.dao.IpoInterfaceBizMapper" >
     <select id="otherIpoCase" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto">
       SELECT t.id,t.company_code,t.company_name,t.ipo_plate,t.industry_csrc
-        FROM ipo_case t
-        where ipo_plate = '069001001006'
+        FROM ipo_case t,case_common_status_info t1
+        where ipo_plate = '069001001006' AND t.id = t1.case_id and t1.release_flag = '1'
         ORDER BY
         <if test="ipoPlate != null and ipoPlate != ''">
             FIELD(industry_csrc,#{industryCsrc}) desc,
@@ -70,5 +70,11 @@
       SELECT core_fi AS core, dev_fi AS dev, count_fi AS people, category_date_fi AS indexDate FROM ipo_technology WHERE bid = #{id}
       UNION
       SELECT core_se AS core, dev_se AS dev, count_se AS people, category_date_se AS indexDate FROM ipo_technology WHERE bid =  #{id}
+    </select>
+
+    <select id="queryIpoCase" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo">
+      SELECT t.id
+        FROM ipo_case t,case_common_status_info t1
+        where ipo_plate = '069001001006' AND t.id = t1.case_id and t1.release_flag = '1'
     </select>
 </mapper>

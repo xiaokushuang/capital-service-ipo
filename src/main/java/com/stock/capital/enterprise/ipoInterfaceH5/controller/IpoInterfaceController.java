@@ -15,20 +15,24 @@ import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5FinanceListDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5FinanceResultDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5IndustryDto;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5IssueDataDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5TechnologyDevDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5TechnologyDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.service.IpoInterfaceService;
 import com.stock.core.controller.BaseController;
+import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.QueryInfo;
 import com.stock.core.rest.RestClient;
 import com.stock.core.util.JsonUtil;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import io.swagger.annotations.Api;
@@ -63,6 +68,11 @@ public class IpoInterfaceController extends BaseController {
     private IpoFeedbackService ipoFeedbackService;
     @Autowired
     private IpoProcessService ipoProcessService;
+
+    @Value("${wechat.appid}")
+    private String wechatAppid;
+    @Value("${wechat.secret}")
+    private String wechatSecret;
 
     private static final Logger logger = LoggerFactory.getLogger(IpoInterfaceController.class);
 
@@ -304,8 +314,44 @@ public class IpoInterfaceController extends BaseController {
             logger.error("ipoCaseH5获取可能还想看发生错误:{}", Throwables.getStackTraceAsString(e));
         }
 
-        //行业与技术接口
+        //发行情况
+        try {
+            IpoH5IssueDataDto issueData = issueData(id);
+            if (issueData != null ) {
+                dataMap.put("paramName", "发行情况");
+                dataMap.put("paramData", JsonUtil.toJsonNoNull(issueData));
+            } else {
+                dataMap.put("paramName", "发行情况");
+                dataMap.put("paramData", "0");
+            }
+            resultMap.put("issueData", dataMap);
+        } catch (Exception e) {
+            dataMap.put("paramName", "发行情况");
+            dataMap.put("paramData", "0");
+            resultMap.put("issueData", dataMap);
+            logger.error("ipoCaseH5获取发行情况发生错误:{}", Throwables.getStackTraceAsString(e));
+        }
 
+        //拆分上市情况
+        try {
+            List<IpoSplitDto> spliteDataList = spliteData(id);
+            if (CollectionUtils.isNotEmpty(spliteDataList) ) {
+                dataMap.put("paramName", "拆分上市情况");
+                dataMap.put("paramData", JsonUtil.toJsonNoNull(spliteDataList));
+            } else {
+                dataMap.put("paramName", "拆分上市情况");
+                dataMap.put("paramData", "0");
+            }
+            resultMap.put("spliteDataList", dataMap);
+        } catch (Exception e) {
+            dataMap.put("paramName", "拆分上市情况");
+            dataMap.put("paramData", "0");
+            resultMap.put("spliteDataList", dataMap);
+            logger.error("ipoCaseH5获取拆分上市情况发生错误:{}", Throwables.getStackTraceAsString(e));
+        }
+
+
+        //行业与技术接口
         try {
             Map technology = getTechnology(id);
             //行业地位
@@ -909,6 +955,27 @@ public class IpoInterfaceController extends BaseController {
     }
 
     /**
+     * dxy 拆分上市情况
+     * @param id 案例id
+     * @return 数组
+     */
+    @RequestMapping(value = "/spliteData", method = RequestMethod.GET)
+    public List<IpoSplitDto> spliteData(@RequestParam("id") String id){
+        return ipoInterfaceService.getSpliteData(id);
+    }
+
+    /**
+     * 发行情况
+     * dxy
+     * @param id 案例id
+     * @return 实体类
+     */
+    @RequestMapping(value = "/issueData", method = RequestMethod.GET)
+    public IpoH5IssueDataDto issueData(@RequestParam("id") String id) {
+        return ipoInterfaceService.getIssueData(id);
+    }
+
+    /**
      * lixinwei 上市进展
      *
      * @param id 案例主键
@@ -1020,8 +1087,7 @@ public class IpoInterfaceController extends BaseController {
     @RequestMapping(value = "/getWXUserInfo")
     @ResponseBody
     public Map<String, Object> getWXUserInfo(String code) {
-//        TODO  可以appid 这些 可以写到配置里
-        String getOpenid = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxc7764eee8019ffa6&secret=ad19ed5c7a60694da781131097db7336&code=" +
+        String getOpenid = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="+wechatAppid+"&secret="+wechatSecret+"&code=" +
                 code + "&grant_type=authorization_code";
         ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
         };
@@ -1031,14 +1097,14 @@ public class IpoInterfaceController extends BaseController {
         String access_token = openMap.get("access_token");
 //        String refresh_token = openMap.get("refresh_token");
         String openid = openMap.get("openid");
-//        openMap.get("unionid");
 //        根据accesstoken 和 openid 获取用户信息
         String getUserInfo = "https://api.weixin.qq.com/sns/userinfo?access_token=" + access_token + "&openid=" + openid + "&lang=zh_CN";
         String userInfoStr = restClient.get(getUserInfo, responseType, Maps.newHashMap());
         System.out.println(userInfoStr);
         Map<String, Object> userInfoMap = JsonUtil.fromJson(userInfoStr, new ParameterizedTypeReference<Map<String, Object>>() {
         });
-        userInfoMap.put("access_token", access_token);
+//        后续可能要把这个做成 记录的 每个用户进来就记录一下 统计点击数
+        userInfoMap.put("access_token", "test");
         userInfoMap.put("openid", openid);
         ipoInterfaceService.saveUserInfo(userInfoMap);
         return userInfoMap;
@@ -1048,7 +1114,7 @@ public class IpoInterfaceController extends BaseController {
      * @return
      * @author yangj  提交评论
      */
-    @RequestMapping(value = "/submitReplay", method = RequestMethod.GET)
+    @RequestMapping(value = "/submitReplay")
     @ResponseBody
     public Map<String, Object> submitReplay(@RequestBody Map<String, Object> map) {
 //        set 时间
@@ -1065,10 +1131,18 @@ public class IpoInterfaceController extends BaseController {
      * @return
      * @author yangj
      */
-    @RequestMapping(value = "/fabulousYes", method = RequestMethod.GET)
+    @RequestMapping(value = "/fabulousYes")
     @ResponseBody
-    public void fabulousYes(@RequestBody Map<String, Object> map) {
+    public Map<String ,Object> fabulousYes(@RequestBody Map<String, Object> map) {
         ipoInterfaceService.fabulousYes(map);
+        int fabulous = ipoInterfaceService.fabulousCount(map);
+//        int fabulousCount = 1;
+//        if (fabulous >= 1000){
+//            fabulousCount = fabulous / 10;
+//        }
+        Map<String ,Object> result = new HashedMap();
+//        result.put("fabulous",fabulousCount+"K");
+        return result;
     }
 
     /**
@@ -1077,24 +1151,25 @@ public class IpoInterfaceController extends BaseController {
      * @return
      * @author yangj
      */
-    @RequestMapping(value = "/getReplay", method = RequestMethod.GET)
+    @RequestMapping(value = "/getReplay")
     @ResponseBody
     public Map<String, Object> getReplay(@RequestBody Map<String, Object> param) {
 //      查询评论
         List<Map<String, Object>> commentList = ipoInterfaceService.getCommentList((String) param.get("caseid"));
         List<Map<String, Object>> selectedList = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
         for (Map<String, Object> map : commentList) {
 //            前端展示名称
+            String comment_time = format.format(map.get("comment_time"));
             map.put("headPortrait", map.get("avatar"));
             map.put("username", map.get("comment_from_user"));
             map.put("commentText", map.get("comment_content"));
-            map.put("commentTime", map.get("comment_time"));
+            map.put("commentTime", comment_time);
 //            如果是精选评论
             if ("1".equals(map.get("is_selected_comment"))) {
                 selectedList.add(map);
             }
         }
-//        从数据库获取 TODO
 //        评论数
         int commentNum = commentList.size();
 //        点赞数

@@ -21,6 +21,7 @@ import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5TechnologyDevDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5TechnologyDto;
 import com.stock.core.service.BaseService;
 
+import com.stock.core.util.BeanUtil;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,7 +46,6 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@Transactional(rollbackFor = {Exception.class})
 public class IpoInterfaceService extends BaseService {
 
     @Autowired
@@ -84,6 +85,20 @@ public class IpoInterfaceService extends BaseService {
         result.put("industryCompareRateInfo", industryCompareRateDataProcessing(industryCompareRateDtos));//毛利率数据处理加工
         return result;
     }
+    /**
+     * 拆分上市情况
+     * dxy
+     * @param id 案例id
+     * @return list
+     */
+    public List<IpoSplitDto> getSpliteData(String id) {
+        List<IpoSplitDto> resultList = companyOverviewService.getSpliteData(id);
+        if (resultList.size() != 0){
+            return resultList;
+        }
+        return null;
+    }
+
 
     /**
      * 获取下拉框数据
@@ -136,6 +151,21 @@ public class IpoInterfaceService extends BaseService {
         return ipoInterfaceBizMapper.ipoAvg(ipoH5DetailDto);
     }
 
+    /**
+     * 发行数据
+     * dxy
+     * @param id 案例id
+     * @return dto
+     */
+    public IpoH5IssueDataDto getIssueData(String id){
+        IssueDataDto dto = issueSituationService.getIssueData(id);
+        if ( dto!= null) {
+            IpoH5IssueDataDto result = new IpoH5IssueDataDto();
+            BeanUtil.copy(dto, result);
+            return result;
+        }
+        return null;
+    }
 
     /**
      * 毛利率数据加工处理
@@ -589,4 +619,7 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
     }
 
 
+    public List<IpoCaseListVo> queryIpoCase() {
+        return ipoInterfaceBizMapper.queryIpoCase();
+    }
 }

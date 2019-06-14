@@ -1,18 +1,22 @@
 package com.stock.capital.enterprise.ipoInterfaceH5.controller;
 
 
-//import com.obs.services.ObsClient;
-import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo;
+import com.obs.services.ObsClient;
+import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo;
+import com.stock.capital.enterprise.ipoInterfaceH5.service.IpoInterfaceService;
 import com.stock.core.controller.BaseController;
+import com.stock.core.util.JsonUtil;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.ByteArrayInputStream;
+import java.util.List;
 import java.util.Map;
 
 @Api(tags = {"IPOH5接口"}, description = "IPOH5接口")
@@ -20,16 +24,20 @@ import java.util.Map;
 @RequestMapping("ipoFileUpload")
 public class IpoFileUploadController extends BaseController {
 
-    /*private static final Logger logger = LoggerFactory.getLogger(IpoFileUploadController.class);
+    private static final Logger logger = LoggerFactory.getLogger(IpoFileUploadController.class);
 
     @Autowired
     private IpoInterfaceController ipoInterfaceController;
 
-    *//**
+    @Autowired
+    private IpoInterfaceService ipoInterfaceService;
+
+    /**
+     *
      * 文件上传
      * @param content 上传的json内容
      * @param fileName 上传的文件名字
-     *//*
+     */
     @RequestMapping(value = "/fileUpload", method = RequestMethod.GET)
     public void fileUpload(String content,String fileName) {
         String endPoint = "https://obs.cn-north-1.myhwclouds.com";
@@ -37,22 +45,32 @@ public class IpoFileUploadController extends BaseController {
         String sk = "uJtCMfVxpjYHrvdtjH6zPmFIZ6E5iRHTF4oj4LRa";
         // 创建ObsClient实例
         ObsClient obsClient = new ObsClient(ak, sk, endPoint);
-        obsClient.putObject("obs-repo", "ipo-dev/"+fileName+".txt", new ByteArrayInputStream(content.getBytes()));
+        //测试地址
+        //obsClient.putObject("obs-repo", "ipo-dev/"+fileName+".txt", new ByteArrayInputStream(content.getBytes()));
+        //生产地址
+        obsClient.putObject("obs-repo", "ipo/"+fileName+".txt", new ByteArrayInputStream(content.getBytes()));
     }
 
-    *//**
+    /**
      * 每晚定时把所有科创版数据生成json文件放到华为云上
-     *//*
+     */
+    @Scheduled(cron = "0 10 12 15 6 ? ")
     public void ipoDataUpload(){
         //查询科创版所有案例
-        String ipoPlate = "069001001006";//科创版
-        IpoCaseListBo ipoCaseListBo = new IpoCaseListBo();
-        ipoCaseListBo.setIpoPlate(ipoPlate);
-        Map<String, Object> ipoCaseList = ipoInterfaceController.getIpoCaseList(ipoCaseListBo);
+        logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
+        List<IpoCaseListVo> ipoCaseList = ipoInterfaceService.queryIpoCase();
+        logger.info("#######【将IpoH5的数据生成json文件放到华为云时查询到有"+ipoCaseList.size()+"条科创版数据###########");
         if (ipoCaseList != null){
-
+            for (int i=0;i<ipoCaseList.size();i++){
+                try {
+                    Map<String, Object> data = ipoInterfaceController.ipoCaseH5(ipoCaseList.get(i).getId());
+                    fileUpload(JsonUtil.toJsonNoNull(data),ipoCaseList.get(i).getId());
+                }catch (Exception e){
+                    logger.info("#######【将IpoH5的数据的json文件上传华为云时主键："+ipoCaseList.get(i).getId()+"数据出错###########");
+                }
+            }
         }
-    }*/
+    }
 
 
 
