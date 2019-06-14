@@ -19,7 +19,8 @@ public class SwaggerConfig {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.apiInfo(apiInfo())
 				.select()
-				.apis(RequestHandlerSelectors.basePackage("com.stock.capital.enterprise.ipoCase"))
+//				.apis(RequestHandlerSelectors.basePackage("com.stock.capital.enterprise.ipoCase"))
+                .apis(RequestHandlerSelectors.basePackage("com.stock.capital.enterprise.ipoInterfaceH5"))
 				.paths(PathSelectors.any())
 				.build();
 	}

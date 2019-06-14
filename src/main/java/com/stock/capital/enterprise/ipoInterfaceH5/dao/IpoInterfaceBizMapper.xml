@@ -3,14 +3,72 @@
 <mapper namespace="com.stock.capital.enterprise.ipoInterfaceH5.dao.IpoInterfaceBizMapper" >
     <select id="otherIpoCase" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto">
       SELECT t.id,t.company_code,t.company_name,t.ipo_plate,t.industry_csrc
-      FROM ipo_case t
-      <where>
-          ipo_plate = #{ipoPlate}
-      </where>
-      ORDER BY
-      <if test="ipoPlate != null and ipoPlate != ''">
-        FIELD(industry_csrc,#{industryCsrc}) desc,
-      </if>
-      RAND() limit 4;
+        FROM ipo_case t
+        where ipo_plate = '069001001006'
+        ORDER BY
+        <if test="ipoPlate != null and ipoPlate != ''">
+            FIELD(industry_csrc,#{industryCsrc}) desc,
+        </if>
+        RAND() limit 4;
+    </select>
+
+    <select id="ipoCompanyRank" parameterType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto" resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto">
+        SELECT (SELECT COUNT(m.id) FROM ipo_h5 m)AS ipoCompanyCount,
+        (SELECT COUNT(m.id) FROM sa_company m WHERE m.belongs_plate = '02' AND m.ipo_flag = '1' AND m.liststate = '0') AS saCompanyCount,
+        t.id AS id,
+        t.bid AS bid,
+        t.research AS research,
+        t.research_ranking AS researchRanking,
+        t.patent AS patent,
+        t.patent_ranking AS patentRanking,
+        t.patent_ranking_year AS patentRankingYear,
+        t.research_peo AS researchPeo,
+        t.research_peo_core AS researchPeoCore,
+        t.company_peo AS companyPeo,
+        t.research_peo_ranking AS researchPeoRanking,
+        t.research_peo_year AS researchPeoYear,
+        t.taking AS taking,
+        t.taking_ranking AS takingRanking,
+        t.taking_ranking_gem AS takingRankingGem,
+        t.taking_ranking_year AS takingRankingYear,
+        t.profits AS profits,
+        t.profits_ranking AS profitsRanking,
+        t.profits_ranking_gem AS profitsRankingGem,
+        t.profits_ranking_year AS profitsRankingYear,
+        t.assets AS assets,
+        t.assets_ranking AS assetsRanking,
+        t.assets_ranking_gem AS assetsRankingGem,
+        t.assets_ranking_year AS assetsRankingYear,
+        t.research_year AS researchYear,
+        t.research_plate_fiavg AS researchPlateFiavg,
+        t.research_plate_seavg AS researchPlateSeavg,
+        t.research_plate_thavg AS researchPlateThavg,
+        t.taking_fiavg AS takingFiavg,
+        t.taking_seavg AS takingSeavg,
+        t.taking_thavg AS takingThavg,
+        t.industry_csrc AS industryCsrc,
+        t.research_year_se AS researchYearSe,
+				t.research_year_th AS researchYearTh
+        FROM ipo_h5 t
+        WHERE t.bid = #{bid}
+    </select>
+
+    <select id="ipoAvg" parameterType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5DetailDto" resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5DetailDto">
+      SELECT t.id AS id,t.org_code AS orgCode,t.plate_type AS plateType,t.column_comment AS columnComment,
+      t.report_date AS reportDate,t.year AS year,(sum(t.curr_val)/(SELECT COUNT(1) FROM ipo_h5_detail m
+        WHERE m.column_comment = #{columnComment} AND m.plate_type = #{plateType} AND m.industry_csrc = #{industryCsrc})) AS currValAvg,t.industry_csrc
+      FROM ipo_h5_detail t WHERE t.column_comment = #{columnComment} AND t.plate_type = #{plateType} AND t.industry_csrc = #{industryCsrc}
+      GROUP BY t.`year` ORDER BY t.`year` DESC LIMIT 3;
+    </select>
+
+    <select id="queryIndustryCsrc" parameterType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5DetailDto" resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5DetailDto">
+        SELECT t.industry_csrc AS industryCsrc FROM ipo_case t WHERE t.id = #{bid}
+    </select>
+
+
+  <select id="getCoreDevFromIpoTech" parameterType="java.lang.String" resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5CoreDevDto">
+      SELECT core_fi AS core, dev_fi AS dev, count_fi AS people, category_date_fi AS indexDate FROM ipo_technology WHERE bid = #{id}
+      UNION
+      SELECT core_se AS core, dev_se AS dev, count_se AS people, category_date_se AS indexDate FROM ipo_technology WHERE bid =  #{id}
     </select>
 </mapper>
