@@ -170,6 +170,7 @@ public class IpoProcessService extends BaseService {
                 }
                 //判断当前时间和进程时间，如果进程时间大于当前时间，则置灰
                 proList.get(j).setDateCompare(1);
+                proList.get(j).setHandle(true);
                 if ("02".equals(treeList.get(i).getTreeTypeCode())) {
                     try {
                         Date nowDate = new Date();
@@ -177,9 +178,11 @@ public class IpoProcessService extends BaseService {
                             Date proDate = DateUtils.parseDate(proList.get(j).getProcessTime(), "yyyy-MM-dd");
                             if (proDate.compareTo(nowDate) > 0) {
                                 proList.get(j).setDateCompare(0);
+                                proList.get(j).setHandle(false);
                             }
                         }else{
                             proList.get(j).setDateCompare(0);
+                            proList.get(j).setHandle(false);
                         }
                     } catch (ParseException e) {
                         logger.error("进程日期转换错误");

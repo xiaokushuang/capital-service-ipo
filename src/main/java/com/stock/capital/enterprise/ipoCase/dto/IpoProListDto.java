@@ -41,6 +41,17 @@ public class IpoProListDto implements Serializable {
     @ApiModelProperty("进程日期是否大于当前日期 0：大于 1：小与")
     private Integer dateCompare;
 
+    @ApiModelProperty("ipoh5所用字段，该步骤是否处理")
+    private Boolean handle;
+
+    public Boolean getHandle() {
+        return handle;
+    }
+
+    public void setHandle(Boolean handle) {
+        this.handle = handle;
+    }
+
     public String getProgressType() {
         return progressType;
     }

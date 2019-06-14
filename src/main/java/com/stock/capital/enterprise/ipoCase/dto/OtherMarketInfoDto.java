@@ -18,6 +18,9 @@ public class OtherMarketInfoDto implements Serializable {
     @ApiModelProperty("资本市场")
     private String marketType;
 
+    @ApiModelProperty("资本市场Code")
+    private String marketTypeCode;
+
     @ApiModelProperty("公司代码")
     private String companyCode;
 
@@ -32,6 +35,13 @@ public class OtherMarketInfoDto implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date delistTime;
 
+    public String getMarketTypeCode() {
+        return marketTypeCode;
+    }
+
+    public void setMarketTypeCode(String marketTypeCode) {
+        this.marketTypeCode = marketTypeCode;
+    }
 
     public String getId() {
         return id;

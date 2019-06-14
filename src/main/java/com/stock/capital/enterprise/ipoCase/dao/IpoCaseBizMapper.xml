@@ -21,6 +21,7 @@
     <result column="issue_condition" property="issueCondition" jdbcType="VARCHAR"/>
     <result column="stragetic_industries" property="strageticIndustries" jdbcType="VARCHAR"/>
     <result column="placing_mechanism" property="placingMechanism" jdbcType="VARCHAR"/>
+      <result column="industryCsrcCode" property="industryCsrcCode" jdbcType="VARCHAR"/>
   </resultMap>
 
   <resultMap id="SupCusResultMap" type="com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto" >
@@ -53,13 +54,17 @@
   <select id="getIpoCaseDetail" parameterType="string" resultMap="BaseResultMap">
     SELECT
     ic.id,
+    (SELECT GROUP_CONCAT(m.label_name) FROM maa_conf_label m WHERE m.label_code = 'IPO_SPECIAL_ARRANGE' AND m.status = '1' AND FIND_IN_SET(m.label_value,ic.special_arrange))AS specialArrange,
     ic.company_zh_name,
     ic.industry_status_overview,
+    ic.industry_csrc AS industryCsrcCode,
     (SELECT mcl.label_name FROM maa_conf_label mcl WHERE mcl.label_code = 'IPO_PLATE' AND mcl.label_value = ic.ipo_plate) AS ipo_plate,
     (SELECT group_concat(mcl1.label_name) FROM maa_conf_label mcl1 WHERE mcl1.label_code = 'INDUSTRY_CSRC_2012' AND find_in_set(mcl1.label_value,TRIM(LEADING '0' FROM ic.industry_csrc))) AS industry_csrc,
     ic.company_name,
     ic.company_code,
     ic.issue_condition,
+    (select GROUP_CONCAT(m.label_name) FROM maa_conf_label m where m.label_code = 'IPO_ISSUE_CONDITION'
+    AND m.status = '1' and FIND_IN_SET(m.label_value,ic.issue_condition)) AS issueConditionName,
     (SELECT p.area_name FROM provinces p WHERE p.area_no = ic.addr_prov) AS addr_prov,
     (SELECT p.area_name FROM provinces p WHERE p.area_no = ic.addr_city) AS addr_city,
     (SELECT p.area_name FROM provinces p WHERE p.area_no = ic.addr_area) AS addr_area,
@@ -126,7 +131,7 @@
 
   <select id="getIpoMarketData" parameterType="string"
           resultType="com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto">
-    SELECT id, bid, (SELECT mcl.label_name FROM maa_conf_label mcl WHERE mcl.label_code = 'IPO_CAPITAL_MARKET' AND mcl.label_value = market_type) AS marketType,
+    SELECT id, bid, market_type AS marketTypeCode,(SELECT mcl.label_name FROM maa_conf_label mcl WHERE mcl.label_code = 'IPO_CAPITAL_MARKET' AND mcl.label_value = market_type) AS marketType,
      company_code AS companyCode, company_name AS companyName, list_time AS listTime, delist_time AS delistTime FROM ipo_other_market_info
     WHERE bid = #{bid}
   </select>

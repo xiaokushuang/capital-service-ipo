@@ -81,6 +81,39 @@ public class CompanyOverviewVo implements Serializable {
     @ApiModelProperty("配售机制")
     private String placingMechanism; //配售机制
 
+    @ApiModelProperty("上市条件")
+    private String issueConditionName; //上市条件
+
+    @ApiModelProperty("公司治理特殊安排")
+    private String specialArrange;//公司治理特殊安排
+
+    @ApiModelProperty("行业code")
+    private String industryCsrcCode;
+
+    public String getIndustryCsrcCode() {
+        return industryCsrcCode;
+    }
+
+    public void setIndustryCsrcCode(String industryCsrcCode) {
+        this.industryCsrcCode = industryCsrcCode;
+    }
+
+    public String getSpecialArrange() {
+        return specialArrange;
+    }
+
+    public void setSpecialArrange(String specialArrange) {
+        this.specialArrange = specialArrange;
+    }
+
+    public String getIssueConditionName() {
+        return issueConditionName;
+    }
+
+    public void setIssueConditionName(String issueConditionName) {
+        this.issueConditionName = issueConditionName;
+    }
+
     public String getId() {
         return id;
     }
