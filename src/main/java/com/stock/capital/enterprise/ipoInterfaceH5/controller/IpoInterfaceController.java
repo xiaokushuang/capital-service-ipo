@@ -15,10 +15,12 @@ import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5FinanceListDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5FinanceResultDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5IndustryDto;
+import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5IssueDataDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5TechnologyDevDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5TechnologyDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.service.IpoInterfaceService;
 import com.stock.core.controller.BaseController;
+import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.QueryInfo;
 import com.stock.core.rest.RestClient;
 import com.stock.core.util.JsonUtil;
@@ -306,8 +308,25 @@ public class IpoInterfaceController extends BaseController {
             logger.error("ipoCaseH5获取可能还想看发生错误:{}", Throwables.getStackTraceAsString(e));
         }
 
-        //行业与技术接口
+        //发行情况
+        try {
+            IpoH5IssueDataDto issueData = issueData(id);
+            if (issueData != null ) {
+                dataMap.put("paramName", "发行情况");
+                dataMap.put("paramData", JsonUtil.toJsonNoNull(issueData));
+            } else {
+                dataMap.put("paramName", "发行情况");
+                dataMap.put("paramData", "0");
+            }
+            resultMap.put("valuationData", dataMap);
+        } catch (Exception e) {
+            dataMap.put("paramName", "最新估值");
+            dataMap.put("paramData", "0");
+            resultMap.put("valuationData", dataMap);
+            logger.error("ipoCaseH5获取最新估值发生错误:{}", Throwables.getStackTraceAsString(e));
+        }
 
+        //行业与技术接口
         try {
             Map technology = getTechnology(id);
             //行业地位
@@ -908,6 +927,17 @@ public class IpoInterfaceController extends BaseController {
     @RequestMapping(value = "/getTechnology", method = RequestMethod.GET)
     public Map getTechnology(@RequestParam("id") String id) {
         return ipoInterfaceService.getIpoTechnology(id);
+    }
+
+    /**
+     * 发行情况
+     * dxy
+     * @param id 案例id
+     * @return 实体类
+     */
+    @RequestMapping(value = "/issueData", method = RequestMethod.GET)
+    public IpoH5IssueDataDto issueData(@RequestParam("id") String id) {
+        return ipoInterfaceService.getIssueData(id);
     }
 
     /**
