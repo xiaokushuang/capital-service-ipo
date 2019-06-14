@@ -105,5 +105,6 @@
             t2.letter_class_name in ('发审委会议询问的主要问题','上市委会议询问的主要问题')
         AND t1.rela_code = #{orgCode}
         and t1.letter_date = #{date}
+        limit 1
     </select>
 </mapper>
