@@ -1454,7 +1454,8 @@ public class IpoInterfaceController extends BaseController {
     public JsonResponse fabulousYes(String openid,String unionid,String caseid,String isLike) {
         Map<String ,Object> param = new HashMap();
         param.put("openid",openid);
-        param.put("unionid",unionid);
+//        param.put("unionid",unionid);
+        param.put("unionid",openid);
         param.put("caseid",caseid);
         param.put("isLike",isLike);
         JsonResponse jsonResponse = new JsonResponse();
