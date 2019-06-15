@@ -487,7 +487,7 @@ public class IpoFinanceService extends BaseService {
                 resultDto.setIncomeList(incomeList);
                 resultDto.setIncomeRate(incomeRate);
             } else if ("销售毛利率".equals(dto.getItemName())) {
-//                dto.setItemName("毛利率");
+                dto.setItemName("毛利率");
                 List<IpoFinanceH5Dto> grossList = insertFinanceData(dto, dateDto);
                 resultDto.setGrossList(grossList);
             } else if ("净利润".equals(dto.getItemName())) {
@@ -497,9 +497,9 @@ public class IpoFinanceService extends BaseService {
                 resultDto.setProfitList(profitList);
                 resultDto.setProfitRate(profitRate);
             } else if ("销售净利率".equals(dto.getItemName())) {
-//                dto.setItemName("净利润率");
+                dto.setItemName("净利润率");
                 List<IpoFinanceH5Dto> profitRateList = insertFinanceData(dto, dateDto);
-                resultDto.setProfitList(profitRateList);
+                resultDto.setProfitRateList(profitRateList);
             } else if ("净资产收益率ROE(加权)".equals(dto.getItemName())) {
                 dto.setItemName("加权平均净资产收益率");
                 insertMainIndexData(dto, mainIndexList);
