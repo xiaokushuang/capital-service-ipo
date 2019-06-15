@@ -1392,8 +1392,9 @@ public class IpoInterfaceController extends BaseController {
      */
     @RequestMapping(value = "/getWXUserInfo")
     @ResponseBody
-    public Map<String, Object> getWXUserInfo(String code) {
-        String getOpenid = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="+wechatAppid+"&secret="+wechatSecret+"&code=" +
+    public JsonResponse getWXUserInfo(String code) {
+        JsonResponse jsonResponse = new JsonResponse();
+        String getOpenid = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + wechatAppid + "&secret=" + wechatSecret + "&code=" +
                 code + "&grant_type=authorization_code";
         ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
         };
@@ -1413,7 +1414,8 @@ public class IpoInterfaceController extends BaseController {
         userInfoMap.put("access_token", "test");
         userInfoMap.put("openid", openid);
         ipoInterfaceService.saveUserInfo(userInfoMap);
-        return userInfoMap;
+        jsonResponse.setResult(userInfoMap);
+        return jsonResponse;
     }
 
     /**
@@ -1422,33 +1424,51 @@ public class IpoInterfaceController extends BaseController {
      */
     @RequestMapping(value = "/submitReplay")
     @ResponseBody
-    public Map<String, Object> submitReplay(@RequestBody Map<String, Object> map) {
-//        set 时间
+    public JsonResponse submitReplay(String headPortrait,String username,String commentText,String openid,String unionid,String caseid ) {
+        JsonResponse jsonResponse = new JsonResponse();
+        //        set 时间
+        Map<String,Object> map = new HashedMap();
+        map.put("headPortrait",headPortrait);
+        map.put("username",username);
+        map.put("commentText",commentText);
+        map.put("openid",openid);
+        map.put("unionid",unionid);
+        map.put("caseid",caseid);
         map.put("commentTime", new Date());
         ipoInterfaceService.submitReplay(map);
         logger.info("提交评论：" + map);
         Map<String, Object> result = new HashMap();
         result.put("status", "success");
-        return result;
+        jsonResponse.setResult(result);
+        return jsonResponse;
     }
 
     /**
      * 点赞
+     *
      * @return
      * @author yangj
      */
     @RequestMapping(value = "/fabulousYes")
     @ResponseBody
-    public Map<String ,Object> fabulousYes(@RequestBody Map<String, Object> map) {
-        ipoInterfaceService.fabulousYes(map);
-        int fabulous = ipoInterfaceService.fabulousCount(map);
+    public JsonResponse fabulousYes(String openid,String unionid,String caseid,String isLike) {
+        Map<String ,Object> param = new HashMap();
+        param.put("openid",openid);
+        param.put("unionid",unionid);
+        param.put("caseid",caseid);
+        param.put("isLike",isLike);
+        JsonResponse jsonResponse = new JsonResponse();
+        ipoInterfaceService.fabulousYes(param);
+        int fabulous = ipoInterfaceService.fabulousCount(param);
 //        int fabulousCount = 1;
 //        if (fabulous >= 1000){
 //            fabulousCount = fabulous / 10;
 //        }
-        Map<String ,Object> result = new HashedMap();
+        Map<String, Object> result = new HashedMap();
 //        result.put("fabulous",fabulousCount+"K");
-        return result;
+        result.put("status","success");
+        jsonResponse.setResult(result);
+        return jsonResponse;
     }
 
     /**
@@ -1459,22 +1479,31 @@ public class IpoInterfaceController extends BaseController {
      */
     @RequestMapping(value = "/getReplay")
     @ResponseBody
-    public Map<String, Object> getReplay(@RequestBody Map<String, Object> param) {
+    public JsonResponse getReplay(String openid,String unionid,String caseid) {
+        Map<String ,Object> param = new HashMap();
+        param.put("openid",openid);
+        param.put("unionid",unionid);
+        param.put("caseid",caseid);
+        JsonResponse jsonResponse = new JsonResponse();
 //      查询评论
         List<Map<String, Object>> commentList = ipoInterfaceService.getCommentList((String) param.get("caseid"));
         List<Map<String, Object>> selectedList = new ArrayList<>();
         SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
-        for (Map<String, Object> map : commentList) {
+        if (commentList != null && commentList.size() > 0) {
+            for (Map<String, Object> map : commentList) {
 //            前端展示名称
-            String comment_time = format.format(map.get("comment_time"));
-            map.put("headPortrait", map.get("avatar"));
-            map.put("username", map.get("comment_from_user"));
-            map.put("commentText", map.get("comment_content"));
-            map.put("commentTime", comment_time);
+                String comment_time = format.format(map.get("comment_time"));
+                map.put("headPortrait", map.get("avatar"));
+                map.put("username", map.get("comment_from_user"));
+                map.put("commentText", map.get("comment_content"));
+                map.put("commentTime", comment_time);
 //            如果是精选评论
-            if ("1".equals(map.get("is_selected_comment"))) {
-                selectedList.add(map);
+                if ("1".equals(map.get("is_selected_comment"))) {
+                    selectedList.add(map);
+                }
             }
+        }else{
+            commentList = new ArrayList<>();
         }
 //        评论数
         int commentNum = commentList.size();
@@ -1488,6 +1517,8 @@ public class IpoInterfaceController extends BaseController {
         result.put("commentNum", commentNum);
         result.put("fabulous", fabulous);
         result.put("fabulousYes", fabulousYes);
-        return result;
+        jsonResponse.setResult(result);
+        logger.info("获取评论"+result);
+        return jsonResponse;
     }
 }
