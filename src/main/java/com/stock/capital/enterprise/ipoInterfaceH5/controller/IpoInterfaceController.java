@@ -209,10 +209,17 @@ public class IpoInterfaceController extends BaseController {
             List<IpoPersonInfoDto> shareHolderData = shareHolderData(id);
             resultMap.put("shareHolderData", shareHolderData);
             if (null != shareHolderData) {
-                dataMap = new HashMap<>();
-                dataMap.put("paramName", "股权结构");
-                dataMap.put("paramData", JsonUtil.toJsonNoNull(shareHolderData));
-                resultMap.put("shareHolderData", dataMap);
+                if (shareHolderData.size() != 0){
+                    dataMap = new HashMap<>();
+                    dataMap.put("paramName", "股权结构");
+                    dataMap.put("paramData", JsonUtil.toJsonNoNull(shareHolderData));
+                    resultMap.put("shareHolderData", dataMap);
+                }else {
+                    dataMap = new HashMap<>();
+                    dataMap.put("paramName", "股权结构");
+                    dataMap.put("paramData", "0");
+                    resultMap.put("shareHolderData", dataMap);
+                }
             } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "股权结构");
