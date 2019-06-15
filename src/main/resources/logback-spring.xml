@@ -42,7 +42,7 @@
 	
     <root level="${log.level}">
         <appender-ref ref="console" />
-        <!--<appender-ref ref="${log.appender}" />-->
+        <appender-ref ref="${log.appender}" />
     </root>
 
     <logger name="org.eclipse.jetty" level="ERROR"></logger>
