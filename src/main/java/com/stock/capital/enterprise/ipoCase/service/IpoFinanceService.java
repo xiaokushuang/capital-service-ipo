@@ -389,10 +389,10 @@ public class IpoFinanceService extends BaseService {
         Date secondYear = getLastYearDate(thirdYear);
         Date firstYear = getLastYearDate(secondYear);
         //存入时间
-        dateDto.setFirstYearDate(getDateStr(firstYear));
-        dateDto.setSecondYearDate(getDateStr(secondYear));
-        dateDto.setThirdYearDate(getDateStr(thirdYear));
-        dateDto.setForthYearDate(getDateStr(forthYear));
+        dateDto.setFirstYearDate(getDateStr(firstYear).substring(0,4));
+        dateDto.setSecondYearDate(getDateStr(secondYear).substring(0,4));
+        dateDto.setThirdYearDate(getDateStr(thirdYear).substring(0,4));
+        dateDto.setForthYearDate(getDateStr(forthYear).substring(0,4));
         //根据时间和id查询财务信息，三年一期的 财务总体情况
         List<IpoItemDto> forthItemList = ipoFinanceMapper.selectFinanceOverListH5(id, forthYear);
         List<IpoItemDto> thirdItemList = ipoFinanceMapper.selectFinanceOverListH5(id, thirdYear);
@@ -458,13 +458,21 @@ public class IpoFinanceService extends BaseService {
     //计算复合增长率
     private double getGrowthRate(IpoItemDto ipoItemDto) {
         if (null != ipoItemDto.getForthYearValue() && null != ipoItemDto.getSecondYearValue()) {
-            double rate = Math.pow(ipoItemDto.getForthYearValue().divide(ipoItemDto.getSecondYearValue(), 4, BigDecimal.ROUND_HALF_UP).doubleValue(), 1.0 / 3);
-            rate = new BigDecimal((rate - 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            double param = ipoItemDto.getForthYearValue().divide(ipoItemDto.getSecondYearValue(), 4, BigDecimal.ROUND_HALF_UP).doubleValue();
+            double rate;
+            if(param <0){
+                param = param*-1;
+                rate = Math.pow(param, 1.0 / 3);
+                rate = rate*-1;
+                rate = new BigDecimal((rate + 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            }else{
+                rate = Math.pow(param, 1.0 / 3);
+                rate = new BigDecimal((rate - 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            }
             return rate;
         } else {
             return 0;
         }
-
     }
 
     private IpoH5FinanceResultDto transData(List<IpoItemDto> allItemList, IpoFinanceDateDto dateDto) {
