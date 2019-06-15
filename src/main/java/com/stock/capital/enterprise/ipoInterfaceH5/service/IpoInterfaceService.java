@@ -21,6 +21,7 @@ import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5TechnologyDevDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5TechnologyDto;
 import com.stock.core.service.BaseService;
 
+import com.stock.core.util.BeanUtil;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,7 +46,6 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@Transactional(rollbackFor = {Exception.class})
 public class IpoInterfaceService extends BaseService {
 
     @Autowired
@@ -80,10 +81,24 @@ public class IpoInterfaceService extends BaseService {
 //    result.put("companyInfo", companyOverviewVo);
         result.put("industryStatusInfo", industryStatusDtoList);
         result.put("mainCompetitorInfo", mainCompetitorInfoDtoList);
-        result.put("technologyInfo", ipoTechnologyDataProcessing(ipoTechnologyVo, id));// 科技创新模块
+        result.put("technologyInfo", ipoTechnologyDataProcessing(ipoTechnologyVo, id));// 研发投入 核心技术与研发技术人员
         result.put("industryCompareRateInfo", industryCompareRateDataProcessing(industryCompareRateDtos));//毛利率数据处理加工
         return result;
     }
+    /**
+     * 拆分上市情况
+     * dxy
+     * @param id 案例id
+     * @return list
+     */
+    public List<IpoSplitDto> getSpliteData(String id) {
+        List<IpoSplitDto> resultList = companyOverviewService.getSpliteData(id);
+        if (resultList.size() != 0){
+            return resultList;
+        }
+        return null;
+    }
+
 
     /**
      * 获取下拉框数据
@@ -124,7 +139,9 @@ public class IpoInterfaceService extends BaseService {
      * 行业平均
      * 必传：plateType 板块类型（科创板：0，创业板：1）
      * bid 案例主键
-     * columnComment 指标类型（具体有：经营活动产生的现金流量净额：046，现金及现金等价物净增加额：091,流动资产/总资产：150,非流动资产/总资产：151,流动负债/负债合计：155,非流动负债/负债合计：156,营业收入：016,净利润：056,销售净利率：114,销售毛利率：115）
+     * columnComment 指标类型（具体有：经营活动产生的现金流量净额：046，现金及现金等价物净增加额：091,流动资产/总资产：150,
+     * 非流动资产/总资产：151,流动负债/负债合计：155,非流动负债/负债合计：156,营业收入：016,净利润：056,销售净利率：114,销售毛利率：115，
+     * 净资产收益率ROE(加权)：029，基本每股收益：060，经营活动产生的现金流量净额/营业收入：181，总资产周转率：182，资产负债率：157）
      *
      * @param ipoH5DetailDto
      * @return
@@ -136,6 +153,21 @@ public class IpoInterfaceService extends BaseService {
         return ipoInterfaceBizMapper.ipoAvg(ipoH5DetailDto);
     }
 
+    /**
+     * 发行数据
+     * dxy
+     * @param id 案例id
+     * @return dto
+     */
+    public IpoH5IssueDataDto getIssueData(String id){
+        IssueDataDto dto = issueSituationService.getIssueData(id);
+        if ( dto!= null) {
+            IpoH5IssueDataDto result = new IpoH5IssueDataDto();
+            BeanUtil.copy(dto, result);
+            return result;
+        }
+        return null;
+    }
 
     /**
      * 毛利率数据加工处理
@@ -331,7 +363,7 @@ public class IpoInterfaceService extends BaseService {
     dto.setBid(id);
     IpoH5Dto ipoCompanyRank = ipoCompanyRank(dto);
     /**研发投入**/
-    Map<String, List<IpoH5TechnologyDevDto>> devResult = ipoDevDataProcessing(ipoTechnologyVo,ipoCompanyRank);// 研发营收
+    Map<String, List> devResult = ipoDevDataProcessing(ipoTechnologyVo,ipoCompanyRank);// 研发营收
     resultDto.setDevData(devResult);// 研发投入数据存储
 
     // 核心技术及研发技术人员
@@ -347,13 +379,13 @@ public class IpoInterfaceService extends BaseService {
      * @param ipoCompanyRank
      * @return
      */
-    private Map<String, List<IpoH5TechnologyDevDto>> ipoDevDataProcessing(IpoTechnologyVo ipoTechnologyVo, IpoH5Dto ipoCompanyRank) {
-        Map<String, List<IpoH5TechnologyDevDto>> devResult = new HashMap<>();// 研发营收
+    private Map<String, List> ipoDevDataProcessing(IpoTechnologyVo ipoTechnologyVo, IpoH5Dto ipoCompanyRank) {
+        Map<String, List> devResult = new HashMap<>();// 研发营收
         List<IpoH5TechnologyDevDto> incomeList = new ArrayList<>();
         List<IpoH5TechnologyDevDto> expensesCostList = new ArrayList<>();
 
         List<IpoTechnologyTableDto> devData = ipoTechnologyVo.getDevData();//研发投入数据
-
+        List yearList = new ArrayList();
         if (CollectionUtils.isNotEmpty(devData) &&
                 StringUtil.isNotBlank(ipoTechnologyVo.getDevDate().getFirstYearDate())) {// 时间不为空
             if (ipoTechnologyVo.getDevDate().getFirstYearDate().indexOf("12-31") >= 0) {// 若头一年时间是以12-31日为结束
@@ -363,6 +395,7 @@ public class IpoInterfaceService extends BaseService {
                 IpoH5TechnologyDevDto incomeDto = new IpoH5TechnologyDevDto();// 营业收入
                 IpoH5TechnologyDevDto expensesCostDto = new IpoH5TechnologyDevDto(); // 研发支出
 
+                yearList.add(year.substring(0,4));
                 incomeDto.setYear(year);//year
                 expensesCostDto.setYear(year);//year
                 BigDecimal researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateFiavg());//研发投入平均
@@ -385,7 +418,7 @@ public class IpoInterfaceService extends BaseService {
 
                 incomeDto = new IpoH5TechnologyDevDto();// 营业收入
                 expensesCostDto = new IpoH5TechnologyDevDto(); // 研发支出
-
+                yearList.add(year.substring(0,4));
                 incomeDto.setYear(year);//year
                 expensesCostDto.setYear(year);//year
                 researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateSeavg());//研发投入平均
@@ -408,7 +441,7 @@ public class IpoInterfaceService extends BaseService {
 
                 incomeDto = new IpoH5TechnologyDevDto();// 营业收入
                 expensesCostDto = new IpoH5TechnologyDevDto(); // 研发支出
-
+                yearList.add(year.substring(0,4));
                 incomeDto.setYear(year);//year
                 expensesCostDto.setYear(year);//year
                 researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateThavg());//研发投入平均
@@ -430,7 +463,7 @@ public class IpoInterfaceService extends BaseService {
                 String year = ipoTechnologyVo.getDevDate().getSecondYearDate();//年份赋值
                 IpoH5TechnologyDevDto incomeDto = new IpoH5TechnologyDevDto();// 营业收入
                 IpoH5TechnologyDevDto expensesCostDto = new IpoH5TechnologyDevDto(); // 研发支出
-
+                yearList.add(year.substring(0,4));
                 incomeDto.setYear(year);//year
                 expensesCostDto.setYear(year);//year
                 BigDecimal researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateFiavg());//研发投入平均
@@ -452,7 +485,7 @@ public class IpoInterfaceService extends BaseService {
 
                 incomeDto = new IpoH5TechnologyDevDto();// 营业收入
                 expensesCostDto = new IpoH5TechnologyDevDto(); // 研发支出
-
+                yearList.add(year.substring(0,4));
                 incomeDto.setYear(year);//year
                 expensesCostDto.setYear(year);//year
                 researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateSeavg());//研发投入平均
@@ -474,7 +507,7 @@ public class IpoInterfaceService extends BaseService {
 
                 incomeDto = new IpoH5TechnologyDevDto();// 营业收入
                 expensesCostDto = new IpoH5TechnologyDevDto(); // 研发支出
-
+                yearList.add(year.substring(0,4));
                 incomeDto.setYear(year);//year
                 expensesCostDto.setYear(year);//year
                 researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateThavg());//研发投入平均
@@ -506,8 +539,12 @@ public class IpoInterfaceService extends BaseService {
                 return o1.getYear().compareTo(o2.getYear());
             }
         });
+
+        Collections.sort(yearList);
+
         devResult.put("income", incomeList);
         devResult.put("expensesCost", expensesCostList);
+        devResult.put("years", yearList);
         return devResult;
     }
 
@@ -589,4 +626,7 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
     }
 
 
+    public List<IpoCaseListVo> queryIpoCase() {
+        return ipoInterfaceBizMapper.queryIpoCase();
+    }
 }
