@@ -47,6 +47,25 @@ public class IpoH5Dto implements Serializable {
     private String ipoCompanyCount;//ipo库中科创板公司总数
     private String saCompanyCount;//sa_company中创业板公司总数
 
+    private String patentSum;//专利总数
+    private String patentSumAll;//所有公司专利总数
+
+    public String getPatentSum() {
+        return patentSum;
+    }
+
+    public void setPatentSum(String patentSum) {
+        this.patentSum = patentSum;
+    }
+
+    public String getPatentSumAll() {
+        return patentSumAll;
+    }
+
+    public void setPatentSumAll(String patentSumAll) {
+        this.patentSumAll = patentSumAll;
+    }
+
     public String getPatentNew() {
         return patentNew;
     }
