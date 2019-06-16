@@ -302,7 +302,7 @@ public class IpoInterfaceController extends BaseController {
             if (StringUtils.isNotEmpty(industryCsrcCode)){
                 ipoCaseIndex.setIndustryCsrc(industryCsrcCode);
             }
-            List<IpoCaseIndexDto> otherIpoCase = otherIpoCase(ipoCaseIndex);
+            List<IpoCaseListVo> otherIpoCase = otherIpoCase(ipoCaseIndex);
             if (otherIpoCase != null) {
                 if (otherIpoCase.size() != 0){
                     dataMap = new HashMap<>();
@@ -310,7 +310,7 @@ public class IpoInterfaceController extends BaseController {
                     dataMap.put("paramData", JsonUtil.toJsonNoNull(otherIpoCase));
                     resultMap.put("otherIpoCase", dataMap);
                 }else {
-                    List<IpoCaseIndexDto> otherIpoCaseNoIndustry = ipoInterfaceService.otherIpoCaseNoIndustry();
+                    List<IpoCaseListVo> otherIpoCaseNoIndustry = ipoInterfaceService.otherIpoCaseNoIndustry();
                     dataMap = new HashMap<>();
                     dataMap.put("paramName", "可能还想看");
                     dataMap.put("paramData", JsonUtil.toJsonNoNull(otherIpoCaseNoIndustry));
@@ -1478,7 +1478,7 @@ public class IpoInterfaceController extends BaseController {
      * lixinwei 可能还想看
      */
     @RequestMapping(value = "/otherIpoCase", method = RequestMethod.GET)
-    public List<IpoCaseIndexDto> otherIpoCase(IpoCaseIndexDto ipoCaseIndexDto) {
+    public List<IpoCaseListVo> otherIpoCase(IpoCaseIndexDto ipoCaseIndexDto) {
         return ipoInterfaceService.otherIpoCase(ipoCaseIndexDto);
     }
 

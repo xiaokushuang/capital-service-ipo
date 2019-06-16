@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.stock.capital.enterprise.ipoInterfaceH5.dao.IpoInterfaceBizMapper" >
-    <select id="otherIpoCase" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto">
-      SELECT t.id,t.company_code,t.company_name,t.ipo_plate,t.industry_csrc
+    <select id="otherIpoCase" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo">
+      SELECT t.id,t.org_code AS orgCode,t.company_name AS companyName,t.ipo_plate AS ipoPlate,t.industry_csrc AS industryCsrc
         FROM ipo_case t,case_common_status_info t1
         where ipo_plate = '069001001006' AND t.id = t1.case_id and t1.release_flag = '1'
         ORDER BY
@@ -12,8 +12,8 @@
         RAND() limit 4;
     </select>
 
-    <select id="otherIpoCaseNoIndustry" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto">
-        SELECT t.id,t.company_code,t.company_name,t.ipo_plate,t.industry_csrc
+    <select id="otherIpoCaseNoIndustry" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo">
+        SELECT t.id,t.org_code AS orgCode,t.company_name AS companyName,t.ipo_plate AS ipoPlate,t.industry_csrc AS industryCsrc
         FROM ipo_case t,case_common_status_info t1
         where ipo_plate = '069001001006' AND t.id = t1.case_id and t1.release_flag = '1'
         ORDER BY
