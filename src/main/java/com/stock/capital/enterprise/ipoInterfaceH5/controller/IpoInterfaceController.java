@@ -303,11 +303,19 @@ public class IpoInterfaceController extends BaseController {
                 ipoCaseIndex.setIndustryCsrc(industryCsrcCode);
             }
             List<IpoCaseIndexDto> otherIpoCase = otherIpoCase(ipoCaseIndex);
-            if (CollectionUtils.isNotEmpty(otherIpoCase)) {
-                dataMap = new HashMap<>();
-                dataMap.put("paramName", "可能还想看");
-                dataMap.put("paramData", JsonUtil.toJsonNoNull(otherIpoCase));
-                resultMap.put("otherIpoCase", dataMap);
+            if (otherIpoCase != null) {
+                if (otherIpoCase.size() != 0){
+                    dataMap = new HashMap<>();
+                    dataMap.put("paramName", "可能还想看");
+                    dataMap.put("paramData", JsonUtil.toJsonNoNull(otherIpoCase));
+                    resultMap.put("otherIpoCase", dataMap);
+                }else {
+                    List<IpoCaseIndexDto> otherIpoCaseNoIndustry = ipoInterfaceService.otherIpoCaseNoIndustry();
+                    dataMap = new HashMap<>();
+                    dataMap.put("paramName", "可能还想看");
+                    dataMap.put("paramData", JsonUtil.toJsonNoNull(otherIpoCaseNoIndustry));
+                    resultMap.put("otherIpoCase", dataMap);
+                }
             } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "可能还想看");

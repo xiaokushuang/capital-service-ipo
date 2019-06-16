@@ -12,6 +12,13 @@
         RAND() limit 4;
     </select>
 
+    <select id="otherIpoCaseNoIndustry" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto">
+        FROM ipo_case t,case_common_status_info t1
+        where ipo_plate = '069001001006' AND t.id = t1.case_id and t1.release_flag = '1'
+        ORDER BY
+        RAND() limit 4;
+    </select>
+
     <select id="ipoCompanyRank" parameterType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto" resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto">
         SELECT (SELECT COUNT(m.id) FROM ipo_h5 m)AS ipoCompanyCount,
         (SELECT COUNT(m.id) FROM sa_company m WHERE m.belongs_plate = '02' AND m.ipo_flag = '1' AND m.liststate = '0') AS saCompanyCount,
@@ -20,6 +27,9 @@
         t.research AS research,
         t.research_ranking AS researchRanking,
         t.patent AS patent,
+        t.patent_new AS patentNew,
+        t.patent_design AS patentDesign,
+        t.patent_internation AS patentInternation,
         t.patent_ranking AS patentRanking,
         t.patent_ranking_year AS patentRankingYear,
         t.research_peo AS researchPeo,

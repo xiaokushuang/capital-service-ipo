@@ -23,4 +23,6 @@ public interface IpoInterfaceBizMapper {
     List<IpoH5CoreDevDto> getCoreDevFromIpoTech(@Param("id") String id);
 
     List<IpoCaseListVo> queryIpoCase();
+
+    List<IpoCaseIndexDto> otherIpoCaseNoIndustry();
 }

@@ -10,6 +10,9 @@ public class IpoH5Dto implements Serializable {
     private String research;//  研发投入
     private String researchRanking;//  研发投入排名
     private String patent;//  专利情况
+    private String patentNew;//使用新型专利
+    private String patentDesign;//外观设计专利
+    private String patentInternation;//国际专利
     private String patentRanking;//  专利情况排名
     private String patentRankingYear;//  专利情况年度
     private String researchPeo;//  研发人员
@@ -43,6 +46,30 @@ public class IpoH5Dto implements Serializable {
     private String orgCode;
     private String ipoCompanyCount;//ipo库中科创板公司总数
     private String saCompanyCount;//sa_company中创业板公司总数
+
+    public String getPatentNew() {
+        return patentNew;
+    }
+
+    public void setPatentNew(String patentNew) {
+        this.patentNew = patentNew;
+    }
+
+    public String getPatentDesign() {
+        return patentDesign;
+    }
+
+    public void setPatentDesign(String patentDesign) {
+        this.patentDesign = patentDesign;
+    }
+
+    public String getPatentInternation() {
+        return patentInternation;
+    }
+
+    public void setPatentInternation(String patentInternation) {
+        this.patentInternation = patentInternation;
+    }
 
     public String getResearchYearSe() {
         return researchYearSe;
