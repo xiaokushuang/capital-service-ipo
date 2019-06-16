@@ -28,9 +28,13 @@
         t.research AS research,
         t.research_ranking AS researchRanking,
         t.patent AS patent,
+        (select sum(m.patent)from ipo_h5 m)AS patentAll,
         t.patent_new AS patentNew,
+        (select sum(m.patent_new)from ipo_h5 m)AS patentNewAll,
         t.patent_design AS patentDesign,
+        (select sum(m.patent_design)from ipo_h5 m)AS patentDesignAll,
         t.patent_internation AS patentInternation,
+        (select sum(m.patent_internation)from ipo_h5 m)AS patentInternationAll,
         (ifnull(t.patent,0)+ifnull(t.patent_new,0)+ifnull(t.patent_design,0)+ifnull(t.patent_internation,0)) AS patentSum,
         (select sum(mt.patentSum) from (select (ifnull(m.patent,0)+ifnull(m.patent_new,0)+ifnull(m.patent_design,0)+ifnull(m.patent_internation,0)) AS patentSum
         from ipo_h5 m) as mt)AS patentSumAll,
