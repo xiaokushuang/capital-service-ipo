@@ -73,8 +73,8 @@
 
     <select id="ipoAvg" parameterType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5DetailDto" resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5DetailDto">
       SELECT t.id AS id,t.org_code AS orgCode,t.plate_type AS plateType,t.column_comment AS columnComment,
-      t.report_date AS reportDate,t.year AS year,(sum(t.curr_val)/(SELECT COUNT(1) FROM ipo_h5_detail m
-        WHERE m.column_comment = #{columnComment} AND m.plate_type = #{plateType} AND m.industry_csrc = #{industryCsrc})) AS currValAvg,t.industry_csrc
+      t.report_date AS reportDate,t.year AS year,ifnull((sum(t.curr_val)/(SELECT COUNT(1) FROM ipo_h5_detail m
+        WHERE m.column_comment = #{columnComment} AND m.plate_type = #{plateType} AND m.industry_csrc = #{industryCsrc})),"0") AS currValAvg,t.industry_csrc
       FROM ipo_h5_detail t WHERE t.column_comment = #{columnComment} AND t.plate_type = #{plateType} AND t.industry_csrc = #{industryCsrc}
       GROUP BY t.`year` ORDER BY t.`year` DESC LIMIT 3;
     </select>

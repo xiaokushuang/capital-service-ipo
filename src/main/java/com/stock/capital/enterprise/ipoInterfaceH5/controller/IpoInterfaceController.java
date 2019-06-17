@@ -955,17 +955,35 @@ public class IpoInterfaceController extends BaseController {
             avgParam.setPlateType("1");
             List<IpoH5DetailDto> CybAverageList = ipoInterfaceService.ipoAvg(avgParam);
             for (IpoFinanceH5Dto dataDto : dataList) {
-                for (IpoH5DetailDto avgDto : KcbAverageList) {
-                    if (StringUtils.isNotEmpty(dataDto.getYear()) && dataDto.getYear().equals(avgDto.getYear())) {
-                        BigDecimal kcbData = new BigDecimal(avgDto.getCurrValAvg());
-                        dataDto.setKcbData(kcbData);
+                if(CollectionUtils.isNotEmpty(KcbAverageList)){
+                    boolean flag = true;
+                    for (IpoH5DetailDto avgDto : KcbAverageList) {
+                        if (StringUtils.isNotEmpty(dataDto.getYear()) && dataDto.getYear().equals(avgDto.getYear())) {
+                            BigDecimal kcbData = new BigDecimal(avgDto.getCurrValAvg());
+                            dataDto.setKcbData(kcbData);
+                            flag = false;
+                        }
                     }
+                    if(flag){
+                        dataDto.setKcbData(new BigDecimal("0"));
+                    }
+                }else{
+                    dataDto.setKcbData(new BigDecimal("0"));
                 }
-                for (IpoH5DetailDto avgDto : CybAverageList) {
-                    if (StringUtils.isNotEmpty(dataDto.getYear()) && dataDto.getYear().equals(avgDto.getYear())) {
-                        BigDecimal cybData = new BigDecimal(avgDto.getCurrValAvg());
-                        dataDto.setCybData(cybData);
+                if(CollectionUtils.isNotEmpty(CybAverageList)){
+                    boolean flag = true;
+                    for (IpoH5DetailDto avgDto : CybAverageList) {
+                        if (StringUtils.isNotEmpty(dataDto.getYear()) && dataDto.getYear().equals(avgDto.getYear())) {
+                            BigDecimal cybData = new BigDecimal(avgDto.getCurrValAvg());
+                            dataDto.setCybData(cybData);
+                            flag = false;
+                        }
                     }
+                    if(flag){
+                        dataDto.setCybData(new BigDecimal("0"));
+                    }
+                }else{
+                    dataDto.setCybData(new BigDecimal("0"));
                 }
             }
         }
@@ -984,18 +1002,37 @@ public class IpoInterfaceController extends BaseController {
             avgParam.setPlateType("1");
             List<IpoH5DetailDto> CybAverageList = ipoInterfaceService.ipoAvg(avgParam);
             for (IpoFinanceH5Dto dataDto : dataList) {
-                for (IpoH5DetailDto avgDto : KcbAverageList) {
-                    if (StringUtils.isNotEmpty(dataDto.getYear()) && dataDto.getYear().equals(avgDto.getYear())) {
-                        BigDecimal kcbData = new BigDecimal(avgDto.getCurrValAvg()).divide(new BigDecimal("10000"), 2, BigDecimal.ROUND_HALF_UP);
-                        dataDto.setKcbData(kcbData);
+                if(CollectionUtils.isNotEmpty(KcbAverageList)){
+                    boolean flag = true;
+                    for (IpoH5DetailDto avgDto : KcbAverageList) {
+                        if (StringUtils.isNotEmpty(dataDto.getYear()) && dataDto.getYear().equals(avgDto.getYear())) {
+                            BigDecimal kcbData = new BigDecimal(avgDto.getCurrValAvg()).divide(new BigDecimal("10000"), 2, BigDecimal.ROUND_HALF_UP);
+                            dataDto.setKcbData(kcbData);
+                            flag = false;
+                        }
                     }
-                }
-                for (IpoH5DetailDto avgDto : CybAverageList) {
-                    if (StringUtils.isNotEmpty(dataDto.getYear()) && dataDto.getYear().equals(avgDto.getYear())) {
-                        BigDecimal cybData = new BigDecimal(avgDto.getCurrValAvg()).divide(new BigDecimal("10000"), 2, BigDecimal.ROUND_HALF_UP);
-                        dataDto.setCybData(cybData);
+                    if(flag){
+                        dataDto.setKcbData(new BigDecimal("0"));
                     }
+                }else{
+                    dataDto.setKcbData(new BigDecimal("0"));
                 }
+                if(CollectionUtils.isNotEmpty(CybAverageList)){
+                    boolean flag = true;
+                    for (IpoH5DetailDto avgDto : CybAverageList) {
+                        if (StringUtils.isNotEmpty(dataDto.getYear()) && dataDto.getYear().equals(avgDto.getYear())) {
+                            BigDecimal cybData = new BigDecimal(avgDto.getCurrValAvg()).divide(new BigDecimal("10000"), 2, BigDecimal.ROUND_HALF_UP);
+                            dataDto.setCybData(cybData);
+                            flag = false;
+                        }
+                    }
+                    if(flag){
+                        dataDto.setCybData(new BigDecimal("0"));
+                    }
+                }else{
+                    dataDto.setCybData(new BigDecimal("0"));
+                }
+
             }
 
             //计算科创板复合增长率
@@ -1004,12 +1041,16 @@ public class IpoInterfaceController extends BaseController {
                 BigDecimal kcbBeforeValue = new BigDecimal(KcbAverageList.get(2).getCurrValAvg());
                 Double kcbRate = getGrowthRate(kcbBeforeValue,kcbNowValue);
                 rateDto.setKcbData(new BigDecimal(String.valueOf(kcbRate)));
+            }else{
+                rateDto.setKcbData(new BigDecimal("0"));
             }
             if(CybAverageList.size() == 3){
                 BigDecimal cybNowValue = new BigDecimal(CybAverageList.get(0).getCurrValAvg());
                 BigDecimal cybBeforeValue = new BigDecimal(CybAverageList.get(2).getCurrValAvg());
                 Double cybRate = getGrowthRate(cybBeforeValue,cybNowValue);
                 rateDto.setCybData(new BigDecimal(String.valueOf(cybRate)));
+            }else{
+                rateDto.setCybData(new BigDecimal("0"));
             }
 
         }
@@ -1048,11 +1089,15 @@ public class IpoInterfaceController extends BaseController {
                     List<IpoH5DetailDto> KcbAverageList = ipoInterfaceService.ipoAvg(avgParam);
                     if(CollectionUtils.isNotEmpty(KcbAverageList)){
                         dataDto.setKcbData(new BigDecimal(KcbAverageList.get(0).getCurrValAvg()));
+                    }else{
+                        dataDto.setKcbData(new BigDecimal("0"));
                     }
                     avgParam.setPlateType("1");
                     List<IpoH5DetailDto> CybAverageList = ipoInterfaceService.ipoAvg(avgParam);
                     if(CollectionUtils.isNotEmpty(CybAverageList)){
                         dataDto.setCybData(new BigDecimal(CybAverageList.get(0).getCurrValAvg()));
+                    }else{
+                        dataDto.setCybData(new BigDecimal("0"));
                     }
                 }else if("资产负债率".equals(dataDto.getName())){
                     IpoH5DetailDto avgParam = new IpoH5DetailDto();
@@ -1062,11 +1107,15 @@ public class IpoInterfaceController extends BaseController {
                     List<IpoH5DetailDto> KcbAverageList = ipoInterfaceService.ipoAvg(avgParam);
                     if(CollectionUtils.isNotEmpty(KcbAverageList)){
                         dataDto.setKcbData(new BigDecimal(KcbAverageList.get(0).getCurrValAvg()));
+                    }else{
+                        dataDto.setKcbData(new BigDecimal("0"));
                     }
                     avgParam.setPlateType("1");
                     List<IpoH5DetailDto> CybAverageList = ipoInterfaceService.ipoAvg(avgParam);
                     if(CollectionUtils.isNotEmpty(CybAverageList)){
                         dataDto.setCybData(new BigDecimal(CybAverageList.get(0).getCurrValAvg()));
+                    }else{
+                        dataDto.setCybData(new BigDecimal("0"));
                     }
                 }else if("总资产周转率".equals(dataDto.getName())){
                     IpoH5DetailDto avgParam = new IpoH5DetailDto();
@@ -1076,11 +1125,15 @@ public class IpoInterfaceController extends BaseController {
                     List<IpoH5DetailDto> KcbAverageList = ipoInterfaceService.ipoAvg(avgParam);
                     if(CollectionUtils.isNotEmpty(KcbAverageList)){
                         dataDto.setKcbData(new BigDecimal(KcbAverageList.get(0).getCurrValAvg()));
+                    }else{
+                        dataDto.setKcbData(new BigDecimal("0"));
                     }
                     avgParam.setPlateType("1");
                     List<IpoH5DetailDto> CybAverageList = ipoInterfaceService.ipoAvg(avgParam);
                     if(CollectionUtils.isNotEmpty(CybAverageList)){
                         dataDto.setCybData(new BigDecimal(CybAverageList.get(0).getCurrValAvg()));
+                    }else{
+                        dataDto.setCybData(new BigDecimal("0"));
                     }
                 }else if("销售现金比率".equals(dataDto.getName())){
                     IpoH5DetailDto avgParam = new IpoH5DetailDto();
@@ -1090,11 +1143,15 @@ public class IpoInterfaceController extends BaseController {
                     List<IpoH5DetailDto> KcbAverageList = ipoInterfaceService.ipoAvg(avgParam);
                     if(CollectionUtils.isNotEmpty(KcbAverageList)){
                         dataDto.setKcbData(new BigDecimal(KcbAverageList.get(0).getCurrValAvg()));
+                    }else{
+                        dataDto.setKcbData(new BigDecimal("0"));
                     }
                     avgParam.setPlateType("1");
                     List<IpoH5DetailDto> CybAverageList = ipoInterfaceService.ipoAvg(avgParam);
                     if(CollectionUtils.isNotEmpty(CybAverageList)){
                         dataDto.setCybData(new BigDecimal(CybAverageList.get(0).getCurrValAvg()));
+                    }else{
+                        dataDto.setCybData(new BigDecimal("0"));
                     }
                 }else if("基本每股收益".equals(dataDto.getName())){
                     IpoH5DetailDto avgParam = new IpoH5DetailDto();
@@ -1104,11 +1161,15 @@ public class IpoInterfaceController extends BaseController {
                     List<IpoH5DetailDto> KcbAverageList = ipoInterfaceService.ipoAvg(avgParam);
                     if(CollectionUtils.isNotEmpty(KcbAverageList)){
                         dataDto.setKcbData(new BigDecimal(KcbAverageList.get(0).getCurrValAvg()));
+                    }else{
+                        dataDto.setKcbData(new BigDecimal("0"));
                     }
                     avgParam.setPlateType("1");
                     List<IpoH5DetailDto> CybAverageList = ipoInterfaceService.ipoAvg(avgParam);
                     if(CollectionUtils.isNotEmpty(CybAverageList)){
                         dataDto.setCybData(new BigDecimal(CybAverageList.get(0).getCurrValAvg()));
+                    }else{
+                        dataDto.setCybData(new BigDecimal("0"));
                     }
                 }else if("净利润增长率".equals(dataDto.getName())){
                     IpoH5DetailDto avgParam = new IpoH5DetailDto();
@@ -1118,7 +1179,7 @@ public class IpoInterfaceController extends BaseController {
                     List<IpoH5DetailDto> KcbAverageList = ipoInterfaceService.ipoAvg(avgParam);
                     avgParam.setPlateType("1");
                     List<IpoH5DetailDto> CybAverageList = ipoInterfaceService.ipoAvg(avgParam);
-                    BigDecimal kcbGrowthRate = null;
+                    BigDecimal kcbGrowthRate = BigDecimal.ZERO;
                     if(null != KcbAverageList && KcbAverageList.size()>1){
                         if (!(null == KcbAverageList.get(0).getCurrValAvg() || "0".equals(KcbAverageList.get(0).getCurrValAvg())
                                 || null == KcbAverageList.get(1).getCurrValAvg() || "0".equals(KcbAverageList.get(1).getCurrValAvg()))) {
@@ -1127,7 +1188,7 @@ public class IpoInterfaceController extends BaseController {
                                     subtract(new BigDecimal("1")).multiply(new BigDecimal("100"));
                         }
                     }
-                    BigDecimal cybGrowthRate = null;
+                    BigDecimal cybGrowthRate = BigDecimal.ZERO;
                     if(null != CybAverageList && CybAverageList.size()>1) {
                         if (!(null == CybAverageList.get(0).getCurrValAvg() || "0".equals(CybAverageList.get(0).getCurrValAvg())
                                 || null == CybAverageList.get(1).getCurrValAvg() || "0".equals(CybAverageList.get(1).getCurrValAvg()))) {
