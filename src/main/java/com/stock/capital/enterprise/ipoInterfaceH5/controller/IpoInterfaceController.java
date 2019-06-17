@@ -1223,13 +1223,30 @@ public class IpoInterfaceController extends BaseController {
     /**
      * 获取科创板IPO数据
      *
-     * @param ipoCaseListBo industryCsrc（所属行业）   codeOrName（简称代码）  iecResult（审核状态）
+     * @param  industryCsrc（所属行业）   codeOrName（简称代码）  iecResult（审核状态）
      *                      belongsBureau(注册地)
      * @author yangj
      */
-    @RequestMapping(value = "/getIpoCaseList", method = RequestMethod.POST)
+    @RequestMapping(value = "/getIpoCaseList", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> getIpoCaseList(@RequestBody IpoCaseListBo ipoCaseListBo) {
+    public JsonResponse getIpoCaseList(String ipoPlate,String industryCsrc,String codeOrName,String iecResult,String belongsBureau ) {
+        JsonResponse jsonResponse = new JsonResponse();
+        IpoCaseListBo ipoCaseListBo = new IpoCaseListBo();
+        if (StringUtils.isNotEmpty(ipoPlate)){
+            ipoCaseListBo.setIpoPlate(ipoPlate);
+        }
+        if (StringUtils.isNotEmpty(belongsBureau)) {
+            ipoCaseListBo.setBelongsBureau(belongsBureau);
+        }
+        if (StringUtils.isNotEmpty(codeOrName)) {
+            ipoCaseListBo.setCodeOrName(codeOrName);
+        }
+        if (StringUtils.isNotEmpty(iecResult)) {
+            ipoCaseListBo.setIecResult(iecResult);
+        }
+        if (StringUtils.isNotEmpty(industryCsrc)) {
+            ipoCaseListBo.setIndustryCsrc(industryCsrc);
+        }
         QueryInfo<IpoCaseListBo> page = new QueryInfo<>();
 //        没有查询条件时 实例化dto
         if (null == ipoCaseListBo) {
@@ -1246,7 +1263,8 @@ public class IpoInterfaceController extends BaseController {
         page.setPageSize(total);
         Map<String, Object> result = ipoCaseListService.getIpoCaseList(page, false);
 //        可能需要  对重复数据 进行名称的处理
-        return result;
+        jsonResponse.setResult(result);
+        return jsonResponse;
     }
 
 
