@@ -1346,26 +1346,39 @@ public class IpoInterfaceController extends BaseController {
         avgParam.setColumnComment(columnComment);
         avgParam.setPlateType("0");
         List<IpoH5DetailDto> KcbAverageList = ipoInterfaceService.ipoAvg(avgParam);
-        for (int i = 0; i < KcbAverageList.size(); i++) {
-            if (i == 0 && null != KcbAverageList.get(0)) {
-                itemDto.getTodayYear().setKcbData(new BigDecimal(KcbAverageList.get(0).getCurrValAvg()));
-            } else if (i == 1 && null != KcbAverageList.get(1)) {
-                itemDto.getLastYear().setKcbData(new BigDecimal(KcbAverageList.get(1).getCurrValAvg()));
-            } else if (i == 1 && null != KcbAverageList.get(2)) {
-                itemDto.getBeforeYear().setKcbData(new BigDecimal(KcbAverageList.get(2).getCurrValAvg()));
+        if(CollectionUtils.isNotEmpty(KcbAverageList)){
+            for (int i = 0; i < KcbAverageList.size(); i++) {
+                if (i == 0 && null != KcbAverageList.get(0)) {
+                    itemDto.getTodayYear().setKcbData(new BigDecimal(KcbAverageList.get(0).getCurrValAvg()));
+                } else if (i == 1 && null != KcbAverageList.get(1)) {
+                    itemDto.getLastYear().setKcbData(new BigDecimal(KcbAverageList.get(1).getCurrValAvg()));
+                } else if (i == 1 && null != KcbAverageList.get(2)) {
+                    itemDto.getBeforeYear().setKcbData(new BigDecimal(KcbAverageList.get(2).getCurrValAvg()));
+                }
             }
+        }else{
+            itemDto.getBeforeYear().setKcbData(new BigDecimal("0"));
+            itemDto.getLastYear().setKcbData(new BigDecimal("0"));
+            itemDto.getTodayYear().setKcbData(new BigDecimal("0"));
         }
         avgParam.setPlateType("1");
         List<IpoH5DetailDto> CybAverageList = ipoInterfaceService.ipoAvg(avgParam);
-        for (int i = 0; i < CybAverageList.size(); i++) {
-            if (i == 0 && null != CybAverageList.get(0)) {
-                itemDto.getTodayYear().setCybData(new BigDecimal(CybAverageList.get(0).getCurrValAvg()));
-            } else if (i == 1 && null != CybAverageList.get(1)) {
-                itemDto.getLastYear().setCybData(new BigDecimal(CybAverageList.get(1).getCurrValAvg()));
-            } else if (i == 1 && null != CybAverageList.get(2)) {
-                itemDto.getBeforeYear().setCybData(new BigDecimal(CybAverageList.get(2).getCurrValAvg()));
+        if(CollectionUtils.isNotEmpty(CybAverageList)){
+            for (int i = 0; i < CybAverageList.size(); i++) {
+                if (i == 0 && null != CybAverageList.get(0)) {
+                    itemDto.getTodayYear().setCybData(new BigDecimal(CybAverageList.get(0).getCurrValAvg()));
+                } else if (i == 1 && null != CybAverageList.get(1)) {
+                    itemDto.getLastYear().setCybData(new BigDecimal(CybAverageList.get(1).getCurrValAvg()));
+                } else if (i == 1 && null != CybAverageList.get(2)) {
+                    itemDto.getBeforeYear().setCybData(new BigDecimal(CybAverageList.get(2).getCurrValAvg()));
+                }
             }
+        }else{
+            itemDto.getBeforeYear().setCybData(new BigDecimal("0"));
+            itemDto.getLastYear().setCybData(new BigDecimal("0"));
+            itemDto.getTodayYear().setCybData(new BigDecimal("0"));
         }
+
     }
 
     /**
