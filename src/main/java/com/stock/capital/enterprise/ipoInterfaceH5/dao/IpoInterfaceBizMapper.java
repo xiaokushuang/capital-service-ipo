@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface IpoInterfaceBizMapper {
-    List<IpoCaseIndexDto> otherIpoCase(IpoCaseIndexDto ipoCaseIndexDto);
+    List<IpoCaseListVo> otherIpoCase(IpoCaseIndexDto ipoCaseIndexDto);
 
     IpoH5Dto ipoCompanyRank(IpoH5Dto ipoH5Dto);
 
@@ -23,4 +23,6 @@ public interface IpoInterfaceBizMapper {
     List<IpoH5CoreDevDto> getCoreDevFromIpoTech(@Param("id") String id);
 
     List<IpoCaseListVo> queryIpoCase();
+
+    List<IpoCaseListVo> otherIpoCaseNoIndustry();
 }

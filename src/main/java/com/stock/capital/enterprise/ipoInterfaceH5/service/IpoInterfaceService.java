@@ -120,7 +120,7 @@ public class IpoInterfaceService extends BaseService {
         return result;
     }
 
-    public List<IpoCaseIndexDto> otherIpoCase(IpoCaseIndexDto ipoCaseIndexDto) {
+    public List<IpoCaseListVo> otherIpoCase(IpoCaseIndexDto ipoCaseIndexDto) {
         return ipoInterfaceBizMapper.otherIpoCase(ipoCaseIndexDto);
     }
 
@@ -628,5 +628,9 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
 
     public List<IpoCaseListVo> queryIpoCase() {
         return ipoInterfaceBizMapper.queryIpoCase();
+    }
+
+    public List<IpoCaseListVo> otherIpoCaseNoIndustry() {
+        return ipoInterfaceBizMapper.otherIpoCaseNoIndustry();
     }
 }

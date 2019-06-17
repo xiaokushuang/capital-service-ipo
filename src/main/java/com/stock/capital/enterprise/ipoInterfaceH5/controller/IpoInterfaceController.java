@@ -302,12 +302,20 @@ public class IpoInterfaceController extends BaseController {
             if (StringUtils.isNotEmpty(industryCsrcCode)){
                 ipoCaseIndex.setIndustryCsrc(industryCsrcCode);
             }
-            List<IpoCaseIndexDto> otherIpoCase = otherIpoCase(ipoCaseIndex);
-            if (CollectionUtils.isNotEmpty(otherIpoCase)) {
-                dataMap = new HashMap<>();
-                dataMap.put("paramName", "可能还想看");
-                dataMap.put("paramData", JsonUtil.toJsonNoNull(otherIpoCase));
-                resultMap.put("otherIpoCase", dataMap);
+            List<IpoCaseListVo> otherIpoCase = otherIpoCase(ipoCaseIndex);
+            if (otherIpoCase != null) {
+                if (otherIpoCase.size() != 0){
+                    dataMap = new HashMap<>();
+                    dataMap.put("paramName", "可能还想看");
+                    dataMap.put("paramData", JsonUtil.toJsonNoNull(otherIpoCase));
+                    resultMap.put("otherIpoCase", dataMap);
+                }else {
+                    List<IpoCaseListVo> otherIpoCaseNoIndustry = ipoInterfaceService.otherIpoCaseNoIndustry();
+                    dataMap = new HashMap<>();
+                    dataMap.put("paramName", "可能还想看");
+                    dataMap.put("paramData", JsonUtil.toJsonNoNull(otherIpoCaseNoIndustry));
+                    resultMap.put("otherIpoCase", dataMap);
+                }
             } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "可能还想看");
@@ -533,7 +541,7 @@ public class IpoInterfaceController extends BaseController {
             if (CollectionUtils.isNotEmpty(grossList)) {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "毛利率");
-                dataMap.put("paramData", JsonUtil.toJsonNoNull(incomeList));
+                dataMap.put("paramData", JsonUtil.toJsonNoNull(grossList));
                 resultMap.put("grossList", dataMap);
             } else {
                 dataMap = new HashMap<>();
@@ -921,6 +929,7 @@ public class IpoInterfaceController extends BaseController {
         IpoFinanceH5Dto profitRate = resultDto.getProfitRate();
         insertAverageData(profitList, id, "056",profitRate);
         List<IpoFinanceH5Dto> mainIndexList = resultDto.getMainIndexList();
+        insertIndexAbgData(mainIndexList,id);
         List<IpoH5FinanceListDto> debtList = resultDto.getDebtList();
         insertDebtAbgData(debtList,id);
         List<IpoFinanceH5Dto> cashFlowList = resultDto.getCashFlowList();
@@ -948,13 +957,13 @@ public class IpoInterfaceController extends BaseController {
             for (IpoFinanceH5Dto dataDto : dataList) {
                 for (IpoH5DetailDto avgDto : KcbAverageList) {
                     if (StringUtils.isNotEmpty(dataDto.getYear()) && dataDto.getYear().equals(avgDto.getYear())) {
-                        BigDecimal kcbData = new BigDecimal(avgDto.getCurrValAvg()).divide(new BigDecimal("10000"), 2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal kcbData = new BigDecimal(avgDto.getCurrValAvg());
                         dataDto.setKcbData(kcbData);
                     }
                 }
                 for (IpoH5DetailDto avgDto : CybAverageList) {
                     if (StringUtils.isNotEmpty(dataDto.getYear()) && dataDto.getYear().equals(avgDto.getYear())) {
-                        BigDecimal cybData = new BigDecimal(avgDto.getCurrValAvg()).divide(new BigDecimal("10000"), 2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal cybData = new BigDecimal(avgDto.getCurrValAvg());
                         dataDto.setCybData(cybData);
                     }
                 }
@@ -1028,17 +1037,107 @@ public class IpoInterfaceController extends BaseController {
     /**
      * 查询并规范财务数据 平均值
      */
-    private void insertIndexAbgData(List<IpoFinanceH5Dto> dataList, String id, String columnComment) {
+    private void insertIndexAbgData(List<IpoFinanceH5Dto> dataList, String id) {
         if (CollectionUtils.isNotEmpty(dataList)) {
             for (IpoFinanceH5Dto dataDto : dataList) {
-                if ("销售现金比率".equals(dataDto.getName())) {
+                if ("加权平均净资产收益率".equals(dataDto.getName())) {
                     IpoH5DetailDto avgParam = new IpoH5DetailDto();
                     avgParam.setBid(id);
-                    avgParam.setColumnComment(columnComment);
+                    avgParam.setColumnComment("029");
+                    avgParam.setPlateType("0");
+                    List<IpoH5DetailDto> KcbAverageList = ipoInterfaceService.ipoAvg(avgParam);
+                    if(CollectionUtils.isNotEmpty(KcbAverageList)){
+                        dataDto.setKcbData(new BigDecimal(KcbAverageList.get(0).getCurrValAvg()));
+                    }
+                    avgParam.setPlateType("1");
+                    List<IpoH5DetailDto> CybAverageList = ipoInterfaceService.ipoAvg(avgParam);
+                    if(CollectionUtils.isNotEmpty(CybAverageList)){
+                        dataDto.setCybData(new BigDecimal(CybAverageList.get(0).getCurrValAvg()));
+                    }
+                }else if("资产负债率".equals(dataDto.getName())){
+                    IpoH5DetailDto avgParam = new IpoH5DetailDto();
+                    avgParam.setBid(id);
+                    avgParam.setColumnComment("157");
+                    avgParam.setPlateType("0");
+                    List<IpoH5DetailDto> KcbAverageList = ipoInterfaceService.ipoAvg(avgParam);
+                    if(CollectionUtils.isNotEmpty(KcbAverageList)){
+                        dataDto.setKcbData(new BigDecimal(KcbAverageList.get(0).getCurrValAvg()));
+                    }
+                    avgParam.setPlateType("1");
+                    List<IpoH5DetailDto> CybAverageList = ipoInterfaceService.ipoAvg(avgParam);
+                    if(CollectionUtils.isNotEmpty(CybAverageList)){
+                        dataDto.setCybData(new BigDecimal(CybAverageList.get(0).getCurrValAvg()));
+                    }
+                }else if("总资产周转率".equals(dataDto.getName())){
+                    IpoH5DetailDto avgParam = new IpoH5DetailDto();
+                    avgParam.setBid(id);
+                    avgParam.setColumnComment("182");
+                    avgParam.setPlateType("0");
+                    List<IpoH5DetailDto> KcbAverageList = ipoInterfaceService.ipoAvg(avgParam);
+                    if(CollectionUtils.isNotEmpty(KcbAverageList)){
+                        dataDto.setKcbData(new BigDecimal(KcbAverageList.get(0).getCurrValAvg()));
+                    }
+                    avgParam.setPlateType("1");
+                    List<IpoH5DetailDto> CybAverageList = ipoInterfaceService.ipoAvg(avgParam);
+                    if(CollectionUtils.isNotEmpty(CybAverageList)){
+                        dataDto.setCybData(new BigDecimal(CybAverageList.get(0).getCurrValAvg()));
+                    }
+                }else if("销售现金比率".equals(dataDto.getName())){
+                    IpoH5DetailDto avgParam = new IpoH5DetailDto();
+                    avgParam.setBid(id);
+                    avgParam.setColumnComment("181");
+                    avgParam.setPlateType("0");
+                    List<IpoH5DetailDto> KcbAverageList = ipoInterfaceService.ipoAvg(avgParam);
+                    if(CollectionUtils.isNotEmpty(KcbAverageList)){
+                        dataDto.setKcbData(new BigDecimal(KcbAverageList.get(0).getCurrValAvg()));
+                    }
+                    avgParam.setPlateType("1");
+                    List<IpoH5DetailDto> CybAverageList = ipoInterfaceService.ipoAvg(avgParam);
+                    if(CollectionUtils.isNotEmpty(CybAverageList)){
+                        dataDto.setCybData(new BigDecimal(CybAverageList.get(0).getCurrValAvg()));
+                    }
+                }else if("基本每股收益".equals(dataDto.getName())){
+                    IpoH5DetailDto avgParam = new IpoH5DetailDto();
+                    avgParam.setBid(id);
+                    avgParam.setColumnComment("060");
+                    avgParam.setPlateType("0");
+                    List<IpoH5DetailDto> KcbAverageList = ipoInterfaceService.ipoAvg(avgParam);
+                    if(CollectionUtils.isNotEmpty(KcbAverageList)){
+                        dataDto.setKcbData(new BigDecimal(KcbAverageList.get(0).getCurrValAvg()));
+                    }
+                    avgParam.setPlateType("1");
+                    List<IpoH5DetailDto> CybAverageList = ipoInterfaceService.ipoAvg(avgParam);
+                    if(CollectionUtils.isNotEmpty(CybAverageList)){
+                        dataDto.setCybData(new BigDecimal(CybAverageList.get(0).getCurrValAvg()));
+                    }
+                }else if("净利润增长率".equals(dataDto.getName())){
+                    IpoH5DetailDto avgParam = new IpoH5DetailDto();
+                    avgParam.setBid(id);
+                    avgParam.setColumnComment("056");
                     avgParam.setPlateType("0");
                     List<IpoH5DetailDto> KcbAverageList = ipoInterfaceService.ipoAvg(avgParam);
                     avgParam.setPlateType("1");
                     List<IpoH5DetailDto> CybAverageList = ipoInterfaceService.ipoAvg(avgParam);
+                    BigDecimal kcbGrowthRate = null;
+                    if(null != KcbAverageList && KcbAverageList.size()>1){
+                        if (!(null == KcbAverageList.get(0).getCurrValAvg() || "0".equals(KcbAverageList.get(0).getCurrValAvg())
+                                || null == KcbAverageList.get(1).getCurrValAvg() || "0".equals(KcbAverageList.get(1).getCurrValAvg()))) {
+                            kcbGrowthRate = new BigDecimal(KcbAverageList.get(0).getCurrValAvg()).
+                                    divide(new BigDecimal(KcbAverageList.get(1).getCurrValAvg()), 4, BigDecimal.ROUND_HALF_UP).
+                                    subtract(new BigDecimal("1")).multiply(new BigDecimal("100"));
+                        }
+                    }
+                    BigDecimal cybGrowthRate = null;
+                    if(null != CybAverageList && CybAverageList.size()>1) {
+                        if (!(null == CybAverageList.get(0).getCurrValAvg() || "0".equals(CybAverageList.get(0).getCurrValAvg())
+                                || null == CybAverageList.get(1).getCurrValAvg() || "0".equals(CybAverageList.get(1).getCurrValAvg()))) {
+                            cybGrowthRate = new BigDecimal(CybAverageList.get(0).getCurrValAvg()).
+                                    divide(new BigDecimal(CybAverageList.get(1).getCurrValAvg()), 4, BigDecimal.ROUND_HALF_UP).
+                                    subtract(new BigDecimal("1")).multiply(new BigDecimal("100"));
+                        }
+                    }
+                    dataDto.setKcbData(kcbGrowthRate);
+                    dataDto.setCybData(cybGrowthRate);
                 }
             }
         }
@@ -1058,7 +1157,7 @@ public class IpoInterfaceController extends BaseController {
             for (IpoH5FinanceListDto itemDto : dataList) {
                 if ("流动资产".equals(itemDto.getName())) {
                     transDebtData(id, "150", itemDto);
-                    if(null != itemDto.getBeforeYear() && null != itemDto.getBeforeYear().getKcbData()){
+                    if(null != itemDto.getBeforeYear()){
                         if(null != itemDto.getBeforeYear().getKcbData()){
                             beforeYearKcb = beforeYearKcb.add(itemDto.getBeforeYear().getKcbData());
                         }
@@ -1397,7 +1496,7 @@ public class IpoInterfaceController extends BaseController {
      * lixinwei 可能还想看
      */
     @RequestMapping(value = "/otherIpoCase", method = RequestMethod.GET)
-    public List<IpoCaseIndexDto> otherIpoCase(IpoCaseIndexDto ipoCaseIndexDto) {
+    public List<IpoCaseListVo> otherIpoCase(IpoCaseIndexDto ipoCaseIndexDto) {
         return ipoInterfaceService.otherIpoCase(ipoCaseIndexDto);
     }
 

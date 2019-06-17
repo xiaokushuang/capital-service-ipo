@@ -57,6 +57,17 @@ public class IpoCaseListVo implements Serializable {
     @ApiModelProperty("审核历时")
     private Integer timeDiff;
 
+    @ApiModelProperty("行业")
+    private Integer industryCsrc;
+
+    public Integer getIndustryCsrc() {
+        return industryCsrc;
+    }
+
+    public void setIndustryCsrc(Integer industryCsrc) {
+        this.industryCsrc = industryCsrc;
+    }
+
     public String getId() {
         return id;
     }

@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.stock.capital.enterprise.ipoInterfaceH5.dao.IpoInterfaceBizMapper" >
-    <select id="otherIpoCase" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto">
-      SELECT t.id,t.company_code,t.company_name,t.ipo_plate,t.industry_csrc
+    <select id="otherIpoCase" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo">
+      SELECT t.id,t.org_code AS orgCode,t.company_name AS companyName,t.ipo_plate AS ipoPlate,t.industry_csrc AS industryCsrc
         FROM ipo_case t,case_common_status_info t1
         where ipo_plate = '069001001006' AND t.id = t1.case_id and t1.release_flag = '1'
         ORDER BY
         <if test="ipoPlate != null and ipoPlate != ''">
             FIELD(industry_csrc,#{industryCsrc}) desc,
         </if>
+        RAND() limit 4;
+    </select>
+
+    <select id="otherIpoCaseNoIndustry" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo">
+        SELECT t.id,t.org_code AS orgCode,t.company_name AS companyName,t.ipo_plate AS ipoPlate,t.industry_csrc AS industryCsrc
+        FROM ipo_case t,case_common_status_info t1
+        where ipo_plate = '069001001006' AND t.id = t1.case_id and t1.release_flag = '1'
+        ORDER BY
         RAND() limit 4;
     </select>
 
@@ -20,6 +28,16 @@
         t.research AS research,
         t.research_ranking AS researchRanking,
         t.patent AS patent,
+        (select sum(m.patent)from ipo_h5 m)AS patentAll,
+        t.patent_new AS patentNew,
+        (select sum(m.patent_new)from ipo_h5 m)AS patentNewAll,
+        t.patent_design AS patentDesign,
+        (select sum(m.patent_design)from ipo_h5 m)AS patentDesignAll,
+        t.patent_internation AS patentInternation,
+        (select sum(m.patent_internation)from ipo_h5 m)AS patentInternationAll,
+        (ifnull(t.patent,0)+ifnull(t.patent_new,0)+ifnull(t.patent_design,0)+ifnull(t.patent_internation,0)) AS patentSum,
+        (select sum(mt.patentSum) from (select (ifnull(m.patent,0)+ifnull(m.patent_new,0)+ifnull(m.patent_design,0)+ifnull(m.patent_internation,0)) AS patentSum
+        from ipo_h5 m) as mt)AS patentSumAll,
         t.patent_ranking AS patentRanking,
         t.patent_ranking_year AS patentRankingYear,
         t.research_peo AS researchPeo,
