@@ -1,8 +1,6 @@
 package com.stock.capital.enterprise.ipoInterfaceH5.service;
 
-import com.alibaba.druid.util.StringUtils;
 import com.google.common.collect.Maps;
-import com.netflix.discovery.converters.Auto;
 import com.stock.capital.enterprise.common.constant.Global;
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseListMapper;
 import com.stock.capital.enterprise.ipoCase.dto.*;
@@ -25,7 +23,6 @@ import com.stock.core.util.BeanUtil;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -37,13 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class IpoInterfaceService extends BaseService {
@@ -626,8 +617,8 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
     }
 
 
-    public List<IpoCaseListVo> queryIpoCase() {
-        return ipoInterfaceBizMapper.queryIpoCase();
+    public List<IpoCaseListVo> queryIpoCase(Map<String, Object> map) {
+        return ipoInterfaceBizMapper.queryIpoCase(map);
     }
 
     public List<IpoCaseListVo> otherIpoCaseNoIndustry() {

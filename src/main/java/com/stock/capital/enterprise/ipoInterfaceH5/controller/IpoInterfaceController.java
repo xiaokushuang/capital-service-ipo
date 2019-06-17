@@ -1365,7 +1365,25 @@ public class IpoInterfaceController extends BaseController {
         jsonResponse.setResult(result);
         return jsonResponse;
     }
-
+    /**
+     * 获取科创板IPO数据
+     *
+     * @param  （所属行业）   codeOrName（简称代码）  iecResult（审核状态）
+     *                      belongsBureau(注册地)
+     * @author yangj
+     */
+    @RequestMapping(value = "/queryIpoCase", method = RequestMethod.GET)
+    @ResponseBody
+    public JsonResponse queryIpoCase(String companyName) {
+        JsonResponse jsonResponse = new JsonResponse();
+        Map<String,Object> map = new HashMap<>();
+        if (StringUtils.isNotEmpty(companyName)) {
+            map.put("companyName",companyName);
+        }
+        List<IpoCaseListVo> ipoCaseListVos = ipoInterfaceService.queryIpoCase(map);
+        jsonResponse.setResult(ipoCaseListVos);
+        return jsonResponse;
+    }
 
     /**
      * dxy 行业与技术接口
