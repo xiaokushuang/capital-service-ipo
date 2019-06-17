@@ -1325,7 +1325,7 @@ public class IpoInterfaceController extends BaseController {
                 }
             }
             for (IpoH5FinanceListDto itemDto : dataList) {
-                if ("流动资产".equals(itemDto.getName())) {
+                if ("所有者权益合计".equals(itemDto.getName())) {
                     itemDto.getBeforeYear().setKcbData(beforeYearKcb);
                     itemDto.getBeforeYear().setCybData(beforeYearCyb);
                     itemDto.getLastYear().setKcbData(lastYearKcb);
