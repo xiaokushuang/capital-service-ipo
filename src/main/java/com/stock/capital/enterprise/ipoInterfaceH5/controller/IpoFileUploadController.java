@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.ByteArrayInputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -61,7 +62,7 @@ public class IpoFileUploadController extends BaseController {
     public void ipoDataUpload(){
         //查询科创版所有案例
         logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
-        List<IpoCaseListVo> ipoCaseList = ipoInterfaceService.queryIpoCase();
+        List<IpoCaseListVo> ipoCaseList = ipoInterfaceService.queryIpoCase(new HashMap());
         logger.info("#######【将IpoH5的数据生成json文件放到华为云时查询到有"+ipoCaseList.size()+"条科创版数据###########");
         if (ipoCaseList != null){
             for (int i=0;i<ipoCaseList.size();i++){

@@ -60,6 +60,7 @@ public class IpoCaseListVo implements Serializable {
     @ApiModelProperty("行业")
     private Integer industryCsrc;
 
+
     public Integer getIndustryCsrc() {
         return industryCsrc;
     }

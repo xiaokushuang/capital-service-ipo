@@ -6,10 +6,10 @@
     select * from ipo_wechat_permision
     <where>
         <if test="openid != null and openid != ''">
-            openid = #{openid}
+            and openid = #{openid}
         </if>
         <if test="unionid != null and unionid != ''">
-            unionid = #{unionid}
+            and unionid = #{unionid}
         </if>
     </where>
 
@@ -44,10 +44,11 @@
        ,avatar
        ,is_selected_comment
        ,unionid
+       ,openid
        ,state)
         VALUES (
           #{id},'0',#{commentText},#{commentTime},#{username},#{caseid}
-          ,#{headPortrait},'0',#{openid},"1"
+          ,#{headPortrait},'0',#{unionid},#{openid},"1"
        )
    </insert>
     <!--获取评论列表-->

@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface IpoInterfaceBizMapper {
@@ -22,7 +23,7 @@ public interface IpoInterfaceBizMapper {
 
     List<IpoH5CoreDevDto> getCoreDevFromIpoTech(@Param("id") String id);
 
-    List<IpoCaseListVo> queryIpoCase();
+    List<IpoCaseListVo> queryIpoCase(Map<String, Object> map);
 
     List<IpoCaseListVo> otherIpoCaseNoIndustry();
 }
