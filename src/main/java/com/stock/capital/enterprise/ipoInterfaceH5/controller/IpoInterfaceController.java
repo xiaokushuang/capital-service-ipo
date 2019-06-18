@@ -1610,6 +1610,13 @@ public class IpoInterfaceController extends BaseController {
         String openStr = restClient.get(getOpenid, responseType, Maps.newHashMap());
         Map<String, String> openMap = JsonUtil.fromJson(openStr, new ParameterizedTypeReference<Map<String, String>>() {
         });
+        String errcode = openMap.get("errcode");
+        if (StringUtils.isNotEmpty(errcode)){
+            HashMap<Object, Object> map = new HashMap<>();
+            map.put("status","failed");
+            jsonResponse.setResult(map);
+            return jsonResponse;
+        }
         String access_token = openMap.get("access_token");
 //        String refresh_token = openMap.get("refresh_token");
         String openid = openMap.get("openid");
@@ -1622,6 +1629,7 @@ public class IpoInterfaceController extends BaseController {
 //        后续可能要把这个做成 记录的 每个用户进来就记录一下 统计点击数
         userInfoMap.put("access_token", "test");
         userInfoMap.put("openid", openid);
+        userInfoMap.put("status","success");
         ipoInterfaceService.saveUserInfo(userInfoMap);
         jsonResponse.setResult(userInfoMap);
         return jsonResponse;
