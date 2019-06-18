@@ -811,11 +811,14 @@ public class IpoInterfaceController extends BaseController {
             String onePeriodStr = DateUtils.formatDate(supplierMainList.get(i).getReportPeriod(), "yyyy-MM-dd");
             if (StringUtils.isNotEmpty(onePeriodStr) && onePeriodStr.indexOf("12-31") >= 0) {
                 for (int j = 0; j < dataList.size() - 1; j++) {
-                    Map<String, Object> supplierDataMap = Maps.newHashMap();
-                    supplierDataMap.put("name", dataList.get(j).getCompanyName());
-                    supplierDataMap.put("ratio", dataList.get(j).getOnePeriodRatio());
-                    supplierDataMap.put("number", dataList.get(j).getOnePeriodAmount());
-                    supplierDataList.add(supplierDataMap);
+                    //列表只展示最近一年的5家供应商和客户，所以判断最近一年数据不为空，则放入列表
+                    if(null != dataList.get(j).getOnePeriodAmount()){
+                        Map<String, Object> supplierDataMap = Maps.newHashMap();
+                        supplierDataMap.put("name", dataList.get(j).getCompanyName());
+                        supplierDataMap.put("ratio", dataList.get(j).getOnePeriodRatio());
+                        supplierDataMap.put("number", dataList.get(j).getOnePeriodAmount());
+                        supplierDataList.add(supplierDataMap);
+                    }
                 }
 
                 timeList.add(supplierMainList.get(i).getSecondYearForSupplier());
@@ -829,11 +832,13 @@ public class IpoInterfaceController extends BaseController {
                 }
             } else {
                 for (int j = 0; j < dataList.size() - 1; j++) {
-                    Map<String, Object> supplierDataMap = Maps.newHashMap();
-                    supplierDataMap.put("name", dataList.get(j).getCompanyName());
-                    supplierDataMap.put("ratio", dataList.get(j).getThirdYearRatio());
-                    supplierDataMap.put("number", dataList.get(j).getThirdYearAmount());
-                    supplierDataList.add(supplierDataMap);
+                    if(null != dataList.get(j).getThirdYearAmount()){
+                        Map<String, Object> supplierDataMap = Maps.newHashMap();
+                        supplierDataMap.put("name", dataList.get(j).getCompanyName());
+                        supplierDataMap.put("ratio", dataList.get(j).getThirdYearRatio());
+                        supplierDataMap.put("number", dataList.get(j).getThirdYearAmount());
+                        supplierDataList.add(supplierDataMap);
+                    }
                 }
 
                 timeList.add(supplierMainList.get(i).getFirstYearForSupplier());
@@ -867,11 +872,13 @@ public class IpoInterfaceController extends BaseController {
             String onePeriodStr = DateUtils.formatDate(customerMainList.get(i).getReportPeriod(), "yyyy-MM-dd");
             if (StringUtils.isNotEmpty(onePeriodStr) && onePeriodStr.indexOf("12-31") >= 0) {
                 for (int j = 0; j < dataList.size() - 1; j++) {
-                    Map<String, Object> customerDataMap = Maps.newHashMap();
-                    customerDataMap.put("name", dataList.get(j).getCompanyName());
-                    customerDataMap.put("ratio", dataList.get(j).getOnePeriodRatio());
-                    customerDataMap.put("number", dataList.get(j).getOnePeriodAmount());
-                    customerDataList.add(customerDataMap);
+                    if(null != dataList.get(j).getOnePeriodAmount()){
+                        Map<String, Object> customerDataMap = Maps.newHashMap();
+                        customerDataMap.put("name", dataList.get(j).getCompanyName());
+                        customerDataMap.put("ratio", dataList.get(j).getOnePeriodRatio());
+                        customerDataMap.put("number", dataList.get(j).getOnePeriodAmount());
+                        customerDataList.add(customerDataMap);
+                    }
                 }
 
                 timeList.add(customerMainList.get(i).getSecondYearForCustomer());
@@ -885,11 +892,13 @@ public class IpoInterfaceController extends BaseController {
                 }
             } else {
                 for (int j = 0; j < dataList.size() - 1; j++) {
-                    Map<String, Object> customerDataMap = Maps.newHashMap();
-                    customerDataMap.put("name", dataList.get(j).getCompanyName());
-                    customerDataMap.put("ratio", dataList.get(j).getThirdYearRatio());
-                    customerDataMap.put("number", dataList.get(j).getThirdYearAmount());
-                    customerDataList.add(customerDataMap);
+                    if(null != dataList.get(j).getThirdYearAmount()) {
+                        Map<String, Object> customerDataMap = Maps.newHashMap();
+                        customerDataMap.put("name", dataList.get(j).getCompanyName());
+                        customerDataMap.put("ratio", dataList.get(j).getThirdYearRatio());
+                        customerDataMap.put("number", dataList.get(j).getThirdYearAmount());
+                        customerDataList.add(customerDataMap);
+                    }
                 }
 
                 timeList.add(customerMainList.get(i).getFirstYearForCustomer());

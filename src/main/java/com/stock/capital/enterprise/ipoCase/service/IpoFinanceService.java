@@ -419,18 +419,6 @@ public class IpoFinanceService extends BaseService {
         forthItemList.add(7, sumEquityDto);
         //为前台页面统一展示，将0的数据设置为Null
         for (int i = 0; i < forthItemList.size(); i++) {
-            if (forthItemList.get(i).getForthYearValue() != null && forthItemList.get(i).getForthYearValue().compareTo(BigDecimal.ZERO) == 0) {
-                forthItemList.get(i).setForthYearValue(null);
-            }
-            if (forthItemList.get(i).getThirdYearValue() != null && forthItemList.get(i).getThirdYearValue().compareTo(BigDecimal.ZERO) == 0) {
-                forthItemList.get(i).setThirdYearValue(null);
-            }
-            if (forthItemList.get(i).getSecondYearValue() != null && forthItemList.get(i).getSecondYearValue().compareTo(BigDecimal.ZERO) == 0) {
-                forthItemList.get(i).setSecondYearValue(null);
-            }
-            if (forthItemList.get(i).getFirstYearValue() != null && forthItemList.get(i).getFirstYearValue().compareTo(BigDecimal.ZERO) == 0) {
-                forthItemList.get(i).setFirstYearValue(null);
-            }
             //计算各个复合增长率
             double growthRate = getGrowthRate(forthItemList.get(i));
             forthItemList.get(i).setGrowthRate(growthRate == 0D ? null : new BigDecimal(String.valueOf(growthRate)));
@@ -449,15 +437,15 @@ public class IpoFinanceService extends BaseService {
             }
         }
         //移除财务信息中，三年一期全部为空的项目
-        List<IpoItemDto> allItemList = removeNullItem(forthItemList);
-        resultDto = transData(allItemList,dateDto);
+//        List<IpoItemDto> allItemList = removeNullItem(forthItemList);
+        resultDto = transData(forthItemList,dateDto);
         resultDto.setDateList(dateDto);
         return resultDto;
     }
 
     //计算复合增长率
     private double getGrowthRate(IpoItemDto ipoItemDto) {
-        if (null != ipoItemDto.getForthYearValue() && null != ipoItemDto.getSecondYearValue()) {
+        if (null != ipoItemDto.getForthYearValue() && null != ipoItemDto.getSecondYearValue() && ipoItemDto.getSecondYearValue().compareTo(BigDecimal.ZERO) != 0) {
             double param = ipoItemDto.getForthYearValue().divide(ipoItemDto.getSecondYearValue(), 4, BigDecimal.ROUND_HALF_UP).doubleValue();
             double rate;
             if(param <0){
