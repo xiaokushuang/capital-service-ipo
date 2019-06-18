@@ -2,6 +2,7 @@ package com.stock.capital.enterprise.ipoInterfaceH5.controller;
 
 
 import com.obs.services.ObsClient;
+import com.obs.services.model.ObjectMetadata;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo;
 import com.stock.capital.enterprise.ipoInterfaceH5.service.IpoInterfaceService;
 import com.stock.core.controller.BaseController;
@@ -43,18 +44,20 @@ public class IpoFileUploadController extends BaseController {
         String endPoint = "https://obs.cn-north-1.myhwclouds.com";
         String ak = "YGJSHR3Z4JN5SQFNPETD";
         String sk = "uJtCMfVxpjYHrvdtjH6zPmFIZ6E5iRHTF4oj4LRa";
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentType("text/plain;charset=UTF-8");
         // 创建ObsClient实例
         ObsClient obsClient = new ObsClient(ak, sk, endPoint);
         //测试地址
         //obsClient.putObject("obs-repo", "ipo-dev/"+fileName+".txt", new ByteArrayInputStream(content.getBytes()));
         //生产地址
-        obsClient.putObject("obs-repo", "ipo/"+fileName+".txt", new ByteArrayInputStream(content.getBytes()));
+        obsClient.putObject("obs-repo", "ipo/"+fileName+".json", new ByteArrayInputStream(content.getBytes()));
     }
 
     /**
      * 每晚定时把所有科创版数据生成json文件放到华为云上
      */
-    @Scheduled(cron = "0 10 11 15 6 ? ")
+    @Scheduled(cron = "0 55 16 * * ? ")
     public void ipoDataUpload(){
         //查询科创版所有案例
         logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
