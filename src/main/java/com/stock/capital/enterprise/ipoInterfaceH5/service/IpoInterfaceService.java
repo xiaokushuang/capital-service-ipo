@@ -195,16 +195,10 @@ public class IpoInterfaceService extends BaseService {
                 // 以下为柱状图中数据
                 tmpList = tmpList.subList(0, tmpList.size() - 2);
 
-                tmpList = tmpList.stream().filter(item -> item.getThirdYearRate() != null && item.getThirdYearRate().compareTo(BigDecimal.ZERO) != 0 ).collect(
-                    Collectors.toList());
-
-                tmpList.sort(new Comparator<IndustryCompareRateDetailDto>() {
-                    @Override
-                    public int compare(IndustryCompareRateDetailDto o1, IndustryCompareRateDetailDto o2) {
-                        return o1.getThirdYearRate().compareTo(o2.getThirdYearRate());
-                    }
-                });
-
+                tmpList = tmpList.stream().
+                    filter(item -> item.getThirdYearRate() != null && item.getThirdYearRate().compareTo(BigDecimal.ZERO) != 0 ). // 筛选
+                    sorted(Comparator.comparing(IndustryCompareRateDetailDto::getThirdYearRate)).//正序排序
+                    collect(Collectors.toList());
 
                 IndustryCompareRateDetailDto companyDto = compareRateDto.getIndustryCompareRateDetailList().get(compareRateDto.getIndustryCompareRateDetailList().size() - 1);//本公司
                 IndustryCompareRateDetailDto lowCompanyDto = null;// 低的公司
