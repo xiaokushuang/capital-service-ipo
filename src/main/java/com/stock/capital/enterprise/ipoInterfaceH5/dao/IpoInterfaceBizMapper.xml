@@ -105,4 +105,10 @@
             </if>
         </if>
     </select>
+
+    <select id="queryOrgMarketShare" parameterType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto" resultType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto">
+      SELECT (SELECT SUM(1) FROM ipo_case t WHERE EXISTS(SELECT 1 FROM ipo_intermediary_org m WHERE m.bid = t.id AND m.org_code = #{orgCode} AND m.intermediary_type = #{intermediaryType})) AS businessVolume,
+      (SELECT SUM(1) FROM ipo_case t WHERE EXISTS(SELECT 1 FROM ipo_intermediary_org m WHERE m.bid = t.id AND m.org_code = #{orgCode} AND m.intermediary_type = #{intermediaryType})
+      AND EXISTS (SELECT 1 FROM ipo_process m WHERE m.bid = t.id AND m.process_type_code = '35' AND m.iec_result = '05')) AS passing
+    </select>
 </mapper>

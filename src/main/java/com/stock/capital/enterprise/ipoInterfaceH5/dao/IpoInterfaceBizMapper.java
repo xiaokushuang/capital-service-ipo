@@ -1,5 +1,6 @@
 package com.stock.capital.enterprise.ipoInterfaceH5.dao;
 
+import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5CoreDevDto;
@@ -26,4 +27,6 @@ public interface IpoInterfaceBizMapper {
     List<IpoCaseListVo> queryIpoCase(Map<String, Object> map);
 
     List<IpoCaseListVo> otherIpoCaseNoIndustry();
+
+    IntermediaryOrgDto queryOrgMarketShare(IntermediaryOrgDto intermediaryOrgDto);
 }

@@ -95,23 +95,6 @@ public class IpoInterfaceController extends BaseController {
         String ipoPlate = "069001001006";//科创版
         IpoCaseListBo ipoCaseListBo = new IpoCaseListBo();
         ipoCaseListBo.setIpoPlate(ipoPlate);
-        //获取科创板IPO数据
-        /*try {
-            Map<String, Object> ipoCaseList = getIpoCaseList(ipoCaseListBo);
-            resultMap.put("ipoCaseList",ipoCaseList);
-        }catch  (Exception e){
-            resultMap.put("ipoCaseList","0");
-            logger.error("ipoCaseH5获取科创板IPO数据发生错误:{}", Throwables.getStackTraceAsString(e));
-        }
-        //下拉框数据
-        try {
-            Map<String,Object> selectData = querySelectData();
-            resultMap.put("selectData",selectData);
-        }catch  (Exception e){
-            resultMap.put("selectData","0");
-            logger.error("ipoCaseH5获取下拉框数据发生错误:{}", Throwables.getStackTraceAsString(e));
-        }*/
-        //上市进展
 
         try {
             TreeTypeProgressDto processList = selectProcessList(id);
@@ -1593,7 +1576,38 @@ public class IpoInterfaceController extends BaseController {
     public Map<String, List<IntermediaryOrgDto>> intermediaryOrgData(
             @RequestParam("id") String id,
             @RequestParam(value = "validFlag", required = false) String validFlag) {
-        return companyOverviewService.getIntermediaryOrgData(id, validFlag);
+        Map<String, List<IntermediaryOrgDto>> list = companyOverviewService.getIntermediaryOrgData(id, validFlag);
+        if (list != null){
+            List<IntermediaryOrgDto> mainList = list.get("mainList");
+            if (mainList != null){
+                for (int i=0;i<mainList.size();i++){
+                    mainList.get(i).setBid(id);
+                    //查询改中介机构的业务量和过会数量
+                    if (mainList.get(i).getIntermediaryType().equals("1")){
+                        IntermediaryOrgDto dto = ipoInterfaceService.queryOrgMarketShare(mainList.get(i));
+                        if (dto != null){
+                            mainList.get(i).setBusinessVolume(dto.getBusinessVolume());
+                            mainList.get(i).setPassing(dto.getPassing());
+                        }
+                    }
+                    if (mainList.get(i).getIntermediaryType().equals("3")){
+                        IntermediaryOrgDto dto = ipoInterfaceService.queryOrgMarketShare(mainList.get(i));
+                        if (dto != null){
+                            mainList.get(i).setBusinessVolume(dto.getBusinessVolume());
+                            mainList.get(i).setPassing(dto.getPassing());
+                        }
+                    }
+                    if (mainList.get(i).getIntermediaryType().equals("4")){
+                        IntermediaryOrgDto dto = ipoInterfaceService.queryOrgMarketShare(mainList.get(i));
+                        if (dto != null){
+                            mainList.get(i).setBusinessVolume(dto.getBusinessVolume());
+                            mainList.get(i).setPassing(dto.getPassing());
+                        }
+                    }
+                }
+            }
+        }
+        return list;
     }
 
     /**
