@@ -96,8 +96,13 @@
              t.company_zh_name title
         FROM ipo_case t,case_common_status_info t1
         where ipo_plate = '069001001006' AND t.id = t1.case_id and t1.release_flag = '1'
-        <if test="companyName != null and companyName != ''">
-          and (t.company_name like CONCAT('%',#{companyName},'%') or t.company_zh_name like CONCAT('%',#{companyName},'%'))
+        <if test="limit != null and limit != ''">
+            limit 0,${limit}
+        </if>
+        <if test="limit == null or limit == ''">
+            <if test="companyName != null and companyName != ''">
+                and (t.company_name like CONCAT('%',#{companyName},'%') or t.company_zh_name like CONCAT('%',#{companyName},'%'))
+            </if>
         </if>
     </select>
 </mapper>

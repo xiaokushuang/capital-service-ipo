@@ -1457,11 +1457,14 @@ public class IpoInterfaceController extends BaseController {
      */
     @RequestMapping(value = "/queryIpoCase", method = RequestMethod.GET)
     @ResponseBody
-    public JsonResponse queryIpoCase(String companyName) {
+    public JsonResponse queryIpoCase(String companyName,String limit) {
         JsonResponse jsonResponse = new JsonResponse();
         Map<String,Object> map = new HashMap<>();
         if (StringUtils.isNotEmpty(companyName)) {
             map.put("companyName",companyName);
+        }
+        if (StringUtils.isNotEmpty(limit)) {
+            map.put("limit",limit);
         }
         List<IpoCaseListVo> ipoCaseListVos = ipoInterfaceService.queryIpoCase(map);
         jsonResponse.setResult(ipoCaseListVos);
