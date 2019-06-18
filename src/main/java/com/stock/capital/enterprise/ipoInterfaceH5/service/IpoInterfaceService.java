@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
 import org.eclipse.jetty.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -185,51 +186,17 @@ public class IpoInterfaceService extends BaseService {
 
             if (compareRateDto.getIndustryCompareRateDetailList().size() >= 4) {// 代表多于两家别的公司
                 // 如果返回的表格中数量>= 4 代表着至少有两家别的公司,所以company 取值应该是 本公司,低的公司,高的公司
-                companys.add("低的公司");
-                companys.add("高的公司");
+
+                IpoH5IndustryBodyDto firstYearbodyDto = new IpoH5IndustryBodyDto();// 公司第一年度
+                IpoH5IndustryBodyDto secondYearbodyDto = new IpoH5IndustryBodyDto();// 公司第二年度
+                IpoH5IndustryBodyDto thirdYearBodyDto = new IpoH5IndustryBodyDto();// 本公司第三年度
 
                 List<IndustryCompareRateDetailDto> tmpList = compareRateDto.getIndustryCompareRateDetailList();
                 // 以下为柱状图中数据
                 tmpList = tmpList.subList(0, tmpList.size() - 2);
-                tmpList.sort(new Comparator<IndustryCompareRateDetailDto>() {
-                    @Override
-                    public int compare(IndustryCompareRateDetailDto o1, IndustryCompareRateDetailDto o2) {
-                        return o1.getFirstYearRate().compareTo(o2.getFirstYearRate());
-                    }
-                });
 
-                IpoH5IndustryBodyDto firstYearbodyDto = new IpoH5IndustryBodyDto();// 公司第一年度
-                firstYearbodyDto.setYear(
-                        compareRateDto.getFirstYear().substring(0, compareRateDto.getFirstYear().length() - 1));// 年度
-                firstYearbodyDto.setCompany(// 本公司
-                        compareRateDto.getIndustryCompareRateDetailList().get(compareRateDto.getIndustryCompareRateDetailList().size() - 1).getFirstYearRate()
-                );
-                firstYearbodyDto.setLowLevel(// 低的公司
-                        tmpList.get(0).getFirstYearRate()
-                );
-                firstYearbodyDto.setHighLevel(//高的公司
-                        tmpList.get(tmpList.size() - 1).getFirstYearRate()
-                );
-
-                tmpList.sort(new Comparator<IndustryCompareRateDetailDto>() {
-                    @Override
-                    public int compare(IndustryCompareRateDetailDto o1, IndustryCompareRateDetailDto o2) {
-                        return o1.getSecondYearRate().compareTo(o2.getSecondYearRate());
-                    }
-                });
-                IpoH5IndustryBodyDto secondYearbodyDto = new IpoH5IndustryBodyDto();// 公司第二年度
-                secondYearbodyDto.setYear(// 年度
-                        compareRateDto.getSecondYear().substring(0, compareRateDto.getSecondYear().length() - 1)
-                );
-                secondYearbodyDto.setCompany(// 本公司
-                        compareRateDto.getIndustryCompareRateDetailList().get(compareRateDto.getIndustryCompareRateDetailList().size() - 1).getSecondYearRate()
-                );
-                secondYearbodyDto.setLowLevel(//低的公司
-                        tmpList.get(0).getSecondYearRate()
-                );
-                secondYearbodyDto.setHighLevel(//高的公司
-                        tmpList.get(tmpList.size() - 1).getSecondYearRate()
-                );
+                tmpList = tmpList.stream().filter(item -> item.getThirdYearRate() != null && item.getThirdYearRate().compareTo(BigDecimal.ZERO) != 0 ).collect(
+                    Collectors.toList());
 
                 tmpList.sort(new Comparator<IndustryCompareRateDetailDto>() {
                     @Override
@@ -238,19 +205,57 @@ public class IpoInterfaceService extends BaseService {
                     }
                 });
 
-                IpoH5IndustryBodyDto thirdYearBodyDto = new IpoH5IndustryBodyDto();// 本公司第三年度
-                thirdYearBodyDto.setYear(// 年度
-                        compareRateDto.getThirdYear().substring(0, compareRateDto.getThirdYear().length() - 1)
+
+                IndustryCompareRateDetailDto companyDto = compareRateDto.getIndustryCompareRateDetailList().get(compareRateDto.getIndustryCompareRateDetailList().size() - 1);//本公司
+                IndustryCompareRateDetailDto lowCompanyDto = null;// 低的公司
+                IndustryCompareRateDetailDto highCompanyDto = null;// 高的公司
+
+                firstYearbodyDto.setYear(// 第一年
+                    compareRateDto.getFirstYear().substring(0, 4));// 年度
+                firstYearbodyDto.setCompany(// 本公司
+                    companyDto.getFirstYearRate()
+                );
+                secondYearbodyDto.setYear(// 第二年
+                    compareRateDto.getSecondYear().substring(0,4)//年度
+                );
+                secondYearbodyDto.setCompany(// 本公司
+                    companyDto.getSecondYearRate()
+                );
+                thirdYearBodyDto.setYear(// 第三年
+                    compareRateDto.getThirdYear().substring(0,4)
                 );
                 thirdYearBodyDto.setCompany(//本公司
-                        compareRateDto.getIndustryCompareRateDetailList().get(compareRateDto.getIndustryCompareRateDetailList().size() - 1).getThirdYearRate()
+                    companyDto.getThirdYearRate()
                 );
-                thirdYearBodyDto.setLowLevel(//低的公司
-                        tmpList.get(0).getThirdYearRate()
-                );
-                thirdYearBodyDto.setHighLevel(//高的公司
-                        tmpList.get(tmpList.size() - 1).getThirdYearRate()
-                );
+
+                if (tmpList.size() > 0){// 有另外一个公司的话
+                    lowCompanyDto = tmpList.get(0); // 低的公司
+                    companys.add(lowCompanyDto.getCompanyName());// 低的公司名称
+                    // 三年的低的公司
+                    firstYearbodyDto.setLowLevel(
+                        lowCompanyDto.getFirstYearRate()
+                    );
+                    secondYearbodyDto.setLowLevel(
+                        lowCompanyDto.getSecondYearRate()
+                    );
+                    thirdYearBodyDto.setLowLevel(
+                        lowCompanyDto.getThirdYearRate()
+                    );
+                }
+                if (tmpList.size() > 1){// 有多个公司及代表有高的公司
+                    highCompanyDto = tmpList.get(tmpList.size() - 1); // 高的公司
+                    companys.add(highCompanyDto.getCompanyName());//高的公司名称
+                    // 三年的高的公司
+                    firstYearbodyDto.setHighLevel(//高的公司
+                        highCompanyDto.getFirstYearRate()
+                    );
+                    secondYearbodyDto.setHighLevel(//高的公司
+                        highCompanyDto.getSecondYearRate()
+                    );
+                    thirdYearBodyDto.setHighLevel(// 高的公司
+                        highCompanyDto.getThirdYearRate()
+                    );
+                }
 
                 // 三个对象放入数组中
                 subResultList.add(firstYearbodyDto);
