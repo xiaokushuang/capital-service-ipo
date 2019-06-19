@@ -1084,6 +1084,7 @@ public class IpoInterfaceController extends BaseController {
                     List<IpoH5DetailDto> KcbAverageList = ipoInterfaceService.ipoAvg(avgParam);
                     if(CollectionUtils.isNotEmpty(KcbAverageList)){
                         dataDto.setKcbData(new BigDecimal(KcbAverageList.get(0).getCurrValAvg()));
+                        dataDto.setOrgCount(KcbAverageList.get(0).getOrgCount());
                     }else{
                         dataDto.setKcbData(new BigDecimal("0"));
                     }
@@ -1102,6 +1103,7 @@ public class IpoInterfaceController extends BaseController {
                     List<IpoH5DetailDto> KcbAverageList = ipoInterfaceService.ipoAvg(avgParam);
                     if(CollectionUtils.isNotEmpty(KcbAverageList)){
                         dataDto.setKcbData(new BigDecimal(KcbAverageList.get(0).getCurrValAvg()));
+                        dataDto.setOrgCount(KcbAverageList.get(0).getOrgCount());
                     }else{
                         dataDto.setKcbData(new BigDecimal("0"));
                     }
@@ -1120,6 +1122,7 @@ public class IpoInterfaceController extends BaseController {
                     List<IpoH5DetailDto> KcbAverageList = ipoInterfaceService.ipoAvg(avgParam);
                     if(CollectionUtils.isNotEmpty(KcbAverageList)){
                         dataDto.setKcbData(new BigDecimal(KcbAverageList.get(0).getCurrValAvg()));
+                        dataDto.setOrgCount(KcbAverageList.get(0).getOrgCount());
                     }else{
                         dataDto.setKcbData(new BigDecimal("0"));
                     }
@@ -1138,6 +1141,7 @@ public class IpoInterfaceController extends BaseController {
                     List<IpoH5DetailDto> KcbAverageList = ipoInterfaceService.ipoAvg(avgParam);
                     if(CollectionUtils.isNotEmpty(KcbAverageList)){
                         dataDto.setKcbData(new BigDecimal(KcbAverageList.get(0).getCurrValAvg()));
+                        dataDto.setOrgCount(KcbAverageList.get(0).getOrgCount());
                     }else{
                         dataDto.setKcbData(new BigDecimal("0"));
                     }
@@ -1156,6 +1160,7 @@ public class IpoInterfaceController extends BaseController {
                     List<IpoH5DetailDto> KcbAverageList = ipoInterfaceService.ipoAvg(avgParam);
                     if(CollectionUtils.isNotEmpty(KcbAverageList)){
                         dataDto.setKcbData(new BigDecimal(KcbAverageList.get(0).getCurrValAvg()));
+                        dataDto.setOrgCount(KcbAverageList.get(0).getOrgCount());
                     }else{
                         dataDto.setKcbData(new BigDecimal("0"));
                     }
@@ -1345,13 +1350,11 @@ public class IpoInterfaceController extends BaseController {
             for (int i = 0; i < kcbAverageList.size(); i++) {
                 if (i == 0 && null != kcbAverageList.get(0)) {
                     itemDto.getTodayYear().setKcbData(new BigDecimal(kcbAverageList.get(0).getCurrValAvg()));
-                    itemDto.getTodayYear().setOrgCount(kcbAverageList.get(0).getOrgCount());
+                    itemDto.setOrgCount(kcbAverageList.get(0).getOrgCount());
                 } else if (i == 1 && null != kcbAverageList.get(1)) {
                     itemDto.getLastYear().setKcbData(new BigDecimal(kcbAverageList.get(1).getCurrValAvg()));
-                    itemDto.getLastYear().setOrgCount(kcbAverageList.get(1).getOrgCount());
                 } else if (i == 1 && null != kcbAverageList.get(2)) {
                     itemDto.getBeforeYear().setKcbData(new BigDecimal(kcbAverageList.get(2).getCurrValAvg()));
-                    itemDto.getBeforeYear().setOrgCount(kcbAverageList.get(2).getOrgCount());
                 }
             }
         }else{
