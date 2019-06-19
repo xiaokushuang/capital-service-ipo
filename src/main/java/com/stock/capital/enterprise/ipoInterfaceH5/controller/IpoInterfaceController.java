@@ -1340,15 +1340,18 @@ public class IpoInterfaceController extends BaseController {
         avgParam.setBid(id);
         avgParam.setColumnComment(columnComment);
         avgParam.setPlateType("0");
-        List<IpoH5DetailDto> KcbAverageList = ipoInterfaceService.ipoAvg(avgParam);
-        if(CollectionUtils.isNotEmpty(KcbAverageList)){
-            for (int i = 0; i < KcbAverageList.size(); i++) {
-                if (i == 0 && null != KcbAverageList.get(0)) {
-                    itemDto.getTodayYear().setKcbData(new BigDecimal(KcbAverageList.get(0).getCurrValAvg()));
-                } else if (i == 1 && null != KcbAverageList.get(1)) {
-                    itemDto.getLastYear().setKcbData(new BigDecimal(KcbAverageList.get(1).getCurrValAvg()));
-                } else if (i == 1 && null != KcbAverageList.get(2)) {
-                    itemDto.getBeforeYear().setKcbData(new BigDecimal(KcbAverageList.get(2).getCurrValAvg()));
+        List<IpoH5DetailDto> kcbAverageList = ipoInterfaceService.ipoAvg(avgParam);
+        if(CollectionUtils.isNotEmpty(kcbAverageList)){
+            for (int i = 0; i < kcbAverageList.size(); i++) {
+                if (i == 0 && null != kcbAverageList.get(0)) {
+                    itemDto.getTodayYear().setKcbData(new BigDecimal(kcbAverageList.get(0).getCurrValAvg()));
+                    itemDto.getTodayYear().setOrgCount(kcbAverageList.get(0).getOrgCount());
+                } else if (i == 1 && null != kcbAverageList.get(1)) {
+                    itemDto.getLastYear().setKcbData(new BigDecimal(kcbAverageList.get(1).getCurrValAvg()));
+                    itemDto.getLastYear().setOrgCount(kcbAverageList.get(1).getOrgCount());
+                } else if (i == 1 && null != kcbAverageList.get(2)) {
+                    itemDto.getBeforeYear().setKcbData(new BigDecimal(kcbAverageList.get(2).getCurrValAvg()));
+                    itemDto.getBeforeYear().setOrgCount(kcbAverageList.get(2).getOrgCount());
                 }
             }
         }else{
