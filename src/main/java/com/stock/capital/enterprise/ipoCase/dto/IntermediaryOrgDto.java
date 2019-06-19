@@ -41,7 +41,16 @@ public class IntermediaryOrgDto implements Serializable {
     private String intermediaryTypeName;//机构类型名称
 
     private String businessVolume;//科创板业务量
-    private String passing ;//科创板通过数量
+    private String passing;//科创板通过数量
+    private String passingWait;//科创板上会企业家数
+
+    public String getPassingWait() {
+        return passingWait;
+    }
+
+    public void setPassingWait(String passingWait) {
+        this.passingWait = passingWait;
+    }
 
     public String getPassing() {
         return passing;
