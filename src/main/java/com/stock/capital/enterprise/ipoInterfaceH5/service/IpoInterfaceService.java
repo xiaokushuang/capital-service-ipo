@@ -627,4 +627,8 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
     public IntermediaryOrgDto queryOrgMarketShare(IntermediaryOrgDto intermediaryOrgDto) {
         return ipoInterfaceBizMapper.queryOrgMarketShare(intermediaryOrgDto);
     }
+
+    public List<IpoCaseListVo> queryAllMatchIpoCase() {
+        return ipoInterfaceBizMapper.queryAllMatchIpoCase();
+    }
 }

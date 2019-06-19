@@ -91,18 +91,26 @@
     </select>
 
     <select id="queryIpoCase" parameterType="map" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo">
-      SELECT t.id,
-             t.company_name companyName,
-             t.company_zh_name title
+        SELECT t.id,
+        t.company_name companyName,
+        t.company_zh_name title
         FROM ipo_case t,case_common_status_info t1
         where ipo_plate = '069001001006' AND t.id = t1.case_id and t1.release_flag = '1'
-        <if test="limit != null and limit != ''">
-            limit 0,${limit}
+        <if test="companyName != null and companyName != ''">
+            and (t.company_name like CONCAT('%',#{companyName},'%') or t.company_zh_name like
+            CONCAT('%',#{companyName},'%'))
         </if>
-        <if test="limit == null or limit == ''">
-            <if test="companyName != null and companyName != ''">
-                and (t.company_name like CONCAT('%',#{companyName},'%') or t.company_zh_name like CONCAT('%',#{companyName},'%'))
-            </if>
+    </select>
+    <select id="queryAllMatchIpoCase" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo">
+        SELECT  t.id,
+        t.company_name companyName,
+        t.company_zh_name title
+        FROM    ipo_case t,case_common_status_info t1
+        WHERE   t.id = t1.case_id and t1.release_flag = '1' and t.ipo_plate = '069001001006'
+        AND EXISTS (SELECT 1 FROM ipo_process m WHERE m.bid = t.id AND m.process_type_code = '38' AND m.iec_result = '07')
+        <if test="companyName != null and companyName != ''">
+            and (t.company_name like CONCAT('%',#{companyName},'%') or t.company_zh_name like
+            CONCAT('%',#{companyName},'%'))
         </if>
     </select>
 

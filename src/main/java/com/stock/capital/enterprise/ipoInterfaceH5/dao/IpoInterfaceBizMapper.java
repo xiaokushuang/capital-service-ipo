@@ -26,6 +26,8 @@ public interface IpoInterfaceBizMapper {
 
     List<IpoCaseListVo> queryIpoCase(Map<String, Object> map);
 
+    List<IpoCaseListVo> queryAllMatchIpoCase();
+
     List<IpoCaseListVo> otherIpoCaseNoIndustry();
 
     IntermediaryOrgDto queryOrgMarketShare(IntermediaryOrgDto intermediaryOrgDto);

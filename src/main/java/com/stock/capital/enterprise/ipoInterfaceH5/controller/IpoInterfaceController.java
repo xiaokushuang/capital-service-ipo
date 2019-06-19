@@ -1453,6 +1453,30 @@ public class IpoInterfaceController extends BaseController {
         jsonResponse.setResult(ipoCaseListVos);
         return jsonResponse;
     }
+    /**
+     * 随机获取科创板已注册IPO数据
+     *
+     * @param
+     * @author yangj
+     */
+    @RequestMapping(value = "/queryAllMatchIpoCase", method = RequestMethod.GET)
+    @ResponseBody
+    public JsonResponse queryAllMatchIpoCase() {
+        JsonResponse jsonResponse = new JsonResponse();
+//        List<IpoCaseListVo> result = new ArrayList<>();
+        List<IpoCaseListVo> ipoCaseListVos = ipoInterfaceService.queryAllMatchIpoCase();
+        Set<IpoCaseListVo> resultSet = new HashSet<>();
+        if (ipoCaseListVos.size() <=3){
+            jsonResponse.setResult(ipoCaseListVos);
+        }else{
+            Random random = new Random();
+            while(resultSet.size() < 3){
+                resultSet.add(ipoCaseListVos.get(random.nextInt(ipoCaseListVos.size())));
+            }
+            jsonResponse.setResult(resultSet);
+        }
+        return jsonResponse;
+    }
 
     /**
      * dxy 行业与技术接口
