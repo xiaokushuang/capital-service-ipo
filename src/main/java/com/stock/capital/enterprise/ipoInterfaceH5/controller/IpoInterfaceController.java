@@ -954,6 +954,7 @@ public class IpoInterfaceController extends BaseController {
                         if (StringUtils.isNotEmpty(dataDto.getYear()) && dataDto.getYear().equals(avgDto.getYear())) {
                             BigDecimal kcbData = new BigDecimal(avgDto.getCurrValAvg());
                             dataDto.setKcbData(kcbData);
+                            dataDto.setOrgCount(avgDto.getOrgCount());
                             flag = false;
                         }
                     }
@@ -1001,6 +1002,7 @@ public class IpoInterfaceController extends BaseController {
                         if (StringUtils.isNotEmpty(dataDto.getYear()) && dataDto.getYear().equals(avgDto.getYear())) {
                             BigDecimal kcbData = new BigDecimal(avgDto.getCurrValAvg()).divide(new BigDecimal("10000"), 2, BigDecimal.ROUND_HALF_UP);
                             dataDto.setKcbData(kcbData);
+                            dataDto.setOrgCount(avgDto.getOrgCount());
                             flag = false;
                         }
                     }
