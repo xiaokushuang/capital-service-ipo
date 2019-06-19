@@ -20,6 +20,7 @@ import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5IssueDataDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5TechnologyDevDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5TechnologyDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.service.IpoInterfaceService;
+import com.stock.capital.enterprise.utils.SensitiveWord;
 import com.stock.core.controller.BaseController;
 import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.QueryInfo;
@@ -1693,8 +1694,17 @@ public class IpoInterfaceController extends BaseController {
     @ResponseBody
     public JsonResponse submitReplay(String headPortrait,String username,String commentText,String openid,String unionid,String caseid ) {
         JsonResponse jsonResponse = new JsonResponse();
+        Map<String,Object> map = new HashMap();
         //        set 时间
-        Map<String,Object> map = new HashedMap();
+        SensitiveWord sw = new SensitiveWord("CensorWords.txt");
+        sw.InitializationWork();
+        boolean canNotSubmit = sw.filterInfo(commentText);
+        if (canNotSubmit){
+            map.put("status","failed");
+            jsonResponse.setResult(map);
+            return jsonResponse;
+        }
+
         map.put("headPortrait",headPortrait);
         map.put("username",username);
         map.put("commentText",commentText);

@@ -1,6 +1,5 @@
 package com.stock.capital.enterprise.ipoInterfaceH5.controller;
 
-
 import com.obs.services.ObsClient;
 import com.obs.services.model.ObjectMetadata;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo;
@@ -79,7 +78,7 @@ public class IpoFileUploadController extends BaseController {
     /**
      * 每晚定时把所有科创版数据生成json文件放到华为云上
      */
-    @Scheduled(cron = "0 40 10 * * ? ")
+    @Scheduled(cron = "0 20 01 * * ? ")
     public void ipoMarchDataUpload() {
         //查询科创版所有案例
         logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
@@ -93,6 +92,4 @@ public class IpoFileUploadController extends BaseController {
             }
         }
     }
-
-
 }
