@@ -15,6 +15,8 @@ public class IpoH5FinanceListDto implements Serializable {
 
     private IpoFinanceH5Dto todayYear;
 
+    private String orgCount;
+
     public String getName() {
         return name;
     }
@@ -45,5 +47,13 @@ public class IpoH5FinanceListDto implements Serializable {
 
     public void setTodayYear(IpoFinanceH5Dto todayYear) {
         this.todayYear = todayYear;
+    }
+
+    public String getOrgCount() {
+        return orgCount;
+    }
+
+    public void setOrgCount(String orgCount) {
+        this.orgCount = orgCount;
     }
 }

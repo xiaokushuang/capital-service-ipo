@@ -842,7 +842,7 @@
       let param = {
       client_type:'pc',//手机或pc
       recordType:'menu',//跳转页面方式:
-      recordModule:'ipo',//跳转模块
+      recordModule:'IPO案例',//跳转模块
       recordTab:"ipo案例列表页",//跳转tab
       recordTabChild:null,//跳转子集tab
       popTitle:null//弹窗title
@@ -1324,7 +1324,7 @@
             this.$store.commit('CREATE_TEMP_MESSAGE',param);
            // 日志---------------------尾
           // window.open(href + '&tenant_info=' + this.tenantInfo, '_blank');
-            this.$open(href + '&tenant_info=' + this.tenantInfo, '_blank');
+            this.$open(href, '_blank');
         } else {
           let url = window.location.href;
           url = url.replace(this.$route.path, '/ipoPopWin');

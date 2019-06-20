@@ -389,10 +389,10 @@ public class IpoFinanceService extends BaseService {
         Date secondYear = getLastYearDate(thirdYear);
         Date firstYear = getLastYearDate(secondYear);
         //存入时间
-        dateDto.setFirstYearDate(getDateStr(firstYear));
-        dateDto.setSecondYearDate(getDateStr(secondYear));
-        dateDto.setThirdYearDate(getDateStr(thirdYear));
-        dateDto.setForthYearDate(getDateStr(forthYear));
+        dateDto.setFirstYearDate(getDateStr(firstYear).substring(0,4));
+        dateDto.setSecondYearDate(getDateStr(secondYear).substring(0,4));
+        dateDto.setThirdYearDate(getDateStr(thirdYear).substring(0,4));
+        dateDto.setForthYearDate(getDateStr(forthYear).substring(0,4));
         //根据时间和id查询财务信息，三年一期的 财务总体情况
         List<IpoItemDto> forthItemList = ipoFinanceMapper.selectFinanceOverListH5(id, forthYear);
         List<IpoItemDto> thirdItemList = ipoFinanceMapper.selectFinanceOverListH5(id, thirdYear);
@@ -419,18 +419,6 @@ public class IpoFinanceService extends BaseService {
         forthItemList.add(7, sumEquityDto);
         //为前台页面统一展示，将0的数据设置为Null
         for (int i = 0; i < forthItemList.size(); i++) {
-            if (forthItemList.get(i).getForthYearValue() != null && forthItemList.get(i).getForthYearValue().compareTo(BigDecimal.ZERO) == 0) {
-                forthItemList.get(i).setForthYearValue(null);
-            }
-            if (forthItemList.get(i).getThirdYearValue() != null && forthItemList.get(i).getThirdYearValue().compareTo(BigDecimal.ZERO) == 0) {
-                forthItemList.get(i).setThirdYearValue(null);
-            }
-            if (forthItemList.get(i).getSecondYearValue() != null && forthItemList.get(i).getSecondYearValue().compareTo(BigDecimal.ZERO) == 0) {
-                forthItemList.get(i).setSecondYearValue(null);
-            }
-            if (forthItemList.get(i).getFirstYearValue() != null && forthItemList.get(i).getFirstYearValue().compareTo(BigDecimal.ZERO) == 0) {
-                forthItemList.get(i).setFirstYearValue(null);
-            }
             //计算各个复合增长率
             double growthRate = getGrowthRate(forthItemList.get(i));
             forthItemList.get(i).setGrowthRate(growthRate == 0D ? null : new BigDecimal(String.valueOf(growthRate)));
@@ -449,22 +437,30 @@ public class IpoFinanceService extends BaseService {
             }
         }
         //移除财务信息中，三年一期全部为空的项目
-        List<IpoItemDto> allItemList = removeNullItem(forthItemList);
-        resultDto = transData(allItemList,dateDto);
+//        List<IpoItemDto> allItemList = removeNullItem(forthItemList);
+        resultDto = transData(forthItemList,dateDto);
         resultDto.setDateList(dateDto);
         return resultDto;
     }
 
     //计算复合增长率
     private double getGrowthRate(IpoItemDto ipoItemDto) {
-        if (null != ipoItemDto.getForthYearValue() && null != ipoItemDto.getSecondYearValue()) {
-            double rate = Math.pow(ipoItemDto.getForthYearValue().divide(ipoItemDto.getSecondYearValue(), 4, BigDecimal.ROUND_HALF_UP).doubleValue(), 1.0 / 3);
-            rate = new BigDecimal((rate - 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        if (null != ipoItemDto.getForthYearValue() && null != ipoItemDto.getSecondYearValue() && ipoItemDto.getSecondYearValue().compareTo(BigDecimal.ZERO) != 0) {
+            double param = ipoItemDto.getForthYearValue().divide(ipoItemDto.getSecondYearValue(), 4, BigDecimal.ROUND_HALF_UP).doubleValue();
+            double rate;
+            if(param <0){
+                param = param*-1;
+                rate = Math.pow(param, 1.0 / 3);
+                rate = rate*-1;
+                rate = new BigDecimal((rate + 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            }else{
+                rate = Math.pow(param, 1.0 / 3);
+                rate = new BigDecimal((rate - 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            }
             return rate;
         } else {
             return 0;
         }
-
     }
 
     private IpoH5FinanceResultDto transData(List<IpoItemDto> allItemList, IpoFinanceDateDto dateDto) {
@@ -479,7 +475,7 @@ public class IpoFinanceService extends BaseService {
                 resultDto.setIncomeList(incomeList);
                 resultDto.setIncomeRate(incomeRate);
             } else if ("销售毛利率".equals(dto.getItemName())) {
-//                dto.setItemName("毛利率");
+                dto.setItemName("毛利率");
                 List<IpoFinanceH5Dto> grossList = insertFinanceData(dto, dateDto);
                 resultDto.setGrossList(grossList);
             } else if ("净利润".equals(dto.getItemName())) {
@@ -489,9 +485,9 @@ public class IpoFinanceService extends BaseService {
                 resultDto.setProfitList(profitList);
                 resultDto.setProfitRate(profitRate);
             } else if ("销售净利率".equals(dto.getItemName())) {
-//                dto.setItemName("净利润率");
+                dto.setItemName("净利润率");
                 List<IpoFinanceH5Dto> profitRateList = insertFinanceData(dto, dateDto);
-                resultDto.setProfitList(profitRateList);
+                resultDto.setProfitRateList(profitRateList);
             } else if ("净资产收益率ROE(加权)".equals(dto.getItemName())) {
                 dto.setItemName("加权平均净资产收益率");
                 insertMainIndexData(dto, mainIndexList);

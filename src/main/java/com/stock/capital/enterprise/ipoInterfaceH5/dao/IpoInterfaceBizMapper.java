@@ -1,5 +1,6 @@
 package com.stock.capital.enterprise.ipoInterfaceH5.dao;
 
+import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5CoreDevDto;
@@ -9,10 +10,11 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface IpoInterfaceBizMapper {
-    List<IpoCaseIndexDto> otherIpoCase(IpoCaseIndexDto ipoCaseIndexDto);
+    List<IpoCaseListVo> otherIpoCase(IpoCaseIndexDto ipoCaseIndexDto);
 
     IpoH5Dto ipoCompanyRank(IpoH5Dto ipoH5Dto);
 
@@ -22,5 +24,11 @@ public interface IpoInterfaceBizMapper {
 
     List<IpoH5CoreDevDto> getCoreDevFromIpoTech(@Param("id") String id);
 
-    List<IpoCaseListVo> queryIpoCase();
+    List<IpoCaseListVo> queryIpoCase(Map<String, Object> map);
+
+    List<IpoCaseListVo> queryAllMatchIpoCase();
+
+    List<IpoCaseListVo> otherIpoCaseNoIndustry();
+
+    IntermediaryOrgDto queryOrgMarketShare(IntermediaryOrgDto intermediaryOrgDto);
 }
