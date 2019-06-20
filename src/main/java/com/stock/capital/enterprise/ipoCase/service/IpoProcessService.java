@@ -131,7 +131,7 @@ public class IpoProcessService extends BaseService {
                                     fileDto.getRelaId() + "_1.pdf&originTitle=" + fileDto.getRelationFileTitle();
                             fileDto.setBaseUrl(baseUrl);
                         } else {
-                            if ("htm".equals(fileDto.getSuffix().toLowerCase()) || "html".equals(fileDto.getSuffix().toLowerCase())) {
+                            if ("htm".equals(fileDto.getSuffix()) || "html".equals(fileDto.getSuffix())) {
                                 String baseUrl = fileViewPath + "open/ipoFile/" + fileDto.getRelaId() + ".png";
                                 fileDto.setBaseUrl(baseUrl);
                             } else {
