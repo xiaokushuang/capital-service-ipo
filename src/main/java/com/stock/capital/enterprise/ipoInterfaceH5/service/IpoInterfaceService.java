@@ -456,8 +456,14 @@ public class IpoInterfaceService extends BaseService {
                 yearList.add(year.substring(0,4));
                 incomeDto.setYear(year);//year
                 expensesCostDto.setYear(year);//year
-                BigDecimal researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateFiavg());//研发投入平均
-                BigDecimal taking = new BigDecimal(ipoCompanyRank.getTakingFiavg());//营业收入平均
+                BigDecimal researchPlate = new BigDecimal(0);
+                if (ipoCompanyRank.getResearchPlateFiavg() != null){
+                    researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateFiavg());//研发投入平均
+                }
+                BigDecimal taking = new BigDecimal(0);//营业收入平均
+                if (ipoCompanyRank.getTakingFiavg() != null){
+                    taking = new BigDecimal(ipoCompanyRank.getTakingFiavg());//营业收入平均
+                }
 
                 incomeDto.setCompany(devData.get(1).getSecondYearValue().toPlainString());//传入营业收入
                 expensesCostDto.setCompany(devData.get(0).getSecondYearValue().toPlainString());//传入研发投入
@@ -478,8 +484,16 @@ public class IpoInterfaceService extends BaseService {
                 yearList.add(year.substring(0,4));
                 incomeDto.setYear(year);//year
                 expensesCostDto.setYear(year);//year
-                researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateSeavg());//研发投入平均
-                taking = new BigDecimal(ipoCompanyRank.getTakingSeavg());//营业收入平均
+                if (ipoCompanyRank.getResearchPlateSeavg() != null){
+                    researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateSeavg());//研发投入平均
+                }else {
+                    researchPlate = new BigDecimal(0);//研发投入平均
+                }
+                if (ipoCompanyRank.getTakingSeavg() != null){
+                    taking = new BigDecimal(ipoCompanyRank.getTakingSeavg());//营业收入平均
+                }else {
+                    taking = new BigDecimal(0);//营业收入平均
+                }
 
                 incomeDto.setCompany(devData.get(1).getThirdYearValue().toPlainString());//传入营业收入
                 expensesCostDto.setCompany(devData.get(0).getThirdYearValue().toPlainString());//传入研发投入
@@ -500,8 +514,16 @@ public class IpoInterfaceService extends BaseService {
                 yearList.add(year.substring(0,4));
                 incomeDto.setYear(year);//year
                 expensesCostDto.setYear(year);//year
-                researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateThavg());//研发投入平均
-                taking = new BigDecimal(ipoCompanyRank.getTakingThavg());//营业收入平均
+                if (ipoCompanyRank.getResearchPlateThavg() != null){
+                    researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateThavg());//研发投入平均
+                }else {
+                    researchPlate = new BigDecimal(0);//研发投入平均
+                }
+                if (ipoCompanyRank.getTakingThavg() != null){
+                    taking = new BigDecimal(ipoCompanyRank.getTakingThavg());//营业收入平均
+                }else {
+                    taking = new BigDecimal(0);//营业收入平均
+                }
 
                 incomeDto.setCompany(devData.get(1).getForthYearValue().toPlainString());//传入营业收入
                 expensesCostDto.setCompany(devData.get(0).getForthYearValue().toPlainString());//传入研发投入
