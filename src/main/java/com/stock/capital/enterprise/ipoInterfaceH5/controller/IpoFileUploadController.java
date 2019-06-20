@@ -52,12 +52,14 @@ public class IpoFileUploadController extends BaseController {
         //测试地址
         //obsClient.putObject("obs-repo", "ipo-dev/"+fileName+".txt", new ByteArrayInputStream(content.getBytes()));
         //生产地址
+
         obsClient.putObject("obs-repo", "ipo/" + fileName + ".json", new ByteArrayInputStream(content.getBytes()), metadata);
     }
 
     /**
      * 每晚定时把所有科创版数据生成json文件放到华为云上
      */
+
     @Scheduled(cron = "0 30 18,12,15 * * ? ")
     public void ipoDataUpload() {
         //查询科创版所有案例
