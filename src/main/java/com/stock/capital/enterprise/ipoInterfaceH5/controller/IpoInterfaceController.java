@@ -17,7 +17,6 @@ import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5FinanceListDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5FinanceResultDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5IndustryDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5IssueDataDto;
-import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5TechnologyDevDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5TechnologyDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.service.IpoInterfaceService;
 import com.stock.capital.enterprise.utils.SensitiveWord;
@@ -25,19 +24,18 @@ import com.stock.core.controller.BaseController;
 import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.QueryInfo;
 import com.stock.core.rest.RestClient;
+import com.stock.core.util.DateUtil;
 import com.stock.core.util.JsonUtil;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.client.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,7 +43,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -792,7 +797,8 @@ public class IpoInterfaceController extends BaseController {
             List<SupplierCustomerInfoDto> dataList = supplierMainList.get(i).getSupplierCustomerInfoList();
             List<String> timeList = new ArrayList<>();
             List<BigDecimal> sumValueList = new ArrayList<>();
-            String onePeriodStr = DateUtils.formatDate(supplierMainList.get(i).getReportPeriod(), "yyyy-MM-dd");
+            String onePeriodStr = DateUtil.getDateStr(supplierMainList.get(i).getReportPeriod(), "yyyy-MM-dd");
+//            String onePeriodStr = DateUtils.formatDate(supplierMainList.get(i).getReportPeriod(), "yyyy-MM-dd");
             if (StringUtils.isNotEmpty(onePeriodStr) && onePeriodStr.indexOf("12-31") >= 0) {
                 for (int j = 0; j < dataList.size() - 1; j++) {
                     //列表只展示最近一年的5家供应商和客户，所以判断最近一年数据不为空，则放入列表
@@ -807,7 +813,8 @@ public class IpoInterfaceController extends BaseController {
 
                 timeList.add(supplierMainList.get(i).getSecondYearForSupplier());
                 timeList.add(supplierMainList.get(i).getThirdYearForSupplier());
-                timeList.add(DateUtils.formatDate(supplierMainList.get(i).getReportPeriod(), "yyyy-MM-dd"));
+                timeList.add(DateUtil.getDateStr(supplierMainList.get(i).getReportPeriod(), "yyyy-MM-dd"));
+//                timeList.add(DateUtils.formatDate(supplierMainList.get(i).getReportPeriod(), "yyyy-MM-dd"));
 
                 if (dataList.size() > 1) {
                     sumValueList.add(dataList.get(dataList.size() - 1).getSecondYearRatio());
@@ -853,7 +860,8 @@ public class IpoInterfaceController extends BaseController {
             List<SupplierCustomerInfoDto> dataList = customerMainList.get(i).getSupplierCustomerInfoList();
             List<String> timeList = new ArrayList<>();
             List<BigDecimal> sumValueList = new ArrayList<>();
-            String onePeriodStr = DateUtils.formatDate(customerMainList.get(i).getReportPeriod(), "yyyy-MM-dd");
+            String onePeriodStr = DateUtil.getDateStr(customerMainList.get(i).getReportPeriod(), "yyyy-MM-dd");
+//            String onePeriodStr = DateUtils.formatDate(customerMainList.get(i).getReportPeriod(), "yyyy-MM-dd");
             if (StringUtils.isNotEmpty(onePeriodStr) && onePeriodStr.indexOf("12-31") >= 0) {
                 for (int j = 0; j < dataList.size() - 1; j++) {
                     if(null != dataList.get(j).getOnePeriodAmount()){
@@ -867,7 +875,8 @@ public class IpoInterfaceController extends BaseController {
 
                 timeList.add(customerMainList.get(i).getSecondYearForCustomer());
                 timeList.add(customerMainList.get(i).getThirdYearForCustomer());
-                timeList.add(DateUtils.formatDate(customerMainList.get(i).getReportPeriod(), "yyyy-MM-dd"));
+                timeList.add(DateUtil.getDateStr(customerMainList.get(i).getReportPeriod(), "yyyy-MM-dd"));
+//                timeList.add(DateUtils.formatDate(customerMainList.get(i).getReportPeriod(), "yyyy-MM-dd"));
 
                 if (dataList.size() > 1) {
                     sumValueList.add(dataList.get(dataList.size() - 1).getSecondYearRatio());
@@ -1217,7 +1226,7 @@ public class IpoInterfaceController extends BaseController {
             BigDecimal todayYearCyb = BigDecimal.ZERO;
             for (IpoH5FinanceListDto itemDto : dataList) {
                 if ("流动资产".equals(itemDto.getName())) {
-                    transDebtData(id, "150", itemDto);
+                    transDebtData(id, "037", itemDto);
                     if(null != itemDto.getBeforeYear()){
                         if(null != itemDto.getBeforeYear().getKcbData()){
                             beforeYearKcb = beforeYearKcb.add(itemDto.getBeforeYear().getKcbData());
@@ -1244,7 +1253,7 @@ public class IpoInterfaceController extends BaseController {
                     }
 
                 } else if ("非流动资产".equals(itemDto.getName())) {
-                    transDebtData(id, "151", itemDto);
+                    transDebtData(id, "058", itemDto);
                     if(null != itemDto.getBeforeYear()){
                         if(null != itemDto.getBeforeYear().getKcbData()){
                             beforeYearKcb = beforeYearKcb.add(itemDto.getBeforeYear().getKcbData());
@@ -1271,7 +1280,7 @@ public class IpoInterfaceController extends BaseController {
                     }
 
                 } else if ("流动负债".equals(itemDto.getName())) {
-                    transDebtData(id, "155", itemDto);
+                    transDebtData(id, "089", itemDto);
                     if(null != itemDto.getBeforeYear()){
                         if(null != itemDto.getBeforeYear().getKcbData()){
                             beforeYearKcb = beforeYearKcb.subtract(itemDto.getBeforeYear().getKcbData());
@@ -1297,7 +1306,7 @@ public class IpoInterfaceController extends BaseController {
                         }
                     }
                 } else if ("非流动负债".equals(itemDto.getName())) {
-                    transDebtData(id, "156", itemDto);
+                    transDebtData(id, "100", itemDto);
                     if(null != itemDto.getBeforeYear()){
                         if(null != itemDto.getBeforeYear().getKcbData()){
                             beforeYearKcb = beforeYearKcb.subtract(itemDto.getBeforeYear().getKcbData());
@@ -1349,12 +1358,12 @@ public class IpoInterfaceController extends BaseController {
         if(CollectionUtils.isNotEmpty(kcbAverageList)){
             for (int i = 0; i < kcbAverageList.size(); i++) {
                 if (i == 0 && null != kcbAverageList.get(0)) {
-                    itemDto.getTodayYear().setKcbData(new BigDecimal(kcbAverageList.get(0).getCurrValAvg()));
+                    itemDto.getTodayYear().setKcbData(new BigDecimal(kcbAverageList.get(0).getCurrValAvg()).divide(new BigDecimal("10000"),2,BigDecimal.ROUND_HALF_UP));
                     itemDto.setOrgCount(kcbAverageList.get(0).getOrgCount());
                 } else if (i == 1 && null != kcbAverageList.get(1)) {
-                    itemDto.getLastYear().setKcbData(new BigDecimal(kcbAverageList.get(1).getCurrValAvg()));
-                } else if (i == 1 && null != kcbAverageList.get(2)) {
-                    itemDto.getBeforeYear().setKcbData(new BigDecimal(kcbAverageList.get(2).getCurrValAvg()));
+                    itemDto.getLastYear().setKcbData(new BigDecimal(kcbAverageList.get(1).getCurrValAvg()).divide(new BigDecimal("10000"),2,BigDecimal.ROUND_HALF_UP));
+                } else if (i == 2 && null != kcbAverageList.get(2)) {
+                    itemDto.getBeforeYear().setKcbData(new BigDecimal(kcbAverageList.get(2).getCurrValAvg()).divide(new BigDecimal("10000"),2,BigDecimal.ROUND_HALF_UP));
                 }
             }
         }else{
@@ -1367,11 +1376,11 @@ public class IpoInterfaceController extends BaseController {
         if(CollectionUtils.isNotEmpty(CybAverageList)){
             for (int i = 0; i < CybAverageList.size(); i++) {
                 if (i == 0 && null != CybAverageList.get(0)) {
-                    itemDto.getTodayYear().setCybData(new BigDecimal(CybAverageList.get(0).getCurrValAvg()));
+                    itemDto.getTodayYear().setCybData(new BigDecimal(CybAverageList.get(0).getCurrValAvg()).divide(new BigDecimal("10000"),2,BigDecimal.ROUND_HALF_UP));
                 } else if (i == 1 && null != CybAverageList.get(1)) {
-                    itemDto.getLastYear().setCybData(new BigDecimal(CybAverageList.get(1).getCurrValAvg()));
-                } else if (i == 1 && null != CybAverageList.get(2)) {
-                    itemDto.getBeforeYear().setCybData(new BigDecimal(CybAverageList.get(2).getCurrValAvg()));
+                    itemDto.getLastYear().setCybData(new BigDecimal(CybAverageList.get(1).getCurrValAvg()).divide(new BigDecimal("10000"),2,BigDecimal.ROUND_HALF_UP));
+                } else if (i == 2 && null != CybAverageList.get(2)) {
+                    itemDto.getBeforeYear().setCybData(new BigDecimal(CybAverageList.get(2).getCurrValAvg()).divide(new BigDecimal("10000"),2,BigDecimal.ROUND_HALF_UP));
                 }
             }
         }else{
