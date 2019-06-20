@@ -362,61 +362,68 @@ public class IpoInterfaceController extends BaseController {
         try {
             Map technology = getTechnology(id);
             //行业地位
-            List<IssuerIndustryStatusDto> industryStatusDtoList = (List<IssuerIndustryStatusDto>) technology.get("industryStatusInfo");
-            if (CollectionUtils.isNotEmpty(industryStatusDtoList)) {
-                dataMap = new HashMap<>();
-                dataMap.put("paramName", "行业地位");
-                dataMap.put("paramData", JsonUtil.toJsonNoNull(industryStatusDtoList));
-                resultMap.put("industryStatusInfo", dataMap);
-            } else {
-                dataMap = new HashMap<>();
-                dataMap.put("paramName", "行业地位");
-                dataMap.put("paramData", "0");
-                resultMap.put("industryStatusInfo", dataMap);
-            }
-            //主要竞争对手
-            List<MainCompetitorInfoDto> mainCompetitorInfoDtoList = (List<MainCompetitorInfoDto>) technology.get("mainCompetitorInfo");
-            if (CollectionUtils.isNotEmpty(mainCompetitorInfoDtoList)) {
-                dataMap = new HashMap<>();
-                dataMap.put("paramName", "主要竞争对手");
-                dataMap.put("paramData", JsonUtil.toJsonNoNull(mainCompetitorInfoDtoList));
-                resultMap.put("mainCompetitorInfo", dataMap);
-            } else {
-                dataMap = new HashMap<>();
-                dataMap.put("paramName", "主要竞争对手");
-                dataMap.put("paramData", "0");
-                resultMap.put("mainCompetitorInfo", dataMap);
-            }
-            //毛利率对比
-            IpoH5IndustryDto ipoH5IndustryDto = (IpoH5IndustryDto) technology.get("industryCompareRateInfo");
-            if(CollectionUtils.isNotEmpty(ipoH5IndustryDto.getTitles()) || CollectionUtils.isNotEmpty(ipoH5IndustryDto.getBody())){
-                dataMap = new HashMap<>();
-                dataMap.put("paramName", "毛利率对比");
-                dataMap.put("paramData", JsonUtil.toJsonNoNull(ipoH5IndustryDto));
-                resultMap.put("industryCompareRateInfo", dataMap);
-            } else {
-                dataMap = new HashMap<>();
-                dataMap.put("paramName", "毛利率对比");
-                dataMap.put("paramData", "0");
-                resultMap.put("industryCompareRateInfo", dataMap);
-            }
-            //科技创新
-            IpoH5TechnologyDto ipoTechnologyVo = (IpoH5TechnologyDto) technology.get("technologyInfo");
-            if (ipoTechnologyVo != null) {
-                //研发投入
-                Map<String, List> devData = ipoTechnologyVo.getDevData();
-                if (CollectionUtils.isNotEmpty(devData.get("income")) &&
-                        CollectionUtils.isNotEmpty(devData.get("expensesCost"))) {
+            if ((List<IssuerIndustryStatusDto>) technology.get("industryStatusInfo") != null){
+                List<IssuerIndustryStatusDto> industryStatusDtoList = (List<IssuerIndustryStatusDto>) technology.get("industryStatusInfo");
+                if (CollectionUtils.isNotEmpty(industryStatusDtoList)) {
                     dataMap = new HashMap<>();
-                    dataMap.put("paramName", "研发投入");
-                    dataMap.put("paramData", JsonUtil.toJsonNoNull(devData));
-                    resultMap.put("devData", dataMap);
+                    dataMap.put("paramName", "行业地位");
+                    dataMap.put("paramData", JsonUtil.toJsonNoNull(industryStatusDtoList));
+                    resultMap.put("industryStatusInfo", dataMap);
                 } else {
                     dataMap = new HashMap<>();
-                    dataMap.put("paramName", "研发投入");
+                    dataMap.put("paramName", "行业地位");
                     dataMap.put("paramData", "0");
-                    resultMap.put("devData", dataMap);
+                    resultMap.put("industryStatusInfo", dataMap);
                 }
+            }
+            //主要竞争对手
+            if ((List<MainCompetitorInfoDto>) technology.get("mainCompetitorInfo") != null){
+                List<MainCompetitorInfoDto> mainCompetitorInfoDtoList = (List<MainCompetitorInfoDto>) technology.get("mainCompetitorInfo");
+                if (CollectionUtils.isNotEmpty(mainCompetitorInfoDtoList)) {
+                    dataMap = new HashMap<>();
+                    dataMap.put("paramName", "主要竞争对手");
+                    dataMap.put("paramData", JsonUtil.toJsonNoNull(mainCompetitorInfoDtoList));
+                    resultMap.put("mainCompetitorInfo", dataMap);
+                } else {
+                    dataMap = new HashMap<>();
+                    dataMap.put("paramName", "主要竞争对手");
+                    dataMap.put("paramData", "0");
+                    resultMap.put("mainCompetitorInfo", dataMap);
+                }
+            }
+            //毛利率对比
+            if ((IpoH5IndustryDto) technology.get("industryCompareRateInfo") != null){
+                IpoH5IndustryDto ipoH5IndustryDto = (IpoH5IndustryDto) technology.get("industryCompareRateInfo");
+                if(CollectionUtils.isNotEmpty(ipoH5IndustryDto.getTitles()) || CollectionUtils.isNotEmpty(ipoH5IndustryDto.getBody())){
+                    dataMap = new HashMap<>();
+                    dataMap.put("paramName", "毛利率对比");
+                    dataMap.put("paramData", JsonUtil.toJsonNoNull(ipoH5IndustryDto));
+                    resultMap.put("industryCompareRateInfo", dataMap);
+                } else {
+                    dataMap = new HashMap<>();
+                    dataMap.put("paramName", "毛利率对比");
+                    dataMap.put("paramData", "0");
+                    resultMap.put("industryCompareRateInfo", dataMap);
+                }
+            }
+            //科技创新
+            if ((IpoH5TechnologyDto) technology.get("technologyInfo") != null){
+                IpoH5TechnologyDto ipoTechnologyVo = (IpoH5TechnologyDto) technology.get("technologyInfo");
+                if (ipoTechnologyVo != null) {
+                    //研发投入
+                    Map<String, List> devData = ipoTechnologyVo.getDevData();
+                    if (CollectionUtils.isNotEmpty(devData.get("income")) &&
+                            CollectionUtils.isNotEmpty(devData.get("expensesCost"))) {
+                        dataMap = new HashMap<>();
+                        dataMap.put("paramName", "研发投入");
+                        dataMap.put("paramData", JsonUtil.toJsonNoNull(devData));
+                        resultMap.put("devData", dataMap);
+                    } else {
+                        dataMap = new HashMap<>();
+                        dataMap.put("paramName", "研发投入");
+                        dataMap.put("paramData", "0");
+                        resultMap.put("devData", dataMap);
+                    }
 //                //专利情况
 //                List<IpoTechnologyPatentDto> patentData = ipoTechnologyVo.getPatentData();
 //                if(CollectionUtils.isNotEmpty(patentData)){
@@ -430,19 +437,20 @@ public class IpoInterfaceController extends BaseController {
 //                    dataMap.put("paramData", "0");
 //                    resultMap.put("patentData", dataMap);
 //                }
-                //核心技术及研发技术人员
-                List<Map<String, IpoH5CoreDevDto>> coreData = ipoTechnologyVo.getCoreData();
-                if(StringUtils.isNotBlank(coreData.get(0).get("companyStaff").getIndexDate()) &&
-                     StringUtils.isNotBlank(coreData.get(1).get("industryStaff").getIndexDate())){
-                    dataMap = new HashMap<>();
-                    dataMap.put("paramName", "核心技术及研发技术人员");
-                    dataMap.put("paramData", JsonUtil.toJsonNoNull(coreData));
-                    resultMap.put("coreData", dataMap);
-                }else{
-                    dataMap = new HashMap<>();
-                    dataMap.put("paramName", "核心技术及研发技术人员");
-                    dataMap.put("paramData", "0");
-                    resultMap.put("coreData", dataMap);
+                    //核心技术及研发技术人员
+                    List<Map<String, IpoH5CoreDevDto>> coreData = ipoTechnologyVo.getCoreData();
+                    if(StringUtils.isNotBlank(coreData.get(0).get("companyStaff").getIndexDate()) &&
+                            StringUtils.isNotBlank(coreData.get(1).get("industryStaff").getIndexDate())){
+                        dataMap = new HashMap<>();
+                        dataMap.put("paramName", "核心技术及研发技术人员");
+                        dataMap.put("paramData", JsonUtil.toJsonNoNull(coreData));
+                        resultMap.put("coreData", dataMap);
+                    }else{
+                        dataMap = new HashMap<>();
+                        dataMap.put("paramName", "核心技术及研发技术人员");
+                        dataMap.put("paramData", "0");
+                        resultMap.put("coreData", dataMap);
+                    }
                 }
             }
         } catch (Exception e) {
