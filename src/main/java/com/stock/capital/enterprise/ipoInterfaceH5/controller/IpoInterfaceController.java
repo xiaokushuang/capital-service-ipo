@@ -1017,7 +1017,7 @@ public class IpoInterfaceController extends BaseController {
                     boolean flag = true;
                     for (IpoH5DetailDto avgDto : KcbAverageList) {
                         if (StringUtils.isNotEmpty(dataDto.getYear()) && dataDto.getYear().equals(avgDto.getYear())) {
-                            BigDecimal kcbData = new BigDecimal(avgDto.getCurrValAvg()).divide(new BigDecimal("10000"), 2, BigDecimal.ROUND_HALF_UP);
+                            BigDecimal kcbData = new BigDecimal(avgDto.getCurrValAvg());
                             dataDto.setKcbData(kcbData);
                             dataDto.setOrgCount(avgDto.getOrgCount());
                             flag = false;
@@ -1033,7 +1033,7 @@ public class IpoInterfaceController extends BaseController {
                     boolean flag = true;
                     for (IpoH5DetailDto avgDto : CybAverageList) {
                         if (StringUtils.isNotEmpty(dataDto.getYear()) && dataDto.getYear().equals(avgDto.getYear())) {
-                            BigDecimal cybData = new BigDecimal(avgDto.getCurrValAvg()).divide(new BigDecimal("10000"), 2, BigDecimal.ROUND_HALF_UP);
+                            BigDecimal cybData = new BigDecimal(avgDto.getCurrValAvg());
                             dataDto.setCybData(cybData);
                             flag = false;
                         }
@@ -1366,12 +1366,12 @@ public class IpoInterfaceController extends BaseController {
         if(CollectionUtils.isNotEmpty(kcbAverageList)){
             for (int i = 0; i < kcbAverageList.size(); i++) {
                 if (i == 0 && null != kcbAverageList.get(0)) {
-                    itemDto.getTodayYear().setKcbData(new BigDecimal(kcbAverageList.get(0).getCurrValAvg()).divide(new BigDecimal("10000"),2,BigDecimal.ROUND_HALF_UP));
+                    itemDto.getTodayYear().setKcbData(new BigDecimal(kcbAverageList.get(0).getCurrValAvg()));
                     itemDto.setOrgCount(kcbAverageList.get(0).getOrgCount());
                 } else if (i == 1 && null != kcbAverageList.get(1)) {
-                    itemDto.getLastYear().setKcbData(new BigDecimal(kcbAverageList.get(1).getCurrValAvg()).divide(new BigDecimal("10000"),2,BigDecimal.ROUND_HALF_UP));
+                    itemDto.getLastYear().setKcbData(new BigDecimal(kcbAverageList.get(1).getCurrValAvg()));
                 } else if (i == 2 && null != kcbAverageList.get(2)) {
-                    itemDto.getBeforeYear().setKcbData(new BigDecimal(kcbAverageList.get(2).getCurrValAvg()).divide(new BigDecimal("10000"),2,BigDecimal.ROUND_HALF_UP));
+                    itemDto.getBeforeYear().setKcbData(new BigDecimal(kcbAverageList.get(2).getCurrValAvg()));
                 }
             }
         }else{
@@ -1384,11 +1384,11 @@ public class IpoInterfaceController extends BaseController {
         if(CollectionUtils.isNotEmpty(CybAverageList)){
             for (int i = 0; i < CybAverageList.size(); i++) {
                 if (i == 0 && null != CybAverageList.get(0)) {
-                    itemDto.getTodayYear().setCybData(new BigDecimal(CybAverageList.get(0).getCurrValAvg()).divide(new BigDecimal("10000"),2,BigDecimal.ROUND_HALF_UP));
+                    itemDto.getTodayYear().setCybData(new BigDecimal(CybAverageList.get(0).getCurrValAvg()));
                 } else if (i == 1 && null != CybAverageList.get(1)) {
-                    itemDto.getLastYear().setCybData(new BigDecimal(CybAverageList.get(1).getCurrValAvg()).divide(new BigDecimal("10000"),2,BigDecimal.ROUND_HALF_UP));
+                    itemDto.getLastYear().setCybData(new BigDecimal(CybAverageList.get(1).getCurrValAvg()));
                 } else if (i == 2 && null != CybAverageList.get(2)) {
-                    itemDto.getBeforeYear().setCybData(new BigDecimal(CybAverageList.get(2).getCurrValAvg()).divide(new BigDecimal("10000"),2,BigDecimal.ROUND_HALF_UP));
+                    itemDto.getBeforeYear().setCybData(new BigDecimal(CybAverageList.get(2).getCurrValAvg()));
                 }
             }
         }else{
