@@ -53,6 +53,33 @@ public class IpoH5Dto implements Serializable {
     private String patentNewAll;//使用新型专利总数
     private String patentDesignAll;//外观设计专利总数
     private String patentInternationAll;//国际专利总数
+    private String researchPeoAll;//研发人员总数
+    private String researchPeoCoreAll;//核心研发总数
+    private String companyPeoAll;//公司员工总数
+
+    public String getResearchPeoAll() {
+        return researchPeoAll;
+    }
+
+    public void setResearchPeoAll(String researchPeoAll) {
+        this.researchPeoAll = researchPeoAll;
+    }
+
+    public String getResearchPeoCoreAll() {
+        return researchPeoCoreAll;
+    }
+
+    public void setResearchPeoCoreAll(String researchPeoCoreAll) {
+        this.researchPeoCoreAll = researchPeoCoreAll;
+    }
+
+    public String getCompanyPeoAll() {
+        return companyPeoAll;
+    }
+
+    public void setCompanyPeoAll(String companyPeoAll) {
+        this.companyPeoAll = companyPeoAll;
+    }
 
     public String getPatentAll() {
         return patentAll;
