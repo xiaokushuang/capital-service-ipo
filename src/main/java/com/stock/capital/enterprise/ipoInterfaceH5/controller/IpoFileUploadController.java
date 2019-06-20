@@ -52,7 +52,7 @@ public class IpoFileUploadController extends BaseController {
         //测试地址
         //obsClient.putObject("obs-repo", "ipo-dev/"+fileName+".txt", new ByteArrayInputStream(content.getBytes()));
         //生产地址
-        obsClient.putObject("obs-repo", "ipo-dev/" + fileName + ".json", new ByteArrayInputStream(content.getBytes()), metadata);
+        obsClient.putObject("obs-repo", "ipo/" + fileName + ".json", new ByteArrayInputStream(content.getBytes()), metadata);
     }
 
     /**
