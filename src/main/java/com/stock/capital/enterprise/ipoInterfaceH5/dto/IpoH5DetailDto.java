@@ -13,6 +13,15 @@ public class IpoH5DetailDto {
     private String orgCode;
     private String industryCsrc;//行业
     private String currValAvg;//平均
+    private String orgCount;//公司数量
+
+    public String getOrgCount() {
+        return orgCount;
+    }
+
+    public void setOrgCount(String orgCount) {
+        this.orgCount = orgCount;
+    }
 
     public String getBid() {
         return bid;

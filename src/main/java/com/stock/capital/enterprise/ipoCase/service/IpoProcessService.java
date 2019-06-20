@@ -88,6 +88,7 @@ public class IpoProcessService extends BaseService {
             treeList.get(i).setSpreadFlag(false);
             List<IpoProListDto> proList = treeList.get(i) == null ? new ArrayList<>() : treeList.get(i).getProList();
             int inquiryTimes = 1;
+            int responseTimes = 1;
             for (int j = 0; j < proList.size(); j++) {
                 proList.get(j).setProgressIndex(treeList.get(i).getTreeTypeCode() + proList.get(j).getProSort());
 
@@ -97,11 +98,13 @@ public class IpoProcessService extends BaseService {
                     inquiryTimes++;
                 }
                 if("回复".equals(proList.get(j).getProgressName())){
-                    if(inquiryTimes == 1){
-                        proList.get(j).setProgressName("第 "+inquiryTimes+" 次回复");
-                    }else{
-                        proList.get(j).setProgressName("第 "+(inquiryTimes-1)+" 次回复");
-                    }
+                    proList.get(j).setProgressName("第 "+responseTimes+" 次回复");
+                    responseTimes++;
+//                    if(inquiryTimes == 1){
+//                        proList.get(j).setProgressName("第 "+inquiryTimes+" 次回复");
+//                    }else{
+//                        proList.get(j).setProgressName("第 "+(inquiryTimes-1)+" 次回复");
+//                    }
                 }
 
                 //每个进程只有第一个节点储存了时间，补全进程时间

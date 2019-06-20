@@ -1,8 +1,6 @@
 package com.stock.capital.enterprise.ipoInterfaceH5.service;
 
-import com.alibaba.druid.util.StringUtils;
 import com.google.common.collect.Maps;
-import com.netflix.discovery.converters.Auto;
 import com.stock.capital.enterprise.common.constant.Global;
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseListMapper;
 import com.stock.capital.enterprise.ipoCase.dto.*;
@@ -25,10 +23,10 @@ import com.stock.core.util.BeanUtil;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
+import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
 import org.eclipse.jetty.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,13 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class IpoInterfaceService extends BaseService {
@@ -120,7 +112,7 @@ public class IpoInterfaceService extends BaseService {
         return result;
     }
 
-    public List<IpoCaseIndexDto> otherIpoCase(IpoCaseIndexDto ipoCaseIndexDto) {
+    public List<IpoCaseListVo> otherIpoCase(IpoCaseIndexDto ipoCaseIndexDto) {
         return ipoInterfaceBizMapper.otherIpoCase(ipoCaseIndexDto);
     }
 
@@ -139,7 +131,9 @@ public class IpoInterfaceService extends BaseService {
      * 行业平均
      * 必传：plateType 板块类型（科创板：0，创业板：1）
      * bid 案例主键
-     * columnComment 指标类型（具体有：经营活动产生的现金流量净额：046，现金及现金等价物净增加额：091,流动资产/总资产：150,非流动资产/总资产：151,流动负债/负债合计：155,非流动负债/负债合计：156,营业收入：016,净利润：056,销售净利率：114,销售毛利率：115）
+     * columnComment 指标类型（具体有：经营活动产生的现金流量净额：046，现金及现金等价物净增加额：091,流动资产合计：037,非流动资产合计：058,
+     * 流动负债合计：089,非流动负债合计：100,营业收入：016,净利润：056,销售净利率：114,销售毛利率：115,
+     * 净资产收益率ROE(加权)：029，基本每股收益：062，经营活动产生的现金流量净额/营业收入：184，总资产周转率：182，资产负债率：157）
      *
      * @param ipoH5DetailDto
      * @return
@@ -192,72 +186,70 @@ public class IpoInterfaceService extends BaseService {
 
             if (compareRateDto.getIndustryCompareRateDetailList().size() >= 4) {// 代表多于两家别的公司
                 // 如果返回的表格中数量>= 4 代表着至少有两家别的公司,所以company 取值应该是 本公司,低的公司,高的公司
-                companys.add("低的公司");
-                companys.add("高的公司");
+
+                IpoH5IndustryBodyDto firstYearbodyDto = new IpoH5IndustryBodyDto();// 公司第一年度
+                IpoH5IndustryBodyDto secondYearbodyDto = new IpoH5IndustryBodyDto();// 公司第二年度
+                IpoH5IndustryBodyDto thirdYearBodyDto = new IpoH5IndustryBodyDto();// 本公司第三年度
 
                 List<IndustryCompareRateDetailDto> tmpList = compareRateDto.getIndustryCompareRateDetailList();
                 // 以下为柱状图中数据
                 tmpList = tmpList.subList(0, tmpList.size() - 2);
-                tmpList.sort(new Comparator<IndustryCompareRateDetailDto>() {
-                    @Override
-                    public int compare(IndustryCompareRateDetailDto o1, IndustryCompareRateDetailDto o2) {
-                        return o1.getFirstYearRate().compareTo(o2.getFirstYearRate());
-                    }
-                });
 
-                IpoH5IndustryBodyDto firstYearbodyDto = new IpoH5IndustryBodyDto();// 公司第一年度
-                firstYearbodyDto.setYear(
-                        compareRateDto.getFirstYear().substring(0, compareRateDto.getFirstYear().length() - 1));// 年度
+                tmpList = tmpList.stream().
+                    filter(item -> item.getThirdYearRate() != null && item.getThirdYearRate().compareTo(BigDecimal.ZERO) != 0 ). // 筛选
+                    sorted(Comparator.comparing(IndustryCompareRateDetailDto::getThirdYearRate)).//正序排序
+                    collect(Collectors.toList());
+
+                IndustryCompareRateDetailDto companyDto = compareRateDto.getIndustryCompareRateDetailList().get(compareRateDto.getIndustryCompareRateDetailList().size() - 1);//本公司
+                IndustryCompareRateDetailDto lowCompanyDto = null;// 低的公司
+                IndustryCompareRateDetailDto highCompanyDto = null;// 高的公司
+
+                firstYearbodyDto.setYear(// 第一年
+                    compareRateDto.getFirstYear().substring(0, 4));// 年度
                 firstYearbodyDto.setCompany(// 本公司
-                        compareRateDto.getIndustryCompareRateDetailList().get(compareRateDto.getIndustryCompareRateDetailList().size() - 1).getFirstYearRate()
+                    companyDto.getFirstYearRate()
                 );
-                firstYearbodyDto.setLowLevel(// 低的公司
-                        tmpList.get(0).getFirstYearRate()
-                );
-                firstYearbodyDto.setHighLevel(//高的公司
-                        tmpList.get(tmpList.size() - 1).getFirstYearRate()
-                );
-
-                tmpList.sort(new Comparator<IndustryCompareRateDetailDto>() {
-                    @Override
-                    public int compare(IndustryCompareRateDetailDto o1, IndustryCompareRateDetailDto o2) {
-                        return o1.getSecondYearRate().compareTo(o2.getSecondYearRate());
-                    }
-                });
-                IpoH5IndustryBodyDto secondYearbodyDto = new IpoH5IndustryBodyDto();// 公司第二年度
-                secondYearbodyDto.setYear(// 年度
-                        compareRateDto.getSecondYear().substring(0, compareRateDto.getSecondYear().length() - 1)
+                secondYearbodyDto.setYear(// 第二年
+                    compareRateDto.getSecondYear().substring(0,4)//年度
                 );
                 secondYearbodyDto.setCompany(// 本公司
-                        compareRateDto.getIndustryCompareRateDetailList().get(compareRateDto.getIndustryCompareRateDetailList().size() - 1).getSecondYearRate()
+                    companyDto.getSecondYearRate()
                 );
-                secondYearbodyDto.setLowLevel(//低的公司
-                        tmpList.get(0).getSecondYearRate()
-                );
-                secondYearbodyDto.setHighLevel(//高的公司
-                        tmpList.get(tmpList.size() - 1).getSecondYearRate()
-                );
-
-                tmpList.sort(new Comparator<IndustryCompareRateDetailDto>() {
-                    @Override
-                    public int compare(IndustryCompareRateDetailDto o1, IndustryCompareRateDetailDto o2) {
-                        return o1.getThirdYearRate().compareTo(o2.getThirdYearRate());
-                    }
-                });
-
-                IpoH5IndustryBodyDto thirdYearBodyDto = new IpoH5IndustryBodyDto();// 本公司第三年度
-                thirdYearBodyDto.setYear(// 年度
-                        compareRateDto.getThirdYear().substring(0, compareRateDto.getThirdYear().length() - 1)
+                thirdYearBodyDto.setYear(// 第三年
+                    compareRateDto.getThirdYear().substring(0,4)
                 );
                 thirdYearBodyDto.setCompany(//本公司
-                        compareRateDto.getIndustryCompareRateDetailList().get(compareRateDto.getIndustryCompareRateDetailList().size() - 1).getThirdYearRate()
+                    companyDto.getThirdYearRate()
                 );
-                thirdYearBodyDto.setLowLevel(//低的公司
-                        tmpList.get(0).getThirdYearRate()
-                );
-                thirdYearBodyDto.setHighLevel(//高的公司
-                        tmpList.get(tmpList.size() - 1).getThirdYearRate()
-                );
+
+                if (tmpList.size() > 0){// 有另外一个公司的话
+                    lowCompanyDto = tmpList.get(0); // 低的公司
+                    companys.add(lowCompanyDto.getCompanyName());// 低的公司名称
+                    // 三年的低的公司
+                    firstYearbodyDto.setLowLevel(
+                        lowCompanyDto.getFirstYearRate()
+                    );
+                    secondYearbodyDto.setLowLevel(
+                        lowCompanyDto.getSecondYearRate()
+                    );
+                    thirdYearBodyDto.setLowLevel(
+                        lowCompanyDto.getThirdYearRate()
+                    );
+                }
+                if (tmpList.size() > 1){// 有多个公司及代表有高的公司
+                    highCompanyDto = tmpList.get(tmpList.size() - 1); // 高的公司
+                    companys.add(highCompanyDto.getCompanyName());//高的公司名称
+                    // 三年的高的公司
+                    firstYearbodyDto.setHighLevel(//高的公司
+                        highCompanyDto.getFirstYearRate()
+                    );
+                    secondYearbodyDto.setHighLevel(//高的公司
+                        highCompanyDto.getSecondYearRate()
+                    );
+                    thirdYearBodyDto.setHighLevel(// 高的公司
+                        highCompanyDto.getThirdYearRate()
+                    );
+                }
 
                 // 三个对象放入数组中
                 subResultList.add(firstYearbodyDto);
@@ -624,7 +616,19 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
     }
 
 
-    public List<IpoCaseListVo> queryIpoCase() {
-        return ipoInterfaceBizMapper.queryIpoCase();
+    public List<IpoCaseListVo> queryIpoCase(Map<String, Object> map) {
+        return ipoInterfaceBizMapper.queryIpoCase(map);
+    }
+
+    public List<IpoCaseListVo> otherIpoCaseNoIndustry() {
+        return ipoInterfaceBizMapper.otherIpoCaseNoIndustry();
+    }
+
+    public IntermediaryOrgDto queryOrgMarketShare(IntermediaryOrgDto intermediaryOrgDto) {
+        return ipoInterfaceBizMapper.queryOrgMarketShare(intermediaryOrgDto);
+    }
+
+    public List<IpoCaseListVo> queryAllMatchIpoCase() {
+        return ipoInterfaceBizMapper.queryAllMatchIpoCase();
     }
 }

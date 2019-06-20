@@ -17,6 +17,8 @@ public class IpoFinanceH5Dto implements Serializable {
 
     private BigDecimal cybData;
 
+    private String orgCount;
+
     public String getName() {
         return name;
     }
@@ -56,4 +58,14 @@ public class IpoFinanceH5Dto implements Serializable {
     public void setCybData(BigDecimal cybData) {
         this.cybData = cybData;
     }
+
+    public String getOrgCount() {
+        return orgCount;
+    }
+
+    public void setOrgCount(String orgCount) {
+        this.orgCount = orgCount;
+    }
+
+
 }
