@@ -53,7 +53,7 @@
    </insert>
     <!--获取评论列表-->
     <select id="getCommentList" parameterType="String" resultType="map">
-        select * from ipo_comment where case_id = #{caseid} and state = '1';
+        select * from ipo_comment where case_id = #{caseid} and state = '1' order by comment_time desc;
     </select>
     <!--判断是否点赞-->
     <select id="isFabulousYes" parameterType="map" resultType="map">
