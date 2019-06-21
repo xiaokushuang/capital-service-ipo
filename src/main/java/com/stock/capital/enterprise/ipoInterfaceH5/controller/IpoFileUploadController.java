@@ -34,6 +34,9 @@ public class IpoFileUploadController extends BaseController {
     @Autowired
     private IpoInterfaceService ipoInterfaceService;
 
+    @Value("${obs.upload}")
+    private String obsUpload;
+
     /**
      * 文件上传
      *
@@ -53,7 +56,7 @@ public class IpoFileUploadController extends BaseController {
         //obsClient.putObject("obs-repo", "ipo-dev/"+fileName+".txt", new ByteArrayInputStream(content.getBytes()));
         //生产地址
 
-        obsClient.putObject("obs-repo", "ipo-dev/" + fileName + ".json", new ByteArrayInputStream(content.getBytes()), metadata);
+        obsClient.putObject("obs-repo", obsUpload + fileName + ".json", new ByteArrayInputStream(content.getBytes()), metadata);
     }
 
     /**
