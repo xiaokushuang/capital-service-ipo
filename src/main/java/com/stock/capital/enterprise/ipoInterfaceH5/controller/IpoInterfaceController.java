@@ -1153,7 +1153,7 @@ public class IpoInterfaceController extends BaseController {
                 }else if("销售现金比率".equals(dataDto.getName())){
                     IpoH5DetailDto avgParam = new IpoH5DetailDto();
                     avgParam.setBid(id);
-                    avgParam.setColumnComment("181");
+                    avgParam.setColumnComment("184");
                     avgParam.setPlateType("0");
                     List<IpoH5DetailDto> KcbAverageList = ipoInterfaceService.ipoAvg(avgParam);
                     if(CollectionUtils.isNotEmpty(KcbAverageList)){
@@ -1172,7 +1172,7 @@ public class IpoInterfaceController extends BaseController {
                 }else if("基本每股收益".equals(dataDto.getName())){
                     IpoH5DetailDto avgParam = new IpoH5DetailDto();
                     avgParam.setBid(id);
-                    avgParam.setColumnComment("060");
+                    avgParam.setColumnComment("062");
                     avgParam.setPlateType("0");
                     List<IpoH5DetailDto> KcbAverageList = ipoInterfaceService.ipoAvg(avgParam);
                     if(CollectionUtils.isNotEmpty(KcbAverageList)){
