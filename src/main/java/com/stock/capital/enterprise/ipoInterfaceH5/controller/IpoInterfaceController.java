@@ -1618,6 +1618,13 @@ public class IpoInterfaceController extends BaseController {
      */
     @RequestMapping(value = "/selectNewFeedbackList", method = RequestMethod.GET)
     public List<IpoFeedbackDto> selectNewFeedbackList(String id) {
+        List<IpoFeedbackDto> letterList = ipoFeedbackService.selectNewFeedbackList(id);
+        for(IpoFeedbackDto dto:letterList){
+            List<IpoFeedbackDto> questionList = ipoFeedbackService.selectNewQuestionList(dto.getLetterId(),"","","");
+            if(CollectionUtils.isNotEmpty(questionList) && questionList.size() > 0){
+                dto.setQuestionLabelList(questionList.get(0).getQuestionLabelList());
+            }
+        }
         return ipoFeedbackService.selectNewFeedbackList(id);
     }
 
