@@ -3,6 +3,7 @@ package com.stock.capital.enterprise.ipoInterfaceH5.controller;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Maps;
 
+import com.stock.capital.enterprise.ipoCase.dao.IpoFeedbackMapper;
 import com.stock.capital.enterprise.ipoCase.dto.*;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.ipoCase.service.IpoCaseListService;
@@ -75,6 +76,8 @@ public class IpoInterfaceController extends BaseController {
     private IpoFeedbackService ipoFeedbackService;
     @Autowired
     private IpoProcessService ipoProcessService;
+    @Autowired
+    private IpoFeedbackMapper ipoFeedbackMapper;
 
     @Value("${wechat.appid}")
     private String wechatAppid;
@@ -291,6 +294,8 @@ public class IpoInterfaceController extends BaseController {
             if (StringUtils.isNotEmpty(industryCsrcCode)){
                 ipoCaseIndex.setIndustryCsrc(industryCsrcCode);
             }
+            String orgCode = ipoFeedbackMapper.getOrgCode(id).getOrgCode();
+            ipoCaseIndex.setOrgCode(orgCode);
             List<IpoCaseListVo> otherIpoCase = otherIpoCase(ipoCaseIndex);
             if (otherIpoCase != null) {
                 if (otherIpoCase.size() != 0){
