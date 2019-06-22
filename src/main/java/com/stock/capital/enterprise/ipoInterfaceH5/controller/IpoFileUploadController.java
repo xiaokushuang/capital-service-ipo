@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,9 @@ public class IpoFileUploadController extends BaseController {
     @Autowired
     private IpoInterfaceService ipoInterfaceService;
 
+    @Value("${obs.upload}")
+    private String obsUpload;
+
     /**
      * 文件上传
      *
@@ -51,13 +55,14 @@ public class IpoFileUploadController extends BaseController {
         //测试地址
         //obsClient.putObject("obs-repo", "ipo-dev/"+fileName+".txt", new ByteArrayInputStream(content.getBytes()));
         //生产地址
-        obsClient.putObject("obs-repo", "ipo-dev/" + fileName + ".json", new ByteArrayInputStream(content.getBytes()), metadata);
+
+        obsClient.putObject("obs-repo", obsUpload + fileName + ".json", new ByteArrayInputStream(content.getBytes()), metadata);
     }
 
     /**
      * 每晚定时把所有科创版数据生成json文件放到华为云上
      */
-    @Scheduled(cron = "0 30 01 * * ? ")
+    @Scheduled(cron = "0 30 18,12,15,20 * * ? ")
     public void ipoDataUpload() {
         //查询科创版所有案例
         logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
@@ -78,7 +83,7 @@ public class IpoFileUploadController extends BaseController {
     /**
      * 每晚定时把所有科创版数据生成json文件放到华为云上
      */
-    @Scheduled(cron = "0 20 01 * * ? ")
+    @Scheduled(cron = "0 20 18,12,15 * * ? ")
     public void ipoMarchDataUpload() {
         //查询科创版所有案例
         logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");

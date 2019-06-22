@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.stock.capital.enterprise.ipoInterfaceH5.dao.IpoInterfaceBizMapper" >
     <select id="otherIpoCase" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo">
-      SELECT t.id,t.org_code AS orgCode,t.company_name AS companyName,t.ipo_plate AS ipoPlate,t.industry_csrc AS industryCsrc
+      SELECT t.id,t.org_code AS orgCode,t.company_name AS companyName,t.ipo_plate AS ipoPlate,t.industry_csrc AS industryCsrc,t.company_code AS companyCode
         FROM ipo_case t,case_common_status_info t1
-        where ipo_plate = '069001001006' AND t.id = t1.case_id and t1.release_flag = '1'
+        where ipo_plate = '069001001006' AND t.id = t1.case_id and t1.release_flag = '1' and t.org_code != #{orgCode}
         ORDER BY
         <if test="ipoPlate != null and ipoPlate != ''">
             FIELD(industry_csrc,#{industryCsrc}) desc,
@@ -13,9 +13,9 @@
     </select>
 
     <select id="otherIpoCaseNoIndustry" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo">
-        SELECT t.id,t.org_code AS orgCode,t.company_name AS companyName,t.ipo_plate AS ipoPlate,t.industry_csrc AS industryCsrc
+        SELECT t.id,t.org_code AS orgCode,t.company_name AS companyName,t.ipo_plate AS ipoPlate,t.industry_csrc AS industryCsrc,t.company_code AS companyCode
         FROM ipo_case t,case_common_status_info t1
-        where ipo_plate = '069001001006' AND t.id = t1.case_id and t1.release_flag = '1'
+        where ipo_plate = '069001001006' AND t.id = t1.case_id and t1.release_flag = '1' and t.org_code != #{orgCode}
         ORDER BY
         RAND() limit 4;
     </select>
@@ -41,8 +41,11 @@
         t.patent_ranking AS patentRanking,
         t.patent_ranking_year AS patentRankingYear,
         t.research_peo AS researchPeo,
+        (SELECT SUM(m.research_peo) FROM ipo_h5 m)AS researchPeoAll,
         t.research_peo_core AS researchPeoCore,
+        (SELECT SUM(m.research_peo_core) FROM ipo_h5 m)AS researchPeoCoreAll,
         t.company_peo AS companyPeo,
+        (SELECT SUM(m.company_peo) FROM ipo_h5 m)AS companyPeoAll,
         t.research_peo_ranking AS researchPeoRanking,
         t.research_peo_year AS researchPeoYear,
         t.taking AS taking,
