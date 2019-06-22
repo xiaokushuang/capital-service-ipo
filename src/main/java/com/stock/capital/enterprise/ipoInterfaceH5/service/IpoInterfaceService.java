@@ -119,7 +119,7 @@ public class IpoInterfaceService extends BaseService {
             URL = URL + dto.getCompanyCode() + "_160.png";
             dto.setCompanyLogo(URL);
         }
-        return ipoInterfaceBizMapper.otherIpoCase(ipoCaseIndexDto);
+        return resultList;
     }
 
     /**
