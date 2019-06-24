@@ -239,7 +239,7 @@
         LEFT JOIN letter_class t2 ON t2.id = t1.letter_type
         WHERE
             t2.letter_class_name = 'IPO预披露反馈意见'
-        AND t1.rela_code = #{orgId} and t1.post_status = '1'
+        AND t1.rela_code = #{orgId} and t1.post_status = '1' and t1.letter_valid = '0'
         <if test="processDateList != null and processDateList.size()>0">
           and t1.letter_date in
           <foreach collection="processDateList" index="index" item="item" open="(" close=")" separator="," >
@@ -289,7 +289,7 @@
         LEFT JOIN letter_class t2 ON t2.id = t1.letter_type
         WHERE
         t2.letter_class_name = '科创板上市申请文件审核问询函'
-        AND t1.rela_code = #{orgId} and t1.post_status = '1'
+        AND t1.rela_code = #{orgId} and t1.post_status = '1' and t1.letter_valid = '0'
         <if test="processDateList != null and processDateList.size()>0">
             and t1.letter_date in
             <foreach collection="processDateList" index="index" item="item" open="(" close=")" separator="," >

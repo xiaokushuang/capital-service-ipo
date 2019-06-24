@@ -60,6 +60,9 @@ public class IpoCaseListVo implements Serializable {
     @ApiModelProperty("行业")
     private Integer industryCsrc;
 
+    @ApiModelProperty("公司Logo")
+    private String companyLogo;
+
 
     public Integer getIndustryCsrc() {
         return industryCsrc;
@@ -171,5 +174,13 @@ public class IpoCaseListVo implements Serializable {
 
     public void setTimeDiff(Integer timeDiff) {
         this.timeDiff = timeDiff;
+    }
+
+    public String getCompanyLogo() {
+        return companyLogo;
+    }
+
+    public void setCompanyLogo(String companyLogo) {
+        this.companyLogo = companyLogo;
     }
 }
