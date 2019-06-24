@@ -631,8 +631,14 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
         return ipoInterfaceBizMapper.queryIpoCase(map);
     }
 
-    public List<IpoCaseListVo> otherIpoCaseNoIndustry() {
-        return ipoInterfaceBizMapper.otherIpoCaseNoIndustry();
+    public List<IpoCaseListVo> otherIpoCaseNoIndustry(IpoCaseIndexDto ipoCaseIndexDto) {
+        String URL = "http://www.valueonline.cn/open/";
+        List<IpoCaseListVo> resultList = ipoInterfaceBizMapper.otherIpoCaseNoIndustry(ipoCaseIndexDto);
+        for(IpoCaseListVo dto:resultList){
+            URL = URL + dto.getCompanyCode() + "_160.png";
+            dto.setCompanyLogo(URL);
+        }
+        return resultList;
     }
 
     public IntermediaryOrgDto queryOrgMarketShare(IntermediaryOrgDto intermediaryOrgDto) {
