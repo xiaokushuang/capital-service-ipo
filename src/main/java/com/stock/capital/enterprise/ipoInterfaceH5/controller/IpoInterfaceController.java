@@ -1822,7 +1822,7 @@ public class IpoInterfaceController extends BaseController {
         Map<String ,Object> param = new HashMap();
         param.put("openid",openid);
 //        param.put("unionid",unionid);
-        param.put("unionid",openid);
+        param.put("unionid",unionid);
         param.put("caseid",caseid);
         param.put("isLike",isLike);
         JsonResponse jsonResponse = new JsonResponse();
