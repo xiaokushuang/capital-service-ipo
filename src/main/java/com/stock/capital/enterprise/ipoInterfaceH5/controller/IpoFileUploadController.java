@@ -73,6 +73,7 @@ public class IpoFileUploadController extends BaseController {
                 try {
                     Map<String, Object> data = ipoInterfaceController.ipoCaseH5(ipoCaseList.get(i).getId());
                     fileUpload(JsonUtil.toJsonNoNull(data), ipoCaseList.get(i).getId());
+                    logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步"+ipoCaseList.get(i).getId()+"成功###########");
                 } catch (Exception e) {
                     logger.info("#######【将IpoH5的数据的json文件上传华为云时主键：" + ipoCaseList.get(i).getId() + "数据出错###########");
                 }
