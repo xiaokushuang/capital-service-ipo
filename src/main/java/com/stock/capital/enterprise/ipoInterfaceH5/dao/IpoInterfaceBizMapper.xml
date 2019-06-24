@@ -22,7 +22,7 @@
 
     <select id="ipoCompanyRank" parameterType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto" resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto">
         SELECT (SELECT COUNT(m.id) FROM ipo_h5 m)AS ipoCompanyCount,
-        (SELECT COUNT(m.id) FROM sa_company m WHERE m.belongs_plate = '02' AND m.ipo_flag = '1' AND m.liststate = '0') AS saCompanyCount,
+        (SELECT COUNT(m.id) FROM sa_company m WHERE m.belongs_plate = '02' AND m.ipo_flag = '1' AND m.liststate in ('0','1')) AS saCompanyCount,
         t.id AS id,
         t.bid AS bid,
         t.research AS research,
@@ -120,11 +120,22 @@
     </select>
 
     <select id="queryOrgMarketShare" parameterType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto" resultType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto">
-      SELECT (SELECT SUM(1) FROM ipo_case t WHERE EXISTS(SELECT 1 FROM ipo_intermediary_org m WHERE m.bid = t.id AND m.org_code = #{orgCode} AND m.intermediary_type = #{intermediaryType})) AS businessVolume,
-      (SELECT SUM(1) FROM ipo_case t WHERE EXISTS(SELECT 1 FROM ipo_intermediary_org m WHERE m.bid = t.id AND m.org_code = #{orgCode} AND m.intermediary_type = #{intermediaryType})
-      AND EXISTS (SELECT 1 FROM ipo_process m WHERE m.bid = t.id AND m.process_type_code = '35' AND m.iec_result = '05')) AS passing,
-      (SELECT SUM(1) FROM ipo_case t WHERE EXISTS(SELECT 1 FROM ipo_intermediary_org m WHERE m.bid = t.id AND m.org_code = '10004936'
-AND m.intermediary_type = '1')
-      AND EXISTS (SELECT 1 FROM ipo_process m WHERE m.bid = t.id AND m.process_type_code = '35' AND m.iec_result != '09')) AS passingWait
+        SELECT (SELECT SUM(1) FROM ipo_case t,case_common_status_info t1 WHERE t.id = t1.case_id AND t.ipo_plate = '069001001006' AND t1.release_flag = '1' AND EXISTS(SELECT 1 FROM ipo_intermediary_org m WHERE m.bid = t.id AND m.valid_flag = '1' AND m.org_code = #{orgCode}
+        <if test="intermediaryType == 3 or intermediaryType == 4">
+            AND m.org_type = '01'
+        </if>
+        AND m.intermediary_type = #{intermediaryType})) AS businessVolume,
+        (SELECT SUM(1) FROM ipo_case t,case_common_status_info t1 WHERE t.id = t1.case_id AND t.ipo_plate = '069001001006' AND t1.release_flag = '1' AND EXISTS(SELECT 1 FROM ipo_intermediary_org m WHERE m.bid = t.id AND m.valid_flag = '1' AND m.org_code = #{orgCode}
+        <if test="intermediaryType == 3 or intermediaryType == 4">
+            AND m.org_type = '01'
+        </if>
+        AND m.intermediary_type = #{intermediaryType})
+        AND EXISTS (SELECT 1 FROM ipo_process m WHERE m.bid = t.id AND m.process_type_code = '35' AND m.iec_result = '05')) AS passing,
+        (SELECT SUM(1) FROM ipo_case t,case_common_status_info t1 WHERE t.id = t1.case_id AND t.ipo_plate = '069001001006' AND t1.release_flag = '1' AND EXISTS(SELECT 1 FROM ipo_intermediary_org m WHERE m.bid = t.id AND m.valid_flag = '1' AND m.org_code = #{orgCode}
+        <if test="intermediaryType == 3 or intermediaryType == 4">
+            AND m.org_type = '01'
+        </if>
+        AND m.intermediary_type = #{intermediaryType})
+        AND EXISTS (SELECT 1 FROM ipo_process m WHERE m.bid = t.id AND m.process_type_code = '35' AND m.iec_result != '09')) AS passingWait
     </select>
 </mapper>
