@@ -22,18 +22,12 @@ import com.stock.core.service.BaseService;
 import com.stock.core.util.BeanUtil;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
 import org.eclipse.jetty.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -612,6 +606,7 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
     }
     //    收藏
     public void collectionYes(Map<String, Object> map) {
+        map.put("option_time",new Date());
         List<Map<String, Object>> lists = ipoWechatPermisionBizMapper.isCollectionYes(map);
         if (lists != null && lists.size() > 0) {
 //            更新
