@@ -1837,6 +1837,33 @@ public class IpoInterfaceController extends BaseController {
         jsonResponse.setResult(result);
         return jsonResponse;
     }
+    /**
+     * 收藏
+     *
+     * @return
+     * @author yangj
+     */
+    @RequestMapping(value = "/collectionYes")
+    @ResponseBody
+    public JsonResponse collectionYes(String openid,String unionid,String caseid,String isLike) {
+        Map<String ,Object> param = new HashMap();
+        param.put("openid",openid);
+//        param.put("unionid",unionid);
+        param.put("unionid",unionid);
+        param.put("caseid",caseid);
+        param.put("isLike",isLike);
+        JsonResponse jsonResponse = new JsonResponse();
+        ipoInterfaceService.collectionYes(param);
+//        int fabulousCount = 1;
+//        if (fabulous >= 1000){
+//            fabulousCount = fabulous / 10;
+//        }
+        Map<String, Object> result = new HashedMap();
+//        result.put("fabulous",fabulousCount+"K");
+        result.put("status","success");
+        jsonResponse.setResult(result);
+        return jsonResponse;
+    }
 
     /**
      * 获取评论列表和其他信息
@@ -1876,6 +1903,7 @@ public class IpoInterfaceController extends BaseController {
         int commentNum = commentList.size();
 //        点赞数
         int fabulous = ipoInterfaceService.fabulousCount(param);
+        int collections =  ipoInterfaceService.collectionCount(param);
 //        是否点赞
         boolean fabulousYes = ipoInterfaceService.isFabulousYes(param);
         Map<String, Object> result = new HashMap();
@@ -1883,6 +1911,7 @@ public class IpoInterfaceController extends BaseController {
         result.put("selectedList", selectedList);
         result.put("commentNum", commentNum);
         result.put("fabulous", fabulous);
+        result.put("collections", collections);
         result.put("fabulousYes", fabulousYes);
         jsonResponse.setResult(result);
         logger.info("获取评论"+result);

@@ -610,6 +610,17 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
             ipoWechatPermisionBizMapper.fabulousNo(map);
         }
     }
+    //    收藏
+    public void collectionYes(Map<String, Object> map) {
+        List<Map<String, Object>> lists = ipoWechatPermisionBizMapper.isCollectionYes(map);
+        if (lists != null && lists.size() > 0) {
+//            更新
+            ipoWechatPermisionBizMapper.collectionYes(map);
+        } else {
+//            保存
+            ipoWechatPermisionBizMapper.collectionNo(map);
+        }
+    }
 
     //是否点赞
     public boolean isFabulousYes(Map<String, Object> param) {
@@ -647,5 +658,9 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
 
     public List<IpoCaseListVo> queryAllMatchIpoCase() {
         return ipoInterfaceBizMapper.queryAllMatchIpoCase();
+    }
+
+    public int collectionCount(Map<String, Object> param) {
+        return ipoWechatPermisionBizMapper.collectionCount(param);
     }
 }
