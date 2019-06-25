@@ -1906,6 +1906,8 @@ public class IpoInterfaceController extends BaseController {
         int collections =  ipoInterfaceService.collectionCount(param);
 //        是否点赞
         boolean fabulousYes = ipoInterfaceService.isFabulousYes(param);
+//        是否收藏
+        boolean collectionYes = ipoInterfaceService.isCollectionYes(param);
         Map<String, Object> result = new HashMap();
         result.put("commentList", commentList);
         result.put("selectedList", selectedList);
@@ -1913,6 +1915,7 @@ public class IpoInterfaceController extends BaseController {
         result.put("fabulous", fabulous);
         result.put("collections", collections);
         result.put("fabulousYes", fabulousYes);
+        result.put("collectionYes", collectionYes);
         jsonResponse.setResult(result);
         logger.info("获取评论"+result);
         return jsonResponse;
