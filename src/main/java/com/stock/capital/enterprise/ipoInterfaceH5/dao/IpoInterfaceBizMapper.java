@@ -28,7 +28,7 @@ public interface IpoInterfaceBizMapper {
 
     List<IpoCaseListVo> queryAllMatchIpoCase();
 
-    List<IpoCaseListVo> otherIpoCaseNoIndustry();
+    List<IpoCaseListVo> otherIpoCaseNoIndustry(IpoCaseIndexDto ipoCaseIndexDto);
 
     IntermediaryOrgDto queryOrgMarketShare(IntermediaryOrgDto intermediaryOrgDto);
 }
