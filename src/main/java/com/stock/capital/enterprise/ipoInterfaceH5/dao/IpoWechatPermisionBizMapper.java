@@ -28,4 +28,12 @@ public interface IpoWechatPermisionBizMapper {
     void fabulousNo(Map<String, Object> map);
 
     int fabulousCount(Map<String, Object> param);
+
+    List<Map<String,Object>> isCollectionYes(Map<String, Object> map);
+
+    void collectionYes(Map<String, Object> map);
+
+    void collectionNo(Map<String, Object> map);
+
+    int collectionCount(Map<String, Object> param);
 }

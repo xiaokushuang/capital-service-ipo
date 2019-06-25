@@ -22,18 +22,12 @@ import com.stock.core.service.BaseService;
 import com.stock.core.util.BeanUtil;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
 import org.eclipse.jetty.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -380,6 +374,8 @@ public class IpoInterfaceService extends BaseService {
         List<IpoH5TechnologyDevDto> incomeList = new ArrayList<>();
         List<IpoH5TechnologyDevDto> expensesCostList = new ArrayList<>();
 
+        BigDecimal hundred = new BigDecimal(100);
+
         List<IpoTechnologyTableDto> devData = ipoTechnologyVo.getDevData();//研发投入数据
         List yearList = new ArrayList();
         if (CollectionUtils.isNotEmpty(devData) &&
@@ -403,7 +399,7 @@ public class IpoInterfaceService extends BaseService {
                 expensesCostDto.setSTIB(ipoCompanyRank.getResearchPlateFiavg());//科创板平均研发费用
                 expensesCostDto.setProportion(devData.get(2).getFirstYearValue().toPlainString());// 公司研发占比
 
-                BigDecimal industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP);// 科创版平均占比
+                BigDecimal industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP).multiply(hundred);// 科创版平均占比
                 expensesCostDto.setIndustryProportion(industryProportion.toString());//增加科创版平均占比
 
                 incomeList.add(incomeDto);// 第一年营业收入
@@ -426,7 +422,7 @@ public class IpoInterfaceService extends BaseService {
                 expensesCostDto.setSTIB(ipoCompanyRank.getResearchPlateSeavg());//科创板平均研发费用
                 expensesCostDto.setProportion(devData.get(2).getSecondYearValue().toPlainString());// 公司研发占比
 
-                industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP);// 科创版平均占比
+                industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP).multiply(hundred);// 科创版平均占比
                 expensesCostDto.setIndustryProportion(industryProportion.toString());//增加科创版平均占比
 
                 incomeList.add(incomeDto);// 第二年营业收入
@@ -449,7 +445,7 @@ public class IpoInterfaceService extends BaseService {
                 expensesCostDto.setSTIB(ipoCompanyRank.getResearchPlateThavg());//科创板平均研发费用
                 expensesCostDto.setProportion(devData.get(2).getThirdYearValue().toPlainString());// 公司研发占比
 
-                industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP);// 科创版平均占比
+                industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP).multiply(hundred);// 科创版平均占比
                 expensesCostDto.setIndustryProportion(industryProportion.toString());//增加科创版平均占比
 
                 incomeList.add(incomeDto);// 第三年营业收入
@@ -466,7 +462,7 @@ public class IpoInterfaceService extends BaseService {
                     BigDecimal researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateFiavg());//研发投入平均
                     if (ipoCompanyRank.getTakingFiavg() != null){
                         BigDecimal taking = new BigDecimal(ipoCompanyRank.getTakingFiavg());//营业收入平均
-                        BigDecimal industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP);// 科创版平均占比
+                        BigDecimal industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP).multiply(hundred);// 科创版平均占比
                         expensesCostDto.setIndustryProportion(industryProportion.toString());//增加科创版平均占比
                     }
                 }
@@ -489,7 +485,7 @@ public class IpoInterfaceService extends BaseService {
                     BigDecimal researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateSeavg());//研发投入平均
                     if (ipoCompanyRank.getTakingSeavg() != null){
                         BigDecimal taking = new BigDecimal(ipoCompanyRank.getTakingSeavg());//营业收入平均
-                        BigDecimal industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP);// 科创版平均占比
+                        BigDecimal industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP).multiply(hundred);// 科创版平均占比
                         expensesCostDto.setIndustryProportion(industryProportion.toString());//增加科创版平均占比
                     }
                 }
@@ -513,7 +509,7 @@ public class IpoInterfaceService extends BaseService {
                     BigDecimal researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateThavg());//研发投入平均
                     if (ipoCompanyRank.getTakingThavg() != null){
                         BigDecimal taking = new BigDecimal(ipoCompanyRank.getTakingThavg());//营业收入平均
-                        BigDecimal industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP);// 科创版平均占比
+                        BigDecimal industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP).multiply(hundred);// 科创版平均占比
                         expensesCostDto.setIndustryProportion(industryProportion.toString());//增加科创版平均占比
                     }
                 }
@@ -610,6 +606,18 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
             ipoWechatPermisionBizMapper.fabulousNo(map);
         }
     }
+    //    收藏
+    public void collectionYes(Map<String, Object> map) {
+        map.put("option_time",new Date());
+        List<Map<String, Object>> lists = ipoWechatPermisionBizMapper.isCollectionYes(map);
+        if (lists != null && lists.size() > 0) {
+//            更新
+            ipoWechatPermisionBizMapper.collectionYes(map);
+        } else {
+//            保存
+            ipoWechatPermisionBizMapper.collectionNo(map);
+        }
+    }
 
     //是否点赞
     public boolean isFabulousYes(Map<String, Object> param) {
@@ -647,5 +655,19 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
 
     public List<IpoCaseListVo> queryAllMatchIpoCase() {
         return ipoInterfaceBizMapper.queryAllMatchIpoCase();
+    }
+
+    public int collectionCount(Map<String, Object> param) {
+        return ipoWechatPermisionBizMapper.collectionCount(param);
+    }
+
+    //是否收藏
+    public boolean isCollectionYes(Map<String, Object> param) {
+        List<Map<String, Object>> lists = ipoWechatPermisionBizMapper.isCollectionYes(param);
+        boolean isCollectionYes = false;
+        if (lists != null && lists.size() > 0 && "1".equals(lists.get(0).get("state") + "")) {
+            isCollectionYes = true;
+        }
+        return isCollectionYes;
     }
 }
