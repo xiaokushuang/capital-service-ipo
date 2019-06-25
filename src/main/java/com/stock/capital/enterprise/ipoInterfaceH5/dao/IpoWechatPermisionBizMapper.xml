@@ -61,7 +61,7 @@
     </select>
     <!--判断是否收藏-->
     <select id="isCollectionYes" parameterType="map" resultType="map">
-        select * from PLATFORM_SCAN_MAP where caseid = #{caseid} and  unionid = #{unionid} and flag = '1' and state='1'
+        select * from PLATFORM_SCAN_MAP where case_id = #{caseid} and  union_id = #{unionid} and flag = '1' and state='1'
     </select>
     <!--保存 点赞-->
     <insert id="fabulousNo" parameterType="map">
@@ -80,12 +80,12 @@
         <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
             SELECT CONCAT(uuid_short(),'')
         </selectKey>
-        insert into PLATFORM_SCAN_MAP (id,caseid,unionid,flag,state,option_time)
+        insert into PLATFORM_SCAN_MAP (id,case_id,union_id,flag,state,option_time)
         values(#{id},#{caseid},#{unionid},"1","1",#{option_time})
     </insert>
     <!--更新收藏-->
     <update id="collectionYes" parameterType="map">
-        update PLATFORM_SCAN_MAP set state = #{isLike},option_time= #{option_time} where caseid = #{caseid} and  unionid = #{unionid} and flag = '1'
+        update PLATFORM_SCAN_MAP set state = #{isLike},option_time= #{option_time} where case_id = #{caseid} and  union_id = #{unionid} and flag = '1'
     </update>
     <!--获取点赞数-->
     <select id="fabulousCount" parameterType="map" resultType="int">
@@ -93,6 +93,6 @@
     </select>
     <!--获取收藏数-->
     <select id="collectionCount" parameterType="map" resultType="int">
-        select count(*) from PLATFORM_SCAN_MAP where caseid = #{caseid} and flag = '1' and state = '1'
+        select count(*) from PLATFORM_SCAN_MAP where case_id = #{caseid} and flag = '1' and state = '1'
     </select>
 </mapper>
