@@ -663,7 +663,7 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
     public boolean isCollectionYes(Map<String, Object> param) {
         List<Map<String, Object>> lists = ipoWechatPermisionBizMapper.isCollectionYes(param);
         boolean isCollectionYes = false;
-        if (lists != null && lists.size() > 0 && "1".equals(lists.get(0).get("isLike") + "")) {
+        if (lists != null && lists.size() > 0 && "1".equals(lists.get(0).get("state") + "")) {
             isCollectionYes = true;
         }
         return isCollectionYes;
