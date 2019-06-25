@@ -22,18 +22,12 @@ import com.stock.core.service.BaseService;
 import com.stock.core.util.BeanUtil;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
 import org.eclipse.jetty.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -610,6 +604,18 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
             ipoWechatPermisionBizMapper.fabulousNo(map);
         }
     }
+    //    收藏
+    public void collectionYes(Map<String, Object> map) {
+        map.put("option_time",new Date());
+        List<Map<String, Object>> lists = ipoWechatPermisionBizMapper.isCollectionYes(map);
+        if (lists != null && lists.size() > 0) {
+//            更新
+            ipoWechatPermisionBizMapper.collectionYes(map);
+        } else {
+//            保存
+            ipoWechatPermisionBizMapper.collectionNo(map);
+        }
+    }
 
     //是否点赞
     public boolean isFabulousYes(Map<String, Object> param) {
@@ -647,5 +653,19 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
 
     public List<IpoCaseListVo> queryAllMatchIpoCase() {
         return ipoInterfaceBizMapper.queryAllMatchIpoCase();
+    }
+
+    public int collectionCount(Map<String, Object> param) {
+        return ipoWechatPermisionBizMapper.collectionCount(param);
+    }
+
+    //是否收藏
+    public boolean isCollectionYes(Map<String, Object> param) {
+        List<Map<String, Object>> lists = ipoWechatPermisionBizMapper.isCollectionYes(param);
+        boolean isCollectionYes = false;
+        if (lists != null && lists.size() > 0 && "1".equals(lists.get(0).get("state") + "")) {
+            isCollectionYes = true;
+        }
+        return isCollectionYes;
     }
 }
