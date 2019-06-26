@@ -107,9 +107,9 @@ public class IpoInterfaceService extends BaseService {
     }
 
     public List<IpoCaseListVo> otherIpoCase(IpoCaseIndexDto ipoCaseIndexDto) {
-        String URL = "http://www.valueonline.cn/open/";
         List<IpoCaseListVo> resultList = ipoInterfaceBizMapper.otherIpoCase(ipoCaseIndexDto);
         for(IpoCaseListVo dto:resultList){
+            String URL = "http://www.valueonline.cn/open/";
             URL = URL + dto.getCompanyCode() + "_160.png";
             dto.setCompanyLogo(URL);
         }
@@ -591,8 +591,8 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
     }
 
     // 获取评论列表
-    public List<Map<String, Object>> getCommentList(String caseid) {
-        return ipoWechatPermisionBizMapper.getCommentList(caseid);
+    public List<Map<String, Object>> getCommentList(Map<String, Object> param) {
+        return ipoWechatPermisionBizMapper.getCommentList(param);
     }
 
     //    点赞
@@ -669,5 +669,9 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
             isCollectionYes = true;
         }
         return isCollectionYes;
+    }
+
+    public int replayCount(Map<String, Object> param) {
+        return ipoWechatPermisionBizMapper.replayCount(param);
     }
 }
