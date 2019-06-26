@@ -1894,7 +1894,7 @@ public class IpoInterfaceController extends BaseController {
         if (commentList != null && commentList.size() > 0) {
             for (Map<String, Object> map : commentList) {
 //            前端展示名称
-                String comment_time = format.format(map.get("comment_time"));
+                String comment_time =  format.format(map.get("comment_time"));
                 logger.info("日期格式:"+comment_time);
                 map.put("headPortrait", map.get("avatar"));
                 map.put("username", map.get("comment_from_user"));
