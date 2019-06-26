@@ -447,12 +447,16 @@ public class IpoFinanceService extends BaseService {
     private double getGrowthRate(IpoItemDto ipoItemDto) {
         if (null != ipoItemDto.getForthYearValue() && null != ipoItemDto.getSecondYearValue() && ipoItemDto.getSecondYearValue().compareTo(BigDecimal.ZERO) != 0) {
             double param = ipoItemDto.getForthYearValue().divide(ipoItemDto.getSecondYearValue(), 4, BigDecimal.ROUND_HALF_UP).doubleValue();
-            double rate;
+            double rate = 0;
             if(param <0){
-                param = param*-1;
-                rate = Math.pow(param, 1.0 / 3);
-                rate = rate*-1;
-                rate = new BigDecimal((rate + 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                if(ipoItemDto.getForthYearValue().compareTo(BigDecimal.ZERO) == -1){
+                    param = param * -1;
+                    rate = Math.pow(param, 1.0 / 3);
+                    rate = new BigDecimal((rate - 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                }else if(ipoItemDto.getForthYearValue().compareTo(BigDecimal.ZERO) == 1){
+                    rate = Math.pow(param, 1.0 / 3);
+                    rate = new BigDecimal(( 1D - rate) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                }
             }else{
                 rate = Math.pow(param, 1.0 / 3);
                 rate = new BigDecimal((rate - 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
