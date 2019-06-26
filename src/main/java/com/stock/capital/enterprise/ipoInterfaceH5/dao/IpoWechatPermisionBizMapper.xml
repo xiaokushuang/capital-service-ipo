@@ -27,7 +27,7 @@
     <update id="update" parameterType="map">
         update ipo_wechat_permision SET nickname = #{nickname},sex=#{sex},province=#{province},city=#{city},
         country=#{country},headimgurl=#{headimgurl},access_token=#{access_token}
-        where openid= #{openid} or unionid = #{unionid}
+        where  unionid = #{unionid}
     </update>
     <!--保存评论-->
    <insert id="submitReplay" parameterType="map" >
@@ -52,12 +52,16 @@
        )
    </insert>
     <!--获取评论列表-->
-    <select id="getCommentList" parameterType="String" resultType="map">
-        select * from ipo_comment where case_id = #{caseid} and state = '1' order by comment_time desc;
+    <select id="getCommentList" parameterType="map" resultType="map">
+        select * from ipo_comment where case_id = #{caseid} and state = '1' order by comment_time desc limit ${startPage},${endPage}
+    </select>
+    <!--获取评论数-->
+    <select id="replayCount" parameterType="map" resultType="int">
+        select count(0) from ipo_comment where case_id = #{caseid} and state = '1'
     </select>
     <!--判断是否点赞-->
     <select id="isFabulousYes" parameterType="map" resultType="map">
-        select * from ipo_fabulous where caseid = #{caseid} and (openid = #{openid} or unionid = #{unionid})
+        select * from ipo_fabulous where caseid = #{caseid} and  unionid = #{unionid}
     </select>
     <!--判断是否收藏-->
     <select id="isCollectionYes" parameterType="map" resultType="map">
@@ -73,7 +77,7 @@
     </insert>
     <!--更新点赞-->
     <update id="fabulousYes" parameterType="map">
-        update ipo_fabulous set isLike = #{isLike} where caseid = #{caseid} and (openid = #{openid} or unionid = #{unionid})
+        update ipo_fabulous set isLike = #{isLike} where caseid = #{caseid} and  unionid = #{unionid}
     </update>
     <!--保存 收藏-->
     <insert id="collectionNo" parameterType="map">
