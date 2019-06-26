@@ -1877,7 +1877,7 @@ public class IpoInterfaceController extends BaseController {
     @ResponseBody
     public JsonResponse getReplay(String openid,String unionid,String caseid,Long startPage,Long endPage) {
         Map<String ,Object> param = new HashMap();
-        if(!StringUtils.isNotEmpty(openid)){
+        if(!StringUtils.isNotEmpty(openid) || openid == "null" ){
             openid = unionid;
         }
         param.put("openid",openid);
