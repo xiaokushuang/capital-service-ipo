@@ -1824,6 +1824,7 @@ public class IpoInterfaceController extends BaseController {
         param.put("unionid",unionid);
         param.put("caseid",caseid);
         param.put("isLike",isLike);
+        logger.info(param.toString());
         JsonResponse jsonResponse = new JsonResponse();
         ipoInterfaceService.fabulousYes(param);
         int fabulous = ipoInterfaceService.fabulousCount(param);
@@ -1854,6 +1855,7 @@ public class IpoInterfaceController extends BaseController {
         param.put("isLike",isLike);
         JsonResponse jsonResponse = new JsonResponse();
         ipoInterfaceService.collectionYes(param);
+        logger.info(param.toString());
 //        int fabulousCount = 1;
 //        if (fabulous >= 1000){
 //            fabulousCount = fabulous / 10;
@@ -1880,6 +1882,7 @@ public class IpoInterfaceController extends BaseController {
         param.put("caseid",caseid);
         param.put("startPage",startPage);
         param.put("endPage",endPage);
+        logger.info(param.toString());
         JsonResponse jsonResponse = new JsonResponse();
 //      查询评论
         List<Map<String, Object>> commentList = ipoInterfaceService.getCommentList(param);
@@ -1909,6 +1912,7 @@ public class IpoInterfaceController extends BaseController {
         int collections =  ipoInterfaceService.collectionCount(param);
 //        是否点赞
         boolean fabulousYes = ipoInterfaceService.isFabulousYes(param);
+        logger.info("是否点赞"+fabulousYes);
 //        是否收藏
         boolean collectionYes = ipoInterfaceService.isCollectionYes(param);
         Map<String, Object> result = new HashMap();
