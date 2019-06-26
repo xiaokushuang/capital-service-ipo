@@ -1941,9 +1941,28 @@ public class IpoInterfaceController extends BaseController {
         JsonResponse jsonResponse = new JsonResponse();
 //      查询评论
         List<Map<String, Object>> commentList = ipoInterfaceService.getCommentList(param);
-
+        List<Map<String, Object>> selectedList = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
+        if (commentList != null && commentList.size() > 0) {
+            for (Map<String, Object> map : commentList) {
+//            前端展示名称
+                String comment_time = format.format(map.get("comment_time"));
+                logger.info("日期格式:"+comment_time);
+                map.put("headPortrait", map.get("avatar"));
+                map.put("username", map.get("comment_from_user"));
+                map.put("commentText", map.get("comment_content"));
+                map.put("commentTime", comment_time);
+//            如果是精选评论
+                if ("1".equals(map.get("is_selected_comment"))) {
+                    selectedList.add(map);
+                }
+            }
+        }else{
+            commentList = new ArrayList<>();
+        }
         Map<String, Object> result = new HashMap();
         result.put("commentList", commentList);
+        result.put("selectedList", selectedList);
         jsonResponse.setResult(result);
         logger.info("获取评论"+result);
         return jsonResponse;
