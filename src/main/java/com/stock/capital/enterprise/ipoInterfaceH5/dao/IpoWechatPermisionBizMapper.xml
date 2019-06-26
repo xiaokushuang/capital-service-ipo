@@ -72,8 +72,8 @@
         <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
             SELECT CONCAT(uuid_short(),'')
         </selectKey>
-        insert into ipo_fabulous (id,caseid,openid,unionid,isLike)
-        values(#{id},#{caseid},#{openid},#{unionid},"1")
+        insert into ipo_fabulous (id,caseid,unionid,isLike)
+        values(#{id},#{caseid},#{unionid},"1")
     </insert>
     <!--更新点赞-->
     <update id="fabulousYes" parameterType="map">
