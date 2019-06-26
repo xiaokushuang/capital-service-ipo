@@ -47,7 +47,7 @@
         ,openid
         ,state)
         VALUES (
-        #{id},'0',#{commentText},#{commentTime},#{username},#{caseid}
+        #{id},'0',#{commentText},now(),#{username},#{caseid}
         ,#{headPortrait},'0',#{unionid},#{openid},"1"
         )
     </insert>
