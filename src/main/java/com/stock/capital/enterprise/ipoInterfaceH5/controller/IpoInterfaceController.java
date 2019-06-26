@@ -1923,4 +1923,29 @@ public class IpoInterfaceController extends BaseController {
         logger.info("获取评论"+result);
         return jsonResponse;
     }
+    /**
+     * 获取评论列表和其他信息
+     *
+     * @return
+     * @author yangj
+     */
+    @RequestMapping(value = "/getOnlyReplay")
+    @ResponseBody
+    public JsonResponse getOnlyReplay(String openid,String unionid,String caseid,Long startPage,Long endPage) {
+        Map<String ,Object> param = new HashMap();
+        param.put("openid",openid);
+        param.put("unionid",unionid);
+        param.put("caseid",caseid);
+        param.put("startPage",startPage);
+        param.put("endPage",endPage);
+        JsonResponse jsonResponse = new JsonResponse();
+//      查询评论
+        List<Map<String, Object>> commentList = ipoInterfaceService.getCommentList(param);
+
+        Map<String, Object> result = new HashMap();
+        result.put("commentList", commentList);
+        jsonResponse.setResult(result);
+        logger.info("获取评论"+result);
+        return jsonResponse;
+    }
 }
