@@ -1873,20 +1873,23 @@ public class IpoInterfaceController extends BaseController {
      */
     @RequestMapping(value = "/getReplay")
     @ResponseBody
-    public JsonResponse getReplay(String openid,String unionid,String caseid) {
+    public JsonResponse getReplay(String openid,String unionid,String caseid,Long startPage,Long endPage) {
         Map<String ,Object> param = new HashMap();
         param.put("openid",openid);
         param.put("unionid",unionid);
         param.put("caseid",caseid);
+        param.put("startPage",startPage);
+        param.put("endPage",endPage);
         JsonResponse jsonResponse = new JsonResponse();
 //      查询评论
-        List<Map<String, Object>> commentList = ipoInterfaceService.getCommentList((String) param.get("caseid"));
+        List<Map<String, Object>> commentList = ipoInterfaceService.getCommentList(param);
         List<Map<String, Object>> selectedList = new ArrayList<>();
         SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
         if (commentList != null && commentList.size() > 0) {
             for (Map<String, Object> map : commentList) {
 //            前端展示名称
                 String comment_time = format.format(map.get("comment_time"));
+                logger.info("日期格式:"+comment_time);
                 map.put("headPortrait", map.get("avatar"));
                 map.put("username", map.get("comment_from_user"));
                 map.put("commentText", map.get("comment_content"));
@@ -1900,7 +1903,7 @@ public class IpoInterfaceController extends BaseController {
             commentList = new ArrayList<>();
         }
 //        评论数
-        int commentNum = commentList.size();
+        int commentNum = ipoInterfaceService.replayCount(param);
 //        点赞数
         int fabulous = ipoInterfaceService.fabulousCount(param);
         int collections =  ipoInterfaceService.collectionCount(param);
