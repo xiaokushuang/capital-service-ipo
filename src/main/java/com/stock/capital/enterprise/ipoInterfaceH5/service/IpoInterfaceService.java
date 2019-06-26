@@ -408,13 +408,13 @@ public class IpoInterfaceService extends BaseService {
                 if (ipoCompanyRank != null && StringUtils.isNotBlank(ipoCompanyRank.getTakingFiavg())) {
                   taking = new BigDecimal(ipoCompanyRank.getTakingFiavg());//营业收入平均
                 }
-                if (devData.size() >= 0){
+                if (devData.size() >= 0 && devData.get(0).getFirstYearValue() != null){
                   expensesCostDto.setCompany(devData.get(0).getFirstYearValue().toPlainString());//传入研发投入
                 }
-                if (devData.size() >= 1){
+                if (devData.size() >= 1 && devData.get(1).getFirstYearValue() != null){
                   incomeDto.setCompany(devData.get(1).getFirstYearValue().toPlainString());//传入营业收入
                 }
-                if (devData.size() >= 2){
+                if (devData.size() >= 2 && devData.get(2).getFirstYearValue() != null){
                   expensesCostDto.setProportion(devData.get(2).getFirstYearValue().toPlainString());// 公司研发占比
                 }
 
@@ -423,9 +423,8 @@ public class IpoInterfaceService extends BaseService {
                    expensesCostDto.setSTIB(ipoCompanyRank.getResearchPlateFiavg());//科创板平均研发费用
                 }
 
-                BigDecimal industryProportion = null;
                 if (taking != null && BigDecimal.ZERO.compareTo(taking) != 0 && researchPlate != null){
-                  industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP).multiply(hundred);// 科创版平均占比
+                  BigDecimal industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP).multiply(hundred);// 科创版平均占比
                   expensesCostDto.setIndustryProportion(industryProportion.toString());//增加科创版平均占比
                 }
 
@@ -445,6 +444,8 @@ public class IpoInterfaceService extends BaseService {
                 incomeDto.setYear(year);//year
                 expensesCostDto.setYear(year);//year
 
+              researchPlate = null;
+              taking = null;
               if (ipoCompanyRank != null ) {
                 if (StringUtils.isNotBlank(ipoCompanyRank.getResearchPlateSeavg())) {
                   researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateSeavg());//研发投入平均
@@ -454,13 +455,13 @@ public class IpoInterfaceService extends BaseService {
                 }
               }
 
-              if (devData.size() >= 0){
+              if (devData.size() >= 0 && devData.get(0).getSecondYearValue() != null){
                 expensesCostDto.setCompany(devData.get(0).getSecondYearValue().toPlainString());//传入研发投入
               }
-              if (devData.size() >= 1){
+              if (devData.size() >= 1 && devData.get(1).getSecondYearValue() != null){
                 incomeDto.setCompany(devData.get(1).getSecondYearValue().toPlainString());//传入营业收入
               }
-              if (devData.size() >= 2){
+              if (devData.size() >= 2 && devData.get(2).getSecondYearValue() != null){
                 expensesCostDto.setProportion(devData.get(2).getSecondYearValue().toPlainString());// 公司研发占比
               }
               if (ipoCompanyRank != null) {
@@ -468,7 +469,7 @@ public class IpoInterfaceService extends BaseService {
                 expensesCostDto.setSTIB(ipoCompanyRank.getResearchPlateSeavg());//科创板平均研发费用
               }
               if (taking != null && BigDecimal.ZERO.compareTo(taking) != 0 && researchPlate != null){
-                industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP).multiply(hundred);// 科创版平均占比
+                BigDecimal industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP).multiply(hundred);// 科创版平均占比
                 expensesCostDto.setIndustryProportion(industryProportion.toString());//增加科创版平均占比
               }
 
@@ -476,6 +477,7 @@ public class IpoInterfaceService extends BaseService {
               expensesCostList.add(expensesCostDto);//第二年研发支出
 
                 /******************第三年*******************/
+                year = "";
               if (ipoTechnologyVo.getDevDate() != null) {
                 year = ipoTechnologyVo.getDevDate().getThirdYearDate();//年份赋值
               }
@@ -487,6 +489,8 @@ public class IpoInterfaceService extends BaseService {
               incomeDto.setYear(year);//year
               expensesCostDto.setYear(year);//year
 
+              researchPlate = null;
+              taking = null;
               if (ipoCompanyRank != null ) {
                 if (StringUtils.isNotBlank(ipoCompanyRank.getResearchPlateThavg())) {
                   researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateThavg());//研发投入平均
@@ -496,21 +500,22 @@ public class IpoInterfaceService extends BaseService {
                 }
               }
 
-              if (devData.size() >= 0){
+              if (devData.size() >= 0 && devData.get(0).getThirdYearValue() != null){
                 expensesCostDto.setCompany(devData.get(0).getThirdYearValue().toPlainString());//传入研发投入
               }
-              if (devData.size() >= 1){
+              if (devData.size() >= 1 && devData.get(1).getThirdYearValue() != null){
                 incomeDto.setCompany(devData.get(1).getThirdYearValue().toPlainString());//传入营业收入
               }
-              if (devData.size() >= 2){
+              if (devData.size() >= 2 && devData.get(2).getThirdYearValue() != null){
                 expensesCostDto.setProportion(devData.get(2).getThirdYearValue().toPlainString());// 公司研发占比
               }
               if (ipoCompanyRank != null){
                 incomeDto.setSTIB(ipoCompanyRank.getTakingThavg());//科创板平均营业收入
                 expensesCostDto.setSTIB(ipoCompanyRank.getResearchPlateThavg());//科创板平均研发费用
               }
+
               if (taking != null && BigDecimal.ZERO.compareTo(taking) != 0 && researchPlate != null) {
-                industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP)
+                BigDecimal industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP)
                     .multiply(hundred);// 科创版平均占比
                 expensesCostDto.setIndustryProportion(industryProportion.toString());//增加科创版平均占比
               }
@@ -542,11 +547,20 @@ public class IpoInterfaceService extends BaseService {
                     }
                 }
 
-                incomeDto.setCompany(devData.get(1).getSecondYearValue().toPlainString());//传入营业收入
+              if (devData.size() >= 0 && devData.get(0).getSecondYearValue() != null){
                 expensesCostDto.setCompany(devData.get(0).getSecondYearValue().toPlainString());//传入研发投入
+              }
+              if (devData.size() >= 1 && devData.get(1).getSecondYearValue() != null){
+                incomeDto.setCompany(devData.get(1).getSecondYearValue().toPlainString());//传入营业收入
+              }
+              if (devData.size() >= 2 && devData.get(2).getSecondYearValue() != null){
+                expensesCostDto.setProportion(devData.get(2).getSecondYearValue().toPlainString());// 公司研发占比
+              }
+              if (ipoCompanyRank != null){
                 incomeDto.setSTIB(ipoCompanyRank.getTakingFiavg());//科创板平均营业收入
                 expensesCostDto.setSTIB(ipoCompanyRank.getResearchPlateFiavg());//科创板平均研发费用
-                expensesCostDto.setProportion(devData.get(2).getSecondYearValue().toPlainString());// 公司研发占比
+              }
+
                 incomeList.add(incomeDto);// 第一年营业收入
                 expensesCostList.add(expensesCostDto);//第一年研发支出
                 /******************第二年*******************/
@@ -557,9 +571,12 @@ public class IpoInterfaceService extends BaseService {
                 }
                 incomeDto = new IpoH5TechnologyDevDto();// 营业收入
                 expensesCostDto = new IpoH5TechnologyDevDto(); // 研发支出
-                yearList.add(year.substring(0,4));
+              if (year.length() >= 4) {
+                yearList.add(year.substring(0, 4));
+              }
                 incomeDto.setYear(year);//year
                 expensesCostDto.setYear(year);//year
+
                 if (ipoCompanyRank.getResearchPlateSeavg() != null){
                     BigDecimal researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateSeavg());//研发投入平均
                     if (ipoCompanyRank.getTakingSeavg() != null){
@@ -571,13 +588,13 @@ public class IpoInterfaceService extends BaseService {
                     }
                 }
 
-              if (devData.size() >= 0){
+              if (devData.size() >= 0 && devData.get(0).getThirdYearValue() != null){
                 expensesCostDto.setCompany(devData.get(0).getThirdYearValue().toPlainString());//传入研发投入
               }
-              if (devData.size() >= 1){
+              if (devData.size() >= 1 && devData.get(1).getThirdYearValue() != null){
                 incomeDto.setCompany(devData.get(1).getThirdYearValue().toPlainString());//传入营业收入
               }
-              if (devData.size() >= 2){
+              if (devData.size() >= 2 && devData.get(2).getThirdYearValue() != null){
                 expensesCostDto.setProportion(devData.get(2).getThirdYearValue().toPlainString());// 公司研发占比
               }
               if (ipoCompanyRank != null){
@@ -612,13 +629,13 @@ public class IpoInterfaceService extends BaseService {
                 }
 
 
-              if (devData.size() >= 0){
+              if (devData.size() >= 0 && devData.get(0).getForthYearValue() != null){
                 expensesCostDto.setCompany(devData.get(0).getForthYearValue().toPlainString());//传入研发投入
               }
-              if (devData.size() >= 1){
+              if (devData.size() >= 1 && devData.get(1).getForthYearValue() != null){
                 incomeDto.setCompany(devData.get(1).getForthYearValue().toPlainString());//传入营业收入
               }
-              if (devData.size() >= 2){
+              if (devData.size() >= 2 && devData.get(2).getForthYearValue() != null){
                 expensesCostDto.setProportion(devData.get(2).getForthYearValue().toPlainString());// 公司研发占比
               }
               if (ipoCompanyRank != null){
