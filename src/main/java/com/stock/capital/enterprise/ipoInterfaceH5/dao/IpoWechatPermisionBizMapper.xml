@@ -2,18 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.stock.capital.enterprise.ipoInterfaceH5.dao.IpoWechatPermisionBizMapper">
-<select id="queryByUnionidOrOpenid" parameterType="map" resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoWechatPermisionDto">
-    select * from ipo_wechat_permision
-    <where>
-        <if test="openid != null and openid != ''">
-            and openid = #{openid}
-        </if>
-        <if test="unionid != null and unionid != ''">
-            and unionid = #{unionid}
-        </if>
-    </where>
+    <select id="queryByUnionidOrOpenid" parameterType="map" resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoWechatPermisionDto">
+        select * from ipo_wechat_permision
+        <where>
+            <if test="openid != null and openid != ''">
+                and openid = #{openid}
+            </if>
+            <if test="unionid != null and unionid != ''">
+                and unionid = #{unionid}
+            </if>
+        </where>
 
-</select>
+    </select>
     <!--保存用户-->
     <insert id="insert" parameterType="map" >
         <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
@@ -30,27 +30,27 @@
         where  unionid = #{unionid}
     </update>
     <!--保存评论-->
-   <insert id="submitReplay" parameterType="map" >
-       <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-           SELECT CONCAT(uuid_short(),'')
-       </selectKey>
-       insert into ipo_comment
-       (id
-       ,pid
-       ,comment_content
-       ,comment_time
-       ,comment_from_user
-       ,case_id
-       ,avatar
-       ,is_selected_comment
-       ,unionid
-       ,openid
-       ,state)
+    <insert id="submitReplay" parameterType="map" >
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+            SELECT CONCAT(uuid_short(),'')
+        </selectKey>
+        insert into ipo_comment
+        (id
+        ,pid
+        ,comment_content
+        ,comment_time
+        ,comment_from_user
+        ,case_id
+        ,avatar
+        ,is_selected_comment
+        ,unionid
+        ,openid
+        ,state)
         VALUES (
-          #{id},'0',#{commentText},#{commentTime},#{username},#{caseid}
-          ,#{headPortrait},'0',#{unionid},#{openid},"1"
-       )
-   </insert>
+        #{id},'0',#{commentText},now(),#{username},#{caseid}
+        ,#{headPortrait},'0',#{unionid},#{openid},"1"
+        )
+    </insert>
     <!--获取评论列表-->
     <select id="getCommentList" parameterType="map" resultType="map">
         select * from ipo_comment where case_id = #{caseid} and state = '1' order by comment_time desc limit ${startPage},${endPage}

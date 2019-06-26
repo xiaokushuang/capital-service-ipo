@@ -62,7 +62,7 @@ public class IpoFileUploadController extends BaseController {
     /**
      * 每晚定时把所有科创版数据生成json文件放到华为云上
      */
-    @Scheduled(cron = "0 50 18,12,15,13 * * ? ")
+    @Scheduled(cron = "0 50 21,02 * * ? ")
     public void ipoDataUpload() {
         //查询科创版所有案例
         logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
@@ -84,7 +84,7 @@ public class IpoFileUploadController extends BaseController {
     /**
      * 每晚定时把所有科创版数据生成json文件放到华为云上
      */
-    @Scheduled(cron = "0 50 18,12,15,13 * * ? ")
+    @Scheduled(cron = "0 50 21,02 * * ? ")
     public void ipoMarchDataUpload() {
         //查询科创版所有案例
         logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
@@ -95,6 +95,24 @@ public class IpoFileUploadController extends BaseController {
                 fileUpload(JsonUtil.toJsonNoNull(ipoCaseList),"ipoRandomData");
             } catch (Exception e) {
                 logger.info("#######【将IpoH5的数据的json文件上传华为云时： ipoRandomData 数据出错###########");
+            }
+        }
+    }
+
+    /**
+     * 每晚定时把所有科创版数据生成json文件放到华为云上(登录页的联想)
+     */
+    @Scheduled(cron = "0 50 21,02 * * ? ")
+    public void ipoCaseDataUpload() {
+        //查询科创版所有案例
+        logger.info("#######【将IpoH5登录页的联想的数据生成json文件放到华为云的同步开始执行###########");
+        List<IpoCaseListVo> ipoCaseList = ipoInterfaceService.queryIpoCase(new HashMap());
+        logger.info("#######【将IpoH5登录页的联想的数据生成json文件放到华为云时查询到有" + ipoCaseList.size() + "条科创版数据###########");
+        if (ipoCaseList != null) {
+            try {
+                fileUpload(JsonUtil.toJsonNoNull(ipoCaseList),"ipoCaseData");
+            } catch (Exception e) {
+                logger.info("#######【将IpoH5登录页的联想的数据生成json文件上传华为云时： ipoCaseData 数据出错###########");
             }
         }
     }
