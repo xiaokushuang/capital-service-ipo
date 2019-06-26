@@ -1882,7 +1882,7 @@ public class IpoInterfaceController extends BaseController {
         param.put("caseid",caseid);
         param.put("startPage",startPage);
         param.put("endPage",endPage);
-        logger.info(param.toString());
+        logger.info("参数"+param.toString());
         JsonResponse jsonResponse = new JsonResponse();
 //      查询评论
         List<Map<String, Object>> commentList = ipoInterfaceService.getCommentList(param);
