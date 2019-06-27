@@ -1103,13 +1103,16 @@ public class IpoInterfaceController extends BaseController {
                 if(nowValue.compareTo(BigDecimal.ZERO) == -1){
                     param = param * -1;
                     rate = Math.pow(param, 1.0 / 3);
+                    rate = new BigDecimal(rate).setScale(4,BigDecimal.ROUND_HALF_UP).doubleValue();
                     rate = new BigDecimal((rate - 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                 }else if(nowValue.compareTo(BigDecimal.ZERO) == 1){
                     rate = Math.pow(param, 1.0 / 3);
+                    rate = new BigDecimal(rate).setScale(4,BigDecimal.ROUND_HALF_UP).doubleValue();
                     rate = new BigDecimal(( 1D - rate) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                 }
             }else{
                 rate = Math.pow(param, 1.0 / 3);
+                rate = new BigDecimal(rate).setScale(4,BigDecimal.ROUND_HALF_UP).doubleValue();
                 rate = new BigDecimal((rate - 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
             }
             return rate;
