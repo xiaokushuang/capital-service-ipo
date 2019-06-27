@@ -85,11 +85,11 @@
             SELECT CONCAT(uuid_short(),'')
         </selectKey>
         insert into PLATFORM_SCAN_MAP (id,case_id,union_id,flag,state,option_time)
-        values(#{id},#{caseid},#{unionid},"1","1",#{option_time})
+        values(#{id},#{caseid},#{unionid},"1","1",now())
     </insert>
     <!--更新收藏-->
     <update id="collectionYes" parameterType="map">
-        update PLATFORM_SCAN_MAP set state = #{isLike},option_time= #{option_time} where case_id = #{caseid} and  union_id = #{unionid} and flag = '1'
+        update PLATFORM_SCAN_MAP set state = #{isLike},option_time= now() where case_id = #{caseid} and  union_id = #{unionid} and flag = '1'
     </update>
     <!--获取点赞数-->
     <select id="fabulousCount" parameterType="map" resultType="int">
