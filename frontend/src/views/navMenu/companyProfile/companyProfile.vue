@@ -42,7 +42,7 @@
            <li class="clear" style="margin-bottom:10px;position:relative" >
             <span class="l">注册地址</span>
             <!-- <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&(companyProfileList.companyProfileList.addrProv || companyProfileList.companyProfileList.addrCity || companyProfileList.companyProfileList.addrArea)" >{{companyProfileList.companyProfileList.addrProv}}{{companyProfileList.companyProfileList.addrCity}}{{companyProfileList.companyProfileList.addrArea}}</div> -->
-            <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&(companyProfileList.companyProfileList.addrProv || companyProfileList.companyProfileList.addrCity || companyProfileList.companyProfileList.addrArea)" :title="(companyProfileList.companyProfileList.addrProv + companyProfileList.companyProfileList.addrCity + companyProfileList.companyProfileList.addrArea ).length>20 ? (companyProfileList.companyProfileList.addrProv + companyProfileList.companyProfileList.addrCity + companyProfileList.companyProfileList.addrArea ):''">{{getAdress(companyProfileList.companyProfileList.addrProv + companyProfileList.companyProfileList.addrCity + companyProfileList.companyProfileList.addrArea)}}</div>
+            <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&(companyProfileList.companyProfileList.addrProv || companyProfileList.companyProfileList.addrCity || companyProfileList.companyProfileList.addrArea)" :title="(companyProfileList.companyProfileList.addrProv + companyProfileList.companyProfileList.addrCity + companyProfileList.companyProfileList.addrArea ).length>20 ? (companyProfileList.companyProfileList.addrProv + companyProfileList.companyProfileList.addrCity + companyProfileList.companyProfileList.addrArea ):''">{{(getAdress(companyProfileList.companyProfileList.addrProv == null ? "" : companyProfileList.companyProfileList.addrProv) + (companyProfileList.companyProfileList.addrCity == null ? "" : companyProfileList.companyProfileList.addrCity) + (companyProfileList.companyProfileList.addrArea == null ? "" : companyProfileList.companyProfileList.addrArea))}}</div>
             <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-else >- -</div>
           </li>
           <li  class="clear" style="margin-bottom:10px;position:relative" >
@@ -57,7 +57,7 @@
           </li>
         </ul>
         <div>
-         
+
           <li class="clear" style="margin-bottom:10px;position:relative" >
             <span class="l">控股股东</span>
             <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.controlShareholder">{{companyProfileList.companyProfileList.controlShareholder}}</div>
@@ -176,7 +176,7 @@
           </li>
           <li v-if="recentValuation.valuationPrice" style=" width: 25%;">
             <span style="color:#999">股价</span>&nbsp;&nbsp;
-            <span v-if="recentValuation.valuationPrice" style="color:#333">{{recentValuation.valuationPrice}}元/股</span>
+            <span v-if="recentValuation.valuationPrice" style="color:#333">{{recentValuation.valuationPrice}}{{recentValuation.valuationPriceUnit}}/股</span>
             <!-- <span v-else style="color:#333">- -元/股</span> -->
           </li>
           <li v-if="recentValuation.valuationEquity" style=" width: 25%;">
@@ -186,7 +186,7 @@
           </li>
           <li v-if="recentValuation.valuationValue" style=" width: 25%;">
             <span style="color:#999">估值</span>&nbsp;&nbsp;
-            <span v-if="recentValuation.valuationValue" style="color:#333">{{recentValuation.valuationValue/10000  | dataInThRule }}亿元</span>
+            <span v-if="recentValuation.valuationValue" style="color:#333">{{recentValuation.valuationValue/10000  | dataInThRule }}亿{{recentValuation.valuationEquityUnit}}</span>
             <!-- <span v-else style="color:#333">- -亿元</span> -->
           </li>
         </ul>
@@ -643,7 +643,7 @@ export default {
       let param = {
       client_type:'pc',//手机或pc
       recordType:'menu',//跳转页面方式:
-      recordModule:'我的ipo',//跳转模块
+      recordModule:'IPO案例',//跳转模块
       recordTab:"ipo案例详情页",//跳转tab
       recordTabChild:null,//跳转子集tab
       popTitle:null//弹窗title

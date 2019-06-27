@@ -3,7 +3,7 @@
        <div class="label">
             <!-- 导入的组件 -->
             <!-- 只有一级标签 -->
-            <div v-if="tabList&&tabList.length==1" class="clear"> 
+            <div v-if="tabList&&tabList.length==1" class="clear">
               <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[0].questionLabelList,checkbox:feedbackduoxuanList,answerCount:answerCount,questionCount:questionCount,questionList:questionList,o_letterId:this.o_letterId,showMore:showMore,allQuestionList:allQuestionList}></singleAndMultiple>
             </div>
             <!-- 有多级标签选择 -->
@@ -320,7 +320,7 @@ export default {
         id: this.caseId
       };
       getSelectFeedbackList(param).then(res => {
-         
+
         if (res.data.result && res.data.result.length > 0) {
           this.o_letterId = res.data.result[0].letterId;
           this.tabList = res.data.result;
@@ -1036,7 +1036,7 @@ export default {
     },
     // 点击二级菜单过滤出问题列表
     initOnlyQuestionData(letterId, firstLabelId, secondLabelId, onlyResponse) {
-     
+
       // 动态传id
       // 将second多选按钮参数用字符串，隔开
       let secondLabel = "";

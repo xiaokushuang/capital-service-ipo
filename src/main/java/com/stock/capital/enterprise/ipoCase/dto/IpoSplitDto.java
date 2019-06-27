@@ -26,8 +26,19 @@ public class IpoSplitDto implements Serializable {
   @ApiModelProperty("上市公司")
   private String companyName;
 
+  @ApiModelProperty("拆分上市公司code")
+  private String companyCode;
+
   @ApiModelProperty("直接或间接持有发行人股份比例（%）")
   private BigDecimal shareProportion;
+
+  public String getCompanyCode() {
+    return companyCode;
+  }
+
+  public void setCompanyCode(String companyCode) {
+    this.companyCode = companyCode;
+  }
 
   public String getSplitMemo() {
     return splitMemo;

@@ -34,31 +34,33 @@
             this.$store.commit('SET_TOKEN',{token:this.$route.query['access_token'],info:this.$route.query['tenant_info'],companyId:this.$route.query['companyId'],caseId:this.$route.query['caseId']})
       }
     },
-    created(){
-       // 日志--------------------功能头
+    created() {
+      // 日志--------------------功能头
       let param = {
-      client_type:'pc',//手机或pc
-      recordType:'menu',//跳转页面方式:
-      recordModule:'我的ipo',//跳转模块
-      recordTab:"ipo案例详情页",//跳转tab
-      recordTabChild:null,//跳转子集tab
-      popTitle:null//弹窗title
+        client_type: 'pc',//手机或pc
+        recordType: 'menu',//跳转页面方式:
+        recordModule: 'IPO案例',//跳转模块
+        recordTab: "ipo案例详情页",//跳转tab
+        recordTabChild: null,//跳转子集tab
+        popTitle: null//弹窗title
       }
-      this.$store.commit('CREATE_MESSAGE',param)
+      this.$store.commit('CREATE_MESSAGE', param)
       // 日志------------------功能尾
       let _this = this;
       //监听消息回复父级页面消息
-      window.addEventListener('message',function(e){
+      if(window.parent.length > 0){
+          window.addEventListener('message', function (e) {
           //console.log(document.body.offsetHeight)
           window.parent.postMessage({
-              type:'times',
-              height:document.body.offsetHeight,
-              //param:param
-          },'*')
-          if(e.data['type']=='times'){
-            e.data.bodyClass != undefined && _this.$store.commit('BODY_CLASS',e.data.bodyClass)
+            type: 'times',
+            height: document.body.offsetHeight,
+            //param:param
+          }, '*')
+          if (e.data['type'] == 'times') {
+            e.data.bodyClass != undefined && _this.$store.commit('BODY_CLASS', e.data.bodyClass)
           }
-      });
+        });
+      }
     },
     mounted(){
       this.chartOne()

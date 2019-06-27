@@ -26,6 +26,9 @@ public class IpoItemDto implements Serializable {
     @ApiModelProperty("最近一期财务数据")
     private BigDecimal forthYearValue;
 
+    @ApiModelProperty("近三年复合增长率")
+    private BigDecimal growthRate;
+
     public String getItemName() {
         return itemName;
     }
@@ -64,5 +67,13 @@ public class IpoItemDto implements Serializable {
 
     public void setForthYearValue(BigDecimal forthYearValue) {
         this.forthYearValue = forthYearValue;
+    }
+
+    public BigDecimal getGrowthRate() {
+        return growthRate;
+    }
+
+    public void setGrowthRate(BigDecimal growthRate) {
+        this.growthRate = growthRate;
     }
 }
