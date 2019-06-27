@@ -7,6 +7,7 @@ import com.stock.capital.enterprise.ipoInterfaceH5.service.IpoInterfaceService;
 import com.stock.core.controller.BaseController;
 import com.stock.core.util.JsonUtil;
 import io.swagger.annotations.Api;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.ByteArrayInputStream;
 import java.util.HashMap;
@@ -73,7 +75,7 @@ public class IpoFileUploadController extends BaseController {
                 try {
                     Map<String, Object> data = ipoInterfaceController.ipoCaseH5(ipoCaseList.get(i).getId());
                     fileUpload(JsonUtil.toJsonNoNull(data), ipoCaseList.get(i).getId());
-                    logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步"+ipoCaseList.get(i).getId()+"成功###########");
+                    logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步" + ipoCaseList.get(i).getId() + "成功###########");
                 } catch (Exception e) {
                     logger.info("#######【将IpoH5的数据的json文件上传华为云时主键：" + ipoCaseList.get(i).getId() + "数据出错###########");
                 }
@@ -92,7 +94,7 @@ public class IpoFileUploadController extends BaseController {
         logger.info("#######【将Ipo案例注册生效的数据生成json文件放到华为云时查询到有" + ipoCaseList.size() + "条科创版数据###########");
         if (ipoCaseList != null) {
             try {
-                fileUpload(JsonUtil.toJsonNoNull(ipoCaseList),"ipoRandomData");
+                fileUpload(JsonUtil.toJsonNoNull(ipoCaseList), "ipoRandomData");
             } catch (Exception e) {
                 logger.info("#######【将IpoH5的数据的json文件上传华为云时： ipoRandomData 数据出错###########");
             }
@@ -110,10 +112,42 @@ public class IpoFileUploadController extends BaseController {
         logger.info("#######【将IpoH5登录页的联想的数据生成json文件放到华为云时查询到有" + ipoCaseList.size() + "条科创版数据###########");
         if (ipoCaseList != null) {
             try {
-                fileUpload(JsonUtil.toJsonNoNull(ipoCaseList),"ipoCaseData");
+                fileUpload(JsonUtil.toJsonNoNull(ipoCaseList), "ipoCaseData");
             } catch (Exception e) {
                 logger.info("#######【将IpoH5登录页的联想的数据生成json文件上传华为云时： ipoCaseData 数据出错###########");
             }
+        }
+    }
+
+    @RequestMapping(value = "/ipoDataUploadSpecComById")
+    public void ipoDataUploadSpecComById(Map map) {
+        //查询科创版所有案例
+        logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
+        List<IpoCaseListVo> ipoCaseList = ipoInterfaceService.queryIpoCaseById(map);
+        logger.info("#######【将IpoH5的数据生成json文件放到华为云时查询到有" + ipoCaseList.size() + "条科创版数据###########");
+        if (ipoCaseList != null) {
+            for (int i = 0; i < ipoCaseList.size(); i++) {
+                try {
+                    Map<String, Object> data = ipoInterfaceController.ipoCaseH5(ipoCaseList.get(i).getId());
+                    fileUpload(JsonUtil.toJsonNoNull(data), ipoCaseList.get(i).getId());
+                    logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步" + ipoCaseList.get(i).getId() + "成功###########");
+                } catch (Exception e) {
+                    logger.info("#######【将IpoH5的数据的json文件上传华为云时主键：" + ipoCaseList.get(i).getId() + "数据出错###########");
+                }
+            }
+        }
+    }
+
+    @RequestMapping(value = "/ipoDataUploadAllCom")
+    public void ipoDataUploadAllCom(@RequestParam(value = "id", required = false, defaultValue = "") String id) {
+        ipoCaseDataUpload();
+        ipoMarchDataUpload();
+        if (StringUtils.isEmpty(id)) {
+            ipoDataUpload();
+        } else {
+            Map tempMap = new HashMap();
+            tempMap.put("id", id);
+            ipoDataUploadSpecComById(tempMap);
         }
     }
 }

@@ -26,6 +26,8 @@ public interface IpoInterfaceBizMapper {
 
     List<IpoCaseListVo> queryIpoCase(Map<String, Object> map);
 
+    List<IpoCaseListVo> queryIpoCaseById(Map<String, Object> map);
+
     List<IpoCaseListVo> queryAllMatchIpoCase();
 
     List<IpoCaseListVo> otherIpoCaseNoIndustry(IpoCaseIndexDto ipoCaseIndexDto);
