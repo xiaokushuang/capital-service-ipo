@@ -44,6 +44,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -1099,21 +1100,24 @@ public class IpoInterfaceController extends BaseController {
         if (null != beforeValue && null != nowValue) {
             double param = nowValue.divide(beforeValue, 4, BigDecimal.ROUND_HALF_UP).doubleValue();
             double rate = 0;
+            DecimalFormat df = new DecimalFormat("#.0000");
             if(param <0){
                 if(nowValue.compareTo(BigDecimal.ZERO) == -1){
                     param = param * -1;
                     rate = Math.pow(param, 1.0 / 3);
-                    rate = new BigDecimal(rate).setScale(4,BigDecimal.ROUND_HALF_UP).doubleValue();
-                    rate = new BigDecimal((rate - 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    Double rateStr = Double.valueOf(df.format(rate));
+                    rate = new BigDecimal((rateStr - 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                 }else if(nowValue.compareTo(BigDecimal.ZERO) == 1){
+                    param = param * -1;
                     rate = Math.pow(param, 1.0 / 3);
-                    rate = new BigDecimal(rate).setScale(4,BigDecimal.ROUND_HALF_UP).doubleValue();
-                    rate = new BigDecimal(( 1D - rate) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    rate = rate * -1;
+                    Double rateStr = Double.valueOf(df.format(rate));
+                    rate = new BigDecimal(( 1D - rateStr) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                 }
             }else{
                 rate = Math.pow(param, 1.0 / 3);
-                rate = new BigDecimal(rate).setScale(4,BigDecimal.ROUND_HALF_UP).doubleValue();
-                rate = new BigDecimal((rate - 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                Double rateStr = Double.valueOf(df.format(rate));
+                rate = new BigDecimal((rateStr - 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
             }
             return rate;
         } else {
