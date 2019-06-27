@@ -3,7 +3,7 @@
        <div class="label">
             <!-- 导入的组件 -->
             <!-- 只有一级标签 -->
-            <div v-if="tabList&&tabList.length==1" class="clear"> 
+            <div v-if="tabList&&tabList.length==1" class="clear">
               <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[0].questionLabelList,checkbox:feedbackduoxuanList,answerCount:answerCount,questionCount:questionCount,questionList:questionList,o_letterId:this.o_letterId,showMore:showMore,allQuestionList:allQuestionList}></singleAndMultiple>
             </div>
             <!-- 有多级标签选择 -->
@@ -18,21 +18,23 @@
                 <div v-if="tabList.length==5&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共五轮问询：</div>
                 <div>
                     <el-tabs v-model="activeName" @tab-click="handleTabClick">
-                      <!-- :label="companyProfileList.headList.isTechBoard==0?'第一次反馈意见':'第一次问询与回复'"  判断是否是科创版 -->
-                       <el-tab-pane :label="companyProfileList.headList.isTechBoard==0?'第一次反馈意见':'第一次问询与回复'" :name="tabList[0].letterId">
+                       <el-tab-pane :label="companyProfileList.headList.isTechBoard==0?'第一次反馈意见':'第一次问询'" :name="tabList[0].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[0].questionLabelList,checkbox:feedbackduoxuanList,answerCount:answerCount,questionCount:questionCount,questionList:questionList,o_letterId:this.o_letterId,showMore:showMore,allQuestionList:allQuestionList}></singleAndMultiple>
                        </el-tab-pane>
-                       <el-tab-pane :label="companyProfileList.headList.isTechBoard==0?'第二次反馈意见':'第二次问询与回复'" :name="tabList[1].letterId">
+                       <el-tab-pane :label="companyProfileList.headList.isTechBoard==0?'第二次反馈意见':'第二次问询'" :name="tabList[1].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[1].questionLabelList,checkbox:feedbackduoxuanList2,answerCount:answerCount2,questionCount:questionCount2,questionList:questionList2,o_letterId:this.o_letterId,showMore:showMore2,allQuestionList:allQuestionList2}></singleAndMultiple>
                        </el-tab-pane>
-                        <el-tab-pane v-if="tabList&&tabList.length>2" :label="companyProfileList.headList.isTechBoard==0?'第三次反馈意见':'第三次问询与回复'" :name="tabList[2].letterId">
+                        <el-tab-pane v-if="tabList&&tabList.length>2" :label="companyProfileList.headList.isTechBoard==0?'第三次反馈意见':'第三次问询'" :name="tabList[2].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[2].questionLabelList,checkbox:feedbackduoxuanList3,answerCount:answerCount3,questionCount:questionCount3,questionList:questionList3,o_letterId:this.o_letterId,showMore:showMore3,allQuestionList:allQuestionList3}></singleAndMultiple>
                        </el-tab-pane>
-                        <el-tab-pane v-if="this.tabList&&this.tabList.length>3" :label="companyProfileList.headList.isTechBoard==0?'第四次反馈意见':'第四次问询与回复'" :name="tabList[3].letterId">
+                        <el-tab-pane v-if="this.tabList&&this.tabList.length>3" :label="companyProfileList.headList.isTechBoard==0?'第四次反馈意见':'第四次问询'" :name="tabList[3].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[3].questionLabelList,checkbox:feedbackduoxuanList4,answerCount:answerCount4,questionCount:questionCount4,questionList:questionList4,o_letterId:this.o_letterId,showMore:showMore4,allQuestionList:allQuestionList4}></singleAndMultiple>
                        </el-tab-pane>
-                        <el-tab-pane v-if="this.tabList&&this.tabList.length>4" :label="companyProfileList.headList.isTechBoard==0?'第五次反馈意见':'第五次问询与回复'" :name="tabList[4].letterId">
+                        <el-tab-pane v-if="this.tabList&&this.tabList.length>4" :label="companyProfileList.headList.isTechBoard==0?'第五次反馈意见':'第五次问询'" :name="tabList[4].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[4].questionLabelList,checkbox:feedbackduoxuanList5,answerCount:answerCount5,questionCount:questionCount5,questionList:questionList5,o_letterId:this.o_letterId,showMore:showMore5,allQuestionList:allQuestionList5}></singleAndMultiple>
+                       </el-tab-pane>
+                        <el-tab-pane v-if="this.tabList&&this.tabList.length>5" :label="companyProfileList.headList.isTechBoard==0?'第六次反馈意见':'第六次问询'" :name="tabList[5].letterId">
+                          <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[5].questionLabelList,checkbox:feedbackduoxuanList6,answerCount:answerCount6,questionCount:questionCount6,questionList:questionList6,o_letterId:this.o_letterId,showMore:showMore6,allQuestionList:allQuestionList6}></singleAndMultiple>
                        </el-tab-pane>
                     </el-tabs>
                 </div>
@@ -63,6 +65,7 @@ export default {
       feedbackduoxuanList3: [],
       feedbackduoxuanList4: [],
       feedbackduoxuanList5: [],
+      feedbackduoxuanList6: [],
       flag: false,
       // 默认展示第一个label页
       activeName: "",
@@ -78,18 +81,21 @@ export default {
       questionList3: [],
       questionList4: [],
       questionList5: [],
+      questionList6: [],
       // // 回复个数
       answerCount: "",
       answerCount2: "",
       answerCount3: "",
       answerCount4: "",
       answerCount5: "",
+      answerCount6: "",
       // // 问题个数
       questionCount: "",
       questionCount2: "",
       questionCount3: "",
       questionCount4: "",
       questionCount5: "",
+      questionCount6: "",
       // 是否展示全部问题
       isShowAll: true,
       // 默认有moreText类
@@ -99,16 +105,19 @@ export default {
       showLength3: 15,
       showLength4: 15,
       showLength5: 15,
+      showLength6: 15,
       allQuestionList: [],
       allQuestionList2: [],
       allQuestionList3: [],
       allQuestionList4: [],
       allQuestionList5: [],
+      allQuestionList6: [],
       showMore: false,
       showMore2: false,
       showMore3: false,
       showMore4: false,
       showMore5: false,
+      showMore6: false,
       // 多选按钮’全部‘
       showAll: false,
       firstClick: true,
@@ -116,17 +125,6 @@ export default {
     };
   },
   created() {
-     // 日志--------------------功能头
-      let param = {
-      client_type:'pc',//手机或pc
-      recordType:'menu',//跳转页面方式:
-      recordModule:'IPO案例',//跳转模块
-      recordTab:"ipo案例详情页",//跳转tab
-      recordTabChild:null,//跳转子集tab
-      popTitle:null//弹窗title
-      }
-      // this.$store.commit('CREATE_MESSAGE',param)
-      // 日志------------------功能尾
     //   请求数据
     this.initTableData();
     this.isShowAll = true;
@@ -264,6 +262,56 @@ export default {
           this.questionList5 = this.allQuestionList5;
         }
       }
+       if(this.tabList.length==6){
+        this.showLength+=15
+        if(this.allQuestionList.length > this.showLength){
+          this.showMore = true;
+          this.questionList = this.allQuestionList.slice(0, this.showLength);
+        }else{
+          this.showMore = false;
+          this.questionList = this.allQuestionList;
+        }
+        this.showLength2+=15
+        if(this.allQuestionList2.length > this.showLength2){
+          this.showMore2 = true;
+          this.questionList2 = this.allQuestionList2.slice(0, this.showLength2);
+        }else{
+          this.showMore2 = false;
+          this.questionList2 = this.allQuestionList2;
+        }
+         this.showLength3+=15
+        if(this.allQuestionList3.length > this.showLength3){
+          this.showMore3 = true;
+          this.questionList3 = this.allQuestionList3.slice(0, this.showLength3);
+        }else{
+          this.showMore3 = false;
+          this.questionList3 = this.allQuestionList3;
+        }
+         this.showLength4+=15
+        if(this.allQuestionList4.length > this.showLength4){
+          this.showMore4 = true;
+          this.questionList4 = this.allQuestionList4.slice(0, this.showLength4);
+        }else{
+          this.showMore4 = false;
+          this.questionList4 = this.allQuestionList4;
+        }
+         this.showLength5+=15
+        if(this.allQuestionList5.length > this.showLength5){
+          this.showMore5 = true;
+          this.questionList5 = this.allQuestionList5.slice(0, this.showLength5);
+        }else{
+          this.showMore5 = false;
+          this.questionList5 = this.allQuestionList5;
+        }
+         this.showLength6+=15
+        if(this.allQuestionList6.length > this.showLength6){
+          this.showMore6 = true;
+          this.questionList6 = this.allQuestionList6.slice(0, this.showLength6);
+        }else{
+          this.showMore6 = false;
+          this.questionList6 = this.allQuestionList6;
+        }
+      }
     },
     // 获取单选按钮数据
     initTableData() {
@@ -272,7 +320,7 @@ export default {
         id: this.caseId
       };
       getSelectFeedbackList(param).then(res => {
-         
+
         if (res.data.result && res.data.result.length > 0) {
           this.o_letterId = res.data.result[0].letterId;
           this.tabList = res.data.result;
@@ -440,6 +488,69 @@ export default {
             } else {
               this.showMore5 = false;
               this.questionList5 = this.allQuestionList5;
+            }
+          }
+           // 第六个tab
+          if (this.tabList && this.tabList.length == 6) {
+            this.allQuestionList = res.data.result[0].questionList;
+            this.allQuestionList2 = res.data.result[1].questionList;
+            this.allQuestionList3 = res.data.result[2].questionList;
+            this.allQuestionList4 = res.data.result[3].questionList;
+            this.allQuestionList5 = res.data.result[4].questionList;
+            this.allQuestionList6 = res.data.result[5].questionList;
+            this.questionCount = res.data.result[0].questionCount;
+            this.questionCount2 = res.data.result[1].questionCount;
+            this.questionCount3 = res.data.result[2].questionCount;
+            this.questionCount4 = res.data.result[3].questionCount;
+            this.questionCount5 = res.data.result[4].questionCount;
+            this.questionCount6 = res.data.result[5].questionCount;
+            this.answerCount = res.data.result[0].answerCount;
+            this.answerCount2 = res.data.result[1].answerCount;
+            this.answerCount3 = res.data.result[2].answerCount;
+            this.answerCount4 = res.data.result[3].answerCount;
+            this.answerCount5 = res.data.result[4].answerCount;
+            this.answerCount6 = res.data.result[5].answerCount;
+            if (this.allQuestionList.length > 15) {
+              this.showMore = true;
+              this.questionList = this.allQuestionList.slice(0, 15);
+            } else {
+              this.showMore = false;
+              this.questionList = this.allQuestionList;
+            }
+            if (this.allQuestionList2.length > 15) {
+              this.showMore2 = true;
+              this.questionList2 = this.allQuestionList2.slice(0, 15);
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = this.allQuestionList2;
+            }
+            if (this.allQuestionList3.length > 15) {
+              this.showMore3 = true;
+              this.questionList3 = this.allQuestionList3.slice(0, 15);
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = this.allQuestionList3;
+            }
+            if (this.allQuestionList4.length > 15) {
+              this.showMore4 = true;
+              this.questionList4 = this.allQuestionList4.slice(0, 15);
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = this.allQuestionList4;
+            }
+            if (this.allQuestionList5.length > 15) {
+              this.showMore5 = true;
+              this.questionList5 = this.allQuestionList5.slice(0, 15);
+            } else {
+              this.showMore5 = false;
+              this.questionList5 = this.allQuestionList5;
+            }
+            if (this.allQuestionList6.length > 15) {
+              this.showMore6 = true;
+              this.questionList6 = this.allQuestionList6.slice(0, 15);
+            } else {
+              this.showMore6 = false;
+              this.questionList6 = this.allQuestionList6;
             }
           }
         }
@@ -793,11 +904,139 @@ export default {
             }
           }
         }
+            // 当有6个tab页时
+        if (this.tabList.length == 6) {
+          if (param.letterId == this.tabList[0].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount;
+              this.answerCount = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList = res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList.length > 15) {
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0, 15);
+              } else {
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            } else {
+              this.showMore = false;
+              this.questionList = [];
+            }
+          }
+          if (param.letterId == this.tabList[1].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList2 = res.data.result[0].questionList;
+              this.questionCount2 = res.data.result[0].questionCount;
+              this.answerCount2 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList2 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList2.length > 15) {
+                this.showMore2 = true;
+                this.questionList2 = this.allQuestionList2.slice(0, 15);
+              } else {
+                this.showMore2 = false;
+                this.questionList2 = this.allQuestionList2;
+              }
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = [];
+            }
+          }
+          if (param.letterId == this.tabList[2].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList3 = res.data.result[0].questionList;
+              this.questionCount3 = res.data.result[0].questionCount;
+              this.answerCount3 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList3 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList3.length > 15) {
+                this.showMore3 = true;
+                this.questionList3 = this.allQuestionList3.slice(0, 15);
+              } else {
+                this.showMore3 = false;
+                this.questionList3 = this.allQuestionList3;
+              }
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = [];
+            }
+          }
+          if (param.letterId == this.tabList[3].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList4 = res.data.result[0].questionList;
+              this.questionCount4 = res.data.result[0].questionCount;
+              this.answerCount4 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList4 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList4.length > 15) {
+                this.showMore4 = true;
+                this.questionList4 = this.allQuestionList4.slice(0, 15);
+              } else {
+                this.showMore4 = false;
+                this.questionList4 = this.allQuestionList4;
+              }
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = [];
+            }
+          }
+          if (param.letterId == this.tabList[4].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList5 = res.data.result[0].questionList;
+              this.questionCount5 = res.data.result[0].questionCount;
+              this.answerCount5 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList5 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList5.length > 15) {
+                this.showMore5 = true;
+                this.questionList5 = this.allQuestionList5.slice(0, 15);
+              } else {
+                this.showMore5 = false;
+                this.questionList5 = this.allQuestionList5;
+              }
+            } else {
+              this.showMore5 = false;
+              this.questionList5 = [];
+            }
+          }
+          if (param.letterId == this.tabList[5].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList6 = res.data.result[0].questionList;
+              this.questionCount6 = res.data.result[0].questionCount;
+              this.answerCount6 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList6 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList6.length > 15) {
+                this.showMore6 = true;
+                this.questionList6 = this.allQuestionList6.slice(0, 15);
+              } else {
+                this.showMore6 = false;
+                this.questionList6 = this.allQuestionList6;
+              }
+            } else {
+              this.showMore6 = false;
+              this.questionList6 = [];
+            }
+          }
+        }
       });
     },
     // 点击二级菜单过滤出问题列表
     initOnlyQuestionData(letterId, firstLabelId, secondLabelId, onlyResponse) {
-     
+
       // 动态传id
       // 将second多选按钮参数用字符串，隔开
       let secondLabel = "";
@@ -816,8 +1055,6 @@ export default {
         onlyResponse: onlyResponse
       };
       getSelectQuestionList(param).then(res => {
-        // debugger;
-        console.log('222',param)
         // 当只有一个tab页时
         if (this.tabList.length == 1) {
           if (res.data.result.length > 0) {
@@ -1083,6 +1320,111 @@ export default {
             } else {
               this.showMore5 = false;
               this.questionList5 = [];
+            }
+          }
+        }
+         // 当有6个tab页时
+        if (this.tabList.length == 6) {
+          if (param.letterId == this.tabList[0].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount;
+              this.answerCount = res.data.result[0].answerCount;
+              if (this.allQuestionList.length > 15) {
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0, 15);
+              } else {
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            } else {
+              this.showMore = false;
+              this.questionList = [];
+            }
+          }
+          if (param.letterId == this.tabList[1].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList2 = res.data.result[0].questionList;
+              this.questionCount2 = res.data.result[0].questionCount;
+              this.answerCount2 = res.data.result[0].answerCount;
+              if (this.allQuestionList2.length > 15) {
+                this.showMore2 = true;
+                this.questionList2 = this.allQuestionList2.slice(0, 15);
+              } else {
+                this.showMore2 = false;
+                this.questionList2 = this.allQuestionList2;
+              }
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = [];
+            }
+          }
+          if (param.letterId == this.tabList[2].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList3 = res.data.result[0].questionList;
+              this.questionCount3 = res.data.result[0].questionCount;
+              this.answerCount3 = res.data.result[0].answerCount;
+              if (this.allQuestionList3.length > 15) {
+                this.showMore3 = true;
+                this.questionList3 = this.allQuestionList3.slice(0, 15);
+              } else {
+                this.showMore3 = false;
+                this.questionList3 = this.allQuestionList3;
+              }
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = [];
+            }
+          }
+          if (param.letterId == this.tabList[3].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList4 = res.data.result[0].questionList;
+              this.questionCount4 = res.data.result[0].questionCount;
+              this.answerCount4 = res.data.result[0].answerCount;
+              if (this.allQuestionList4.length > 15) {
+                this.showMore4 = true;
+                this.questionList4 = this.allQuestionList4.slice(0, 15);
+              } else {
+                this.showMore4 = false;
+                this.questionList4 = this.allQuestionList4;
+              }
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = [];
+            }
+          }
+          if (param.letterId == this.tabList[4].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList5 = res.data.result[0].questionList;
+              this.questionCount5 = res.data.result[0].questionCount;
+              this.answerCount5 = res.data.result[0].answerCount;
+              if (this.allQuestionList5.length > 15) {
+                this.showMore5 = true;
+                this.questionList5 = this.allQuestionList5.slice(0, 15);
+              } else {
+                this.showMore5 = false;
+                this.questionList5 = this.allQuestionList5;
+              }
+            } else {
+              this.showMore5 = false;
+              this.questionList5 = [];
+            }
+          }
+          if (param.letterId == this.tabList[5].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList6 = res.data.result[0].questionList;
+              this.questionCount6 = res.data.result[0].questionCount;
+              this.answerCount6 = res.data.result[0].answerCount;
+              if (this.allQuestionList6.length > 15) {
+                this.showMore6 = true;
+                this.questionList6 = this.allQuestionList6.slice(0, 15);
+              } else {
+                this.showMore6 = false;
+                this.questionList6 = this.allQuestionList6;
+              }
+            } else {
+              this.showMore6 = false;
+              this.questionList6 = [];
             }
           }
         }
