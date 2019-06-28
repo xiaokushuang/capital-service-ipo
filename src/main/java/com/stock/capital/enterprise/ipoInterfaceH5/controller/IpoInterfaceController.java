@@ -1902,6 +1902,7 @@ public class IpoInterfaceController extends BaseController {
         List<Map<String, Object>> commentList = ipoInterfaceService.getCommentList(param);
         List<Map<String, Object>> selectedList = new ArrayList<>();
         SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
+        SimpleDateFormat allFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if (commentList != null && commentList.size() > 0) {
             for (Map<String, Object> map : commentList) {
 //            前端展示名称
@@ -1911,6 +1912,7 @@ public class IpoInterfaceController extends BaseController {
                 map.put("username", map.get("comment_from_user"));
                 map.put("commentText", map.get("comment_content"));
                 map.put("commentTime", comment_time);
+                map.put("comment_time",allFormat.format(map.get("comment_time")));
 //            如果是精选评论
                 if ("1".equals(map.get("is_selected_comment"))) {
                     selectedList.add(map);
@@ -1949,18 +1951,20 @@ public class IpoInterfaceController extends BaseController {
      */
     @RequestMapping(value = "/getOnlyReplay")
     @ResponseBody
-    public JsonResponse getOnlyReplay(String openid,String unionid,String caseid,Long startPage,Long endPage) {
+    public JsonResponse getOnlyReplay(String openid,String unionid,String caseid,Long startPage,Long endPage,String maxCommentTime) {
         Map<String ,Object> param = new HashMap();
         param.put("openid",openid);
         param.put("unionid",unionid);
         param.put("caseid",caseid);
         param.put("startPage",startPage);
         param.put("endPage",endPage);
+        param.put("maxCommentTime",maxCommentTime);
         JsonResponse jsonResponse = new JsonResponse();
 //      查询评论
-        List<Map<String, Object>> commentList = ipoInterfaceService.getCommentList(param);
+        List<Map<String, Object>> commentList = ipoInterfaceService.getOnlyCommentList(param);
         List<Map<String, Object>> selectedList = new ArrayList<>();
         SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
+
         if (commentList != null && commentList.size() > 0) {
             for (Map<String, Object> map : commentList) {
 //            前端展示名称

@@ -829,4 +829,8 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
     public int replayCount(Map<String, Object> param) {
         return ipoWechatPermisionBizMapper.replayCount(param);
     }
+
+    public List<Map<String,Object>> getOnlyCommentList(Map<String, Object> param) {
+        return ipoWechatPermisionBizMapper.getOnlyCommentList(param);
+    }
 }
