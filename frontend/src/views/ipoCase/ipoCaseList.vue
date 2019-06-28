@@ -961,7 +961,7 @@
             }).join(','),//拟上市板块
             marketType: _self.$refs.marketTreeTagRef.getCheckedNodes().map((item) => {
               return item.labelValue
-            }).join(','),//登陆其他资本市场
+            }).join(','),//登录其他资本市场
             greenPassage: _self.$refs.greenTreeTagRef.getCheckedNodes().map((item) => {
               return item.labelValue
             }).join(','),//绿色通道

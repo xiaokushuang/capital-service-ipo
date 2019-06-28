@@ -64,7 +64,7 @@ public class IpoFileUploadController extends BaseController {
     /**
      * 每晚定时把所有科创版数据生成json文件放到华为云上
      */
-    @Scheduled(cron = "0 35 02,19 * * ? ")
+    @Scheduled(cron = "0 30 02,18,20 * * ? ")
     public void ipoDataUpload() {
         //查询科创版所有案例
         logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
@@ -86,7 +86,7 @@ public class IpoFileUploadController extends BaseController {
     /**
      * 每晚定时把所有科创版数据生成json文件放到华为云上
      */
-    @Scheduled(cron = "0 35 02,19 * * ? ")
+    @Scheduled(cron = "0 30 02,18,20 * * ? ")
     public void ipoMarchDataUpload() {
         //查询科创版所有案例
         logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
@@ -104,7 +104,7 @@ public class IpoFileUploadController extends BaseController {
     /**
      * 每晚定时把所有科创版数据生成json文件放到华为云上(登录页的联想)
      */
-    @Scheduled(cron = "0 35 02,19 * * ? ")
+    @Scheduled(cron = "0 30 02,18,20 * * ? ")
     public void ipoCaseDataUpload() {
         //查询科创版所有案例
         logger.info("#######【将IpoH5登录页的联想的数据生成json文件放到华为云的同步开始执行###########");
@@ -139,7 +139,8 @@ public class IpoFileUploadController extends BaseController {
     }
 
     @RequestMapping(value = "/ipoDataUploadAllCom")
-    public void ipoDataUploadAllCom(@RequestParam(value = "id", required = false, defaultValue = "") String id) {
+    public void ipoDataUploadAllCom(@RequestParam(value = "id", required = false, defaultValue = "") String id,
+        @RequestParam(value = "access_token", required = false, defaultValue = "") String access_token) {
         ipoCaseDataUpload();
         ipoMarchDataUpload();
         if (StringUtils.isEmpty(id)) {
