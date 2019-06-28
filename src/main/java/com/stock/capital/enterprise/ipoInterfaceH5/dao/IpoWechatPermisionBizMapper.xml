@@ -55,6 +55,10 @@
     <select id="getCommentList" parameterType="map" resultType="map">
         select * from ipo_comment where case_id = #{caseid} and state = '1' order by comment_time desc limit ${startPage},${endPage}
     </select>
+    <!--下拉获取评论列表-->
+    <select id="getOnlyCommentList" parameterType="map" resultType="map">
+        select * from ipo_comment where case_id = #{caseid} and state = '1' and comment_time &lt; #{maxCommentTime} order by comment_time desc limit ${startPage},${endPage}
+    </select>
     <!--获取评论数-->
     <select id="replayCount" parameterType="map" resultType="int">
         select count(0) from ipo_comment where case_id = #{caseid} and state = '1'

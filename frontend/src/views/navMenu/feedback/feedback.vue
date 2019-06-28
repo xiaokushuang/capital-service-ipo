@@ -13,11 +13,19 @@
                 <div v-if="tabList.length==4&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共四轮反馈：</div>
                 <div v-if="tabList.length==5&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共五轮反馈：</div>
                 <div v-if="tabList.length==6&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共六轮反馈：</div>
+                <div v-if="tabList.length==7&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共七轮反馈：</div>
+                <div v-if="tabList.length==8&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共八轮反馈：</div>
+                <div v-if="tabList.length==9&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共九轮反馈：</div>
+                <div v-if="tabList.length==10&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共十轮反馈：</div>
                 <div v-if="tabList.length==2&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 21;font-style: normal;font-size: 14px;color: #A1A1A1;">共两轮问询：</div>
                 <div v-if="tabList.length==3&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共三轮问询：</div>
                 <div v-if="tabList.length==4&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共四轮问询：</div>
                 <div v-if="tabList.length==5&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共五轮问询：</div>
                 <div v-if="tabList.length==6&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共六轮问询：</div>
+                <div v-if="tabList.length==7&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共七轮问询：</div>
+                <div v-if="tabList.length==8&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共八轮问询：</div>
+                <div v-if="tabList.length==9&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共九轮问询：</div>
+                <div v-if="tabList.length==10&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共十轮问询：</div>
                 <div>
                     <el-tabs v-model="activeName" @tab-click="handleTabClick">
                        <el-tab-pane :label="companyProfileList.headList.isTechBoard==0?'第一次反馈意见':'第一次问询'" :name="tabList[0].letterId">
@@ -37,6 +45,18 @@
                        </el-tab-pane>
                         <el-tab-pane v-if="this.tabList&&this.tabList.length>5" :label="companyProfileList.headList.isTechBoard==0?'第六次反馈意见':'第六次问询'" :name="tabList[5].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[5].questionLabelList,checkbox:feedbackduoxuanList6,answerCount:answerCount6,questionCount:questionCount6,questionList:questionList6,o_letterId:this.o_letterId,showMore:showMore6,allQuestionList:allQuestionList6}></singleAndMultiple>
+                       </el-tab-pane>
+                       <el-tab-pane v-if="this.tabList&&this.tabList.length>6" :label="companyProfileList.headList.isTechBoard==0?'第七次反馈意见':'第七次问询'" :name="tabList[6].letterId">
+                          <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[6].questionLabelList,checkbox:feedbackduoxuanList7,answerCount:answerCount7,questionCount:questionCount7,questionList:questionList7,o_letterId:this.o_letterId,showMore:showMore7,allQuestionList:allQuestionList7}></singleAndMultiple>
+                       </el-tab-pane>
+                        <el-tab-pane v-if="this.tabList&&this.tabList.length>7" :label="companyProfileList.headList.isTechBoard==0?'第八次反馈意见':'第八次问询'" :name="tabList[7].letterId">
+                          <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[7].questionLabelList,checkbox:feedbackduoxuanList8,answerCount:answerCount8,questionCount:questionCount8,questionList:questionList8,o_letterId:this.o_letterId,showMore:showMore8,allQuestionList:allQuestionList8}></singleAndMultiple>
+                       </el-tab-pane>
+                       <el-tab-pane v-if="this.tabList&&this.tabList.length>8" :label="companyProfileList.headList.isTechBoard==0?'第九次反馈意见':'第九次问询'" :name="tabList[8].letterId">
+                          <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[8].questionLabelList,checkbox:feedbackduoxuanList9,answerCount:answerCount9,questionCount:questionCount9,questionList:questionList9,o_letterId:this.o_letterId,showMore:showMore9,allQuestionList:allQuestionList9}></singleAndMultiple>
+                       </el-tab-pane>
+                       <el-tab-pane v-if="this.tabList&&this.tabList.length>9" :label="companyProfileList.headList.isTechBoard==0?'第十次反馈意见':'第十次问询'" :name="tabList[9].letterId">
+                          <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[9].questionLabelList,checkbox:feedbackduoxuanList10,answerCount:answerCount10,questionCount:questionCount10,questionList:questionList10,o_letterId:this.o_letterId,showMore:showMore10,allQuestionList:allQuestionList10}></singleAndMultiple>
                        </el-tab-pane>
                     </el-tabs>
                 </div>
@@ -68,6 +88,10 @@ export default {
       feedbackduoxuanList4: [],
       feedbackduoxuanList5: [],
       feedbackduoxuanList6: [],
+      feedbackduoxuanList7: [],
+      feedbackduoxuanList8: [],
+      feedbackduoxuanList9: [],
+      feedbackduoxuanList10: [],
       flag: false,
       // 默认展示第一个label页
       activeName: "",
@@ -84,6 +108,10 @@ export default {
       questionList4: [],
       questionList5: [],
       questionList6: [],
+      questionList7: [],
+      questionList8: [],
+      questionList9: [],
+      questionList10: [],
       // // 回复个数
       answerCount: "",
       answerCount2: "",
@@ -91,6 +119,10 @@ export default {
       answerCount4: "",
       answerCount5: "",
       answerCount6: "",
+      answerCount7: "",
+      answerCount8: "",
+      answerCount9: "",
+      answerCount10: "",
       // // 问题个数
       questionCount: "",
       questionCount2: "",
@@ -98,6 +130,10 @@ export default {
       questionCount4: "",
       questionCount5: "",
       questionCount6: "",
+      questionCount7: "",
+      questionCount8: "",
+      questionCount9: "",
+      questionCount10: "",
       // 是否展示全部问题
       isShowAll: true,
       // 默认有moreText类
@@ -108,18 +144,30 @@ export default {
       showLength4: 15,
       showLength5: 15,
       showLength6: 15,
+      showLength7: 15,
+      showLength8: 15,
+      showLength9: 15,
+      showLength10: 15,
       allQuestionList: [],
       allQuestionList2: [],
       allQuestionList3: [],
       allQuestionList4: [],
       allQuestionList5: [],
       allQuestionList6: [],
+      allQuestionList7: [],
+      allQuestionList8: [],
+      allQuestionList9: [],
+      allQuestionList10: [],
       showMore: false,
       showMore2: false,
       showMore3: false,
       showMore4: false,
       showMore5: false,
       showMore6: false,
+      showMore7: false,
+      showMore8: false,
+      showMore9: false,
+      showMore10: false,
       // 多选按钮’全部‘
       showAll: false,
       firstClick: true,
@@ -264,7 +312,7 @@ export default {
           this.questionList5 = this.allQuestionList5;
         }
       }
-       if(this.tabList.length==6){
+      if(this.tabList.length==6){
         this.showLength+=15
         if(this.allQuestionList.length > this.showLength){
           this.showMore = true;
@@ -312,6 +360,286 @@ export default {
         }else{
           this.showMore6 = false;
           this.questionList6 = this.allQuestionList6;
+        }
+      }
+      if(this.tabList.length==7){
+        this.showLength+=15
+        if(this.allQuestionList.length > this.showLength){
+          this.showMore = true;
+          this.questionList = this.allQuestionList.slice(0, this.showLength);
+        }else{
+          this.showMore = false;
+          this.questionList = this.allQuestionList;
+        }
+        this.showLength2+=15
+        if(this.allQuestionList2.length > this.showLength2){
+          this.showMore2 = true;
+          this.questionList2 = this.allQuestionList2.slice(0, this.showLength2);
+        }else{
+          this.showMore2 = false;
+          this.questionList2 = this.allQuestionList2;
+        }
+         this.showLength3+=15
+        if(this.allQuestionList3.length > this.showLength3){
+          this.showMore3 = true;
+          this.questionList3 = this.allQuestionList3.slice(0, this.showLength3);
+        }else{
+          this.showMore3 = false;
+          this.questionList3 = this.allQuestionList3;
+        }
+         this.showLength4+=15
+        if(this.allQuestionList4.length > this.showLength4){
+          this.showMore4 = true;
+          this.questionList4 = this.allQuestionList4.slice(0, this.showLength4);
+        }else{
+          this.showMore4 = false;
+          this.questionList4 = this.allQuestionList4;
+        }
+         this.showLength5+=15
+        if(this.allQuestionList5.length > this.showLength5){
+          this.showMore5 = true;
+          this.questionList5 = this.allQuestionList5.slice(0, this.showLength5);
+        }else{
+          this.showMore5 = false;
+          this.questionList5 = this.allQuestionList5;
+        }
+         this.showLength6+=15
+        if(this.allQuestionList6.length > this.showLength6){
+          this.showMore6 = true;
+          this.questionList6 = this.allQuestionList6.slice(0, this.showLength6);
+        }else{
+          this.showMore6 = false;
+          this.questionList6 = this.allQuestionList6;
+        }
+        this.showLength7+=15
+        if(this.allQuestionList7.length > this.showLength7){
+          this.showMore7 = true;
+          this.questionList7 = this.allQuestionList7.slice(0, this.showLength7);
+        }else{
+          this.showMore7 = false;
+          this.questionList7 = this.allQuestionList7;
+        }
+      }
+      if(this.tabList.length==8){
+        this.showLength+=15
+        if(this.allQuestionList.length > this.showLength){
+          this.showMore = true;
+          this.questionList = this.allQuestionList.slice(0, this.showLength);
+        }else{
+          this.showMore = false;
+          this.questionList = this.allQuestionList;
+        }
+        this.showLength2+=15
+        if(this.allQuestionList2.length > this.showLength2){
+          this.showMore2 = true;
+          this.questionList2 = this.allQuestionList2.slice(0, this.showLength2);
+        }else{
+          this.showMore2 = false;
+          this.questionList2 = this.allQuestionList2;
+        }
+         this.showLength3+=15
+        if(this.allQuestionList3.length > this.showLength3){
+          this.showMore3 = true;
+          this.questionList3 = this.allQuestionList3.slice(0, this.showLength3);
+        }else{
+          this.showMore3 = false;
+          this.questionList3 = this.allQuestionList3;
+        }
+         this.showLength4+=15
+        if(this.allQuestionList4.length > this.showLength4){
+          this.showMore4 = true;
+          this.questionList4 = this.allQuestionList4.slice(0, this.showLength4);
+        }else{
+          this.showMore4 = false;
+          this.questionList4 = this.allQuestionList4;
+        }
+         this.showLength5+=15
+        if(this.allQuestionList5.length > this.showLength5){
+          this.showMore5 = true;
+          this.questionList5 = this.allQuestionList5.slice(0, this.showLength5);
+        }else{
+          this.showMore5 = false;
+          this.questionList5 = this.allQuestionList5;
+        }
+         this.showLength6+=15
+        if(this.allQuestionList6.length > this.showLength6){
+          this.showMore6 = true;
+          this.questionList6 = this.allQuestionList6.slice(0, this.showLength6);
+        }else{
+          this.showMore6 = false;
+          this.questionList6 = this.allQuestionList6;
+        }
+        this.showLength7+=15
+        if(this.allQuestionList7.length > this.showLength7){
+          this.showMore7 = true;
+          this.questionList7 = this.allQuestionList7.slice(0, this.showLength7);
+        }else{
+          this.showMore7 = false;
+          this.questionList7 = this.allQuestionList7;
+        }
+        this.showLength8+=15
+        if(this.allQuestionList8.length > this.showLength8){
+          this.showMore8 = true;
+          this.questionList8 = this.allQuestionList8.slice(0, this.showLength8);
+        }else{
+          this.showMore8 = false;
+          this.questionList8 = this.allQuestionList8;
+        }
+      }
+      if(this.tabList.length==9){
+        this.showLength+=15
+        if(this.allQuestionList.length > this.showLength){
+          this.showMore = true;
+          this.questionList = this.allQuestionList.slice(0, this.showLength);
+        }else{
+          this.showMore = false;
+          this.questionList = this.allQuestionList;
+        }
+        this.showLength2+=15
+        if(this.allQuestionList2.length > this.showLength2){
+          this.showMore2 = true;
+          this.questionList2 = this.allQuestionList2.slice(0, this.showLength2);
+        }else{
+          this.showMore2 = false;
+          this.questionList2 = this.allQuestionList2;
+        }
+         this.showLength3+=15
+        if(this.allQuestionList3.length > this.showLength3){
+          this.showMore3 = true;
+          this.questionList3 = this.allQuestionList3.slice(0, this.showLength3);
+        }else{
+          this.showMore3 = false;
+          this.questionList3 = this.allQuestionList3;
+        }
+         this.showLength4+=15
+        if(this.allQuestionList4.length > this.showLength4){
+          this.showMore4 = true;
+          this.questionList4 = this.allQuestionList4.slice(0, this.showLength4);
+        }else{
+          this.showMore4 = false;
+          this.questionList4 = this.allQuestionList4;
+        }
+         this.showLength5+=15
+        if(this.allQuestionList5.length > this.showLength5){
+          this.showMore5 = true;
+          this.questionList5 = this.allQuestionList5.slice(0, this.showLength5);
+        }else{
+          this.showMore5 = false;
+          this.questionList5 = this.allQuestionList5;
+        }
+         this.showLength6+=15
+        if(this.allQuestionList6.length > this.showLength6){
+          this.showMore6 = true;
+          this.questionList6 = this.allQuestionList6.slice(0, this.showLength6);
+        }else{
+          this.showMore6 = false;
+          this.questionList6 = this.allQuestionList6;
+        }
+        this.showLength7+=15
+        if(this.allQuestionList7.length > this.showLength7){
+          this.showMore7 = true;
+          this.questionList7 = this.allQuestionList7.slice(0, this.showLength7);
+        }else{
+          this.showMore7 = false;
+          this.questionList7 = this.allQuestionList7;
+        }
+        this.showLength8+=15
+        if(this.allQuestionList8.length > this.showLength8){
+          this.showMore8 = true;
+          this.questionList8 = this.allQuestionList8.slice(0, this.showLength8);
+        }else{
+          this.showMore8 = false;
+          this.questionList8 = this.allQuestionList8;
+        }
+        this.showLength9+=15
+        if(this.allQuestionList9.length > this.showLength9){
+          this.showMore9 = true;
+          this.questionList9 = this.allQuestionList9.slice(0, this.showLength9);
+        }else{
+          this.showMore9 = false;
+          this.questionList9 = this.allQuestionList9;
+        }
+      }
+      if(this.tabList.length==10){
+        this.showLength+=15
+        if(this.allQuestionList.length > this.showLength){
+          this.showMore = true;
+          this.questionList = this.allQuestionList.slice(0, this.showLength);
+        }else{
+          this.showMore = false;
+          this.questionList = this.allQuestionList;
+        }
+        this.showLength2+=15
+        if(this.allQuestionList2.length > this.showLength2){
+          this.showMore2 = true;
+          this.questionList2 = this.allQuestionList2.slice(0, this.showLength2);
+        }else{
+          this.showMore2 = false;
+          this.questionList2 = this.allQuestionList2;
+        }
+         this.showLength3+=15
+        if(this.allQuestionList3.length > this.showLength3){
+          this.showMore3 = true;
+          this.questionList3 = this.allQuestionList3.slice(0, this.showLength3);
+        }else{
+          this.showMore3 = false;
+          this.questionList3 = this.allQuestionList3;
+        }
+         this.showLength4+=15
+        if(this.allQuestionList4.length > this.showLength4){
+          this.showMore4 = true;
+          this.questionList4 = this.allQuestionList4.slice(0, this.showLength4);
+        }else{
+          this.showMore4 = false;
+          this.questionList4 = this.allQuestionList4;
+        }
+         this.showLength5+=15
+        if(this.allQuestionList5.length > this.showLength5){
+          this.showMore5 = true;
+          this.questionList5 = this.allQuestionList5.slice(0, this.showLength5);
+        }else{
+          this.showMore5 = false;
+          this.questionList5 = this.allQuestionList5;
+        }
+         this.showLength6+=15
+        if(this.allQuestionList6.length > this.showLength6){
+          this.showMore6 = true;
+          this.questionList6 = this.allQuestionList6.slice(0, this.showLength6);
+        }else{
+          this.showMore6 = false;
+          this.questionList6 = this.allQuestionList6;
+        }
+        this.showLength7+=15
+        if(this.allQuestionList7.length > this.showLength7){
+          this.showMore7 = true;
+          this.questionList7 = this.allQuestionList7.slice(0, this.showLength7);
+        }else{
+          this.showMore7 = false;
+          this.questionList7 = this.allQuestionList7;
+        }
+        this.showLength8+=15
+        if(this.allQuestionList8.length > this.showLength8){
+          this.showMore8 = true;
+          this.questionList8 = this.allQuestionList8.slice(0, this.showLength8);
+        }else{
+          this.showMore8 = false;
+          this.questionList8 = this.allQuestionList8;
+        }
+        this.showLength9+=15
+        if(this.allQuestionList9.length > this.showLength9){
+          this.showMore9 = true;
+          this.questionList9 = this.allQuestionList9.slice(0, this.showLength9);
+        }else{
+          this.showMore9 = false;
+          this.questionList9 = this.allQuestionList9;
+        }
+        this.showLength10+=15
+        if(this.allQuestionList10.length > this.showLength10){
+          this.showMore10 = true;
+          this.questionList10 = this.allQuestionList10.slice(0, this.showLength10);
+        }else{
+          this.showMore10 = false;
+          this.questionList10 = this.allQuestionList10;
         }
       }
     },
@@ -553,6 +881,358 @@ export default {
             } else {
               this.showMore6 = false;
               this.questionList6 = this.allQuestionList6;
+            }
+          }
+           // 第七个tab
+          if (this.tabList && this.tabList.length == 7) {
+            this.allQuestionList = res.data.result[0].questionList;
+            this.allQuestionList2 = res.data.result[1].questionList;
+            this.allQuestionList3 = res.data.result[2].questionList;
+            this.allQuestionList4 = res.data.result[3].questionList;
+            this.allQuestionList5 = res.data.result[4].questionList;
+            this.allQuestionList6 = res.data.result[5].questionList;
+            this.allQuestionList7 = res.data.result[6].questionList;
+            this.questionCount = res.data.result[0].questionCount;
+            this.questionCount2 = res.data.result[1].questionCount;
+            this.questionCount3 = res.data.result[2].questionCount;
+            this.questionCount4 = res.data.result[3].questionCount;
+            this.questionCount5 = res.data.result[4].questionCount;
+            this.questionCount6 = res.data.result[5].questionCount;
+            this.questionCount7 = res.data.result[6].questionCount;
+            this.answerCount = res.data.result[0].answerCount;
+            this.answerCount2 = res.data.result[1].answerCount;
+            this.answerCount3 = res.data.result[2].answerCount;
+            this.answerCount4 = res.data.result[3].answerCount;
+            this.answerCount5 = res.data.result[4].answerCount;
+            this.answerCount6 = res.data.result[5].answerCount;
+            this.answerCount7 = res.data.result[6].answerCount;
+            if (this.allQuestionList.length > 15) {
+              this.showMore = true;
+              this.questionList = this.allQuestionList.slice(0, 15);
+            } else {
+              this.showMore = false;
+              this.questionList = this.allQuestionList;
+            }
+            if (this.allQuestionList2.length > 15) {
+              this.showMore2 = true;
+              this.questionList2 = this.allQuestionList2.slice(0, 15);
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = this.allQuestionList2;
+            }
+            if (this.allQuestionList3.length > 15) {
+              this.showMore3 = true;
+              this.questionList3 = this.allQuestionList3.slice(0, 15);
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = this.allQuestionList3;
+            }
+            if (this.allQuestionList4.length > 15) {
+              this.showMore4 = true;
+              this.questionList4 = this.allQuestionList4.slice(0, 15);
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = this.allQuestionList4;
+            }
+            if (this.allQuestionList5.length > 15) {
+              this.showMore5 = true;
+              this.questionList5 = this.allQuestionList5.slice(0, 15);
+            } else {
+              this.showMore5 = false;
+              this.questionList5 = this.allQuestionList5;
+            }
+            if (this.allQuestionList6.length > 15) {
+              this.showMore6 = true;
+              this.questionList6 = this.allQuestionList6.slice(0, 15);
+            } else {
+              this.showMore6 = false;
+              this.questionList6 = this.allQuestionList6;
+            }
+            if (this.allQuestionList7.length > 15) {
+              this.showMore7 = true;
+              this.questionList7 = this.allQuestionList7.slice(0, 15);
+            } else {
+              this.showMore7 = false;
+              this.questionList7 = this.allQuestionList7;
+            }
+          }
+          // 第八个tab
+          if (this.tabList && this.tabList.length == 8) {
+            this.allQuestionList = res.data.result[0].questionList;
+            this.allQuestionList2 = res.data.result[1].questionList;
+            this.allQuestionList3 = res.data.result[2].questionList;
+            this.allQuestionList4 = res.data.result[3].questionList;
+            this.allQuestionList5 = res.data.result[4].questionList;
+            this.allQuestionList6 = res.data.result[5].questionList;
+            this.allQuestionList7 = res.data.result[6].questionList;
+             this.allQuestionList8 = res.data.result[7].questionList;
+            this.questionCount = res.data.result[0].questionCount;
+            this.questionCount2 = res.data.result[1].questionCount;
+            this.questionCount3 = res.data.result[2].questionCount;
+            this.questionCount4 = res.data.result[3].questionCount;
+            this.questionCount5 = res.data.result[4].questionCount;
+            this.questionCount6 = res.data.result[5].questionCount;
+            this.questionCount7 = res.data.result[6].questionCount;
+            this.questionCount8 = res.data.result[7].questionCount;
+            this.answerCount = res.data.result[0].answerCount;
+            this.answerCount2 = res.data.result[1].answerCount;
+            this.answerCount3 = res.data.result[2].answerCount;
+            this.answerCount4 = res.data.result[3].answerCount;
+            this.answerCount5 = res.data.result[4].answerCount;
+            this.answerCount6 = res.data.result[5].answerCount;
+            this.answerCount7 = res.data.result[6].answerCount;
+            this.answerCount8 = res.data.result[7].answerCount;
+            if (this.allQuestionList.length > 15) {
+              this.showMore = true;
+              this.questionList = this.allQuestionList.slice(0, 15);
+            } else {
+              this.showMore = false;
+              this.questionList = this.allQuestionList;
+            }
+            if (this.allQuestionList2.length > 15) {
+              this.showMore2 = true;
+              this.questionList2 = this.allQuestionList2.slice(0, 15);
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = this.allQuestionList2;
+            }
+            if (this.allQuestionList3.length > 15) {
+              this.showMore3 = true;
+              this.questionList3 = this.allQuestionList3.slice(0, 15);
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = this.allQuestionList3;
+            }
+            if (this.allQuestionList4.length > 15) {
+              this.showMore4 = true;
+              this.questionList4 = this.allQuestionList4.slice(0, 15);
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = this.allQuestionList4;
+            }
+            if (this.allQuestionList5.length > 15) {
+              this.showMore5 = true;
+              this.questionList5 = this.allQuestionList5.slice(0, 15);
+            } else {
+              this.showMore5 = false;
+              this.questionList5 = this.allQuestionList5;
+            }
+            if (this.allQuestionList6.length > 15) {
+              this.showMore6 = true;
+              this.questionList6 = this.allQuestionList6.slice(0, 15);
+            } else {
+              this.showMore6 = false;
+              this.questionList6 = this.allQuestionList6;
+            }
+            if (this.allQuestionList7.length > 15) {
+              this.showMore7 = true;
+              this.questionList7 = this.allQuestionList7.slice(0, 15);
+            } else {
+              this.showMore7 = false;
+              this.questionList7 = this.allQuestionList7;
+            }
+            if (this.allQuestionList8.length > 15) {
+              this.showMore8 = true;
+              this.questionList8 = this.allQuestionList8.slice(0, 15);
+            } else {
+              this.showMore8 = false;
+              this.questionList8 = this.allQuestionList8;
+            }
+          }
+            // 第九个tab
+          if (this.tabList && this.tabList.length == 9) {
+            this.allQuestionList = res.data.result[0].questionList;
+            this.allQuestionList2 = res.data.result[1].questionList;
+            this.allQuestionList3 = res.data.result[2].questionList;
+            this.allQuestionList4 = res.data.result[3].questionList;
+            this.allQuestionList5 = res.data.result[4].questionList;
+            this.allQuestionList6 = res.data.result[5].questionList;
+            this.allQuestionList7 = res.data.result[6].questionList;
+            this.allQuestionList8 = res.data.result[7].questionList;
+            this.allQuestionList9 = res.data.result[8].questionList;
+            this.questionCount = res.data.result[0].questionCount;
+            this.questionCount2 = res.data.result[1].questionCount;
+            this.questionCount3 = res.data.result[2].questionCount;
+            this.questionCount4 = res.data.result[3].questionCount;
+            this.questionCount5 = res.data.result[4].questionCount;
+            this.questionCount6 = res.data.result[5].questionCount;
+            this.questionCount7 = res.data.result[6].questionCount;
+            this.questionCount8 = res.data.result[7].questionCount;
+            this.questionCount9 = res.data.result[8].questionCount;
+            this.answerCount = res.data.result[0].answerCount;
+            this.answerCount2 = res.data.result[1].answerCount;
+            this.answerCount3 = res.data.result[2].answerCount;
+            this.answerCount4 = res.data.result[3].answerCount;
+            this.answerCount5 = res.data.result[4].answerCount;
+            this.answerCount6 = res.data.result[5].answerCount;
+            this.answerCount7 = res.data.result[6].answerCount;
+            this.answerCount8 = res.data.result[7].answerCount;
+            this.answerCount9 = res.data.result[8].answerCount;
+            if (this.allQuestionList.length > 15) {
+              this.showMore = true;
+              this.questionList = this.allQuestionList.slice(0, 15);
+            } else {
+              this.showMore = false;
+              this.questionList = this.allQuestionList;
+            }
+            if (this.allQuestionList2.length > 15) {
+              this.showMore2 = true;
+              this.questionList2 = this.allQuestionList2.slice(0, 15);
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = this.allQuestionList2;
+            }
+            if (this.allQuestionList3.length > 15) {
+              this.showMore3 = true;
+              this.questionList3 = this.allQuestionList3.slice(0, 15);
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = this.allQuestionList3;
+            }
+            if (this.allQuestionList4.length > 15) {
+              this.showMore4 = true;
+              this.questionList4 = this.allQuestionList4.slice(0, 15);
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = this.allQuestionList4;
+            }
+            if (this.allQuestionList5.length > 15) {
+              this.showMore5 = true;
+              this.questionList5 = this.allQuestionList5.slice(0, 15);
+            } else {
+              this.showMore5 = false;
+              this.questionList5 = this.allQuestionList5;
+            }
+            if (this.allQuestionList6.length > 15) {
+              this.showMore6 = true;
+              this.questionList6 = this.allQuestionList6.slice(0, 15);
+            } else {
+              this.showMore6 = false;
+              this.questionList6 = this.allQuestionList6;
+            }
+            if (this.allQuestionList7.length > 15) {
+              this.showMore7 = true;
+              this.questionList7 = this.allQuestionList7.slice(0, 15);
+            } else {
+              this.showMore7 = false;
+              this.questionList7 = this.allQuestionList7;
+            }
+            if (this.allQuestionList8.length > 15) {
+              this.showMore8 = true;
+              this.questionList8 = this.allQuestionList8.slice(0, 15);
+            } else {
+              this.showMore8 = false;
+              this.questionList8 = this.allQuestionList8;
+            }
+            if (this.allQuestionList9.length > 15) {
+              this.showMore9 = true;
+              this.questionList9 = this.allQuestionList9.slice(0, 15);
+            } else {
+              this.showMore9 = false;
+              this.questionList9 = this.allQuestionList9;
+            }
+          }
+             // 第十个tab
+          if (this.tabList && this.tabList.length == 10) {
+            this.allQuestionList = res.data.result[0].questionList;
+            this.allQuestionList2 = res.data.result[1].questionList;
+            this.allQuestionList3 = res.data.result[2].questionList;
+            this.allQuestionList4 = res.data.result[3].questionList;
+            this.allQuestionList5 = res.data.result[4].questionList;
+            this.allQuestionList6 = res.data.result[5].questionList;
+            this.allQuestionList7 = res.data.result[6].questionList;
+            this.allQuestionList8 = res.data.result[7].questionList;
+            this.allQuestionList9 = res.data.result[8].questionList;
+            this.allQuestionList10 = res.data.result[9].questionList;
+            this.questionCount = res.data.result[0].questionCount;
+            this.questionCount2 = res.data.result[1].questionCount;
+            this.questionCount3 = res.data.result[2].questionCount;
+            this.questionCount4 = res.data.result[3].questionCount;
+            this.questionCount5 = res.data.result[4].questionCount;
+            this.questionCount6 = res.data.result[5].questionCount;
+            this.questionCount7 = res.data.result[6].questionCount;
+            this.questionCount8 = res.data.result[7].questionCount;
+            this.questionCount9 = res.data.result[8].questionCount;
+            this.questionCount10 = res.data.result[9].questionCount;
+            this.answerCount = res.data.result[0].answerCount;
+            this.answerCount2 = res.data.result[1].answerCount;
+            this.answerCount3 = res.data.result[2].answerCount;
+            this.answerCount4 = res.data.result[3].answerCount;
+            this.answerCount5 = res.data.result[4].answerCount;
+            this.answerCount6 = res.data.result[5].answerCount;
+            this.answerCount7 = res.data.result[6].answerCount;
+            this.answerCount8 = res.data.result[7].answerCount;
+            this.answerCount9 = res.data.result[8].answerCount;
+            this.answerCount10 = res.data.result[9].answerCount;
+            if (this.allQuestionList.length > 15) {
+              this.showMore = true;
+              this.questionList = this.allQuestionList.slice(0, 15);
+            } else {
+              this.showMore = false;
+              this.questionList = this.allQuestionList;
+            }
+            if (this.allQuestionList2.length > 15) {
+              this.showMore2 = true;
+              this.questionList2 = this.allQuestionList2.slice(0, 15);
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = this.allQuestionList2;
+            }
+            if (this.allQuestionList3.length > 15) {
+              this.showMore3 = true;
+              this.questionList3 = this.allQuestionList3.slice(0, 15);
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = this.allQuestionList3;
+            }
+            if (this.allQuestionList4.length > 15) {
+              this.showMore4 = true;
+              this.questionList4 = this.allQuestionList4.slice(0, 15);
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = this.allQuestionList4;
+            }
+            if (this.allQuestionList5.length > 15) {
+              this.showMore5 = true;
+              this.questionList5 = this.allQuestionList5.slice(0, 15);
+            } else {
+              this.showMore5 = false;
+              this.questionList5 = this.allQuestionList5;
+            }
+            if (this.allQuestionList6.length > 15) {
+              this.showMore6 = true;
+              this.questionList6 = this.allQuestionList6.slice(0, 15);
+            } else {
+              this.showMore6 = false;
+              this.questionList6 = this.allQuestionList6;
+            }
+            if (this.allQuestionList7.length > 15) {
+              this.showMore7 = true;
+              this.questionList7 = this.allQuestionList7.slice(0, 15);
+            } else {
+              this.showMore7 = false;
+              this.questionList7 = this.allQuestionList7;
+            }
+            if (this.allQuestionList8.length > 15) {
+              this.showMore8 = true;
+              this.questionList8 = this.allQuestionList8.slice(0, 15);
+            } else {
+              this.showMore8 = false;
+              this.questionList8 = this.allQuestionList8;
+            }
+            if (this.allQuestionList9.length > 15) {
+              this.showMore9 = true;
+              this.questionList9 = this.allQuestionList9.slice(0, 15);
+            } else {
+              this.showMore9 = false;
+              this.questionList9 = this.allQuestionList9;
+            }
+             if (this.allQuestionList10.length > 15) {
+              this.showMore10 = true;
+              this.questionList10 = this.allQuestionList10.slice(0, 15);
+            } else {
+              this.showMore10 = false;
+              this.questionList10 = this.allQuestionList10;
             }
           }
         }
@@ -1034,6 +1714,728 @@ export default {
             }
           }
         }
+            // 当有7个tab页时
+        if (this.tabList.length == 7) {
+          if (param.letterId == this.tabList[0].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount;
+              this.answerCount = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList = res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList.length > 15) {
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0, 15);
+              } else {
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            } else {
+              this.showMore = false;
+              this.questionList = [];
+            }
+          }
+          if (param.letterId == this.tabList[1].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList2 = res.data.result[0].questionList;
+              this.questionCount2 = res.data.result[0].questionCount;
+              this.answerCount2 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList2 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList2.length > 15) {
+                this.showMore2 = true;
+                this.questionList2 = this.allQuestionList2.slice(0, 15);
+              } else {
+                this.showMore2 = false;
+                this.questionList2 = this.allQuestionList2;
+              }
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = [];
+            }
+          }
+          if (param.letterId == this.tabList[2].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList3 = res.data.result[0].questionList;
+              this.questionCount3 = res.data.result[0].questionCount;
+              this.answerCount3 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList3 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList3.length > 15) {
+                this.showMore3 = true;
+                this.questionList3 = this.allQuestionList3.slice(0, 15);
+              } else {
+                this.showMore3 = false;
+                this.questionList3 = this.allQuestionList3;
+              }
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = [];
+            }
+          }
+          if (param.letterId == this.tabList[3].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList4 = res.data.result[0].questionList;
+              this.questionCount4 = res.data.result[0].questionCount;
+              this.answerCount4 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList4 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList4.length > 15) {
+                this.showMore4 = true;
+                this.questionList4 = this.allQuestionList4.slice(0, 15);
+              } else {
+                this.showMore4 = false;
+                this.questionList4 = this.allQuestionList4;
+              }
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = [];
+            }
+          }
+          if (param.letterId == this.tabList[4].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList5 = res.data.result[0].questionList;
+              this.questionCount5 = res.data.result[0].questionCount;
+              this.answerCount5 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList5 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList5.length > 15) {
+                this.showMore5 = true;
+                this.questionList5 = this.allQuestionList5.slice(0, 15);
+              } else {
+                this.showMore5 = false;
+                this.questionList5 = this.allQuestionList5;
+              }
+            } else {
+              this.showMore5 = false;
+              this.questionList5 = [];
+            }
+          }
+          if (param.letterId == this.tabList[5].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList6 = res.data.result[0].questionList;
+              this.questionCount6 = res.data.result[0].questionCount;
+              this.answerCount6 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList6 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList6.length > 15) {
+                this.showMore6 = true;
+                this.questionList6 = this.allQuestionList6.slice(0, 15);
+              } else {
+                this.showMore6 = false;
+                this.questionList6 = this.allQuestionList6;
+              }
+            } else {
+              this.showMore6 = false;
+              this.questionList6 = [];
+            }
+          }
+          if (param.letterId == this.tabList[6].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList7 = res.data.result[0].questionList;
+              this.questionCount7 = res.data.result[0].questionCount;
+              this.answerCount7 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList7 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList7.length > 15) {
+                this.showMore7 = true;
+                this.questionList7 = this.allQuestionList7.slice(0, 15);
+              } else {
+                this.showMore7 = false;
+                this.questionList7 = this.allQuestionList7;
+              }
+            } else {
+              this.showMore7 = false;
+              this.questionList7 = [];
+            }
+          }
+        }
+           // 当有8个tab页时
+        if (this.tabList.length == 8) {
+          if (param.letterId == this.tabList[0].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount;
+              this.answerCount = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList = res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList.length > 15) {
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0, 15);
+              } else {
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            } else {
+              this.showMore = false;
+              this.questionList = [];
+            }
+          }
+          if (param.letterId == this.tabList[1].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList2 = res.data.result[0].questionList;
+              this.questionCount2 = res.data.result[0].questionCount;
+              this.answerCount2 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList2 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList2.length > 15) {
+                this.showMore2 = true;
+                this.questionList2 = this.allQuestionList2.slice(0, 15);
+              } else {
+                this.showMore2 = false;
+                this.questionList2 = this.allQuestionList2;
+              }
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = [];
+            }
+          }
+          if (param.letterId == this.tabList[2].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList3 = res.data.result[0].questionList;
+              this.questionCount3 = res.data.result[0].questionCount;
+              this.answerCount3 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList3 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList3.length > 15) {
+                this.showMore3 = true;
+                this.questionList3 = this.allQuestionList3.slice(0, 15);
+              } else {
+                this.showMore3 = false;
+                this.questionList3 = this.allQuestionList3;
+              }
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = [];
+            }
+          }
+          if (param.letterId == this.tabList[3].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList4 = res.data.result[0].questionList;
+              this.questionCount4 = res.data.result[0].questionCount;
+              this.answerCount4 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList4 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList4.length > 15) {
+                this.showMore4 = true;
+                this.questionList4 = this.allQuestionList4.slice(0, 15);
+              } else {
+                this.showMore4 = false;
+                this.questionList4 = this.allQuestionList4;
+              }
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = [];
+            }
+          }
+          if (param.letterId == this.tabList[4].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList5 = res.data.result[0].questionList;
+              this.questionCount5 = res.data.result[0].questionCount;
+              this.answerCount5 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList5 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList5.length > 15) {
+                this.showMore5 = true;
+                this.questionList5 = this.allQuestionList5.slice(0, 15);
+              } else {
+                this.showMore5 = false;
+                this.questionList5 = this.allQuestionList5;
+              }
+            } else {
+              this.showMore5 = false;
+              this.questionList5 = [];
+            }
+          }
+          if (param.letterId == this.tabList[5].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList6 = res.data.result[0].questionList;
+              this.questionCount6 = res.data.result[0].questionCount;
+              this.answerCount6 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList6 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList6.length > 15) {
+                this.showMore6 = true;
+                this.questionList6 = this.allQuestionList6.slice(0, 15);
+              } else {
+                this.showMore6 = false;
+                this.questionList6 = this.allQuestionList6;
+              }
+            } else {
+              this.showMore6 = false;
+              this.questionList6 = [];
+            }
+          }
+          if (param.letterId == this.tabList[6].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList7 = res.data.result[0].questionList;
+              this.questionCount7 = res.data.result[0].questionCount;
+              this.answerCount7 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList7 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList7.length > 15) {
+                this.showMore7 = true;
+                this.questionList7 = this.allQuestionList7.slice(0, 15);
+              } else {
+                this.showMore7 = false;
+                this.questionList7 = this.allQuestionList7;
+              }
+            } else {
+              this.showMore7 = false;
+              this.questionList7 = [];
+            }
+          }
+          if (param.letterId == this.tabList[7].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList8 = res.data.result[0].questionList;
+              this.questionCount8 = res.data.result[0].questionCount;
+              this.answerCount8 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList8 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList8.length > 15) {
+                this.showMore8 = true;
+                this.questionList8 = this.allQuestionList8.slice(0, 15);
+              } else {
+                this.showMore8 = false;
+                this.questionList8 = this.allQuestionList8;
+              }
+            } else {
+              this.showMore8 = false;
+              this.questionList8 = [];
+            }
+          }
+        }
+         // 当有9个tab页时
+        if (this.tabList.length == 9) {
+          if (param.letterId == this.tabList[0].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount;
+              this.answerCount = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList = res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList.length > 15) {
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0, 15);
+              } else {
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            } else {
+              this.showMore = false;
+              this.questionList = [];
+            }
+          }
+          if (param.letterId == this.tabList[1].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList2 = res.data.result[0].questionList;
+              this.questionCount2 = res.data.result[0].questionCount;
+              this.answerCount2 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList2 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList2.length > 15) {
+                this.showMore2 = true;
+                this.questionList2 = this.allQuestionList2.slice(0, 15);
+              } else {
+                this.showMore2 = false;
+                this.questionList2 = this.allQuestionList2;
+              }
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = [];
+            }
+          }
+          if (param.letterId == this.tabList[2].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList3 = res.data.result[0].questionList;
+              this.questionCount3 = res.data.result[0].questionCount;
+              this.answerCount3 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList3 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList3.length > 15) {
+                this.showMore3 = true;
+                this.questionList3 = this.allQuestionList3.slice(0, 15);
+              } else {
+                this.showMore3 = false;
+                this.questionList3 = this.allQuestionList3;
+              }
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = [];
+            }
+          }
+          if (param.letterId == this.tabList[3].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList4 = res.data.result[0].questionList;
+              this.questionCount4 = res.data.result[0].questionCount;
+              this.answerCount4 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList4 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList4.length > 15) {
+                this.showMore4 = true;
+                this.questionList4 = this.allQuestionList4.slice(0, 15);
+              } else {
+                this.showMore4 = false;
+                this.questionList4 = this.allQuestionList4;
+              }
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = [];
+            }
+          }
+          if (param.letterId == this.tabList[4].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList5 = res.data.result[0].questionList;
+              this.questionCount5 = res.data.result[0].questionCount;
+              this.answerCount5 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList5 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList5.length > 15) {
+                this.showMore5 = true;
+                this.questionList5 = this.allQuestionList5.slice(0, 15);
+              } else {
+                this.showMore5 = false;
+                this.questionList5 = this.allQuestionList5;
+              }
+            } else {
+              this.showMore5 = false;
+              this.questionList5 = [];
+            }
+          }
+          if (param.letterId == this.tabList[5].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList6 = res.data.result[0].questionList;
+              this.questionCount6 = res.data.result[0].questionCount;
+              this.answerCount6 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList6 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList6.length > 15) {
+                this.showMore6 = true;
+                this.questionList6 = this.allQuestionList6.slice(0, 15);
+              } else {
+                this.showMore6 = false;
+                this.questionList6 = this.allQuestionList6;
+              }
+            } else {
+              this.showMore6 = false;
+              this.questionList6 = [];
+            }
+          }
+          if (param.letterId == this.tabList[6].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList7 = res.data.result[0].questionList;
+              this.questionCount7 = res.data.result[0].questionCount;
+              this.answerCount7 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList7 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList7.length > 15) {
+                this.showMore7 = true;
+                this.questionList7 = this.allQuestionList7.slice(0, 15);
+              } else {
+                this.showMore7 = false;
+                this.questionList7 = this.allQuestionList7;
+              }
+            } else {
+              this.showMore7 = false;
+              this.questionList7 = [];
+            }
+          }
+          if (param.letterId == this.tabList[7].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList8 = res.data.result[0].questionList;
+              this.questionCount8 = res.data.result[0].questionCount;
+              this.answerCount8 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList8 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList8.length > 15) {
+                this.showMore8 = true;
+                this.questionList8 = this.allQuestionList8.slice(0, 15);
+              } else {
+                this.showMore8 = false;
+                this.questionList8 = this.allQuestionList8;
+              }
+            } else {
+              this.showMore8 = false;
+              this.questionList8 = [];
+            }
+          }
+          if (param.letterId == this.tabList[8].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList9 = res.data.result[0].questionList;
+              this.questionCount9 = res.data.result[0].questionCount;
+              this.answerCount9 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList9 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList9.length > 15) {
+                this.showMore9 = true;
+                this.questionList9 = this.allQuestionList9.slice(0, 15);
+              } else {
+                this.showMore9 = false;
+                this.questionList9 = this.allQuestionList9;
+              }
+            } else {
+              this.showMore9 = false;
+              this.questionList9 = [];
+            }
+          }
+        }
+         // 当有10个tab页时
+        if (this.tabList.length == 10) {
+          if (param.letterId == this.tabList[0].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount;
+              this.answerCount = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList = res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList.length > 15) {
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0, 15);
+              } else {
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            } else {
+              this.showMore = false;
+              this.questionList = [];
+            }
+          }
+          if (param.letterId == this.tabList[1].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList2 = res.data.result[0].questionList;
+              this.questionCount2 = res.data.result[0].questionCount;
+              this.answerCount2 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList2 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList2.length > 15) {
+                this.showMore2 = true;
+                this.questionList2 = this.allQuestionList2.slice(0, 15);
+              } else {
+                this.showMore2 = false;
+                this.questionList2 = this.allQuestionList2;
+              }
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = [];
+            }
+          }
+          if (param.letterId == this.tabList[2].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList3 = res.data.result[0].questionList;
+              this.questionCount3 = res.data.result[0].questionCount;
+              this.answerCount3 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList3 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList3.length > 15) {
+                this.showMore3 = true;
+                this.questionList3 = this.allQuestionList3.slice(0, 15);
+              } else {
+                this.showMore3 = false;
+                this.questionList3 = this.allQuestionList3;
+              }
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = [];
+            }
+          }
+          if (param.letterId == this.tabList[3].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList4 = res.data.result[0].questionList;
+              this.questionCount4 = res.data.result[0].questionCount;
+              this.answerCount4 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList4 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList4.length > 15) {
+                this.showMore4 = true;
+                this.questionList4 = this.allQuestionList4.slice(0, 15);
+              } else {
+                this.showMore4 = false;
+                this.questionList4 = this.allQuestionList4;
+              }
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = [];
+            }
+          }
+          if (param.letterId == this.tabList[4].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList5 = res.data.result[0].questionList;
+              this.questionCount5 = res.data.result[0].questionCount;
+              this.answerCount5 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList5 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList5.length > 15) {
+                this.showMore5 = true;
+                this.questionList5 = this.allQuestionList5.slice(0, 15);
+              } else {
+                this.showMore5 = false;
+                this.questionList5 = this.allQuestionList5;
+              }
+            } else {
+              this.showMore5 = false;
+              this.questionList5 = [];
+            }
+          }
+          if (param.letterId == this.tabList[5].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList6 = res.data.result[0].questionList;
+              this.questionCount6 = res.data.result[0].questionCount;
+              this.answerCount6 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList6 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList6.length > 15) {
+                this.showMore6 = true;
+                this.questionList6 = this.allQuestionList6.slice(0, 15);
+              } else {
+                this.showMore6 = false;
+                this.questionList6 = this.allQuestionList6;
+              }
+            } else {
+              this.showMore6 = false;
+              this.questionList6 = [];
+            }
+          }
+          if (param.letterId == this.tabList[6].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList7 = res.data.result[0].questionList;
+              this.questionCount7 = res.data.result[0].questionCount;
+              this.answerCount7 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList7 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList7.length > 15) {
+                this.showMore7 = true;
+                this.questionList7 = this.allQuestionList7.slice(0, 15);
+              } else {
+                this.showMore7 = false;
+                this.questionList7 = this.allQuestionList7;
+              }
+            } else {
+              this.showMore7 = false;
+              this.questionList7 = [];
+            }
+          }
+          if (param.letterId == this.tabList[7].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList8 = res.data.result[0].questionList;
+              this.questionCount8 = res.data.result[0].questionCount;
+              this.answerCount8 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList8 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList8.length > 15) {
+                this.showMore8 = true;
+                this.questionList8 = this.allQuestionList8.slice(0, 15);
+              } else {
+                this.showMore8 = false;
+                this.questionList8 = this.allQuestionList8;
+              }
+            } else {
+              this.showMore8 = false;
+              this.questionList8 = [];
+            }
+          }
+          if (param.letterId == this.tabList[8].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList9 = res.data.result[0].questionList;
+              this.questionCount9 = res.data.result[0].questionCount;
+              this.answerCount9 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList9 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList9.length > 15) {
+                this.showMore9 = true;
+                this.questionList9 = this.allQuestionList9.slice(0, 15);
+              } else {
+                this.showMore9 = false;
+                this.questionList9 = this.allQuestionList9;
+              }
+            } else {
+              this.showMore9 = false;
+              this.questionList9 = [];
+            }
+          }
+          if (param.letterId == this.tabList[9].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList10 = res.data.result[0].questionList;
+              this.questionCount10 = res.data.result[0].questionCount;
+              this.answerCount10 = res.data.result[0].answerCount;
+              if (ifReset != "0") {
+                this.feedbackduoxuanList10 =
+                  res.data.result[0].questionLabelList;
+              }
+              if (this.allQuestionList10.length > 15) {
+                this.showMore10 = true;
+                this.questionList10 = this.allQuestionList10.slice(0, 15);
+              } else {
+                this.showMore10 = false;
+                this.questionList10 = this.allQuestionList10;
+              }
+            } else {
+              this.showMore10 = false;
+              this.questionList10 = [];
+            }
+          }
+        }
       });
     },
     // 点击二级菜单过滤出问题列表
@@ -1427,6 +2829,596 @@ export default {
             } else {
               this.showMore6 = false;
               this.questionList6 = [];
+            }
+          }
+        }
+         // 当有7个tab页时
+        if (this.tabList.length == 7) {
+          if (param.letterId == this.tabList[0].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount;
+              this.answerCount = res.data.result[0].answerCount;
+              if (this.allQuestionList.length > 15) {
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0, 15);
+              } else {
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            } else {
+              this.showMore = false;
+              this.questionList = [];
+            }
+          }
+          if (param.letterId == this.tabList[1].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList2 = res.data.result[0].questionList;
+              this.questionCount2 = res.data.result[0].questionCount;
+              this.answerCount2 = res.data.result[0].answerCount;
+              if (this.allQuestionList2.length > 15) {
+                this.showMore2 = true;
+                this.questionList2 = this.allQuestionList2.slice(0, 15);
+              } else {
+                this.showMore2 = false;
+                this.questionList2 = this.allQuestionList2;
+              }
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = [];
+            }
+          }
+          if (param.letterId == this.tabList[2].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList3 = res.data.result[0].questionList;
+              this.questionCount3 = res.data.result[0].questionCount;
+              this.answerCount3 = res.data.result[0].answerCount;
+              if (this.allQuestionList3.length > 15) {
+                this.showMore3 = true;
+                this.questionList3 = this.allQuestionList3.slice(0, 15);
+              } else {
+                this.showMore3 = false;
+                this.questionList3 = this.allQuestionList3;
+              }
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = [];
+            }
+          }
+          if (param.letterId == this.tabList[3].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList4 = res.data.result[0].questionList;
+              this.questionCount4 = res.data.result[0].questionCount;
+              this.answerCount4 = res.data.result[0].answerCount;
+              if (this.allQuestionList4.length > 15) {
+                this.showMore4 = true;
+                this.questionList4 = this.allQuestionList4.slice(0, 15);
+              } else {
+                this.showMore4 = false;
+                this.questionList4 = this.allQuestionList4;
+              }
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = [];
+            }
+          }
+          if (param.letterId == this.tabList[4].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList5 = res.data.result[0].questionList;
+              this.questionCount5 = res.data.result[0].questionCount;
+              this.answerCount5 = res.data.result[0].answerCount;
+              if (this.allQuestionList5.length > 15) {
+                this.showMore5 = true;
+                this.questionList5 = this.allQuestionList5.slice(0, 15);
+              } else {
+                this.showMore5 = false;
+                this.questionList5 = this.allQuestionList5;
+              }
+            } else {
+              this.showMore5 = false;
+              this.questionList5 = [];
+            }
+          }
+          if (param.letterId == this.tabList[5].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList6 = res.data.result[0].questionList;
+              this.questionCount6 = res.data.result[0].questionCount;
+              this.answerCount6 = res.data.result[0].answerCount;
+              if (this.allQuestionList6.length > 15) {
+                this.showMore6 = true;
+                this.questionList6 = this.allQuestionList6.slice(0, 15);
+              } else {
+                this.showMore6 = false;
+                this.questionList6 = this.allQuestionList6;
+              }
+            } else {
+              this.showMore6 = false;
+              this.questionList6 = [];
+            }
+          }
+          if (param.letterId == this.tabList[6].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList7 = res.data.result[0].questionList;
+              this.questionCount7 = res.data.result[0].questionCount;
+              this.answerCount7 = res.data.result[0].answerCount;
+              if (this.allQuestionList7.length > 15) {
+                this.showMore7 = true;
+                this.questionList7 = this.allQuestionList7.slice(0, 15);
+              } else {
+                this.showMore7 = false;
+                this.questionList7 = this.allQuestionList7;
+              }
+            } else {
+              this.showMore7 = false;
+              this.questionList7 = [];
+            }
+          }
+        }
+        // 当有8个tab页时
+        if (this.tabList.length == 8) {
+          if (param.letterId == this.tabList[0].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount;
+              this.answerCount = res.data.result[0].answerCount;
+              if (this.allQuestionList.length > 15) {
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0, 15);
+              } else {
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            } else {
+              this.showMore = false;
+              this.questionList = [];
+            }
+          }
+          if (param.letterId == this.tabList[1].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList2 = res.data.result[0].questionList;
+              this.questionCount2 = res.data.result[0].questionCount;
+              this.answerCount2 = res.data.result[0].answerCount;
+              if (this.allQuestionList2.length > 15) {
+                this.showMore2 = true;
+                this.questionList2 = this.allQuestionList2.slice(0, 15);
+              } else {
+                this.showMore2 = false;
+                this.questionList2 = this.allQuestionList2;
+              }
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = [];
+            }
+          }
+          if (param.letterId == this.tabList[2].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList3 = res.data.result[0].questionList;
+              this.questionCount3 = res.data.result[0].questionCount;
+              this.answerCount3 = res.data.result[0].answerCount;
+              if (this.allQuestionList3.length > 15) {
+                this.showMore3 = true;
+                this.questionList3 = this.allQuestionList3.slice(0, 15);
+              } else {
+                this.showMore3 = false;
+                this.questionList3 = this.allQuestionList3;
+              }
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = [];
+            }
+          }
+          if (param.letterId == this.tabList[3].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList4 = res.data.result[0].questionList;
+              this.questionCount4 = res.data.result[0].questionCount;
+              this.answerCount4 = res.data.result[0].answerCount;
+              if (this.allQuestionList4.length > 15) {
+                this.showMore4 = true;
+                this.questionList4 = this.allQuestionList4.slice(0, 15);
+              } else {
+                this.showMore4 = false;
+                this.questionList4 = this.allQuestionList4;
+              }
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = [];
+            }
+          }
+          if (param.letterId == this.tabList[4].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList5 = res.data.result[0].questionList;
+              this.questionCount5 = res.data.result[0].questionCount;
+              this.answerCount5 = res.data.result[0].answerCount;
+              if (this.allQuestionList5.length > 15) {
+                this.showMore5 = true;
+                this.questionList5 = this.allQuestionList5.slice(0, 15);
+              } else {
+                this.showMore5 = false;
+                this.questionList5 = this.allQuestionList5;
+              }
+            } else {
+              this.showMore5 = false;
+              this.questionList5 = [];
+            }
+          }
+          if (param.letterId == this.tabList[5].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList6 = res.data.result[0].questionList;
+              this.questionCount6 = res.data.result[0].questionCount;
+              this.answerCount6 = res.data.result[0].answerCount;
+              if (this.allQuestionList6.length > 15) {
+                this.showMore6 = true;
+                this.questionList6 = this.allQuestionList6.slice(0, 15);
+              } else {
+                this.showMore6 = false;
+                this.questionList6 = this.allQuestionList6;
+              }
+            } else {
+              this.showMore6 = false;
+              this.questionList6 = [];
+            }
+          }
+          if (param.letterId == this.tabList[6].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList7 = res.data.result[0].questionList;
+              this.questionCount7 = res.data.result[0].questionCount;
+              this.answerCount7 = res.data.result[0].answerCount;
+              if (this.allQuestionList7.length > 15) {
+                this.showMore7 = true;
+                this.questionList7 = this.allQuestionList7.slice(0, 15);
+              } else {
+                this.showMore7 = false;
+                this.questionList7 = this.allQuestionList7;
+              }
+            } else {
+              this.showMore7 = false;
+              this.questionList7 = [];
+            }
+          }
+          if (param.letterId == this.tabList[7].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList8 = res.data.result[0].questionList;
+              this.questionCount8 = res.data.result[0].questionCount;
+              this.answerCount8 = res.data.result[0].answerCount;
+              if (this.allQuestionList8.length > 15) {
+                this.showMore8 = true;
+                this.questionList8 = this.allQuestionList8.slice(0, 15);
+              } else {
+                this.showMore8 = false;
+                this.questionList8 = this.allQuestionList8;
+              }
+            } else {
+              this.showMore8 = false;
+              this.questionList8 = [];
+            }
+          }
+        }
+        // 当有9个tab页时
+        if (this.tabList.length == 9) {
+          if (param.letterId == this.tabList[0].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount;
+              this.answerCount = res.data.result[0].answerCount;
+              if (this.allQuestionList.length > 15) {
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0, 15);
+              } else {
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            } else {
+              this.showMore = false;
+              this.questionList = [];
+            }
+          }
+          if (param.letterId == this.tabList[1].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList2 = res.data.result[0].questionList;
+              this.questionCount2 = res.data.result[0].questionCount;
+              this.answerCount2 = res.data.result[0].answerCount;
+              if (this.allQuestionList2.length > 15) {
+                this.showMore2 = true;
+                this.questionList2 = this.allQuestionList2.slice(0, 15);
+              } else {
+                this.showMore2 = false;
+                this.questionList2 = this.allQuestionList2;
+              }
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = [];
+            }
+          }
+          if (param.letterId == this.tabList[2].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList3 = res.data.result[0].questionList;
+              this.questionCount3 = res.data.result[0].questionCount;
+              this.answerCount3 = res.data.result[0].answerCount;
+              if (this.allQuestionList3.length > 15) {
+                this.showMore3 = true;
+                this.questionList3 = this.allQuestionList3.slice(0, 15);
+              } else {
+                this.showMore3 = false;
+                this.questionList3 = this.allQuestionList3;
+              }
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = [];
+            }
+          }
+          if (param.letterId == this.tabList[3].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList4 = res.data.result[0].questionList;
+              this.questionCount4 = res.data.result[0].questionCount;
+              this.answerCount4 = res.data.result[0].answerCount;
+              if (this.allQuestionList4.length > 15) {
+                this.showMore4 = true;
+                this.questionList4 = this.allQuestionList4.slice(0, 15);
+              } else {
+                this.showMore4 = false;
+                this.questionList4 = this.allQuestionList4;
+              }
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = [];
+            }
+          }
+          if (param.letterId == this.tabList[4].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList5 = res.data.result[0].questionList;
+              this.questionCount5 = res.data.result[0].questionCount;
+              this.answerCount5 = res.data.result[0].answerCount;
+              if (this.allQuestionList5.length > 15) {
+                this.showMore5 = true;
+                this.questionList5 = this.allQuestionList5.slice(0, 15);
+              } else {
+                this.showMore5 = false;
+                this.questionList5 = this.allQuestionList5;
+              }
+            } else {
+              this.showMore5 = false;
+              this.questionList5 = [];
+            }
+          }
+          if (param.letterId == this.tabList[5].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList6 = res.data.result[0].questionList;
+              this.questionCount6 = res.data.result[0].questionCount;
+              this.answerCount6 = res.data.result[0].answerCount;
+              if (this.allQuestionList6.length > 15) {
+                this.showMore6 = true;
+                this.questionList6 = this.allQuestionList6.slice(0, 15);
+              } else {
+                this.showMore6 = false;
+                this.questionList6 = this.allQuestionList6;
+              }
+            } else {
+              this.showMore6 = false;
+              this.questionList6 = [];
+            }
+          }
+          if (param.letterId == this.tabList[6].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList7 = res.data.result[0].questionList;
+              this.questionCount7 = res.data.result[0].questionCount;
+              this.answerCount7 = res.data.result[0].answerCount;
+              if (this.allQuestionList7.length > 15) {
+                this.showMore7 = true;
+                this.questionList7 = this.allQuestionList7.slice(0, 15);
+              } else {
+                this.showMore7 = false;
+                this.questionList7 = this.allQuestionList7;
+              }
+            } else {
+              this.showMore7 = false;
+              this.questionList7 = [];
+            }
+          }
+          if (param.letterId == this.tabList[7].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList8 = res.data.result[0].questionList;
+              this.questionCount8 = res.data.result[0].questionCount;
+              this.answerCount8 = res.data.result[0].answerCount;
+              if (this.allQuestionList8.length > 15) {
+                this.showMore8 = true;
+                this.questionList8 = this.allQuestionList8.slice(0, 15);
+              } else {
+                this.showMore8 = false;
+                this.questionList8 = this.allQuestionList8;
+              }
+            } else {
+              this.showMore8 = false;
+              this.questionList8 = [];
+            }
+          }
+          if (param.letterId == this.tabList[8].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList9 = res.data.result[0].questionList;
+              this.questionCount9 = res.data.result[0].questionCount;
+              this.answerCount9 = res.data.result[0].answerCount;
+              if (this.allQuestionList9.length > 15) {
+                this.showMore9 = true;
+                this.questionList9 = this.allQuestionList9.slice(0, 15);
+              } else {
+                this.showMore9 = false;
+                this.questionList9 = this.allQuestionList9;
+              }
+            } else {
+              this.showMore9 = false;
+              this.questionList9 = [];
+            }
+          }
+        }
+        // 当有10个tab页时
+        if (this.tabList.length == 10) {
+          if (param.letterId == this.tabList[0].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList = res.data.result[0].questionList;
+              this.questionCount = res.data.result[0].questionCount;
+              this.answerCount = res.data.result[0].answerCount;
+              if (this.allQuestionList.length > 15) {
+                this.showMore = true;
+                this.questionList = this.allQuestionList.slice(0, 15);
+              } else {
+                this.showMore = false;
+                this.questionList = this.allQuestionList;
+              }
+            } else {
+              this.showMore = false;
+              this.questionList = [];
+            }
+          }
+          if (param.letterId == this.tabList[1].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList2 = res.data.result[0].questionList;
+              this.questionCount2 = res.data.result[0].questionCount;
+              this.answerCount2 = res.data.result[0].answerCount;
+              if (this.allQuestionList2.length > 15) {
+                this.showMore2 = true;
+                this.questionList2 = this.allQuestionList2.slice(0, 15);
+              } else {
+                this.showMore2 = false;
+                this.questionList2 = this.allQuestionList2;
+              }
+            } else {
+              this.showMore2 = false;
+              this.questionList2 = [];
+            }
+          }
+          if (param.letterId == this.tabList[2].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList3 = res.data.result[0].questionList;
+              this.questionCount3 = res.data.result[0].questionCount;
+              this.answerCount3 = res.data.result[0].answerCount;
+              if (this.allQuestionList3.length > 15) {
+                this.showMore3 = true;
+                this.questionList3 = this.allQuestionList3.slice(0, 15);
+              } else {
+                this.showMore3 = false;
+                this.questionList3 = this.allQuestionList3;
+              }
+            } else {
+              this.showMore3 = false;
+              this.questionList3 = [];
+            }
+          }
+          if (param.letterId == this.tabList[3].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList4 = res.data.result[0].questionList;
+              this.questionCount4 = res.data.result[0].questionCount;
+              this.answerCount4 = res.data.result[0].answerCount;
+              if (this.allQuestionList4.length > 15) {
+                this.showMore4 = true;
+                this.questionList4 = this.allQuestionList4.slice(0, 15);
+              } else {
+                this.showMore4 = false;
+                this.questionList4 = this.allQuestionList4;
+              }
+            } else {
+              this.showMore4 = false;
+              this.questionList4 = [];
+            }
+          }
+          if (param.letterId == this.tabList[4].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList5 = res.data.result[0].questionList;
+              this.questionCount5 = res.data.result[0].questionCount;
+              this.answerCount5 = res.data.result[0].answerCount;
+              if (this.allQuestionList5.length > 15) {
+                this.showMore5 = true;
+                this.questionList5 = this.allQuestionList5.slice(0, 15);
+              } else {
+                this.showMore5 = false;
+                this.questionList5 = this.allQuestionList5;
+              }
+            } else {
+              this.showMore5 = false;
+              this.questionList5 = [];
+            }
+          }
+          if (param.letterId == this.tabList[5].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList6 = res.data.result[0].questionList;
+              this.questionCount6 = res.data.result[0].questionCount;
+              this.answerCount6 = res.data.result[0].answerCount;
+              if (this.allQuestionList6.length > 15) {
+                this.showMore6 = true;
+                this.questionList6 = this.allQuestionList6.slice(0, 15);
+              } else {
+                this.showMore6 = false;
+                this.questionList6 = this.allQuestionList6;
+              }
+            } else {
+              this.showMore6 = false;
+              this.questionList6 = [];
+            }
+          }
+          if (param.letterId == this.tabList[6].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList7 = res.data.result[0].questionList;
+              this.questionCount7 = res.data.result[0].questionCount;
+              this.answerCount7 = res.data.result[0].answerCount;
+              if (this.allQuestionList7.length > 15) {
+                this.showMore7 = true;
+                this.questionList7 = this.allQuestionList7.slice(0, 15);
+              } else {
+                this.showMore7 = false;
+                this.questionList7 = this.allQuestionList7;
+              }
+            } else {
+              this.showMore7 = false;
+              this.questionList7 = [];
+            }
+          }
+          if (param.letterId == this.tabList[7].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList8 = res.data.result[0].questionList;
+              this.questionCount8 = res.data.result[0].questionCount;
+              this.answerCount8 = res.data.result[0].answerCount;
+              if (this.allQuestionList8.length > 15) {
+                this.showMore8 = true;
+                this.questionList8 = this.allQuestionList8.slice(0, 15);
+              } else {
+                this.showMore8 = false;
+                this.questionList8 = this.allQuestionList8;
+              }
+            } else {
+              this.showMore8 = false;
+              this.questionList8 = [];
+            }
+          }
+          if (param.letterId == this.tabList[8].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList9 = res.data.result[0].questionList;
+              this.questionCount9 = res.data.result[0].questionCount;
+              this.answerCount9 = res.data.result[0].answerCount;
+              if (this.allQuestionList9.length > 15) {
+                this.showMore9 = true;
+                this.questionList9 = this.allQuestionList9.slice(0, 15);
+              } else {
+                this.showMore9 = false;
+                this.questionList9 = this.allQuestionList9;
+              }
+            } else {
+              this.showMore9 = false;
+              this.questionList9 = [];
+            }
+          }
+          if (param.letterId == this.tabList[9].letterId) {
+            if (res.data.result.length > 0) {
+              this.allQuestionList10 = res.data.result[0].questionList;
+              this.questionCount10 = res.data.result[0].questionCount;
+              this.answerCount10 = res.data.result[0].answerCount;
+              if (this.allQuestionList10.length > 15) {
+                this.showMore10 = true;
+                this.questionList10 = this.allQuestionList10.slice(0, 15);
+              } else {
+                this.showMore10 = false;
+                this.questionList10 = this.allQuestionList10;
+              }
+            } else {
+              this.showMore10 = false;
+              this.questionList10 = [];
             }
           }
         }
