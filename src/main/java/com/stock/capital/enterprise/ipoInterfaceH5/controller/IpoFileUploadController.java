@@ -139,8 +139,7 @@ public class IpoFileUploadController extends BaseController {
     }
 
     @RequestMapping(value = "/ipoDataUploadAllCom")
-    public void ipoDataUploadAllCom(@RequestParam(value = "id", required = false, defaultValue = "") String id,
-        @RequestParam(value = "access_token", required = false, defaultValue = "") String access_token) {
+    public void ipoDataUploadAllCom(@RequestParam(value = "id", required = false, defaultValue = "") String id) {
         ipoCaseDataUpload();
         ipoMarchDataUpload();
         if (StringUtils.isEmpty(id)) {
