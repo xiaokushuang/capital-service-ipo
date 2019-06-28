@@ -1759,7 +1759,6 @@ public class IpoInterfaceController extends BaseController {
         String openStr = restClient.get(getOpenid, responseType, Maps.newHashMap());
         Map<String, String> openMap = JsonUtil.fromJson(openStr, new ParameterizedTypeReference<Map<String, String>>() {
         });
-        logger.info(openStr);
         String errcode = openMap.get("errcode");
         logger.info(openMap.toString());
         if (StringUtils.isNotEmpty(errcode)){
@@ -1774,9 +1773,9 @@ public class IpoInterfaceController extends BaseController {
 //        根据accesstoken 和 openid 获取用户信息
         String getUserInfo = "https://api.weixin.qq.com/sns/userinfo?access_token=" + access_token + "&openid=" + openid + "&lang=zh_CN";
         String userInfoStr = restClient.get(getUserInfo, responseType, Maps.newHashMap());
-        System.out.println(userInfoStr);
         Map<String, Object> userInfoMap = JsonUtil.fromJson(userInfoStr, new ParameterizedTypeReference<Map<String, Object>>() {
         });
+        logger.info("返回的用户数据:"+userInfoMap.toString());
 //        后续可能要把这个做成 记录的 每个用户进来就记录一下 统计点击数
         userInfoMap.put("access_token", "test");
         userInfoMap.put("openid", openid);
@@ -1804,7 +1803,6 @@ public class IpoInterfaceController extends BaseController {
             jsonResponse.setResult(map);
             return jsonResponse;
         }
-
         map.put("headPortrait",headPortrait);
         map.put("username",username);
         map.put("commentText",commentText);
@@ -1907,7 +1905,6 @@ public class IpoInterfaceController extends BaseController {
             for (Map<String, Object> map : commentList) {
 //            前端展示名称
                 String comment_time =  format.format(map.get("comment_time"));
-                logger.info("日期格式:"+comment_time);
                 map.put("headPortrait", map.get("avatar"));
                 map.put("username", map.get("comment_from_user"));
                 map.put("commentText", map.get("comment_content"));
@@ -1944,7 +1941,7 @@ public class IpoInterfaceController extends BaseController {
         return jsonResponse;
     }
     /**
-     * 获取评论列表和其他信息
+     * 分页获取评论列表
      *
      * @return
      * @author yangj
@@ -1964,12 +1961,10 @@ public class IpoInterfaceController extends BaseController {
         List<Map<String, Object>> commentList = ipoInterfaceService.getOnlyCommentList(param);
         List<Map<String, Object>> selectedList = new ArrayList<>();
         SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
-
         if (commentList != null && commentList.size() > 0) {
             for (Map<String, Object> map : commentList) {
 //            前端展示名称
                 String comment_time = format.format(map.get("comment_time"));
-                logger.info("日期格式:"+comment_time);
                 map.put("headPortrait", map.get("avatar"));
                 map.put("username", map.get("comment_from_user"));
                 map.put("commentText", map.get("comment_content"));
