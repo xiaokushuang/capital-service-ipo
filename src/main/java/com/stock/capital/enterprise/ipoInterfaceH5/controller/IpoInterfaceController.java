@@ -745,17 +745,20 @@ public class IpoInterfaceController extends BaseController {
         try {
             IpoH5Dto dto = new IpoH5Dto();
             dto.setBid(id);
+            logger.info("#######【公司排名查询条件id："+id+"###########");
             IpoH5Dto ipoCompanyRank = ipoInterfaceService.ipoCompanyRank(dto);
             if (ipoCompanyRank != null) {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "公司排名情况");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(ipoCompanyRank));
                 resultMap.put("ipoCompanyRank", dataMap);
+                logger.info("#######【公司排名查询条件json："+JsonUtil.toJsonNoNull(ipoCompanyRank)+"###########");
             } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "公司排名情况");
                 dataMap.put("paramData", "0");
                 resultMap.put("ipoCompanyRank", dataMap);
+                logger.info("#######【公司排名查询为空###########");
             }
         } catch (Exception e) {
             dataMap = new HashMap<>();
