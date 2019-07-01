@@ -33,4 +33,6 @@ public interface IpoInterfaceBizMapper {
     List<IpoCaseListVo> otherIpoCaseNoIndustry(IpoCaseIndexDto ipoCaseIndexDto);
 
     IntermediaryOrgDto queryOrgMarketShare(IntermediaryOrgDto intermediaryOrgDto);
+
+    IntermediaryOrgDto queryQrgMarketRank(IntermediaryOrgDto intermediaryOrgDto);
 }

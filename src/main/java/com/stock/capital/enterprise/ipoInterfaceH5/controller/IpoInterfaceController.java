@@ -1697,29 +1697,39 @@ public class IpoInterfaceController extends BaseController {
             if (mainList != null){
                 for (int i=0;i<mainList.size();i++){
                     mainList.get(i).setBid(id);
+
                     //查询改中介机构的业务量和过会数量
                     if (mainList.get(i).getIntermediaryType().equals("1")){
-                        IntermediaryOrgDto dto = ipoInterfaceService.queryOrgMarketShare(mainList.get(i));
+                        //IntermediaryOrgDto dto = ipoInterfaceService.queryOrgMarketShare(mainList.get(i));
+                        IntermediaryOrgDto dto  = ipoInterfaceService.queryQrgMarketRank(mainList.get(i));
                         if (dto != null){
                             mainList.get(i).setBusinessVolume(dto.getBusinessVolume());
                             mainList.get(i).setPassing(dto.getPassing());
                             mainList.get(i).setPassingWait(dto.getPassingWait());
+                            mainList.get(i).setBusinessVolumeRank(dto.getBusinessVolumeRank());
+                            mainList.get(i).setPassingRank(dto.getPassingRank());
                         }
                     }
                     if (mainList.get(i).getIntermediaryType().equals("3")){
-                        IntermediaryOrgDto dto = ipoInterfaceService.queryOrgMarketShare(mainList.get(i));
+                        //IntermediaryOrgDto dto = ipoInterfaceService.queryOrgMarketShare(mainList.get(i));
+                        IntermediaryOrgDto dto  = ipoInterfaceService.queryQrgMarketRank(mainList.get(i));
                         if (dto != null){
                             mainList.get(i).setBusinessVolume(dto.getBusinessVolume());
                             mainList.get(i).setPassing(dto.getPassing());
                             mainList.get(i).setPassingWait(dto.getPassingWait());
+                            mainList.get(i).setBusinessVolumeRank(dto.getBusinessVolumeRank());
+                            mainList.get(i).setPassingRank(dto.getPassingRank());
                         }
                     }
                     if (mainList.get(i).getIntermediaryType().equals("4")){
-                        IntermediaryOrgDto dto = ipoInterfaceService.queryOrgMarketShare(mainList.get(i));
+                        //IntermediaryOrgDto dto = ipoInterfaceService.queryOrgMarketShare(mainList.get(i));
+                        IntermediaryOrgDto dto  = ipoInterfaceService.queryQrgMarketRank(mainList.get(i));
                         if (dto != null){
                             mainList.get(i).setBusinessVolume(dto.getBusinessVolume());
                             mainList.get(i).setPassing(dto.getPassing());
                             mainList.get(i).setPassingWait(dto.getPassingWait());
+                            mainList.get(i).setBusinessVolumeRank(dto.getBusinessVolumeRank());
+                            mainList.get(i).setPassingRank(dto.getPassingRank());
                         }
                     }
                 }
