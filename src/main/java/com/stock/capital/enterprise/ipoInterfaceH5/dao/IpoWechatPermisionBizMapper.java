@@ -38,4 +38,6 @@ public interface IpoWechatPermisionBizMapper {
     int collectionCount(Map<String, Object> param);
 
     int replayCount(Map<String, Object> param);
+
+    List<Map<String,Object>> getOnlyCommentList(Map<String, Object> param);
 }

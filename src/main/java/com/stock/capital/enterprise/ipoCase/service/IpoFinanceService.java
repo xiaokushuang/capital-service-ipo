@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -447,15 +448,25 @@ public class IpoFinanceService extends BaseService {
     private double getGrowthRate(IpoItemDto ipoItemDto) {
         if (null != ipoItemDto.getForthYearValue() && null != ipoItemDto.getSecondYearValue() && ipoItemDto.getSecondYearValue().compareTo(BigDecimal.ZERO) != 0) {
             double param = ipoItemDto.getForthYearValue().divide(ipoItemDto.getSecondYearValue(), 4, BigDecimal.ROUND_HALF_UP).doubleValue();
-            double rate;
+            double rate = 0;
+            DecimalFormat df = new DecimalFormat("#.0000");
             if(param <0){
-                param = param*-1;
-                rate = Math.pow(param, 1.0 / 3);
-                rate = rate*-1;
-                rate = new BigDecimal((rate + 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                if(ipoItemDto.getForthYearValue().compareTo(BigDecimal.ZERO) == -1){
+                    param = param * -1;
+                    rate = Math.pow(param, 1.0 / 3);
+                    Double rateStr = Double.valueOf(df.format(rate));
+                    rate = new BigDecimal((rateStr - 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                }else if(ipoItemDto.getForthYearValue().compareTo(BigDecimal.ZERO) == 1){
+                    param = param * -1;
+                    rate = Math.pow(param, 1.0 / 3);
+                    rate = rate * -1;
+                    Double rateStr = Double.valueOf(df.format(rate));
+                    rate = new BigDecimal(( 1D - rateStr) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                }
             }else{
                 rate = Math.pow(param, 1.0 / 3);
-                rate = new BigDecimal((rate - 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                Double rateStr = Double.valueOf(df.format(rate));
+                rate = new BigDecimal((rateStr - 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
             }
             return rate;
         } else {

@@ -93,7 +93,7 @@
       </div>
       <!-- 登录其他资本市场 -->
       <div class="others" v-if="this.otherMarketInfoList&&this.otherMarketInfoList.length>0">
-        <p style="color:black">登录其他资本市场</p>
+        <p style="color:black">登陆其他资本市场</p>
         <ul v-for="item in otherMarketInfoList">
           <li style=" width: 30%;position:relative">
             <span>资本市场</span>&nbsp;&nbsp;

@@ -60,16 +60,17 @@
         <div class="innnerbox1" style="padding-top: 24px">
            <el-row :gutter="24">
             <el-col :span='8'>
-              <el-input size='small full' v-model="title" placeholder="标题关键字（包含全部以空格断开）"></el-input>
+              <el-input size='small full' v-model="title" @keyup.enter.native="querySearch" placeholder="标题关键字（包含全部以空格断开）"></el-input>
             </el-col>
             <el-col :span='8'>
-              <el-input size='small full' v-model="codeOrName" placeholder="公司名称/代码"></el-input>
+              <el-input size='small full' v-model="codeOrName" @keyup.enter.native="querySearch" placeholder="公司名称/代码"></el-input>
             </el-col>
             <el-col :span='8' class="repuramountlimitPan-class">
               <el-autocomplete
                 class="inline-input"
                 size='small full'
                 v-model="intermediary"
+                @keyup.enter.native="querySearch"
                 :fetch-suggestions="queryIntermediary"
                 placeholder="中介机构"
                 :trigger-on-focus="false"
@@ -81,6 +82,7 @@
             <el-col :span='8'>
               <el-select ref="selectCompanyNature" v-model="companyNature" title="企业性质" placeholder="企业性质"
                          size="small full" :tselect=true @visible-change="calls()"
+                         @keydown.enter.native="querySearch"
                          @sure-click="sure('selectCompanyNature')"
                          @clear-click="clearLocal('treeCompanyNature')">
                 <el-option :label="companyNature" :value="companyNatureValue">
@@ -92,6 +94,7 @@
             <el-col :span='8'>
               <el-select ref="selectIndustryCsrc" v-model="industryCsrc" title="发行人行业（证监会）" placeholder="发行人行业（证监会）"
                          size="small full" :tselect=true @visible-change="calls()"
+                         @keydown.enter.native="querySearch"
                          @sure-click="sure('selectIndustryCsrc')"
                          @clear-click="clearLocal('treeIndustryCsrc')">
                 <el-option :label="industryCsrc" :value="industryCsrcValue">
@@ -115,6 +118,7 @@
               <el-select ref="selectIpoNum" v-model="ipoNum" title="申报次数" placeholder="申报次数"
                          size="small full" :tselect=true @visible-change="calls()"
                          @sure-click="sure('selectIpoNum')"
+                         @keydown.enter.native="querySearch"
                          @clear-click="clearLocal('treeIpoNum')">
                 <el-option :label="ipoNum" :value="ipoNumValue">
                   <el-tree :data="ipoNumList" show-checkbox node-key="id" ref="treeIpoNum" highlight-current
@@ -139,6 +143,7 @@
               <el-select ref="selectProcess" v-model="caseStatus" title="IPO进程" placeholder="IPO进程"
                          size="small full" :tselect=true @visible-change="calls()"
                          @sure-click="sure('selectProcess')"
+                         @keydown.enter.native="querySearch"
                          @clear-click="clearLocal('treeProcess')">
                 <el-option :label="caseStatus" :value="caseStatusValue">
                   <el-tree :data="processList" show-checkbox node-key="id" ref="treeProcess" highlight-current
@@ -150,6 +155,7 @@
               <el-select ref="selectVerifyResult" v-model="iecResult" title="审核/注册结果" placeholder="审核/注册结果"
                          size="small full" :tselect=true @visible-change="calls()"
                          @sure-click="sure('selectVerifyResult')"
+                         @keydown.enter.native="querySearch"
                          @clear-click="clearLocal('treeVerifyResult')">
                 <el-option :label="iecResult" :value="iecResultValue">
                   <el-tree :data="verifyResultList" default-expand-all show-checkbox node-key="id" ref="treeVerifyResult" highlight-current
@@ -161,6 +167,7 @@
               <el-select ref="selectIssueCondition" v-model="issueCondition" title="发行人选择的上市条件" placeholder="发行人选择的上市条件"
                          size="small full" :tselect=true @visible-change="calls()"
                          @sure-click="sure('selectIssueCondition')"
+                         @keydown.enter.native="querySearch"
                          @clear-click="clearLocal('treeIssueCondition')">
                 <el-option :label="issueCondition" :value="issueConditionValue">
                   <el-tree :data="issueConditionList" default-expand-all show-checkbox node-key="id" ref="treeIssueCondition" highlight-current
@@ -224,11 +231,13 @@
           <el-row :gutter="24">
             <el-col :span='8' class="stockIncreasePan-class">
               <el-multiple-selection v-if="issueShow" :range="true" :tree-data="optionPeIssueA" placeholder="发行后市盈率" size="small full" :multiple="false"
+                                      @keydown.enter.native="querySearch"
                                      unit="倍" :ran="optionDto" @sure-click="rangeCallPeIssueA">
               </el-multiple-selection>
             </el-col>
             <el-col :span='8' class="stockIncreasePan-class">
               <el-multiple-selection v-if="issueFeeShow" :range="true" :tree-data="optionIssueFee" placeholder="发行费用" size="small full" :multiple="false"
+                                      @keydown.enter.native="querySearch"
                                      unit="万元" :ran="optionDto" @sure-click="rangeCallIssueFee">
               </el-multiple-selection>
             </el-col>
@@ -236,6 +245,7 @@
               <el-select ref="selectPlacingMechanism" v-model="placingMechanism" title="配售机制" placeholder="配售机制"
                          size="small full" :tselect=true @visible-change="calls()"
                          @sure-click="sure('selectPlacingMechanism')"
+                         @keydown.enter.native="querySearch"
                          @clear-click="clearLocal('treePlacingMechanism')">
                 <el-option class="psjz" :label="placingMechanism" :value="placingMechanismValue">
                   <el-tree :data="ipoMechanismList" default-expand-all show-checkbox node-key="id" ref="treePlacingMechanism" highlight-current
@@ -252,16 +262,19 @@
            <el-row :gutter="24">
              <el-col :span='8'>
               <el-date-picker size='small' v-model="ypProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
+                              @keydown.enter.native="querySearch"
                               start-placeholder="受理时间" end-placeholder="受理时间" align="center">
               </el-date-picker>
             </el-col>
             <el-col :span='8'>
               <el-date-picker size='small' v-model="fsProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
+                              @keydown.enter.native="querySearch"
                                start-placeholder="审核时间" end-placeholder="审核时间" align="center">
               </el-date-picker>
             </el-col>
             <el-col :span='8'>
               <el-multiple-selection v-if="durationShow" :range="true" :tree-data="optionAuditDuration" placeholder="审核历时（天）" size="small full" :multiple="false"
+                                      @keydown.enter.native="querySearch"
                                      unit="天" :ran="optionDto" @sure-click="rangeAuditDuration">
               </el-multiple-selection>
             </el-col>
@@ -499,14 +512,6 @@
                           <span class="tgResult"  v-if="scope.row.iecResult==='05'">通过</span>
                           <span class="wtgResult" v-if="scope.row.iecResult==='06'">未通过</span>
                           <span class="dshResult"  v-if="scope.row.iecResult==='09'">待上会</span>
-                          <!-- <span class="htgResult"  v-if="scope.row.iecResult==='00'">{{scope.row.iecResultLabel}}</span>
-                          <span class="whtgResult" v-if="scope.row.iecResult==='01'">{{scope.row.iecResultLabel}}</span>
-                          <span class="zhbjResult" v-if="scope.row.iecResult==='02'">{{scope.row.iecResultLabel}}</span>
-                          <span class="qxshResult" v-if="scope.row.iecResult==='03'">{{scope.row.iecResultLabel}}</span>
-                          <span class="dshResult"  v-if="scope.row.iecResult==='04'">{{scope.row.iecResultLabel}}</span>
-                          <span class="tgResult"   v-if="scope.row.iecResult==='05'">{{scope.row.iecResultLabel}}</span>
-                          <span class="wtgResult"  v-if="scope.row.iecResult==='06'">{{scope.row.iecResultLabel}}</span>
-                          <span class="dshResult"  v-if="scope.row.iecResult==='09'">{{scope.row.iecResultLabel}}</span> -->
                         </span>
                       </span>
                     </template>
