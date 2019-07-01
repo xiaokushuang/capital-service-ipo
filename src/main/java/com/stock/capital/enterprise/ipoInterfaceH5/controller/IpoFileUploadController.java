@@ -64,10 +64,9 @@ public class IpoFileUploadController extends BaseController {
     /**
      * 每晚定时把所有科创版数据生成json文件放到华为云上
      */
-    @Scheduled(cron = "0 11 17 * * ? ")
+    @Scheduled(cron = "0 30 02,18 * * ? ")
     public void ipoDataUpload() {
         //查询科创版所有案例
-        ipoInterfaceController.ipoCaseH5("98114881248925362");
         logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
         List<IpoCaseListVo> ipoCaseList = ipoInterfaceService.queryIpoCase(new HashMap());
         logger.info("#######【将IpoH5的数据生成json文件放到华为云时查询到有" + ipoCaseList.size() + "条科创版数据###########");
