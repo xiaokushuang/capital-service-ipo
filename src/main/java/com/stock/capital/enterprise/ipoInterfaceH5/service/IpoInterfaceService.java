@@ -833,4 +833,8 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
     public List<Map<String,Object>> getOnlyCommentList(Map<String, Object> param) {
         return ipoWechatPermisionBizMapper.getOnlyCommentList(param);
     }
+
+    public IntermediaryOrgDto queryQrgMarketRank(IntermediaryOrgDto intermediaryOrgDto) {
+        return ipoInterfaceBizMapper.queryQrgMarketRank(intermediaryOrgDto);
+    }
 }
