@@ -180,4 +180,14 @@
         AND EXISTS (SELECT 1 FROM ipo_process m WHERE m.bid = t.id AND m.process_type_code = '35' AND m.iec_result !=
         '09')) AS passingWait
     </select>
+
+    <select id="queryQrgMarketRank" parameterType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto">
+      SELECT t.org_code,t.business_volume,t.passing,t.passing_wait,t.intermediary_type,
+      (SELECT (COUNT(1)+1) FROM (SELECT * FROM ipo_h5_org m GROUP BY m.intermediary_type,m.business_volume)AS mt
+      WHERE (mt.business_volume+0) > (t.business_volume+0) AND mt.intermediary_type = t.intermediary_type)AS businessVolumeRank,
+      (SELECT (COUNT(1)+1) FROM (SELECT * FROM ipo_h5_org m GROUP BY m.intermediary_type,m.passing)AS mt
+      WHERE ifnull((mt.passing+0),0) > ifnull((t.passing+0),0) AND mt.intermediary_type = t.intermediary_type)AS passingRank
+      FROM ipo_h5_org t WHERE t.org_code = #{orgCode} AND t.intermediary_type = #{intermediaryType}
+    </select>
 </mapper>

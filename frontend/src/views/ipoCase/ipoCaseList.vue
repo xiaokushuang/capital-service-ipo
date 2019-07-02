@@ -961,7 +961,7 @@
             }).join(','),//拟上市板块
             marketType: _self.$refs.marketTreeTagRef.getCheckedNodes().map((item) => {
               return item.labelValue
-            }).join(','),//登陆其他资本市场
+            }).join(','),//登录其他资本市场
             greenPassage: _self.$refs.greenTreeTagRef.getCheckedNodes().map((item) => {
               return item.labelValue
             }).join(','),//绿色通道
@@ -1343,7 +1343,7 @@
       },
       openNewRule() {
         const _self = this;
-        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=746412002825257522&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
+        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=746412002835704646&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
         window.open(href, '_blank');
       },
       //没有权限数据背景色

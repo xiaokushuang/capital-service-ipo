@@ -46,6 +46,10 @@ public class MqConfigurer {
         return topicExchange;
     }
 
+    @Bean
+    public Queue FundCalendarTasklistener() {
+        return new Queue("cloud.updateIpoData");
+    }
 //    @Bean
 //    public Queue FundCalendarTasklistener() {
 //        return new Queue("fund.CalendarTask.listener");

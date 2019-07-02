@@ -180,10 +180,16 @@ public class IpoInterfaceService extends BaseService {
             List<String> companys = new ArrayList<>();// 子标题公司名字
             companys.add(compareRateDto.getCompanyName());//新增本公司名字
             List<String> yearList = new ArrayList<>();//年度
+          if (compareRateDto.getFirstYear().length() > 0){
             yearList.add(compareRateDto.getFirstYear().substring(0,compareRateDto.getFirstYear().length() -1 ));
+          }
+          if (compareRateDto.getSecondYear().length() > 0){
             yearList.add(compareRateDto.getSecondYear().substring(0,compareRateDto.getSecondYear().length() -1 ));
-            yearList.add(compareRateDto.getThirdYear().substring(0,compareRateDto.getThirdYear().length() -1 ));
-            title.setYears(yearList); // 给年赋值
+          }
+          if (compareRateDto.getThirdYear().length() > 0) {
+            yearList.add(compareRateDto.getThirdYear().substring(0, compareRateDto.getThirdYear().length() - 1));
+          }
+          title.setYears(yearList); // 给年赋值
 
             if (compareRateDto.getIndustryCompareRateDetailList().size() >= 4) {// 代表多于两家别的公司
                 // 如果返回的表格中数量>= 4 代表着至少有两家别的公司,所以company 取值应该是 本公司,低的公司,高的公司
@@ -205,20 +211,26 @@ public class IpoInterfaceService extends BaseService {
                 IndustryCompareRateDetailDto lowCompanyDto = null;// 低的公司
                 IndustryCompareRateDetailDto highCompanyDto = null;// 高的公司
 
+              if (compareRateDto.getFirstYear().length() >= 4) {
                 firstYearbodyDto.setYear(// 第一年
                     compareRateDto.getFirstYear().substring(0, 4));// 年度
+              }
                 firstYearbodyDto.setCompany(// 本公司
                     companyDto.getFirstYearRate()
                 );
+              if (compareRateDto.getSecondYear().length() >= 4) {
                 secondYearbodyDto.setYear(// 第二年
-                    compareRateDto.getSecondYear().substring(0,4)//年度
+                    compareRateDto.getSecondYear().substring(0, 4)//年度
                 );
+              }
                 secondYearbodyDto.setCompany(// 本公司
                     companyDto.getSecondYearRate()
                 );
+              if (compareRateDto.getThirdYear().length() >= 4) {
                 thirdYearBodyDto.setYear(// 第三年
-                    compareRateDto.getThirdYear().substring(0,4)
+                    compareRateDto.getThirdYear().substring(0, 4)
                 );
+              }
                 thirdYearBodyDto.setCompany(//本公司
                     companyDto.getThirdYearRate()
                 );
@@ -265,8 +277,10 @@ public class IpoInterfaceService extends BaseService {
 
                     // 以下为柱状图中数据
                     IpoH5IndustryBodyDto firstYearbodyDto = new IpoH5IndustryBodyDto();// 公司第一年度
+                  if (compareRateDto.getFirstYear().length() > 0) {
                     firstYearbodyDto.setYear(
-                            compareRateDto.getFirstYear().substring(0, compareRateDto.getFirstYear().length() - 1));// 年度
+                        compareRateDto.getFirstYear().substring(0, compareRateDto.getFirstYear().length() - 1));// 年度
+                  }
                     firstYearbodyDto.setCompany(// 本公司
                             compareRateDto.getIndustryCompareRateDetailList().get(2).getFirstYearRate()
                     );
@@ -275,9 +289,11 @@ public class IpoInterfaceService extends BaseService {
                     );
 
                     IpoH5IndustryBodyDto secondYearbodyDto = new IpoH5IndustryBodyDto();// 公司第二年度
+                  if (compareRateDto.getSecondYear().length() > 0) {
                     secondYearbodyDto.setYear(// 年度
-                            compareRateDto.getSecondYear().substring(0, compareRateDto.getSecondYear().length() - 1)
+                        compareRateDto.getSecondYear().substring(0, compareRateDto.getSecondYear().length() - 1)
                     );
+                  }
                     secondYearbodyDto.setCompany(// 本公司
                             compareRateDto.getIndustryCompareRateDetailList().get(2).getSecondYearRate()
                     );
@@ -286,9 +302,12 @@ public class IpoInterfaceService extends BaseService {
                     );
 
                     IpoH5IndustryBodyDto thirdYearBodyDto = new IpoH5IndustryBodyDto();// 本公司第三年度
+                  if (compareRateDto.getThirdYear().length() > 0){
                     thirdYearBodyDto.setYear(// 年度
-                            compareRateDto.getThirdYear().substring(0, compareRateDto.getThirdYear().length() - 1)
+                        compareRateDto.getThirdYear().substring(0, compareRateDto.getThirdYear().length() - 1)
                     );
+                  }
+
                     thirdYearBodyDto.setCompany(//本公司
                             compareRateDto.getIndustryCompareRateDetailList().get(2).getThirdYearRate()
                     );
@@ -303,24 +322,32 @@ public class IpoInterfaceService extends BaseService {
                 } else {// 只有本公司
                     // 以下为柱状图中数据
                     IpoH5IndustryBodyDto firstYearbodyDto = new IpoH5IndustryBodyDto();// 公司第一年度
+                  if (compareRateDto.getFirstYear().length() > 0){
                     firstYearbodyDto.setYear(
-                            compareRateDto.getFirstYear().substring(0, compareRateDto.getFirstYear().length() - 1));// 年度
+                        compareRateDto.getFirstYear().substring(0, compareRateDto.getFirstYear().length() - 1));// 年度
+                  }
                     firstYearbodyDto.setCompany(// 本公司
                             compareRateDto.getIndustryCompareRateDetailList().get(0).getFirstYearRate()
                     );
 
                     IpoH5IndustryBodyDto secondYearbodyDto = new IpoH5IndustryBodyDto();// 公司第二年度
+                  if (compareRateDto.getSecondYear().length() > 0){
                     secondYearbodyDto.setYear(// 年度
-                            compareRateDto.getSecondYear().substring(0, compareRateDto.getSecondYear().length() - 1)
+                        compareRateDto.getSecondYear().substring(0, compareRateDto.getSecondYear().length() - 1)
                     );
+                  }
+
                     secondYearbodyDto.setCompany(// 本公司
                             compareRateDto.getIndustryCompareRateDetailList().get(0).getSecondYearRate()
                     );
 
                     IpoH5IndustryBodyDto thirdYearBodyDto = new IpoH5IndustryBodyDto();// 本公司第三年度
+                  if (compareRateDto.getThirdYear().length() > 0){
                     thirdYearBodyDto.setYear(// 年度
-                            compareRateDto.getThirdYear().substring(0, compareRateDto.getThirdYear().length() - 1)
+                        compareRateDto.getThirdYear().substring(0, compareRateDto.getThirdYear().length() - 1)
                     );
+                  }
+
                     thirdYearBodyDto.setCompany(//本公司
                             compareRateDto.getIndustryCompareRateDetailList().get(0).getThirdYearRate()
                     );
@@ -681,10 +708,11 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
     }
   }
   industryStaff.setIndexDate(companyStaff.getIndexDate());
-  industryStaff.setCore(ipoCompanyRank.getResearchPeoCore());
-  industryStaff.setDev(ipoCompanyRank.getResearchPeo());
-  industryStaff.setPeople(ipoCompanyRank.getCompanyPeo());
-
+  if(ipoCompanyRank!= null) {
+    industryStaff.setCore(ipoCompanyRank.getResearchPeoCore());
+    industryStaff.setDev(ipoCompanyRank.getResearchPeo());
+    industryStaff.setPeople(ipoCompanyRank.getCompanyPeo());
+  }
   List<Map<String, IpoH5CoreDevDto>> coreData = new ArrayList<>();
   Map<String, IpoH5CoreDevDto> companyMap = new HashMap<>();
   companyMap.put("companyStaff", companyStaff);
@@ -800,5 +828,13 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
 
     public int replayCount(Map<String, Object> param) {
         return ipoWechatPermisionBizMapper.replayCount(param);
+    }
+
+    public List<Map<String,Object>> getOnlyCommentList(Map<String, Object> param) {
+        return ipoWechatPermisionBizMapper.getOnlyCommentList(param);
+    }
+
+    public IntermediaryOrgDto queryQrgMarketRank(IntermediaryOrgDto intermediaryOrgDto) {
+        return ipoInterfaceBizMapper.queryQrgMarketRank(intermediaryOrgDto);
     }
 }
