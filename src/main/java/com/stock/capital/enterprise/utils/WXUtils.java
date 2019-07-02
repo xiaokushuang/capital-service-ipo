@@ -1,8 +1,10 @@
 package com.stock.capital.enterprise.utils;
 
+import com.stock.capital.enterprise.ipoInterfaceH5.controller.IpoFileUploadController;
 import com.stock.capital.enterprise.ipoInterfaceH5.controller.IpoInterfaceController;
 import com.stock.core.rest.RestClient;
 import com.stock.core.util.JsonUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +34,8 @@ import java.util.concurrent.atomic.AtomicReference;
 public class WXUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(WXUtils.class);
-//   保存accsee_token
-    public static AtomicReference<String> atomicReference = new AtomicReference<String>();
+//   保存accsee_token 在集群环境下没有办法应用
+//    public static AtomicReference<String> atomicReference = new AtomicReference<String>();
 
     @Autowired
     private RestClient restClient;
@@ -46,19 +48,9 @@ public class WXUtils {
     private String accessTokenUrl;
     @Autowired
     private RestTemplate restTemplate;
-    //每隔一个小时刷一次
-//    @Scheduled(cron = "0 0 0/1 * * ?")
-//    @PostConstruct
-//    public void updateAccessToken(){
-//        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+appid+"&secret="+secret;
-//        ParameterizedTypeReference<Map<String,Object>> responseType = new ParameterizedTypeReference<Map<String, Object>>() {
-//        };
-//        Map<String, Object> map = restClient.get(url, responseType);
-//        logger.info("定时获取access_token:"+map.get("access_token"));
-//        atomicReference.set((String) map.get("access_token"));
-//    }
 
-
+    @Autowired
+    private IpoFileUploadController fileUploadController;
 
     /**
      * 获取二维码
@@ -81,7 +73,7 @@ public class WXUtils {
             param.put("page", "pages/index/index");
             param.put("scene","ipoId=" + id );
             param.put("width", 430);
-            String json = JsonUtil.toJson(param);
+//            String json = JsonUtil.toJson(param);
 //            param.put("auto_color", false);
 //            Map<String,Object> line_color = new HashMap<>();
 //            line_color.put("r", 0);
@@ -90,15 +82,12 @@ public class WXUtils {
 //            param.put("line_color", line_color);
             MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
             HttpEntity requestEntity = new HttpEntity(param,headers);
-            logger.info("调用接口获取二维码流文件");
+            logger.info("调用微信接口获取二维码流文件");
             ResponseEntity<byte[]> entity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, byte[].class,new Object());
             result = entity.getBody();
-
-////            判断是否成功 如果失败刷新token
-//            String json = JsonUtil.toJson(result);
-//            Map map = JsonUtil.fromJson(json, Map.class);
-//            map.get("errorcode")
         } catch (Exception e) {
+            logger.info("获取二维码流文件时出错:更新token"+e.getMessage());
+            fileUploadController.updateAccessToken();
         } finally {
             if(inputStream != null){
                 try {

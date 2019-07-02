@@ -171,7 +171,8 @@ public class IpoFileUploadController extends BaseController {
         ParameterizedTypeReference<Map<String,Object>> responseType = new ParameterizedTypeReference<Map<String, Object>>() {
         };
         Map<String, Object> map = restClient.get(url, responseType);
-        logger.info("定时获取access_token:"+map.get("access_token"));
+        logger.info("每小时刷新一次,定时刷新access_token:"+map.get("access_token"));
+//        采用wechatAccessToken名字存储token
         fileUpload((String) map.get("access_token"),"wechatAccessToken");
     }
 }
