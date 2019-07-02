@@ -95,7 +95,7 @@ public class IpoCaseListService extends BaseService {
         //审核结果
         if (StringUtils.isNotBlank(bo.getIecResult())) {
             conditionsStr =
-                assebleBoxCondition(conditionsStr, "ipo_iec_result_t", bo.getIecResult());
+                assebleBoxCondition(conditionsStr, "ipo_final_result_t", bo.getIecResult());
         }
         //IPO进程
         if (StringUtils.isNotBlank(bo.getCaseStatus())) {
