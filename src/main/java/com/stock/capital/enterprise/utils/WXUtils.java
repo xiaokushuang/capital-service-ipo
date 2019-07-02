@@ -73,13 +73,8 @@ public class WXUtils {
             param.put("page", "pages/index/index");
             param.put("scene","ipoId=" + id );
             param.put("width", 430);
-//            String json = JsonUtil.toJson(param);
-//            param.put("auto_color", false);
-//            Map<String,Object> line_color = new HashMap<>();
-//            line_color.put("r", 0);
-//            line_color.put("g", 0);
-//            line_color.put("b", 0);
-//            param.put("line_color", line_color);
+//            透明底色
+            param.put("is_hyaline", true);
             MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
             HttpEntity requestEntity = new HttpEntity(param,headers);
             logger.info("调用微信接口获取二维码流文件");
