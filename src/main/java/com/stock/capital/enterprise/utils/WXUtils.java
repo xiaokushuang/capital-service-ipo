@@ -17,6 +17,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.HashMap;
@@ -41,19 +42,23 @@ public class WXUtils {
     private String appid;
     @Value("${minipro.secret}")
     private String secret;
-
+    @Value("${wechat.access.token}")
+    private String accessTokenUrl;
     @Autowired
     private RestTemplate restTemplate;
     //每隔一个小时刷一次
-    @Scheduled(cron = "0 0/10 0/1 * * ?")
-    public void updateAccessToken(){
-        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+appid+"&secret="+secret;
-        ParameterizedTypeReference<Map<String,Object>> responseType = new ParameterizedTypeReference<Map<String, Object>>() {
-        };
-        Map<String, Object> map = restClient.get(url, responseType);
-        logger.info("定时获取access_token:"+map.get("access_token"));
-        atomicReference.set((String) map.get("access_token"));
-    }
+//    @Scheduled(cron = "0 0 0/1 * * ?")
+//    @PostConstruct
+//    public void updateAccessToken(){
+//        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+appid+"&secret="+secret;
+//        ParameterizedTypeReference<Map<String,Object>> responseType = new ParameterizedTypeReference<Map<String, Object>>() {
+//        };
+//        Map<String, Object> map = restClient.get(url, responseType);
+//        logger.info("定时获取access_token:"+map.get("access_token"));
+//        atomicReference.set((String) map.get("access_token"));
+//    }
+
+
 
     /**
      * 获取二维码
@@ -62,14 +67,21 @@ public class WXUtils {
      * @return
      */
     public byte[] getminiqrQr(String id, String companyName) {
+        ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
+        };
         InputStream inputStream = null;
         OutputStream outputStream = null;
         byte[] result = null;
         try {
-            String url = "https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token="+atomicReference.get();
+            String accseeToken = restClient.get(accessTokenUrl, responseType);
+//            String url = "https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token="+atomicReference.get();
+            String url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token="+accseeToken;
             Map<String,Object> param = new HashMap<>();
-            param.put("path", "pages/index/index?ipoId=" + id + "&companyName=" + companyName);
+////            param.put("path", "pages/index/index?ipoId=" + id + "&companyName=" + companyName);
+            param.put("page", "pages/index/index");
+            param.put("scene","ipoId=" + id );
             param.put("width", 430);
+            String json = JsonUtil.toJson(param);
 //            param.put("auto_color", false);
 //            Map<String,Object> line_color = new HashMap<>();
 //            line_color.put("r", 0);
@@ -77,9 +89,9 @@ public class WXUtils {
 //            line_color.put("b", 0);
 //            param.put("line_color", line_color);
             MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-            HttpEntity requestEntity = new HttpEntity(param, headers);
+            HttpEntity requestEntity = new HttpEntity(param,headers);
             logger.info("调用接口获取二维码流文件");
-            ResponseEntity<byte[]> entity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, byte[].class, new Object[0]);
+            ResponseEntity<byte[]> entity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, byte[].class,new Object());
             result = entity.getBody();
 
 ////            判断是否成功 如果失败刷新token
