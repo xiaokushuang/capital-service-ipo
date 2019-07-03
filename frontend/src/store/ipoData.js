@@ -17,7 +17,8 @@ import {
   refinanceApptype,
   refinanceRecommend,
   companyByCode,
-  searchCompanyDetail
+  searchCompanyDetail,
+  getAllDropDownList,
 } from '@/api/ipo'
 import {
   MultidimensionalData
@@ -655,7 +656,16 @@ const ipo = {
 					reject(error)
 				})
 			})
-	   },
+     },
+     getAllDropDownList({commit}, queryParam){//获取下拉列表数据
+			return new Promise((resolve, reject) => {
+				getAllDropDownList(queryParam).then(response => {
+					resolve(response.data);
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
   },
   getters: {
     getIpo1: state => state.ipodata1,
@@ -672,7 +682,7 @@ const ipo = {
     getPlateInfo: state => state.plateInfo,
     getDataOverInfo: state => {
       state.ipoDataOverview.map((o, i) => {
-        var total = parseInt(o.hzbCount) + parseInt(o.zxbCount) + parseInt(o.cybCount)
+        var total = parseInt(o.hzbCount) + parseInt(o.zxbCount) + parseInt(o.cybCount) + parseInt(o.kcCount)
         o.totalAll = total
       })
       return state.ipoDataOverview

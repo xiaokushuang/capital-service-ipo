@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stock.capital.enterprise.regulatory.dao.StatisticsBizMapper" >
+
+<select id="getAreaList" resultType="com.stock.core.dto.OptionDto">
+    SELECT area_no value, area_name label
+    FROM provinces 
+    WHERE (SUBSTR(area_no,3,6) = '0000' AND area_no NOT IN ('810000','820000','710000'))
+        OR area_no IN ('440300','210200','330200','350200','370200')
+    ORDER BY CONVERT((CASE WHEN area_name = '重庆' THEN '充庆' ELSE area_name END) USING gbk)
+</select>
+
+<select id="postDeclareIndexIndustry" resultType="com.stock.core.dto.TreeDto">
+    Select industry_no as id,industry_name as name,p_industry_no as parentId
+    From securities_industry
+    where p_industry_no != '008'
+    GROUP BY industry_no
+</select>
+
+</mapper>

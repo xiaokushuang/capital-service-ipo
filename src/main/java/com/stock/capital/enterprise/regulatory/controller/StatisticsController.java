@@ -1,5 +1,7 @@
 package com.stock.capital.enterprise.regulatory.controller;
 
+import io.swagger.annotations.ApiOperation;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,12 +28,15 @@ import com.google.common.collect.Maps;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsCompanyDto;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsParamDto;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto;
+import com.stock.capital.enterprise.regulatory.dto.StatisticsReturnDto;
 import com.stock.capital.enterprise.regulatory.service.StatisticsService;
 import com.stock.core.controller.BaseController;
 import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.OptionDto;
 import com.stock.core.dto.Page;
 import com.stock.core.dto.QueryInfo;
+import com.stock.core.dto.TreeDto;
+import com.stock.core.log.LogAnnotation;
 import com.stock.core.util.DateUtil;
 import com.stock.core.util.JsonUtil;
 import com.stock.core.web.DownloadView;
@@ -712,5 +717,37 @@ public class StatisticsController extends BaseController {
               e.printStackTrace();
           }
           return mv;
+      }
+      
+      /**
+       * 获取所有下拉列表
+       *
+       * @return response（JSON格式）
+       */
+      @ApiOperation(value = "获取所有下拉列表", notes = "获取所有下拉列表")
+      @LogAnnotation(name = "获取所有下拉列表")
+      @RequestMapping(value = "/getAllDropDownList", method = RequestMethod.POST)
+      @ResponseBody
+      public StatisticsReturnDto getAllDropDownList() {
+          StatisticsReturnDto dto = new StatisticsReturnDto();
+          //地区
+          List<OptionDto> areaList = statisticsService.getAreaList();
+          if (CollectionUtils.isNotEmpty(areaList)) {
+              for (OptionDto optionDto : areaList) {
+                  if (Arrays.asList(TRANS_AREA_CITY).contains(optionDto.getLabel())) {
+                     optionDto.setLabel(optionDto.getLabel().replace("市", "")); 
+                  }
+                  optionDto.setOriginContent(optionDto.getLabel());
+                  int indexOf = Arrays.asList(TRANS_AREA_PROVINCE).indexOf(optionDto.getLabel());
+                  if (indexOf > -1) {
+                      optionDto.setLabel(TRANS_AREA_PROVINCE_SHOW[indexOf]); 
+                   }
+              }
+          }
+          dto.setAreaList(areaList);
+          //行业
+          List<TreeDto> industryList = statisticsService.getIndustryList();
+          dto.setIndustryList(industryList);
+          return dto;
       }
 }

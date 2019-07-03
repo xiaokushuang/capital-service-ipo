@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
         <!-- 标题 -->
         <el-row :gutter="20" style="margin-left:0px; margin-right:0px;">
             <el-col :span="14">
@@ -10,79 +10,93 @@
         </el-row>
         <!-- echart table -->
         <el-row :gutter="20" style="margin-left:0px; margin-right:0px;">
-            <el-col :span="14">
+            <el-col :span="12">
                 <div class="fullDiv_border">
                     <chart height='100%' width='100%' id="datasetChart" :chartData = "getDataOverInfo"></chart>
                 </div>
             </el-col>
             <!-- 右部表 -->
-            <el-col :span="10">
-                <div id="table1">
-                    <el-table :data="tableTop" border style="width: 100%" max-height="400" size="medium" :row-class-name="tableRowClassName">
-                        <el-table-column label="" min-width="200px">
-                            <template slot-scope="scope">
-                                <span>{{scope.row.label}}</span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column align="center" label="沪主板" min-width="80px">
-                            <template slot-scope="scope">
-                                <span>{{scope.row.hzbCount}}</span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column align="center" label="中小板" min-width="80px">
-                            <template slot-scope="scope">
-                                <span>{{scope.row.zxbCount}}</span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column align="center" label="创业板" min-width="80px">
-                            <template slot-scope="scope">
-                                <span>{{scope.row.cybCount}}</span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column align="center" label="合计">
-                            <template slot-scope="scope">
-                                <span>{{scope.row.totalAll}}</span>
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                </div>
-                <!-- ipo再审企业合计数变化情况 -->
-                <div style="height:250px;marign-top:10px;">
-                    <chart2 height='100%' width='100%' id="largeScaleChart" :chartData2 = "getDataHistory"></chart2>
-                </div>
+            <el-col :span="12">
+              <div id="table1">
+                <el-table :data="tableTop" border show-summary style="width: 100%">
+                  <el-table-column label="" min-width="210px">
+                    <template slot-scope="scope">
+                        <span v-html="lableTurnName(scope.row.label)"></span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="核准制" align="center" min-width="210px" :render-header="renderHeader">
+                    <el-table-column align="center" label="沪主板" min-width="80px" prop="hzbCount">
+                        <template slot-scope="scope">
+                            <span>{{scope.row.hzbCount}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column align="center" label="中小板" min-width="80px" prop="zxbCount">
+                        <template slot-scope="scope">
+                            <span>{{scope.row.zxbCount}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column align="center" label="创业板" min-width="80px" prop="cybCount" :class-name="abc">
+                        <template slot-scope="scope">
+                            <span>{{scope.row.cybCount}}</span>
+                        </template>
+                    </el-table-column>
+                  </el-table-column>
+                  <el-table-column label="注册制" align="center" min-width="210px" :class-name="abc">
+                    <el-table-column align="center" label="科创板" min-width="80px" prop="kcCount" :class-name="abc">
+                        <template slot-scope="scope">
+                            <span>{{scope.row.kcCount}}</span>
+                        </template>
+                    </el-table-column>
+                  </el-table-column>
+                  <el-table-column align="center" label="合计" prop="totalAll">
+                    <template slot-scope="scope">
+                        <span>{{scope.row.totalAll}}</span>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </div>
+              <!-- ipo再审企业合计数变化情况 -->
+              <div style="height:250px;marign-top:10px;">
+                  <chart2 height='100%' width='100%' id="largeScaleChart" :chartData2 = "getDataHistory"></chart2>
+              </div>
             </el-col>
         </el-row>
-        <el-row><div style="width:98%;border-bottom:1px solid #ddd;margin:0 auto;margin-bottom:10px;"></div></el-row>
-        <!-- 所属行业 -->
         <el-row :gutter="20" style="margin-left:0px; margin-right:0px;">
+            <el-col :span="24">
+              <div style="width:98%;border-bottom:1px solid #ddd;margin-top:20px;margin-bottom:30px;"></div>
+            </el-col>
+        <!-- 所属行业 -->
             <el-col :span="3" style="line-height:30px"><span style="margin-left:20px;">项目所属行业</span></el-col>
             <el-col :span="6">
-                <el-select ref="selectCheckbox1" v-model="selectValue.industry" placeholder="请选择行业" size='small full'>
-                    <el-option :label="selectValue.industry" :value="selectValue.industry">
-                        <el-tree :data="getIndustry" show-checkbox node-key="id" highlight-current :props="defaultPropsIndustry"
-                        @check-change="handleNodeClick1" ref="treeIndustry"></el-tree>
-                    </el-option>
-                    <el-col :span="24" class='selectFull'>
-                        <el-button size="mini" @click="clear">清空</el-button>
-                        <el-button size="mini">全选</el-button>
-                        <el-button type="primary" size="mini" @click="sure">确定</el-button>        
-                    </el-col>
-                </el-select>
+              <el-multiple-selection
+                ref="industryTree"
+                id="industryTree"
+                placeholder="所属行业"
+                @sure-click="sure"
+                size="small full"
+                :search-menu="true"
+                node-key="id"
+                :tree-data="industryList"
+                :default-props="defaultProps1"
+                :all-show="allShow"
+                :default-all-show="false"
+              ></el-multiple-selection>
             </el-col>
             <!-- 项目公司注册地 -->
             <el-col :span="3" style="line-height:30px"><span style="margin-left:20px;">项目公司注册地</span></el-col>
             <el-col :span="6">
-                <el-select ref="selectCheckbox2" v-model="selectValue.areaList" placeholder="请选择注册地" size='small full'>
-                    <el-option :label="selectValue.areaList" :value="selectValue.areaList">
-                        <el-tree :data="getIpoQuery.areaList" show-checkbox node-key="value" highlight-current :props="defaultPropsCity"
-                        @check-change="handleNodeClick2" ref="treeArea"></el-tree>
-                    </el-option>
-                    <el-col :span="24" class='selectFull'>
-                        <el-button size="mini" @click="clear">清空</el-button>
-                        <el-button size="mini">全选</el-button>
-                        <el-button type="primary" size="mini" @click="sure">确定</el-button>
-                    </el-col>
-                </el-select>
+              <el-multiple-selection
+                ref="areaTree"
+                id="areaTree"
+                placeholder="所属地区"
+                @sure-click="sure"
+                size="small full"
+                :search-menu="true"
+                node-key="id"
+                :tree-data="areaList"
+                :default-props="defaultProps"
+                :default-all-show="false"
+              ></el-multiple-selection>
             </el-col>
         </el-row>
         <!-- 表格 -->
@@ -225,8 +239,22 @@ export default {
         orderByOrder: ""
       },
       borderStyle: "borderStyle",
-      borderStyleText: "borderStyleText"
+      borderStyleText: "borderStyleText",
+      areaList:[],
+      industryList:[],
+      defaultProps: {
+        label: 'label',
+      },
+      defaultProps1: {
+        children: 'children',
+				label: 'name'
+      },
+      allShow: {colloge: false,},//下拉列表全部展开或收起
+      abc:'abc',
     };
+  },
+  created() {//加载前默认调用
+    this.getAllDropDownList();
   },
   mounted() {
     //页面加载完成时刷新echart图表
@@ -294,33 +322,69 @@ export default {
         return middle3;
       }
     },
-    // 所属地区数据重组
-    getAreaList(getProjectBelong) {
-      let arr = this.getProjectBelong;
-      let city = MultidimensionalData(arr.areaList);
-      return city;
-    },
-     // 所属行业数据重组
-    getIndustry(getProjectBelong) {
-      let arr = this.getProjectBelong;
-      let industry = MultidimensionalData(arr.industrySelectList);
-      return industry;
-    },
+    // // 所属地区数据重组
+    // getAreaList(getProjectBelong) {
+    //   let arr = this.getProjectBelong;
+    //   let city = MultidimensionalData(arr.areaList);
+    //   return city;
+    // },
+    //  // 所属行业数据重组
+    // getIndustry(getProjectBelong) {
+    //   let arr = this.getProjectBelong;
+    //   let industry = MultidimensionalData(arr.industrySelectList);
+    //   return industry;
+    // },
     // 右表格数据重组
     tableTop() {
       var middle = []
       this.getDataOverInfo.map((obj, idx) => {
-        if(obj.totalAll !== 0) {
-          console.log(obj)
+        if(obj.label != '终止审查' && obj.label != '预披露更新' && obj.label != '已上发审会，暂缓表决' && obj.label != '合计') {
           middle.push(obj)
         }
       })
-      console.log(middle)
       return middle
     }
   },
   watch: {},
   methods: {
+    getAllDropDownList() {//获取下拉列表
+      this.$store.dispatch('getAllDropDownList', '').then((data) => {//(方法名，参数)
+        this.areaList = data.areaList;//所属地区
+        this.industryList = MultidimensionalData(data.industryList);//所属行业
+      });
+    },
+    lableTurnName(lable){//右侧表格名字替换
+      if(lable=="已受理(已受理)"){
+        lable = "已受理<span style='color:#0099cc'>(已受理)</span>";
+      }
+      if(lable=="已反馈(已问询)"){
+        lable = "已反馈<span style='color:#0099cc'>(已问询)</span>";
+      }
+      if(lable=="已通过发审会(上市委会议通过)"){
+        lable = "已通过发审会<span style='color:#0099cc'>(上市委会议通过)</span>";
+      }
+      if(lable=="中止审查(中止)"){
+        lable = "中止审查<span style='color:#0099cc'>(中止)</span>";
+      }
+      if(lable=="注册生效"){
+        lable = "<span style='color:#0099cc'>注册生效</span>";
+      }
+      if(lable=="提交注册"){
+        lable = "<span style='color:#0099cc'>提交注册</span>";
+      }
+      return lable;
+    },
+    renderHeader(h,{column}) {
+      debugger;
+      return h(
+   'div',
+   [ 
+   h('span', column.label , {
+    style:'color:#409eff;'
+   }),
+   ],
+  );
+  },
     // 保荐机构tab1 数据
     search1(data) {
       // console.log("获取table数据", data);
@@ -415,11 +479,12 @@ export default {
       this.$refs.selectCheckbox1.handleClose(); //关闭下拉框
       this.$refs.selectCheckbox2.handleClose(); //关闭下拉框
     },
-    tableRowClassName({ row, rowIndex }) {
-      if (rowIndex === this.tableTop.length - 1) {
-        return "hjRow";
-      }
-      return "";
+    tableRowClassName({ row, column, rowIndex, columnIndex }) {
+      debugger;
+      // if (rowIndex === this.tableTop.length - 1) {
+      //   return "hjRow";
+      // }
+      return "hjRow";
     },
     ipoDataPort() {
       this.$store.dispatch("ipoDataOverviewGet").then();
@@ -503,15 +568,19 @@ export default {
 #table1 .el-table__header thead tr > th {
   padding: 0px;
   height: 30px;
-  background: #e8e8e8;
+  background: #E8E8E8!important;
   color: #333;
-  border-right: 1px solid #ddd;
+  border-right: 1px solid #DDDDDD;
 }
 #table1 .el-table--enable-row-transition .el-table__body td {
   height: 31px;
   line-height: 31px;
-  border-right: 1px solid #ddd;
-  border-bottom: 1px solid #ddd !important;
+  border-right: 1px solid #DDDDDD;
+  border-bottom: 1px solid #DDDDDD;
+}
+#table1 .el-table th > .cell {
+  color: rgb(51, 51, 51);
+  background: #E8E8E8!important;
 }
 .chart .el-table--enable-row-transition .el-table__body td {
   height: 41px;
@@ -524,7 +593,7 @@ export default {
   text-align: center !important;
 }
 .el-table thead.is-group th {
-  background: #a0adb5 !important;
+  background: #E8E8E8 !important;
 }
 #table2 .el-table__header thead tr > th {
   height: 45px;
@@ -564,6 +633,10 @@ export default {
 }
 .el-tabs__header {
   width: 438px !important;
+}
+.abc {
+  border-left-color: #14bcf5!important;
+  border-right-color: #14bcf5!important;
 }
 </style>
 

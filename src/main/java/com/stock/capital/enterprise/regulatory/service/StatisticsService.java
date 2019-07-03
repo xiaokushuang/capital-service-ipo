@@ -1,14 +1,13 @@
 package com.stock.capital.enterprise.regulatory.service;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -34,18 +33,19 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import com.alibaba.druid.util.StringUtils;
+import com.stock.capital.enterprise.regulatory.dao.StatisticsBizMapper;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsCompanyDto;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsParamDto;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto;
 //import com.stock.capital.enterprise.regulatory.dto.StatisticsParamDto;
 import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.OptionDto;
+import com.stock.core.dto.Page;
 import com.stock.core.dto.QueryInfo;
 import com.stock.core.dto.TreeDto;
 import com.stock.core.rest.RestClient;
 import com.stock.core.service.BaseService;
 import com.stock.core.util.DateUtil;
-import com.stock.core.dto.Page;
 
 @Service
 public class StatisticsService extends BaseService {
@@ -64,6 +64,9 @@ public class StatisticsService extends BaseService {
     
     @Autowired
     private StatisticsService statisticsService;
+    
+    @Autowired
+    private StatisticsBizMapper statisticsBizMapper;
 
     /**
      * IPO在审项目数据统计
@@ -265,19 +268,21 @@ public class StatisticsService extends BaseService {
     }
 
     public List<OptionDto> getAreaList() {
-        ParameterizedTypeReference<JsonResponse<List<OptionDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<OptionDto>>>() {
-        };
-        String url = apiBaseUrl + "regulatory_statistics/getAreaList";
-        List<OptionDto> list = restClient.post(url, "", responseType).getResult();
-        return list;
+//        ParameterizedTypeReference<JsonResponse<List<OptionDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<OptionDto>>>() {
+//        };
+//        String url = apiBaseUrl + "regulatory_statistics/getAreaList";
+//        List<OptionDto> list = restClient.post(url, "", responseType).getResult();
+//        return list;
+        return statisticsBizMapper.getAreaList();
     }
 
     public List<TreeDto> getIndustryList() {
-        ParameterizedTypeReference<JsonResponse<List<TreeDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<TreeDto>>>() {
-        };
-        String url = apiBaseUrl + "declareInfo/postDeclareIndexIndustry";
-        List<TreeDto> list = restClient.post(url, null, responseType).getResult();
-        return list;
+//        ParameterizedTypeReference<JsonResponse<List<TreeDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<TreeDto>>>() {
+//        };
+//        String url = apiBaseUrl + "declareInfo/postDeclareIndexIndustry";
+//        List<TreeDto> list = restClient.post(url, null, responseType).getResult();
+//        return list;
+        return statisticsBizMapper.postDeclareIndexIndustry();
     }
 
     public List<StatisticsCompanyDto> queryAreaDetail(StatisticsParamDto statisticsParamDto) {

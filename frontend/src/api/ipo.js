@@ -174,3 +174,11 @@ export function searchCompanyDetail(query) {//获取公司详情页数据
       data: query,//参数
   })
 }
+
+export function getAllDropDownList(query) {//获取下拉列表
+  return request({
+      url: '/ipo/regulatory_statistics/getAllDropDownList',//controller路径
+      method: 'post',//请求方式
+      data: query,//参数
+  })
+}
