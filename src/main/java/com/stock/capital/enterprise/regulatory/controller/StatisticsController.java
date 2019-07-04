@@ -61,6 +61,7 @@ public class StatisticsController extends BaseController {
         //需求4399 2018/5/24 by liuh Start
         List<OptionDto> areaList = statisticsService.getAreaList();
         if (CollectionUtils.isNotEmpty(areaList)) {
+            OptionDto newOpt = new OptionDto();
             for (OptionDto optionDto : areaList) {
                 if (Arrays.asList(TRANS_AREA_CITY).contains(optionDto.getLabel())) {
                    optionDto.setLabel(optionDto.getLabel().replace("市", "")); 
@@ -71,6 +72,11 @@ public class StatisticsController extends BaseController {
                     optionDto.setLabel(TRANS_AREA_PROVINCE_SHOW[indexOf]); 
                  }
             }
+            // 添加境外
+            newOpt.setValue("99999");
+            newOpt.setLabel("境外");
+            newOpt.setOriginContent("境外");
+            areaList.add(newOpt);
         }
         //地区
         mv.addObject("areaList", JsonUtil.toJsonNoNull(areaList));
@@ -126,6 +132,7 @@ public class StatisticsController extends BaseController {
         //地区特殊处理
         List<OptionDto> areaList = statisticsService.getAreaList();
         if (CollectionUtils.isNotEmpty(areaList)) {
+            OptionDto newOpt = new OptionDto();
             for (OptionDto optionDto : areaList) {
                 if (Arrays.asList(TRANS_AREA_CITY).contains(optionDto.getLabel())) {
                    optionDto.setLabel(optionDto.getLabel().replace("市", "")); 
@@ -136,6 +143,12 @@ public class StatisticsController extends BaseController {
                     optionDto.setLabel(TRANS_AREA_PROVINCE_SHOW[indexOf]); 
                  }
             }
+            
+            // 添加境外
+            newOpt.setValue("99999");
+            newOpt.setLabel("境外");
+            newOpt.setOriginContent("境外");
+            areaList.add(newOpt);
         }
         mv.addObject("areaList", JsonUtil.toJsonNoNull(areaList));
         //行业处理——待定
