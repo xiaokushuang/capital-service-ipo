@@ -75,6 +75,7 @@ public class StatisticsController extends BaseController {
             // 添加境外
             newOpt.setValue("99999");
             newOpt.setLabel("境外");
+            areaList.add(newOpt);
         }
         //地区
         mv.addObject("areaList", JsonUtil.toJsonNoNull(areaList));
