@@ -255,7 +255,9 @@ public class IpoExamineService extends BaseService {
      * IPO审核反馈基础信息接口
      */
     public IpoFeedbackDto selectExamineBaseList(String id) {
-        String orgCode = ipoFeedbackMapper.getOrgCode(id).getOrgCode();
+        CompanyOverviewVo companyOverviewVo  = ipoFeedbackMapper.getOrgCode(id);
+        String orgCode = companyOverviewVo.getOrgCode();
+        String ipoPlate = companyOverviewVo.getIpoPlate();
         IpoFeedbackDto ipoFeedbackResultDto = new IpoFeedbackDto();
         //查询发审会基础信息
         List<IpoExamineBaseDto> baseList = ipoExamineMapper.selectExamineBaseList(id);
