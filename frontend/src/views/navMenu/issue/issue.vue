@@ -60,12 +60,12 @@
                    <el-row :gutter="24" class="simulation_table">
                       <el-col :span="6" class="label"><span>战略配售数量</span></el-col>
                       <el-col :span="6" class="value">
-                        <span v-if="issueData.shareIssueOn"> {{issueData.shareIssueOn | dataInThRule}} 万股</span>
+                        <span v-if="issueData.sharesTrategicPlace"> {{issueData.sharesTrategicPlace | dataInThRule}} 万股</span>
                         <span v-else> - - </span>
                       </el-col>
                       <el-col :span="6" class="label"><span>超额配售数量</span></el-col>
                       <el-col :span="6" class="value">
-                        <span v-if="issueData.sharePlaceOff"> {{issueData.sharePlaceOff | dataInThRule}} 万股</span>
+                        <span v-if="issueData.shareOverPlace"> {{issueData.shareOverPlace | dataInThRule}} 万股</span>
                         <span v-else> - - </span>
                       </el-col>
                   </el-row>
@@ -177,6 +177,9 @@ export default {
             sharePlaceOff:'',
             sumFina:'',
             uwMethod:'',
+            sharesTrategicPlace:'',
+
+            shareOverPlace:'',
           },
           dataFlag: false,
           caseId:this.$store.state.app.caseId,
