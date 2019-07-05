@@ -139,17 +139,21 @@
         </if>
     </select>
     <select id="queryAllMatchIpoCase" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo">
-        SELECT t.id,
+        SELECT tb.*,(CASE WHEN DATE_FORMAT(tb.processTime,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d') THEN '1'
+        WHEN DATE_FORMAT(tb.processTime,'%Y-%m-%d') > DATE_FORMAT(NOW(),'%Y-%m-%d') THEN '2' ELSE '0' END)AS makeNewStatus
+        FROM(SELECT t.id,
         t.company_name companyName,
-        t.company_zh_name title
+        t.company_zh_name title,
+        (SELECT m.process_time FROM ipo_process m WHERE m.bid = t.id AND m.tree_type_code = '02' AND m.process_type_code = '16' ORDER BY m.pro_sort DESC LIMIT 1)AS processTime
         FROM ipo_case t,case_common_status_info t1
         WHERE t.id = t1.case_id and t1.release_flag = '1' and t.ipo_plate = '069001001006'
-        AND EXISTS (SELECT 1 FROM ipo_process m WHERE m.bid = t.id AND m.process_type_code = '38' AND m.iec_result =
-        '07')
-        <if test="companyName != null and companyName != ''">
+        AND EXISTS (SELECT 1 FROM ipo_process m WHERE m.bid = t.id AND m.tree_type_code = '01' AND m.process_type_code = '38' AND m.iec_result =
+        '07'))AS tb
+
+        <!--<if test="companyName != null and companyName != ''">
             and (t.company_name like CONCAT('%',#{companyName},'%') or t.company_zh_name like
             CONCAT('%',#{companyName},'%'))
-        </if>
+        </if>-->
     </select>
 
     <select id="queryOrgMarketShare" parameterType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto"
@@ -184,8 +188,10 @@
     <select id="queryQrgMarketRank" parameterType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto"
             resultType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto">
       SELECT t.org_code,t.business_volume,t.passing,t.passing_wait,t.intermediary_type,
-    (SELECT (COUNT(1)+1) FROM ipo_h5_org m WHERE m.business_volume > t.business_volume AND m.intermediary_type = t.intermediary_type)AS businessVolumeRank,
-    (SELECT (COUNT(1)+1) FROM ipo_h5_org m WHERE ifnull(m.passing,0) > ifnull(t.passing,0) AND m.intermediary_type = t.intermediary_type)AS passingRank
-    FROM ipo_h5_org t WHERE t.bid = #{bid} AND t.org_code = #{orgCode} AND t.intermediary_type = #{intermediaryType}
+      (SELECT (COUNT(1)+1) FROM (SELECT * FROM ipo_h5_org m GROUP BY m.intermediary_type,m.business_volume)AS mt
+      WHERE (mt.business_volume+0) > (t.business_volume+0) AND mt.intermediary_type = t.intermediary_type)AS businessVolumeRank,
+      (SELECT (COUNT(1)+1) FROM (SELECT * FROM ipo_h5_org m GROUP BY m.intermediary_type,m.passing)AS mt
+      WHERE ifnull((mt.passing+0),0) > ifnull((t.passing+0),0) AND mt.intermediary_type = t.intermediary_type)AS passingRank
+      FROM ipo_h5_org t WHERE t.org_code = #{orgCode} AND t.intermediary_type = #{intermediaryType}
     </select>
 </mapper>
