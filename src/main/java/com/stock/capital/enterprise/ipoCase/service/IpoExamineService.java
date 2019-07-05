@@ -96,9 +96,9 @@ public class IpoExamineService extends BaseService {
         Date seventeenDate = changeStrToDate("2017-10-16");
         String sessionYear = "";
         //根据发审会日期判断发审会委员届次
-        if("069001001006".equals(belongPlate)){
+        if ("069001001006".equals(belongPlate)) {
             sessionYear = "1";
-        }else{
+        } else {
             if (processDate.compareTo(eighteenDate) > 0) {
                 sessionYear = "18";
             } else if (processDate.compareTo(seventeenDate) > 0 && processDate.compareTo(eighteenDate) < 0) {
@@ -142,14 +142,16 @@ public class IpoExamineService extends BaseService {
         List<String> letterIds = ipoExamineMapper.selectExamineLetterId(orgCode, dateList);
         //以回函日期查询函件id
         List<String> registerLetterIds = new ArrayList<>();
-        if(CollectionUtils.isNotEmpty(registerList)){
+        if (CollectionUtils.isNotEmpty(registerList)) {
             registerLetterIds = ipoExamineMapper.selectRegisterLetterId(orgCode, registerList);
         }
-        if(CollectionUtils.isNotEmpty(registerLetterIds)){
+        if (CollectionUtils.isNotEmpty(registerLetterIds)) {
             letterIds.addAll(registerLetterIds);
         }
         //查询发审会问题及答案列表
-        for(String letterId:letterIds){
+        int registerCount = 1;
+        int examineCount = 1;
+        for (String letterId : letterIds) {
             //定义函件对象
             IpoFeedbackDto ipoFeedbackResultDto = new IpoFeedbackDto();
             ipoFeedbackResultDto.setLetterId(letterId);
@@ -214,6 +216,27 @@ public class IpoExamineService extends BaseService {
             int questionCount = questionList.size();
             int answerCount = 0;
             if (CollectionUtils.isNotEmpty(questionList)) {
+                //添加前台需要展示的函件类型名称
+                String letterTypeName = questionList.get(0).getLetterTypeName();
+                if ("发审委会议询问的主要问题".equals(letterTypeName)) {
+                    ipoFeedbackResultDto.setLetterName("发审委会议关注问题");
+                } else if ("上市委会议询问的主要问题".equals(letterTypeName)) {
+                    if (examineCount == 1) {
+                        ipoFeedbackResultDto.setLetterName("上市会关注问题");
+                    } else if (examineCount == 2) {
+                        ipoFeedbackResultDto.setLetterName("复审会关注问题");
+                    }
+                    examineCount++;
+                } else if ("注册反馈意见函".equals(letterTypeName)) {
+                    if (registerCount == 1) {
+                        ipoFeedbackResultDto.setLetterName("第一轮注册反馈意见");
+                    } else if (registerCount == 2) {
+                        ipoFeedbackResultDto.setLetterName("第二轮注册反馈意见");
+                    } else if (registerCount == 2) {
+                        ipoFeedbackResultDto.setLetterName("第三轮注册反馈意见");
+                    }
+                }
+
                 for (IpoFeedbackIndexDto questionDto : questionList) {
                     //定义二级标签集合
                     List<String> secondLabelList = new ArrayList<>();
@@ -239,12 +262,12 @@ public class IpoExamineService extends BaseService {
                         answerCount++;
                     }
                 }
-            }
-            ipoFeedbackResultDto.setQuestionCount(questionCount);
-            ipoFeedbackResultDto.setAnswerCount(answerCount);
-            ipoFeedbackResultDto.setQuestionList(questionResultList);
+                ipoFeedbackResultDto.setQuestionCount(questionCount);
+                ipoFeedbackResultDto.setAnswerCount(answerCount);
+                ipoFeedbackResultDto.setQuestionList(questionResultList);
 //            ipoFeedbackResultDto.setBaseList(baseList);
-            resultList.add(ipoFeedbackResultDto);
+                resultList.add(ipoFeedbackResultDto);
+            }
         }
 
         return resultList;
@@ -255,7 +278,7 @@ public class IpoExamineService extends BaseService {
      * IPO审核反馈基础信息接口
      */
     public IpoFeedbackDto selectExamineBaseList(String id) {
-        CompanyOverviewVo companyOverviewVo  = ipoFeedbackMapper.getOrgCode(id);
+        CompanyOverviewVo companyOverviewVo = ipoFeedbackMapper.getOrgCode(id);
         String orgCode = companyOverviewVo.getOrgCode();
         String ipoPlate = companyOverviewVo.getIpoPlate();
         IpoFeedbackDto ipoFeedbackResultDto = new IpoFeedbackDto();
@@ -268,10 +291,10 @@ public class IpoExamineService extends BaseService {
         //处理会议标题
         for (IpoExamineBaseDto baseDto : baseList) {
             String title = baseDto.getRelationFileTitle();
-            if(StringUtils.isEmpty(title)){
-                title = baseDto.getCompanyName()+"次";
+            if (StringUtils.isEmpty(title)) {
+                title = baseDto.getCompanyName() + "次";
             }
-            title = title.substring(0, title.indexOf("次")+1) + "会议";
+            title = title.substring(0, title.indexOf("次") + 1) + "会议";
             baseDto.setRelationFileTitle(title);
             //查询发审会委员
             String examineDate = baseDto.getExamineDate();
