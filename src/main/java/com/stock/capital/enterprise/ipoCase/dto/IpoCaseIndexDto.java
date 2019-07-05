@@ -167,6 +167,9 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
     @Field("ipo_final_result_t")
     private String finalResult;//如果复审，则取复审结果，无复审，则取上市委/发审委结果
 
+    @Field("ipo_label_result_t")
+    private String labelResult;//用于前台展示标签
+
 
     public String getOrgCode() {
         return orgCode;
@@ -558,5 +561,13 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
 
     public void setFinalResult(String finalResult) {
         this.finalResult = finalResult;
+    }
+
+    public String getLabelResult() {
+        return labelResult;
+    }
+
+    public void setLabelResult(String labelResult) {
+        this.labelResult = labelResult;
     }
 }
