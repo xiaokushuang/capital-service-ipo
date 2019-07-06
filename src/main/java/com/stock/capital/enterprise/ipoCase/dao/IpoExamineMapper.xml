@@ -12,13 +12,14 @@
             t2.iec_result iecResult,
             t3.label_name iecResultStr,
             date_format(t2.process_time,'%Y-%m-%d') examineDate,
-            date_format(t2.process_time,'%Y年%m月%d日') examineDateStr
+            date_format(t2.process_time,'%Y年%m月%d日') examineDateStr,
+            t2.process_type_code processTypeCode
         FROM
             ipo_case t1
         LEFT JOIN ipo_process t2 ON t1.id = t2.bid
         LEFT JOIN maa_conf_label t3 on t3.label_code = 'IPO_VERIFY_RESULT' and t3.label_value = t2.iec_result
         WHERE
-            (t2.process_type_code = '07' or t2.process_type_code = '35')
+            t2.process_type_code in ('07','35','38','44')
         AND t1.id = #{id}
         AND t2.table_sort = '1'
         order by t2.process_time
@@ -104,8 +105,55 @@
         WHERE
             t2.letter_class_name in ('发审委会议询问的主要问题','上市委会议询问的主要问题')
         AND t1.rela_code = #{orgCode}
-        and t1.letter_date = #{date}
+        and t1.letter_date in
+        <foreach collection="list" separator="," item="item" open="(" close=")" >
+            #{item}
+        </foreach>
         and t1.letter_valid = '0'
-        limit 1
+    </select>
+
+    <select id="selectRegisterLetterId" resultType="java.lang.String">
+        SELECT
+        t1.id
+        FROM
+        sa_letter t1
+        LEFT JOIN letter_class t2 ON t2.id = t1.letter_type
+        WHERE
+        t2.letter_class_name = '注册反馈意见函'
+        AND t1.rela_code = #{orgCode}
+        and t1.return_date in
+        <foreach collection="list" separator="," item="item" open="(" close=")" >
+            #{item}
+        </foreach>
+        and t1.letter_valid = '0'
+    </select>
+
+    <select id="selectLetterDate" parameterType="java.lang.String"
+            resultType="java.util.Date">
+        SELECT
+            date_format(t2.process_time,'%Y-%m-%d') examineDate
+        FROM
+            ipo_case t1
+        LEFT JOIN ipo_process t2 ON t1.id = t2.bid
+        LEFT JOIN maa_conf_label t3 on t3.label_code = 'IPO_VERIFY_RESULT' and t3.label_value = t2.iec_result
+        WHERE
+            t2.process_type_code in ('07','35','44')
+        AND t1.id = #{id}
+        AND t2.table_sort = '1'
+        order by t2.process_time
+    </select>
+    <select id="selectRegisterLetterDate" parameterType="java.lang.String"
+            resultType="java.util.Date">
+        SELECT
+            date_format(t2.process_time,'%Y-%m-%d') examineDate
+        FROM
+            ipo_case t1
+        LEFT JOIN ipo_process t2 ON t1.id = t2.bid
+        LEFT JOIN maa_conf_label t3 on t3.label_code = 'IPO_VERIFY_RESULT' and t3.label_value = t2.iec_result
+        WHERE
+            t2.process_type_code = '43'
+        AND t1.id = #{id}
+        AND t2.table_sort = '1'
+        order by t2.process_time
     </select>
 </mapper>

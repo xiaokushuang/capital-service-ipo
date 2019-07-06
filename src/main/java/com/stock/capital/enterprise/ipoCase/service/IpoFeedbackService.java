@@ -242,6 +242,16 @@ public class IpoFeedbackService extends BaseService {
                             resultList.get(i).setLetterName("第四次问询");
                         } else if (i == 4) {
                             resultList.get(i).setLetterName("第五次问询");
+                        } else if (i == 5) {
+                            resultList.get(i).setLetterName("第六次问询");
+                        } else if (i == 6) {
+                            resultList.get(i).setLetterName("第七次问询");
+                        } else if (i == 7) {
+                            resultList.get(i).setLetterName("第八次问询");
+                        } else if (i == 8) {
+                            resultList.get(i).setLetterName("第九次问询");
+                        } else if (i == 9) {
+                            resultList.get(i).setLetterName("第十次问询");
                         }
                     }else{
                         if (i == 0) {
@@ -254,6 +264,16 @@ public class IpoFeedbackService extends BaseService {
                             resultList.get(i).setLetterName("第四次反馈意见");
                         } else if (i == 4) {
                             resultList.get(i).setLetterName("第五次反馈意见");
+                        } else if (i == 5) {
+                            resultList.get(i).setLetterName("第六次反馈意见");
+                        } else if (i == 6) {
+                            resultList.get(i).setLetterName("第七次反馈意见");
+                        } else if (i == 7) {
+                            resultList.get(i).setLetterName("第八次反馈意见");
+                        } else if (i == 8) {
+                            resultList.get(i).setLetterName("第九次反馈意见");
+                        } else if (i == 9) {
+                            resultList.get(i).setLetterName("第十次反馈意见");
                         }
                     }
                 }

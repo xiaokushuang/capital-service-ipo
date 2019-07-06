@@ -24,6 +24,8 @@ public class IpoExamineBaseDto implements Serializable {
     private String examineDate;
     @ApiModelProperty("发审会日期,年月日格式")
     private String examineDateStr;
+    @ApiModelProperty("进程类型")
+    private String processTypeCode;
 
     public String getRelationFileTitle() {
         return relationFileTitle;
@@ -79,5 +81,13 @@ public class IpoExamineBaseDto implements Serializable {
 
     public void setExamineDateStr(String examineDateStr) {
         this.examineDateStr = examineDateStr;
+    }
+
+    public String getProcessTypeCode() {
+        return processTypeCode;
+    }
+
+    public void setProcessTypeCode(String processTypeCode) {
+        this.processTypeCode = processTypeCode;
     }
 }
