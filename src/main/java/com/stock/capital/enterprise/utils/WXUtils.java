@@ -58,7 +58,7 @@ public class WXUtils {
      * @param companyName
      * @return
      */
-    public byte[] getminiqrQr(String id, String companyName) {
+    public byte[] getMiNiQr(String id, String companyName) {
         ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
         };
         InputStream inputStream = null;
