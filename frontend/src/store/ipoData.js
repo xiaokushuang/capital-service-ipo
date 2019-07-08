@@ -387,7 +387,7 @@ const ipo = {
             // console.log(6)
             // console.log(param.data)
           }
-          resolve()
+          resolve(response.data.result)
         }).catch((error) => {
           console.log(error)
           if (error && error.response && error.response.status === 401) {
@@ -481,7 +481,7 @@ const ipo = {
             // console.log(6)
             // console.log(param.data)
           }
-          resolve()
+          resolve(response.data.result)
         }).catch((error) => {
           console.log(error)
           if (error && error.response && error.response.status === 401) {
@@ -510,8 +510,7 @@ const ipo = {
             commit('SET_IPO_TYPE', param)
             commit('SET_IPO_TYPE_TOTAL', { 'total3': param.data.total })
           }
-          console.log('成功')
-          resolve()
+          resolve(response.data.result)
         }).catch((error) => {
           console.log(error)
           if (error && error.response && error.response.status === 401) {

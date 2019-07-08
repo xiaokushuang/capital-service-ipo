@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import com.alibaba.druid.util.StringUtils;
+import com.google.common.collect.Maps;
 import com.stock.capital.enterprise.regulatory.dao.StatisticsBizMapper;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsCompanyDto;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsParamDto;
@@ -104,16 +106,26 @@ public class StatisticsService extends BaseService {
      * @return
      */
     public Page<StatisticsResultDto> getIPORecommendOrgStts(QueryInfo<Map<String, Object>> queryInfo) {
-//        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
-//        };
-//        MultiValueMap<String, String> parameter = new LinkedMultiValueMap<String, String>();
-//        parameter.add("registAddr", dto.getRegistAddr());
-//        parameter.add("industry", dto.getIndustry());
-//        List<StatisticsResultDto> response = restClient.post(url, parameter, responseType).getResult();
-        String url = apiBaseUrl + "regulatory_statistics/getIPORecommendOrgStts";
-        ParameterizedTypeReference<JsonResponse<Page<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<Page<StatisticsResultDto>>>() {
-        };
-        Page<StatisticsResultDto> page = restClient.post(url, queryInfo, responseType).getResult();
+        // ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new
+        // ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
+        // };
+        // MultiValueMap<String, String> parameter = new LinkedMultiValueMap<String, String>();
+        // parameter.add("registAddr", dto.getRegistAddr());
+        // parameter.add("industry", dto.getIndustry());
+        // List<StatisticsResultDto> response = restClient.post(url, parameter, responseType).getResult();
+        // String url = apiBaseUrl + "regulatory_statistics/getIPORecommendOrgStts";
+        // ParameterizedTypeReference<JsonResponse<Page<StatisticsResultDto>>> responseType = new
+        // ParameterizedTypeReference<JsonResponse<Page<StatisticsResultDto>>>() {
+        // };
+        // Page<StatisticsResultDto> page = restClient.post(url, queryInfo, responseType).getResult();
+        Map<String, Object> map = makeParamMap(queryInfo);
+        // 获取每页数据
+        Page<StatisticsResultDto> page = super
+                .getPageList(
+                        queryInfo.getStartRow(),
+                        queryInfo.getPageSize(),
+                        "com.stock.capital.enterprise.regulatory.dao.StatisticsBizMapper.getIPORecommendOrgStts",
+                        map);
         return page;
     }
 
@@ -132,10 +144,19 @@ public class StatisticsService extends BaseService {
 //        parameter.add("industry", dto.getIndustry());
 //        List<StatisticsResultDto> response = restClient.post(url, parameter, responseType).getResult();
 //        return response;
-        String url = apiBaseUrl + "regulatory_statistics/getIPOAccountantOfficeStts";
-        ParameterizedTypeReference<JsonResponse<Page<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<Page<StatisticsResultDto>>>() {
-        };
-        Page<StatisticsResultDto> page = restClient.post(url, queryInfo, responseType).getResult();
+//        String url = apiBaseUrl + "regulatory_statistics/getIPOAccountantOfficeStts";
+//        ParameterizedTypeReference<JsonResponse<Page<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<Page<StatisticsResultDto>>>() {
+//        };
+//        Page<StatisticsResultDto> page = restClient.post(url, queryInfo, responseType).getResult();
+
+        Map<String, Object> map = makeParamMap(queryInfo);
+        // 获取每页数据
+        Page<StatisticsResultDto> page = super
+                .getPageList(
+                        queryInfo.getStartRow(),
+                        queryInfo.getPageSize(),
+                        "com.stock.capital.enterprise.regulatory.dao.StatisticsBizMapper.getIPOAccountantOfficeStts",
+                        map);
         return page;
     }
 
@@ -154,10 +175,18 @@ public class StatisticsService extends BaseService {
 //        parameter.add("industry", dto.getIndustry());
 //        List<StatisticsResultDto> response = restClient.post(url, parameter, responseType).getResult();
 //        return response;
-        String url = apiBaseUrl + "regulatory_statistics/getIPOLawFirmStts";
-        ParameterizedTypeReference<JsonResponse<Page<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<Page<StatisticsResultDto>>>() {
-        };
-        Page<StatisticsResultDto> page = restClient.post(url, queryInfo, responseType).getResult();
+//        String url = apiBaseUrl + "regulatory_statistics/getIPOLawFirmStts";
+//        ParameterizedTypeReference<JsonResponse<Page<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<Page<StatisticsResultDto>>>() {
+//        };
+//        Page<StatisticsResultDto> page = restClient.post(url, queryInfo, responseType).getResult();
+        Map<String, Object> map = makeParamMap(queryInfo);
+        // 获取每页数据
+        Page<StatisticsResultDto> page = super
+                .getPageList(
+                        queryInfo.getStartRow(),
+                        queryInfo.getPageSize(),
+                        "com.stock.capital.enterprise.regulatory.dao.StatisticsBizMapper.getIPOLawFirmStts",
+                        map);
         return page;
     }
     //需求4399 2018/5/24 by liuh end
@@ -954,5 +983,42 @@ public class StatisticsService extends BaseService {
         blackBorder.setBorderBottom(BorderStyle.THIN);
         blackBorder.setBottomBorderColor(IndexedColors.BLACK.getIndex());
         return blackBorder;
+    }
+    
+    /**
+     * 拼接查询条件
+     */
+    public Map<String, Object> makeParamMap(QueryInfo<Map<String, Object>> queryInfo) {
+        Map<String, Object> params = Maps.newHashMap();
+        String updateTime = statisticsBizMapper.getIPOLastTime();
+        List<String> areaList = new ArrayList<String>();
+        List<String> industryList = new ArrayList<String>();
+        // 截止时间
+        params.put("lastUpadteTime", updateTime);
+        //排序
+        if(!StringUtils.isEmpty(queryInfo.getOrderByName())) {
+            params.put("orderByName", queryInfo.getOrderByName());
+        }
+        String orderByOrder = "";
+        if(!StringUtils.isEmpty(queryInfo.getOrderByOrder())) {
+            if("descending".equals(queryInfo.getOrderByOrder())) {
+                orderByOrder = "DESC";
+            } else {
+                orderByOrder = "ASC";
+            }
+            params.put("orderByOrder", orderByOrder);
+        }
+        
+        // 注册地
+        if (queryInfo.getCondition().get("registAddr") != null && queryInfo.getCondition().get("registAddr") != "") {
+            areaList = Arrays.asList(queryInfo.getCondition().get("registAddr").toString().split(","));
+            params.put("areaList", areaList);
+        }
+        // 所属行业
+        if (queryInfo.getCondition().get("industry") != null && queryInfo.getCondition().get("industry") != "") {
+            industryList = Arrays.asList(queryInfo.getCondition().get("industry").toString().split(","));
+            params.put("industryList", industryList);
+        }
+        return params;
     }
 }

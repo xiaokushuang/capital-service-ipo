@@ -1,0 +1,131 @@
+<template>
+    <div class="favorite-table">
+        <el-table :data="data" style="width: 100%" class="paddingControl" border tooltip-effect="dark"
+          @sort-change="sortChange" ref="multipleSelection">
+           <el-table-column align="center" label="序号" type="index" width="60"></el-table-column>
+                <el-table-column v-if="id == 'first'" align="left" label="保荐机构" prop="label" min-width="30%"></el-table-column>
+                <el-table-column v-else-if="id == 'second'" align="left" label="律师事务所" prop="label" min-width="30%"></el-table-column>
+                <el-table-column v-else align="left" label="会计事务所" prop="label" min-width="30%"></el-table-column>
+                <el-table-column align="center" label="沪主板" prop="hzbCount" min-width="10%" sortable="custom"></el-table-column>
+                <el-table-column align="center" label="中小板" prop="zxbCount" min-width="10%" sortable="custom"></el-table-column>
+                <el-table-column align="center" label="创业板" prop="cybCount" min-width="10%" sortable="custom"></el-table-column>
+                <el-table-column align="center" label="科创板" prop="kcCount" min-width="10%" sortable="custom"></el-table-column>
+                <el-table-column align="center" label="合计"  prop="totalCount" min-width="10%" sortable="custom"></el-table-column>
+                <el-table-column align="center" label="市场占比" min-width="10%" prop="percent" sortable="custom">
+                    <template slot-scope="scope">
+                        <span>{{scope.row.percent}}%</span>
+                    </template>
+                </el-table-column> 
+        </el-table>
+        <papers ref="paper" :sdefault="condition_copy" :length1="20" :total="totalCount" @searchTable="search"></papers>
+    </div>
+</template>
+
+<script>
+import { mapGetters } from 'vuex'
+import {iframeDoMessage} from '@/utils/auth'
+import {openPostWindow} from '@/utils'
+import common from '@/mixins/common'
+import papers from "@/views/components-demo/newPapers";
+export default {
+	name: 'IpoDataOverviewTableShow',//主体身份
+	props: {
+        id:{
+            type:String,
+            default:'first',
+        },
+        industrySelect:{//选中的行业
+            type:String,
+            default:'',
+        },
+        areaSelect:{//选中的地区
+            type:String,
+            default:'',
+        }
+	},
+    created() {//加载前默认调用
+    },  
+    mounted(){
+        this.confirmSearch();//分页查询
+    },
+	data() {
+		return {
+            data:[],
+            totalCount:0,
+            queryParam: {
+                startRow: 1, //page
+                pageSize: 20, //limit
+                orderByName: "",
+                orderByOrder: "",
+                condition: {
+                    industry:'',//行业
+                    registAddr:'',//地区
+                }
+            },
+		}
+    },
+    mixins:[
+        common //引用JS
+    ],
+    components: {
+        papers
+    },
+    computed:{//获取getters中方法
+	 	
+    },
+    methods : {//正常调用方法
+        sortChange(column){//排序查询
+			//设置排序
+			if (column.order != null && column.prop != null) {
+			  (this.queryParam.orderByName = column.prop), (this.queryParam.orderByOrder = column.order);
+			} else {
+			  this.queryParam.orderByName = "";
+			  this.queryParam.orderByOrder = "";
+			}
+			this.setPage();
+			//分页查询
+			this.pageSearch();
+		},
+        pageSearch(){//分页查询调用
+            this.$refs.paper.search(this.queryParam.orderByName,this.queryParam.orderByOrder);	
+        },
+        search(data){//通过给定条件查询数据
+            this.queryParam.pageSize = data.pageSize;
+            if(this.id == 'first') {
+                this.$store.dispatch('sponsorInstitutionGet', data).then((data) => {//(方法名，参数)
+                    this.data = data.recommendOrgSttsList;
+                    this.totalCount = data.total;
+                });
+            } else if(this.id == 'second') {
+                this.$store.dispatch('lawOfficeGet', data).then((data) => {//(方法名，参数)
+                    this.data = data.lawFirmSttsList;
+                    this.totalCount = data.total;
+                });
+            } else if(this.id == 'third') {
+                this.$store.dispatch('accountFirmGet', data).then((data) => {//(方法名，参数)
+                    this.data = data.accountantOfficeSttsList;
+                    this.totalCount = data.total;
+                });
+            }
+        },
+        
+    },
+    watch : {
+        "industrySelect" : function(val, oldVal){//行业下拉列表改变
+            this.queryParam.condition.industry = this.industrySelect;
+            //执行取消全部收藏
+            this.confirmSearch();
+        },
+        "areaSelect" : function(val, oldVal){//地区下拉列表改变
+            this.queryParam.condition.registAddr = this.areaSelect;
+            //执行取消全部收藏
+            this.confirmSearch();
+        },
+        
+    },   
+}
+</script>
+
+<style>
+
+</style>

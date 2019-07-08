@@ -6,7 +6,6 @@
 import echarts from "echarts";
 
 export default {
-  //props: ['className','id','width','height','chartData2'],
   name: "largeScaleChart",
   props: {
     className: {
@@ -59,23 +58,15 @@ export default {
       var hzbCount = []; // 00上海证券交易所
       var zxbCount = []; // 02深圳证券交易所(中小板)
       var cybCount = []; // 03深圳证券交易所(创业板)
-      var totalCount = []; // 批次合计
+      var kcCount = []; // 科创板
       this.chartData2.map((obj,p)=>{
         grabUpdateTime.push(obj.value.replace(new RegExp('-','g'), '/'));
         hzbCount.push(obj.hzbCount);
         zxbCount.push(obj.zxbCount);
         cybCount.push(obj.cybCount);
-        totalCount.push(obj.totalCount);
+        kcCount.push(obj.kcCount);
       })
-      var myChartColor = [
-        "#ca2428",
-        "#2e444e",
-        "#7ccbab",
-        "#ffa128",
-        "#227d99",
-        "",
-        "#ff5f3a"
-      ];
+      var myChartColor = ['#ca2428', '#2e444e', '#7ccbab', '#ffa128', '#227d99', '#ff5f3a','#3badda','#DDDDDD'];
       this.chart.clear();
       // 自适应
       window.onresize = this.chart.resize;
@@ -109,7 +100,7 @@ export default {
         },
         legend: {
           top: "35px",
-          data: ["合计", "沪主板", "创业板", "中小板"]
+          data:['沪主板','创业板','中小板','科创板']
         },
         grid: {
           left: "3px",
@@ -130,7 +121,7 @@ export default {
         dataZoom: [
           {
             type: "inside",
-            start: 0,
+            start:70,
             end: 100
           },
           {
@@ -150,44 +141,24 @@ export default {
         ],
         series: [
           {
-            name: "合计",
-            type: "line",
-            smooth: true,
-            symbol: "diamond",
-            sampling: "average",
-            itemStyle: {
-              normal: {
-                color: myChartColor[0]
-              }
-            },
-            areaStyle: {
-              normal: {
-                color: myChartColor[0]
-              }
-            },
-            data: totalCount
-          },
-          {
             name: "沪主板",
             type: "line",
+            stack: '总量',
             smooth: true,
             symbol: "circle",
             sampling: "average",
             itemStyle: {
               normal: {
-                color: myChartColor[1]
+                color: myChartColor[0]
               }
             },
-            areaStyle: {
-              normal: {
-                color: myChartColor[1]
-              }
-            },
+            areaStyle: {normal: {}},
             data: hzbCount
           },
           {
             name: "创业板",
             type: "line",
+            stack: '总量',
             smooth: true,
             symbol: "rect",
             sampling: "average",
@@ -196,16 +167,13 @@ export default {
                 color: myChartColor[2]
               }
             },
-            areaStyle: {
-              normal: {
-                color: myChartColor[2]
-              }
-            },
+            areaStyle: {normal: {}},
             data: cybCount
           },
           {
             name: "中小板",
             type: "line",
+            stack: '总量',
             smooth: true,
             symbol: "triangle",
             sampling: "average",
@@ -214,13 +182,24 @@ export default {
                 color: myChartColor[3]
               }
             },
-            areaStyle: {
-              normal: {
-                color: myChartColor[3]
-              }
-            },
+            areaStyle: {normal: {}},
             data: zxbCount
-          }
+          },
+          {
+            name:'科创板',
+            type:'line',
+            stack: '总量',
+            smooth:true,
+            symbol: 'diamond',
+            sampling: 'average',
+            itemStyle: {
+                normal: {
+                    color: '#14bcf5'
+                }
+            },
+            areaStyle: {normal: {}},
+            data: kcCount
+          },
         ]
       };
       this.chart.setOption(option);

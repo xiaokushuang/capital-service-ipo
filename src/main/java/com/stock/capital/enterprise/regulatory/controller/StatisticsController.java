@@ -257,12 +257,26 @@ public class StatisticsController extends BaseController {
         return response;
     }
     
+    /**
+     * IPO数据概览-保荐机构查询(微服)
+     *
+     * @return response（JSON格式）
+     */
     @RequestMapping(value = "/getIPORecommendOrgStts1", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResponse<Page<StatisticsResultDto>> getIPORecommendOrgSttsJson(@RequestBody QueryInfo<Map<String, Object>> queryInfo) {
-        JsonResponse<Page<StatisticsResultDto>> response = new JsonResponse<>();
+    public JsonResponse<StatisticsReturnDto> getIPORecommendOrgSttsJson(@RequestBody QueryInfo<Map<String, Object>> queryInfo) {
+        JsonResponse<StatisticsReturnDto> response = new JsonResponse<>();
         Page<StatisticsResultDto> page = statisticsService.getIPORecommendOrgStts(queryInfo);
-        response.setResult(page);
+        int total = 0;
+        List<StatisticsResultDto> list = Lists.newArrayList();
+        StatisticsReturnDto dto = new StatisticsReturnDto();
+        if(page != null) {
+            list = page.getData();
+            total = page.getTotal();
+        }
+        dto.setRecommendOrgSttsList(list);
+        dto.setTotal(total);
+        response.setResult(dto);
         return response;
     }
     
@@ -325,12 +339,26 @@ public class StatisticsController extends BaseController {
       return response;
     }
     
+    /**
+     * IPO数据概览-会计事务所(微服)
+     *
+     * @return response（JSON格式）
+     */
     @RequestMapping(value = "/getIPOAccountantOfficeStts1", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResponse<Page<StatisticsResultDto>> getIPOAccountantOfficeSttsJson(@RequestBody QueryInfo<Map<String, Object>> queryInfo) {
-        JsonResponse<Page<StatisticsResultDto>> response = new JsonResponse<>();
+    public JsonResponse<StatisticsReturnDto> getIPOAccountantOfficeSttsJson(@RequestBody QueryInfo<Map<String, Object>> queryInfo) {
+        JsonResponse<StatisticsReturnDto> response = new JsonResponse<>();
         Page<StatisticsResultDto> page = statisticsService.getIPOAccountantOfficeStts(queryInfo);
-        response.setResult(page);
+        int total = 0;
+        List<StatisticsResultDto> list = Lists.newArrayList();
+        StatisticsReturnDto dto = new StatisticsReturnDto();
+        if(page != null) {
+            list = page.getData();
+            total = page.getTotal();
+        }
+        dto.setAccountantOfficeSttsList(list);;
+        dto.setTotal(total);
+        response.setResult(dto);
         return response;
     }
         
@@ -393,12 +421,26 @@ public class StatisticsController extends BaseController {
       return response;
     }
     
+    /**
+     * IPO数据概览-律师事务所(微服)
+     *
+     * @return response（JSON格式）
+     */
     @RequestMapping(value = "/getIPOLawFirmStts1", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResponse<Page<StatisticsResultDto>> getIPOLawFirmSttsJson(@RequestBody QueryInfo<Map<String, Object>> queryInfo) {
-        JsonResponse<Page<StatisticsResultDto>> response = new JsonResponse<>();
+    public JsonResponse<StatisticsReturnDto> getIPOLawFirmSttsJson(@RequestBody QueryInfo<Map<String, Object>> queryInfo) {
+        JsonResponse<StatisticsReturnDto> response = new JsonResponse<>();
         Page<StatisticsResultDto> page = statisticsService.getIPOLawFirmStts(queryInfo);
-        response.setResult(page);
+        int total = 0;
+        List<StatisticsResultDto> list = Lists.newArrayList();
+        StatisticsReturnDto dto = new StatisticsReturnDto();
+        if(page != null) {
+            list = page.getData();
+            total = page.getTotal();
+        }
+        dto.setLawFirmSttsList(list);
+        dto.setTotal(total);
+        response.setResult(dto);
         return response;
     }
         

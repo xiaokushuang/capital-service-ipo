@@ -18,6 +18,50 @@ public class StatisticsReturnDto implements Serializable {
     
     //所属行业下拉列表
     private List<TreeDto> industryList;
+    
+    //数量
+    private int total;
+    
+    //保荐机构
+    private List<StatisticsResultDto> recommendOrgSttsList;
+    
+    //律师事务所
+    private List<StatisticsResultDto> LawFirmSttsList;
+    
+    //会计事务所
+    private List<StatisticsResultDto> accountantOfficeSttsList;
+    
+    public int getTotal() {
+        return total;
+    }
+
+    public List<StatisticsResultDto> getRecommendOrgSttsList() {
+        return recommendOrgSttsList;
+    }
+
+    public List<StatisticsResultDto> getLawFirmSttsList() {
+        return LawFirmSttsList;
+    }
+
+    public List<StatisticsResultDto> getAccountantOfficeSttsList() {
+        return accountantOfficeSttsList;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public void setRecommendOrgSttsList(List<StatisticsResultDto> recommendOrgSttsList) {
+        this.recommendOrgSttsList = recommendOrgSttsList;
+    }
+
+    public void setLawFirmSttsList(List<StatisticsResultDto> lawFirmSttsList) {
+        LawFirmSttsList = lawFirmSttsList;
+    }
+
+    public void setAccountantOfficeSttsList(List<StatisticsResultDto> accountantOfficeSttsList) {
+        this.accountantOfficeSttsList = accountantOfficeSttsList;
+    }
 
     public List<OptionDto> getAreaList() {
         return areaList;
