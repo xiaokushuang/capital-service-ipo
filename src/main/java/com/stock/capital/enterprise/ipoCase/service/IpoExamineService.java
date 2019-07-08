@@ -277,8 +277,7 @@ public class IpoExamineService extends BaseService {
             }
         }
         //按照日期排序，注册反馈取回函日期，其他取来函日期
-        resultList.sort((IpoFeedbackDto c1,IpoFeedbackDto c2) -> (c1.getLetterDate() == null || c2.getLetterDate() == null
-                ? 1 : c1.getLetterDate().compareTo(c2.getLetterDate())));
+        resultList.sort(Comparator.comparing(IpoFeedbackDto::getLetterDate));
         return resultList;
     }
 
