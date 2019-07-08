@@ -5,6 +5,7 @@ import com.obs.services.model.ObjectMetadata;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo;
 import com.stock.capital.enterprise.ipoInterfaceH5.service.IpoInterfaceService;
 import com.stock.core.controller.BaseController;
+import com.stock.core.rest.RestClient;
 import com.stock.core.util.JsonUtil;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
@@ -12,12 +13,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.annotation.PostConstruct;
 import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +41,14 @@ public class IpoFileUploadController extends BaseController {
 
     @Value("${obs.upload}")
     private String obsUpload;
+
+    @Autowired
+    private RestClient restClient;
+
+    @Value("${minipro.appid}")
+    private String appid;
+    @Value("${minipro.secret}")
+    private String secret;
 
     /**
      * 文件上传
@@ -64,7 +75,7 @@ public class IpoFileUploadController extends BaseController {
     /**
      * 每晚定时把所有科创版数据生成json文件放到华为云上
      */
-    @Scheduled(cron = "0 10 02 * * ? ")
+    @Scheduled(cron = "0 15 02,21 * * ?")
     public void ipoDataUpload() {
         //查询科创版所有案例
         logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
@@ -149,5 +160,19 @@ public class IpoFileUploadController extends BaseController {
             tempMap.put("id", id);
             ipoDataUploadSpecComById(tempMap);
         }
+    }
+
+
+    //每隔一个小时刷一次
+    @Scheduled(cron = "0 0 0/1 * * ?")
+    @PostConstruct
+    public void updateAccessToken(){
+        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+appid+"&secret="+secret;
+        ParameterizedTypeReference<Map<String,Object>> responseType = new ParameterizedTypeReference<Map<String, Object>>() {
+        };
+        Map<String, Object> map = restClient.get(url, responseType);
+        logger.info("每小时刷新一次,定时刷新access_token:"+map.get("access_token"));
+//        采用wechatAccessToken名字存储token
+        fileUpload((String) map.get("access_token"),"wechatAccessToken");
     }
 }

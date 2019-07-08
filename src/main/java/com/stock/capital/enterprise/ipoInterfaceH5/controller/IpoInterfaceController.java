@@ -22,6 +22,7 @@ import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5IssueDataDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5TechnologyDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.service.IpoInterfaceService;
 import com.stock.capital.enterprise.utils.SensitiveWord;
+import com.stock.capital.enterprise.utils.WXUtils;
 import com.stock.core.controller.BaseController;
 import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.QueryInfo;
@@ -43,6 +44,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -59,6 +61,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+
+import javax.servlet.http.HttpServletResponse;
 
 @Api(tags = {"IPOH5接口"}, description = "IPOH5接口")
 @Controller
@@ -1697,29 +1701,45 @@ public class IpoInterfaceController extends BaseController {
             if (mainList != null){
                 for (int i=0;i<mainList.size();i++){
                     mainList.get(i).setBid(id);
+
                     //查询改中介机构的业务量和过会数量
                     if (mainList.get(i).getIntermediaryType().equals("1")){
                         IntermediaryOrgDto dto = ipoInterfaceService.queryOrgMarketShare(mainList.get(i));
+                        IntermediaryOrgDto dto1  = ipoInterfaceService.queryQrgMarketRank(mainList.get(i));
                         if (dto != null){
                             mainList.get(i).setBusinessVolume(dto.getBusinessVolume());
                             mainList.get(i).setPassing(dto.getPassing());
                             mainList.get(i).setPassingWait(dto.getPassingWait());
+                            if (dto1 != null){
+                                mainList.get(i).setBusinessVolumeRank(dto1.getBusinessVolumeRank());
+                                mainList.get(i).setPassingRank(dto1.getPassingRank());
+                            }
                         }
                     }
                     if (mainList.get(i).getIntermediaryType().equals("3")){
                         IntermediaryOrgDto dto = ipoInterfaceService.queryOrgMarketShare(mainList.get(i));
+                        IntermediaryOrgDto dto1  = ipoInterfaceService.queryQrgMarketRank(mainList.get(i));
                         if (dto != null){
                             mainList.get(i).setBusinessVolume(dto.getBusinessVolume());
                             mainList.get(i).setPassing(dto.getPassing());
                             mainList.get(i).setPassingWait(dto.getPassingWait());
+                            if (dto1 != null){
+                                mainList.get(i).setBusinessVolumeRank(dto1.getBusinessVolumeRank());
+                                mainList.get(i).setPassingRank(dto1.getPassingRank());
+                            }
                         }
                     }
                     if (mainList.get(i).getIntermediaryType().equals("4")){
                         IntermediaryOrgDto dto = ipoInterfaceService.queryOrgMarketShare(mainList.get(i));
+                        IntermediaryOrgDto dto1  = ipoInterfaceService.queryQrgMarketRank(mainList.get(i));
                         if (dto != null){
                             mainList.get(i).setBusinessVolume(dto.getBusinessVolume());
                             mainList.get(i).setPassing(dto.getPassing());
                             mainList.get(i).setPassingWait(dto.getPassingWait());
+                            if (dto1 != null){
+                                mainList.get(i).setBusinessVolumeRank(dto1.getBusinessVolumeRank());
+                                mainList.get(i).setPassingRank(dto1.getPassingRank());
+                            }
                         }
                     }
                 }
@@ -1797,7 +1817,7 @@ public class IpoInterfaceController extends BaseController {
     public JsonResponse submitReplay(String headPortrait,String username,String commentText,String openid,String unionid,String caseid ) {
         JsonResponse jsonResponse = new JsonResponse();
         Map<String,Object> map = new HashMap();
-        //        set 时间
+        //    敏感词判断
         SensitiveWord sw = new SensitiveWord("CensorWords.txt");
         sw.InitializationWork();
         boolean canNotSubmit = sw.filterInfo(commentText);
@@ -1987,4 +2007,20 @@ public class IpoInterfaceController extends BaseController {
         logger.info("获取评论"+result);
         return jsonResponse;
     }
+    @Autowired
+    private WXUtils wxUtils;
+
+    /**
+     * 输出二维码
+     * @param response
+     * @param id
+     * @param companyName
+     * @throws IOException
+     */
+    @RequestMapping("/getQrCode")
+    public void getAccessToken(HttpServletResponse response, String id, String companyName) throws IOException {
+        byte[] qrCode = wxUtils.getMiNiQr(id,companyName);
+        response.getOutputStream().write(qrCode);
+    }
+
 }
