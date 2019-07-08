@@ -45,6 +45,7 @@
                                                 @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)"
                                                 class="tinyHand">
                                             </div>
+                                            <!-- <span class="tg" style="margin-right:12px"></span> -->
                                         <!-- 审核结果 -->
 
                                             <span v-if="item.progressType=='07'&&item.iecResult=='00'" :style={background:htg}  class="htg" >获通过</span>
@@ -53,11 +54,11 @@
                                             <span v-if="item.progressType=='07'&&item.iecResult=='03'" :style={background:qxsh} class="qxsh">取消审核</span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='04'" :style={background:dsh} class="dsh">待上会</span>
                                             <!-- 科创版 -->
-                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='05'" :style={background:tg}  class="tg" >通过</span>
-                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='06'" :style={background:wtg} class="wtg">未通过</span>
-                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='07'" :style={background:zcsx} class="htg">注册生效 </span>
-                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='08'" :style={background:whtg} class="whtg">不予注册</span>
-                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='09'" :style={background:dsh} class="dsh">待上会</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38' || item.progressType=='44')&&item.iecResult=='05'" class="tg" :style="{'background':tg,'left':item.progressName=='上市委复审会议'?'53%':'38%'}">通过</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38' || item.progressType=='44')&&item.iecResult=='06'" :style="{'background':wtg,'left':item.progressName=='上市委复审会议'?'53%':'38%'}" class="wtg">未通过</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38' || item.progressType=='44')&&item.iecResult=='07'" :style="{'background':zcsx,'left':item.progressName=='上市委复审会议'?'53%':'38%'}" class="htg">注册生效 </span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38' || item.progressType=='44')&&item.iecResult=='08'" :style="{'background':whtg,'left':item.progressName=='上市委复审会议'?'53%':'38%'}" class="whtg">不予注册</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38' || item.progressType=='44')&&item.iecResult=='09'" :style="{'background':dsh,'left':item.progressName=='上市委复审会议'?'53%':'38%'}" class="dsh">待上会</span>
                                         </div>
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)" style="cursor: pointer;"
@@ -133,7 +134,7 @@
                                     </div>
                                     <div class="border-right">
                                         <div style="height: 19px;">
-                                            <div style="font-size: 16px; color: #333333;"
+                                            <div style="font-size: 16px; color: #333333;margin-right:100px;!important"
                                                 v-text='item.progressName'
                                                 @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'title')"
                                                 @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)"
@@ -147,11 +148,11 @@
                                             <span v-if="item.progressType=='07'&&item.iecResult=='03'" :style={background:qxsh} class="qxsh">取消审核</span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='04'" :style={background:dsh} class="dsh">待上会</span>
                                              <!-- 科创版 -->
-                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='05'" :style={background:tg}  class="tg" >通过</span>
-                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='06'" :style={background:wtg} class="wtg">未通过</span>
-                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='07'" :style={background:zcsx} class="htg">注册生效 </span>
-                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='08'" :style={background:whtg} class="whtg">不予注册</span>
-                                            <span v-if="(item.progressType=='35' || item.progressType=='38')&&item.iecResult=='09'" :style={background:dsh} class="dsh">待上会</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38' || item.progressType=='44')&&item.iecResult=='05'" class="tg" :style="{'background':tg,'left':item.progressName=='上市委复审会议'?'53%':'38%'}">通过</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38' || item.progressType=='44')&&item.iecResult=='06'" :style="{'background':wtg,'left':item.progressName=='上市委复审会议'?'53%':'38%'}" class="wtg">未通过</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38' || item.progressType=='44')&&item.iecResult=='07'" :style="{'background':zcsx,'left':item.progressName=='上市委复审会议'?'53%':'38%'}" class="htg">注册生效 </span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38' || item.progressType=='44')&&item.iecResult=='08'" :style="{'background':whtg,'left':item.progressName=='上市委复审会议'?'53%':'38%'}" class="whtg">不予注册</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38' || item.progressType=='44')&&item.iecResult=='09'" :style="{'background':dsh,'left':item.progressName=='上市委复审会议'?'53%':'38%'}" class="dsh">待上会</span>
                                         </div>
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)" style="cursor: pointer;"
@@ -780,9 +781,6 @@ export default {
 }
 // 先注释掉，因为之前是点击最后一个tab页，进程树出滚动条
 .processTree{
-    // overflow-y:auto;
-    // max-height:660px;
-    // overflow-x: hidden;
     margin-top:16px;
 }
 .allJincheng{

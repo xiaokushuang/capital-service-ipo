@@ -155,7 +155,7 @@
   left: -7px;
 }
 // 反馈意见中下面的tab样式修改
-.feedback .el-tabs__nav-wrap::after {
+.feedback .el-tabs__nav-wrap::after,.result .el-tabs__nav-wrap::after {
   content: "";
   position: absolute;
   left: 0;
@@ -165,7 +165,7 @@
   background-color: #e4e7ed;
   z-index: 1;
 }
-.feedback .el-tabs__active-bar {
+.feedback .el-tabs__active-bar,.result .el-tabs__active-bar {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -181,7 +181,7 @@
   list-style: none;
 }
 // css伪类加三角形边框
-.feedback .el-tabs__active-bar:before{
+.feedback .el-tabs__active-bar:before,.result .el-tabs__active-bar:before{
     content:" ";
 		position:absolute;
 		top:-6px;
@@ -190,7 +190,7 @@
 		border-left:6px solid transparent;
     border-right:6px solid transparent;
 }
-.feedback .el-tabs__active-bar::after{
+.feedback .el-tabs__active-bar::after,.result .el-tabs__active-bar::after{
   content:" ";
   position:absolute;
   top:-5px;
@@ -199,7 +199,7 @@
   border-left:12px solid transparent;
   border-right:12px solid transparent;
 }
-.feedback .el-tabs__item {
+.feedback .el-tabs__item,.result .el-tabs__item {
   padding: 0 20px;
   height: 40px;
   -webkit-box-sizing: border-box;
@@ -213,18 +213,21 @@
   position: relative;
 }
 .feedback .el-tabs__header.is-top {
-  padding-left: 75px;
+  // padding-left: 75px;
   border-bottom: 1px solid #e4e7ed;
 }
-.feedback .el-tabs__item:hover {
-  color: #0087a7;
+.result .el-tabs__header.is-top {
+  border-bottom: 1px solid #e4e7ed;
+}
+.feedback .el-tabs__item:hover,.result .el-tabs__item:hover {
+  color: #14bcf5 !important;
   cursor: pointer;
 }
-.feedback .el-tabs__item:focus {
-  color: #0087a7;
+.feedback .el-tabs__item:focus,.result .el-tabs__item:focus {
+  color: #14bcf5;
   cursor: pointer;
 }
-.feedback .el-tabs__header {
+.feedback .el-tabs__header,.result .el-tabs__header {
   padding: 0;
   position: relative;
   margin: 0 0;
@@ -377,7 +380,7 @@
   font-weight: bold
 }
 
-.feedback .el-tabs__item.is-active{
+.feedback .el-tabs__item.is-active,.result .el-tabs__item.is-active{
   color:#14bcf5 !important;
 }
 .ipoCaseList .el-radio__label {
