@@ -110,6 +110,7 @@
             #{item}
         </foreach>
         and t1.letter_valid = '0'
+        and t1.post_status = '1'
     </select>
 
     <select id="selectRegisterLetterId" resultType="java.lang.String">
@@ -126,6 +127,7 @@
             #{item}
         </foreach>
         and t1.letter_valid = '0'
+        and t1.post_status = '1'
     </select>
 
     <select id="selectLetterDate" parameterType="java.lang.String"
