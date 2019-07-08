@@ -235,6 +235,7 @@ public class IpoExamineService extends BaseService {
                     } else if (registerCount == 2) {
                         ipoFeedbackResultDto.setLetterName("第三轮注册反馈意见");
                     }
+                    registerCount++;
                 }
 
                 for (IpoFeedbackIndexDto questionDto : questionList) {
