@@ -75,7 +75,7 @@ public class IpoFileUploadController extends BaseController {
     /**
      * 每晚定时把所有科创版数据生成json文件放到华为云上
      */
-    @Scheduled(cron = "0 15 02,21 * * ?")
+    @Scheduled(cron = "0 15 02 * * ? ")
     public void ipoDataUpload() {
         //查询科创版所有案例
         logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
@@ -97,7 +97,7 @@ public class IpoFileUploadController extends BaseController {
     /**
      * 每晚定时把所有科创版数据生成json文件放到华为云上
      */
-    @Scheduled(cron = "0 10 02 * * ? ")
+    @Scheduled(cron = "0 18 02 * * ? ")
     public void ipoMarchDataUpload() {
         //查询科创版所有案例
         logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
@@ -161,8 +161,6 @@ public class IpoFileUploadController extends BaseController {
             ipoDataUploadSpecComById(tempMap);
         }
     }
-
-
     //每隔一个小时刷一次
     @Scheduled(cron = "0 0 0/1 * * ?")
     @PostConstruct
