@@ -44,7 +44,7 @@
                     <img src="../../assets/images/kcwtg.png" alt="">
                   </div>
                   <div v-if="headList.iecResult&&headList.iecResult == '09'">
-                    <img src="../../assets/images/kcdsh.png" alt="">
+                    <img src="../../assets/images/dsh1.png" alt="">
                   </div>
                 </div>
             </div>
