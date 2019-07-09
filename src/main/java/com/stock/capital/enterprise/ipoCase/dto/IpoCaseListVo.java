@@ -63,6 +63,24 @@ public class IpoCaseListVo implements Serializable {
     @ApiModelProperty("公司Logo")
     private String companyLogo;
 
+    private String processTime;//公告日期
+    private String makeNewStatus;//打新情况，1当日打新，2近日打新
+
+    public String getProcessTime() {
+        return processTime;
+    }
+
+    public void setProcessTime(String processTime) {
+        this.processTime = processTime;
+    }
+
+    public String getMakeNewStatus() {
+        return makeNewStatus;
+    }
+
+    public void setMakeNewStatus(String makeNewStatus) {
+        this.makeNewStatus = makeNewStatus;
+    }
 
     public Integer getIndustryCsrc() {
         return industryCsrc;

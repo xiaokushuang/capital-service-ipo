@@ -227,7 +227,7 @@
             ipo_process t1
         WHERE
             t1.bid = #{id}
-        AND t1.process_type_code in ('05','32')
+        AND t1.process_type_code in ('05','32','45')
         AND t1.process_time IS NOT NULL
     </select>
 
