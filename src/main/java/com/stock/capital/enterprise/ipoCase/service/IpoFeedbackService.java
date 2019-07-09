@@ -118,8 +118,8 @@ public class IpoFeedbackService extends BaseService {
         //根据案例id查询公司的东财内码
         CompanyOverviewVo companyOverviewVo = ipoFeedbackMapper.getOrgCode(id);
         String ipoPlate = companyOverviewVo.getIpoPlate();
+//        List<String> processDateList = ipoFeedbackMapper.selectFeedbackProcess(id);
         List<String> processDateList = ipoFeedbackMapper.selectFeedbackProcess(id);
-        processDateList = ipoFeedbackMapper.selectFeedbackProcess(id);
         if (CollectionUtils.isEmpty(processDateList)) {
             return new ArrayList<>();
         }
