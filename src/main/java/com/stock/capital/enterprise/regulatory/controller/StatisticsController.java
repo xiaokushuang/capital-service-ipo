@@ -1,6 +1,7 @@
 package com.stock.capital.enterprise.regulatory.controller;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -792,4 +794,62 @@ public class StatisticsController extends BaseController {
           dto.setIndustryList(industryList);
           return dto;
       }
+      
+      /**
+       * 取得ipo数据概览详情数据
+       */
+      @ApiOperation(value = "取得ipo数据概览详情数据", notes = "取得ipo数据概览详情数据")
+      @LogAnnotation(name = "取得ipo数据概览详情数据")
+      @RequestMapping(value = "/getIpoDataOverviewDetail", method = RequestMethod.POST)
+      @ResponseBody
+      public JsonResponse<StatisticsReturnDto> getIpoDataOverviewDetail(@ApiParam(value = "ipo数据概览查询dto") @RequestBody StatisticsParamDto dto) {
+          JsonResponse<StatisticsReturnDto> response = new JsonResponse<StatisticsReturnDto>();
+          StatisticsReturnDto returnDto = new StatisticsReturnDto();
+          returnDto = statisticsService.getIpoDataOverviewDetail(dto);
+          response.setResult(returnDto);
+          return response;
+      }
+      
+      /**
+       * 
+       * Excel导出--ipo保荐机构/律师事务所/会计师事务所
+        * @throws IOException 
+       * 
+       */
+       @RequestMapping(value = "ipoDataOverviewDetailExport")
+       public ModelAndView ipoDataOverviewDetailExport(@RequestBody StatisticsParamDto statisticsParamDto, HttpServletResponse response) throws IOException{
+           ModelAndView mv = new ModelAndView();
+           String flag = statisticsParamDto.getTabFlag();
+           Map<String, Object> fileInfo = Maps.newHashMap();
+           if("first".equals(flag)){
+               mv.setView(new DownloadView());
+               String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMdd");
+               fileInfo.put("fileName", "IPO保荐机构数据明细_"+ timeStr+".xls");
+               // 从文件服务器下载文件
+               fileInfo.put("fileBytes", statisticsService.ipoCommendDetailExport(statisticsParamDto,flag));
+               mv.addObject(DownloadView.EXPORT_FILE, fileInfo.get("fileBytes"));
+               mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
+               mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLS);
+           }else if("second".equals(flag)){
+               mv.setView(new DownloadView());
+               String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMdd");
+               fileInfo.put("fileName", "IPO律师事务所数据明细_"+ timeStr+".xls");
+               // 从文件服务器下载文件
+               fileInfo.put("fileBytes", statisticsService.ipoCommendDetailExport(statisticsParamDto,flag));
+               mv.addObject(DownloadView.EXPORT_FILE, fileInfo.get("fileBytes"));
+               mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
+               mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLS);
+           }else if("third".equals(flag)){
+               mv.setView(new DownloadView());
+               String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMdd");
+               fileInfo.put("fileName", "IPO会计师事务所数据明细_"+ timeStr+".xls");
+               // 从文件服务器下载文件
+               fileInfo.put("fileBytes", statisticsService.ipoCommendDetailExport(statisticsParamDto,flag));
+               mv.addObject(DownloadView.EXPORT_FILE, fileInfo.get("fileBytes"));
+               mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
+               mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLS);
+           }
+           response.setHeader("fileName", java.net.URLEncoder.encode(fileInfo.get("fileName").toString(), "utf-8"));
+           return mv;
+       }
 }

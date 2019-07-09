@@ -19,6 +19,7 @@ import {
   companyByCode,
   searchCompanyDetail,
   getAllDropDownList,
+  getIpoDataOverviewDetail,
 } from '@/api/ipo'
 import {
   MultidimensionalData
@@ -664,7 +665,16 @@ const ipo = {
 					reject(error)
 				})
 			})
-		},
+    },
+    getIpoDataOverviewDetail({commit}, queryParam){//获取ipo数据概览详情页数据
+			return new Promise((resolve, reject) => {
+				getIpoDataOverviewDetail(queryParam).then(response => {
+					resolve(response.data.result);
+				}).catch(error => {
+					reject(error)
+				})
+			})
+     },
   },
   getters: {
     getIpo1: state => state.ipodata1,

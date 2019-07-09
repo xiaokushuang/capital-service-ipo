@@ -460,4 +460,115 @@
     ) a
 </sql>
 
+<!--保荐机构详情页数据 -->
+<select id="queryCommendDetail" parameterType="Map" resultType="com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto">
+    SELECT 
+        i.app_company as appCompany, 
+        i.regist_addr as registAddr, 
+        i.belong_trade as belongTrade, 
+        (select s.code_name from sa_code s where s.code_value = i.quasi_listed_land and s.code_no = "QUASI_LISTED_TYPE") as quasiListedLand, 
+        i.recommend_organization as recommendOrganization,         
+        i.accountant_office as accountantOffice, 
+        i.law_firm as lawFirm, 
+        (select s.code_name from sa_code s where s.code_value = i.approve_status and s.code_no = "IPO_APPROVE_STATUS") as approveStatus, 
+        i.hased_random_inspection as hasedRandomInspection                           
+    FROM ipo_data_info i                                                                                    
+    WHERE 
+    <if test="label != null and label != ''">
+        i.recommend_organization = #{label}
+    </if>
+    <if test="quasiListedLand != null and quasiListedLand != ''">
+        AND  
+        i.quasi_listed_land = #{quasiListedLand}
+    </if>
+    <if test="areaList != null and areaList.size() > 0">
+            AND i.regist_addr IN
+            <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                #{area}
+            </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND i.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+            #{industry}
+        </foreach>
+    </if>
+        AND 
+        i.grab_update_time = #{lastUpadteTime}
+</select>
+
+<!--律师事务所详情页数据 -->
+<select id="queryLawDetail" parameterType="Map" resultType="com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto">
+    SELECT 
+        i.app_company as appCompany, 
+        i.regist_addr as registAddr, 
+        i.belong_trade as belongTrade, 
+        (select s.code_name from sa_code s where s.code_value = i.quasi_listed_land and s.code_no = "QUASI_LISTED_TYPE") as quasiListedLand, 
+        i.recommend_organization as recommendOrganization,         
+        i.accountant_office as accountantOffice, 
+        i.law_firm as lawFirm, 
+        (select s.code_name from sa_code s where s.code_value = i.approve_status and s.code_no = "IPO_APPROVE_STATUS") as approveStatus, 
+        i.hased_random_inspection as hasedRandomInspection                          
+    FROM ipo_data_info i                                                                                    
+    WHERE 
+    <if test="label != null and label != ''">
+        i.law_firm = #{label}
+    </if>
+    <if test="quasiListedLand != null and quasiListedLand != ''">
+        AND  
+        i.quasi_listed_land = #{quasiListedLand}
+    </if>
+    <if test="areaList != null and areaList.size() > 0">
+            AND i.regist_addr IN
+            <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                #{area}
+            </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND i.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+            #{industry}
+        </foreach>
+    </if>
+        AND 
+        i.grab_update_time = #{lastUpadteTime}
+</select>
+
+<!--会计事务所详情页数据 -->
+<select id="queryAccountDetail" parameterType="Map" resultType="com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto">
+    SELECT 
+            i.app_company as appCompany, 
+        i.regist_addr as registAddr, 
+        i.belong_trade as belongTrade, 
+        (select s.code_name from sa_code s where s.code_value = i.quasi_listed_land and s.code_no = "QUASI_LISTED_TYPE") as quasiListedLand, 
+        i.recommend_organization as recommendOrganization,         
+        i.accountant_office as accountantOffice, 
+        i.law_firm as lawFirm, 
+        (select s.code_name from sa_code s where s.code_value = i.approve_status and s.code_no = "IPO_APPROVE_STATUS") as approveStatus, 
+        i.hased_random_inspection as hasedRandomInspection                           
+    FROM ipo_data_info i                                                                                    
+    WHERE 
+    <if test="label != null and label != ''">
+        i.accountant_office = #{label}
+    </if>
+    <if test="quasiListedLand != null and quasiListedLand != ''">
+        AND  
+        i.quasi_listed_land = #{quasiListedLand}
+    </if>
+    <if test="areaList != null and areaList.size() > 0">
+            AND i.regist_addr IN
+            <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                #{area}
+            </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND i.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+            #{industry}
+        </foreach>
+    </if>
+        AND 
+        i.grab_update_time = #{lastUpadteTime}
+</select>
+
 </mapper>

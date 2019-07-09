@@ -26,5 +26,14 @@ public interface StatisticsBizMapper {
     
     //会计师事务所
     List<StatisticsResultDto> getIPOAccountantOfficeStts(Map<String, Object> map);
+    
+    //保荐机构详情页数据
+    List<StatisticsResultDto> queryCommendDetail(Map<String, Object> params);
+    
+    //律师事务所详情页数据
+    List<StatisticsResultDto> queryLawDetail(Map<String, Object> params);
+    
+    //会计事务所详情页数据
+    List<StatisticsResultDto> queryAccountDetail(Map<String, Object> params);
 
 }

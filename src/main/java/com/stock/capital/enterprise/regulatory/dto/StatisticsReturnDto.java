@@ -26,11 +26,22 @@ public class StatisticsReturnDto implements Serializable {
     private List<StatisticsResultDto> recommendOrgSttsList;
     
     //律师事务所
-    private List<StatisticsResultDto> LawFirmSttsList;
+    private List<StatisticsResultDto> lawFirmSttsList;
     
     //会计事务所
     private List<StatisticsResultDto> accountantOfficeSttsList;
     
+    //详情页数据
+    private List<StatisticsResultDto> ipoDetailList;
+
+    public List<OptionDto> getAreaList() {
+        return areaList;
+    }
+
+    public List<TreeDto> getIndustryList() {
+        return industryList;
+    }
+
     public int getTotal() {
         return total;
     }
@@ -40,11 +51,23 @@ public class StatisticsReturnDto implements Serializable {
     }
 
     public List<StatisticsResultDto> getLawFirmSttsList() {
-        return LawFirmSttsList;
+        return lawFirmSttsList;
     }
 
     public List<StatisticsResultDto> getAccountantOfficeSttsList() {
         return accountantOfficeSttsList;
+    }
+
+    public List<StatisticsResultDto> getIpoDetailList() {
+        return ipoDetailList;
+    }
+
+    public void setAreaList(List<OptionDto> areaList) {
+        this.areaList = areaList;
+    }
+
+    public void setIndustryList(List<TreeDto> industryList) {
+        this.industryList = industryList;
     }
 
     public void setTotal(int total) {
@@ -56,27 +79,15 @@ public class StatisticsReturnDto implements Serializable {
     }
 
     public void setLawFirmSttsList(List<StatisticsResultDto> lawFirmSttsList) {
-        LawFirmSttsList = lawFirmSttsList;
+        this.lawFirmSttsList = lawFirmSttsList;
     }
 
     public void setAccountantOfficeSttsList(List<StatisticsResultDto> accountantOfficeSttsList) {
         this.accountantOfficeSttsList = accountantOfficeSttsList;
     }
 
-    public List<OptionDto> getAreaList() {
-        return areaList;
+    public void setIpoDetailList(List<StatisticsResultDto> ipoDetailList) {
+        this.ipoDetailList = ipoDetailList;
     }
-
-    public List<TreeDto> getIndustryList() {
-        return industryList;
-    }
-
-    public void setAreaList(List<OptionDto> areaList) {
-        this.areaList = areaList;
-    }
-
-    public void setIndustryList(List<TreeDto> industryList) {
-        this.industryList = industryList;
-    }
-
+    
 }

@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,11 +35,13 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import com.alibaba.druid.util.StringUtils;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.stock.capital.enterprise.regulatory.dao.StatisticsBizMapper;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsCompanyDto;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsParamDto;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto;
+import com.stock.capital.enterprise.regulatory.dto.StatisticsReturnDto;
 //import com.stock.capital.enterprise.regulatory.dto.StatisticsParamDto;
 import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.OptionDto;
@@ -505,13 +508,14 @@ public class StatisticsService extends BaseService {
     public ByteArrayInputStream ipoCommendDetailExport(StatisticsParamDto statisticsParamDto , String flag) {
         HSSFWorkbook workbook = new HSSFWorkbook();
         List<StatisticsResultDto> comDtos = new ArrayList<StatisticsResultDto>();
-        if("1".equals(flag)){
-        	comDtos = queryCommendDetail(statisticsParamDto);
-	  	}else if("2".equals(flag)){
-	  		comDtos = queryLawDetail(statisticsParamDto);
-	  	}else if("3".equals(flag)){
-	  		comDtos = queryAccountDetail(statisticsParamDto);
-	  	}
+//        if("1".equals(flag)){
+//        	comDtos = queryCommendDetail(statisticsParamDto);
+//	  	}else if("2".equals(flag)){
+//	  		comDtos = queryLawDetail(statisticsParamDto);
+//	  	}else if("3".equals(flag)){
+//	  		comDtos = queryAccountDetail(statisticsParamDto);
+//	  	}
+        comDtos = getIpoDataOverviewDetail(statisticsParamDto).getIpoDetailList();
         HSSFSheet sheet = workbook.createSheet("Sheet1");
         HSSFRow row = null;
         HSSFCellStyle cellStyle = workbook.createCellStyle();
@@ -558,7 +562,11 @@ public class StatisticsService extends BaseService {
                 cell.setCellValue(changeAreaName(comDtos.get(i).getRegistAddr()));
                 cell.setCellStyle(conCenterStyle);
                 cell = row.createCell(2);
-                cell.setCellValue(comDtos.get(i).getBelongTrade());
+                if(!StringUtils.isEmpty(comDtos.get(i).getBelongTrade())) {
+                    cell.setCellValue(comDtos.get(i).getBelongTrade());
+                } else {
+                    cell.setCellValue("--");
+                }
                 cell.setCellStyle(conCenterStyle);
                 cell = row.createCell(3);
                 cell.setCellValue(comDtos.get(i).getQuasiListedLand());
@@ -587,12 +595,20 @@ public class StatisticsService extends BaseService {
                 		comDtos.get(i).setApproveStatus("中止");
                 	}
                 	cell = row.createCell(7);
-                	cell.setCellValue(comDtos.get(i).getApproveStatus());
+                	if(!StringUtils.isEmpty(comDtos.get(i).getApproveStatus())) {
+                	    cell.setCellValue(comDtos.get(i).getApproveStatus());
+                	} else {
+                	    cell.setCellValue("--");
+                	}
                 	cell.setCellStyle(conCenterStyle);
                 	cell.setCellStyle(conCenterStyle);
                 }else{
                 	cell = row.createCell(7);
-                	cell.setCellValue(comDtos.get(i).getApproveStatus());
+                	if(!StringUtils.isEmpty(comDtos.get(i).getApproveStatus())) {
+                            cell.setCellValue(comDtos.get(i).getApproveStatus());
+                        } else {
+                            cell.setCellValue("--");
+                        }
                 	cell.setCellStyle(conCenterStyle);
                 	cell.setCellStyle(conCenterStyle);
                 }
@@ -606,6 +622,8 @@ public class StatisticsService extends BaseService {
                 }
                 else if("2".equals(comDtos.get(i).getHasedRandomInspection())){
                 	cell.setCellValue("不适用");
+                } else {
+                    cell.setCellValue("--");
                 }
                 cell.setCellStyle(conCenterStyle);
             }
@@ -1020,5 +1038,45 @@ public class StatisticsService extends BaseService {
             params.put("industryList", industryList);
         }
         return params;
+    }
+    
+    /**
+     * 取得ipo数据概览详情数据
+     */
+    public StatisticsReturnDto getIpoDataOverviewDetail(StatisticsParamDto dto) {
+        List<String> areaList = new ArrayList<String>();
+        List<String> industryList = new ArrayList<String>();
+        Map<String, Object> map = new HashMap<String, Object>();
+        String updateTime = statisticsBizMapper.getIPOLastTime();
+        //截止时间
+        map.put("lastUpadteTime", updateTime);
+        //会计师事务所名称
+        map.put("label", dto.getLabel());
+        //所属板块
+        map.put("quasiListedLand", dto.getQuasiListedLand());
+        //所属行业
+        if(!dto.getIndustry().isEmpty()){
+            industryList = Arrays.asList(dto.getIndustry().toString().split(","));
+            map.put("industryList", industryList);
+        }
+        //注册地
+        if(!dto.getRegistAddr().isEmpty()){
+                areaList = Arrays.asList(dto.getRegistAddr().toString().split(","));
+            map.put("areaList", areaList);
+        }
+        List<StatisticsResultDto> list = Lists.newArrayList();
+        if("first".equals(dto.getTabFlag())) {
+            //保荐机构详情页数据
+            list = statisticsBizMapper.queryCommendDetail(map);
+        } else if("second".equals(dto.getTabFlag())) {
+            //律师事务所详情页数据
+            list = statisticsBizMapper.queryLawDetail(map);
+        } else if("third".equals(dto.getTabFlag())) {
+            //律师事务所详情页数据
+            list = statisticsBizMapper.queryAccountDetail(map);
+        }
+        StatisticsReturnDto returnDto = new StatisticsReturnDto();
+        returnDto.setIpoDetailList(list);
+        return returnDto;
     }
 }

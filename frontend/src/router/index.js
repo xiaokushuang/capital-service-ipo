@@ -103,6 +103,12 @@ export const constantRouterMap = [
         meta: {title: '公司详情弹窗', noCache: true}
       },
       {
+        path:'/ipoDataOverviewDetailPopWin',
+        component: _import('components-demo/ipoDataOverviewDetailPopWinComponent'),
+        name:'ipoDataOverviewDetailPopWin',
+        meta: {title: 'ipo数据概览详情弹窗', noCache: true}
+      },
+      {
         path: 'securitiesInit',
         component: _import('financeStatistics/securitiesInit'),
         name: 'securitiesInit',

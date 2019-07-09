@@ -6,11 +6,36 @@
                 <el-table-column v-if="id == 'first'" align="left" label="保荐机构" prop="label" min-width="30%"></el-table-column>
                 <el-table-column v-else-if="id == 'second'" align="left" label="律师事务所" prop="label" min-width="30%"></el-table-column>
                 <el-table-column v-else align="left" label="会计事务所" prop="label" min-width="30%"></el-table-column>
-                <el-table-column align="center" label="沪主板" prop="hzbCount" min-width="10%" sortable="custom"></el-table-column>
-                <el-table-column align="center" label="中小板" prop="zxbCount" min-width="10%" sortable="custom"></el-table-column>
-                <el-table-column align="center" label="创业板" prop="cybCount" min-width="10%" sortable="custom"></el-table-column>
-                <el-table-column align="center" label="科创板" prop="kcCount" min-width="10%" sortable="custom"></el-table-column>
-                <el-table-column align="center" label="合计"  prop="totalCount" min-width="10%" sortable="custom"></el-table-column>
+                <el-table-column align="center" label="沪主板" prop="hzbCount" min-width="10%" sortable="custom">
+                    <template slot-scope="scope">
+                        <span class="spanClass" v-if="getValue(scope.row.hzbCount) != 0" @click="openDetail('00',scope.row.label)">{{scope.row.hzbCount}}</span>
+                        <span v-else>{{scope.row.hzbCount}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="中小板" prop="zxbCount" min-width="10%" sortable="custom">
+                    <template slot-scope="scope">
+                        <span class="spanClass" v-if="getValue(scope.row.zxbCount) != 0" @click="openDetail('02',scope.row.label)">{{scope.row.zxbCount}}</span>
+                        <span v-else>{{scope.row.zxbCount}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="创业板" prop="cybCount" min-width="10%" sortable="custom">
+                    <template slot-scope="scope">
+                        <span class="spanClass" v-if="getValue(scope.row.cybCount) != 0" @click="openDetail('03',scope.row.label)">{{scope.row.cybCount}}</span>
+                        <span v-else>{{scope.row.cybCount}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="科创板" prop="kcCount" min-width="10%" sortable="custom">
+                    <template slot-scope="scope">
+                        <span class="spanClass" v-if="getValue(scope.row.kcCount) != 0" @click="openDetail('04',scope.row.label)">{{scope.row.kcCount}}</span>
+                        <span v-else>{{scope.row.kcCount}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="合计"  prop="totalCount" min-width="10%" sortable="custom">
+                    <template slot-scope="scope">
+                        <span class="spanClass" v-if="getValue(scope.row.totalCount) != 0" @click="openDetail('',scope.row.label)">{{scope.row.totalCount}}</span>
+                        <span v-else>{{scope.row.totalCount}}</span>
+                    </template>
+                </el-table-column>
                 <el-table-column align="center" label="市场占比" min-width="10%" prop="percent" sortable="custom">
                     <template slot-scope="scope">
                         <span>{{scope.row.percent}}%</span>
@@ -18,6 +43,7 @@
                 </el-table-column> 
         </el-table>
         <papers ref="paper" :sdefault="condition_copy" :length1="20" :total="totalCount" @searchTable="search"></papers>
+        <div class="bottomHeight"></div>
     </div>
 </template>
 
@@ -108,6 +134,14 @@ export default {
                 });
             }
         },
+        openDetail(quasiListedLand,label) {//打开详情页
+            let url = window.location.href;
+            url = url.replace(this.$route.path,'/ipoDataOverviewDetailPopWin');
+            url = url + '&label=' + label + '&quasiListedLand=' + quasiListedLand + '&industry=' + this.industrySelect
+             + '&registAddr=' + this.areaSelect + '&tabFlag=' + this.id;
+			//参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
+			iframeDoMessage(window.parent,'popWinOut',[label,url,'1200','650']);
+        }
         
     },
     watch : {
@@ -121,11 +155,15 @@ export default {
             //执行取消全部收藏
             this.confirmSearch();
         },
-        
     },   
 }
 </script>
-
 <style>
+.spanClass {
+    cursor: pointer;
+}
+.spanClass:hover {
+    text-decoration: underline;
+}
 
 </style>
