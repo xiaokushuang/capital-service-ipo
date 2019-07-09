@@ -2019,8 +2019,11 @@ public class IpoInterfaceController extends BaseController {
      */
     @RequestMapping("/getQrCode")
     public void getAccessToken(HttpServletResponse response, String id, String companyName) throws IOException {
+        logger.info("获取二维码：公司id"+id+" 公司简称："+companyName);
         byte[] qrCode = wxUtils.getMiNiQr(id,companyName);
         response.getOutputStream().write(qrCode);
     }
+
+
 
 }
