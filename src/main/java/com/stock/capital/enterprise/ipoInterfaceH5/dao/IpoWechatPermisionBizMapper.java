@@ -19,7 +19,7 @@ public interface IpoWechatPermisionBizMapper {
 
     void submitReplay(Map<String, Object> map);
 
-    List<Map<String,Object>> getCommentList(@Param("caseid") String caseid);
+    List<Map<String,Object>> getCommentList( Map<String, Object> caseid);
 
     List<Map<String,Object>> isFabulousYes(Map<String, Object> map);
 
@@ -28,4 +28,16 @@ public interface IpoWechatPermisionBizMapper {
     void fabulousNo(Map<String, Object> map);
 
     int fabulousCount(Map<String, Object> param);
+
+    List<Map<String,Object>> isCollectionYes(Map<String, Object> map);
+
+    void collectionYes(Map<String, Object> map);
+
+    void collectionNo(Map<String, Object> map);
+
+    int collectionCount(Map<String, Object> param);
+
+    int replayCount(Map<String, Object> param);
+
+    List<Map<String,Object>> getOnlyCommentList(Map<String, Object> param);
 }

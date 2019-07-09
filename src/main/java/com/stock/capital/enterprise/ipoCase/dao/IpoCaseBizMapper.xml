@@ -365,6 +365,7 @@
     mcl1.label_value = ic.case_status) AS processLabel,
     ip.iec_result AS iecResult,
     ip3.iec_result AS registerResult,
+    ip4.iec_result AS reviewResult,
     DATEDIFF(
       (
         SELECT
@@ -416,6 +417,19 @@
       process_time DESC
     LIMIT 1
   ) ip3 ON ic.id = ip3.bid
+  LEFT JOIN (
+    SELECT
+      bid,
+      iec_result
+    FROM
+      ipo_process
+    WHERE
+      process_type_code = '44'
+    AND bid = #{id}
+    ORDER BY
+      process_time DESC
+    LIMIT 1
+  ) ip4 ON ic.id = ip4.bid
   LEFT JOIN (
     SELECT
       bid,

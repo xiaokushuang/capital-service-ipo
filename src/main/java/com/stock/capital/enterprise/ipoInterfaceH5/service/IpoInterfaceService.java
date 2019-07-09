@@ -22,18 +22,13 @@ import com.stock.core.service.BaseService;
 import com.stock.core.util.BeanUtil;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jetty.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -113,7 +108,13 @@ public class IpoInterfaceService extends BaseService {
     }
 
     public List<IpoCaseListVo> otherIpoCase(IpoCaseIndexDto ipoCaseIndexDto) {
-        return ipoInterfaceBizMapper.otherIpoCase(ipoCaseIndexDto);
+        List<IpoCaseListVo> resultList = ipoInterfaceBizMapper.otherIpoCase(ipoCaseIndexDto);
+        for(IpoCaseListVo dto:resultList){
+            String URL = "http://www.valueonline.cn/open/";
+            URL = URL + dto.getCompanyCode() + "_160.png";
+            dto.setCompanyLogo(URL);
+        }
+        return resultList;
     }
 
     /**
@@ -179,10 +180,16 @@ public class IpoInterfaceService extends BaseService {
             List<String> companys = new ArrayList<>();// 子标题公司名字
             companys.add(compareRateDto.getCompanyName());//新增本公司名字
             List<String> yearList = new ArrayList<>();//年度
+          if (compareRateDto.getFirstYear().length() > 0){
             yearList.add(compareRateDto.getFirstYear().substring(0,compareRateDto.getFirstYear().length() -1 ));
+          }
+          if (compareRateDto.getSecondYear().length() > 0){
             yearList.add(compareRateDto.getSecondYear().substring(0,compareRateDto.getSecondYear().length() -1 ));
-            yearList.add(compareRateDto.getThirdYear().substring(0,compareRateDto.getThirdYear().length() -1 ));
-            title.setYears(yearList); // 给年赋值
+          }
+          if (compareRateDto.getThirdYear().length() > 0) {
+            yearList.add(compareRateDto.getThirdYear().substring(0, compareRateDto.getThirdYear().length() - 1));
+          }
+          title.setYears(yearList); // 给年赋值
 
             if (compareRateDto.getIndustryCompareRateDetailList().size() >= 4) {// 代表多于两家别的公司
                 // 如果返回的表格中数量>= 4 代表着至少有两家别的公司,所以company 取值应该是 本公司,低的公司,高的公司
@@ -204,20 +211,26 @@ public class IpoInterfaceService extends BaseService {
                 IndustryCompareRateDetailDto lowCompanyDto = null;// 低的公司
                 IndustryCompareRateDetailDto highCompanyDto = null;// 高的公司
 
+              if (compareRateDto.getFirstYear().length() >= 4) {
                 firstYearbodyDto.setYear(// 第一年
                     compareRateDto.getFirstYear().substring(0, 4));// 年度
+              }
                 firstYearbodyDto.setCompany(// 本公司
                     companyDto.getFirstYearRate()
                 );
+              if (compareRateDto.getSecondYear().length() >= 4) {
                 secondYearbodyDto.setYear(// 第二年
-                    compareRateDto.getSecondYear().substring(0,4)//年度
+                    compareRateDto.getSecondYear().substring(0, 4)//年度
                 );
+              }
                 secondYearbodyDto.setCompany(// 本公司
                     companyDto.getSecondYearRate()
                 );
+              if (compareRateDto.getThirdYear().length() >= 4) {
                 thirdYearBodyDto.setYear(// 第三年
-                    compareRateDto.getThirdYear().substring(0,4)
+                    compareRateDto.getThirdYear().substring(0, 4)
                 );
+              }
                 thirdYearBodyDto.setCompany(//本公司
                     companyDto.getThirdYearRate()
                 );
@@ -264,8 +277,10 @@ public class IpoInterfaceService extends BaseService {
 
                     // 以下为柱状图中数据
                     IpoH5IndustryBodyDto firstYearbodyDto = new IpoH5IndustryBodyDto();// 公司第一年度
+                  if (compareRateDto.getFirstYear().length() > 0) {
                     firstYearbodyDto.setYear(
-                            compareRateDto.getFirstYear().substring(0, compareRateDto.getFirstYear().length() - 1));// 年度
+                        compareRateDto.getFirstYear().substring(0, compareRateDto.getFirstYear().length() - 1));// 年度
+                  }
                     firstYearbodyDto.setCompany(// 本公司
                             compareRateDto.getIndustryCompareRateDetailList().get(2).getFirstYearRate()
                     );
@@ -274,9 +289,11 @@ public class IpoInterfaceService extends BaseService {
                     );
 
                     IpoH5IndustryBodyDto secondYearbodyDto = new IpoH5IndustryBodyDto();// 公司第二年度
+                  if (compareRateDto.getSecondYear().length() > 0) {
                     secondYearbodyDto.setYear(// 年度
-                            compareRateDto.getSecondYear().substring(0, compareRateDto.getSecondYear().length() - 1)
+                        compareRateDto.getSecondYear().substring(0, compareRateDto.getSecondYear().length() - 1)
                     );
+                  }
                     secondYearbodyDto.setCompany(// 本公司
                             compareRateDto.getIndustryCompareRateDetailList().get(2).getSecondYearRate()
                     );
@@ -285,9 +302,12 @@ public class IpoInterfaceService extends BaseService {
                     );
 
                     IpoH5IndustryBodyDto thirdYearBodyDto = new IpoH5IndustryBodyDto();// 本公司第三年度
+                  if (compareRateDto.getThirdYear().length() > 0){
                     thirdYearBodyDto.setYear(// 年度
-                            compareRateDto.getThirdYear().substring(0, compareRateDto.getThirdYear().length() - 1)
+                        compareRateDto.getThirdYear().substring(0, compareRateDto.getThirdYear().length() - 1)
                     );
+                  }
+
                     thirdYearBodyDto.setCompany(//本公司
                             compareRateDto.getIndustryCompareRateDetailList().get(2).getThirdYearRate()
                     );
@@ -302,24 +322,32 @@ public class IpoInterfaceService extends BaseService {
                 } else {// 只有本公司
                     // 以下为柱状图中数据
                     IpoH5IndustryBodyDto firstYearbodyDto = new IpoH5IndustryBodyDto();// 公司第一年度
+                  if (compareRateDto.getFirstYear().length() > 0){
                     firstYearbodyDto.setYear(
-                            compareRateDto.getFirstYear().substring(0, compareRateDto.getFirstYear().length() - 1));// 年度
+                        compareRateDto.getFirstYear().substring(0, compareRateDto.getFirstYear().length() - 1));// 年度
+                  }
                     firstYearbodyDto.setCompany(// 本公司
                             compareRateDto.getIndustryCompareRateDetailList().get(0).getFirstYearRate()
                     );
 
                     IpoH5IndustryBodyDto secondYearbodyDto = new IpoH5IndustryBodyDto();// 公司第二年度
+                  if (compareRateDto.getSecondYear().length() > 0){
                     secondYearbodyDto.setYear(// 年度
-                            compareRateDto.getSecondYear().substring(0, compareRateDto.getSecondYear().length() - 1)
+                        compareRateDto.getSecondYear().substring(0, compareRateDto.getSecondYear().length() - 1)
                     );
+                  }
+
                     secondYearbodyDto.setCompany(// 本公司
                             compareRateDto.getIndustryCompareRateDetailList().get(0).getSecondYearRate()
                     );
 
                     IpoH5IndustryBodyDto thirdYearBodyDto = new IpoH5IndustryBodyDto();// 本公司第三年度
+                  if (compareRateDto.getThirdYear().length() > 0){
                     thirdYearBodyDto.setYear(// 年度
-                            compareRateDto.getThirdYear().substring(0, compareRateDto.getThirdYear().length() - 1)
+                        compareRateDto.getThirdYear().substring(0, compareRateDto.getThirdYear().length() - 1)
                     );
+                  }
+
                     thirdYearBodyDto.setCompany(//本公司
                             compareRateDto.getIndustryCompareRateDetailList().get(0).getThirdYearRate()
                     );
@@ -374,149 +402,273 @@ public class IpoInterfaceService extends BaseService {
         List<IpoH5TechnologyDevDto> incomeList = new ArrayList<>();
         List<IpoH5TechnologyDevDto> expensesCostList = new ArrayList<>();
 
-        List<IpoTechnologyTableDto> devData = ipoTechnologyVo.getDevData();//研发投入数据
+        BigDecimal hundred = new BigDecimal(100);
+
+        List<IpoTechnologyTableDto> devData = null;
+        if (ipoTechnologyVo != null && ipoTechnologyVo.getDevData() != null){
+          devData = ipoTechnologyVo.getDevData();//研发投入数据
+        }
         List yearList = new ArrayList();
         if (CollectionUtils.isNotEmpty(devData) &&
                 StringUtil.isNotBlank(ipoTechnologyVo.getDevDate().getFirstYearDate())) {// 时间不为空
             if (ipoTechnologyVo.getDevDate().getFirstYearDate().indexOf("12-31") >= 0) {// 若头一年时间是以12-31日为结束
 
                 /******************第一年*******************/
-                String year = ipoTechnologyVo.getDevDate().getFirstYearDate();//年份赋值
+                String year = "";
+                if (ipoTechnologyVo.getDevDate() != null){
+                  year = ipoTechnologyVo.getDevDate().getFirstYearDate();//年份赋值
+                }
                 IpoH5TechnologyDevDto incomeDto = new IpoH5TechnologyDevDto();// 营业收入
                 IpoH5TechnologyDevDto expensesCostDto = new IpoH5TechnologyDevDto(); // 研发支出
 
-                yearList.add(year.substring(0,4));
+                if (year.length() >= 4){
+                  yearList.add(year.substring(0,4));
+                }
+
                 incomeDto.setYear(year);//year
                 expensesCostDto.setYear(year);//year
-                BigDecimal researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateFiavg());//研发投入平均
-                BigDecimal taking = new BigDecimal(ipoCompanyRank.getTakingFiavg());//营业收入平均
+                BigDecimal researchPlate = null;
+                if (ipoCompanyRank != null && StringUtils.isNotBlank(ipoCompanyRank.getResearchPlateFiavg())){
+                  researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateFiavg());//研发投入平均
+                }
+                BigDecimal taking = null;
+                if (ipoCompanyRank != null && StringUtils.isNotBlank(ipoCompanyRank.getTakingFiavg())) {
+                  taking = new BigDecimal(ipoCompanyRank.getTakingFiavg());//营业收入平均
+                }
+                if (devData.size() >= 0 && devData.get(0).getFirstYearValue() != null){
+                  expensesCostDto.setCompany(devData.get(0).getFirstYearValue().toPlainString());//传入研发投入
+                }
+                if (devData.size() >= 1 && devData.get(1).getFirstYearValue() != null){
+                  incomeDto.setCompany(devData.get(1).getFirstYearValue().toPlainString());//传入营业收入
+                }
+                if (devData.size() >= 2 && devData.get(2).getFirstYearValue() != null){
+                  expensesCostDto.setProportion(devData.get(2).getFirstYearValue().toPlainString());// 公司研发占比
+                }
 
-                incomeDto.setCompany(devData.get(1).getFirstYearValue().toPlainString());//传入营业收入
-                expensesCostDto.setCompany(devData.get(0).getFirstYearValue().toPlainString());//传入研发投入
-                incomeDto.setSTIB(ipoCompanyRank.getTakingFiavg());//科创板平均营业收入
-                expensesCostDto.setSTIB(ipoCompanyRank.getResearchPlateFiavg());//科创板平均研发费用
-                expensesCostDto.setProportion(devData.get(2).getFirstYearValue().toPlainString());// 公司研发占比
+                if (ipoCompanyRank != null ){
+                   incomeDto.setSTIB(ipoCompanyRank.getTakingFiavg());//科创板平均营业收入
+                   expensesCostDto.setSTIB(ipoCompanyRank.getResearchPlateFiavg());//科创板平均研发费用
+                }
 
-                BigDecimal industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP);// 科创版平均占比
-                expensesCostDto.setIndustryProportion(industryProportion.toString());//增加科创版平均占比
+                if (taking != null && BigDecimal.ZERO.compareTo(taking) != 0 && researchPlate != null){
+                  BigDecimal industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP).multiply(hundred);// 科创版平均占比
+                  expensesCostDto.setIndustryProportion(industryProportion.toString());//增加科创版平均占比
+                }
 
                 incomeList.add(incomeDto);// 第一年营业收入
                 expensesCostList.add(expensesCostDto);//第一年研发支出
 
                 /******************第二年*******************/
-                year = ipoTechnologyVo.getDevDate().getSecondYearDate();//年份赋值
-
+                year = "";
+                if (ipoTechnologyVo != null && ipoTechnologyVo.getDevDate() != null) {
+                  year = ipoTechnologyVo.getDevDate().getSecondYearDate();//年份赋值
+                }
                 incomeDto = new IpoH5TechnologyDevDto();// 营业收入
                 expensesCostDto = new IpoH5TechnologyDevDto(); // 研发支出
-                yearList.add(year.substring(0,4));
+                if (year.length() >= 4) {
+                  yearList.add(year.substring(0, 4));
+                }
                 incomeDto.setYear(year);//year
                 expensesCostDto.setYear(year);//year
-                researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateSeavg());//研发投入平均
-                taking = new BigDecimal(ipoCompanyRank.getTakingSeavg());//营业收入平均
 
-                incomeDto.setCompany(devData.get(1).getSecondYearValue().toPlainString());//传入营业收入
+              researchPlate = null;
+              taking = null;
+              if (ipoCompanyRank != null ) {
+                if (StringUtils.isNotBlank(ipoCompanyRank.getResearchPlateSeavg())) {
+                  researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateSeavg());//研发投入平均
+                }
+                if (StringUtils.isNotBlank(ipoCompanyRank.getTakingSeavg())){
+                  taking = new BigDecimal(ipoCompanyRank.getTakingSeavg());//营业收入平均
+                }
+              }
+
+              if (devData.size() >= 0 && devData.get(0).getSecondYearValue() != null){
                 expensesCostDto.setCompany(devData.get(0).getSecondYearValue().toPlainString());//传入研发投入
+              }
+              if (devData.size() >= 1 && devData.get(1).getSecondYearValue() != null){
+                incomeDto.setCompany(devData.get(1).getSecondYearValue().toPlainString());//传入营业收入
+              }
+              if (devData.size() >= 2 && devData.get(2).getSecondYearValue() != null){
+                expensesCostDto.setProportion(devData.get(2).getSecondYearValue().toPlainString());// 公司研发占比
+              }
+              if (ipoCompanyRank != null) {
                 incomeDto.setSTIB(ipoCompanyRank.getTakingSeavg());//科创板平均营业收入
                 expensesCostDto.setSTIB(ipoCompanyRank.getResearchPlateSeavg());//科创板平均研发费用
-                expensesCostDto.setProportion(devData.get(2).getSecondYearValue().toPlainString());// 公司研发占比
-
-                industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP);// 科创版平均占比
+              }
+              if (taking != null && BigDecimal.ZERO.compareTo(taking) != 0 && researchPlate != null){
+                BigDecimal industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP).multiply(hundred);// 科创版平均占比
                 expensesCostDto.setIndustryProportion(industryProportion.toString());//增加科创版平均占比
+              }
 
-                incomeList.add(incomeDto);// 第二年营业收入
-                expensesCostList.add(expensesCostDto);//第二年研发支出
+              incomeList.add(incomeDto);// 第二年营业收入
+              expensesCostList.add(expensesCostDto);//第二年研发支出
 
                 /******************第三年*******************/
+                year = "";
+              if (ipoTechnologyVo.getDevDate() != null) {
                 year = ipoTechnologyVo.getDevDate().getThirdYearDate();//年份赋值
-
+              }
                 incomeDto = new IpoH5TechnologyDevDto();// 营业收入
                 expensesCostDto = new IpoH5TechnologyDevDto(); // 研发支出
-                yearList.add(year.substring(0,4));
-                incomeDto.setYear(year);//year
-                expensesCostDto.setYear(year);//year
-                researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateThavg());//研发投入平均
-                taking = new BigDecimal(ipoCompanyRank.getTakingThavg());//营业收入平均
+              if (year.length() >= 4) {
+                yearList.add(year.substring(0, 4));
+              }
+              incomeDto.setYear(year);//year
+              expensesCostDto.setYear(year);//year
 
-                incomeDto.setCompany(devData.get(1).getThirdYearValue().toPlainString());//传入营业收入
+              researchPlate = null;
+              taking = null;
+              if (ipoCompanyRank != null ) {
+                if (StringUtils.isNotBlank(ipoCompanyRank.getResearchPlateThavg())) {
+                  researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateThavg());//研发投入平均
+                }
+                if (StringUtils.isNotBlank(ipoCompanyRank.getTakingThavg())){
+                  taking = new BigDecimal(ipoCompanyRank.getTakingThavg());//营业收入平均
+                }
+              }
+
+              if (devData.size() >= 0 && devData.get(0).getThirdYearValue() != null){
                 expensesCostDto.setCompany(devData.get(0).getThirdYearValue().toPlainString());//传入研发投入
+              }
+              if (devData.size() >= 1 && devData.get(1).getThirdYearValue() != null){
+                incomeDto.setCompany(devData.get(1).getThirdYearValue().toPlainString());//传入营业收入
+              }
+              if (devData.size() >= 2 && devData.get(2).getThirdYearValue() != null){
+                expensesCostDto.setProportion(devData.get(2).getThirdYearValue().toPlainString());// 公司研发占比
+              }
+              if (ipoCompanyRank != null){
                 incomeDto.setSTIB(ipoCompanyRank.getTakingThavg());//科创板平均营业收入
                 expensesCostDto.setSTIB(ipoCompanyRank.getResearchPlateThavg());//科创板平均研发费用
-                expensesCostDto.setProportion(devData.get(2).getThirdYearValue().toPlainString());// 公司研发占比
+              }
 
-                industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP);// 科创版平均占比
+              if (taking != null && BigDecimal.ZERO.compareTo(taking) != 0 && researchPlate != null) {
+                BigDecimal industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP)
+                    .multiply(hundred);// 科创版平均占比
                 expensesCostDto.setIndustryProportion(industryProportion.toString());//增加科创版平均占比
-
+              }
                 incomeList.add(incomeDto);// 第三年营业收入
                 expensesCostList.add(expensesCostDto);//第三年研发支出
             } else { // 头一年不是以12-31日为结束
                 /******************第一年*******************/
-                String year = ipoTechnologyVo.getDevDate().getSecondYearDate();//年份赋值
+              String year = "";
+              if (ipoTechnologyVo.getDevDate() != null) {
+                year = ipoTechnologyVo.getDevDate().getSecondYearDate();//年份赋值
+              }
                 IpoH5TechnologyDevDto incomeDto = new IpoH5TechnologyDevDto();// 营业收入
                 IpoH5TechnologyDevDto expensesCostDto = new IpoH5TechnologyDevDto(); // 研发支出
+              if (year.length() >= 4){
                 yearList.add(year.substring(0,4));
-                incomeDto.setYear(year);//year
-                expensesCostDto.setYear(year);//year
+              }
+
+              incomeDto.setYear(year);//year
+              expensesCostDto.setYear(year);//year
+
                 if (ipoCompanyRank.getResearchPlateFiavg() != null){
                     BigDecimal researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateFiavg());//研发投入平均
                     if (ipoCompanyRank.getTakingFiavg() != null){
                         BigDecimal taking = new BigDecimal(ipoCompanyRank.getTakingFiavg());//营业收入平均
-                        BigDecimal industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP);// 科创版平均占比
+                      if (researchPlate != null && taking != null && BigDecimal.ZERO.compareTo(taking) != 0){
+                        BigDecimal industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP).multiply(hundred);// 科创版平均占比
                         expensesCostDto.setIndustryProportion(industryProportion.toString());//增加科创版平均占比
+                      }
                     }
                 }
-                incomeDto.setCompany(devData.get(1).getSecondYearValue().toPlainString());//传入营业收入
+
+              if (devData.size() >= 0 && devData.get(0).getSecondYearValue() != null){
                 expensesCostDto.setCompany(devData.get(0).getSecondYearValue().toPlainString());//传入研发投入
+              }
+              if (devData.size() >= 1 && devData.get(1).getSecondYearValue() != null){
+                incomeDto.setCompany(devData.get(1).getSecondYearValue().toPlainString());//传入营业收入
+              }
+              if (devData.size() >= 2 && devData.get(2).getSecondYearValue() != null){
+                expensesCostDto.setProportion(devData.get(2).getSecondYearValue().toPlainString());// 公司研发占比
+              }
+              if (ipoCompanyRank != null){
                 incomeDto.setSTIB(ipoCompanyRank.getTakingFiavg());//科创板平均营业收入
                 expensesCostDto.setSTIB(ipoCompanyRank.getResearchPlateFiavg());//科创板平均研发费用
-                expensesCostDto.setProportion(devData.get(2).getSecondYearValue().toPlainString());// 公司研发占比
+              }
+
                 incomeList.add(incomeDto);// 第一年营业收入
                 expensesCostList.add(expensesCostDto);//第一年研发支出
                 /******************第二年*******************/
-                year = ipoTechnologyVo.getDevDate().getThirdYearDate();//年份赋值
 
+                year = "";
+                if (ipoTechnologyVo.getDevDate() != null) {
+                  year = ipoTechnologyVo.getDevDate().getThirdYearDate();//年份赋值
+                }
                 incomeDto = new IpoH5TechnologyDevDto();// 营业收入
                 expensesCostDto = new IpoH5TechnologyDevDto(); // 研发支出
-                yearList.add(year.substring(0,4));
+              if (year.length() >= 4) {
+                yearList.add(year.substring(0, 4));
+              }
                 incomeDto.setYear(year);//year
                 expensesCostDto.setYear(year);//year
+
                 if (ipoCompanyRank.getResearchPlateSeavg() != null){
                     BigDecimal researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateSeavg());//研发投入平均
                     if (ipoCompanyRank.getTakingSeavg() != null){
                         BigDecimal taking = new BigDecimal(ipoCompanyRank.getTakingSeavg());//营业收入平均
-                        BigDecimal industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP);// 科创版平均占比
+                      if (researchPlate != null && taking != null && BigDecimal.ZERO.compareTo(taking) != 0) {
+                        BigDecimal industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP).multiply(hundred);// 科创版平均占比
                         expensesCostDto.setIndustryProportion(industryProportion.toString());//增加科创版平均占比
+                      }
                     }
                 }
-                incomeDto.setCompany(devData.get(1).getThirdYearValue().toPlainString());//传入营业收入
+
+              if (devData.size() >= 0 && devData.get(0).getThirdYearValue() != null){
                 expensesCostDto.setCompany(devData.get(0).getThirdYearValue().toPlainString());//传入研发投入
+              }
+              if (devData.size() >= 1 && devData.get(1).getThirdYearValue() != null){
+                incomeDto.setCompany(devData.get(1).getThirdYearValue().toPlainString());//传入营业收入
+              }
+              if (devData.size() >= 2 && devData.get(2).getThirdYearValue() != null){
+                expensesCostDto.setProportion(devData.get(2).getThirdYearValue().toPlainString());// 公司研发占比
+              }
+              if (ipoCompanyRank != null){
                 incomeDto.setSTIB(ipoCompanyRank.getTakingSeavg());//科创板平均营业收入
                 expensesCostDto.setSTIB(ipoCompanyRank.getResearchPlateSeavg());//科创板平均研发费用
-                expensesCostDto.setProportion(devData.get(2).getThirdYearValue().toPlainString());// 公司研发占比
+              }
 
-                incomeList.add(incomeDto);// 第二年营业收入
-                expensesCostList.add(expensesCostDto);//第二年研发支出
+              incomeList.add(incomeDto);// 第二年营业收入
+              expensesCostList.add(expensesCostDto);//第二年研发支出
                 /******************第三年*******************/
+              year = "";
+              if (ipoTechnologyVo.getDevDate() != null) {
                 year = ipoTechnologyVo.getDevDate().getForthYearDate();//年份赋值
+              }
 
-                incomeDto = new IpoH5TechnologyDevDto();// 营业收入
-                expensesCostDto = new IpoH5TechnologyDevDto(); // 研发支出
+              incomeDto = new IpoH5TechnologyDevDto();// 营业收入
+              expensesCostDto = new IpoH5TechnologyDevDto(); // 研发支出
+              if (year.length() >= 4){
                 yearList.add(year.substring(0,4));
-                incomeDto.setYear(year);//year
-                expensesCostDto.setYear(year);//year
+              }
+              incomeDto.setYear(year);//year
+              expensesCostDto.setYear(year);//year
                 if (ipoCompanyRank.getResearchPlateThavg() != null){
                     BigDecimal researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateThavg());//研发投入平均
                     if (ipoCompanyRank.getTakingThavg() != null){
                         BigDecimal taking = new BigDecimal(ipoCompanyRank.getTakingThavg());//营业收入平均
-                        BigDecimal industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP);// 科创版平均占比
+                      if (researchPlate != null && taking != null && BigDecimal.ZERO.compareTo(taking) != 0) {
+                        BigDecimal industryProportion = researchPlate.divide(taking, 4, RoundingMode.HALF_UP).multiply(hundred);// 科创版平均占比
                         expensesCostDto.setIndustryProportion(industryProportion.toString());//增加科创版平均占比
+                      }
                     }
                 }
-                incomeDto.setCompany(devData.get(1).getForthYearValue().toPlainString());//传入营业收入
+
+
+              if (devData.size() >= 0 && devData.get(0).getForthYearValue() != null){
                 expensesCostDto.setCompany(devData.get(0).getForthYearValue().toPlainString());//传入研发投入
+              }
+              if (devData.size() >= 1 && devData.get(1).getForthYearValue() != null){
+                incomeDto.setCompany(devData.get(1).getForthYearValue().toPlainString());//传入营业收入
+              }
+              if (devData.size() >= 2 && devData.get(2).getForthYearValue() != null){
+                expensesCostDto.setProportion(devData.get(2).getForthYearValue().toPlainString());// 公司研发占比
+              }
+              if (ipoCompanyRank != null){
                 incomeDto.setSTIB(ipoCompanyRank.getTakingThavg());//科创板平均营业收入
                 expensesCostDto.setSTIB(ipoCompanyRank.getResearchPlateThavg());//科创板平均研发费用
-                expensesCostDto.setProportion(devData.get(2).getForthYearValue().toPlainString());// 公司研发占比
-
+              }
                 incomeList.add(incomeDto);// 第三年营业收入
                 expensesCostList.add(expensesCostDto);//第三年研发支出
             }
@@ -556,10 +708,11 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
     }
   }
   industryStaff.setIndexDate(companyStaff.getIndexDate());
-  industryStaff.setCore(ipoCompanyRank.getResearchPeoCore());
-  industryStaff.setDev(ipoCompanyRank.getResearchPeo());
-  industryStaff.setPeople(ipoCompanyRank.getCompanyPeo());
-
+  if(ipoCompanyRank!= null) {
+    industryStaff.setCore(ipoCompanyRank.getResearchPeoCore());
+    industryStaff.setDev(ipoCompanyRank.getResearchPeo());
+    industryStaff.setPeople(ipoCompanyRank.getCompanyPeo());
+  }
   List<Map<String, IpoH5CoreDevDto>> coreData = new ArrayList<>();
   Map<String, IpoH5CoreDevDto> companyMap = new HashMap<>();
   companyMap.put("companyStaff", companyStaff);
@@ -589,8 +742,8 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
     }
 
     // 获取评论列表
-    public List<Map<String, Object>> getCommentList(String caseid) {
-        return ipoWechatPermisionBizMapper.getCommentList(caseid);
+    public List<Map<String, Object>> getCommentList(Map<String, Object> param) {
+        return ipoWechatPermisionBizMapper.getCommentList(param);
     }
 
     //    点赞
@@ -602,6 +755,18 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
         } else {
 //            保存
             ipoWechatPermisionBizMapper.fabulousNo(map);
+        }
+    }
+    //    收藏
+    public void collectionYes(Map<String, Object> map) {
+        map.put("option_time",new Date());
+        List<Map<String, Object>> lists = ipoWechatPermisionBizMapper.isCollectionYes(map);
+        if (lists != null && lists.size() > 0) {
+//            更新
+            ipoWechatPermisionBizMapper.collectionYes(map);
+        } else {
+//            保存
+            ipoWechatPermisionBizMapper.collectionNo(map);
         }
     }
 
@@ -625,8 +790,18 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
         return ipoInterfaceBizMapper.queryIpoCase(map);
     }
 
-    public List<IpoCaseListVo> otherIpoCaseNoIndustry() {
-        return ipoInterfaceBizMapper.otherIpoCaseNoIndustry();
+    public List<IpoCaseListVo> queryIpoCaseById(Map<String, Object> map) {
+        return ipoInterfaceBizMapper.queryIpoCaseById(map);
+    }
+
+    public List<IpoCaseListVo> otherIpoCaseNoIndustry(IpoCaseIndexDto ipoCaseIndexDto) {
+        String URL = "http://www.valueonline.cn/open/";
+        List<IpoCaseListVo> resultList = ipoInterfaceBizMapper.otherIpoCaseNoIndustry(ipoCaseIndexDto);
+        for(IpoCaseListVo dto:resultList){
+            URL = URL + dto.getCompanyCode() + "_160.png";
+            dto.setCompanyLogo(URL);
+        }
+        return resultList;
     }
 
     public IntermediaryOrgDto queryOrgMarketShare(IntermediaryOrgDto intermediaryOrgDto) {
@@ -635,5 +810,31 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
 
     public List<IpoCaseListVo> queryAllMatchIpoCase() {
         return ipoInterfaceBizMapper.queryAllMatchIpoCase();
+    }
+
+    public int collectionCount(Map<String, Object> param) {
+        return ipoWechatPermisionBizMapper.collectionCount(param);
+    }
+
+    //是否收藏
+    public boolean isCollectionYes(Map<String, Object> param) {
+        List<Map<String, Object>> lists = ipoWechatPermisionBizMapper.isCollectionYes(param);
+        boolean isCollectionYes = false;
+        if (lists != null && lists.size() > 0 && "1".equals(lists.get(0).get("state") + "")) {
+            isCollectionYes = true;
+        }
+        return isCollectionYes;
+    }
+
+    public int replayCount(Map<String, Object> param) {
+        return ipoWechatPermisionBizMapper.replayCount(param);
+    }
+
+    public List<Map<String,Object>> getOnlyCommentList(Map<String, Object> param) {
+        return ipoWechatPermisionBizMapper.getOnlyCommentList(param);
+    }
+
+    public IntermediaryOrgDto queryQrgMarketRank(IntermediaryOrgDto intermediaryOrgDto) {
+        return ipoInterfaceBizMapper.queryQrgMarketRank(intermediaryOrgDto);
     }
 }

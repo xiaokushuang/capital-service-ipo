@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.stock.capital.enterprise.ipoInterfaceH5.dao.IpoInterfaceBizMapper" >
-    <select id="otherIpoCase" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo">
-      SELECT t.id,t.org_code AS orgCode,t.company_name AS companyName,t.ipo_plate AS ipoPlate,t.industry_csrc AS industryCsrc
-        FROM ipo_case t,case_common_status_info t1
-        where ipo_plate = '069001001006' AND t.id = t1.case_id and t1.release_flag = '1'
+<mapper namespace="com.stock.capital.enterprise.ipoInterfaceH5.dao.IpoInterfaceBizMapper">
+    <select id="otherIpoCase" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo">
+        SELECT
+        t.id,
+        t.org_code AS orgCode,
+        t.company_name AS companyName,
+        t.ipo_plate AS ipoPlate,
+        t.industry_csrc AS industryCsrc,
+        t4.company_code AS companyCode
+        FROM
+        ipo_case t,
+        case_common_status_info t1,
+        (select t2.company_code,t2.rela_code from sa_company t2,sa_attachment t3 where t2.id = t3.business_id ) t4
+        WHERE
+        ipo_plate = '069001001006'
+        AND t.id = t1.case_id
+        AND t1.release_flag = '1'
+        AND t.org_code = t4.rela_code
         ORDER BY
         <if test="ipoPlate != null and ipoPlate != ''">
             FIELD(industry_csrc,#{industryCsrc}) desc,
@@ -12,17 +26,20 @@
         RAND() limit 4;
     </select>
 
-    <select id="otherIpoCaseNoIndustry" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo">
-        SELECT t.id,t.org_code AS orgCode,t.company_name AS companyName,t.ipo_plate AS ipoPlate,t.industry_csrc AS industryCsrc
-        FROM ipo_case t,case_common_status_info t1
-        where ipo_plate = '069001001006' AND t.id = t1.case_id and t1.release_flag = '1'
+    <select id="otherIpoCaseNoIndustry" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo">
+        SELECT t.id,t.org_code AS orgCode,t.company_name AS companyName,t.ipo_plate AS ipoPlate,t.industry_csrc AS industryCsrc,t2.company_code AS companyCode
+        FROM ipo_case t,case_common_status_info t1,sa_company t2
+        where ipo_plate = '069001001006' AND t.id = t1.case_id and t1.release_flag = '1' and t.org_code != #{orgCode}
+        AND t.org_code = t2.rela_code
         ORDER BY
         RAND() limit 4;
     </select>
 
-    <select id="ipoCompanyRank" parameterType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto" resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto">
+    <select id="ipoCompanyRank" parameterType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto"
+            resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto">
         SELECT (SELECT COUNT(m.id) FROM ipo_h5 m)AS ipoCompanyCount,
-        (SELECT COUNT(m.id) FROM sa_company m WHERE m.belongs_plate = '02' AND m.ipo_flag = '1' AND m.liststate = '0') AS saCompanyCount,
+        (SELECT COUNT(m.id) FROM sa_company m WHERE m.belongs_plate = '02' AND m.ipo_flag = '1' AND m.liststate in ('0','1')) AS saCompanyCount,
         t.id AS id,
         t.bid AS bid,
         t.research AS research,
@@ -74,7 +91,8 @@
         WHERE t.bid = #{bid}
     </select>
 
-    <select id="ipoAvg" parameterType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5DetailDto" resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5DetailDto">
+    <select id="ipoAvg" parameterType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5DetailDto"
+            resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5DetailDto">
       SELECT t.id AS id,t.org_code AS orgCode,t.plate_type AS plateType,t.column_comment AS columnComment,
       (SELECT COUNT(1) FROM(SELECT 1 FROM ipo_h5_detail m
         WHERE m.column_comment = #{columnComment} AND m.plate_type = #{plateType} AND m.industry_csrc = #{industryCsrc} GROUP BY m.org_code)AS mt) AS orgCount,
@@ -84,12 +102,14 @@
       GROUP BY t.`year` ORDER BY t.`year` DESC LIMIT 3;
     </select>
 
-    <select id="queryIndustryCsrc" parameterType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5DetailDto" resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5DetailDto">
+    <select id="queryIndustryCsrc" parameterType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5DetailDto"
+            resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5DetailDto">
         SELECT t.industry_csrc AS industryCsrc FROM ipo_case t WHERE t.id = #{bid}
     </select>
 
 
-  <select id="getCoreDevFromIpoTech" parameterType="java.lang.String" resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5CoreDevDto">
+    <select id="getCoreDevFromIpoTech" parameterType="java.lang.String"
+            resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5CoreDevDto">
       SELECT core_fi AS core, dev_fi AS dev, count_fi AS people, category_date_fi AS indexDate FROM ipo_technology WHERE bid = #{id}
       UNION
       SELECT core_se AS core, dev_se AS dev, count_se AS people, category_date_se AS indexDate FROM ipo_technology WHERE bid =  #{id}
@@ -106,25 +126,72 @@
             CONCAT('%',#{companyName},'%'))
         </if>
     </select>
-    <select id="queryAllMatchIpoCase" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo">
-        SELECT  t.id,
+
+    <select id="queryIpoCaseById" parameterType="map"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo">
+        SELECT t.id,
         t.company_name companyName,
         t.company_zh_name title
-        FROM    ipo_case t,case_common_status_info t1
-        WHERE   t.id = t1.case_id and t1.release_flag = '1' and t.ipo_plate = '069001001006'
-        AND EXISTS (SELECT 1 FROM ipo_process m WHERE m.bid = t.id AND m.process_type_code = '38' AND m.iec_result = '07')
-        <if test="companyName != null and companyName != ''">
-            and (t.company_name like CONCAT('%',#{companyName},'%') or t.company_zh_name like
-            CONCAT('%',#{companyName},'%'))
+        FROM ipo_case t,case_common_status_info t1
+        where ipo_plate = '069001001006' AND t.id = t1.case_id and t1.release_flag = '1'
+        <if test="id != null and id != ''">
+            and t.id = #{id}
         </if>
     </select>
+    <select id="queryAllMatchIpoCase" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo">
+        SELECT tb.*,(CASE WHEN DATE_FORMAT(tb.processTime,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d') THEN '1'
+        WHEN DATE_FORMAT(tb.processTime,'%Y-%m-%d') > DATE_FORMAT(NOW(),'%Y-%m-%d') THEN '2' ELSE '0' END)AS makeNewStatus
+        FROM(SELECT t.id,
+        t.company_name companyName,
+        t.company_zh_name title,
+        (SELECT m.process_time FROM ipo_process m WHERE m.bid = t.id AND m.tree_type_code = '02' AND m.process_type_code = '16' ORDER BY m.pro_sort DESC LIMIT 1)AS processTime
+        FROM ipo_case t,case_common_status_info t1
+        WHERE t.id = t1.case_id and t1.release_flag = '1' and t.ipo_plate = '069001001006'
+        AND EXISTS (SELECT 1 FROM ipo_process m WHERE m.bid = t.id AND m.tree_type_code = '01' AND m.process_type_code = '38' AND m.iec_result =
+        '07'))AS tb
 
-    <select id="queryOrgMarketShare" parameterType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto" resultType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto">
-      SELECT (SELECT SUM(1) FROM ipo_case t WHERE EXISTS(SELECT 1 FROM ipo_intermediary_org m WHERE m.bid = t.id AND m.org_code = #{orgCode} AND m.intermediary_type = #{intermediaryType})) AS businessVolume,
-      (SELECT SUM(1) FROM ipo_case t WHERE EXISTS(SELECT 1 FROM ipo_intermediary_org m WHERE m.bid = t.id AND m.org_code = #{orgCode} AND m.intermediary_type = #{intermediaryType})
-      AND EXISTS (SELECT 1 FROM ipo_process m WHERE m.bid = t.id AND m.process_type_code = '35' AND m.iec_result = '05')) AS passing,
-      (SELECT SUM(1) FROM ipo_case t WHERE EXISTS(SELECT 1 FROM ipo_intermediary_org m WHERE m.bid = t.id AND m.org_code = '10004936'
-AND m.intermediary_type = '1')
-      AND EXISTS (SELECT 1 FROM ipo_process m WHERE m.bid = t.id AND m.process_type_code = '35' AND m.iec_result != '09')) AS passingWait
+        <!--<if test="companyName != null and companyName != ''">
+            and (t.company_name like CONCAT('%',#{companyName},'%') or t.company_zh_name like
+            CONCAT('%',#{companyName},'%'))
+        </if>-->
+    </select>
+
+    <select id="queryOrgMarketShare" parameterType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto">
+        SELECT (SELECT SUM(1) FROM ipo_case t,case_common_status_info t1 WHERE t.id = t1.case_id AND t.ipo_plate =
+        '069001001006' AND t1.release_flag = '1' AND EXISTS(SELECT 1 FROM ipo_intermediary_org m WHERE m.bid = t.id AND
+        m.valid_flag = '1' AND m.org_code = #{orgCode}
+        <if test="intermediaryType == 3 or intermediaryType == 4">
+            AND m.org_type = '01'
+        </if>
+        AND m.intermediary_type = #{intermediaryType})) AS businessVolume,
+        (SELECT SUM(1) FROM ipo_case t,case_common_status_info t1 WHERE t.id = t1.case_id AND t.ipo_plate =
+        '069001001006' AND t1.release_flag = '1' AND EXISTS(SELECT 1 FROM ipo_intermediary_org m WHERE m.bid = t.id AND
+        m.valid_flag = '1' AND m.org_code = #{orgCode}
+        <if test="intermediaryType == 3 or intermediaryType == 4">
+            AND m.org_type = '01'
+        </if>
+        AND m.intermediary_type = #{intermediaryType})
+        AND EXISTS (SELECT 1 FROM ipo_process m WHERE m.bid = t.id AND m.process_type_code = '35' AND m.iec_result =
+        '05')) AS passing,
+        (SELECT SUM(1) FROM ipo_case t,case_common_status_info t1 WHERE t.id = t1.case_id AND t.ipo_plate =
+        '069001001006' AND t1.release_flag = '1' AND EXISTS(SELECT 1 FROM ipo_intermediary_org m WHERE m.bid = t.id AND
+        m.valid_flag = '1' AND m.org_code = #{orgCode}
+        <if test="intermediaryType == 3 or intermediaryType == 4">
+            AND m.org_type = '01'
+        </if>
+        AND m.intermediary_type = #{intermediaryType})
+        AND EXISTS (SELECT 1 FROM ipo_process m WHERE m.bid = t.id AND m.process_type_code = '35' AND m.iec_result !=
+        '09')) AS passingWait
+    </select>
+
+    <select id="queryQrgMarketRank" parameterType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto">
+      SELECT t.org_code,t.business_volume,t.passing,t.passing_wait,t.intermediary_type,
+      (SELECT (COUNT(1)+1) FROM (SELECT * FROM ipo_h5_org m GROUP BY m.intermediary_type,m.business_volume)AS mt
+      WHERE (mt.business_volume+0) > (t.business_volume+0) AND mt.intermediary_type = t.intermediary_type)AS businessVolumeRank,
+      (SELECT (COUNT(1)+1) FROM (SELECT * FROM ipo_h5_org m GROUP BY m.intermediary_type,m.passing)AS mt
+      WHERE ifnull((mt.passing+0),0) > ifnull((t.passing+0),0) AND mt.intermediary_type = t.intermediary_type)AS passingRank
+      FROM ipo_h5_org t WHERE t.org_code = #{orgCode} AND t.intermediary_type = #{intermediaryType}
     </select>
 </mapper>

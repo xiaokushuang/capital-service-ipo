@@ -2,18 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.stock.capital.enterprise.ipoInterfaceH5.dao.IpoWechatPermisionBizMapper">
-<select id="queryByUnionidOrOpenid" parameterType="map" resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoWechatPermisionDto">
-    select * from ipo_wechat_permision
-    <where>
-        <if test="openid != null and openid != ''">
-            and openid = #{openid}
-        </if>
-        <if test="unionid != null and unionid != ''">
-            and unionid = #{unionid}
-        </if>
-    </where>
+    <select id="queryByUnionidOrOpenid" parameterType="map" resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoWechatPermisionDto">
+        select * from ipo_wechat_permision
+        <where>
+            <if test="openid != null and openid != ''">
+                and openid = #{openid}
+            </if>
+            <if test="unionid != null and unionid != ''">
+                and unionid = #{unionid}
+            </if>
+        </where>
 
-</select>
+    </select>
     <!--保存用户-->
     <insert id="insert" parameterType="map" >
         <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
@@ -27,37 +27,49 @@
     <update id="update" parameterType="map">
         update ipo_wechat_permision SET nickname = #{nickname},sex=#{sex},province=#{province},city=#{city},
         country=#{country},headimgurl=#{headimgurl},access_token=#{access_token}
-        where openid= #{openid} or unionid = #{unionid}
+        where  unionid = #{unionid}
     </update>
     <!--保存评论-->
-   <insert id="submitReplay" parameterType="map" >
-       <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-           SELECT CONCAT(uuid_short(),'')
-       </selectKey>
-       insert into ipo_comment
-       (id
-       ,pid
-       ,comment_content
-       ,comment_time
-       ,comment_from_user
-       ,case_id
-       ,avatar
-       ,is_selected_comment
-       ,unionid
-       ,openid
-       ,state)
+    <insert id="submitReplay" parameterType="map" >
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+            SELECT CONCAT(uuid_short(),'')
+        </selectKey>
+        insert into ipo_comment
+        (id
+        ,pid
+        ,comment_content
+        ,comment_time
+        ,comment_from_user
+        ,case_id
+        ,avatar
+        ,is_selected_comment
+        ,unionid
+        ,openid
+        ,state)
         VALUES (
-          #{id},'0',#{commentText},#{commentTime},#{username},#{caseid}
-          ,#{headPortrait},'0',#{unionid},#{openid},"1"
-       )
-   </insert>
+        #{id},'0',#{commentText},now(),#{username},#{caseid}
+        ,#{headPortrait},'0',#{unionid},#{openid},"1"
+        )
+    </insert>
     <!--获取评论列表-->
-    <select id="getCommentList" parameterType="String" resultType="map">
-        select * from ipo_comment where case_id = #{caseid} and state = '1' order by comment_time desc;
+    <select id="getCommentList" parameterType="map" resultType="map">
+        select * from ipo_comment where case_id = #{caseid} and state = '1' order by comment_time desc limit ${startPage},${endPage}
+    </select>
+    <!--下拉获取评论列表-->
+    <select id="getOnlyCommentList" parameterType="map" resultType="map">
+        select * from ipo_comment where case_id = #{caseid} and state = '1' and comment_time &lt; #{maxCommentTime} order by comment_time desc limit ${startPage},${endPage}
+    </select>
+    <!--获取评论数-->
+    <select id="replayCount" parameterType="map" resultType="int">
+        select count(0) from ipo_comment where case_id = #{caseid} and state = '1'
     </select>
     <!--判断是否点赞-->
     <select id="isFabulousYes" parameterType="map" resultType="map">
-        select * from ipo_fabulous where caseid = #{caseid} and (openid = #{openid} or unionid = #{unionid})
+        select * from ipo_fabulous where caseid = #{caseid} and  unionid = #{unionid}
+    </select>
+    <!--判断是否收藏-->
+    <select id="isCollectionYes" parameterType="map" resultType="map">
+        select * from PLATFORM_SCAN_MAP where case_id = #{caseid} and  union_id = #{unionid} and flag = '1' and state='1'
     </select>
     <!--保存 点赞-->
     <insert id="fabulousNo" parameterType="map">
@@ -69,10 +81,26 @@
     </insert>
     <!--更新点赞-->
     <update id="fabulousYes" parameterType="map">
-        update ipo_fabulous set isLike = #{isLike} where caseid = #{caseid} and (openid = #{openid} or unionid = #{unionid})
+        update ipo_fabulous set isLike = #{isLike} where caseid = #{caseid} and  unionid = #{unionid}
+    </update>
+    <!--保存 收藏-->
+    <insert id="collectionNo" parameterType="map">
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+            SELECT CONCAT(uuid_short(),'')
+        </selectKey>
+        insert into PLATFORM_SCAN_MAP (id,case_id,union_id,flag,state,option_time)
+        values(#{id},#{caseid},#{unionid},"1","1",now())
+    </insert>
+    <!--更新收藏-->
+    <update id="collectionYes" parameterType="map">
+        update PLATFORM_SCAN_MAP set state = #{isLike},option_time= now() where case_id = #{caseid} and  union_id = #{unionid} and flag = '1'
     </update>
     <!--获取点赞数-->
     <select id="fabulousCount" parameterType="map" resultType="int">
         select count(*) from ipo_fabulous where caseid = #{caseid} and isLike = '1'
+    </select>
+    <!--获取收藏数-->
+    <select id="collectionCount" parameterType="map" resultType="int">
+        select count(*) from PLATFORM_SCAN_MAP where case_id = #{caseid} and flag = '1' and state = '1'
     </select>
 </mapper>

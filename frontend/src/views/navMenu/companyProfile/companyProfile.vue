@@ -93,7 +93,7 @@
       </div>
       <!-- 登录其他资本市场 -->
       <div class="others" v-if="this.otherMarketInfoList&&this.otherMarketInfoList.length>0">
-        <p style="color:black">登录其他资本市场</p>
+        <p style="color:black">登陆其他资本市场</p>
         <ul v-for="item in otherMarketInfoList">
           <li style=" width: 30%;position:relative">
             <span>资本市场</span>&nbsp;&nbsp;
@@ -401,7 +401,7 @@
                   </template>
                 </el-table-column>
                 <el-table-column :label="item.reportPeriod" header-align="center">
-                  <el-table-column align="left"  class-name="table_cell" label="采购内容" width="136">
+                  <el-table-column align="left"  class-name="table_cell" label="销售内容" width="136">
                      <template slot-scope="scope">
                         <span class="contentClass" v-if="scope.row.onePeriodContent" @mouseenter="mouseOverContent(scope.row.onePeriodContent)" >
                             {{getContent(scope.row.onePeriodContent)}}
@@ -423,7 +423,7 @@
                   </el-table-column>
                 </el-table-column>
                 <el-table-column :label="item.thirdYearForCustomer" header-align="center">
-                  <el-table-column align="left"  class-name="table_cell" label="采购内容" width="136">
+                  <el-table-column align="left"  class-name="table_cell" label="销售内容" width="136">
                      <template slot-scope="scope">
                         <span class="contentClass" v-if="scope.row.thirdYearContent" @mouseenter="mouseOverContent(scope.row.thirdYearContent)" >
                             {{getContent(scope.row.thirdYearContent)}}
@@ -445,7 +445,7 @@
                   </el-table-column>
                 </el-table-column>
                 <el-table-column :label="item.secondYearForCustomer" header-align="center">
-                  <el-table-column align="left"  class-name="table_cell" label="采购内容" width="136">
+                  <el-table-column align="left"  class-name="table_cell" label="销售内容" width="136">
                      <template slot-scope="scope">
                         <span class="contentClass" v-if="scope.row.secondYearContent" @mouseenter="mouseOverContent(scope.row.secondYearContent)" >
                             {{getContent(scope.row.secondYearContent)}}
@@ -467,7 +467,7 @@
                   </el-table-column>
                 </el-table-column>
                 <el-table-column :label="item.firstYearForCustomer" header-align="center">
-                  <el-table-column align="left"  class-name="table_cell" label="采购内容" width="136">
+                  <el-table-column align="left"  class-name="table_cell" label="销售内容" width="136">
                      <template slot-scope="scope">
                         <span class="contentClass" v-if="scope.row.firstYearContent" @mouseenter="mouseOverContent(scope.row.firstYearContent)" >
                             {{getContent(scope.row.firstYearContent)}}

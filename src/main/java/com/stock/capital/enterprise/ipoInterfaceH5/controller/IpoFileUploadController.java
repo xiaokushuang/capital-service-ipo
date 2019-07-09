@@ -5,17 +5,22 @@ import com.obs.services.model.ObjectMetadata;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo;
 import com.stock.capital.enterprise.ipoInterfaceH5.service.IpoInterfaceService;
 import com.stock.core.controller.BaseController;
+import com.stock.core.rest.RestClient;
 import com.stock.core.util.JsonUtil;
 import io.swagger.annotations.Api;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.annotation.PostConstruct;
 import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +38,17 @@ public class IpoFileUploadController extends BaseController {
 
     @Autowired
     private IpoInterfaceService ipoInterfaceService;
+
+    @Value("${obs.upload}")
+    private String obsUpload;
+
+    @Autowired
+    private RestClient restClient;
+
+    @Value("${minipro.appid}")
+    private String appid;
+    @Value("${minipro.secret}")
+    private String secret;
 
     /**
      * 文件上传
@@ -53,14 +69,13 @@ public class IpoFileUploadController extends BaseController {
         //obsClient.putObject("obs-repo", "ipo-dev/"+fileName+".txt", new ByteArrayInputStream(content.getBytes()));
         //生产地址
 
-        obsClient.putObject("obs-repo", "ipo/" + fileName + ".json", new ByteArrayInputStream(content.getBytes()), metadata);
+        obsClient.putObject("obs-repo", obsUpload + fileName + ".json", new ByteArrayInputStream(content.getBytes()), metadata);
     }
 
     /**
      * 每晚定时把所有科创版数据生成json文件放到华为云上
      */
-
-    @Scheduled(cron = "0 30 18,12,15 * * ? ")
+    @Scheduled(cron = "0 15 02 * * ? ")
     public void ipoDataUpload() {
         //查询科创版所有案例
         logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
@@ -71,6 +86,7 @@ public class IpoFileUploadController extends BaseController {
                 try {
                     Map<String, Object> data = ipoInterfaceController.ipoCaseH5(ipoCaseList.get(i).getId());
                     fileUpload(JsonUtil.toJsonNoNull(data), ipoCaseList.get(i).getId());
+                    logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步" + ipoCaseList.get(i).getId() + "成功###########");
                 } catch (Exception e) {
                     logger.info("#######【将IpoH5的数据的json文件上传华为云时主键：" + ipoCaseList.get(i).getId() + "数据出错###########");
                 }
@@ -81,7 +97,7 @@ public class IpoFileUploadController extends BaseController {
     /**
      * 每晚定时把所有科创版数据生成json文件放到华为云上
      */
-    @Scheduled(cron = "0 20 18,12,15 * * ? ")
+    @Scheduled(cron = "0 18 02 * * ? ")
     public void ipoMarchDataUpload() {
         //查询科创版所有案例
         logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
@@ -89,10 +105,72 @@ public class IpoFileUploadController extends BaseController {
         logger.info("#######【将Ipo案例注册生效的数据生成json文件放到华为云时查询到有" + ipoCaseList.size() + "条科创版数据###########");
         if (ipoCaseList != null) {
             try {
-                fileUpload(JsonUtil.toJsonNoNull(ipoCaseList),"ipoRandomData");
+                fileUpload(JsonUtil.toJsonNoNull(ipoCaseList), "ipoRandomData");
             } catch (Exception e) {
                 logger.info("#######【将IpoH5的数据的json文件上传华为云时： ipoRandomData 数据出错###########");
             }
         }
+    }
+
+    /**
+     * 每晚定时把所有科创版数据生成json文件放到华为云上(登录页的联想)
+     */
+    @Scheduled(cron = "0 10 02 * * ? ")
+    public void ipoCaseDataUpload() {
+        //查询科创版所有案例
+        logger.info("#######【将IpoH5登录页的联想的数据生成json文件放到华为云的同步开始执行###########");
+        List<IpoCaseListVo> ipoCaseList = ipoInterfaceService.queryIpoCase(new HashMap());
+        logger.info("#######【将IpoH5登录页的联想的数据生成json文件放到华为云时查询到有" + ipoCaseList.size() + "条科创版数据###########");
+        if (ipoCaseList != null) {
+            try {
+                fileUpload(JsonUtil.toJsonNoNull(ipoCaseList), "ipoCaseData");
+            } catch (Exception e) {
+                logger.info("#######【将IpoH5登录页的联想的数据生成json文件上传华为云时： ipoCaseData 数据出错###########");
+            }
+        }
+    }
+
+    @RequestMapping(value = "/ipoDataUploadSpecComById")
+    public void ipoDataUploadSpecComById(Map map) {
+        //查询科创版所有案例
+        logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
+        List<IpoCaseListVo> ipoCaseList = ipoInterfaceService.queryIpoCaseById(map);
+        logger.info("#######【将IpoH5的数据生成json文件放到华为云时查询到有" + ipoCaseList.size() + "条科创版数据###########");
+        if (ipoCaseList != null) {
+            for (int i = 0; i < ipoCaseList.size(); i++) {
+                try {
+                    Map<String, Object> data = ipoInterfaceController.ipoCaseH5(ipoCaseList.get(i).getId());
+                    fileUpload(JsonUtil.toJsonNoNull(data), ipoCaseList.get(i).getId());
+                    logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步" + ipoCaseList.get(i).getId() + "成功###########");
+                } catch (Exception e) {
+                    logger.info("#######【将IpoH5的数据的json文件上传华为云时主键：" + ipoCaseList.get(i).getId() + "数据出错###########");
+                }
+            }
+        }
+    }
+
+    @RequestMapping(value = "/ipoDataUploadAllCom")
+    public void ipoDataUploadAllCom(@RequestParam(value = "id", required = false, defaultValue = "") String id) {
+        ipoCaseDataUpload();
+        ipoMarchDataUpload();
+        if (StringUtils.isEmpty(id)) {
+            ipoDataUpload();
+        } else {
+            Map tempMap = new HashMap();
+            tempMap.put("id", id);
+            ipoDataUploadSpecComById(tempMap);
+        }
+    }
+    //每隔一个小时刷一次
+    @Scheduled(cron = "0 0 0/1 * * ?")
+    @PostConstruct
+    public void updateAccessToken(){
+        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+appid+"&secret="+secret;
+        ParameterizedTypeReference<Map<String,Object>> responseType = new ParameterizedTypeReference<Map<String, Object>>() {
+        };
+        Map<String, Object> map = restClient.get(url, responseType);
+        logger.info("每小时刷新一次,定时刷新access_token:"+map.get("access_token"));
+//        采用wechatAccessToken名字存储token
+        fileUpload((String) map.get("access_token"),"wechatAccessToken");
     }
 }

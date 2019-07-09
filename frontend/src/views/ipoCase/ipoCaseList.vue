@@ -60,16 +60,17 @@
         <div class="innnerbox1" style="padding-top: 24px">
            <el-row :gutter="24">
             <el-col :span='8'>
-              <el-input size='small full' v-model="title" placeholder="标题关键字（包含全部以空格断开）"></el-input>
+              <el-input size='small full' v-model="title" @keyup.enter.native="querySearch" placeholder="标题关键字（包含全部以空格断开）"></el-input>
             </el-col>
             <el-col :span='8'>
-              <el-input size='small full' v-model="codeOrName" placeholder="公司名称/代码"></el-input>
+              <el-input size='small full' v-model="codeOrName" @keyup.enter.native="querySearch" placeholder="公司名称/代码"></el-input>
             </el-col>
             <el-col :span='8' class="repuramountlimitPan-class">
               <el-autocomplete
                 class="inline-input"
                 size='small full'
                 v-model="intermediary"
+                @keyup.enter.native="querySearch"
                 :fetch-suggestions="queryIntermediary"
                 placeholder="中介机构"
                 :trigger-on-focus="false"
@@ -81,6 +82,7 @@
             <el-col :span='8'>
               <el-select ref="selectCompanyNature" v-model="companyNature" title="企业性质" placeholder="企业性质"
                          size="small full" :tselect=true @visible-change="calls()"
+                         @keydown.enter.native="querySearch"
                          @sure-click="sure('selectCompanyNature')"
                          @clear-click="clearLocal('treeCompanyNature')">
                 <el-option :label="companyNature" :value="companyNatureValue">
@@ -92,6 +94,7 @@
             <el-col :span='8'>
               <el-select ref="selectIndustryCsrc" v-model="industryCsrc" title="发行人行业（证监会）" placeholder="发行人行业（证监会）"
                          size="small full" :tselect=true @visible-change="calls()"
+                         @keydown.enter.native="querySearch"
                          @sure-click="sure('selectIndustryCsrc')"
                          @clear-click="clearLocal('treeIndustryCsrc')">
                 <el-option :label="industryCsrc" :value="industryCsrcValue">
@@ -115,6 +118,7 @@
               <el-select ref="selectIpoNum" v-model="ipoNum" title="申报次数" placeholder="申报次数"
                          size="small full" :tselect=true @visible-change="calls()"
                          @sure-click="sure('selectIpoNum')"
+                         @keydown.enter.native="querySearch"
                          @clear-click="clearLocal('treeIpoNum')">
                 <el-option :label="ipoNum" :value="ipoNumValue">
                   <el-tree :data="ipoNumList" show-checkbox node-key="id" ref="treeIpoNum" highlight-current
@@ -139,6 +143,7 @@
               <el-select ref="selectProcess" v-model="caseStatus" title="IPO进程" placeholder="IPO进程"
                          size="small full" :tselect=true @visible-change="calls()"
                          @sure-click="sure('selectProcess')"
+                         @keydown.enter.native="querySearch"
                          @clear-click="clearLocal('treeProcess')">
                 <el-option :label="caseStatus" :value="caseStatusValue">
                   <el-tree :data="processList" show-checkbox node-key="id" ref="treeProcess" highlight-current
@@ -150,6 +155,7 @@
               <el-select ref="selectVerifyResult" v-model="iecResult" title="审核/注册结果" placeholder="审核/注册结果"
                          size="small full" :tselect=true @visible-change="calls()"
                          @sure-click="sure('selectVerifyResult')"
+                         @keydown.enter.native="querySearch"
                          @clear-click="clearLocal('treeVerifyResult')">
                 <el-option :label="iecResult" :value="iecResultValue">
                   <el-tree :data="verifyResultList" default-expand-all show-checkbox node-key="id" ref="treeVerifyResult" highlight-current
@@ -161,6 +167,7 @@
               <el-select ref="selectIssueCondition" v-model="issueCondition" title="发行人选择的上市条件" placeholder="发行人选择的上市条件"
                          size="small full" :tselect=true @visible-change="calls()"
                          @sure-click="sure('selectIssueCondition')"
+                         @keydown.enter.native="querySearch"
                          @clear-click="clearLocal('treeIssueCondition')">
                 <el-option :label="issueCondition" :value="issueConditionValue">
                   <el-tree :data="issueConditionList" default-expand-all show-checkbox node-key="id" ref="treeIssueCondition" highlight-current
@@ -224,11 +231,13 @@
           <el-row :gutter="24">
             <el-col :span='8' class="stockIncreasePan-class">
               <el-multiple-selection v-if="issueShow" :range="true" :tree-data="optionPeIssueA" placeholder="发行后市盈率" size="small full" :multiple="false"
+                                      @keydown.enter.native="querySearch"
                                      unit="倍" :ran="optionDto" @sure-click="rangeCallPeIssueA">
               </el-multiple-selection>
             </el-col>
             <el-col :span='8' class="stockIncreasePan-class">
               <el-multiple-selection v-if="issueFeeShow" :range="true" :tree-data="optionIssueFee" placeholder="发行费用" size="small full" :multiple="false"
+                                      @keydown.enter.native="querySearch"
                                      unit="万元" :ran="optionDto" @sure-click="rangeCallIssueFee">
               </el-multiple-selection>
             </el-col>
@@ -236,6 +245,7 @@
               <el-select ref="selectPlacingMechanism" v-model="placingMechanism" title="配售机制" placeholder="配售机制"
                          size="small full" :tselect=true @visible-change="calls()"
                          @sure-click="sure('selectPlacingMechanism')"
+                         @keydown.enter.native="querySearch"
                          @clear-click="clearLocal('treePlacingMechanism')">
                 <el-option class="psjz" :label="placingMechanism" :value="placingMechanismValue">
                   <el-tree :data="ipoMechanismList" default-expand-all show-checkbox node-key="id" ref="treePlacingMechanism" highlight-current
@@ -252,16 +262,19 @@
            <el-row :gutter="24">
              <el-col :span='8'>
               <el-date-picker size='small' v-model="ypProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
+                              @keydown.enter.native="querySearch"
                               start-placeholder="受理时间" end-placeholder="受理时间" align="center">
               </el-date-picker>
             </el-col>
             <el-col :span='8'>
               <el-date-picker size='small' v-model="fsProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
+                              @keydown.enter.native="querySearch"
                                start-placeholder="审核时间" end-placeholder="审核时间" align="center">
               </el-date-picker>
             </el-col>
             <el-col :span='8'>
               <el-multiple-selection v-if="durationShow" :range="true" :tree-data="optionAuditDuration" placeholder="审核历时（天）" size="small full" :multiple="false"
+                                      @keydown.enter.native="querySearch"
                                      unit="天" :ran="optionDto" @sure-click="rangeAuditDuration">
               </el-multiple-selection>
             </el-col>
@@ -279,39 +292,48 @@
                 <el-row :gutter="24">
                   <el-col :span='12'>
                     <el-multiple-selection v-if="yearRadio===1&&profitOneShow" style="width: 205.5%" :range="true" :tree-data="optionNetProfitOne" placeholder="招股书最近一个会计年度净利润" size="small full" :multiple="false"
-                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallProfitOne">
+                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallProfitOne"
+                                            @keydown.enter.native="querySearch">
                     </el-multiple-selection>
                     <el-multiple-selection v-if="yearRadio===2&&profitTwoShow" style="width: 205.5%" :range="true" :tree-data="optionNetProfitTwo" placeholder="招股书最近两个会计年度净利润" size="small full" :multiple="false"
-                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallProfitTwo">
+                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallProfitTwo"
+                                            @keydown.enter.native="querySearch">
                     </el-multiple-selection>
                     <el-multiple-selection v-if="yearRadio===3&&profitThreeShow" style="width: 205.5%" :range="true" :tree-data="optionNetProfitThree" placeholder="招股书最近三个会计年度净利润" size="small full" :multiple="false"
-                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallProfitThree">
+                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallProfitThree"
+                                            @keydown.enter.native="querySearch">
                     </el-multiple-selection>
                   </el-col>
                 </el-row>
                 <el-row :gutter="24">
                   <el-col :span='12'>
                     <el-multiple-selection v-if="yearRadio===1&&reveOneShow" style="width: 205.5%" :range="true" :tree-data="optionOperateReveOne" placeholder="招股书最近一个会计年度营业收入" size="small full" :multiple="false"
-                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallReveOne">
+                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallReveOne"
+                                            @keydown.enter.native="querySearch">
                     </el-multiple-selection>
                     <el-multiple-selection v-if="yearRadio===2&&reveTwoShow" style="width: 205.5%" :range="true" :tree-data="optionOperateReveTwo" placeholder="招股书最近两个会计年度营业收入" size="small full" :multiple="false"
-                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallReveTwo">
+                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallReveTwo"
+                                            @keydown.enter.native="querySearch">
                     </el-multiple-selection>
                     <el-multiple-selection v-if="yearRadio===3&&reveThreeShow" style="width: 205.5%" :range="true" :tree-data="optionOperateReveThree" placeholder="招股书最近三个会计年度营业收入" size="small full" :multiple="false"
-                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallReveThree">
+                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallReveThree"
+                                            @keydown.enter.native="querySearch">
                     </el-multiple-selection>
                   </el-col>
                 </el-row>
                 <el-row :gutter="24">
                   <el-col :span='12'>
                     <el-multiple-selection v-if="yearRadio===1&&cashOneShow" style="width: 205.5%" :range="true" :tree-data="optionOperateCashFlowOne" placeholder="招股书最近一个会计年度经营活动现金流量净额" size="small full" :multiple="false"
-                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallCashFlowOne">
+                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallCashFlowOne"
+                                            @keydown.enter.native="querySearch">
                     </el-multiple-selection>
                     <el-multiple-selection v-if="yearRadio===2&&cashTwoShow" style="width: 205.5%" :range="true" :tree-data="optionOperateCashFlowTwo" placeholder="招股书最近两个会计年度经营活动现金流量净额" size="small full" :multiple="false"
-                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallCashFlowTwo">
+                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallCashFlowTwo"
+                                            @keydown.enter.native="querySearch">
                     </el-multiple-selection>
                     <el-multiple-selection v-if="yearRadio===3&&cashThreeShow" style="width: 205.5%" :range="true" :tree-data="optionOperateCashFlowThree" placeholder="招股书最近三个会计年度经营活动现金流量净额" size="small full" :multiple="false"
-                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallCashFlowThree">
+                                           unit="亿元" :ran="optionDto" @sure-click="rangeCallCashFlowThree"
+                                            @keydown.enter.native="querySearch">
                     </el-multiple-selection>
                   </el-col>
                 </el-row>
@@ -320,35 +342,40 @@
                 <el-row :gutter="24">
                   <el-col :span='12'>
                     <el-multiple-selection v-if="sunAssetShow" style="width: 205.5%" :range="true" :tree-data="optionSunAsset" placeholder="招股书最近一期末总资产" size="small full" :multiple="false"
-                                           unit="万元" :ran="optionDto" @sure-click="rangeCallSunAsset">
+                                           unit="万元" :ran="optionDto" @sure-click="rangeCallSunAsset"
+                                            @keydown.enter.native="querySearch">
                     </el-multiple-selection>
                   </el-col>
                 </el-row>
                 <el-row :gutter="24">
                   <el-col :span='12'>
                     <el-multiple-selection v-if="sunQuityShow" style="width: 205.5%" :range="true" :tree-data="optionSumShareQuity" placeholder="招股书最近一期末净资产" size="small full" :multiple="false"
-                                           unit="万元" :ran="optionDto" @sure-click="rangeCallSumShareQuity">
+                                           unit="万元" :ran="optionDto" @sure-click="rangeCallSumShareQuity"
+                                            @keydown.enter.native="querySearch">
                     </el-multiple-selection>
                   </el-col>
                 </el-row>
                 <el-row :gutter="24">
                   <el-col :span='12'>
                     <el-multiple-selection v-if="assetRatioShow" style="width: 205.5%" :range="true" :tree-data="optionAssetRatio" placeholder="招股书最近一期末无形资产占净资产的比例" size="small full" :multiple="false"
-                                           unit="%" :ran="optionDto" @sure-click="rangeCallAssetRatio">
+                                           unit="%" :ran="optionDto" @sure-click="rangeCallAssetRatio"
+                                            @keydown.enter.native="querySearch">
                     </el-multiple-selection>
                   </el-col>
                 </el-row>
                 <el-row :gutter="24">
                   <el-col :span='12'>
                     <el-multiple-selection v-if="shareIssueBShow" style="width: 205.5%" :range="true" :tree-data="optionShareIssueB" placeholder="发行前股本总额" size="small full" :multiple="false"
-                                           unit="万股" :ran="optionDto" @sure-click="rangeCallShareIssueB">
+                                           unit="万股" :ran="optionDto" @sure-click="rangeCallShareIssueB"
+                                            @keydown.enter.native="querySearch">
                     </el-multiple-selection>
                   </el-col>
                 </el-row>
                 <el-row :gutter="24">
                   <el-col :span='12'>
                     <el-multiple-selection v-if="shareIssueAShow" style="width: 205.5%" :range="true" :tree-data="optionShareIssueA" placeholder="发行后股本总额" size="small full" :multiple="false"
-                                           unit="万股" :ran="optionDto" @sure-click="rangeCallShareIssueA">
+                                           unit="万股" :ran="optionDto" @sure-click="rangeCallShareIssueA"
+                                            @keydown.enter.native="querySearch">
                     </el-multiple-selection>
                   </el-col>
                 </el-row>
@@ -481,33 +508,40 @@
                       {{scope.row.titleStr}}
                     </template>
                   </el-table-column>
-                  <el-table-column align="left" prop="ipo_process_t" label="进程" sortable="custom" min-width="10%">
+                  <el-table-column align="left" prop="ipo_process_t" label="进程" sortable="custom" min-width="11%">
                     <template slot-scope="scope">
                       {{scope.row.processLabel}}
                       <br/>
                       <span>
-                        <span v-if="scope.row.registerResult!=null">
+                          <span class="htgResult"  v-if="scope.row.labelResult==='00'">获通过</span>
+                          <span class="whtgResult" v-if="scope.row.labelResult==='01'">未获通过</span>
+                          <span class="zhbjResult" v-if="scope.row.labelResult==='02'">暂缓表决</span>
+                          <span class="qxshResult" v-if="scope.row.labelResult==='03'">取消审核</span>
+                          <span class="dshResult"  v-if="scope.row.labelResult==='04'">待上会</span>
+                          <span class="tgResult"   v-if="scope.row.labelResult==='05'">通过</span>
+                          <span class="wtgResult"  v-if="scope.row.labelResult==='06'">未通过</span>
+                          <span class="zcsxResult" v-if="scope.row.labelResult==='07'">注册生效</span>
+                          <span class="whtgResult" v-if="scope.row.labelResult==='08'">不予注册</span>
+                          <span class="dshResult"  v-if="scope.row.labelResult==='09'">待上会</span>
+                        <!-- <span v-if="scope.row.reviewResult!=null">
+                          <span class="tgResult"  v-if="scope.row.reviewResult==='05'">通过</span>
+                          <span class="wtgResult" v-if="scope.row.reviewResult==='06'">未通过</span>
+                          <span class="dshResult"  v-if="scope.row.reviewResult==='09'">待上会</span>
+                        </span>
+                        <span v-if="scope.row.reviewResult==null&&scope.row.registerResult!=null">
                           <span class="zcsxResult"  v-if="scope.row.registerResult==='07'">注册生效</span>
                           <span class="whtgResult" v-if="scope.row.registerResult==='08'">不予注册</span>
                         </span>
-                        <span v-else>
+                        <span v-if="scope.row.reviewResult==null&&scope.row.registerResult==null&&scope.row.iecResult!=null">
                           <span class="htgResult"  v-if="scope.row.iecResult==='00'">获通过</span>
                           <span class="whtgResult" v-if="scope.row.iecResult==='01'">未获通过</span>
                           <span class="zhbjResult" v-if="scope.row.iecResult==='02'">暂缓表决</span>
                           <span class="qxshResult" v-if="scope.row.iecResult==='03'">取消审核</span>
                           <span class="dshResult"  v-if="scope.row.iecResult==='04'">待上会</span>
-                          <span class="tgResult"  v-if="scope.row.iecResult==='05'">通过</span>
-                          <span class="wtgResult" v-if="scope.row.iecResult==='06'">未通过</span>
+                          <span class="tgResult"   v-if="scope.row.iecResult==='05'">通过</span>
+                          <span class="wtgResult"  v-if="scope.row.iecResult==='06'">未通过</span>
                           <span class="dshResult"  v-if="scope.row.iecResult==='09'">待上会</span>
-                          <!-- <span class="htgResult"  v-if="scope.row.iecResult==='00'">{{scope.row.iecResultLabel}}</span>
-                          <span class="whtgResult" v-if="scope.row.iecResult==='01'">{{scope.row.iecResultLabel}}</span>
-                          <span class="zhbjResult" v-if="scope.row.iecResult==='02'">{{scope.row.iecResultLabel}}</span>
-                          <span class="qxshResult" v-if="scope.row.iecResult==='03'">{{scope.row.iecResultLabel}}</span>
-                          <span class="dshResult"  v-if="scope.row.iecResult==='04'">{{scope.row.iecResultLabel}}</span>
-                          <span class="tgResult"   v-if="scope.row.iecResult==='05'">{{scope.row.iecResultLabel}}</span>
-                          <span class="wtgResult"  v-if="scope.row.iecResult==='06'">{{scope.row.iecResultLabel}}</span>
-                          <span class="dshResult"  v-if="scope.row.iecResult==='09'">{{scope.row.iecResultLabel}}</span> -->
-                        </span>
+                        </span> -->
                       </span>
                     </template>
                   </el-table-column>
@@ -545,7 +579,7 @@
                       </template>
                     </el-table-column>
                   </el-table-column>
-                  <el-table-column align="right" prop="ipo_sum_asset_d" label="总资产" sortable="custom" min-width="10%">
+                  <el-table-column align="right" prop="ipo_sum_asset_d" label="总资产" sortable="custom" min-width="12%">
                     <template slot-scope="scope">
                       <span v-if="scope.row.sunAsset">{{scope.row.sunAsset | dataInThRule}}亿元</span>
                       <span v-else>--</span>
@@ -564,8 +598,9 @@
                   </el-table-column>
                   <el-table-column align="right" prop="ipo_review_meeting_time_dt" label="审核时间" sortable="custom" width="100">
                     <template slot-scope="scope">
-                      <span v-if="scope.row.reMeetingTime">{{scope.row.reMeetingTime}}</span>
-                      <span v-else>--</span>
+                      <span v-if="scope.row.reviewTime">{{getLocalTime(scope.row.reviewTime)}}</span>
+                      <span v-if="scope.row.reviewTime==null&&scope.row.reMeetingTime">{{scope.row.reMeetingTime}}</span>
+                      <span v-if="scope.row.reviewTime==null&&scope.row.reMeetingTime==null">--</span>
                     </template>
                   </el-table-column>
                   <el-table-column align="right" prop="ipo_audit_duration_i" label="审核历时" sortable="custom" width="100">
@@ -880,6 +915,13 @@
       }
     },
     methods: {
+      getLocalTime(time) {
+        let date = new Date(time);
+        let Y = date.getFullYear() + '-';
+        let M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        let D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate()) + '';
+        return Y+M+D
+      },
       pageSearch() {
         this.$refs.paper.search()
       },
@@ -975,6 +1017,7 @@
           if (response.data && response.data.success && response.data.result) {
             _self.totalCount = response.data.result.total;
             _self.tableData = response.data.result.data;
+            console.log('tableData',_self.tableData)
             _self.plateTreeTag = [{
               label_sort: 1,
               name: "拟上市板块(" + response.data.result.plateTreeNum + ')',
@@ -1338,7 +1381,7 @@
       },
       openNewRule() {
         const _self = this;
-        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=746412002825257522&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
+        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=746412002835704646&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
         window.open(href, '_blank');
       },
       //没有权限数据背景色
