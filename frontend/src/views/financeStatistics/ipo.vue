@@ -13,39 +13,37 @@
          <div :style="{'padding-left':headList.iecResult == null?'0px':'97px','width':'1200px','position':'absolute','left': '50%','top':'50%', 'transform': 'translate(-50%,-50%)'}">
             <div class="imgMark" style="position: absolute; z-index: 2;left: 5%;top:50%; transform: translate(-50%,-50%);z-index: 2">
                 <!-- 注册制是否是科创版的标签显示 -->
-                <div v-if="headList.registerResult!=null ">
-                  <div v-if="headList.registerResult&&headList.registerResult == '07'">
-                    <img src="../../assets/images/kczcsx.png" alt="">
-                  </div>
-                  <div v-if="headList.registerResult&&headList.registerResult == '08'">
-                    <img src="../../assets/images/kcbyzc.png" alt="">
-                  </div>
-                </div>
-                <div v-else>
-                  <div v-if="headList.iecResult&&headList.iecResult == '00'" >
-                    <img src="../../assets/images/htg1.png" alt="">
-                  </div>
-                  <div v-if="headList.iecResult&&headList.iecResult == '01'">
-                    <img src="../../assets/images/whtg1.png" alt="">
-                  </div>
-                  <div v-if="headList.iecResult&&headList.iecResult == '02'">
-                    <img src="../../assets/images/zhbj1.png" alt="">
-                  </div>
-                  <div v-if="headList.iecResult&&headList.iecResult == '03'">
-                    <img src="../../assets/images/qxsh1.png" alt="">
-                  </div>
-                  <div v-if="headList.iecResult&&headList.iecResult == '04'">
-                    <img src="../../assets/images/dsh1.png" alt="">
-                  </div>
-                  <div v-if="headList.iecResult&&headList.iecResult == '05'" >
-                    <img src="../../assets/images/kctg.png" alt="">
-                  </div>
-                  <div v-if="headList.iecResult&&headList.iecResult == '06'">
-                    <img src="../../assets/images/kcwtg.png" alt="">
-                  </div>
-                  <div v-if="headList.iecResult&&headList.iecResult == '09'">
-                    <img src="../../assets/images/dsh1.png" alt="">
-                  </div>
+                  <div>
+                    <div v-if="headList.labelResult&&headList.labelResult == '00'" >
+                      <img src="../../assets/images/htg1.png" alt="">
+                    </div>
+                    <div v-if="headList.labelResult&&headList.labelResult == '01'">
+                      <img src="../../assets/images/whtg1.png" alt="">
+                    </div>
+                    <div v-if="headList.labelResult&&headList.labelResult == '02'">
+                      <img src="../../assets/images/zhbj1.png" alt="">
+                    </div>
+                    <div v-if="headList.labelResult&&headList.labelResult == '03'">
+                      <img src="../../assets/images/qxsh1.png" alt="">
+                    </div>
+                    <div v-if="headList.labelResult&&headList.labelResult == '04'">
+                      <img src="../../assets/images/dsh1.png" alt="">
+                    </div>
+                    <div v-if="headList.labelResult&&headList.labelResult == '05'" >
+                      <img src="../../assets/images/kctg.png" alt="">
+                    </div>
+                    <div v-if="headList.labelResult&&headList.labelResult == '06'">
+                      <img src="../../assets/images/kcwtg.png" alt="">
+                    </div>
+                    <div v-if="headList.labelResult&&headList.labelResult == '07'">
+                      <img src="../../assets/images/kczcsx.png" alt="">
+                    </div>
+                    <div v-if="headList.labelResult&&headList.labelResult == '08'">
+                      <img src="../../assets/images/kcbyzc.png" alt="">
+                    </div>
+                    <div v-if="headList.labelResult&&headList.labelResult == '09'">
+                      <img src="../../assets/images/dsh1.png" alt="">
+                    </div>
                 </div>
             </div>
             <div class="text" style="position:relative;z-index: 4">

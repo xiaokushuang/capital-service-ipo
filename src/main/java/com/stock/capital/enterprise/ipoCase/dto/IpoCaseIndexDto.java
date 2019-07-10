@@ -170,6 +170,9 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
     @Field("ipo_label_result_t")
     private String labelResult;//用于前台展示标签
 
+    @Field("ipo_final_time_dt")
+    private Date finalTime;//最后一次审核时间
+
 
     public String getOrgCode() {
         return orgCode;
@@ -569,5 +572,13 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
 
     public void setLabelResult(String labelResult) {
         this.labelResult = labelResult;
+    }
+
+    public Date getFinalTime() {
+        return finalTime;
+    }
+
+    public void setFinalTime(Date finalTime) {
+        this.finalTime = finalTime;
     }
 }

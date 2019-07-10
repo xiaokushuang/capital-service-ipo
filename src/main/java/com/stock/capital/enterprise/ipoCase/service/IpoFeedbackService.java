@@ -118,8 +118,8 @@ public class IpoFeedbackService extends BaseService {
         //根据案例id查询公司的东财内码
         CompanyOverviewVo companyOverviewVo = ipoFeedbackMapper.getOrgCode(id);
         String ipoPlate = companyOverviewVo.getIpoPlate();
+//        List<String> processDateList = ipoFeedbackMapper.selectFeedbackProcess(id);
         List<String> processDateList = ipoFeedbackMapper.selectFeedbackProcess(id);
-        processDateList = ipoFeedbackMapper.selectFeedbackProcess(id);
         if (CollectionUtils.isEmpty(processDateList)) {
             return new ArrayList<>();
         }
@@ -130,7 +130,7 @@ public class IpoFeedbackService extends BaseService {
         } else {
             letterIds = ipoFeedbackMapper.selectLetterIds(companyOverviewVo.getOrgCode(), processDateList);
         }
-
+        int feedbackCount = 0;
         for (int i = 0; i < letterIds.size(); i++) {
             //定义函件对象
             IpoFeedbackDto ipoFeedbackResultDto = new IpoFeedbackDto();
@@ -197,7 +197,6 @@ public class IpoFeedbackService extends BaseService {
             List<IpoFeedbackQuestionDto> questionResultList = new ArrayList<>();
             int questionCount = questionList.size();
             int answerCount = 0;
-            int feedbackCount = 0;
             if (CollectionUtils.isNotEmpty(questionList)) {
                 //添加前台需要展示的函件类型名称
                 String letterTypeName = questionList.get(0).getLetterTypeName();
