@@ -293,15 +293,15 @@
                   <el-col :span='12'>
                     <el-multiple-selection v-if="yearRadio===1&&profitOneShow" style="width: 205.5%" :range="true" :tree-data="optionNetProfitOne" placeholder="招股书最近一个会计年度净利润" size="small full" :multiple="false"
                                            unit="亿元" :ran="optionDto" @sure-click="rangeCallProfitOne"
-                                            @keydown.enter.native="querySearch">
+                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
                     <el-multiple-selection v-if="yearRadio===2&&profitTwoShow" style="width: 205.5%" :range="true" :tree-data="optionNetProfitTwo" placeholder="招股书最近两个会计年度净利润" size="small full" :multiple="false"
                                            unit="亿元" :ran="optionDto" @sure-click="rangeCallProfitTwo"
-                                            @keydown.enter.native="querySearch">
+                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
                     <el-multiple-selection v-if="yearRadio===3&&profitThreeShow" style="width: 205.5%" :range="true" :tree-data="optionNetProfitThree" placeholder="招股书最近三个会计年度净利润" size="small full" :multiple="false"
                                            unit="亿元" :ran="optionDto" @sure-click="rangeCallProfitThree"
-                                            @keydown.enter.native="querySearch">
+                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
                   </el-col>
                 </el-row>
@@ -309,15 +309,15 @@
                   <el-col :span='12'>
                     <el-multiple-selection v-if="yearRadio===1&&reveOneShow" style="width: 205.5%" :range="true" :tree-data="optionOperateReveOne" placeholder="招股书最近一个会计年度营业收入" size="small full" :multiple="false"
                                            unit="亿元" :ran="optionDto" @sure-click="rangeCallReveOne"
-                                            @keydown.enter.native="querySearch">
+                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
                     <el-multiple-selection v-if="yearRadio===2&&reveTwoShow" style="width: 205.5%" :range="true" :tree-data="optionOperateReveTwo" placeholder="招股书最近两个会计年度营业收入" size="small full" :multiple="false"
                                            unit="亿元" :ran="optionDto" @sure-click="rangeCallReveTwo"
-                                            @keydown.enter.native="querySearch">
+                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
                     <el-multiple-selection v-if="yearRadio===3&&reveThreeShow" style="width: 205.5%" :range="true" :tree-data="optionOperateReveThree" placeholder="招股书最近三个会计年度营业收入" size="small full" :multiple="false"
                                            unit="亿元" :ran="optionDto" @sure-click="rangeCallReveThree"
-                                            @keydown.enter.native="querySearch">
+                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
                   </el-col>
                 </el-row>
@@ -325,15 +325,15 @@
                   <el-col :span='12'>
                     <el-multiple-selection v-if="yearRadio===1&&cashOneShow" style="width: 205.5%" :range="true" :tree-data="optionOperateCashFlowOne" placeholder="招股书最近一个会计年度经营活动现金流量净额" size="small full" :multiple="false"
                                            unit="亿元" :ran="optionDto" @sure-click="rangeCallCashFlowOne"
-                                            @keydown.enter.native="querySearch">
+                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
                     <el-multiple-selection v-if="yearRadio===2&&cashTwoShow" style="width: 205.5%" :range="true" :tree-data="optionOperateCashFlowTwo" placeholder="招股书最近两个会计年度经营活动现金流量净额" size="small full" :multiple="false"
                                            unit="亿元" :ran="optionDto" @sure-click="rangeCallCashFlowTwo"
-                                            @keydown.enter.native="querySearch">
+                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
                     <el-multiple-selection v-if="yearRadio===3&&cashThreeShow" style="width: 205.5%" :range="true" :tree-data="optionOperateCashFlowThree" placeholder="招股书最近三个会计年度经营活动现金流量净额" size="small full" :multiple="false"
                                            unit="亿元" :ran="optionDto" @sure-click="rangeCallCashFlowThree"
-                                            @keydown.enter.native="querySearch">
+                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
                   </el-col>
                 </el-row>
@@ -343,7 +343,7 @@
                   <el-col :span='12'>
                     <el-multiple-selection v-if="sunAssetShow" style="width: 205.5%" :range="true" :tree-data="optionSunAsset" placeholder="招股书最近一期末总资产" size="small full" :multiple="false"
                                            unit="万元" :ran="optionDto" @sure-click="rangeCallSunAsset"
-                                            @keydown.enter.native="querySearch">
+                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
                   </el-col>
                 </el-row>
@@ -351,7 +351,7 @@
                   <el-col :span='12'>
                     <el-multiple-selection v-if="sunQuityShow" style="width: 205.5%" :range="true" :tree-data="optionSumShareQuity" placeholder="招股书最近一期末净资产" size="small full" :multiple="false"
                                            unit="万元" :ran="optionDto" @sure-click="rangeCallSumShareQuity"
-                                            @keydown.enter.native="querySearch">
+                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
                   </el-col>
                 </el-row>
@@ -359,7 +359,7 @@
                   <el-col :span='12'>
                     <el-multiple-selection v-if="assetRatioShow" style="width: 205.5%" :range="true" :tree-data="optionAssetRatio" placeholder="招股书最近一期末无形资产占净资产的比例" size="small full" :multiple="false"
                                            unit="%" :ran="optionDto" @sure-click="rangeCallAssetRatio"
-                                            @keydown.enter.native="querySearch">
+                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
                   </el-col>
                 </el-row>
@@ -367,7 +367,7 @@
                   <el-col :span='12'>
                     <el-multiple-selection v-if="shareIssueBShow" style="width: 205.5%" :range="true" :tree-data="optionShareIssueB" placeholder="发行前股本总额" size="small full" :multiple="false"
                                            unit="万股" :ran="optionDto" @sure-click="rangeCallShareIssueB"
-                                            @keydown.enter.native="querySearch">
+                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
                   </el-col>
                 </el-row>
@@ -375,7 +375,7 @@
                   <el-col :span='12'>
                     <el-multiple-selection v-if="shareIssueAShow" style="width: 205.5%" :range="true" :tree-data="optionShareIssueA" placeholder="发行后股本总额" size="small full" :multiple="false"
                                            unit="万股" :ran="optionDto" @sure-click="rangeCallShareIssueA"
-                                            @keydown.enter.native="querySearch">
+                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
                   </el-col>
                 </el-row>
