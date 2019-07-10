@@ -95,7 +95,7 @@ public class IpoCaseListService extends BaseService {
         //审核结果
         if (StringUtils.isNotBlank(bo.getIecResult())) {
             conditionsStr =
-                assebleBoxCondition(conditionsStr, "ipo_final_result_t", bo.getIecResult());
+                assebleBoxCondition(conditionsStr, "ipo_label_result_t", bo.getIecResult());
         }
         //IPO进程
         if (StringUtils.isNotBlank(bo.getCaseStatus())) {
@@ -115,7 +115,7 @@ public class IpoCaseListService extends BaseService {
             Date[] fsProcessTime = bo.getFsProcessTime();
             conditionsStr.append(" AND ").append(SolrSearchUtil
                                                      .parseDateKeyWords(
-                                                         "ipo_review_meeting_time_dt",
+                                                         "ipo_final_time_dt",
                                                          fsProcessTime[0],
                                                          fsProcessTime[1]));
         }
@@ -277,9 +277,9 @@ public class IpoCaseListService extends BaseService {
         String orderByName = page.getOrderByName();
         if (StringUtils.isEmpty(orderByName)) {
             if (signSymbol) {
-                orderByName = "ipo_review_meeting_time_dt";
+                orderByName = "ipo_final_time_dt";
             } else {
-                orderByName = "ipo_open_flag_t,ipo_review_meeting_time_dt";
+                orderByName = "ipo_open_flag_t,ipo_final_time_dt";
             }
 
         }else {

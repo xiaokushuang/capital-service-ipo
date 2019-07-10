@@ -508,7 +508,7 @@
                       {{scope.row.titleStr}}
                     </template>
                   </el-table-column>
-                  <el-table-column align="left" prop="ipo_process_t" label="进程" sortable="custom" min-width="11%">
+                  <el-table-column align="left" prop="ipo_label_result_t" label="进程" sortable="custom" min-width="11%">
                     <template slot-scope="scope">
                       {{scope.row.processLabel}}
                       <br/>
@@ -596,11 +596,13 @@
                       {{scope.row.ipoPlateName}}
                     </template>
                   </el-table-column>
-                  <el-table-column align="right" prop="ipo_review_meeting_time_dt" label="审核时间" sortable="custom" width="100">
+                  <el-table-column align="right" prop="ipo_final_time_dt" label="审核时间" sortable="custom" width="100">
                     <template slot-scope="scope">
-                      <span v-if="scope.row.reviewTime">{{getLocalTime(scope.row.reviewTime)}}</span>
+                       <span v-if="scope.row.finalTime">{{getLocalTime(scope.row.finalTime)}}</span>
+                       <span v-else>--</span>
+                      <!-- <span v-if="scope.row.reviewTime">{{getLocalTime(scope.row.reviewTime)}}</span>
                       <span v-if="scope.row.reviewTime==null&&scope.row.reMeetingTime">{{scope.row.reMeetingTime}}</span>
-                      <span v-if="scope.row.reviewTime==null&&scope.row.reMeetingTime==null">--</span>
+                      <span v-if="scope.row.reviewTime==null&&scope.row.reMeetingTime==null">--</span> -->
                     </template>
                   </el-table-column>
                   <el-table-column align="right" prop="ipo_audit_duration_i" label="审核历时" sortable="custom" width="100">
