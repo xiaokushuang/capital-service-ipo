@@ -1,6 +1,6 @@
 <template>
     <div class="favorite-table">
-        <el-table :data="data" style="width: 100%" class="paddingControl" border tooltip-effect="dark"
+        <el-table :data="data" style="width: 100%" class="paddingControl" border tooltip-effect="dark" :cell-class-name="tdStyle"
           @sort-change="sortChange" ref="multipleSelection">
            <el-table-column align="center" label="序号" type="index" width="60"></el-table-column>
                 <el-table-column v-if="id == 'first'" align="left" label="保荐机构" prop="label" min-width="30%"></el-table-column>
@@ -24,7 +24,7 @@
                         <span v-else>{{scope.row.cybCount}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column align="center" label="科创板" prop="kcCount" min-width="10%" sortable="custom">
+                <el-table-column align="center" label="科创板" prop="kcCount" min-width="10%" sortable="custom" >
                     <template slot-scope="scope">
                         <span class="spanClass" v-if="getValue(scope.row.kcCount) != 0" @click="openDetail('04',scope.row.label)">{{scope.row.kcCount}}</span>
                         <span v-else>{{scope.row.kcCount}}</span>
@@ -100,6 +100,11 @@ export default {
 	 	
     },
     methods : {//正常调用方法
+        tdStyle({row, column, rowIndex, columnIndex}) {//设置单元格样式
+            if(columnIndex == 5 || columnIndex == 6) {
+                return 'tdStyle'
+            }
+        },
         sortChange(column){//排序查询
 			//设置排序
 			if (column.order != null && column.prop != null) {
@@ -165,5 +170,8 @@ export default {
 .spanClass:hover {
     text-decoration: underline;
 }
-
+.tdStyle {
+  border-left:1px solid #14bcf5!important;
+  border-right:1px solid #14bcf5!important;
+}
 </style>

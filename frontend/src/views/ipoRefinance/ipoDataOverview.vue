@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container ipoOverview">
         <!-- 标题 -->
         <el-row :gutter="10" style="margin-left:0px; margin-right:0px;height:0;">
             <el-col :span="14">
@@ -16,10 +16,10 @@
                 </div>
             </el-col>
             <!-- 右部表 -->
-            <el-col :span="12">
+            <el-col :span="12" style="padding-left:0px;padding-right:0px;">
               <div id="table1">
-                <el-table :data="tableTop" border show-summary style="width: 100%" :header-cell-style="{background:'#eef1f6',color:'#red!important'}">
-                  <el-table-column label="" width="190">
+                <el-table :data="tableTop" border show-summary style="width: 100%" :header-cell-class-name="tableHeaderColor">
+                  <el-table-column label="" width="210">
                     <template slot-scope="scope">
                         <span v-html="lableTurnName(scope.row.label)"></span>
                     </template>
@@ -35,20 +35,20 @@
                             <span>{{scope.row.zxbCount}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column align="center" label="创业板" prop="cybCount" :class-name="abc">
+                    <el-table-column align="center" label="创业板" prop="cybCount">
                         <template slot-scope="scope">
                             <span>{{scope.row.cybCount}}</span>
                         </template>
                     </el-table-column>
                   </el-table-column>
                   <el-table-column label="注册制" align="center">
-                    <el-table-column align="center" label="科创板" prop="kcCount" :class-name="abc">
+                    <el-table-column align="center" label="科创板" prop="kcCount" :class-name="tdStyle">
                         <template slot-scope="scope">
                             <span>{{scope.row.kcCount}}</span>
                         </template>
                     </el-table-column>
                   </el-table-column>
-                  <el-table-column align="center" label="合计"  prop="totalAll">
+                  <el-table-column align="center" label="合计"  prop="totalAll" :class-name="tdStyle">
                     <template slot-scope="scope">
                         <span>{{scope.row.totalAll}}</span>
                     </template>
@@ -145,8 +145,6 @@ export default {
   data() {
     return {
       activeName:'first',
-      borderStyle: "borderStyle",
-      borderStyleText: "borderStyleText",
       areaList:[],//地区下拉列表
       industryList:[],//行业下拉列表
       defaultProps: {
@@ -157,13 +155,12 @@ export default {
 				label: 'name'
       },
       allShow: {colloge: false,},//下拉列表全部展开或收起
-      abc:'abc',
+      tdStyle:'tdStyle',
       tabName1:'first',
       tabName2:'second',
       tabName3:'third',
       industrySelect:'',//所属行业选中
       areaSelect:'',//所属地区选中
-      bbb:'bbb'
     };
   },
   created() {//加载前默认调用
@@ -198,6 +195,16 @@ export default {
   },
   watch: {},
   methods: {
+    // 修改table header的背景色
+    tableHeaderColor({ row, column, rowIndex, columnIndex }) {
+      if ((rowIndex === 0 && columnIndex === 2)) {
+        return 'row1'
+      } else if(rowIndex === 1 && columnIndex === 3) {
+        return 'row2'
+      } else {
+        return 'rowElse'
+      }
+    },
     getAllDropDownList() {//获取下拉列表
       this.$store.dispatch('getAllDropDownList', '').then((data) => {//(方法名，参数)
         this.areaList = data.areaList;//所属地区
@@ -236,12 +243,6 @@ export default {
 				this.industrySelect = arr;
       } 
 		},
-    tableRowClassName({ row, column, rowIndex, columnIndex }) {
-      // if (rowIndex === this.tableTop.length - 1) {
-      //   return "hjRow";
-      // }
-      return "hjRow";
-    },
     ipoDataPort() {
       this.$store.dispatch("ipoDataOverviewGet").then();
       this.$store.dispatch("ipoDataHistoryGet").then();
@@ -261,26 +262,13 @@ export default {
   height: 100%;
   height: 500px;
 }
-/* #table1 .el-table__header thead tr > th {
-  padding: 0px;
-  background: #E8E8E8!important;
-  color: #333;
-  border-right: 1px solid #DDDDDD!important;
-} */
-/* #table1 .el-table--enable-row-transition .el-table__body td {
-  height: 31px;
-  line-height: 31px;
-  border-right: 1px solid #DDDDDD;
-  border-bottom: 1px solid #DDDDDD;
-} */
-/* #table1 .el-table th > .cell {
-  color: rgb(51, 51, 51)!important;
-  background: #E8E8E8!important;
-}
 #table1 .el-table__footer-wrapper tbody td, .el-table__header-wrapper tbody td {
     background-color: #E8E8E8;
     color: rgb(51, 51, 51)!important;
-} */
+}
+.container .el-table .el-table__body .cell {
+    padding: 5px;
+}
 .chart .el-table--enable-row-transition .el-table__body td {
   height: 41px;
   line-height: 41px;
@@ -291,6 +279,39 @@ export default {
   background: #e8e8e8 !important;
   text-align: center !important;
 }
+#table1 .el-table th > .cell {
+  color: rgb(51, 51, 51);
+  background: #E8E8E8!important;
+}
+.container #table1 .el-table__header thead tr>th {
+    padding: 5px;
+    background: #E8E8E8!important;
+}
+.ipoOverview .el-table--border td, .el-table--border th {
+    border-right:1px solid #DDDDDD!important;
+    border-bottom:1px solid #DDDDDD!important;
+  }
+
+.ipoOverview .row1 {
+  border-left: 1px solid #14bcf5!important;
+  border-top: 1px solid #14bcf5!important;
+  border-bottom:none!important;
+}
+.container .el-table__header .row1 .cell {
+  font-weight:normal;
+  color:#0099cc!important;
+}
+.ipoOverview .row2 {
+  border-left: 1px solid #14bcf5!important;
+}
+.container .el-table__header .row2 .cell {
+  font-weight:normal;
+  color:#0099cc!important;
+}
+.container .el-table__header .rowElse .cell {
+  color:rgb(51, 51, 51)!important;
+}
+
 .el-table thead.is-group th {
   background: #E8E8E8 !important;
 }
@@ -317,13 +338,6 @@ export default {
   color: #555;
   font-size: 16px;
 }
-.borderStyle {
-  border-right: 1px solid #ddd !important;
-}
-.borderStyleText {
-  border-right: 1px solid #ddd !important;
-  text-align: left !important;
-}
 .textLeft{
   text-align: left !important
 }
@@ -333,9 +347,9 @@ export default {
 .el-tabs__header {
   width: 438px !important;
 }
-.abc {
-  border-left-color: #14bcf5!important;
-  border-right-color: #14bcf5!important;
+
+.ipoOverview .tdStyle {
+  border-left:1px solid #14bcf5!important;
 }
 .container {
   padding:0 10px 0 0!important;
