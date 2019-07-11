@@ -433,9 +433,15 @@
         </div>
        <!-- 筛选问题列表 -->
         <div>
+           <!-- 非科创版 -->
             <div v-if="tabList&&tabList.length>0&&tabList[0].questionList&&tabList[0].questionList.length>0&&companyProfileList.headList.isTechBoard==0" class="title">
                 <span class="littleRectangle"></span>
                 <span class="titleText" id="result">发审委会议关注问题</span>
+            </div>
+            <!-- 科创版 -->
+            <div v-if="tabList&&tabList.length==1&&tabList[0].questionList&&tabList[0].questionList.length>0&&companyProfileList.headList.isTechBoard==1" class="title">
+                <span class="littleRectangle"></span>
+                <span class="titleText" id="result">{{tabList[0].letterName}}</span>
             </div>
             <div class="feedback" id="componentId">
                 <div class="label">
