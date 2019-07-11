@@ -70,7 +70,14 @@
                 </span>
               </div>
           </div>
+          <div style="text-align: right">
+            <img :src="wxcodeUrl" style="margin-right: 10px;width: 120px;cursor: pointer;" @click="wxcodeBig">
+            <div style="font-size: 12px;color: rgb(255,255,255);margin-right: 15px;">手机扫码可视化查看</div>
+          </div>
         </div>
+    <el-dialog align="left" :visible.sync="wxcode" width="470px">
+      <img :src="wxcodeUrl">
+    </el-dialog>
       <div id="concentBody" style="width:1200px;margin: 0 auto;" class="ipoContainer">
           <el-row :gutter="24" class="h100">
               <el-col :span="18" class="chart" style="padding:0 40px 0 0">
@@ -227,6 +234,8 @@ export default {
   },
   data() {
     return {
+      wxcode:false,
+      wxcodeUrl:'',
       tenantInfo:'',//日志
       caseId2:this.$store.state.app.caseId,
       // 动态加载组件
@@ -387,6 +396,9 @@ export default {
        // 日志------------------功能尾
   },
   methods: {
+    wxcodeBig(){
+      this.wxcode = true;
+    },
     // 初始化数据
     initTableData() {
        // 动态传id
@@ -406,6 +418,7 @@ export default {
             this.companyProfileList = res.data.result
           }
       });
+      this.wxcodeUrl = "/ipo/ipoInterfaceH5/getQrCode?id="+this.caseId2
     },
     // 展开全部
     expandAll(flag) {
@@ -679,8 +692,8 @@ export default {
 // 头部背景图
 #titleHeader {
   background-image:  url("../../assets/images/IpoHeader.png"),url("../../assets/images/IpoHeaderBj.png");
-  background-repeat: no-repeat, no-repeat;  
-  background-position: center, 0 0;  
+  background-repeat: no-repeat, no-repeat;
+  background-position: center, 0 0;
   color: #fff;
 }
 /* 头部文字标题 */
