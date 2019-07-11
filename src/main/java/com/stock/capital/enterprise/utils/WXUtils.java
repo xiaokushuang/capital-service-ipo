@@ -66,10 +66,8 @@ public class WXUtils {
         byte[] result = null;
         try {
             String accseeToken = restClient.get(accessTokenUrl, responseType);
-//            String url = "https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token="+atomicReference.get();
             String url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token="+accseeToken;
             Map<String,Object> param = new HashMap<>();
-////            param.put("path", "pages/index/index?ipoId=" + id + "&companyName=" + companyName);
             param.put("page", "pages/index/index");
             param.put("scene","ipoId=" + id );
             param.put("width", 430);
