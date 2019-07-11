@@ -9,68 +9,68 @@
           </p>
       </div>
      <!-- IPO标题头部 -->
-      <div  ref="titleHeader"  id="titleHeader" style="width: 100%;height: 140px;position: relative">
-         <div :style="{'padding-left':headList.iecResult == null?'0px':'97px','width':'1200px','position':'absolute','left': '50%','top':'50%', 'transform': 'translate(-50%,-50%)'}">
-            <div class="imgMark" style="position: absolute; z-index: 2;left: 5%;top:50%; transform: translate(-50%,-50%);z-index: 2">
-                <!-- 注册制是否是科创版的标签显示 -->
-                  <div>
-                    <div v-if="headList.labelResult&&headList.labelResult == '00'" >
-                      <img src="../../assets/images/htg1.png" alt="">
-                    </div>
-                    <div v-if="headList.labelResult&&headList.labelResult == '01'">
-                      <img src="../../assets/images/whtg1.png" alt="">
-                    </div>
-                    <div v-if="headList.labelResult&&headList.labelResult == '02'">
-                      <img src="../../assets/images/zhbj1.png" alt="">
-                    </div>
-                    <div v-if="headList.labelResult&&headList.labelResult == '03'">
-                      <img src="../../assets/images/qxsh1.png" alt="">
-                    </div>
-                    <div v-if="headList.labelResult&&headList.labelResult == '04'">
-                      <img src="../../assets/images/dsh1.png" alt="">
-                    </div>
-                    <div v-if="headList.labelResult&&headList.labelResult == '05'" >
-                      <img src="../../assets/images/kctg.png" alt="">
-                    </div>
-                    <div v-if="headList.labelResult&&headList.labelResult == '06'">
-                      <img src="../../assets/images/kcwtg.png" alt="">
-                    </div>
-                    <div v-if="headList.labelResult&&headList.labelResult == '07'">
-                      <img src="../../assets/images/kczcsx.png" alt="">
-                    </div>
-                    <div v-if="headList.labelResult&&headList.labelResult == '08'">
-                      <img src="../../assets/images/kcbyzc.png" alt="">
-                    </div>
-                    <div v-if="headList.labelResult&&headList.labelResult == '09'">
-                      <img src="../../assets/images/dsh1.png" alt="">
-                    </div>
-                </div>
-            </div>
-            <div class="text" style="position:relative;z-index: 4">
-              <p class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;" @mouseenter="mouseOverSpreadTitle(headList.title)">{{getTitle(headList.title)}}</p>
-              <span style="font-size: 14px;opacity: 0.6;">股份公司设立时间：</span>
-              <span style="font-size: 14px;opacity: 0.6;">{{headList.establishDate}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-              <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;辅导历时：</span>
-              <span style="font-size: 14px;opacity: 0.6;" v-if="headList.supportDuration">{{headList.supportDuration}}天</span>
-              <span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
-              <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;审核历时：</span>
-              <span style="font-size: 14px;opacity: 0.6;" v-if="headList.auditDuration">{{headList.auditDuration}}天</span>
-              <span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
-              <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;最新进程：</span>
-              <span style="font-size: 14px;color:#fff;opacity:1">{{headList.processLabel}}</span>
-            </div>
-            <div class="btn" style="position:relative;z-index:4">
-              <span  v-if="headList.greenPassage" style=" display: inline-block;margin-right: 5px;margin-top:8px;background: #ff9900; font-size: 12px; color: #fff;border-radius: 2px;padding: 4.5px; position:relative;z-index:10;"
-                 >{{headList.greenPassage}}
-              </span>
-              <span v-if="specialArrange&&specialArrange.length>0">
-                <span v-for="data in specialArrange" style=" display: inline-block;margin-top:8px;background: #ff9900; font-size: 12px; color: #fff;border-radius: 2px;padding: 4.5px; position:relative;z-index:10;margin-right:10px"
-                  >{{data}}
+        <div  ref="titleHeader"  id="titleHeader" style="width: 100%;height: 140px;position: relative">
+          <div :style="{'padding-left':headList.iecResult == null?'0px':'97px','width':'1200px','position':'absolute','left': '50%','top':'50%', 'transform': 'translate(-50%,-50%)'}">
+              <div class="imgMark" style="position: absolute; z-index: 2;left: 5%;top:50%; transform: translate(-50%,-50%);z-index: 2">
+                  <!-- 注册制是否是科创版的标签显示 -->
+                    <div>
+                      <div v-if="headList.labelResult&&headList.labelResult == '00'" >
+                        <img src="../../assets/images/htg1.png" alt="">
+                      </div>
+                      <div v-if="headList.labelResult&&headList.labelResult == '01'">
+                        <img src="../../assets/images/whtg1.png" alt="">
+                      </div>
+                      <div v-if="headList.labelResult&&headList.labelResult == '02'">
+                        <img src="../../assets/images/zhbj1.png" alt="">
+                      </div>
+                      <div v-if="headList.labelResult&&headList.labelResult == '03'">
+                        <img src="../../assets/images/qxsh1.png" alt="">
+                      </div>
+                      <div v-if="headList.labelResult&&headList.labelResult == '04'">
+                        <img src="../../assets/images/dsh1.png" alt="">
+                      </div>
+                      <div v-if="headList.labelResult&&headList.labelResult == '05'" >
+                        <img src="../../assets/images/kctg.png" alt="">
+                      </div>
+                      <div v-if="headList.labelResult&&headList.labelResult == '06'">
+                        <img src="../../assets/images/kcwtg.png" alt="">
+                      </div>
+                      <div v-if="headList.labelResult&&headList.labelResult == '07'">
+                        <img src="../../assets/images/kczcsx.png" alt="">
+                      </div>
+                      <div v-if="headList.labelResult&&headList.labelResult == '08'">
+                        <img src="../../assets/images/kcbyzc.png" alt="">
+                      </div>
+                      <div v-if="headList.labelResult&&headList.labelResult == '09'">
+                        <img src="../../assets/images/dsh1.png" alt="">
+                      </div>
+                  </div>
+              </div>
+              <div class="text" style="position:relative;z-index: 4">
+                <p class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;" @mouseenter="mouseOverSpreadTitle(headList.title)">{{getTitle(headList.title)}}</p>
+                <span style="font-size: 14px;opacity: 0.6;">股份公司设立时间：</span>
+                <span style="font-size: 14px;opacity: 0.6;">{{headList.establishDate}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;辅导历时：</span>
+                <span style="font-size: 14px;opacity: 0.6;" v-if="headList.supportDuration">{{headList.supportDuration}}天</span>
+                <span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
+                <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;审核历时：</span>
+                <span style="font-size: 14px;opacity: 0.6;" v-if="headList.auditDuration">{{headList.auditDuration}}天</span>
+                <span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
+                <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;最新进程：</span>
+                <span style="font-size: 14px;color:#fff;opacity:1">{{headList.processLabel}}</span>
+              </div>
+              <div class="btn" style="position:relative;z-index:4">
+                <span  v-if="headList.greenPassage" style=" display: inline-block;margin-right: 5px;margin-top:8px;background: #ff9900; font-size: 12px; color: #fff;border-radius: 2px;padding: 4.5px; position:relative;z-index:10;"
+                  >{{headList.greenPassage}}
                 </span>
-              </span>
-            </div>
-         </div>
-      </div>
+                <span v-if="specialArrange&&specialArrange.length>0">
+                  <span v-for="data in specialArrange" style=" display: inline-block;margin-top:8px;background: #ff9900; font-size: 12px; color: #fff;border-radius: 2px;padding: 4.5px; position:relative;z-index:10;margin-right:10px"
+                    >{{data}}
+                  </span>
+                </span>
+              </div>
+          </div>
+        </div>
       <div id="concentBody" style="width:1200px;margin: 0 auto;" class="ipoContainer">
           <el-row :gutter="24" class="h100">
               <el-col :span="18" class="chart" style="padding:0 40px 0 0">
@@ -678,7 +678,9 @@ export default {
 }
 // 头部背景图
 #titleHeader {
-  background-image: url("../../assets/images/IpoHeader.png");
+  background-image:  url("../../assets/images/IpoHeader.png"),url("../../assets/images/IpoHeaderBj.png");
+  background-repeat: no-repeat, no-repeat;  
+  background-position: center, 0 0;  
   color: #fff;
 }
 /* 头部文字标题 */
