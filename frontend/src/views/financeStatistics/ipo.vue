@@ -10,7 +10,7 @@
       </div>
      <!-- IPO标题头部 -->
         <div  ref="titleHeader"  id="titleHeader" style="width: 100%;height: 140px;position: relative">
-          <div :style="{'padding-left':headList.iecResult == null?'0px':'97px','width':'1200px','position':'absolute','left': '50%','top':'50%', 'transform': 'translate(-50%,-50%)'}">
+          <div :style="{'padding-left':headList.labelResult == ''?'0px':'97px','width':'1200px','position':'absolute','left': '50%','top':'50%', 'transform': 'translate(-50%,-50%)'}">
               <div class="imgMark" style="position: absolute; z-index: 2;left: 5%;top:50%; transform: translate(-50%,-50%);z-index: 2">
                   <!-- 注册制是否是科创版的标签显示 -->
                     <div>
