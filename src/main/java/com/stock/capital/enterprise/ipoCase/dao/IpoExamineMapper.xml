@@ -117,7 +117,7 @@
 
     <select id="selectRegisterLetterId" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto">
         SELECT
-        t1.id,
+        t1.id letterId,
         t1.letter_date letterDate,
         t1.return_date returnDate
         FROM
