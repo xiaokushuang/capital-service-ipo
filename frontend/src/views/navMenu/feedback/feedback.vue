@@ -28,34 +28,34 @@
                 <div v-if="tabList.length==10&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共十轮问询：</div>
                 <div>
                     <el-tabs v-model="activeName" @tab-click="handleTabClick">
-                       <el-tab-pane :label="companyProfileList.headList.isTechBoard==0?'第一次反馈意见':'第一次问询'" :name="tabList[0].letterId">
+                       <el-tab-pane :label="tabList[0].letterName" :name="tabList[0].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[0].questionLabelList,checkbox:feedbackduoxuanList,answerCount:answerCount,questionCount:questionCount,questionList:questionList,o_letterId:this.o_letterId,showMore:showMore,allQuestionList:allQuestionList}></singleAndMultiple>
                        </el-tab-pane>
-                       <el-tab-pane :label="companyProfileList.headList.isTechBoard==0?'第二次反馈意见':'第二次问询'" :name="tabList[1].letterId">
+                       <el-tab-pane :label="tabList[1].letterName" :name="tabList[1].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[1].questionLabelList,checkbox:feedbackduoxuanList2,answerCount:answerCount2,questionCount:questionCount2,questionList:questionList2,o_letterId:this.o_letterId,showMore:showMore2,allQuestionList:allQuestionList2}></singleAndMultiple>
                        </el-tab-pane>
-                        <el-tab-pane v-if="tabList&&tabList.length>2" :label="companyProfileList.headList.isTechBoard==0?'第三次反馈意见':'第三次问询'" :name="tabList[2].letterId">
+                        <el-tab-pane v-if="tabList&&tabList.length>2" :label="tabList[2].letterName" :name="tabList[2].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[2].questionLabelList,checkbox:feedbackduoxuanList3,answerCount:answerCount3,questionCount:questionCount3,questionList:questionList3,o_letterId:this.o_letterId,showMore:showMore3,allQuestionList:allQuestionList3}></singleAndMultiple>
                        </el-tab-pane>
-                        <el-tab-pane v-if="this.tabList&&this.tabList.length>3" :label="companyProfileList.headList.isTechBoard==0?'第四次反馈意见':'第四次问询'" :name="tabList[3].letterId">
+                        <el-tab-pane v-if="this.tabList&&this.tabList.length>3" :label="tabList[3].letterName" :name="tabList[3].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[3].questionLabelList,checkbox:feedbackduoxuanList4,answerCount:answerCount4,questionCount:questionCount4,questionList:questionList4,o_letterId:this.o_letterId,showMore:showMore4,allQuestionList:allQuestionList4}></singleAndMultiple>
                        </el-tab-pane>
-                        <el-tab-pane v-if="this.tabList&&this.tabList.length>4" :label="companyProfileList.headList.isTechBoard==0?'第五次反馈意见':'第五次问询'" :name="tabList[4].letterId">
+                        <el-tab-pane v-if="this.tabList&&this.tabList.length>4" :label="tabList[4].letterName" :name="tabList[4].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[4].questionLabelList,checkbox:feedbackduoxuanList5,answerCount:answerCount5,questionCount:questionCount5,questionList:questionList5,o_letterId:this.o_letterId,showMore:showMore5,allQuestionList:allQuestionList5}></singleAndMultiple>
                        </el-tab-pane>
-                        <el-tab-pane v-if="this.tabList&&this.tabList.length>5" :label="companyProfileList.headList.isTechBoard==0?'第六次反馈意见':'第六次问询'" :name="tabList[5].letterId">
+                        <el-tab-pane v-if="this.tabList&&this.tabList.length>5" :label="tabList[5].letterName" :name="tabList[5].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[5].questionLabelList,checkbox:feedbackduoxuanList6,answerCount:answerCount6,questionCount:questionCount6,questionList:questionList6,o_letterId:this.o_letterId,showMore:showMore6,allQuestionList:allQuestionList6}></singleAndMultiple>
                        </el-tab-pane>
-                       <el-tab-pane v-if="this.tabList&&this.tabList.length>6" :label="companyProfileList.headList.isTechBoard==0?'第七次反馈意见':'第七次问询'" :name="tabList[6].letterId">
+                       <el-tab-pane v-if="this.tabList&&this.tabList.length>6" :label="tabList[6].letterName" :name="tabList[6].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[6].questionLabelList,checkbox:feedbackduoxuanList7,answerCount:answerCount7,questionCount:questionCount7,questionList:questionList7,o_letterId:this.o_letterId,showMore:showMore7,allQuestionList:allQuestionList7}></singleAndMultiple>
                        </el-tab-pane>
-                        <el-tab-pane v-if="this.tabList&&this.tabList.length>7" :label="companyProfileList.headList.isTechBoard==0?'第八次反馈意见':'第八次问询'" :name="tabList[7].letterId">
+                        <el-tab-pane v-if="this.tabList&&this.tabList.length>7" :label="tabList[7].letterName" :name="tabList[7].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[7].questionLabelList,checkbox:feedbackduoxuanList8,answerCount:answerCount8,questionCount:questionCount8,questionList:questionList8,o_letterId:this.o_letterId,showMore:showMore8,allQuestionList:allQuestionList8}></singleAndMultiple>
                        </el-tab-pane>
-                       <el-tab-pane v-if="this.tabList&&this.tabList.length>8" :label="companyProfileList.headList.isTechBoard==0?'第九次反馈意见':'第九次问询'" :name="tabList[8].letterId">
+                       <el-tab-pane v-if="this.tabList&&this.tabList.length>8" :label="tabList[8].letterName" :name="tabList[8].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[8].questionLabelList,checkbox:feedbackduoxuanList9,answerCount:answerCount9,questionCount:questionCount9,questionList:questionList9,o_letterId:this.o_letterId,showMore:showMore9,allQuestionList:allQuestionList9}></singleAndMultiple>
                        </el-tab-pane>
-                       <el-tab-pane v-if="this.tabList&&this.tabList.length>9" :label="companyProfileList.headList.isTechBoard==0?'第十次反馈意见':'第十次问询'" :name="tabList[9].letterId">
+                       <el-tab-pane v-if="this.tabList&&this.tabList.length>9" :label="tabList[9].letterName" :name="tabList[9].letterId">
                           <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[9].questionLabelList,checkbox:feedbackduoxuanList10,answerCount:answerCount10,questionCount:questionCount10,questionList:questionList10,o_letterId:this.o_letterId,showMore:showMore10,allQuestionList:allQuestionList10}></singleAndMultiple>
                        </el-tab-pane>
                     </el-tabs>
@@ -654,6 +654,7 @@ export default {
         if (res.data.result && res.data.result.length > 0) {
           this.o_letterId = res.data.result[0].letterId;
           this.tabList = res.data.result;
+          console.log('反馈意见', this.tabList)
           this.activeName = this.tabList[0].letterId;
           // 第一个tab
           if (this.tabList && this.tabList.length == 1) {

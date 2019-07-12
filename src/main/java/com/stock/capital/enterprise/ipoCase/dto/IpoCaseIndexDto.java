@@ -155,6 +155,24 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
     @Field("ipo_register_result_label_t")
     private String registerResultLabel;//注册结果名称
 
+    @Field("ipo_review_result_t")
+    private String reviewResult;//复审会议结果
+
+    @Field("ipo_review_result_label_t")
+    private String reviewResultLabel;//复审会议结果名称
+
+    @Field("ipo_review_Time_dt")
+    private Date reviewTime;//复审会议结果
+
+    @Field("ipo_final_result_t")
+    private String finalResult;//如果复审，则取复审结果，无复审，则取上市委/发审委结果
+
+    @Field("ipo_label_result_t")
+    private String labelResult;//用于前台展示标签
+
+    @Field("ipo_final_time_dt")
+    private Date finalTime;//最后一次审核时间
+
 
     public String getOrgCode() {
         return orgCode;
@@ -514,5 +532,53 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
 
     public void setRegisterResultLabel(String registerResultLabel) {
         this.registerResultLabel = registerResultLabel;
+    }
+
+    public String getReviewResult() {
+        return reviewResult;
+    }
+
+    public void setReviewResult(String reviewResult) {
+        this.reviewResult = reviewResult;
+    }
+
+    public String getReviewResultLabel() {
+        return reviewResultLabel;
+    }
+
+    public void setReviewResultLabel(String reviewResultLabel) {
+        this.reviewResultLabel = reviewResultLabel;
+    }
+
+    public Date getReviewTime() {
+        return reviewTime;
+    }
+
+    public void setReviewTime(Date reviewTime) {
+        this.reviewTime = reviewTime;
+    }
+
+    public String getFinalResult() {
+        return finalResult;
+    }
+
+    public void setFinalResult(String finalResult) {
+        this.finalResult = finalResult;
+    }
+
+    public String getLabelResult() {
+        return labelResult;
+    }
+
+    public void setLabelResult(String labelResult) {
+        this.labelResult = labelResult;
+    }
+
+    public Date getFinalTime() {
+        return finalTime;
+    }
+
+    public void setFinalTime(Date finalTime) {
+        this.finalTime = finalTime;
     }
 }

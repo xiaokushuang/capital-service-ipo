@@ -1,6 +1,7 @@
 package com.stock.capital.enterprise.ipoCase.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import io.swagger.annotations.ApiModel;
@@ -35,6 +36,10 @@ public class IpoFeedbackDto implements Serializable {
     private List<String> secondLabelList;
     @ApiModelProperty("基本信息列表")
     private List<IpoExamineBaseDto> baseList;
+    @ApiModelProperty("函件日期:可能是来函")
+    private Date letterDate;
+    @ApiModelProperty("函件日期:回函日期")
+    private Date returnDate;
 
 
     private static final long serialVersionUID = 1L;
@@ -145,5 +150,21 @@ public class IpoFeedbackDto implements Serializable {
 
     public void setBaseList(List<IpoExamineBaseDto> baseList) {
         this.baseList = baseList;
+    }
+
+    public Date getLetterDate() {
+        return letterDate;
+    }
+
+    public void setLetterDate(Date letterDate) {
+        this.letterDate = letterDate;
+    }
+
+    public Date getReturnDate() {
+        return returnDate;
+    }
+
+    public void setReturnDate(Date returnDate) {
+        this.returnDate = returnDate;
     }
 }

@@ -61,6 +61,12 @@ public class HeadDataVo implements Serializable {
     @ApiModelProperty("注册结果 07：注册生效 08：不予注册")
     private String registerResult;
 
+    @ApiModelProperty("复核结果")
+    private String reviewResult;
+
+    @ApiModelProperty("最近一次结果")
+    private String labelResult;
+
     public String getTitle() {
         return title;
     }
@@ -171,5 +177,21 @@ public class HeadDataVo implements Serializable {
 
     public void setRegisterResult(String registerResult) {
         this.registerResult = registerResult;
+    }
+
+    public String getReviewResult() {
+        return reviewResult;
+    }
+
+    public void setReviewResult(String reviewResult) {
+        this.reviewResult = reviewResult;
+    }
+
+    public String getLabelResult() {
+        return labelResult;
+    }
+
+    public void setLabelResult(String labelResult) {
+        this.labelResult = labelResult;
     }
 }

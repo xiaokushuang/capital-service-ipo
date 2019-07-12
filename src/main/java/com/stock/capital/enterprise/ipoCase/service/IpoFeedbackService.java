@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -117,8 +118,8 @@ public class IpoFeedbackService extends BaseService {
         //根据案例id查询公司的东财内码
         CompanyOverviewVo companyOverviewVo = ipoFeedbackMapper.getOrgCode(id);
         String ipoPlate = companyOverviewVo.getIpoPlate();
+//        List<String> processDateList = ipoFeedbackMapper.selectFeedbackProcess(id);
         List<String> processDateList = ipoFeedbackMapper.selectFeedbackProcess(id);
-        processDateList = ipoFeedbackMapper.selectFeedbackProcess(id);
         if (CollectionUtils.isEmpty(processDateList)) {
             return new ArrayList<>();
         }
@@ -129,7 +130,7 @@ public class IpoFeedbackService extends BaseService {
         } else {
             letterIds = ipoFeedbackMapper.selectLetterIds(companyOverviewVo.getOrgCode(), processDateList);
         }
-
+        int feedbackCount = 0;
         for (int i = 0; i < letterIds.size(); i++) {
             //定义函件对象
             IpoFeedbackDto ipoFeedbackResultDto = new IpoFeedbackDto();
@@ -197,6 +198,63 @@ public class IpoFeedbackService extends BaseService {
             int questionCount = questionList.size();
             int answerCount = 0;
             if (CollectionUtils.isNotEmpty(questionList)) {
+                //添加前台需要展示的函件类型名称
+                String letterTypeName = questionList.get(0).getLetterTypeName();
+                if ("069001001006".equals(ipoPlate)) {
+                    if("审核中心意见落实函".equals(letterTypeName)){
+                        ipoFeedbackResultDto.setLetterName("落实函");
+                    }else{
+                        if (feedbackCount == 0) {
+                            ipoFeedbackResultDto.setLetterName("第一次问询");
+                        } else if (feedbackCount == 1) {
+                            ipoFeedbackResultDto.setLetterName("第二次问询");
+                        } else if (feedbackCount == 2) {
+                            ipoFeedbackResultDto.setLetterName("第三次问询");
+                        } else if (feedbackCount == 3) {
+                            ipoFeedbackResultDto.setLetterName("第四次问询");
+                        } else if (feedbackCount == 4) {
+                            ipoFeedbackResultDto.setLetterName("第五次问询");
+                        } else if (feedbackCount == 5) {
+                            ipoFeedbackResultDto.setLetterName("第六次问询");
+                        } else if (feedbackCount == 6) {
+                            ipoFeedbackResultDto.setLetterName("第七次问询");
+                        } else if (feedbackCount == 7) {
+                            ipoFeedbackResultDto.setLetterName("第八次问询");
+                        } else if (feedbackCount == 8) {
+                            ipoFeedbackResultDto.setLetterName("第九次问询");
+                        } else if (feedbackCount == 9) {
+                            ipoFeedbackResultDto.setLetterName("第十次问询");
+                        }
+                        feedbackCount ++;
+                    }
+
+                }else{
+                    if (feedbackCount == 0) {
+                        ipoFeedbackResultDto.setLetterName("第一次反馈意见");
+                    } else if (feedbackCount == 1) {
+                        ipoFeedbackResultDto.setLetterName("第二次反馈意见");
+                    } else if (feedbackCount == 2) {
+                        ipoFeedbackResultDto.setLetterName("第三次反馈意见");
+                    } else if (feedbackCount == 3) {
+                        ipoFeedbackResultDto.setLetterName("第四次反馈意见");
+                    } else if (feedbackCount == 4) {
+                        ipoFeedbackResultDto.setLetterName("第五次反馈意见");
+                    } else if (feedbackCount == 5) {
+                        ipoFeedbackResultDto.setLetterName("第六次反馈意见");
+                    } else if (feedbackCount == 6) {
+                        ipoFeedbackResultDto.setLetterName("第七次反馈意见");
+                    } else if (feedbackCount == 7) {
+                        ipoFeedbackResultDto.setLetterName("第八次反馈意见");
+                    } else if (feedbackCount == 8) {
+                        ipoFeedbackResultDto.setLetterName("第九次反馈意见");
+                    } else if (feedbackCount == 9) {
+                        ipoFeedbackResultDto.setLetterName("第十次反馈意见");
+                    }
+                    feedbackCount ++;
+                }
+
+
+
                 for (IpoFeedbackIndexDto questionDto : questionList) {
                     //定义二级标签集合
                     List<String> secondLabelList = new ArrayList<>();
@@ -227,37 +285,6 @@ public class IpoFeedbackService extends BaseService {
             ipoFeedbackResultDto.setAnswerCount(answerCount);
             ipoFeedbackResultDto.setQuestionList(questionResultList);
             resultList.add(ipoFeedbackResultDto);
-        }
-        if (CollectionUtils.isNotEmpty(resultList)) {
-            for (int i = 0; i < resultList.size(); i++) {
-                if (resultList.size() > 1) {
-                    if ("069001001006".equals(ipoPlate)) {
-                        if (i == 0) {
-                            resultList.get(i).setLetterName("第一次问询");
-                        } else if (i == 1) {
-                            resultList.get(i).setLetterName("第二次问询");
-                        } else if (i == 2) {
-                            resultList.get(i).setLetterName("第三次问询");
-                        } else if (i == 3) {
-                            resultList.get(i).setLetterName("第四次问询");
-                        } else if (i == 4) {
-                            resultList.get(i).setLetterName("第五次问询");
-                        }
-                    }else{
-                        if (i == 0) {
-                            resultList.get(i).setLetterName("第一次反馈意见");
-                        } else if (i == 1) {
-                            resultList.get(i).setLetterName("第二次反馈意见");
-                        } else if (i == 2) {
-                            resultList.get(i).setLetterName("第三次反馈意见");
-                        } else if (i == 3) {
-                            resultList.get(i).setLetterName("第四次反馈意见");
-                        } else if (i == 4) {
-                            resultList.get(i).setLetterName("第五次反馈意见");
-                        }
-                    }
-                }
-            }
         }
 
         return resultList;

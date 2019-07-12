@@ -227,7 +227,7 @@
             ipo_process t1
         WHERE
             t1.bid = #{id}
-        AND t1.process_type_code in ('05','32')
+        AND t1.process_type_code in ('05','32','45')
         AND t1.process_time IS NOT NULL
     </select>
 
@@ -288,7 +288,7 @@
         sa_letter t1
         LEFT JOIN letter_class t2 ON t2.id = t1.letter_type
         WHERE
-        t2.letter_class_name = '科创板上市申请文件审核问询函'
+        t2.letter_class_name in ('科创板上市申请文件审核问询函','审核中心意见落实函')
         AND t1.rela_code = #{orgId} and t1.post_status = '1' and t1.letter_valid = '0'
         <if test="processDateList != null and processDateList.size()>0">
             and t1.letter_date in

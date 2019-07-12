@@ -41,8 +41,10 @@ public class IpoFileUploadController extends BaseController {
 
     @Value("${obs.upload}")
     private String obsUpload;
+
     @Autowired
     private RestClient restClient;
+
     @Value("${minipro.appid}")
     private String appid;
     @Value("${minipro.secret}")
