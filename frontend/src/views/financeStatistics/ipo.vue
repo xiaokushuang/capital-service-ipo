@@ -419,12 +419,12 @@ export default {
          }
        })
        getCaseDetail(param).then(res => {
-         debugger;
           if(res.data.result){
             this.companyProfileList = res.data.result
             if (res.data.result.ipoPlate == '上交所科创板'){
               this.ipoplatetype = true;
             }
+            alert(res.data.result.launchcompanycode)
             if (res.data.result.launchcompanycode == '999830'){
               this.ipoplatetype = true;
             }else {
