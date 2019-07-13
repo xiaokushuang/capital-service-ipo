@@ -69,10 +69,10 @@
                   </span>
                 </span>
               </div>
-          </div>
-          <div style="text-align: right">
-            <img :src="wxcodeUrl" style="margin-right: 10px;width: 120px;cursor: pointer;" @click="wxcodeBig">
-            <div style="font-size: 12px;color: rgb(255,255,255);margin-right: 15px;">手机扫码可视化查看</div>
+            <div style="position: absolute;right: -5%;top: 50%;transform: translate(-50%, -50%);" v-if="ipoplatetype">
+              <img :src="wxcodeUrl" style="width: 120px;cursor: pointer;" @click="wxcodeBig" @load="wxcodeLoad">
+              <div style="font-size: 12px;color: rgb(255,255,255);text-align: center" v-show="wxcodeimgload">手机扫码可视化查看</div>
+            </div>
           </div>
         </div>
     <el-dialog align="left" :visible.sync="wxcode" width="470px">
@@ -236,6 +236,8 @@ export default {
     return {
       wxcode:false,
       wxcodeUrl:'',
+      ipoplatetype:false,
+      wxcodeimgload:false,
       tenantInfo:'',//日志
       caseId2:this.$store.state.app.caseId,
       // 动态加载组件
@@ -396,6 +398,9 @@ export default {
        // 日志------------------功能尾
   },
   methods: {
+    wxcodeLoad(){
+      this.wxcodeimgload = true;
+    },
     wxcodeBig(){
       this.wxcode = true;
     },
@@ -416,6 +421,9 @@ export default {
        getCaseDetail(param).then(res => {
           if(res.data.result){
             this.companyProfileList = res.data.result
+            if (res.data.result.ipoPlate == '上交所科创板'){
+              this.ipoplatetype = true;
+            }
           }
       });
       this.wxcodeUrl = "/ipo/ipoInterfaceH5/getQrCode?id="+this.caseId2
