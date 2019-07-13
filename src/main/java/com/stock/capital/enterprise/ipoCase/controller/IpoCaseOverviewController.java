@@ -69,9 +69,6 @@ public class IpoCaseOverviewController {
     public JsonResponse<CompanyOverviewVo> caseDetail(@RequestParam("id") String id) {
         JsonResponse<CompanyOverviewVo> response = new JsonResponse<>();
         CompanyOverviewVo companyOverviewVo = companyOverviewService.getIpoCaseDetail(id);
-        if (getUserInfo() != null){
-            companyOverviewVo.setLaunchcompanycode(getUserInfo().getCompanyCode());
-        }
         response.setResult(companyOverviewVo);
         return response;
     }
