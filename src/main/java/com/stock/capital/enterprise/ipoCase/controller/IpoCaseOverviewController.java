@@ -23,6 +23,7 @@ import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.capital.enterprise.ipoCase.service.IssueSituationService;
 import com.stock.core.dto.JsonResponse;
+import com.stock.core.dto.UserInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -37,6 +38,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.stock.core.security.SecurityHelper.getUserInfo;
 
 @Api(tags = {"IPO公司概览接口类"}, description = "IPO公司概览接口描述")
 @RestController
