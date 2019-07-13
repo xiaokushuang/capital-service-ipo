@@ -424,6 +424,11 @@ export default {
             if (res.data.result.ipoPlate == '上交所科创板'){
               this.ipoplatetype = true;
             }
+            if (res.data.result.launchcompanycode == '999830'){
+              this.ipoplatetype = true;
+            }else {
+              this.ipoplatetype = false;
+            }
           }
       });
       this.wxcodeUrl = "/ipo/ipoInterfaceH5/getQrCode?id="+this.caseId2
