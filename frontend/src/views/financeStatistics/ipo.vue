@@ -419,16 +419,17 @@ export default {
          }
        })
        getCaseDetail(param).then(res => {
+         debugger;
           if(res.data.result){
             this.companyProfileList = res.data.result
             if (res.data.result.ipoPlate == '上交所科创板'){
               this.ipoplatetype = true;
             }
-            if (res.data.result.launchcompanycode == '999830'){
+            /*if (res.data.result.launchcompanycode == '999830'){
               this.ipoplatetype = true;
             }else {
               this.ipoplatetype = false;
-            }
+            }*/
           }
       });
       this.wxcodeUrl = "/ipo/ipoInterfaceH5/getQrCode?id="+this.caseId2+"&access_token="+this.$store.state.app.token
