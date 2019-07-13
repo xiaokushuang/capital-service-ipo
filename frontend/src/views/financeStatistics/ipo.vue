@@ -69,7 +69,7 @@
                   </span>
                 </span>
               </div>
-            <div style="position: absolute;right: -5%;top: 50%;transform: translate(-50%, -50%);" v-if="ipoplatetype" v-show="wxcodeimgload">
+            <div style="position: absolute;right: -5%;top: 50%;transform: translate(-50%, -50%);" >
               <img :src="wxcodeUrl" style="width: 120px;cursor: pointer;" @click="wxcodeBig" @load="wxcodeLoad">
               <div style="font-size: 12px;color: rgb(255,255,255);text-align: center" v-show="wxcodeimgload">手机扫码可视化查看</div>
             </div>
@@ -424,7 +424,6 @@ export default {
             if (res.data.result.ipoPlate == '上交所科创板'){
               this.ipoplatetype = true;
             }
-            alert(res.data.result.launchcompanycode)
             if (res.data.result.launchcompanycode == '999830'){
               this.ipoplatetype = true;
             }else {
