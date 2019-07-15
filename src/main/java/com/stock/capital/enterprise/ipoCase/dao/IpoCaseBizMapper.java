@@ -3,6 +3,7 @@ package com.stock.capital.enterprise.ipoCase.dao;
 import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
 import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
 import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoAssociatedCaseVo;
 import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyDateDto;
@@ -55,5 +56,7 @@ public interface IpoCaseBizMapper {
         @Param("bid") String bid, @Param("validFlag") String validFlag);
 
     HeadDataVo getHeadData(String id);
+
+    List<IpoAssociatedCaseVo> getAssociatedCaseList(@Param("id") String id);
 
 }

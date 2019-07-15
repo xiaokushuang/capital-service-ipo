@@ -13,12 +13,12 @@ import com.stock.capital.enterprise.ipoCase.dto.IpoValuationDto;
 import com.stock.capital.enterprise.ipoCase.dto.IssuerIndustryStatusDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyPatentDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyVo;
 import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainIncomeVo;
 import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoAssociatedCaseVo;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.capital.enterprise.ipoCase.service.IssueSituationService;
@@ -69,6 +69,19 @@ public class IpoCaseOverviewController {
         response.setResult(companyOverviewVo);
         return response;
     }
+
+    @ApiOperation(value = "关联案例列表", notes = "关联案例列表接口描述")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
+            dataType = "String")
+    })
+    @RequestMapping(value = "/associatedCaseList", method = RequestMethod.GET)
+    public JsonResponse<List<IpoAssociatedCaseVo>> associatedCaseList(@RequestParam("id") String id){
+      JsonResponse<List<IpoAssociatedCaseVo>> response = new JsonResponse<>();
+      List<IpoAssociatedCaseVo> result = companyOverviewService.getAssociatedCaseList(id);
+      response.setResult(result);
+      return response;
+  }
 
     @ApiOperation(value = "资本市场接口", notes = "资本市场接口描述")
     @ApiImplicitParams({
