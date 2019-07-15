@@ -1,6 +1,7 @@
 package com.stock.capital.enterprise.ipoCase.dao;
 
 import com.stock.capital.enterprise.ipoCase.dto.IpoExamineBaseDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackQuestionDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoMemberDto;
 
@@ -37,7 +38,7 @@ public interface IpoExamineMapper {
     /**
      * 查询发审委函件Id
      */
-    List<String> selectExamineLetterId(@Param("orgCode") String orgCode, @Param("list") List<Date> list);
+    List<IpoFeedbackDto> selectExamineLetterId(@Param("orgCode") String orgCode, @Param("list") List<Date> list);
 
     /**
      * 查询函件日期
@@ -52,5 +53,5 @@ public interface IpoExamineMapper {
     /**
      * 查询注册反馈意见
      */
-    List<String> selectRegisterLetterId(@Param("orgCode") String orgCode, @Param("list") List<Date> list);
+    List<IpoFeedbackDto> selectRegisterLetterId(@Param("orgCode") String orgCode, @Param("list") List<Date> list);
 }

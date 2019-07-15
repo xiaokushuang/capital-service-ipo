@@ -84,6 +84,51 @@
    limit 1
   </select>
 
+
+  <select id="getAssociatedCaseList" parameterType="string" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoAssociatedCaseVo">
+      select (@i:=@i+1) AS proSort,ic.id AS caseId, ic.title AS progressName, ic.org_code AS orgCode,
+             (SELECT mcl.label_name FROM maa_conf_label mcl WHERE mcl.label_code = 'IPO_VERIFY_RESULT' AND mcl.label_value = ip.iec_result) iecResult,
+             DATE_FORMAT(ip1.process_time,'%Y-%m-%d') AS processTime,ccsi.release_flag as releaseFlag,ic.open_flag AS openFlag
+      from ipo_case ic
+             left join case_common_status_info ccsi on ccsi.case_id = ic.id
+             LEFT JOIN (SELECT t.* FROM (
+                                        SELECT
+                                               bid,
+                                               process_time,
+                                               iec_result
+                                        FROM
+                                             ipo_process
+                                        WHERE process_type_code = '07'
+                                           or process_type_code = '35'
+                                           or process_type_code = '38'
+                                        ORDER BY
+                                                 process_time DESC
+                                        LIMIT 2147483647
+                                        ) t
+                        GROUP BY
+                                 t.bid) ip ON ic.id = ip.bid
+             LEFT JOIN (SELECT t.* FROM (
+                                        SELECT
+                                               bid,
+                                               process_time,
+                                               iec_result
+                                        FROM
+                                             ipo_process
+                                        WHERE process_type_code = '04'
+                                           or process_type_code = '31'
+                                        ORDER BY
+                                                 process_time DESC
+                                        LIMIT 2147483647
+                                        ) t
+                        GROUP BY
+                                 t.bid) ip1 ON ic.id = ip1.bid,
+             (select @i:=0) as it
+      where 1=1
+        AND ccsi.release_flag = '1'
+        AND ic.org_code = (select org_code from  ipo_case where id = #{id})
+        ORDER BY processTime DESC
+  </select>
+
   <select id="getCodeAndNameById" parameterType="string" resultType="map">
     SELECT org_code AS orgCode,company_name AS companyName FROM ipo_case WHERE id = #{id} limit 1
   </select>
@@ -366,6 +411,7 @@
     ip.iec_result AS iecResult,
     ip3.iec_result AS registerResult,
     ip4.iec_result AS reviewResult,
+    (select iec_result from ipo_process w2 where ic.id = w2.bid and w2.iec_result is not null order by w2.process_time desc limit 1) labelResult,
     DATEDIFF(
       (
         SELECT

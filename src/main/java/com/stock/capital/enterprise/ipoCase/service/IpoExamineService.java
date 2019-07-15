@@ -139,9 +139,9 @@ public class IpoExamineService extends BaseService {
         }
 
         //以来函日期查询函件id
-        List<String> letterIds = ipoExamineMapper.selectExamineLetterId(orgCode, dateList);
+        List<IpoFeedbackDto> letterIds = ipoExamineMapper.selectExamineLetterId(orgCode, dateList);
         //以回函日期查询函件id
-        List<String> registerLetterIds = new ArrayList<>();
+        List<IpoFeedbackDto> registerLetterIds = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(registerList)) {
             registerLetterIds = ipoExamineMapper.selectRegisterLetterId(orgCode, registerList);
         }
@@ -151,10 +151,10 @@ public class IpoExamineService extends BaseService {
         //查询发审会问题及答案列表
         int registerCount = 1;
         int examineCount = 1;
-        for (String letterId : letterIds) {
+        for (IpoFeedbackDto letterDto : letterIds) {
             //定义函件对象
             IpoFeedbackDto ipoFeedbackResultDto = new IpoFeedbackDto();
-            ipoFeedbackResultDto.setLetterId(letterId);
+            ipoFeedbackResultDto.setLetterId(letterDto.getLetterId());
             //定义问题标签集合
             List<IpoQuestionLabelDto> firstLabelList = new ArrayList<>();
 
@@ -165,7 +165,7 @@ public class IpoExamineService extends BaseService {
             Map<String, String> condition = Maps.newHashMap();
             StringBuilder conditionsStr = new StringBuilder("index_type_t: \"letterqa\"");
             conditionsStr.append(" AND " + "letter_letter_id_t:");
-            conditionsStr.append(letterId);
+            conditionsStr.append(letterDto.getLetterId());
             String conditionsGroup = "letter_question_class_new_id_txt";
             String orderByName = "letter_question_id_t";
             String orderByOrder = "ASC";
@@ -218,23 +218,29 @@ public class IpoExamineService extends BaseService {
             if (CollectionUtils.isNotEmpty(questionList)) {
                 //添加前台需要展示的函件类型名称
                 String letterTypeName = questionList.get(0).getLetterTypeName();
+                Date letterDate = letterDto.getLetterDate();
+                Date returnDate = letterDto.getReturnDate();
                 if ("发审委会议询问的主要问题".equals(letterTypeName)) {
-                    ipoFeedbackResultDto.setLetterName("发审委会议关注问题");
+                    ipoFeedbackResultDto.setLetterName("发审会关注问题");
+                    ipoFeedbackResultDto.setLetterDate(letterDate);
                 } else if ("上市委会议询问的主要问题".equals(letterTypeName)) {
                     if (examineCount == 1) {
                         ipoFeedbackResultDto.setLetterName("上市会关注问题");
                     } else if (examineCount == 2) {
                         ipoFeedbackResultDto.setLetterName("复审会关注问题");
                     }
+                    ipoFeedbackResultDto.setLetterDate(letterDate);
                     examineCount++;
                 } else if ("注册反馈意见函".equals(letterTypeName)) {
                     if (registerCount == 1) {
                         ipoFeedbackResultDto.setLetterName("第一轮注册反馈意见");
                     } else if (registerCount == 2) {
                         ipoFeedbackResultDto.setLetterName("第二轮注册反馈意见");
-                    } else if (registerCount == 2) {
+                    } else if (registerCount == 3) {
                         ipoFeedbackResultDto.setLetterName("第三轮注册反馈意见");
                     }
+                    ipoFeedbackResultDto.setLetterDate(returnDate);
+                    registerCount++;
                 }
 
                 for (IpoFeedbackIndexDto questionDto : questionList) {
@@ -262,14 +268,18 @@ public class IpoExamineService extends BaseService {
                         answerCount++;
                     }
                 }
-                ipoFeedbackResultDto.setQuestionCount(questionCount);
-                ipoFeedbackResultDto.setAnswerCount(answerCount);
-                ipoFeedbackResultDto.setQuestionList(questionResultList);
-//            ipoFeedbackResultDto.setBaseList(baseList);
-                resultList.add(ipoFeedbackResultDto);
+                if(StringUtils.isNotEmpty(ipoFeedbackResultDto.getLetterName())){
+                    ipoFeedbackResultDto.setQuestionCount(questionCount);
+                    ipoFeedbackResultDto.setAnswerCount(answerCount);
+                    ipoFeedbackResultDto.setQuestionList(questionResultList);
+                    resultList.add(ipoFeedbackResultDto);
+                }
             }
         }
-
+        //按照日期排序，注册反馈取回函日期，其他取来函日期
+        if(CollectionUtils.isNotEmpty(resultList)){
+            resultList.sort((IpoFeedbackDto c1,IpoFeedbackDto c2) -> c1.getLetterDate() == null? 1:c1.getLetterDate().compareTo(c2.getLetterDate()) );
+        }
         return resultList;
     }
 

@@ -146,6 +146,7 @@
   padding: 8px 21px 11px;
   border-bottom:1px #e1e1e1 solid;
 }
+
 .result .el-dialog__headerbtn:focus .el-dialog__close, .el-dialog__headerbtn:hover .el-dialog__close {
   color: #0087a7;
 }
@@ -155,7 +156,7 @@
   left: -7px;
 }
 // 反馈意见中下面的tab样式修改
-.feedback .el-tabs__nav-wrap::after {
+.feedback .el-tabs__nav-wrap::after{
   content: "";
   position: absolute;
   left: 0;
@@ -165,10 +166,35 @@
   background-color: #e4e7ed;
   z-index: 1;
 }
+.result .el-tabs__nav-wrap::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #e4e7ed;
+  z-index: 1;
+}
 .feedback .el-tabs__active-bar {
   position: absolute;
   bottom: 0;
-  left: 0;
+  left: -16px;
+  height: 1px;
+  // background-color: #fff;
+  background-color: #e4e7ed;
+  z-index: 1;
+  -webkit-transition: -webkit-transform .3s cubic-bezier(.645,.045,.355,1);
+  transition: -webkit-transform .3s cubic-bezier(.645,.045,.355,1);
+  transition: transform .3s cubic-bezier(.645,.045,.355,1);
+  transition: transform .3s cubic-bezier(.645,.045,.355,1), -webkit-transform .3s cubic-bezier(.645,.045,.355,1);
+  transition: transform .3s cubic-bezier(.645,.045,.355,1),-webkit-transform .3s cubic-bezier(.645,.045,.355,1);
+  list-style: none;
+}
+.result .el-tabs__active-bar {
+  position: absolute;
+  bottom: 0;
+  left: 17px;
   height: 1px;
   // background-color: #fff;
   background-color: #e4e7ed;
@@ -181,7 +207,7 @@
   list-style: none;
 }
 // css伪类加三角形边框
-.feedback .el-tabs__active-bar:before{
+.feedback .el-tabs__active-bar:before,.result .el-tabs__active-bar:before{
     content:" ";
 		position:absolute;
 		top:-6px;
@@ -190,7 +216,7 @@
 		border-left:6px solid transparent;
     border-right:6px solid transparent;
 }
-.feedback .el-tabs__active-bar::after{
+.feedback .el-tabs__active-bar::after,.result .el-tabs__active-bar::after{
   content:" ";
   position:absolute;
   top:-5px;
@@ -199,7 +225,7 @@
   border-left:12px solid transparent;
   border-right:12px solid transparent;
 }
-.feedback .el-tabs__item {
+.feedback .el-tabs__item,.result .el-tabs__item {
   padding: 0 20px;
   height: 40px;
   -webkit-box-sizing: border-box;
@@ -213,18 +239,21 @@
   position: relative;
 }
 .feedback .el-tabs__header.is-top {
-  padding-left: 75px;
+  // padding-left: 75px;
   border-bottom: 1px solid #e4e7ed;
 }
-.feedback .el-tabs__item:hover {
-  color: #0087a7;
+.result .el-tabs__header.is-top {
+  border-bottom: 1px solid #e4e7ed;
+}
+.feedback .el-tabs__item:hover,.result .el-tabs__item:hover {
+  color: #14bcf5 !important;
   cursor: pointer;
 }
-.feedback .el-tabs__item:focus {
-  color: #0087a7;
+.feedback .el-tabs__item:focus,.result .el-tabs__item:focus {
+  color: #14bcf5;
   cursor: pointer;
 }
-.feedback .el-tabs__header {
+.feedback .el-tabs__header,.result .el-tabs__header {
   padding: 0;
   position: relative;
   margin: 0 0;
@@ -377,7 +406,7 @@
   font-weight: bold
 }
 
-.feedback .el-tabs__item.is-active{
+.feedback .el-tabs__item.is-active,.result .el-tabs__item.is-active{
   color:#14bcf5 !important;
 }
 .ipoCaseList .el-radio__label {
@@ -411,7 +440,7 @@
 }
  .el-dialog__header {
   padding: 12px 21px 11px;
-  border-bottom:1px #e1e1e1 solid;
+  border-bottom:none !important;
 }
 .el-dialog__headerbtn {
   position: absolute;
@@ -458,7 +487,7 @@
 }
 #componentId .el-checkbox-button.is-focus .el-checkbox-button__inner {
   border-color: #e2e2e2;
-  border-left-color:#e2e2e2 
+  border-left-color:#e2e2e2
 }
 #componentId .el-checkbox-button.is-checked .el-checkbox-button__inner {
   background-color: #fff;
@@ -603,7 +632,7 @@
   width: 100%;
   height: 100%;
   opacity: .5;
-  background: none !important; 
+  background: none !important;
 }
 // 供应商表格悬浮
 .el-table--striped .el-table__body tr.el-table__row--striped.current-row td, .el-table__body tr.current-row>td, .el-table__body tr.hover-row.current-row>td, .el-table__body tr.hover-row.el-table__row--striped.current-row>td, .el-table__body tr.hover-row.el-table__row--striped>td, .el-table__body tr.hover-row>td {

@@ -1817,7 +1817,7 @@ public class IpoInterfaceController extends BaseController {
     public JsonResponse submitReplay(String headPortrait,String username,String commentText,String openid,String unionid,String caseid ) {
         JsonResponse jsonResponse = new JsonResponse();
         Map<String,Object> map = new HashMap();
-        //        set 时间
+        //    敏感词判断
         SensitiveWord sw = new SensitiveWord("CensorWords.txt");
         sw.InitializationWork();
         boolean canNotSubmit = sw.filterInfo(commentText);
@@ -2019,8 +2019,11 @@ public class IpoInterfaceController extends BaseController {
      */
     @RequestMapping("/getQrCode")
     public void getAccessToken(HttpServletResponse response, String id, String companyName) throws IOException {
-        byte[] qrCode = wxUtils.getminiqrQr(id,companyName);
+        logger.info("获取二维码：公司id"+id+" 公司简称："+companyName);
+        byte[] qrCode = wxUtils.getMiNiQr(id,companyName);
         response.getOutputStream().write(qrCode);
     }
+
+
 
 }

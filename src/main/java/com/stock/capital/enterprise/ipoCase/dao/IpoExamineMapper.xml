@@ -96,9 +96,11 @@
         </where>
     </select>
 
-    <select id="selectExamineLetterId" resultType="java.lang.String">
+    <select id="selectExamineLetterId" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto">
         SELECT
-            t1.id
+            t1.id letterId,
+            t1.letter_date letterDate,
+            t1.return_date returnDate
         FROM
             sa_letter t1
         LEFT JOIN letter_class t2 ON t2.id = t1.letter_type
@@ -110,11 +112,14 @@
             #{item}
         </foreach>
         and t1.letter_valid = '0'
+        and t1.post_status = '1'
     </select>
 
-    <select id="selectRegisterLetterId" resultType="java.lang.String">
+    <select id="selectRegisterLetterId" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto">
         SELECT
-        t1.id
+        t1.id letterId,
+        t1.letter_date letterDate,
+        t1.return_date returnDate
         FROM
         sa_letter t1
         LEFT JOIN letter_class t2 ON t2.id = t1.letter_type
@@ -126,6 +131,7 @@
             #{item}
         </foreach>
         and t1.letter_valid = '0'
+        and t1.post_status = '1'
     </select>
 
     <select id="selectLetterDate" parameterType="java.lang.String"
