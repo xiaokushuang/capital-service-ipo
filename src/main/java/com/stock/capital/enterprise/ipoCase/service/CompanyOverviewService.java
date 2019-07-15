@@ -10,6 +10,7 @@ import com.stock.capital.enterprise.ipoCase.dao.IpoIssuerIndustryStatusBizMapper
 import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
 import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
 import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoAssociatedCaseVo;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFileDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto;
@@ -64,6 +65,15 @@ public class CompanyOverviewService extends BaseService {
      */
     public CompanyOverviewVo getIpoCaseDetail(String id) {
         return ipoCaseBizMapper.getIpoCaseDetail(id);
+    }
+
+    /**
+     * 详情页关联案例 by dxy
+     * @param id 案例id
+     * @return List<IpoAssociatedCaseVo>
+     */
+    public List<IpoAssociatedCaseVo> getAssociatedCaseList(String id){
+        return ipoCaseBizMapper.getAssociatedCaseList(id);
     }
 
     /**
