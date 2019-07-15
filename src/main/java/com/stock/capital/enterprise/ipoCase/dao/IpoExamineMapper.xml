@@ -113,7 +113,7 @@
         </foreach>
         and t1.letter_valid = '0'
         and t1.post_status = '1'
-        order by t1.letter_date;
+        order by t1.letter_date
     </select>
 
     <select id="selectRegisterLetterId" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto">
