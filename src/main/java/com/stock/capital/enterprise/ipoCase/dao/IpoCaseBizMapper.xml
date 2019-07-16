@@ -228,13 +228,15 @@
 
   <select id="getCompetitorData" parameterType="string"
     resultType="com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyPatentDto">
-    SELECT '国内专利' AS labelName, domestic_invention AS fm,domestic_newtype AS sy, domestic_design as wg,  (domestic_invention+domestic_newtype+domestic_design) AS hj FROM ipo_technology AS t1 WHERE bid = #{bid}
+    SELECT bid, '数量' AS labelName, domestic_invention AS fm,domestic_newtype AS sy, domestic_design as wg,  foreign_patent as gw,
+      (IFNULL(domestic_invention,0)+IFNULL(domestic_newtype,0)+IFNULL(domestic_design,0)+IFNULL(foreign_patent,0)) AS hj
+    FROM ipo_technology AS t1 WHERE bid = #{bid}
     UNION
-    SELECT '国外专利' AS labelName, foreign_invention AS fm,foreign_newtype AS sy, foreign_design as wg,  (foreign_invention+foreign_newtype+foreign_design) AS hj FROM ipo_technology AS t2 WHERE bid = #{bid}
-    UNION
-    SELECT '合计' AS labelName, IFNULL(domestic_invention,0) + IFNULL(foreign_invention,0) AS fm, IFNULL(domestic_newtype,0) + IFNULL(foreign_newtype,0) AS sy, IFNULL(domestic_design,0) + IFNULL(foreign_design,0) AS wg,
-    (IFNULL(domestic_invention,0)+IFNULL(domestic_newtype,0)+IFNULL(domestic_design,0) + IFNULL(foreign_invention,0)+
-		IFNULL(foreign_newtype,0)+IFNULL(foreign_design,0)) AS hj FROM ipo_technology WHERE bid = #{bid}
+    SELECT bid,'占比' AS labelName, IFNULL(domestic_invention,0)/t2.hj * 100 AS fm, IFNULL(domestic_newtype,0)/t2.hj * 100 AS sy, IFNULL(domestic_design,0)/t2.hj * 100 AS wg,IFNULL(foreign_patent,0)/t2.hj * 100 as gw,t2.hj/t2.hj * 100 AS hj
+    FROM ipo_technology AS t1,
+	    (SELECT IFNULL(domestic_invention,0)+IFNULL(domestic_newtype,0)+IFNULL(domestic_design,0)+IFNULL(foreign_patent,0) AS hj FROM ipo_technology
+	  WHERE bid = #{bid}) AS t2
+    WHERE t1.bid = #{bid}
   </select>
 
 
