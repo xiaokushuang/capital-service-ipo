@@ -3,6 +3,8 @@ package com.stock.capital.enterprise.regulatory.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.stock.capital.enterprise.regulatory.dto.StatisticsCompanyDto;
+import com.stock.capital.enterprise.regulatory.dto.StatisticsParamDto;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto;
 import com.stock.core.dto.OptionDto;
 import com.stock.core.dto.TreeDto;
@@ -35,5 +37,11 @@ public interface StatisticsBizMapper {
     
     //会计事务所详情页数据
     List<StatisticsResultDto> queryAccountDetail(Map<String, Object> params);
+    
+    //会计事务所详情页数据
+    List<StatisticsResultDto> getIpoItemDataQuery(Map<String, Object> map);
+    
+    //ipo在审项目详情页数据
+    List<StatisticsCompanyDto> getIpoItemDataDetail(Map<String, Object> map);
 
 }

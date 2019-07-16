@@ -571,4 +571,176 @@
         i.grab_update_time = #{lastUpadteTime}
 </select>
 
+<select id="getIpoItemDataQuery" parameterType="Map" resultType="com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto">
+    SELECT temp.registAddr,temp.applied,temp.reviewed, temp.preUpdate,
+         temp.endYet,temp.processing,temp.passed,temp.submited,temp.zc,
+         temp.areaCount,
+         temp.weekStopYet,
+         temp.stopYet,
+         #{lastUpadteTime} AS lastUpadteTime
+    FROM (SELECT * FROM(SELECT
+                area.areaName registAddr,
+                SUM( CASE WHEN idi.approve_status = '00' THEN 1 ELSE 0 END ) applied,
+                SUM( CASE WHEN idi.approve_status = '01' THEN 1 ELSE 0 END ) reviewed,
+                SUM( CASE WHEN idi.approve_status = '02' THEN 1 ELSE 0 END ) preUpdate,
+                SUM( CASE WHEN idi.approve_status = '04' THEN 1 ELSE 0 END ) endYet,
+                SUM( CASE WHEN idi.approve_status = '06' THEN 1 ELSE 0 END ) processing,
+                SUM( CASE WHEN idi.approve_status = '03' THEN 1 ELSE 0 END ) passed,
+                 SUM( CASE WHEN idi.approve_status = '10' THEN 1 ELSE 0 END ) submited,
+                  SUM( CASE WHEN idi.approve_status = '09' THEN 1 ELSE 0 END ) zc,
+                (SUM( CASE WHEN idi.approve_status = '00' THEN 1 ELSE 0 END )
+                    +SUM( CASE WHEN idi.approve_status = '01' THEN 1 ELSE 0 END )
+                    +SUM( CASE WHEN idi.approve_status = '02' THEN 1 ELSE 0 END ) 
+                    +SUM( CASE WHEN idi.approve_status = '04' THEN 1 ELSE 0 END )
+                    +SUM( CASE WHEN idi.approve_status = '06' THEN 1 ELSE 0 END ) 
+                    +SUM( CASE WHEN idi.approve_status = '03' THEN 1 ELSE 0 END )
+                    +SUM( CASE WHEN idi.approve_status = '09' THEN 1 ELSE 0 END )
+                    +SUM( CASE WHEN idi.approve_status = '10' THEN 1 ELSE 0 END )) areaCount,
+                (select count(*) from ipo_data_info cidi  
+                    where area.areaName = cidi.regist_addr  and cidi.approve_status = '05' and cidi.end_time >= #{lastWeek}
+                    <if test="plateList != null and plateList.size() > 0">
+                        AND cidi.quasi_listed_land IN
+                        <foreach collection="plateList" index="index" item="plate" open="(" separator="," close=")">  
+                            #{plate}
+                        </foreach>
+                    </if>) weekStopYet,
+                (select count(*) from ipo_data_info cidi  
+                    where area.areaName = cidi.regist_addr and cidi.end_time like concat(year(now()),'%') and cidi.approve_status = '05'
+                    <if test="plateList != null and plateList.size() > 0">
+                        AND cidi.quasi_listed_land IN
+                        <foreach collection="plateList" index="index" item="plate" open="(" separator="," close=")">  
+                            #{plate}
+                        </foreach>
+                    </if>) stopYet
+            FROM (SELECT REPLACE(area_name, '市', '') areaName FROM provinces 
+                        WHERE (SUBSTR(area_no,3,6) = '0000' AND area_no NOT IN ('810000','820000','710000'))
+                        OR area_no IN ('440300','210200','330200','350200','370200')) area 
+                 LEFT JOIN ipo_data_info idi ON area.areaName = idi.regist_addr AND idi.grab_update_time = #{lastUpadteTime}
+             <where>
+                <if test="plateList != null and plateList.size() > 0">
+                    AND idi.quasi_listed_land IN
+                    <foreach collection="plateList" index="index" item="plate" open="(" separator="," close=")">  
+                        #{plate}
+                    </foreach>
+                </if>
+                <if test="areaList != null and areaList.size() > 0">
+                    AND area.areaName IN
+                    <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                        #{area}
+                    </foreach>
+                </if>
+             </where>
+            GROUP BY area.areaName
+            ORDER BY ${ipoOrder} CONVERT((CASE WHEN area.areaName = '重庆' THEN '充庆' ELSE area.areaName END) USING gbk) ASC) t1
+            UNION
+            SELECT * FROM (SELECT
+                '' AS registAddr,
+                SUM( CASE WHEN idi.approve_status = '00' THEN 1 ELSE 0 END ) applied,
+                SUM( CASE WHEN idi.approve_status = '01' THEN 1 ELSE 0 END ) reviewed,
+                SUM( CASE WHEN idi.approve_status = '02' THEN 1 ELSE 0 END ) preUpdate,
+                SUM( CASE WHEN idi.approve_status = '04' THEN 1 ELSE 0 END ) endYet,
+                SUM( CASE WHEN idi.approve_status = '06' THEN 1 ELSE 0 END ) processing,
+                SUM( CASE WHEN idi.approve_status = '03' THEN 1 ELSE 0 END ) passed,
+                
+                  SUM( CASE WHEN idi.approve_status = '10' THEN 1 ELSE 0 END ) submited,
+                    SUM( CASE WHEN idi.approve_status = '09' THEN 1 ELSE 0 END ) zc,
+                (SUM( CASE WHEN idi.approve_status = '00' THEN 1 ELSE 0 END )
+                    +SUM( CASE WHEN idi.approve_status = '01' THEN 1 ELSE 0 END )
+                    +SUM( CASE WHEN idi.approve_status = '02' THEN 1 ELSE 0 END ) 
+                    +SUM( CASE WHEN idi.approve_status = '04' THEN 1 ELSE 0 END )
+                    +SUM( CASE WHEN idi.approve_status = '06' THEN 1 ELSE 0 END ) 
+                    +SUM( CASE WHEN idi.approve_status = '03' THEN 1 ELSE 0 END )
+                    +SUM( CASE WHEN idi.approve_status = '09' THEN 1 ELSE 0 END )
+                    +SUM( CASE WHEN idi.approve_status = '10' THEN 1 ELSE 0 END )) areaCount,
+                (select count(*) from ipo_data_info cidi  
+                    where cidi.regist_addr IS NOT NULL and cidi.regist_addr != '' and cidi.approve_status = '05' and cidi.end_time >= #{lastWeek}
+                    <if test="plateList != null and plateList.size() > 0">
+                        AND cidi.quasi_listed_land IN
+                        <foreach collection="plateList" index="index" item="plate" open="(" separator="," close=")">  
+                            #{plate}
+                        </foreach>
+                    </if>
+                    <if test="areaList != null and areaList.size() > 0">
+                        AND cidi.regist_addr IN
+                        <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                            #{area}
+                        </foreach>
+                    </if>) weekStopYet,
+                (select count(*) from ipo_data_info cidi  
+                    where cidi.regist_addr IS NOT NULL and cidi.regist_addr != '' and cidi.end_time like concat(year(now()),'%') and cidi.approve_status = '05'
+                    <if test="plateList != null and plateList.size() > 0">
+                        AND cidi.quasi_listed_land IN
+                        <foreach collection="plateList" index="index" item="plate" open="(" separator="," close=")">  
+                            #{plate}
+                        </foreach>
+                    </if>
+                    <if test="areaList != null and areaList.size() > 0">
+                        AND cidi.regist_addr IN
+                        <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                            #{area}
+                        </foreach>
+                    </if>) stopYet
+            FROM
+                ipo_data_info idi
+            WHERE idi.grab_update_time = #{lastUpadteTime} AND idi.regist_addr IS NOT NULL AND idi.regist_addr != ''
+            <if test="plateList != null and plateList.size() > 0">
+                AND idi.quasi_listed_land IN
+                <foreach collection="plateList" index="index" item="plate" open="(" separator="," close=")">  
+                    #{plate}
+                </foreach>
+            </if>
+            <if test="areaList != null and areaList.size() > 0">
+                AND idi.regist_addr IN
+                <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                    #{area}
+                </foreach>
+            </if>
+            ) t2
+    ) temp
+</select>
+
+<select id="getIpoItemDataDetail" parameterType="Map" resultType="com.stock.capital.enterprise.regulatory.dto.StatisticsCompanyDto">
+    SELECT idi.id, idi.app_company appCompany, idi.regist_addr registAddr,
+        idi.belong_trade industry, idi.quasi_listed_land ipoArea,
+        (SELECT sc1.code_name FROM sa_code sc1 
+            WHERE sc1.code_no='QUASI_LISTED_TYPE' AND sc1.valid_flag='1' AND sc1.code_value=idi.quasi_listed_land) ipoAreaLabel,
+        idi.recommend_organization recommendOrg, idi.accountant_office accOffice,
+        idi.law_firm lawFirm, idi.approve_status status, 
+        (SELECT sc2.code_name FROM sa_code sc2 
+            WHERE sc2.code_no='IPO_APPROVE_STATUS' AND sc2.valid_flag='1' AND sc2.code_value=idi.approve_status) statusLabel,
+        idi.hased_random_inspection attend,
+        (SELECT sc3.code_name FROM sa_code sc3 
+            WHERE sc3.code_no='DREW_LOTS_TYPE' AND sc3.valid_flag='1' AND sc3.code_value=idi.hased_random_inspection) attendLabel
+    FROM ipo_data_info idi 
+    WHERE  idi.regist_addr IS NOT NULL AND idi.regist_addr != ''
+    <if test="areaList != null and areaList.size() > 0">
+        AND idi.regist_addr IN
+        <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+            #{area}
+        </foreach>
+    </if>
+    <choose>
+        <when test="approveStatus != null and approveStatus != '' and approveStatus == '99'.toString()">
+            AND idi.approve_status = '05' and #{lastWeek} &lt;= idi.end_time
+        </when>
+        <when test="approveStatus != null and approveStatus != '' and approveStatus == '05'.toString()">
+            AND idi.approve_status = '05' and idi.end_time like concat(year(now()),'%')
+        </when>
+        <when test="approveStatus != null and approveStatus != ''">
+            AND idi.approve_status = #{approveStatus} 
+            AND idi.grab_update_time = #{lastUpadteTime}
+        </when>
+        <otherwise>
+            AND idi.grab_update_time = #{lastUpadteTime} and idi.approve_status != '05'
+        </otherwise>
+    </choose>
+    <if test="plateList != null and plateList.size() > 0">
+        AND idi.quasi_listed_land IN
+        <foreach collection="plateList" index="index" item="plate" open="(" separator="," close=")">  
+            #{plate}
+        </foreach>
+    </if>
+    ORDER BY CONVERT(idi.app_company USING gbk) ASC
+</select>
+
 </mapper>

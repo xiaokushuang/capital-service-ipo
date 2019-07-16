@@ -20,6 +20,8 @@ import {
   searchCompanyDetail,
   getAllDropDownList,
   getIpoDataOverviewDetail,
+  ipoItemDataQuery,
+  getIpoItemDataDetail,
 } from '@/api/ipo'
 import {
   MultidimensionalData
@@ -669,6 +671,24 @@ const ipo = {
     getIpoDataOverviewDetail({commit}, queryParam){//获取ipo数据概览详情页数据
 			return new Promise((resolve, reject) => {
 				getIpoDataOverviewDetail(queryParam).then(response => {
+					resolve(response.data.result);
+				}).catch(error => {
+					reject(error)
+				})
+			})
+     },
+     ipoItemDataQuery({commit}, queryParam){//IPO在审项目数据查询
+			return new Promise((resolve, reject) => {
+				ipoItemDataQuery(queryParam).then(response => {
+					resolve(response.data.result);
+				}).catch(error => {
+					reject(error)
+				})
+			})
+     },
+     getIpoItemDataDetail({commit}, queryParam){//获取ipo在审项目详情页数据
+			return new Promise((resolve, reject) => {
+				getIpoItemDataDetail(queryParam).then(response => {
 					resolve(response.data.result);
 				}).catch(error => {
 					reject(error)

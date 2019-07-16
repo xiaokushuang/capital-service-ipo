@@ -3,13 +3,17 @@ package com.stock.capital.enterprise.regulatory.service;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.ServletContext;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -19,20 +23,26 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
-import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.context.ServletContextAware;
+import org.springframework.web.context.support.ServletContextResource;
 
 import com.alibaba.druid.util.StringUtils;
 import com.google.common.collect.Lists;
@@ -53,7 +63,7 @@ import com.stock.core.service.BaseService;
 import com.stock.core.util.DateUtil;
 
 @Service
-public class StatisticsService extends BaseService {
+public class StatisticsService extends BaseService implements ServletContextAware {
 
     /**
      * 接口调用
@@ -72,6 +82,13 @@ public class StatisticsService extends BaseService {
     
     @Autowired
     private StatisticsBizMapper statisticsBizMapper;
+    
+    private ServletContext servletContext;
+    
+    @Override
+    public void setServletContext(ServletContext servletContext) {
+    this.servletContext = servletContext;
+    }
 
     /**
      * IPO在审项目数据统计
@@ -333,7 +350,7 @@ public class StatisticsService extends BaseService {
 
     public ByteArrayInputStream ipoDetailExport(StatisticsParamDto statisticsParamDto) {
         HSSFWorkbook workbook = new HSSFWorkbook();
-        List<StatisticsCompanyDto> comDtos = queryAreaDetail(statisticsParamDto);
+        List<StatisticsCompanyDto> comDtos = getIpoItemDataDetail(statisticsParamDto).getIpoItemDataDetailList();
         HSSFSheet sheet = workbook.createSheet("Sheet1");
         HSSFRow row = null;
         HSSFCellStyle cellStyle = workbook.createCellStyle();
@@ -380,7 +397,11 @@ public class StatisticsService extends BaseService {
                 cell.setCellValue(changeAreaName(comDtos.get(i).getRegistAddr()));
                 cell.setCellStyle(conCenterStyle);
                 cell = row.createCell(2);
-                cell.setCellValue(comDtos.get(i).getIndustry());
+                if(!StringUtils.isEmpty(comDtos.get(i).getIndustry())) {
+                    cell.setCellValue(comDtos.get(i).getIndustry());
+                } else {
+                    cell.setCellValue("--");
+                }
                 cell.setCellStyle(conCenterStyle);
                 cell = row.createCell(3);
                 cell.setCellValue(comDtos.get(i).getIpoAreaLabel());
@@ -417,10 +438,12 @@ public class StatisticsService extends BaseService {
                 	cell.setCellStyle(conCenterStyle);
                 	cell.setCellStyle(conCenterStyle);
                 }
-                
-                
                 cell = row.createCell(8);
-                cell.setCellValue(comDtos.get(i).getAttendLabel());
+                if(!StringUtils.isEmpty(comDtos.get(i).getAttendLabel())) {
+                    cell.setCellValue(comDtos.get(i).getAttendLabel());
+                } else {
+                    cell.setCellValue("--");
+                }
                 cell.setCellStyle(conCenterStyle);
             }
         }
@@ -761,237 +784,157 @@ public class StatisticsService extends BaseService {
     }
     
     //excel down
-    public InputStream exportExcel(InputStream templateFile,String belongsPlate,String registAddr) throws IOException {
-        //InputStream templateFile = new FileInputStream(templatePath);
-        XSSFWorkbook workbook = new XSSFWorkbook(templateFile);
-        try {
+    public InputStream exportExcel(String filePath, QueryInfo<StatisticsParamDto> statisticsParamDto) throws Exception {
+        // InputStream templateFile = new FileInputStream(templatePath);
+        // XSSFWorkbook workbook = new XSSFWorkbook(templateFile);
+        Resource resource = new ServletContextResource(this.servletContext, filePath);
+        InputStream file = resource.getInputStream();// 源文件流
+        Workbook workbook = WorkbookFactory.create(file);
 
-            // 参数表
-            XSSFSheet sheet = workbook.getSheetAt(0);
-            workbook.setActiveSheet(0);
-            XSSFRow row = null;
-            XSSFCell cell = null;
-            // 黑边框
-            XSSFCellStyle blackBorder = blackBorderStyle(workbook);
-            // 文本居中
-            XSSFCellStyle centerCellStyle = blackBorderStyle(workbook);
-            centerCellStyle.setAlignment(HorizontalAlignment.CENTER);
-            
-            int rowNum = 0;
-            row = sheet.getRow(rowNum) == null ? sheet.createRow(rowNum) : sheet.getRow(rowNum);
-            
-            rowNum ++;
-            row = sheet.getRow(rowNum) == null ? sheet.createRow(rowNum) : sheet.getRow(rowNum);
-            cell = row.getCell(12) == null ? row.createCell(12) : row.getCell(12);
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-                cell.setCellValue(sdf.format(new Date())+"年");
-                
-            StatisticsParamDto statisticsParamDto = new StatisticsParamDto();
-            statisticsParamDto.setBelongsPlate(belongsPlate);
-            statisticsParamDto.setRegistAddr(registAddr);
-            List<StatisticsResultDto> lists = statisticsService.getIPOAreaDataStts(statisticsParamDto);
-            
-            int i =0;
-            for(StatisticsResultDto dto : lists){
-                i ++;
-                rowNum ++;
-                if(org.apache.commons.lang3.StringUtils.isNotEmpty(dto.getRegistAddr())){
-                        row = sheet.getRow(rowNum) == null ? sheet.createRow(rowNum) : sheet.getRow(rowNum);
-                        cell = row.getCell(0) == null ? row.createCell(0) : row.getCell(0);
-                        cell.setCellStyle(blackBorder);
-                        cell.setCellStyle(centerCellStyle);
-                        cell.setCellValue(i);
-                }else{
-                        row = sheet.getRow(rowNum) == null ? sheet.createRow(rowNum) : sheet.getRow(rowNum);
-                        cell = row.getCell(0) == null ? row.createCell(0) : row.getCell(0);
-                        cell.setCellStyle(blackBorder);
-                        cell.setCellStyle(centerCellStyle);
-                }
-                
-                cell = row.getCell(1) == null ? row.createCell(1) : row.getCell(1);
+        // 参数表
+        Sheet sheet = null;
+
+        sheet = workbook.getSheetAt(0);
+        Row row = null;
+        Cell cell = null;
+        // XSSFSheet sheet = workbook.getSheetAt(0);
+//        workbook.setActiveSheet(0);
+        // XSSFRow row = null;
+        // XSSFCell cell = null;
+        // 黑边框
+        CellStyle blackBorder = blackBorderStyle(workbook);
+        // 文本居中
+        CellStyle centerCellStyle = blackBorderStyle(workbook);
+        centerCellStyle.setAlignment(HorizontalAlignment.CENTER);
+
+        int rowNum = 0;
+        row = sheet.getRow(rowNum) == null ? sheet.createRow(rowNum) : sheet.getRow(rowNum);
+
+        rowNum++;
+        row = sheet.getRow(rowNum) == null ? sheet.createRow(rowNum) : sheet.getRow(rowNum);
+        cell = row.getCell(12) == null ? row.createCell(12) : row.getCell(12);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        cell.setCellValue(sdf.format(new Date()) + "年");
+
+        // StatisticsParamDto statisticsParamDto = new StatisticsParamDto();
+        // statisticsParamDto.setBelongsPlate(belongsPlate);
+        // statisticsParamDto.setRegistAddr(registAddr);
+        // List<StatisticsResultDto> lists = statisticsService.getIPOAreaDataStts(statisticsParamDto);
+        List<StatisticsResultDto> lists = ipoItemDataQuery(statisticsParamDto).getIpoItemDataList();
+
+        int i = 0;
+        for (StatisticsResultDto dto : lists) {
+            i++;
+            rowNum++;
+            if (org.apache.commons.lang3.StringUtils.isNotEmpty(dto.getRegistAddr())) {
+                row = sheet.getRow(rowNum) == null ? sheet.createRow(rowNum) : sheet.getRow(rowNum);
+                cell = row.getCell(0) == null ? row.createCell(0) : row.getCell(0);
                 cell.setCellStyle(blackBorder);
                 cell.setCellStyle(centerCellStyle);
-                if(org.apache.commons.lang3.StringUtils.isNotEmpty(dto.getRegistAddr())){
-                        cell.setCellValue(dto.getRegistAddr());
-                        if((dto.getRegistAddr().equals("广东"))){
-                                cell.setCellValue("广东(不含深圳)");
-                        }
-                        if((dto.getRegistAddr().equals("辽宁"))){
-                                cell.setCellValue("辽宁(不含大连)");
-                        }
-                        if((dto.getRegistAddr().equals("浙江"))){
-                                cell.setCellValue("浙江(不含宁波)");
-                        }
-                        if((dto.getRegistAddr().equals("福建"))){
-                                cell.setCellValue("福建(不含厦门)");
-                        }
-                        if((dto.getRegistAddr().equals("山东"))){
-                                cell.setCellValue("山东(不含青岛)");
-                        }
-                }else{
-                        cell.setCellValue("合计");
-                }
-                
-                /*if(name == "广东"){
-                                resultName = "广东(不含深圳)";
-                        } else if(name == "辽宁"){
-                                resultName = "辽宁(不含大连)";
-                        } else if(name == "浙江"){
-                                resultName = "浙江(不含宁波)";
-                        } else if(name == "福建"){
-                                resultName = "福建(不含厦门)";
-                        } else if(name == "山东"){
-                                resultName = "山东(不含青岛)";*/
-                
-                cell = row.getCell(2) == null ? row.createCell(2) : row.getCell(2);
+                cell.setCellValue(i);
+            } else {
+                row = sheet.getRow(rowNum) == null ? sheet.createRow(rowNum) : sheet.getRow(rowNum);
+                cell = row.getCell(0) == null ? row.createCell(0) : row.getCell(0);
                 cell.setCellStyle(blackBorder);
                 cell.setCellStyle(centerCellStyle);
-                cell.setCellValue(dto.getApplied());
-                
-                cell = row.getCell(3) == null ? row.createCell(3) : row.getCell(3);
-                cell.setCellStyle(blackBorder);
-                cell.setCellStyle(centerCellStyle);
-                cell.setCellValue(dto.getReviewed());
-                
-                cell = row.getCell(4) == null ? row.createCell(4) : row.getCell(4);
-                cell.setCellStyle(blackBorder);
-                cell.setCellStyle(centerCellStyle);
-                cell.setCellValue(dto.getPreUpdate());
-                
-                cell = row.getCell(5) == null ? row.createCell(5) : row.getCell(5);
-                cell.setCellStyle(blackBorder);
-                cell.setCellStyle(centerCellStyle);
-                cell.setCellValue(dto.getEndYet());
-                
-                cell = row.getCell(6) == null ? row.createCell(6) : row.getCell(6);
-                cell.setCellStyle(blackBorder);
-                cell.setCellStyle(centerCellStyle);
-                cell.setCellValue(dto.getProcessing());
-                
-                cell = row.getCell(7) == null ? row.createCell(7) : row.getCell(7);
-                cell.setCellStyle(blackBorder);
-                cell.setCellStyle(centerCellStyle);
-                cell.setCellValue(dto.getPassed());
-                
-                cell = row.getCell(8) == null ? row.createCell(8) : row.getCell(8);//提交注册
-                cell.setCellStyle(blackBorder);
-                cell.setCellStyle(centerCellStyle);
-                cell.setCellValue(dto.getSubmited());
-                
-                cell = row.getCell(9) == null ? row.createCell(9) : row.getCell(9);//提交注册
-                cell.setCellStyle(blackBorder);
-                cell.setCellStyle(centerCellStyle);
-                cell.setCellValue(dto.getZc());
-                
-                
-                
-                cell = row.getCell(10) == null ? row.createCell(10) : row.getCell(10);
-                cell.setCellStyle(blackBorder);
-                cell.setCellStyle(centerCellStyle);
-                cell.setCellValue(dto.getAreaCount());
-                
-                cell = row.getCell(11) == null ? row.createCell(11) : row.getCell(11);
-                cell.setCellStyle(blackBorder);
-                cell.setCellStyle(centerCellStyle);
-                cell.setCellValue(dto.getWeekStopYet());
-                
-                cell = row.getCell(12) == null ? row.createCell(12) : row.getCell(12);
-                cell.setCellStyle(blackBorder);
-                cell.setCellStyle(centerCellStyle);
-                cell.setCellValue(dto.getStopYet());
-                
             }
-            
-            
-           /* rowNum ++;
-            row = sheet.getRow(rowNum) == null ? sheet.createRow(rowNum) : sheet.getRow(rowNum);
-            cell = row.getCell(0) == null ? row.createCell(0) : row.getCell(0);
+
+            cell = row.getCell(1) == null ? row.createCell(1) : row.getCell(1);
             cell.setCellStyle(blackBorder);
             cell.setCellStyle(centerCellStyle);
-            cell.setCellValue(1);*/
-            
-           /* List excelList = new ArrayList<>();
-            if (excelList != null && excelList.size() >= 1) {*/
-                // 行复制
-               /* int starRow = 1;
-                // list size
-                int rows = 1;
-                sheet.shiftRows(starRow+1, sheet.getLastRowNum() + 2, 1, true, false);
-                starRow = starRow - 1;
-                for (int i = 0; i < rows+1; i++) {
-                    XSSFRow sourceRow = null;
-                    XSSFRow targetRow = null;
-                    XSSFCell sourceCell = null;
-                    XSSFCell targetCell = null;
-                    short m;
+            if (org.apache.commons.lang3.StringUtils.isNotEmpty(dto.getRegistAddr())) {
+                cell.setCellValue(dto.getRegistAddr());
+                if ((dto.getRegistAddr().equals("广东"))) {
+                    cell.setCellValue("广东(不含深圳)");
+                }
+                if ((dto.getRegistAddr().equals("辽宁"))) {
+                    cell.setCellValue("辽宁(不含大连)");
+                }
+                if ((dto.getRegistAddr().equals("浙江"))) {
+                    cell.setCellValue("浙江(不含宁波)");
+                }
+                if ((dto.getRegistAddr().equals("福建"))) {
+                    cell.setCellValue("福建(不含厦门)");
+                }
+                if ((dto.getRegistAddr().equals("山东"))) {
+                    cell.setCellValue("山东(不含青岛)");
+                }
+            } else {
+                cell.setCellValue("合计");
+            }
 
-                    // 隔行变色
-                    if ((i + 1) % 2 == 0) {
-                        starRow = starRow + 1;
-                        sourceRow = sheet.getRow(sheet.getLastRowNum()+1);
-                        targetRow = sheet.createRow(starRow + 1);
-                    } else {
-                        starRow = starRow + 1;
-                        sourceRow = sheet.getRow(1);
-                        targetRow = sheet.createRow(starRow + 1);
-                    }
+            /*
+             * if(name == "广东"){ resultName = "广东(不含深圳)"; } else if(name == "辽宁"){ resultName = "辽宁(不含大连)"; } else
+             * if(name == "浙江"){ resultName = "浙江(不含宁波)"; } else if(name == "福建"){ resultName = "福建(不含厦门)"; } else
+             * if(name == "山东"){ resultName = "山东(不含青岛)";
+             */
 
-                    // 设定单元格的样式
-                    for (m = sourceRow.getFirstCellNum(); m < sourceRow.getLastCellNum(); m++) {
-                        sourceCell = sourceRow.getCell(m);
-                        targetCell = targetRow.createCell(m);
-                        targetCell.setCellStyle(sourceCell.getCellStyle());
-                        targetCell.setCellType(sourceCell.getCellTypeEnum());
-                    }
+            cell = row.getCell(2) == null ? row.createCell(2) : row.getCell(2);
+            cell.setCellStyle(blackBorder);
+            cell.setCellStyle(centerCellStyle);
+            cell.setCellValue(dto.getApplied());
 
-                    
-                      targetRow.getCell(0).setCellValue(i+1);
-                      targetRow.getCell(0).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
-                    // 数据名称
-                    targetRow.getCell(1).setCellValue("注册地");
-                    targetRow.getCell(1).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
-                                        targetRow.getCell(2).setCellValue("已受理");
-                                        targetRow.getCell(2).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
-                    targetRow.getCell(3).setCellValue("已反馈");
-                    targetRow.getCell(3).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
-                    targetRow.getCell(4).setCellValue("预先披露更新");
-                    targetRow.getCell(4).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
-                    
-                    targetRow.getCell(5).setCellValue("中止审查");
-                    targetRow.getCell(5).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
-                    
-                    targetRow.getCell(6).setCellValue("已提交发审会讨论，暂缓表决");
-                    targetRow.getCell(6).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
-                    
-                    targetRow.getCell(7).setCellValue("已通过发审会");
-                    targetRow.getCell(7).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
-                    
-                    targetRow.getCell(8).setCellValue("合计");
-                    targetRow.getCell(8).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
-                    
-                    targetRow.getCell(9).setCellValue("最近一周");
-                    targetRow.getCell(9).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
-                    
-                    targetRow.getCell(10).setCellValue("2018年");
-                    targetRow.getCell(10).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
-                    
-                    targetRow.getCell(9).setCellValue("2018年");
-                    targetRow.getCell(9).getCellStyle().setVerticalAlignment(VerticalAlignment.CENTER);
-               // }
-                sheet.shiftRows(2, sheet.getLastRowNum(), -1);*/
-            //}
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
-            workbook.write(os);
-            os.flush();
-            os.close();
-            return new ByteArrayInputStream(os.toByteArray());
-        } finally {
-            workbook.close();
+            cell = row.getCell(3) == null ? row.createCell(3) : row.getCell(3);
+            cell.setCellStyle(blackBorder);
+            cell.setCellStyle(centerCellStyle);
+            cell.setCellValue(dto.getReviewed());
+
+            cell = row.getCell(4) == null ? row.createCell(4) : row.getCell(4);
+            cell.setCellStyle(blackBorder);
+            cell.setCellStyle(centerCellStyle);
+            cell.setCellValue(dto.getPreUpdate());
+
+            cell = row.getCell(5) == null ? row.createCell(5) : row.getCell(5);
+            cell.setCellStyle(blackBorder);
+            cell.setCellStyle(centerCellStyle);
+            cell.setCellValue(dto.getEndYet());
+
+            cell = row.getCell(6) == null ? row.createCell(6) : row.getCell(6);
+            cell.setCellStyle(blackBorder);
+            cell.setCellStyle(centerCellStyle);
+            cell.setCellValue(dto.getProcessing());
+
+            cell = row.getCell(7) == null ? row.createCell(7) : row.getCell(7);
+            cell.setCellStyle(blackBorder);
+            cell.setCellStyle(centerCellStyle);
+            cell.setCellValue(dto.getPassed());
+
+            cell = row.getCell(8) == null ? row.createCell(8) : row.getCell(8);// 提交注册
+            cell.setCellStyle(blackBorder);
+            cell.setCellStyle(centerCellStyle);
+            cell.setCellValue(dto.getSubmited());
+
+            cell = row.getCell(9) == null ? row.createCell(9) : row.getCell(9);// 提交注册
+            cell.setCellStyle(blackBorder);
+            cell.setCellStyle(centerCellStyle);
+            cell.setCellValue(dto.getZc());
+
+            cell = row.getCell(10) == null ? row.createCell(10) : row.getCell(10);
+            cell.setCellStyle(blackBorder);
+            cell.setCellStyle(centerCellStyle);
+            cell.setCellValue(dto.getAreaCount());
+
+            cell = row.getCell(11) == null ? row.createCell(11) : row.getCell(11);
+            cell.setCellStyle(blackBorder);
+            cell.setCellStyle(centerCellStyle);
+            cell.setCellValue(dto.getWeekStopYet());
+
+            cell = row.getCell(12) == null ? row.createCell(12) : row.getCell(12);
+            cell.setCellStyle(blackBorder);
+            cell.setCellStyle(centerCellStyle);
+            cell.setCellValue(dto.getStopYet());
+
         }
+
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        workbook.write(os);
+        os.flush();
+        os.close();
+        return new ByteArrayInputStream(os.toByteArray());
     }
     
-    private XSSFCellStyle blackBorderStyle(XSSFWorkbook workbook) {
-        XSSFCellStyle blackBorder = workbook.createCellStyle();
+    private CellStyle blackBorderStyle(Workbook workbook) {
+        CellStyle blackBorder = workbook.createCellStyle();
         blackBorder.setBorderRight(BorderStyle.THIN);
         blackBorder.setRightBorderColor(IndexedColors.BLACK.getIndex());
         blackBorder.setBorderLeft(BorderStyle.THIN);
@@ -1077,6 +1020,109 @@ public class StatisticsService extends BaseService {
         }
         StatisticsReturnDto returnDto = new StatisticsReturnDto();
         returnDto.setIpoDetailList(list);
+        return returnDto;
+    }
+    
+    /**
+     * 取得ipo数据概览详情数据
+     */
+    public StatisticsReturnDto ipoItemDataQuery(QueryInfo<StatisticsParamDto> dto) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        String updateTime = statisticsBizMapper.getIPOLastTime();
+        //截止时间
+        map.put("lastUpadteTime", updateTime);
+        //最近一周时间
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        try {
+            c.setTime(format.parse(updateTime));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        c.add(Calendar.DATE, - 7);
+        map.put("lastWeek", format.format(c.getTime()));
+        
+        //排序
+        if(!StringUtils.isEmpty(dto.getOrderByName()) && !StringUtils.isEmpty(dto.getOrderByOrder())) {
+            String ipoOrder = "";
+            String order = "DESC";
+            if("ascending".equals(dto.getOrderByOrder())) {
+                order = "ASC";
+            }
+            ipoOrder = dto.getOrderByName() + " " + order + ",";
+            map.put("ipoOrder", ipoOrder);
+        }
+        
+        List<String> plateList = new ArrayList<String>();
+        List<String> areaList = new ArrayList<String>();
+        StatisticsParamDto statisticsParamDto = dto.getCondition();
+        //所属板块
+        if(!StringUtils.isEmpty(statisticsParamDto.getBelongsPlate())){
+            plateList = Arrays.asList(statisticsParamDto.getBelongsPlate().split(","));
+            map.put("plateList", plateList);
+        }
+        //注册地
+        if(!StringUtils.isEmpty(statisticsParamDto.getRegistAddr())){
+            areaList = Arrays.asList(statisticsParamDto.getRegistAddr().split(","));
+            map.put("areaList", areaList);
+        }
+        List<StatisticsResultDto> list = statisticsBizMapper.getIpoItemDataQuery(map);
+        StatisticsReturnDto returnDto = new StatisticsReturnDto();
+        returnDto.setIpoItemDataList(list);
+        return returnDto;
+    }
+    
+    /**
+     * 取得ipo在审项目详情数据
+     */
+    public StatisticsReturnDto getIpoItemDataDetail(StatisticsParamDto dto) {
+        List<String> plateList = new ArrayList<String>();
+        List<String> areaList = new ArrayList<String>();
+        Map<String, Object> map = new HashMap<String, Object>();
+        // String updateTime = statisticsBizMapper.getIPOLastTime();
+        // 截止时间
+        map.put("lastUpadteTime", dto.getLastUpadteTime());
+        // 所属板块
+        if (!StringUtils.isEmpty(dto.getBelongsPlate())) {
+            plateList = Arrays.asList(dto.getBelongsPlate().split(","));
+            map.put("plateList", plateList);
+        }
+        // 注册地
+        if (!StringUtils.isEmpty(dto.getRegistAddr())) {
+            areaList = Arrays.asList(dto.getRegistAddr().toString().split(","));
+            map.put("areaList", areaList);
+        }
+        map.put("approveStatus", dto.getApproveStatus());
+        map.put("lastUpadteTime", dto.getLastUpadteTime());
+        // 最近一周时间
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        try {
+            c.setTime(format.parse(dto.getLastUpadteTime()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        c.add(Calendar.DATE, -7);
+        map.put("lastWeek", format.format(c.getTime()));
+        List<StatisticsCompanyDto> list = Lists.newArrayList();
+        list = statisticsBizMapper.getIpoItemDataDetail(map);
+        if(list != null && list.size() > 0) {
+            for (StatisticsCompanyDto statisticsCompanyDto : list) {
+                if (statisticsCompanyDto.getIpoAreaLabel().contains("科创板")) {
+                    if ("已反馈".equals(statisticsCompanyDto.getStatusLabel())) {
+                        statisticsCompanyDto.setStatusLabel("已问询");
+                    }
+                    if ("已通过发审会".equals(statisticsCompanyDto.getStatusLabel())) {
+                        statisticsCompanyDto.setStatusLabel("上市委会议通过");
+                    }
+                    if ("中止审查".equals(statisticsCompanyDto.getStatusLabel())) {
+                        statisticsCompanyDto.setStatusLabel("中止");
+                    }
+                }
+            }
+        }
+        StatisticsReturnDto returnDto = new StatisticsReturnDto();
+        returnDto.setIpoItemDataDetailList(list);
         return returnDto;
     }
 }

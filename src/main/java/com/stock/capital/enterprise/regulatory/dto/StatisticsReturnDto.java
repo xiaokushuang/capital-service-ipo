@@ -33,6 +33,39 @@ public class StatisticsReturnDto implements Serializable {
     
     //详情页数据
     private List<StatisticsResultDto> ipoDetailList;
+    
+    //板块下拉列表
+    private List<OptionDto> belongsPlateList;
+    
+    //IPO在审项目数据
+    private List<StatisticsResultDto> ipoItemDataList;
+    
+    //Ipo在审项目详情页数据
+    private List<StatisticsCompanyDto> IpoItemDataDetailList;
+    
+    public List<StatisticsCompanyDto> getIpoItemDataDetailList() {
+        return IpoItemDataDetailList;
+    }
+
+    public void setIpoItemDataDetailList(List<StatisticsCompanyDto> ipoItemDataDetailList) {
+        IpoItemDataDetailList = ipoItemDataDetailList;
+    }
+
+    public List<StatisticsResultDto> getIpoItemDataList() {
+        return ipoItemDataList;
+    }
+
+    public void setIpoItemDataList(List<StatisticsResultDto> ipoItemDataList) {
+        this.ipoItemDataList = ipoItemDataList;
+    }
+
+    public List<OptionDto> getBelongsPlateList() {
+        return belongsPlateList;
+    }
+
+    public void setBelongsPlateList(List<OptionDto> belongsPlateList) {
+        this.belongsPlateList = belongsPlateList;
+    }
 
     public List<OptionDto> getAreaList() {
         return areaList;

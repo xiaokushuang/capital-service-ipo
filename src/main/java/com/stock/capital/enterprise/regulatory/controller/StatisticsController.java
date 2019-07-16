@@ -741,27 +741,27 @@ public class StatisticsController extends BaseController {
       
       
       //excel down
-      @RequestMapping("download")
-      @ResponseBody
-      public ModelAndView download(String access_token,String belongsPlate,String registAddr) {
-          //String templatesPath = getRequest().getSession().getServletContext().getRealPath("/WEB-INF/templates/IPO在审项目数据.xlsx");
-    	  InputStream inputStream = servletContext.getResourceAsStream("/WEB-INF/templates/IPO在审项目数据.xlsx");
-    	  ModelAndView mv = new ModelAndView();
-          try {
-              mv.setView(new DownloadView());
-              InputStream is = statisticsService.exportExcel(inputStream, belongsPlate, registAddr);
-              mv.addObject(DownloadView.EXPORT_FILE, is);
-              mv.addObject(DownloadView.EXPORT_FILE_NAME, "IPO在审项目数据.xlsx");
-              mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLSX);
-              mv.addObject(DownloadView.EXPORT_FILE_SIZE, is.available());
-              mv.addObject("access_token", access_token);
-          } catch (FileNotFoundException e) {
-              e.printStackTrace();
-          } catch (IOException e) {
-              e.printStackTrace();
-          }
-          return mv;
-      }
+//      @RequestMapping("download")
+//      @ResponseBody
+//      public ModelAndView download(String access_token,String belongsPlate,String registAddr) {
+//          //String templatesPath = getRequest().getSession().getServletContext().getRealPath("/WEB-INF/templates/IPO在审项目数据.xlsx");
+//    	  InputStream inputStream = servletContext.getResourceAsStream("/WEB-INF/templates/IPO在审项目数据.xlsx");
+//    	  ModelAndView mv = new ModelAndView();
+//          try {
+//              mv.setView(new DownloadView());
+//              InputStream is = statisticsService.exportExcel(inputStream, belongsPlate, registAddr);
+//              mv.addObject(DownloadView.EXPORT_FILE, is);
+//              mv.addObject(DownloadView.EXPORT_FILE_NAME, "IPO在审项目数据.xlsx");
+//              mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLSX);
+//              mv.addObject(DownloadView.EXPORT_FILE_SIZE, is.available());
+//              mv.addObject("access_token", access_token);
+//          } catch (FileNotFoundException e) {
+//              e.printStackTrace();
+//          } catch (IOException e) {
+//              e.printStackTrace();
+//          }
+//          return mv;
+//      }
       
       /**
        * 获取所有下拉列表
@@ -792,6 +792,9 @@ public class StatisticsController extends BaseController {
           //行业
           List<TreeDto> industryList = statisticsService.getIndustryList();
           dto.setIndustryList(industryList);
+          //板块
+          List<OptionDto> belongsPlateList = statisticsService.getCodeAndName("IPODATA_BELONG_PLATE");
+          dto.setBelongsPlateList(belongsPlateList);
           return dto;
       }
       
@@ -852,4 +855,77 @@ public class StatisticsController extends BaseController {
            response.setHeader("fileName", java.net.URLEncoder.encode(fileInfo.get("fileName").toString(), "utf-8"));
            return mv;
        }
+       
+       /**
+        * IPO在审项目数据查询
+        */
+       @ApiOperation(value = "IPO在审项目数据查询", notes = "IPO在审项目数据查询")
+       @LogAnnotation(name = "IPO在审项目数据查询")
+       @RequestMapping(value = "/ipoItemDataQuery", method = RequestMethod.POST)
+       @ResponseBody
+       public JsonResponse<StatisticsReturnDto> ipoItemDataQuery(@ApiParam(value = "ipo数据概览查询dto") @RequestBody QueryInfo<StatisticsParamDto> dto) {
+           JsonResponse<StatisticsReturnDto> response = new JsonResponse<StatisticsReturnDto>();
+           StatisticsReturnDto returnDto = new StatisticsReturnDto();
+           returnDto = statisticsService.ipoItemDataQuery(dto);
+           response.setResult(returnDto);
+           return response;
+       }
+       
+       /**
+        * 
+        * Excel导出--ipo在审项目
+         * @throws IOException 
+        * 
+        */
+        @RequestMapping(value = "ipoItemDataExport")
+        public ModelAndView ipoItemDataExport(@RequestBody QueryInfo<StatisticsParamDto> statisticsParamDto, HttpServletResponse response) throws Exception{
+//            InputStream inputStream = servletContext.getResourceAsStream("/WEB-INF/templates/IPO在审项目数据.xlsx");
+            ModelAndView mv = new ModelAndView();
+            mv.setView(new DownloadView());
+            String filePath = "/WEB-INF/templates/IPO在审项目数据.xlsx";
+//            InputStream is = statisticsService.exportExcel(filePath, statisticsParamDto);
+            mv.addObject(DownloadView.EXPORT_FILE, statisticsService.exportExcel(filePath, statisticsParamDto));
+            mv.addObject(DownloadView.EXPORT_FILE_NAME, "IPO在审项目数据.xlsx");
+            mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLSX);
+            response.setHeader("fileName", java.net.URLEncoder.encode("IPO在审项目数据.xlsx", "utf-8"));
+            return mv;
+        }
+        
+        /**
+         * 取得ipo在审项目详情数据
+         */
+        @ApiOperation(value = "取得ipo在审项目详情数据", notes = "取得ipo在审项目详情数据")
+        @LogAnnotation(name = "取得ipo在审项目详情数据")
+        @RequestMapping(value = "/getIpoItemDataDetail", method = RequestMethod.POST)
+        @ResponseBody
+        public JsonResponse<StatisticsReturnDto> getIpoItemDataDetail(@ApiParam(value = "ipo数据概览查询dto") @RequestBody StatisticsParamDto dto) {
+            JsonResponse<StatisticsReturnDto> response = new JsonResponse<StatisticsReturnDto>();
+            StatisticsReturnDto returnDto = new StatisticsReturnDto();
+            returnDto = statisticsService.getIpoItemDataDetail(dto);
+            response.setResult(returnDto);
+            return response;
+        }
+        
+        /**
+         * 
+         * Excel导出--ipo在审项目详情数据
+          * @throws IOException 
+         * 
+         */
+         @RequestMapping(value = "ipoItemDataDetailExport")
+         public ModelAndView ipoItemDataDetailExport(@RequestBody StatisticsParamDto statisticsParamDto, HttpServletResponse response) throws IOException{
+             ModelAndView mv = new ModelAndView();
+             mv.setView(new DownloadView());
+             Map<String, Object> fileInfo = Maps.newHashMap();
+             String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMdd");
+             fileInfo.put("fileName", "IPO在审项目数据明细_"+ timeStr+".xls");
+             // 从文件服务器下载文件
+             fileInfo.put("fileBytes", statisticsService.ipoDetailExport(statisticsParamDto));
+             mv.addObject(DownloadView.EXPORT_FILE, fileInfo.get("fileBytes"));
+             mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
+             mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLS);
+             response.setHeader("fileName", java.net.URLEncoder.encode(fileInfo.get("fileName").toString(), "utf-8"));
+             return mv;
+         }
+         
 }

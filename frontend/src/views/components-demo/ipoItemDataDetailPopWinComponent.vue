@@ -14,33 +14,20 @@
                     <span v-html="getApproveStatus(scope.row.registAddr)"></span>
               </template>
             </el-table-column>
-            <el-table-column align="center" prop="belongTrade" label="所属行业" min-width="10%">
+            <el-table-column align="center" prop="industry" label="所属行业" min-width="10%">
                 <template slot-scope="scope">
-                    <span>{{checkEmpty(scope.row.belongTrade)}}</span>
-              </template>
+                    <span>{{checkEmpty(scope.row.industry)}}</span>
+                </template>
             </el-table-column>
-            <el-table-column align="center" prop="quasiListedLand" label="拟上市地" min-width="10%"></el-table-column>
-            <el-table-column align="center" prop="recommendOrganization" label="保荐机构"  min-width="10%"></el-table-column>
-            <el-table-column align="center" prop="accountantOffice" label="会计师事务所"  min-width="14%"></el-table-column>
+            <el-table-column align="center" prop="ipoAreaLabel" label="拟上市地" min-width="10%"></el-table-column>
+            <el-table-column align="center" prop="recommendOrg" label="保荐机构"  min-width="10%"></el-table-column>
+            <el-table-column align="center" prop="accOffice" label="会计师事务所"  min-width="14%"></el-table-column>
             <el-table-column align="center" prop="lawFirm" label="律师事务所"  min-width="10%"></el-table-column>
-            <el-table-column align="center" prop="lawFirm" label="审核状态"  min-width="10%">
+            <el-table-column align="center" prop="statusLabel" label="审核状态"  min-width="10%"></el-table-column>
+            <el-table-column align="center" prop="attendLabel" label="是否已参加抽查抽签或现场检查"  min-width="11%">
                 <template slot-scope="scope">
-                    <span v-if="getValue(scope.row.quasiListedLand) == '04'">
-                        <span v-if="getValue(scope.row.approveStatus) == '已反馈'">已问询</span>
-                        <span v-else-if="getValue(scope.row.approveStatus) == '已通过发审会'">上市委会议通过</span>
-                        <span v-else-if="getValue(scope.row.approveStatus) == '中止审查'">中止</span>
-                        <span v-else>{{checkEmpty(scope.row.approveStatus)}}</span>
-                    </span>
-                    <span v-else>{{checkEmpty(scope.row.approveStatus)}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" prop="lawFirm" label="是否已参加抽查抽签或现场检查"  min-width="11%">
-                <template slot-scope="scope">
-                    <span v-if="getValue(scope.row.hasedRandomInspection) == '1'">是</span>
-                    <span v-else-if="getValue(scope.row.hasedRandomInspection) == '0'">否</span>
-                    <span v-else-if="getValue(scope.row.hasedRandomInspection) == '2'">不适用</span>
-                    <span v-else>{{checkEmpty(scope.row.hasedRandomInspection)}}</span>
-              </template>
+                    <span>{{checkEmpty(scope.row.attendLabel)}}</span>
+                </template>
             </el-table-column>
           </el-table>
         </div>
@@ -54,7 +41,7 @@ import common from '@/mixins/common'
 import {exportExcelPostWindow1} from '@/utils'
     export default {
         mixins: [common],
-        name:'ipoDataOverviewDetailPopWin',
+        name:'ipoItemDataDetailPopWin',
         data(){
             return {
                 data:[],
@@ -73,14 +60,13 @@ import {exportExcelPostWindow1} from '@/utils'
             search(data){//通过给定条件查询数据
                 // document.getElementsByClassName("is-scrolling-none")[0].scrollTop = 0;
                 let param = {
-                    label : this.$route.query.label,
-                    quasiListedLand : this.$route.query.quasiListedLand,
-                    industry : this.$route.query.industry,
                     registAddr : this.$route.query.registAddr,
-                    tabFlag : this.$route.query.tabFlag,
+                    lastUpadteTime : this.$route.query.lastUpadteTime,
+                    approveStatus : this.$route.query.approveStatus,
+                    belongsPlate : this.$route.query.belongsPlate,
                 }
-                this.$store.dispatch('getIpoDataOverviewDetail', param).then((data) => {//(方法名，参数)
-                    this.data = data.ipoDetailList;
+                this.$store.dispatch('getIpoItemDataDetail', param).then((data) => {//(方法名，参数)
+                    this.data = data.ipoItemDataDetailList;
                 });
             },
             getApproveStatus(name) {//地区特殊处理
@@ -105,13 +91,12 @@ import {exportExcelPostWindow1} from '@/utils'
             },
             exportExcel() {//导出Excel
                 let statisticsParamDto = {
-                    label : this.$route.query.label,
-                    quasiListedLand : this.$route.query.quasiListedLand,
-                    industry : this.$route.query.industry,
                     registAddr : this.$route.query.registAddr,
-                    tabFlag:this.$route.query.tabFlag,
+                    lastUpadteTime : this.$route.query.lastUpadteTime,
+                    approveStatus : this.$route.query.approveStatus,
+                    belongsPlate : this.$route.query.belongsPlate,
                 }
-                exportExcelPostWindow1("/ipo/regulatory_statistics/ipoDataOverviewDetailExport",statisticsParamDto);
+                exportExcelPostWindow1("/ipo/regulatory_statistics/ipoItemDataDetailExport",statisticsParamDto);
             },
         }
     }

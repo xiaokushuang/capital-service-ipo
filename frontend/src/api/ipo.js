@@ -190,3 +190,20 @@ export function getIpoDataOverviewDetail(query) {//获取ipo数据概览详情�
       data: query,//参数
   })
 }
+
+export function ipoItemDataQuery(query) {//IPO在审项目数据查询
+  return request({
+      url: '/ipo/regulatory_statistics/ipoItemDataQuery',//controller路径
+      method: 'post',//请求方式
+      data: query,//参数
+  })
+}
+
+export function getIpoItemDataDetail(query) {//获取ipo在审项目详情页数据
+  return request({
+      url: '/ipo/regulatory_statistics/getIpoItemDataDetail',//controller路径
+      method: 'post',//请求方式
+      data: query,//参数
+  })
+}
+
