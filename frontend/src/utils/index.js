@@ -429,3 +429,18 @@ export function exportExcelPostWindow(url, param) {
       responseType: 'blob'//设置response类型，下载
   })
 }
+
+/**
+ * 导出Excel
+ * 
+ * @param {请求地址} url 
+ * @param {查询参数} param 
+ */
+export function exportExcelPostWindow1(url,param) {
+  request({
+      url: url,
+      method: 'post',
+      data: param,
+      responseType: 'blob'//设置response类型，下载
+  })
+}

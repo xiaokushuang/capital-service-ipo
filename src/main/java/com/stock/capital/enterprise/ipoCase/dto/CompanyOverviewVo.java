@@ -90,6 +90,16 @@ public class CompanyOverviewVo implements Serializable {
     @ApiModelProperty("行业code")
     private String industryCsrcCode;
 
+    private String launchcompanycode;
+
+    public String getLaunchcompanycode() {
+        return launchcompanycode;
+    }
+
+    public void setLaunchcompanycode(String launchcompanycode) {
+        this.launchcompanycode = launchcompanycode;
+    }
+
     public String getIndustryCsrcCode() {
         return industryCsrcCode;
     }

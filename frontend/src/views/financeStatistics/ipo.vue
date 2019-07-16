@@ -432,6 +432,15 @@ export default {
        getCaseDetail(param).then(res => {
           if(res.data.result){
             this.companyProfileList = res.data.result
+            if (res.data.result.ipoPlate == '上交所科创板'){
+              this.ipoplatetype = true;
+            }
+            this.ipoplatetype = false;
+            /*if (res.data.result.launchcompanycode == '999830'){
+              this.ipoplatetype = true;
+            }else {
+              this.ipoplatetype = false;
+            }*/
           }
       });
       // 获取关联案例数据
@@ -442,7 +451,7 @@ export default {
                 this.proList = res.data.result
             }
         })
-      this.wxcodeUrl = "/ipo/ipoInterfaceH5/getQrCode?id="+this.caseId2
+      this.wxcodeUrl = "/ipo/ipoInterfaceH5/getQrCode?id="+this.caseId2+"&access_token="+this.$store.state.app.token
     },
     // 展开全部
     expandAll(flag) {

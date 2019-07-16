@@ -10,6 +10,7 @@ import com.stock.capital.enterprise.ipoCase.dao.IpoIssuerIndustryStatusBizMapper
 import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
 import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
 import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoAssociatedCaseVo;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFileDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto;
@@ -32,6 +33,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -64,6 +66,25 @@ public class CompanyOverviewService extends BaseService {
      */
     public CompanyOverviewVo getIpoCaseDetail(String id) {
         return ipoCaseBizMapper.getIpoCaseDetail(id);
+    }
+
+    /**
+     * 详情页关联案例 by dxy
+     * @param id 案例id
+     * @return List<IpoAssociatedCaseVo>
+     */
+    public List<IpoAssociatedCaseVo> getAssociatedCaseList(String id){
+        List<IpoAssociatedCaseVo> result = ipoCaseBizMapper.getAssociatedCaseList(id);
+        result = result.stream()
+            .filter(dto -> !dto.getCaseId().equals(id))
+            .collect(Collectors.toList());
+        // TODO: 2019/7/16 根据日期倒序排序, 在排序好后倒序插入序号
+        int sort = result.size();
+        for (IpoAssociatedCaseVo vo : result) {
+            vo.setProSort(sort+"");
+            sort -- ;
+        }
+        return result;
     }
 
     /**
@@ -152,15 +173,14 @@ public class CompanyOverviewService extends BaseService {
         for (IpoTechnologyPatentDto dto : patent) {
             if ((dto.getFm() != null && dto.getFm().compareTo(BigDecimal.ZERO)!=0)
                 || (dto.getSy() != null && dto.getSy().compareTo(BigDecimal.ZERO) != 0)
-                || (dto.getWg() != null && dto.getWg().compareTo(BigDecimal.ZERO) != 0)){
+                || (dto.getWg() != null && dto.getWg().compareTo(BigDecimal.ZERO) != 0)
+                || (dto.getGw() != null && dto.getGw().compareTo(BigDecimal.ZERO) != 0)
+            ){
                 isNotPatentNull++;
             }
         }
         if (isNotPatentNull == 0){
             patent = new ArrayList<>();
-        } else {
-            // TODO: 2019/5/15 对专利情况数据做数据处理
-            patent = getPatent(patent);
         }
 
 
@@ -463,60 +483,5 @@ public class CompanyOverviewService extends BaseService {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         return c.get(Calendar.YEAR);
-    }
-
-    /**
-     * 对专利情况数据进行加工
-     * @param patent
-     * @return
-     */
-    private List<IpoTechnologyPatentDto> getPatent(List<IpoTechnologyPatentDto> patent){
-        if (patent != null) {
-            if (patent.size() > 0){
-                BigDecimal firstHj = patent.get(0).getHj();
-                BigDecimal secondHj = patent.get(1).getHj();
-                BigDecimal thirdHj = patent.get(2).getHj();
-
-                BigDecimal firstZb = null;
-                BigDecimal secondZb = null;
-                BigDecimal thirdZb = null;
-                if (firstHj != null && thirdHj != null && thirdHj.compareTo(BigDecimal.ZERO) != 0){
-                   firstZb = firstHj.divide(thirdHj, 4, ROUND_HALF_DOWN)
-                    .multiply(new BigDecimal(100));
-                }
-                if (secondHj != null && thirdHj != null && thirdHj.compareTo(BigDecimal.ZERO) != 0){
-                    secondZb = secondHj.divide(thirdHj, 4, ROUND_HALF_DOWN)
-                        .multiply(new BigDecimal(100));
-                }
-                if (thirdHj != null && thirdHj.compareTo(BigDecimal.ZERO) != 0) {
-                    thirdZb = thirdHj.divide(thirdHj, 4, ROUND_HALF_DOWN)
-                        .multiply(new BigDecimal(100));
-                }
-                patent.get(0).setZb(firstZb);
-                patent.get(1).setZb(secondZb);
-                patent.get(2).setZb(thirdZb);
-
-                IpoTechnologyPatentDto hjRow = new IpoTechnologyPatentDto();
-                hjRow.setLabelName("占比");
-                if (patent.get(2).getFm() != null && thirdHj != null && thirdHj.compareTo(BigDecimal.ZERO) != 0) {
-                    hjRow.setFm(patent.get(2).getFm().divide(thirdHj, 4, ROUND_HALF_DOWN)
-                        .multiply(new BigDecimal(100)));
-                }
-                if (patent.get(2).getSy() != null && thirdHj != null && thirdHj.compareTo(BigDecimal.ZERO) != 0) {
-                    hjRow.setSy(patent.get(2).getSy().divide(thirdHj, 4, ROUND_HALF_DOWN)
-                        .multiply(new BigDecimal(100)));
-                }
-                if (patent.get(2).getWg() != null && thirdHj != null && thirdHj.compareTo(BigDecimal.ZERO) != 0) {
-                    hjRow.setWg(patent.get(2).getWg().divide(thirdHj, 4, ROUND_HALF_DOWN)
-                        .multiply(new BigDecimal(100)));
-                }
-                if (thirdHj != null && thirdHj.compareTo(BigDecimal.ZERO) != 0) {
-                    hjRow.setHj(
-                        thirdHj.divide(thirdHj, 4, ROUND_HALF_DOWN).multiply(new BigDecimal(100)));
-                }
-                patent.add(hjRow);
-            }
-        }
-        return patent;
     }
 }

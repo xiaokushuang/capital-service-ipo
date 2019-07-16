@@ -113,6 +113,7 @@
         </foreach>
         and t1.letter_valid = '0'
         and t1.post_status = '1'
+        order by t1.letter_date
     </select>
 
     <select id="selectRegisterLetterId" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto">
@@ -132,6 +133,7 @@
         </foreach>
         and t1.letter_valid = '0'
         and t1.post_status = '1'
+        order by t1.return_date
     </select>
 
     <select id="selectLetterDate" parameterType="java.lang.String"
