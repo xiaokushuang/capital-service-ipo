@@ -3,9 +3,7 @@ package com.stock.capital.enterprise.regulatory.controller;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -800,6 +798,12 @@ public class StatisticsController extends BaseController {
                       optionDto.setLabel(TRANS_AREA_PROVINCE_SHOW[indexOf]); 
                    }
               }
+              // 添加境外
+              OptionDto newOpt = new OptionDto();
+              newOpt.setValue("99999");
+              newOpt.setLabel("境外");
+              newOpt.setOriginContent("境外");
+              areaList.add(newOpt);
           }
           dto.setAreaList(areaList);
           //行业
