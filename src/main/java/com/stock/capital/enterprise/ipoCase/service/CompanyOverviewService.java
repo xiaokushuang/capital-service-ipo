@@ -33,6 +33,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -74,7 +75,15 @@ public class CompanyOverviewService extends BaseService {
      */
     public List<IpoAssociatedCaseVo> getAssociatedCaseList(String id){
         List<IpoAssociatedCaseVo> result = ipoCaseBizMapper.getAssociatedCaseList(id);
-        result = result.stream().filter(dto -> !dto.getCaseId().equals(id)).collect(Collectors.toList());
+        result = result.stream()
+            .filter(dto -> !dto.getCaseId().equals(id))
+            .collect(Collectors.toList());
+        // TODO: 2019/7/16 根据日期倒序排序, 在排序好后倒序插入序号
+        int sort = result.size();
+        for (IpoAssociatedCaseVo vo : result) {
+            vo.setProSort(sort+"");
+            sort -- ;
+        }
         return result;
     }
 
