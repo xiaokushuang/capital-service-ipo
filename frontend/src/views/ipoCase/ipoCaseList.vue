@@ -1368,7 +1368,6 @@
             }
             this.$store.commit('CREATE_TEMP_MESSAGE',param);
            // 日志---------------------尾
-          // window.open(href + '&tenant_info=' + this.tenantInfo, '_blank');
             this.$open(href, '_blank');
         } else {
           let url = window.location.href;
