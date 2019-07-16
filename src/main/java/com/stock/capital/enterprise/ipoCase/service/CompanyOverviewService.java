@@ -73,7 +73,9 @@ public class CompanyOverviewService extends BaseService {
      * @return List<IpoAssociatedCaseVo>
      */
     public List<IpoAssociatedCaseVo> getAssociatedCaseList(String id){
-        return ipoCaseBizMapper.getAssociatedCaseList(id);
+        List<IpoAssociatedCaseVo> result = ipoCaseBizMapper.getAssociatedCaseList(id);
+        result = result.stream().filter(dto -> !dto.getCaseId().equals(id)).collect(Collectors.toList());
+        return result;
     }
 
     /**
