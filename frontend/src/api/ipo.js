@@ -93,23 +93,23 @@ export function refinanceRecommend() {
     method: 'post'
   })
 }
-export function sponsorInstitution(param) {
+export function sponsorInstitution(param) {//ipo数据概览-保荐机构
   return request({
-    url: `/ipo/regulatory_statistics/getIPORecommendOrgStts1?access_token=9c048686-7e44-4831-aee3-1469d6e83528`,
+    url: `/ipo/regulatory_statistics/getIPORecommendOrgStts1`,
     method: 'post',
     data: param
   })
 }
-export function lawOffice(param) {
+export function lawOffice(param) {//ipo数据概览-律师事务所
   return request({
-    url: `/ipo/regulatory_statistics/getIPOLawFirmStts1?access_token=9c048686-7e44-4831-aee3-1469d6e83528`,
+    url: `/ipo/regulatory_statistics/getIPOLawFirmStts1`,
     method: 'post',
     data: param
   })
 }
-export function accountFirm(param) {
+export function accountFirm(param) {//ipo数据概览-会计事务所
   return request({
-    url: `/ipo/regulatory_statistics/getIPOAccountantOfficeStts1?access_token=9c048686-7e44-4831-aee3-1469d6e83528`,
+    url: `/ipo/regulatory_statistics/getIPOAccountantOfficeStts1`,
     method: 'post',
     data: param
   })
@@ -174,3 +174,36 @@ export function searchCompanyDetail(query) {//获取公司详情页数据
       data: query,//参数
   })
 }
+
+export function getAllDropDownList(query) {//获取下拉列表
+  return request({
+      url: '/ipo/regulatory_statistics/getAllDropDownList',//controller路径
+      method: 'post',//请求方式
+      data: query,//参数
+  })
+}
+
+export function getIpoDataOverviewDetail(query) {//获取ipo数据概览详情页数据
+  return request({
+      url: '/ipo/regulatory_statistics/getIpoDataOverviewDetail',//controller路径
+      method: 'post',//请求方式
+      data: query,//参数
+  })
+}
+
+export function ipoItemDataQuery(query) {//IPO在审项目数据查询
+  return request({
+      url: '/ipo/regulatory_statistics/ipoItemDataQuery',//controller路径
+      method: 'post',//请求方式
+      data: query,//参数
+  })
+}
+
+export function getIpoItemDataDetail(query) {//获取ipo在审项目详情页数据
+  return request({
+      url: '/ipo/regulatory_statistics/getIpoItemDataDetail',//controller路径
+      method: 'post',//请求方式
+      data: query,//参数
+  })
+}
+

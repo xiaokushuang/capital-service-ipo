@@ -17,7 +17,11 @@ import {
   refinanceApptype,
   refinanceRecommend,
   companyByCode,
-  searchCompanyDetail
+  searchCompanyDetail,
+  getAllDropDownList,
+  getIpoDataOverviewDetail,
+  ipoItemDataQuery,
+  getIpoItemDataDetail,
 } from '@/api/ipo'
 import {
   MultidimensionalData
@@ -386,7 +390,7 @@ const ipo = {
             // console.log(6)
             // console.log(param.data)
           }
-          resolve()
+          resolve(response.data.result)
         }).catch((error) => {
           console.log(error)
           if (error && error.response && error.response.status === 401) {
@@ -480,7 +484,7 @@ const ipo = {
             // console.log(6)
             // console.log(param.data)
           }
-          resolve()
+          resolve(response.data.result)
         }).catch((error) => {
           console.log(error)
           if (error && error.response && error.response.status === 401) {
@@ -509,8 +513,7 @@ const ipo = {
             commit('SET_IPO_TYPE', param)
             commit('SET_IPO_TYPE_TOTAL', { 'total3': param.data.total })
           }
-          console.log('成功')
-          resolve()
+          resolve(response.data.result)
         }).catch((error) => {
           console.log(error)
           if (error && error.response && error.response.status === 401) {
@@ -655,7 +658,43 @@ const ipo = {
 					reject(error)
 				})
 			})
-	   },
+     },
+     getAllDropDownList({commit}, queryParam){//获取下拉列表数据
+			return new Promise((resolve, reject) => {
+				getAllDropDownList(queryParam).then(response => {
+					resolve(response.data);
+				}).catch(error => {
+					reject(error)
+				})
+			})
+    },
+    getIpoDataOverviewDetail({commit}, queryParam){//获取ipo数据概览详情页数据
+			return new Promise((resolve, reject) => {
+				getIpoDataOverviewDetail(queryParam).then(response => {
+					resolve(response.data.result);
+				}).catch(error => {
+					reject(error)
+				})
+			})
+     },
+     ipoItemDataQuery({commit}, queryParam){//IPO在审项目数据查询
+			return new Promise((resolve, reject) => {
+				ipoItemDataQuery(queryParam).then(response => {
+					resolve(response.data.result);
+				}).catch(error => {
+					reject(error)
+				})
+			})
+     },
+     getIpoItemDataDetail({commit}, queryParam){//获取ipo在审项目详情页数据
+			return new Promise((resolve, reject) => {
+				getIpoItemDataDetail(queryParam).then(response => {
+					resolve(response.data.result);
+				}).catch(error => {
+					reject(error)
+				})
+			})
+     },
   },
   getters: {
     getIpo1: state => state.ipodata1,
@@ -672,7 +711,7 @@ const ipo = {
     getPlateInfo: state => state.plateInfo,
     getDataOverInfo: state => {
       state.ipoDataOverview.map((o, i) => {
-        var total = parseInt(o.hzbCount) + parseInt(o.zxbCount) + parseInt(o.cybCount)
+        var total = parseInt(o.hzbCount) + parseInt(o.zxbCount) + parseInt(o.cybCount) + parseInt(o.kcCount)
         o.totalAll = total
       })
       return state.ipoDataOverview
