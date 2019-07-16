@@ -126,6 +126,7 @@
       where 1=1
         AND ccsi.release_flag = '1'
         AND ic.org_code = (select org_code from  ipo_case where id = #{id})
+        AND ic.id != #{id}
         ORDER BY processTime DESC
   </select>
 
