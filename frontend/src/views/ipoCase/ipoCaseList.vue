@@ -889,7 +889,6 @@
     mounted() {
       // 日志
       this.tenantInfo = this.$route.query['tenant_info'];
-      // this.tenantInfo = this.$store.state.app.info;
       this.tableLoading = true;
       const _data = {
         startRow: 0,
@@ -1019,7 +1018,9 @@
           if (response.data && response.data.success && response.data.result) {
             _self.totalCount = response.data.result.total;
             _self.tableData = response.data.result.data;
-            console.log('tableData',_self.tableData)
+            console.log('store',_self.$store.state.app)
+            console.log('companyId',_self.$route.query['companyId'])
+            console.log('列表页数据',_self.tableData)
             _self.plateTreeTag = [{
               label_sort: 1,
               name: "拟上市板块(" + response.data.result.plateTreeNum + ')',
@@ -1368,11 +1369,11 @@
             }
             this.$store.commit('CREATE_TEMP_MESSAGE',param);
            // 日志---------------------尾
-          // window.open(href + '&tenant_info=' + this.tenantInfo, '_blank');
             this.$open(href, '_blank');
         } else {
           let url = window.location.href;
           url = url.replace(this.$route.path, '/ipoPopWin');
+          console.log('列表页跳转弹窗',url)
           iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
         }
       },

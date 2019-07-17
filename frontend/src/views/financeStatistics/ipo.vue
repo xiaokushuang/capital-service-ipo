@@ -10,7 +10,7 @@
       </div>
      <!-- IPO标题头部 -->
         <div  ref="titleHeader"  id="titleHeader" style="width: 100%;height: 140px;position: relative">
-          <div :style="{'padding-left':headList.labelResult == ''?'0px':'97px','width':'1200px','position':'absolute','left': '50%','top':'50%', 'transform': 'translate(-50%,-50%)'}">
+          <div :style="{'padding-left':(headList.labelResult == '' || headList.labelResult == null)?'0px':'97px','width':'1200px','position':'absolute','left': '50%','top':'50%', 'transform': 'translate(-50%,-50%)'}">
               <div class="imgMark" style="position: absolute; z-index: 2;left: 5%;top:50%; transform: translate(-50%,-50%);z-index: 2">
                   <!-- 注册制是否是科创版的标签显示 -->
                     <div>
@@ -69,10 +69,10 @@
                   </span>
                 </span>
               </div>
-            <div style="position: absolute;right: -5%;top: 50%;transform: translate(-50%, -50%);z-index: 999;" v-if="ipoplatetype" v-show="wxcodeimgload">
-              <img :src="wxcodeUrl" style="width: 120px;cursor: pointer;" @click="wxcodeBig" @load="wxcodeLoad">
-              <div style="font-size: 12px;color: rgb(255,255,255);text-align: center" v-show="wxcodeimgload">手机扫码可视化查看</div>
-            </div>
+          </div>
+          <div style="text-align: right">
+            <img :src="wxcodeUrl" style="margin-right: 10px;width: 120px;cursor: pointer;" @click="wxcodeBig">
+            <div style="font-size: 12px;color: rgb(255,255,255);margin-right: 15px;">手机扫码可视化查看</div>
           </div>
         </div>
     <el-dialog align="left" :visible.sync="wxcode" width="470px">
@@ -179,30 +179,45 @@
                       </div>
                   </div>
               </el-col>
-              <el-col :span="6" class="chart" style="position:relative;padding-top: 6px;">
-                  <div class="headClass">
-                      <el-row>
-                          <el-col :span="14">
-                              <span>IPO进程</span>
-                          </el-col>
-                          <span v-if="statusButtonFlag == '1'">
-                              <el-col :span="5" style="text-align: right;">
-                                <span class="mmpClass" v-if="expandAllflag" @click="expandAll(false)">收起全部</span>
-                                <span class="mmpClass" v-else @click="expandAll(true)">展开全部</span>
-                              </el-col>
-                              <el-col :span="1">
-                                <span style="text-align: center;color: #14bcf5;padding-left: 4px;">|</span>
-                              </el-col>
-                              <el-col :span="4">
-                                <span class="mmpClass" v-if="flag =='1'" @click="sortTime('02')">排序 ↓</span>
-                                <span class="mmpClass" v-else @click="sortTime('01')">排序 ↑</span>
-                              </el-col>
-                          </span>
-                      </el-row>
-                  </div>
-                  <span style="padding: 0px;">
-                    <processTree ref="rightModule" :caseId="caseId"></processTree>
-                  </span>
+              <!-- <el-col :span="6"> -->
+              <el-col style="width:295px;padding:0">
+                <el-col v-if="proList&&proList.length>0" class="chart" style="position:relative;padding-top: 6px;padding:0px">
+                    <div class="headClass">
+                        <el-row>
+                            <el-col :span="14">
+                                <span>关联案例</span>
+                            </el-col>
+                        </el-row>
+                    </div>
+                    <span style="padding: 0px;">
+                      <relatedCase :proList = "proList"></relatedCase>
+                    </span>
+                </el-col>
+                <el-col  class="chart" style="position:relative;padding-top: 6px;padding: 0px;">
+                    <div class="headClass">
+                        <el-row>
+                            <el-col :span="14">
+                                <span>IPO进程</span>
+                            </el-col>
+                            <span v-if="statusButtonFlag == '1'">
+                                <el-col :span="5" style="text-align: right;">
+                                  <span class="mmpClass" v-if="expandAllflag" @click="expandAll(false)">收起全部</span>
+                                  <span class="mmpClass" v-else @click="expandAll(true)">展开全部</span>
+                                </el-col>
+                                <el-col :span="1">
+                                  <span style="text-align: center;color: #14bcf5;padding-left: 4px;">|</span>
+                                </el-col>
+                                <el-col :span="4">
+                                  <span class="mmpClass" v-if="flag =='1'" @click="sortTime('02')">排序 ↓</span>
+                                  <span class="mmpClass" v-else @click="sortTime('01')">排序 ↑</span>
+                                </el-col>
+                            </span>
+                        </el-row>
+                    </div>
+                    <span style="padding: 0px;">
+                      <processTree ref="rightModule" :caseId="caseId"></processTree>
+                    </span>
+                </el-col>
               </el-col>
           </el-row>
       </div>
@@ -211,6 +226,7 @@
 <script>
 import { getHeadData } from "@/api/ipoCase/companyProfile";
 import { getCaseDetail } from "@/api/ipoCase/companyProfile";
+import {getRelatedCaseData} from '@/api/ipoCase/companyProfile';
 // 导入导航栏五个组件
 import companyProfile from "../navMenu/companyProfile/companyProfile.vue";
 import financialInformation from "../navMenu/financialInformation/financialInformation";
@@ -219,6 +235,7 @@ import result from "../navMenu/result/result";
 import issue from "../navMenu/issue/issue";
 import industryTechnology from "../navMenu/industryTechnology/industryTechnology";
 import processTree from "../navMenu/processTree";
+import relatedCase from "../navMenu/processTree/relatedCase";
 import $ from "jquery";
 export default {
   name: "ipo",
@@ -230,16 +247,18 @@ export default {
     result,
     issue,
     industryTechnology,
-    processTree
+    processTree,
+    relatedCase
   },
   data() {
     return {
       wxcode:false,
       wxcodeUrl:'',
-      ipoplatetype:false,
-      wxcodeimgload:false,
       tenantInfo:'',//日志
       caseId2:this.$store.state.app.caseId,
+      // companyId:this.$store.state.app.companyId,
+       companyId:'999600',
+      proList:[],//关联案例数据
       // 动态加载组件
       companyProfile:companyProfile,
       financialInformation:financialInformation,
@@ -392,23 +411,23 @@ export default {
       // 日志------------------功能尾
   },
   mounted(){
-      // 日志--------------------功能头
-      // this.tenantInfo = this.$route.query['tenant_info'];
-      // this.tenantInfo = this.$store.state.app.info;
-       // 日志------------------功能尾
+    
   },
   methods: {
-    wxcodeLoad(){
-      this.wxcodeimgload = true;
-    },
     wxcodeBig(){
       this.wxcode = true;
     },
     // 初始化数据
     initTableData() {
+      console.log('companyId22222222222',this.$store.state.app.companyId)
+      console.log('companyId233333333333',this.companyId)
        // 动态传id
       const param = {
         id:this.caseId2
+      }
+      const query = {
+        id:this.caseId2,
+        companyId:this.companyId
       }
        getHeadData(param).then(res => {
          if(res.data.result){
@@ -432,6 +451,16 @@ export default {
             }*/
           }
       });
+      // 获取关联案例数据
+      getRelatedCaseData(query).then(res => {
+        console.log('companyId2444444444444444',this.$store.state.app)
+            this.flagLoading = false;
+            console.log('关联案例参数',query)
+            console.log('关联案例接口数据',res.data.result)
+            if(res.data.result){
+                this.proList = res.data.result
+            }
+        })
       this.wxcodeUrl = "/ipo/ipoInterfaceH5/getQrCode?id="+this.caseId2+"&access_token="+this.$store.state.app.token
     },
     // 展开全部
@@ -475,6 +504,7 @@ export default {
                         that.showComponent = companyProfile
                         that.$refs.rightModule.treeListMethods(false);
                         targetList = document.getElementById('title-first').children;
+                        
                         let firstFlag = 0;
                         for (let i = 0; i < targetList.length; i++) {
                             if ((that.itemActiveFirst + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
@@ -668,6 +698,7 @@ export default {
   },
   created() {
     this.initTableData()
+    console.log('companyId',this.$store.state.app.companyId)
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
@@ -791,7 +822,7 @@ export default {
 }
 
 .headClass {
-  margin-top: 18px;
+  margin-top: 22px;
   color: #333;
   font-size: 16px;
   text-rendering: optimizeLegibility;
