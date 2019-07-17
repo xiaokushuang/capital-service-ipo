@@ -256,6 +256,7 @@ export default {
       wxcodeUrl:'',
       tenantInfo:'',//日志
       caseId2:this.$store.state.app.caseId,
+      companyId:this.$store.state.app.companyId,
       proList:[],//关联案例数据
       // 动态加载组件
       companyProfile:companyProfile,
@@ -417,18 +418,19 @@ export default {
     },
     // 初始化数据
     initTableData() {
+      console.log('companyId22222222222',this.$store.state.app.companyId)
+      console.log('companyId233333333333',this.companyId)
        // 动态传id
       const param = {
         id:this.caseId2
       }
       const query = {
         id:this.caseId2,
-        companyId:this.$store.state.app.companyId
+        companyId:this.companyId
       }
        getHeadData(param).then(res => {
          if(res.data.result){
            this.headList = res.data.result
-           console.log('headList',this.headList)
          }
          if(res.data.result&&res.data.result.specialArrange!=null){
            this.specialArrange = res.data.result.specialArrange.split(',');
@@ -450,6 +452,8 @@ export default {
       });
       // 获取关联案例数据
       getRelatedCaseData(query).then(res => {
+        debugger;
+        console.log('companyId2444444444444444',this.$store.state.app)
             this.flagLoading = false;
             console.log('关联案例参数',query)
             console.log('关联案例接口数据',res.data.result)

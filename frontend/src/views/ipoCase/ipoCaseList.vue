@@ -889,7 +889,6 @@
     mounted() {
       // 日志
       this.tenantInfo = this.$route.query['tenant_info'];
-      // this.tenantInfo = this.$store.state.app.info;
       this.tableLoading = true;
       const _data = {
         startRow: 0,
