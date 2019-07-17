@@ -1018,7 +1018,8 @@
           if (response.data && response.data.success && response.data.result) {
             _self.totalCount = response.data.result.total;
             _self.tableData = response.data.result.data;
-            console.log('companyId',_self.$store.state.app)
+            console.log('store',_self.$store.state.app)
+            console.log('companyId',_self.$route.query['companyId'])
             console.log('列表页数据',_self.tableData)
             _self.plateTreeTag = [{
               label_sort: 1,

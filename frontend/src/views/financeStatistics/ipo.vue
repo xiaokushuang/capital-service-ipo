@@ -256,7 +256,8 @@ export default {
       wxcodeUrl:'',
       tenantInfo:'',//日志
       caseId2:this.$store.state.app.caseId,
-      companyId:this.$store.state.app.companyId,
+      // companyId:this.$store.state.app.companyId,
+       companyId:'999600',
       proList:[],//关联案例数据
       // 动态加载组件
       companyProfile:companyProfile,
@@ -452,7 +453,6 @@ export default {
       });
       // 获取关联案例数据
       getRelatedCaseData(query).then(res => {
-        debugger;
         console.log('companyId2444444444444444',this.$store.state.app)
             this.flagLoading = false;
             console.log('关联案例参数',query)
