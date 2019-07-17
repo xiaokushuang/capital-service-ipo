@@ -409,6 +409,7 @@ export default {
       // 日志------------------功能尾
   },
   mounted(){
+    console.log('companyId',this.$store.state.app.companyId)
   },
   methods: {
     wxcodeBig(){
@@ -422,7 +423,7 @@ export default {
       }
       const query = {
         id:this.caseId2,
-        companyId:this.$store.state.app.companyId
+        // companyId:this.$store.state.app.companyId
       }
        getHeadData(param).then(res => {
          if(res.data.result){
@@ -450,6 +451,7 @@ export default {
       // 获取关联案例数据
       getRelatedCaseData(query).then(res => {
             this.flagLoading = false;
+            console.log('关联案例参数',query)
             console.log('关联案例接口数据',res.data.result)
             if(res.data.result){
                 this.proList = res.data.result
