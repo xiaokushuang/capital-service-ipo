@@ -132,6 +132,8 @@ export default {
             }else {
                 let url = window.location.href;
                 url = url.replace(this.$route.path, '/ipoPopWin');
+                url = url.split('?')[0]
+                console.log('关联案例弹窗',url)
                 iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
             }
         }
