@@ -107,15 +107,18 @@ export default {
     },
     methods: {
        gonggaoClick(id,flag) {
-        if(id){
+        // if(id){
             if (flag =='1') {
+                debugger;
                 const _self = this;
                 const {href} = _self.$router.resolve({
                 name: 'caseDetail',
                 query: {caseId: id, access_token: _self.$store.state.app.token,tenant_info:_self.$store.state.app.info}
                 });
-                this.$open(href);
-            }else {
+                // this.$open(href);
+            } 
+            if (flag !=='1') {
+                debugger;
                 // let url = window.location.href;
                 // url = url.replace(this.$route.path, '/ipoPopWin');
                 // url = url.split('?')[0]
@@ -123,7 +126,7 @@ export default {
                 console.log('关联案例弹窗',url)
                 iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
             }
-        }
+        // }
       },
     }
 };

@@ -41,14 +41,13 @@ const app = {
       state.parentCookie.title = data.title;
       state.parentCookie.eventTargetText = data.target;
   },
-    SET_PARENT_COOKIE_FSET_TOKENLAG: (state,data)=>{
+    SET_PARENT_COOKIE_FLAG: (state,data)=>{
       state.parentCookieFlag = data;
     },
     SET_PARENT_COOKIE_TYPE: (state,data)=>{
       state.parentCookie.type = data;
     },
     SET_TOKEN:(state,data) =>{
-      debugger;
       state.token = data.token;
       state.info = data.info;
       state.companyId = data.companyId;
@@ -64,7 +63,7 @@ const app = {
       state.temporaryUpdateFlag = data;
     },
     CREATE_TEMP_MESSAGE: (state,data) => {
-      state.temporaryUpdateFlag = true;
+      state.temporaryUpdateFlag = true; 
       state.tempParentCookie = JSON.parse(JSON.stringify(state.parentCookie));
       Object.keys(data).map((obj)=>{
         state.tempParentCookie[obj] = data[obj]
