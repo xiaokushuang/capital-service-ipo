@@ -1019,6 +1019,8 @@
           if (response.data && response.data.success && response.data.result) {
             _self.totalCount = response.data.result.total;
             _self.tableData = response.data.result.data;
+            console.log('companyId',_self.$store.state.app.companyId)
+            console.log('列表页数据',_self.tableData)
             _self.plateTreeTag = [{
               label_sort: 1,
               name: "拟上市板块(" + response.data.result.plateTreeNum + ')',
