@@ -6,6 +6,7 @@ import com.stock.capital.enterprise.common.dao.AttachmentMapper;
 import com.stock.capital.enterprise.common.entity.Attachment;
 import com.stock.capital.enterprise.common.entity.AttachmentExample;
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseBizMapper;
+import com.stock.capital.enterprise.ipoCase.dao.IpoCaseListMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoIssuerIndustryStatusBizMapper;
 import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
 import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
@@ -39,6 +40,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -54,6 +56,9 @@ public class CompanyOverviewService extends BaseService {
 
     @Autowired
     private AttachmentMapper attachmentMapper;
+
+    @Autowired
+    private IpoCaseListMapper ipoCaseListMapper;
 
     @Value("#{app['file.viewPath']}")
     private String fileViewPath;
@@ -73,7 +78,19 @@ public class CompanyOverviewService extends BaseService {
      * @param id 案例id
      * @return List<IpoAssociatedCaseVo>
      */
-    public List<IpoAssociatedCaseVo> getAssociatedCaseList(String id){
+    public List<IpoAssociatedCaseVo> getAssociatedCaseList(String id, String companyId){
+
+        //标识是否签约客户 默认不是
+        boolean signSymbol = false;
+        if (companyId != null && !"".equals(companyId)) {
+            int count = ipoCaseListMapper.queryAuthByCompanyId(companyId);
+            // 授权类型:签约 或 证监会 或 金融办
+            if (count > 0) {
+                //展示id
+                signSymbol = true;
+            }
+        }
+
         List<IpoAssociatedCaseVo> result = ipoCaseBizMapper.getAssociatedCaseList(id);
         result = result.stream()
             .filter(dto -> !dto.getCaseId().equals(id))
@@ -81,6 +98,9 @@ public class CompanyOverviewService extends BaseService {
         // TODO: 2019/7/16 根据日期倒序排序, 在排序好后倒序插入序号
         int sort = result.size();
         for (IpoAssociatedCaseVo vo : result) {
+            if (!signSymbol && (StringUtils.isBlank(vo.getOpenFlag()) || !vo.getOpenFlag().equals("1"))){//如果是未开放 且 非签约用户, 把caseid 去掉
+                vo.setCaseId("");
+            }
             vo.setProSort(sort+"");
             sort -- ;
         }
