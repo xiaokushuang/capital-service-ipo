@@ -1019,7 +1019,6 @@
           if (response.data && response.data.success && response.data.result) {
             _self.totalCount = response.data.result.total;
             _self.tableData = response.data.result.data;
-            console.log('tableData',_self.tableData)
             _self.plateTreeTag = [{
               label_sort: 1,
               name: "拟上市板块(" + response.data.result.plateTreeNum + ')',
@@ -1372,6 +1371,7 @@
         } else {
           let url = window.location.href;
           url = url.replace(this.$route.path, '/ipoPopWin');
+          console.log('列表页跳转弹窗',url)
           iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
         }
       },

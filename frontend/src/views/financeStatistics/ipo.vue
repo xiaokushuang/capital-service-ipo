@@ -494,6 +494,7 @@ export default {
                         that.showComponent = companyProfile
                         that.$refs.rightModule.treeListMethods(false);
                         targetList = document.getElementById('title-first').children;
+                        
                         let firstFlag = 0;
                         for (let i = 0; i < targetList.length; i++) {
                             if ((that.itemActiveFirst + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
