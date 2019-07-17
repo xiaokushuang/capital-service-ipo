@@ -106,20 +106,6 @@ export default {
 
     },
     methods: {
-    //      // 初始化数据
-    //    initTableData(sortType) {
-    //     // 动态传id
-    //     const param = {
-    //       id:this.caseId1,
-    //     }
-    //     getRelatedCaseData(param).then(res => {
-    //         this.flagLoading = false;
-    //         console.log('关联案例接口数据',res.data.result)
-    //         if(res.data.result){
-    //             this.proList = res.data.result
-    //         }
-    //     })
-    //   },
        gonggaoClick(id,flag) {
         if(id){
             if (flag =='1') {
@@ -130,9 +116,10 @@ export default {
                 });
                 this.$open(href);
             }else {
-                let url = window.location.href;
-                url = url.replace(this.$route.path, '/ipoPopWin');
-                url = url.split('?')[0]
+                // let url = window.location.href;
+                // url = url.replace(this.$route.path, '/ipoPopWin');
+                // url = url.split('?')[0]
+                let url = 'https://services-dev.valueonline.cn/ui/ipo/ipoPopWin?access_token=165c2db4-4024-4087-b1a8-8aa6b5277de0&tenant_info=VZ2LMFiWfMrN0HwKnBa8NCiVk2B5CNgaAlLlQ6zMg_BEi3CJU4Dhvi5nHWZALsPpXxekXG09tny9nA-lpZVrUu3CYfAVinF9z3MQR7c63eC9Rog_8ierWBKVANApidx7af25Lp3iaMYdIbRypxc5YYX-uMOn3kGULMPAcvaG-DEAW5fEbkAYVibmziKI8m5XoWasShjhcsgBEEnbi5o_ew%3D%3D&baseUrl=http%3A%2F%2F999600.valueonline.cn&companyId=999600'
                 console.log('关联案例弹窗',url)
                 iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
             }

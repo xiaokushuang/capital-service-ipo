@@ -420,6 +420,10 @@ export default {
       const param = {
         id:this.caseId2
       }
+      const query = {
+        id:this.caseId2,
+        companyId:this.$store.state.app.companyId
+      }
        getHeadData(param).then(res => {
          if(res.data.result){
            this.headList = res.data.result
@@ -444,7 +448,7 @@ export default {
           }
       });
       // 获取关联案例数据
-      getRelatedCaseData(param).then(res => {
+      getRelatedCaseData(query).then(res => {
             this.flagLoading = false;
             console.log('关联案例接口数据',res.data.result)
             if(res.data.result){
