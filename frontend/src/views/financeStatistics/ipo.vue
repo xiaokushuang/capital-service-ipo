@@ -409,7 +409,7 @@ export default {
       // 日志------------------功能尾
   },
   mounted(){
-    console.log('companyId',this.$store.state.app.companyId)
+    
   },
   methods: {
     wxcodeBig(){
@@ -423,7 +423,7 @@ export default {
       }
       const query = {
         id:this.caseId2,
-        // companyId:this.$store.state.app.companyId
+        companyId:this.$store.state.app.companyId
       }
        getHeadData(param).then(res => {
          if(res.data.result){
@@ -694,6 +694,7 @@ export default {
   },
   created() {
     this.initTableData()
+    console.log('companyId',this.$store.state.app.companyId)
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
