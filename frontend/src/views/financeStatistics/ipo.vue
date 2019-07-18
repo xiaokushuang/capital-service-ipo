@@ -411,10 +411,14 @@ export default {
       // 日志------------------功能尾
   },
   mounted(){
-    
+
   },
   methods: {
     wxcodeBig(){
+      alert();
+      let url = window.location.href;
+      url = url.replace(this.$route.path, '/ipoPopWin');
+      iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
       this.wxcode = true;
     },
     // 初始化数据
@@ -504,7 +508,7 @@ export default {
                         that.showComponent = companyProfile
                         that.$refs.rightModule.treeListMethods(false);
                         targetList = document.getElementById('title-first').children;
-                        
+
                         let firstFlag = 0;
                         for (let i = 0; i < targetList.length; i++) {
                             if ((that.itemActiveFirst + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
