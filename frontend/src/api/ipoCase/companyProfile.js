@@ -114,9 +114,17 @@ export function getResultQuestionList(query) {
   })
 }
 // 进程树接口
-export function getRightModuleData(query) {
+export function getRightModuleData (query) {
   return request({
     url: '/ipo/ipoProcess/selectProcessList',
+    method: 'get',
+    params: query
+  })
+}
+// 关联案例接口
+export function getRelatedCaseData(query) {
+  return request({
+    url: '/ipo/companyOverview/associatedCaseList',
     method: 'get',
     params: query
   })

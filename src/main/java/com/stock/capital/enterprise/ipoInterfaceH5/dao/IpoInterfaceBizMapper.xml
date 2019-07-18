@@ -208,4 +208,53 @@
       WHERE ifnull((mt.passing+0),0) > ifnull((t.passing+0),0) AND mt.intermediary_type = t.intermediary_type)AS passingRank
       FROM ipo_h5_org t WHERE t.org_code = #{orgCode} AND t.intermediary_type = #{intermediaryType}
     </select>
+
+    <select id="getPatentSituation" parameterType="java.lang.String"
+      resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto">
+        SELECT a.*,
+        -- 专利情况排名 patentRanking
+        (SELECT count(DISTINCT bsum) FROM
+        (SELECT IFNULL(t3.domestic_invention,0)+IFNULL(t3.domestic_newtype,0)+IFNULL(t3.domestic_design,0)+IFNULL(t3.foreign_patent,0) AS bsum
+        FROM ipo_case t1, case_common_status_info t2, ipo_technology AS t3
+        WHERE t2.case_id = t1.id
+        AND t2.release_flag = 1
+        AND t1.ipo_plate = '069001001006'
+        AND t3.bid = t1.id)
+        AS b WHERE a.patentSum &lt; b.bsum)+1 AS patentRanking ,
+        c.*
+        FROM (
+        SELECT t3.id,
+        --  专利情况
+        t3.domestic_invention AS patent,
+        -- 使用新型专利
+        t3.domestic_newtype AS patentNew,
+        -- 外观设计专利
+        t3.domestic_design AS patentDesign,
+        -- 国际专利
+        t3.foreign_patent AS patentInternation,
+        -- 专利总数
+        IFNULL(t3.domestic_invention,0)+IFNULL(t3.domestic_newtype,0)+IFNULL(t3.domestic_design,0)+IFNULL(t3.foreign_patent,0) AS patentSum
+        FROM ipo_case t1, case_common_status_info t2, ipo_technology AS t3
+        WHERE t2.case_id = t1.id
+        AND t2.release_flag = 1
+        AND t1.ipo_plate = '069001001006'
+        AND t1.id = #{id}
+        AND t3.bid = t1.id) AS a,
+        (SELECT
+        -- 所有公司专利总数
+        SUM(IFNULL(t3.domestic_invention,0)+IFNULL(t3.domestic_newtype,0)+IFNULL(t3.domestic_design,0)+IFNULL(t3.foreign_patent,0)) AS patentSumAll,
+        -- 发明专利总数
+        SUM(t3.domestic_invention) AS patentAll,
+        -- 使用新型专利总数
+        SUM(t3.domestic_newtype) AS patentNewAll,
+        -- 外观设计专利总数
+        SUM(t3.domestic_design) AS patentDesignAll,
+        -- 国际专利总数
+        SUM(t3.foreign_patent) AS patentInternationAll
+        FROM ipo_case t1, case_common_status_info t2, ipo_technology AS t3
+        WHERE t2.case_id = t1.id
+        AND t2.release_flag = 1
+        AND t1.ipo_plate = '069001001006'
+        AND t3.bid = t1.id) AS c
+    </select>
 </mapper>

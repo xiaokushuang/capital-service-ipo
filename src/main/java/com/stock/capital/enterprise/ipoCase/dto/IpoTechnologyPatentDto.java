@@ -11,16 +11,21 @@ public class IpoTechnologyPatentDto implements Serializable {
 
   @ApiModelProperty("专利名称")
   private String labelName;
+
   @ApiModelProperty("发明专利")
   private BigDecimal fm;
+
   @ApiModelProperty("实用新型专利")
   private BigDecimal sy;
+
   @ApiModelProperty("外观设计专利")
   private BigDecimal wg ;
+
+  @ApiModelProperty("国外专利")
+  private BigDecimal gw;
+
   @ApiModelProperty("合计")
   private BigDecimal hj;
-  @ApiModelProperty("占比")
-  private BigDecimal zb;
 
   public String getLabelName() {
     return labelName;
@@ -31,10 +36,7 @@ public class IpoTechnologyPatentDto implements Serializable {
   }
 
   public BigDecimal getFm() {
-    if (fm == null){
-      return fm;
-    }
-    return fm.stripTrailingZeros();
+    return fm;
   }
 
   public void setFm(BigDecimal fm) {
@@ -42,10 +44,7 @@ public class IpoTechnologyPatentDto implements Serializable {
   }
 
   public BigDecimal getSy() {
-    if (sy == null){
-      return sy;
-    }
-    return sy.stripTrailingZeros();
+    return sy;
   }
 
   public void setSy(BigDecimal sy) {
@@ -53,35 +52,26 @@ public class IpoTechnologyPatentDto implements Serializable {
   }
 
   public BigDecimal getWg() {
-    if (wg == null){
-      return wg;
-    }
-    return wg.stripTrailingZeros();
+    return wg;
   }
 
   public void setWg(BigDecimal wg) {
     this.wg = wg;
   }
 
+  public BigDecimal getGw() {
+    return gw;
+  }
+
+  public void setGw(BigDecimal gw) {
+    this.gw = gw;
+  }
+
   public BigDecimal getHj() {
-    if (hj == null){
-      return hj;
-    }
-    return hj.stripTrailingZeros();
+    return hj;
   }
 
   public void setHj(BigDecimal hj) {
     this.hj = hj;
-  }
-
-  public BigDecimal getZb() {
-    if (zb == null){
-      return zb;
-    }
-    return zb.stripTrailingZeros();
-  }
-
-  public void setZb(BigDecimal zb) {
-    this.zb = zb;
   }
 }
