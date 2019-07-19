@@ -47,7 +47,7 @@ import static com.stock.core.security.SecurityHelper.getUserInfo;
 @RestController
 @RequestMapping("companyOverview")
 public class IpoCaseOverviewController {
-
+    private static final Logger logger = LoggerFactory.getLogger(IpoFileUploadController.class);
     @Autowired
     private CompanyOverviewService companyOverviewService;
     @Autowired
@@ -71,7 +71,6 @@ public class IpoCaseOverviewController {
     public JsonResponse<CompanyOverviewVo> caseDetail(@RequestParam("id") String id) {
         JsonResponse<CompanyOverviewVo> response = new JsonResponse<>();
         CompanyOverviewVo companyOverviewVo = companyOverviewService.getIpoCaseDetail(id);
-        private static final Logger logger = LoggerFactory.getLogger(IpoFileUploadController.class);
         if (getUserInfo() != null){
             logger.info(getUserInfo().getCompanyCode());
         }else {
