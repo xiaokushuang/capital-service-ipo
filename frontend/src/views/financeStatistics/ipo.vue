@@ -448,10 +448,6 @@ export default {
        getCaseDetail(param).then(res => {
           if(res.data.result){
             this.companyProfileList = res.data.result
-        alert(this.$route.querycompanyId)
-        alert(this.$store.state.app.companyId)
-        alert(this.access_token);
-        alert(this.tenant_info);
             /*if (res.data.result.ipoPlate == '上交所科创板'){
               this.ipoplatetype = true;
             }*/

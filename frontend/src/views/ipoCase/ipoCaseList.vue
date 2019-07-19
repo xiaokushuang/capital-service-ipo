@@ -1358,8 +1358,6 @@
         if (id) {
           var caseId = id.substring(3, id.length);
           const _self = this;
-          alert(_self.$route.query.access_token);
-          alert(_self.$route.query.tenant_info);
           const {href} = _self.$router.resolve({
             name: 'caseDetail',
             query: {caseId: caseId, access_token: _self.$route.query.access_token,tenant_info:_self.$route.query.tenant_info}
