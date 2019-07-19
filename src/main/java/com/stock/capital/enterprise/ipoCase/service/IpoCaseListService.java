@@ -58,11 +58,6 @@ public class IpoCaseListService extends BaseService {
                 .append("\" OR ").append("ipo_company_name_t:\"").append(bo.getCodeOrName())
                 .append("\")");
         }
-        //是否上市
-        if (StringUtils.isNotBlank(bo.getIpoPublicTimeDt())) {
-            conditionsStr.append(" AND " + "ipo_public_timeDt:\"")
-                    .append(bo.getIpoPublicTimeDt()).append("\"");
-        }
         //中介机构
         if (StringUtils.isNotBlank(bo.getIntermediaryCode())) {
             conditionsStr.append(" AND " + "ipo_intermediary_code_ss:\"")
