@@ -69,10 +69,10 @@
                   </span>
                 </span>
               </div>
-          </div>
-          <div style="text-align: right" v-if="false">
-            <img :src="wxcodeUrl" style="margin-right: 10px;width: 120px;cursor: pointer;" @click="wxcodeBig">
-            <div style="font-size: 12px;color: rgb(255,255,255);margin-right: 15px;">手机扫码可视化查看</div>
+            <div style="position: absolute;right: -5%;top: 50%;transform: translate(-50%, -50%);z-index: 999;" v-if="ipoplatetype" v-show="wxcodeimgload">
+              <img :src="wxcodeUrl" style="width: 120px;cursor: pointer;" @click="wxcodeBig" @load="wxcodeLoad">
+              <div style="font-size: 12px;color: rgb(255,255,255);text-align: center">手机扫码可视化查看</div>
+            </div>
           </div>
         </div>
     <el-dialog align="left" :visible.sync="wxcode" width="470px">
@@ -253,6 +253,8 @@ export default {
   },
   data() {
     return {
+      ipoplatetype:false,
+      wxcodeimgload:false,
       wxcode:false,
       wxcodeUrl:'',
       tenantInfo:'',//日志
@@ -415,6 +417,9 @@ export default {
 
   },
   methods: {
+    wxcodeLoad(){
+      this.wxcodeimgload = true;
+    },
     wxcodeBig(){
       this.wxcode = true;
     },
@@ -444,7 +449,7 @@ export default {
             if (res.data.result.ipoPlate == '上交所科创板'){
               this.ipoplatetype = true;
             }
-            this.ipoplatetype = false;
+            //this.ipoplatetype = false;
             /*if (res.data.result.launchcompanycode == '999830'){
               this.ipoplatetype = true;
             }else {
