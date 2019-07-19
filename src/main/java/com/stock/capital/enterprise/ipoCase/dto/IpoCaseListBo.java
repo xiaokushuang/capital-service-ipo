@@ -89,6 +89,15 @@ public class IpoCaseListBo implements Serializable {
     private String placingMechanism;
 
     private Double[] valuationValue;
+    private String ipoPublicTimeDt;
+
+    public String getIpoPublicTimeDt() {
+        return ipoPublicTimeDt;
+    }
+
+    public void setIpoPublicTimeDt(String ipoPublicTimeDt) {
+        this.ipoPublicTimeDt = ipoPublicTimeDt;
+    }
 
     public String getTitle() {
         return title;
