@@ -23,6 +23,7 @@ import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.capital.enterprise.ipoCase.service.IssueSituationService;
 import com.stock.capital.enterprise.ipoInterfaceH5.controller.IpoFileUploadController;
+import com.stock.core.controller.BaseController;
 import com.stock.core.dto.JsonResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -41,12 +42,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.stock.core.security.SecurityHelper.getUserInfo;
-
 @Api(tags = {"IPO公司概览接口类"}, description = "IPO公司概览接口描述")
 @RestController
 @RequestMapping("companyOverview")
-public class IpoCaseOverviewController {
+public class IpoCaseOverviewController implements BaseController {
     private static final Logger logger = LoggerFactory.getLogger(IpoFileUploadController.class);
     @Autowired
     private CompanyOverviewService companyOverviewService;
