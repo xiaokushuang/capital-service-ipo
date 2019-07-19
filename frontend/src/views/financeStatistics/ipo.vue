@@ -420,7 +420,7 @@ export default {
       let url = window.location.href;
       url = url.replace(this.$route.path, '/ipoPopWin');
       iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
-      this.wxcode = true;
+      //this.wxcode = true;
     },
     // 初始化数据
     initTableData() {
