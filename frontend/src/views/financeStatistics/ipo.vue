@@ -237,6 +237,7 @@ import industryTechnology from "../navMenu/industryTechnology/industryTechnology
 import processTree from "../navMenu/processTree";
 import relatedCase from "../navMenu/processTree/relatedCase";
 import $ from "jquery";
+import {iframeDoMessage} from '@/utils/auth'
 export default {
   name: "ipo",
   components: {
