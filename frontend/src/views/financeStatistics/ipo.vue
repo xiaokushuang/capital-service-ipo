@@ -69,10 +69,10 @@
                   </span>
                 </span>
               </div>
-          </div>
-          <div style="text-align: right">
-            <img :src="wxcodeUrl" style="margin-right: 10px;width: 120px;cursor: pointer;" @click="wxcodeBig">
-            <div style="font-size: 12px;color: rgb(255,255,255);margin-right: 15px;">手机扫码可视化查看</div>
+            <div style="position: absolute;right: -5%;top: 50%;transform: translate(-50%, -50%);z-index: 999;" v-if="ipoplatetype" v-show="wxcodeimgload">
+              <img :src="wxcodeUrl" style="width: 120px;cursor: pointer;" @click="wxcodeBig" @load="wxcodeLoad">
+              <div style="font-size: 12px;color: rgb(255,255,255);text-align: center">手机扫码可视化查看</div>
+            </div>
           </div>
         </div>
     <el-dialog align="left" :visible.sync="wxcode" width="470px">
@@ -237,6 +237,7 @@ import industryTechnology from "../navMenu/industryTechnology/industryTechnology
 import processTree from "../navMenu/processTree";
 import relatedCase from "../navMenu/processTree/relatedCase";
 import $ from "jquery";
+import {iframeDoMessage} from '@/utils/auth'
 export default {
   name: "ipo",
   components: {
@@ -252,6 +253,8 @@ export default {
   },
   data() {
     return {
+      ipoplatetype:false,
+      wxcodeimgload:false,
       wxcode:false,
       wxcodeUrl:'',
       tenantInfo:'',//日志
@@ -364,6 +367,8 @@ export default {
       shortName: "",
       lableName: "",
       caseId: "",
+      tenant_info:"",
+      access_token:"",
       allTime: "",
       time: "",
       clientLeft: "",
@@ -411,9 +416,12 @@ export default {
       // 日志------------------功能尾
   },
   mounted(){
-    
+
   },
   methods: {
+    wxcodeLoad(){
+      this.wxcodeimgload = true;
+    },
     wxcodeBig(){
       this.wxcode = true;
     },
@@ -440,10 +448,10 @@ export default {
        getCaseDetail(param).then(res => {
           if(res.data.result){
             this.companyProfileList = res.data.result
-            if (res.data.result.ipoPlate == '上交所科创板'){
+            /*if (res.data.result.ipoPlate == '上交所科创板'){
               this.ipoplatetype = true;
-            }
-            this.ipoplatetype = false;
+            }*/
+            //this.ipoplatetype = false;
             /*if (res.data.result.launchcompanycode == '999830'){
               this.ipoplatetype = true;
             }else {
@@ -504,7 +512,7 @@ export default {
                         that.showComponent = companyProfile
                         that.$refs.rightModule.treeListMethods(false);
                         targetList = document.getElementById('title-first').children;
-                        
+
                         let firstFlag = 0;
                         for (let i = 0; i < targetList.length; i++) {
                             if ((that.itemActiveFirst + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {

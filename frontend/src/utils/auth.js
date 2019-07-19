@@ -61,7 +61,7 @@ export const objectKeyToEmpty = (temParam,str,bo)=>{
 
 /**
  * iframe传值
- * 
+ *
  * @param win <Dom>
  * 		iframe.contentWindow or window.parent 对象
  * @param func <String>
