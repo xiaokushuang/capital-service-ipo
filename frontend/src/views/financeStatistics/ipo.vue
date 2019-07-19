@@ -450,8 +450,8 @@ export default {
             this.companyProfileList = res.data.result
         alert(this.$route.querycompanyId)
         alert(this.$store.state.app.companyId)
-        alert(access_token);
-        alert(tenant_info);
+        alert(this.access_token);
+        alert(this.tenant_info);
             /*if (res.data.result.ipoPlate == '上交所科创板'){
               this.ipoplatetype = true;
             }*/
