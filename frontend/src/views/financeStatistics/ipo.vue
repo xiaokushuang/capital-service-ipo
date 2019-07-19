@@ -446,9 +446,9 @@ export default {
        getCaseDetail(param).then(res => {
           if(res.data.result){
             this.companyProfileList = res.data.result
-            if (res.data.result.ipoPlate == '上交所科创板'){
+            /*if (res.data.result.ipoPlate == '上交所科创板'){
               this.ipoplatetype = true;
-            }
+            }*/
             //this.ipoplatetype = false;
             /*if (res.data.result.launchcompanycode == '999830'){
               this.ipoplatetype = true;
