@@ -61,7 +61,7 @@ export const objectKeyToEmpty = (temParam,str,bo)=>{
 
 /**
  * iframe传值
- * 
+ *
  * @param win <Dom>
  * 		iframe.contentWindow or window.parent 对象
  * @param func <String>
@@ -70,6 +70,7 @@ export const objectKeyToEmpty = (temParam,str,bo)=>{
  * 		传给方法的参数
  * */
 export function iframeDoMessage(win,func,param){
+  debugger;
 	win.postMessage({
 		type:'function',
 		func:func,

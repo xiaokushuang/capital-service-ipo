@@ -1354,6 +1354,10 @@
         this.intermediaryCode = item.labelValue;
       },
       itemClickHandler(row) {
+        let url = window.location.href;
+        url = url.replace(this.$route.path, '/ipoPopWin');
+        console.log('列表页跳转弹窗',url)
+        iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
         let id = row.id;
         if (id) {
           var caseId = id.substring(3, id.length);

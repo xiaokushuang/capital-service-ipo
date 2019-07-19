@@ -416,7 +416,7 @@ export default {
   },
   methods: {
     wxcodeBig(){
-      alert();
+      debugger;
       let url = window.location.href;
       url = url.replace(this.$route.path, '/ipoPopWin');
       iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
