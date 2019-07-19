@@ -22,6 +22,7 @@ import com.stock.capital.enterprise.ipoCase.dto.IpoAssociatedCaseVo;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.capital.enterprise.ipoCase.service.IssueSituationService;
+import com.stock.capital.enterprise.ipoInterfaceH5.controller.IpoFileUploadController;
 import com.stock.core.dto.JsonResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -32,11 +33,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.stock.core.security.SecurityHelper.getUserInfo;
 
 @Api(tags = {"IPO公司概览接口类"}, description = "IPO公司概览接口描述")
 @RestController
@@ -66,6 +71,12 @@ public class IpoCaseOverviewController {
     public JsonResponse<CompanyOverviewVo> caseDetail(@RequestParam("id") String id) {
         JsonResponse<CompanyOverviewVo> response = new JsonResponse<>();
         CompanyOverviewVo companyOverviewVo = companyOverviewService.getIpoCaseDetail(id);
+        private static final Logger logger = LoggerFactory.getLogger(IpoFileUploadController.class);
+        if (getUserInfo() != null){
+            logger.info(getUserInfo().getCompanyCode());
+        }else {
+            logger.info("############");
+        }
         response.setResult(companyOverviewVo);
         return response;
     }
