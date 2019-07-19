@@ -70,7 +70,7 @@
                 </span>
               </div>
           </div>
-          <div style="text-align: right">
+          <div style="text-align: right" v-if="false">
             <img :src="wxcodeUrl" style="margin-right: 10px;width: 120px;cursor: pointer;" @click="wxcodeBig">
             <div style="font-size: 12px;color: rgb(255,255,255);margin-right: 15px;">手机扫码可视化查看</div>
           </div>
