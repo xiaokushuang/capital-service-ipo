@@ -45,7 +45,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = {"IPO公司概览接口类"}, description = "IPO公司概览接口描述")
 @RestController
 @RequestMapping("companyOverview")
-public class IpoCaseOverviewController implements BaseController {
+public class IpoCaseOverviewController extends BaseController {
     private static final Logger logger = LoggerFactory.getLogger(IpoFileUploadController.class);
     @Autowired
     private CompanyOverviewService companyOverviewService;
