@@ -706,3 +706,59 @@
   font-size: 12px;
   background:white !important;
 }
+.noOpen .el-dialog{
+  margin-top:37vh !important;
+}
+.noOpen .el-dialog__header{
+  background: #a1aab5;
+  font-size: 16px;
+  font-weight: bold;
+  height: 46px;
+  font-family: 'Microsoft YaHei';
+}
+.noOpen .el-dialog__title{
+  color: #fff;
+}
+.noOpen .el-dialog__body{
+  padding:0
+}
+.noOpen .el-dialog__headerbtn {
+  width:22px;
+  height:22px;
+  position: absolute;
+  top: 13px;
+  right: 20px;
+  padding: 0;
+  background: 0 0;
+  border: none;
+  outline: 0;
+  cursor: pointer;
+  font-size: 10px;
+  background: white;
+  opacity: 0.5;
+}
+.noOpen .el-dialog__headerbtn:hover {
+  width:22px;
+  height:22px;
+  position: absolute;
+  top: 13px;
+  right: 20px;
+  padding: 0;
+  background: 0 0;
+  border: none;
+  outline: 0;
+  cursor: pointer;
+  font-size: 10px;
+  background: white;
+  opacity: 0.3;
+}
+.noOpen .el-dialog__headerbtn .el-dialog__close {
+  color: #113f44;
+  font-size: 14px;
+  font-weight: bold;
+}
+.noOpen .el-dialog__headerbtn .el-dialog__close:hover {
+  color: gray;
+  font-size: 14px;
+  font-weight: bold;
+}
