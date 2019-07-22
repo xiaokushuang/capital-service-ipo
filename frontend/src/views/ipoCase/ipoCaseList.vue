@@ -1360,7 +1360,7 @@
           const _self = this;
           const {href} = _self.$router.resolve({
             name: 'caseDetail',
-            query: {caseId: caseId, access_token: _self.$store.state.app.token,tenant_info:_self.$store.state.app.info}
+            query: {caseId: caseId, access_token: _self.$route.query.access_token,tenant_info:_self.$route.query.tenant_info}
           });
           // 日志---------------------头
           let param = {

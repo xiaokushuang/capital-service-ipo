@@ -276,8 +276,17 @@ public class IpoExamineService extends BaseService {
                 }
             }
         }
-        //按照日期排序，注册反馈取回函日期，其他取来函日期
+
         if(CollectionUtils.isNotEmpty(resultList)){
+            //如果注册反馈意见只有一次，则命名为 注册反馈意见，否则 按上面逻辑展示第一次，第二次
+            if(registerCount ==1){
+                for(IpoFeedbackDto dto:resultList){
+                    if("注册反馈意见".indexOf(dto.getLetterName()) > 0){
+                        dto.setLetterName("注册反馈意见");
+                    }
+                }
+            }
+            //按照日期排序，注册反馈取回函日期，其他取来函日期
             resultList.sort((IpoFeedbackDto c1,IpoFeedbackDto c2) -> c1.getLetterDate() == null? 1:c1.getLetterDate().compareTo(c2.getLetterDate()) );
         }
         return resultList;

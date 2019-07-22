@@ -475,15 +475,38 @@ public class IpoInterfaceController extends BaseController {
             dataMap.put("paramName", "研发投入");
             dataMap.put("paramData", "0");
             resultMap.put("devData", dataMap);
-            dataMap = new HashMap<>();
-            dataMap.put("paramName", "专利情况");
-            dataMap.put("paramData", "0");
-            resultMap.put("patentData", dataMap);
+//            dataMap = new HashMap<>();
+//            dataMap.put("paramName", "专利情况");
+//            dataMap.put("paramData", "0");
+//            resultMap.put("patentData", dataMap);
             dataMap = new HashMap<>();
             dataMap.put("paramName", "核心技术及研发技术人员");
             dataMap.put("paramData", "0");
             resultMap.put("coreData", dataMap);
             logger.error("ipoCaseH5获取行业与技术发生错误:{}", Throwables.getStackTraceAsString(e));
+        }
+
+        // 专利情况
+        try{
+            IpoH5Dto result = getPatentSituation(id);
+            if (StringUtils.isNotBlank(result.getPatent()) || StringUtils.isNotBlank(result.getPatentNew()) ||
+                StringUtils.isNotBlank(result.getPatentDesign()) || StringUtils.isNotBlank(result.getPatentInternation())){
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "专利情况");
+                dataMap.put("paramData", JsonUtil.toJsonNoNull(result));
+                resultMap.put("patentSituation", dataMap);
+            }else {
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "专利情况");
+                dataMap.put("paramData", "0");
+                resultMap.put("patentSituation", dataMap);
+            }
+        }catch (Exception e){
+            dataMap = new HashMap<>();
+            dataMap.put("paramName", "专利情况");
+            dataMap.put("paramData", "0");
+            resultMap.put("patentSituation", dataMap);
+            logger.error("ipoCaseH5获取专利情况发生错误:{}", Throwables.getStackTraceAsString(e));
         }
 
         //报告期主要供应商及客户情况
@@ -1557,6 +1580,16 @@ public class IpoInterfaceController extends BaseController {
     @RequestMapping(value = "/getTechnology", method = RequestMethod.GET)
     public Map getTechnology(@RequestParam("id") String id) {
         return ipoInterfaceService.getIpoTechnology(id);
+    }
+
+    /**
+     * dxy 专利情况
+     *
+     * @param id 案例id
+     */
+    @RequestMapping(value = "/getPatentSituation", method = RequestMethod.GET)
+    public IpoH5Dto getPatentSituation(@RequestParam("id") String id) {
+        return ipoInterfaceService.getPatentSituation(id);
     }
 
     /**
