@@ -22,10 +22,6 @@ import java.util.concurrent.TimeUnit;
         @ComponentScan.Filter(type = FilterType.ANNOTATION, value = { Controller.class, ControllerAdvice.class }) })
 public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
 
-    @Bean
-    public HandlerInterceptor tenantInfoInterceptor() {
-        return new TenantInfoInterceptor();
-    }
 
     /**
      * 描述 : <资源访问处理器>. <br>
@@ -54,19 +50,5 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
         registry.addInterceptor(tenantInfoInterceptor()).addPathPatterns("/**").excludePathPatterns("/error");
     }
 
-    @Bean
-    public CorsFilter corsFilter() {
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        final CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("OPTIONS");
-        config.addAllowedMethod("GET");
-        config.addAllowedMethod("POST");
-        config.setMaxAge(TimeUnit.DAYS.toSeconds(365));
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
-    }
 
 }
