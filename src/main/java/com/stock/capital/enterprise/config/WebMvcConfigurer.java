@@ -11,6 +11,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -38,6 +39,19 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("/static/");
         registry.addResourceHandler("/resources/**/*.js").addResourceLocations("/WEB-INF/views/");
+    }
+
+    /**
+     * 描述 : <拦截器>. <br>
+     * <p>
+     * <api访问拦截器>
+     * </p>
+     *
+     * @return
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(tenantInfoInterceptor()).addPathPatterns("/**").excludePathPatterns("/error");
     }
 
     @Bean
