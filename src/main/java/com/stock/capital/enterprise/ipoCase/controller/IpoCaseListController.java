@@ -4,8 +4,6 @@ import com.stock.capital.enterprise.ipoCase.dao.IpoCaseListMapper;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo;
 import com.stock.capital.enterprise.ipoCase.service.IpoCaseListService;
-import com.stock.capital.enterprise.ipoInterfaceH5.controller.IpoFileUploadController;
-import com.stock.core.controller.BaseController;
 import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.QueryInfo;
 import io.swagger.annotations.Api;
@@ -16,8 +14,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,8 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = {"IPO检索页接口类"}, description = "IPO检索页接口描述")
 @RestController
 @RequestMapping("search")
-public class IpoCaseListController extends BaseController {
-    private static final Logger logger = LoggerFactory.getLogger(IpoFileUploadController.class);
+public class IpoCaseListController {
 
     @Autowired
     private IpoCaseListService ipoCaseListService;
@@ -57,11 +52,6 @@ public class IpoCaseListController extends BaseController {
             }
         }
         Map<String, Object> map = ipoCaseListService.getIpoCaseList(page, signSymbol);
-        if (getUserInfo() != null){
-            logger.info(getUserInfo().getCompanyCode());
-        }else {
-            logger.info("############"+getUserInfo());
-        }
         List<IpoCaseIndexDto> list = (List<IpoCaseIndexDto>) map.get("data");
         if (list != null && !list.isEmpty()) {
             for (IpoCaseIndexDto indexDto : list) {
