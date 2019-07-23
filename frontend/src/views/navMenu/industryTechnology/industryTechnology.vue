@@ -151,6 +151,7 @@
             </span>
          </span>
         <el-table
+        :header-cell-style='styleObj'
          v-if="patentSituationTableData&&patentSituationTableData.length>0"
           class="patentSituationTable"
           :data="patentSituationTableData"
@@ -417,6 +418,9 @@ export default {
       coreTechnologyTableData:[],
       // 专利情况
       patentSituationTableData: [],
+      styleObj: {
+        	// 'text-align':'center'
+        },
       // 科技创新表格备注框
       remarksData:{
         patentRemarks:'',//专利
