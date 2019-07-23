@@ -44,6 +44,9 @@
                       <div v-if="headList.labelResult&&headList.labelResult == '09'">
                         <img src="../../assets/images/dsh1.png" alt="">
                       </div>
+                      <div v-if="headList.labelResult&&headList.labelResult == '10'">
+                        <img src="../../assets/images/qxsy1.png" alt="">
+                      </div>
                   </div>
               </div>
               <div class="text" style="position:relative;z-index: 4">
