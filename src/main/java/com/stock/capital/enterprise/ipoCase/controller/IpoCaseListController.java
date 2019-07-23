@@ -57,7 +57,11 @@ public class IpoCaseListController extends BaseController {
             }
         }
         Map<String, Object> map = ipoCaseListService.getIpoCaseList(page, signSymbol);
-        logger.info(getUserInfo().getCompanyCode());
+        if (getUserInfo() != null){
+            logger.info(getUserInfo().getCompanyCode());
+        }else {
+            logger.info("############"+getUserInfo());
+        }
         List<IpoCaseIndexDto> list = (List<IpoCaseIndexDto>) map.get("data");
         if (list != null && !list.isEmpty()) {
             for (IpoCaseIndexDto indexDto : list) {
