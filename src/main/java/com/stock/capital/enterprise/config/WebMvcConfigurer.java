@@ -1,10 +1,13 @@
 package com.stock.capital.enterprise.config;
 
+import com.stock.core.security.TenantInfoInterceptor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -12,6 +15,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @ComponentScan(basePackages = "com.stock", useDefaultFilters = false, includeFilters = {
         @ComponentScan.Filter(type = FilterType.ANNOTATION, value = { Controller.class, ControllerAdvice.class }) })
 public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
+
+    @Bean
+    public HandlerInterceptor tenantInfoInterceptor() {
+        return new TenantInfoInterceptor();
+    }
 
     /**
      * 描述 : <资源访问处理器>. <br>

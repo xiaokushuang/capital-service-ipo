@@ -1,7 +1,7 @@
 <template>
     <div class="container ipoOverview">
         <!-- 标题 -->
-        <el-row :gutter="10" style="margin-left:0px; margin-right:0px;height:0;">
+        <el-row :gutter="20" style="margin-left:0px; margin-right:0px;height:0;">
             <el-col :span="14">
                 <span class="no-margin" style="line-height:32px;">IPO在审项目数据统计</span>
             </el-col>
@@ -61,7 +61,7 @@
               </div>
             </el-col>
         </el-row>
-        <el-row :gutter="20" style="margin-left:0px; margin-right:0px;">
+        <el-row :gutter="20" style="margin-left:0px; margin-right:0px;margin-top:50px;">
             <el-col :span="24">
               <div style="width:98%;border-bottom:1px solid #ddd;margin-top:20px;margin-bottom:30px;"></div>
             </el-col>
@@ -105,19 +105,19 @@
             <!-- 保荐机构 -->
             <el-tabs v-model="activeName">
               <el-tab-pane label="保荐机构" name="first">
-                <div rightTable>
+                <div>
                   <ipo-data-overview-table-show ref="ipoDataOverviewShow" :id="tabName1" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
                 </div>
               </el-tab-pane>
               <!-- 律师事务所 -->
               <el-tab-pane label="律师事务所" name="second">
-                <div rightTable>
+                <div>
                   <ipo-data-overview-table-show ref="ipoDataOverviewShow" :id="tabName2" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
                 </div>
               </el-tab-pane>
               <!-- 会计事务所 -->
               <el-tab-pane label="会计事务所" name="third">
-                <div rightTable>
+                <div>
                   <ipo-data-overview-table-show ref="ipoDataOverviewShow" :id="tabName3" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
                 </div>
               </el-tab-pane>

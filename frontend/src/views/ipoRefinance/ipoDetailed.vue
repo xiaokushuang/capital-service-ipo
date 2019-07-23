@@ -213,7 +213,7 @@ export default {
       if(name == '已受理') {
         label = '(已受理)'
       } else if(name == '已反馈') {
-        label = '(已反馈)'
+        label = '(已问询)'
       } else if(name == '中止审查') {
         label = '(中止)'
       } else if(name == '已通过发审会') {
