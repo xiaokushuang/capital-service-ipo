@@ -297,7 +297,9 @@ export default {
       exportExcelPostWindow1("/ipo/regulatory_statistics/ipoItemDataExport",this.queryParam);
     },
     openDetail(registAddr,lastUpadteTime,approveStatus,viewType){
-      debugger;
+      if(this.getValue(registAddr) == '') {//当点击合计时,传下拉列表选中的地区
+        registAddr = this.queryParam.condition.registAddr;
+      }
       let url = window.location.href;
       url = url.replace(this.$route.path,'/ipoItemDataDetailPopWin');
       url = url + '&registAddr=' + registAddr + '&lastUpadteTime=' + lastUpadteTime + '&approveStatus=' + approveStatus
