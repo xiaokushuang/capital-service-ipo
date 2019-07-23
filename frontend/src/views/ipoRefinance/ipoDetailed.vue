@@ -22,6 +22,7 @@
                 :tree-data="belongsPlateList"
                 :default-props="defaultProps"
                 :default-all-show="false"
+                :all-select="allSelect" 
               ></el-multiple-selection>
             </el-col>
             <!-- 注册地 -->
@@ -37,6 +38,7 @@
                 :tree-data="areaList"
                 :default-props="defaultProps1"
                 :default-all-show="false"
+                :all-select="allSelect" 
               ></el-multiple-selection>
             </el-col>
             <el-col :span="12" align="right">
@@ -164,6 +166,7 @@ export default {
       },
       heightStyle: "heightStyle",
       yearShow:'',//年份
+      allSelect:{colloge: false,},
     };
   },
   created() {//加载前默认调用
@@ -284,6 +287,8 @@ export default {
       //清空参数
       this.queryParam = {
         condition : {
+          belongsPlate:'',
+          registAddr:''
         }
       }
       this.search();
@@ -412,5 +417,8 @@ export default {
 }
 .spanClass:hover {
     text-decoration: underline;
+}
+.el-select-dropdown .el-input__inner, .el-select-dropdown .el-input__suffix:hover {
+    cursor: pointer;
 }
 </style>

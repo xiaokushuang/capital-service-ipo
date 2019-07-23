@@ -80,6 +80,7 @@
                 :default-props="defaultProps1"
                 :all-show="allShow"
                 :default-all-show="false"
+                :all-select="allSelect"  
               ></el-multiple-selection>
             </el-col>
             <!-- 项目公司注册地 -->
@@ -96,6 +97,7 @@
                 :tree-data="areaList"
                 :default-props="defaultProps"
                 :default-all-show="false"
+                :all-select="allSelect"  
               ></el-multiple-selection>
             </el-col>
         </el-row>
@@ -161,6 +163,7 @@ export default {
       tabName3:'third',
       industrySelect:'',//所属行业选中
       areaSelect:'',//所属地区选中
+      allSelect:{colloge: false,},
     };
   },
   created() {//加载前默认调用
@@ -184,7 +187,6 @@ export default {
     ]),
     // 右表格数据重组
     tableTop() {
-      debugger;
       var middle = []
       this.getDataOverInfo.map((obj, idx) => {
         if(obj.label != '终止审查' && obj.label != '预披露更新' && obj.label != '已上发审会，暂缓表决') {
@@ -240,7 +242,6 @@ export default {
       });
     },
     lableTurnName(lable){//右侧表格名字替换
-    debugger;
       if(lable=="已受理(已受理)"){
         lable = "已受理<span style='color:#0099cc'>(已受理)</span>";
       }
@@ -384,6 +385,9 @@ export default {
 }
 .el-table .last-row {
   background: #E8E8E8!important;
+}
+.el-select-dropdown .el-input__inner, .el-select-dropdown .el-input__suffix:hover {
+    cursor: pointer;
 }
 </style>
 
