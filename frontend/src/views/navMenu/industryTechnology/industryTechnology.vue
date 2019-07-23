@@ -419,7 +419,7 @@ export default {
       // 专利情况
       patentSituationTableData: [],
       styleObj: {
-        	'text-align':'center'
+        	// 'text-align':'center'
         },
       // 科技创新表格备注框
       remarksData:{
