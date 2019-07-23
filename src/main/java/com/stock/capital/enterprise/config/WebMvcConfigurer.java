@@ -22,6 +22,10 @@ import java.util.concurrent.TimeUnit;
         @ComponentScan.Filter(type = FilterType.ANNOTATION, value = { Controller.class, ControllerAdvice.class }) })
 public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
 
+    @Bean
+    public HandlerInterceptor tenantInfoInterceptor() {
+        return new TenantInfoInterceptor();
+    }
 
     /**
      * 描述 : <资源访问处理器>. <br>
