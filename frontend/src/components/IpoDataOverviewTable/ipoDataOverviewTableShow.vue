@@ -177,4 +177,9 @@ export default {
 .favorite-table {
     padding:0 15px 0 10px;
 }
+
+.el-table--border td, .el-table--border th {
+    border-right:1px solid #DDDDDD!important;
+    border-bottom:1px solid #DDDDDD!important;
+  }
 </style>
