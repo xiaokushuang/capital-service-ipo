@@ -7,9 +7,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 @ComponentScan(basePackages = "com.stock", useDefaultFilters = false, includeFilters = {
@@ -34,5 +40,19 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/static/**").addResourceLocations("/static/");
         registry.addResourceHandler("/resources/**/*.js").addResourceLocations("/WEB-INF/views/");
     }
+
+    /**
+     * 描述 : <拦截器>. <br>
+     * <p>
+     * <api访问拦截器>
+     * </p>
+     *
+     * @return
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(tenantInfoInterceptor()).addPathPatterns("/**").excludePathPatterns("/error");
+    }
+
 
 }
