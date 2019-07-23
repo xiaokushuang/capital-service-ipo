@@ -523,6 +523,7 @@
                           <span class="zcsxResult" v-if="scope.row.labelResult==='07'">注册生效</span>
                           <span class="whtgResult" v-if="scope.row.labelResult==='08'">不予注册</span>
                           <span class="dshResult"  v-if="scope.row.labelResult==='09'">待上会</span>
+                          <span class="qxshResult"  v-if="scope.row.labelResult==='10'">取消审议</span>
                         <!-- <span v-if="scope.row.reviewResult!=null">
                           <span class="tgResult"  v-if="scope.row.reviewResult==='05'">通过</span>
                           <span class="wtgResult" v-if="scope.row.reviewResult==='06'">未通过</span>

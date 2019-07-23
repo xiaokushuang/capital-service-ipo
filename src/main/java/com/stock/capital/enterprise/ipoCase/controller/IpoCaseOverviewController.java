@@ -73,7 +73,7 @@ public class IpoCaseOverviewController extends BaseController {
         if (getUserInfo() != null){
             logger.info(getUserInfo().getCompanyCode());
         }else {
-            logger.info("############");
+            logger.info("############"+getUserInfo());
         }
         response.setResult(companyOverviewVo);
         return response;
