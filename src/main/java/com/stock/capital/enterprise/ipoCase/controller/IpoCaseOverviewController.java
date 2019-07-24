@@ -72,13 +72,15 @@ public class IpoCaseOverviewController {
     @ApiOperation(value = "关联案例列表", notes = "关联案例列表接口描述")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
-            dataType = "String"),
-        @ApiImplicitParam(name = "companyId", value = "用户所在公司id", required = true, paramType = "query",
             dataType = "String")
     })
     @RequestMapping(value = "/associatedCaseList", method = RequestMethod.GET)
-    public JsonResponse<List<IpoAssociatedCaseVo>> associatedCaseList(@RequestParam("id") String id, @RequestParam("companyId") String companyId){
+    public JsonResponse<List<IpoAssociatedCaseVo>> associatedCaseList(@RequestParam("id") String id){
       JsonResponse<List<IpoAssociatedCaseVo>> response = new JsonResponse<>();
+      String companyId = "";
+      if (getUserInfo() != null){
+        companyId = getUserInfo().getCompanyId();
+      }
       List<IpoAssociatedCaseVo> result = companyOverviewService.getAssociatedCaseList(id, companyId);
       response.setResult(result);
       return response;
