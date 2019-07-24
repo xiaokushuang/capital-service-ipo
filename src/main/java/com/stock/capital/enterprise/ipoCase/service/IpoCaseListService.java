@@ -343,7 +343,11 @@ public class IpoCaseListService extends BaseService {
         }
         IpoCaseListBo law = ipoCaseListMapper.querylawId();
         if (law != null){
-            resultMap.put("issueLawId",law.getIssueLawId());
+            if (StringUtils.isNoneBlank(law.getIssueLawId())){
+                resultMap.put("issueLawId",law.getIssueLawId());
+            }else {
+                resultMap.put("issueLawId","746412002835704646");
+            }
         }else {
             resultMap.put("issueLawId","746412002835704646");
         }
