@@ -1388,7 +1388,6 @@
       openNewRule() {
         const _self = this;
         const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId='+_self.issueLawId+'&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
-        alert(href)
         window.open(href, '_blank');
       },
       //没有权限数据背景色
