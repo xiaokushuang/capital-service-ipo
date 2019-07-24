@@ -264,7 +264,11 @@ export default {
     },
     search(){
       this.$store.dispatch('ipoItemDataQuery', this.queryParam).then((data) => {//(方法名，参数)
+        if(data.ipoItemDataList != null && data.ipoItemDataList.length > 1) {
           this.data = data.ipoItemDataList;
+        } else {
+          this.data = [];
+        }
       });
     },
     sure(childArr,allArr,nodekey,id){// 下拉确定

@@ -77,4 +77,15 @@
     WHERE sc.id = #{companyId}
     AND (sa.authorize_type = '00' OR sc.ipo_flag = '2' OR sc.ipo_flag = '4')
   </select>
+
+  <select id="querylawId" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo">
+    select lm.id AS issueLawId,
+    case when lm.law_invalid is not null and lm.law_invalid != '' and lm.law_invalid &lt;= now() then "已失效"
+    when lm.law_effect_date > now() then "待失效"
+    when lm.modify_date is not null and lm.modify_date != ''  then "已被修改"
+    end as tmpRemarks
+    from law_evolution_group leg, laws_manage lm
+    where leg.group_no='1451' and lm.id= leg.law_id  and lm.laws_name not like "%的决定" having tmpRemarks is null order by lm.published desc
+    limit 1;
+  </select>
 </mapper>

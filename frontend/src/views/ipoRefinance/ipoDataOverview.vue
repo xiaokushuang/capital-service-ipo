@@ -177,13 +177,6 @@ export default {
     ...mapGetters([
       "getDataOverInfo",
       "getDataHistory",
-      "getProjectBelong",
-      "getSponsorInstitution",
-      "getLowOffice",
-      "getAccountFirm",
-      "getIpoQuery",
-      "declearPaper",
-      "getTotalFloor"
     ]),
     // 右表格数据重组
     tableTop() {
@@ -276,8 +269,6 @@ export default {
     ipoDataPort() {
       this.$store.dispatch("ipoDataOverviewGet").then();
       this.$store.dispatch("ipoDataHistoryGet").then();
-      this.$store.dispatch("projectBelongGet").then();
-      this.$store.dispatch("ipoQueryGet").then();
     },
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex === this.tableTop.length - 1) {
