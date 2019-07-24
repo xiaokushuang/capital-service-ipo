@@ -22,6 +22,7 @@ import com.stock.capital.enterprise.ipoCase.dto.IpoAssociatedCaseVo;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.capital.enterprise.ipoCase.service.IssueSituationService;
+import com.stock.core.controller.BaseController;
 import com.stock.core.dto.JsonResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -41,7 +42,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = {"IPO公司概览接口类"}, description = "IPO公司概览接口描述")
 @RestController
 @RequestMapping("companyOverview")
-public class IpoCaseOverviewController {
+public class IpoCaseOverviewController extends BaseController {
     @Autowired
     private CompanyOverviewService companyOverviewService;
     @Autowired
@@ -72,13 +73,15 @@ public class IpoCaseOverviewController {
     @ApiOperation(value = "关联案例列表", notes = "关联案例列表接口描述")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
-            dataType = "String"),
-        @ApiImplicitParam(name = "companyId", value = "用户所在公司id", required = true, paramType = "query",
             dataType = "String")
     })
     @RequestMapping(value = "/associatedCaseList", method = RequestMethod.GET)
-    public JsonResponse<List<IpoAssociatedCaseVo>> associatedCaseList(@RequestParam("id") String id, @RequestParam("companyId") String companyId){
+    public JsonResponse<List<IpoAssociatedCaseVo>> associatedCaseList(@RequestParam("id") String id){
       JsonResponse<List<IpoAssociatedCaseVo>> response = new JsonResponse<>();
+      String companyId = "";
+      if (getUserInfo() != null){
+        companyId = getUserInfo().getCompanyId();
+      }
       List<IpoAssociatedCaseVo> result = companyOverviewService.getAssociatedCaseList(id, companyId);
       response.setResult(result);
       return response;

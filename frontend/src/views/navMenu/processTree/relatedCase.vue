@@ -106,17 +106,17 @@ export default {
     },
     methods: {
        gonggaoClick(id,flag) {
-            if (flag =='1') {
+            if (id) {
                 const _self = this;
                 const {href} = _self.$router.resolve({
                 name: 'caseDetail',
                 query: {caseId: id, access_token: _self.$store.state.app.token,tenant_info:_self.$store.state.app.info}
                 });
                 this.$open(href);
-            } 
-            if (flag !=='1') {
+            } else  {
                 this.$emit("noOpenFlag",true)
             }
+            
       },
     }
 };
