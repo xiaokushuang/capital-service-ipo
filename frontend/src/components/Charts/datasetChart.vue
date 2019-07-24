@@ -146,7 +146,7 @@ export default {
           },
           formatter : function(params) {
             var tar = params[0];
-            var str = '<p style="margin-top:10px;">' + tar.name + '</p>';
+            var str = '<p style="margin-top:10px;text-align:center;">' + tar.name + '</p>';
             str = str + '<p style="text-align:left;">';
             for (var i = 0; i < params.length; i++) {
               tar = params[i];

@@ -223,7 +223,7 @@
         AS b WHERE a.patentSum &lt; b.bsum)+1 AS patentRanking ,
         c.*
         FROM (
-        SELECT t3.id,
+        SELECT t1.id,
         --  专利情况
         t3.domestic_invention AS patent,
         -- 使用新型专利
@@ -250,7 +250,9 @@
         -- 外观设计专利总数
         SUM(t3.domestic_design) AS patentDesignAll,
         -- 国际专利总数
-        SUM(t3.foreign_patent) AS patentInternationAll
+        SUM(t3.foreign_patent) AS patentInternationAll,
+        -- ipo库中科创板公司总数
+				count(*) AS ipoCompanyCount
         FROM ipo_case t1, case_common_status_info t2, ipo_technology AS t3
         WHERE t2.case_id = t1.id
         AND t2.release_flag = 1

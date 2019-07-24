@@ -475,10 +475,10 @@ public class IpoInterfaceController extends BaseController {
             dataMap.put("paramName", "研发投入");
             dataMap.put("paramData", "0");
             resultMap.put("devData", dataMap);
-            dataMap = new HashMap<>();
-            dataMap.put("paramName", "专利情况");
-            dataMap.put("paramData", "0");
-            resultMap.put("patentData", dataMap);
+//            dataMap = new HashMap<>();
+//            dataMap.put("paramName", "专利情况");
+//            dataMap.put("paramData", "0");
+//            resultMap.put("patentData", dataMap);
             dataMap = new HashMap<>();
             dataMap.put("paramName", "核心技术及研发技术人员");
             dataMap.put("paramData", "0");
@@ -494,18 +494,18 @@ public class IpoInterfaceController extends BaseController {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "专利情况");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(result));
-                resultMap.put("supplierMainList", dataMap);
+                resultMap.put("patentSituation", dataMap);
             }else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "专利情况");
                 dataMap.put("paramData", "0");
-                resultMap.put("supplierMainList", dataMap);
+                resultMap.put("patentSituation", dataMap);
             }
         }catch (Exception e){
             dataMap = new HashMap<>();
             dataMap.put("paramName", "专利情况");
             dataMap.put("paramData", "0");
-            resultMap.put("supplierMainList", dataMap);
+            resultMap.put("patentSituation", dataMap);
             logger.error("ipoCaseH5获取专利情况发生错误:{}", Throwables.getStackTraceAsString(e));
         }
 

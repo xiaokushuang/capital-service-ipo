@@ -42,7 +42,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("companyOverview")
 public class IpoCaseOverviewController {
-
     @Autowired
     private CompanyOverviewService companyOverviewService;
     @Autowired
