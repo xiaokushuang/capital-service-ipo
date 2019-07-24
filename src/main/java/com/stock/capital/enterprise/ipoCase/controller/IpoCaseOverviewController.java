@@ -22,6 +22,7 @@ import com.stock.capital.enterprise.ipoCase.dto.IpoAssociatedCaseVo;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.capital.enterprise.ipoCase.service.IssueSituationService;
+import com.stock.core.controller.BaseController;
 import com.stock.core.dto.JsonResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -41,7 +42,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = {"IPO公司概览接口类"}, description = "IPO公司概览接口描述")
 @RestController
 @RequestMapping("companyOverview")
-public class IpoCaseOverviewController {
+public class IpoCaseOverviewController extends BaseController {
     @Autowired
     private CompanyOverviewService companyOverviewService;
     @Autowired
