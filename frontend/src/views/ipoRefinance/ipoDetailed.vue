@@ -22,6 +22,7 @@
                 :tree-data="belongsPlateList"
                 :default-props="defaultProps"
                 :default-all-show="false"
+                :all-select="allSelect" 
               ></el-multiple-selection>
             </el-col>
             <!-- 注册地 -->
@@ -37,6 +38,7 @@
                 :tree-data="areaList"
                 :default-props="defaultProps1"
                 :default-all-show="false"
+                :all-select="allSelect" 
               ></el-multiple-selection>
             </el-col>
             <el-col :span="12" align="right">
@@ -164,6 +166,7 @@ export default {
       },
       heightStyle: "heightStyle",
       yearShow:'',//年份
+      allSelect:{colloge: false,},
     };
   },
   created() {//加载前默认调用
@@ -213,7 +216,7 @@ export default {
       if(name == '已受理') {
         label = '(已受理)'
       } else if(name == '已反馈') {
-        label = '(已反馈)'
+        label = '(已问询)'
       } else if(name == '中止审查') {
         label = '(中止)'
       } else if(name == '已通过发审会') {
@@ -261,7 +264,11 @@ export default {
     },
     search(){
       this.$store.dispatch('ipoItemDataQuery', this.queryParam).then((data) => {//(方法名，参数)
+        if(data.ipoItemDataList != null && data.ipoItemDataList.length > 1) {
           this.data = data.ipoItemDataList;
+        } else {
+          this.data = [];
+        }
       });
     },
     sure(childArr,allArr,nodekey,id){// 下拉确定
@@ -284,6 +291,8 @@ export default {
       //清空参数
       this.queryParam = {
         condition : {
+          belongsPlate:'',
+          registAddr:''
         }
       }
       this.search();
@@ -292,7 +301,9 @@ export default {
       exportExcelPostWindow1("/ipo/regulatory_statistics/ipoItemDataExport",this.queryParam);
     },
     openDetail(registAddr,lastUpadteTime,approveStatus,viewType){
-      debugger;
+      if(this.getValue(registAddr) == '') {//当点击合计时,传下拉列表选中的地区
+        registAddr = this.queryParam.condition.registAddr;
+      }
       let url = window.location.href;
       url = url.replace(this.$route.path,'/ipoItemDataDetailPopWin');
       url = url + '&registAddr=' + registAddr + '&lastUpadteTime=' + lastUpadteTime + '&approveStatus=' + approveStatus
@@ -412,5 +423,8 @@ export default {
 }
 .spanClass:hover {
     text-decoration: underline;
+}
+.el-select-dropdown .el-input__inner, .el-select-dropdown .el-input__suffix:hover {
+    cursor: pointer;
 }
 </style>

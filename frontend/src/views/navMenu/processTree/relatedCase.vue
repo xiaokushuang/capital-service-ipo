@@ -55,7 +55,6 @@
 <script>
 import Vue from "vue";
 import $ from "jquery";
-import {iframeDoMessage} from '@/utils/auth';
 export default {
     data() {
         return {
@@ -107,23 +106,17 @@ export default {
     },
     methods: {
        gonggaoClick(id,flag) {
-           debugger;
-            if (flag =='1') {
+            if (id) {
                 const _self = this;
                 const {href} = _self.$router.resolve({
                 name: 'caseDetail',
                 query: {caseId: id, access_token: _self.$store.state.app.token,tenant_info:_self.$store.state.app.info}
                 });
                 this.$open(href);
-            } 
-            if (flag !=='1') {
-                // let url = window.location.href;
-                // url = url.replace(this.$route.path, '/ipoPopWin');
-                // url = url.split('?')[0]
-                let url = 'https://services-dev.valueonline.cn/ui/ipo/ipoPopWin?access_token=a261c9de-5d47-4ba5-a7eb-930375b42cb1&tenant_info=VZ2LMFiWfMrN0HwKnBa8NCiVk2B5CNgaAlLlQ6zMg_BEi3CJU4Dhvi5nHWZALsPpXxekXG09tny9nA-lpZVrUu3CYfAVinF9z3MQR7c63eC9Rog_8ierWBKVANApidx7af25Lp3iaMYdIbRypxc5YYX-uMOn3kGULMPAcvaG-DEAW5fEbkAYVibmziKI8m5XoWasShjhcsgBEEnbi5o_ew%3D%3D&baseUrl=http%3A%2F%2F999600.valueonline.cn&companyId=999600'
-                console.log('关联案例弹窗',url)
-                iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
+            } else  {
+                this.$emit("noOpenFlag",true)
             }
+            
       },
     }
 };

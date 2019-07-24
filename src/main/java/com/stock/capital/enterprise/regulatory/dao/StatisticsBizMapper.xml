@@ -56,23 +56,24 @@
     )*100, 2) AS percent
     FROM (
     SELECT
-    idi.recommend_organization AS label,
+    cro.recommend_organization AS label,
     idi.belong_trade as belongTrade,
     idi.regist_addr as registAddr,
     (
     SELECT COUNT(1)
     FROM ipo_data_info i
     WHERE i.quasi_listed_land = '01' AND
-    i.recommend_organization = idi.recommend_organization AND i.grab_update_time = #{lastUpadteTime}
+    i.recommend_organization LIKE CONCAT("%", cro.recommend_organization, "%") AND
+    i.grab_update_time = #{lastUpadteTime}
     <if test="areaList != null and areaList.size() > 0">
-            AND i.regist_addr IN
-            <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
-                #{area}
-            </foreach>
+        AND i.regist_addr IN
+        <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">
+            #{area}
+        </foreach>
     </if>
     <if test="industryList != null and industryList.size() > 0">
         AND i.belong_trade IN
-        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">
             #{industry}
         </foreach>
     </if>
@@ -80,16 +81,18 @@
     (
     SELECT COUNT(1)
     FROM ipo_data_info i
-    WHERE i.quasi_listed_land = '00' AND i.recommend_organization = idi.recommend_organization AND i.grab_update_time = #{lastUpadteTime}
+    WHERE i.quasi_listed_land = '00' AND
+    i.recommend_organization LIKE CONCAT("%", cro.recommend_organization, "%") AND
+    i.grab_update_time = #{lastUpadteTime}
     <if test="areaList != null and areaList.size() > 0">
-            AND i.regist_addr IN
-            <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
-                #{area}
-            </foreach>
+        AND i.regist_addr IN
+        <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">
+            #{area}
+        </foreach>
     </if>
     <if test="industryList != null and industryList.size() > 0">
         AND i.belong_trade IN
-        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">
             #{industry}
         </foreach>
     </if>
@@ -97,17 +100,18 @@
     (
     SELECT COUNT(1)
     FROM ipo_data_info i
-    WHERE i.quasi_listed_land = '02' AND i.recommend_organization = idi.recommend_organization AND
+    WHERE i.quasi_listed_land = '02' AND
+    i.recommend_organization LIKE CONCAT("%", cro.recommend_organization, "%") AND
     i.grab_update_time = #{lastUpadteTime}
     <if test="areaList != null and areaList.size() > 0">
-            AND i.regist_addr IN
-            <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
-                #{area}
-            </foreach>
+        AND i.regist_addr IN
+        <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">
+            #{area}
+        </foreach>
     </if>
     <if test="industryList != null and industryList.size() > 0">
         AND i.belong_trade IN
-        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">
             #{industry}
         </foreach>
     </if>
@@ -115,55 +119,58 @@
     (
     SELECT COUNT(1)
     FROM ipo_data_info i
-    WHERE i.quasi_listed_land = '03' AND i.recommend_organization = idi.recommend_organization AND
+    WHERE i.quasi_listed_land = '03' AND
+    i.recommend_organization LIKE CONCAT("%", cro.recommend_organization, "%") AND
     i.grab_update_time = #{lastUpadteTime}
     <if test="areaList != null and areaList.size() > 0">
-            AND i.regist_addr IN
-            <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
-                #{area}
-            </foreach>
+        AND i.regist_addr IN
+        <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">
+            #{area}
+        </foreach>
     </if>
     <if test="industryList != null and industryList.size() > 0">
         AND i.belong_trade IN
-        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">
             #{industry}
         </foreach>
     </if>
     ) AS cybCount,
+
     (
     SELECT COUNT(1)
     FROM ipo_data_info i
-    WHERE i.quasi_listed_land = '04' AND i.recommend_organization = idi.recommend_organization AND
+    WHERE i.quasi_listed_land = '04' AND
+    i.recommend_organization LIKE CONCAT("%", cro.recommend_organization, "%") AND
     i.grab_update_time = #{lastUpadteTime}
     <if test="areaList != null and areaList.size() > 0">
-            AND i.regist_addr IN
-            <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
-                #{area}
-            </foreach>
+        AND i.regist_addr IN
+        <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">
+            #{area}
+        </foreach>
     </if>
     <if test="industryList != null and industryList.size() > 0">
         AND i.belong_trade IN
-        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">
             #{industry}
         </foreach>
     </if>
     ) AS kcCount
-    
-    FROM ipo_data_info idi
+
+    FROM ipo_data_info idi left join  company_recommend_organization  cro on idi.id = cro.ipo_data_id
     WHERE idi.recommend_organization IS NOT NULL AND idi.grab_update_time = #{lastUpadteTime}
     <if test="areaList != null and areaList.size() > 0">
         AND idi.regist_addr IN
-        <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+        <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">
             #{area}
         </foreach>
     </if>
     <if test="industryList != null and industryList.size() > 0">
         AND idi.belong_trade IN
-        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">
             #{industry}
         </foreach>
     </if>
-    GROUP BY idi.recommend_organization
+    GROUP BY cro.recommend_organization
     ) a
 </sql>
 

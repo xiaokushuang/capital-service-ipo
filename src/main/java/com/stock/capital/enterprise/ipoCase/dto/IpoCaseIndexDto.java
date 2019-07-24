@@ -22,10 +22,10 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
     @Field("ipo_org_code_t")
     private String orgCode;//东财内码
 
-    @Field("ipo_company_code_t")
+    @Field("ipo_company_code_s")
     private String companyCode;//公司编码
 
-    @Field("ipo_company_name_t")
+    @Field("ipo_company_name_s")
     private String companyName;//公司简称
 
     @Field("ipo_title_t")

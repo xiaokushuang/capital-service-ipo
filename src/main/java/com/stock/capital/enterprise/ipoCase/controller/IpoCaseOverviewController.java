@@ -22,7 +22,6 @@ import com.stock.capital.enterprise.ipoCase.dto.IpoAssociatedCaseVo;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.capital.enterprise.ipoCase.service.IssueSituationService;
-import com.stock.capital.enterprise.ipoInterfaceH5.controller.IpoFileUploadController;
 import com.stock.core.controller.BaseController;
 import com.stock.core.dto.JsonResponse;
 import io.swagger.annotations.Api;
@@ -34,8 +33,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,8 +42,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = {"IPO公司概览接口类"}, description = "IPO公司概览接口描述")
 @RestController
 @RequestMapping("companyOverview")
-public class IpoCaseOverviewController implements BaseController {
-    private static final Logger logger = LoggerFactory.getLogger(IpoFileUploadController.class);
+public class IpoCaseOverviewController extends BaseController {
     @Autowired
     private CompanyOverviewService companyOverviewService;
     @Autowired
@@ -70,11 +66,6 @@ public class IpoCaseOverviewController implements BaseController {
     public JsonResponse<CompanyOverviewVo> caseDetail(@RequestParam("id") String id) {
         JsonResponse<CompanyOverviewVo> response = new JsonResponse<>();
         CompanyOverviewVo companyOverviewVo = companyOverviewService.getIpoCaseDetail(id);
-        if (getUserInfo() != null){
-            logger.info(getUserInfo().getCompanyCode());
-        }else {
-            logger.info("############");
-        }
         response.setResult(companyOverviewVo);
         return response;
     }
@@ -82,13 +73,15 @@ public class IpoCaseOverviewController implements BaseController {
     @ApiOperation(value = "关联案例列表", notes = "关联案例列表接口描述")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
-            dataType = "String"),
-        @ApiImplicitParam(name = "companyId", value = "用户所在公司id", required = true, paramType = "query",
             dataType = "String")
     })
     @RequestMapping(value = "/associatedCaseList", method = RequestMethod.GET)
-    public JsonResponse<List<IpoAssociatedCaseVo>> associatedCaseList(@RequestParam("id") String id, @RequestParam("companyId") String companyId){
+    public JsonResponse<List<IpoAssociatedCaseVo>> associatedCaseList(@RequestParam("id") String id){
       JsonResponse<List<IpoAssociatedCaseVo>> response = new JsonResponse<>();
+      String companyId = "";
+      if (getUserInfo() != null){
+        companyId = getUserInfo().getCompanyId();
+      }
       List<IpoAssociatedCaseVo> result = companyOverviewService.getAssociatedCaseList(id, companyId);
       response.setResult(result);
       return response;

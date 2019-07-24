@@ -223,7 +223,7 @@
         AS b WHERE a.patentSum &lt; b.bsum)+1 AS patentRanking ,
         c.*
         FROM (
-        SELECT t3.id,
+        SELECT t1.id,
         --  专利情况
         t3.domestic_invention AS patent,
         -- 使用新型专利

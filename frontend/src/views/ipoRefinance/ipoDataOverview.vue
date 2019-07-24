@@ -1,7 +1,7 @@
 <template>
     <div class="container ipoOverview">
         <!-- 标题 -->
-        <el-row :gutter="10" style="margin-left:0px; margin-right:0px;height:0;">
+        <el-row :gutter="20" style="margin-left:0px; margin-right:0px;height:0;">
             <el-col :span="14">
                 <span class="no-margin" style="line-height:32px;">IPO在审项目数据统计</span>
             </el-col>
@@ -18,7 +18,7 @@
             <!-- 右部表 -->
             <el-col :span="12" style="padding-left:0px;padding-right:0px;">
               <div id="table1">
-                <el-table :data="tableTop" border show-summary style="width: 100%" :header-cell-class-name="tableHeaderColor">
+                <el-table :data="tableTop" border style="width: 100%" :header-cell-class-name="tableHeaderColor" :row-class-name="tableRowClassName"> 
                   <el-table-column label="" width="210">
                     <template slot-scope="scope">
                         <span v-html="lableTurnName(scope.row.label)"></span>
@@ -61,7 +61,7 @@
               </div>
             </el-col>
         </el-row>
-        <el-row :gutter="20" style="margin-left:0px; margin-right:0px;">
+        <el-row :gutter="20" style="margin-left:0px; margin-right:0px;margin-top:50px;">
             <el-col :span="24">
               <div style="width:98%;border-bottom:1px solid #ddd;margin-top:20px;margin-bottom:30px;"></div>
             </el-col>
@@ -80,6 +80,7 @@
                 :default-props="defaultProps1"
                 :all-show="allShow"
                 :default-all-show="false"
+                :all-select="allSelect"  
               ></el-multiple-selection>
             </el-col>
             <!-- 项目公司注册地 -->
@@ -96,6 +97,7 @@
                 :tree-data="areaList"
                 :default-props="defaultProps"
                 :default-all-show="false"
+                :all-select="allSelect"  
               ></el-multiple-selection>
             </el-col>
         </el-row>
@@ -105,19 +107,19 @@
             <!-- 保荐机构 -->
             <el-tabs v-model="activeName">
               <el-tab-pane label="保荐机构" name="first">
-                <div rightTable>
+                <div>
                   <ipo-data-overview-table-show ref="ipoDataOverviewShow" :id="tabName1" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
                 </div>
               </el-tab-pane>
               <!-- 律师事务所 -->
               <el-tab-pane label="律师事务所" name="second">
-                <div rightTable>
+                <div>
                   <ipo-data-overview-table-show ref="ipoDataOverviewShow" :id="tabName2" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
                 </div>
               </el-tab-pane>
               <!-- 会计事务所 -->
               <el-tab-pane label="会计事务所" name="third">
-                <div rightTable>
+                <div>
                   <ipo-data-overview-table-show ref="ipoDataOverviewShow" :id="tabName3" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
                 </div>
               </el-tab-pane>
@@ -161,6 +163,7 @@ export default {
       tabName3:'third',
       industrySelect:'',//所属行业选中
       areaSelect:'',//所属地区选中
+      allSelect:{colloge: false,},
     };
   },
   created() {//加载前默认调用
@@ -174,20 +177,40 @@ export default {
     ...mapGetters([
       "getDataOverInfo",
       "getDataHistory",
-      "getProjectBelong",
-      "getSponsorInstitution",
-      "getLowOffice",
-      "getAccountFirm",
-      "getIpoQuery",
-      "declearPaper",
-      "getTotalFloor"
     ]),
     // 右表格数据重组
     tableTop() {
       var middle = []
       this.getDataOverInfo.map((obj, idx) => {
-        if(obj.label != '终止审查' && obj.label != '预披露更新' && obj.label != '已上发审会，暂缓表决' && obj.label != '合计') {
-          middle.push(obj)
+        if(obj.label != '终止审查' && obj.label != '预披露更新' && obj.label != '已上发审会，暂缓表决') {
+          if(obj.label == "已受理" || obj.label == "已受理(已受理)"){
+            middle[0]= obj;
+          }
+          if(obj.label == "已反馈" || obj.label == "已反馈(已问询)"){
+            middle[1]= obj;
+          }
+          if(obj.label == "预先披露更新"){
+            middle[2]= obj;
+          }
+          if(obj.label == "已通过发审会" || obj.label == "已通过发审会(上市委会议通过)"){
+            middle[3]= obj;
+          }
+          if(obj.label == "中止审查" || obj.label == "中止审查(中止)"){
+            middle[4]= obj;
+          }
+          if(obj.label == "已提交发审会讨论，暂缓表决"){
+            middle[5]= obj;
+          }
+          if(obj.label == "提交注册"){
+            middle[6]= obj;
+          }
+          if(obj.label == "注册生效"){
+            middle[7]= obj;
+          }
+          if(obj.label == "合计"){
+            middle[8]= obj;
+          }
+          // middle.push(obj)
         }
       })
       return middle
@@ -224,11 +247,11 @@ export default {
       if(lable=="中止审查(中止)"){
         lable = "中止审查<span style='color:#0099cc'>(中止)</span>";
       }
-      if(lable=="注册生效"){
-        lable = "<span style='color:#0099cc'>注册生效</span>";
-      }
       if(lable=="提交注册"){
         lable = "<span style='color:#0099cc'>提交注册</span>";
+      }
+      if(lable=="注册生效"){
+        lable = "<span style='color:#0099cc'>注册生效</span>";
       }
       return lable;
     },
@@ -246,8 +269,11 @@ export default {
     ipoDataPort() {
       this.$store.dispatch("ipoDataOverviewGet").then();
       this.$store.dispatch("ipoDataHistoryGet").then();
-      this.$store.dispatch("projectBelongGet").then();
-      this.$store.dispatch("ipoQueryGet").then();
+    },
+    tableRowClassName({ row, rowIndex }) {
+      if (rowIndex === this.tableTop.length - 1) {
+        return "last-row"
+      }
     },
   }
 };
@@ -269,12 +295,6 @@ export default {
 .container .el-table .el-table__body .cell {
     padding: 5px;
 }
-.chart .el-table--enable-row-transition .el-table__body td {
-  height: 41px;
-  line-height: 41px;
-  border-right: 1px solid #ddd;
-  border-bottom: 1px solid #ddd !important;
-}
 .el-table .hjRow {
   background: #e8e8e8 !important;
   text-align: center !important;
@@ -287,10 +307,10 @@ export default {
     padding: 5px;
     background: #E8E8E8!important;
 }
-.ipoOverview .el-table--border td, .el-table--border th {
+/* .ipoOverview .el-table--border td, .el-table--border th {
     border-right:1px solid #DDDDDD!important;
     border-bottom:1px solid #DDDDDD!important;
-  }
+  } */
 
 .ipoOverview .row1 {
   border-left: 1px solid #14bcf5!important;
@@ -353,6 +373,12 @@ export default {
 }
 .container {
   padding:0 10px 0 0!important;
+}
+.el-table .last-row {
+  background: #E8E8E8!important;
+}
+.el-select-dropdown .el-input__inner, .el-select-dropdown .el-input__suffix:hover {
+    cursor: pointer;
 }
 </style>
 
