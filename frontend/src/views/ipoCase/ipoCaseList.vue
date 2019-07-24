@@ -633,6 +633,7 @@
   export default {
     data() {
       return {
+        issueLawId:'',//上市条件法规id
         tenantInfo:'',//日志
         tableData: [],
         tableLoading: false,
@@ -1017,6 +1018,7 @@
         _getIpoCaseList(_data).then(response => {
           _self.tableLoading = false;
           if (response.data && response.data.success && response.data.result) {
+            _self.issueLawId = response.data.result.issueLawId;
             _self.totalCount = response.data.result.total;
             _self.tableData = response.data.result.data;
             console.log('store',_self.$store.state.app)
@@ -1385,7 +1387,8 @@
       },
       openNewRule() {
         const _self = this;
-        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=746412002835704646&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
+        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId='+_self.issueLawId+'&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
+        alert(href)
         window.open(href, '_blank');
       },
       //没有权限数据背景色

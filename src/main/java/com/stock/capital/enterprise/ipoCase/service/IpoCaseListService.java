@@ -341,6 +341,12 @@ public class IpoCaseListService extends BaseService {
         if (sfcTreeTag != null && !sfcTreeTag.isEmpty()) {
             sfcTreeNum = assebleTreeData(sfcTreeTag, bureauList, true);
         }
+        IpoCaseListBo law = ipoCaseListMapper.querylawId();
+        if (law != null){
+            resultMap.put("issueLawId",law.getIssueLawId());
+        }else {
+            resultMap.put("issueLawId","746412002835704646");
+        }
         resultMap.put("plateTreeTag", plateTreeTag);
         resultMap.put("plateTreeNum", plateTreeNum);
         resultMap.put("marketTreeTag", marketTreeTag);
