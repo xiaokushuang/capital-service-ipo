@@ -457,16 +457,16 @@ export default {
     },
     // 初始化数据
     initTableData() {
-      console.log('companyId22222222222',this.$store.state.app.companyId)
-      console.log('companyId233333333333',this.companyId)
+      // console.log('companyId22222222222',this.$store.state.app.companyId)
+      // console.log('companyId233333333333',this.companyId)
        // 动态传id
       const param = {
         id:this.caseId2
       }
-      const query = {
-        id:this.caseId2,
-        companyId:this.companyId
-      }
+      // const query = {
+      //   id:this.caseId2,
+      //   companyId:this.companyId
+      // }
        getHeadData(param).then(res => {
          if(res.data.result){
            this.headList = res.data.result
@@ -490,10 +490,8 @@ export default {
           }
       });
       // 获取关联案例数据
-      getRelatedCaseData(query).then(res => {
-        console.log('companyId2444444444444444',this.$store.state.app)
+      getRelatedCaseData(param).then(res => {
             this.flagLoading = false;
-            console.log('关联案例参数',query)
             console.log('关联案例接口数据',res.data.result)
             if(res.data.result){
                 this.proList = res.data.result
