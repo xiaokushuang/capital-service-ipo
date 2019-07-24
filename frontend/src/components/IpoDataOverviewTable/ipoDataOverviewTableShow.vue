@@ -1,6 +1,6 @@
 <template>
     <div class="favorite-table">
-        <el-table :data="data" style="width: 100%" class="paddingControl" border tooltip-effect="dark" :cell-class-name="tdStyle"
+        <el-table :data="data" style="width: 100%;border-right:2px solid #DDDDDD!important;" class="paddingControl" border tooltip-effect="dark" :cell-class-name="tdStyle"
           @sort-change="sortChange" ref="multipleSelection">
            <el-table-column align="center" label="序号" type="index" width="60"></el-table-column>
                 <el-table-column v-if="id == 'first'" align="left" label="保荐机构" prop="label" min-width="30%"></el-table-column>
@@ -118,7 +118,7 @@ export default {
 			this.pageSearch();
 		},
         pageSearch(){//分页查询调用
-            this.$refs.paper.search(this.queryParam.orderByName,this.queryParam.orderByOrder);	
+            this.$refs.paper.search(this.queryParam.orderByName,this.queryParam.orderByOrder,'ipoDataOverview');	
         },
         search(data){//通过给定条件查询数据
             this.queryParam.pageSize = data.pageSize;
