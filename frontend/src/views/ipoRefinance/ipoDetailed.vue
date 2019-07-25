@@ -429,4 +429,7 @@ export default {
 .el-select-dropdown .el-input__inner, .el-select-dropdown .el-input__suffix:hover {
     cursor: pointer;
 }
+[class*=" el-icon-"],[class^=el-icon-] {
+    font-size: 12px;
+}
 </style>
