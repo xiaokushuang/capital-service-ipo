@@ -166,7 +166,7 @@ export default {
         this.submitData.start = start;
         this.submitData.pageSize = length;
     },
-    search(a,b){//搜索
+    search(a,b,c){//搜索
         if(arguments.length!=0){
             this.submitData.orderByName = a;
             this.submitData.orderByOrder = b;
@@ -182,8 +182,10 @@ export default {
         // console.log(`排序方式：${data.orderByOrder}`)
         // console.log(data)
         //console.log(this.sdefault)
+        if(this.getValue(c) != 'ipoDataOverview') {//c用于区分ipo数据概览页面,查询后不置顶
+            iframeDoMessage(window.parent,'scrollTop',[]);
+        }
         let _this = this;
-        iframeDoMessage(window.parent,'scrollTop',[]);
         setTimeout(()=>{
             let orgob = Object.assign(_this.orgob,_this.sdefault)
             let queryParam  = {condition:orgob};
@@ -191,6 +193,12 @@ export default {
             //console.log(queryParam);
             _this.$emit('searchTable',queryParam)
         },100)
+    },
+    getValue(val){
+        if (val == null || val == "null" || val == undefined || val == "undefined") {
+            val = "";
+        }
+        return val
     },
     firstPage(){//首页
         if(this.total==0) return
