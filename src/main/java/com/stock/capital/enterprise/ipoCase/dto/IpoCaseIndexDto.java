@@ -28,6 +28,9 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
     @Field("ipo_company_name_s")
     private String companyName;//公司简称
 
+    @Field("ipo_company_full_name_s")
+    private String companyFullName;//公司全称
+
     @Field("ipo_title_t")
     private String title;//标题
 
@@ -580,5 +583,13 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
 
     public void setFinalTime(Date finalTime) {
         this.finalTime = finalTime;
+    }
+
+    public String getCompanyFullName() {
+        return companyFullName;
+    }
+
+    public void setCompanyFullName(String companyFullName) {
+        this.companyFullName = companyFullName;
     }
 }

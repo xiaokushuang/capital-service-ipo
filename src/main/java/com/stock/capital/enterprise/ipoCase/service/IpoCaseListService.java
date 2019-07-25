@@ -56,6 +56,7 @@ public class IpoCaseListService extends BaseService {
         if (StringUtils.isNotBlank(bo.getCodeOrName())) {
             conditionsStr.append(" AND " + "(ipo_company_code_s:*").append(bo.getCodeOrName()).append("*")
                 .append(" OR ").append("ipo_company_name_s:*").append(bo.getCodeOrName()).append("*")
+                .append(" OR ").append("ipo_company_full_name_s:*").append(bo.getCodeOrName()).append("*")
                 .append(")");
         }
         //中介机构
