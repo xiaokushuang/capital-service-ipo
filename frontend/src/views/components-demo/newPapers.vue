@@ -62,7 +62,11 @@ export default {
     test:{
         type:String,
         default:''
-    }
+    },
+    tabFlag:{
+        type:String,
+        default:''
+    },
   },
   mounted(){
       this.submitData.pageSize = this.length1;
@@ -166,7 +170,7 @@ export default {
         this.submitData.start = start;
         this.submitData.pageSize = length;
     },
-    search(a,b,c){//搜索
+    search(a,b){//搜索
         if(arguments.length!=0){
             this.submitData.orderByName = a;
             this.submitData.orderByOrder = b;
@@ -182,7 +186,7 @@ export default {
         // console.log(`排序方式：${data.orderByOrder}`)
         // console.log(data)
         //console.log(this.sdefault)
-        if(this.getValue(c) != 'ipoDataOverview') {//c用于区分ipo数据概览页面,查询后不置顶
+        if(this.getValue(this.tabFlag) != 'ipoDataOverview') {//c用于区分ipo数据概览页面,查询后不置顶
             iframeDoMessage(window.parent,'scrollTop',[]);
         }
         let _this = this;
