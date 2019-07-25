@@ -93,11 +93,16 @@ public class StatisticsService extends BaseService implements ServletContextAwar
      * @return
      */
     public List<StatisticsResultDto> getIPOReviewingStts() {
-        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
-        };
-        String url = apiBaseUrl + "regulatory_statistics/getIPOReviewingStts";
-        List<StatisticsResultDto> response = restClient.post(url, "", responseType).getResult();
-        return response;
+//        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
+//        };
+//        String url = apiBaseUrl + "regulatory_statistics/getIPOReviewingStts";
+//        List<StatisticsResultDto> response = restClient.post(url, "", responseType).getResult();
+//        return response;
+        String updateTime = statisticsBizMapper.getIPOLastTime();
+        Map<String, Object> params = Maps.newHashMap();
+        params.put("updateTime", updateTime);
+        List<StatisticsResultDto> list = statisticsBizMapper.getIPOReviewingStts(params);
+        return list;
     }
 
     //需求4399 2018/5/24 by liuh Start
@@ -108,11 +113,11 @@ public class StatisticsService extends BaseService implements ServletContextAwar
      * @return
      */
     public List<StatisticsResultDto> getIPOHistory() {
-        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
-        };
-        String url = apiBaseUrl + "regulatory_statistics/getIPOHistory";
-        List<StatisticsResultDto> response = restClient.post(url, "", responseType).getResult();
-        return response;
+//        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
+//        };
+//        String url = apiBaseUrl + "regulatory_statistics/getIPOHistory";
+//        List<StatisticsResultDto> response = restClient.post(url, "", responseType).getResult();
+        return statisticsBizMapper.getIPOHistory(null);
     }
 
     /**

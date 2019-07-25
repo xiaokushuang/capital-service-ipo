@@ -90,6 +90,25 @@ public class IpoCaseListBo implements Serializable {
 
     private Double[] valuationValue;
 
+    private String issueLawName;//上市条件法规名称
+    private String issueLawId;//上市条件法规id
+
+    public String getIssueLawName() {
+        return issueLawName;
+    }
+
+    public void setIssueLawName(String issueLawName) {
+        this.issueLawName = issueLawName;
+    }
+
+    public String getIssueLawId() {
+        return issueLawId;
+    }
+
+    public void setIssueLawId(String issueLawId) {
+        this.issueLawId = issueLawId;
+    }
+
     public String getTitle() {
         return title;
     }

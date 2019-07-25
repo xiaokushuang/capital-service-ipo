@@ -22,7 +22,7 @@
                                     </div>
                                     <div class="border-right">
                                         <div style="">
-                                            <div :style="{'font-size': '14px', 'color': '#14bcf5','display':'inline-block','margin-right':item.progressName.length>=14?'-2px':'12px'}"  class="tinyHand">
+                                            <div :style="{'font-size': '14px', 'color': '#14bcf5','display':'inline-block','margin-right':item.progressName.length>=14?'-4px':'12px'}"  class="tinyHand">
                                                 <a @click="gonggaoClick(item.caseId,item.openFlag)">{{item.progressName}}</a>
                                              </div>
                                              <!-- 非科创版审核结果 -->

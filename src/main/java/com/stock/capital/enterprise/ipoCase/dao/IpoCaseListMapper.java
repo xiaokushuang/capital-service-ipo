@@ -1,5 +1,6 @@
 package com.stock.capital.enterprise.ipoCase.dao;
 
+import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo;
 import com.stock.capital.enterprise.ipoCase.dto.RegTreeDto;
 
 import org.springframework.stereotype.Repository;
@@ -17,4 +18,6 @@ public interface IpoCaseListMapper {
     List<Map<String, Object>> queryIntermediary(String intermediaryName);
 
     int queryAuthByCompanyId(String companyId);
+
+    IpoCaseListBo querylawId();
 }

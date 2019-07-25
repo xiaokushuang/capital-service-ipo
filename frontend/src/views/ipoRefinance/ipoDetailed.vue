@@ -301,6 +301,11 @@ export default {
       exportExcelPostWindow1("/ipo/regulatory_statistics/ipoItemDataExport",this.queryParam);
     },
     openDetail(registAddr,lastUpadteTime,approveStatus,viewType){
+      if(viewType == 'area' && this.getValue(registAddr) == '') {//合计行合计
+        viewType = 'all'
+      } else if(viewType == 'unit' && this.getValue(registAddr) == '') {//合计行其它
+        viewType = 'approve'
+      }
       if(this.getValue(registAddr) == '') {//当点击合计时,传下拉列表选中的地区
         registAddr = this.queryParam.condition.registAddr;
       }
@@ -334,9 +339,6 @@ export default {
               case '99': appLabel = approveStatus.replace("99", "最近一周终止审查<span style='color:#0099cc'>(终止)</span>");
               break;
         }
-      }
-      if(viewType == 'area' && this.getValue(registAddr) == '') {
-        viewType = 'all'
       }
       if('unit' == viewType){
         title = title + ' ( ' + registAddr + ' ' + appLabel + ' ) ';
@@ -426,5 +428,8 @@ export default {
 }
 .el-select-dropdown .el-input__inner, .el-select-dropdown .el-input__suffix:hover {
     cursor: pointer;
+}
+[class*=" el-icon-"],[class^=el-icon-] {
+    font-size: 12px;
 }
 </style>

@@ -24,6 +24,107 @@
     limit 1
 </select>
 
+<!-- IPO -->
+<select id="getIPOReviewingStts" parameterType="Map" resultType="com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto">
+    (
+    SELECT code.code_value AS value,code.code_name AS label,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info idi
+    WHERE idi.quasi_listed_land =
+    '01' AND
+    idi.approve_status = code.code_value AND idi.grab_update_time = #{updateTime}
+    ) AS szbCount,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info idi
+    WHERE idi.quasi_listed_land = '00' AND
+    idi.approve_status = code.code_value AND idi.grab_update_time = #{updateTime}
+    ) AS hzbCount,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info idi
+    WHERE idi.quasi_listed_land = '02' AND idi.approve_status =
+    code.code_value AND idi.grab_update_time = #{updateTime}
+    ) AS zxbCount,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info idi
+    WHERE idi.quasi_listed_land =
+    '03' AND idi.approve_status = code.code_value AND
+    idi.grab_update_time = #{updateTime}
+    ) AS cybCount,
+    
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info idi
+    WHERE idi.quasi_listed_land =
+    '04' AND idi.approve_status = code.code_value AND
+    idi.grab_update_time = #{updateTime}
+    ) AS kcCount
+    
+    FROM sa_code code
+    WHERE code.code_no = 'IPO_APPROVE_STATUS' 
+    GROUP BY code.code_value
+    ORDER BY
+    code.sort_no)
+    UNION
+    (
+    SELECT 'totalCount' AS value, '合计' AS label,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info idi
+    WHERE
+    idi.quasi_listed_land = '01' AND
+    idi.grab_update_time = #{updateTime}
+    ) AS szbCount,
+    (
+    SELECT COUNT(1)
+    FROM
+    ipo_data_info idi
+    WHERE idi.quasi_listed_land = '00' AND
+    idi.grab_update_time = #{updateTime}
+    ) AS hzbCount,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info idi
+    WHERE idi.quasi_listed_land = '02' AND
+    idi.grab_update_time = #{updateTime}
+    ) AS zxbCount,
+    (
+    SELECT COUNT(1)
+    FROM
+    ipo_data_info idi
+    WHERE idi.quasi_listed_land = '03' AND
+    idi.grab_update_time = #{updateTime}
+    ) AS cybCount,
+    (
+    SELECT COUNT(1)
+    FROM
+    ipo_data_info idi
+    WHERE idi.quasi_listed_land = '04' AND
+    idi.grab_update_time = #{updateTime}
+    ) AS kcCount
+    
+    )
+</select>
+
+<select id="getIPOHistory"  parameterType="Map" resultType="com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto">
+    select 
+        idi.grab_update_time AS value,
+        sum(if(idi.quasi_listed_land = '00',1,0)) AS hzbCount,
+        sum(if(idi.quasi_listed_land = '01',1,0)) AS szbCount,
+        sum(if(idi.quasi_listed_land = '02',1,0)) AS zxbCount,
+        sum(if(idi.quasi_listed_land = '03',1,0)) AS cybCount,
+        sum(if(idi.quasi_listed_land = '04',1,0)) AS kcCount,
+        sum(if(idi.quasi_listed_land is not null,1,0)) as totalCount
+    from ipo_data_info idi
+    where idi.grab_update_time is not null and idi.grab_update_time <![CDATA[>=]]> '2017-01-01'
+        and idi.approve_status != '05'
+    group by idi.grab_update_time
+    order by idi.grab_update_time
+</select>
+
 <!--保荐机构 -->
 <select id="getIPORecommendOrgStts" parameterType="Map" resultType="com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto">
     <include refid="get_IPO_Recommend_Org_Stts_List"></include>
