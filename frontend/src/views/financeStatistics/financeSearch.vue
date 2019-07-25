@@ -304,5 +304,8 @@ export default {
 .financeTable .el-table--border td, .el-table--border th {
     border-right: none!important;
   }
+[class*=" el-icon-"],[class^=el-icon-] {
+    font-size: 12px;
+}
 </style>
 
