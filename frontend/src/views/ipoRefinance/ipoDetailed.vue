@@ -430,6 +430,6 @@ export default {
     cursor: pointer;
 }
 [class*=" el-icon-"],[class^=el-icon-] {
-    font-size: 12px;
+    font-size: 13px;
 }
 </style>
