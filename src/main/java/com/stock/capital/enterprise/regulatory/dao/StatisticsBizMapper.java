@@ -42,5 +42,10 @@ public interface StatisticsBizMapper {
     
     //ipo在审项目详情页数据
     List<StatisticsCompanyDto> getIpoItemDataDetail(Map<String, Object> map);
+    
+    // IPO
+    List<StatisticsResultDto> getIPOReviewingStts(Map<String, Object> params);
+    
+    List<StatisticsResultDto> getIPOHistory(Map<String, Object> params);
 
 }
