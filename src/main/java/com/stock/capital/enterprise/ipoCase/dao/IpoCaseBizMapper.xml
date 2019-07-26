@@ -87,7 +87,7 @@
 
   <select id="getAssociatedCaseList" parameterType="string" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoAssociatedCaseVo">
       select ic.id AS caseId, ic.title AS progressName, ic.org_code AS orgCode,
-             (SELECT mcl.label_name FROM maa_conf_label mcl WHERE mcl.label_code = 'IPO_VERIFY_RESULT' AND mcl.label_value = ip.iec_result) iecResult,
+             (select iec_result from ipo_process w2 where ic.id = w2.bid and w2.iec_result is not null order by w2.process_time desc limit 1) AS  iecResult,
              DATE_FORMAT(ip1.process_time,'%Y-%m-%d') AS processTime,ccsi.release_flag as releaseFlag,ic.open_flag AS openFlag
       from ipo_case ic
              left join case_common_status_info ccsi on ccsi.case_id = ic.id
