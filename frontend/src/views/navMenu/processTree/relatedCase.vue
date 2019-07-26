@@ -30,7 +30,7 @@
                                             <span v-if="item.iecResult=='01'" :style={background:whtg} class="whtg">未获通过</span>
                                             <span v-if="item.iecResult=='02'" :style={background:zhbj} class="zhbj">暂缓表决 </span>
                                             <span v-if="item.iecResult=='03'" :style={background:qxsh} class="qxsh">取消审核</span>
-                                            <span v-if="item.iecResult=='04'" :style={background:dsh} class="dsh">待上会</span>
+                                            <span v-if="item.iecResult=='04' || item.iecResult=='09'" :style={background:dsh} class="dsh">待上会</span>
                                              <!-- 科创版审核结果 -->
                                             <span v-if="item.iecResult=='05'" :style="{'background':tg}"   class="tg" >通过</span>
                                             <span v-if="item.iecResult=='06'" :style="{'background':wtg}"  class="wtg">未通过</span>
