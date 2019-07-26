@@ -523,6 +523,7 @@
                           <span class="zcsxResult" v-if="scope.row.labelResult==='07'">注册生效</span>
                           <span class="whtgResult" v-if="scope.row.labelResult==='08'">不予注册</span>
                           <span class="dshResult"  v-if="scope.row.labelResult==='09'">待上会</span>
+                          <span class="qxshResult"  v-if="scope.row.labelResult==='10'">取消审议</span>
                         <!-- <span v-if="scope.row.reviewResult!=null">
                           <span class="tgResult"  v-if="scope.row.reviewResult==='05'">通过</span>
                           <span class="wtgResult" v-if="scope.row.reviewResult==='06'">未通过</span>
@@ -632,6 +633,7 @@
   export default {
     data() {
       return {
+        issueLawId:'',//上市条件法规id
         tenantInfo:'',//日志
         tableData: [],
         tableLoading: false,
@@ -889,7 +891,6 @@
     mounted() {
       // 日志
       this.tenantInfo = this.$route.query['tenant_info'];
-      // this.tenantInfo = this.$store.state.app.info;
       this.tableLoading = true;
       const _data = {
         startRow: 0,
@@ -1017,9 +1018,12 @@
         _getIpoCaseList(_data).then(response => {
           _self.tableLoading = false;
           if (response.data && response.data.success && response.data.result) {
+            _self.issueLawId = response.data.result.issueLawId;
             _self.totalCount = response.data.result.total;
             _self.tableData = response.data.result.data;
-            console.log('tableData',_self.tableData)
+            console.log('store',_self.$store.state.app)
+            console.log('companyId',_self.$route.query['companyId'])
+            console.log('列表页数据',_self.tableData)
             _self.plateTreeTag = [{
               label_sort: 1,
               name: "拟上市板块(" + response.data.result.plateTreeNum + ')',
@@ -1359,7 +1363,7 @@
           const _self = this;
           const {href} = _self.$router.resolve({
             name: 'caseDetail',
-            query: {caseId: caseId, access_token: _self.$store.state.app.token,tenant_info:_self.$store.state.app.info}
+            query: {caseId: caseId, access_token: _self.$route.query.access_token,tenant_info:_self.$route.query.tenant_info}
           });
           // 日志---------------------头
           let param = {
@@ -1368,11 +1372,11 @@
             }
             this.$store.commit('CREATE_TEMP_MESSAGE',param);
            // 日志---------------------尾
-          // window.open(href + '&tenant_info=' + this.tenantInfo, '_blank');
             this.$open(href, '_blank');
         } else {
           let url = window.location.href;
           url = url.replace(this.$route.path, '/ipoPopWin');
+          console.log('列表页跳转弹窗',url)
           iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
         }
       },
@@ -1383,7 +1387,7 @@
       },
       openNewRule() {
         const _self = this;
-        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=746412002835704646&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
+        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId='+_self.issueLawId+'&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
         window.open(href, '_blank');
       },
       //没有权限数据背景色

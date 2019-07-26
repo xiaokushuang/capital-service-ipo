@@ -13,17 +13,17 @@ import com.stock.capital.enterprise.ipoCase.dto.IpoValuationDto;
 import com.stock.capital.enterprise.ipoCase.dto.IssuerIndustryStatusDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyPatentDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyVo;
 import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.MainIncomeVo;
 import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoAssociatedCaseVo;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.capital.enterprise.ipoCase.service.IssueSituationService;
+import com.stock.core.controller.BaseController;
 import com.stock.core.dto.JsonResponse;
-import com.stock.core.dto.UserInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -39,13 +39,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.stock.core.security.SecurityHelper.getUserInfo;
-
 @Api(tags = {"IPO公司概览接口类"}, description = "IPO公司概览接口描述")
 @RestController
 @RequestMapping("companyOverview")
-public class IpoCaseOverviewController {
-
+public class IpoCaseOverviewController extends BaseController {
     @Autowired
     private CompanyOverviewService companyOverviewService;
     @Autowired
@@ -72,6 +69,23 @@ public class IpoCaseOverviewController {
         response.setResult(companyOverviewVo);
         return response;
     }
+
+    @ApiOperation(value = "关联案例列表", notes = "关联案例列表接口描述")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
+            dataType = "String")
+    })
+    @RequestMapping(value = "/associatedCaseList", method = RequestMethod.GET)
+    public JsonResponse<List<IpoAssociatedCaseVo>> associatedCaseList(@RequestParam("id") String id){
+      JsonResponse<List<IpoAssociatedCaseVo>> response = new JsonResponse<>();
+      String companyId = "";
+      if (getUserInfo() != null){
+        companyId = getUserInfo().getCompanyId();
+      }
+      List<IpoAssociatedCaseVo> result = companyOverviewService.getAssociatedCaseList(id, companyId);
+      response.setResult(result);
+      return response;
+  }
 
     @ApiOperation(value = "资本市场接口", notes = "资本市场接口描述")
     @ApiImplicitParams({

@@ -54,9 +54,10 @@ public class IpoCaseListService extends BaseService {
         }
         //公司名称/代码
         if (StringUtils.isNotBlank(bo.getCodeOrName())) {
-            conditionsStr.append(" AND " + "(ipo_company_code_t:\"").append(bo.getCodeOrName())
-                .append("\" OR ").append("ipo_company_name_t:\"").append(bo.getCodeOrName())
-                .append("\")");
+            conditionsStr.append(" AND " + "(ipo_company_code_s:*").append(bo.getCodeOrName()).append("*")
+                .append(" OR ").append("ipo_company_name_s:*").append(bo.getCodeOrName()).append("*")
+                .append(" OR ").append("ipo_company_full_name_s:*").append(bo.getCodeOrName()).append("*")
+                .append(")");
         }
         //中介机构
         if (StringUtils.isNotBlank(bo.getIntermediaryCode())) {
@@ -340,6 +341,16 @@ public class IpoCaseListService extends BaseService {
         long sfcTreeNum = 0;
         if (sfcTreeTag != null && !sfcTreeTag.isEmpty()) {
             sfcTreeNum = assebleTreeData(sfcTreeTag, bureauList, true);
+        }
+        IpoCaseListBo law = ipoCaseListMapper.querylawId();
+        if (law != null){
+            if (StringUtils.isNoneBlank(law.getIssueLawId())){
+                resultMap.put("issueLawId",law.getIssueLawId());
+            }else {
+                resultMap.put("issueLawId","746412002835704646");
+            }
+        }else {
+            resultMap.put("issueLawId","746412002835704646");
         }
         resultMap.put("plateTreeTag", plateTreeTag);
         resultMap.put("plateTreeNum", plateTreeNum);

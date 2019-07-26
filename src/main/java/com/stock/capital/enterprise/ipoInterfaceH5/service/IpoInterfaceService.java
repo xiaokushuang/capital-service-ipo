@@ -72,6 +72,20 @@ public class IpoInterfaceService extends BaseService {
         result.put("industryCompareRateInfo", industryCompareRateDataProcessing(industryCompareRateDtos));//毛利率数据处理加工
         return result;
     }
+
+  /**
+   * dxy
+   * 专利情况
+   *
+   * @param id
+   * @return
+   */
+  public IpoH5Dto getPatentSituation(String id) {
+    IpoH5Dto result = ipoInterfaceBizMapper.getPatentSituation(id);
+    return result;
+  }
+
+
     /**
      * 拆分上市情况
      * dxy

@@ -84,6 +84,51 @@
    limit 1
   </select>
 
+
+  <select id="getAssociatedCaseList" parameterType="string" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoAssociatedCaseVo">
+      select ic.id AS caseId, ic.title AS progressName, ic.org_code AS orgCode,
+             (select iec_result from ipo_process w2 where ic.id = w2.bid and w2.iec_result is not null order by w2.process_time desc limit 1) AS  iecResult,
+             DATE_FORMAT(ip1.process_time,'%Y-%m-%d') AS processTime,ccsi.release_flag as releaseFlag,ic.open_flag AS openFlag
+      from ipo_case ic
+             left join case_common_status_info ccsi on ccsi.case_id = ic.id
+             LEFT JOIN (SELECT t.* FROM (
+                                        SELECT
+                                               bid,
+                                               process_time,
+                                               iec_result
+                                        FROM
+                                             ipo_process
+                                        WHERE process_type_code = '07'
+                                           or process_type_code = '35'
+                                           or process_type_code = '38'
+                                        ORDER BY
+                                                 process_time DESC
+                                        LIMIT 2147483647
+                                        ) t
+                        GROUP BY
+                                 t.bid) ip ON ic.id = ip.bid
+             LEFT JOIN (SELECT t.* FROM (
+                                        SELECT
+                                               bid,
+                                               process_time,
+                                               iec_result
+                                        FROM
+                                             ipo_process
+                                        WHERE process_type_code = '04'
+                                           or process_type_code = '31'
+                                        ORDER BY
+                                                 process_time DESC
+                                        LIMIT 2147483647
+                                        ) t
+                        GROUP BY
+                                 t.bid) ip1 ON ic.id = ip1.bid
+      where 1=1
+        AND ccsi.release_flag = '1'
+        AND ic.org_code = (select org_code from  ipo_case where id = #{id})
+        AND ic.id != #{id}
+        ORDER BY processTime DESC
+  </select>
+
   <select id="getCodeAndNameById" parameterType="string" resultType="map">
     SELECT org_code AS orgCode,company_name AS companyName FROM ipo_case WHERE id = #{id} limit 1
   </select>
@@ -183,13 +228,15 @@
 
   <select id="getCompetitorData" parameterType="string"
     resultType="com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyPatentDto">
-    SELECT '国内专利' AS labelName, domestic_invention AS fm,domestic_newtype AS sy, domestic_design as wg,  (domestic_invention+domestic_newtype+domestic_design) AS hj FROM ipo_technology AS t1 WHERE bid = #{bid}
+    SELECT bid, '数量' AS labelName, domestic_invention AS fm,domestic_newtype AS sy, domestic_design as wg,  foreign_patent as gw,
+      (IFNULL(domestic_invention,0)+IFNULL(domestic_newtype,0)+IFNULL(domestic_design,0)+IFNULL(foreign_patent,0)) AS hj
+    FROM ipo_technology AS t1 WHERE bid = #{bid}
     UNION
-    SELECT '国外专利' AS labelName, foreign_invention AS fm,foreign_newtype AS sy, foreign_design as wg,  (foreign_invention+foreign_newtype+foreign_design) AS hj FROM ipo_technology AS t2 WHERE bid = #{bid}
-    UNION
-    SELECT '合计' AS labelName, IFNULL(domestic_invention,0) + IFNULL(foreign_invention,0) AS fm, IFNULL(domestic_newtype,0) + IFNULL(foreign_newtype,0) AS sy, IFNULL(domestic_design,0) + IFNULL(foreign_design,0) AS wg,
-    (IFNULL(domestic_invention,0)+IFNULL(domestic_newtype,0)+IFNULL(domestic_design,0) + IFNULL(foreign_invention,0)+
-		IFNULL(foreign_newtype,0)+IFNULL(foreign_design,0)) AS hj FROM ipo_technology WHERE bid = #{bid}
+    SELECT bid,'占比' AS labelName, IFNULL(domestic_invention,0)/t2.hj * 100 AS fm, IFNULL(domestic_newtype,0)/t2.hj * 100 AS sy, IFNULL(domestic_design,0)/t2.hj * 100 AS wg,IFNULL(foreign_patent,0)/t2.hj * 100 as gw,t2.hj/t2.hj * 100 AS hj
+    FROM ipo_technology AS t1,
+	    (SELECT IFNULL(domestic_invention,0)+IFNULL(domestic_newtype,0)+IFNULL(domestic_design,0)+IFNULL(foreign_patent,0) AS hj FROM ipo_technology
+	  WHERE bid = #{bid}) AS t2
+    WHERE t1.bid = #{bid}
   </select>
 
 

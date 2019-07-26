@@ -1,0 +1,861 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stock.capital.enterprise.regulatory.dao.StatisticsBizMapper" >
+
+<select id="getAreaList" resultType="com.stock.core.dto.OptionDto">
+    SELECT area_no value, area_name label
+    FROM provinces 
+    WHERE (SUBSTR(area_no,3,6) = '0000' AND area_no NOT IN ('810000','820000','710000'))
+        OR area_no IN ('440300','210200','330200','350200','370200')
+    ORDER BY CONVERT((CASE WHEN area_name = '重庆' THEN '充庆' ELSE area_name END) USING gbk)
+</select>
+
+<select id="postDeclareIndexIndustry" resultType="com.stock.core.dto.TreeDto">
+    Select industry_no as id,industry_name as name,p_industry_no as parentId
+    From securities_industry
+    where p_industry_no != '008'
+    GROUP BY industry_no
+</select>
+
+<select id="getIPOLastTime" resultType="String">
+    SELECT i.grab_update_time as lastUpdateTime
+    from ipo_data_info i where i.quasi_listed_land <![CDATA[!=]]> '04'
+    order by i.grab_update_time desc
+    limit 1
+</select>
+
+<!-- IPO -->
+<select id="getIPOReviewingStts" parameterType="Map" resultType="com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto">
+    (
+    SELECT code.code_value AS value,code.code_name AS label,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info idi
+    WHERE idi.quasi_listed_land =
+    '01' AND
+    idi.approve_status = code.code_value AND idi.grab_update_time = #{updateTime}
+    ) AS szbCount,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info idi
+    WHERE idi.quasi_listed_land = '00' AND
+    idi.approve_status = code.code_value AND idi.grab_update_time = #{updateTime}
+    ) AS hzbCount,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info idi
+    WHERE idi.quasi_listed_land = '02' AND idi.approve_status =
+    code.code_value AND idi.grab_update_time = #{updateTime}
+    ) AS zxbCount,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info idi
+    WHERE idi.quasi_listed_land =
+    '03' AND idi.approve_status = code.code_value AND
+    idi.grab_update_time = #{updateTime}
+    ) AS cybCount,
+    
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info idi
+    WHERE idi.quasi_listed_land =
+    '04' AND idi.approve_status = code.code_value AND
+    idi.grab_update_time = #{updateTime}
+    ) AS kcCount
+    
+    FROM sa_code code
+    WHERE code.code_no = 'IPO_APPROVE_STATUS' 
+    GROUP BY code.code_value
+    ORDER BY
+    code.sort_no)
+    UNION
+    (
+    SELECT 'totalCount' AS value, '合计' AS label,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info idi
+    WHERE
+    idi.quasi_listed_land = '01' AND
+    idi.grab_update_time = #{updateTime}
+    ) AS szbCount,
+    (
+    SELECT COUNT(1)
+    FROM
+    ipo_data_info idi
+    WHERE idi.quasi_listed_land = '00' AND
+    idi.grab_update_time = #{updateTime}
+    ) AS hzbCount,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info idi
+    WHERE idi.quasi_listed_land = '02' AND
+    idi.grab_update_time = #{updateTime}
+    ) AS zxbCount,
+    (
+    SELECT COUNT(1)
+    FROM
+    ipo_data_info idi
+    WHERE idi.quasi_listed_land = '03' AND
+    idi.grab_update_time = #{updateTime}
+    ) AS cybCount,
+    (
+    SELECT COUNT(1)
+    FROM
+    ipo_data_info idi
+    WHERE idi.quasi_listed_land = '04' AND
+    idi.grab_update_time = #{updateTime}
+    ) AS kcCount
+    
+    )
+</select>
+
+<select id="getIPOHistory"  parameterType="Map" resultType="com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto">
+    select 
+        idi.grab_update_time AS value,
+        sum(if(idi.quasi_listed_land = '00',1,0)) AS hzbCount,
+        sum(if(idi.quasi_listed_land = '01',1,0)) AS szbCount,
+        sum(if(idi.quasi_listed_land = '02',1,0)) AS zxbCount,
+        sum(if(idi.quasi_listed_land = '03',1,0)) AS cybCount,
+        sum(if(idi.quasi_listed_land = '04',1,0)) AS kcCount,
+        sum(if(idi.quasi_listed_land is not null,1,0)) as totalCount
+    from ipo_data_info idi
+    where idi.grab_update_time is not null and idi.grab_update_time <![CDATA[>=]]> '2017-01-01'
+        and idi.approve_status != '05'
+    group by idi.grab_update_time
+    order by idi.grab_update_time
+</select>
+
+<!--保荐机构 -->
+<select id="getIPORecommendOrgStts" parameterType="Map" resultType="com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto">
+    <include refid="get_IPO_Recommend_Org_Stts_List"></include>
+    <choose>
+        <when test="orderByName != null and orderByName != ''">
+            ORDER BY ${orderByName} ${orderByOrder}
+        </when>
+        <otherwise>
+            ORDER BY totalCount DESC, CONVERT(a.label USING gbk) ASC
+        </otherwise>
+    </choose>    
+</select>
+
+<select id="getIPORecommendOrgStts_COUNT" parameterType="Map" resultType="int">
+    SELECT count(1)
+    FROM
+      (<include refid="get_IPO_Recommend_Org_Stts_List"></include>) T
+</select>
+
+<sql id="get_IPO_Recommend_Org_Stts_List">
+    SELECT
+    a.label,a.szbCount,a.hzbCount,a.zxbCount,a.cybCount,a.kcCount,a.belongTrade,a.registAddr,
+    (a.szbCount+a.hzbCount+a.zxbCount+a.cybCount+a.kcCount) AS totalCount,
+    ROUND((a.szbCount+a.hzbCount+a.zxbCount+a.cybCount+a.kcCount)/
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info i
+    WHERE i.quasi_listed_land IN ('00','01','02','03','04') AND
+    i.grab_update_time = #{lastUpadteTime}
+    )*100, 2) AS percent
+    FROM (
+    SELECT
+    cro.recommend_organization AS label,
+    idi.belong_trade as belongTrade,
+    idi.regist_addr as registAddr,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info i, company_recommend_organization cro1
+    WHERE  i.id = cro1.ipo_data_id
+    AND cro1.recommend_organization = cro.recommend_organization
+    AND i.grab_update_time = #{lastUpadteTime}
+    AND i.quasi_listed_land = '01'
+    <if test="areaList != null and areaList.size() > 0">
+        AND i.regist_addr IN
+        <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">
+            #{area}
+        </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND i.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">
+            #{industry}
+        </foreach>
+    </if>
+    ) AS szbCount,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info i, company_recommend_organization cro1
+    WHERE i.id = cro1.ipo_data_id
+    AND cro1.recommend_organization = cro.recommend_organization
+    AND  i.grab_update_time = #{lastUpadteTime}
+    AND i.quasi_listed_land = '00'
+    <if test="areaList != null and areaList.size() > 0">
+        AND i.regist_addr IN
+        <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">
+            #{area}
+        </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND i.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">
+            #{industry}
+        </foreach>
+    </if>
+    ) AS hzbCount,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info i, company_recommend_organization cro1
+    WHERE i.id = cro1.ipo_data_id
+    AND cro1.recommend_organization = cro.recommend_organization
+    AND  i.grab_update_time = #{lastUpadteTime}
+    AND i.quasi_listed_land = '02'
+    <if test="areaList != null and areaList.size() > 0">
+        AND i.regist_addr IN
+        <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">
+            #{area}
+        </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND i.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">
+            #{industry}
+        </foreach>
+    </if>
+    ) AS zxbCount,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info i, company_recommend_organization cro1
+    WHERE i.id = cro1.ipo_data_id
+    AND cro1.recommend_organization = cro.recommend_organization
+    AND  i.grab_update_time = #{lastUpadteTime}
+    AND i.quasi_listed_land = '03'
+    <if test="areaList != null and areaList.size() > 0">
+        AND i.regist_addr IN
+        <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">
+            #{area}
+        </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND i.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">
+            #{industry}
+        </foreach>
+    </if>
+    ) AS cybCount,
+
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info i, company_recommend_organization cro1
+    WHERE i.id = cro1.ipo_data_id
+    AND cro1.recommend_organization = cro.recommend_organization
+    AND  i.grab_update_time = #{lastUpadteTime}
+    AND i.quasi_listed_land = '04'
+    <if test="areaList != null and areaList.size() > 0">
+        AND i.regist_addr IN
+        <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">
+            #{area}
+        </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND i.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">
+            #{industry}
+        </foreach>
+    </if>
+    ) AS kcCount
+
+    FROM ipo_data_info idi left join  company_recommend_organization  cro on idi.id = cro.ipo_data_id
+    WHERE idi.recommend_organization IS NOT NULL AND idi.grab_update_time = #{lastUpadteTime}
+    <if test="areaList != null and areaList.size() > 0">
+        AND idi.regist_addr IN
+        <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">
+            #{area}
+        </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND idi.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">
+            #{industry}
+        </foreach>
+    </if>
+    GROUP BY cro.recommend_organization
+    ) a
+</sql>
+
+<!--律师事务所 -->
+<select id="getIPOLawFirmStts" parameterType="Map" resultType="com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto">
+    <include refid="get_IPO_Law_Firm_Stts_List"></include>
+    <choose>
+        <when test="orderByName != null and orderByName != ''">
+            ORDER BY ${orderByName} ${orderByOrder}
+        </when>
+        <otherwise>
+            ORDER BY totalCount DESC, CONVERT(a.label USING gbk) ASC
+        </otherwise>
+    </choose>    
+</select>
+<select id="getIPOLawFirmStts_COUNT" parameterType="Map" resultType="int">
+    SELECT count(1)
+    FROM
+      (<include refid="get_IPO_Law_Firm_Stts_List"></include>) T
+</select>
+
+<sql id="get_IPO_Law_Firm_Stts_List">
+    SELECT
+    a.label,a.szbCount,a.hzbCount,a.zxbCount,a.cybCount,a.kcCount,a.belongTrade,a.registAddr,
+    (a.szbCount+a.hzbCount+a.zxbCount+a.cybCount+a.kcCount) AS totalCount,
+    ROUND((a.szbCount+a.hzbCount+a.zxbCount+a.cybCount+a.kcCount)/
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info i
+    WHERE i.quasi_listed_land IN ('00','01','02','03','04') AND
+    i.grab_update_time = #{lastUpadteTime}
+    )*100, 2) AS percent
+    FROM (
+    SELECT
+    idi.law_firm AS label,
+    idi.belong_trade as belongTrade,
+    idi.regist_addr as registAddr,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info i
+    WHERE i.quasi_listed_land = '01' AND i.law_firm = idi.law_firm AND
+    i.grab_update_time = #{lastUpadteTime}
+    <if test="areaList != null and areaList.size() > 0">
+            AND i.regist_addr IN
+            <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                #{area}
+            </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND i.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+            #{industry}
+        </foreach>
+    </if>
+    ) AS szbCount,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info i
+    WHERE i.quasi_listed_land = '00' AND i.law_firm = idi.law_firm
+    AND i.grab_update_time = #{lastUpadteTime}
+    <if test="areaList != null and areaList.size() > 0">
+            AND i.regist_addr IN
+            <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                #{area}
+            </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND i.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+            #{industry}
+        </foreach>
+    </if>
+    ) AS hzbCount,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info i
+    WHERE i.quasi_listed_land = '02' AND i.law_firm =
+    idi.law_firm AND i.grab_update_time = #{lastUpadteTime}
+    <if test="areaList != null and areaList.size() > 0">
+            AND i.regist_addr IN
+            <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                #{area}
+            </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND i.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+            #{industry}
+        </foreach>
+    </if>
+    ) AS zxbCount,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info i
+    WHERE i.quasi_listed_land = '03' AND
+    i.law_firm = idi.law_firm AND i.grab_update_time = #{lastUpadteTime}
+    <if test="areaList != null and areaList.size() > 0">
+            AND i.regist_addr IN
+            <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                #{area}
+            </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND i.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+            #{industry}
+        </foreach>
+    </if>
+    ) AS cybCount,
+    
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info i
+    WHERE i.quasi_listed_land = '04' AND
+    i.law_firm = idi.law_firm AND i.grab_update_time = #{lastUpadteTime}
+    <if test="areaList != null and areaList.size() > 0">
+            AND i.regist_addr IN
+            <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                #{area}
+            </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND i.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+            #{industry}
+        </foreach>
+    </if>
+    ) AS kcCount
+    
+    FROM ipo_data_info idi
+    WHERE idi.law_firm IS NOT NULL AND
+    idi.grab_update_time = #{lastUpadteTime}
+    <if test="areaList != null and areaList.size() > 0">
+        AND idi.regist_addr IN
+        <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+            #{area}
+        </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND idi.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+            #{industry}
+        </foreach>
+    </if>
+    GROUP BY idi.law_firm
+    ) a
+</sql>
+
+<!--会计事务所 -->
+<select id="getIPOAccountantOfficeStts" parameterType="Map" resultType="com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto">
+    <include refid="get_IPO_Accountant_Office_Stts_List"></include>
+    <choose>
+        <when test="orderByName != null and orderByName != ''">
+            ORDER BY ${orderByName} ${orderByOrder}
+        </when>
+        <otherwise>
+            ORDER BY totalCount DESC, CONVERT(a.label USING gbk) ASC
+        </otherwise>
+    </choose>   
+</select>
+<select id="getIPOAccountantOfficeStts_COUNT" parameterType="Map" resultType="int">
+    SELECT count(1)
+    FROM
+      (<include refid="get_IPO_Accountant_Office_Stts_List"></include>) T
+</select>
+
+<sql id="get_IPO_Accountant_Office_Stts_List">
+    SELECT
+    a.label,a.szbCount,a.hzbCount,a.zxbCount,a.cybCount,a.kcCount,a.belongTrade,a.registAddr,
+    (a.szbCount+a.hzbCount+a.zxbCount+a.cybCount+a.kcCount) AS
+    totalCount,
+    ROUND((a.szbCount+a.hzbCount+a.zxbCount+a.cybCount+a.kcCount)/
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info i
+    WHERE i.quasi_listed_land IN ('00','01','02','03','04') AND
+    i.grab_update_time = #{lastUpadteTime}
+    )*100, 2) AS percent
+    FROM (
+    SELECT
+    idi.accountant_office AS label,
+    idi.belong_trade as belongTrade,
+    idi.regist_addr as registAddr,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info i
+    WHERE i.quasi_listed_land = '01'
+    AND i.accountant_office =
+    idi.accountant_office AND i.grab_update_time = #{lastUpadteTime}
+    <if test="areaList != null and areaList.size() > 0">
+            AND i.regist_addr IN
+            <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                #{area}
+            </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND i.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+            #{industry}
+        </foreach>
+    </if>
+    ) AS szbCount,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info i
+    WHERE
+    i.quasi_listed_land = '00' AND
+    i.accountant_office = idi.accountant_office AND i.grab_update_time = #{lastUpadteTime}
+    <if test="areaList != null and areaList.size() > 0">
+            AND i.regist_addr IN
+            <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                #{area}
+            </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND i.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+            #{industry}
+        </foreach>
+    </if>
+    ) AS hzbCount,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info i
+    WHERE
+    i.quasi_listed_land = '02' AND i.accountant_office = idi.accountant_office AND i.grab_update_time = #{lastUpadteTime}
+    <if test="areaList != null and areaList.size() > 0">
+            AND i.regist_addr IN
+            <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                #{area}
+            </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND i.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+            #{industry}
+        </foreach>
+    </if>
+    ) AS zxbCount,
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info i
+    WHERE i.quasi_listed_land = '03' AND i.accountant_office = idi.accountant_office AND
+    i.grab_update_time = #{lastUpadteTime}
+    <if test="areaList != null and areaList.size() > 0">
+            AND i.regist_addr IN
+            <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                #{area}
+            </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND i.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+            #{industry}
+        </foreach>
+    </if>
+    ) AS cybCount,
+    
+    
+    (
+    SELECT COUNT(1)
+    FROM ipo_data_info i
+    WHERE i.quasi_listed_land = '04' AND i.accountant_office = idi.accountant_office AND
+    i.grab_update_time = #{lastUpadteTime}
+    <if test="areaList != null and areaList.size() > 0">
+            AND i.regist_addr IN
+            <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                #{area}
+            </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND i.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+            #{industry}
+        </foreach>
+    </if>
+    ) AS kcCount
+    
+    FROM ipo_data_info idi
+    WHERE idi.accountant_office IS NOT NULL AND idi.grab_update_time = #{lastUpadteTime}
+    <if test="areaList != null and areaList.size() > 0">
+        AND idi.regist_addr IN
+        <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+            #{area}
+        </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND idi.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+            #{industry}
+        </foreach>
+    </if>
+    GROUP BY idi.accountant_office
+    ) a
+</sql>
+
+<!--保荐机构详情页数据 -->
+<select id="queryCommendDetail" parameterType="Map" resultType="com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto">
+    SELECT 
+        i.app_company as appCompany, 
+        i.regist_addr as registAddr, 
+        i.belong_trade as belongTrade, 
+        (select s.code_name from sa_code s where s.code_value = i.quasi_listed_land and s.code_no = "QUASI_LISTED_TYPE") as quasiListedLand, 
+        i.recommend_organization as recommendOrganization,         
+        i.accountant_office as accountantOffice, 
+        i.law_firm as lawFirm, 
+        (select s.code_name from sa_code s where s.code_value = i.approve_status and s.code_no = "IPO_APPROVE_STATUS") as approveStatus, 
+        i.hased_random_inspection as hasedRandomInspection                           
+    FROM ipo_data_info i , company_recommend_organization cro
+    WHERE
+        i.id = cro.ipo_data_id
+    <if test="label != null and label != ''">
+        AND
+        cro.recommend_organization = #{label}
+    </if>
+    <if test="quasiListedLand != null and quasiListedLand != ''">
+        AND  
+        i.quasi_listed_land = #{quasiListedLand}
+    </if>
+    <if test="areaList != null and areaList.size() > 0">
+            AND i.regist_addr IN
+            <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                #{area}
+            </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND i.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+            #{industry}
+        </foreach>
+    </if>
+        AND 
+        i.grab_update_time = #{lastUpadteTime}
+</select>
+
+<!--律师事务所详情页数据 -->
+<select id="queryLawDetail" parameterType="Map" resultType="com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto">
+    SELECT 
+        i.app_company as appCompany, 
+        i.regist_addr as registAddr, 
+        i.belong_trade as belongTrade, 
+        (select s.code_name from sa_code s where s.code_value = i.quasi_listed_land and s.code_no = "QUASI_LISTED_TYPE") as quasiListedLand, 
+        i.recommend_organization as recommendOrganization,         
+        i.accountant_office as accountantOffice, 
+        i.law_firm as lawFirm, 
+        (select s.code_name from sa_code s where s.code_value = i.approve_status and s.code_no = "IPO_APPROVE_STATUS") as approveStatus, 
+        i.hased_random_inspection as hasedRandomInspection                          
+    FROM ipo_data_info i                                                                                    
+    WHERE 
+    <if test="label != null and label != ''">
+        i.law_firm = #{label}
+    </if>
+    <if test="quasiListedLand != null and quasiListedLand != ''">
+        AND  
+        i.quasi_listed_land = #{quasiListedLand}
+    </if>
+    <if test="areaList != null and areaList.size() > 0">
+            AND i.regist_addr IN
+            <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                #{area}
+            </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND i.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+            #{industry}
+        </foreach>
+    </if>
+        AND 
+        i.grab_update_time = #{lastUpadteTime}
+</select>
+
+<!--会计事务所详情页数据 -->
+<select id="queryAccountDetail" parameterType="Map" resultType="com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto">
+    SELECT 
+            i.app_company as appCompany, 
+        i.regist_addr as registAddr, 
+        i.belong_trade as belongTrade, 
+        (select s.code_name from sa_code s where s.code_value = i.quasi_listed_land and s.code_no = "QUASI_LISTED_TYPE") as quasiListedLand, 
+        i.recommend_organization as recommendOrganization,         
+        i.accountant_office as accountantOffice, 
+        i.law_firm as lawFirm, 
+        (select s.code_name from sa_code s where s.code_value = i.approve_status and s.code_no = "IPO_APPROVE_STATUS") as approveStatus, 
+        i.hased_random_inspection as hasedRandomInspection                           
+    FROM ipo_data_info i                                                                                    
+    WHERE 
+    <if test="label != null and label != ''">
+        i.accountant_office = #{label}
+    </if>
+    <if test="quasiListedLand != null and quasiListedLand != ''">
+        AND  
+        i.quasi_listed_land = #{quasiListedLand}
+    </if>
+    <if test="areaList != null and areaList.size() > 0">
+            AND i.regist_addr IN
+            <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                #{area}
+            </foreach>
+    </if>
+    <if test="industryList != null and industryList.size() > 0">
+        AND i.belong_trade IN
+        <foreach collection="industryList" index="index" item="industry" open="(" separator="," close=")">  
+            #{industry}
+        </foreach>
+    </if>
+        AND 
+        i.grab_update_time = #{lastUpadteTime}
+</select>
+
+<select id="getIpoItemDataQuery" parameterType="Map" resultType="com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto">
+    SELECT temp.registAddr,temp.applied,temp.reviewed, temp.preUpdate,
+         temp.endYet,temp.processing,temp.passed,temp.submited,temp.zc,
+         temp.areaCount,
+         temp.weekStopYet,
+         temp.stopYet,
+         #{lastUpadteTime} AS lastUpadteTime
+    FROM (SELECT * FROM(SELECT
+                area.areaName registAddr,
+                SUM( CASE WHEN idi.approve_status = '00' THEN 1 ELSE 0 END ) applied,
+                SUM( CASE WHEN idi.approve_status = '01' THEN 1 ELSE 0 END ) reviewed,
+                SUM( CASE WHEN idi.approve_status = '02' THEN 1 ELSE 0 END ) preUpdate,
+                SUM( CASE WHEN idi.approve_status = '04' THEN 1 ELSE 0 END ) endYet,
+                SUM( CASE WHEN idi.approve_status = '06' THEN 1 ELSE 0 END ) processing,
+                SUM( CASE WHEN idi.approve_status = '03' THEN 1 ELSE 0 END ) passed,
+                 SUM( CASE WHEN idi.approve_status = '10' THEN 1 ELSE 0 END ) submited,
+                  SUM( CASE WHEN idi.approve_status = '09' THEN 1 ELSE 0 END ) zc,
+                (SUM( CASE WHEN idi.approve_status = '00' THEN 1 ELSE 0 END )
+                    +SUM( CASE WHEN idi.approve_status = '01' THEN 1 ELSE 0 END )
+                    +SUM( CASE WHEN idi.approve_status = '02' THEN 1 ELSE 0 END ) 
+                    +SUM( CASE WHEN idi.approve_status = '04' THEN 1 ELSE 0 END )
+                    +SUM( CASE WHEN idi.approve_status = '06' THEN 1 ELSE 0 END ) 
+                    +SUM( CASE WHEN idi.approve_status = '03' THEN 1 ELSE 0 END )
+                    +SUM( CASE WHEN idi.approve_status = '09' THEN 1 ELSE 0 END )
+                    +SUM( CASE WHEN idi.approve_status = '10' THEN 1 ELSE 0 END )) areaCount,
+                (select count(*) from ipo_data_info cidi  
+                    where area.areaName = cidi.regist_addr  and cidi.approve_status = '05' and cidi.end_time >= #{lastWeek}
+                    <if test="plateList != null and plateList.size() > 0">
+                        AND cidi.quasi_listed_land IN
+                        <foreach collection="plateList" index="index" item="plate" open="(" separator="," close=")">  
+                            #{plate}
+                        </foreach>
+                    </if>) weekStopYet,
+                (select count(*) from ipo_data_info cidi  
+                    where area.areaName = cidi.regist_addr and cidi.end_time like concat(year(now()),'%') and cidi.approve_status = '05'
+                    <if test="plateList != null and plateList.size() > 0">
+                        AND cidi.quasi_listed_land IN
+                        <foreach collection="plateList" index="index" item="plate" open="(" separator="," close=")">  
+                            #{plate}
+                        </foreach>
+                    </if>) stopYet
+            FROM (SELECT REPLACE(area_name, '市', '') areaName FROM provinces 
+                        WHERE (SUBSTR(area_no,3,6) = '0000' AND area_no NOT IN ('810000','820000','710000'))
+                        OR area_no IN ('440300','210200','330200','350200','370200')) area 
+                 LEFT JOIN ipo_data_info idi ON area.areaName = idi.regist_addr AND idi.grab_update_time = #{lastUpadteTime}
+             <where>
+                <if test="plateList != null and plateList.size() > 0">
+                    AND idi.quasi_listed_land IN
+                    <foreach collection="plateList" index="index" item="plate" open="(" separator="," close=")">  
+                        #{plate}
+                    </foreach>
+                </if>
+                <if test="areaList != null and areaList.size() > 0">
+                    AND area.areaName IN
+                    <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                        #{area}
+                    </foreach>
+                </if>
+             </where>
+            GROUP BY area.areaName
+            ORDER BY ${ipoOrder} CONVERT((CASE WHEN area.areaName = '重庆' THEN '充庆' ELSE area.areaName END) USING gbk) ASC) t1
+            UNION
+            SELECT * FROM (SELECT
+                '' AS registAddr,
+                SUM( CASE WHEN idi.approve_status = '00' THEN 1 ELSE 0 END ) applied,
+                SUM( CASE WHEN idi.approve_status = '01' THEN 1 ELSE 0 END ) reviewed,
+                SUM( CASE WHEN idi.approve_status = '02' THEN 1 ELSE 0 END ) preUpdate,
+                SUM( CASE WHEN idi.approve_status = '04' THEN 1 ELSE 0 END ) endYet,
+                SUM( CASE WHEN idi.approve_status = '06' THEN 1 ELSE 0 END ) processing,
+                SUM( CASE WHEN idi.approve_status = '03' THEN 1 ELSE 0 END ) passed,
+                
+                  SUM( CASE WHEN idi.approve_status = '10' THEN 1 ELSE 0 END ) submited,
+                    SUM( CASE WHEN idi.approve_status = '09' THEN 1 ELSE 0 END ) zc,
+                (SUM( CASE WHEN idi.approve_status = '00' THEN 1 ELSE 0 END )
+                    +SUM( CASE WHEN idi.approve_status = '01' THEN 1 ELSE 0 END )
+                    +SUM( CASE WHEN idi.approve_status = '02' THEN 1 ELSE 0 END ) 
+                    +SUM( CASE WHEN idi.approve_status = '04' THEN 1 ELSE 0 END )
+                    +SUM( CASE WHEN idi.approve_status = '06' THEN 1 ELSE 0 END ) 
+                    +SUM( CASE WHEN idi.approve_status = '03' THEN 1 ELSE 0 END )
+                    +SUM( CASE WHEN idi.approve_status = '09' THEN 1 ELSE 0 END )
+                    +SUM( CASE WHEN idi.approve_status = '10' THEN 1 ELSE 0 END )) areaCount,
+                (select count(*) from ipo_data_info cidi  
+                    where cidi.regist_addr IS NOT NULL and cidi.regist_addr != '' and cidi.approve_status = '05' and cidi.end_time >= #{lastWeek}
+                    <if test="plateList != null and plateList.size() > 0">
+                        AND cidi.quasi_listed_land IN
+                        <foreach collection="plateList" index="index" item="plate" open="(" separator="," close=")">  
+                            #{plate}
+                        </foreach>
+                    </if>
+                    <if test="areaList != null and areaList.size() > 0">
+                        AND cidi.regist_addr IN
+                        <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                            #{area}
+                        </foreach>
+                    </if>) weekStopYet,
+                (select count(*) from ipo_data_info cidi  
+                    where cidi.regist_addr IS NOT NULL and cidi.regist_addr != '' and cidi.end_time like concat(year(now()),'%') and cidi.approve_status = '05'
+                    <if test="plateList != null and plateList.size() > 0">
+                        AND cidi.quasi_listed_land IN
+                        <foreach collection="plateList" index="index" item="plate" open="(" separator="," close=")">  
+                            #{plate}
+                        </foreach>
+                    </if>
+                    <if test="areaList != null and areaList.size() > 0">
+                        AND cidi.regist_addr IN
+                        <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                            #{area}
+                        </foreach>
+                    </if>) stopYet
+            FROM
+                ipo_data_info idi
+            WHERE idi.grab_update_time = #{lastUpadteTime} AND idi.regist_addr IS NOT NULL AND idi.regist_addr != ''
+            <if test="plateList != null and plateList.size() > 0">
+                AND idi.quasi_listed_land IN
+                <foreach collection="plateList" index="index" item="plate" open="(" separator="," close=")">  
+                    #{plate}
+                </foreach>
+            </if>
+            <if test="areaList != null and areaList.size() > 0">
+                AND idi.regist_addr IN
+                <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+                    #{area}
+                </foreach>
+            </if>
+            ) t2
+    ) temp
+</select>
+
+<select id="getIpoItemDataDetail" parameterType="Map" resultType="com.stock.capital.enterprise.regulatory.dto.StatisticsCompanyDto">
+    SELECT idi.id, idi.app_company appCompany, idi.regist_addr registAddr,
+        idi.belong_trade industry, idi.quasi_listed_land ipoArea,
+        (SELECT sc1.code_name FROM sa_code sc1 
+            WHERE sc1.code_no='QUASI_LISTED_TYPE' AND sc1.valid_flag='1' AND sc1.code_value=idi.quasi_listed_land) ipoAreaLabel,
+        idi.recommend_organization recommendOrg, idi.accountant_office accOffice,
+        idi.law_firm lawFirm, idi.approve_status status, 
+        (SELECT sc2.code_name FROM sa_code sc2 
+            WHERE sc2.code_no='IPO_APPROVE_STATUS' AND sc2.valid_flag='1' AND sc2.code_value=idi.approve_status) statusLabel,
+        idi.hased_random_inspection attend,
+        (SELECT sc3.code_name FROM sa_code sc3 
+            WHERE sc3.code_no='DREW_LOTS_TYPE' AND sc3.valid_flag='1' AND sc3.code_value=idi.hased_random_inspection) attendLabel
+    FROM ipo_data_info idi 
+    WHERE  idi.regist_addr IS NOT NULL AND idi.regist_addr != ''
+    <if test="areaList != null and areaList.size() > 0">
+        AND idi.regist_addr IN
+        <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">  
+            #{area}
+        </foreach>
+    </if>
+    <choose>
+        <when test="approveStatus != null and approveStatus != '' and approveStatus == '99'.toString()">
+            AND idi.approve_status = '05' and #{lastWeek} &lt;= idi.end_time
+        </when>
+        <when test="approveStatus != null and approveStatus != '' and approveStatus == '05'.toString()">
+            AND idi.approve_status = '05' and idi.end_time like concat(year(now()),'%')
+        </when>
+        <when test="approveStatus != null and approveStatus != ''">
+            AND idi.approve_status = #{approveStatus} 
+            AND idi.grab_update_time = #{lastUpadteTime}
+        </when>
+        <otherwise>
+            AND idi.grab_update_time = #{lastUpadteTime} and idi.approve_status != '05'
+        </otherwise>
+    </choose>
+    <if test="plateList != null and plateList.size() > 0">
+        AND idi.quasi_listed_land IN
+        <foreach collection="plateList" index="index" item="plate" open="(" separator="," close=")">  
+            #{plate}
+        </foreach>
+    </if>
+    ORDER BY CONVERT(idi.app_company USING gbk) ASC
+</select>
+
+</mapper>

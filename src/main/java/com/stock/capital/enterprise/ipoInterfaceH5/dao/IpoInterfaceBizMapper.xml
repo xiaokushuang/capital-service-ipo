@@ -19,6 +19,7 @@
         AND t.id = t1.case_id
         AND t1.release_flag = '1'
         AND t.org_code = t4.rela_code
+        AND t.org_code != #{orgCode}
         ORDER BY
         <if test="ipoPlate != null and ipoPlate != ''">
             FIELD(industry_csrc,#{industryCsrc}) desc,
@@ -28,10 +29,23 @@
 
     <select id="otherIpoCaseNoIndustry" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo"
             resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo">
-        SELECT t.id,t.org_code AS orgCode,t.company_name AS companyName,t.ipo_plate AS ipoPlate,t.industry_csrc AS industryCsrc,t2.company_code AS companyCode
-        FROM ipo_case t,case_common_status_info t1,sa_company t2
-        where ipo_plate = '069001001006' AND t.id = t1.case_id and t1.release_flag = '1' and t.org_code != #{orgCode}
-        AND t.org_code = t2.rela_code
+        SELECT
+            t.id,
+            t.org_code AS orgCode,
+            t.company_name AS companyName,
+            t.ipo_plate AS ipoPlate,
+            t.industry_csrc AS industryCsrc,
+            t4.company_code AS companyCode
+        FROM
+            ipo_case t,
+            case_common_status_info t1,
+            (select t2.company_code,t2.rela_code from sa_company t2,sa_attachment t3 where t2.id = t3.business_id ) t4
+        WHERE
+            ipo_plate = '069001001006'
+        AND t.id = t1.case_id
+        AND t1.release_flag = '1'
+        AND t.org_code != #{orgCode}
+        AND t.org_code = t4.rela_code
         ORDER BY
         RAND() limit 4;
     </select>
@@ -193,5 +207,56 @@
       (SELECT (COUNT(1)+1) FROM (SELECT * FROM ipo_h5_org m GROUP BY m.intermediary_type,m.passing)AS mt
       WHERE ifnull((mt.passing+0),0) > ifnull((t.passing+0),0) AND mt.intermediary_type = t.intermediary_type)AS passingRank
       FROM ipo_h5_org t WHERE t.org_code = #{orgCode} AND t.intermediary_type = #{intermediaryType}
+    </select>
+
+    <select id="getPatentSituation" parameterType="java.lang.String"
+      resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto">
+        SELECT a.*,
+        -- 专利情况排名 patentRanking
+        (SELECT count(DISTINCT bsum) FROM
+        (SELECT IFNULL(t3.domestic_invention,0)+IFNULL(t3.domestic_newtype,0)+IFNULL(t3.domestic_design,0)+IFNULL(t3.foreign_patent,0) AS bsum
+        FROM ipo_case t1, case_common_status_info t2, ipo_technology AS t3
+        WHERE t2.case_id = t1.id
+        AND t2.release_flag = 1
+        AND t1.ipo_plate = '069001001006'
+        AND t3.bid = t1.id)
+        AS b WHERE a.patentSum &lt; b.bsum)+1 AS patentRanking ,
+        c.*
+        FROM (
+        SELECT t1.id,
+        --  专利情况
+        t3.domestic_invention AS patent,
+        -- 使用新型专利
+        t3.domestic_newtype AS patentNew,
+        -- 外观设计专利
+        t3.domestic_design AS patentDesign,
+        -- 国际专利
+        t3.foreign_patent AS patentInternation,
+        -- 专利总数
+        IFNULL(t3.domestic_invention,0)+IFNULL(t3.domestic_newtype,0)+IFNULL(t3.domestic_design,0)+IFNULL(t3.foreign_patent,0) AS patentSum
+        FROM ipo_case t1, case_common_status_info t2, ipo_technology AS t3
+        WHERE t2.case_id = t1.id
+        AND t2.release_flag = 1
+        AND t1.ipo_plate = '069001001006'
+        AND t1.id = #{id}
+        AND t3.bid = t1.id) AS a,
+        (SELECT
+        -- 所有公司专利总数
+        SUM(IFNULL(t3.domestic_invention,0)+IFNULL(t3.domestic_newtype,0)+IFNULL(t3.domestic_design,0)+IFNULL(t3.foreign_patent,0)) AS patentSumAll,
+        -- 发明专利总数
+        SUM(t3.domestic_invention) AS patentAll,
+        -- 使用新型专利总数
+        SUM(t3.domestic_newtype) AS patentNewAll,
+        -- 外观设计专利总数
+        SUM(t3.domestic_design) AS patentDesignAll,
+        -- 国际专利总数
+        SUM(t3.foreign_patent) AS patentInternationAll,
+        -- ipo库中科创板公司总数
+				count(*) AS ipoCompanyCount
+        FROM ipo_case t1, case_common_status_info t2, ipo_technology AS t3
+        WHERE t2.case_id = t1.id
+        AND t2.release_flag = 1
+        AND t1.ipo_plate = '069001001006'
+        AND t3.bid = t1.id) AS c
     </select>
 </mapper>

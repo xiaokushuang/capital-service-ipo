@@ -35,4 +35,6 @@ public interface IpoInterfaceBizMapper {
     IntermediaryOrgDto queryOrgMarketShare(IntermediaryOrgDto intermediaryOrgDto);
 
     IntermediaryOrgDto queryQrgMarketRank(IntermediaryOrgDto intermediaryOrgDto);
+
+    IpoH5Dto getPatentSituation(@Param("id") String id);
 }

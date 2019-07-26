@@ -11,220 +11,347 @@
         <!-- 板块 -->
         <el-row :gutter="20">
             <el-col :span="6">
-                <el-select ref="selectCheckbox1" v-model="selectValue.classly" placeholder="请选择板块" size='small full'>
-                    <el-option :label="selectValue.classly" :value="selectValue.classly">
-                        <el-tree :data="getIpoQuery.belongsPlateList" show-checkbox node-key="value" ref="tree1" highlight-current  @check-change="handleNodeClick1" :props="defaultPropsClassly"></el-tree>
-                    </el-option>
-                    <el-col :span="24" class='selectFull'>
-                        <el-button  size="mini" @click="clear">清空</el-button>
-                        <el-button  size="mini">全选</el-button>
-                        <el-button type="primary" size="mini" @click="sure">确定</el-button>
-                    </el-col>
-                </el-select>
+              <el-multiple-selection
+                ref="belongsPlateTree"
+                id="belongsPlateTree"
+                placeholder="所属板块"
+                @sure-click="sure"
+                size="small full"
+                :search-menu="true"
+                node-key="value"
+                :tree-data="belongsPlateList"
+                :default-props="defaultProps"
+                :default-all-show="false"
+                :all-select="allSelect" 
+              ></el-multiple-selection>
             </el-col>
             <!-- 注册地 -->
             <el-col :span="6">
-                <el-select ref="selectCheckbox2" v-model="selectValue.areaList" placeholder="请选择注册地" size='small full'>
-                    <el-option :label="selectValue.areaList" :value="selectValue.areaList">
-                        <el-tree :data="getIpoQuery.areaList" show-checkbox node-key="value" ref="tree2"  highlight-current  @check-change="handleNodeClick2" :props="defaultPropsArea"></el-tree>
-                    </el-option>
-                    <el-col :span="24" class='selectFull'>
-                        <el-button  size="mini" @click="clear">清空</el-button>
-                        <el-button  size="mini">全选</el-button>
-                        <el-button type="primary" size="mini" @click="sure">确定</el-button>
-                    </el-col>
-                </el-select>
+              <el-multiple-selection
+                ref="areaTree"
+                id="areaTree"
+                placeholder="注册地"
+                @sure-click="sure"
+                size="small full"
+                :search-menu="true"
+                node-key="originContent"
+                :tree-data="areaList"
+                :default-props="defaultProps1"
+                :default-all-show="false"
+                :all-select="allSelect" 
+              ></el-multiple-selection>
             </el-col>
-            <el-col :span="2" style="float:right">
+            <el-col :span="12" align="right">
+                <el-button type="primary" size="small" @click="exportExcel">导出excel</el-button>
                 <el-button size="mini" @click="clearAll">清空条件</el-button>
             </el-col>
         </el-row>
         <!-- table -->
         <el-row>
-            <el-table id="ipoDetail" :data="tableRe" style="width:100%" border sortable="custom" size="medium" :row-class-name="tableRowClassName">
-                <el-table-column label="序号" align="center"  prop="num" width="68px" style="border-right:1px solid #fff"></el-table-column>
-                <el-table-column label="注册地" align="center" width="107px">
+          <el-col :span="24">
+            <el-table :data="data" style="width: 100%" class="paddingControl" border tooltip-effect="dark" ref="multipleSelection"
+            :row-class-name="tableRowClassName" :header-cell-class-name="tableHeaderColor" @sort-change="sortChange">
+                <el-table-column label="序号" align="center" :index="indexMethod" type="index" width="60"  style="border-right:1px solid #fff"></el-table-column>
+                <el-table-column label="注册地" align="center" >
                     <template slot-scope="scope">
-                        <span v-if="scope.row.registAddr == ''">合计</span>
-                        <span v-else>{{scope.row.registAddr}}</span>
+                        <span>{{changeAreaResult(scope.row.registAddr)}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="在审情况" align="center"  prop="registAddr" width="970px">
-                    <el-table-column align="center" style="height:54px;" prop="applied" border="true" label="已受理" sortable width="130px"></el-table-column>
-                    <el-table-column align="center" prop="reviewed" label="已反馈" sortable width="132px"></el-table-column>
-                    <el-table-column align="center" prop="preUpdate" label="预先披露更新" sortable width="132px"></el-table-column>
-                    <el-table-column align="center" prop="endYet" label="中止查询" sortable width="132px"></el-table-column>
-                    <el-table-column align="center" prop="processing" label="已提交发审会讨论，暂缓表决" sortable width="196px"></el-table-column>
-                    <el-table-column align="center" prop="passed" label="已通过发审会" sortable width="132px"></el-table-column>
-                    <el-table-column align="center" prop="areaCount" label="合计" sortable width="132px" :class-name="heightStyle"></el-table-column>
+                <el-table-column label="在审情况" align="center"  prop="registAddr" >
+                    <el-table-column align="center" :render-header="renderHeader" style="height:54px;" prop="applied" border="true" label="已受理" sortable="custom">
+                        <template slot-scope="scope">
+                          <span class="spanClass" v-if="getValue(scope.row.applied) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'00','unit')">{{scope.row.applied}}</span>
+                          <span v-else>{{scope.row.applied}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column align="center" :render-header="renderHeader" prop="reviewed" label="已反馈" sortable="custom" >
+                        <template slot-scope="scope">
+                          <span class="spanClass" v-if="getValue(scope.row.reviewed) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'01','unit')">{{scope.row.reviewed}}</span>
+                          <span v-else>{{scope.row.reviewed}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column align="center" prop="preUpdate" label="预先披露更新" sortable="custom" >
+                        <template slot-scope="scope">
+                          <span class="spanClass" v-if="getValue(scope.row.preUpdate) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'02','unit')">{{scope.row.preUpdate}}</span>
+                          <span v-else>{{scope.row.preUpdate}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column align="center" :render-header="renderHeader" prop="endYet" label="中止审查" sortable="custom" >
+                        <template slot-scope="scope">
+                          <span class="spanClass" v-if="getValue(scope.row.endYet) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'04','unit')">{{scope.row.endYet}}</span>
+                          <span v-else>{{scope.row.endYet}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column align="center" prop="processing" label="已提交发审会讨论，暂缓表决" sortable="custom" >
+                        <template slot-scope="scope">
+                          <span class="spanClass" v-if="getValue(scope.row.processing) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'06','unit')">{{scope.row.processing}}</span>
+                          <span v-else>{{scope.row.processing}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column align="center" :render-header="renderHeader" prop="passed" label="已通过发审会" sortable="custom" >
+                        <template slot-scope="scope">
+                          <span class="spanClass" v-if="getValue(scope.row.passed) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'03','unit')">{{scope.row.passed}}</span>
+                          <span v-else>{{scope.row.passed}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column align="center" prop="submited" label="提交注册" sortable="custom">
+                        <template slot-scope="scope">
+                          <span class="spanClass" v-if="getValue(scope.row.submited) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'10','unit')">{{scope.row.submited}}</span>
+                          <span v-else>{{scope.row.submited}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column align="center" prop="zc" label="注册生效" sortable="custom" >
+                        <template slot-scope="scope">
+                          <span class="spanClass" v-if="getValue(scope.row.zc) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'09','unit')">{{scope.row.zc}}</span>
+                          <span v-else>{{scope.row.zc}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column align="center" prop="areaCount" label="合计" sortable="custom"  :class-name="heightStyle">
+                        <template slot-scope="scope">
+                          <span class="spanClass" v-if="getValue(scope.row.areaCount) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'','area')">{{scope.row.areaCount}}</span>
+                          <span v-else>{{scope.row.areaCount}}</span>
+                        </template>
+                    </el-table-column>
                 </el-table-column>
-                <el-table-column label="终止审查" align="center" prop="registAddr" width="158px">
-                    <el-table-column align="center" prop="weekStopYet" label="最近一周" sortable width="93px"></el-table-column>
-                    <el-table-column align="center" prop="stopYet" label="2018年" sortable width="85px"></el-table-column>
+                <el-table-column label="终止审查" :render-header="renderHeader" align="center" prop="registAddr" >
+                    <el-table-column align="center" prop="weekStopYet" label="最近一周" sortable="custom" >
+                        <template slot-scope="scope">
+                          <span class="spanClass" v-if="getValue(scope.row.weekStopYet) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'99','unit')">{{scope.row.weekStopYet}}</span>
+                          <span v-else>{{scope.row.weekStopYet}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column align="center" prop="stopYet" :label="yearShow" sortable="custom">
+                        <template slot-scope="scope">
+                          <span class="spanClass" v-if="getValue(scope.row.stopYet) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'05','unit')">{{scope.row.stopYet}}</span>
+                          <span v-else>{{scope.row.stopYet}}</span>
+                        </template>
+                    </el-table-column>
                 </el-table-column>
             </el-table>
+            <div class="bottomHeight"></div>
+            </el-col>
         </el-row>
     </div>
 </template>
 
 <script>
-import datepicker from "@/mixins/datepicker";
 import { mapGetters } from "vuex";
 import { GetDateDiff } from "@/utils";
 import ipoDetailed from "./ipoDetailed";
+import common from '@/mixins/common'
+import {exportExcelPostWindow1} from '@/utils'
+import {iframeDoMessage} from '@/utils/auth'
 export default {
   name: "ipoDetailed",
-  mixins: [datepicker],
+  mixins: [common],
   data() {
     return {
-      selectValue: {
-        areaList: "",
-        classly: ""
+      belongsPlateList:[],//板块下拉列表
+      areaList:[],//地区下拉列表
+      defaultProps: {
+        label: 'label',
       },
-      defaultPropsClassly: {
-        label: "label",
-        value: "value"
+      defaultProps1: {
+        label: 'label',
       },
-      defaultPropsArea: {
-         label: "label", 
-         value: "value"
+      data:[],
+      queryParam: {
+          orderByName: "",
+          orderByOrder: "",
+          condition: {
+              belongsPlate: "",
+              registAddr: "",
+              classly: ""
+          }
       },
-      param: {
-        ipoOrder: "",
-        belongsPlate: "",
-        areaList: "",
-        classly: ""
-      },
-      heightStyle: "heightStyle"
+      heightStyle: "heightStyle",
+      yearShow:'',//年份
+      allSelect:{colloge: false,},
     };
   },
+  created() {//加载前默认调用
+    this.getAllDropDownList();
+    this.getYear();
+  },
   mounted() {
-    //页面加载完成时刷新echart图表
-    this.ipoDataPort(true);
+    this.search();
   },
   computed: {
-    ...mapGetters(["getIpoAreaData", "getIpoQuery"]),
-    tableRe() {
-      var middle = [];
-      this.getIpoAreaData.map((obj, idx) => {
-        // debugger
-        var valuec = {};
-        valuec = [{
-          applied: "",
-          areaCount: "",
-          cybCount: "",
-          endYet: "",
-          hzbCount: "",
-          label: "",
-          lastUpadteTime: null,
-          passed: "",
-          percent: "",
-          preUpdate: "",
-          processing: "",
-          registAddr: null,
-          reviewed: "",
-          stopYet: null,
-          szbCount: "",
-          totalCount: "",
-          value: null,
-          weekStopYet: null,
-          zxbCount: "",
-          num: ""
-        }];
-        valuec;
-        valuec.applied = obj.applied;
-        valuec.areaCount = obj.areaCount;
-        valuec.cybCount = obj.cybCount;
-        valuec.endYet = obj.endYet;
-        valuec.hzbCount = obj.hzbCount;
-        valuec.label = obj.label;
-        valuec.lastUpadteTime = obj.lastUpadteTime;
-        valuec.passed = obj.passed;
-        valuec.percent = obj.percent;
-        valuec.preUpdate = obj.preUpdate;
-        valuec.processing = obj.processing;
-        valuec.registAddr = obj.registAddr;
-        valuec.reviewed = obj.reviewed;
-        valuec.stopYet = obj.stopYet;
-        valuec.szbCount = obj.szbCount;
-        valuec.totalCount = obj.totalCount;
-        valuec.value = obj.value;
-        valuec.weekStopYet = obj.weekStopYet;
-        valuec.zxbCount = obj.zxbCount;
-        if (idx+1 == this.getIpoAreaData.length) {
-          valuec.num = ""
-        }else {
-          valuec.num = idx+1;
-        }
-        middle.push(valuec);
-      });
-      return middle;
-    }
+    // ...mapGetters(["getIpoAreaData", "getIpoQuery"]),
   },
   methods: {
-    sure() {
-      this.$refs.selectCheckbox1.handleClose(); //关闭下拉框
-      this.$refs.selectCheckbox2.handleClose(); //关闭下拉框
-      this.param = {
-        ipoOrder: "",
-        belongsPlate: this.selectValue.classly,
-        registAddr: this.selectValue.areaList
+    indexMethod(index) {//序号列显示
+      if(index == this.data.length -1) {
+        return '';
+      } else {
+        return index+1;
       }
-      this.$store.dispatch("ipoAreaDataGet", this.param);
+    },
+    getAllDropDownList() {//获取下拉列表
+      this.$store.dispatch('getAllDropDownList', '').then((data) => {//(方法名，参数)
+        this.belongsPlateList = data.belongsPlateList;//所属板块
+        this.areaList = data.areaList;//所属地区
+      });
+    },
+    getYear() {//获取年份
+      var date = new Date;
+      var year= date.getFullYear();
+      this.yearShow = year + '年'
+    },
+    tableHeaderColor({ row, column, rowIndex, columnIndex }) {// 修改table header的背景色
+      if ((rowIndex === 1 && columnIndex === 6) || (rowIndex === 1 && columnIndex === 7)) {
+        return 'row'
+      } 
+    },
+    renderHeader(h, { column, $index }) {//表格个别字体颜色替换
+      return (
+        h('span',[
+          h('span',column.label),
+          h('span',{style:{color:'#0099cc!important'}},this.getLabel(column.label))
+        ])
+      );
+    },
+    getLabel(name) {//表头名称修改
+      var label = ''
+      if(name == '已受理') {
+        label = '(已受理)'
+      } else if(name == '已反馈') {
+        label = '(已问询)'
+      } else if(name == '中止审查') {
+        label = '(中止)'
+      } else if(name == '已通过发审会') {
+        label = '(上市委会议通过)'
+      } else if(name == '终止审查') {
+        label = '(终止)'
+      }
+      return label;
     },
     tableRowClassName({ row, rowIndex }) {
-      if (rowIndex === this.getIpoAreaData.length - 1) {
+      if (rowIndex === this.data.length - 1) {
         return "warning-row"
       }
     },
-    ipoDataPort() {
-      this.param = {
-        ipoOrder: "",
-        belongsPlate: "",
-        areaList: "",
+    changeAreaResult(name){//地区返回结果处理
+      var resultName = '';
+      if(this.getValue(name) != ''){
+        if(name == "广东"){
+          resultName = "广东(不含深圳)";
+        } else if(name == "辽宁"){
+          resultName = "辽宁(不含大连)";
+        } else if(name == "浙江"){
+          resultName = "浙江(不含宁波)";
+        } else if(name == "福建"){
+          resultName = "福建(不含厦门)";
+        } else if(name == "山东"){
+          resultName = "山东(不含青岛)";
+        } else{
+          resultName = name;
+        }
+      } else {
+        resultName = '合计'
       }
-      this.$store.dispatch("ipoAreaDataGet", this.param)
-      this.$store.dispatch("ipoQueryGet")
+      return resultName;
     },
-    // 下拉菜单市场板块
-    handleNodeClick1(data, node, component) {
-      //共三个参数，依次为：传递给 data 属性的数组中该节点所对应的对象、节点本身是否被选中、节点的子树中是否有被选中的节点
-      const nodeCheck = this.$refs.tree1.getCheckedNodes(true); //通过 node 获取(光子节点)
-      let middle = "";
-      nodeCheck.map((obj, idx) => {
-        //拼接字符串
-        middle += `,${obj.value}`;
+    sortChange(column){//排序查询
+			//设置排序
+			if (column.order != null && column.prop != null) {
+			  (this.queryParam.orderByName = column.prop), (this.queryParam.orderByOrder = column.order);
+			} else {
+			  this.queryParam.orderByName = "";
+			  this.queryParam.orderByOrder = "";
+      }
+      this.search()
+    },
+    search(){
+      this.$store.dispatch('ipoItemDataQuery', this.queryParam).then((data) => {//(方法名，参数)
+        if(data.ipoItemDataList != null && data.ipoItemDataList.length > 1) {
+          this.data = data.ipoItemDataList;
+        } else {
+          this.data = [];
+        }
       });
-      this.selectValue.classly = middle.substr(1); //设置input里显示的文字，可扩展
     },
-    handleNodeClick2(data, node, component) {
-      //共三个参数，依次为：传递给 data 属性的数组中该节点所对应的对象、节点本身是否被选中、节点的子树中是否有被选中的节点
-      const nodeCheck = this.$refs.tree2.getCheckedNodes(true); //通过 node 获取(光子节点)
-      let middle = "";
-      nodeCheck.map((obj, idx) => {
-        //拼接字符串
-        middle += `,${obj.label}`;
-      });
-      this.selectValue.areaList = middle.substr(1); //设置input里显示的文字，可扩展
-    },
-    clear() {
-      //下拉清空
-      this.$refs.tree1.setCheckedKeys([]); //清空选中
-      this.$refs.tree2.setCheckedKeys([]); //清空选中
-    },
+    sure(childArr,allArr,nodekey,id){// 下拉确定
+			let arr ='';
+			childArr.map((obj, index)=>{
+				arr += obj[nodekey] + ',';
+			})
+			if(id == 'areaTree') {
+				this.queryParam.condition.registAddr = arr;
+			} else {
+				this.queryParam.condition.belongsPlate = arr;
+      } 
+      this.search();
+		},
     clearAll() {
-      this.$refs.tree1.setCheckedKeys([]); //清空选中
-      this.$refs.tree2.setCheckedKeys([]); //清空选中
-      this.param = {
-        ipoOrder: "",
-        belongsPlate: "",
-        areaList: "",
+      this.$refs.areaTree.setCheckedKeys([]); //清空选中
+      this.$refs.belongsPlateTree.setCheckedKeys([]); //清空选中
+      //清除排序
+      this.$refs.multipleSelection.clearSort();
+      //清空参数
+      this.queryParam = {
+        condition : {
+          belongsPlate:'',
+          registAddr:''
+        }
       }
-      this.$store.dispatch("ipoAreaDataGet", this.param).then(() =>{
-        this.loading = false
-      }).catch(err => {
-        this.loading = false
-      })
+      this.search();
+    },
+    exportExcel() {//导出Excel
+      exportExcelPostWindow1("/ipo/regulatory_statistics/ipoItemDataExport",this.queryParam);
+    },
+    openDetail(registAddr,lastUpadteTime,approveStatus,viewType){
+      if(viewType == 'area' && this.getValue(registAddr) == '') {//合计行合计
+        viewType = 'all'
+      } else if(viewType == 'unit' && this.getValue(registAddr) == '') {//合计行其它
+        viewType = 'approve'
+      }
+      if(this.getValue(registAddr) == '') {//当点击合计时,传下拉列表选中的地区
+        registAddr = this.queryParam.condition.registAddr;
+      }
+      let url = window.location.href;
+      url = url.replace(this.$route.path,'/ipoItemDataDetailPopWin');
+      url = url + '&registAddr=' + registAddr + '&lastUpadteTime=' + lastUpadteTime + '&approveStatus=' + approveStatus
+        + '&belongsPlate=' + this.queryParam.condition.belongsPlate;
+
+      var title = '在审项目数据明细';
+      var appLabel = '';
+      if(approveStatus != null && approveStatus != ''){
+        switch (approveStatus) {
+              case '00': appLabel = approveStatus.replace("00", "已受理<span style='color:#0099cc'>(已受理)</span>");
+              break;
+              case '01': appLabel = approveStatus.replace("01", "已反馈<span style='color:#0099cc'>(已问询)</span>");
+              break;
+              case '02': appLabel = approveStatus.replace("02", "预先披露更新");
+              break;
+              case '04': appLabel = approveStatus.replace("04", "中止审查<span style='color:#0099cc'>(中止)</span>");
+              break;
+              case '06': appLabel = approveStatus.replace("06", "已提交发审会讨论，暂缓表决");
+              break;
+              case '09': appLabel = approveStatus.replace("09", "<span style='color:#0099cc'>注册生效</span>");
+              break;
+              case '10': appLabel = approveStatus.replace("10", "<span style='color:#0099cc'>提交注册</span>");
+              break;
+              case '03': appLabel = approveStatus.replace("03", "已通过发审会<span style='color:#0099cc'>(上市委会议通过)</span>");
+              break;
+              case '05': appLabel = approveStatus.replace("05", this.yearShow + "年终止审查<span style='color:#0099cc'>(终止)</span>");
+              break;
+              case '99': appLabel = approveStatus.replace("99", "最近一周终止审查<span style='color:#0099cc'>(终止)</span>");
+              break;
+        }
+      }
+      if('unit' == viewType){
+        title = title + ' ( ' + registAddr + ' ' + appLabel + ' ) ';
+      }else if('area' == viewType){
+        title = title + ' ( ' + registAddr + ' ) ';
+      }else if('approve' == viewType){
+        title = title + ' ( ' + appLabel + ' ) ';
+      }else if('all' == viewType){
+        title = title;
+      }
+			//参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
+			iframeDoMessage(window.parent,'popWinOut',[title,url,'1200','650']);
+
     }
   }
 };
@@ -286,4 +413,23 @@ export default {
 .heightStyle{background: #e8e8e8}
 .greyBg td div span{ float:none !important}
 /* .table thead th{padding:6px !important;} */
+
+.container .el-table__header .row .cell {
+  color:#0099cc!important;
+}
+.container {
+  padding:0 10px 0 10px!important;
+}
+.spanClass {
+    cursor: pointer;
+}
+.spanClass:hover {
+    text-decoration: underline;
+}
+.el-select-dropdown .el-input__inner, .el-select-dropdown .el-input__suffix:hover {
+    cursor: pointer;
+}
+[class*=" el-icon-"],[class^=el-icon-] {
+    font-size: 13px;
+}
 </style>

@@ -12,7 +12,7 @@
         <span style="color:#FE5461; position: relative; left: -3px;">
          {{data.rankingIndicator}}</span>排名第<span style="color:#FE5461;font-weight:bold">{{data.ranking }}</span>名
       </div>
-      <p v-if="companyProfileList.companyProfileList.industryStatusOverview" style="font-size:14px;color:#666;margin-top:12px;">{{companyProfileList.companyProfileList.industryStatusOverview }}</p>
+       <p v-html="industryStatusOverview" v-if="companyProfileList.companyProfileList.industryStatusOverview" style="font-size:14px;color:#666;margin-top:12px;"></p>
     </div>
     <!-- 主要竞争对手简介 -->
     <div class="MajorCompetitors">
@@ -139,7 +139,7 @@
         </div>
     </div>
     <!-- 专利情况 -->
-    <!-- <div  class="patentSituation">
+    <div  class="patentSituation" v-if="companyProfileList.headList.isTechBoard==1">
        <div v-if="patentSituationTableData&&patentSituationTableData.length>0"  class="title" >
             <span class="littleRectangle"></span>
             <span class="titleText" id="patentSituation">专利情况</span>
@@ -151,6 +151,7 @@
             </span>
          </span>
         <el-table
+        :header-cell-style='styleObj'
          v-if="patentSituationTableData&&patentSituationTableData.length>0"
           class="patentSituationTable"
           :data="patentSituationTableData"
@@ -172,7 +173,6 @@
             width="180">
             <template slot-scope="scope">
               <span v-if="scope.row.fm"> {{scope.row.fm}}
-                 <span v-if="scope.row.labelName === '占比'">%</span>
               </span>
               <span v-else> - - </span>
            </template>
@@ -183,7 +183,6 @@
             label="实用新型专利">
             <template slot-scope="scope">
               <span v-if="scope.row.sy"> {{scope.row.sy}}
-                <span v-if="scope.row.labelName === '占比'">%</span>
               </span>
               <span v-else> - - </span>
            </template>
@@ -194,7 +193,16 @@
             label="外观设计专利">
             <template slot-scope="scope">
               <span v-if="scope.row.wg"> {{scope.row.wg}}
-                <span v-if="scope.row.labelName === '占比'">%</span>
+              </span>
+              <span v-else> - - </span>
+           </template>
+          </el-table-column>
+           <el-table-column
+            align="right"
+            prop="gw"
+            label="国际专利">
+             <template slot-scope="scope">
+              <span v-if="scope.row.gw"> {{scope.row.gw}}
               </span>
               <span v-else> - - </span>
            </template>
@@ -205,23 +213,12 @@
             label="合计">
             <template slot-scope="scope">
               <span v-if="scope.row.hj"> {{scope.row.hj}}
-                <span v-if="scope.row.labelName === '占比'">%</span>
-              </span>
-              <span v-else> - - </span>
-           </template>
-          </el-table-column>
-          <el-table-column
-            align="right"
-            prop="zb"
-            label="占比">
-             <template slot-scope="scope">
-              <span v-if="scope.row.zb"> {{scope.row.zb | dataInThRule}}%
               </span>
               <span v-else> - - </span>
            </template>
           </el-table-column>
         </el-table>
-    </div> -->
+    </div>
     <!-- 研发投入 -->
     <div class="yfSpending">
         <div v-if="yfSpendingTableData&&yfSpendingTableData.length>0"  class="title" >
@@ -400,6 +397,7 @@ export default {
       MajorCompetitors: [],
       // 同行业毛利率对比
       maoChartTableData:[],
+      industryStatusOverview:'',
       // 研发投入标题
        yfSpendingTitle:{
         firstYearDate : "",
@@ -420,6 +418,9 @@ export default {
       coreTechnologyTableData:[],
       // 专利情况
       patentSituationTableData: [],
+      styleObj: {
+        	// 'text-align':'center'
+        },
       // 科技创新表格备注框
       remarksData:{
         patentRemarks:'',//专利
@@ -444,6 +445,7 @@ export default {
     this.getData();
   },
   mounted() {
+    console.log(this.companyProfileList.companyProfileList.industryStatusOverview)
   },
   methods: {
     getData() {
@@ -455,6 +457,7 @@ export default {
       getIndustryStatus(param).then(res=>{
         if(res.data.result&&res.data.result.length>0){
           this.industryStatus = res.data.result
+          this.industryStatusOverview = this.companyProfileList.companyProfileList.industryStatusOverview.replace(/\n|\r\n/g,"<br/>")
         }
       })
     //   主要竞争对手简介接口
@@ -476,6 +479,7 @@ export default {
             if(res.data.result&&res.data.result.patentData.length>0){
               // 专利情况
               this.patentSituationTableData = res.data.result.patentData
+              console.log('专利情况',this.patentSituationTableData)
               this.getPosition()
               }
                if(res.data.result&&res.data.result.devDate!=null){
@@ -532,14 +536,14 @@ export default {
                     tabId: 'tab-sixth',
                     noClick: true
           } 
-          //  let patentSituation = {
-          //           id: 'patentSituation',
-          //           name: '专利情况',
-          //           notes: '',
-          //           important: false,
-          //           tabId: 'tab-sixth',
-          //           noClick: true
-          // } 
+           let patentSituation = {
+                    id: 'patentSituation',
+                    name: '专利情况',
+                    notes: '',
+                    important: false,
+                    tabId: 'tab-sixth',
+                    noClick: true
+          } 
            let yfSpending = {
                     id: 'yfSpending',
                     name: '研发投入',
@@ -566,9 +570,9 @@ export default {
             mainCompetitors.noClick = false;
           }
           // 专利情况
-          //  if(this.patentSituationTableData&&this.patentSituationTableData.length>0){
-          //   patentSituation.noClick = false;
-          // }             
+           if(this.patentSituationTableData&&this.patentSituationTableData.length>0){
+            patentSituation.noClick = false;
+          }             
           if(this.yfSpendingTableData&&this.yfSpendingTableData.length>0){
             yfSpending.noClick = false;
           }
@@ -578,7 +582,9 @@ export default {
           titleList.push(industryStatus)
           titleList.push(mainCompetitors)
           titleList.push(comparison)
-          // titleList.push(patentSituation)
+          if(this.companyProfileList.headList.isTechBoard==1){
+            titleList.push(patentSituation)
+          }
           titleList.push(yfSpending)
           titleList.push(coreTechnology)
           this.$emit('headCallBack', titleList);
