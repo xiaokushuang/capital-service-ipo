@@ -42,7 +42,7 @@
                     </template>
                 </el-table-column> 
         </el-table>
-        <papers ref="paper" :sdefault="condition_copy" :length1="20" :total="totalCount" @searchTable="search"></papers>
+        <papers ref="paper" :sdefault="condition_copy" :tabFlag="ipoDataOverview" :length1="20" :total="totalCount" @searchTable="search"></papers>
         <div class="bottomHeight"></div>
     </div>
 </template>
@@ -88,6 +88,7 @@ export default {
                     registAddr:'',//地区
                 }
             },
+            ipoDataOverview:'ipoDataOverview',
 		}
     },
     mixins:[
@@ -118,7 +119,7 @@ export default {
 			this.pageSearch();
 		},
         pageSearch(){//分页查询调用
-            this.$refs.paper.search(this.queryParam.orderByName,this.queryParam.orderByOrder,'ipoDataOverview');	
+            this.$refs.paper.search(this.queryParam.orderByName,this.queryParam.orderByOrder);	
         },
         search(data){//通过给定条件查询数据
             this.queryParam.pageSize = data.pageSize;
