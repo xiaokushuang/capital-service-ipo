@@ -26,17 +26,17 @@
                                                 <a @click="gonggaoClick(item.caseId,item.openFlag)">{{item.progressName}}</a>
                                              </div>
                                              <!-- 非科创版审核结果 -->
-                                            <span v-if="item.iecResult=='获通过'" :style={background:htg}  class="htg" >获通过</span>
-                                            <span v-if="item.iecResult=='未获通过'" :style={background:whtg} class="whtg">未获通过</span>
-                                            <span v-if="item.iecResult=='暂缓表决'" :style={background:zhbj} class="zhbj">暂缓表决 </span>
-                                            <span v-if="item.iecResult=='取消审核'" :style={background:qxsh} class="qxsh">取消审核</span>
-                                            <span v-if="item.iecResult=='待上会'" :style={background:dsh} class="dsh">待上会</span>
+                                            <span v-if="item.iecResult=='00'" :style={background:htg}  class="htg" >获通过</span>
+                                            <span v-if="item.iecResult=='01'" :style={background:whtg} class="whtg">未获通过</span>
+                                            <span v-if="item.iecResult=='02'" :style={background:zhbj} class="zhbj">暂缓表决 </span>
+                                            <span v-if="item.iecResult=='03'" :style={background:qxsh} class="qxsh">取消审核</span>
+                                            <span v-if="item.iecResult=='04'" :style={background:dsh} class="dsh">待上会</span>
                                              <!-- 科创版审核结果 -->
-                                            <span v-if="item.iecResult=='通过'" :style="{'background':tg}"   class="tg" >通过</span>
-                                            <span v-if="item.iecResult=='未通过'" :style="{'background':wtg}"  class="wtg">未通过</span>
-                                            <span v-if="item.iecResult=='注册生效'" :style="{'background':zcsx}" class="htg">注册生效 </span>
-                                            <span v-if="item.iecResult=='不予注册'" :style="{'background':whtg}" class="whtg">不予注册</span>
-                                            <span v-if="item.iecResult=='待上会'" :style="{'background':dsh}"  class="dsh">待上会</span>
+                                            <span v-if="item.iecResult=='05'" :style="{'background':tg}"   class="tg" >通过</span>
+                                            <span v-if="item.iecResult=='06'" :style="{'background':wtg}"  class="wtg">未通过</span>
+                                            <span v-if="item.iecResult=='07'" :style="{'background':zcsx}" class="htg">注册生效 </span>
+                                            <span v-if="item.iecResult=='08'" :style="{'background':whtg}" class="whtg">不予注册</span>
+                                            <span v-if="item.iecResult=='10'" :style="{'background':qxsh}"  class="dsh">取消审议</span>
                                         </div>
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
                                             <div v-if="item.processTime" v-text='item.processTime'></div>
@@ -98,6 +98,7 @@ export default {
     created(){
      },
     mounted() {
+        console.log('关联案例',this.proList)
     },
     components: {
     },
