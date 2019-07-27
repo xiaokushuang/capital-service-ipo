@@ -1,18 +1,20 @@
 <template>
   <div class="industryTechnology">
     <!-- 公司简介 -->
-    <div v-if="(industryStatus&&industryStatus.length>0) || companyProfileList.companyProfileList.industryStatusOverview" class="industryStatus">
+    <div v-if="(industryStatus&&industryStatus.length>0)" class="industryStatus">
       <span id="industryStatus"></span>
       <div class="clear">
         <img  src="../../../assets/images/status.png" alt="" style="width:20px;height:20px;float:left;margin-right:10px;margin-top: 7px;">
         <p style="font-size:14px;font-weight:bold;color:#333;float:left;margin-top:10px">{{companyProfileList.companyProfileList.companyName}}的行业地位</p>
       </div>
-      <div v-for="data in industryStatus" :key="data.id" style="font-size:15px;color:#333;margin-bottom:8px">
-        <span>{{data.rankingRange}}</span>
-        <span style="color:#FE5461; position: relative; left: -3px;">
-         {{data.rankingIndicator}}</span>排名第<span style="color:#FE5461;font-weight:bold">{{data.ranking }}</span>名
-      </div>
-       <p v-html="industryStatusOverview" v-if="companyProfileList.companyProfileList.industryStatusOverview" style="font-size:14px;color:#666;margin-top:12px;"></p>
+        <div v-for="data in industryStatus" :key="data.id" style="font-size:15px;color:#333;margin-bottom:8px">
+          <div v-if="data.rankingRange&&data.rankingIndicator&&data.ranking">
+            <span>{{data.rankingRange}}</span>
+            <span style="color:#FE5461; position: relative; left: -3px;">
+            {{data.rankingIndicator}}</span>排名第<span style="color:#FE5461;font-weight:bold">{{data.ranking }}</span>名
+         </div>
+        </div>
+       <p v-html="industryStatusOverview" v-if="industryStatus[0].industryStatusOverview" style="font-size:14px;color:#666;margin-top:12px;"></p>
     </div>
     <!-- 主要竞争对手简介 -->
     <div class="MajorCompetitors">
@@ -172,7 +174,8 @@
             label="发明专利"
             width="180">
             <template slot-scope="scope">
-              <span v-if="scope.row.fm"> {{scope.row.fm}}
+              <span v-if="scope.row.fm"> {{parseFloat(scope.row.fm.toFixed(2))}}
+                <span v-if="scope.row.labelName=='占比'">%</span>
               </span>
               <span v-else> - - </span>
            </template>
@@ -182,7 +185,8 @@
             prop="sy"
             label="实用新型专利">
             <template slot-scope="scope">
-              <span v-if="scope.row.sy"> {{scope.row.sy}}
+              <span v-if="scope.row.sy"> {{parseFloat(scope.row.sy.toFixed(2))}}
+                <span v-if="scope.row.labelName=='占比'">%</span>
               </span>
               <span v-else> - - </span>
            </template>
@@ -192,7 +196,8 @@
             prop="wg"
             label="外观设计专利">
             <template slot-scope="scope">
-              <span v-if="scope.row.wg"> {{scope.row.wg}}
+              <span v-if="scope.row.wg"> {{parseFloat(scope.row.wg.toFixed(2))}}
+                <span v-if="scope.row.labelName=='占比'">%</span>
               </span>
               <span v-else> - - </span>
            </template>
@@ -202,7 +207,8 @@
             prop="gw"
             label="国际专利">
              <template slot-scope="scope">
-              <span v-if="scope.row.gw"> {{scope.row.gw}}
+              <span v-if="scope.row.gw"> {{parseFloat(scope.row.gw.toFixed(2))}}
+                <span v-if="scope.row.labelName=='占比'">%</span>
               </span>
               <span v-else> - - </span>
            </template>
@@ -212,7 +218,8 @@
             prop="hj"
             label="合计">
             <template slot-scope="scope">
-              <span v-if="scope.row.hj"> {{scope.row.hj}}
+              <span v-if="scope.row.hj"> {{parseFloat(scope.row.hj.toFixed(2))}}
+                <span v-if="scope.row.labelName=='占比'">%</span>
               </span>
               <span v-else> - - </span>
            </template>
@@ -445,7 +452,8 @@ export default {
     this.getData();
   },
   mounted() {
-    console.log(this.companyProfileList.companyProfileList.industryStatusOverview)
+    console.log('哇哇哇哇',this.companyProfileList)
+    console.log('行业地位',this.companyProfileList.companyProfileList.industryStatusOverview,this.industryStatus)
   },
   methods: {
     getData() {
@@ -457,7 +465,9 @@ export default {
       getIndustryStatus(param).then(res=>{
         if(res.data.result&&res.data.result.length>0){
           this.industryStatus = res.data.result
-          this.industryStatusOverview = this.companyProfileList.companyProfileList.industryStatusOverview.replace(/\n|\r\n/g,"<br/>")
+          console.log('排名',this.industryStatus)
+          // this.industryStatusOverview = this.companyProfileList.companyProfileList.industryStatusOverview.replace(/\n|\r\n/g,"<br/>")
+          this.industryStatusOverview = this.industryStatus[0].industryStatusOverview.replace(/\n|\r\n/g,"<br/>")
         }
       })
     //   主要竞争对手简介接口
@@ -560,7 +570,7 @@ export default {
                     tabId: 'tab-sixth',
                     noClick: true
           } 
-          if((this.industryStatus&&this.industryStatus.length>0) || this.companyProfileList.companyProfileList.industryStatusOverview){
+          if((this.industryStatus&&this.industryStatus.length>0)){
             industryStatus.noClick = false; 
           }  
           if(this.maoChartTableData&&this.maoChartTableData.length>0){
