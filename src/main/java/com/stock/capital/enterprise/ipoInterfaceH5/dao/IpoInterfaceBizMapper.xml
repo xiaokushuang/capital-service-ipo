@@ -9,17 +9,15 @@
         t.company_name AS companyName,
         t.ipo_plate AS ipoPlate,
         t.industry_csrc AS industryCsrc,
-        t4.company_code AS companyCode,
-        t4.att_url companyLogoUrl
+        (select t3.att_url from sa_company t2,sa_attachment t3 where t2.id = t3.business_id and t.org_code = t2.rela_code limit 1 ) companyLogoUrl
         FROM
         ipo_case t,
-        case_common_status_info t1,
-        (select t2.company_code,t2.rela_code,t3.att_url from sa_company t2,sa_attachment t3 where t2.id = t3.business_id ) t4
+        case_common_status_info t1
+
         WHERE
         ipo_plate = '069001001006'
         AND t.id = t1.case_id
         AND t1.release_flag = '1'
-        AND t.org_code = t4.rela_code
         AND t.org_code != #{orgCode}
         ORDER BY
         <if test="ipoPlate != null and ipoPlate != ''">
@@ -36,18 +34,15 @@
             t.company_name AS companyName,
             t.ipo_plate AS ipoPlate,
             t.industry_csrc AS industryCsrc,
-            t4.company_code AS companyCode,
-            t4.att_url companyLogoUrl
+            (select t3.att_url from sa_company t2,sa_attachment t3 where t2.id = t3.business_id and t.org_code = t2.rela_code limit 1 ) companyLogoUrl
         FROM
             ipo_case t,
-            case_common_status_info t1,
-            (select t2.company_code,t2.rela_code,t3.att_url from sa_company t2,sa_attachment t3 where t2.id = t3.business_id ) t4
+            case_common_status_info t1
         WHERE
             ipo_plate = '069001001006'
         AND t.id = t1.case_id
         AND t1.release_flag = '1'
         AND t.org_code != #{orgCode}
-        AND t.org_code = t4.rela_code
         ORDER BY
         RAND() limit 4;
     </select>
