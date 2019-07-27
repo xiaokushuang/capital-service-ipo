@@ -19,12 +19,13 @@
             t.ranking,
             t1.industry_status_overview 
     FROM 
-            ipo_issuer_industry_status t
-            left join ipo_case t1
-    ON 
+            ipo_case t1
+            left join
+						ipo_issuer_industry_status t
+    ON
             t.bid=t1.id
-    WHERE            
-            t.bid = #{bid}
+    WHERE
+            t1.id = #{bid}
   </select>
 
 </mapper>

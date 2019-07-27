@@ -162,10 +162,11 @@
     idi.regist_addr as registAddr,
     (
     SELECT COUNT(1)
-    FROM ipo_data_info i
-    WHERE i.quasi_listed_land = '01' AND
-    i.recommend_organization LIKE CONCAT("%", cro.recommend_organization, "%") AND
-    i.grab_update_time = #{lastUpadteTime}
+    FROM ipo_data_info i, company_recommend_organization cro1
+    WHERE  i.id = cro1.ipo_data_id
+    AND cro1.recommend_organization = cro.recommend_organization
+    AND i.grab_update_time = #{lastUpadteTime}
+    AND i.quasi_listed_land = '01'
     <if test="areaList != null and areaList.size() > 0">
         AND i.regist_addr IN
         <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">
@@ -181,10 +182,11 @@
     ) AS szbCount,
     (
     SELECT COUNT(1)
-    FROM ipo_data_info i
-    WHERE i.quasi_listed_land = '00' AND
-    i.recommend_organization LIKE CONCAT("%", cro.recommend_organization, "%") AND
-    i.grab_update_time = #{lastUpadteTime}
+    FROM ipo_data_info i, company_recommend_organization cro1
+    WHERE i.id = cro1.ipo_data_id
+    AND cro1.recommend_organization = cro.recommend_organization
+    AND  i.grab_update_time = #{lastUpadteTime}
+    AND i.quasi_listed_land = '00'
     <if test="areaList != null and areaList.size() > 0">
         AND i.regist_addr IN
         <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">
@@ -200,10 +202,11 @@
     ) AS hzbCount,
     (
     SELECT COUNT(1)
-    FROM ipo_data_info i
-    WHERE i.quasi_listed_land = '02' AND
-    i.recommend_organization LIKE CONCAT("%", cro.recommend_organization, "%") AND
-    i.grab_update_time = #{lastUpadteTime}
+    FROM ipo_data_info i, company_recommend_organization cro1
+    WHERE i.id = cro1.ipo_data_id
+    AND cro1.recommend_organization = cro.recommend_organization
+    AND  i.grab_update_time = #{lastUpadteTime}
+    AND i.quasi_listed_land = '02'
     <if test="areaList != null and areaList.size() > 0">
         AND i.regist_addr IN
         <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">
@@ -219,10 +222,11 @@
     ) AS zxbCount,
     (
     SELECT COUNT(1)
-    FROM ipo_data_info i
-    WHERE i.quasi_listed_land = '03' AND
-    i.recommend_organization LIKE CONCAT("%", cro.recommend_organization, "%") AND
-    i.grab_update_time = #{lastUpadteTime}
+    FROM ipo_data_info i, company_recommend_organization cro1
+    WHERE i.id = cro1.ipo_data_id
+    AND cro1.recommend_organization = cro.recommend_organization
+    AND  i.grab_update_time = #{lastUpadteTime}
+    AND i.quasi_listed_land = '03'
     <if test="areaList != null and areaList.size() > 0">
         AND i.regist_addr IN
         <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">
@@ -239,10 +243,11 @@
 
     (
     SELECT COUNT(1)
-    FROM ipo_data_info i
-    WHERE i.quasi_listed_land = '04' AND
-    i.recommend_organization LIKE CONCAT("%", cro.recommend_organization, "%") AND
-    i.grab_update_time = #{lastUpadteTime}
+    FROM ipo_data_info i, company_recommend_organization cro1
+    WHERE i.id = cro1.ipo_data_id
+    AND cro1.recommend_organization = cro.recommend_organization
+    AND  i.grab_update_time = #{lastUpadteTime}
+    AND i.quasi_listed_land = '04'
     <if test="areaList != null and areaList.size() > 0">
         AND i.regist_addr IN
         <foreach collection="areaList" index="index" item="area" open="(" separator="," close=")">
@@ -580,10 +585,12 @@
         i.law_firm as lawFirm, 
         (select s.code_name from sa_code s where s.code_value = i.approve_status and s.code_no = "IPO_APPROVE_STATUS") as approveStatus, 
         i.hased_random_inspection as hasedRandomInspection                           
-    FROM ipo_data_info i                                                                                    
-    WHERE 
+    FROM ipo_data_info i , company_recommend_organization cro
+    WHERE
+        i.id = cro.ipo_data_id
     <if test="label != null and label != ''">
-        i.recommend_organization = #{label}
+        AND
+        cro.recommend_organization = #{label}
     </if>
     <if test="quasiListedLand != null and quasiListedLand != ''">
         AND  
