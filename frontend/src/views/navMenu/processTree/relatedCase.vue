@@ -25,6 +25,9 @@
                                             <div :style="{'font-size': '14px', 'color': '#14bcf5','display':'inline-block','margin-right':item.progressName.length>=14?'-4px':'12px'}"  class="tinyHand">
                                                 <a @click="gonggaoClick(item.caseId,item.openFlag)">{{item.progressName}}</a>
                                              </div>
+                                             <!-- <div :style="{'font-size': '14px', 'color': '#14bcf5','display':'inline-block','margin-right':item.progressName.slice(0,13).length>=14?'-4px':'12px'}"  class="tinyHand">
+                                                <a @click="gonggaoClick(item.caseId,item.openFlag)">{{item.progressName.slice(0,13)}}</a>
+                                             </div> -->
                                              <!-- 非科创版审核结果 -->
                                             <span v-if="item.iecResult=='00'" :style={background:htg}  class="htg" >获通过</span>
                                             <span v-if="item.iecResult=='01'" :style={background:whtg} class="whtg">未获通过</span>
@@ -34,9 +37,9 @@
                                              <!-- 科创版审核结果 -->
                                             <span v-if="item.iecResult=='05'" :style="{'background':tg}"   class="tg" >通过</span>
                                             <span v-if="item.iecResult=='06'" :style="{'background':wtg}"  class="wtg">未通过</span>
-                                            <span v-if="item.iecResult=='07'" :style="{'background':zcsx}" class="htg">注册生效 </span>
+                                            <span v-if="item.iecResult=='07'" :style="{'background':zcsx}" class="zcsx">注册生效 </span>
                                             <span v-if="item.iecResult=='08'" :style="{'background':whtg}" class="whtg">不予注册</span>
-                                            <span v-if="item.iecResult=='10'" :style="{'background':qxsh}"  class="dsh">取消审议</span>
+                                            <span v-if="item.iecResult=='10'" :style="{'background':qxsh}"  class="qxsh">取消审议</span>
                                         </div>
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
                                             <div v-if="item.processTime" v-text='item.processTime'></div>
@@ -261,92 +264,73 @@ export default {
 }
 .htg{
     font-size: 12px;
-    // position: relative;
-    // left: 38%;
-    // // left: 95%;
-    // top: -20px;
     color: #4ec8e5;
     padding:5px;
-    padding-left: 10px;
+    padding-left: 8px;
     padding-right: 7px;
     padding-right:5px;
     line-height:10px;
     display:inline-block;
 }
+.zcsx{
+    font-size: 12px;
+    color: #4ec8e5;
+    padding:5px;   
+    padding-left: 7px;
+    padding-right: 7px;
+    line-height:10px;
+    display:inline-block;
+}
 .wtg{
     font-size: 12px;
-    // position: relative;
-    // left: 38%;
-    // // left: 95%;
-    // top: -20px;
     color: #ea5365;
     padding: 5px;
-    padding-left: 10px;
+    padding-left: 7px;
     padding-right: 7px;
     line-height: 10px;
     display: inline-block;
 }
 .tg{
     font-size: 12px;
-    // position: relative;
-    // left: 38%;
-    // // left: 95%;
-    // top: -20px;
     color: #4ec8e5 ;
     padding:5px;
-    padding-left: 10px;
+    padding-left: 9px;
     padding-right: 7px;
     line-height:10px;
     display:inline-block;
 }
 .whtg{
     font-size: 12px;
-    // position: relative;
-    // left: 38%;
-    // // left: 95%;
-    // top: -20px;
     color: #ea5365;
     padding:5px;
-    padding-left: 10px;
+    padding-left: 7px;
     padding-right: 7px;
     line-height:10px;
     display:inline-block;
 }
 .zhbj{
     font-size: 12px;
-    // position: relative;
-    // left: 38%;
-    // // left: 95%;
-    // top: -20px;
     color: #f9b162;
     padding:5px;   
-     padding-left: 10px;
+     padding-left: 7px;
     padding-right: 7px;
     line-height:10px;
     display:inline-block;
 }
 .qxsh{
     font-size: 12px;
-    // position: relative;
-    // left: 38%;
-    // // left: 95%;
-    // top: -20px;
     color: #aabfe2;
     padding:5px;
-    padding-left: 10px;
+    padding-left: 7px;
     padding-right: 7px;
     line-height:10px;
     display:inline-block;
 }
 .dsh{
     font-size: 12px;
-    // position: relative;
-    // left: 38%;
-    // // left: 95%;
-    // top: -20px;
     color: #f98962;
     padding:5px;
-    padding-left: 10px;
+    padding-left: 7px;
     padding-right: 7px;
     line-height:10px;
     display:inline-block;
