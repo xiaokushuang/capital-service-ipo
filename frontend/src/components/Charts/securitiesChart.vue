@@ -162,6 +162,7 @@ export default {
             配股: true,
             发行家数:true
           },
+          padding:[10, 25, 15, 20],
           data: ["IPO", "增发", "配股", "发行家数"]
         },
         grid: {
