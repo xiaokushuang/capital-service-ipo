@@ -124,8 +124,8 @@ public class IpoInterfaceService extends BaseService {
     public List<IpoCaseListVo> otherIpoCase(IpoCaseIndexDto ipoCaseIndexDto) {
         List<IpoCaseListVo> resultList = ipoInterfaceBizMapper.otherIpoCase(ipoCaseIndexDto);
         for(IpoCaseListVo dto:resultList){
-            String URL = "http://www.valueonline.cn/open/";
-            URL = URL + dto.getCompanyCode() + "_160.png";
+            String URL = "http://www.valueonline.cn";
+            URL = URL + dto.getCompanyLogoUrl();
             dto.setCompanyLogo(URL);
         }
         return resultList;
