@@ -63,6 +63,9 @@ public class IpoCaseListVo implements Serializable {
     @ApiModelProperty("公司Logo")
     private String companyLogo;
 
+    @ApiModelProperty("公司Logo")
+    private String companyLogoUrl;
+
     private String processTime;//公告日期
     private String makeNewStatus;//打新情况，1当日打新，2近日打新
 
@@ -200,5 +203,13 @@ public class IpoCaseListVo implements Serializable {
 
     public void setCompanyLogo(String companyLogo) {
         this.companyLogo = companyLogo;
+    }
+
+    public String getCompanyLogoUrl() {
+        return companyLogoUrl;
+    }
+
+    public void setCompanyLogoUrl(String companyLogoUrl) {
+        this.companyLogoUrl = companyLogoUrl;
     }
 }
