@@ -10,7 +10,7 @@
         t.ipo_plate AS ipoPlate,
         t.industry_csrc AS industryCsrc,
         t4.company_code AS companyCode,
-        t4.att_url attUrl
+        t4.att_url companyLogoUrl
         FROM
         ipo_case t,
         case_common_status_info t1,
@@ -37,7 +37,7 @@
             t.ipo_plate AS ipoPlate,
             t.industry_csrc AS industryCsrc,
             t4.company_code AS companyCode,
-            t4.att_url attUrl
+            t4.att_url companyLogoUrl
         FROM
             ipo_case t,
             case_common_status_info t1,
