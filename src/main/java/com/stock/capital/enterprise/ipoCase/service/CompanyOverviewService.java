@@ -265,7 +265,14 @@ public class CompanyOverviewService extends BaseService {
      * @return list
      */
     public List<IssuerIndustryStatusDto> getindustryStatusData(String id) {
-        return ipoIssuerIndustryStatusBizMapper.getindustryStatusData(id);
+        List<IssuerIndustryStatusDto> result = ipoIssuerIndustryStatusBizMapper.getindustryStatusData(id);
+        result = result.stream().//增加筛选条件, 任意不为空保留, 为空则变成空数组
+            filter(dto->(StringUtils.isNotBlank(dto.getIndustryStatusOverview())
+                || StringUtils.isNotBlank(dto.getRanking())
+                || StringUtils.isNotBlank(dto.getRankingIndicator())
+                || StringUtils.isNotBlank(dto.getRankingRange())))
+            .collect(Collectors.toList());
+        return result;
     }    
     
     /**
