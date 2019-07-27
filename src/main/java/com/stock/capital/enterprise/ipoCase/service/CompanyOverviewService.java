@@ -266,16 +266,16 @@ public class CompanyOverviewService extends BaseService {
      */
     public List<IssuerIndustryStatusDto> getindustryStatusData(String id) {
         List<IssuerIndustryStatusDto> result = ipoIssuerIndustryStatusBizMapper.getindustryStatusData(id);
-//        if (result!= null && result.size() > 0){
-//            result = result.stream().//增加筛选条件, 任意不为空保留, 为空则变成空数组
-//                filter(dto->(StringUtils.isNotBlank(dto.getIndustryStatusOverview())
-//                || StringUtils.isNotBlank(dto.getRanking())
-//                || StringUtils.isNotBlank(dto.getRankingIndicator())
-//                || StringUtils.isNotBlank(dto.getRankingRange())))
-//                .collect(Collectors.toList());
-//        } else {
-//            result = null;
-//        }
+        if (result!= null && result.size() > 0 && result.get(0) != null){
+            result = result.stream().//增加筛选条件, 任意不为空保留, 为空则变成空数组
+                filter(dto->(StringUtils.isNotBlank(dto.getIndustryStatusOverview())
+                || StringUtils.isNotBlank(dto.getRanking())
+                || StringUtils.isNotBlank(dto.getRankingIndicator())
+                || StringUtils.isNotBlank(dto.getRankingRange())))
+                .collect(Collectors.toList());
+        } else {
+            result = null;
+        }
         return result;
     }    
     
