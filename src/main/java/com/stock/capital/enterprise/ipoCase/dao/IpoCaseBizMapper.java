@@ -50,6 +50,8 @@ public interface IpoCaseBizMapper {
 
     List<Map> selectTechnologyByBid(@Param("bid") String bid);
 
+    List<Map<String, Integer>> selectPatentById(@Param("id") String id);
+
     IpoTechnologyRemarksDto getRemarks(@Param("bid") String bid);
 
     List<IntermediaryOrgDto> getIntermediaryOrgData(
