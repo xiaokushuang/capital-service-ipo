@@ -489,8 +489,8 @@ public class IpoInterfaceController extends BaseController {
         // 专利情况
         try{
             IpoH5Dto result = getPatentSituation(id);
-            if (StringUtils.isNotBlank(result.getPatent()) || StringUtils.isNotBlank(result.getPatentNew()) ||
-                StringUtils.isNotBlank(result.getPatentDesign()) || StringUtils.isNotBlank(result.getPatentInternation())){
+            if (result != null && (StringUtils.isNotBlank(result.getPatent()) || StringUtils.isNotBlank(result.getPatentNew()) ||
+                StringUtils.isNotBlank(result.getPatentDesign()) || StringUtils.isNotBlank(result.getPatentInternation()))){
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "专利情况");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(result));
