@@ -535,6 +535,44 @@ export default {
          if(res.data.result&&res.data.result.specialArrange!=null){
            this.specialArrange = res.data.result.specialArrange.split(',');
          }
+
+
+
+          debugger;
+         if(res.data.result.favoriteId == '' || res.data.result.favoriteId == null){
+           this.favoriteFlag = true
+         }else{
+           this.favoriteFlag = false
+         }
+
+         if(res.data.result.caseNote == '' || res.data.result.caseNote == null){
+           this.note = ''
+         }else{
+           this.note = param.data.result.caseNote;
+           this.noteSave = param.data.result.caseNote;
+         }
+
+         // if(this.isNotEmpty(this.reptitle) == ''){
+         //   this.noteTitle = '编辑笔记'
+         //   this.centerNoteTitle = '编辑笔记'
+         // }else{
+         //   let title = '编辑笔记-'+ this.reptitle
+         //   if(title.length > 35){
+         //     this.noteTitle = title.substring(0,35) + '...';
+         //   }else{
+         //     this.noteTitle = title;
+         //   }
+         //   if(title.length > 45){
+         //     this.centerNoteTitle = title.substring(0,45) + '...';
+         //   }else{
+         //     this.centerNoteTitle = title;
+         //   }
+         // }
+         // this.titleNoteFlag = this.isNotEmpty(this.$route.query.notOpenFlag) ? true : false;
+
+
+
+
        })
        getCaseDetail(param).then(res => {
           if(res.data.result){
@@ -798,7 +836,8 @@ export default {
       clickFavorite(param).then(res => {
         // this.companyId = param.data.companyId;
         if(favoriteFlag == true){
-          if(param.data == 1){
+          debugger;
+          if(res.data == 1){
             this.favoriteFlag = false
             this.$message({
               message:'收藏成功',
@@ -816,7 +855,7 @@ export default {
             })
           }
         }else {
-          if (param.data == 1) {
+          if (res.data == 1) {
             this.favoriteFlag = true
             this.$message({
               duration:5000,
@@ -857,7 +896,7 @@ export default {
       };
       // this.$store.dispatch("repCase/getJudgementNoteDetermination", param).then((data) => {
       NoteDetermination(param).then(data => {
-        if(data.result == 1 || data.result == 0){
+        if(data.data == 1 || data.data == 0){
           this.$message({
             message:'保存成功',
             duration:5000,

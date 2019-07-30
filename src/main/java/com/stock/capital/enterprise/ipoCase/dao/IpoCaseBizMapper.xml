@@ -502,4 +502,14 @@
     ic.id = #{id}
     LIMIT 1
   </select>
+
+  <select id="getCaseFavoriteAndNote" parameterType="java.util.Map" resultType="java.util.Map">
+        select
+           ccf.id as favoriteId,
+           ccn.note as caseNote
+        from
+          case_common_favorite ccf
+        left join case_common_notes ccn on ccf.case_id = ccn.case_id and ccn.`type` = #{type} and ccn.user_id = #{userId} and ccn.company_id = #{companyId}
+        where ccf.case_id = #{caseId} AND  ccf.`type` = #{type} and ccf.user_id = #{userId} and ccf.company_id = #{companyId}
+  </select>
 </mapper>

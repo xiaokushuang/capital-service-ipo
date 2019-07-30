@@ -61,4 +61,5 @@ public interface IpoCaseBizMapper {
 
     List<IpoAssociatedCaseVo> getAssociatedCaseList(@Param("id") String id);
 
+    Map<String, String> getCaseFavoriteAndNote(Map<String, String> map);
 }

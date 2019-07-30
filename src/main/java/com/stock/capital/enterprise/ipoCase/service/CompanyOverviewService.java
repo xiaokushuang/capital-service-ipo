@@ -573,4 +573,8 @@ public class CompanyOverviewService extends BaseService {
         JsonResponse<Integer> retVal = restClient.post(url, params, responseType);
         return retVal.getResult();
     }
+
+    public Map<String,String> getCaseFavoriteAndNote(Map<String,String> map){
+        return ipoCaseBizMapper.getCaseFavoriteAndNote(map);
+    }
 }

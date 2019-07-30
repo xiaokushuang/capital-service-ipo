@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -253,6 +254,22 @@ public class IpoCaseOverviewController extends BaseController {
         if (CollectionUtils.isNotEmpty(patentList)){
           headDataVo.setIsGray(0);
         }
+
+        //查询收藏，笔记内容
+        Map<String, String> map = new HashMap<>();
+        map.put("caseId",id);
+        map.put("companyId",getUserInfo().getCompanyId());
+        map.put("userId",getUserInfo().getUserId());
+        map.put("type","4");
+        Map<String,String> retMap = companyOverviewService.getCaseFavoriteAndNote(map);
+        if(retMap == null){
+            headDataVo.setFavoriteId("");
+            headDataVo.setCaseNote("");
+        }else{
+            headDataVo.setFavoriteId(retMap.get("favoriteId") == null ? "" : retMap.get("favoriteId"));
+            headDataVo.setCaseNote(retMap.get("caseNote") == null ? "" : retMap.get("caseNote"));
+        }
+
 
         response.setResult(headDataVo);
         return response;
