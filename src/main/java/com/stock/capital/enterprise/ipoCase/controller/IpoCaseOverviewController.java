@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -232,6 +233,7 @@ public class IpoCaseOverviewController extends BaseController {
         List<IssuerIndustryStatusDto> industryList =  companyOverviewService.getindustryStatusData(id);
         List<MainCompetitorInfoDto> companyOverviewList = companyOverviewService.getCompetitorData(id);
         List<Map> techList = ipoCaseBizMapper.selectTechnologyByBid(id);
+        List<Map<String, Integer>> patentList = ipoCaseBizMapper.selectPatentById(id);// 专利情况
         List<IndustryCompareRateDto> indusList = issueSituationService.getIndustryRateData(id);
         techList.removeAll(Collections.singleton(null));
         if (CollectionUtils.isEmpty(industryList) && CollectionUtils.isEmpty(indusList) &&
@@ -240,6 +242,18 @@ public class IpoCaseOverviewController extends BaseController {
         } else {
             headDataVo.setIsGray(0);
         }
+        if (CollectionUtils.isNotEmpty(patentList)){
+          patentList = patentList.stream()
+              .filter(tmpMap -> ( tmpMap.keySet().contains("domesticInvention") ||
+                  tmpMap.keySet().contains("domesticNewtype")||
+                  tmpMap.keySet().contains("domesticDesign") ||
+                      tmpMap.keySet().contains("foreignPatent")))
+              .collect(Collectors.toList());
+        }
+        if (CollectionUtils.isNotEmpty(patentList)){
+          headDataVo.setIsGray(0);
+        }
+
         response.setResult(headDataVo);
         return response;
     }

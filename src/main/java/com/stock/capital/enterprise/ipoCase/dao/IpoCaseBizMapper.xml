@@ -308,8 +308,6 @@
     dev_input_se AS devInputSe, dev_input_th AS devInputTh, dev_input_fo AS devInputFo, trade_fi AS tradeFi,
     trade_se AS tradeSe, trade_th AS tradeTh, trade_fo AS tradeFo,
 		CASE patent_remarks WHEN "" THEN NULL ELSE patent_remarks END AS patentRemarks,
-    domestic_invention AS domesticInvention, domestic_newtype AS domesticNewtype,domestic_design AS domesticDesign,
-    foreign_invention AS foreignInvention,foreign_newtype AS foreignNewtype, foreign_design AS foreignDesign,
 		CASE core_remarks WHEN "" THEN NULL ELSE core_remarks END AS coreRemarks,
     category_date_fi AS categoryDateFi, category_date_se AS categoryDateSe,
     category_date_th AS categoryDateTh, category_date_fo AS categoryDateFo, core_fi AS coreFi,
@@ -318,6 +316,17 @@
     count_fo AS countFo
     from ipo_technology
     where bid = #{bid,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectPatentById" resultType="java.util.Map" parameterType="java.lang.String" >
+    SELECT t.ipo_plate AS ipoPlate,t1.domestic_invention AS domesticInvention,
+    t1.domestic_newtype AS domesticNewtype,t1.domestic_design AS domesticDesign,
+    t1.foreign_patent AS foreignPatent
+    FROM ipo_case AS t, ipo_technology AS t1
+    WHERE 1=1
+    AND t.id = t1.bid
+    AND t.ipo_plate = '069001001006'
+    AND t.id = #{id}
   </select>
 
   <select id="getRemarks" parameterType="string"
