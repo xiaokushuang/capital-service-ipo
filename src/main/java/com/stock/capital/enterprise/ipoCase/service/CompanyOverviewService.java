@@ -512,7 +512,7 @@ public class CompanyOverviewService extends BaseService {
     /**
      * 判断收藏
      */
-    public int getDetermineWhetherToCollect(@RequestBody CollectionsAndNotesDto collectionsAndNotesDto, String ipaddr, String companyId, String userId){
+    public int getDetermineWhetherToCollect(CollectionsAndNotesDto collectionsAndNotesDto, String ipaddr, String companyId, String userId){
 //        String companyId =  getUserInfo().getCompanyId();
 //        String userId = getUserInfo().getUserId();
         Boolean favoriteFlag = collectionsAndNotesDto.getFavoriteFlag();
@@ -541,7 +541,7 @@ public class CompanyOverviewService extends BaseService {
      * 删除笔记
      */
 
-    public int deleteNotes(@RequestBody CollectionsAndNotesDto collectionsAndNotesDto, String ipaddr,String companyId,String userId){
+    public int deleteNotes(CollectionsAndNotesDto collectionsAndNotesDto, String ipaddr,String companyId,String userId){
         String note =  collectionsAndNotesDto.getNote();
         String url = apiBaseUrl + "rep_case_favorite_note_api/deleteCaseNote";// 删除笔记 CaseFavoriteAndNoteController.java
         ParameterizedTypeReference<JsonResponse<Integer>> responseType = new ParameterizedTypeReference<JsonResponse<Integer>>(){
