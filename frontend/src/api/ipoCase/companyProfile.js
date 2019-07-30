@@ -170,3 +170,21 @@ export function getTechnologyInnovation(query) {
     params: query
   })
 }
+
+// 收藏/取消收藏
+export function clickFavorite(query) {
+  return request({
+    url: '/ipo/companyOverview/getDetermineWhetherToCollect',
+    method: 'get',
+    params: query
+  })
+}
+
+// 笔记点击确定
+export function NoteDetermination(query) {
+  return request({
+    url: '/ipo/companyOverview/getJudgementNoteDetermination',
+    method: 'get',
+    params: query
+  })
+}

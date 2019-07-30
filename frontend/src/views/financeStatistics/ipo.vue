@@ -72,12 +72,63 @@
                   </span>
                 </span>
               </div>
-            <div style="position: absolute;right: -5%;top: 50%;transform: translate(-50%, -50%);z-index: 999;" v-if="ipoplatetype" v-show="wxcodeimgload">
-              <img :src="wxcodeUrl" style="width: 120px;cursor: pointer;" @click="wxcodeBig" @load="wxcodeLoad">
-              <div style="font-size: 12px;color: rgb(255,255,255);text-align: center">手机扫码可视化查看</div>
+<!--            <div style="position: absolute;right: -5%;top: 50%;transform: translate(-50%, -50%);z-index: 999;" v-if="ipoplatetype" v-show="wxcodeimgload">-->
+<!--              <img :src="wxcodeUrl" style="width: 120px;cursor: pointer;" @click="wxcodeBig" @load="wxcodeLoad">-->
+<!--              <div style="font-size: 12px;color: rgb(255,255,255);text-align: center">手机扫码可视化查看</div>-->
+<!--            </div>-->
+
+
+            <div style="color:#fff;position: absolute;right: 2%;top: 20%;z-index: 999;font-size: 14px;" class="collectionsAndNotes">
+              <span v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;" title="收藏">
+                <i class="fa fa-star-o favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
+              </span>
+              <span v-else @click="clickFavorite(false)" style="cursor:pointer;" title="取消收藏">
+              <i class="fa fa-star favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
+              </span>
+              <span style="padding: 0px 5px;vertical-align: 5%;">|</span>
+              <el-popover placement="bottom" title="" width="540" trigger="manual" v-model="titleNoteFlag"
+                          popper-class="customer_popper">
+                <div>
+                  <div style="height: 28px;padding:0px 12px">
+                    <span style="font-size: 14px;color: #333;">{{noteTitle}}</span>
+                    <span style="float: right;color: #C1C1C1">
+                    <i class="fa fa-square-o fa-lg" @click="openCenterNote()" title="放大"
+                       style="cursor:pointer;margin-right: 4px;"></i>
+                    <i class="el-icon-close" @click="noteCancellation('1')" title="关闭"
+                       style="cursor:pointer;vertical-align: -10%;font-size: 21px"></i>
+                  </span>
+                  </div>
+                  <el-input type="textarea" class="textarea-height" :rows="6" resize="none" placeholder="请在这里输入笔记内容..."
+                            v-model="note">
+                  </el-input>
+                  <div style="float: right;margin-right: 20px;padding-top: 12px;">
+                    <button class="small_btn_common cancel_btn" @click="noteCancellation('1')">取消</button>
+                    <button class="small_btn_common determine_btn" @click="NoteDetermination()"
+                            style="margin-left: 10px">保存
+                    </button>
+                  </div>
+                </div>
+                <span slot="reference" aria-hidden="true" @click="titleNoteFlag = !titleNoteFlag"
+                      style="cursor:pointer;">
+              <i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span>
+            </span>
+              </el-popover>
             </div>
+
           </div>
         </div>
+
+        <!-- 屏幕中间的笔记 -->
+        <el-dialog title="" :visible.sync="centerNoteFlag" :close-on-click-modal="false" width="80%" height="calc(80% - 10px)" close="noteCancellation('3')">
+          <span style="font-size: 14px;color: #333;" slot="title">{{centerNoteTitle}}</span>
+          <el-input type="textarea" class="center-textarea-height" resize="none" placeholder="请在这里输入笔记内容..." v-model="note">
+          </el-input>
+          <div slot="footer">
+            <button class="small_btn_common cancel_btn" @click="noteCancellation('3')">取消</button>
+            <button class="small_btn_common determine_btn" @click="NoteDetermination()" style="margin-left: 10px">保存</button>
+          </div>
+        </el-dialog>
+
         <el-dialog align="left" :visible.sync="wxcode" width="470px">
           <img :src="wxcodeUrl">
         </el-dialog>
@@ -248,6 +299,8 @@
 import { getHeadData } from "@/api/ipoCase/companyProfile";
 import { getCaseDetail } from "@/api/ipoCase/companyProfile";
 import {getRelatedCaseData} from '@/api/ipoCase/companyProfile';
+import {clickFavorite} from '@/api/ipoCase/companyProfile';
+import {NoteDetermination} from '@/api/ipoCase/companyProfile';
 // 导入导航栏五个组件
 import companyProfile from "../navMenu/companyProfile/companyProfile.vue";
 import financialInformation from "../navMenu/financialInformation/financialInformation";
@@ -422,6 +475,14 @@ export default {
       },
       specialArrange:'',
       noOpenFlag:false,//判断公司是否开放
+      noteSave:'',//保存的笔记内容 为了取消之后还原笔记内容
+      note:'',//笔记内容
+      titleNoteFlag:false,//标题上的笔记展示标识
+      centerNoteFlag:false,//中间的笔记展示标识
+      scrollNoteFlag:false,//上面漂浮的展示标识
+      noteTitle:'',
+      centerNoteTitle:'',//中间笔记title
+      favoriteFlag:true,//判断收藏
     };
   },
   created(){
@@ -727,6 +788,96 @@ export default {
       }else{
         return title
       }
+    },
+    //收藏
+    clickFavorite(favoriteFlag){
+      let param = {
+        caseId : this.caseId2,
+        favoriteFlag : this.favoriteFlag
+      }
+      clickFavorite(param).then(res => {
+        // this.companyId = param.data.companyId;
+        if(favoriteFlag == true){
+          if(param.data == 1){
+            this.favoriteFlag = false
+            this.$message({
+              message:'收藏成功',
+              duration:5000,
+              iconClass:'el-icon-success',
+              customClass:'custom-success-message',
+              showClose:true
+            });
+          }else{
+            this.$message({
+              message: '收藏失败',
+              type: 'error',
+              duration:5000,
+              showClose:true
+            })
+          }
+        }else {
+          if (param.data == 1) {
+            this.favoriteFlag = true
+            this.$message({
+              duration:5000,
+              message: '已取消收藏',
+              iconClass:'el-icon-info',
+              customClass:'custom-info-message',
+              showClose:true
+            })
+          } else {
+            this.$message({
+              message: '取消收藏失败',
+              type: 'error',
+              duration:5000,
+              showClose:true
+            })
+          }
+        }
+
+      })
+    },
+    noteCancellation(type){//笔记点击取消
+      this.note = this.noteSave;
+      if(type == '1'){
+        this.titleNoteFlag = false;
+      }else if(type == '2'){
+        this.scrollNoteFlag = false;
+      }else if(type == '3'){
+        this.centerNoteFlag = false;
+      }
+    },
+    NoteDetermination(){//笔记点击确定
+      this.titleNoteFlag = false;
+      this.centerNoteFlag = false;
+      this.scrollNoteFlag = false;
+      let param = {
+        caseId : this.caseId2,
+        note : this.note,
+      };
+      // this.$store.dispatch("repCase/getJudgementNoteDetermination", param).then((data) => {
+      clickFavorite(param).then(data => {
+        if(data.result == 1 || data.result == 0){
+          this.$message({
+            message:'保存成功',
+            duration:5000,
+            iconClass:'el-icon-success',
+            customClass:'custom-success-message',
+            showClose:true
+          });
+          this.noteSave = this.note;
+        }else{
+          this.$message({
+            message: '保存失败',
+            type: 'error'
+          })
+        }
+      })
+    },
+    openCenterNote(){
+      this.titleNoteFlag = false;
+      this.centerNoteFlag = true;
+      this.scrollNoteFlag = false;
     },
   },
   watch: {

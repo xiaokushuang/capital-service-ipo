@@ -3,27 +3,13 @@ package com.stock.capital.enterprise.ipoCase.controller;
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseBizMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoExamineMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoFeedbackMapper;
-import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
-import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
-import com.stock.capital.enterprise.ipoCase.dto.IndustryCompareRateDto;
-import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoExamineBaseDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoValuationDto;
-import com.stock.capital.enterprise.ipoCase.dto.IssuerIndustryStatusDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyVo;
-import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.MainIncomeVo;
-import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoAssociatedCaseVo;
+import com.stock.capital.enterprise.ipoCase.dto.*;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.capital.enterprise.ipoCase.service.IssueSituationService;
 import com.stock.core.controller.BaseController;
 import com.stock.core.dto.JsonResponse;
+import com.stock.core.util.WebUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -33,11 +19,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Api(tags = {"IPO公司概览接口类"}, description = "IPO公司概览接口描述")
 @RestController
@@ -259,4 +243,30 @@ public class IpoCaseOverviewController extends BaseController {
         response.setResult(headDataVo);
         return response;
     }
+
+    @RequestMapping(value = "/getDetermineWhetherToCollect", method = RequestMethod.GET)
+    public int getDetermineWhetherToCollect(CollectionsAndNotesDto collectionsAndNotesDto) {
+        String ipaddr = WebUtil.getClientIpAddr(getRequest());//获取用户IP地址
+        String companyId =  getUserInfo().getCompanyId();//获取公司ID
+        String userId = getUserInfo().getUserId();//获取用户ID
+        int i = companyOverviewService.getDetermineWhetherToCollect(collectionsAndNotesDto,ipaddr,companyId,userId);
+        return i;
+    }
+
+    @RequestMapping(value = "/getJudgementNoteDetermination", method = RequestMethod.GET)
+    public JsonResponse<Integer> getJudgementNoteDetermination(CollectionsAndNotesDto collectionsAndNotesDto) {
+        String ipaddr = WebUtil.getClientIpAddr(getRequest());//获取用户IP地址
+        String companyId =  getUserInfo().getCompanyId();//获取公司ID
+        String userId = getUserInfo().getUserId();//获取用户ID
+        int i;
+        if(StringUtils.isBlank(collectionsAndNotesDto.getNote())){//判断是否全部都是空或者没有输入
+            i = companyOverviewService.deleteNotes(collectionsAndNotesDto,ipaddr,companyId,userId);//走删除
+        }else{
+            i = companyOverviewService.getNoteDetermination(collectionsAndNotesDto,ipaddr,companyId,userId);//走保存
+        }
+        JsonResponse<Integer> result = new JsonResponse<>();
+        result.setResult(new Integer(i));
+        return result;//返回
+    }
+
 }
