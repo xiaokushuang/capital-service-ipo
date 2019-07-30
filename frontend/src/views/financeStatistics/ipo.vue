@@ -856,7 +856,7 @@ export default {
         note : this.note,
       };
       // this.$store.dispatch("repCase/getJudgementNoteDetermination", param).then((data) => {
-      clickFavorite(param).then(data => {
+      NoteDetermination(param).then(data => {
         if(data.result == 1 || data.result == 0){
           this.$message({
             message:'保存成功',

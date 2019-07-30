@@ -259,7 +259,8 @@ public class IpoCaseOverviewController extends BaseController {
     }
 
     @RequestMapping(value = "/getDetermineWhetherToCollect", method = RequestMethod.GET)
-    public int getDetermineWhetherToCollect(@RequestBody CollectionsAndNotesDto collectionsAndNotesDto) {
+    @ResponseBody
+    public int getDetermineWhetherToCollect(@RequestBody(required=false) CollectionsAndNotesDto collectionsAndNotesDto) {
         String ipaddr = WebUtil.getClientIpAddr(getRequest());//获取用户IP地址
         String companyId =  getUserInfo().getCompanyId();//获取公司ID
         String userId = getUserInfo().getUserId();//获取用户ID
@@ -268,7 +269,8 @@ public class IpoCaseOverviewController extends BaseController {
     }
 
     @RequestMapping(value = "/getJudgementNoteDetermination", method = RequestMethod.GET)
-    public JsonResponse<Integer> getJudgementNoteDetermination(@RequestBody CollectionsAndNotesDto collectionsAndNotesDto) {
+    @ResponseBody
+    public JsonResponse<Integer> getJudgementNoteDetermination(@RequestBody(required=false) CollectionsAndNotesDto collectionsAndNotesDto) {
         String ipaddr = WebUtil.getClientIpAddr(getRequest());//获取用户IP地址
         String companyId =  getUserInfo().getCompanyId();//获取公司ID
         String userId = getUserInfo().getUserId();//获取用户ID
