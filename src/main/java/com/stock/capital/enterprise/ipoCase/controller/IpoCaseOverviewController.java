@@ -260,25 +260,25 @@ public class IpoCaseOverviewController extends BaseController {
 
     @RequestMapping(value = "/getDetermineWhetherToCollect", method = RequestMethod.GET)
     @ResponseBody
-    public int getDetermineWhetherToCollect(@RequestBody(required=false) CollectionsAndNotesDto collectionsAndNotesDto) {
+    public int getDetermineWhetherToCollect(String caseId, boolean favoriteFlag) {
         String ipaddr = WebUtil.getClientIpAddr(getRequest());//获取用户IP地址
         String companyId =  getUserInfo().getCompanyId();//获取公司ID
         String userId = getUserInfo().getUserId();//获取用户ID
-        int i = companyOverviewService.getDetermineWhetherToCollect(collectionsAndNotesDto,ipaddr,companyId,userId);
+        int i = companyOverviewService.getDetermineWhetherToCollect(caseId,favoriteFlag,ipaddr,companyId,userId);
         return i;
     }
 
     @RequestMapping(value = "/getJudgementNoteDetermination", method = RequestMethod.GET)
     @ResponseBody
-    public JsonResponse<Integer> getJudgementNoteDetermination(@RequestBody(required=false) CollectionsAndNotesDto collectionsAndNotesDto) {
+    public JsonResponse<Integer> getJudgementNoteDetermination(String caseId,String note) {
         String ipaddr = WebUtil.getClientIpAddr(getRequest());//获取用户IP地址
         String companyId =  getUserInfo().getCompanyId();//获取公司ID
         String userId = getUserInfo().getUserId();//获取用户ID
         int i;
-        if(StringUtils.isBlank(collectionsAndNotesDto.getNote())){//判断是否全部都是空或者没有输入
-            i = companyOverviewService.deleteNotes(collectionsAndNotesDto,ipaddr,companyId,userId);//走删除
+        if(StringUtils.isBlank(note)){//判断是否全部都是空或者没有输入
+            i = companyOverviewService.deleteNotes(caseId,note,ipaddr,companyId,userId);//走删除
         }else{
-            i = companyOverviewService.getNoteDetermination(collectionsAndNotesDto,ipaddr,companyId,userId);//走保存
+            i = companyOverviewService.getNoteDetermination(caseId,note,ipaddr,companyId,userId);//走保存
         }
         JsonResponse<Integer> result = new JsonResponse<>();
         result.setResult(new Integer(i));

@@ -512,10 +512,7 @@ public class CompanyOverviewService extends BaseService {
     /**
      * 判断收藏
      */
-    public int getDetermineWhetherToCollect(CollectionsAndNotesDto collectionsAndNotesDto, String ipaddr, String companyId, String userId){
-//        String companyId =  getUserInfo().getCompanyId();
-//        String userId = getUserInfo().getUserId();
-        Boolean favoriteFlag = collectionsAndNotesDto.getFavoriteFlag();
+    public int getDetermineWhetherToCollect(String caseId,boolean favoriteFlag, String ipaddr, String companyId, String userId){
         //判断收藏
         String url = "";
         if(favoriteFlag){
@@ -526,7 +523,6 @@ public class CompanyOverviewService extends BaseService {
         ParameterizedTypeReference<JsonResponse<Integer>> responseType = new ParameterizedTypeReference<JsonResponse<Integer>>(){
         };
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-        String caseId =  collectionsAndNotesDto.getCaseId();
         params.set("caseId",caseId);
         params.set("companyId",companyId);
         params.set("userId",userId);
@@ -541,13 +537,11 @@ public class CompanyOverviewService extends BaseService {
      * 删除笔记
      */
 
-    public int deleteNotes(CollectionsAndNotesDto collectionsAndNotesDto, String ipaddr,String companyId,String userId){
-        String note =  collectionsAndNotesDto.getNote();
+    public int deleteNotes(String caseId,String note, String ipaddr,String companyId,String userId){
         String url = apiBaseUrl + "rep_case_favorite_note_api/deleteCaseNote";// 删除笔记 CaseFavoriteAndNoteController.java
         ParameterizedTypeReference<JsonResponse<Integer>> responseType = new ParameterizedTypeReference<JsonResponse<Integer>>(){
         };
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-        String caseId =  collectionsAndNotesDto.getCaseId();
         params.set("caseId",caseId);
         params.set("companyId",companyId);
         params.set("userId",userId);
@@ -564,13 +558,11 @@ public class CompanyOverviewService extends BaseService {
      * by ChenYufan
      */
 
-    public int getNoteDetermination(@RequestBody CollectionsAndNotesDto collectionsAndNotesDto, String ipaddr,String companyId,String userId){
-        String note =  collectionsAndNotesDto.getNote();
+    public int getNoteDetermination(String caseId,String note, String ipaddr,String companyId,String userId){
         String url = apiBaseUrl + "rep_case_favorite_note_api/queryCaseNote";// 查询笔记 CaseFavoriteAndNoteController.java
         ParameterizedTypeReference<JsonResponse<Integer>> responseType = new ParameterizedTypeReference<JsonResponse<Integer>>(){
         };
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-        String caseId =  collectionsAndNotesDto.getCaseId();
         params.set("caseId",caseId);
         params.set("companyId",companyId);
         params.set("userId",userId);
