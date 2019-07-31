@@ -836,7 +836,6 @@ export default {
       clickFavorite(param).then(res => {
         // this.companyId = param.data.companyId;
         if(favoriteFlag == true){
-          debugger;
           if(res.data == 1){
             this.favoriteFlag = false
             this.$message({
@@ -896,7 +895,7 @@ export default {
       };
       // this.$store.dispatch("repCase/getJudgementNoteDetermination", param).then((data) => {
       NoteDetermination(param).then(data => {
-        if(data.data == 1 || data.data == 0){
+        if(data.data.result == 1 || data.data.result == 0){
           this.$message({
             message:'保存成功',
             duration:5000,
@@ -1154,5 +1153,77 @@ export default {
   cursor:default;
   color:#adadad !important;
   font-size:14px;
+}
+.small_btn_common{
+  height: 30px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-size: 14px;
+  cursor:pointer;
+  border-radius: 2px;
+}
+.cancel_btn{
+  background-color: #fff;
+  border: 1px solid #cacaca;
+  color: #666666;
+}
+.determine_btn{
+  background-color: #14bcf5;
+  border: 1px solid #14bcf5;
+  color: #fff;
+}
+textarea{
+  word-break:break-all;
+}
+.textarea-height textarea{
+  min-height: 144px !important;
+}
+.center-textarea-height{
+  height: calc(100%) !important;
+}
+
+.center-textarea-height textarea{
+  height: calc(100%) !important;
+}
+.el-dialog {
+  transform: none;
+  left: 0;
+  position: relative;
+  margin: 0 auto;
+  width: 60%;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.3);
+  box-sizing: border-box;
+  height: calc(80%);
+}
+
+.el-dialog__headerbtn {
+  top: auto;
+}
+.el-textarea__inner{
+  color: #999999;
+  font-size: 14px;
+  line-height: 22px;
+  border: none;
+  border-radius: 0px;
+  border-top: 1px #e2e2e2 solid;
+  border-bottom: 1px #e2e2e2 solid;
+  word-break: break-all;
+}
+.el-textarea__inner:focus{
+  border-color: #e2e2e2;
+}
+.el-dialog__body{
+  padding: 0px;
+  color: #555;
+  line-height: 24px;
+  font-size: 14px;
+  height: calc(80%);
+}
+.el-dialog__footer{
+  padding:10px;
+}
+.el-dialog__header {
+  padding: 12px 21px 11px;
 }
 </style>
