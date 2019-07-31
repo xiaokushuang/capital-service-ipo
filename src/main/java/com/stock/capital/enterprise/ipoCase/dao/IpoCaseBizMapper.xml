@@ -303,14 +303,12 @@
   <select id="selectTechnologyByBid" resultType="java.util.Map" parameterType="java.lang.String" >
     select
 		CASE dev_remarks WHEN "" THEN NULL ELSE dev_remarks END AS devRemarks,
-		project_date_fi AS projectDateFi, project_date_se AS projectDateSe,
-    project_date_th AS projectDateTh, project_date_fo AS projectDateFo, dev_input_fi AS devInputFi,
+		dev_input_fi AS devInputFi,
     dev_input_se AS devInputSe, dev_input_th AS devInputTh, dev_input_fo AS devInputFo, trade_fi AS tradeFi,
     trade_se AS tradeSe, trade_th AS tradeTh, trade_fo AS tradeFo,
 		CASE patent_remarks WHEN "" THEN NULL ELSE patent_remarks END AS patentRemarks,
 		CASE core_remarks WHEN "" THEN NULL ELSE core_remarks END AS coreRemarks,
-    category_date_fi AS categoryDateFi, category_date_se AS categoryDateSe,
-    category_date_th AS categoryDateTh, category_date_fo AS categoryDateFo, core_fi AS coreFi,
+    core_fi AS coreFi,
     core_se AS coreSe, core_th AS coreTh, core_fo AS coreFo, dev_fi AS devFi, dev_se AS devSe,
     dev_th AS devTh, dev_fo AS devFo, count_fi AS countFi, count_se AS countSe, count_th AS countTh,
     count_fo AS countFo
