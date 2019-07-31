@@ -480,8 +480,8 @@ export default {
       titleNoteFlag:false,//标题上的笔记展示标识
       centerNoteFlag:false,//中间的笔记展示标识
       scrollNoteFlag:false,//上面漂浮的展示标识
-      noteTitle:'',
-      centerNoteTitle:'',//中间笔记title
+      noteTitle:'编辑笔记',
+      centerNoteTitle:'编辑笔记',//中间笔记title
       favoriteFlag:true,//判断收藏
     };
   },
@@ -536,9 +536,6 @@ export default {
            this.specialArrange = res.data.result.specialArrange.split(',');
          }
 
-
-
-          debugger;
          if(res.data.result.favoriteId == '' || res.data.result.favoriteId == null){
            this.favoriteFlag = true
          }else{
@@ -548,8 +545,8 @@ export default {
          if(res.data.result.caseNote == '' || res.data.result.caseNote == null){
            this.note = ''
          }else{
-           this.note = param.data.result.caseNote;
-           this.noteSave = param.data.result.caseNote;
+           this.note = res.data.result.caseNote;
+           this.noteSave = res.data.result.caseNote;
          }
 
          // if(this.isNotEmpty(this.reptitle) == ''){
