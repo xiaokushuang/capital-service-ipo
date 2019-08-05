@@ -25,6 +25,7 @@ import java.util.Set;
 @ControllerAdvice
 public class EncryptResponseBodyAdvice extends AbstractMappingJacksonResponseBodyAdvice {
 
+    private static final Logger logger = LoggerFactory.getLogger(EncryptResponseBodyAdvice.class);
 
     private static final String ENCRYPT_KEY = "hNkYmsBUvrTd3C3o";
     private static final String IV = "mLZT7OIx1qOHZaPX";
@@ -58,6 +59,7 @@ public class EncryptResponseBodyAdvice extends AbstractMappingJacksonResponseBod
             AntPathRequestMatcher matcher = new AntPathRequestMatcher(uri);
             ServletServerHttpRequest httpRequest = (ServletServerHttpRequest) request;
             String requestURI = httpRequest.getServletRequest().getRequestURI();
+            logger.info("uri："+requestURI+"白名单路径："+uri);
             if (matcher.matches(httpRequest.getServletRequest())) {
                 return Boolean.FALSE;
             }
