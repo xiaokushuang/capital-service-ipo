@@ -178,6 +178,12 @@ export const constantRouterMap = [
         component: _import('ipoCase/popWinComponent'),
         name:'ipoPopWin',
         meta: {title: '试用用户提示窗', noCache: true}
+      },
+      {
+        path:'favorite',
+        component: _import('ipoCase/ipoCaseFavorite'),
+        name:'favorite',
+        meta: {title: '收藏和笔记', noCache: true}
       }
 
     ]

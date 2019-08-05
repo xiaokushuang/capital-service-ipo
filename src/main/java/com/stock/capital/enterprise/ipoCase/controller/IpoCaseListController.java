@@ -6,6 +6,7 @@ import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo;
 import com.stock.capital.enterprise.ipoCase.service.IpoCaseListService;
 import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.QueryInfo;
+import com.stock.core.dto.UserInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -128,5 +129,44 @@ public class IpoCaseListController {
                                              BigDecimal.ROUND_HALF_UP).doubleValue());
         }
 
+    }
+
+
+
+
+    @ApiOperation(value = "收藏检索列表接口", notes = "收藏检索列表接口描述")
+    @RequestMapping(value = "/queryIpoFavoriteList", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public JsonResponse<Map<String, Object>> queryIpoFavoriteList(
+            @RequestBody QueryInfo<IpoCaseListBo> page) {
+        JsonResponse<Map<String, Object>> response = new JsonResponse<>();
+        //标识是否签约客户 默认不是
+        boolean signSymbol = false;
+        String companyId = page.getCondition().getCompanyId();
+        if (companyId != null && !"".equals(companyId)) {
+            int count = ipoCaseListMapper.queryAuthByCompanyId(companyId);
+            // 授权类型:签约 或 证监会 或 金融办
+            if (count > 0) {
+                //展示id
+                signSymbol = true;
+            }
+        }
+        Map<String, Object> map = ipoCaseListService.queryIpoFavoriteList(page, signSymbol);
+
+        List<IpoCaseIndexDto> list = (List<IpoCaseIndexDto>) map.get("data");
+        if (list != null && !list.isEmpty()) {
+            for (IpoCaseIndexDto indexDto : list) {
+                //未正式签约的并未开放的 删除id
+                if (!signSymbol && (indexDto.getOpenFlag() == null || "0"
+                        .equals(indexDto.getOpenFlag()))) {
+                    indexDto.setId(null);
+                }
+                //将净利润、营业收入、总资产 万元转亿元
+                dataChange(indexDto);
+            }
+            map.put("data", list);
+        }
+        response.setResult(map);
+        return response;
     }
 }
