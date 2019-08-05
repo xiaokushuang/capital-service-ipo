@@ -59,11 +59,12 @@ public class EncryptResponseBodyAdvice extends AbstractMappingJacksonResponseBod
             AntPathRequestMatcher matcher = new AntPathRequestMatcher(uri);
             ServletServerHttpRequest httpRequest = (ServletServerHttpRequest) request;
             String requestURI = httpRequest.getServletRequest().getRequestURI();
-            logger.info("uri："+requestURI+"白名单路径："+uri);
+
             if (matcher.matches(httpRequest.getServletRequest())) {
                 return Boolean.FALSE;
             }
             if (requestURI.contains(uri)){
+                logger.info("uri："+requestURI+"白名单路径："+uri);
                 return Boolean.FALSE;
             }
         }
