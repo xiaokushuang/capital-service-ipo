@@ -2,9 +2,12 @@ package com.stock.capital.enterprise.common.aop;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Sets;
+import com.stock.capital.enterprise.common.controller.ContentNegotiatingErrorController;
 import com.stock.capital.enterprise.ipoInterfaceH5.controller.IpoInterfaceController;
 import com.stock.core.util.CryptoUtil;
 import com.stock.core.util.JsonUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJacksonValue;
@@ -21,6 +24,9 @@ import java.util.Set;
 
 @ControllerAdvice
 public class EncryptResponseBodyAdvice extends AbstractMappingJacksonResponseBodyAdvice {
+
+    private static final Logger logger = LoggerFactory.getLogger(EncryptResponseBodyAdvice.class);
+
 
     private static final String ENCRYPT_KEY = "hNkYmsBUvrTd3C3o";
     private static final String IV = "mLZT7OIx1qOHZaPX";
@@ -47,6 +53,12 @@ public class EncryptResponseBodyAdvice extends AbstractMappingJacksonResponseBod
                 int start = (encryptData.length() + 32) % MOD;
                 encryptData = encryptData.substring(0, start + 1) + ENCRYPT_KEY + IV + encryptData.substring(start + 1);
                 bodyContainer.setValue(encryptData);
+            }
+        }else{
+            try {
+                logger.info("调用的类:"+declaringClass+" ipoh5使用的类："+IpoInterfaceController.class +"通过forname创建："+Class.forName("com.stock.capital.enterprise.ipoInterfaceH5.controller.IpoInterfaceController"));
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
         }
     }
