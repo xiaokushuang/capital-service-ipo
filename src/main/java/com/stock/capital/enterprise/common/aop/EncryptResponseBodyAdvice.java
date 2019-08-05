@@ -43,6 +43,11 @@ public class EncryptResponseBodyAdvice extends AbstractMappingJacksonResponseBod
                                            MethodParameter returnType, ServerHttpRequest request, ServerHttpResponse response) {
         Method method = returnType.getMethod();
         Class<?> declaringClass = method.getDeclaringClass();
+        try {
+            logger.info("调用的类:"+declaringClass+" ipoh5使用的类："+IpoInterfaceController.class +"通过forname创建："+Class.forName("com.stock.capital.enterprise.ipoInterfaceH5.controller.IpoInterfaceController"));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 //        非这个Controller都加密
         if (!declaringClass.equals(IpoInterfaceController.class)) {
             if (canEncrypt(request)) {
