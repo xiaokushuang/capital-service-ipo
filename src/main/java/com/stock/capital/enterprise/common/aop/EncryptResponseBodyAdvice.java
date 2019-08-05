@@ -35,21 +35,17 @@ public class EncryptResponseBodyAdvice extends AbstractMappingJacksonResponseBod
 
     static {
         WHITE_LIST.add("/health");
+        WHITE_LIST.add("/ipoInterfaceH5");
     }
 
 
     @Override
     protected void beforeBodyWriteInternal(MappingJacksonValue bodyContainer, MediaType contentType,
                                            MethodParameter returnType, ServerHttpRequest request, ServerHttpResponse response) {
-        Method method = returnType.getMethod();
-        Class<?> declaringClass = method.getDeclaringClass();
-        try {
-            logger.info("调用的类:"+declaringClass+" ipoh5使用的类："+IpoInterfaceController.class +"通过forname创建："+Class.forName("com.stock.capital.enterprise.ipoInterfaceH5.controller.IpoInterfaceController"));
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-//        非这个Controller都加密
-        if (!declaringClass.equals(IpoInterfaceController.class)) {
+//        Method method = returnType.getMethod();
+//        Class<?> declaringClass = method.getDeclaringClass();
+////        非这个Controller都加密
+//        if (!declaringClass.equals(IpoInterfaceController.class)) {
             if (canEncrypt(request)) {
                 String body = JsonUtil.toJson(bodyContainer.getValue());
                 String iv = Base64Utils.encodeToString(IV.getBytes(Charsets.UTF_8));
@@ -59,13 +55,13 @@ public class EncryptResponseBodyAdvice extends AbstractMappingJacksonResponseBod
                 encryptData = encryptData.substring(0, start + 1) + ENCRYPT_KEY + IV + encryptData.substring(start + 1);
                 bodyContainer.setValue(encryptData);
             }
-        }else{
-            try {
-                logger.info("调用的类:"+declaringClass+" ipoh5使用的类："+IpoInterfaceController.class +"通过forname创建："+Class.forName("com.stock.capital.enterprise.ipoInterfaceH5.controller.IpoInterfaceController"));
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
+//        }else{
+//            try {
+//                logger.info("调用的类:"+declaringClass+" ipoh5使用的类："+IpoInterfaceController.class +"通过forname创建："+Class.forName("com.stock.capital.enterprise.ipoInterfaceH5.controller.IpoInterfaceController"));
+//            } catch (ClassNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     private boolean canEncrypt(ServerHttpRequest request) {
