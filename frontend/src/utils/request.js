@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {clearAllCookie, getToken} from '@/utils/auth';
+import {clearAllCookie, getToken,Decrypt} from '@/utils/auth';
 import {Message} from 'element-ui';
 import store from '../store'
 import {showFullScreenLoading, tryHideFullScreenLoading} from './axiosHelperLoading'
@@ -74,6 +74,10 @@ service.interceptors.response.use(
         window.navigator.msSaveOrOpenBlob(blob, fileName)
         return;
       }
+    }
+    if(typeof response.data == 'string' && response.data.length > 0){
+      response.data = Decrypt(response.data)
+      // console.log(response.data)
     }
     return response
   },
