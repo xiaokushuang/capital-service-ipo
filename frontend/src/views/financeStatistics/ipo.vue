@@ -72,10 +72,10 @@
                   </span>
                 </span>
               </div>
-<!--            <div style="position: absolute;right: -5%;top: 50%;transform: translate(-50%, -50%);z-index: 999;" v-if="ipoplatetype" v-show="wxcodeimgload">-->
-<!--              <img :src="wxcodeUrl" style="width: 120px;cursor: pointer;" @click="wxcodeBig" @load="wxcodeLoad">-->
-<!--              <div style="font-size: 12px;color: rgb(255,255,255);text-align: center">手机扫码可视化查看</div>-->
-<!--            </div>-->
+           <div style="position: absolute;right: 8%;top: 50%;transform: translate(-50%, -50%);z-index: 999;" v-show="ipoplatetype" >
+             <img :src="wxcodeUrl" style="width: 120px;cursor: pointer;" @click="wxcodeBig" >
+             <div style="font-size: 12px;color: rgb(255,255,255);text-align: center">手机扫码可视化查看</div>
+           </div>
 
 
             <div style="color:#fff;position: absolute;right: 2%;top: 20%;z-index: 999;font-size: 14px;" class="collectionsAndNotes">
@@ -227,7 +227,7 @@
                             <div class="el-tabs__content">
                                 <!-- 动态加载tab -->
                                 <keep-alive>
-                                  <component :is = "showComponent" id="componentId" v-on:headCallBack="headCall" :companyProfileList={companyProfileList:this.companyProfileList,headList:this.headList}></component>
+                                  <component :is = "showComponent" id="componentId" v-on:headCallBack="headCall" :companyProfileList='{companyProfileList:this.companyProfileList,headList:this.headList}'></component>
                                 </keep-alive>
                             </div>
                         </div>
@@ -574,9 +574,9 @@ export default {
        getCaseDetail(param).then(res => {
           if(res.data.result){
             this.companyProfileList = res.data.result
-            /*if (res.data.result.ipoPlate == '上交所科创板'){
+            if (res.data.result.ipoPlate == '上交所科创板'){
               this.ipoplatetype = true;
-            }*/
+            }
             //this.ipoplatetype = false;
             /*if (res.data.result.launchcompanycode == '999830'){
               this.ipoplatetype = true;
@@ -593,7 +593,6 @@ export default {
                 this.proList = res.data.result
             }
         })
-      this.wxcodeUrl = "/ipo/ipoInterfaceH5/getQrCode?id="+this.caseId2+"&access_token="+this.$store.state.app.token
     },
     // 展开全部
     expandAll(flag) {
@@ -919,6 +918,8 @@ export default {
     caseId(n, o) {}
   },
   created() {
+		// 获取二维码图片流
+		this.wxcodeUrl = "/ipo/ipoInterfaceH5/getQrCode?id="+this.$store.state.app.caseId,+"&access_token="+this.$store.state.app.token
     this.initTableData()
     console.log('companyId',this.$store.state.app.companyId)
   },
