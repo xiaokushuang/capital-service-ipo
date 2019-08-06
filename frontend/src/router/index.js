@@ -184,7 +184,33 @@ export const constantRouterMap = [
         component: _import('ipoCase/ipoCaseFavorite'),
         name:'favorite',
         meta: {title: '收藏和笔记', noCache: true}
-      }
+      },
+			{
+			  path: 'ipoCaseFavoriteAndNote',
+			  component: _import('ipoCaseFavoriteAndNote/ipoCaseFavoriteAndNote'),
+			  name: 'ipoCaseFavoriteAndNote',
+			  meta: {title: '收藏与笔记', icon: 'dashboard', noCache: true, permit:"MENU-IPO-CASE-FAVORITE,MENU-REP-CASE-NOTE"},
+			  children: [
+					{
+					  path: 'ipoCaseNote',
+					  component: _import('ipoCaseFavoriteAndNote/ipoCaseNote'),
+					  name: 'ipoCaseNote',
+					  meta: {title: '笔记', icon: 'dashboard', noCache: true, permit:"MENU-IPO-CASE-NOTE"}
+					},
+			    {
+			      path: 'ipoCaseFavorite',
+			      component: _import('ipoCaseFavoriteAndNote/ipoCaseFavorite'),
+			      name: 'ipoCaseFavorite',
+			      meta: {title: '收藏', icon: 'dashboard', noCache: true, permit:"MENU-IPO-CASE-FAVORITE"}
+			    }
+			  ]
+			},
+			{
+			  path:'editIpoCaseNote',
+			  component: _import('ipoCaseFavoriteAndNote/editIpoCaseNote'),
+			  name:'editIpoCaseNote',
+			  meta: {title: '易董内修改笔记弹窗', noCache: true}
+			},
 
     ]
   },
