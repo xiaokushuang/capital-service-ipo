@@ -48,7 +48,6 @@
         //document.getElementsByTagName('textarea')[0].style.height =  '500px';
       },
       getCaseNote(){
-				debugger
         let param = {caseId:this.caseId,type: '1'};
         this.$store.dispatch("getIpoCaseFavoriteAndNotes", param).then((data) => {
           this.note = param.data.caseNote;

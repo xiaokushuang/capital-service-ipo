@@ -32,3 +32,11 @@ export function _queryIpoFavoriteList(_data) {
     data: _data
   })
 }
+
+export function _getCassNote(_data) {
+  return request({
+    url: basePath + '/getCassNote',
+    method: 'post',
+    data: _data
+  })
+}

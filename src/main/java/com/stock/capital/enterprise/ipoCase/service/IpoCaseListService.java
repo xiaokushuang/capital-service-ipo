@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseListMapper;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo;
+import com.stock.capital.enterprise.ipoCase.dto.IpoFavoriteAndNoteDto;
 import com.stock.capital.enterprise.ipoCase.dto.RegTreeDto;
 import com.stock.core.Constant;
 import com.stock.core.dao.DynamicDataSourceHolder;
@@ -892,5 +893,26 @@ public class IpoCaseListService extends BaseService {
         resultMap.put("sfcTreeNum", sfcTreeNum);
         return resultMap;
 
+    }
+
+    public Map<String, Object> getCassNote(IpoFavoriteAndNoteDto dto) {
+        int total = 0;
+        List<IpoFavoriteAndNoteDto> maaCaseNoteList = ipoCaseListMapper.getCassNote(dto);
+        int endRow = maaCaseNoteList.size();
+        if(Integer.parseInt(dto.getStartRow())+Integer.parseInt(dto.getPageSize())<endRow){
+            endRow = Integer.parseInt(dto.getStartRow())+Integer.parseInt(dto.getPageSize());
+        }
+        if(maaCaseNoteList.size()>0){
+            total = maaCaseNoteList.size();
+            maaCaseNoteList = maaCaseNoteList.subList(Integer.parseInt(dto.getStartRow()),endRow);
+        }
+        Map<String, Object> result = Maps.newHashMap();
+        result.put("recordsTotal", total);
+        result.put("maaCasesList", maaCaseNoteList);
+        return result;
+    }
+
+    public String isCompanyFlag(String companyCode) {
+        return ipoCaseListMapper.isCompanyFlag(companyCode);
     }
 }

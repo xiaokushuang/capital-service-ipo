@@ -64,7 +64,6 @@ export default {
         tos(ob) {
             let url = window.location.href;
             let urlArr = url.split(this.$route.path);
-			debugger;
             url = this.editableTabs[ob.index].to + urlArr[1];
             this.destroyOther(ob);
             this.$router.push(url);
@@ -77,7 +76,6 @@ export default {
     },
     watch: {
         get_routename(n, o) {
-			debugger;
             this.editableTabsValue = n
         },
     },

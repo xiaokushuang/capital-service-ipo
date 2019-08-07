@@ -8,7 +8,7 @@
 				<el-input size='small full' v-model="caseTitle" placeholder="标题关键字（任一关键词以空格隔开）"></el-input>
 			</el-col>
 			<el-col :span='8'>
-				<el-input size='small full' v-model="notetitle" placeholder="笔记关键字"></el-input>
+				<el-input size='small full' v-model="note" placeholder="笔记关键字"></el-input>
 			</el-col>
 		</el-row>
 		<el-row :gutter="24">
@@ -30,8 +30,8 @@
 					<el-table :data="tableData" border style="width: 100%;" :cell-class-name="getCellStyle" @sort-change="sortChange">
 						<el-table-column align="center" prop="companyCode" label="公司" min-width="9%">
 							<template slot-scope="scope">
-								<span>{{scope.row.comCode}}</span></br>
-								<span>{{scope.row.shortName}}</span>
+								<span>{{scope.row.companyCode}}</span></br>
+								<span>{{scope.row.companyName}}</span>
 							</template>
 
 						</el-table-column>
@@ -50,14 +50,14 @@
 
 						</el-table-column>
 
-						<el-table-column align="center" prop="publishTime" label="首次公告日" min-width="10%" sortable="custom">
+<!--						<el-table-column align="center" prop="publishTime" label="首次公告日" min-width="10%" sortable="custom">-->
+<!--							<template slot-scope="scope">-->
+<!--								<span>{{scope.row.publishTime}}</span>-->
+<!--							</template>-->
+<!--						</el-table-column>-->
+						<el-table-column align="center" prop="updateTime" label="最后编辑日期" min-width="10%" sortable="custom">
 							<template slot-scope="scope">
-								<span>{{scope.row.publishTime}}</span>
-							</template>
-						</el-table-column>
-						<el-table-column align="center" prop="editUpdateTime" label="最后编辑日期" min-width="10%" sortable="custom">
-							<template slot-scope="scope">
-								<span>{{scope.row.editUpdateTime}}</span>
+								<span>{{scope.row.updateTime}}</span>
 							</template>
 						</el-table-column>
 
@@ -82,7 +82,8 @@
 	import {
 		iframeDoMessage
 	} from "@/utils/auth";
-	import papers from "@/views/components-demo/papers";
+	import papers from "@/views/components-demo/papersNew";
+  import {_getCassNote} from '@/api/ipoCase/ipoCaseListApi'
 	export default {
 		data() {
 			return {
@@ -96,7 +97,7 @@
 				total: '',
 				caseTitle: '',
 				notetitle: '',
-				orderByName: 'editUpdateTime',
+				orderByName: 'updateTime',
 				orderByOrder: 'desc',
 				companycodename: '',
 				startRow: "",
@@ -131,7 +132,6 @@
 				}
 				this.centerNoteTitle = '编辑笔记-' + caseTitle;
 				let url = window.location.href;
-				debugger;
 				url = url.replace(this.$route.path, '/editIpoCaseNote');
 				url = url + "&caseId=" + caseId + "&centerNoteTitle=" + this.centerNoteTitle +
 					"&nameSpace=ipoCase&action=SET_IPO_CASE_NOTE";
@@ -157,7 +157,6 @@
 			},
 			removeNotes() { //删除笔记
 				//设置请求参数
-				debugger;
 				let params = {
 					caseId: this.removeNoteId,
 					type: "1",
@@ -178,7 +177,7 @@
 			paperSearch() {
 				var form = this.$refs.paper.submitData;
 				this.startRow = form.start - 1;
-				this.pageSize = form.length;
+				this.pageSize = form.pageSize;
 				this.querySearch();
 			},
 			openDetail(caseId, openFlag) {
@@ -221,12 +220,21 @@
 					orderByName: this.orderByName,
 					orderByOrder: this.orderByOrder,
 				};
-				this.$store.dispatch("getMaaCaseNoteDataList", param).then(() => {
-					this.tableData = param.data.tableData;
-					this.total = param.data.total;
-					this.signStatus = param.data.signStatus;
-					this.echatStr = param.data.echatStr;
-				});
+        _getCassNote(param).then(response => {
+          debugger;
+          if (response.data) {
+            this.tableData = response.data.maaCasesList;
+            this.total = response.data.recordsTotal;
+            this.signStatus = response.data.signStatus;
+            this.echatStr = response.data.echatStr;
+          }
+        })
+				// this.$store.dispatch("getMaaCaseNoteDataList", param).then(() => {
+				// 	this.tableData = param.data.tableData;
+				// 	this.total = param.data.total;
+				// 	this.signStatus = param.data.signStatus;
+				// 	this.echatStr = param.data.echatStr;
+				// });
 			},
 			notOpenCase() {
 				let url = window.location.href;
@@ -238,7 +246,7 @@
 				this.$refs.paper.submitData.start = 1;
 				let form = this.$refs.paper.submitData;
 				this.startRow = 0;
-				this.pageSize = form.length;
+				this.pageSize = form.pageSize;
 				let param = {
 					caseTitle: this.caseTitle,
 					noteTitle: this.notetitle,
@@ -248,19 +256,27 @@
 					orderByName: this.orderByName,
 					orderByOrder: this.orderByOrder,
 				};
-				this.$store.dispatch("getMaaCaseNoteDataList", param).then(() => {
-					debugger
-					this.tableData = param.data.tableData;
-					this.total = param.data.total;
-					this.signStatus = param.data.signStatus;
-					this.echatStr = param.data.echatStr;
-				});
+        _getCassNote(param).then(response => {
+          if (response.data) {
+            this.tableData = response.data.maaCasesList;
+            this.total = response.data.recordsTotal;
+            this.signStatus = response.data.signStatus;
+            this.echatStr = response.data.echatStr;
+          }
+        })
+				// this.$store.dispatch("getMaaCaseNoteDataList", param).then(() => {
+				// 	debugger
+				// 	this.tableData = param.data.maaCasesList;
+				// 	this.total = param.data.recordsTotal;
+				// 	this.signStatus = param.data.signStatus;
+				// 	this.echatStr = param.data.echatStr;
+				// });
 			},
 			clear() {
 				this.caseTitle = "",
 					this.notetitle = "",
 					this.companycodename = "",
-					this.orderByName = "editUpdateTime",
+					this.orderByName = "updateTime",
 					this.orderByOrder = "desc",
 					this.search()
 			},
@@ -292,7 +308,6 @@
 				}
 			},
 			'noteIpoEditFlag'(val, oldVal) { //判断如果val为true时执行清空检索
-				debugger;
 				if (val) {
 					this.$store.commit('ipoCase/SET_IPO_CASE_NOTE', {
 						noteIpoEditFlag: false
