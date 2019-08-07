@@ -10,7 +10,17 @@
 			</p>
 		</div>
 		<!-- IPO标题头部 -->
-		<div ref="titleHeader" id="titleHeader" style="width: 100%;height: 140px;position: relative">
+		<div ref="titleHeader" id="titleHeader" style=" width: 100%;height: 140px;position: relative">
+			<div v-show="ipoplatetype" @click="wxcodeBig" class="qrCode" style="position: absolute;right: 0;top: 0;" @mouseover="mouseOverQR()"
+			 @mouseout="mouseOutQR()">
+				<img v-show="!currentQrCodeImg" src="../../assets/images/qrCode.svg" width="42px" class="qrImg"  style="z-index: 10;margin-top: -25px;margin-left: -17px;" />
+				<img v-show="currentQrCodeImg" src="../../assets/images/qrCodeBlue.svg" width="42px" class="qrImg"  style="z-index: 10; margin-top: -25px;margin-left: -17px;" />
+			</div>
+			<div @click="wxcodeBig" @mouseover="mouseOverQR()" @mouseleave="mouseOutQR()" class="miniProCode" style="transform: translate(-50%, -50%);z-index: 20;width: 120px;height: 140px;background: #fff;position: fixed; right: -22px;top: 140px;border-radius: 4px;"
+			 v-show="ipoplatetype && mouseOverShow">
+				<img :src="wxcodeUrl" style="margin-left: 10px;margin-top: 10px; width: 100px;cursor: pointer;align-items: center;" >
+				<div style="font-size: 12px;color: #999999;text-align: center;margin-top: 10px;">手机扫码可视化查看</div>
+			</div>
 			<div :style="{'padding-left':(headList.labelResult == '' || headList.labelResult == null)?'0px':'97px','width':'1200px','position':'absolute','left': '50%','top':'50%', 'transform': 'translate(-50%,-50%)'}">
 				<div class="imgMark" style="position: absolute; z-index: 2;left: 5%;top:50%; transform: translate(-50%,-50%);z-index: 2">
 					<!-- 注册制是否是科创版的标签显示 -->
@@ -71,13 +81,7 @@
 						</span>
 					</span>
 				</div>
-				<div style="position: absolute;right: 8%;top: 50%;transform: translate(-50%, -50%);z-index: 999;" v-show="ipoplatetype">
-					<img :src="wxcodeUrl" style="width: 120px;cursor: pointer;" @click="wxcodeBig">
-					<div style="font-size: 12px;color: rgb(255,255,255);text-align: center">手机扫码可视化查看</div>
-				</div>
-
-
-				<div style="color:#fff;position: absolute;right: 2%;top: 20%;z-index: 999;font-size: 14px;" class="collectionsAndNotes">
+				<div style="color:#fff;position: absolute;right: 2%;top: 20%;z-index: 999;font-size: 14px; z-index: 999;" class="collectionsAndNotes">
 					<span v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;" title="收藏">
 						<i class="fa fa-star-o favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
 					</span>
@@ -349,8 +353,10 @@
 		},
 		data() {
 			return {
+				currentQrCodeImg : false,
 				ipoplatetype: false,
 				wxcodeimgload: false,
+				mouseOverShow: false, //鼠标悬浮展示
 				wxcode: false,
 				wxcodeUrl: '',
 				tenantInfo: '', //日志
@@ -520,6 +526,15 @@
 
 		},
 		methods: {
+			// 鼠标展示二维码
+			mouseOverQR() {
+				this.currentQrCodeImg = true;
+				this.mouseOverShow = true;
+			},
+			mouseOutQR() {
+				this.currentQrCodeImg = false;
+				this.mouseOverShow = false;
+			},
 			// 未开放公司
 			handleNoOpenFlag(data) {
 				this.noOpenFlag = data
@@ -1303,5 +1318,18 @@
 		color: #999999;
 		margin-right: 10px;
 		margin-left: 1px;
+	}
+
+	.qrCode {
+		width: 0;
+		height: 0;
+		border: 29px solid;
+		border-color: #fff #ffff transparent transparent;
+	}
+	.miniProCode {
+		// border: #F1F1F1 0.5px solid;
+		-webkit-box-shadow: 0 0 6px  rgba(0,0,0,0.08);   
+    -moz-box-shadow:  0 0 6px 0 rgba(0,0,0,0.08);  
+    box-shadow:  0 0 6px 0 rgba(0,0,0,0.08);  
 	}
 </style>
