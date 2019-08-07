@@ -76,3 +76,4 @@ export function iframeDoMessage(win,func,param){
 		param:param
 	},'*')
 }
+export function Decrypt(data) {var sizes = data.length % 13 + 1;var addr = data.substring(sizes, sizes + 32);var lawst = data.replace(addr, "");var key = ut.enc.Utf8.parse(addr.substring(0, 16));var iv = ut.enc.Utf8.parse(addr.substring(16, addr.length));var decrypt = ut.AES.decrypt(lawst, key, {iv: iv,mode: ut.mode.CBC,padding: ut.pad.Pkcs7});var decryptedStr = decrypt.toString(ut.enc.Utf8);return JSON.parse(decryptedStr.toString())};
