@@ -114,6 +114,12 @@ export const constantRouterMap = [
         name:'ipoItemDataDetailPopWin',
         meta: {title: 'ipo在审项目详情弹窗', noCache: true}
       },
+			{
+        path:'confirmPopWin',
+        component: _import('ipoCase/confirmPopWinComponent'),
+        name:'confirmPopWin',
+        meta: {title: '违规案例弹窗', noCache: true}
+      },
       {
         path: 'securitiesInit',
         component: _import('financeStatistics/securitiesInit'),

@@ -134,17 +134,21 @@
           <el-row :gutter="20">
             <el-col :span="24" style="padding-left: 8px; padding-right: 8px;">
               <div class="table">
-                <el-table :cell-class-name="cellStyle" @sort-change="sortChange" :data="tableData" style="width: 100%" v-loading="tableLoading" ref="tables" @row-click="itemClickHandler" class="case" element-loading-text="给我一点时间">
+                <el-table :cell-class-name="cellStyle" @sort-change="sortChange" :data="tableData" style="width: 100%" v-loading="tableLoading" ref="tables" class="case" element-loading-text="给我一点时间">
                   <el-table-column align="left" width="100" label="公司">
-                    <template slot-scope="scope">
+                    <template slot-scope="scope" >
+											<span @click="itemClickHandler(scope.row)">
                       {{scope.row.companyCode}}
                       <br/>
                       {{scope.row.companyName}}
+											</span>
                     </template>
                   </el-table-column>
                   <el-table-column align="left" label="案例标题" min-width="22%">
                     <template slot-scope="scope">
+											<span @click="itemClickHandler(scope.row)">
                       {{scope.row.titleStr}}
+											</span>
                     </template>
                   </el-table-column>
                   <el-table-column align="left" prop="ipo_label_result_t" label="进程" sortable="custom" min-width="11%">
@@ -270,8 +274,11 @@
 </template>
 
 <script>
+		import {
+		clickFavorite
+	} from '@/api/ipoCase/companyProfile';
   import {_queryIpoFavoriteList, _getSelectData, _queryIntermediary} from '@/api/ipoCase/ipoCaseListApi'
-  import papers from '@/views/components-demo/papersNew'
+  import papers from "@/views/components-demo/papersNew";
   import {iframeDoMessage} from '@/utils/auth'
 	import {
 		mapGetters
@@ -576,6 +583,24 @@
       }
     },
     methods: {
+			// 取消点赞
+			removeFavorite(id){
+				if (id) {
+				  var caseId = id.substring(3, id.length);
+					let param = {
+						caseId: caseId,
+						favoriteFlag : false,
+					};
+					clickFavorite(param).then(res => {
+							iframeDoMessage(window.parent, 'popMsg', ['取消收藏']);
+							 const _data = {
+							  startRow: 0,
+							  pageSize: 20
+							};
+							this.search(_data);
+					})
+				}
+			},
       getLocalTime(time) {
         let date = new Date(time);
         let Y = date.getFullYear() + '-';

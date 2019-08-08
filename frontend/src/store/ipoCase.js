@@ -33,9 +33,11 @@ const ipoCase = {
 			state.destroyIpoNote = data;
 		},
 		SET_IPO_REMOVE_NOTE: (state, code) => {
+			debugger;
 			state.removeIpoNote = code
 		},
 		SET_IPO_CASE_NOTE: (state, code) => {
+			debugger
 			for (var key in code) {
 				state[key] = code[key]
 			}

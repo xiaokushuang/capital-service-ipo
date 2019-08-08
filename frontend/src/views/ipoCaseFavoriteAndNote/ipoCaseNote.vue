@@ -8,7 +8,7 @@
 				<el-input size='small full' v-model="caseTitle" placeholder="标题关键字（任一关键词以空格隔开）"></el-input>
 			</el-col>
 			<el-col :span='8'>
-				<el-input size='small full' v-model="notetitle" placeholder="笔记关键字"></el-input>
+				<el-input size='small full' v-model="noteTitle" placeholder="笔记关键字"></el-input>
 			</el-col>
 		</el-row>
 		<el-row :gutter="24">
@@ -30,14 +30,14 @@
 					<el-table :data="tableData" border style="width: 100%;" :cell-class-name="getCellStyle" @sort-change="sortChange">
 						<el-table-column align="center" prop="companyCode" label="公司" min-width="9%">
 							<template slot-scope="scope">
-								<span>{{scope.row.companyCode}}</span></br>
-								<span>{{scope.row.companyName}}</span>
+								<span @click="openDetail(scope.row.caseId,scope.row.openFlag)">{{scope.row.companyCode}}</span></br>
+								<span @click="openDetail(scope.row.caseId,scope.row.openFlag)">{{scope.row.companyName}}</span>
 							</template>
 
 						</el-table-column>
 						<el-table-column align="center" prop="caseTitle" label="案例标题" min-width="18%">
 							<template slot-scope="scope">
-								<span style="font-size:14px;float: left;text-align: left;" @click="openDetail(scope.row.id,scope.row.openFlag)"
+								<span style="font-size:14px;float: left;text-align: left;" @click="openDetail(scope.row.caseId,scope.row.openFlag)"
 								 class="title_span" title="案例详情">{{scope.row.caseTitle}}</span>
 							</template>
 
@@ -45,16 +45,16 @@
 						<el-table-column align="center" prop="note" label="笔记" min-width="40%">
 							<template slot-scope="scope">
 								<span style="line-height:22px;font-size:14px;float: left;text-align: left;color:#333333;cursor: pointer;/*white-space: pre-wrap;word-wrap: break-word;*/"
-								 class="title_span" title="编辑笔记" @click="openEditNoteEnt(scope.row.id,scope.row.caseTitle)">{{scope.row.note | substr(250)}}</span></br>
+								 class="title_span" title="编辑笔记" @click="openEditNoteEnt(scope.row.caseId,scope.row.caseTitle)">{{scope.row.note | substr(250)}}</span></br>
 							</template>
 
 						</el-table-column>
 
-<!--						<el-table-column align="center" prop="publishTime" label="首次公告日" min-width="10%" sortable="custom">-->
-<!--							<template slot-scope="scope">-->
-<!--								<span>{{scope.row.publishTime}}</span>-->
-<!--							</template>-->
-<!--						</el-table-column>-->
+						<!--						<el-table-column align="center" prop="publishTime" label="首次公告日" min-width="10%" sortable="custom">-->
+						<!--							<template slot-scope="scope">-->
+						<!--								<span>{{scope.row.publishTime}}</span>-->
+						<!--							</template>-->
+						<!--						</el-table-column>-->
 						<el-table-column align="center" prop="updateTime" label="最后编辑日期" min-width="10%" sortable="custom">
 							<template slot-scope="scope">
 								<span>{{scope.row.updateTime}}</span>
@@ -63,8 +63,8 @@
 
 						<el-table-column align="center" prop="operate" label="操作" min-width="8%">
 							<template slot-scope="scope">
-								<i class="el-icon-edit-outline" style="color: black;cursor: pointer;" title="编辑笔记" @click="openEditNoteEnt(scope.row.id,scope.row.caseTitle)"></i>
-								<i class="el-icon-delete" style="color: black;cursor: pointer;margin-left: 10px;" title="删除笔记" @click="deleteRow(scope.row.id)"></i>
+								<i class="el-icon-edit-outline" style="color: black;cursor: pointer;" title="编辑笔记" @click="openEditNoteEnt(scope.row.caseId,scope.row.caseTitle)"></i>
+								<i class="el-icon-delete" style="color: black;cursor: pointer;margin-left: 10px;" title="删除笔记" @click="deleteRow(scope.row.caseId)"></i>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -83,7 +83,12 @@
 		iframeDoMessage
 	} from "@/utils/auth";
 	import papers from "@/views/components-demo/papersNew";
-  import {_getCassNote} from '@/api/ipoCase/ipoCaseListApi'
+	import {
+		_getCassNote
+	} from '@/api/ipoCase/ipoCaseListApi'
+	import {
+		NoteDetermination
+	} from '@/api/ipoCase/companyProfile';
 	export default {
 		data() {
 			return {
@@ -96,7 +101,7 @@
 				tableData: [],
 				total: '',
 				caseTitle: '',
-				notetitle: '',
+				noteTitle: '',
 				orderByName: 'updateTime',
 				orderByOrder: 'desc',
 				companycodename: '',
@@ -109,7 +114,7 @@
 			this.paperSearch();
 		},
 		computed: { //获取getters中方法
-			...mapGetters('ipoCase',[
+			...mapGetters('ipoCase', [
 				'removeIpoNote',
 				'destroyIpoNote', //销毁笔记页面
 				'noteIpoEditFlag', 'noteIpoCaseId', 'caseIpoNote' //修改笔记
@@ -127,8 +132,8 @@
 				}
 			},
 			openEditNoteEnt(caseId, caseTitle) {
-				if(caseTitle.length > 10){
-					caseTitle= caseTitle.substr(0,12);
+				if (caseTitle.length > 10) {
+					caseTitle = caseTitle.substr(0, 12);
 				}
 				this.centerNoteTitle = '编辑笔记-' + caseTitle;
 				let url = window.location.href;
@@ -138,7 +143,7 @@
 				//根据屏幕宽度高度获取编辑笔记页面的高度宽度
 				let width = document.documentElement.clientWidth * 0.8;
 				let height = (window.screen.height - 140) * 0.8;
-				iframeDoMessage(window.parent, 'popWinOutNoTitle', [url, width, height]);
+				iframeDoMessage(window.parent, 'popWinOutNoTitleIpo', [url, width, height]);
 			},
 			//table排序
 			sortChange(column) {
@@ -156,19 +161,18 @@
 				this.search();
 			},
 			removeNotes() { //删除笔记
-				//设置请求参数
-				let params = {
+				let param = {
 					caseId: this.removeNoteId,
-					type: "1",
 					note: "",
+					type: "4",
 				};
-				//请求笔记接口
-				this.$store.dispatch('repCase/getJudgementNoteDetermination', params).then((data) => { //(方法名，参数)
+				// this.$store.dispatch("repCase/getJudgementNoteDetermination", param).then((data) => {
+				NoteDetermination(param).then(data => {
 					this.popMsg('删除笔记');
 					this.removeNoteId = '';
 					//分页查询调用
-					this.search();
-				});
+					this.querySearch();
+				})
 			},
 			popMsg(msg) { //消息弹窗
 				iframeDoMessage(window.parent, 'popMsg', [msg]);
@@ -181,27 +185,46 @@
 				this.querySearch();
 			},
 			openDetail(caseId, openFlag) {
+				debugger;
 				if (openFlag == '0' && this.signStatus == '0') {
 					this.notOpenCase();
 				} else {
-					let that = this;
-					let param = {
-						recordType: 'open', //跳转页面方式:
-						recordTab: "重组详情页" //跳转tab
+					if (caseId) {
+						// caseId = caseId.substring(3, caseId.length);
+						const _self = this;
+						const {
+							href
+						} = _self.$router.resolve({
+							name: 'caseDetail',
+							query: {
+								caseId: caseId,
+								access_token: _self.$route.query.access_token,
+								tenant_info: _self.$route.query.tenant_info
+							}
+						});
+						// 日志---------------------头
+						let param = {
+							recordType: 'open', //跳转页面方式:
+							recordTab: "IPO案例详情页" //跳转tab
+						}
+						this.$store.commit('CREATE_TEMP_MESSAGE', param);
+						// 日志---------------------尾
+						this.$open(href, '_blank');
+					} else {
+						let url = window.location.href;
+						url = url.replace(this.$route.path, '/ipoPopWin');
+						console.log('列表页跳转弹窗', url)
+						iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
 					}
-					that.$store.commit('CREATE_TEMP_MESSAGE', param);
-					let url = '/ui/reorganization/caseDetails?caseId=' + caseId + '&access_token=' + that.Token +
-						'&baseUrl=' + that.baseUrl + '&tenant_info=' + that.tenantInfo + '&parentBaseUrl=' + that.baseUrl;
-					that.$open(encodeURI(url));
 				}
 			},
 			saveNote() { //笔记点击确定
 				let param = {
 					caseId: this.$store.state.maaCase.noteMaaCaseId,
 					note: this.$store.state.maaCase.caseMaaNote,
-					type : "1"
+					type: "4"
 				};
-				this.$store.dispatch("repCase/getJudgementNoteDetermination", param).then((data) => {
+				NoteDetermination(param).then(data => {
 					if (data.result == 1) {
 						this.popMsg('保存成功');
 					} else {
@@ -214,21 +237,21 @@
 				let param = {
 					caseTitle: this.caseTitle,
 					noteTitle: this.notetitle,
-					companyCodeName: this.companycodename,
+					companycodename: this.companycodename,
 					startRow: this.startRow < 0 ? 0 : this.startRow,
 					pageSize: this.pageSize,
 					orderByName: this.orderByName,
 					orderByOrder: this.orderByOrder,
 				};
-        _getCassNote(param).then(response => {
-          debugger;
-          if (response.data) {
-            this.tableData = response.data.maaCasesList;
-            this.total = response.data.recordsTotal;
-            this.signStatus = response.data.signStatus;
-            this.echatStr = response.data.echatStr;
-          }
-        })
+				_getCassNote(param).then(response => {
+					debugger;
+					if (response.data) {
+						this.tableData = response.data.maaCasesList;
+						this.total = response.data.recordsTotal;
+						this.signStatus = response.data.signStatus;
+						this.echatStr = response.data.echatStr;
+					}
+				})
 				// this.$store.dispatch("getMaaCaseNoteDataList", param).then(() => {
 				// 	this.tableData = param.data.tableData;
 				// 	this.total = param.data.total;
@@ -250,20 +273,20 @@
 				let param = {
 					caseTitle: this.caseTitle,
 					noteTitle: this.notetitle,
-					companyCodeName: this.companycodename,
+					companycodename: this.companycodename,
 					startRow: this.startRow,
 					pageSize: this.pageSize,
 					orderByName: this.orderByName,
 					orderByOrder: this.orderByOrder,
 				};
-        _getCassNote(param).then(response => {
-          if (response.data) {
-            this.tableData = response.data.maaCasesList;
-            this.total = response.data.recordsTotal;
-            this.signStatus = response.data.signStatus;
-            this.echatStr = response.data.echatStr;
-          }
-        })
+				_getCassNote(param).then(response => {
+					if (response.data) {
+						this.tableData = response.data.maaCasesList;
+						this.total = response.data.recordsTotal;
+						this.signStatus = response.data.signStatus;
+						this.echatStr = response.data.echatStr;
+					}
+				})
 				// this.$store.dispatch("getMaaCaseNoteDataList", param).then(() => {
 				// 	debugger
 				// 	this.tableData = param.data.maaCasesList;
@@ -293,6 +316,18 @@
 		components: {
 			papers
 		},
+		filters: {
+			substr(paramStr, len) {
+				if (paramStr) {
+					if (paramStr.length >= len) {
+						return paramStr.slice(0, len - 3) + "...";
+					} else {
+						return paramStr;
+					}
+				}
+				return paramStr;
+			},
+		},
 		watch: {
 			"destroyIpoNote"(val, oldVal) {
 				if (val) {
@@ -301,6 +336,7 @@
 				}
 			},
 			'removeIpoNote'(val, oldVal) { //判断如果val为true时执行清空检索
+				debugger
 				if (val) {
 					//执行清空检索
 					this.$store.commit('ipoCase/SET_IPO_REMOVE_NOTE', false);

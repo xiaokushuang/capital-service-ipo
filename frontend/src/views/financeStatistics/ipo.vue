@@ -12,11 +12,11 @@
 		<!-- IPO标题头部 -->
 		<div ref="titleHeader" id="titleHeader" style=" width: 100%;height: 140px;position: relative">
 			<!-- <svg-icon icon-class="qrCode" class-name="card-panel-icon" /> -->
-			<!-- <div v-show="ipoplatetype" @click="wxcodeBig" class="qrCode" style="position: absolute;right: 0;top: 0;" @mouseover="mouseOverQR()"
+			<div v-show="ipoplatetype" @click="wxcodeBig" class="qrCode" style="position: absolute;right: 0;top: 0;" @mouseover="mouseOverQR()"
 			 @mouseout="mouseOutQR()">
 				<img v-show="!currentQrCodeImg" src="../../assets/images/qrCode.svg" width="42px" class="qrImg"  style="z-index: 10;margin-top: -25px;margin-left: -17px;" />
 				<img v-show="currentQrCodeImg" src="../../assets/images/qrCodeBlue.svg" width="42px" class="qrImg"  style="z-index: 10; margin-top: -25px;margin-left: -17px;" />
-			</div> -->
+			</div>
 			<div @click="wxcodeBig" @mouseover="mouseOverQR()" @mouseleave="mouseOutQR()" class="miniProCode" style="transform: translate(-50%, -50%);z-index: 20;width: 120px;height: 140px;background: #fff;position: fixed; right: -22px;top: 140px;border-radius: 4px;"
 			 v-show="ipoplatetype && mouseOverShow">
 				<img :src="wxcodeUrl" style="margin-left: 10px;margin-top: 10px; width: 100px;cursor: pointer;align-items: center;" >
@@ -117,10 +117,10 @@
 		</div>
 
 		<!-- 屏幕中间的笔记 -->
-		<el-dialog title="" :visible.sync="centerNoteFlag" :close-on-click-modal="false" width="80%" height="calc(80% - 10px)"
+		<el-dialog class="bigDialog" title="" :visible.sync="centerNoteFlag" :close-on-click-modal="false" width="80%" 
 		 close="noteCancellation('3')">
 			<span style="font-size: 14px;color: #333;" slot="title">{{centerNoteTitle}}</span>
-			<el-input type="textarea" class="center-textarea-height" resize="none" placeholder="请在这里输入笔记内容..." v-model="note">
+			<el-input  type="textarea" class="center-textarea-height" resize="none" placeholder="请在这里输入笔记内容..." v-model="note">
 			</el-input>
 			<div slot="footer">
 				<button class="small_btn_common cancel_btn" @click="noteCancellation('3')">取消</button>
@@ -1239,7 +1239,7 @@
 	}
 
 	.center-textarea-height {
-		height: calc(100%) !important;
+		height: 64vh;
 	}
 
 	.center-textarea-height textarea {
