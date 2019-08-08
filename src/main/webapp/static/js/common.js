@@ -324,13 +324,9 @@ function globalAjaxSuccess(response, textStatus, jqXHR) {
 			this.callBackFunc(response);
 		}
 	} else if (this.dataType == "json") {
-        //		console.log('没监听到')
-        var data = response;
-        if(!response.success){
-            data = Decrypt(response);
-        }
+
 		if (this.callBackFunc != null && this.callBackFunc != undefined) {
-			this.callBackFunc(data.result);
+			this.callBackFunc(response.result);
 		}
 	}
 }
