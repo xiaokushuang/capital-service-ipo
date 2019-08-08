@@ -502,12 +502,17 @@
   </select>
 
   <select id="getCaseFavoriteAndNote" parameterType="java.util.Map" resultType="java.util.Map">
+        select max(temp.caseNote) as caseNote,max(temp.favoriteId) as favoriteId from
+        (select
+         ccn.note as caseNote,'' as favoriteId
+        from
+          case_common_notes ccn
+        where ccn.case_id  = #{caseId} and ccn.`type` = #{type} and ccn.user_id = #{userId} and ccn.company_id = #{companyId}
+        union all
         select
-           ccf.id as favoriteId,
-           ccn.note as caseNote
+        '',ccf.id as favoriteId
         from
           case_common_favorite ccf
-        left join case_common_notes ccn on ccf.case_id = ccn.case_id and ccn.`type` = #{type} and ccn.user_id = #{userId} and ccn.company_id = #{companyId}
-        where ccf.case_id = #{caseId} AND  ccf.`type` = #{type} and ccf.user_id = #{userId} and ccf.company_id = #{companyId}
+        where ccf.case_id = #{caseId} AND  ccf.`type` = #{type} and ccf.user_id = #{userId} and ccf.company_id = #{companyId}) temp
   </select>
 </mapper>
