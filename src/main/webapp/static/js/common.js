@@ -330,7 +330,7 @@ function globalAjaxSuccess(response, textStatus, jqXHR) {
             data = Decrypt(response);
         }
 		if (this.callBackFunc != null && this.callBackFunc != undefined) {
-			this.callBackFunc(response.result);
+			this.callBackFunc(data.result);
 		}
 	}
 }
