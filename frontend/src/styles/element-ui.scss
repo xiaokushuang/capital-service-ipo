@@ -66,7 +66,7 @@
  //element ui upload
  .upload-container {
    .el-upload {
-     width: 100%;
+     width: 100%; 
      .el-upload-dragger {
        width: 100%;
        height: 200px;
@@ -820,3 +820,28 @@
   margin-right: 10px;
   margin-left: 1px;
 }
+// 收藏与笔记页面样式
+// .ipoCaseNote {
+//   font-family: Microsoft YaHei, "Helvetica Neue", Helvetica, Arial, sans-serif;
+//   font-size: 14px;
+//   line-height: 1.42857143;
+//   color: #333;
+//   background-color: #fff;
+//   padding: 20px !important;
+//   width: calc(100%);
+//   margin: 0px 10px 0px 0px;
+// }
+
+// .ipoCaseNote .table .el-table .cell {
+//   padding: 10px;
+// }
+
+// .ipoCaseNote .table .el-table th .cell {
+//   padding: 10px;
+//   margin: 0;
+//   border-color: #A0ADB5 !important;
+//   color: #fff;
+//   font-size: 14px;
+//   font-weight: 600;
+//   font-family: 'Microsoft YaHei';
+// }

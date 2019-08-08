@@ -1,7 +1,7 @@
 <template>
-<div>
+<div >
     <el-tabs v-model="editableTabsValue" @tab-click="tos">
-        <el-tab-pane :key="item.name" v-for="item in editableTabs" :label="item.title" :name="item.name" :to="item.to">
+        <el-tab-pane :key="item.name" :class="'noteTab'+index" v-for="(item,index) in editableTabs" :label="item.title" :name="item.name" :to="item.to">
         </el-tab-pane>
         <keep-alive>
             <router-view></router-view>

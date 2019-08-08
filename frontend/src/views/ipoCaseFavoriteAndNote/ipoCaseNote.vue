@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="container ipoCaseNote ipoCaseList">
 		<el-row :gutter="24">
 			<el-col :span='8'>
 				<el-input size='small full' v-model="companycodename" placeholder="公司简称/代码"></el-input>
@@ -185,7 +185,7 @@
 				this.querySearch();
 			},
 			openDetail(caseId, openFlag) {
-				debugger;
+				// debugger;
 				if (openFlag == '0' && this.signStatus == '0') {
 					this.notOpenCase();
 				} else {
@@ -244,7 +244,7 @@
 					orderByOrder: this.orderByOrder,
 				};
 				_getCassNote(param).then(response => {
-					debugger;
+					// debugger;
 					if (response.data) {
 						this.tableData = response.data.maaCasesList;
 						this.total = response.data.recordsTotal;
@@ -336,7 +336,7 @@
 				}
 			},
 			'removeIpoNote'(val, oldVal) { //判断如果val为true时执行清空检索
-				debugger
+				// debugger
 				if (val) {
 					//执行清空检索
 					this.$store.commit('ipoCase/SET_IPO_REMOVE_NOTE', false);
@@ -381,7 +381,7 @@
 </script>
 
 <style>
-	.container {
+	/* .container {
 		font-family: Microsoft YaHei, "Helvetica Neue", Helvetica, Arial, sans-serif;
 		font-size: 14px;
 		line-height: 1.42857143;
@@ -404,7 +404,7 @@
 		font-size: 14px;
 		font-weight: 600;
 		font-family: 'Microsoft YaHei';
-	}
+	} */
 
 	.el-textarea__inner {
 		color: #999999;
@@ -460,4 +460,57 @@
 	textarea {
 		word-break: break-all;
 	}
+  .ipoCaseNote{
+	  padding: 24px 0px 0px 19px !important;
+      width: 100%;
+  }
+ .ipoCaseNote .table {
+  }
+  .ipoCaseNote .table .el-table .cell {
+    padding: 10px;
+  }
+.ipoCaseNote .el-table--border td, .el-table--border th {
+    border: none;
+}
+  .ipoCaseNote .table .el-table th .cell {
+    padding: 10px;
+    margin: 0;
+    border:none !important;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Microsoft YaHei';
+  }
+
+  .ipoCaseNote .table .el-table__header thead tr > th {
+    padding: 0
+  }
+
+  .ipoCaseNote .table .el-table .cell p {
+    margin: 0;
+  }
+
+  .ipoCaseNote .table .el-table .cell {
+    color: #333;
+  }
+
+  .ipoCaseNote .table .el-table thead tr > th .cell {
+    padding: 10px;
+  }
+  .ipoCaseNote .el-table th > .cell {
+    color: #333!important;
+    background: #f2f2f2;
+}
+.ipoCaseNote .el-table td, .el-table th.is-leaf {
+	/* border-bottom:none; */
+	/* border-bottom:1px solid #f2f2f2 */
+}
+.ipoCaseNote .el-table td, .el-table th.is-leaf {
+    border-bottom: 1px solid #ebeef5;
+}
+.ipoCaseNote .el-table__header thead tr>th {
+    padding: 5px;
+    line-height: 23px;
+    background: #f2f2f2!important;
+}
 </style>
