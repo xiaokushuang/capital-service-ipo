@@ -110,9 +110,9 @@
         AND
         t1.note like CONCAT('%', #{noteTitle}, '%') escape '/'
       </if>
-      <if test="companyId != null and companyId != ''">
+      <if test="companyCodeName != null and companyCodeName != ''">
         AND
-        (t2.company_code like CONCAT('%', #{companyId}, '%') or t2.company_name like CONCAT('%', #{companyId}, '%'))
+        (t2.company_code like CONCAT('%', #{companyCodeName}, '%') or t2.company_name like CONCAT('%', #{companyCodeName}, '%'))
       </if>
     </where>
     order by

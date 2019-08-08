@@ -545,11 +545,11 @@ public class IpoCaseListService extends BaseService {
     public Map<String, Object> queryIpoFavoriteList(QueryInfo<IpoCaseListBo> page, Boolean signSymbol) {
         //查询所有收藏的案例id
         UserInfo userInfo = getUserInfo();
-//        String companyId = userInfo.getCompanyId();
-//        String userId = userInfo.getUserId();
+        String companyId = userInfo.getCompanyId();
+        String userId = userInfo.getUserId();
 
-        String companyId = "999000";
-        String userId = "746715777856730981";
+//        String companyId = "999000";
+//        String userId = "746715777856730981";
         List<String> caseIds = ipoCaseListMapper.queryIpoFavoriteList(companyId, userId);
 
         IpoCaseListBo bo = page.getCondition();

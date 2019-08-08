@@ -201,17 +201,17 @@ public class IpoCaseListController {
     @ResponseBody
     public Map<String, Object> getCassNote(@RequestBody IpoFavoriteAndNoteDto dto) {
         //标题关键字修改，空格分隔
-        if (StringUtils.isNotEmpty(dto.getReptitle())) {
-            dto.setCaseTitleIsList(Arrays.asList(dto.getReptitle().trim().split("\\s+")));
+        if (StringUtils.isNotEmpty(dto.getCaseTitle())) {
+            dto.setCaseTitleIsList(Arrays.asList(dto.getCaseTitle().trim().split("\\s+")));
         }
         if(StringUtils.isNotEmpty(dto.getNoteTitle())){
             dto.setNoteTitle(dto.getNoteTitle().replaceAll("/", "//").replaceAll("%","/%").replaceAll("_","/_")
             );
         }
-//        dto.setCompanyCode(getUserInfo().getCompanyId());
-//        dto.setUserId(getUserInfo().getUserId());
-        dto.setCompanyCode("999000");
-        dto.setUserId("746715777856730981");
+        dto.setCompanyCode(getUserInfo().getCompanyId());
+        dto.setUserId(getUserInfo().getUserId());
+//        dto.setCompanyCode("999000");
+//        dto.setUserId("746715777856730981");
         Map<String, Object> map = new HashMap<String, Object>();
         dto.setSignStatus(getSignStatus());
         map = ipoCaseListService.getCassNote(dto);
