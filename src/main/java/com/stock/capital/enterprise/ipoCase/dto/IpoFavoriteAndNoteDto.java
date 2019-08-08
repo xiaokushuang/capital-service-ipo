@@ -54,6 +54,8 @@ public class IpoFavoriteAndNoteDto implements Serializable {
 
     private String signStatus;
 
+    private String companyCodeName;
+
     public String getCompanyCode() {
         return companyCode;
     }
@@ -233,4 +235,13 @@ public class IpoFavoriteAndNoteDto implements Serializable {
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
+
+    public String getCompanyCodeName() {
+        return companyCodeName;
+    }
+
+    public void setCompanyCodeName(String companyCodeName) {
+        this.companyCodeName = companyCodeName;
+    }
+
 }
