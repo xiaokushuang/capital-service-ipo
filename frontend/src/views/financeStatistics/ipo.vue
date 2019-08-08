@@ -87,7 +87,7 @@
 						<i class="fa fa-star-o favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
 					</span>
 					<span v-else @click="clickFavorite(false)" style="cursor:pointer;" title="取消收藏">
-						<i class="fa fa-star favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
+						<i class="fa fa-star favorite_note_icon"></i><span style="margin-left: 5px">已收藏</span>
 					</span>
 					<span style="padding: 0px 5px;vertical-align: 5%;">|</span>
 					<el-popover placement="bottom" title="" width="540" trigger="manual" v-model="titleNoteFlag" popper-class="customer_popper">
