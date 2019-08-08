@@ -143,7 +143,7 @@
 				//根据屏幕宽度高度获取编辑笔记页面的高度宽度
 				let width = document.documentElement.clientWidth * 0.8;
 				let height = (window.screen.height - 140) * 0.8;
-				iframeDoMessage(window.parent, 'popWinOutNoTitleIpo', [url, width, height]);
+				iframeDoMessage(window.parent, 'popWinOutNoTitle', [url, width, height]);
 			},
 			//table排序
 			sortChange(column) {
