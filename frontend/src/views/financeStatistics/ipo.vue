@@ -117,10 +117,10 @@
 		</div>
 
 		<!-- 屏幕中间的笔记 -->
-		<el-dialog title="" :visible.sync="centerNoteFlag" :close-on-click-modal="false" width="80%" height="calc(80% - 10px)"
+		<el-dialog class="bigDialog" title="" :visible.sync="centerNoteFlag" :close-on-click-modal="false" width="80%" 
 		 close="noteCancellation('3')">
 			<span style="font-size: 14px;color: #333;" slot="title">{{centerNoteTitle}}</span>
-			<el-input type="textarea" class="center-textarea-height" resize="none" placeholder="请在这里输入笔记内容..." v-model="note">
+			<el-input  type="textarea" class="center-textarea-height" resize="none" placeholder="请在这里输入笔记内容..." v-model="note">
 			</el-input>
 			<div slot="footer">
 				<button class="small_btn_common cancel_btn" @click="noteCancellation('3')">取消</button>
@@ -1239,7 +1239,7 @@
 	}
 
 	.center-textarea-height {
-		height: calc(100%) !important;
+		height: 64vh;
 	}
 
 	.center-textarea-height textarea {

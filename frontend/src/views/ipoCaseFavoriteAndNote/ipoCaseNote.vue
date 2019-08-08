@@ -237,7 +237,7 @@
 				let param = {
 					caseTitle: this.caseTitle,
 					noteTitle: this.notetitle,
-					companycodename: this.companycodename,
+					companyCodeName: this.companycodename,
 					startRow: this.startRow < 0 ? 0 : this.startRow,
 					pageSize: this.pageSize,
 					orderByName: this.orderByName,
@@ -273,7 +273,7 @@
 				let param = {
 					caseTitle: this.caseTitle,
 					noteTitle: this.notetitle,
-					companycodename: this.companycodename,
+					companyCodeName: this.companycodename,
 					startRow: this.startRow,
 					pageSize: this.pageSize,
 					orderByName: this.orderByName,
