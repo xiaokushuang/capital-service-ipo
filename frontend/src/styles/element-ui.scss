@@ -793,3 +793,30 @@
   line-height: 24px;
   font-size: 14px;
 }
+// 收藏成功
+.el-message.is-closable.custom-success-message {
+  background-color: #ecf2ff;
+  border-color: #ecf2ff;
+  color: #4680ff;
+  // padding: 10px 15px;
+  font-size: 14px;
+}
+
+.el-message .el-icon-success {
+  color: #4680ff;
+  margin-right: 10px;
+  margin-left: 1px;
+}
+// 收藏失败
+.el-message.is-closable.custom-info-message {
+  background-color: #f2f2f2;
+  border-color: #f2f2f2;
+  color: #999999;
+  // padding: 10px 15px;
+  font-size: 14px;
+}
+.el-message .el-icon-info {
+  color: #909399;
+  margin-right: 10px;
+  margin-left: 1px;
+}

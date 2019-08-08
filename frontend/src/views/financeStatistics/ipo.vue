@@ -1293,33 +1293,33 @@
 		padding: 12px 21px 11px;
 	}
 
-	.custom-success-message {
-		background-color: #ecf2ff;
-		border-color: #ecf2ff;
-		color: #4680ff;
-		padding: 10px 15px;
-		font-size: 14px;
-	}
+	// .el-message.is-closable .el-message__content {
+	// 	background-color: #ecf2ff;
+	// 	border-color: #ecf2ff;
+	// 	color: #4680ff;
+	// 	// padding: 10px 15px;
+	// 	font-size: 14px;
+	// }
 
-	.custom-success-message .el-icon-success {
-		color: #4680ff;
-		margin-right: 10px;
-		margin-left: 1px;
-	}
+	// .el-message .el-icon-success {
+	// 	color: #4680ff;
+	// 	margin-right: 10px;
+	// 	margin-left: 1px;
+	// }
 
-	.custom-info-message {
-		background-color: #f2f2f2;
-		border-color: #f2f2f2;
-		color: #999999;
-		padding: 10px 15px;
-		font-size: 14px;
-	}
+	// .custom-info-message {
+	// 	background-color: #f2f2f2;
+	// 	border-color: #f2f2f2;
+	// 	color: #999999;
+	// 	padding: 10px 15px;
+	// 	font-size: 14px;
+	// }
 
-	.custom-info-message .el-icon-info {
-		color: #999999;
-		margin-right: 10px;
-		margin-left: 1px;
-	}
+	// .custom-info-message .el-icon-info {
+	// 	color: #999999;
+	// 	margin-right: 10px;
+	// 	margin-left: 1px;
+	// }
 
 	.qrCode {
 		width: 0;

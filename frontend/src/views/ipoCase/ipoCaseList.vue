@@ -1018,6 +1018,7 @@
         _getIpoCaseList(_data).then(response => {
           _self.tableLoading = false;
           if (response.data && response.data.success && response.data.result) {
+            console.log('树德数据',response.data.result)
             _self.issueLawId = response.data.result.issueLawId;
             _self.totalCount = response.data.result.total;
             _self.tableData = response.data.result.data;
