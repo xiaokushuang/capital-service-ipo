@@ -8,7 +8,7 @@ import {
 import * as auth from '@/utils/auth'
 
 const ipoCase = {
-	namespaced : true,
+	namespaced: true,
 	state: {
 		removeNote: false, //删除笔记
 		// 收藏与笔记属性
