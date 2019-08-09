@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-07-22 10:35:01
+ * @LastEditTime: 2019-08-09 14:18:04
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <div class="ipoCaseList">
     <el-row :gutter="24">
@@ -917,6 +924,9 @@
         }
       }
     },
+    updated(){
+      console.log('bbb',this.caseStatus,this.caseStatusValue)
+    },
     methods: {
       getLocalTime(time) {
         let date = new Date(time);
@@ -1018,13 +1028,9 @@
         _getIpoCaseList(_data).then(response => {
           _self.tableLoading = false;
           if (response.data && response.data.success && response.data.result) {
-            console.log('树德数据',response.data.result)
             _self.issueLawId = response.data.result.issueLawId;
             _self.totalCount = response.data.result.total;
             _self.tableData = response.data.result.data;
-            console.log('store',_self.$store.state.app)
-            console.log('companyId',_self.$route.query['companyId'])
-            console.log('列表页数据',_self.tableData)
             _self.plateTreeTag = [{
               label_sort: 1,
               name: "拟上市板块(" + response.data.result.plateTreeNum + ')',
@@ -1377,7 +1383,6 @@
         } else {
           let url = window.location.href;
           url = url.replace(this.$route.path, '/ipoPopWin');
-          console.log('列表页跳转弹窗',url)
           iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
         }
       },
