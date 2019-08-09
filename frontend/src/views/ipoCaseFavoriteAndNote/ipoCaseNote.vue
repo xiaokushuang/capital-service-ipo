@@ -220,8 +220,8 @@
 			},
 			saveNote() { //笔记点击确定
 				let param = {
-					caseId: this.$store.state.maaCase.noteMaaCaseId,
-					note: this.$store.state.maaCase.caseMaaNote,
+					caseId: this.$store.state.ipoCase.noteIpoCaseId,
+					note: this.$store.state.ipoCase.caseIpoNote,
 					type: "4"
 				};
 				NoteDetermination(param).then(data => {
