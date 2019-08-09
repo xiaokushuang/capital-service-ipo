@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-08 11:39:50
- * @LastEditTime: 2019-08-09 14:18:13
+ * @LastEditTime: 2019-08-09 14:22:24
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -292,7 +292,6 @@
 	} from "vuex";
 
   export default {
-    inject:['reload'],
     data() {
       return {
         issueLawId:'',//上市条件法规id
@@ -729,8 +728,6 @@
       },
       //清空
       conditionClear() {
-        // debugger;
-        // _self.reload()
         const _self = this;
         _self.title = '';//标题
         _self.industryCsrcValue = '';//行业
