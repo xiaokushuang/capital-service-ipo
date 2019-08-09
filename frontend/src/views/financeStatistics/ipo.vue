@@ -82,7 +82,7 @@
 						</span>
 					</span>
 				</div>
-				<div style="color:#fff;position: absolute;right: 2%;top: 20%;z-index: 999;font-size: 14px; z-index: 999;" class="collectionsAndNotes">
+				<div style="color:#fff;position: absolute;right: 2%;top: 20%;z-index: 999;font-size: 14px; z-index: 999;" class="collectionsAndNotes" v-show="collectionAndNoteShow">
 					<span v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;" title="收藏">
 						<i class="fa fa-star-o favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
 					</span>
@@ -354,6 +354,7 @@
 		},
 		data() {
 			return {
+				collectionAndNoteShow : false,
 				currentQrCodeImg : false,
 				ipoplatetype: false,
 				wxcodeimgload: false,
@@ -582,6 +583,7 @@
 						this.note = res.data.result.caseNote;
 						this.noteSave = res.data.result.caseNote;
 					}
+					this.collectionAndNoteShow = true;
 
 					// if(this.isNotEmpty(this.reptitle) == ''){
 					//   this.noteTitle = '编辑笔记'
