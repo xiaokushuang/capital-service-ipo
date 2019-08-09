@@ -106,9 +106,9 @@
           t2.title like CONCAT('%', #{no}, '%')
         </foreach>
       </if>
-      <if test="noteTitle != null and noteTitle != ''">
+      <if test="note != null and note != ''">
         AND
-        t1.note like CONCAT('%', #{noteTitle}, '%') escape '/'
+        t1.note like CONCAT('%', #{note}, '%') escape '/'
       </if>
       <if test="companyCodeName != null and companyCodeName != ''">
         AND
