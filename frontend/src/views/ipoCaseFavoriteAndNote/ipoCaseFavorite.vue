@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-08 11:39:50
+ * @LastEditTime: 2019-08-09 14:22:24
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <div class="ipoCaseList">
     <el-row :gutter="24">
@@ -582,6 +589,9 @@
         }
       }
     },
+    updated(){
+      console.log('aaa',this.caseStatus,this.caseStatusValue)
+    },
     methods: {
 			// 取消点赞
 			removeFavorite(id){
@@ -704,40 +714,8 @@
         }
         _self.pageSearch();
       },
-      handleNodeClickForSearch(data, node, index) {
-        if (node.isLeaf || node.level == 1) {
-          for (var obj of index.tree.$el.querySelectorAll('.el-tree-node__label')) {
-            obj.className = 'el-tree-node__label'
-          }
-          index.$el.querySelector('.el-tree-node__label').className += ' blue-text'
-          if (node.level == 1) {
-            this.treeSearch(node.data.label_code, node);
-          } else {
-            this.treeSearch(node.parent.data.label_code, node);
-          }
-        }
-      },
-      treeSearch(code, node) {
-        switch (code) {
-          case 'IPO_PLATE':
-            this.$refs.plateTreeTagRef.setCheckedKeys([node.data.id]);
-            break;
-          case 'IPO_CAPITAL_MARKET':
-            this.$refs.marketTreeTagRef.setCheckedKeys([node.data.id]);
-            break;
-          case 'IPO_GREEN_PASSAGE':
-            this.$refs.greenTreeTagRef.setCheckedKeys([node.data.id]);
-            break;
-          case 'IPO_SPECIAL_ARRANGE':
-            this.$refs.specialArrangeTagRef.setCheckedKeys([node.data.id]);
-            break;
-          case 'SFC':
-            this.$refs.sfcTreeTagRef.setCheckedKeys([node.data.id]);
-            break;
-        }
-        this.querySearch();
-      },
       selectHandleNodeClick(val, treeVal) {
+        // debugger;
         const nodeCheck = this.$refs[treeVal].getCheckedNodes(true); //通过 node 获取(光子节点)
         let middle = "";
         let middleValue = "";
@@ -745,7 +723,7 @@
           middle += `,${obj.labelName}`;
           middleValue += `,${obj.labelValue}`;
         });
-        this[val] = middle.substr(1);
+        this[val] = middle.substr(1); 
         this[val + 'Value'] = middleValue.substr(1);
       },
       //清空
@@ -775,19 +753,6 @@
         _self.fsProcessTime = [];//发审会审核时间
         _self.orderByName = '';//排序
         _self.orderByOrder = '';
-        _self.$refs.plateTreeTagRef.setCheckedKeys([]);
-        _self.$refs.marketTreeTagRef.setCheckedKeys([]);
-        _self.$refs.greenTreeTagRef.setCheckedKeys([]);
-        _self.$refs.specialArrangeTagRef.setCheckedKeys([]);
-        _self.$refs.sfcTreeTagRef.setCheckedKeys([]);
-        _self.$refs.treeIndustryCsrc.setCheckedKeys([]);
-        // _self.$refs.treeStrageticIndustries.setCheckedKeys([]);//战略新兴
-        _self.$refs.treeIssueCondition.setCheckedKeys([]);
-        _self.$refs.treeCompanyNature.setCheckedKeys([]);
-        _self.$refs.treeIpoNum.setCheckedKeys([]);
-        _self.$refs.treePlacingMechanism.setCheckedKeys([]);//配售机制
-        _self.$refs.treeVerifyResult.setCheckedKeys([]);
-        _self.$refs.treeProcess.setCheckedKeys([]);
         _self.profitOne = [];
         _self.profitTwo = [];
         _self.profitThree = [];
@@ -808,11 +773,11 @@
         _self.timeDiff = [];
         _self.searchFlag = false;
         _self.yearRadio = 1;
-        for (var tree of document.getElementsByClassName('filter-tree')) {
-          for (var obj of tree.querySelectorAll('.el-tree-node__label')) {
-            obj.className = 'el-tree-node__label'
-          }
-        }
+        // for (var tree of document.getElementsByClassName('filter-tree')) {
+        //   for (var obj of tree.querySelectorAll('.el-tree-node__label')) {
+        //     obj.className = 'el-tree-node__label'
+        //   }
+        // }
         _self.issueShow = false;
         _self.issueFeeShow = false;
         _self.prospectusShow = false;//招股书最近一次估值
@@ -856,6 +821,7 @@
       },
       //查询
       querySearch() {
+        // debugger;
         this.$refs.paper.search();
       },
       //下拉框数据
