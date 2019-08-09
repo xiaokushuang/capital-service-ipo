@@ -15,7 +15,7 @@
 				<el-input size='small full' v-model="caseTitle" placeholder="标题关键字（任一关键词以空格隔开）"></el-input>
 			</el-col>
 			<el-col :span='8'>
-				<el-input size='small full' v-model="noteTitle" placeholder="笔记关键字"></el-input>
+				<el-input size='small full' v-model="note" placeholder="笔记关键字"></el-input>
 			</el-col>
 		</el-row>
 		<el-row :gutter="24">
@@ -108,6 +108,7 @@
 				tableData: [],
 				total: '',
 				caseTitle: '',
+        note:'',
 				noteTitle: '',
 				orderByName: 'updateTime',
 				orderByOrder: 'desc',
@@ -243,7 +244,7 @@
 			querySearch() {
 				let param = {
 					caseTitle: this.caseTitle,
-					noteTitle: this.notetitle,
+					note: this.note,
 					companyCodeName: this.companycodename,
 					startRow: this.startRow < 0 ? 0 : this.startRow,
 					pageSize: this.pageSize,
@@ -279,7 +280,7 @@
 				this.pageSize = form.pageSize;
 				let param = {
 					caseTitle: this.caseTitle,
-					noteTitle: this.notetitle,
+					note: this.note,
 					companyCodeName: this.companycodename,
 					startRow: this.startRow,
 					pageSize: this.pageSize,
@@ -304,7 +305,7 @@
 			},
 			clear() {
 				this.caseTitle = "",
-					this.notetitle = "",
+					this.note = "",
 					this.companycodename = "",
 					this.orderByName = "updateTime",
 					this.orderByOrder = "desc",
@@ -362,8 +363,8 @@
 			caseTitle(n, o) {
 				this.caseTitle = n
 			},
-			notetitle(n, o) {
-				this.notetitle = n
+			note(n, o) {
+				this.note = n
 			},
 			companycodename(n, o) {
 				this.companycodename = n
