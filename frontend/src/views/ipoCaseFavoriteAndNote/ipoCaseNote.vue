@@ -225,7 +225,7 @@
 					type: "4"
 				};
 				NoteDetermination(param).then(data => {
-					if (data.result == 1) {
+					if (data.data.result == 1) {
 						this.popMsg('保存成功');
 					} else {
 						this.popMsg('保存失败');
