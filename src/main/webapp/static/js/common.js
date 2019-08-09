@@ -324,6 +324,7 @@ function globalAjaxSuccess(response, textStatus, jqXHR) {
 			this.callBackFunc(response);
 		}
 	} else if (this.dataType == "json") {
+
         var data = response;
         if(!response.success){
             data = Decrypt(response);

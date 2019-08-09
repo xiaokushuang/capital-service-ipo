@@ -3,41 +3,27 @@ package com.stock.capital.enterprise.ipoCase.controller;
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseBizMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoExamineMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoFeedbackMapper;
-import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
-import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
-import com.stock.capital.enterprise.ipoCase.dto.IndustryCompareRateDto;
-import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoExamineBaseDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoValuationDto;
-import com.stock.capital.enterprise.ipoCase.dto.IssuerIndustryStatusDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyVo;
-import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.MainIncomeVo;
-import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoAssociatedCaseVo;
+import com.stock.capital.enterprise.ipoCase.dto.*;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.capital.enterprise.ipoCase.service.IssueSituationService;
 import com.stock.core.controller.BaseController;
 import com.stock.core.dto.JsonResponse;
+import com.stock.core.util.WebUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Api(tags = {"IPO公司概览接口类"}, description = "IPO公司概览接口描述")
 @RestController
@@ -248,6 +234,7 @@ public class IpoCaseOverviewController extends BaseController {
         List<IssuerIndustryStatusDto> industryList =  companyOverviewService.getindustryStatusData(id);
         List<MainCompetitorInfoDto> companyOverviewList = companyOverviewService.getCompetitorData(id);
         List<Map> techList = ipoCaseBizMapper.selectTechnologyByBid(id);
+        List<Map<String, Integer>> patentList = ipoCaseBizMapper.selectPatentById(id);// 专利情况
         List<IndustryCompareRateDto> indusList = issueSituationService.getIndustryRateData(id);
         techList.removeAll(Collections.singleton(null));
         if (CollectionUtils.isEmpty(industryList) && CollectionUtils.isEmpty(indusList) &&
@@ -256,7 +243,63 @@ public class IpoCaseOverviewController extends BaseController {
         } else {
             headDataVo.setIsGray(0);
         }
+        if (CollectionUtils.isNotEmpty(patentList)){
+          patentList = patentList.stream()
+              .filter(tmpMap -> ( tmpMap.keySet().contains("domesticInvention") ||
+                  tmpMap.keySet().contains("domesticNewtype")||
+                  tmpMap.keySet().contains("domesticDesign") ||
+                      tmpMap.keySet().contains("foreignPatent")))
+              .collect(Collectors.toList());
+        }
+        if (CollectionUtils.isNotEmpty(patentList)){
+          headDataVo.setIsGray(0);
+        }
+
+        //查询收藏，笔记内容
+        Map<String, String> map = new HashMap<>();
+        map.put("caseId",id);
+        map.put("companyId",getUserInfo().getCompanyId());
+        map.put("userId",getUserInfo().getUserId());
+        map.put("type","4");
+        Map<String,String> retMap = companyOverviewService.getCaseFavoriteAndNote(map);
+        if(retMap == null){
+            headDataVo.setFavoriteId("");
+            headDataVo.setCaseNote("");
+        }else{
+            headDataVo.setFavoriteId(retMap.get("favoriteId") == null ? "" : retMap.get("favoriteId"));
+            headDataVo.setCaseNote(retMap.get("caseNote") == null ? "" : retMap.get("caseNote"));
+        }
+
+
         response.setResult(headDataVo);
         return response;
     }
+
+    @RequestMapping(value = "/getDetermineWhetherToCollect", method = RequestMethod.GET)
+    @ResponseBody
+    public int getDetermineWhetherToCollect(String caseId, boolean favoriteFlag) {
+        String ipaddr = WebUtil.getClientIpAddr(getRequest());//获取用户IP地址
+        String companyId =  getUserInfo().getCompanyId();//获取公司ID
+        String userId = getUserInfo().getUserId();//获取用户ID
+        int i = companyOverviewService.getDetermineWhetherToCollect(caseId,favoriteFlag,ipaddr,companyId,userId);
+        return i;
+    }
+
+    @RequestMapping(value = "/getJudgementNoteDetermination", method = RequestMethod.GET)
+    @ResponseBody
+    public JsonResponse<Integer> getJudgementNoteDetermination(String caseId,String note) {
+        String ipaddr = WebUtil.getClientIpAddr(getRequest());//获取用户IP地址
+        String companyId =  getUserInfo().getCompanyId();//获取公司ID
+        String userId = getUserInfo().getUserId();//获取用户ID
+        int i;
+        if(StringUtils.isBlank(note)){//判断是否全部都是空或者没有输入
+            i = companyOverviewService.deleteNotes(caseId,note,ipaddr,companyId,userId);//走删除
+        }else{
+            i = companyOverviewService.getNoteDetermination(caseId,note,ipaddr,companyId,userId);//走保存
+        }
+        JsonResponse<Integer> result = new JsonResponse<>();
+        result.setResult(new Integer(i));
+        return result;//返回
+    }
+
 }

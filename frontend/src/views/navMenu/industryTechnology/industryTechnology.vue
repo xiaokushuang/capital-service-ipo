@@ -270,7 +270,7 @@
             </el-table-column>
             <el-table-column align="right" :label="yfSpendingTitle.forthYearDate">
                 <template slot-scope="scope">
-                            <span v-if="scope.row.forthYearValue"> 
+                            <span v-if="scope.row.forthYearValue">
                               {{scope.row.forthYearValue | dataInThRule}}
                               <span v-if="scope.row.labelName === '研发投入占营业收入的比例'">%</span>
                             </span>
@@ -281,10 +281,10 @@
               prop=""
               label="合计"
               align="right">
-              <template slot-scope="scope"> 
+              <template slot-scope="scope">
                   <span v-if="scope.row.allNumValue"> {{scope.row.allNumValue | dataInThRule}}
                     <span v-if="scope.row.labelName === '研发投入占营业收入的比例'">%</span>
-                  </span>       
+                  </span>
               </template>
             </el-table-column>
          </el-table>
@@ -316,7 +316,7 @@
             </el-table-column>
              <el-table-column align="right" label="占比">
                 <template slot-scope="scope">
-                              <span v-if="scope.row.firstYearPro"> 
+                              <span v-if="scope.row.firstYearPro">
                                 {{scope.row.firstYearPro | dataInThRule}}%
                               </span>
                             <span v-else> - - </span>
@@ -331,7 +331,7 @@
             </el-table-column>
              <el-table-column align="right" label="占比">
                 <template slot-scope="scope">
-                              <span v-if="scope.row.secondYearPro"> 
+                              <span v-if="scope.row.secondYearPro">
                                 {{scope.row.secondYearPro | dataInThRule}}%
                               </span>
                             <span v-else> - - </span>
@@ -346,7 +346,7 @@
             </el-table-column>
              <el-table-column align="right" label="占比">
                 <template slot-scope="scope">
-                              <span v-if="scope.row.thirdYearPro"> 
+                              <span v-if="scope.row.thirdYearPro">
                                 {{scope.row.thirdYearPro | dataInThRule}}%
                               </span>
                             <span v-else> - - </span>
@@ -354,7 +354,7 @@
             </el-table-column>
             <el-table-column align="right" :label="coreTechnologyTitle.forthYearDate">
                 <template slot-scope="scope">
-                            <span v-if="scope.row.forthYearValue"> 
+                            <span v-if="scope.row.forthYearValue">
                               {{scope.row.forthYearValue}}
                               </span>
                             <span v-else> - - </span>
@@ -362,7 +362,7 @@
             </el-table-column>
              <el-table-column align="right" label="占比">
                 <template slot-scope="scope">
-                              <span v-if="scope.row.forthYearPro"> 
+                              <span v-if="scope.row.forthYearPro">
                                 {{scope.row.forthYearPro | dataInThRule}}%
                               </span>
                             <span v-else> - - </span>
@@ -480,10 +480,10 @@ export default {
       //毛利率接口
       getMaoChartTableData(param).then(res => {
           if(res.data.result&&res.data.result.length>0){
-              this.maoChartTableData = res.data.result              
+              this.maoChartTableData = res.data.result
           }
               this.getPosition()
-      }) 
+      })
     // 专利情况，研发投入，核心技术及研发技术人员接口
           getTechnologyInnovation(param).then(res => {
             if(res.data.result&&res.data.result.patentData.length>0){
@@ -515,10 +515,10 @@ export default {
                  this.remarksData = res.data.result.remarksData
               }
               this.getPosition()
-          }) 
+          })
     },
-    
-  
+
+
     //返回父组件用于锚点定位头
     getPosition() {
           let titleList = [];
@@ -545,7 +545,7 @@ export default {
                     important: false,
                     tabId: 'tab-sixth',
                     noClick: true
-          } 
+          }
            let patentSituation = {
                     id: 'patentSituation',
                     name: '专利情况',
@@ -553,7 +553,7 @@ export default {
                     important: false,
                     tabId: 'tab-sixth',
                     noClick: true
-          } 
+          }
            let yfSpending = {
                     id: 'yfSpending',
                     name: '研发投入',
@@ -561,7 +561,7 @@ export default {
                     important: false,
                     tabId: 'tab-sixth',
                     noClick: true
-          } 
+          }
            let coreTechnology = {
                     id: 'coreTechnology',
                     name: '核心技术及研发技术人员',
@@ -569,20 +569,21 @@ export default {
                     important: false,
                     tabId: 'tab-sixth',
                     noClick: true
-          } 
+          }
+          // &&(this.industryStatus[0].rankingRange&&this.industryStatus[0].rankingIndicator&&this.industryStatus[0].ranking)
           if((this.industryStatus&&this.industryStatus.length>0)){
-            industryStatus.noClick = false; 
-          }  
+            industryStatus.noClick = false;
+          }
           if(this.maoChartTableData&&this.maoChartTableData.length>0){
             comparison.noClick = false;
-          }             
+          }
           if(this.MajorCompetitors&&this.MajorCompetitors.length>0){
             mainCompetitors.noClick = false;
           }
           // 专利情况
            if(this.patentSituationTableData&&this.patentSituationTableData.length>0){
             patentSituation.noClick = false;
-          }             
+          }
           if(this.yfSpendingTableData&&this.yfSpendingTableData.length>0){
             yfSpending.noClick = false;
           }

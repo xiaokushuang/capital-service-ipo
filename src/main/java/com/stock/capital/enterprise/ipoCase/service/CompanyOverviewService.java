@@ -8,26 +8,9 @@ import com.stock.capital.enterprise.common.entity.AttachmentExample;
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseBizMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseListMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoIssuerIndustryStatusBizMapper;
-import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
-import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
-import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoAssociatedCaseVo;
-import com.stock.capital.enterprise.ipoCase.dto.IpoFileDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyDateDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyPatentDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyRemarksDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyTableDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyVo;
-import com.stock.capital.enterprise.ipoCase.dto.IpoValuationDto;
-import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.MainIncomeInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.MainIncomeVo;
-import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
-import com.stock.capital.enterprise.ipoCase.dto.IssuerIndustryStatusDto;
+import com.stock.capital.enterprise.ipoCase.dto.*;
+import com.stock.core.dto.JsonResponse;
+import com.stock.core.rest.RestClient;
 import com.stock.core.service.BaseService;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import java.math.BigDecimal;
@@ -43,7 +26,11 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class CompanyOverviewService extends BaseService {
@@ -60,8 +47,14 @@ public class CompanyOverviewService extends BaseService {
     @Autowired
     private IpoCaseListMapper ipoCaseListMapper;
 
+    @Autowired
+    private RestClient restClient;
+
     @Value("#{app['file.viewPath']}")
     private String fileViewPath;
+
+    @Value("#{app['api.baseUrl']}")
+    private String apiBaseUrl;
 
     /**
      * 案例基础信息
@@ -514,5 +507,74 @@ public class CompanyOverviewService extends BaseService {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         return c.get(Calendar.YEAR);
+    }
+
+    /**
+     * 判断收藏
+     */
+    public int getDetermineWhetherToCollect(String caseId,boolean favoriteFlag, String ipaddr, String companyId, String userId){
+        //判断收藏
+        String url = "";
+        if(favoriteFlag){
+            url = apiBaseUrl + "rep_case_favorite_note_api/saveCaseFavorite";// 收藏 CaseFavoriteAndNoteController.java
+        }else{
+            url = apiBaseUrl + "rep_case_favorite_note_api/deleteCaseFavorite";// 取消收藏
+        }
+        ParameterizedTypeReference<JsonResponse<Integer>> responseType = new ParameterizedTypeReference<JsonResponse<Integer>>(){
+        };
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+        params.set("caseId",caseId);
+        params.set("companyId",companyId);
+        params.set("userId",userId);
+        params.set("ipaddr",ipaddr);
+        params.set("source","1");
+        params.set("type","4");
+        JsonResponse<Integer> retVal = restClient.post(url, params, responseType);
+        return retVal.getResult();
+    }
+
+    /**
+     * 删除笔记
+     */
+
+    public int deleteNotes(String caseId,String note, String ipaddr,String companyId,String userId){
+        String url = apiBaseUrl + "rep_case_favorite_note_api/deleteCaseNote";// 删除笔记 CaseFavoriteAndNoteController.java
+        ParameterizedTypeReference<JsonResponse<Integer>> responseType = new ParameterizedTypeReference<JsonResponse<Integer>>(){
+        };
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+        params.set("caseId",caseId);
+        params.set("companyId",companyId);
+        params.set("userId",userId);
+        params.set("ipaddr",ipaddr);
+        params.set("note",note);
+        params.set("source","1");
+        params.set("type","4");
+        JsonResponse<Integer> retVal = restClient.post(url, params, responseType);
+        return retVal.getResult();
+    }
+
+    /**
+     * 判断笔记
+     * by ChenYufan
+     */
+
+    public int getNoteDetermination(String caseId,String note, String ipaddr,String companyId,String userId){
+        String url = apiBaseUrl + "rep_case_favorite_note_api/queryCaseNote";// 查询笔记 CaseFavoriteAndNoteController.java
+        ParameterizedTypeReference<JsonResponse<Integer>> responseType = new ParameterizedTypeReference<JsonResponse<Integer>>(){
+        };
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+        params.set("caseId",caseId);
+        params.set("companyId",companyId);
+        params.set("userId",userId);
+        params.set("ipaddr",ipaddr);
+        params.set("note",note);
+        params.set("source","1");
+        params.set("type","4");
+        JsonResponse<Integer> retVal = restClient.post(url, params, responseType);
+        return retVal.getResult();
+    }
+
+    public Map<String,String> getCaseFavoriteAndNote(Map<String,String> map){
+        return ipoCaseBizMapper.getCaseFavoriteAndNote(map);
     }
 }

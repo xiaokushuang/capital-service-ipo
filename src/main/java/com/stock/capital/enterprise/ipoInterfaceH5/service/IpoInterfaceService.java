@@ -714,7 +714,7 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
   IpoH5CoreDevDto companyStaff = new IpoH5CoreDevDto();
   IpoH5CoreDevDto industryStaff = new IpoH5CoreDevDto();
   List<IpoH5CoreDevDto> company = ipoInterfaceBizMapper.getCoreDevFromIpoTech(id);
-  if (CollectionUtils.isNotEmpty(company)){
+  if (CollectionUtils.isNotEmpty(company) && company.get(0) != null){
     if (company.get(0).getIndexDate().indexOf("12-31") >= 0){// 头一年日期为12月31日
       companyStaff = company.get(0);
     } else {// 第二年日期为12月31日, 取第二年

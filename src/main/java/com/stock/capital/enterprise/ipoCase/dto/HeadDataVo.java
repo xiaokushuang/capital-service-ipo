@@ -67,6 +67,12 @@ public class HeadDataVo implements Serializable {
     @ApiModelProperty("最近一次结果")
     private String labelResult;
 
+    @ApiModelProperty("收藏主键")
+    private String favoriteId;
+
+    @ApiModelProperty("案例笔记")
+    private String caseNote;
+
     public String getTitle() {
         return title;
     }
@@ -193,5 +199,21 @@ public class HeadDataVo implements Serializable {
 
     public void setLabelResult(String labelResult) {
         this.labelResult = labelResult;
+    }
+
+    public String getFavoriteId() {
+        return favoriteId;
+    }
+
+    public void setFavoriteId(String favoriteId) {
+        this.favoriteId = favoriteId;
+    }
+
+    public String getCaseNote() {
+        return caseNote;
+    }
+
+    public void setCaseNote(String caseNote) {
+        this.caseNote = caseNote;
     }
 }

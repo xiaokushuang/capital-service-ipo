@@ -88,4 +88,48 @@
     where lm.laws_name like '%上海证券交易所科创板股票上市规则%' and lm.id= leg.law_id  and lm.laws_name not like "%的决定" having tmpRemarks is null order by lm.published desc
     limit 1;
   </select>
+
+  <select id="queryIpoFavoriteList" resultType="java.lang.String">
+    select t1.case_id from case_common_favorite t1 where t1.company_id = #{companyId} and t1.user_id = #{userId} and t1.type = '4'
+  </select>
+
+  <select id="getCassNote" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoFavoriteAndNoteDto"
+          resultType="com.stock.capital.enterprise.ipoCase.dto.IpoFavoriteAndNoteDto">
+    select t1.id,t1.note,t2.title caseTitle,DATE_FORMAT(t1.update_time,'%Y-%m-%d') updateTime,t2.id caseId,
+    t2.open_flag openFlag,t2.company_code as companyCode,t2.company_name as companyName
+    from case_common_notes t1 left join ipo_case t2 on t1.case_id=t2.id
+    <where>
+      t1.user_id = #{userId} and t1.company_id = #{companyCode} and t1.type = '4'
+      <if test="caseTitleIsList != null and caseTitleIsList.size > 0 ">
+        AND
+        <foreach collection="caseTitleIsList"  open="(" close=")" item="no"  separator="OR">
+          t2.title like CONCAT('%', #{no}, '%')
+        </foreach>
+      </if>
+      <if test="note != null and note != ''">
+        AND
+        t1.note like CONCAT('%', #{note}, '%') escape '/'
+      </if>
+      <if test="companyCodeName != null and companyCodeName != ''">
+        AND
+        (t2.company_code like CONCAT('%', #{companyCodeName}, '%') or t2.company_name like CONCAT('%', #{companyCodeName}, '%'))
+      </if>
+    </where>
+    order by
+    <if test="signStatus == '0'.toString()">
+      t2.open_flag desc,
+    </if>
+    <choose>
+      <when test="orderByName != null and orderByName != ''">
+        ${orderByName} ${orderByOrder}
+      </when>
+      <otherwise>
+        t1.update_time desc
+      </otherwise>
+    </choose>
+  </select>
+
+  <select id = "isCompanyFlag"  parameterType="java.lang.String" resultType="java.lang.String">
+     SELECT a.id FROM sa_company a WHERE find_in_set(a.ipo_flag,'2,4') AND a.company_code = #{companyCode}
+  </select>
 </mapper>

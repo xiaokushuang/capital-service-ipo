@@ -66,7 +66,7 @@
  //element ui upload
  .upload-container {
    .el-upload {
-     width: 100%;
+     width: 100%; 
      .el-upload-dragger {
        width: 100%;
        height: 200px;
@@ -762,3 +762,86 @@
   font-size: 14px;
   font-weight: bold;
 }
+// 笔记的大弹窗
+.bigDialog .el-dialog{
+  height: calc(80%);
+}
+.bigDialog .el-textarea__inner {
+  display: block;
+  resize: vertical;
+  padding: 5px 15px;
+  line-height: 1.5;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  font-size: inherit;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+  transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+  height: 100%; 
+  background-color: white;
+  border-right: none;
+  border-left: none;
+}
+.bigDialog .el-dialog__body {
+  padding: 0;
+  color: #555;
+  line-height: 24px;
+  font-size: 14px;
+}
+// 收藏成功
+.el-message.is-closable.custom-success-message {
+  background-color: #ecf2ff;
+  border-color: #ecf2ff;
+  color: #4680ff;
+  // padding: 10px 15px;
+  font-size: 14px;
+}
+
+.el-message .el-icon-success {
+  color: #4680ff;
+  margin-right: 10px;
+  margin-left: 1px;
+}
+// 收藏失败
+.el-message.is-closable.custom-info-message {
+  background-color: #f2f2f2;
+  border-color: #f2f2f2;
+  color: #999999;
+  // padding: 10px 15px;
+  font-size: 14px;
+}
+.el-message .el-icon-info {
+  color: #909399;
+  margin-right: 10px;
+  margin-left: 1px;
+}
+// 收藏与笔记页面样式
+// .ipoCaseNote {
+//   font-family: Microsoft YaHei, "Helvetica Neue", Helvetica, Arial, sans-serif;
+//   font-size: 14px;
+//   line-height: 1.42857143;
+//   color: #333;
+//   background-color: #fff;
+//   padding: 20px !important;
+//   width: calc(100%);
+//   margin: 0px 10px 0px 0px;
+// }
+
+// .ipoCaseNote .table .el-table .cell {
+//   padding: 10px;
+// }
+
+// .ipoCaseNote .table .el-table th .cell {
+//   padding: 10px;
+//   margin: 0;
+//   border-color: #A0ADB5 !important;
+//   color: #fff;
+//   font-size: 14px;
+//   font-weight: 600;
+//   font-family: 'Microsoft YaHei';
+// }

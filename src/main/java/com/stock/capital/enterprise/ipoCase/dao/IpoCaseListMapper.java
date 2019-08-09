@@ -1,8 +1,10 @@
 package com.stock.capital.enterprise.ipoCase.dao;
 
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo;
+import com.stock.capital.enterprise.ipoCase.dto.IpoFavoriteAndNoteDto;
 import com.stock.capital.enterprise.ipoCase.dto.RegTreeDto;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,4 +22,10 @@ public interface IpoCaseListMapper {
     int queryAuthByCompanyId(String companyId);
 
     IpoCaseListBo querylawId();
+
+    List<String> queryIpoFavoriteList(@Param("companyId") String companyId,@Param("userId") String userId);
+
+    List<IpoFavoriteAndNoteDto> getCassNote(IpoFavoriteAndNoteDto dto);
+
+    String isCompanyFlag(String companyCode);
 }

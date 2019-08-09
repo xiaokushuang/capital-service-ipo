@@ -7,6 +7,7 @@ import tagsView from './modules/tagsView'
 import user from './modules/user'
 import getters from './getters'
 import ipo from './ipoData'
+import ipoCase from './ipoCase'
 import declare from './declare'
 Vue.use(Vuex);
 
@@ -18,7 +19,8 @@ const store = new Vuex.Store({
     tagsView,
     user,
     ipo,
-    declare
+    declare,
+		ipoCase
   },
   getters,
 

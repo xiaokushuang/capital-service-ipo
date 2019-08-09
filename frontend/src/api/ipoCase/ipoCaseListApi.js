@@ -24,3 +24,19 @@ export function _queryIntermediary(_params) {
     params: _params
   })
 }
+
+export function _queryIpoFavoriteList(_data) {
+  return request({
+    url: basePath + '/queryIpoFavoriteList',
+    method: 'post',
+    data: _data
+  })
+}
+
+export function _getCassNote(_data) {
+  return request({
+    url: basePath + '/getCassNote',
+    method: 'post',
+    data: _data
+  })
+}
