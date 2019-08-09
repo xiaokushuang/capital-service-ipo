@@ -729,7 +729,7 @@
                     </if>) stopYet
             FROM (SELECT REPLACE(area_name, '市', '') areaName FROM provinces 
                         WHERE (SUBSTR(area_no,3,6) = '0000' AND area_no NOT IN ('810000','820000','710000'))
-                        OR area_no IN ('440300','210200','330200','350200','370200')) area 
+                        OR area_no IN ('440300','210200','330200','350200','370200')  union all select '境外') area 
                  LEFT JOIN ipo_data_info idi ON area.areaName = idi.regist_addr AND idi.grab_update_time = #{lastUpadteTime}
              <where>
                 <if test="plateList != null and plateList.size() > 0">

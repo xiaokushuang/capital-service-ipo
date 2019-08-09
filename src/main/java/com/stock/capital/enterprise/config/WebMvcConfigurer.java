@@ -54,5 +54,18 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
         registry.addInterceptor(tenantInfoInterceptor()).addPathPatterns("/**").excludePathPatterns("/error");
     }
 
-
+//    @Bean
+//    public CorsFilter corsFilter() {
+//        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        final CorsConfiguration config = new CorsConfiguration();
+//        config.setAllowCredentials(true);
+//        config.addAllowedOrigin("*");
+//        config.addAllowedHeader("*");
+//        config.addAllowedMethod("OPTIONS");
+//        config.addAllowedMethod("GET");
+//        config.addAllowedMethod("POST");
+//        config.setMaxAge(TimeUnit.DAYS.toSeconds(365));
+//        source.registerCorsConfiguration("/**", config);
+//        return new CorsFilter(source);
+//    }
 }
