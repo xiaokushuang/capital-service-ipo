@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-04-25 16:51:54
+ * @LastEditTime: 2019-08-09 11:00:12
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
 	<div style="overflow-x:hidden">
 		<!-- 易董头条 -->
@@ -236,6 +243,36 @@
 											<span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabSixthList.length - 1">|</span>
 										</span>
 									</div>
+								</div>
+								<div v-if="isFixed" style="color:#4c4c4c;font-size: 14px;margin-top: 30px;margin-left: 27px;" class="collectionsAndNotes">
+									<span v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;" title="收藏">
+										<i class="fa fa-star-o favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
+									</span>
+									<span v-else @click="clickFavorite(false)" style="cursor:pointer;" title="取消收藏">
+										<i class="fa fa-star favorite_note_icon"></i><span style="margin-left: 5px">已收藏</span>
+									</span>
+									<span style="padding: 0px 5px;vertical-align: 5%;">|</span>
+									<el-popover placement="bottom" title="" width="540" trigger="manual" v-model="scrollNoteFlag" popper-class="customer_popper">
+										<div>
+											<div style="height: 28px;padding:0px 12px">
+												<span style="font-size: 14px;color: #333;">{{noteTitle}}</span>
+												<span style="float: right;color: #C1C1C1">
+													<i class="fa fa-square-o fa-lg" @click="openCenterNote()" title="放大" style="cursor:pointer;margin-right: 4px;"></i>
+													<i class="el-icon-close" @click="noteCancellation('1')" title="关闭" style="cursor:pointer;vertical-align: -10%;font-size: 21px"></i>
+												</span>
+											</div>
+											<el-input type="textarea" class="textarea-height" :rows="6" resize="none" placeholder="请在这里输入笔记内容..." v-model="note">
+											</el-input>
+											<div style="float: right;margin-right: 20px;padding-top: 12px;">
+												<button class="small_btn_common cancel_btn" @click="noteCancellation('1')">取消</button>
+												<button class="small_btn_common determine_btn" @click="NoteDetermination()" style="margin-left: 10px">保存
+												</button>
+											</div>
+										</div>
+										<span slot="reference" aria-hidden="true" @click="scrollNoteFlag = !scrollNoteFlag" style="cursor:pointer;">
+											<i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span>
+										</span>
+									</el-popover>
 								</div>
 							</div>
 							<!-- 点击不同菜单展示不同下面内容 -->
@@ -803,6 +840,20 @@
 					this.isFixed = false;
 					this.headerFix = false;
 				}
+			  if(this.isFixed){
+				if(this.titleNoteFlag){
+					setTimeout(() => {
+					this.scrollNoteFlag = true;
+					}, 100);
+					this.titleNoteFlag = false;
+				}
+			  }else{
+					if(this.scrollNoteFlag){
+						this.titleNoteFlag = true;
+						this.scrollNoteFlag = false;
+					}
+				}
+
 			},
 			// 用于锚点定位【从子组件里传过来的值】[子传父]
 			headCall(param) {
