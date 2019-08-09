@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-08 11:39:50
- * @LastEditTime: 2019-08-09 14:22:24
+ * @LastEditTime: 2019-08-09 14:50:46
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -38,7 +38,7 @@
                          @keydown.enter.native="querySearch"
                          @clear-click="clearLocal('treeProcess')">
                 <el-option :label="caseStatus" :value="caseStatusValue">
-                  <el-tree :data="processList" show-checkbox node-key="id" ref="treeProcess" highlight-current
+                  <el-tree :data="processList" class="filter-tree" show-checkbox node-key="id" ref="treeProcess" highlight-current
                            :props="default_tree" @check-change="selectHandleNodeClick('caseStatus','treeProcess')"></el-tree>
                 </el-option>
               </el-select>
@@ -744,6 +744,9 @@
         _self.placingMechanismValue = '';
         _self.caseStatus = '';//IPO进程
         _self.caseStatusValue = '';
+        _self.$refs.treeProcess.setCheckedKeys([]);
+        _self.$refs.treeVerifyResult.setCheckedKeys([]);
+        _self.$refs.treeIssueCondition.setCheckedKeys([]);
         _self.iecResult = '';//审核结果
         _self.iecResultValue = '';
         _self.codeOrName = '';//公司简称/代码
@@ -773,11 +776,11 @@
         _self.timeDiff = [];
         _self.searchFlag = false;
         _self.yearRadio = 1;
-        // for (var tree of document.getElementsByClassName('filter-tree')) {
-        //   for (var obj of tree.querySelectorAll('.el-tree-node__label')) {
-        //     obj.className = 'el-tree-node__label'
-        //   }
-        // }
+         for (var tree of document.getElementsByClassName('filter-tree')) {
+          for (var obj of tree.querySelectorAll('.el-tree-node__label')) {
+            obj.className = 'el-tree-node__label'
+          }
+        }
         _self.issueShow = false;
         _self.issueFeeShow = false;
         _self.prospectusShow = false;//招股书最近一次估值
