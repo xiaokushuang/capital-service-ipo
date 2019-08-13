@@ -285,7 +285,7 @@ public class IpoCaseOverviewController extends BaseController {
         return i;
     }
 
-    @RequestMapping(value = "/getJudgementNoteDetermination", method = RequestMethod.GET)
+    @RequestMapping(value = "/getJudgementNoteDetermination", method = RequestMethod.POST)
     @ResponseBody
     public JsonResponse<Integer> getJudgementNoteDetermination(String caseId,String note) {
         String ipaddr = WebUtil.getClientIpAddr(getRequest());//获取用户IP地址

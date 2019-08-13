@@ -184,7 +184,7 @@ export function clickFavorite(query) {
 export function NoteDetermination(query) {
   return request({
     url: '/ipo/companyOverview/getJudgementNoteDetermination',
-    method: 'get',
+    method: 'post',
     params: query
   })
 }
