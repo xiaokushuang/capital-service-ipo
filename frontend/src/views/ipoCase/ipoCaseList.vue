@@ -223,7 +223,7 @@
 						</el-col>
 					</el-row>
 					<div v-show="searchFlag" style="display:flex">
-						<div class="left" style="width:43%;margin-right:24px">
+						<div class="left" style="width:45%;margin-right:24px">
 							<el-row :gutter="24" style="background:#f9f9f9;margin-bottom:0px;padding-top:10px">
 								<el-radio-group v-model="yearRadio" style="width:100%">
 									<el-radio style="width:31%" :label="1">最近一个会计年度累计</el-radio>
@@ -1901,12 +1901,12 @@
 	}
 
 	.ipoCaseList .el-radio__label {
-		font-size: 11px;
+		font-size: 10.5px;
 	}
 
 	.el-radio__label {
-		font-size: 12px;
-		padding-left: 2px;
+		font-size: 10.5x;
+		padding-left: 1px;
 	}
 
 	.quan {
