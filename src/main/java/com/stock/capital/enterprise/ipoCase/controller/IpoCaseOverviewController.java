@@ -287,15 +287,15 @@ public class IpoCaseOverviewController extends BaseController {
 
     @RequestMapping(value = "/getJudgementNoteDetermination", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResponse<Integer> getJudgementNoteDetermination(String caseId,String note) {
+    public JsonResponse<Integer> getJudgementNoteDetermination(@RequestBody IpoFavoriteAndNoteDto dto) {
         String ipaddr = WebUtil.getClientIpAddr(getRequest());//获取用户IP地址
         String companyId =  getUserInfo().getCompanyId();//获取公司ID
         String userId = getUserInfo().getUserId();//获取用户ID
         int i;
-        if(StringUtils.isBlank(note)){//判断是否全部都是空或者没有输入
-            i = companyOverviewService.deleteNotes(caseId,note,ipaddr,companyId,userId);//走删除
+        if(StringUtils.isBlank(dto.getNote())){//判断是否全部都是空或者没有输入
+            i = companyOverviewService.deleteNotes(dto.getCaseId(),dto.getNote(),ipaddr,companyId,userId);//走删除
         }else{
-            i = companyOverviewService.getNoteDetermination(caseId,note,ipaddr,companyId,userId);//走保存
+            i = companyOverviewService.getNoteDetermination(dto.getCaseId(),dto.getNote(),ipaddr,companyId,userId);//走保存
         }
         JsonResponse<Integer> result = new JsonResponse<>();
         result.setResult(new Integer(i));

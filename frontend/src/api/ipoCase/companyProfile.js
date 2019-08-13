@@ -185,6 +185,7 @@ export function NoteDetermination(query) {
   return request({
     url: '/ipo/companyOverview/getJudgementNoteDetermination',
     method: 'post',
-    params: query
+    // params: query
+		data : query  //post方式 通过data传值
   })
 }
