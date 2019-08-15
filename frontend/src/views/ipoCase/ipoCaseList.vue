@@ -509,7 +509,7 @@
 												</span>
 											</template>
 										</el-table-column>
-										<el-table-column align="right" :prop="reve" label="营业收入" sortable="custom" min-width="13%">
+										<el-table-column align="right" :prop="reve" label="营业收入" sortable="custom" min-width="14%">
 											<template slot-scope="scope">
 												<span v-if="yearRadio===1">
 													<span v-if="scope.row.operateReveOne">{{scope.row.operateReveOne | dataInThRule}}亿元</span>
