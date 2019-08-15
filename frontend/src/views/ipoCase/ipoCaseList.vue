@@ -449,7 +449,7 @@
 											{{scope.row.companyName}}
 										</template>
 									</el-table-column>
-									<el-table-column align="left" label="案例标题" min-width="20%">
+									<el-table-column align="left" label="案例标题" min-width="18%">
 										<template slot-scope="scope">
 											{{scope.row.titleStr}}
 										</template>
@@ -493,7 +493,7 @@
 										</template>
 									</el-table-column>
 									<el-table-column :label="yearLabel" header-align="center">
-										<el-table-column align="right" :prop="profit" label="净利润" sortable="custom" min-width="10%">
+										<el-table-column align="right" :prop="profit" label="净利润" sortable="custom" min-width="12%">
 											<template slot-scope="scope">
 												<span v-if="yearRadio===1">
 													<span v-if="scope.row.netProfitOne">{{scope.row.netProfitOne | dataInThRule}}亿元</span>
@@ -509,7 +509,7 @@
 												</span>
 											</template>
 										</el-table-column>
-										<el-table-column align="right" :prop="reve" label="营业收入" sortable="custom" min-width="11%">
+										<el-table-column align="right" :prop="reve" label="营业收入" sortable="custom" min-width="13%">
 											<template slot-scope="scope">
 												<span v-if="yearRadio===1">
 													<span v-if="scope.row.operateReveOne">{{scope.row.operateReveOne | dataInThRule}}亿元</span>
