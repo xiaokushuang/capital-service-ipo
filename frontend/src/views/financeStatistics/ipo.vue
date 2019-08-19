@@ -24,9 +24,9 @@
 				<img v-show="!currentQrCodeImg" src="../../assets/images/qrCode.svg" width="42px" class="qrImg"  style="z-index: 10;margin-top: -25px;margin-left: -17px;" />
 				<img v-show="currentQrCodeImg" src="../../assets/images/qrCodeBlue.svg" width="42px" class="qrImg"  style="z-index: 10; margin-top: -25px;margin-left: -17px;" />
 			</div>
-			<div @click="wxcodeBig" @mouseover="mouseOverQR()" @mouseleave="mouseOutQR()" class="miniProCode" style="transform: translate(-50%, -50%);z-index: 20;width: 120px;height: 140px;background: #fff;position: fixed; right: -22px;top: 140px;border-radius: 4px;"
+			<div @click="wxcodeBig" @mouseover="mouseOverQR()" @mouseleave="mouseOutQR()" class="miniProCode" style="transform: translate(-50%, -50%);z-index: 20;width: 140px;height: 160px;background: #fff;position: fixed; right: -22px;top: 140px;border-radius: 4px;"
 			 v-show="ipoplatetype && mouseOverShow">
-				<img :src="wxcodeUrl" style="margin-left: 10px;margin-top: 10px; width: 100px;cursor: pointer;align-items: center;" >
+				<img :src="wxcodeUrl" style="margin-left: 10px;margin-top: 10px; width: 120px;cursor: pointer;align-items: center;" >
 				<div style="font-size: 12px;color: #999999;text-align: center;margin-top: 10px;">手机扫码可视化查看</div>
 			</div>
 			<div :style="{'padding-left':(headList.labelResult == '' || headList.labelResult == null)?'0px':'97px','width':'1200px','position':'absolute','left': '50%','top':'50%', 'transform': 'translate(-50%,-50%)'}">
@@ -124,7 +124,7 @@
 		</div>
 
 		<!-- 屏幕中间的笔记 -->
-		<el-dialog class="bigDialog" title="" :visible.sync="centerNoteFlag" :close-on-click-modal="false" width="80%" 
+		<el-dialog class="bigDialog" title="" :visible.sync="centerNoteFlag" :close-on-click-modal="false" width="80%"
 		 close="noteCancellation('3')">
 			<span style="font-size: 14px;color: #333;" slot="title">{{centerNoteTitle}}</span>
 			<el-input   type="textarea" class="center-textarea-height" resize="none" placeholder="请在这里输入笔记内容..." v-model="note" :maxlength='2000' show-word-limit>
@@ -1382,8 +1382,8 @@
 	}
 	.miniProCode {
 		// border: #F1F1F1 0.5px solid;
-		-webkit-box-shadow: 0 0 6px  rgba(0,0,0,0.08);   
-    -moz-box-shadow:  0 0 6px 0 rgba(0,0,0,0.08);  
-    box-shadow:  0 0 6px 0 rgba(0,0,0,0.08);  
+		-webkit-box-shadow: 0 0 6px  rgba(0,0,0,0.08);
+    -moz-box-shadow:  0 0 6px 0 rgba(0,0,0,0.08);
+    box-shadow:  0 0 6px 0 rgba(0,0,0,0.08);
 	}
 </style>
