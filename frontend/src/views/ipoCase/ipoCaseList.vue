@@ -54,14 +54,27 @@
 							</el-select>
 						</el-col>
 						<el-col :span='8'>
-							<el-select ref="selectIndustryCsrc" v-model="industryCsrc" title="发行人行业（证监会）" placeholder="发行人行业（证监会）" size="small full"
+							<el-multiple-selection
+							  ref="selectIndustryCsrc"
+							  id="selectIndustryCsrc"
+							  placeholder="发行人行业（证监会）"
+							  @sure-click="sure('selectIndustryCsrc')"
+							  :default-all-show="true"
+                size="small full"
+							  node-key="id"
+							  :tree-data="industryCrscList"
+							  :search-menu="true"
+							  :default-props="default_tree"
+                >
+							</el-multiple-selection>
+							<!-- <el-select ref="selectIndustryCsrc" v-model="industryCsrc" title="发行人行业（证监会）" placeholder="发行人行业（证监会）" size="small full"
 							 :tselect=true @visible-change="calls()" @keydown.enter.native="querySearch" @sure-click="sure('selectIndustryCsrc')"
 							 @clear-click="clearLocal('treeIndustryCsrc')">
 								<el-option :label="industryCsrc" :value="industryCsrcValue">
 									<el-tree :data="industryCrscList" show-checkbox node-key="id" ref="treeIndustryCsrc" highlight-current :props="default_tree"
 									 @check-change="selectHandleNodeClick('industryCsrc','treeIndustryCsrc')"></el-tree>
 								</el-option>
-							</el-select>
+							</el-select> -->
 						</el-col>
 						<!-- <el-col :span='4'>
               <el-select ref="selectStrageticIndustries" v-model="strageticIndustries" title="发行人行业（战略新兴）" placeholder="发行人行业（战略新兴）"
@@ -1176,7 +1189,7 @@
 					condition: {
 						companyId: _self.$store.state.app.companyId,
 						title: _self.title, //标题关键字（包含全部以空格断开）
-						industryCsrc: _self.industryCsrcValue, //发行人行业（证监会）
+						industryCsrc: this.$refs.selectIndustryCsrc.selectSpace.map((item)=>{return item.labelValue}).join(','), //发行人行业（证监会）
 						strageticIndustries: _self.strageticIndustriesValue, //发行人行业（战略新兴）
 						issueCondition: _self.issueConditionValue, //发行人选择的上市条件
 						companyNature: _self.companyNatureValue, //企业性质
@@ -1341,6 +1354,8 @@
 				_self.title = ''; //标题
 				_self.industryCsrcValue = ''; //行业
 				_self.industryCsrc = '';
+        this.$refs.selectIndustryCsrc.setCheckedKeys([]);
+
 				_self.strageticIndustriesValue = ''; //战略新兴
 				_self.strageticIndustries = '';
 				_self.issueConditionValue = ''; //发行人选择的上市条件
@@ -1367,7 +1382,7 @@
 				_self.$refs.greenTreeTagRef.setCheckedKeys([]);
 				_self.$refs.specialArrangeTagRef.setCheckedKeys([]);
 				_self.$refs.sfcTreeTagRef.setCheckedKeys([]);
-				_self.$refs.treeIndustryCsrc.setCheckedKeys([]);
+				// _self.$refs.treeIndustryCsrc.setCheckedKeys([]);
 				// _self.$refs.treeStrageticIndustries.setCheckedKeys([]);//战略新兴
 				_self.$refs.treeIssueCondition.setCheckedKeys([]);
 				_self.$refs.treeCompanyNature.setCheckedKeys([]);
