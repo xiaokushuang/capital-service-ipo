@@ -149,7 +149,7 @@
 									<span style="font-size: 20px;color: #333;display: block;margin-bottom: 10px;">IPO</span>
 									<span v-show="this.companyProfileList&&this.companyProfileList.companyName" style="font-size: 14px;color: #333;">{{this.companyProfileList.companyName}}</span>
 								</div>
-								<div :style="{width:isFixed?'55.7%':'100%'}">
+								<div :style="{width:isFixed?'740px':'100%'}">
 									<!-- 菜单导航栏 -->
 									<div class="el-tabs__nav-wrap is-top">
 										<div class="el-tabs__nav-scroll">
