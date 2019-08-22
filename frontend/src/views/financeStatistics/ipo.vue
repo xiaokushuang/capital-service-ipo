@@ -253,7 +253,7 @@
 									</span>
 									<span style="padding: 0px 5px;vertical-align: 5%;">|</span>
 									<el-popover placement="bottom" title="" width="540" trigger="manual" v-model="scrollNoteFlag" popper-class="customer_popper">
-										<div>
+										<div class="bigDialog">
 											<div style="height: 28px;padding:0px 12px">
 												<span style="font-size: 14px;color: #333;">{{noteTitle}}</span>
 												<span style="float: right;color: #C1C1C1">
