@@ -121,7 +121,7 @@
 	}
 
 	.el-textarea__inner {
-		color: #999999;
+		color: #000000;
 		font-size: 14px;
 		line-height: 22px;
 		border: none;
