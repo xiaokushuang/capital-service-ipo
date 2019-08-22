@@ -153,7 +153,7 @@
                   </el-table-column>
                   <el-table-column align="left" label="案例标题" min-width="22%">
                     <template slot-scope="scope">
-											<span @click="itemClickHandler(scope.row)">
+											<span @click="itemClickHandler(scope.row)" class="title_span">
                       {{scope.row.titleStr}}
 											</span>
                     </template>
@@ -1487,6 +1487,10 @@
   .prospectus li {
     width: 30%;
     text-align:center;
+  }
+  .title_span:hover {
+  	text-decoration: underline;
+  	cursor: pointer;
   }
   /* 受理时间及审核时间日期控件样式 */
   /* .acceptTime .el-range-separator{

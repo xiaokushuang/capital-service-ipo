@@ -763,37 +763,108 @@
   font-size: 14px;
   font-weight: bold;
 }
+
+
+
+ .bigDialog .el-textarea__inner:hover {
+      border-color: #c0c4cc;
+  }
+  .bigDialog	.el-textarea__inner {
+      color: #000000;
+      font-size: 14px;
+      line-height: 22px;
+      border: none;
+      border-radius: 0px;
+      border-top: 1px #e2e2e2 solid;
+      border-bottom: 1px #e2e2e2 solid;
+      word-break: break-all;
+    }
+
+  .bigDialog	.el-textarea__inner:focus {
+      border-color: #e2e2e2;
+    }
+
+  .bigDialog	.el-dialog__body {
+      padding: 0px;
+      color: #555;
+      line-height: 24px;
+      font-size: 14px;
+      height: calc(100% - 100px);
+    }
+
+  .bigDialog	.el-dialog__footer {
+      padding: 10px;
+    }
+
+  .bigDialog	.el-dialog__header {
+      padding: 12px 21px 11px;
+    }
+
+  .bigDialog	.favorite_note_icon {
+      font-size: 16px;
+      vertical-align: -5%;
+    }
+
+  .bigDialog	.textarea-height textarea {
+      min-height: 144px !important;
+    }
+
+  .bigDialog	.center-textarea-height {
+      height: calc(100%) !important;
+    }
+
+  .bigDialog	.center-textarea-height textarea {
+      height: calc(100%) !important;
+    }
+
+  .bigDialog	.el-dialog {
+      transform: none;
+      left: 0;
+      position: relative;
+      margin: 0 auto;
+      width: 60%;
+      border-radius: 2px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+      box-sizing: border-box;
+      height: calc(80%);
+    }
+
+  .bigDialog	.el-dialog__headerbtn {
+      top: auto;
+    }
+
+
 // 笔记的大弹窗
-.bigDialog .el-dialog{
-  height: calc(80%);
-}
-.bigDialog .el-textarea__inner {
-  display: block;
-  resize: vertical;
-  padding: 5px 15px;
-  line-height: 1.5;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  width: 100%;
-  font-size: inherit;
-  color: #555;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #e2e2e2;
-  border-radius: 4px;
-  -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
-  transition: border-color .2s cubic-bezier(.645,.045,.355,1);
-  height: 100%;
-  background-color: white;
-  border-right: none;
-  border-left: none;
-}
-.bigDialog .el-dialog__body {
-  padding: 0;
-  color: #555;
-  line-height: 24px;
-  font-size: 14px;
-}
+// .bigDialog .el-dialog{
+//   height: calc(80%);
+// }
+// .bigDialog .el-textarea__inner {
+//   display: block;
+//   resize: vertical;
+//   padding: 5px 15px;
+//   line-height: 1.5;
+//   -webkit-box-sizing: border-box;
+//   box-sizing: border-box;
+//   width: 100%;
+//   font-size: inherit;
+//   color: #555;
+//   background-color: #fff;
+//   background-image: none;
+//   border: 1px solid #e2e2e2;
+//   border-radius: 4px;
+//   -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+//   transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+//   height: 100%;
+//   background-color: white;
+//   border-right: none;
+//   border-left: none;
+// }
+// .bigDialog .el-dialog__body {
+//   padding: 0;
+//   color: #555;
+//   line-height: 24px;
+//   font-size: 14px;
+// }
 // 收藏成功
 .el-message.is-closable.custom-success-message {
   background-color: #ecf2ff;

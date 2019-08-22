@@ -521,4 +521,8 @@
     line-height: 23px;
     background: #f2f2f2!important;
 }
+.title_span:hover {
+		text-decoration: underline;
+		cursor: pointer;
+	}
 </style>
