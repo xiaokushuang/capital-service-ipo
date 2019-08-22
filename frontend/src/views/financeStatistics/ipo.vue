@@ -1063,6 +1063,7 @@
 	#titleHeader {
 		background-image: url("../../assets/images/IpoHeader.png"), url("../../assets/images/IpoHeaderBj.png");
 		background-repeat: no-repeat, no-repeat;
+    background-size:100% 100%;
 		background-position: center, 0 0;
 		color: #fff;
 	}
