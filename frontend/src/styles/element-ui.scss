@@ -832,6 +832,10 @@
   .bigDialog	.el-dialog__headerbtn {
       top: auto;
     }
+  .bigDialog  .el-dialog__headerbtn .el-dialog__close {
+        color: #909399;
+        font-size: 16px;
+    }
 
 
 // 笔记的大弹窗
