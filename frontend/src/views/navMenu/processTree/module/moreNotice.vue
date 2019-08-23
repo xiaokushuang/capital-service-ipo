@@ -52,7 +52,7 @@
           :visible.sync="dialogVisible"
           width="30%"
           :before-close="handleClose">
-          <span style="display: inline-block; margin-left: 83px; margin-top: 23px;">所选公告暂不支持下载</span>
+          <span style="display: inline-block; margin-left: 83px; margin-top: 23px;">并未勾选公告或所选公告暂不支持下载</span>
           <span slot="footer" class="dialog-footer">
             <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
           </span>

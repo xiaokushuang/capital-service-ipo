@@ -24,9 +24,9 @@
 				<img v-show="!currentQrCodeImg" src="../../assets/images/qrCode.svg" width="42px" class="qrImg"  style="z-index: 10;margin-top: -25px;margin-left: -17px;" />
 				<img v-show="currentQrCodeImg" src="../../assets/images/qrCodeBlue.svg" width="42px" class="qrImg"  style="z-index: 10; margin-top: -25px;margin-left: -17px;" />
 			</div>
-			<div @click="wxcodeBig" @mouseover="mouseOverQR()" @mouseleave="mouseOutQR()" class="miniProCode" style="transform: translate(-50%, -50%);z-index: 20;width: 120px;height: 140px;background: #fff;position: fixed; right: -22px;top: 140px;border-radius: 4px;"
+			<div @click="wxcodeBig" @mouseover="mouseOverQR()" @mouseleave="mouseOutQR()" class="miniProCode" style="transform: translate(-50%, -50%);z-index: 20;width: 140px;height: 160px;background: #fff;position: fixed; right: -22px;top: 140px;border-radius: 4px;"
 			 v-show="ipoplatetype && mouseOverShow">
-				<img :src="wxcodeUrl" style="margin-left: 10px;margin-top: 10px; width: 100px;cursor: pointer;align-items: center;" >
+				<img :src="wxcodeUrl" style="margin-left: 10px;margin-top: 10px; width: 120px;cursor: pointer;align-items: center;" >
 				<div style="font-size: 12px;color: #999999;text-align: center;margin-top: 10px;">手机扫码可视化查看</div>
 			</div>
 			<div :style="{'padding-left':(headList.labelResult == '' || headList.labelResult == null)?'0px':'97px','width':'1200px','position':'absolute','left': '50%','top':'50%', 'transform': 'translate(-50%,-50%)'}">
@@ -98,15 +98,15 @@
 					</span>
 					<span style="padding: 0px 5px;vertical-align: 5%;">|</span>
 					<el-popover placement="bottom" title="" width="540" trigger="manual" v-model="titleNoteFlag" popper-class="customer_popper">
-						<div>
+						<div class="bigDialog">
 							<div style="height: 28px;padding:0px 12px">
 								<span style="font-size: 14px;color: #333;">{{noteTitle}}</span>
 								<span style="float: right;color: #C1C1C1">
 									<i class="fa fa-square-o fa-lg" @click="openCenterNote()" title="放大" style="cursor:pointer;margin-right: 4px;"></i>
-									<i class="el-icon-close" @click="noteCancellation('1')" title="关闭" style="cursor:pointer;vertical-align: -10%;font-size: 21px"></i>
+									<i class="el-icon-close el-close-size" @click="noteCancellation('1')" title="关闭" style="cursor:pointer;vertical-align: -10%;"></i>
 								</span>
 							</div>
-							<el-input type="textarea" class="textarea-height" :rows="6" resize="none" placeholder="请在这里输入笔记内容..." v-model="note">
+							<el-input  type="textarea" class="textarea-height" :maxlength='2000' show-word-limit :rows="6" resize="none" placeholder="请在这里输入笔记内容..." v-model="note">
 							</el-input>
 							<div style="float: right;margin-right: 20px;padding-top: 12px;">
 								<button class="small_btn_common cancel_btn" @click="noteCancellation('1')">取消</button>
@@ -124,10 +124,10 @@
 		</div>
 
 		<!-- 屏幕中间的笔记 -->
-		<el-dialog class="bigDialog" title="" :visible.sync="centerNoteFlag" :close-on-click-modal="false" width="80%" 
+		<el-dialog class="bigDialog" title="" :visible.sync="centerNoteFlag" :close-on-click-modal="false" width="80%"
 		 close="noteCancellation('3')">
 			<span style="font-size: 14px;color: #333;" slot="title">{{centerNoteTitle}}</span>
-			<el-input  type="textarea" class="center-textarea-height" resize="none" placeholder="请在这里输入笔记内容..." v-model="note">
+			<el-input   type="textarea" class="center-textarea-height" resize="none" placeholder="请在这里输入笔记内容..." v-model="note" :maxlength='2000' show-word-limit>
 			</el-input>
 			<div slot="footer">
 				<button class="small_btn_common cancel_btn" @click="noteCancellation('3')">取消</button>
@@ -149,7 +149,7 @@
 									<span style="font-size: 20px;color: #333;display: block;margin-bottom: 10px;">IPO</span>
 									<span v-show="this.companyProfileList&&this.companyProfileList.companyName" style="font-size: 14px;color: #333;">{{this.companyProfileList.companyName}}</span>
 								</div>
-								<div :style="{width:isFixed?'55.7%':'100%'}">
+								<div :style="{width:isFixed?'740px':'100%'}">
 									<!-- 菜单导航栏 -->
 									<div class="el-tabs__nav-wrap is-top">
 										<div class="el-tabs__nav-scroll">
@@ -244,7 +244,7 @@
 										</span>
 									</div>
 								</div>
-								<div v-if="isFixed" style="color:#4c4c4c;font-size: 14px;margin-top: 30px;margin-left: 27px;" class="collectionsAndNotes">
+								<div v-if="isFixed" :style="{'color':'#4c4c4c','font-size': '14px','top':'30px','position':'absolute','right':clientRight,'padding-right':'12px'}" class="collectionsAndNotes">
 									<span v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;" title="收藏">
 										<i class="fa fa-star-o favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
 									</span>
@@ -253,7 +253,7 @@
 									</span>
 									<span style="padding: 0px 5px;vertical-align: 5%;">|</span>
 									<el-popover placement="bottom" title="" width="540" trigger="manual" v-model="scrollNoteFlag" popper-class="customer_popper">
-										<div>
+										<div class="bigDialog">
 											<div style="height: 28px;padding:0px 12px">
 												<span style="font-size: 14px;color: #333;">{{noteTitle}}</span>
 												<span style="float: right;color: #C1C1C1">
@@ -509,6 +509,7 @@
 				allTime: "",
 				time: "",
 				clientLeft: "",
+        clientRight : "",
 				topHeight: "",
 				headList: {
 					auditDuration: '',
@@ -622,28 +623,26 @@
 					}
 					this.collectionAndNoteShow = true;
 
-					// if(this.isNotEmpty(this.reptitle) == ''){
-					//   this.noteTitle = '编辑笔记'
-					//   this.centerNoteTitle = '编辑笔记'
-					// }else{
-					//   let title = '编辑笔记-'+ this.reptitle
-					//   if(title.length > 35){
-					//     this.noteTitle = title.substring(0,35) + '...';
-					//   }else{
-					//     this.noteTitle = title;
-					//   }
-					//   if(title.length > 45){
-					//     this.centerNoteTitle = title.substring(0,45) + '...';
-					//   }else{
-					//     this.centerNoteTitle = title;
-					//   }
-					// }
-					// this.titleNoteFlag = this.isNotEmpty(this.$route.query.notOpenFlag) ? true : false;
-
-
-
+					if(this.isNotEmpty(this.headList.title) == ''){
+					  this.noteTitle = '编辑笔记'
+					  this.centerNoteTitle = '编辑笔记'
+					}else{
+					  let title = '编辑笔记-'+ this.getTitle(this.headList.title)
+					  if(title.length > 35){
+					    this.noteTitle = title.substring(0,35) + '...';
+					  }else{
+					    this.noteTitle = title;
+					  }
+					  if(title.length > 45){
+					    this.centerNoteTitle = title.substring(0,45) + '...';
+					  }else{
+					    this.centerNoteTitle = title;
+					  }
+					}
+					this.titleNoteFlag = this.isNotEmpty(this.$route.query.notOpenFlag) ? true : false;
 
 				})
+
 				getCaseDetail(param).then(res => {
 					if (res.data.result) {
 						this.companyProfileList = res.data.result
@@ -667,6 +666,9 @@
 					}
 				})
 			},
+      isNotEmpty(param) {
+      	return param != null && param !== undefined && param !== '' && param !== 'null' && param !== 'undefined'
+      },
 			// 展开全部
 			expandAll(flag) {
 				this.expandAllflag = !this.expandAllflag
@@ -832,12 +834,14 @@
 				let offsetTop = document.querySelector("#titleHeader").offsetHeight + 10;
 				let fixBody = document.querySelector("#headerTop").offsetHeight + 10;
 				let clientLeft = window.getComputedStyle(document.querySelector("#concentBody"), null)["margin-left"];
+        let clientRight = window.getComputedStyle(document.querySelector("#concentBody"), null)["margin-right"];
 				this.scrollTop = scrollTop;
 				if (scrollTop > offsetTop) {
 					this.isFixed = true;
 					this.headerFix = true;
 					this.fixBody = fixBody;
 					this.clientLeft = clientLeft;
+          this.clientRight = clientRight;
 				} else {
 					this.isFixed = false;
 					this.headerFix = false;
@@ -1059,6 +1063,7 @@
 	#titleHeader {
 		background-image: url("../../assets/images/IpoHeader.png"), url("../../assets/images/IpoHeaderBj.png");
 		background-repeat: no-repeat, no-repeat;
+    background-size:100% 100%;
 		background-position: center, 0 0;
 		color: #fff;
 	}
@@ -1382,8 +1387,11 @@
 	}
 	.miniProCode {
 		// border: #F1F1F1 0.5px solid;
-		-webkit-box-shadow: 0 0 6px  rgba(0,0,0,0.08);   
-    -moz-box-shadow:  0 0 6px 0 rgba(0,0,0,0.08);  
-    box-shadow:  0 0 6px 0 rgba(0,0,0,0.08);  
+		-webkit-box-shadow: 0 0 6px  rgba(0,0,0,0.08);
+    -moz-box-shadow:  0 0 6px 0 rgba(0,0,0,0.08);
+    box-shadow:  0 0 6px 0 rgba(0,0,0,0.08);
 	}
+  .el-close-size{
+    font-size: 21px !important;
+   }
 </style>

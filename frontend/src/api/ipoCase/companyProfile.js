@@ -184,7 +184,8 @@ export function clickFavorite(query) {
 export function NoteDetermination(query) {
   return request({
     url: '/ipo/companyOverview/getJudgementNoteDetermination',
-    method: 'get',
-    params: query
+    method: 'post',
+    // params: query
+		data : query  //post方式 通过data传值
   })
 }
