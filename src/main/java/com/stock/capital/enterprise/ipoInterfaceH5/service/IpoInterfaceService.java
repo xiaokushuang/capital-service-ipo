@@ -31,6 +31,7 @@ import org.eclipse.jetty.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class IpoInterfaceService extends BaseService {
@@ -740,6 +741,7 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
 
 
     //  保存用户信息
+    @Transactional(rollbackFor = { Exception.class })
     public void saveUserInfo(Map<String, Object> userInfoMap) {
 //        判断是否存在 如果存在更新 如果不存在 insert
         List<IpoWechatPermisionDto> list = ipoWechatPermisionBizMapper.queryByUnionidOrOpenid(userInfoMap);
@@ -751,6 +753,7 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
     }
 
     // 提交评论
+    @Transactional(rollbackFor = { Exception.class })
     public void submitReplay(Map<String, Object> map) {
         ipoWechatPermisionBizMapper.submitReplay(map);
     }
@@ -761,6 +764,7 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
     }
 
     //    点赞
+    @Transactional(rollbackFor = { Exception.class })
     public void fabulousYes(Map<String, Object> map) {
         List<Map<String, Object>> lists = ipoWechatPermisionBizMapper.isFabulousYes(map);
         if (lists != null && lists.size() > 0) {
@@ -772,6 +776,7 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
         }
     }
     //    收藏
+    @Transactional(rollbackFor = { Exception.class })
     public void collectionYes(Map<String, Object> map) {
         map.put("option_time",new Date());
         List<Map<String, Object>> lists = ipoWechatPermisionBizMapper.isCollectionYes(map);
