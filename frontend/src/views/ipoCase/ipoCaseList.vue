@@ -1177,6 +1177,7 @@
 						companyId: _self.$store.state.app.companyId,
 						title: _self.title, //标题关键字（包含全部以空格断开）
 						industryCsrc: this.$refs.selectIndustryCsrc.selectSpace.map((item)=>{return item.labelValue}).join(','), //发行人行业（证监会）
+            registerArea : this.$refs.selectRegisterArea.selectSpace.map((item)=>{return item.labelValue}).join(','), // 省市区境外
 						strageticIndustries: _self.strageticIndustriesValue, //发行人行业（战略新兴）
 						issueCondition: _self.issueConditionValue, //发行人选择的上市条件
 						companyNature: _self.companyNatureValue, //企业性质

@@ -270,42 +270,24 @@ public class IpoCaseListService extends BaseService {
 
 //        注册地 条件
         if(StringUtils.isNotEmpty(bo.getRegisterArea())){
-            conditionsStr.append(" AND ").append("(");
             List<String> registerAreaList = Arrays.asList(bo.getRegisterArea().split(","));
-//            判断条件是否存在境外
-            boolean flag = false;
             String areaConditionStr = "(";
             for (String item : registerAreaList) {
-//                如果条件中包含境外 将flag置为true
-                if(Global.COUNTRY_OUTSIDE.equals(item)){
-                    flag = true;
-                }else{
-                    areaConditionStr = "\"" + item + "\"" + " OR";
-                }
+                areaConditionStr += "\"" + item + "\"" + " OR ";
             }
             if (areaConditionStr.length() > 1){
-                areaConditionStr = areaConditionStr.substring(0,areaConditionStr.length()-3);
+//                注册地条件拼接
+                areaConditionStr = areaConditionStr.trim().substring(0,areaConditionStr.length()-3);
                 areaConditionStr += ")";
-                conditionsStr.append("\"").append("ipo_addr_area_t").append("\"").append(":").append(areaConditionStr);
-                if (flag){
-                    conditionsStr.append(" OR ").append("\"").append("ipo_addr_country_t").append("\"").append(":")
-                            .append("(* NOT ").append("(").append(Global.COUNTRY_CN_CN).append(" OR ").append(Global.COUNTRY_CN_HK).append(" OR ")
-                            .append(Global.COUNTRY_CN_TW).append("))");
-                }
-                conditionsStr.append(")");
-            }else{
-                if (flag){
-                    conditionsStr.append("\"").append("ipo_addr_country_t").append("\"").append(":")
-                            .append("(* NOT ").append("(").append(Global.COUNTRY_CN_CN).append(" OR ").append(Global.COUNTRY_CN_HK).append(" OR ")
-                            .append(Global.COUNTRY_CN_TW).append("))");
-                }
+//                solr 条件拼接
+                conditionsStr.append(" AND ").append("(");
+                conditionsStr.append("ipo_addr_country_t").append(":").append(areaConditionStr);
+                conditionsStr.append(" OR ").append("ipo_addr_prov_t").append(":").append(areaConditionStr);
+                conditionsStr.append(" OR ").append("ipo_addr_city_t").append(":").append(areaConditionStr);
+                conditionsStr.append(" OR ").append("ipo_addr_area_t").append(":").append(areaConditionStr);
                 conditionsStr.append(")");
             }
-
-
         }
-
-
             //默认按发审会审核时间 倒序排列
         String orderByOrder = page.getOrderByOrder();
         if (StringUtils.isEmpty(orderByOrder)) {
