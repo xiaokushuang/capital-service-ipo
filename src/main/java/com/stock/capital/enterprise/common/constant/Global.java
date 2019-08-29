@@ -122,4 +122,22 @@ public interface Global {
      * 证券融资查询索引名称
      */
     public static final String FINANCE_INDEX_NAME = "finance";
+    /**
+     * 中国码值
+     */
+    public static final String COUNTRY_CN_CN = "472";
+    /**
+     * 中国香港码值
+     */
+    public static final String COUNTRY_CN_HK = "516";
+    /**
+     * 中国台湾码值
+     */
+    public static final String COUNTRY_CN_TW = "649";
+
+    /**
+     * 境外
+     */
+    public static final String COUNTRY_OUTSIDE = "outside";
+
 }

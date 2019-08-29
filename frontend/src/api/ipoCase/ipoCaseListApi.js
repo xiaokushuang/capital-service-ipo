@@ -9,6 +9,14 @@ export function _getIpoCaseList(_data) {
     data: _data
   })
 }
+//  初始化地区 下拉框数据
+export function initAreaSelect(_data) {
+  return request({
+    url: basePath + '/initAreaSelect',
+    method: 'post',
+    data: _data
+  })
+}
 
 export function _getSelectData() {
   return request({

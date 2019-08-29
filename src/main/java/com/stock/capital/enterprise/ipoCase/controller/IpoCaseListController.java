@@ -73,6 +73,7 @@ public class IpoCaseListController {
                 signSymbol = true;
             }
         }
+
         Map<String, Object> map = ipoCaseListService.getIpoCaseList(page, signSymbol);
         List<IpoCaseIndexDto> list = (List<IpoCaseIndexDto>) map.get("data");
         if (list != null && !list.isEmpty()) {
@@ -258,4 +259,16 @@ public class IpoCaseListController {
         }
         return signStatus;
     }
+
+    /**
+     * 初始化下拉框数据
+     * @return
+     */
+    @PostMapping(value = "initAreaSelect")
+    @ResponseBody
+    public JsonResponse initAreaSelect(){
+        return  ipoCaseListService.initAreaSelect();
+    }
+
+
 }

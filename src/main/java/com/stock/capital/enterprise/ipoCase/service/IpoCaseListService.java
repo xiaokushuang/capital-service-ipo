@@ -1,17 +1,13 @@
 package com.stock.capital.enterprise.ipoCase.service;
 
 import com.google.common.collect.Maps;
+import com.stock.capital.enterprise.common.constant.Global;
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseListMapper;
-import com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo;
-import com.stock.capital.enterprise.ipoCase.dto.IpoFavoriteAndNoteDto;
-import com.stock.capital.enterprise.ipoCase.dto.RegTreeDto;
+import com.stock.capital.enterprise.ipoCase.dto.*;
 import com.stock.core.Constant;
 import com.stock.core.dao.DynamicDataSourceHolder;
-import com.stock.core.dto.FacetResult;
-import com.stock.core.dto.QueryInfo;
-import com.stock.core.dto.StatisticsField;
-import com.stock.core.dto.UserInfo;
+import com.stock.core.dto.*;
+import com.stock.core.rest.RestClient;
 import com.stock.core.search.SearchServer;
 import com.stock.core.search.SolrSearchUtil;
 import com.stock.core.service.BaseService;
@@ -22,7 +18,11 @@ import java.util.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 @Service
 public class IpoCaseListService extends BaseService {
@@ -32,6 +32,12 @@ public class IpoCaseListService extends BaseService {
 
     @Autowired
     private SearchServer searchServer;
+
+    @Value("#{app['api.baseUrl']}")
+    private String apiBaseUrl;
+
+    @Autowired
+    private RestClient restClient;
 
     /**
      * 检索页查询列表
@@ -261,7 +267,46 @@ public class IpoCaseListService extends BaseService {
             conditionsStr =
                     assebleBoxCondition(conditionsStr, "ipo_belongs_bureau_t", bo.getBelongsBureau());
         }
-        //默认按发审会审核时间 倒序排列
+
+//        注册地 条件
+        if(StringUtils.isNotEmpty(bo.getRegisterArea())){
+            conditionsStr.append(" AND ").append("(");
+            List<String> registerAreaList = Arrays.asList(bo.getRegisterArea().split(","));
+//            判断条件是否存在境外
+            boolean flag = false;
+            String areaConditionStr = "(";
+            for (String item : registerAreaList) {
+//                如果条件中包含境外 将flag置为true
+                if(Global.COUNTRY_OUTSIDE.equals(item)){
+                    flag = true;
+                }else{
+                    areaConditionStr = "\"" + item + "\"" + " OR";
+                }
+            }
+            if (areaConditionStr.length() > 1){
+                areaConditionStr = areaConditionStr.substring(0,areaConditionStr.length()-3);
+                areaConditionStr += ")";
+                conditionsStr.append("\"").append("ipo_addr_area_t").append("\"").append(":").append(areaConditionStr);
+                if (flag){
+                    conditionsStr.append(" OR ").append("\"").append("ipo_addr_country_t").append("\"").append(":")
+                            .append("(* NOT ").append("(").append(Global.COUNTRY_CN_CN).append(" OR ").append(Global.COUNTRY_CN_HK).append(" OR ")
+                            .append(Global.COUNTRY_CN_TW).append("))");
+                }
+                conditionsStr.append(")");
+            }else{
+                if (flag){
+                    conditionsStr.append("\"").append("ipo_addr_country_t").append("\"").append(":")
+                            .append("(* NOT ").append("(").append(Global.COUNTRY_CN_CN).append(" OR ").append(Global.COUNTRY_CN_HK).append(" OR ")
+                            .append(Global.COUNTRY_CN_TW).append("))");
+                }
+                conditionsStr.append(")");
+            }
+
+
+        }
+
+
+            //默认按发审会审核时间 倒序排列
         String orderByOrder = page.getOrderByOrder();
         if (StringUtils.isEmpty(orderByOrder)) {
             if (signSymbol) {
@@ -290,6 +335,7 @@ public class IpoCaseListService extends BaseService {
                 orderByName = "ipo_open_flag_t," + orderByName;
             }
         }
+
         condition.put(Constant.SEARCH_CONDIATION, conditionsStr.toString());
         condition.put(Constant.SEARCH_FACET_FIELD, conditionTree.toString());
         QueryInfo<Map<String, String>> queryInfo = new QueryInfo<>();
@@ -914,5 +960,18 @@ public class IpoCaseListService extends BaseService {
 
     public String isCompanyFlag(String companyCode) {
         return ipoCaseListMapper.isCompanyFlag(companyCode);
+    }
+
+    /**
+     * 调用 api  初始化 地域select
+     * @return
+     */
+    public JsonResponse initAreaSelect() {
+        ParameterizedTypeReference<JsonResponse<List<RepTreeTagDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<RepTreeTagDto>>>() {
+        };
+        MultiValueMap<String, String> request = new LinkedMultiValueMap<String, String>();
+        String url = apiBaseUrl + "maaCase/getAreaDataList";
+        JsonResponse<List<RepTreeTagDto>> result = restClient.post(url, request, responseType);
+        return result;
     }
 }
