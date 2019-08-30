@@ -139,5 +139,7 @@ public interface Global {
      * 境外
      */
     public static final String COUNTRY_OUTSIDE = "outside";
+    public static final String COUNTRY_INSIDE = "inside";
+
 
 }

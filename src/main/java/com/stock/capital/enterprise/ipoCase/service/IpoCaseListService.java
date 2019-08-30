@@ -952,6 +952,7 @@ public class IpoCaseListService extends BaseService {
         ParameterizedTypeReference<JsonResponse<List<RepTreeTagDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<RepTreeTagDto>>>() {
         };
         MultiValueMap<String, String> request = new LinkedMultiValueMap<String, String>();
+        request.add("type",Global.COUNTRY_OUTSIDE);
         String url = apiBaseUrl + "maaCase/getAreaDataList";
         JsonResponse<List<RepTreeTagDto>> result = restClient.post(url, request, responseType);
         return result;
