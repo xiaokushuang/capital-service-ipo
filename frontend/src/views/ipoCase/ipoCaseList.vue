@@ -49,7 +49,7 @@
             	  id="selectRegisterArea"
             	  placeholder="注册地"
             	  @sure-click="sure('selectRegisterArea')"
-            	  :default-all-show="false"
+            	  :default-all-show="true"
                 size="small full"
             	  node-key="id"
             	  :tree-data="registerAreaList"
