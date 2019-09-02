@@ -49,11 +49,11 @@
             	  id="selectRegisterArea"
             	  placeholder="注册地"
             	  @sure-click="sure('selectRegisterArea')"
-            	  :default-all-show="true"
+            	  :default-all-show="false"
                 size="small full"
             	  node-key="id"
             	  :tree-data="registerAreaList"
-            	  :search-menu="true"
+            	  :search-menu="false"
             	  :default-props="default_tree"
                 >
             	</el-multiple-selection>
