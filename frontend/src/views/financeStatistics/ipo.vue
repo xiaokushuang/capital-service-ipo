@@ -527,6 +527,7 @@
 					addrArea: "",
 					addrCity: "",
 					addrProv: "",
+          addrCountry : "",
 					companyCode: "",
 					companyName: "",
 					companyNature: "",
