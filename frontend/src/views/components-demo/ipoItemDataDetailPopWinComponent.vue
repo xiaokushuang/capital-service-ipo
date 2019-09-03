@@ -8,7 +8,11 @@
         <div class="favorite-table">
           <el-table :data="data" style="width: 100%" class="paddingControl" border tooltip-effect="dark" ref="multipleSelection">
             <el-table-column align="center" type="index" label="序号" width="60"></el-table-column>
-            <el-table-column align="left" prop="appCompany" label="申报企业" min-width="13%"></el-table-column>
+            <el-table-column align="left" prop="appCompany" label="申报企业" min-width="13%">
+                <template slot-scope="scope">
+                    <span class="spanClass" @click="openDetail(scope.row.companyCode)" v-html="scope.row.appCompany"></span>
+                </template>
+            </el-table-column>
             <el-table-column align="center" prop="registAddr" label="注册地" min-width="8%">
                 <template slot-scope="scope">
                     <span v-html="getApproveStatus(scope.row.registAddr)"></span>
@@ -98,6 +102,41 @@ import {exportExcelPostWindow1} from '@/utils'
                 }
                 exportExcelPostWindow1("/ipo/regulatory_statistics/ipoItemDataDetailExport",statisticsParamDto);
             },
+            openDetail(data1){
+                debugger
+                //data1 ="10932245";
+                let param = {
+                    stockCode :data1
+                }
+                try{
+                    this.$store.dispatch('getIpoItemByCompanyCodeSelectId', param).then((data) => {//(方法名，参数)
+                        console.log(data);
+                        if(data != null &&  data.flag == "1" ){
+                            if (data.id) {
+                                const _self = this;
+                                const { href } = _self.$router.resolve({
+                                    name: 'caseDetail',
+                                    query: {
+                                        caseId: data.id,
+                                        access_token: _self.$route.query.access_token,
+                                        tenant_info: _self.$route.query.tenant_info
+                                    }
+                                });
+                                let param = {
+                                    recordType: 'open', //跳转页面方式:
+                                    recordTab: "IPO案例详情页" //跳转tab
+                                }
+                                this.$store.commit('CREATE_TEMP_MESSAGE', param);
+                                this.$open(href, '_blank');
+                            }
+                        }else{
+                            this.popAlert('暂无案例');
+                        }
+                    });
+                }catch (err){
+
+                }
+            }
         }
     }
 </script>
@@ -110,5 +149,11 @@ import {exportExcelPostWindow1} from '@/utils'
 }
 .container {
     min-height:500px!important;
+}
+.spanClass {
+    cursor: pointer;
+}
+.spanClass:hover {
+    text-decoration: underline;
 }
 </style>

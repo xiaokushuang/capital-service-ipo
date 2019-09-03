@@ -817,6 +817,7 @@
 <select id="getIpoItemDataDetail" parameterType="Map" resultType="com.stock.capital.enterprise.regulatory.dto.StatisticsCompanyDto">
     SELECT idi.id, idi.app_company appCompany, idi.regist_addr registAddr,
         idi.belong_trade industry, idi.quasi_listed_land ipoArea,
+        idi.company_code companyCode,
         (SELECT sc1.code_name FROM sa_code sc1 
             WHERE sc1.code_no='QUASI_LISTED_TYPE' AND sc1.valid_flag='1' AND sc1.code_value=idi.quasi_listed_land) ipoAreaLabel,
         idi.recommend_organization recommendOrg, idi.accountant_office accOffice,
@@ -856,6 +857,18 @@
         </foreach>
     </if>
     ORDER BY CONVERT(idi.app_company USING gbk) ASC
+</select>
+
+<select id="getIpoItemByCompanyCodeSelectId" parameterType="java.lang.String" resultType="Map" >
+    select ic.id, case when ccsi.release_flag is null then 0 else ccsi.release_flag  end flag
+    from ipo_process ip, ipo_case ic
+         left join case_common_status_info ccsi on ic.id= ccsi.case_id 
+    where ic.id = ip.bid
+      and ip.process_type_code='04'
+      and ip.table_sort='1'
+      and ic.org_code=#{companyCode}
+      order by ip.process_time desc 
+      limit 1
 </select>
 
 </mapper>
