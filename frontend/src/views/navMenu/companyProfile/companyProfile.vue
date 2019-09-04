@@ -696,19 +696,19 @@ export default {
             // 子循环判断条件
           for(var j = 0;j<subArr.length-1;j++){
             // 如果第一年有不为空
-            if((subArr[j].firstYearAmount !== null && subArr[j].firstYearAmount !== '') || (subArr[j].firstYearContent !== null && subArr[j].firstYearContent !== '' ) || (subArr[j].firstYearRatio !== null && subArr[j].firstYearRatio !== '')){
+            if(this.isNotEmpty(subArr[j].firstYearAmount) || this.isNotEmpty(subArr[j].firstYearContent) || this.isNotEmpty(subArr[j].firstYearRatio)){
                firstYearFlag = true;
             }
             // 第二年
-            if((subArr[j].onePeriodAmount !== null && subArr[j].onePeriodAmount !== '') || (subArr[j].onePeriodContent !== null && subArr[j].onePeriodContent !== '' ) || (subArr[j].onePeriodRatio !== null && subArr[j].onePeriodRatio !== '')){
+            if(this.isNotEmpty(subArr[j].onePeriodAmount) || this.isNotEmpty(subArr[j].onePeriodContent) || this.isNotEmpty(subArr[j].onePeriodRatio)){
                onePeriodFlag = true;
             }
             // 第三年
-            if((subArr[j].secondYearAmount !== null && subArr[j].secondYearAmount !== '') || (subArr[j].secondYearContent !== null && subArr[j].secondYearContent !== '' ) || (subArr[j].secondYearRatio !== null && subArr[j].secondYearRatio !== '')){
+            if(this.isNotEmpty(subArr[j].secondYearAmount) || this.isNotEmpty(subArr[j].secondYearContent) || this.isNotEmpty(subArr[j].secondYearRatio)){
                secondYearFlag = true;
             }
             // 第四年
-            if((subArr[j].thirdYearAmount !== null && subArr[j].thirdYearAmount !== '') || (subArr[j].thirdYearContent !== null && subArr[j].thirdYearContent !== '' ) || (subArr[j].thirdYearRatio !== null && subArr[j].thirdYearRatio !== '')){
+            if(this.isNotEmpty(subArr[j].thirdYearAmount) || this.isNotEmpty(subArr[j].thirdYearContent) || this.isNotEmpty(subArr[j].thirdYearRatio)){
                thirdYearFlag = true;
             }
           }
