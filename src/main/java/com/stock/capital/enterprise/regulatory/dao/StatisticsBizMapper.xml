@@ -864,7 +864,7 @@
     from ipo_process ip, ipo_case ic
          left join case_common_status_info ccsi on ic.id= ccsi.case_id 
     where ic.id = ip.bid
-      and ip.process_type_code='04'
+      and (ip.process_type_code='04' or ip.process_type_code='44')
       and ip.table_sort='1'
       and ic.org_code=#{companyCode}
       order by ip.process_time desc 
