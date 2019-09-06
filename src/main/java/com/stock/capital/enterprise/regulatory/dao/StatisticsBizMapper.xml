@@ -859,6 +859,7 @@
         </when>
         <otherwise>
             AND idi.grab_update_time = #{lastUpadteTime} 
+            AND idi.approve_status != '05'  and idi.approve_status != '11'  
         </otherwise>
     </choose>
     <if test="plateList != null and plateList.size() > 0">
