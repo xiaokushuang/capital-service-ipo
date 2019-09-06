@@ -42,7 +42,7 @@
            <li class="clear" style="margin-bottom:10px;position:relative" >
             <span class="l">注册地址</span>
             <!-- <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&(companyProfileList.companyProfileList.addrProv || companyProfileList.companyProfileList.addrCity || companyProfileList.companyProfileList.addrArea)" >{{companyProfileList.companyProfileList.addrProv}}{{companyProfileList.companyProfileList.addrCity}}{{companyProfileList.companyProfileList.addrArea}}</div> -->
-            <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&(companyProfileList.companyProfileList.addrProv || companyProfileList.companyProfileList.addrCity || companyProfileList.companyProfileList.addrArea)" :title="(companyProfileList.companyProfileList.addrProv + companyProfileList.companyProfileList.addrCity + companyProfileList.companyProfileList.addrArea ).length>20 ? (companyProfileList.companyProfileList.addrProv + companyProfileList.companyProfileList.addrCity + companyProfileList.companyProfileList.addrArea ):''">{{(getAdress(companyProfileList.companyProfileList.addrProv == null ? "" : companyProfileList.companyProfileList.addrProv) + (companyProfileList.companyProfileList.addrCity == null ? "" : companyProfileList.companyProfileList.addrCity) + (companyProfileList.companyProfileList.addrArea == null ? "" : companyProfileList.companyProfileList.addrArea))}}</div>
+            <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&(companyProfileList.companyProfileList.addrCountry || companyProfileList.companyProfileList.addrProv || companyProfileList.companyProfileList.addrCity || companyProfileList.companyProfileList.addrArea)" :title="(companyProfileList.companyProfileList.addrCountry + companyProfileList.companyProfileList.addrProv + companyProfileList.companyProfileList.addrCity + companyProfileList.companyProfileList.addrArea ).length>20 ? (companyProfileList.companyProfileList.addrCountry +companyProfileList.companyProfileList.addrProv + companyProfileList.companyProfileList.addrCity + companyProfileList.companyProfileList.addrArea ):''">{{(getAdress(companyProfileList.companyProfileList.addrCountry == null ? "" : companyProfileList.companyProfileList.addrCountry) + getAdress(companyProfileList.companyProfileList.addrProv == null ? "" : companyProfileList.companyProfileList.addrProv) + (companyProfileList.companyProfileList.addrCity == null ? "" : companyProfileList.companyProfileList.addrCity) + (companyProfileList.companyProfileList.addrArea == null ? "" : companyProfileList.companyProfileList.addrArea))}}</div>
             <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-else >- -</div>
           </li>
           <li  class="clear" style="margin-bottom:10px;position:relative" >
@@ -277,7 +277,7 @@
                       <span v-else> - - </span>
                   </template>
               </el-table-column>
-              <el-table-column :label="item.reportPeriod" header-align="center">
+              <el-table-column v-if="item.onePeriodFlag" :label="item.reportPeriod" header-align="center">
                 <el-table-column align="left"  class-name="table_cell" label="采购内容" width="136">
                   <template slot-scope="scope">
                       <span class="contentClass" v-if="scope.row.onePeriodContent" @mouseenter="mouseOverContent(scope.row.onePeriodContent)" >
@@ -299,7 +299,7 @@
                   </template>
                 </el-table-column>
               </el-table-column>
-              <el-table-column :label="item.thirdYearForSupplier" header-align="center">
+              <el-table-column v-if="item.thirdYearFlag" :label="item.thirdYearForSupplier" header-align="center">
                 <el-table-column align="left"  class-name="table_cell" label="采购内容" width="136">
                    <template slot-scope="scope">
                         <span class="contentClass" v-if="scope.row.thirdYearContent" @mouseenter="mouseOverContent(scope.row.thirdYearContent)" >
@@ -324,7 +324,7 @@
                   </template>
                 </el-table-column>
               </el-table-column>
-              <el-table-column :label="item.secondYearForSupplier" header-align="center">
+              <el-table-column v-if="item.secondYearFlag" :label="item.secondYearForSupplier" header-align="center">
                 <el-table-column align="left"  class-name="table_cell" label="采购内容" width="136">
                    <template slot-scope="scope">
                         <span class="contentClass" v-if="scope.row.secondYearContent" @mouseenter="mouseOverContent(scope.row.secondYearContent)" >
@@ -342,14 +342,14 @@
                       <span v-else> - - </span>
                   </template>
                 </el-table-column>
-                <el-table-column align="right"  class-name="table_cell" label="占比" width="82">
+                <el-table-column   align="right"  class-name="table_cell" label="占比" width="82">
                   <template slot-scope="scope">
                       <span v-if="scope.row.secondYearRatio"> {{scope.row.secondYearRatio | dataInThRule}}%</span>
                       <span v-else> - - </span>
                   </template>
                 </el-table-column>
               </el-table-column>
-              <el-table-column :label="item.firstYearForSupplier" header-align="center">
+              <el-table-column v-if=item.firstYearFlag :label="item.firstYearForSupplier" header-align="center">
                 <el-table-column align="left"  class-name="table_cell" label="采购内容" width="136">
                    <template slot-scope="scope">
                         <span class="contentClass" v-if="scope.row.firstYearContent" @mouseenter="mouseOverContent(scope.row.firstYearContent)" >
@@ -400,7 +400,7 @@
                       <span v-else> - - </span>
                   </template>
                 </el-table-column>
-                <el-table-column :label="item.reportPeriod" header-align="center">
+                <el-table-column v-if="item.onePeriodFlag" :label="item.reportPeriod" header-align="center">
                   <el-table-column align="left"  class-name="table_cell" label="销售内容" width="136">
                      <template slot-scope="scope">
                         <span class="contentClass" v-if="scope.row.onePeriodContent" @mouseenter="mouseOverContent(scope.row.onePeriodContent)" >
@@ -422,7 +422,7 @@
                     </template>
                   </el-table-column>
                 </el-table-column>
-                <el-table-column :label="item.thirdYearForCustomer" header-align="center">
+                <el-table-column v-if="item.thirdYearFlag" :label="item.thirdYearForCustomer" header-align="center">
                   <el-table-column align="left"  class-name="table_cell" label="销售内容" width="136">
                      <template slot-scope="scope">
                         <span class="contentClass" v-if="scope.row.thirdYearContent" @mouseenter="mouseOverContent(scope.row.thirdYearContent)" >
@@ -444,7 +444,7 @@
                   </template>
                   </el-table-column>
                 </el-table-column>
-                <el-table-column :label="item.secondYearForCustomer" header-align="center">
+                <el-table-column v-if="item.secondYearFlag" :label="item.secondYearForCustomer" header-align="center">
                   <el-table-column align="left"  class-name="table_cell" label="销售内容" width="136">
                      <template slot-scope="scope">
                         <span class="contentClass" v-if="scope.row.secondYearContent" @mouseenter="mouseOverContent(scope.row.secondYearContent)" >
@@ -466,7 +466,7 @@
                   </template>
                   </el-table-column>
                 </el-table-column>
-                <el-table-column :label="item.firstYearForCustomer" header-align="center">
+                <el-table-column v-if="item.firstYearFlag"  :label="item.firstYearForCustomer" header-align="center">
                   <el-table-column align="left"  class-name="table_cell" label="销售内容" width="136">
                      <template slot-scope="scope">
                         <span class="contentClass" v-if="scope.row.firstYearContent" @mouseenter="mouseOverContent(scope.row.firstYearContent)" >
@@ -684,6 +684,40 @@ export default {
                     '&fileId='+ fileId;
               window.open(url);
       },
+      // 处理数据
+      dealDataList(arr){
+        for(var i = 0;i<arr.length;i++){
+          // 定义flag
+            var firstYearFlag = false;
+            var onePeriodFlag = false;
+            var secondYearFlag = false;
+            var thirdYearFlag = false;
+            var subArr = arr[i].supplierCustomerInfoList;
+            // 子循环判断条件
+          for(var j = 0;j<subArr.length-1;j++){
+            // 如果第一年有不为空
+            if(this.isNotEmpty(subArr[j].firstYearAmount) || this.isNotEmpty(subArr[j].firstYearContent) || this.isNotEmpty(subArr[j].firstYearRatio)){
+               firstYearFlag = true;
+            }
+            // 第二年
+            if(this.isNotEmpty(subArr[j].onePeriodAmount) || this.isNotEmpty(subArr[j].onePeriodContent) || this.isNotEmpty(subArr[j].onePeriodRatio)){
+               onePeriodFlag = true;
+            }
+            // 第三年
+            if(this.isNotEmpty(subArr[j].secondYearAmount) || this.isNotEmpty(subArr[j].secondYearContent) || this.isNotEmpty(subArr[j].secondYearRatio)){
+               secondYearFlag = true;
+            }
+            // 第四年
+            if(this.isNotEmpty(subArr[j].thirdYearAmount) || this.isNotEmpty(subArr[j].thirdYearContent) || this.isNotEmpty(subArr[j].thirdYearRatio)){
+               thirdYearFlag = true;
+            }
+          }
+           arr[i].firstYearFlag = firstYearFlag;
+           arr[i].onePeriodFlag = onePeriodFlag;
+           arr[i].secondYearFlag = secondYearFlag;
+           arr[i].thirdYearFlag = thirdYearFlag;
+        }
+      },
     getData() {
       // 动态传id
       const param = {
@@ -728,13 +762,16 @@ export default {
       getSupplierCustomerData(param).then(response => {
         if(response.data.result&&response.data.result.supplierMainList&&response.data.result.supplierMainList.length>0){
           this.supplierMainList = response.data.result.supplierMainList
+          this.dealDataList(this.supplierMainList);
           this.getPosition()
         }
          if(response.data.result&&response.data.result.customerMainList&&response.data.result.customerMainList.length>0){
            this.customerMainList = response.data.result.customerMainList
+           this.dealDataList(this.customerMainList);
         }
            this.getPosition()
       })
+
       // 主营业务收入构成
       getTableData(param).then(response => {
         if( response.data.result){

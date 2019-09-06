@@ -527,6 +527,7 @@
 					addrArea: "",
 					addrCity: "",
 					addrProv: "",
+          addrCountry : "",
 					companyCode: "",
 					companyName: "",
 					companyNature: "",
@@ -1383,7 +1384,7 @@
 		width: 0;
 		height: 0;
 		border: 29px solid;
-		border-color: #fff #ffff transparent transparent;
+		border-color: #fff #fff transparent transparent;
 	}
 	.miniProCode {
 		// border: #F1F1F1 0.5px solid;

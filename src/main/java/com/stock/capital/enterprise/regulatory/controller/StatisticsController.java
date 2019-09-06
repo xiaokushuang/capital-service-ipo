@@ -945,4 +945,18 @@ public class StatisticsController extends BaseController {
              return mv;
          }
          
+         /**
+          * 通过公司code查询ipo最新得id
+          */
+         @ApiOperation(value = "通过公司code查询ipo", notes = "通过公司code查询ipo")
+         @LogAnnotation(name = "通过公司code查询ipo")
+         @RequestMapping(value = "/getIpoItemByCompanyCodeSelectId", method = RequestMethod.POST)
+         @ResponseBody
+         public JsonResponse<Map<String, Object>> getIpoItemByCompanyCodeSelectId( @ApiParam(value = "ipo数据概览查询dto") @RequestBody StatisticsParamDto dto) {
+             JsonResponse<Map<String, Object>> json = new JsonResponse<Map<String, Object>>();
+             Map<String, Object> map = statisticsService.getIpoItemByCompanyCodeSelectId(dto.getStockCode());
+             json.setResult(map);
+             return json;
+         }
+         
 }

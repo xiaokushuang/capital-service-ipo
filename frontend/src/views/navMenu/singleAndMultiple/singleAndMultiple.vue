@@ -52,6 +52,11 @@
                       <!-- 答 -->
                       <div  v-if="data.answer&&data.answer.length>0">
                         <div class="da">答</div>
+                        <!-- 收起展开 -->
+                        <div class="btn" style="color: #1990fe;font-size:14px">
+                          <span style="cursor:pointer" v-if="data.isSpreada && data.isSpreada === 2" class="packUp" @click="daPackUp(data)">收起 <i style="font-size:12px" class="el-icon-arrow-up"></i></span>
+                          <span style="cursor:pointer" v-if="data.isSpreada && data.isSpreada === 1" class="spread" @click="daSpread(data)"></span>
+                        </div>
                         <div style="font-size:14px;color:#333;line-height:22px">
                             <p style="width:100%;" v-if="!data.isSpreada || (data.isSpreada && data.isSpreada !== 2)">&nbsp;&nbsp;{{getContent(data,data.answer,index,'question')}}</p>
                             <p class="daImg" v-html="data.formatAnswer" style="width:100%;"  v-if="data.isSpreada && data.isSpreada === 2">&nbsp;&nbsp;{{data.formatAnswer}}</p>
@@ -482,6 +487,14 @@ export default {
 <style>
 .daImg img {
   width: 100%;
+}
+.daImg table {
+  border-collapse:collapse;
+  border-spacing:0;
+}
+.daImg table tr td{
+  border:1px solid gray;
+  padding: 5px;
 }
 </style>
 

@@ -8,6 +8,7 @@
     <result column="company_code" property="companyCode" jdbcType="VARCHAR"/>
     <result column="company_name" property="companyName" jdbcType="VARCHAR"/>
     <result column="ipo_plate" property="ipoPlate" jdbcType="VARCHAR"/>
+    <result column="addr_country" property="addrCountry" jdbcType="VARCHAR"/>
     <result column="addr_prov" property="addrProv" jdbcType="VARCHAR"/>
     <result column="addr_city" property="addrCity" jdbcType="VARCHAR"/>
     <result column="addr_area" property="addrArea" jdbcType="VARCHAR"/>
@@ -65,6 +66,10 @@
     ic.issue_condition,
     (select GROUP_CONCAT(m.label_name) FROM maa_conf_label m where m.label_code = 'IPO_ISSUE_CONDITION'
     AND m.status = '1' and FIND_IN_SET(m.label_value,ic.issue_condition)) AS issueConditionName,
+    ( SELECT
+        REGEXP_REPLACE(p.PARAMCHNAME, "[a-z]|[A-Z]|[-]|[ ]|[.]", "")
+        FROM cfp_pvalue p
+        where p.NIPMID ='127000000001707338' AND p.eisdel = '0' AND p.PARAMCODE = ic.addr_country ) AS addr_country,
     (SELECT p.area_name FROM provinces p WHERE p.area_no = ic.addr_prov) AS addr_prov,
     (SELECT p.area_name FROM provinces p WHERE p.area_no = ic.addr_city) AS addr_city,
     (SELECT p.area_name FROM provinces p WHERE p.area_no = ic.addr_area) AS addr_area,

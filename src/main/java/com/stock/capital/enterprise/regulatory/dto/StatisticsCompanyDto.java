@@ -31,6 +31,8 @@ public class StatisticsCompanyDto implements Serializable {
     private String attend;
     
     private String attendLabel;
+    
+    private String companyCode;
 
     public String getId() {
         return id;
@@ -134,6 +136,14 @@ public class StatisticsCompanyDto implements Serializable {
 
     public void setAttendLabel(String attendLabel) {
         this.attendLabel = attendLabel;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
 
 }

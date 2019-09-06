@@ -2,6 +2,7 @@ package com.stock.capital.enterprise.ipoCase.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * IpoCaseListBo.
@@ -92,6 +93,26 @@ public class IpoCaseListBo implements Serializable {
 
     private String issueLawName;//上市条件法规名称
     private String issueLawId;//上市条件法规id
+
+    private String registerArea;    //注册地
+
+    private List<String> registerAreaList; //注册地List
+
+    public String getRegisterArea() {
+        return registerArea;
+    }
+
+    public void setRegisterArea(String registerArea) {
+        this.registerArea = registerArea;
+    }
+
+    public List<String> getRegisterAreaList() {
+        return registerAreaList;
+    }
+
+    public void setRegisterAreaList(List<String> registerAreaList) {
+        this.registerAreaList = registerAreaList;
+    }
 
     public String getIssueLawName() {
         return issueLawName;

@@ -36,6 +36,9 @@ public class CompanyOverviewVo implements Serializable {
     @ApiModelProperty("证券代码")
     private String companyCode;// 证券代码
 
+    @ApiModelProperty("注册地（国家）")
+    private String addrCountry;// 注册地（国家）
+
     @ApiModelProperty("注册地（省）")
     private String addrProv;// 注册地（省）
 
@@ -89,6 +92,14 @@ public class CompanyOverviewVo implements Serializable {
 
     @ApiModelProperty("行业code")
     private String industryCsrcCode;
+
+    public String getAddrCountry() {
+        return addrCountry;
+    }
+
+    public void setAddrCountry(String addrCountry) {
+        this.addrCountry = addrCountry;
+    }
 
     private String launchcompanycode;
 

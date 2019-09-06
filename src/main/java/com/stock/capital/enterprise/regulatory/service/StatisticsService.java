@@ -1126,4 +1126,11 @@ public class StatisticsService extends BaseService implements ServletContextAwar
         returnDto.setIpoItemDataDetailList(list);
         return returnDto;
     }
+
+    /**
+     * 通过公司code查询ipo
+     * */
+    public Map<String, Object> getIpoItemByCompanyCodeSelectId(String code) {
+        return statisticsBizMapper.getIpoItemByCompanyCodeSelectId(code);
+    }
 }

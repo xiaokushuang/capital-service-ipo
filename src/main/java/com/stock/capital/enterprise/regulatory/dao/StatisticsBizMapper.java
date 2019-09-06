@@ -3,6 +3,8 @@ package com.stock.capital.enterprise.regulatory.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.stock.capital.enterprise.regulatory.dto.StatisticsCompanyDto;
 import com.stock.capital.enterprise.regulatory.dto.StatisticsResultDto;
 import com.stock.core.dto.OptionDto;
@@ -47,5 +49,7 @@ public interface StatisticsBizMapper {
     List<StatisticsResultDto> getIPOReviewingStts(Map<String, Object> params);
     
     List<StatisticsResultDto> getIPOHistory(Map<String, Object> params);
+
+    Map<String, Object> getIpoItemByCompanyCodeSelectId(@Param("companyCode") String companyCode);
 
 }

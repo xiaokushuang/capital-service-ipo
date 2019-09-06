@@ -6,6 +6,7 @@ import {
 	getLawsByTable
 } from '@/api/declare'
 import * as auth from '@/utils/auth'
+import {initAreaSelect} from "@/api/ipoCase/ipoCaseListApi"
 
 const ipoCase = {
 	namespaced: true,
@@ -42,11 +43,23 @@ const ipoCase = {
 				state[key] = code[key]
 			}
 		},
-	
+
 	},
 
 	actions: {
-	
+    // 初始化地区 下拉框
+    initAreaSelect({
+    	commit
+    }, param) {
+    	return new Promise((resolve, reject) => {
+    		initAreaSelect(param).then((response) => {
+    			resolve(response.data.result)
+    		}).catch((error) => {
+    			reject(error)
+    		})
+    	})
+    },
+
 	},
 	getters: {
 		removeNote: state => state.removeNote,

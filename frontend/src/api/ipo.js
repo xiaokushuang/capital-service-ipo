@@ -207,3 +207,11 @@ export function getIpoItemDataDetail(query) {//获取ipo在审项目详情页数
   })
 }
 
+export function getIpoItemByCompanyCodeSelectId(query) {//通过公司code查询ipo最新得id
+  return request({
+      url: '/ipo/regulatory_statistics/getIpoItemByCompanyCodeSelectId',//controller路径
+      method: 'post',//请求方式
+      data: query,//参数
+  })
+}
+

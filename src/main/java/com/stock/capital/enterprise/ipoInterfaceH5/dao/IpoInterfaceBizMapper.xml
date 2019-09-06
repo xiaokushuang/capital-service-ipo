@@ -210,7 +210,7 @@
       resultType="com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto">
         SELECT a.*,
         -- 专利情况排名 patentRanking
-        (SELECT count(DISTINCT bsum) FROM
+        (SELECT count(bsum) FROM
         (SELECT IFNULL(t3.domestic_invention,0)+IFNULL(t3.domestic_newtype,0)+IFNULL(t3.domestic_design,0)+IFNULL(t3.foreign_patent,0) AS bsum
         FROM ipo_case t1, case_common_status_info t2, ipo_technology AS t3
         WHERE t2.case_id = t1.id
