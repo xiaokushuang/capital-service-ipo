@@ -34,7 +34,7 @@
 		<el-row :gutter="24">
 			<el-col :span="24" style="padding-left: 26px; padding-right: 26px;padding-bottom: 20px">
 				<div class="table">
-					<el-table :data="tableData" border style="width: 100%;" :cell-class-name="getCellStyle" @sort-change="sortChange">
+					<el-table :data="tableData" border style="width: 100%;" :cell-class-name="getCellStyle" @sort-change="sortChange" ref="table1">
 						<el-table-column align="center" prop="companyCode" label="公司" min-width="9%">
 							<template slot-scope="scope">
 								<span @click="openDetail(scope.row.caseId,scope.row.openFlag)">{{scope.row.companyCode}}</span></br>
@@ -309,6 +309,7 @@
 					this.companycodename = "",
 					this.orderByName = "updateTime",
 					this.orderByOrder = "desc",
+          this.$refs.table1.clearSort();
 					this.search()
 			},
 			deleteRow(id) {
