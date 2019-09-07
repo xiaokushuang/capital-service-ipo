@@ -18,6 +18,7 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -48,9 +49,8 @@ public class ViolationService extends BaseService {
     @Autowired
     private RestClient restClient;
 
-    
-    private String apiBaseUrl = "http://dev-sz.valueonline.cn/capital-cloud-api/";
-    
+    @Value("#{app['api.baseUrl']}")
+    private String apiBaseUrl;
      
     
     /**
