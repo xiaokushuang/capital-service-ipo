@@ -109,6 +109,7 @@ import {exportExcelPostWindow1} from '@/utils'
                     stockCode :data1
                 }
                 try{
+                    var nmasOpen = window.open();
                     this.$store.dispatch('getIpoItemByCompanyCodeSelectId', param).then((data) => {//(方法名，参数)
                         console.log(data);
                         if(data != null &&  data.flag == "1" ){
@@ -127,9 +128,11 @@ import {exportExcelPostWindow1} from '@/utils'
                                     recordTab: "IPO案例详情页" //跳转tab
                                 }
                                 this.$store.commit('CREATE_TEMP_MESSAGE', param);
-                                this.$open(href, '_blank');
+                                //this.$open(href, '_blank');
+                                nmasOpen.location = href;
                             }
                         }else{
+                            nmasOpen.close();
                             this.popAlert('暂无案例');
                         }
                     });
