@@ -40,7 +40,9 @@ public class CommonService extends BaseService {
 
     private static final Logger logger = (Logger) LoggerFactory.getLogger(CommonService.class);
      
-    private String apiBaseUrl = "http://dev-sz.valueonline.cn/capital-cloud-api/"; 
+	@Value("#{app['api.baseUrl']}")
+	private String apiBaseUrl;
+
     @Autowired
     private MessageSource appMessageSource;
 	
