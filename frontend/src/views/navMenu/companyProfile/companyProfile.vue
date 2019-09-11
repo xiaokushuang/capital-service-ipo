@@ -260,8 +260,8 @@
           <span class="titleText" id="majorSuppliers" style="font-size:18px">报告期主要供应商情况</span>
         </div>
         <div v-if="supplierFlag" v-for="item in supplierMainList" :key="item.id" >
-            <p v-if="item.title" style="font-size:16px;color:#333;font-weight:500;margin-top:12px">{{item.title}}</p>
-            <p v-if="item.remark" style="font-size:14px;color:#666;margin-top:12px;margin-bottom:0px">{{item.remark}}</p>
+            <p v-if="item.title && item.showFlag" style="font-size:16px;color:#333;font-weight:500;margin-top:12px">{{item.title}}</p>
+            <p v-if="item.remark && item.showFlag" style="font-size:14px;color:#666;margin-top:12px;margin-bottom:0px">{{item.remark}}</p>
             <span v-if="item.supplierCustomerInfoList&&item.supplierCustomerInfoList.length>0" style="font-size:12px;color:#666;float:right;margin-bottom: 8px;margin-top:8px">单位：万元</span>
              <el-table v-if="item.showFlag" :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px">
               <el-table-column fixed align="center" class-name="table_cell" label="排名" width="52">
@@ -383,8 +383,8 @@
           <span class="titleText" id="majorCustomer" style="font-size:18px">报告期主要客户情况</span>
         </div>
           <div  v-for="item in customerMainList" :key="item.id" >
-              <p v-if="item.title" style="font-size:16px;color:#333;font-weight:500;margin-top:12px">{{item.title}}</p>
-              <p v-if="item.remark" style="font-size:14px;color:#666;margin-top:12px;margin-bottom:0px">{{item.remark}}</p>
+              <p v-if="item.title && item.showFlag" style="font-size:16px;color:#333;font-weight:500;margin-top:12px">{{item.title}}</p>
+              <p v-if="item.remark && item.showFlag" style="font-size:14px;color:#666;margin-top:12px;margin-bottom:0px">{{item.remark}}</p>
               <span v-if="customerFlag" style="font-size:12px;color:#666;float:right;margin-bottom: 5px;margin-top:8px">单位：万元</span>
               <el-table v-if="item.showFlag" :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px">
                 <el-table-column fixed align="center" class-name="table_cell" label="排名" width="52">
