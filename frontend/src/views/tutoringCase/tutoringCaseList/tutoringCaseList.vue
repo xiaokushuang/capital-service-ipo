@@ -6,18 +6,21 @@
  * @LastEditors: Please set LastEditors
  -->
 <template>
-	<div class="ipoCaseList tutoringCaseList">
+	<div class="ipoCaseList feedback tutoringCaseList">
 		<el-row :gutter="24">
-      <!--<el-checkbox-group class="secondLabel" @change="handelMoreChange(checkboxGroup,currentCheck)" v-model="checkboxGroup" size="mini" style="margin-top:20px;margin-bottom:12px;padding-left: 12px;">-->
-        <!--<el-checkbox :key="item.id" class="checkbox" v-for="(item,index) in checkboxList" :label="item.name">-->
-        <!--</el-checkbox>-->
-      <!--</el-checkbox-group>-->
-        <!--<i class="el-icon-question"></i>-->
-      <el-radio-group v-model="radio" style="margin-top:20px;margin-bottom:12px;padding-left: 12px;display:block;">
-        <el-radio :label="0">全部</el-radio>
-        <el-radio :label="1">IPO案例</el-radio>
-        <el-radio :label="2">辅导案例</el-radio>
-      </el-radio-group>
+      <div style="position:relative">
+        <i style="position: absolute;top: 4px;left: 163px;color: #909399;" class="el-icon-question"></i>
+        <i style="position: absolute;top: 4px;left: 265px;color: #909399;" class="el-icon-question"></i>
+        <el-checkbox-group class="secondLabel" @change="handelMoreChange(checkboxGroup)" v-model="checkboxGroup" size="mini" style="margin-top:20px;margin-bottom:12px;padding-left: 12px;">
+          <el-checkbox :key="index" class="checkbox" v-for="(item,index) in checkboxList" :label="item">
+          </el-checkbox>
+        </el-checkbox-group>
+      </div>
+      <!--<el-radio-group v-model="radio" style="margin-top:20px;margin-bottom:12px;padding-left: 12px;display:block;">-->
+        <!--<el-radio :label="0">全部</el-radio>-->
+        <!--<el-radio :label="1">IPO案例</el-radio>-->
+        <!--<el-radio :label="2">辅导案例</el-radio>-->
+      <!--</el-radio-group>-->
       <el-col class="chart" style="position:relative;width:285px;padding-left: 24px !important;
        padding-right: 0px !important; !important;background-color: #f7f7f7">
 				<div class="innnerbox">
@@ -39,7 +42,7 @@
 				</div>
 			</el-col>
       <el-col style="padding:0 0 0 19px !important;width:calc(100% - 300px);position:relative;top:-28px;">
-				<div class="innnerbox1" style="padding-top: 24px">
+				<div class="innnerbox1" style="">
 					<el-row :gutter="24">
 						<el-col :span='8'>
 							<el-input size='small full' v-model="title" @keyup.enter.native="querySearch" placeholder="标题关键字（包含全部以空格断开）"></el-input>
@@ -608,19 +611,20 @@
 		data() {
 			return {
         radio:0,
-        checkboxList:[
-          {
-            id:0,
-            name:'全部'
-          },{
-            id:1,
-            name:'IPO案例'
-          },{
-            id:2,
-            name:'辅导案例'
-          }
-        ],
-        checkboxGroup:'',
+        // checkboxList:[
+        //   {
+        //     id:0,
+        //     name:'全部'
+        //   },{
+        //     id:1,
+        //     name:'IPO案例'
+        //   },{
+        //     id:2,
+        //     name:'辅导案例'
+        //   }
+        // ],
+        checkboxList:['全部','IPO案例','辅导案例'],
+        checkboxGroup:['全部'],
 
 				issueLawId: '', //上市条件法规id
 				tenantInfo: '', //日志
@@ -1164,11 +1168,12 @@
 			}
 		},
 		updated() {
-			console.log('bbb', this.caseStatus, this.caseStatusValue)
 		},
 		methods: {
-      handelMoreChange(){
-
+      handelMoreChange(val){
+        if(val.length>1){
+          this.checkboxGroup.shift()
+        }
       },
       timeRenderHeader (h,{column}) {
         return  h( 'div',[ h('span', column.label),
@@ -1535,7 +1540,7 @@
 			getSelectData() {
 				const _self = this;
 				_getSelectData().then(response => {
-				  debugger;
+				  // debugger;
 					if (response.data.result) {
 						if (response.data.result.industryCrscList && response.data.result.industryCrscList.length > 0) {
 							_self.industryCrscList = response.data.result.industryCrscList;
