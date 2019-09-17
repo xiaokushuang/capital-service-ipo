@@ -180,6 +180,18 @@ export const constantRouterMap = [
         meta: { title: 'IPO案例', noCache: true }
       },
       {
+        path: 'tutoringCaseList',
+        component: _import('tutoringCase/tutoringCaseList/tutoringCaseList'),
+        name: 'tutoringCaseList',
+        meta: { title: '辅导列表页', noCache: true }
+      },
+      {
+        path: 'tutoringCase',
+        component: _import('tutoringCase/tutoringCase'),
+        name: 'tutoringCase',
+        meta: { title: '辅导案例', noCache: true }
+      },
+      {
         path:'ipoPopWin',
         component: _import('ipoCase/popWinComponent'),
         name:'ipoPopWin',
