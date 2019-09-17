@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stock.capital.enterprise.ipoCoachCase.dao.IpoCoachCaseDetailBizMapper">
+
+    <resultMap id="OrgResultMap" type="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="bid" property="bid" jdbcType="VARCHAR"/>
+        <result column="intermediary_type" property="intermediaryType" jdbcType="VARCHAR"/>
+        <result column="org_type" property="orgType" jdbcType="VARCHAR"/>
+        <result column="org_name" property="orgName" jdbcType="VARCHAR"/>
+        <result column="org_code" property="orgCode" jdbcType="VARCHAR"/>
+        <result column="valid_flag" property="validFlag" jdbcType="VARCHAR"/>
+        <result column="represent_person" property="representPerson" jdbcType="VARCHAR"/>
+        <result column="agent_person" property="agentPerson" jdbcType="VARCHAR"/>
+        <result column="assist_person" property="assistPerson" jdbcType="VARCHAR"/>
+        <result column="sort_no" property="sortNo" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="MarketResultMap" type="com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="bid" property="bid" jdbcType="VARCHAR"/>
+        <result column="market_type" property="marketType" jdbcType="VARCHAR"/>
+        <result column="company_code" property="companyCode" jdbcType="VARCHAR"/>
+        <result column="company_name" property="companyName" jdbcType="VARCHAR"/>
+        <result column="list_time" property="listTime" jdbcType="TIMESTAMP"/>
+        <result column="delist_time" property="delistTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="queryCoachBasicInfo" parameterType="java.lang.String"
+            resultType="com.stock.capital.enterprise.ipoCoachCase.dto.IpoCoachCaseDto">
+        select id,serial_num as serialNum,title,fd_process as fdProcess,securities_regulatory as securitiesRegulatory,
+        if_relevance as ifRelevance,fd_keyword as fdKeyword,company_name as companyName,company_short_name as companyShortName,
+        corporate_representative as corporateRepresentative,founding_time as foundingTime,register_provience as registerProvience,
+        register_city as registerCity,register_area as registerArea,address,establish_time as establishTime,business_provience as businessProvience,
+        business_city as businessCity,business_area as businessArea,phone,plate,main_business as mainBusiness,business_scope as businessScope,open_flag as openFlag
+         from ipo_fd_case t where t.id = #{id}
+   </select>
+
+    <select id="selectOrgByBid" parameterType="java.lang.String" resultMap="OrgResultMap">
+        SELECT id, bid, intermediary_type, org_type, org_name, org_code, valid_flag, represent_person, agent_person,
+        assist_person, sort_no FROM ipo_intermediary_org WHERE bid = #{bid}
+    </select>
+
+
+    <select id="selectMarketByBid" parameterType="java.lang.String" resultMap="MarketResultMap">
+    SELECT id, bid, market_type, company_code, company_name, list_time, delist_time FROM ipo_other_market_info
+    WHERE bid = #{bid}
+  </select>
+</mapper>
