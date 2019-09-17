@@ -1,6 +1,7 @@
 package com.stock.capital.enterprise.ipoCoachCase.dto;
 
 import com.stock.capital.enterprise.ipoCase.dto.IpoProgressDto;
+import com.stock.capital.enterprise.ipoCase.dto.TreeTypeProgressDto;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -68,11 +69,13 @@ public class IpoCoachCaseDto implements Serializable {
 
     private List<IpoProgressDto> treeList;
 
-//    private List<IpoRelatedCaseDto> caseList;
-
     private List<IntermediaryOrgDto> intermediaryOrgList;
 
     private List<OtherMarketInfoDto> otherMarketInfoList;
+
+    private String lastDate;
+
+    private String allTime;
 
     public String getId() {
         return id;
@@ -328,5 +331,21 @@ public class IpoCoachCaseDto implements Serializable {
 
     public void setOpenFlag(String openFlag) {
         this.openFlag = openFlag;
+    }
+
+    public String getLastDate() {
+        return lastDate;
+    }
+
+    public void setLastDate(String lastDate) {
+        this.lastDate = lastDate;
+    }
+
+    public String getAllTime() {
+        return allTime;
+    }
+
+    public void setAllTime(String allTime) {
+        this.allTime = allTime;
     }
 }

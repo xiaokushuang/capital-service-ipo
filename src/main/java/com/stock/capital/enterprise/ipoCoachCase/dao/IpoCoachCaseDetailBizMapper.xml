@@ -26,6 +26,33 @@
         <result column="delist_time" property="delistTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+    <resultMap id="processResultMap" type="com.stock.capital.enterprise.ipoCase.dto.TreeTypeProgressDto">
+        <result column="bid" property="caseId" jdbcType="VARCHAR"/>
+        <result column="param_name" property="paramName" jdbcType="VARCHAR"/>
+        <result column="sys_update" property="sysUpdate" jdbcType="VARCHAR"/>
+        <collection property="treeList" ofType="com.stock.capital.enterprise.ipoCase.dto.IpoProgressDto">
+            <result column="tree_type_code" property="treeTypeCode" jdbcType="VARCHAR"/>
+            <collection property="proList" ofType="com.stock.capital.enterprise.ipoCase.dto.IpoProListDto">
+                <result column="process_type_code" property="progressType" jdbcType="VARCHAR"/>
+                <result column="label_name" property="progressName" jdbcType="VARCHAR"/>
+                <result column="pro_sort" property="proSort" jdbcType="VARCHAR"/>
+                <collection property="relaList"
+                            ofType="com.stock.capital.enterprise.ipoCase.dto.IpoFileRelationDto">
+                    <result column="id" property="id" jdbcType="VARCHAR"/>
+                    <result column="relation_file_id" property="relaId" jdbcType="VARCHAR"/>
+                    <result column="relation_file_title" property="relationFileTitle"
+                            jdbcType="VARCHAR"/>
+                    <!--<result column="title" property="relaName" jdbcType="VARCHAR"/>-->
+                    <result column="process_time" property="publishTime" jdbcType="VARCHAR"/>
+                    <result column="table_sort" property="tableSort" jdbcType="VARCHAR"/>
+                    <result column="status" property="status" jdbcType="VARCHAR"/>
+                    <result column="suffix" property="suffix" jdbcType="VARCHAR"/>
+                    <result column="iec_result" property="iecResult" jdbcType="VARCHAR"/>
+                </collection>
+            </collection>
+        </collection>
+    </resultMap>
+
     <select id="queryCoachBasicInfo" parameterType="java.lang.String"
             resultType="com.stock.capital.enterprise.ipoCoachCase.dto.IpoCoachCaseDto">
         select id,serial_num as serialNum,title,fd_process as fdProcess,securities_regulatory as securitiesRegulatory,
@@ -46,4 +73,40 @@
     SELECT id, bid, market_type, company_code, company_name, list_time, delist_time FROM ipo_other_market_info
     WHERE bid = #{bid}
   </select>
+
+    <select id="queryIpoProcessByCaseId" parameterType="java.lang.String"
+            resultMap="processResultMap">
+        SELECT
+        t1.bid,
+        t4.param_name,
+        t4.sys_update,
+        t1.tree_type_code,
+        t1.process_type_code,
+        t2.label_name,
+        t1.pro_sort,
+        t1.id,
+        t1.relation_file_id,
+        t3.title,
+        date_format(t1.process_time,'%Y-%m-%d') process_time,
+        t1.table_sort,
+        t1.`status`,
+        t3.suffix,
+        t1.iec_result,
+        t1.relation_file_title
+        FROM
+        ipo_process t1
+        LEFT JOIN maa_conf_label t2 ON t2.label_value = t1.process_type_code
+        AND t2.label_code IN (
+        'SUPPORT_PROGRESS',
+        'DECLARE_PROGRESS',
+        'PUBLIC_PROGRESS'
+        )
+        LEFT JOIN ipo_file t3 ON t3.id = t1.relation_file_id
+        left join ipo_case t4 on t4.id =  t1.bid
+        <where>
+            t1.bid = #{bid}
+        </where>
+        ORDER BY t1.tree_type_code,t1.pro_sort,t1.table_sort
+    </select>
+
 </mapper>

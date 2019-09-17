@@ -2,6 +2,7 @@ package com.stock.capital.enterprise.ipoCoachCase.dao;
 
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo;
+import com.stock.capital.enterprise.ipoCase.dto.TreeTypeProgressDto;
 import com.stock.capital.enterprise.ipoCoachCase.dto.IntermediaryOrgDto;
 import com.stock.capital.enterprise.ipoCoachCase.dto.IpoCoachCaseDto;
 import com.stock.capital.enterprise.ipoCoachCase.dto.OtherMarketInfoDto;
@@ -22,4 +23,9 @@ public interface IpoCoachCaseDetailBizMapper {
     List<IntermediaryOrgDto> selectOrgByBid(String bid);
 
     List<OtherMarketInfoDto> selectMarketByBid(String bid);
+
+    /**
+     * 根据caseId查询ipo进程
+     */
+    TreeTypeProgressDto queryIpoProcessByCaseId(String caseId);
 }
