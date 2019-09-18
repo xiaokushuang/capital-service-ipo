@@ -35,22 +35,6 @@
             <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 14px;" v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.actualController" >{{companyProfileList.companyProfileList.actualController}}</div>
             <div style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 14px;"  v-else >- -</div>
           </li>
-          <!-- 发行人选择的上市标准 -->
-          <!--<li class="clear" v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.issueCondition !=''" style="margin-bottom:10px;position:relative" >-->
-            <!--<span v-if="companyProfileList.companyProfileList.issueCondition" style="display: inline-block;width: 65px;float:left">发行人选择的上市标准</span>-->
-            <!--<div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.issueCondition ==''" style="color: #333333;margin-left: 9.4%;margin-top: -4.8%;">- -</div>-->
-            <!--<div v-else style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 1.6%;">-->
-              <!--<div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('101')>-1">预计市值不低于人民币<span style="color:red">10亿元</span>，最近两年净利润均为正且累计净利润不低于人民币<span style="color:red">5000万元</span>，或者预计市值不低于人民币<span style="color:red">10亿元</span>，最近一年净利润为正且营业收入不低于人民币<span style="color:red">1亿元</span></div>-->
-              <!--<div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('102')>-1">预计市值不低于人民币<span style="color:red">15亿元</span>，最近一年营业收入不低于人民币<span style="color:red">2亿元</span>，且最近三年累计研发投入占最近三年累计营业收入的比例不低于<span style="color:red">15%</span></div>-->
-              <!--<div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('103')>-1">预计市值不低于人民币<span style="color:red">20亿元</span>，最近一年营业收入不低于人民币<span style="color:red">3亿元</span>，且最近三年经营活动产生的现金流量净额累计不低于人民币<span style="color:red">1亿元</span></div>-->
-              <!--<div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('104')>-1">预计市值不低于人民币<span style="color:red">30亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">3亿元</span></div>-->
-              <!--<div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('105')>-1">预计市值不低于人民币<span style="color:red">40亿元</span>，主要业务或产品需经国家有关部门批准，市场空间大，目前已取得阶段性成果。医药行业企业需至少有一项核心产品获准开展二期临床试验，其他符合科创板定位的企业需具备明显的技术优势并满足相应条件</div>-->
-              <!--<div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('201')>-1">预计市值不低于人民币<span style="color:red">100亿元</span></div>-->
-              <!--<div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('202')>-1">预计市值不低于人民币<span style="color:red">50亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">5亿元</span></div>-->
-              <!--<div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('301')>-1">预计市值不低于人民币<span style="color:red">100亿元</span></div>-->
-              <!--<div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('302')>-1">预计市值不低于人民币<span style="color:red">50亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">5亿元</span></div>-->
-            <!--</div>-->
-          <!--</li>-->
           <li class="clear" style="position:relative;margin-top:0%;margin-bottom:16px">
             <span class="l" >主营业务</span>
             <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.majorBusinesses">{{companyProfileList.companyProfileList.majorBusinesses}}</div>
@@ -109,27 +93,14 @@
 
 import $ from "jquery";
 import { getMarketData } from "@/api/ipoCase/companyProfile";
-import { getShareHolderData } from "@/api/ipoCase/companyProfile";
-import { getRaiseMoneyTableList } from "@/api/ipoCase/companyProfile";
-import { getSupplierCustomerData } from '@/api/ipoCase/tableDemo';
-import { getTableData } from '@/api/ipoCase/tableDemo';
 // 中介机构数据
 import { getIntermediaryOrgDataList } from '@/api/ipoCase/companyProfile'
-// 拆分上市情况
-import { getSpliteData } from '@/api/ipoCase/companyProfile'
-// 最近一次估值
-import { getValuationData } from '@/api/ipoCase/companyProfile'
-// 导入主营业务收入构成表格
-import mainTable from "@/views/tables/mainTable";
-// 导入柱形图和饼图
-import barOrPieChart from "@/components/Charts/barOrPieChart";
+import { getCompanyInfo } from "@/api/tutoringCase/companyProfile";
 // 导入中介机构
 import IntermediaryInstitutions from "@/views/navMenu/companyProfile/components/IntermediaryInstitutions"
 export default {
   name: "companyProfile",
   components: {
-    mainTable,
-    barOrPieChart,
     IntermediaryInstitutions
   },
 
@@ -148,28 +119,10 @@ export default {
       caseId:this.$store.state.app.caseId,
       //其他资本市场
       otherMarketInfoList:[],//其他登陆市场
-      // 主要竞争者
-      // MajorCompetitors: [],
-      // 前五名供应商数据
-      supplierMainList:[],
-      // 前五名客户
-      customerMainList:[],
-      // 主营业务收入
-      mainTableList:{
-        onePeriodForIncome:'',
-        thirdYearForIncome:'',
-        secondYearForIncome:'',
-        firstYearForIncome:''
-      },
       // 中介机构
       moreList:[],
       mainList:[],
       dataFlag:false,
-      // 拆分上市情况
-      spliteList:[],
-      // 最近一次估值情况
-      recentValuation:[],
-      recentValuationFlag:false
     };
   },
   props:["companyProfileList"],
@@ -258,6 +211,11 @@ export default {
       const param = {
         id:this.caseId,
       }
+      getCompanyInfo(param).then(res=>{
+        console.log('公司概览',res)
+        if(res.data.result&&res.data.result.length>0){
+        }
+      });
       // 其他登录市场
       getMarketData(param).then(res=>{
         if(res.data.result&&res.data.result.length>0){
@@ -265,55 +223,6 @@ export default {
         }
           this.getPosition()
       });
-      // 拆分上市情况
-      getSpliteData(param).then(res=>{
-        if(res.data.result&&res.data.result.length>0){
-          this.spliteList = res.data.result
-        }
-          this.getPosition()
-      });
-      // 最近一次估值情况
-      getValuationData(param).then(res=>{
-        if(res.data.result&&res.data.result.length>0&&(res.data.result[0].valuationDate || res.data.result[0].valuationMemo || res.data.result[0].valuationEquity || res.data.result[0].valuationType || res.data.result[0].valuationValue)){
-          this.recentValuationFlag = true
-          this.recentValuation = res.data.result[0]
-        }
-          this.getPosition()
-      });
-      // 股权结构图表格
-      getShareHolderData(param).then(res=>{
-        if(res.data.result&&res.data.result.length>0){
-          this.gqTableList = res.data.result
-        }
-          this.getPosition()
-      });
-      getRaiseMoneyTableList(param).then(res=>{
-        if(res.data.result&&res.data.result.length>0){
-          this.raiseMoneyTableList = res.data.result
-        }
-          this.getPosition()
-      });
-      // 供应商
-      getSupplierCustomerData(param).then(response => {
-        if(response.data.result&&response.data.result.supplierMainList&&response.data.result.supplierMainList.length>0){
-          this.supplierMainList = response.data.result.supplierMainList
-          this.dealDataList(this.supplierMainList);
-          this.getPosition()
-        }
-         if(response.data.result&&response.data.result.customerMainList&&response.data.result.customerMainList.length>0){
-           this.customerMainList = response.data.result.customerMainList
-           this.dealDataList(this.customerMainList);
-        }
-           this.getPosition()
-      })
-
-      // 主营业务收入构成
-      getTableData(param).then(response => {
-        if( response.data.result){
-          this.mainTableList = response.data.result
-        }
-          this.getPosition()
-      })
       // 中介机构
        getIntermediaryOrgDataList(param).then(response => {
          if((response.data.result&&response.data.result.mainList&&response.data.result.mainList.length>0 ||(response.data.result&&response.data.result.moreList&&response.data.result.moreList.length>0))){

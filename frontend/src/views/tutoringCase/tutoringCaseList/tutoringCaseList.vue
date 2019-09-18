@@ -10,7 +10,11 @@
 		<el-row :gutter="24">
       <div style="position:relative">
         <i style="position: absolute;top: 4px;left: 163px;color: #909399;" class="el-icon-question"></i>
-        <i style="position: absolute;top: 4px;left: 265px;color: #909399;" class="el-icon-question"></i>
+        <i style="position: absolute;top: 4px;left: 265px;color: #909399;" class="el-icon-question">
+          <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无行业与技术信息" placement="top" effect="light">
+
+          </el-tooltip>
+        </i>
         <el-checkbox-group class="secondLabel" @change="handelMoreChange(checkboxGroup)" v-model="checkboxGroup" size="mini" style="margin-top:20px;margin-bottom:12px;padding-left: 12px;">
           <el-checkbox :key="index" class="checkbox" v-for="(item,index) in checkboxList" :label="item">
           </el-checkbox>
