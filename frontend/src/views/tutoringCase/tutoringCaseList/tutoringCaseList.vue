@@ -9,22 +9,17 @@
 	<div class="ipoCaseList feedback tutoringCaseList">
 		<el-row :gutter="24">
       <div style="position:relative">
-        <i style="position: absolute;top: 4px;left: 163px;color: #909399;" class="el-icon-question"></i>
-        <i style="position: absolute;top: 4px;left: 265px;color: #909399;" class="el-icon-question">
-          <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无行业与技术信息" placement="top" effect="light">
-
+          <el-tooltip style="color:#666" class="ipoTip" content="IPO申报、在审、上会、发行企业案例" placement="top" effect="light">
+            <i style="cursor:pointer;position: absolute;top: 4px;left: 163px;color: red!important;" class="el-icon-question"></i>
           </el-tooltip>
-        </i>
+          <el-tooltip style="color:#666" class="ipoTip" content="在辅导企业案例" placement="top" effect="light">
+            <i style="cursor:pointer;position: absolute;top: 4px;left: 265px;color: #909399!important;" class="el-icon-question"></i>
+          </el-tooltip>
         <el-checkbox-group class="secondLabel" @change="handelMoreChange(checkboxGroup)" v-model="checkboxGroup" size="mini" style="margin-top:20px;margin-bottom:12px;padding-left: 12px;">
           <el-checkbox :key="index" class="checkbox" v-for="(item,index) in checkboxList" :label="item">
           </el-checkbox>
         </el-checkbox-group>
       </div>
-      <!--<el-radio-group v-model="radio" style="margin-top:20px;margin-bottom:12px;padding-left: 12px;display:block;">-->
-        <!--<el-radio :label="0">全部</el-radio>-->
-        <!--<el-radio :label="1">IPO案例</el-radio>-->
-        <!--<el-radio :label="2">辅导案例</el-radio>-->
-      <!--</el-radio-group>-->
       <el-col class="chart" style="position:relative;width:285px;padding-left: 24px !important;
        padding-right: 0px !important; !important;background-color: #f7f7f7">
 				<div class="innnerbox">
@@ -220,11 +215,6 @@
                                      :left-decimal="true">
               </el-multiple-selection>
             </el-col>
-						<!-- <el-col :span='8' class="stockIncreasePan-class">
-              <el-multiple-selection class="prospectus" v-if="prospectusShow" :range="true" :tree-data="optionProspectus" placeholder="招股书最近一次估值" size="small full" :multiple="false"
-                                     unit="亿" :ran="optionDto" @sure-click="rangeCallProspectus">
-              </el-multiple-selection>
-            </el-col> -->
 					</el-row>
 					<el-row :gutter="24">
             <el-col :span='8'>
@@ -492,25 +482,6 @@
 												<span class="whtgResult" v-if="scope.row.labelResult==='08'">不予注册</span>
 												<span class="dshResult" v-if="scope.row.labelResult==='09'">待上会</span>
 												<span class="qxshResult" v-if="scope.row.labelResult==='10'">取消审议</span>
-												<!-- <span v-if="scope.row.reviewResult!=null">
-                          <span class="tgResult"  v-if="scope.row.reviewResult==='05'">通过</span>
-                          <span class="wtgResult" v-if="scope.row.reviewResult==='06'">未通过</span>
-                          <span class="dshResult"  v-if="scope.row.reviewResult==='09'">待上会</span>
-                        </span>
-                        <span v-if="scope.row.reviewResult==null&&scope.row.registerResult!=null">
-                          <span class="zcsxResult"  v-if="scope.row.registerResult==='07'">注册生效</span>
-                          <span class="whtgResult" v-if="scope.row.registerResult==='08'">不予注册</span>
-                        </span>
-                        <span v-if="scope.row.reviewResult==null&&scope.row.registerResult==null&&scope.row.iecResult!=null">
-                          <span class="htgResult"  v-if="scope.row.iecResult==='00'">获通过</span>
-                          <span class="whtgResult" v-if="scope.row.iecResult==='01'">未获通过</span>
-                          <span class="zhbjResult" v-if="scope.row.iecResult==='02'">暂缓表决</span>
-                          <span class="qxshResult" v-if="scope.row.iecResult==='03'">取消审核</span>
-                          <span class="dshResult"  v-if="scope.row.iecResult==='04'">待上会</span>
-                          <span class="tgResult"   v-if="scope.row.iecResult==='05'">通过</span>
-                          <span class="wtgResult"  v-if="scope.row.iecResult==='06'">未通过</span>
-                          <span class="dshResult"  v-if="scope.row.iecResult==='09'">待上会</span>
-                        </span> -->
 											</span>
 										</template>
 									</el-table-column>
@@ -615,18 +586,6 @@
 		data() {
 			return {
         radio:0,
-        // checkboxList:[
-        //   {
-        //     id:0,
-        //     name:'全部'
-        //   },{
-        //     id:1,
-        //     name:'IPO案例'
-        //   },{
-        //     id:2,
-        //     name:'辅导案例'
-        //   }
-        // ],
         checkboxList:['全部','IPO案例','辅导案例'],
         checkboxGroup:['全部'],
 
