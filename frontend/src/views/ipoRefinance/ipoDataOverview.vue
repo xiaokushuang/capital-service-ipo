@@ -329,7 +329,7 @@ export default {
   color:#0099cc!important;
 }
 .container .el-table__header .rowElse .cell {
-  color:rgb(51, 51, 51)!important;
+  color:#333333 !important;
 }
 
 .el-table thead.is-group th {
@@ -338,7 +338,7 @@ export default {
 #table2 .el-table__header thead tr > th {
   height: 45px;
   color: #fff !important;
-  background: #a0adb5 !important;
+  background: #f2f2f2 !important;
 }
 #tab-first {
   width: 146px;
