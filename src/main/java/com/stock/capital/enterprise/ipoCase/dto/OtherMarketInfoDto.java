@@ -17,6 +17,7 @@ public class OtherMarketInfoDto implements Serializable {
 
     @ApiModelProperty("资本市场")
     private String marketType;
+    private String marketTypeText;
 
     @ApiModelProperty("资本市场Code")
     private String marketTypeCode;
@@ -97,5 +98,13 @@ public class OtherMarketInfoDto implements Serializable {
 
     public void setDelistTime(Date delistTime) {
         this.delistTime = delistTime;
+    }
+
+    public String getMarketTypeText() {
+        return marketTypeText;
+    }
+
+    public void setMarketTypeText(String marketTypeText) {
+        this.marketTypeText = marketTypeText;
     }
 }
