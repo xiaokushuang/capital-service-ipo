@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("ipoCoachCaseDetail")
@@ -18,6 +19,7 @@ public class IpoCoachCaseDetailController extends BaseController {
     IpoCoachCaseDetailService ipoCoachCaseDetailService;
 
     @RequestMapping("queryCoachTitleInfo")
+    @ResponseBody
     public JsonResponse<IpoCoachCaseDto> queryCoachTitleInfo(String id) {
         JsonResponse<IpoCoachCaseDto> jsonResponse = new JsonResponse<>();
         IpoCoachCaseDto ipoCoachCaseDto = new IpoCoachCaseDto();
@@ -38,6 +40,7 @@ public class IpoCoachCaseDetailController extends BaseController {
     }
 
     @RequestMapping("queryCoachBasicInfo")
+    @ResponseBody
     public JsonResponse<IpoCoachCaseDto> queryCoachBasicInfo(String id) {
         JsonResponse<IpoCoachCaseDto> jsonResponse = new JsonResponse<>();
         jsonResponse.setResult(ipoCoachCaseDetailService.queryCoachBasicInfo(id));
