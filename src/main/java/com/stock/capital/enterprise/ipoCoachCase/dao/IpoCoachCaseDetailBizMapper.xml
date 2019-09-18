@@ -20,6 +20,7 @@
         <id column="id" property="id" jdbcType="VARCHAR"/>
         <result column="bid" property="bid" jdbcType="VARCHAR"/>
         <result column="market_type" property="marketType" jdbcType="VARCHAR"/>
+        <result column="market_type_text" property="marketTypeText" jdbcType="VARCHAR"/>
         <result column="company_code" property="companyCode" jdbcType="VARCHAR"/>
         <result column="company_name" property="companyName" jdbcType="VARCHAR"/>
         <result column="list_time" property="listTime" jdbcType="TIMESTAMP"/>
@@ -83,7 +84,9 @@
 
 
     <select id="selectMarketByBid" parameterType="java.lang.String" resultMap="MarketResultMap">
-    SELECT id, bid, market_type, company_code, company_name, list_time, delist_time FROM ipo_other_market_info
+    SELECT id, bid, market_type,
+     (select label_name from maa_conf_label t1 where t1.label_code = 'IPO_CAPITAL_MARKET' and t1.label_value = market_type and t1.status = '1') as market_type_text,
+     company_code, company_name, list_time, delist_time FROM ipo_other_market_info
     WHERE bid = #{bid}
   </select>
 
