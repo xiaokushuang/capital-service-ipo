@@ -20,6 +20,7 @@ public class IpoCoachCaseDto implements Serializable {
     private String fdProcess;//辅导进程
 
     private String securitiesRegulatory;//证监局
+    private String securitiesRegulatoryText;
 
     private String ifRelevance;//是否关联ipo案例
 
@@ -34,20 +35,26 @@ public class IpoCoachCaseDto implements Serializable {
     private String foundingTime;//公司成立时间
 
     private String registerProvience;//注册省份
+    private String registerProvienceText;
 
     private String registerCity;//注册市
+    private String registerCityText;
 
     private String registerArea;//注册区
+    private String registerAreaText;
 
     private String address;//详细地址
 
     private String establishTime;//设立时间
 
     private String businessProvience;//办公省份
+    private String businessProvienceText;
 
     private String businessCity;//办公市
+    private String businessCityText;
 
     private String businessArea;//办公区
+    private String businessAreaText;
 
     private String openFlag;
 
@@ -347,5 +354,61 @@ public class IpoCoachCaseDto implements Serializable {
 
     public void setAllTime(String allTime) {
         this.allTime = allTime;
+    }
+
+    public String getSecuritiesRegulatoryText() {
+        return securitiesRegulatoryText;
+    }
+
+    public void setSecuritiesRegulatoryText(String securitiesRegulatoryText) {
+        this.securitiesRegulatoryText = securitiesRegulatoryText;
+    }
+
+    public String getRegisterProvienceText() {
+        return registerProvienceText;
+    }
+
+    public void setRegisterProvienceText(String registerProvienceText) {
+        this.registerProvienceText = registerProvienceText;
+    }
+
+    public String getRegisterCityText() {
+        return registerCityText;
+    }
+
+    public void setRegisterCityText(String registerCityText) {
+        this.registerCityText = registerCityText;
+    }
+
+    public String getRegisterAreaText() {
+        return registerAreaText;
+    }
+
+    public void setRegisterAreaText(String registerAreaText) {
+        this.registerAreaText = registerAreaText;
+    }
+
+    public String getBusinessProvienceText() {
+        return businessProvienceText;
+    }
+
+    public void setBusinessProvienceText(String businessProvienceText) {
+        this.businessProvienceText = businessProvienceText;
+    }
+
+    public String getBusinessCityText() {
+        return businessCityText;
+    }
+
+    public void setBusinessCityText(String businessCityText) {
+        this.businessCityText = businessCityText;
+    }
+
+    public String getBusinessAreaText() {
+        return businessAreaText;
+    }
+
+    public void setBusinessAreaText(String businessAreaText) {
+        this.businessAreaText = businessAreaText;
     }
 }

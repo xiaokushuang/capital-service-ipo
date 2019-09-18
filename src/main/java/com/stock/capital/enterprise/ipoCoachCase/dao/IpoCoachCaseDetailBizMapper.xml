@@ -55,11 +55,24 @@
 
     <select id="queryCoachBasicInfo" parameterType="java.lang.String"
             resultType="com.stock.capital.enterprise.ipoCoachCase.dto.IpoCoachCaseDto">
-        select id,serial_num as serialNum,title,fd_process as fdProcess,securities_regulatory as securitiesRegulatory,
+           select id,serial_num as serialNum,title,fd_process as fdProcess,securities_regulatory as securitiesRegulatory,
+        (select label_name from maa_conf_label t1 where t1.label_code = 'SFC' and t1.label_value = securities_regulatory and t1.status = '1') as securitiesRegulatoryText,
         if_relevance as ifRelevance,fd_keyword as fdKeyword,company_name as companyName,company_short_name as companyShortName,
-        corporate_representative as corporateRepresentative,founding_time as foundingTime,register_provience as registerProvience,
-        register_city as registerCity,register_area as registerArea,address,establish_time as establishTime,business_provience as businessProvience,
-        business_city as businessCity,business_area as businessArea,phone,plate,main_business as mainBusiness,business_scope as businessScope,open_flag as openFlag
+        corporate_representative as corporateRepresentative,founding_time as foundingTime,
+        register_provience as registerProvience,
+        (select area_name from provinces t1 where t1.area_no = register_provience and t1.status = '1') as registerProvienceText,
+        register_city as registerCity,
+        (select area_name from provinces t1 where t1.area_no = register_city and t1.status = '1') as registerCityText,
+        register_area as registerArea,
+        (select area_name from provinces t1 where t1.area_no = register_area and t1.status = '1') as registerAreaText,
+        address,establish_time as establishTime,
+        business_provience as businessProvience,
+        (select area_name from provinces t1 where t1.area_no = business_provience and t1.status = '1') as businessProvienceText,
+        business_city as businessCity,
+        (select area_name from provinces t1 where t1.area_no = business_city and t1.status = '1') as businessCityText,
+        business_area as businessArea,
+        (select area_name from provinces t1 where t1.area_no = business_area and t1.status = '1') as businessAreaText,
+        phone,plate,main_business as mainBusiness,business_scope as businessScope,open_flag as openFlag
          from ipo_fd_case t where t.id = #{id}
    </select>
 

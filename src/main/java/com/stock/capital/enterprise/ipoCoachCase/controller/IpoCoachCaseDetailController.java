@@ -23,18 +23,19 @@ public class IpoCoachCaseDetailController extends BaseController {
     public JsonResponse<IpoCoachCaseDto> queryCoachTitleInfo(String id) {
         JsonResponse<IpoCoachCaseDto> jsonResponse = new JsonResponse<>();
         IpoCoachCaseDto ipoCoachCaseDto = new IpoCoachCaseDto();
+        ipoCoachCaseDto = ipoCoachCaseDetailService.queryCoachTitleInfo(id);
         TreeTypeProgressDto processResult = ipoCoachCaseDetailService.queryIpoProcessByCaseId(id);
-        if (processResult.getTreeList() != null && processResult.getTreeList().size() > 0) {
+        if (processResult !=null && processResult.getTreeList() != null && processResult.getTreeList().size() > 0) {
             String listSize = String.valueOf(processResult.getTreeList().get(0).getProList().size() - 1);
             String startDate = processResult.getTreeList().get(0).getProList().get(0).getRelaList().get(0).getPublishTime();
             String endDate = processResult.getTreeList().get(0).getProList().get(Integer.parseInt(listSize)).getRelaList().get(0).getPublishTime();
             ipoCoachCaseDto.setLastDate(endDate);
+            ipoCoachCaseDto.setTreeList(processResult.getTreeList());
             if(StringUtils.isNotEmpty(startDate) &&StringUtils.isNotEmpty(endDate)){
                 ipoCoachCaseDto.setAllTime(ipoCoachCaseDetailService.getTimeDistance(startDate,endDate));
             }
         }
-        ipoCoachCaseDto = ipoCoachCaseDetailService.queryCoachTitleInfo(id);
-        ipoCoachCaseDto.setTreeList(processResult.getTreeList());
+;
         jsonResponse.setResult(ipoCoachCaseDto);
         return jsonResponse;
     }
