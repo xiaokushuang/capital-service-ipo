@@ -1,13 +1,13 @@
 <template>
     <div class="feedback" id="componentId">
-       <div class="label" v-loading="flagLoading" element-loading-text="给我一点时间">
+       <div class="label">
             <!-- 导入的组件 -->
             <!-- 只有一级标签 -->
-            <div v-if="tabList&&tabList.length==1" class="clear">
+            <div v-if="tabList&&tabList.length==1" class="clear"  v-loading="flagLoading" element-loading-text="给我一点时间">
               <singleAndMultiple :singleAndMultiplDdata={tabList:tabList,radio:tabList[0].questionLabelList,checkbox:feedbackduoxuanList,answerCount:answerCount,questionCount:questionCount,questionList:questionList,o_letterId:this.o_letterId,showMore:showMore,allQuestionList:allQuestionList}></singleAndMultiple>
             </div>
             <!-- 有多级标签选择 -->
-             <div v-if="tabList&&tabList.length > 1" class="clear">
+             <div v-if="tabList&&tabList.length > 1" class="clear"  v-loading="flagLoading" element-loading-text="给我一点时间">
                 <div v-if="tabList.length==2&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共两轮反馈：</div>
                 <div v-if="tabList.length==3&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共三轮反馈：</div>
                 <div v-if="tabList.length==4&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共四轮反馈：</div>
