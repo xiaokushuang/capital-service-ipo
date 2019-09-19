@@ -41,7 +41,7 @@
 								<!-- 吸顶效果 -->
 								<div v-if="isFixed" :style="{ 'width': '70px','height': '40px', 'margin-top': 'auto','margin-right': '40px', 'margin-bottom': 'auto', 'margin-left': clientLeft}">
 									<span style="font-size: 20px;color: #333;display: block;margin-bottom: 10px;">IPO</span>
-									<span v-show="this.companyProfileList&&this.companyProfileList.companyName" style="font-size: 14px;color: #333;">{{this.companyProfileList.companyName}}</span>
+									<span v-show="this.companyProfileList&&this.companyProfileList.companyShortName" style="font-size: 14px;color: #333;">{{this.companyProfileList.companyShortName}}</span>
 								</div>
 								<div :style="{width:isFixed?'740px':'100%'}">
 									<!-- 菜单导航栏 -->
@@ -79,11 +79,23 @@
 					</div>
 				</el-col>
 				<el-col style="width:295px;padding:0">
+          <el-col v-if="proList&&proList.length>0" class="chart" style="position:relative;padding-top: 6px;padding:0px">
+            <div class="headClass">
+              <el-row>
+                <el-col :span="14">
+                  <span>关联案例</span>
+                </el-col>
+              </el-row>
+            </div>
+            <span style="padding: 0px;">
+							<relatedCase :proList="proList" @noOpenFlag="handleNoOpenFlag($event)"></relatedCase>
+						</span>
+          </el-col>
 					<el-col class="chart" style="position:relative;padding-top: 6px;padding: 0px;">
 						<div class="headClass">
 							<el-row>
 								<el-col :span="14">
-									<span>IPO进程</span>
+									<span>辅导进程</span>
 								</el-col>
 								<span v-if="statusButtonFlag == '1'">
 									<el-col :span="5" style="text-align: right;">
@@ -101,7 +113,7 @@
 							</el-row>
 						</div>
 						<span style="padding: 0px;">
-							<processTree ref="rightModule" :caseId="caseId2"></processTree>
+							<processTree v-if="companyProfileList.treeList&&companyProfileList.treeList.length>0" ref="rightModule" :treeList="companyProfileList.treeList" :caseId="caseId2"></processTree>
 						</span>
 					</el-col>
 				</el-col>
@@ -113,6 +125,7 @@
   import { getCompanyInfo } from "@/api/tutoringCase/companyProfile";
 	// 导入导航栏五个组件
 	import companyProfile from "./companyProfile/companyProfile.vue";
+  import relatedCase from "./processTree/relatedCase";
 	import processTree from "./processTree";
 	import $ from "jquery";
 	import {
@@ -124,10 +137,29 @@
 			// 导入导航栏五个组件
 			companyProfile,
       processTree,
+      relatedCase
 		},
 		data() {
 			return {
         caseId2: this.$store.state.app.caseId,
+        proList: [
+          {
+            caseId: "746524673180966506",
+            iecResult: "02",
+            openFlag: "1",
+            proSort: "2",
+            processTime: "2017-05-25",
+            progressName: "北京金山办公软件股份有限公司--测试",
+          },
+          {
+            caseId: "98197418692543951",
+            iecResult: "07",
+            openFlag: null,
+            proSort: "1",
+            processTime: null,
+            progressName: "北京金山办公软件股份有限公司",
+          },
+        ], //关联案例数据
 				// 动态加载组件
 				showComponent: companyProfile,
 				companyProfile: companyProfile,
@@ -265,7 +297,6 @@
 						case '1':
 							// 公司概览
 							that.showComponent = companyProfile
-							that.$refs.rightModule.treeListMethods(false);
 							targetList = document.getElementById('title-first').children;
 
 							let firstFlag = 0;

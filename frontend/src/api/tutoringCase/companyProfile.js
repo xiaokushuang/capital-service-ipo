@@ -8,9 +8,9 @@ export function getHeadData(query) {
   })
 }
 // IPO公司概览返回类
-export function getCaseDetail(query) {
+export function getCoachBasicInfo(query) {
   return request({
-    url:'/ipo/companyOverview/caseDetail',
+    url:'/ipo/ipoCoachCaseDetail/queryCoachBasicInfo',
     method: 'get',
     params: query
   })

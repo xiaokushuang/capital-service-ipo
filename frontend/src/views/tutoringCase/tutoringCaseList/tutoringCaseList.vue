@@ -9,11 +9,11 @@
 	<div class="ipoCaseList feedback tutoringCaseList">
 		<el-row :gutter="24">
       <div style="position:relative">
-          <el-tooltip style="color:#666" class="ipoTip" content="IPO申报、在审、上会、发行企业案例" placement="top" effect="light">
-            <i style="cursor:pointer;position: absolute;top: 4px;left: 163px;color: red!important;" class="el-icon-question"></i>
+          <el-tooltip class="ipoTip" content="IPO申报、在审、上会、发行企业案例" placement="top" effect="light">
+            <i style="cursor:pointer;position: absolute;top: 4px;left: 163px;color: #909399;" class="el-icon-question"></i>
           </el-tooltip>
-          <el-tooltip style="color:#666" class="ipoTip" content="在辅导企业案例" placement="top" effect="light">
-            <i style="cursor:pointer;position: absolute;top: 4px;left: 265px;color: #909399!important;" class="el-icon-question"></i>
+          <el-tooltip class="ipoTip" content="在辅导企业案例" placement="top" effect="light">
+            <i style="cursor:pointer;position: absolute;top: 4px;left: 265px;color: #909399" class="el-icon-question"></i>
           </el-tooltip>
         <el-checkbox-group class="secondLabel" @change="handelMoreChange(checkboxGroup)" v-model="checkboxGroup" size="mini" style="margin-top:20px;margin-bottom:12px;padding-left: 12px;">
           <el-checkbox :key="index" class="checkbox" v-for="(item,index) in checkboxList" :label="item">

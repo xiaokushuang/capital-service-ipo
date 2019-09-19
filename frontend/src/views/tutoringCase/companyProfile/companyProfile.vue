@@ -141,7 +141,6 @@ export default {
     this.getData();
   },
   mounted() {
-    console.log('父传子',this.companyProfileList)
   },
   methods: {
     getContentHy1(title){
@@ -214,14 +213,13 @@ export default {
       }
       getCoachBasicInfo(param).then(res=>{
         console.log('基本信息',res.data.result)
-        if(res.data.result&&res.data.result.otherMarketInfoList.length>0){
+        if(res.data.result&&res.data.result.otherMarketInfoList&&res.data.result.otherMarketInfoList.length>0){
           this.otherMarketInfoList = res.data.result.otherMarketInfoList
         }
-        if(res.data.result&&res.data.result.intermediaryOrgList.length>0){
+        if(res.data.result&&res.data.result.intermediaryOrgList&&res.data.result.intermediaryOrgList.length>0){
           this.intermediaryOrgList = res.data.result.intermediaryOrgList
           this.dataFlag = true
           this.getPosition()
-          console.log('辅导机构父',this.intermediaryOrgList)
         }
       });
     },
