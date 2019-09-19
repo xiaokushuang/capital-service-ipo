@@ -1,5 +1,5 @@
 <template>
-    <div class="feedback" id="componentId">
+    <div class="feedback" id="componentId" v-loading="flagLoading" element-loading-text="给我一点时间">
        <div class="label">
             <!-- 导入的组件 -->
             <!-- 只有一级标签 -->
@@ -184,7 +184,6 @@ export default {
       if(this.tabList.length==1){
         this.showLength+=15
         if(this.allQuestionList.length > this.showLength){
-          this.flagLoading = false;
           this.showMore = true;
           this.questionList = this.allQuestionList.slice(0, this.showLength);
         }else{
@@ -650,7 +649,7 @@ export default {
         id: this.caseId
       };
       getSelectFeedbackList(param).then(res => {
-
+        this.flagLoading = true;
         if (res.data.result && res.data.result.length > 0) {
           this.o_letterId = res.data.result[0].letterId;
           this.tabList = res.data.result;
