@@ -171,7 +171,7 @@ export default {
       // 多选按钮’全部‘
       showAll: false,
       firstClick: true,
-      flagLoading: false
+      flagLoading: true
     };
   },
   created() {
@@ -181,7 +181,6 @@ export default {
   },
   methods: {
     showMoreMethods(){
-      this.flagLoading = true;
       if(this.tabList.length==1){
         this.showLength+=15
         if(this.allQuestionList.length > this.showLength){
@@ -649,9 +648,8 @@ export default {
       const param = {
         id: this.caseId
       };
-      debugger;
       getSelectFeedbackList(param).then(res => {
-        this.flagLoading = true;
+        this.flagLoading = false;
         if (res.data.result && res.data.result.length > 0) {
           this.o_letterId = res.data.result[0].letterId;
           this.tabList = res.data.result;
@@ -1265,7 +1263,7 @@ export default {
         onlyResponse: onlyResponse
       };
       getSelectQuestionList(param).then(res => {
-        this.flagLoading = true;
+        this.flagLoading = false;
         // 当只有一个tab页时
         if (this.tabList.length == 1) {
           if (res.data.result.length > 0) {
@@ -2462,7 +2460,7 @@ export default {
         onlyResponse: onlyResponse
       };
       getSelectQuestionList(param).then(res => {
-        this.flagLoading = true;
+        this.flagLoading = false;
         // 当只有一个tab页时
         if (this.tabList.length == 1) {
           if (res.data.result.length > 0) {
