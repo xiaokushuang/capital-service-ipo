@@ -1,6 +1,6 @@
 <template>
-    <div class="feedback" id="componentId" v-loading="flagLoading" element-loading-text="给我一点时间">
-       <div class="label">
+    <div class="feedback" id="componentId">
+       <div class="label" v-loading="flagLoading" element-loading-text="给我一点时间">
             <!-- 导入的组件 -->
             <!-- 只有一级标签 -->
             <div v-if="tabList&&tabList.length==1" class="clear">
