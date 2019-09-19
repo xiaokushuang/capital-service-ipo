@@ -649,6 +649,7 @@ export default {
       const param = {
         id: this.caseId
       };
+      debugger;
       getSelectFeedbackList(param).then(res => {
         this.flagLoading = true;
         if (res.data.result && res.data.result.length > 0) {
