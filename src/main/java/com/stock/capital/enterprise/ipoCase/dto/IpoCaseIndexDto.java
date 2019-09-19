@@ -123,6 +123,9 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
     @Field("ipo_intermediary_code_ss")
     private List<String> intermediaryCodes;//中介机构
 
+    @Field("ipo_intermediary_name_ss")
+    private List<String> intermediaryName;//中介机构
+
     @Field("ipo_market_type_ss")
     private List<String> marketTypes;//其他资本市场
 
@@ -196,6 +199,14 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
 
     @Field("ipo_fd_time_dt")
     private Date ipoFdTime;//辅导备案时间
+
+    public List<String> getIntermediaryName() {
+        return intermediaryName;
+    }
+
+    public void setIntermediaryName(List<String> intermediaryName) {
+        this.intermediaryName = intermediaryName;
+    }
 
     public Date getIpoFdTime() {
         return ipoFdTime;
