@@ -2460,6 +2460,7 @@ export default {
         onlyResponse: onlyResponse
       };
       getSelectQuestionList(param).then(res => {
+        this.flagLoading = true;
         // 当只有一个tab页时
         if (this.tabList.length == 1) {
           if (res.data.result.length > 0) {
