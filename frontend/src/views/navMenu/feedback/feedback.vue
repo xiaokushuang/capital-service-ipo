@@ -181,6 +181,7 @@ export default {
   },
   methods: {
     showMoreMethods(){
+      this.flagLoading = true;
       if(this.tabList.length==1){
         this.showLength+=15
         if(this.allQuestionList.length > this.showLength){
