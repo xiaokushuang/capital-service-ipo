@@ -98,6 +98,26 @@ public class IpoCaseListBo implements Serializable {
 
     private List<String> registerAreaList; //注册地List
 
+    private String caseType; //案例类型 all 全部案例，ipo ipo案例，ipofd ipo辅导案例
+
+    private Date[] fdProcessTime; //辅导备案时间
+
+    public Date[] getFdProcessTime() {
+        return fdProcessTime;
+    }
+
+    public void setFdProcessTime(Date[] fdProcessTime) {
+        this.fdProcessTime = fdProcessTime;
+    }
+
+    public String getCaseType() {
+        return caseType;
+    }
+
+    public void setCaseType(String caseType) {
+        this.caseType = caseType;
+    }
+
     public String getRegisterArea() {
         return registerArea;
     }

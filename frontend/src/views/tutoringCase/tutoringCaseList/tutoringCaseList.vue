@@ -1249,6 +1249,7 @@
 						issueFee: _self.issueFee, //发行费用
 						valuationValue: _self.valuationValue, //招股书最近一次估值
 						timeDiff: _self.timeDiff, //申报审核历时（天）
+            caseType: "all", // all ipo ipofd  案例类型 三种类型 
 						ipoPlate: _self.$refs.plateTreeTagRef.getCheckedNodes().map((item) => {
 							return item.labelValue
 						}).join(','), //拟上市板块
@@ -1274,6 +1275,7 @@
 						_self.issueLawId = response.data.result.issueLawId;
 						_self.totalCount = response.data.result.total;
 						_self.tableData = response.data.result.data;
+            debugger
 						_self.plateTreeTag = [{
 							label_sort: 1,
 							name: "拟上市板块(" + response.data.result.plateTreeNum + ')',
