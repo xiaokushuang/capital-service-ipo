@@ -10,16 +10,20 @@
 		<el-row :gutter="24">
       <div style="position:relative">
           <el-tooltip class="ipoTip" content="IPO申报、在审、上会、发行企业案例" placement="top" effect="light">
-            <i style="cursor:pointer;position: absolute;top: 4px;left: 163px;color: #909399;" class="el-icon-question"></i>
+            <i style="cursor:pointer;position: absolute;top: 20px;left: 163px;color: #909399;" class="el-icon-question"></i>
           </el-tooltip>
           <el-tooltip class="ipoTip" content="在辅导企业案例" placement="top" effect="light">
-            <i style="cursor:pointer;position: absolute;top: 4px;left: 265px;color: #909399" class="el-icon-question"></i>
+            <i style="cursor:pointer;position: absolute;top: 20px;left: 265px;color: #909399" class="el-icon-question"></i>
           </el-tooltip>
-        <el-checkbox-group class="secondLabel" @change="handelMoreChange(checkboxGroup)" v-model="checkboxGroup" size="mini" style="margin-top:20px;margin-bottom:12px;padding-left: 12px;">
-          <el-checkbox :key="index" class="checkbox" v-for="(item,index) in checkboxList" :label="item">
-          </el-checkbox>
-        </el-checkbox-group>
+        <!--<el-checkbox-group class="secondLabel" @change="handelMoreChange(checkboxGroup)" v-model="checkboxGroup" size="mini" style="margin-top:20px;margin-bottom:12px;padding-left: 12px;">-->
+          <!--<el-checkbox :key="index" class="checkbox" v-for="(item,index) in checkboxList" :label="item">-->
+          <!--</el-checkbox>-->
+        <!--</el-checkbox-group>-->
       </div>
+      <el-radio-group class="selectTypeClass" v-model="radio" @change="handelMoreChange(radio)" style="margin-top:20px;margin-bottom:12px;padding-left: 12px;display:block;">
+        <el-radio :key="index" class="checkbox" v-for="(item,index) in checkboxList" :label="item.id">{{item.name}}
+        </el-radio>
+      </el-radio-group>
       <el-col class="chart" style="position:relative;width:285px;padding-left: 24px !important;
        padding-right: 0px !important; !important;background-color: #f7f7f7">
 				<div class="innnerbox">
@@ -218,7 +222,7 @@
 					</el-row>
 					<el-row :gutter="24">
             <el-col :span='8'>
-              <el-date-picker size='small' v-model="ypProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
+              <el-date-picker size='small' v-model="fdProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
                               @keydown.enter.native="querySearch" start-placeholder="辅导备案时间" end-placeholder="辅导备案时间" align="center">
               </el-date-picker>
             </el-col>
@@ -392,14 +396,6 @@
 												发行人是依法设立且持续经营三年以上的股份有限公司。有限责任公司按原账面净资产值折股整体变更为股份有限公司的，持续经营时间可以从有限责任公司成立之日起计算；
 											</div>
 										</div>
-										<!-- <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
-                      <span class="quan bottomQuan">2</span>
-                      <div class="bottomTwo">
-                        最近<span style="color: #14BCF5">2</span>年连续盈利，最近两年净利润<span style="color: #14BCF5">累计不少于1000万元</span>;<br>
-                        <span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">1</span>年盈利，最近一年营业收入<span style="color:#14BCF5">不少于5000万元。</span>(
-                        净利润以扣除非经常性损益前后孰低者为计算依据)
-                      </div>
-                    </div> -->
 										<div class="clear" style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
 											<span class="quan" style="float:left">2</span>
 											<div style="display: inline-block;margin-left: 0.5%;float:left;width: 95%;">
@@ -534,7 +530,11 @@
                   </el-table-column>
                   <el-table-column align="right" prop="ipo_sum_asset_d" label="保荐机构" sortable="custom" min-width="10%">
                     <template slot-scope="scope">
-                      <span v-if="scope.row.sunAsset">{{scope.row.sunAsset}}</span>
+                      <span v-if="scope.row.intermediaryName&&scope.row.intermediaryName.length>0" >
+                        <span v-for="(item,index) in scope.row.intermediaryName">{{item}}
+                          <span v-if="index!=scope.row.intermediaryName.length-1">、</span>
+                        </span>
+                      </span>
                       <span v-else>--</span>
                     </template>
                   </el-table-column>
@@ -586,9 +586,25 @@
 		data() {
 			return {
         radio:0,
-        checkboxList:['全部','IPO案例','辅导案例'],
-        checkboxGroup:['全部'],
-
+        // checkboxList:['全部','IPO案例','辅导案例'],
+        checkboxList:[
+          {
+          id:0,
+          name:'全部'
+          },
+          {
+            id:1,
+            name:'IPO案例'
+          },
+          {
+            id:2,
+            name:'辅导案例'
+          }],
+        checkboxGroup: {
+          id:0,
+          name:'全部'
+        },
+        caseType: "all", // all ipo ipofd  案例类型 三种类型
 				issueLawId: '', //上市条件法规id
 				tenantInfo: '', //日志
 				tableData: [],
@@ -601,7 +617,7 @@
 				totalCount: 0,
 				orderByName: '',
 				orderByOrder: '',
-        registerAreaList:[], //省市区
+        // registerAreaList:[], //省市区
 				plateTreeTag: [],
 				plateTreeTagRef: '',
 				marketTreeTag: [],
@@ -638,6 +654,7 @@
 				iecResult: '',
 				iecResultValue: '',
 				codeOrName: '',
+        fdProcessTime:[],
 				ypProcessTime: [],
 				fsProcessTime: [],
 				intermediary: '',
@@ -1108,7 +1125,7 @@
 				startRow: 0,
 				pageSize: 20
 			};
-      this.initAreaSelect();
+      // this.initAreaSelect();
 			this.search(_data);
 			this.getSelectData();
 		},
@@ -1133,10 +1150,33 @@
 		updated() {
 		},
 		methods: {
+      // handelMoreChange(val){
+      //     console.log('val',val)
+      //   if(val.length>1){
+      //     this.checkboxGroup.shift()
+      //     if(val[0]=="IPO案例"){
+      //       console.log('ipo')
+      //     }else if(val[0]=="辅导案例"){
+      //       console.log('辅导')
+      //     }else{
+      //       console.log('全部')
+      //     }
+      //
+      //   }
+      // },
       handelMoreChange(val){
-        if(val.length>1){
-          this.checkboxGroup.shift()
+        console.log('val',val)
+        if(val===0){
+          this.caseType = 'all'
+          console.log('全部')
+        }else if(val===1){
+          this.caseType = 'ipo'
+          console.log('ipo')
+        }else if(val===2){
+          this.caseType = 'ipofd'
+          console.log('辅导')
         }
+        this.querySearch()
       },
       timeRenderHeader (h,{column}) {
         return  h( 'div',[ h('span', column.label),
@@ -1216,10 +1256,9 @@
 					startRow: data.startRow,
 					pageSize: data.pageSize,
 					condition: {
+            caseType:_self.caseType,
 						companyId: _self.$store.state.app.companyId,
 						title: _self.title, //标题关键字（包含全部以空格断开）
-						// industryCsrc: this.$refs.selectIndustryCsrc.selectSpace.map((item)=>{return item.labelValue}).join(','), //发行人行业（证监会）
-            // registerArea : this.$refs.selectRegisterArea.selectSpace.map((item)=>{return item.labelValue}).join(','), // 省市区境外
 						strageticIndustries: _self.strageticIndustriesValue, //发行人行业（战略新兴）
 						issueCondition: _self.issueConditionValue, //发行人选择的上市条件
 						companyNature: _self.companyNatureValue, //企业性质
@@ -1228,6 +1267,7 @@
 						caseStatus: _self.caseStatusValue, //IPO进程
 						iecResult: _self.iecResultValue, //审核结果
 						codeOrName: _self.codeOrName, //公司名称/代码
+            fdProcessTime: _self.fdProcessTime, //辅导时间范围
 						fsProcessTime: _self.fsProcessTime, //发审会审核时间范围
 						ypProcessTime: _self.ypProcessTime, //预先披露时间范围
 						intermediaryCode: _self.intermediaryCode, //中介机构
@@ -1249,7 +1289,6 @@
 						issueFee: _self.issueFee, //发行费用
 						valuationValue: _self.valuationValue, //招股书最近一次估值
 						timeDiff: _self.timeDiff, //申报审核历时（天）
-            caseType: "all", // all ipo ipofd  案例类型 三种类型 
 						ipoPlate: _self.$refs.plateTreeTagRef.getCheckedNodes().map((item) => {
 							return item.labelValue
 						}).join(','), //拟上市板块
@@ -1270,12 +1309,14 @@
 					orderByOrder: _self.orderByOrder
 				};
 				_getIpoCaseList(_data).then(response => {
+				  console.log('参数',_data)
 					_self.tableLoading = false;
 					if (response.data && response.data.success && response.data.result) {
 						_self.issueLawId = response.data.result.issueLawId;
 						_self.totalCount = response.data.result.total;
 						_self.tableData = response.data.result.data;
-            debugger
+						console.log('表格数据',_self.tableData)
+            // debugger
 						_self.plateTreeTag = [{
 							label_sort: 1,
 							name: "拟上市板块(" + response.data.result.plateTreeNum + ')',
@@ -1324,15 +1365,6 @@
 					}
 				})
 			},
-      // 初始化 地区下拉框
-      initAreaSelect(){
-        this.$store.dispatch('ipoCase/initAreaSelect').then(res =>{
-          this.registerAreaList = res;
-
-        }).catch(err =>{
-            console.log(err);
-        })
-      },
 			//排序方法
 			sortChange(column) {
 				const _self = this;
@@ -1414,6 +1446,7 @@
 				_self.codeOrName = ''; //公司简称/代码
 				_self.intermediary = ''; //中介机构
 				_self.intermediaryCode = '';
+        _self.fdProcessTime = []; //辅导备案时间
 				_self.ypProcessTime = []; //预先披露时间
 				_self.fsProcessTime = []; //发审会审核时间
 				_self.orderByName = ''; //排序
