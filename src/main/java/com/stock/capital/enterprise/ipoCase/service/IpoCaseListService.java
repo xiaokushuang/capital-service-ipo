@@ -48,7 +48,7 @@ public class IpoCaseListService extends BaseService {
     public Map<String, Object> getIpoCaseList(QueryInfo<IpoCaseListBo> page, Boolean signSymbol) {
         IpoCaseListBo bo = page.getCondition();
         Map<String, String> condition = Maps.newHashMap();
-        StringBuilder conditionsStr = new StringBuilder("index_type_t: \"ipocase\"");
+        StringBuilder conditionsStr = new StringBuilder("index_type_t: \"ipocase\" AND ipo_type_t: \"ipocase\"");
         //标题关键字
         if (StringUtils.isNotEmpty(bo.getTitle())) {
             String[] title = bo.getTitle().trim().split(" ");

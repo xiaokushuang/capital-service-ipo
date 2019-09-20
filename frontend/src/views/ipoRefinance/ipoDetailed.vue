@@ -422,6 +422,7 @@ export default {
 }
 .spanClass {
     cursor: pointer;
+    color: #66ccff;
 }
 .spanClass:hover {
     text-decoration: underline;

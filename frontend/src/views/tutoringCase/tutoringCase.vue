@@ -155,53 +155,11 @@
 										<div class="el-tabs__nav-scroll">
 											<div class="el-tabs__nav">
 												<div class="el-tabs__active-bar is-top" :style="{width: tabBarWidth + 'px', transform: 'translateX(' + tabBarOffset + 'px)'}"></div>
-												<div id="tab-first" ref="tab-first" aria-controls="pane-first" :class="['el-tabs__item is-top', {'is-active': isActive === '1'}]"
-												 @click="onTabClick('1', $event)" style="padding-left: 0">公司概览</div>
-												<div v-if="headList.isGray=='0'" id="tab-sixth" ref="tab-sixth" aria-controls="pane-sixth" :class="['el-tabs__item is-top', {'is-active': isActive === '6'}]"
-												 @click="onTabClick('6', $event)">行业与技术</div>
-												<div v-if="headList.isGray=='1'" id="tab-sixth" ref="tab-sixth" class="el-tabs__item1" aria-controls="pane-third"
-												 style="cursor:default;color:#adadad">
-													<el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无行业与技术信息" placement="top" effect="light">
-														<el-button class="btnClass">行业与技术</el-button>
-													</el-tooltip>
-												</div>
-												<div id="tab-second" ref="tab-second" aria-controls="pane-second" :class="['el-tabs__item is-top', {'is-active': isActive === '2'}]"
-												 @click="onTabClick('2', $event)">财务信息</div>
-												<div v-if="headList.haveFeedback=='1'&&headList.isTechBoard =='0'" id="tab-third" ref="tab-third" class="el-tabs__item1"
-												 aria-controls="pane-third" style="cursor:default;color:#adadad">
-													<el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无反馈意见信息" placement="top" effect="light">
-														<el-button class="btnClass">反馈意见</el-button>
-													</el-tooltip>
-												</div>
-												<!-- 1是科创版 -->
-												<div v-if="headList.haveFeedback=='1'&&headList.isTechBoard =='1'" id="tab-third" ref="tab-third" class="el-tabs__item1"
-												 aria-controls="pane-third" style="cursor:default;color:#adadad">
-													<el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无问询与回复信息" placement="top" effect="light">
-														<el-button class="btnClass">问询与回复</el-button>
-													</el-tooltip>
-												</div>
-												<!-- 1是科创版 -->
-												<div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='1'" id="tab-third" ref="tab-third"
-												 aria-controls="pane-third" :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]" @click="onTabClick('3', $event)">问询与回复</div>
-												<div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='0'" id="tab-third" ref="tab-third"
-												 aria-controls="pane-third" :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]" @click="onTabClick('3', $event)">反馈意见</div>
-												<div v-if="headList.haveExamine=='1'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" class="el-tabs__item1"
-												 style="padding-right: 0;cursor:default;color:#adadad">
-													<el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无审核结果及关注问题信息" placement="top" effect="light">
-														<el-button class="btnClass">审核结果及关注问题</el-button>
-													</el-tooltip>
-												</div>
-												<div v-if="headList.haveExamine=='0'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" :class="['el-tabs__item is-top', {'is-active': isActive === '4'}]"
-												 @click="onTabClick('4', $event)" style="padding-right: 0">审核结果及关注问题</div>
-												<div v-if="headList.havePublic=='1'" id="tab-fifth" ref="tab-fifth" aria-controls="pane-fifth" class="el-tabs__item1"
-												 style="padding-right: 0;cursor:default;color:#adadad">
-													<el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无发行概况信息" placement="top" effect="light">
-														<el-button class="btnClass">发行概况</el-button>
-													</el-tooltip>
-												</div>
-												<div v-if="headList.havePublic=='0'" id="tab-fifth" ref="tab-fifth" aria-controls="pane-fifth" :class="['el-tabs__item is-top', {'is-active': isActive === '5'}]"
-												 @click="onTabClick('5', $event)">发行概况</div>
-											</div>
+												  <div id="tab-first" ref="tab-first" aria-controls="pane-first" :class="['el-tabs__item is-top', {'is-active': isActive === '1'}]"
+												    @click="onTabClick('1', $event)" style="padding-left: 0">
+                            公司概览
+                          </div>
+											  </div>
 										</div>
 									</div>
 									<!-- 菜单栏下面的小分类 -->
@@ -211,36 +169,6 @@
 											<a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveFirst === item.id}, {'disabled': item.noClick}]"
 											 :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 1)">{{item.name}}</a>
 											<span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFirstList.length - 1">|</span>
-										</span>
-									</div>
-									<!-- 2 -->
-									<div id="title-second" class="title-body" v-show="isActive == '2'">
-										<span v-for="(item, index) in tabSecondList">
-											<a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveSecond === item.id}, {'disabled': item.noClick}]"
-											 :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 2)">{{item.name}}</a>
-											<span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabSecondList.length - 1">|</span>
-										</span>
-									</div>
-									<!-- 3 -->
-									<div id="title-third" class="title-body" v-show="isActive == '3'"><br />
-									</div>
-									<!-- 4 -->
-									<div id="title-fourth" class="title-body" v-show="isActive == '4'"><br />
-									</div>
-									<!-- 5 -->
-									<div id="title-fifth" class="title-body" v-show="isActive == '5'">
-										<span v-for="(item, index) in tabFifthList">
-											<a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveFifth === item.id}, {'disabled': item.noClick}]"
-											 :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 5)">{{item.name}}</a>
-											<span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFifthList.length - 1">|</span>
-										</span>
-									</div>
-									<!-- 6 -->
-									<div id="title-sixth" class="title-body" v-show="isActive == '6'">
-										<span v-for="(item, index) in tabSixthList">
-											<a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveSixth === item.id}, {'disabled': item.noClick}]"
-											 :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 6)">{{item.name}}</a>
-											<span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabSixthList.length - 1">|</span>
 										</span>
 									</div>
 								</div>
@@ -364,30 +292,20 @@
 		NoteDetermination
 	} from '@/api/ipoCase/companyProfile';
 	// 导入导航栏五个组件
-	import companyProfile from "../navMenu/companyProfile/companyProfile.vue";
-	import financialInformation from "../navMenu/financialInformation/financialInformation";
-	import feedback from "../navMenu/feedback/feedback";
-	import result from "../navMenu/result/result";
-	import issue from "../navMenu/issue/issue";
-	import industryTechnology from "../navMenu/industryTechnology/industryTechnology";
-	import processTree from "../navMenu/processTree";
-	import relatedCase from "../navMenu/processTree/relatedCase";
+	import companyProfile from "./companyProfile/companyProfile.vue";
+	import processTree from "./processTree";
+	import relatedCase from "./processTree/relatedCase";
 	import $ from "jquery";
 	import {
 		iframeDoMessage
 	} from '@/utils/auth'
 	export default {
-		name: "ipo",
+		name: "tutoringCase",
 		components: {
 			// 导入导航栏五个组件
 			companyProfile,
-			financialInformation,
-			feedback,
-			result,
-			issue,
-			industryTechnology,
-			processTree,
-			relatedCase
+      processTree,
+      relatedCase
 		},
 		data() {
 			return {
@@ -399,19 +317,15 @@
 				wxcode: false,
 				wxcodeUrl: '',
 				tenantInfo: '', //日志
-				caseId2: this.$store.state.app.caseId,
+        caseId2:98114881248913555,
+				// caseId2: this.$store.state.app.caseId,
 				// companyId:this.$store.state.app.companyId,
 				companyId: '999600',
 				proList: [], //关联案例数据
 				// 动态加载组件
-				companyProfile: companyProfile,
-				financialInformation: financialInformation,
-				feedback: feedback,
-				result: result,
-				issue: issue,
-				processTree: processTree,
-				industryTechnology: industryTechnology,
 				showComponent: companyProfile,
+				companyProfile: companyProfile,
+				processTree: processTree,
 
 				fixBody: "",
 				headerFix: false,
@@ -425,74 +339,10 @@
 				itemActiveSixth: "",
 				tabFirstList: [{
 						id: '1',
-						name: '最后一次估值情况',
-					},
-					{
-						id: '2',
-						name: '股权结构图',
-					},
-					{
-						id: '3',
-						name: '主营业务收入构成'
-					},
-					{
-						id: '4',
-						name: '前五名供应商'
-					},
-					{
-						id: '5',
-						name: '前五名客户'
-					},
-					{
-						id: '6',
-						name: '募集资金运用'
-					},
-					{
-						id: '7',
-						name: '中介机构'
+						name: '辅导机构',
 					},
 				],
-				tabSecondList: [{
-						id: '1',
-						name: '主要财务数据',
-					},
-					{
-						id: '2',
-						name: '同行业毛利率对比'
-					},
-				],
-				tabThreeList: [],
-				tabFourthList: [],
-				tabFifthList: [{
-						id: '1',
-						name: '发行数据',
-					},
-					{
-						id: '2',
-						name: '发行费用'
-					},
-				],
-				tabSixthList: [{
-						id: '1',
-						name: '主要竞争对手简介'
-					},
-					{
-						id: '2',
-						name: '同行业毛利率对比'
-					},
-					//  {
-					//   id:'3',
-					//   name:'专利情况'
-					// },
-					{
-						id: '4',
-						name: '研发投入'
-					},
-					{
-						id: '5',
-						name: '核心技术及研发技术人员'
-					},
-				],
+
 				isActive: "1",
 				tabBarWidth: "",
 				tabBarOffset: "",
@@ -564,6 +414,7 @@
 			// 日志------------------功能尾
 		},
 		mounted() {
+
 		},
 		methods: {
 			// 鼠标展示二维码
@@ -591,8 +442,6 @@
 			},
 			// 初始化数据
 			initTableData() {
-				// console.log('companyId22222222222',this.$store.state.app.companyId)
-				// console.log('companyId233333333333',this.companyId)
 				// 动态传id
 				const param = {
 					id: this.caseId2
@@ -609,36 +458,36 @@
 						this.specialArrange = res.data.result.specialArrange.split(',');
 					}
 
-					if (res.data.result.favoriteId == '' || res.data.result.favoriteId == null) {
-						this.favoriteFlag = true
-					} else {
-						this.favoriteFlag = false
-					}
+					// if (res.data.result.favoriteId == '' || res.data.result.favoriteId == null) {
+					// 	this.favoriteFlag = true
+					// } else {
+					// 	this.favoriteFlag = false
+					// }
 
-					if (res.data.result.caseNote == '' || res.data.result.caseNote == null) {
-						this.note = ''
-					} else {
-						this.note = res.data.result.caseNote;
-						this.noteSave = res.data.result.caseNote;
-					}
+					// if (res.data.result.caseNote == '' || res.data.result.caseNote == null) {
+					// 	this.note = ''
+					// } else {
+					// 	this.note = res.data.result.caseNote;
+					// 	this.noteSave = res.data.result.caseNote;
+					// }
 					this.collectionAndNoteShow = true;
 
-					if(this.isNotEmpty(this.headList.title) == ''){
-					  this.noteTitle = '编辑笔记'
-					  this.centerNoteTitle = '编辑笔记'
-					}else{
-					  let title = '编辑笔记-'+ this.getTitle(this.headList.title)
-					  if(title.length > 35){
-					    this.noteTitle = title.substring(0,35) + '...';
-					  }else{
-					    this.noteTitle = title;
-					  }
-					  if(title.length > 45){
-					    this.centerNoteTitle = title.substring(0,45) + '...';
-					  }else{
-					    this.centerNoteTitle = title;
-					  }
-					}
+					// if(this.isNotEmpty(this.headList.title) == ''){
+					//   this.noteTitle = '编辑笔记'
+					//   this.centerNoteTitle = '编辑笔记'
+					// }else{
+					//   let title = '编辑笔记-'+ this.getTitle(this.headList.title)
+					//   if(title.length > 35){
+					//     this.noteTitle = title.substring(0,35) + '...';
+					//   }else{
+					//     this.noteTitle = title;
+					//   }
+					//   if(title.length > 45){
+					//     this.centerNoteTitle = title.substring(0,45) + '...';
+					//   }else{
+					//     this.centerNoteTitle = title;
+					//   }
+					// }
 					this.titleNoteFlag = this.isNotEmpty(this.$route.query.notOpenFlag) ? true : false;
 
 				})
@@ -728,100 +577,6 @@
 								}
 							}
 							break
-						case '2':
-							// 财务信息
-							that.showComponent = financialInformation
-							that.$refs.rightModule.treeListMethods(false);
-							targetList = document.getElementById('title-second').children;
-							let secondFlag = 0;
-							for (let i = 0; i < targetList.length; i++) {
-								if ((that.itemActiveSecond + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
-									that.$nextTick(() => {
-										document.documentElement.scrollTop = document.getElementById(that.itemActiveSecond).offsetTop + document.getElementById(
-											'titleHeader').offsetHeight - 50;
-									})
-									secondFlag = 1;
-								}
-							}
-							if (secondFlag === 0) {
-								var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
-								if (document.documentElement.scrollTop > scrollhight) {
-									document.documentElement.scrollTop = scrollhight;
-								}
-							}
-							break
-						case '3':
-							// 反馈意见【没有锚点定位】
-							that.showComponent = feedback
-							that.$refs.rightModule.treeListMethods(false);
-							targetList = document.getElementById('title-third').children;
-							let thirdFlag = 0
-							if (thirdFlag === 0) {
-								var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
-								if (document.documentElement.scrollTop > scrollhight) {
-									document.documentElement.scrollTop = scrollhight;
-								}
-							}
-							break
-						case '4':
-							// 审核结果及关注问题【没有锚点定位】
-							that.showComponent = result
-							that.$refs.rightModule.treeListMethods(false);
-							targetList = document.getElementById('title-fourth').children;
-							let fourthFlag = 0
-							if (fourthFlag === 0) {
-								var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
-								if (document.documentElement.scrollTop > scrollhight) {
-									document.documentElement.scrollTop = scrollhight;
-								}
-							}
-							break
-						case '5':
-							//  发行概况
-							that.showComponent = issue
-							//  最后tab页形态不一样
-							that.$refs.rightModule.treeListMethods(true);
-							targetList = document.getElementById('title-fifth').children;
-							let fifthFlag = 0;
-							// 点击最后tab页，进程树展示不同内容
-							for (let i = 0; i < targetList.length; i++) {
-								if ((that.itemActiveFifth + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
-									that.$nextTick(() => {
-										document.documentElement.scrollTop = document.getElementById(that.itemActiveFifth).offsetTop + document.getElementById(
-											'titleHeader').offsetHeight - 50;
-									})
-									fifthFlag = 1;
-								}
-							}
-							if (fifthFlag === 0) {
-								var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
-								if (document.documentElement.scrollTop > scrollhight) {
-									document.documentElement.scrollTop = scrollhight;
-								}
-							}
-							break
-						case '6':
-							// 行业与技术
-							that.showComponent = industryTechnology
-							that.$refs.rightModule.treeListMethods(false);
-							targetList = document.getElementById('title-sixth').children;
-							let sixthFlag = 0;
-							for (let i = 0; i < targetList.length; i++) {
-								if ((that.itemActiveSixth + 'caseDetails') === targetList[i].children[0].getAttribute('id')) {
-									that.$nextTick(() => {
-										document.documentElement.scrollTop = document.getElementById(that.itemActiveSixth).offsetTop + document.getElementById(
-											'titleHeader').offsetHeight - 50;
-									})
-									sixthFlag = 1;
-								}
-							}
-							if (sixthFlag === 0) {
-								var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
-								if (document.documentElement.scrollTop > scrollhight) {
-									document.documentElement.scrollTop = scrollhight;
-								}
-							}
-							break
 						default:
 							break
 					}
@@ -868,15 +623,7 @@
 						case "tab-first":
 							this.tabFirstList = param;
 							break;
-						case "tab-second":
-							this.tabSecondList = param;
-							break;
-						case "tab-fifth":
-							this.tabFifthList = param;
-							break;
-						case "tab-sixth":
-							this.tabSixthList = param;
-							break;
+
 						default:
 							break;
 					}
@@ -889,15 +636,6 @@
 				switch (num) {
 					case 1:
 						this.itemActiveFirst = param;
-						break
-					case 2:
-						this.itemActiveSecond = param;
-						break
-					case 5:
-						this.itemActiveFifth = param;
-						break
-					case 6:
-						this.itemActiveSixth = param;
 						break
 					default:
 						break
