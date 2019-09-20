@@ -10,6 +10,7 @@ import com.stock.capital.enterprise.ipoCoachCase.dto.OtherMarketInfoDto;
 import com.stock.core.service.BaseService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,9 @@ public class IpoCoachCaseDetailService extends BaseService {
 
     @Autowired
     IpoCoachCaseDetailBizMapper ipoCoachCaseDetailBizMapper;
+
+    @Value("#{app['file.viewPath']}")
+    private String fileViewPath;
 
     public IpoCoachCaseDto queryCoachTitleInfo(String id) {
         IpoCoachCaseDto ipoCoachCaseDto = new IpoCoachCaseDto();
@@ -52,18 +56,27 @@ public class IpoCoachCaseDetailService extends BaseService {
     public TreeTypeProgressDto queryIpoProcessByCaseId(String caseId) {
         TreeTypeProgressDto treeTypeProgressDto = new TreeTypeProgressDto();
         treeTypeProgressDto = ipoCoachCaseDetailBizMapper.queryIpoProcessByCaseId(caseId);
+
+
         if (treeTypeProgressDto == null) {
             treeTypeProgressDto = new TreeTypeProgressDto();
         } else {
             List<IpoProListDto> list = new ArrayList<>();
             list = treeTypeProgressDto.getTreeList().get(0).getProList();
             for (int i = 0; i < list.size(); i++) {
-                if(i != list.size() -1){
+                if (i != list.size() - 1) {
                     String chajitian = getTimeDistance(list.get(i + 1).getRelaList().get(0).getPublishTime(), list.get(i).getRelaList().get(0).getPublishTime());
                     list.get(i).setLastDay(chajitian);
                 }
                 String time = "";
                 for (IpoFileRelationDto item : list.get(i).getRelaList()) {
+                    if ("htm".equals(item.getSuffix()) || "html".equals(item.getSuffix())) {
+                        String baseUrl = fileViewPath + "open/ipoFile/" + item.getRelaId() + ".png";
+                        item.setBaseUrl(baseUrl);
+                    } else {
+                        String baseUrl = fileViewPath + "open/ipoFile/" + item.getRelaId() + "." + item.getSuffix();
+                        item.setBaseUrl(baseUrl);
+                    }
                     if (StringUtils.isNotEmpty(item.getPublishTime())) {
                         list.get(i).setProcessTime(item.getPublishTime());
                         time = item.getPublishTime();
