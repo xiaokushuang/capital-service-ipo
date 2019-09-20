@@ -1,5 +1,5 @@
 <template>
-    <div class="feedback" id="componentId" v-loading="flagLoading" element-loading-text="给我一点时间">
+    <div class="feedback" id="componentId">
        <div class="label">
             <!-- 导入的组件 -->
             <!-- 只有一级标签 -->
@@ -171,7 +171,6 @@ export default {
       // 多选按钮’全部‘
       showAll: false,
       firstClick: true,
-      flagLoading: true
     };
   },
   created() {
@@ -179,6 +178,7 @@ export default {
     this.initTableData();
     this.isShowAll = true;
   },
+
   methods: {
     showMoreMethods(){
       if(this.tabList.length==1){
@@ -649,7 +649,7 @@ export default {
         id: this.caseId
       };
       getSelectFeedbackList(param).then(res => {
-        this.flagLoading = false;
+        this.$emit('fatherMethod');
         if (res.data.result && res.data.result.length > 0) {
           this.o_letterId = res.data.result[0].letterId;
           this.tabList = res.data.result;
@@ -1263,7 +1263,7 @@ export default {
         onlyResponse: onlyResponse
       };
       getSelectQuestionList(param).then(res => {
-        this.flagLoading = false;
+        this.$emit('fatherMethod');
         // 当只有一个tab页时
         if (this.tabList.length == 1) {
           if (res.data.result.length > 0) {
@@ -2460,7 +2460,7 @@ export default {
         onlyResponse: onlyResponse
       };
       getSelectQuestionList(param).then(res => {
-        this.flagLoading = false;
+        this.$emit('fatherMethod');
         // 当只有一个tab页时
         if (this.tabList.length == 1) {
           if (res.data.result.length > 0) {
