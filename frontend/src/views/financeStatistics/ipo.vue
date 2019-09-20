@@ -275,7 +275,6 @@
 									</el-popover>
 								</div>
 							</div>
-              <div v-loading="flagLoadingLetter" element-loading-text="给我一点时间" style="z-index: 999"></div>
 							<!-- 点击不同菜单展示不同下面内容 -->
 							<div class="el-tabs__content">
 								<!-- 动态加载tab -->
@@ -392,7 +391,6 @@
 		},
 		data() {
 			return {
-        flagLoadingLetter:false,
 				collectionAndNoteShow : false,
 				currentQrCodeImg : false,
 				ipoplatetype: false,
@@ -687,9 +685,6 @@
 				}
 				this.$refs.rightModule.orderByProcess(sortType)
 			},
-      loadflag(){
-			  this.flagLoadingLetter = false
-      },
 			// 点击tab导航栏
 			onTabClick(isActive, event) {
 				let that = this
@@ -760,7 +755,6 @@
 							that.showComponent = feedback
 							that.$refs.rightModule.treeListMethods(false);
 							targetList = document.getElementById('title-third').children;
-							this.flagLoadingLetter = true
 							let thirdFlag = 0
 							if (thirdFlag === 0) {
 								var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;

@@ -1,5 +1,6 @@
 <template>
     <div class="feedback" id="componentId">
+      <div v-loading="flagLoading" element-loading-text="给我一点时间"></div>
        <div class="label">
             <!-- 导入的组件 -->
             <!-- 只有一级标签 -->
@@ -78,6 +79,7 @@ export default {
   props:["companyProfileList"],
   data() {
     return {
+      flagLoading:true,
       caseId: this.$store.state.app.caseId,
       // 总共数据
       tabList: [],
@@ -649,7 +651,7 @@ export default {
         id: this.caseId
       };
       getSelectFeedbackList(param).then(res => {
-        this.$emit('fatherMethod');
+        this.flagLoading = false
         if (res.data.result && res.data.result.length > 0) {
           this.o_letterId = res.data.result[0].letterId;
           this.tabList = res.data.result;
@@ -1263,7 +1265,7 @@ export default {
         onlyResponse: onlyResponse
       };
       getSelectQuestionList(param).then(res => {
-        this.$emit('fatherMethod');
+        this.flagLoading = false
         // 当只有一个tab页时
         if (this.tabList.length == 1) {
           if (res.data.result.length > 0) {
@@ -2460,7 +2462,7 @@ export default {
         onlyResponse: onlyResponse
       };
       getSelectQuestionList(param).then(res => {
-        this.$emit('fatherMethod');
+        this.flagLoading = false
         // 当只有一个tab页时
         if (this.tabList.length == 1) {
           if (res.data.result.length > 0) {
