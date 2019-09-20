@@ -37,9 +37,11 @@
                 <result column="process_type_code" property="progressType" jdbcType="VARCHAR"/>
                 <result column="label_name" property="progressName" jdbcType="VARCHAR"/>
                 <result column="pro_sort" property="proSort" jdbcType="VARCHAR"/>
+                <!--<result column="process_time" property="processTime" jdbcType="VARCHAR"/>-->
                 <collection property="relaList"
                             ofType="com.stock.capital.enterprise.ipoCase.dto.IpoFileRelationDto">
                     <result column="id" property="id" jdbcType="VARCHAR"/>
+                    <result column="url" property="baseUrl" jdbcType="VARCHAR"/>
                     <result column="relation_file_id" property="relaId" jdbcType="VARCHAR"/>
                     <result column="relation_file_title" property="relationFileTitle"
                             jdbcType="VARCHAR"/>
@@ -107,6 +109,7 @@
         t1.table_sort,
         t1.`status`,
         t3.suffix,
+        t3.url,
         t1.iec_result,
         t1.relation_file_title
         FROM
