@@ -20,12 +20,12 @@
           </li>
           <li  class="clear" style="margin-bottom:10px;position:relative" >
             <span  class="l">所属证监局</span>
-             <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.industryCsrc"  style="color: #333333;float:left;display:inline-block;width: 53%;margin-left: 27px;" :title="companyProfileList.companyProfileList.industryCsrc.length>24 ? companyProfileList.companyProfileList.industryCsrc:''">{{getContentHy1(companyProfileList.companyProfileList.industryCsrc)}}</div>
+             <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.securitiesRegulatoryText"  style="color: #333333;float:left;display:inline-block;width: 53%;margin-left: 27px;" :title="companyProfileList.companyProfileList.securitiesRegulatoryText.length>24 ? companyProfileList.companyProfileList.securitiesRegulatoryText:''">{{getContentHy1(companyProfileList.companyProfileList.securitiesRegulatoryText)}}</div>
             <div v-else  style="color: #333333;float:left;display:inline-block;width: 53%;margin-left: 27px;">- -</div>
           </li>
            <li class="clear" style="margin-bottom:10px;position:relative" >
             <span class="l">注册地址</span>
-            <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&(companyProfileList.companyProfileList.registerProvience || companyProfileList.companyProfileList.registerCity || companyProfileList.companyProfileList.registerArea)" >{{(companyProfileList.companyProfileList.registerProvience == null ? "" : companyProfileList.companyProfileList.registerProvience) + (companyProfileList.companyProfileList.registerCity == null ? "" : companyProfileList.companyProfileList.registerCity) + (companyProfileList.companyProfileList.registerArea == null ? "" : companyProfileList.companyProfileList.registerArea)}}</div>
+            <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&(companyProfileList.companyProfileList.registerProvienceText || companyProfileList.companyProfileList.registerCityText || companyProfileList.companyProfileList.registerAreaText)" >{{(companyProfileList.companyProfileList.registerProvienceText == null ? "" : companyProfileList.companyProfileList.registerProvienceText) + (companyProfileList.companyProfileList.registerCityText == null ? "" : companyProfileList.companyProfileList.registerCityText) + (companyProfileList.companyProfileList.registerAreaText == null ? "" : companyProfileList.companyProfileList.registerAreaText)}}</div>
             <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-else >- -</div>
           </li>
         </ul>
@@ -37,7 +37,7 @@
           </li>
           <li class="clear" style="position:relative;margin-top:0%;margin-bottom:16px">
             <span class="l" >主营业务</span>
-            <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.mainBusinesses">{{companyProfileList.companyProfileList.mainBusinesses}}</div>
+            <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.mainBusiness">{{companyProfileList.companyProfileList.mainBusiness}}</div>
             <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 27px;" v-else >- -</div>
           </li>
         </div>
@@ -75,7 +75,7 @@
           <span class="littleRectangle"></span>
           <span class="titleText" id="intermediaryInstitutions">辅导机构</span>
       </div>
-      <IntermediaryInstitutions v-if="intermediaryOrgList&&intermediaryOrgList.length>0" :intermediaryOrgList="intermediaryOrgList"></IntermediaryInstitutions>
+      <IntermediaryInstitutions v-if="IntermediaryList&&IntermediaryList.length>0" :intermediaryOrgList="IntermediaryList"></IntermediaryInstitutions>
     </div>
     <!-- 已经到底了 -->
     <div style="text-align: center;
@@ -119,10 +119,11 @@ export default {
       //其他资本市场
       otherMarketInfoList:[],//其他登陆市场
       // 中介机构
+      allArr:[],
+      IntermediaryList:[],
       intermediaryOrgList:[],
       moreList:[],
       mainList:[],
-      dataFlag:false,
     };
   },
   props:["companyProfileList"],
@@ -143,6 +144,18 @@ export default {
   mounted() {
   },
   methods: {
+    //中介机构数据处理（只保留辅导机构的数据）
+    getAllArr(){
+      this.allArr = []
+      for(let i = 0;i<this.intermediaryOrgList.length;i++){
+        if(this.intermediaryOrgList[i].intermediaryType=='7'){
+          this.allArr.push(this.intermediaryOrgList[i])
+          this.IntermediaryList = this.allArr
+        }
+      }
+
+      console.log('全部符合要求的辅导机构',this.IntermediaryList)
+    },
     getContentHy1(title){
      if(title.length>24){
        return title.substring(0,23) + '...'
@@ -218,9 +231,13 @@ export default {
         }
         if(res.data.result&&res.data.result.intermediaryOrgList&&res.data.result.intermediaryOrgList.length>0){
           this.intermediaryOrgList = res.data.result.intermediaryOrgList
-          this.dataFlag = true
-          this.getPosition()
+          if(this.intermediaryOrgList&&this.intermediaryOrgList.length>0){
+            this.getAllArr()
+
+            console.log('中介机构',this.intermediaryOrgList)
+          }
         }
+        this.getPosition()
       });
     },
     // 鼠标移入公司名
@@ -255,15 +272,8 @@ export default {
     },
     //返回父组件用于锚点定位头
     getPosition() {
+      // debugger;
           let titleList = [];
-          // let briefIntroduction = {
-          //     id: 'briefIntroduction',
-          //     name: '公司概览',
-          //     notes: '',
-          //     important: false,
-          //     tabId: 'tab-first',
-          //     noClick: true
-          // }
           let intermediaryInstitutions = {
               id: 'intermediaryInstitutions',
               name: '辅导机构',
@@ -272,14 +282,10 @@ export default {
               tabId: 'tab-first',
               noClick: true
           }
-          // if(this.companyProfileList.companyProfileList){
-          //    briefIntroduction.noClick = false;
-          // }
 
-          if(this.dataFlag){
+          if(this.IntermediaryList&&this.IntermediaryList.length>0){
             intermediaryInstitutions.noClick = false;
           }
-          // titleList.push(briefIntroduction)
           titleList.push(intermediaryInstitutions)
           this.$emit('headCallBack', titleList);
     },
