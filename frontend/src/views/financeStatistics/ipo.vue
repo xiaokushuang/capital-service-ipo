@@ -279,7 +279,7 @@
 							<div class="el-tabs__content">
 								<!-- 动态加载tab -->
 								<keep-alive>
-									<component :is="showComponent" @fatherMethod="loadflag" id="componentId" v-on:headCallBack="headCall" :companyProfileList='{companyProfileList:this.companyProfileList,headList:this.headList}'></component>
+									<component :is="showComponent" id="componentId" v-on:headCallBack="headCall" :companyProfileList='{companyProfileList:this.companyProfileList,headList:this.headList}'></component>
 								</keep-alive>
 							</div>
 						</div>
