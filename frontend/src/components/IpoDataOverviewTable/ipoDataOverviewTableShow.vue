@@ -146,7 +146,7 @@ export default {
             url = url + '&label=' + label + '&quasiListedLand=' + quasiListedLand + '&industry=' + this.industrySelect
              + '&registAddr=' + this.areaSelect + '&tabFlag=' + this.id;
 			//参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
-			iframeDoMessage(window.parent,'popWinOut',[label,url,'1200','600']);
+			iframeDoMessage(window.parent,'popWinOut',[label,url,'1200','580']);
         }
         
     },
