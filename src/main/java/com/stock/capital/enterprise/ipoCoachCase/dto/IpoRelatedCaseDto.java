@@ -9,6 +9,7 @@ public class IpoRelatedCaseDto implements Serializable {
     private String caseid;
     private String processTime;
     private String iecResult;
+    private String iecResultText;
     private String proSort;
     private String caseTitle;
     private String companyZhName;
@@ -59,5 +60,13 @@ public class IpoRelatedCaseDto implements Serializable {
 
     public void setCompanyZhName(String companyZhName) {
         this.companyZhName = companyZhName;
+    }
+
+    public String getIecResultText() {
+        return iecResultText;
+    }
+
+    public void setIecResultText(String iecResultText) {
+        this.iecResultText = iecResultText;
     }
 }

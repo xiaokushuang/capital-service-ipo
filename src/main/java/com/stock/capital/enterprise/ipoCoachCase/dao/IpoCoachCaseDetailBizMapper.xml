@@ -134,27 +134,29 @@
     </select>
 
     <select id="getRelaIpoCaseList" parameterType="com.stock.capital.enterprise.ipoCoachCase.dto.IpoRelatedCaseDto" resultType="com.stock.capital.enterprise.ipoCoachCase.dto.IpoRelatedCaseDto">
-          select * from (select * from (select
+            select * from (select * from (select
 			t3.title as caseTitle,
 			t3.id as caseId,
 			t4.process_time as processTime
-        from ipo_fd_case t1,ipo_fd_relevance t2,ipo_case t3,ipo_process t4
+        from ipo_fd_case t1,ipo_fd_relevance t2,ipo_case t3,ipo_process t4,case_common_status_info t5
         where t1.id = t2.fd_bid
         and t2.bid = t3.id
         and t4.bid = t3.id
-        and t3.release_flag = '1'
+        and t5.case_id = t3.id
+        and t5.case_type = '04'
+        and t5.release_flag = '1'
         and t3.open_flag = '1'
         and t4.status = '1'
         and t1.id = #{id} order by t4.pro_sort limit 999999) a left join
 		  (select
 		    t3.id,
 		  	t4.iec_result as iecResult,
+		  	(select t5.label_name from maa_conf_label t5 where t5.label_code = 'IPO_VERIFY_RESULT' and t5.label_value = t4.iec_result and t5.status = '1') as iecResultText,
 		  	t4.pro_sort as proSort
         from ipo_fd_case t1,ipo_fd_relevance t2,ipo_case t3,ipo_process t4
         where t1.id = t2.fd_bid
         and t2.bid = t3.id
         and t4.bid = t3.id
-        and t3.release_flag = '1'
         and t3.open_flag = '1'
         and t4.iec_result is not NULL
         and t1.id = #{id} and t4.status = '1') b
