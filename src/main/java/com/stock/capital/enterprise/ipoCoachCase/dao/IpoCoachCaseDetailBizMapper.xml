@@ -137,7 +137,8 @@
          select * from (select * from (select
 			t3.title as caseTitle,
 			t3.id as caseId,
-			t4.process_time as processTime,
+            t4.process_time,
+			date_format(t4.process_time,'%Y-%m-%d') as processTime,
 			t3.open_flag as openFlag
         from ipo_fd_case t1,ipo_fd_relevance t2,ipo_case t3,ipo_process t4,case_common_status_info t5
         where t1.id = t2.fd_bid
