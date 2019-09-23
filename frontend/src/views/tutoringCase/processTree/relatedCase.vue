@@ -15,18 +15,18 @@
                                                 <!-- 展示序号 【默认时候不加类】-->
                                                 <!-- <span :id="'num' +  item.progressIndex"> -->
                                                 <span>
-                                                    {{item.proSort}}
+                                                    {{proList.length - index}}
                                                 </span>
                                             </span>
                                         </span>
                                     </div>
                                     <div class="border-right">
                                         <div style="">
-                                             <div :style="{'font-size': '14px', 'color': '#14bcf5','display':'inline-block','margin-right':item.progressName.length>=14?'-4px':'12px'}"  class="tinyHand">
-                                                <a @click="gonggaoClick(item.caseId,item.openFlag)">{{item.progressName}}</a>
+                                             <div :style="{'font-size': '14px', 'color': '#14bcf5','display':'inline-block','margin-right':item.caseTitle.length>=14?'-4px':'12px'}"  class="tinyHand">
+                                                <a @click="gonggaoClick(item.caseid,item.openFlag)">{{item.caseTitle}}</a>
                                              </div>
-                                              <!--<div :style="{'font-size': '14px', 'color': '#14bcf5','display':'inline-block','margin-right':item.progressName.slice(0,13).length>=14?'-4px':'12px'}"  class="tinyHand">-->
-                                                <!--<a @click="gonggaoClick(item.caseId,item.openFlag)">{{item.progressName.slice(0,13)}}</a>-->
+                                              <!--<div :style="{'font-size': '14px', 'color': '#14bcf5','display':'inline-block','margin-right':item.caseTitle.slice(0,13).length>=14?'-4px':'12px'}"  class="tinyHand">-->
+                                                <!--<a @click="gonggaoClick(item.caseid,item.openFlag)">{{item.caseTitle.slice(0,13)}}</a>-->
                                              <!--</div>-->
                                              <!-- 非科创版审核结果 -->
                                             <span v-if="item.iecResult=='00'" :style={background:htg}  class="htg" >获通过</span>
@@ -110,7 +110,7 @@ export default {
     },
     methods: {
        gonggaoClick(id,flag) {
-            if (id) {
+            if (flag==="1") {
                 const _self = this;
                 const {href} = _self.$router.resolve({
                 name: 'caseDetail',

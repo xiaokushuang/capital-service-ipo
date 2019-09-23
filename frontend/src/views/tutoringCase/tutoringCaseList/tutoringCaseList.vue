@@ -13,7 +13,7 @@
             <i style="cursor:pointer;position: absolute;top: 20px;left: 163px;color: #909399;" class="el-icon-question"></i>
           </el-tooltip>
           <el-tooltip class="ipoTip" content="在辅导企业案例" placement="top" effect="light">
-            <i style="cursor:pointer;position: absolute;top: 20px;left: 265px;color: #909399" class="el-icon-question"></i>
+            <i style="cursor:pointer;position: absolute;top: 20px;left: 273px;color: #909399" class="el-icon-question"></i>
           </el-tooltip>
         <!--<el-checkbox-group class="secondLabel" @change="handelMoreChange(checkboxGroup)" v-model="checkboxGroup" size="mini" style="margin-top:20px;margin-bottom:12px;padding-left: 12px;">-->
           <!--<el-checkbox :key="index" class="checkbox" v-for="(item,index) in checkboxList" :label="item">-->
@@ -1424,6 +1424,7 @@
 				this.querySearch();
 			},
 			selectHandleNodeClick(val, treeVal) {
+        // debugger;
 				const nodeCheck = this.$refs[treeVal].getCheckedNodes(true); //通过 node 获取(光子节点)
 				let middle = "";
 				let middleValue = "";
@@ -1469,8 +1470,6 @@
 				_self.$refs.greenTreeTagRef.setCheckedKeys([]);
 				_self.$refs.specialArrangeTagRef.setCheckedKeys([]);
 				_self.$refs.sfcTreeTagRef.setCheckedKeys([]);
-				// _self.$refs.treeIndustryCsrc.setCheckedKeys([]);
-				// _self.$refs.treeStrageticIndustries.setCheckedKeys([]);//战略新兴
 				_self.$refs.treeIssueCondition.setCheckedKeys([]);
 				_self.$refs.treeCompanyNature.setCheckedKeys([]);
 				_self.$refs.treeIpoNum.setCheckedKeys([]);
