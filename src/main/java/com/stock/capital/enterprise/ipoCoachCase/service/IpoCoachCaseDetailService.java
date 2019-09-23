@@ -33,13 +33,6 @@ public class IpoCoachCaseDetailService extends BaseService {
     public IpoCoachCaseDto queryCoachTitleInfo(String id) {
         IpoCoachCaseDto ipoCoachCaseDto = new IpoCoachCaseDto();
         ipoCoachCaseDto = ipoCoachCaseDetailBizMapper.queryCoachBasicInfo(id);
-//        List<IpoProgressDto> intermediaryOrgDtoList = ipoCoachCaseDetailBizMapper.queryCoachProgress(id);
-        return ipoCoachCaseDto;
-    }
-
-    public IpoCoachCaseDto queryCoachBasicInfo(String id) {
-        IpoCoachCaseDto ipoCoachCaseDto = new IpoCoachCaseDto();
-        ipoCoachCaseDto = ipoCoachCaseDetailBizMapper.queryCoachBasicInfo(id);
         List<IpoRelatedCaseDto> ipoRelatedCaseDtoList = ipoCoachCaseDetailBizMapper.getRelaIpoCaseList(id);
         // 查询关联的ipo案例
         if (ipoRelatedCaseDtoList != null) {
@@ -47,6 +40,13 @@ public class IpoCoachCaseDetailService extends BaseService {
         }else{
             ipoCoachCaseDto.setRelatedCaseDtoList(new ArrayList<IpoRelatedCaseDto>());
         }
+//        List<IpoProgressDto> intermediaryOrgDtoList = ipoCoachCaseDetailBizMapper.queryCoachProgress(id);
+        return ipoCoachCaseDto;
+    }
+
+    public IpoCoachCaseDto queryCoachBasicInfo(String id) {
+        IpoCoachCaseDto ipoCoachCaseDto = new IpoCoachCaseDto();
+        ipoCoachCaseDto = ipoCoachCaseDetailBizMapper.queryCoachBasicInfo(id);
         //查询中介机构数据
         List<IntermediaryOrgDto> intermediaryOrgDtoList = ipoCoachCaseDetailBizMapper.selectOrgByBid(id);
         if (intermediaryOrgDtoList != null && intermediaryOrgDtoList.size() > 0) {
