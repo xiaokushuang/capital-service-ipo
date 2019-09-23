@@ -55,6 +55,13 @@
         </collection>
     </resultMap>
 
+    <resultMap id="BaseResultMap" type="com.stock.capital.enterprise.ipoCoachCase.dto.IpoRelatedCaseDto">
+        <result column="caseId" property="id" jdbcType="VARCHAR"/>
+        <result column="param_name" property="paramName" jdbcType="VARCHAR"/>
+        <result column="caseTitle" property="caseTitle" jdbcType="VARCHAR"/>
+        <result column="company_zh_name" property="companyZhName" jdbcType="VARCHAR"/>
+    </resultMap>
+
     <select id="queryCoachBasicInfo" parameterType="java.lang.String"
             resultType="com.stock.capital.enterprise.ipoCoachCase.dto.IpoCoachCaseDto">
            select id,serial_num as serialNum,title,fd_process as fdProcess,securities_regulatory as securitiesRegulatory,
@@ -119,11 +126,42 @@
         'PUBLIC_PROGRESS'
         )
         LEFT JOIN ipo_file t3 ON t3.id = t1.relation_file_id
-        left join ipo_case t4 on t4.id =  t1.bid
+        left join ipo_case t4 on t4.id = t1.bid
         <where>
             t1.bid = #{bid}
         </where>
         ORDER BY t1.tree_type_code,t1.pro_sort,t1.table_sort
+    </select>
+
+    <select id="getRelaIpoCaseList" parameterType="com.stock.capital.enterprise.ipoCoachCase.dto.IpoRelatedCaseDto" resultType="com.stock.capital.enterprise.ipoCoachCase.dto.IpoRelatedCaseDto">
+          select * from (select * from (select
+			t3.title as caseTitle,
+			t3.id as caseId,
+			t4.process_time as processTime
+        from ipo_fd_case t1,ipo_fd_relevance t2,ipo_case t3,ipo_process t4
+        where t1.id = t2.fd_bid
+        and t2.bid = t3.id
+        and t4.bid = t3.id
+        and t3.release_flag = '1'
+        and t3.open_flag = '1'
+        and t4.status = '1'
+        and t1.id = #{id} order by t4.pro_sort limit 999999) a left join
+		  (select
+		    t3.id,
+		  	t4.iec_result as iecResult,
+		  	t4.pro_sort as proSort
+        from ipo_fd_case t1,ipo_fd_relevance t2,ipo_case t3,ipo_process t4
+        where t1.id = t2.fd_bid
+        and t2.bid = t3.id
+        and t4.bid = t3.id
+        and t3.release_flag = '1'
+        and t3.open_flag = '1'
+        and t4.iec_result is not NULL
+        and t1.id = #{id} and t4.status = '1') b
+        on a.caseId = b.id
+        order by b.proSort desc limit 9999
+        ) t
+        group by t.caseId
     </select>
 
 </mapper>

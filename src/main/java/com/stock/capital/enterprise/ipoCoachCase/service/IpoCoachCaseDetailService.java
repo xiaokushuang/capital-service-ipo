@@ -6,6 +6,7 @@ import com.stock.capital.enterprise.ipoCase.dto.TreeTypeProgressDto;
 import com.stock.capital.enterprise.ipoCoachCase.dao.IpoCoachCaseDetailBizMapper;
 import com.stock.capital.enterprise.ipoCoachCase.dto.IntermediaryOrgDto;
 import com.stock.capital.enterprise.ipoCoachCase.dto.IpoCoachCaseDto;
+import com.stock.capital.enterprise.ipoCoachCase.dto.IpoRelatedCaseDto;
 import com.stock.capital.enterprise.ipoCoachCase.dto.OtherMarketInfoDto;
 import com.stock.core.service.BaseService;
 import org.apache.commons.lang3.StringUtils;
@@ -39,6 +40,13 @@ public class IpoCoachCaseDetailService extends BaseService {
     public IpoCoachCaseDto queryCoachBasicInfo(String id) {
         IpoCoachCaseDto ipoCoachCaseDto = new IpoCoachCaseDto();
         ipoCoachCaseDto = ipoCoachCaseDetailBizMapper.queryCoachBasicInfo(id);
+        List<IpoRelatedCaseDto> ipoRelatedCaseDtoList = ipoCoachCaseDetailBizMapper.getRelaIpoCaseList(id);
+        // 查询关联的ipo案例
+        if (ipoRelatedCaseDtoList != null) {
+            ipoCoachCaseDto.setRelatedCaseDtoList(ipoRelatedCaseDtoList);
+        }else{
+            ipoCoachCaseDto.setRelatedCaseDtoList(new ArrayList<IpoRelatedCaseDto>());
+        }
         //查询中介机构数据
         List<IntermediaryOrgDto> intermediaryOrgDtoList = ipoCoachCaseDetailBizMapper.selectOrgByBid(id);
         if (intermediaryOrgDtoList != null && intermediaryOrgDtoList.size() > 0) {
@@ -56,8 +64,6 @@ public class IpoCoachCaseDetailService extends BaseService {
     public TreeTypeProgressDto queryIpoProcessByCaseId(String caseId) {
         TreeTypeProgressDto treeTypeProgressDto = new TreeTypeProgressDto();
         treeTypeProgressDto = ipoCoachCaseDetailBizMapper.queryIpoProcessByCaseId(caseId);
-
-
         if (treeTypeProgressDto == null) {
             treeTypeProgressDto = new TreeTypeProgressDto();
         } else {

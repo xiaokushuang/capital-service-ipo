@@ -84,6 +84,10 @@ public class IpoCoachCaseDto implements Serializable {
 
     private String allTime;
 
+    private List<IpoRelatedCaseDto> caseList;
+
+    private List<IpoRelatedCaseDto> relatedCaseDtoList;
+
     public String getId() {
         return id;
     }
@@ -156,13 +160,13 @@ public class IpoCoachCaseDto implements Serializable {
         this.treeList = treeList;
     }
 
-//    public List<IpoRelatedCaseDto> getCaseList() {
-//        return caseList;
-//    }
-//
-//    public void setCaseList(List<IpoRelatedCaseDto> caseList) {
-//        this.caseList = caseList;
-//    }
+    public List<IpoRelatedCaseDto> getCaseList() {
+        return caseList;
+    }
+
+    public void setCaseList(List<IpoRelatedCaseDto> caseList) {
+        this.caseList = caseList;
+    }
 
     public String getCompanyShortName() {
         return companyShortName;
@@ -410,5 +414,13 @@ public class IpoCoachCaseDto implements Serializable {
 
     public void setBusinessAreaText(String businessAreaText) {
         this.businessAreaText = businessAreaText;
+    }
+
+    public List<IpoRelatedCaseDto> getRelatedCaseDtoList() {
+        return relatedCaseDtoList;
+    }
+
+    public void setRelatedCaseDtoList(List<IpoRelatedCaseDto> relatedCaseDtoList) {
+        this.relatedCaseDtoList = relatedCaseDtoList;
     }
 }

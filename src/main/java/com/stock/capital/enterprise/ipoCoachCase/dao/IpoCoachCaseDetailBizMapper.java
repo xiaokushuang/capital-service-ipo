@@ -5,6 +5,7 @@ import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo;
 import com.stock.capital.enterprise.ipoCase.dto.TreeTypeProgressDto;
 import com.stock.capital.enterprise.ipoCoachCase.dto.IntermediaryOrgDto;
 import com.stock.capital.enterprise.ipoCoachCase.dto.IpoCoachCaseDto;
+import com.stock.capital.enterprise.ipoCoachCase.dto.IpoRelatedCaseDto;
 import com.stock.capital.enterprise.ipoCoachCase.dto.OtherMarketInfoDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5CoreDevDto;
 import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5DetailDto;
@@ -28,4 +29,6 @@ public interface IpoCoachCaseDetailBizMapper {
      * 根据caseId查询ipo进程
      */
     TreeTypeProgressDto queryIpoProcessByCaseId(String caseId);
+
+    List<IpoRelatedCaseDto> getRelaIpoCaseList(String id);
 }
