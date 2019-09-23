@@ -20,14 +20,14 @@
 		<div ref="titleHeader" id="titleHeader" style=" width: 100%;height: 140px;position: relative">
 			<div style="width:1200px;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)">
 				<div class="text" style="position:relative;z-index: 4">
-					<p class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;" @mouseenter="mouseOverSpreadTitle(companyProfileList.companyName)">{{getTitle(companyProfileList.companyName)}}</p>
+					<p class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;" @mouseenter="mouseOverSpreadTitle(companyProfileList.title)">{{getTitle(companyProfileList.title)}}</p>
 					<span style="font-size: 14px;opacity: 0.6;">股份公司设立时间：</span>
 					<span style="font-size: 14px;opacity: 0.6;">{{companyProfileList.establishTime}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
 					<span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;辅导工作历时：</span>
-					<span style="font-size: 14px;opacity: 0.6;" v-if="companyProfileList.establishTime">{{companyProfileList.establishTime}}天</span>
+					<span style="font-size: 14px;opacity: 0.6;" v-if="companyProfileList.establishTime">{{companyProfileList.allTime}}</span>
 					<span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
 					<span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;最新公告日期：</span>
-					<span style="font-size: 14px;color:#fff;opacity:1" v-if="companyProfileList.establishTime">{{companyProfileList.establishTime}}</span>
+					<span style="font-size: 14px;color:#fff;opacity:0.6" v-if="companyProfileList.establishTime">{{companyProfileList.lastDate}}</span>
           <span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
 				</div>
 			</div>
@@ -357,6 +357,7 @@
 			},
 			// 用于锚点定位【从子组件里传过来的值】[子传父]
 			headCall(param) {
+			  // debugger;
 				if (param != null && param != undefined && param.length > 0) {
 					switch (param[0].tabId) {
 						case "tab-first":

@@ -524,16 +524,15 @@
 
 									<el-table-column align="right" prop="ipo_sum_asset_d" label="最近一次估值" sortable="custom" min-width="10%">
                     <template slot-scope="scope">
-                       <span v-if="scope.row.valuationValue ">{{scope.row.valuationValue/10000 | dataInThRule}}亿元</span>
+                       <span v-if="scope.row.ipoValuationValue ">{{scope.row.ipoValuationValue/10000 | dataInThRule}}亿元</span>
                       <span v-else>--</span>
                     </template>
                   </el-table-column>
-                  <el-table-column align="right" prop="ipo_sum_asset_d" label="保荐机构" sortable="custom" min-width="10%">
+                  <el-table-column header-align="center" align="center" prop="ipo_sum_asset_d" label="保荐机构" sortable="custom" width="150px">
                     <template slot-scope="scope">
                       <span v-if="scope.row.intermediaryName&&scope.row.intermediaryName.length>0" >
-                        <span v-for="(item,index) in scope.row.intermediaryName">{{item}}
-                          <span v-if="index!=scope.row.intermediaryName.length-1">、</span>
-                        </span>
+                        <span :title="getTitle(scope.row.intermediaryName).length>26?getTitle(scope.row.intermediaryName):''">{{getIntermediaryName(scope.row.intermediaryName)}}</span>
+                        <span></span>
                       </span>
                       <span v-else>--</span>
                     </template>
@@ -605,6 +604,7 @@
           name:'全部'
         },
         caseType: "all", // all ipo ipofd  案例类型 三种类型
+        intermediaryName: '',
 				issueLawId: '', //上市条件法规id
 				tenantInfo: '', //日志
 				tableData: [],
@@ -1150,20 +1150,33 @@
 		updated() {
 		},
 		methods: {
-      // handelMoreChange(val){
-      //     console.log('val',val)
-      //   if(val.length>1){
-      //     this.checkboxGroup.shift()
-      //     if(val[0]=="IPO案例"){
-      //       console.log('ipo')
-      //     }else if(val[0]=="辅导案例"){
-      //       console.log('辅导')
-      //     }else{
-      //       console.log('全部')
-      //     }
-      //
-      //   }
-      // },
+      getTitle(item){
+        var intermediaryTitle = ''
+        for(let i = 0;i<item.length;i++){
+          if(i==item.length-1){
+            intermediaryTitle += item[i]
+          }else{
+            intermediaryTitle += item[i]+'、'
+          }
+        }
+        return intermediaryTitle
+      },
+      getIntermediaryName(item){
+        var intermediaryName = ''
+        for(let i = 0;i<item.length;i++){
+          if(i==item.length-1){
+            intermediaryName += item[i]
+          }else{
+            intermediaryName += item[i]+'、'
+          }
+        }
+        this.intermediaryName = intermediaryName
+        if(intermediaryName.length>26){
+          return intermediaryName.slice(0,25)+'...'
+        }else{
+          return intermediaryName
+        }
+      },
       handelMoreChange(val){
         console.log('val',val)
         if(val===0){
@@ -1661,7 +1674,8 @@
 					const {
 						href
 					} = _self.$router.resolve({
-						name: 'tutoringCase',
+						// name: 'tutoringCase',
+            name: row.ipoType=="ipocase"?'caseDetail':'tutoringCase',
 						query: {
 							caseId: caseId,
 							access_token: _self.$route.query.access_token,
