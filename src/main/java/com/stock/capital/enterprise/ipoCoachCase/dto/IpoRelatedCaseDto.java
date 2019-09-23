@@ -11,6 +11,7 @@ public class IpoRelatedCaseDto implements Serializable {
     private String iecResult;
     private String iecResultText;
     private String proSort;
+    private String openFlag;
     private String caseTitle;
     private String companyZhName;
 
@@ -68,5 +69,13 @@ public class IpoRelatedCaseDto implements Serializable {
 
     public void setIecResultText(String iecResultText) {
         this.iecResultText = iecResultText;
+    }
+
+    public String getOpenFlag() {
+        return openFlag;
+    }
+
+    public void setOpenFlag(String openFlag) {
+        this.openFlag = openFlag;
     }
 }
