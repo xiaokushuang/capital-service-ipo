@@ -61,6 +61,7 @@ public class IpoCoachCaseDto implements Serializable {
     private String phone;//联系方式
 
     private String plate;//拟上市板块
+    private String plateText;//拟上市板块
 
     private String mainBusiness;//主营业务
 
@@ -422,5 +423,13 @@ public class IpoCoachCaseDto implements Serializable {
 
     public void setRelatedCaseDtoList(List<IpoRelatedCaseDto> relatedCaseDtoList) {
         this.relatedCaseDtoList = relatedCaseDtoList;
+    }
+
+    public String getPlateText() {
+        return plateText;
+    }
+
+    public void setPlateText(String plateText) {
+        this.plateText = plateText;
     }
 }

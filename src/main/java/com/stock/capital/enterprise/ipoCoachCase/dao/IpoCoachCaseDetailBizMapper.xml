@@ -81,7 +81,9 @@
         (select area_name from provinces t1 where t1.area_no = business_city and t1.status = '1') as businessCityText,
         business_area as businessArea,
         (select area_name from provinces t1 where t1.area_no = business_area and t1.status = '1') as businessAreaText,
-        phone,plate,main_business as mainBusiness,business_scope as businessScope,open_flag as openFlag
+        phone,plate,
+        (select label_name from maa_conf_label t1 where t1.label_code = 'IPO_PLATE' and t1.label_value = plate and t1.status = '1') as plateText,
+        main_business as mainBusiness,business_scope as businessScope,open_flag as openFlag
          from ipo_fd_case t where t.id = #{id}
    </select>
 
@@ -130,7 +132,7 @@
         <where>
             t1.bid = #{bid}
         </where>
-        ORDER BY t1.tree_type_code,t1.pro_sort,t1.table_sort
+        ORDER BY t1.pro_sort desc,t1.table_sort
     </select>
 
     <select id="getRelaIpoCaseList" parameterType="com.stock.capital.enterprise.ipoCoachCase.dto.IpoRelatedCaseDto" resultType="com.stock.capital.enterprise.ipoCoachCase.dto.IpoRelatedCaseDto">
