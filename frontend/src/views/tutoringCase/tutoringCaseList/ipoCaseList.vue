@@ -15,10 +15,6 @@
         <el-tooltip class="ipoTip" content="在辅导企业案例" placement="top" effect="light">
           <i style="cursor:pointer;position: absolute;top: 20px;left: 273px;color: #909399" class="el-icon-question"></i>
         </el-tooltip>
-        <!--<el-checkbox-group class="secondLabel" @change="handelMoreChange(checkboxGroup)" v-model="checkboxGroup" size="mini" style="margin-top:20px;margin-bottom:12px;padding-left: 12px;">-->
-        <!--<el-checkbox :key="index" class="checkbox" v-for="(item,index) in checkboxList" :label="item">-->
-        <!--</el-checkbox>-->
-        <!--</el-checkbox-group>-->
       </div>
       <el-radio-group class="selectTypeClass" v-model="radio" @change="handelMoreChange(radio)" style="margin-top:20px;margin-bottom:12px;padding-left: 12px;display:block;">
         <el-radio :key="index" class="checkbox" v-for="(item,index) in checkboxList" :label="item.id">{{item.name}}
@@ -192,14 +188,14 @@
           </el-row>
           <el-row :gutter="24">
             <el-col :span='8' class="stockIncreasePan-class">
-              <el-multiple-selection v-if="issueShow" :range="true" :tree-data="optionPeIssueA" placeholder="发行后市盈率" size="small full"
-                                     :multiple="false" @keydown.enter.native="querySearch" unit="倍" :ran="optionDto" @sure-click="rangeCallPeIssueA"
+              <el-multiple-selection v-if="issueFeeShow" :range="true" :tree-data="optionIssueFee" placeholder="发行费用" size="small full"
+                                     :multiple="false" @keydown.enter.native="querySearch" unit="万元" :ran="optionDto" @sure-click="rangeCallIssueFee"
                                      :left-decimal="true">
               </el-multiple-selection>
             </el-col>
             <el-col :span='4' class="stockIncreasePan-class">
-              <el-multiple-selection v-if="issueFeeShow" :range="true" :tree-data="optionIssueFee" placeholder="发行费用" size="small full"
-                                     :multiple="false" @keydown.enter.native="querySearch" unit="万元" :ran="optionDto" @sure-click="rangeCallIssueFee"
+              <el-multiple-selection v-if="issueShow" :range="true" :tree-data="optionPeIssueA" placeholder="发行后市盈率" size="small full"
+                                     :multiple="false" @keydown.enter.native="querySearch" unit="倍" :ran="optionDto" @sure-click="rangeCallPeIssueA"
                                      :left-decimal="true">
               </el-multiple-selection>
             </el-col>
@@ -452,14 +448,22 @@
                           v-loading="tableLoading" ref="tables" @row-click="itemClickHandler" class="case" element-loading-text="给我一点时间">
                   <el-table-column align="left" width="100" label="公司">
                     <template slot-scope="scope">
-                      {{scope.row.companyCode}}
-                      <br />
-                      {{scope.row.companyName}}
+                      <div v-if="scope.row.companyCode || scope.row.companyName">
+                        {{scope.row.companyCode}}
+                        <br />
+                        {{scope.row.companyName}}
+                      </div>
+                      <div v-else>
+                        - -
+                      </div>
                     </template>
                   </el-table-column>
                   <el-table-column align="left" label="案例标题" min-width="18%">
                     <template slot-scope="scope">
-                      {{scope.row.titleStr}}
+                      <div v-if="scope.row.titleStr">
+                        {{scope.row.titleStr}}
+                      </div>
+                      <div v-else>- -</div>
                     </template>
                   </el-table-column>
                   <el-table-column align="left" prop="ipo_label_result_t" label="IPO进程" sortable="custom" width="100">
@@ -1323,6 +1327,7 @@
           orderByOrder: _self.orderByOrder
         };
         _getIpoCaseList(_data).then(response => {
+          debugger;
           console.log('参数',_data)
           _self.tableLoading = false;
           if (response.data && response.data.success && response.data.result) {
@@ -1438,8 +1443,10 @@
       },
       //清空
       conditionClear() {
-        debugger;
+        console.log('11111',this.$refs.treeCaseStatus)
+        // debugger;
         const _self = this;
+        console.log('22222',_self.$refs.treeCaseStatus)
         _self.title = ''; //标题
         _self.industryCsrcValue = ''; //行业
         _self.industryCsrc = '';
@@ -1476,7 +1483,7 @@
         _self.$refs.treeIpoNum.setCheckedKeys([]);
         _self.$refs.treePlacingMechanism.setCheckedKeys([]); //配售机制
         _self.$refs.treeIecResult.setCheckedKeys([]);
-        // _self.$refs.treeCaseStatus.setCheckedKeys([]);
+        _self.$refs.treeCaseStatus.setCheckedKeys([]);
         _self.profitOne = [];
         _self.profitTwo = [];
         _self.profitThree = [];
@@ -1549,9 +1556,10 @@
       },
       //下拉框数据
       getSelectData() {
+
         const _self = this;
         _getSelectData().then(response => {
-          // debugger;
+          debugger;
           if (response.data.result) {
             if (response.data.result.industryCrscList && response.data.result.industryCrscList.length > 0) {
               _self.industryCrscList = response.data.result.industryCrscList;
@@ -1576,6 +1584,9 @@
             }
             if (response.data.result.processList && response.data.result.processList.length > 0) {
               _self.processList = response.data.result.processList;
+              for(var i = 0;i<_self.processList.length;i++){
+                _self.processList[i].id = "3106911158549214310"+i
+              }
             }
           }
         })
