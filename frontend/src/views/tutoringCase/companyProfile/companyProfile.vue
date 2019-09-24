@@ -4,40 +4,40 @@
     <div class="companey">
       <span id="briefIntroduction"></span>
       <div class="briefIntroduction">
-        <p v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.companyName" style="color: #333; font-weight: bold;font-size: 14px;">
-          {{companyProfileList.companyProfileList.companyName}}
+        <p v-if="companyProfileList&&companyProfileList.companyName" style="color: #333; font-weight: bold;font-size: 14px;">
+          {{companyProfileList.companyName}}
         </p>
         <ul style="display:flex;margin-bottom: 0;">
           <li  class="clear" style="margin-bottom:10px;position:relative" >
             <span  class="l">公司简称</span>
-            <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.companyShortName" style="color: #333333;float:left;display:inline-block;width: 60%;margin-left: 27px;">{{companyProfileList.companyProfileList.companyShortName}}</div>
+            <div v-if="companyProfileList&&companyProfileList.companyShortName" style="color: #333333;float:left;display:inline-block;width: 60%;margin-left: 27px;">{{companyProfileList.companyShortName}}</div>
             <div v-else style="color: #333333;float:left;display:inline-block;width: 60%;margin-left: 27px;">- -</div>
           </li>
           <li  class="clear" style="margin-bottom:10px;position:relative" >
             <span  class="l">拟上市板块</span>
-            <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.plate"  style="color: #333333;float:left;display:inline-block;width: 55%;margin-left: 13px;">{{companyProfileList.companyProfileList.plate}}</div>
+            <div v-if="companyProfileList&&companyProfileList.plateText"  style="color: #333333;float:left;display:inline-block;width: 55%;margin-left: 13px;">{{companyProfileList.plateText}}</div>
             <div v-else  style="color: #333333;float:left;display:inline-block;width: 55%;margin-left: 13px;">- -</div>
           </li>
           <li  class="clear" style="margin-bottom:10px;position:relative" >
             <span  class="l">所属证监局</span>
-             <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.securitiesRegulatoryText"  style="color: #333333;float:left;display:inline-block;width: 53%;margin-left: 27px;" :title="companyProfileList.companyProfileList.securitiesRegulatoryText.length>24 ? companyProfileList.companyProfileList.securitiesRegulatoryText:''">{{getContentHy1(companyProfileList.companyProfileList.securitiesRegulatoryText)}}</div>
+             <div v-if="companyProfileList&&companyProfileList.securitiesRegulatoryText"  style="color: #333333;float:left;display:inline-block;width: 53%;margin-left: 27px;" :title="companyProfileList.securitiesRegulatoryText.length>24 ? companyProfileList.securitiesRegulatoryText:''">{{getContentHy1(companyProfileList.securitiesRegulatoryText)}}</div>
             <div v-else  style="color: #333333;float:left;display:inline-block;width: 53%;margin-left: 27px;">- -</div>
           </li>
            <li class="clear" style="margin-bottom:10px;position:relative" >
             <span class="l">注册地址</span>
-            <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&(companyProfileList.companyProfileList.registerProvienceText || companyProfileList.companyProfileList.registerCityText || companyProfileList.companyProfileList.registerAreaText)" >{{(companyProfileList.companyProfileList.registerProvienceText == null ? "" : companyProfileList.companyProfileList.registerProvienceText) + (companyProfileList.companyProfileList.registerCityText == null ? "" : companyProfileList.companyProfileList.registerCityText) + (companyProfileList.companyProfileList.registerAreaText == null ? "" : companyProfileList.companyProfileList.registerAreaText)}}</div>
+            <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-if="companyProfileList&&(companyProfileList.registerProvienceText || companyProfileList.registerCityText || companyProfileList.registerAreaText)" >{{(companyProfileList.registerProvienceText == null ? "" : companyProfileList.registerProvienceText) + (companyProfileList.registerCityText == null ? "" : companyProfileList.registerCityText) + (companyProfileList.registerAreaText == null ? "" : companyProfileList.registerAreaText)}}</div>
             <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-else >- -</div>
           </li>
         </ul>
         <div>
           <li  class="clear" style="margin-bottom:10px;position:relative" >
             <span  class="l">法定代表人</span>
-            <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 14px;" v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.corporateRepresentative" >{{companyProfileList.companyProfileList.corporateRepresentative}}</div>
+            <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 14px;" v-if="companyProfileList&&companyProfileList.corporateRepresentative" >{{companyProfileList.corporateRepresentative}}</div>
             <div style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 14px;"  v-else >- -</div>
           </li>
           <li class="clear" style="position:relative;margin-top:0%;margin-bottom:16px">
             <span class="l" >主营业务</span>
-            <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.mainBusiness">{{companyProfileList.companyProfileList.mainBusiness}}</div>
+            <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 27px;" v-if="companyProfileList&&companyProfileList.mainBusiness">{{companyProfileList.mainBusiness}}</div>
             <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 27px;" v-else >- -</div>
           </li>
         </div>
@@ -48,7 +48,7 @@
         <ul v-for="item in otherMarketInfoList">
           <li style=" width: 30%;position:relative">
             <span>资本市场</span>&nbsp;&nbsp;
-            <div v-if="item.marketType" style="color:black;margin-left: 25%;margin-top: -17.5px;">{{item.marketType}}</div>
+            <div v-if="item.marketTypeText" style="color:black;margin-left: 25%;margin-top: -17.5px;">{{item.marketTypeText}}</div>
             <div v-else style="color:black;margin-left: 25%;margin-top: -17.5px;">- -</div>
           </li>
           <li style=" width: 20%;">
@@ -105,6 +105,7 @@ export default {
 
   data() {
     return {
+      companyProfileList:{},
       isLogin: true,
       listLoading: false,
       gqTableList: [],
@@ -126,7 +127,7 @@ export default {
       mainList:[],
     };
   },
-  props:["companyProfileList"],
+  // props:["companyProfileList"],
   created() {
      // 日志--------------------功能头
       let param = {
@@ -225,7 +226,8 @@ export default {
         id:this.caseId,
       }
       getCoachBasicInfo(param).then(res=>{
-        console.log('基本信息',res.data.result)
+        this.companyProfileList = res.data.result
+        console.log('基本信息',this.companyProfileList)
         if(res.data.result&&res.data.result.otherMarketInfoList&&res.data.result.otherMarketInfoList.length>0){
           this.otherMarketInfoList = res.data.result.otherMarketInfoList
         }

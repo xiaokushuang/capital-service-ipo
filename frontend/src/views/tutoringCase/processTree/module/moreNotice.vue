@@ -113,6 +113,7 @@ export default {
         })
       },
         initDownloadFileData1(fileId,fileType) {
+        // debugger;
         // 动态传id
         const param = {
           fileId:fileId,
@@ -138,6 +139,7 @@ export default {
       },
       // 下载公告
       handleDown(v){
+        // debugger;
         this.initDownloadFileData1(v.relaId,this.moreNoticeList[1])
       },
       // 下载所有公告

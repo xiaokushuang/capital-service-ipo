@@ -3,10 +3,17 @@
 <mapper namespace="com.stock.capital.enterprise.regulatory.dao.StatisticsBizMapper" >
 
 <select id="getAreaList" resultType="com.stock.core.dto.OptionDto">
-    SELECT area_no value, area_name label
+    SELECT area_no value, 
+          case when area_name='广西壮族自治区' then '广西' 
+               when area_name='内蒙古自治区' then '内蒙' 
+               when area_name='宁夏回族自治区' then '宁夏' 
+               when area_name='西藏自治区' then '西藏' 
+               when area_name='新疆维吾尔自治区' then '新疆' 
+               else REPLACE(area_name, '省', '') end  label
     FROM provinces 
     WHERE (SUBSTR(area_no,3,6) = '0000' AND area_no NOT IN ('810000','820000','710000'))
         OR area_no IN ('440300','210200','330200','350200','370200')
+         and status='1'
     ORDER BY CONVERT((CASE WHEN area_name = '重庆' THEN '充庆' ELSE area_name END) USING gbk)
 </select>
 
@@ -738,9 +745,15 @@
                             #{plate}
                         </foreach>
                     </if>) stopYet
-            FROM (SELECT REPLACE(area_name, '市', '') areaName FROM provinces 
+            FROM (SELECT case when area_name='广西壮族自治区' then '广西' 
+                               when area_name='内蒙古自治区' then '内蒙' 
+                               when area_name='宁夏回族自治区' then '宁夏' 
+                               when area_name='西藏自治区' then '西藏' 
+                               when area_name='新疆维吾尔自治区' then '新疆' 
+                               else REPLACE(REPLACE(area_name, '市', ''), '省', '') end  areaName            
+                  FROM provinces 
                         WHERE (SUBSTR(area_no,3,6) = '0000' AND area_no NOT IN ('810000','820000','710000'))
-                        OR area_no IN ('440300','210200','330200','350200','370200')  union all select '境外') area 
+                        OR area_no IN ('440300','210200','330200','350200','370200') and status='1'  union all select '境外') area 
                  LEFT JOIN ipo_data_info idi ON area.areaName = idi.regist_addr AND idi.grab_update_time = #{lastUpadteTime}
              <where>
                 <if test="plateList != null and plateList.size() > 0">

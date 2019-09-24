@@ -14,10 +14,11 @@
               <div v-for="(item,index) in boxDataItem.proList" >
                 <div class="right" >
                   <div class="border-box">
-                      <span :id="'sign' +  item.proSort" class="circle" v-if="boxDataItem.proList.length">
+                      <span :id="'sign' +  index" class="circle" v-if="boxDataItem.proList.length">
                            <!-- 展示序号 -->
-                              <span :id="'num' +  item.proSort">
-                                  {{item.proSort}}
+                              <span :id="'num' +  index">
+                                  <!--{{index+1}}-->
+                                {{item.proSort}}
                               </span>
                       </span>
                   </div>
@@ -25,25 +26,25 @@
                     <div style="height: 19px;">
                       <div style="font-size: 16px; color: #333333;display:inline-block;margin-right: 10px;"
                            v-text='item.progressName'
-                           @click="showAndHide(boxDataItem,'each' + item.proSort ,item, 'title')"
-                           @mouseenter="onMouseOver('each' +  item.proSort, item, index)"
-                           @mouseleave="onMouseOut('each' +  item.proSort, item, index)"
+                           @click="showAndHide(boxDataItem,'each' + index ,item, 'title',index)"
+                           @mouseenter="onMouseOver('each' +  index, item, index)"
+                           @mouseleave="onMouseOut('each' +  index, item, index)"
                            class="tinyHand">
                       </div>
                     </div>
                     <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
-                      <span  @mouseenter="onMouseOver('each' +  item.proSort, item, index)" style="cursor: pointer;"
-                             @mouseleave="onMouseOut('each' +  item.proSort, item, index)" @click="showAndHide(boxDataItem,'each' + item.proSort ,item, 'time')" v-if="item.processTime" v-text='item.processTime'></span>
-                      <span  @mouseenter="onMouseOver('each' +  item.proSort, item, index)" style="cursor: pointer;"
-                             @mouseleave="onMouseOut('each' +  item.proSort, item, index)" @click="showAndHide(boxDataItem,'each' + item.proSort ,item, 'time')" v-if="item.processTime">&nbsp;&nbsp;</span>
-                      <span  @mouseenter="onMouseOver('each' +  item.proSort, item, index)"
-                             @mouseleave="onMouseOut('each' +  item.proSort, item, index)" @click="showAndHide(boxDataItem,'each' + item.proSort ,item, 'time')" v-if="item.lastDay" style="display:inline-block;width: 65%;cursor: pointer;">距离上个进程{{item.lastDay}}</span>
+                      <span  @mouseenter="onMouseOver('each' +  index, item, index)" style="cursor: pointer;"
+                             @mouseleave="onMouseOut('each' +  index, item, index)" @click="showAndHide(boxDataItem,'each' + index ,item, 'time',index)" v-if="item.processTime" v-text='item.processTime'></span>
+                      <span  @mouseenter="onMouseOver('each' +  index, item, index)" style="cursor: pointer;"
+                             @mouseleave="onMouseOut('each' +  index, item, index)" @click="showAndHide(boxDataItem,'each' + index ,item, 'time',index)" v-if="item.processTime">&nbsp;&nbsp;</span>
+                      <span  @mouseenter="onMouseOver('each' +  index, item, index)"
+                             @mouseleave="onMouseOut('each' +  index, item, index)" @click="showAndHide(boxDataItem,'each' + index ,item, 'time',index)" v-if="item.lastDay" style="display:inline-block;width: 65%;cursor: pointer;">距离上个进程{{item.lastDay}}</span>
                       <!-- 前面图标 -->
-                      <div :id="'each' +  item.proSort" style="display:none;">
-                        <div :ref=' item.proSort' :class="'abc'+ item.proSort"></div>
+                      <div :id="'each' +  index" style="display:none;">
+                        <div :ref=' index' :class="'abc'+ index"></div>
                       </div>
                       <p v-if="item.relaList.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></p>
-                      <p v-else v-show="item.flag" @click="gonggaoClick(item.relaList[0])" class="gonggao" style="display: block" :id="'more'+  item.proSort">
+                      <p v-else v-show="item.flag" @click="gonggaoClick(item.relaList[0])" class="gonggao" style="display: block" :id="'more'+  index">
                         <a>{{item.relaList[0].relationFileTitle}}</a>
                       </p>
                     </div>
@@ -59,7 +60,7 @@
                         <span>
                             <span>
                               <!-- 第二个进程展示的是‘查看文件’ -->
-                                <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.proSort,item, 'file')" class="moreNoticeCss">查看文件 ></div>
+                                <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + index,item, 'file',index)" class="moreNoticeCss">查看文件 ></div>
                             </span>
                         </span>
                     </div>
@@ -182,7 +183,7 @@
           if(this.treeList[i].proList&&this.treeList[i].proList.length>0){
             this.treeList[i].proList.map(obj => {
               this.$set(obj,'flag',exAllFlag)
-              this.showAndHideParent('each' +  obj.proSort, exAllFlag,obj);
+              this.showAndHideParent('each' +  obj.proSort, exAllFlag,obj,i);
             })
           }
         }
@@ -201,40 +202,40 @@
         }
 
       },
-      showAndHideParent(obj, exAllFlag,item) {
+      showAndHideParent(obj, exAllFlag,item,index) {
         if (exAllFlag == '0' ) {
           document.getElementById(obj).setAttribute("style", "display:none;");
-          if(document.getElementById('more' +   item.proSort)) {
-            document.getElementById('more' +   item.proSort).setAttribute("style", "display:none;");
-            document.getElementById('sign' +  item.proSort).className = 'circle'
+          if(document.getElementById('more' +   index)) {
+            document.getElementById('more' +   index).setAttribute("style", "display:none;");
+            document.getElementById('sign' +  index).className = 'circle'
           }
         } else {
           document .getElementById(obj).setAttribute("style", "display:block;");
-          if( document.getElementById('more' +   item.proSort)) {
-            document.getElementById('more' +   item.proSort).setAttribute("style", "display:block;");
-            document.getElementById('sign' +  item.proSort).className = 'circle'
+          if( document.getElementById('more' +   index)) {
+            document.getElementById('more' +   index).setAttribute("style", "display:block;");
+            document.getElementById('sign' +  index).className = 'circle'
           }
         }
       },
       // 点击查看公告
-      showAndHide(param,obj,item, type) {
+      showAndHide(param,obj,item, type,index) {
         //  点击title展开收起
         if (type == 'title'){
           item.flag = !item.flag;
           if(item.flag){
-            document.getElementById('sign' + item.proSort).className = 'fa circle fa-chevron-up'
+            document.getElementById('sign' + index).className = 'fa circle fa-chevron-up'
           } else{
-            document.getElementById('sign' + item.proSort).className = 'fa circle fa-chevron-down'
+            document.getElementById('sign' + index).className = 'fa circle fa-chevron-down'
           }
         }
         //  点击灰色进程时间展开收起
         if (type == 'time'){
           item.flag = !item.flag;
-          document.getElementById('num' +  item.proSort).setAttribute("style", "display:none;");
+          document.getElementById('num' +  index).setAttribute("style", "display:none;");
           if(item.flag){
-            document.getElementById('sign' + item.proSort).className = 'fa circle fa-chevron-up'
+            document.getElementById('sign' + index).className = 'fa circle fa-chevron-up'
           } else{
-            document.getElementById('sign' + item.proSort).className = 'fa circle fa-chevron-down'
+            document.getElementById('sign' + index).className = 'fa circle fa-chevron-down'
           }
         }
         // 点击‘查看文件’
@@ -245,22 +246,22 @@
 
       // 点击展示的第一条公告名
       gonggaoClick(param){
-        debugger;
+        // debugger;
         window.open(param.baseUrl)
       },
       onMouseOver (obj, item, index) {{
           if(item.flag){
-            document.getElementById('sign' + item.proSort).className = 'fa circle fa-chevron-up'
+            document.getElementById('sign' + index).className = 'fa circle fa-chevron-up'
           }
           else{
-            document.getElementById('sign' + item.proSort).className = 'fa circle fa-chevron-down'
+            document.getElementById('sign' + index).className = 'fa circle fa-chevron-down'
           }
         }
-            document.getElementById('num' + item.proSort).setAttribute("style", "display:none;");
+            document.getElementById('num' + index).setAttribute("style", "display:none;");
       },
-      onMouseOut (obj, item) {
-          document.getElementById('sign' + item.proSort).className = 'circle'
-          document.getElementById('num' + item.proSort).setAttribute("style", "display:inline-block;");
+      onMouseOut (obj, item,index) {
+          document.getElementById('sign' + index).className = 'circle'
+          document.getElementById('num' + index).setAttribute("style", "display:inline-block;");
       },
 
       orderByProcess(sortType){

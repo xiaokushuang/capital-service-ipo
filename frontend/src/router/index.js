@@ -175,13 +175,14 @@ export const constantRouterMap = [
       },
       {
         path: 'ipoCase',
-        component: _import('ipoCase/ipoCaseList'),
+        // component: _import('ipoCase/ipoCaseList'),
+        component: _import('tutoringCase/tutoringCaseList/ipoCaseList'),
         name: 'ipoCase',
         meta: { title: 'IPO案例', noCache: true }
       },
       {
         path: 'tutoringCaseList',
-        component: _import('tutoringCase/tutoringCaseList/tutoringCaseList'),
+        component: _import('tutoringCase/tutoringCaseList/ipoCaseList'),
         name: 'tutoringCaseList',
         meta: { title: '辅导列表页', noCache: true }
       },

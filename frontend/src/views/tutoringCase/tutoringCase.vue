@@ -119,6 +119,24 @@
 				</el-col>
 			</el-row>
 		</div>
+    <!-- 未开放用户弹窗 -->
+    <el-dialog class="noOpen" align="left" :visible.sync="noOpenFlag" width="429px" title="提示" margin-top="31vh">
+      <div style="padding:0px 32px 0px 32px;">
+        <div class="el-message-box__content" style="margin-top: 0px;">
+          <div class="el-message-box__message">
+            <div style="color: #555;font-size: 14px;margin-top: 20px;line-height: 17px;">
+              <a style="margin-bottom: 10px;display: inline-block;">您当前为试用用户，仅可查看有限案例，若需要查看更多案例，获得更好体验，可升级为正式用户。</a>
+              <a style="font-size: 13px">来电咨询：400-880-3388</a>
+            </div>
+            <div class="el-message-box__btns" style="text-align: center;margin-top: 28px;padding:1px 15px 9px">
+              <el-button type="primary" size="small" @click.native="sure" style="margin-left: 0px;">
+                在线咨询
+              </el-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </el-dialog>
 	</div>
 </template>
 <script>
@@ -142,23 +160,24 @@
 		data() {
 			return {
         caseId2: this.$store.state.app.caseId,
+        noOpenFlag: false, //判断公司是否开放
         proList: [
-          {
-            caseId: "746524673180966506",
-            iecResult: "02",
-            openFlag: "1",
-            proSort: "2",
-            processTime: "2017-05-25",
-            progressName: "北京金山办公软件股份有限公司--测试",
-          },
-          {
-            caseId: "98197418692543951",
-            iecResult: "07",
-            openFlag: null,
-            proSort: "1",
-            processTime: null,
-            progressName: "北京金山办公软件股份有限公司",
-          },
+          // {
+          //   caseId: "746524673180966506",
+          //   iecResult: "02",
+          //   openFlag: "1",
+          //   proSort: "2",
+          //   processTime: "2017-05-25",
+          //   progressName: "北京金山办公软件股份有限公司--测试",
+          // },
+          // {
+          //   caseId: "98197418692543951",
+          //   iecResult: "07",
+          //   openFlag: null,
+          //   proSort: "1",
+          //   processTime: null,
+          //   progressName: "北京金山办公软件股份有限公司",
+          // },
         ], //关联案例数据
 				// 动态加载组件
 				showComponent: companyProfile,
@@ -252,11 +271,19 @@
               if (res.data.result.ipoPlate == '上交所科创板') {
                 this.ipoplatetype = true;
               }
+              if(res.data.result.relatedCaseDtoList&&res.data.result.relatedCaseDtoList.length>0){
+                this.proList = res.data.result.relatedCaseDtoList
+                console.log('关联案例',this.proList)
+              }
           }
         });
 			},
       isNotEmpty(param) {
       	return param != null && param !== undefined && param !== '' && param !== 'null' && param !== 'undefined'
+      },
+      // 未开放公司
+      handleNoOpenFlag(data) {
+        this.noOpenFlag = data
       },
 			// 展开全部
 			expandAll(flag) {

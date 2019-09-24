@@ -350,7 +350,7 @@ export default {
         title = title;
       }
 			//参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
-			iframeDoMessage(window.parent,'popWinOut',[title,url,'1200','650']);
+			iframeDoMessage(window.parent,'popWinOut',[title,url,'1200','580']);
 
     }
   }
@@ -422,6 +422,7 @@ export default {
 }
 .spanClass {
     cursor: pointer;
+    color: #66ccff;
 }
 .spanClass:hover {
     text-decoration: underline;

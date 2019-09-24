@@ -2330,7 +2330,7 @@ export default {
 </style>
 <style>
 .daImg img {
-  width: 100%;
+  max-width: 810px;
 }
 </style>
 </style>
