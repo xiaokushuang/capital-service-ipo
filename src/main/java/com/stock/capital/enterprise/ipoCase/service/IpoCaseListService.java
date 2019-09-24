@@ -57,7 +57,6 @@ public class IpoCaseListService extends BaseService {
             conditionsStr = new StringBuilder("index_type_t: \"ipocase\" AND ipo_type_t: \"ipofdcase\"");
         }
         Map<String, String> condition = Maps.newHashMap();
-        StringBuilder conditionsStr = new StringBuilder("index_type_t: \"ipocase\" AND ipo_type_t: \"ipocase\"");
         //标题关键字
         if (StringUtils.isNotEmpty(bo.getTitle())) {
             String[] title = bo.getTitle().trim().split(" ");
