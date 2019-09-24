@@ -1,23 +1,22 @@
 package com.stock.capital.enterprise.ipoCase.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.stock.core.dto.Indexable;
+import org.apache.solr.client.solrj.beans.Field;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import org.apache.solr.client.solrj.beans.Field;
 
 /**
  * IpoCaseIndexDto.
  *
  * @author chenzhengxiu.
  * @version 0.0.1.
- * @serial 2019/3/26 : base version.
+ * @serial 2019/3/22 : base version.
  */
 public class IpoCaseIndexDto extends Indexable implements Serializable {
 
-
-    private static final long serialVersionUID = 5630506009938244217L;
+    private static final long serialVersionUID = 9178446977295191333L;
 
     @Field("ipo_org_code_t")
     private String orgCode;//东财内码
@@ -89,7 +88,6 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
     private Date adDisclosureTime;//预先披露时间
 
     @Field("ipo_review_meeting_time_dt")
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date reMeetingTime;//发审会审核时间
 
     @Field("ipo_audit_duration_i")
@@ -125,6 +123,9 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
     @Field("ipo_intermediary_code_ss")
     private List<String> intermediaryCodes;//中介机构
 
+    @Field("ipo_intermediary_name_ss")
+    private List<String> intermediaryName;//中介机构
+
     @Field("ipo_market_type_ss")
     private List<String> marketTypes;//其他资本市场
 
@@ -143,14 +144,14 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
     @Field("ipo_issue_condition_ss")
     private List<String> issueCondition;//发行人选择的上市条件
 
-    @Field("ipo_stragetic_industries_t")
-    private String strageticIndustries;//发行人行业（战略新兴）
+    @Field("ipo_valuation_d")
+    private Double ipoValuationValue;//最近一次估值
 
     @Field("ipo_placing_mechanism_t")
     private String placingMechanism;//配售机制
 
-    @Field("ipo_valuation_d")
-    private Double valuationValue;//最近一次估值
+    @Field("ipo_stragetic_industries_t")
+    private String strageticIndustries;//发行人行业（战略新兴）
 
     @Field("ipo_register_result_t")
     private String registerResult;//注册结果
@@ -164,8 +165,8 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
     @Field("ipo_review_result_label_t")
     private String reviewResultLabel;//复审会议结果名称
 
-    @Field("ipo_review_Time_dt")
-    private Date reviewTime;//复审会议结果
+    @Field("ipo_review_time_dt")
+    private Date reviewTime;//复审会议时间
 
     @Field("ipo_final_result_t")
     private String finalResult;//如果复审，则取复审结果，无复审，则取上市委/发审委结果
@@ -176,6 +177,84 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
     @Field("ipo_final_time_dt")
     private Date finalTime;//最后一次审核时间
 
+    @Field("ipo_public_time_dt")
+    private Date publicTime;//上市节点时间
+
+    @Field("ipo_industry_csrc_name_t")
+    private String industryCsrcName;//发行人行业名称（证监会）
+
+    @Field("ipo_addr_country_t")
+    private String addrCountry;//国家
+
+    @Field("ipo_addr_prov_t")
+    private String addrProv;//省份
+
+    @Field("ipo_addr_city_t")
+    private String addrCity;//市
+
+    @Field("ipo_addr_area_t")
+    private String addrArea;//地区
+    @Field("ipo_type_t")
+    private String ipoType;//ipocase 和 ipofd 区分字段
+
+    @Field("ipo_fd_time_dt")
+    private Date ipoFdTime;//辅导备案时间
+
+    public List<String> getIntermediaryName() {
+        return intermediaryName;
+    }
+
+    public void setIntermediaryName(List<String> intermediaryName) {
+        this.intermediaryName = intermediaryName;
+    }
+
+    public Date getIpoFdTime() {
+        return ipoFdTime;
+    }
+
+    public void setIpoFdTime(Date ipoFdTime) {
+        this.ipoFdTime = ipoFdTime;
+    }
+
+    public String getIpoType() {
+        return ipoType;
+    }
+
+    public void setIpoType(String ipoType) {
+        this.ipoType = ipoType;
+    }
+
+    public String getAddrCountry() {
+        return addrCountry;
+    }
+
+    public void setAddrCountry(String addrCountry) {
+        this.addrCountry = addrCountry;
+    }
+
+    public String getAddrProv() {
+        return addrProv;
+    }
+
+    public void setAddrProv(String addrProv) {
+        this.addrProv = addrProv;
+    }
+
+    public String getAddrCity() {
+        return addrCity;
+    }
+
+    public void setAddrCity(String addrCity) {
+        this.addrCity = addrCity;
+    }
+
+    public String getAddrArea() {
+        return addrArea;
+    }
+
+    public void setAddrArea(String addrArea) {
+        this.addrArea = addrArea;
+    }
 
     public String getOrgCode() {
         return orgCode;
@@ -207,6 +286,14 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getTitleStr() {
+        return titleStr;
+    }
+
+    public void setTitleStr(String titleStr) {
+        this.titleStr = titleStr;
     }
 
     public String getProcess() {
@@ -473,14 +560,6 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
         this.industryCsrc = industryCsrc;
     }
 
-    public String getTitleStr() {
-        return titleStr;
-    }
-
-    public void setTitleStr(String titleStr) {
-        this.titleStr = titleStr;
-    }
-
     public List<String> getSpecialArrange() {
         return specialArrange;
     }
@@ -497,12 +576,12 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
         this.issueCondition = issueCondition;
     }
 
-    public String getStrageticIndustries() {
-        return strageticIndustries;
+    public Double getIpoValuationValue() {
+        return ipoValuationValue;
     }
 
-    public void setStrageticIndustries(String strageticIndustries) {
-        this.strageticIndustries = strageticIndustries;
+    public void setIpoValuationValue(Double ipoValuationValue) {
+        this.ipoValuationValue = ipoValuationValue;
     }
 
     public String getPlacingMechanism() {
@@ -513,12 +592,12 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
         this.placingMechanism = placingMechanism;
     }
 
-    public Double getValuationValue() {
-        return valuationValue;
+    public String getStrageticIndustries() {
+        return strageticIndustries;
     }
 
-    public void setValuationValue(Double valuationValue) {
-        this.valuationValue = valuationValue;
+    public void setStrageticIndustries(String strageticIndustries) {
+        this.strageticIndustries = strageticIndustries;
     }
 
     public String getRegisterResult() {
@@ -583,6 +662,22 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
 
     public void setFinalTime(Date finalTime) {
         this.finalTime = finalTime;
+    }
+
+    public Date getPublicTime() {
+        return publicTime;
+    }
+
+    public void setPublicTime(Date publicTime) {
+        this.publicTime = publicTime;
+    }
+
+    public String getIndustryCsrcName() {
+        return industryCsrcName;
+    }
+
+    public void setIndustryCsrcName(String industryCsrcName) {
+        this.industryCsrcName = industryCsrcName;
     }
 
     public String getCompanyFullName() {

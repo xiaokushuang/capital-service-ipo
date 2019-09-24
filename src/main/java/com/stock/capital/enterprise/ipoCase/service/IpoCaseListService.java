@@ -47,6 +47,15 @@ public class IpoCaseListService extends BaseService {
      */
     public Map<String, Object> getIpoCaseList(QueryInfo<IpoCaseListBo> page, Boolean signSymbol) {
         IpoCaseListBo bo = page.getCondition();
+        String caseType = bo.getCaseType();
+        StringBuilder conditionsStr = null;
+        if (Global.CASE_TYPE_ALL.equals(caseType)){
+            conditionsStr = new StringBuilder("index_type_t: \"ipocase\"");
+        }else if(Global.CASE__TYPE_IPO.equals(caseType)){
+            conditionsStr = new StringBuilder("index_type_t: \"ipocase\" AND ipo_type_t: \"ipocase\"");
+        }else if(Global.CASE_TYPE_FD.equals(caseType)){
+            conditionsStr = new StringBuilder("index_type_t: \"ipocase\" AND ipo_type_t: \"ipofdcase\"");
+        }
         Map<String, String> condition = Maps.newHashMap();
         StringBuilder conditionsStr = new StringBuilder("index_type_t: \"ipocase\" AND ipo_type_t: \"ipocase\"");
         //标题关键字
@@ -118,6 +127,15 @@ public class IpoCaseListService extends BaseService {
                             "ipo_advance_disclosure_time_dt",
                             ypProcessTime[0],
                             ypProcessTime[1]));
+        }
+        //辅导备案时间
+        if (bo.getFdProcessTime() != null && bo.getFdProcessTime().length > 1) {
+            Date[] fdProcessTime = bo.getFdProcessTime();
+            conditionsStr.append(" AND ").append(SolrSearchUtil
+                    .parseDateKeyWords(
+                            "ipo_fd_time_dt",
+                            fdProcessTime[0],
+                            fdProcessTime[1]));
         }
         //发审会审核时间
         if (bo.getFsProcessTime() != null && bo.getFsProcessTime().length > 1) {
@@ -341,6 +359,8 @@ public class IpoCaseListService extends BaseService {
                 facetResult.getStatisticsFieldMap().get("ipo_special_arrange_ss");
         List<StatisticsField> bureauList =
                 facetResult.getStatisticsFieldMap().get("ipo_belongs_bureau_t");
+//        获取caseType返回
+//        String ipoType = facetResult.getStatisticsFieldMap().get("ipo_type_t");
         //查询左侧树
         //拟上市板块树
         List<RegTreeDto> plateTreeTag = ipoCaseListMapper.getTreeTagByCode("IPO_PLATE");
@@ -417,7 +437,16 @@ public class IpoCaseListService extends BaseService {
         resultMap.put("verifyResultList", sortSelectList(verifyResultList));
         //IPO进程
         List<RegTreeDto> processList = ipoCaseListMapper.getLabelByCode("IPO_STATUS");
-        resultMap.put("processList", sortSelectList(processList));
+        processList = sortSelectList(processList);
+//        手动添加辅导进程  使用1001
+        List<RegTreeDto> fdProcessList = ipoCaseListMapper.getLabelByCode("IPO_FD_CASE_STAGE");
+        RegTreeDto fdDto = new RegTreeDto();
+        fdDto.setLabelName("辅导进程");
+        fdDto.setName("辅导进程");
+        fdDto.setLabelValue("1001");
+        fdDto.setChildren(fdProcessList);
+        processList.add(fdDto);
+        resultMap.put("processList", processList);
         //发行人选择的上市条件
         List<RegTreeDto> issueConditionList = ipoCaseListMapper.getLabelByCode("IPO_ISSUE_CONDITION_SIMPLE");
         resultMap.put("issueConditionList", sortSelectList(issueConditionList));
