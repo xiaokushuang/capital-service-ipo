@@ -255,15 +255,15 @@
     <!-- 报告期主要供应商及客户情况 -->
     <div class="theTopFive">
       <div class="theTopFiveSupplier">
-        <div v-if="supplierMainList&&supplierMainList.length>0" class="title">
+        <div v-if="supplierFlag" class="title">
           <span class="littleRectangle"></span>
           <span class="titleText" id="majorSuppliers" style="font-size:18px">报告期主要供应商情况</span>
         </div>
-        <div v-for="item in supplierMainList" :key="item.id" >
-            <p v-if="item.title" style="font-size:16px;color:#333;font-weight:500;margin-top:12px">{{item.title}}</p>
-            <p v-if="item.remark" style="font-size:14px;color:#666;margin-top:12px;margin-bottom:0px">{{item.remark}}</p>
+        <div v-if="supplierFlag" v-for="item in supplierMainList" :key="item.id" >
+            <p v-if="item.title && item.showFlag" style="font-size:16px;color:#333;font-weight:500;margin-top:12px">{{item.title}}</p>
+            <p v-if="item.remark && item.showFlag" style="font-size:14px;color:#666;margin-top:12px;margin-bottom:0px">{{item.remark}}</p>
             <span v-if="item.supplierCustomerInfoList&&item.supplierCustomerInfoList.length>0" style="font-size:12px;color:#666;float:right;margin-bottom: 8px;margin-top:8px">单位：万元</span>
-             <el-table v-if="item.supplierCustomerInfoList&&item.supplierCustomerInfoList.length>0" :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px">
+             <el-table v-if="item.showFlag" :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px">
               <el-table-column fixed align="center" class-name="table_cell" label="排名" width="52">
                 <template slot-scope="scope">
                   {{scope.$index+1}}
@@ -378,15 +378,15 @@
         </div>
       </div>
        <div class="theTopFiveKh">
-         <div v-if="customerMainList&&customerMainList.length>0" class="title">
+         <div v-if="customerFlag" class="title">
           <span class="littleRectangle"></span>
           <span class="titleText" id="majorCustomer" style="font-size:18px">报告期主要客户情况</span>
         </div>
-          <div v-for="item in customerMainList" :key="item.id" >
-              <p v-if="item.title" style="font-size:16px;color:#333;font-weight:500;margin-top:12px">{{item.title}}</p>
-              <p v-if="item.remark" style="font-size:14px;color:#666;margin-top:12px;margin-bottom:0px">{{item.remark}}</p>
-              <span v-if="item.supplierCustomerInfoList&&item.supplierCustomerInfoList.length>0" style="font-size:12px;color:#666;float:right;margin-bottom: 5px;margin-top:8px">单位：万元</span>
-              <el-table v-if="customerMainList&&customerMainList.length>0" :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px">
+          <div  v-for="item in customerMainList" :key="item.id" >
+              <p v-if="item.title && item.showFlag" style="font-size:16px;color:#333;font-weight:500;margin-top:12px">{{item.title}}</p>
+              <p v-if="item.remark && item.showFlag" style="font-size:14px;color:#666;margin-top:12px;margin-bottom:0px">{{item.remark}}</p>
+              <span v-if="customerFlag" style="font-size:12px;color:#666;float:right;margin-bottom: 5px;margin-top:8px">单位：万元</span>
+              <el-table v-if="item.showFlag" :data="item.supplierCustomerInfoList" border style="width: 100%;margin-top: 20px">
                 <el-table-column fixed align="center" class-name="table_cell" label="排名" width="52">
                   <template slot-scope="scope">
                     {{scope.$index+1}}
@@ -654,6 +654,28 @@ export default {
   },
   mounted() {
   },
+  computed:{
+    supplierFlag(){
+      var supplierFlag = false;
+         for(var i = 0;i<this.supplierMainList.length;i++){
+           if(this.supplierMainList[i].firstYearFlag || this.supplierMainList[i].onePeriodFlag || this.supplierMainList[i].secondYearFlag || this.supplierMainList[i].thirdYearFlag){
+              supplierFlag = true;
+              break;
+           }
+         }
+         return supplierFlag;
+    },
+    customerFlag(){
+      var customerFlag = false;
+         for(var i = 0;i<this.customerMainList.length;i++){
+           if(this.customerMainList[i].firstYearFlag || this.customerMainList[i].onePeriodFlag || this.customerMainList[i].secondYearFlag || this.customerMainList[i].thirdYearFlag){
+              customerFlag = true;
+              break;
+           }
+         }
+         return customerFlag;
+    },
+  },
   methods: {
     getContentHy1(title){
      if(title.length>24){
@@ -716,6 +738,11 @@ export default {
            arr[i].onePeriodFlag = onePeriodFlag;
            arr[i].secondYearFlag = secondYearFlag;
            arr[i].thirdYearFlag = thirdYearFlag;
+           if(firstYearFlag || onePeriodFlag || secondYearFlag || thirdYearFlag){
+             arr[i].showFlag = true;
+           }else{
+             arr[i].showFlag = false;
+           }
         }
       },
     getData() {
@@ -762,6 +789,7 @@ export default {
       getSupplierCustomerData(param).then(response => {
         if(response.data.result&&response.data.result.supplierMainList&&response.data.result.supplierMainList.length>0){
           this.supplierMainList = response.data.result.supplierMainList
+          debugger
           this.dealDataList(this.supplierMainList);
           this.getPosition()
         }
@@ -898,12 +926,22 @@ export default {
           if(this.mainTableList.firstYearForIncome){
             mainBusinessIncomeComposition.noClick = false;
           }
-          if(this.supplierMainList&&this.supplierMainList.length>0){
-           majorSuppliers.noClick = false;
+          for(var i = 0;i<this.supplierMainList.length;i++){
+            if(this.supplierMainList[i].firstYearFlag || this.supplierMainList[i].onePeriodFlag || this.supplierMainList[i].secondYearFlag || this.supplierMainList[i].thirdYearFlag){
+                majorSuppliers.noClick = false;
+            }
           }
-          if(this.customerMainList&&this.customerMainList.length>0){
-           majorCustomer.noClick = false;
+          // if(this.supplierMainList&&this.supplierMainList.length>0){
+          //  majorSuppliers.noClick = false;
+          // }
+          for(var i = 0;i<this.customerMainList.length;i++){
+            if(this.customerMainList[i].firstYearFlag || this.customerMainList[i].onePeriodFlag || this.customerMainList[i].secondYearFlag || this.customerMainList[i].thirdYearFlag){
+               majorCustomer.noClick = false;
+            }
           }
+          // if(this.customerMainList&&this.customerMainList.length>0){
+          //  majorCustomer.noClick = false;
+          // }
           if(this.raiseMoneyTableList&&this.raiseMoneyTableList.length>0){
             utilizationOfRaisedFunds.noClick = false;
           }
@@ -932,6 +970,7 @@ export default {
         return false
       }
     },
+
   }
 };
 </script>
