@@ -27,8 +27,8 @@ public class IpoCoachCaseDetailController extends BaseController {
         TreeTypeProgressDto processResult = ipoCoachCaseDetailService.queryIpoProcessByCaseId(id);
         if (processResult !=null && processResult.getTreeList() != null && processResult.getTreeList().size() > 0) {
             String listSize = String.valueOf(processResult.getTreeList().get(0).getProList().size() - 1);
-            String startDate = processResult.getTreeList().get(0).getProList().get(0).getRelaList().get(0).getPublishTime();
-            String endDate = processResult.getTreeList().get(0).getProList().get(Integer.parseInt(listSize)).getRelaList().get(0).getPublishTime();
+            String endDate = processResult.getTreeList().get(0).getProList().get(0).getRelaList().get(0).getPublishTime();
+            String startDate = processResult.getTreeList().get(0).getProList().get(Integer.parseInt(listSize)).getRelaList().get(0).getPublishTime();
             ipoCoachCaseDto.setLastDate(endDate);
             ipoCoachCaseDto.setTreeList(processResult.getTreeList());
             if(StringUtils.isNotEmpty(startDate) &&StringUtils.isNotEmpty(endDate)){
