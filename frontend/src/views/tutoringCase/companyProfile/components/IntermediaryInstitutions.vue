@@ -24,7 +24,8 @@
                   <li class="people">
                     <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                     font-style: normal;  font-size: 14px; color: #999999;">经办辅导人员：</span>
-                    <span style="font-size:14px;color:black" class="ls" :title="item.agentPerson.length>38?item.agentPerson:''">{{getContent(item.agentPerson)}}</span>
+                    <span v-if="item.agentPerson" style="font-size:14px;color:black" class="ls" :title="item.agentPerson.length>38?item.agentPerson:''">{{getContent(item.agentPerson)}}</span>
+                    <span v-else>- -</span>
                   </li>
                 </ul>
               </div>
