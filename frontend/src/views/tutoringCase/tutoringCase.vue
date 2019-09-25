@@ -113,7 +113,7 @@
 							</el-row>
 						</div>
 						<span style="padding: 0px;">
-							<processTree v-if="companyProfileList.treeList&&companyProfileList.treeList.length>0" ref="rightModule" :treeList="companyProfileList.treeList" :caseId="caseId2"></processTree>
+							<processTree v-if="companyProfileList.treeList&&companyProfileList.treeList.length>0" ref="rightModule" :treeList="companyProfileList" :caseId="caseId2"></processTree>
 						</span>
 					</el-col>
 				</el-col>
