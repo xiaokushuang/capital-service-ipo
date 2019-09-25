@@ -1185,13 +1185,20 @@
         console.log('val',val)
         if(val===0){
           this.caseType = 'all'
-          console.log('全部')
         }else if(val===1){
           this.caseType = 'ipo'
-          console.log('ipo')
         }else if(val===2){
           this.caseType = 'ipofd'
-          console.log('辅导')
+        }
+        this.$refs.plateTreeTagRef.setCheckedKeys([]);
+        this.$refs.marketTreeTagRef.setCheckedKeys([]);
+        this.$refs.greenTreeTagRef.setCheckedKeys([]);
+        this.$refs.specialArrangeTagRef.setCheckedKeys([]);
+        this.$refs.sfcTreeTagRef.setCheckedKeys([]);
+        for (var tree of document.getElementsByClassName('filter-tree')) {
+          for (var obj of tree.querySelectorAll('.el-tree-node__label')) {
+            obj.className = 'el-tree-node__label'
+          }
         }
         this.querySearch()
       },
@@ -1327,7 +1334,7 @@
           orderByOrder: _self.orderByOrder
         };
         _getIpoCaseList(_data).then(response => {
-          debugger;
+          // debugger;
           console.log('参数',_data)
           _self.tableLoading = false;
           if (response.data && response.data.success && response.data.result) {
@@ -1430,7 +1437,6 @@
         this.querySearch();
       },
       selectHandleNodeClick(val, treeVal) {
-        debugger;
         const nodeCheck = this.$refs[treeVal].getCheckedNodes(true); //通过 node 获取(光子节点)
         let middle = "";
         let middleValue = "";
@@ -1559,7 +1565,7 @@
 
         const _self = this;
         _getSelectData().then(response => {
-          debugger;
+          // debugger;
           if (response.data.result) {
             if (response.data.result.industryCrscList && response.data.result.industryCrscList.length > 0) {
               _self.industryCrscList = response.data.result.industryCrscList;

@@ -6,7 +6,14 @@
         <el-row style="padding-left:12px">
           <el-col :span="24" style="border-left:1px solid #E9E9E9; margin-bottom: -10px;margin-top:10px;padding-bottom: 10px;">
             <!-- 进程名 -->
-            <div class="jincheng">
+            <div class="jincheng21" v-if="treeList.establishTime&&sortType==='01'">
+              <img style="width:21px;height:8px" src="../../../assets/images/jinchengjian.png" alt="">
+              <div>
+                <p style="font-size: 14px;color: #999;line-height:20px">股份公司设立</p>
+                <p style="font-size: 12px;color: #999;line-height:0px">{{treeList.establishTime}}</p>
+              </div>
+            </div>
+            <div class="jincheng11" v-if="sortType==='02'">
               <img src="../../../assets/images/jinchengjian.png" alt="">
               <p>辅导工作进程</p>
             </div>
@@ -64,7 +71,11 @@
                 </div>
               </div>
               <!-- 进程名 -->
-              <div class="jincheng2" v-if="treeList.establishTime">
+              <div class="jincheng12" v-if="sortType==='01'">
+                <img src="../../../assets/images/jinchengjian.png" alt="">
+                <p>辅导工作进程</p>
+              </div>
+              <div class="jincheng22" v-if="treeList.establishTime&&sortType==='02'">
                 <img style="width:21px;height:8px" src="../../../assets/images/jinchengjian.png" alt="">
                 <div>
                   <p style="font-size: 14px;color: #999;line-height:20px">股份公司设立</p>
@@ -128,7 +139,7 @@
         sortFlag: '0',
         indexShowHidden: false,
         thisIndex: '',
-        sortType: '01',
+        sortType: '02',
         expandAll:false,
         // 是否是最后一个tab
         lastTab:false,
@@ -256,6 +267,8 @@
 
       orderByProcess(sortType){
         this.treeList.treeList[0].proList.reverse()
+        console.log('排序',sortType)
+        this.sortType = sortType
       }
     }
   };
@@ -467,13 +480,13 @@
     padding-right: 15px;
   }
   /* 进程名样式 */
-  .jincheng {
+  .jincheng12 {
     position: relative;
-    top: -6px;
+    top: 20px;
     left: -9px;
     height: 24px;
     p {
-      font-family: 'PingFang-SC-Regular', 'PingFang SC';
+      /*font-family: 'Microsoft YaHe','Helvetica Neue','Helvetica','PingFang SC','Hiragino Sans GB','Arial','sans-serif';*/
       font-weight: 400;
       font-style: normal;
       font-size: 14px;
@@ -483,13 +496,46 @@
       position: relative;
     }
   }
-  .jincheng2 {
+  .jincheng11 {
+    position: relative;
+    top: -6px;
+    left: -9px;
+    height: 24px;
+    p {
+      /*font-family: 'Microsoft YaHe','Helvetica Neue','Helvetica','PingFang SC','Hiragino Sans GB','Arial','sans-serif';*/
+      font-weight: 400;
+      font-style: normal;
+      font-size: 14px;
+      color: #999999;
+      top: -31px;
+      left: 32px;
+      position: relative;
+    }
+  }
+  .jincheng21 {
+    position: relative;
+    top: -14px;
+    left: -9px;
+    height: 41px;
+    p {
+      /*font-family: 'PingFang-SC-Regular', 'PingFang SC';*/
+      /*font-family: 'Microsoft YaHe','Helvetica Neue','Helvetica','PingFang SC','Hiragino Sans GB','Arial','sans-serif';*/
+      font-weight: 400;
+      font-style: normal;
+      font-size: 14px;
+      color: #999999;
+      top: -31px;
+      left: 32px;
+      position: relative;
+    }
+  }
+  .jincheng22 {
     position: relative;
     top: 12px;
     left: -9px;
     height: 15px;
     p {
-      font-family: 'PingFang-SC-Regular', 'PingFang SC';
+      /*font-family: 'Microsoft YaHe','Helvetica Neue','Helvetica','PingFang SC','Hiragino Sans GB','Arial','sans-serif';*/
       font-weight: 400;
       font-style: normal;
       font-size: 14px;
