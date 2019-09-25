@@ -61,7 +61,8 @@
 									<div id="title-first" class="title-body" v-show="isActive == '1'" style="position: relative;top: -40px;left: 70px;">
 										<span v-for="(item, index) in tabFirstList">
                       <span style="margin: 0 8px;color: #e4e4e4;" v-if="index == tabFirstList.length - 1">|</span>
-											<a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveFirst === item.id}, {'disabled': item.noClick}]"
+                      <!--{'item-active': itemActiveFirst === item.id}, -->
+											<a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'disabled': item.noClick}]"
 											 :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 1)">{{item.name}}</a>
 											<!--<span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFirstList.length - 1">|</span>-->
 										</span>
