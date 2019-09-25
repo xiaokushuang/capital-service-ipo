@@ -17,7 +17,19 @@ public interface IpoCaseListMapper {
 
     List<RegTreeDto> getLabelByCode(String labelCode);
 
+    /**
+     * touguan库(如果自己数据库好用后期删除)
+     * @param intermediaryName
+     * @return
+     */
     List<Map<String, Object>> queryIntermediary(String intermediaryName);
+
+    /**
+     * 本地库
+     * @param intermediaryName
+     * @return
+     */
+    List<Map<String, Object>> queryIntermediaryLocal(String intermediaryName);
 
     int queryAuthByCompanyId(String companyId);
 

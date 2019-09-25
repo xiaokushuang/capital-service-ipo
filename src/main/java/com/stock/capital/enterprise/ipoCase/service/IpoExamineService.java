@@ -64,9 +64,11 @@ public class IpoExamineService extends BaseService {
             //查询发审会委员
             String examineDate = baseDto.getExamineDate();
             //查询发审委委员名单
-            DynamicDataSourceHolder.setDataSource("dongcai");
-            String member = ipoExamineMapper.selectExamineMember(orgCode, examineDate);
-            DynamicDataSourceHolder.cleanDataSource();
+//            DynamicDataSourceHolder.setDataSource("dongcai");
+//            String member1 = ipoExamineMapper.selectExamineMember(orgCode, examineDate);
+//            DynamicDataSourceHolder.cleanDataSource();
+            //查询发审委委员名单
+            String member = ipoExamineMapper.selectLocalExamineMember(orgCode, examineDate);
             baseDto.setMember(member);
         }
 
@@ -86,9 +88,11 @@ public class IpoExamineService extends BaseService {
         CompanyOverviewVo companyOverviewVo = ipoFeedbackMapper.getOrgCode(id);
         String orgCode = companyOverviewVo.getOrgCode();
         String belongPlate = companyOverviewVo.getIpoPlate();
-        DynamicDataSourceHolder.setDataSource("dongcai");
-        String member = ipoExamineMapper.selectExamineMember(orgCode, examineDate);
-        DynamicDataSourceHolder.cleanDataSource();
+//        DynamicDataSourceHolder.setDataSource("dongcai");
+//        String member = ipoExamineMapper.selectExamineMember(orgCode, examineDate);
+//        DynamicDataSourceHolder.cleanDataSource();
+        String member = ipoExamineMapper.selectLocalExamineMember(orgCode, examineDate);
+
         List<String> memberList = Arrays.asList(member.split("[,，、]"));
         //根据发审委委员列表和发审会日期，查询委员详细信息
         Date processDate = changeStrToDate(examineDate);
@@ -318,8 +322,9 @@ public class IpoExamineService extends BaseService {
             //查询发审会委员
             String examineDate = baseDto.getExamineDate();
             //查询发审委委员名单
+            String member = ipoExamineMapper.selectLocalExamineMember(orgCode, examineDate);
             DynamicDataSourceHolder.setDataSource("dongcai");
-            String member = ipoExamineMapper.selectExamineMember(orgCode, examineDate);
+            String member1 = ipoExamineMapper.selectExamineMember(orgCode, examineDate);
             DynamicDataSourceHolder.cleanDataSource();
             baseDto.setMember(member);
         }

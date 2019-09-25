@@ -499,6 +499,9 @@ public class IpoCaseListService extends BaseService {
         DynamicDataSourceHolder.setDataSource("touguan");
         List<Map<String, Object>> map = ipoCaseListMapper.queryIntermediary(intermediaryName);
         DynamicDataSourceHolder.cleanDataSource();
+        //暂时不切
+//        List<Map<String, Object>> map = ipoCaseListMapper.queryIntermediaryLocal(intermediaryName);
+
         return map;
     }
 
