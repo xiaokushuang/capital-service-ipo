@@ -21,7 +21,7 @@
 			<div style="width:1200px;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)">
 				<div class="text" style="position:relative;z-index: 4">
 					<p class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;" @mouseenter="mouseOverSpreadTitle(companyProfileList.title)">{{getTitle(companyProfileList.title)}}</p>
-					<span style="font-size: 14px;opacity: 0.6;">股份公司设立时间：</span>
+					<span style="font-size: 14px;opacity: 0.6;">公司设立时间：</span>
 					<span style="font-size: 14px;opacity: 0.6;">{{companyProfileList.establishTime}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
 					<span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;辅导工作历时：</span>
 					<span style="font-size: 14px;opacity: 0.6;" v-if="companyProfileList.establishTime">{{companyProfileList.allTime}}</span>

@@ -55,30 +55,20 @@
             </el-col>
           </el-row>
           <el-row :gutter="24">
-            <!--<el-col :span='8'>-->
-            <!--<el-multiple-selection-->
-            <!--ref="selectRegisterArea"-->
-            <!--id="selectRegisterArea"-->
-            <!--placeholder="注册地"-->
-            <!--@sure-click="sure('selectRegisterArea')"-->
-            <!--:default-all-show="false"-->
-            <!--size="small full"-->
-            <!--node-key="id"-->
-            <!--:tree-data="registerAreaList"-->
-            <!--:search-menu="false"-->
-            <!--:default-props="default_tree"-->
-            <!--&gt;-->
-            <!--</el-multiple-selection>-->
-            <!--</el-col>-->
             <el-col :span='8'>
-              <el-select ref="selectCompanyNature" v-model="companyNature" title="企业性质" placeholder="企业性质" size="small full"
-                         :tselect=true @visible-change="calls()" @keydown.enter.native="querySearch" @sure-click="sure('selectCompanyNature')"
-                         @clear-click="clearLocal('treeCompanyNature')">
-                <el-option :label="companyNature" :value="companyNatureValue">
-                  <el-tree :data="companyNatureList" show-checkbox node-key="id" ref="treeCompanyNature" highlight-current
-                           :props="default_tree" @check-change="selectHandleNodeClick('companyNature','treeCompanyNature')"></el-tree>
-                </el-option>
-              </el-select>
+              <el-multiple-selection
+                ref="selectRegisterArea"
+                id="selectRegisterArea"
+                placeholder="注册地"
+                @sure-click="sure('selectRegisterArea')"
+                :default-all-show="false"
+                size="small full"
+                node-key="id"
+                :tree-data="registerAreaList"
+                :search-menu="false"
+                :default-props="default_tree"
+              >
+              </el-multiple-selection>
             </el-col>
             <el-col :span='8'>
               <el-multiple-selection
@@ -95,8 +85,17 @@
               >
               </el-multiple-selection>
             </el-col>
-
-            <el-col :span='8'>
+            <el-col :span='4'>
+              <el-select ref="selectCompanyNature" v-model="companyNature" title="企业性质" placeholder="企业性质" size="small full"
+                         :tselect=true @visible-change="calls()" @keydown.enter.native="querySearch" @sure-click="sure('selectCompanyNature')"
+                         @clear-click="clearLocal('treeCompanyNature')">
+                <el-option :label="companyNature" :value="companyNatureValue">
+                  <el-tree :data="companyNatureList" show-checkbox node-key="id" ref="treeCompanyNature" highlight-current
+                           :props="default_tree" @check-change="selectHandleNodeClick('companyNature','treeCompanyNature')"></el-tree>
+                </el-option>
+              </el-select>
+            </el-col>
+            <el-col :span='4'>
               <el-select ref="selectIpoNum" v-model="ipoNum" title="申报次数" placeholder="申报次数" size="small full" :tselect=true
                          @visible-change="calls()" @sure-click="sure('selectIpoNum')" @keydown.enter.native="querySearch" @clear-click="clearLocal('treeIpoNum')">
                 <el-option :label="ipoNum" :value="ipoNumValue">
@@ -210,7 +209,7 @@
               </el-select>
             </el-col>
             <el-col :span='8'>
-              <el-multiple-selection v-if="durationShow" :range="true" :tree-data="optionAuditDuration" placeholder="辅导历时（天）"
+              <el-multiple-selection v-if="durationShow" :range="true" :tree-data="optionAuditDuration" placeholder="审核历时（辅导历时）"
                                      size="small full" :multiple="false" @keydown.enter.native="querySearch" unit="天" :ran="optionDto" @sure-click="rangeAuditDuration"
                                      :left-decimal="true">
               </el-multiple-selection>
@@ -526,7 +525,7 @@
                   <!--</template>-->
                   <!--</el-table-column>-->
 
-                  <el-table-column align="right" prop="ipo_sum_asset_d" label="最近一次估值" sortable="custom" min-width="10%">
+                  <el-table-column align="right" prop="ipo_sum_asset_d" label="最近一次估值" sortable="custom" min-width="12%">
                     <template slot-scope="scope">
                       <span v-if="scope.row.ipoValuationValue ">{{scope.row.ipoValuationValue/10000 | dataInThRule}}亿元</span>
                       <span v-else>--</span>
@@ -546,7 +545,7 @@
                       {{scope.row.ipoPlateName}}
                     </template>
                   </el-table-column>
-                  <el-table-column align="right" prop="ipo_final_time_dt" label="时间" sortable="custom" width="100" :render-header="timeRenderHeader">
+                  <el-table-column header-align="center" align="right" prop="ipo_final_time_dt" label="时间" sortable="custom" width="100" :render-header="timeRenderHeader">
                     <template slot-scope="scope">
                       <span v-if="scope.row.finalTime">{{getLocalTime(scope.row.finalTime)}}</span>
                       <span v-else>--</span>
@@ -621,7 +620,7 @@
         totalCount: 0,
         orderByName: '',
         orderByOrder: '',
-        // registerAreaList:[], //省市区
+        registerAreaList:[], //省市区
         plateTreeTag: [],
         plateTreeTagRef: '',
         marketTreeTag: [],
@@ -642,6 +641,7 @@
         },
         title: '',
         industryCsrc: '',
+        // registerArea:'',
         industryCsrcValue: '',
         strageticIndustries: '', //战略新兴
         strageticIndustriesValue: '', //战略新兴
@@ -1129,7 +1129,7 @@
         startRow: 0,
         pageSize: 20
       };
-      // this.initAreaSelect();
+      this.initAreaSelect();
       this.search(_data);
       this.getSelectData();
     },
@@ -1203,7 +1203,7 @@
         this.querySearch()
       },
       timeRenderHeader (h,{column}) {
-        return  h( 'div',[ h('span', column.label),
+        return  h( 'span',[ h('span', column.label),
           h('el-tooltip',{
             props:{
               effect:'light',
@@ -1219,7 +1219,7 @@
         ]);
       },
       spendTimeRenderHeader (h,{column}) {
-        return  h( 'div',[ h('span', column.label),
+        return  h( 'span',[ h('span', column.label),
           h('el-tooltip',{
             props:{
               effect:'light',
@@ -1284,6 +1284,7 @@
             companyId: _self.$store.state.app.companyId,
             industryCsrc: this.$refs.selectIndustryCsrc.selectSpace.map((item)=>{return item.labelValue}).join(','), //发行人行业（证监会）
             title: _self.title, //标题关键字（包含全部以空格断开）
+            registerArea : this.$refs.selectRegisterArea.selectSpace.map((item)=>{return item.labelValue}).join(','), // 省市区境外
             strageticIndustries: _self.strageticIndustriesValue, //发行人行业（战略新兴）
             issueCondition: _self.issueConditionValue, //发行人选择的上市条件
             companyNature: _self.companyNatureValue, //企业性质
@@ -1391,6 +1392,16 @@
           }
         })
       },
+      // 初始化 地区下拉框
+      initAreaSelect(){
+        this.$store.dispatch('ipoCase/initAreaSelect').then(res =>{
+          // debugger;
+          this.registerAreaList = res;
+
+        }).catch(err =>{
+          console.log(err);
+        })
+      },
       //排序方法
       sortChange(column) {
         const _self = this;
@@ -1449,13 +1460,13 @@
       },
       //清空
       conditionClear() {
-        console.log('11111',this.$refs.treeCaseStatus)
-        // debugger;
+        debugger;
         const _self = this;
-        console.log('22222',_self.$refs.treeCaseStatus)
         _self.title = ''; //标题
         _self.industryCsrcValue = ''; //行业
         _self.industryCsrc = '';
+        // _self.registerArea = '';
+        this.$refs.selectRegisterArea.setCheckedKeys([]); //注册地
         this.$refs.selectIndustryCsrc.setCheckedKeys([]);
         _self.strageticIndustriesValue = ''; //战略新兴
         _self.strageticIndustries = '';
