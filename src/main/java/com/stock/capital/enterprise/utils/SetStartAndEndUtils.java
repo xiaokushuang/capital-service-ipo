@@ -90,7 +90,7 @@ public class SetStartAndEndUtils {
                         DateTime start = new DateTime(fieldValue[0]);
                         from = start.toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
                                 .withZoneUTC());
-                        DateTime end = new DateTime(fieldValue[1]).plusDays(1);
+                        DateTime end = new DateTime(fieldValue[1]);
                         to = end.toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
                                 .withZoneUTC());
 

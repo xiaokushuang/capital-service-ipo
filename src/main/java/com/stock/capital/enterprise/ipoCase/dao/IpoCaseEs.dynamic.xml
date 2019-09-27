@@ -109,7 +109,7 @@
                                {
                                         "terms": {
                                             "ipo_addr_country_t": [
-                                                <#list condition.industryCsrcList as item>
+                                                <#list condition.registerAreaList as item>
                                                     <#if !item_has_next>
                                                         "${item}"
                                                     <#else>
@@ -123,7 +123,7 @@
                                     {
                                         "terms": {
                                             "ipo_addr_prov_t": [
-                                                <#list condition.industryCsrcList as item>
+                                                <#list condition.registerAreaList as item>
                                                     <#if !item_has_next>
                                                         "${item}"
                                                     <#else>
@@ -137,7 +137,7 @@
                                     {
                                         "terms": {
                                             "ipo_addr_city_t": [
-                                                <#list condition.industryCsrcList as item>
+                                                <#list condition.registerAreaList as item>
                                                     <#if !item_has_next>
                                                         "${item}"
                                                     <#else>
@@ -151,7 +151,7 @@
                                     {
                                         "terms": {
                                             "ipo_addr_area_t": [
-                                                <#list condition.industryCsrcList as item>
+                                                <#list condition.registerAreaList as item>
                                                     <#if !item_has_next>
                                                         "${item}"
                                                     <#else>
@@ -339,7 +339,7 @@
                                        ,{
                                         "range": {
                                             "ipo_audit_duration_i":{
-                                                "gte": ${condition.timeDiffLow},
+                                                "gt": ${condition.timeDiffLow},
                                                 <#if condition.timeDiffHigh??>
                                                 "lte": ${condition.timeDiffHigh},
                                                 </#if>

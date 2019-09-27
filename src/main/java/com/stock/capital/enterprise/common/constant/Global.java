@@ -150,7 +150,7 @@ public interface Global {
     /**
      * ipo案例  使用索引服务器的类型  0 ES 1 solr
      */
-    public  static final String SEARCH_SERVER_IPO_CASE_FLAG = "1";
+    public  static final String SEARCH_SERVER_IPO_CASE_FLAG = "0";
 
 
 }
