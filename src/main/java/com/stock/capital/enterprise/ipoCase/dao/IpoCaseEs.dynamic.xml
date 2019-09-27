@@ -339,7 +339,7 @@
                                        ,{
                                         "range": {
                                             "ipo_audit_duration_i":{
-                                                "gte": ${condition.timeDiffLow},
+                                                "gt": ${condition.timeDiffLow},
                                                 <#if condition.timeDiffHigh??>
                                                 "lte": ${condition.timeDiffHigh},
                                                 </#if>
