@@ -96,14 +96,18 @@ public class IpoCaseListService extends BaseService {
         FacetResult<IpoCaseIndexDto> facetResult = null;
 //        从ES查询
         if (Global.SEARCH_SERVER_IPO_CASE_FLAG.equals("0")) {
-            resetCondition(bo);
             if (Global.CASE_TYPE_ALL.equals(caseType)) {
                 bo.setCaseType(null);
             } else if (Global.CASE__TYPE_IPO.equals(caseType)) {
                 bo.setCaseType("ipocase");
             } else if (Global.CASE_TYPE_FD.equals(caseType)) {
                 bo.setCaseType("ipofdcase");
+//                因为ipo和辅导库用了一个时间字段，当选辅导库时，设置ipo次数使查询结果置空
+                if(null != bo.getFsProcessTime() && bo.getFsProcessTime().length > 1){
+                    bo.setIpoNum("1");
+                }
             }
+            resetCondition(bo);
             QueryInfo<IpoCaseListBo> queryInfo = new QueryInfo<IpoCaseListBo>();
             queryInfo.setCondition(bo);
             queryInfo.setOrderByName(orderByName);
