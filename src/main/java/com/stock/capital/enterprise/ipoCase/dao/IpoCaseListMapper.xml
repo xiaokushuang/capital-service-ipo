@@ -68,6 +68,40 @@
     limit 10
   </select>
 
+  <select id="queryIntermediaryLocal" parameterType="string" resultType="map">
+    SELECT obo.org_full_name value,obo.org_code labelValue
+    FROM sa_organization obo JOIN sa_stock_alias obi ON obo.org_code = obi.stock_id
+    WHERE  obo.org_type_code = '005001' AND obo.is_branch ='0' AND obo.sisdel='0'
+    AND (obo.org_full_name LIKE concat('%',#{intermediaryName},'%') or obi.org_alias  LIKE concat('%',#{intermediaryName},'%'))
+    GROUP BY obo.org_code
+
+    UNION
+
+    SELECT obo.org_full_name value,obo.org_code labelValue
+    FROM sa_organization obo JOIN sa_stock_alias obi ON obo.org_code = obi.stock_id
+    WHERE obo.org_type_code  = '06' AND obo.is_branch ='0' AND obo.sisdel='0'
+    AND (obo.org_full_name LIKE concat('%',#{intermediaryName},'%') or obi.org_alias  LIKE concat('%',#{intermediaryName},'%'))
+    GROUP BY obo.org_code
+
+    UNION
+
+    SELECT obo.org_full_name value,obo.org_code labelValue
+    FROM sa_organization obo JOIN sa_stock_alias obi ON obo.org_code = obi.stock_id
+    WHERE obo.org_code  = '10008097' AND obo.is_branch ='0' AND obo.sisdel='0'
+    AND (obo.org_full_name LIKE concat('%',#{intermediaryName},'%') or obi.org_alias  LIKE concat('%',#{intermediaryName},'%'))
+    GROUP BY obo.org_code
+
+    UNION
+
+    SELECT obo.org_full_name value,obo.org_code labelValue
+    FROM sa_organization obo JOIN sa_stock_alias obi ON obo.org_code = obi.stock_id
+    WHERE obo.org_code  = '10767413' AND obo.is_branch ='0' AND obo.sisdel='0'
+    AND (obo.org_full_name LIKE concat('%',#{intermediaryName},'%') or obi.org_alias  LIKE concat('%',#{intermediaryName},'%'))
+    GROUP BY obo.org_code
+
+    limit 10
+  </select>
+
   <select id="queryAuthByCompanyId" parameterType="string" resultType="int">
     SELECT
       COUNT(1) AS count

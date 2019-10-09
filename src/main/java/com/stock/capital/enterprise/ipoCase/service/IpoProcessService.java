@@ -78,6 +78,8 @@ public class IpoProcessService extends BaseService {
     private String filePath;
     @Value("#{app['commonfile.path']}")
     private String commonFilePath;
+    @Value("#{app['declare.baseUrl']}")
+    private String declarePdfUrl;
 
     public TreeTypeProgressDto selectProcessList(String id, String sortType) {
         TreeTypeProgressDto resultDto = ipoProcessMapper.selectProcessList(id);
@@ -127,7 +129,7 @@ public class IpoProcessService extends BaseService {
                     if (StringUtils.isNotEmpty(fileDto.getRelaId())) {
                         //拼接文件打开URL
                         if ("02".equals(treeList.get(i).getTreeTypeCode())) {
-                            String baseUrl = pdfBaseUrl + "web/viewer.html?file=" + pdfBaseUrl + "pdf/H2_" +
+                            String baseUrl = pdfBaseUrl + "web/viewer.html?file=" + declarePdfUrl + "pdf/H2_" +
                                     fileDto.getRelaId() + "_1.pdf&originTitle=" + fileDto.getRelationFileTitle();
                             fileDto.setBaseUrl(baseUrl);
                         } else {

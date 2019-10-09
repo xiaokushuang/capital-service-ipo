@@ -1,17 +1,24 @@
 <template>
   <div v-loading="flagLoading" element-loading-text="给我一点时间" class="allJincheng">
-    <div v-for="boxDataItem in treeList" v-if="treeList.length>0" :key="boxDataItem.treeTypeCode">
+    <div v-for="boxDataItem in treeList.treeList" v-if="treeList.treeList.length>0" :key="boxDataItem.treeTypeCode">
       <!-- 第一个进程 -->
       <div>
         <el-row style="padding-left:12px">
           <el-col :span="24" style="border-left:1px solid #E9E9E9; margin-bottom: -10px;margin-top:10px;padding-bottom: 10px;">
             <!-- 进程名 -->
-            <div class="jincheng">
-              <img  v-if="boxDataItem.treeTypeCode" src="../../../assets/images/jinchengjian.png" alt="">
-              <p v-if="boxDataItem.treeTypeCode == '00'">辅导工作进程</p>
+            <div class="jincheng21" v-if="treeList.establishTime&&sortType==='01'">
+              <img style="width:21px;height:8px" src="../../../assets/images/jinchengjian.png" alt="">
+              <div>
+                <p style="font-size: 14px;color: #999;line-height:20px">股份公司设立</p>
+                <p style="font-size: 12px;color: #999;line-height:0px">{{treeList.establishTime}}</p>
+              </div>
+            </div>
+            <div class="jincheng11" v-if="sortType==='02'">
+              <img src="../../../assets/images/jinchengjian.png" alt="">
+              <p>辅导工作进程</p>
             </div>
             <div>
-              <div v-for="(item,index) in boxDataItem.proList" >
+              <div v-for="(item,index) in boxDataItem.proList" class="clear">
                 <div class="right" >
                   <div class="border-box">
                       <span :id="'sign' +  index" class="circle" v-if="boxDataItem.proList.length">
@@ -56,15 +63,23 @@
                             </span>
                         </span>
                     </div>
-                    <div v-show="item.relaList.length!=0" v-if="!item.flag" style="margin-bottom: 14px;margin-top: 8px;">
-                        <span>
-                            <span>
-                              <!-- 第二个进程展示的是‘查看文件’ -->
-                                <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + index,item, 'file',index)" class="moreNoticeCss">查看文件 ></div>
-                            </span>
-                        </span>
+                  <!-- 第二个进程展示的是‘查看文件’ -->
+                    <div v-if="item.relaList.length>0&&item.relaList[0].relationFileTitle!==''&&!item.flag" style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" @click="showAndHide(boxDataItem,'each' + index,item, 'file',index)" class="moreNoticeCss">
+                      查看文件 >
                     </div>
                   </div>
+                </div>
+              </div>
+              <!-- 进程名 -->
+              <div class="jincheng12" v-if="sortType==='01'">
+                <img src="../../../assets/images/jinchengjian.png" alt="">
+                <p>辅导工作进程</p>
+              </div>
+              <div class="jincheng22" v-if="treeList.establishTime&&sortType==='02'">
+                <img style="width:21px;height:8px" src="../../../assets/images/jinchengjian.png" alt="">
+                <div>
+                  <p style="font-size: 14px;color: #999;line-height:20px">股份公司设立</p>
+                  <p style="font-size: 12px;color: #999;line-height:0px">{{treeList.establishTime}}</p>
                 </div>
               </div>
             </div>
@@ -101,7 +116,6 @@
         treeTypeCode:'',
         // 鼠标移入展示文字
         isShowSpreadText:false,
-        // treeList:[],
         //  更多公告数据
         moreNoticeList:[],
         //  图片路径
@@ -125,7 +139,7 @@
         sortFlag: '0',
         indexShowHidden: false,
         thisIndex: '',
-        sortType: '01',
+        sortType: '02',
         expandAll:false,
         // 是否是最后一个tab
         lastTab:false,
@@ -145,10 +159,13 @@
       //   this.$store.commit('CREATE_MESSAGE',param)
       // 日志------------------功能尾
       //   请求数据
-      this.initTableData()
+      // this.initTableData()
       this.flagLoading = true;
     },
     mounted() {
+      if(this.treeList.treeList&&this.treeList.treeList.length>0){
+        this.flagLoading = false;
+      }
     },
     components: {
       moreNotice
@@ -157,33 +174,17 @@
 
     },
     methods: {
-      // 初始化数据
-      initTableData(sortType) {
-        // 动态传id
-        const param = {
-          id:this.caseId1,
-          sortType:sortType
-        }
-        getRightModuleData(param).then(res => {
-          this.flagLoading = false;
-          if(res.data.result&&res.data.result.treeList&&res.data.result.treeList.length>0){
-            // this.treeList = res.data.result.treeList
-            // this.treeTypeCode = res.data.result.treeList[0].treeTypeCode
-          }
-        })
-      },
-
       // 弹窗多选框
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
       // 点击上面展开全部
       expandAlltoC(exAllFlag) {
-        for(let i = 0;i<this.treeList.length;i++){
-          if(this.treeList[i].proList&&this.treeList[i].proList.length>0){
-            this.treeList[i].proList.map(obj => {
+        for(let i = 0;i<this.treeList.treeList.length;i++){
+          if(this.treeList.treeList[i].proList&&this.treeList.treeList[i].proList.length>0){
+            this.treeList.treeList[i].proList.map(obj => {
               this.$set(obj,'flag',exAllFlag)
-              this.showAndHideParent('each' +  obj.proSort, exAllFlag,obj,i);
+              this.showAndHideParent('each' +  i, exAllFlag,obj,i);
             })
           }
         }
@@ -265,13 +266,28 @@
       },
 
       orderByProcess(sortType){
-        this.treeList[0].proList.reverse()
+        this.treeList.treeList[0].proList.reverse()
+        console.log('排序',sortType)
+        this.sortType = sortType
       }
     }
   };
 </script>
 
 <style scoped lang="scss">
+  .l {
+    float: left;
+  }
+
+  .r {
+    float: right;
+  }
+
+  .clear:after {
+    display: block;
+    content: "";
+    clear: both;
+  }
   .gonggao{
     color:#14bcf5;
     font-size:14px;
@@ -464,13 +480,62 @@
     padding-right: 15px;
   }
   /* 进程名样式 */
-  .jincheng {
+  .jincheng12 {
+    position: relative;
+    top: 20px;
+    left: -9px;
+    height: 24px;
+    p {
+      /*font-family: 'Microsoft YaHe','Helvetica Neue','Helvetica','PingFang SC','Hiragino Sans GB','Arial','sans-serif';*/
+      font-weight: 400;
+      font-style: normal;
+      font-size: 14px;
+      color: #999999;
+      top: -31px;
+      left: 32px;
+      position: relative;
+    }
+  }
+  .jincheng11 {
     position: relative;
     top: -6px;
     left: -9px;
     height: 24px;
     p {
-      font-family: 'PingFang-SC-Regular', 'PingFang SC';
+      /*font-family: 'Microsoft YaHe','Helvetica Neue','Helvetica','PingFang SC','Hiragino Sans GB','Arial','sans-serif';*/
+      font-weight: 400;
+      font-style: normal;
+      font-size: 14px;
+      color: #999999;
+      top: -31px;
+      left: 32px;
+      position: relative;
+    }
+  }
+  .jincheng21 {
+    position: relative;
+    top: -14px;
+    left: -9px;
+    height: 41px;
+    p {
+      /*font-family: 'PingFang-SC-Regular', 'PingFang SC';*/
+      /*font-family: 'Microsoft YaHe','Helvetica Neue','Helvetica','PingFang SC','Hiragino Sans GB','Arial','sans-serif';*/
+      font-weight: 400;
+      font-style: normal;
+      font-size: 14px;
+      color: #999999;
+      top: -31px;
+      left: 32px;
+      position: relative;
+    }
+  }
+  .jincheng22 {
+    position: relative;
+    top: 12px;
+    left: -9px;
+    height: 15px;
+    p {
+      /*font-family: 'Microsoft YaHe','Helvetica Neue','Helvetica','PingFang SC','Hiragino Sans GB','Arial','sans-serif';*/
       font-weight: 400;
       font-style: normal;
       font-size: 14px;
