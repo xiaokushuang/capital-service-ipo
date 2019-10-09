@@ -433,6 +433,7 @@ export default {
 
         // 点击展示的第一条公告名
         gonggaoClick(param){
+          debugger;
             window.open(param.baseUrl)
         },
         onMouseOver (obj, item, index) {
