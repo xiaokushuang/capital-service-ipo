@@ -403,8 +403,8 @@ export default {
                         }else{
                             document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-down'
                         }
-                    
-                    } 
+
+                    }
              }
             //  点击灰色进程时间展开收起
              if (type == 'time'){
@@ -422,7 +422,7 @@ export default {
                             }else{
                                 document.getElementById('sign' + item.progressIndex).className = 'fa circle fa-chevron-down'
                             }
-                        
+
                     }
                  }
             // 点击‘查看文件’
@@ -433,8 +433,7 @@ export default {
 
         // 点击展示的第一条公告名
         gonggaoClick(param){
-          debugger;
-            window.open(param.baseUrl)
+          this.$open(encodeURI(param.baseUrl));
         },
         onMouseOver (obj, item, index) {
              if(item.dateCompare == '0'){
@@ -455,7 +454,7 @@ export default {
             }else{
                 document.getElementById('sign' + item.progressIndex).className = 'circle'
             }
-              
+
               document.getElementById('num' + item.progressIndex).setAttribute("style", "display:inline-block;");
         },
         //点击最后一个tab页，进程树变化
@@ -751,7 +750,7 @@ export default {
     // left: 38%;
     // top: -20px;
     color: #f9b162;
-    padding:5px;   
+    padding:5px;
      padding-left: 10px;
     padding-right: 7px;
     line-height:10px;
