@@ -1668,9 +1668,17 @@
           intermediaryName: queryString
         };
         _queryIntermediary(param).then(response => {
-          const results = response.data.result;
+          var data=[];
+          for(var i=0;i<response.data.result.length;i++){
+            var d = response.data.result[i];
+            var param = {
+              labelValue:d.companyCode,
+              value:d.companyName
+            };
+            data.push(param);
+          }
           // 调用 callback 返回建议列表的数据
-          cb(results);
+          cb(data);
         })
       },
       //中介机构联想下拉框选择方法

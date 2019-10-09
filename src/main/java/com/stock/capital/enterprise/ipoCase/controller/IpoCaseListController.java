@@ -107,7 +107,7 @@ public class IpoCaseListController {
             dataType = "String")
     })
     @RequestMapping(value = "/queryIntermediary", method = RequestMethod.GET)
-    public JsonResponse<List<Map<String, Object>>> queryIntermediary(
+    public JsonResponse<List<Map<String,String>>> queryIntermediary(
         @RequestParam("intermediaryName") String intermediaryName) {
         /*JsonResponse<List<Map<String, Object>>> response = new JsonResponse<>();
         response.setResult(ipoCaseListService.queryIntermediary(intermediaryName));
