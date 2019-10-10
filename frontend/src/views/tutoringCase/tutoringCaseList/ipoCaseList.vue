@@ -606,7 +606,7 @@
           id:0,
           name:'全部'
         },
-        caseType: "all", // all ipo ipofd  案例类型 三种类型
+        caseType: "ipo", // all ipo ipofd  案例类型 三种类型
         intermediaryName: '',
         issueLawId: '', //上市条件法规id
         tenantInfo: '', //日志
