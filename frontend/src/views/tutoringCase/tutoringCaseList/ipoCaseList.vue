@@ -587,7 +587,7 @@
   export default {
     data() {
       return {
-        radio:0,
+        radio:1,
         // checkboxList:['全部','IPO案例','辅导案例'],
         checkboxList:[
           {
