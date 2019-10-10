@@ -187,6 +187,17 @@
                                     }
                                 }
                                 </#if>
+                                 <#-- 中介机构 -->
+                                <#if condition.intermediaryCode?? && condition.intermediaryCode != ''>
+                                ,{
+                                    "terms": {
+                                        "ipo_intermediary_code_ss": [
+                                            "${condition.intermediaryCode}"
+                                        ],
+                                        "boost": 1
+                                    }
+                                }
+                                </#if>
                                  <#-- 企业性质 -->
                                    <#if condition.companyNatureList?? && (condition.companyNatureList?size > 0)>
                                        ,{
