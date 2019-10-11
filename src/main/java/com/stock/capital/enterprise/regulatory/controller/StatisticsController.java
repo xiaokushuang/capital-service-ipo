@@ -1,5 +1,6 @@
 package com.stock.capital.enterprise.regulatory.controller;
 
+import com.stock.core.rest.RestClient;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
@@ -16,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +52,16 @@ public class StatisticsController extends BaseController {
     private StatisticsService statisticsService;
     
     @Resource
-	private ServletContext servletContext; 
+	private ServletContext servletContext;
+
+    @Value("#{app['api.baseUrl']}")
+    private String apiBaseUrl;
+
+    /**
+     * 接口调用
+     */
+    @Autowired
+    private RestClient restClient;
     
     public String[] TRANS_AREA_CITY = { "深圳市", "大连市", "宁波市", "厦门市", "青岛市" };
     public String[] TRANS_AREA_PROVINCE = { "广东", "辽宁", "浙江", "福建", "山东" };
@@ -203,7 +215,14 @@ public class StatisticsController extends BaseController {
     @ResponseBody
     public JsonResponse<List<StatisticsResultDto>> getIPOReviewingStts(String companyCode) {
         JsonResponse<List<StatisticsResultDto>> response = new JsonResponse<List<StatisticsResultDto>>();
-        response.setResult(statisticsService.getIPOReviewingStts());
+        //response.setResult(statisticsService.getIPOReviewingStts());
+
+        ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<StatisticsResultDto>>>() {
+        };
+        String url = apiBaseUrl + "ipoStatistics/getIPOReviewingStts";
+        List<StatisticsResultDto> list = restClient.post(url, null, responseType).getResult();
+        response.setResult(list);
+
         return response;
     }
 
@@ -279,7 +298,7 @@ public class StatisticsController extends BaseController {
     @ResponseBody
     public JsonResponse<StatisticsReturnDto> getIPORecommendOrgSttsJson(@RequestBody QueryInfo<Map<String, Object>> queryInfo) {
         JsonResponse<StatisticsReturnDto> response = new JsonResponse<>();
-        Page<StatisticsResultDto> page = statisticsService.getIPORecommendOrgStts(queryInfo);
+        /*Page<StatisticsResultDto> page = statisticsService.getIPORecommendOrgStts(queryInfo);
         int total = 0;
         List<StatisticsResultDto> list = Lists.newArrayList();
         StatisticsReturnDto dto = new StatisticsReturnDto();
@@ -289,7 +308,14 @@ public class StatisticsController extends BaseController {
         }
         dto.setRecommendOrgSttsList(list);
         dto.setTotal(total);
-        response.setResult(dto);
+        response.setResult(dto);*/
+
+        ParameterizedTypeReference<JsonResponse<StatisticsReturnDto>> responseType = new ParameterizedTypeReference<JsonResponse<StatisticsReturnDto>>() {
+        };
+        String url = apiBaseUrl + "ipoStatistics/getIPORecommendOrgSttsJson";
+        StatisticsReturnDto list = restClient.post(url, queryInfo, responseType).getResult();
+        response.setResult(list);
+
         return response;
     }
     
@@ -361,7 +387,7 @@ public class StatisticsController extends BaseController {
     @ResponseBody
     public JsonResponse<StatisticsReturnDto> getIPOAccountantOfficeSttsJson(@RequestBody QueryInfo<Map<String, Object>> queryInfo) {
         JsonResponse<StatisticsReturnDto> response = new JsonResponse<>();
-        Page<StatisticsResultDto> page = statisticsService.getIPOAccountantOfficeStts(queryInfo);
+        /*Page<StatisticsResultDto> page = statisticsService.getIPOAccountantOfficeStts(queryInfo);
         int total = 0;
         List<StatisticsResultDto> list = Lists.newArrayList();
         StatisticsReturnDto dto = new StatisticsReturnDto();
@@ -371,7 +397,14 @@ public class StatisticsController extends BaseController {
         }
         dto.setAccountantOfficeSttsList(list);;
         dto.setTotal(total);
-        response.setResult(dto);
+        response.setResult(dto);*/
+
+        ParameterizedTypeReference<JsonResponse<StatisticsReturnDto>> responseType = new ParameterizedTypeReference<JsonResponse<StatisticsReturnDto>>() {
+        };
+        String url = apiBaseUrl + "ipoStatistics/getIPOAccountantOfficeSttsJson";
+        StatisticsReturnDto list = restClient.post(url, queryInfo, responseType).getResult();
+        response.setResult(list);
+
         return response;
     }
         
@@ -443,7 +476,7 @@ public class StatisticsController extends BaseController {
     @ResponseBody
     public JsonResponse<StatisticsReturnDto> getIPOLawFirmSttsJson(@RequestBody QueryInfo<Map<String, Object>> queryInfo) {
         JsonResponse<StatisticsReturnDto> response = new JsonResponse<>();
-        Page<StatisticsResultDto> page = statisticsService.getIPOLawFirmStts(queryInfo);
+        /*Page<StatisticsResultDto> page = statisticsService.getIPOLawFirmStts(queryInfo);
         int total = 0;
         List<StatisticsResultDto> list = Lists.newArrayList();
         StatisticsReturnDto dto = new StatisticsReturnDto();
@@ -453,7 +486,14 @@ public class StatisticsController extends BaseController {
         }
         dto.setLawFirmSttsList(list);
         dto.setTotal(total);
-        response.setResult(dto);
+        response.setResult(dto);*/
+
+        ParameterizedTypeReference<JsonResponse<StatisticsReturnDto>> responseType = new ParameterizedTypeReference<JsonResponse<StatisticsReturnDto>>() {
+        };
+        String url = apiBaseUrl + "ipoStatistics/getIPOLawFirmSttsJson";
+        StatisticsReturnDto list = restClient.post(url, queryInfo, responseType).getResult();
+        response.setResult(list);
+
         return response;
     }
         
@@ -824,9 +864,14 @@ public class StatisticsController extends BaseController {
       @ResponseBody
       public JsonResponse<StatisticsReturnDto> getIpoDataOverviewDetail(@ApiParam(value = "ipo数据概览查询dto") @RequestBody StatisticsParamDto dto) {
           JsonResponse<StatisticsReturnDto> response = new JsonResponse<StatisticsReturnDto>();
-          StatisticsReturnDto returnDto = new StatisticsReturnDto();
+          /*StatisticsReturnDto returnDto = new StatisticsReturnDto();
           returnDto = statisticsService.getIpoDataOverviewDetail(dto);
-          response.setResult(returnDto);
+          response.setResult(returnDto);*/
+          ParameterizedTypeReference<JsonResponse<StatisticsReturnDto>> responseType = new ParameterizedTypeReference<JsonResponse<StatisticsReturnDto>>() {
+          };
+          String url = apiBaseUrl + "ipoStatistics/getIpoDataOverviewDetail";
+          StatisticsReturnDto list = restClient.post(url, dto, responseType).getResult();
+          response.setResult(list);
           return response;
       }
       
@@ -885,6 +930,13 @@ public class StatisticsController extends BaseController {
            StatisticsReturnDto returnDto = new StatisticsReturnDto();
            returnDto = statisticsService.ipoItemDataQuery(dto);
            response.setResult(returnDto);
+
+           /*ParameterizedTypeReference<JsonResponse<StatisticsReturnDto>> responseType = new ParameterizedTypeReference<JsonResponse<StatisticsReturnDto>>() {
+           };
+           String url = apiBaseUrl + "ipoStatistics/ipoItemDataQuery";
+           StatisticsReturnDto list = restClient.post(url, dto, responseType).getResult();
+           response.setResult(list);*/
+
            return response;
        }
        
