@@ -127,7 +127,7 @@
     <el-dialog class="bigDialog" title="" :visible.sync="centerNoteFlag" :close-on-click-modal="false" width="80%"
                close="noteCancellation('3')">
       <span style="font-size: 14px;color: #333;" slot="title">{{centerNoteTitle}}</span>
-      <el-input   type="textarea" class="center-textarea-height" resize="none" placeholder="请在这里输入笔记内容..." v-model="note" :maxlength='2000' show-word-limit>
+      <el-input   type="textarea" maxlength="2000" class="center-textarea-height" resize="none" placeholder="请在这里输入笔记内容..." v-model="note" :maxlength='2000' show-word-limit>
       </el-input>
       <div slot="footer">
         <button class="small_btn_common cancel_btn" @click="noteCancellation('3')">取消</button>
@@ -261,7 +261,7 @@
 													<i class="el-icon-close" @click="noteCancellation('1')" title="关闭" style="cursor:pointer;vertical-align: -10%;font-size: 21px"></i>
 												</span>
                       </div>
-                      <el-input type="textarea" class="textarea-height" :rows="6" resize="none" placeholder="请在这里输入笔记内容..." v-model="note">
+                      <el-input type="textarea" maxlength="2000" class="textarea-height" :rows="6" resize="none" placeholder="请在这里输入笔记内容..." v-model="note">
                       </el-input>
                       <div style="float: right;margin-right: 20px;padding-top: 12px;">
                         <button class="small_btn_common cancel_btn" @click="noteCancellation('1')">取消</button>
