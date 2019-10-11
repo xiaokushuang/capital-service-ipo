@@ -1027,7 +1027,7 @@ public class StatisticsService extends BaseService implements ServletContextAwar
         String url = apiBaseUrl + "ipoStatistics/getIpoDataOverviewDetail";
         StatisticsReturnDto list = restClient.post(url, dto, responseType).getResult();*/
 
-        return list;
+        return returnDto;
     }
     
     /**
