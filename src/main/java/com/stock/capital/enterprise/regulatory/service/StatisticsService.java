@@ -988,7 +988,7 @@ public class StatisticsService extends BaseService implements ServletContextAwar
      * 取得ipo数据概览详情数据
      */
     public StatisticsReturnDto getIpoDataOverviewDetail(StatisticsParamDto dto) {
-        List<String> areaList = new ArrayList<String>();
+        /*List<String> areaList = new ArrayList<String>();
         List<String> industryList = new ArrayList<String>();
         Map<String, Object> map = new HashMap<String, Object>();
         String updateTime = statisticsBizMapper.getIPOLastTime();
@@ -1020,8 +1020,14 @@ public class StatisticsService extends BaseService implements ServletContextAwar
             list = statisticsBizMapper.queryAccountDetail(map);
         }
         StatisticsReturnDto returnDto = new StatisticsReturnDto();
-        returnDto.setIpoDetailList(list);
-        return returnDto;
+        returnDto.setIpoDetailList(list);*/
+
+        ParameterizedTypeReference<JsonResponse<StatisticsReturnDto>> responseType = new ParameterizedTypeReference<JsonResponse<StatisticsReturnDto>>() {
+        };
+        String url = apiBaseUrl + "ipoStatistics/getIpoDataOverviewDetail";
+        StatisticsReturnDto list = restClient.post(url, dto, responseType).getResult();
+
+        return list;
     }
     
     /**
