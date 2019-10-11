@@ -4,7 +4,7 @@
 			<i class="el-icon-close" style="float: right;cursor: pointer" title="关闭" @click="cancel"></i>
 		</div>
 		<div class="el-dialog__body">
-			<el-input type="textarea" :style="{height:height}" placeholder="请在这里输入笔记内容..." v-model="note">
+			<el-input type="textarea" maxlength="2000" :style="{height:height}" placeholder="请在这里输入笔记内容..." v-model="note">
 			</el-input>
 		</div>
 		<div class="el-dialog__footer" style="float: right">

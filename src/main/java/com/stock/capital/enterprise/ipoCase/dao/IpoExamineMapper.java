@@ -25,9 +25,14 @@ public interface IpoExamineMapper {
     List<IpoFeedbackQuestionDto> selectQuestionList(String orgCode);
 
     /**
-     * 查询发审委委员
+     * 查询发审委委员(从东财查询)(如果自己数据库好用后期删除)
      */
     String selectExamineMember(@Param("orgCode") String orgCode, @Param("examineDate") String examineDate);
+
+    /**
+     * 查询发审委委员(从数据库库查询)
+     */
+    String selectLocalExamineMember(@Param("orgCode") String orgCode, @Param("examineDate") String examineDate);
 
     /**
      * 查询发审委委员详细信息

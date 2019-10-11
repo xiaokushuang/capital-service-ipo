@@ -107,10 +107,18 @@ public class IpoCaseListController {
             dataType = "String")
     })
     @RequestMapping(value = "/queryIntermediary", method = RequestMethod.GET)
-    public JsonResponse<List<Map<String, Object>>> queryIntermediary(
+    public JsonResponse<List<Map<String,String>>> queryIntermediary(
         @RequestParam("intermediaryName") String intermediaryName) {
-        JsonResponse<List<Map<String, Object>>> response = new JsonResponse<>();
+        /*JsonResponse<List<Map<String, Object>>> response = new JsonResponse<>();
         response.setResult(ipoCaseListService.queryIntermediary(intermediaryName));
+        return response;*/
+        String url = apiBaseUrl + "maaCase/agencyAutocomplete";
+        ParameterizedTypeReference<JsonResponse<List<Map<String,String>>>> responseType = new ParameterizedTypeReference<JsonResponse<List<Map<String,String>>>>(){
+        };
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+        params.set("agencyName",intermediaryName);
+        params.set("companytypecode","001002,005001,006001,006002,006003");
+        JsonResponse<List<Map<String,String>>> response =  restClient.post(url, params, responseType);
         return response;
     }
 

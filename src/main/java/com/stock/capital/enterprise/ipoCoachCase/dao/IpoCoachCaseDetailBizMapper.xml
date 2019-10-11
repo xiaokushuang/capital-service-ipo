@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stock.capital.enterprise.ipoCoachCase.dao.IpoCoachCaseDetailBizMapper">
+
+    <resultMap id="OrgResultMap" type="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="bid" property="bid" jdbcType="VARCHAR"/>
+        <result column="intermediary_type" property="intermediaryType" jdbcType="VARCHAR"/>
+        <result column="org_type" property="orgType" jdbcType="VARCHAR"/>
+        <result column="org_name" property="orgName" jdbcType="VARCHAR"/>
+        <result column="org_code" property="orgCode" jdbcType="VARCHAR"/>
+        <result column="valid_flag" property="validFlag" jdbcType="VARCHAR"/>
+        <result column="represent_person" property="representPerson" jdbcType="VARCHAR"/>
+        <result column="agent_person" property="agentPerson" jdbcType="VARCHAR"/>
+        <result column="assist_person" property="assistPerson" jdbcType="VARCHAR"/>
+        <result column="sort_no" property="sortNo" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="MarketResultMap" type="com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="bid" property="bid" jdbcType="VARCHAR"/>
+        <result column="market_type" property="marketType" jdbcType="VARCHAR"/>
+        <result column="market_type_text" property="marketTypeText" jdbcType="VARCHAR"/>
+        <result column="company_code" property="companyCode" jdbcType="VARCHAR"/>
+        <result column="company_name" property="companyName" jdbcType="VARCHAR"/>
+        <result column="list_time" property="listTime" jdbcType="TIMESTAMP"/>
+        <result column="delist_time" property="delistTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="processResultMap" type="com.stock.capital.enterprise.ipoCase.dto.TreeTypeProgressDto">
+        <result column="bid" property="caseId" jdbcType="VARCHAR"/>
+        <result column="param_name" property="paramName" jdbcType="VARCHAR"/>
+        <result column="sys_update" property="sysUpdate" jdbcType="VARCHAR"/>
+        <collection property="treeList" ofType="com.stock.capital.enterprise.ipoCase.dto.IpoProgressDto">
+            <result column="tree_type_code" property="treeTypeCode" jdbcType="VARCHAR"/>
+            <collection property="proList" ofType="com.stock.capital.enterprise.ipoCase.dto.IpoProListDto">
+                <result column="process_type_code" property="progressType" jdbcType="VARCHAR"/>
+                <result column="label_name" property="progressName" jdbcType="VARCHAR"/>
+                <result column="pro_sort" property="proSort" jdbcType="VARCHAR"/>
+                <!--<result column="process_time" property="processTime" jdbcType="VARCHAR"/>-->
+                <collection property="relaList"
+                            ofType="com.stock.capital.enterprise.ipoCase.dto.IpoFileRelationDto">
+                    <result column="id" property="id" jdbcType="VARCHAR"/>
+                    <result column="relation_file_id" property="relaId" jdbcType="VARCHAR"/>
+                    <result column="relation_file_title" property="relationFileTitle"
+                            jdbcType="VARCHAR"/>
+                    <!--<result column="title" property="relaName" jdbcType="VARCHAR"/>-->
+                    <result column="process_time" property="publishTime" jdbcType="VARCHAR"/>
+                    <result column="table_sort" property="tableSort" jdbcType="VARCHAR"/>
+                    <result column="status" property="status" jdbcType="VARCHAR"/>
+                    <result column="suffix" property="suffix" jdbcType="VARCHAR"/>
+                    <result column="iec_result" property="iecResult" jdbcType="VARCHAR"/>
+                </collection>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <resultMap id="BaseResultMap" type="com.stock.capital.enterprise.ipoCoachCase.dto.IpoRelatedCaseDto">
+        <result column="caseId" property="id" jdbcType="VARCHAR"/>
+        <result column="param_name" property="paramName" jdbcType="VARCHAR"/>
+        <result column="caseTitle" property="caseTitle" jdbcType="VARCHAR"/>
+        <result column="company_zh_name" property="companyZhName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="queryCoachBasicInfo" parameterType="java.lang.String"
+            resultType="com.stock.capital.enterprise.ipoCoachCase.dto.IpoCoachCaseDto">
+           select id,serial_num as serialNum,title,fd_process as fdProcess,securities_regulatory as securitiesRegulatory,
+        (select label_name from maa_conf_label t1 where t1.label_code = 'SFC' and t1.label_value = securities_regulatory and t1.status = '1') as securitiesRegulatoryText,
+        if_relevance as ifRelevance,fd_keyword as fdKeyword,company_name as companyName,company_short_name as companyShortName,
+        corporate_representative as corporateRepresentative,founding_time as foundingTime,
+        register_provience as registerProvience,
+        (select area_name from provinces t1 where t1.area_no = register_provience and t1.status = '1') as registerProvienceText,
+        register_city as registerCity,
+        (select area_name from provinces t1 where t1.area_no = register_city and t1.status = '1') as registerCityText,
+        register_area as registerArea,
+        (select area_name from provinces t1 where t1.area_no = register_area and t1.status = '1') as registerAreaText,
+        address,establish_time as establishTime,
+        business_provience as businessProvience,
+        (select area_name from provinces t1 where t1.area_no = business_provience and t1.status = '1') as businessProvienceText,
+        business_city as businessCity,
+        (select area_name from provinces t1 where t1.area_no = business_city and t1.status = '1') as businessCityText,
+        business_area as businessArea,
+        (select area_name from provinces t1 where t1.area_no = business_area and t1.status = '1') as businessAreaText,
+        phone,plate,
+        (select label_name from maa_conf_label t1 where t1.label_code = 'IPO_PLATE' and t1.label_value = plate and t1.status = '1') as plateText,
+        main_business as mainBusiness,business_scope as businessScope,open_flag as openFlag
+         from ipo_fd_case t where t.id = #{id}
+   </select>
+
+    <select id="selectOrgByBid" parameterType="java.lang.String" resultMap="OrgResultMap">
+        SELECT id, bid, intermediary_type, org_type, org_name, org_code, valid_flag, represent_person, agent_person,
+        assist_person, sort_no FROM ipo_intermediary_org WHERE bid = #{bid}
+    </select>
+
+
+    <select id="selectMarketByBid" parameterType="java.lang.String" resultMap="MarketResultMap">
+    SELECT id, bid, market_type,
+     (select label_name from maa_conf_label t1 where t1.label_code = 'IPO_CAPITAL_MARKET' and t1.label_value = market_type and t1.status = '1') as market_type_text,
+     company_code, company_name, list_time, delist_time FROM ipo_other_market_info
+    WHERE bid = #{bid}
+  </select>
+
+    <select id="queryIpoProcessByCaseId" parameterType="java.lang.String"
+            resultMap="processResultMap">
+        SELECT
+        t1.bid,
+        t4.param_name,
+        t4.sys_update,
+        t1.tree_type_code,
+        t1.process_type_code,
+        t2.label_name,
+        t1.pro_sort,
+        t1.id,
+        t1.relation_file_id,
+        t3.title,
+        date_format(t1.process_time,'%Y-%m-%d') process_time,
+        t1.table_sort,
+        t1.`status`,
+        t3.suffix,
+        t1.iec_result,
+        t1.relation_file_title
+        FROM
+        ipo_process t1
+        LEFT JOIN maa_conf_label t2 ON t2.label_value = t1.process_type_code
+        AND t2.label_code IN (
+        'SUPPORT_PROGRESS',
+        'DECLARE_PROGRESS',
+        'PUBLIC_PROGRESS'
+        )
+        LEFT JOIN ipo_file t3 ON t3.id = t1.relation_file_id
+        left join ipo_case t4 on t4.id = t1.bid
+        <where>
+            t1.bid = #{bid}
+        </where>
+        ORDER BY t1.pro_sort desc,t1.table_sort
+    </select>
+
+    <select id="getRelaIpoCaseList" parameterType="com.stock.capital.enterprise.ipoCoachCase.dto.IpoRelatedCaseDto" resultType="com.stock.capital.enterprise.ipoCoachCase.dto.IpoRelatedCaseDto">
+        SELECT *
+        FROM (
+            SELECT *
+            FROM (
+            SELECT t3.title AS caseTitle, t3.id AS caseId, t4.process_time, DATE_FORMAT(t4.process_time,'%Y-%m-%d') AS processTime, t3.open_flag AS openFlag
+            FROM ipo_fd_case t1 left join ipo_fd_relevance t2 on t1.id = t2.fd_bid,ipo_case t3 left join ipo_process t4 on t4.bid = t3.id and t4.status = '1',case_common_status_info t5
+            WHERE  t2.bid = t3.id AND t5.case_id = t3.id AND t5.case_type = '04' AND t5.release_flag = '1' AND t1.id = #{id}
+            ORDER BY t4.pro_sort
+            LIMIT 999999) a
+            LEFT JOIN (
+            SELECT t3.id, t4.iec_result AS iecResult, (
+            SELECT t5.label_name
+            FROM maa_conf_label t5
+            WHERE t5.label_code = 'IPO_VERIFY_RESULT' AND t5.label_value = t4.iec_result AND t5.status = '1') AS iecResultText, t4.pro_sort AS proSort
+            FROM ipo_fd_case t1 left join ipo_fd_relevance t2 on t1.id = t2.fd_bid,ipo_case t3 left join ipo_process t4 on t4.bid = t3.id and t4.iec_result IS NOT NULL and t4.status = '1'
+            WHERE t2.bid = t3.id AND t1.id = #{id} and t4.status = '1' ) b ON a.caseId = b.id
+            ORDER BY b.proSort DESC
+            LIMIT 9999) t
+        GROUP BY t.caseId
+    </select>
+
+</mapper>

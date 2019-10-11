@@ -71,6 +71,17 @@
         LIMIT 1
     </select>
 
+    <select id="selectLocalExamineMember" resultType="java.lang.String">
+         SELECT
+            audit_member
+        FROM
+            st_financing_examined
+        WHERE
+            org_code = #{orgCode}
+        AND audit_date = #{examineDate}
+        LIMIT 1
+    </select>
+
     <select id="selectMemberInformationList"
             resultType="com.stock.capital.enterprise.ipoCase.dto.IpoMemberDto">
         SELECT

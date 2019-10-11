@@ -141,5 +141,16 @@ public interface Global {
     public static final String COUNTRY_OUTSIDE = "outside";
     public static final String COUNTRY_INSIDE = "inside";
 
+    /**
+     * 案例类型
+     */
+    public static final String CASE_TYPE_ALL = "all";
+    public static final String CASE__TYPE_IPO = "ipo";
+    public static final String CASE_TYPE_FD = "ipofd";
+    /**
+     * ipo案例  使用索引服务器的类型  0 ES 1 solr
+     */
+    public  static final String SEARCH_SERVER_IPO_CASE_FLAG = "1";
+
 
 }

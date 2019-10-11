@@ -4,100 +4,51 @@
     <div class="companey">
       <span id="briefIntroduction"></span>
       <div class="briefIntroduction">
-        <p v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.companyZhName" style="color: #333; font-weight: bold;font-size: 14px;">
-          {{companyProfileList.companyProfileList.companyZhName}}
+        <p v-if="companyProfileList&&companyProfileList.companyName" style="color: #333; font-weight: bold;font-size: 14px;">
+          {{companyProfileList.companyName}}
         </p>
         <ul style="display:flex;margin-bottom: 0;">
           <li  class="clear" style="margin-bottom:10px;position:relative" >
+            <span  class="l">公司简称</span>
+            <div v-if="companyProfileList&&companyProfileList.companyShortName" style="color: #333333;float:left;display:inline-block;width: 60%;margin-left: 27px;">{{companyProfileList.companyShortName}}</div>
+            <div v-else style="color: #333333;float:left;display:inline-block;width: 60%;margin-left: 27px;">- -</div>
+          </li>
+          <li  class="clear" style="margin-bottom:10px;position:relative" >
             <span  class="l">拟上市板块</span>
-            <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.ipoPlate"  style="color: #333333;float:left;display:inline-block;width: 55%;margin-left: 13px;">{{companyProfileList.companyProfileList.ipoPlate}}</div>
+            <div v-if="companyProfileList&&companyProfileList.plateText"  style="color: #333333;float:left;display:inline-block;width: 55%;margin-left: 13px;">{{companyProfileList.plateText}}</div>
             <div v-else  style="color: #333333;float:left;display:inline-block;width: 55%;margin-left: 13px;">- -</div>
           </li>
           <li  class="clear" style="margin-bottom:10px;position:relative" >
-            <span  class="l">所属行业(证监会)</span>
-            <!-- <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.industryCsrc"  style="color: #333333;float:left;display:inline-block;width: 53%;margin-left: 27px;">{{companyProfileList.companyProfileList.industryCsrc}}</div> -->
-             <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.industryCsrc"  style="color: #333333;float:left;display:inline-block;width: 53%;margin-left: 27px;" :title="companyProfileList.companyProfileList.industryCsrc.length>24 ? companyProfileList.companyProfileList.industryCsrc:''">{{getContentHy1(companyProfileList.companyProfileList.industryCsrc)}}</div>
+            <span  class="l">所属证监局</span>
+             <div v-if="companyProfileList&&companyProfileList.securitiesRegulatoryText"  style="color: #333333;float:left;display:inline-block;width: 53%;margin-left: 27px;" :title="companyProfileList.securitiesRegulatoryText.length>24 ? companyProfileList.securitiesRegulatoryText:''">{{getContentHy1(companyProfileList.securitiesRegulatoryText)}}</div>
             <div v-else  style="color: #333333;float:left;display:inline-block;width: 53%;margin-left: 27px;">- -</div>
-          </li>
-            <li  class="clear" style="margin-bottom:10px;position:relative" >
-            <span  class="l">所属行业(战略新兴)</span>
-            <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.strageticIndustries "  style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" :title="companyProfileList.companyProfileList.strageticIndustries.length>22 ? companyProfileList.companyProfileList.strageticIndustries:''">{{getContentHy(companyProfileList.companyProfileList.strageticIndustries)}}</div>
-            <div v-else  style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;">- -</div>
-          </li>
-          <li  class="clear" style="margin-bottom:10px;position:relative" >
-            <span  class="l">公司简称</span>
-            <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.companyName" style="color: #333333;float:left;display:inline-block;width: 60%;margin-left: 27px;">{{companyProfileList.companyProfileList.companyName}}</div>
-            <div v-else style="color: #333333;float:left;display:inline-block;width: 60%;margin-left: 27px;">- -</div>
-          </li>
-          <li  class="clear" style="margin-bottom:10px;position:relative" >
-            <span  class="l">证券代码</span>
-            <div  v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.companyCode"  style="color: #333333;float:left;display:inline-block;width: 60%;line-height:19px;margin-left: 27px;">{{companyProfileList.companyProfileList.companyCode}}</div>
-            <div v-else  style="color: #333333;float:left;display:inline-block;width: 60%;line-height:19px;margin-left: 27px;">- -</div>
-          </li>
-          <li  class="clear" style="margin-bottom:10px;position:relative" >
-            <span  class="l">注册资本</span>
-            <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.registeredAssets" style="color: #333333;float:left;display:inline-block;width: 60%;margin-left: 27px;">{{companyProfileList.companyProfileList.registeredAssets | dataInThRule}}万元</div>
-            <div v-else style="color: #333333;float:left;display:inline-block;width: 60%;margin-left: 27px;">- -</div>
           </li>
            <li class="clear" style="margin-bottom:10px;position:relative" >
             <span class="l">注册地址</span>
-            <!-- <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&(companyProfileList.companyProfileList.addrProv || companyProfileList.companyProfileList.addrCity || companyProfileList.companyProfileList.addrArea)" >{{companyProfileList.companyProfileList.addrProv}}{{companyProfileList.companyProfileList.addrCity}}{{companyProfileList.companyProfileList.addrArea}}</div> -->
-            <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&(companyProfileList.companyProfileList.addrCountry || companyProfileList.companyProfileList.addrProv || companyProfileList.companyProfileList.addrCity || companyProfileList.companyProfileList.addrArea)" :title="(companyProfileList.companyProfileList.addrCountry + companyProfileList.companyProfileList.addrProv + companyProfileList.companyProfileList.addrCity + companyProfileList.companyProfileList.addrArea ).length>20 ? (companyProfileList.companyProfileList.addrCountry +companyProfileList.companyProfileList.addrProv + companyProfileList.companyProfileList.addrCity + companyProfileList.companyProfileList.addrArea ):''">{{(getAdress(companyProfileList.companyProfileList.addrCountry == null ? "" : companyProfileList.companyProfileList.addrCountry) + getAdress(companyProfileList.companyProfileList.addrProv == null ? "" : companyProfileList.companyProfileList.addrProv) + (companyProfileList.companyProfileList.addrCity == null ? "" : companyProfileList.companyProfileList.addrCity) + (companyProfileList.companyProfileList.addrArea == null ? "" : companyProfileList.companyProfileList.addrArea))}}</div>
+            <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-if="companyProfileList&&(companyProfileList.registerProvienceText || companyProfileList.registerCityText || companyProfileList.registerAreaText)" >{{(companyProfileList.registerProvienceText == null ? "" : companyProfileList.registerProvienceText) + (companyProfileList.registerCityText == null ? "" : companyProfileList.registerCityText) + (companyProfileList.registerAreaText == null ? "" : companyProfileList.registerAreaText)}}</div>
             <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-else >- -</div>
-          </li>
-          <li  class="clear" style="margin-bottom:10px;position:relative" >
-            <span  class="l">企业性质</span>
-            <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.companyNature"  style="color: #333333;float:left;display:inline-block;width: 60%;margin-left: 27px;">{{companyProfileList.companyProfileList.companyNature}}</div>
-            <div v-else  style="color: #333333;float:left;display:inline-block;width: 60%;margin-left: 27px;">- -</div>
-          </li>
-          <li v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.placingMechanism "  class="clear" style="margin-bottom:10px;position:relative" >
-            <span  class="l">配售机制</span>
-            <div  style="color: #333333;float:left;display:inline-block;width: 71%;margin-left: 27px;">{{companyProfileList.companyProfileList.placingMechanism }}</div>
-            <!-- <div v-else  style="color: #333333;float:left;display:inline-block;width: 71%;margin-left: 27px;">- -</div> -->
           </li>
         </ul>
         <div>
-
-          <li class="clear" style="margin-bottom:10px;position:relative" >
-            <span class="l">控股股东</span>
-            <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.controlShareholder">{{companyProfileList.companyProfileList.controlShareholder}}</div>
-            <div style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 27px;" v-else>- -</div>
-          </li>
           <li  class="clear" style="margin-bottom:10px;position:relative" >
-            <span  class="l">实际控制人</span>
-            <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 14px;" v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.actualController" >{{companyProfileList.companyProfileList.actualController}}</div>
+            <span  class="l">法定代表人</span>
+            <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 14px;" v-if="companyProfileList&&companyProfileList.corporateRepresentative" >{{companyProfileList.corporateRepresentative}}</div>
             <div style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 14px;"  v-else >- -</div>
-          </li>
-          <!-- 发行人选择的上市标准 -->
-          <li class="clear" v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.issueCondition !=''" style="margin-bottom:10px;position:relative" >
-            <span v-if="companyProfileList.companyProfileList.issueCondition" style="display: inline-block;width: 65px;float:left">发行人选择的上市标准</span>
-            <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.issueCondition ==''" style="color: #333333;margin-left: 9.4%;margin-top: -4.8%;">- -</div>
-            <div v-else style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 1.6%;">
-              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('101')>-1">预计市值不低于人民币<span style="color:red">10亿元</span>，最近两年净利润均为正且累计净利润不低于人民币<span style="color:red">5000万元</span>，或者预计市值不低于人民币<span style="color:red">10亿元</span>，最近一年净利润为正且营业收入不低于人民币<span style="color:red">1亿元</span></div>
-              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('102')>-1">预计市值不低于人民币<span style="color:red">15亿元</span>，最近一年营业收入不低于人民币<span style="color:red">2亿元</span>，且最近三年累计研发投入占最近三年累计营业收入的比例不低于<span style="color:red">15%</span></div>
-              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('103')>-1">预计市值不低于人民币<span style="color:red">20亿元</span>，最近一年营业收入不低于人民币<span style="color:red">3亿元</span>，且最近三年经营活动产生的现金流量净额累计不低于人民币<span style="color:red">1亿元</span></div>
-              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('104')>-1">预计市值不低于人民币<span style="color:red">30亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">3亿元</span></div>
-              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('105')>-1">预计市值不低于人民币<span style="color:red">40亿元</span>，主要业务或产品需经国家有关部门批准，市场空间大，目前已取得阶段性成果。医药行业企业需至少有一项核心产品获准开展二期临床试验，其他符合科创板定位的企业需具备明显的技术优势并满足相应条件</div>
-              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('201')>-1">预计市值不低于人民币<span style="color:red">100亿元</span></div>
-              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('202')>-1">预计市值不低于人民币<span style="color:red">50亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">5亿元</span></div>
-              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('301')>-1">预计市值不低于人民币<span style="color:red">100亿元</span></div>
-              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('302')>-1">预计市值不低于人民币<span style="color:red">50亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">5亿元</span></div>
-            </div>
           </li>
           <li class="clear" style="position:relative;margin-top:0%;margin-bottom:16px">
             <span class="l" >主营业务</span>
-            <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.majorBusinesses">{{companyProfileList.companyProfileList.majorBusinesses}}</div>
+            <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 27px;" v-if="companyProfileList&&companyProfileList.mainBusiness">{{companyProfileList.mainBusiness}}</div>
             <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 27px;" v-else >- -</div>
           </li>
         </div>
       </div>
       <!-- 登录其他资本市场 -->
-      <div class="others" v-if="this.otherMarketInfoList&&this.otherMarketInfoList.length>0">
+      <div class="others" v-if="otherMarketInfoList&&otherMarketInfoList.length>0">
         <p style="color:black">登陆其他资本市场</p>
         <ul v-for="item in otherMarketInfoList">
           <li style=" width: 30%;position:relative">
             <span>资本市场</span>&nbsp;&nbsp;
-            <div v-if="item.marketType" style="color:black;margin-left: 25%;margin-top: -17.5px;">{{item.marketType}}</div>
+            <div v-if="item.marketTypeText" style="color:black;margin-left: 25%;margin-top: -17.5px;">{{item.marketTypeText}}</div>
             <div v-else style="color:black;margin-left: 25%;margin-top: -17.5px;">- -</div>
           </li>
           <li style=" width: 20%;">
@@ -117,53 +68,14 @@
           </li>
         </ul>
       </div>
-      <!-- 拆分上市情况 -->
-       <div class="splitListing" v-if="spliteList&&spliteList.length>0">
-        <p style="color:black;margin-top:16px">拆分上市情况</p>
-        <ul v-for="item in spliteList">
-          <li style=" width: 33%;position:relative">
-            <span>上市公司</span>&nbsp;&nbsp;
-            <div v-if="item.companyName" style="color:black;margin-left: 25%;margin-top: -17.5px;">{{item.companyName}}</div>
-            <span v-else style="color:black">- -</span>
-          </li>
-          <li style=" width: 33%;">
-            <span>所在市场</span>&nbsp;&nbsp;
-            <span v-if="item.splitMarket" style="color:black">{{item.splitMarket}}</span>
-            <span v-else style="color:black">- -</span>
-          </li>
-          <li style=" width: 33%;">
-            <span>直接或间接持有发行人股份</span>&nbsp;&nbsp;
-            <span v-if="item.shareProportion" style="color:black">{{item.shareProportion}}%</span>
-            <span v-else style="color:black">- -</span>
-          </li>
-        </ul>
-        <ul>
-          <li style="width: 100%; margin-bottom:10px">
-            <span  class="l">拆分详情</span>&nbsp;&nbsp;
-            <span v-if="spliteList[0].splitMemo" style="color:black;float:left;margin-left: 18px;width: 80%">{{spliteList[0].splitMemo}}</span>
-            <span v-else style="color:black;float:left;margin-left: 18px;width: 80%">- -</span>
-          </li>
-          <li v-if="spliteList[0].fileList&&spliteList[0].fileList.length>0" style="width: 100%;margin-bottom:10px "
-              v-for="(item,index) in spliteList[0].fileList">
-           <span v-if="index == 0">相关文件</span>&nbsp;&nbsp;&nbsp;&nbsp;
-           <span v-if="index != 0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-           <span v-if="item.splitFileName"  @click="openLetterDetail(item.splitFileId)" style="color:#3399fe;text-decoration:underline;cursor:pointer;">{{item.splitFileName}}</span>
-           <span v-else style="color:black">- -</span>
-          </li>
-          <li v-if="spliteList[0].fileList.length==0" style="width: 100%;margin-bottom:10px ">
-            <span>相关文件</span>&nbsp;&nbsp;&nbsp;&nbsp;
-            <span style="color:black">- -</span>
-          </li>
-        </ul>
-      </div>
     </div>
     <!-- 中介机构 -->
     <div class="IntermediaryInstitutions">
-        <div v-if="dataFlag" class="title">
+      <div v-if="IntermediaryList&&IntermediaryList.length>0" class="title">
           <span class="littleRectangle"></span>
-          <span class="titleText" id="intermediaryInstitutions">中介机构</span>
+          <span class="titleText" id="intermediaryInstitutions">辅导机构</span>
       </div>
-      <IntermediaryInstitutions v-if="dataFlag"></IntermediaryInstitutions>
+      <IntermediaryInstitutions v-if="IntermediaryList&&IntermediaryList.length>0" :intermediaryOrgList="IntermediaryList"></IntermediaryInstitutions>
     </div>
     <!-- 已经到底了 -->
     <div style="text-align: center;
@@ -180,33 +92,20 @@
 
 
 import $ from "jquery";
-import { getMarketData } from "@/api/ipoCase/companyProfile";
-import { getShareHolderData } from "@/api/ipoCase/companyProfile";
-import { getRaiseMoneyTableList } from "@/api/ipoCase/companyProfile";
-import { getSupplierCustomerData } from '@/api/ipoCase/tableDemo';
-import { getTableData } from '@/api/ipoCase/tableDemo';
 // 中介机构数据
 import { getIntermediaryOrgDataList } from '@/api/ipoCase/companyProfile'
-// 拆分上市情况
-import { getSpliteData } from '@/api/ipoCase/companyProfile'
-// 最近一次估值
-import { getValuationData } from '@/api/ipoCase/companyProfile'
-// 导入主营业务收入构成表格
-import mainTable from "@/views/tables/mainTable";
-// 导入柱形图和饼图
-import barOrPieChart from "@/components/Charts/barOrPieChart";
+import { getCoachBasicInfo } from "@/api/tutoringCase/companyProfile";
 // 导入中介机构
-import IntermediaryInstitutions from "@/views/navMenu/companyProfile/components/IntermediaryInstitutions"
+import IntermediaryInstitutions from "@/views/tutoringCase/companyProfile/components/IntermediaryInstitutions"
 export default {
   name: "companyProfile",
   components: {
-    mainTable,
-    barOrPieChart,
     IntermediaryInstitutions
   },
 
   data() {
     return {
+      companyProfileList:{},
       isLogin: true,
       listLoading: false,
       gqTableList: [],
@@ -220,31 +119,15 @@ export default {
       caseId:this.$store.state.app.caseId,
       //其他资本市场
       otherMarketInfoList:[],//其他登陆市场
-      // 主要竞争者
-      // MajorCompetitors: [],
-      // 前五名供应商数据
-      supplierMainList:[],
-      // 前五名客户
-      customerMainList:[],
-      // 主营业务收入
-      mainTableList:{
-        onePeriodForIncome:'',
-        thirdYearForIncome:'',
-        secondYearForIncome:'',
-        firstYearForIncome:''
-      },
       // 中介机构
+      allArr:[],
+      IntermediaryList:[],
+      intermediaryOrgList:[],
       moreList:[],
       mainList:[],
-      dataFlag:false,
-      // 拆分上市情况
-      spliteList:[],
-      // 最近一次估值情况
-      recentValuation:[],
-      recentValuationFlag:false
     };
   },
-  props:["companyProfileList"],
+  // props:["companyProfileList"],
   created() {
      // 日志--------------------功能头
       let param = {
@@ -262,6 +145,18 @@ export default {
   mounted() {
   },
   methods: {
+    //中介机构数据处理（只保留辅导机构的数据）
+    getAllArr(){
+      this.allArr = []
+      for(let i = 0;i<this.intermediaryOrgList.length;i++){
+        if(this.intermediaryOrgList[i].intermediaryType=='7'){
+          this.allArr.push(this.intermediaryOrgList[i])
+          this.IntermediaryList = this.allArr
+        }
+      }
+
+      console.log('全部符合要求的辅导机构',this.IntermediaryList)
+    },
     getContentHy1(title){
      if(title.length>24){
        return title.substring(0,23) + '...'
@@ -330,71 +225,22 @@ export default {
       const param = {
         id:this.caseId,
       }
-      // 其他登录市场
-      getMarketData(param).then(res=>{
-        if(res.data.result&&res.data.result.length>0){
-          this.otherMarketInfoList = res.data.result//其他登录市场
+      getCoachBasicInfo(param).then(res=>{
+        this.companyProfileList = res.data.result
+        console.log('基本信息',this.companyProfileList)
+        if(res.data.result&&res.data.result.otherMarketInfoList&&res.data.result.otherMarketInfoList.length>0){
+          this.otherMarketInfoList = res.data.result.otherMarketInfoList
         }
-          this.getPosition()
-      });
-      // 拆分上市情况
-      getSpliteData(param).then(res=>{
-        if(res.data.result&&res.data.result.length>0){
-          this.spliteList = res.data.result
-        }
-          this.getPosition()
-      });
-      // 最近一次估值情况
-      getValuationData(param).then(res=>{
-        if(res.data.result&&res.data.result.length>0&&(res.data.result[0].valuationDate || res.data.result[0].valuationMemo || res.data.result[0].valuationEquity || res.data.result[0].valuationType || res.data.result[0].valuationValue)){
-          this.recentValuationFlag = true
-          this.recentValuation = res.data.result[0]
-        }
-          this.getPosition()
-      });
-      // 股权结构图表格
-      getShareHolderData(param).then(res=>{
-        if(res.data.result&&res.data.result.length>0){
-          this.gqTableList = res.data.result
-        }
-          this.getPosition()
-      });
-      getRaiseMoneyTableList(param).then(res=>{
-        if(res.data.result&&res.data.result.length>0){
-          this.raiseMoneyTableList = res.data.result
-        }
-          this.getPosition()
-      });
-      // 供应商
-      getSupplierCustomerData(param).then(response => {
-        if(response.data.result&&response.data.result.supplierMainList&&response.data.result.supplierMainList.length>0){
-          this.supplierMainList = response.data.result.supplierMainList
-          this.dealDataList(this.supplierMainList);
-          this.getPosition()
-        }
-         if(response.data.result&&response.data.result.customerMainList&&response.data.result.customerMainList.length>0){
-           this.customerMainList = response.data.result.customerMainList
-           this.dealDataList(this.customerMainList);
-        }
-           this.getPosition()
-      })
+        if(res.data.result&&res.data.result.intermediaryOrgList&&res.data.result.intermediaryOrgList.length>0){
+          this.intermediaryOrgList = res.data.result.intermediaryOrgList
+          if(this.intermediaryOrgList&&this.intermediaryOrgList.length>0){
+            this.getAllArr()
 
-      // 主营业务收入构成
-      getTableData(param).then(response => {
-        if( response.data.result){
-          this.mainTableList = response.data.result
-        }
-          this.getPosition()
-      })
-      // 中介机构
-       getIntermediaryOrgDataList(param).then(response => {
-         if((response.data.result&&response.data.result.mainList&&response.data.result.mainList.length>0 ||(response.data.result&&response.data.result.moreList&&response.data.result.moreList.length>0))){
-            this.dataFlag = true
+            console.log('中介机构',this.intermediaryOrgList)
           }
-              this.getPosition()
-      })
-
-
+        }
+        this.getPosition()
+      });
     },
     // 鼠标移入公司名
     mouseOverCompanyName(title){
@@ -428,31 +274,20 @@ export default {
     },
     //返回父组件用于锚点定位头
     getPosition() {
+      // debugger;
           let titleList = [];
-          let briefIntroduction = {
-              id: 'briefIntroduction',
-              name: '公司概览',
-              notes: '',
-              important: false,
-              tabId: 'tab-first',
-              noClick: true
-          }
           let intermediaryInstitutions = {
               id: 'intermediaryInstitutions',
-              name: '中介机构',
+              name: '辅导机构',
               notes: '',
               important: false,
               tabId: 'tab-first',
               noClick: true
           }
-          if(this.companyProfileList.companyProfileList){
-             briefIntroduction.noClick = false;
-          }
 
-          if(this.dataFlag){
+          if(this.IntermediaryList&&this.IntermediaryList.length>0){
             intermediaryInstitutions.noClick = false;
           }
-          titleList.push(briefIntroduction)
           titleList.push(intermediaryInstitutions)
           this.$emit('headCallBack', titleList);
     },

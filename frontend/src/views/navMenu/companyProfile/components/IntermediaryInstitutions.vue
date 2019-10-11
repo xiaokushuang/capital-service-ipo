@@ -39,17 +39,20 @@
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">保荐代表人：</span>
-                                        <span class="bj" style="font-size:14px;color:black"  @mouseenter="mouseOverSpreadText(item.representPerson)">{{getContent(item.representPerson)}}</span>
+                                        <span v-if="item.representPerson" class="bj" style="font-size:14px;color:black"  @mouseenter="mouseOverSpreadText(item.representPerson)">{{getContent(item.representPerson)}}</span>
+                                        <span v-else>- -</span>
                                     </li>
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">项目协办人：</span>
-                                        <span style="font-size:14px;color:black" class="xb" @mouseenter="mouseOverSpreadText(item.assistPerson )">{{getContent(item.assistPerson)}}</span>
+                                        <span v-if="item.assistPerson" style="font-size:14px;color:black" class="xb" @mouseenter="mouseOverSpreadText(item.assistPerson )">{{getContent(item.assistPerson)}}</span>
+                                        <span v-else>- -</span>
                                     </li>
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">项目经办人：</span>
-                                        <span style="font-size:14px;color:black" class="jb" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                        <span v-if="item.agentPerson" style="font-size:14px;color:black" class="jb" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                        <span v-else>- -</span>
                                     </li>
                                 </ul>
                                 <!-- 律师事务所 -->
@@ -57,7 +60,8 @@
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">经办律师：</span>
-                                        <span style="font-size:14px;color:black" class="ls" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                        <span v-if="item.agentPerson" style="font-size:14px;color:black" class="ls" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                        <span v-else>- -</span>
                                     </li>
                                 </ul>
                                 <!-- 会计事务所 -->
@@ -65,7 +69,8 @@
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">注册会计师：</span>
-                                        <span style="font-size:14px;color:black" class="kj" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                        <span v-if="item.agentPerson" style="font-size:14px;color:black" class="kj" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                        <span v-else>- -</span>
                                     </li>
                                 </ul>
                                  <!-- 资产评估机构 -->
@@ -73,7 +78,8 @@
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">注册资产评估师：</span>
-                                        <span style="font-size:14px;color:black" class="pg" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                        <span v-if="item.agentPerson" style="font-size:14px;color:black" class="pg" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                        <span v-else>- -</span>
                                     </li>
                                 </ul>
                                 <!-- 证券公司 -->
@@ -81,7 +87,8 @@
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">项目经办人：</span>
-                                        <span style="font-size:14px;color:black" class="jb" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                        <span v-if="item.agentPerson" style="font-size:14px;color:black" class="jb" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                        <span v-else>- -</span>
                                     </li>
                                 </ul>
                             </div> 
@@ -123,17 +130,20 @@
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">保荐代表人：</span>
-                                        <span class="bj" style="font-size:14px;color:black"  @mouseenter="mouseOverSpreadText(item.representPerson )">{{getContent(item.representPerson)}}</span>
+                                        <span v-if="item.representPerson" class="bj" style="font-size:14px;color:black"  @mouseenter="mouseOverSpreadText(item.representPerson )">{{getContent(item.representPerson)}}</span>
+                                        <span v-else>- -</span>
                                     </li>
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">项目协办人：</span>
-                                        <span style="font-size:14px;color:black" class="xb" @mouseenter="mouseOverSpreadText(item.assistPerson )">{{getContent(item.assistPerson)}}</span>
+                                        <span v-if="item.assistPerson" style="font-size:14px;color:black" class="xb" @mouseenter="mouseOverSpreadText(item.assistPerson )">{{getContent(item.assistPerson)}}</span>
+                                        <span v-else>- -</span>
                                     </li>
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">项目经办人：</span>
-                                        <span style="font-size:14px;color:black" class="jb" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                        <span v-if="item.agentPerson" style="font-size:14px;color:black" class="jb" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                        <span v-else>- -</span>
                                     </li>
                                 </ul>
                                 <!-- 律师事务所 -->
@@ -141,7 +151,8 @@
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">经办律师：</span>
-                                        <span style="font-size:14px;color:black" class="ls" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                        <span v-if="item.agentPerson" style="font-size:14px;color:black" class="ls" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                        <span v-else>- -</span>
                                     </li>
                                 </ul>
                                 <!-- 会计事务所 -->
@@ -149,7 +160,8 @@
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">注册会计师：</span>
-                                        <span style="font-size:14px;color:black" class="kj" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                        <span v-if="item.agentPerson" style="font-size:14px;color:black" class="kj" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                        <span v-else>- -</span>
                                     </li>
                                 </ul>
                                  <!-- 资产评估机构 -->
@@ -157,7 +169,8 @@
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">注册资产评估师：</span>
-                                        <span style="font-size:14px;color:black" class="pg" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                        <span v-if="item.agentPerson" style="font-size:14px;color:black" class="pg" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                        <span v-else>- -</span>
                                     </li>
                                 </ul>
                                 <!-- 证券公司 -->
@@ -165,7 +178,8 @@
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">项目经办人：</span>
-                                        <span style="font-size:14px;color:black" class="jb" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                        <span v-if="item.agentPerson" style="font-size:14px;color:black" class="jb" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                        <span v-else>- -</span>
                                     </li>
                                 </ul>
                                 <!-- 存托机构 -->
@@ -173,7 +187,8 @@
                                     <li class="people">
                                         <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                                         font-style: normal;  font-size: 14px; color: #999999;">经办人：</span>
-                                        <span style="font-size:14px;color:black" class="jb" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                        <span v-if="item.agentPerson" style="font-size:14px;color:black" class="jb" @mouseenter="mouseOverSpreadText(item.agentPerson )">{{getContent(item.agentPerson)}}</span>
+                                        <span v-else>- -</span>
                                     </li>
                                 </ul>
                             </div> 

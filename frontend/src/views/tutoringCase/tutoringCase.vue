@@ -18,126 +18,20 @@
 		</div>
 		<!-- IPO标题头部 -->
 		<div ref="titleHeader" id="titleHeader" style=" width: 100%;height: 140px;position: relative">
-			<!-- <svg-icon icon-class="qrCode" class-name="card-panel-icon" /> -->
-			<div v-show="ipoplatetype" @click="wxcodeBig" class="qrCode" style="position: absolute;right: 0;top: 0;" @mouseover="mouseOverQR()"
-			 @mouseout="mouseOutQR()">
-				<img v-show="!currentQrCodeImg" src="../../assets/images/qrCode.svg" width="42px" class="qrImg"  style="z-index: 10;margin-top: -25px;margin-left: -17px;" />
-				<img v-show="currentQrCodeImg" src="../../assets/images/qrCodeBlue.svg" width="42px" class="qrImg"  style="z-index: 10; margin-top: -25px;margin-left: -17px;" />
-			</div>
-			<div @click="wxcodeBig" @mouseover="mouseOverQR()" @mouseleave="mouseOutQR()" class="miniProCode" style="transform: translate(-50%, -50%);z-index: 20;width: 140px;height: 160px;background: #fff;position: fixed; right: -22px;top: 140px;border-radius: 4px;"
-			 v-show="ipoplatetype && mouseOverShow">
-				<img :src="wxcodeUrl" style="margin-left: 10px;margin-top: 10px; width: 120px;cursor: pointer;align-items: center;" >
-				<div style="font-size: 12px;color: #999999;text-align: center;margin-top: 10px;">手机扫码可视化查看</div>
-			</div>
-			<div :style="{'padding-left':(headList.labelResult == '' || headList.labelResult == null)?'0px':'97px','width':'1200px','position':'absolute','left': '50%','top':'50%', 'transform': 'translate(-50%,-50%)'}">
-				<div class="imgMark" style="position: absolute; z-index: 2;left: 5%;top:50%; transform: translate(-50%,-50%);z-index: 2">
-					<!-- 注册制是否是科创版的标签显示 -->
-					<div>
-						<div v-if="headList.labelResult&&headList.labelResult == '00'">
-							<img src="../../assets/images/htg1.png" alt="">
-						</div>
-						<div v-if="headList.labelResult&&headList.labelResult == '01'">
-							<img src="../../assets/images/whtg1.png" alt="">
-						</div>
-						<div v-if="headList.labelResult&&headList.labelResult == '02'">
-							<img src="../../assets/images/zhbj1.png" alt="">
-						</div>
-						<div v-if="headList.labelResult&&headList.labelResult == '03'">
-							<img src="../../assets/images/qxsh1.png" alt="">
-						</div>
-						<div v-if="headList.labelResult&&headList.labelResult == '04'">
-							<img src="../../assets/images/dsh1.png" alt="">
-						</div>
-						<div v-if="headList.labelResult&&headList.labelResult == '05'">
-							<img src="../../assets/images/kctg.png" alt="">
-						</div>
-						<div v-if="headList.labelResult&&headList.labelResult == '06'">
-							<img src="../../assets/images/kcwtg.png" alt="">
-						</div>
-						<div v-if="headList.labelResult&&headList.labelResult == '07'">
-							<img src="../../assets/images/kczcsx.png" alt="">
-						</div>
-						<div v-if="headList.labelResult&&headList.labelResult == '08'">
-							<img src="../../assets/images/kcbyzc.png" alt="">
-						</div>
-						<div v-if="headList.labelResult&&headList.labelResult == '09'">
-							<img src="../../assets/images/dsh1.png" alt="">
-						</div>
-						<div v-if="headList.labelResult&&headList.labelResult == '10'">
-							<img src="../../assets/images/qxsy1.png" alt="">
-						</div>
-					</div>
-				</div>
+			<div style="width:1200px;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)">
 				<div class="text" style="position:relative;z-index: 4">
-					<p class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;" @mouseenter="mouseOverSpreadTitle(headList.title)">{{getTitle(headList.title)}}</p>
-					<span style="font-size: 14px;opacity: 0.6;">股份公司设立时间：</span>
-					<span style="font-size: 14px;opacity: 0.6;">{{headList.establishDate}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-					<span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;辅导历时：</span>
-					<span style="font-size: 14px;opacity: 0.6;" v-if="headList.supportDuration">{{headList.supportDuration}}天</span>
+					<p class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;" @mouseenter="mouseOverSpreadTitle(companyProfileList.title)">{{getTitle(companyProfileList.title)}}</p>
+					<span style="font-size: 14px;opacity: 0.6;">公司成立时间：</span>
+					<span style="font-size: 14px;opacity: 0.6;">{{companyProfileList.establishTime}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+					<span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;辅导工作历时：</span>
+					<span style="font-size: 14px;opacity: 0.6;" v-if="companyProfileList.establishTime">{{companyProfileList.allTime}}</span>
 					<span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
-					<span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;审核历时：</span>
-					<span style="font-size: 14px;opacity: 0.6;" v-if="headList.auditDuration">{{headList.auditDuration}}天</span>
-					<span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
-					<span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;最新进程：</span>
-					<span style="font-size: 14px;color:#fff;opacity:1">{{headList.processLabel}}</span>
+					<span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;最新公告日期：</span>
+					<span style="font-size: 14px;color:#fff;opacity:0.6" v-if="companyProfileList.establishTime">{{companyProfileList.lastDate}}</span>
+          <span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
 				</div>
-				<div class="btn" style="position:relative;z-index:4">
-					<span v-if="headList.greenPassage" style=" display: inline-block;margin-right: 5px;margin-top:8px;background: #ff9900; font-size: 12px; color: #fff;border-radius: 2px;padding: 4.5px; position:relative;z-index:10;">{{headList.greenPassage}}
-					</span>
-					<span v-if="specialArrange&&specialArrange.length>0">
-						<span v-for="data in specialArrange" style=" display: inline-block;margin-top:8px;background: #ff9900; font-size: 12px; color: #fff;border-radius: 2px;padding: 4.5px; position:relative;z-index:10;margin-right:10px">{{data}}
-						</span>
-					</span>
-				</div>
-				<div style="color:#fff;position: absolute;right: 2%;top: 20%;z-index: 999;font-size: 14px; z-index: 999;" class="collectionsAndNotes" v-show="collectionAndNoteShow">
-					<span v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;" title="收藏">
-						<i class="fa fa-star-o favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
-					</span>
-					<span v-else @click="clickFavorite(false)" style="cursor:pointer;" title="取消收藏">
-						<i class="fa fa-star favorite_note_icon"></i><span style="margin-left: 5px">已收藏</span>
-					</span>
-					<span style="padding: 0px 5px;vertical-align: 5%;">|</span>
-					<el-popover placement="bottom" title="" width="540" trigger="manual" v-model="titleNoteFlag" popper-class="customer_popper">
-						<div class="bigDialog">
-							<div style="height: 28px;padding:0px 12px">
-								<span style="font-size: 14px;color: #333;">{{noteTitle}}</span>
-								<span style="float: right;color: #C1C1C1">
-									<i class="fa fa-square-o fa-lg" @click="openCenterNote()" title="放大" style="cursor:pointer;margin-right: 4px;"></i>
-									<i class="el-icon-close el-close-size" @click="noteCancellation('1')" title="关闭" style="cursor:pointer;vertical-align: -10%;"></i>
-								</span>
-							</div>
-							<el-input  type="textarea" class="textarea-height" :maxlength='2000' show-word-limit :rows="6" resize="none" placeholder="请在这里输入笔记内容..." v-model="note">
-							</el-input>
-							<div style="float: right;margin-right: 20px;padding-top: 12px;">
-								<button class="small_btn_common cancel_btn" @click="noteCancellation('1')">取消</button>
-								<button class="small_btn_common determine_btn" @click="NoteDetermination()" style="margin-left: 10px">保存
-								</button>
-							</div>
-						</div>
-						<span slot="reference" aria-hidden="true" @click="titleNoteFlag = !titleNoteFlag" style="cursor:pointer;">
-							<i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span>
-						</span>
-					</el-popover>
-				</div>
-
 			</div>
 		</div>
-
-		<!-- 屏幕中间的笔记 -->
-		<el-dialog class="bigDialog" title="" :visible.sync="centerNoteFlag" :close-on-click-modal="false" width="80%"
-		 close="noteCancellation('3')">
-			<span style="font-size: 14px;color: #333;" slot="title">{{centerNoteTitle}}</span>
-			<el-input   type="textarea" class="center-textarea-height" resize="none" placeholder="请在这里输入笔记内容..." v-model="note" :maxlength='2000' show-word-limit>
-			</el-input>
-			<div slot="footer">
-				<button class="small_btn_common cancel_btn" @click="noteCancellation('3')">取消</button>
-				<button class="small_btn_common determine_btn" @click="NoteDetermination()" style="margin-left: 10px">保存</button>
-			</div>
-		</el-dialog>
-
-		<el-dialog align="left" :visible.sync="wxcode" width="470px">
-			<img :src="wxcodeUrl">
-		</el-dialog>
 		<div id="concentBody" style="width:1200px;margin: 0 auto;" class="ipoContainer">
 			<el-row :gutter="24" class="h100">
 				<el-col :span="18" class="chart" style="padding:0 40px 0 0">
@@ -147,7 +41,7 @@
 								<!-- 吸顶效果 -->
 								<div v-if="isFixed" :style="{ 'width': '70px','height': '40px', 'margin-top': 'auto','margin-right': '40px', 'margin-bottom': 'auto', 'margin-left': clientLeft}">
 									<span style="font-size: 20px;color: #333;display: block;margin-bottom: 10px;">IPO</span>
-									<span v-show="this.companyProfileList&&this.companyProfileList.companyName" style="font-size: 14px;color: #333;">{{this.companyProfileList.companyName}}</span>
+									<span v-show="this.companyProfileList&&this.companyProfileList.companyShortName" style="font-size: 14px;color: #333;">{{this.companyProfileList.companyShortName}}</span>
 								</div>
 								<div :style="{width:isFixed?'740px':'100%'}">
 									<!-- 菜单导航栏 -->
@@ -164,74 +58,45 @@
 									</div>
 									<!-- 菜单栏下面的小分类 -->
 									<!-- 1 -->
-									<div id="title-first" class="title-body" v-show="isActive == '1'">
+									<div id="title-first" class="title-body" v-show="isActive == '1'" style="position: relative;top: -40px;left: 70px;">
 										<span v-for="(item, index) in tabFirstList">
-											<a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveFirst === item.id}, {'disabled': item.noClick}]"
+                      <span style="margin: 0 8px;color: #e4e4e4;" v-if="index == tabFirstList.length - 1">|</span>
+                      <!--{'item-active': itemActiveFirst === item.id}, -->
+											<a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'disabled': item.noClick}]"
 											 :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 1)">{{item.name}}</a>
-											<span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFirstList.length - 1">|</span>
+											<!--<span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFirstList.length - 1">|</span>-->
 										</span>
 									</div>
-								</div>
-								<div v-if="isFixed" :style="{'color':'#4c4c4c','font-size': '14px','top':'30px','position':'absolute','right':clientRight,'padding-right':'12px'}" class="collectionsAndNotes">
-									<span v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;" title="收藏">
-										<i class="fa fa-star-o favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
-									</span>
-									<span v-else @click="clickFavorite(false)" style="cursor:pointer;" title="取消收藏">
-										<i class="fa fa-star favorite_note_icon"></i><span style="margin-left: 5px">已收藏</span>
-									</span>
-									<span style="padding: 0px 5px;vertical-align: 5%;">|</span>
-									<el-popover placement="bottom" title="" width="540" trigger="manual" v-model="scrollNoteFlag" popper-class="customer_popper">
-										<div class="bigDialog">
-											<div style="height: 28px;padding:0px 12px">
-												<span style="font-size: 14px;color: #333;">{{noteTitle}}</span>
-												<span style="float: right;color: #C1C1C1">
-													<i class="fa fa-square-o fa-lg" @click="openCenterNote()" title="放大" style="cursor:pointer;margin-right: 4px;"></i>
-													<i class="el-icon-close" @click="noteCancellation('1')" title="关闭" style="cursor:pointer;vertical-align: -10%;font-size: 21px"></i>
-												</span>
-											</div>
-											<el-input type="textarea" class="textarea-height" :rows="6" resize="none" placeholder="请在这里输入笔记内容..." v-model="note">
-											</el-input>
-											<div style="float: right;margin-right: 20px;padding-top: 12px;">
-												<button class="small_btn_common cancel_btn" @click="noteCancellation('1')">取消</button>
-												<button class="small_btn_common determine_btn" @click="NoteDetermination()" style="margin-left: 10px">保存
-												</button>
-											</div>
-										</div>
-										<span slot="reference" aria-hidden="true" @click="scrollNoteFlag = !scrollNoteFlag" style="cursor:pointer;">
-											<i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span>
-										</span>
-									</el-popover>
 								</div>
 							</div>
 							<!-- 点击不同菜单展示不同下面内容 -->
 							<div class="el-tabs__content">
 								<!-- 动态加载tab -->
 								<keep-alive>
-									<component :is="showComponent" id="componentId" v-on:headCallBack="headCall" :companyProfileList='{companyProfileList:this.companyProfileList,headList:this.headList}'></component>
+									<component :is="showComponent" id="componentId" v-on:headCallBack="headCall" :companyProfileList='{companyProfileList:this.companyProfileList}'></component>
 								</keep-alive>
 							</div>
 						</div>
 					</div>
 				</el-col>
-				<!-- <el-col :span="6"> -->
 				<el-col style="width:295px;padding:0">
-					<el-col v-if="proList&&proList.length>0" class="chart" style="position:relative;padding-top: 6px;padding:0px">
-						<div class="headClass">
-							<el-row>
-								<el-col :span="14">
-									<span>关联案例</span>
-								</el-col>
-							</el-row>
-						</div>
-						<span style="padding: 0px;">
+          <el-col v-if="proList&&proList.length>0" class="chart" style="position:relative;padding-top: 6px;padding:0px">
+            <div class="headClass">
+              <el-row>
+                <el-col :span="14">
+                  <span>关联案例</span>
+                </el-col>
+              </el-row>
+            </div>
+            <span style="padding: 0px;">
 							<relatedCase :proList="proList" @noOpenFlag="handleNoOpenFlag($event)"></relatedCase>
 						</span>
-					</el-col>
+          </el-col>
 					<el-col class="chart" style="position:relative;padding-top: 6px;padding: 0px;">
 						<div class="headClass">
 							<el-row>
 								<el-col :span="14">
-									<span>IPO进程</span>
+									<span>辅导进程</span>
 								</el-col>
 								<span v-if="statusButtonFlag == '1'">
 									<el-col :span="5" style="text-align: right;">
@@ -249,52 +114,38 @@
 							</el-row>
 						</div>
 						<span style="padding: 0px;">
-							<processTree ref="rightModule" :caseId="caseId"></processTree>
+							<processTree v-if="companyProfileList.treeList&&companyProfileList.treeList.length>0" ref="rightModule" :treeList="companyProfileList" :caseId="caseId2"></processTree>
 						</span>
 					</el-col>
 				</el-col>
 			</el-row>
 		</div>
-		<!-- 未开放用户弹窗 -->
-		<el-dialog class="noOpen" align="left" :visible.sync="noOpenFlag" width="429px" title="提示" margin-top="31vh">
-			<div style="padding:0px 32px 0px 32px;">
-				<div class="el-message-box__content" style="margin-top: 0px;">
-					<div class="el-message-box__message">
-						<div style="color: #555;font-size: 14px;margin-top: 20px;line-height: 17px;">
-							<a style="margin-bottom: 10px;display: inline-block;">您当前为试用用户，仅可查看有限案例，若需要查看更多案例，获得更好体验，可升级为正式用户。</a>
-							<a style="font-size: 13px">来电咨询：400-880-3388</a>
-						</div>
-						<div class="el-message-box__btns" style="text-align: center;margin-top: 28px;padding:1px 15px 9px">
-							<el-button type="primary" size="small" @click.native="sure" style="margin-left: 0px;">
-								在线咨询
-							</el-button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</el-dialog>
+    <!-- 未开放用户弹窗 -->
+    <el-dialog class="noOpen" align="left" :visible.sync="noOpenFlag" width="429px" title="提示" margin-top="31vh">
+      <div style="padding:0px 32px 0px 32px;">
+        <div class="el-message-box__content" style="margin-top: 0px;">
+          <div class="el-message-box__message">
+            <div style="color: #555;font-size: 14px;margin-top: 20px;line-height: 17px;">
+              <a style="margin-bottom: 10px;display: inline-block;">您当前为试用用户，仅可查看有限案例，若需要查看更多案例，获得更好体验，可升级为正式用户。</a>
+              <a style="font-size: 13px">来电咨询：400-880-3388</a>
+            </div>
+            <div class="el-message-box__btns" style="text-align: center;margin-top: 28px;padding:1px 15px 9px">
+              <el-button type="primary" size="small" @click.native="sure" style="margin-left: 0px;">
+                在线咨询
+              </el-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </el-dialog>
 	</div>
 </template>
 <script>
-	import {
-		getHeadData
-	} from "@/api/ipoCase/companyProfile";
-	import {
-		getCaseDetail
-	} from "@/api/ipoCase/companyProfile";
-	import {
-		getRelatedCaseData
-	} from '@/api/ipoCase/companyProfile';
-	import {
-		clickFavorite
-	} from '@/api/ipoCase/companyProfile';
-	import {
-		NoteDetermination
-	} from '@/api/ipoCase/companyProfile';
+  import { getCompanyInfo } from "@/api/tutoringCase/companyProfile";
 	// 导入导航栏五个组件
 	import companyProfile from "./companyProfile/companyProfile.vue";
+  import relatedCase from "./processTree/relatedCase";
 	import processTree from "./processTree";
-	import relatedCase from "./processTree/relatedCase";
 	import $ from "jquery";
 	import {
 		iframeDoMessage
@@ -309,34 +160,35 @@
 		},
 		data() {
 			return {
-				collectionAndNoteShow : false,
-				currentQrCodeImg : false,
-				ipoplatetype: false,
-				wxcodeimgload: false,
-				mouseOverShow: false, //鼠标悬浮展示
-				wxcode: false,
-				wxcodeUrl: '',
-				tenantInfo: '', //日志
-        caseId2:98114881248913555,
-				// caseId2: this.$store.state.app.caseId,
-				// companyId:this.$store.state.app.companyId,
-				companyId: '999600',
-				proList: [], //关联案例数据
+        caseId2: this.$store.state.app.caseId,
+        noOpenFlag: false, //判断公司是否开放
+        proList: [
+          // {
+          //   caseId: "746524673180966506",
+          //   iecResult: "02",
+          //   openFlag: "1",
+          //   proSort: "2",
+          //   processTime: "2017-05-25",
+          //   progressName: "北京金山办公软件股份有限公司--测试",
+          // },
+          // {
+          //   caseId: "98197418692543951",
+          //   iecResult: "07",
+          //   openFlag: null,
+          //   proSort: "1",
+          //   processTime: null,
+          //   progressName: "北京金山办公软件股份有限公司",
+          // },
+        ], //关联案例数据
 				// 动态加载组件
 				showComponent: companyProfile,
 				companyProfile: companyProfile,
 				processTree: processTree,
-
 				fixBody: "",
 				headerFix: false,
 				scrollTop: "",
 				isFixed: false,
 				itemActiveFirst: "",
-				itemActiveSecond: "",
-				itemActiveThird: "",
-				itemActiveFourth: "",
-				itemActiveFifth: "",
-				itemActiveSixth: "",
 				tabFirstList: [{
 						id: '1',
 						name: '辅导机构',
@@ -350,54 +202,44 @@
 				expandAllflag: false,
 				flag: "1",
 				activeName: "first",
-				titleName: "",
-				shortName: "",
-				lableName: "",
-				caseId: "",
-				tenant_info: "",
-				access_token: "",
-				allTime: "",
 				time: "",
 				clientLeft: "",
         clientRight : "",
-				topHeight: "",
-				headList: {
-					auditDuration: '',
-					establishDate: '',
-					greenPassage: '',
-					haveExamine: '',
-					haveFeedback: '',
-					iecResult: '',
-					processLabel: '',
-					supportDuration: '',
-					title: ''
-				},
 				companyProfileList: {
-					actualController: "",
-					addrArea: "",
-					addrCity: "",
-					addrProv: "",
-          addrCountry : "",
-					companyCode: "",
-					companyName: "",
-					companyNature: "",
-					companyZhName: "",
-					controlShareholder: "",
-					id: "",
-					registeredAssets: "",
-					structureLabel: "",
-					structureUrl: "",
+          address: '',
+          allTime: '',
+          businessArea: '',
+          businessCity: '',
+          businessProvience: '',
+          businessScope: '',
+          companyName: '',
+          companyShortName: '',
+          corporateRepresentative: '',
+          createTime: '',
+          createUser: '',
+          establishTime: '',
+          fdKeyword: '',
+          fdProcess: '',
+          foundingTime: '',
+          id: '',
+          ifRelevance: '',
+          intermediaryOrgList: '',
+          lastDate: '',
+          mainBusiness: '',
+          openFlag: '',
+          otherMarketInfoList: '',
+          phone: '',
+          plate: '',
+          registerArea: '',
+          registerCity: '',
+          registerProvience: '',
+          securitiesRegulatory: '',
+          serialNum: '',
+          title: '',
+          treeList: '',
+          updateTime: '',
+          updateUser: '',
 				},
-				specialArrange: '',
-				noOpenFlag: false, //判断公司是否开放
-				noteSave: '', //保存的笔记内容 为了取消之后还原笔记内容
-				note: '', //笔记内容
-				titleNoteFlag: false, //标题上的笔记展示标识
-				centerNoteFlag: false, //中间的笔记展示标识
-				scrollNoteFlag: false, //上面漂浮的展示标识
-				noteTitle: '编辑笔记',
-				centerNoteTitle: '编辑笔记', //中间笔记title
-				favoriteFlag: true, //判断收藏
 			};
 		},
 		created() {
@@ -417,106 +259,32 @@
 
 		},
 		methods: {
-			// 鼠标展示二维码
-			mouseOverQR() {
-				this.currentQrCodeImg = true;
-				this.mouseOverShow = true;
-			},
-			mouseOutQR() {
-				this.currentQrCodeImg = false;
-				this.mouseOverShow = false;
-			},
-			// 未开放公司
-			handleNoOpenFlag(data) {
-				this.noOpenFlag = data
-			},
-			sure() {
-				let url = "https://vs.rainbowred.com/visitor/pc/chat.html?companyId=488&amp;echatTag=网站咨询";
-				window.open(url, "", "toolbar=0,scrollbars=0,location=0,menubar=0,resizable=1,width=854,height=600");
-			},
-			wxcodeLoad() {
-				this.wxcodeimgload = true;
-			},
-			wxcodeBig() {
-				this.wxcode = true;
-			},
 			// 初始化数据
 			initTableData() {
 				// 动态传id
 				const param = {
 					id: this.caseId2
 				}
-				// const query = {
-				//   id:this.caseId2,
-				//   companyId:this.companyId
-				// }
-				getHeadData(param).then(res => {
-					if (res.data.result) {
-						this.headList = res.data.result
-					}
-					if (res.data.result && res.data.result.specialArrange != null) {
-						this.specialArrange = res.data.result.specialArrange.split(',');
-					}
-
-					// if (res.data.result.favoriteId == '' || res.data.result.favoriteId == null) {
-					// 	this.favoriteFlag = true
-					// } else {
-					// 	this.favoriteFlag = false
-					// }
-
-					// if (res.data.result.caseNote == '' || res.data.result.caseNote == null) {
-					// 	this.note = ''
-					// } else {
-					// 	this.note = res.data.result.caseNote;
-					// 	this.noteSave = res.data.result.caseNote;
-					// }
-					this.collectionAndNoteShow = true;
-
-					// if(this.isNotEmpty(this.headList.title) == ''){
-					//   this.noteTitle = '编辑笔记'
-					//   this.centerNoteTitle = '编辑笔记'
-					// }else{
-					//   let title = '编辑笔记-'+ this.getTitle(this.headList.title)
-					//   if(title.length > 35){
-					//     this.noteTitle = title.substring(0,35) + '...';
-					//   }else{
-					//     this.noteTitle = title;
-					//   }
-					//   if(title.length > 45){
-					//     this.centerNoteTitle = title.substring(0,45) + '...';
-					//   }else{
-					//     this.centerNoteTitle = title;
-					//   }
-					// }
-					this.titleNoteFlag = this.isNotEmpty(this.$route.query.notOpenFlag) ? true : false;
-
-				})
-
-				getCaseDetail(param).then(res => {
-					if (res.data.result) {
-						this.companyProfileList = res.data.result
-						if (res.data.result.ipoPlate == '上交所科创板') {
-							this.ipoplatetype = true;
-						}
-						//this.ipoplatetype = false;
-						/*if (res.data.result.launchcompanycode == '999830'){
-						  this.ipoplatetype = true;
-						}else {
-						  this.ipoplatetype = false;
-						}*/
-					}
-				});
-				// 获取关联案例数据
-				getRelatedCaseData(param).then(res => {
-					this.flagLoading = false;
-					console.log('关联案例接口数据', res.data.result)
-					if (res.data.result) {
-						this.proList = res.data.result
-					}
-				})
+        getCompanyInfo(param).then(res=>{
+          if (res.data.result) {
+              this.companyProfileList = res.data.result
+               console.log('公司概览',this.companyProfileList)
+              if (res.data.result.ipoPlate == '上交所科创板') {
+                this.ipoplatetype = true;
+              }
+              if(res.data.result.relatedCaseDtoList&&res.data.result.relatedCaseDtoList.length>0){
+                this.proList = res.data.result.relatedCaseDtoList
+                console.log('关联案例',this.proList)
+              }
+          }
+        });
 			},
       isNotEmpty(param) {
       	return param != null && param !== undefined && param !== '' && param !== 'null' && param !== 'undefined'
+      },
+      // 未开放公司
+      handleNoOpenFlag(data) {
+        this.noOpenFlag = data
       },
 			// 展开全部
 			expandAll(flag) {
@@ -557,7 +325,6 @@
 						case '1':
 							// 公司概览
 							that.showComponent = companyProfile
-							that.$refs.rightModule.treeListMethods(false);
 							targetList = document.getElementById('title-first').children;
 
 							let firstFlag = 0;
@@ -618,6 +385,7 @@
 			},
 			// 用于锚点定位【从子组件里传过来的值】[子传父]
 			headCall(param) {
+			  // debugger;
 				if (param != null && param != undefined && param.length > 0) {
 					switch (param[0].tabId) {
 						case "tab-first":
@@ -657,106 +425,11 @@
 					return title
 				}
 			},
-			//收藏
-			clickFavorite(favoriteFlag) {
-				let param = {
-					caseId: this.caseId2,
-					favoriteFlag: this.favoriteFlag
-				}
-				clickFavorite(param).then(res => {
-					// this.companyId = param.data.companyId;
-					if (favoriteFlag == true) {
-						if (res.data == 1) {
-							this.favoriteFlag = false
-							this.$message({
-								message: '收藏成功',
-								duration: 5000,
-								iconClass: 'el-icon-success',
-								customClass: 'custom-success-message',
-								showClose: true
-							});
-						} else {
-							this.$message({
-								message: '收藏失败',
-								type: 'error',
-								duration: 5000,
-								showClose: true
-							})
-						}
-					} else {
-						if (res.data == 1) {
-							this.favoriteFlag = true
-							this.$message({
-								duration: 5000,
-								message: '已取消收藏',
-								iconClass: 'el-icon-info',
-								customClass: 'custom-info-message',
-								showClose: true
-							})
-						} else {
-							this.$message({
-								message: '取消收藏失败',
-								type: 'error',
-								duration: 5000,
-								showClose: true
-							})
-						}
-					}
-
-				})
-			},
-			noteCancellation(type) { //笔记点击取消
-				this.note = this.noteSave;
-				if (type == '1') {
-					this.titleNoteFlag = false;
-				} else if (type == '2') {
-					this.scrollNoteFlag = false;
-				} else if (type == '3') {
-					this.centerNoteFlag = false;
-				}
-			},
-			NoteDetermination() { //笔记点击确定
-				this.titleNoteFlag = false;
-				this.centerNoteFlag = false;
-				this.scrollNoteFlag = false;
-				let param = {
-					caseId: this.caseId2,
-					note: this.note,
-				};
-				// this.$store.dispatch("repCase/getJudgementNoteDetermination", param).then((data) => {
-				NoteDetermination(param).then(data => {
-					if (data.data.result == 1 || data.data.result == 0) {
-						this.$message({
-							message: '保存成功',
-							duration: 5000,
-							iconClass: 'el-icon-success',
-							customClass: 'custom-success-message',
-							showClose: true
-						});
-						this.noteSave = this.note;
-					} else {
-						this.$message({
-							message: '保存失败',
-							type: 'error'
-						})
-					}
-				})
-			},
-			openCenterNote() {
-				this.titleNoteFlag = false;
-				this.centerNoteFlag = true;
-				this.scrollNoteFlag = false;
-			},
 		},
 		watch: {
-			caseId(n, o) {}
 		},
 		created() {
-			// 获取二维码图片流
-			this.wxcodeUrl = "/ipo/ipoInterfaceH5/getQrCode?id=" + this.$store.state.app.caseId + "&access_token=" + this.$store
-				.state.app.token
-			this.initTableData()
-			console.log('companyId', this.$store.state.app.companyId)
+      this.initTableData()
 		},
 		mounted() {
 			window.addEventListener("scroll", this.handleScroll);

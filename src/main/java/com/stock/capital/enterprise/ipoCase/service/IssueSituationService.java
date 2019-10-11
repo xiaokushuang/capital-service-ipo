@@ -44,9 +44,10 @@ public class IssueSituationService extends BaseService {
         if (StringUtils.isBlank(orgCode)) {
             return null;
         }
-        DynamicDataSourceHolder.setDataSource("dongcai");
-        IssueDataDto issueDataDto = ipoCaseIssueMapper.getIssueData(orgCode);
-        DynamicDataSourceHolder.cleanDataSource();
+//        DynamicDataSourceHolder.setDataSource("dongcai");
+//        IssueDataDto issueDataDto1 = ipoCaseIssueMapper.getIssueData(orgCode);
+//        DynamicDataSourceHolder.cleanDataSource();
+        IssueDataDto issueDataDto = ipoCaseIssueMapper.getIssueDataFromLocal(orgCode);//测试案例org_code  10092703
         return issueDataDto;
     }
 

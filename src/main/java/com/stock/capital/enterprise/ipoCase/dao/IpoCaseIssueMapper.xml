@@ -50,4 +50,35 @@ CONVERT(lfp.SHAREOVERPLACE/10000,DECIMAL(18,2)) AS shareOverPlace,
         linfo.COMPANYCODE = #{orgCode} AND linfo.FINATYPE = '001'
     limit 1
   </select>
+
+
+
+  <select id="getIssueDataFromLocal" parameterType="string" resultType="com.stock.capital.enterprise.ipoCase.dto.IssueDataDto">
+    SELECT
+          lfi.share_value AS parValue,
+          lfi.issue_price AS issuePrice,
+          CONVERT(lfi.issue_size/10000,DECIMAL(18,2)) AS shareIssued,
+          lfi.issue_ratio AS issuedRatio,
+          CONVERT(lfi.invest_total/10000,DECIMAL(18,2)) AS sumFina,
+          CONVERT(lfi.invest_act/10000,DECIMAL(18,2)) AS netSumFina,
+          CONVERT(lfi.transfer_amount/10000,DECIMAL(18,2)) AS exseNumBse,
+          lfi.issue_method AS issueMethod,
+          lf.per_share_pre AS epsIssueB,
+          lf.per_share_after AS epsIssueA,
+          lf.pe_after peIssueA,
+    CONVERT(lfp.zlpssl/10000,DECIMAL(18,2)) AS sharesTrategicPlace,
+    CONVERT(lfp.cepssl/10000,DECIMAL(18,2)) AS shareOverPlace,
+          CONVERT(lfp.wsfxsl/10000,DECIMAL(18,2)) AS shareIssueOn,
+          CONVERT(lfp.wxpssl/10000,DECIMAL(18,2)) AS sharePlaceOff,
+          (SELECT c.code_name FROM sa_code c WHERE c.code_no = 'IPO_ISSUED' AND lfu.sell_way = c.code_value AND c.valid_flag= '1') AS uwMethod
+        FROM
+            rep_issue_info linfo
+            LEFT JOIN rep_issue_info lfi ON linfo.financing_code = lfi.financing_code
+            LEFT JOIN ipo_issue_financial lf ON linfo.financing_code = lf.financing_code
+            LEFT JOIN st_issue_place lfp ON linfo.financing_code = lfp.financing_code
+            LEFT JOIN ipo_underwrite lfu ON linfo.financing_code = lfu.financing_code
+        WHERE
+            linfo.org_code = #{orgCode} AND linfo.fin_type = '001'
+        limit 1
+  </select>
 </mapper>

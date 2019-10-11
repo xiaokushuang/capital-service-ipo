@@ -24,6 +24,8 @@ public class IpoFileRelationDto implements Serializable {
     private String baseUrl;
     @ApiModelProperty("审核结果")
     private String iecResult;
+    @ApiModelProperty("状态")
+    private String status;
 
     private static final long serialVersionUID = 1L;
 
@@ -89,5 +91,13 @@ public class IpoFileRelationDto implements Serializable {
 
     public void setIecResult(String iecResult) {
         this.iecResult = iecResult;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
