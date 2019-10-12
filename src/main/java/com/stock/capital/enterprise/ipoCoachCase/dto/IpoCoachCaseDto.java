@@ -89,6 +89,8 @@ public class IpoCoachCaseDto implements Serializable {
 
     private List<IpoRelatedCaseDto> relatedCaseDtoList;
 
+    private String signStatus;
+
     public String getId() {
         return id;
     }
@@ -431,5 +433,13 @@ public class IpoCoachCaseDto implements Serializable {
 
     public void setPlateText(String plateText) {
         this.plateText = plateText;
+    }
+
+    public String getSignStatus() {
+        return signStatus;
+    }
+
+    public void setSignStatus(String signStatus) {
+        this.signStatus = signStatus;
     }
 }

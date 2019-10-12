@@ -8,5 +8,17 @@ public interface IpoCaseIssueMapper {
 
     List<IssueFeeDto> getIssueFeeData(String bid);
 
+    /**
+     * 从东财获取数据(如果自己数据库好用后期删除)
+     * @param orgCode
+     * @return
+     */
     IssueDataDto getIssueData(String orgCode);
+
+    /**
+     * 从库获取数据
+     * @param orgCode
+     * @return
+     */
+    IssueDataDto getIssueDataFromLocal(String orgCode);
 }

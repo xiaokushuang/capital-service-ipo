@@ -1021,6 +1021,12 @@ public class StatisticsService extends BaseService implements ServletContextAwar
         }
         StatisticsReturnDto returnDto = new StatisticsReturnDto();
         returnDto.setIpoDetailList(list);
+
+        /*ParameterizedTypeReference<JsonResponse<StatisticsReturnDto>> responseType = new ParameterizedTypeReference<JsonResponse<StatisticsReturnDto>>() {
+        };
+        String url = apiBaseUrl + "ipoStatistics/getIpoDataOverviewDetail";
+        StatisticsReturnDto list = restClient.post(url, dto, responseType).getResult();*/
+
         return returnDto;
     }
     

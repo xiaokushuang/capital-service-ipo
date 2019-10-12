@@ -21,7 +21,7 @@
 			<div style="width:1200px;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)">
 				<div class="text" style="position:relative;z-index: 4">
 					<p class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;" @mouseenter="mouseOverSpreadTitle(companyProfileList.title)">{{getTitle(companyProfileList.title)}}</p>
-					<span style="font-size: 14px;opacity: 0.6;">股份公司设立时间：</span>
+					<span style="font-size: 14px;opacity: 0.6;">公司成立时间：</span>
 					<span style="font-size: 14px;opacity: 0.6;">{{companyProfileList.establishTime}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
 					<span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;辅导工作历时：</span>
 					<span style="font-size: 14px;opacity: 0.6;" v-if="companyProfileList.establishTime">{{companyProfileList.allTime}}</span>
@@ -61,7 +61,8 @@
 									<div id="title-first" class="title-body" v-show="isActive == '1'" style="position: relative;top: -40px;left: 70px;">
 										<span v-for="(item, index) in tabFirstList">
                       <span style="margin: 0 8px;color: #e4e4e4;" v-if="index == tabFirstList.length - 1">|</span>
-											<a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'item-active': itemActiveFirst === item.id}, {'disabled': item.noClick}]"
+                      <!--{'item-active': itemActiveFirst === item.id}, -->
+											<a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'disabled': item.noClick}]"
 											 :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 1)">{{item.name}}</a>
 											<!--<span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFirstList.length - 1">|</span>-->
 										</span>
@@ -113,7 +114,7 @@
 							</el-row>
 						</div>
 						<span style="padding: 0px;">
-							<processTree v-if="companyProfileList.treeList&&companyProfileList.treeList.length>0" ref="rightModule" :treeList="companyProfileList.treeList" :caseId="caseId2"></processTree>
+							<processTree v-if="companyProfileList.treeList&&companyProfileList.treeList.length>0" ref="rightModule" :treeList="companyProfileList" :caseId="caseId2"></processTree>
 						</span>
 					</el-col>
 				</el-col>

@@ -2,7 +2,7 @@
   <div>
     <div class="IntermediaryInstitutions">
       <!-- 筛选 -->
-      <el-select v-if="IntermediaryList&&IntermediaryList.length>0" v-model="agentState" placeholder="请选择" style="margin-left:16px;width:120px">
+      <el-select v-if="getAllArrFlag()" v-model="agentState" placeholder="请选择" style="margin-left:16px;width:120px">
         <el-option v-for="item in options" :label="item.label" :value="item.value" :key="item.value">
         </el-option>
       </el-select>
@@ -16,7 +16,7 @@
               </div>
               <div class="text l">
                 <div>
-                      <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
+                      <span v-if="item.orgName" style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
                       font-style: normal; font-size: 16px; color: #363636">{{item.orgName}}</span>
                 </div>
                 <!-- 经办辅导人员 -->
@@ -24,7 +24,8 @@
                   <li class="people">
                     <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                     font-style: normal;  font-size: 14px; color: #999999;">经办辅导人员：</span>
-                    <span style="font-size:14px;color:black" class="ls" :title="item.agentPerson.length>38?item.agentPerson:''">{{getContent(item.agentPerson)}}</span>
+                    <span v-if="item.agentPerson" style="font-size:14px;color:black" class="ls" :title="item.agentPerson.length>38?item.agentPerson:''">{{getContent(item.agentPerson)}}</span>
+                    <span v-else>- -</span>
                   </li>
                 </ul>
               </div>
@@ -121,7 +122,20 @@
       initIntermediaryOrgLista(){
         this.getEffectiveArr()
       },
+      getAllArrFlag(){
+        let allList = []
+        for(let i = 0;i<this.intermediaryOrgList.length;i++){
+          if(this.intermediaryOrgList[i].intermediaryType=='7'){
+            allList.push(this.intermediaryOrgList[i])
+            if(allList&&allList.length>0){
+              return true
+            }
+            return false
+          }
+        }
+      },
       getAllArr(){
+        this.IntermediaryList = []
         this.allArr = []
         for(let i = 0;i<this.intermediaryOrgList.length;i++){
           if(this.intermediaryOrgList[i].intermediaryType=='7'){
@@ -132,6 +146,7 @@
         console.log('全部',this.IntermediaryList)
       },
       getEffectiveArr(){
+        this.IntermediaryList = []
         this.effectiveArr = []
         for(let i = 0;i<this.intermediaryOrgList.length;i++){
           if(this.intermediaryOrgList[i].validFlag == '1'&&this.intermediaryOrgList[i].intermediaryType=='7'){
@@ -143,6 +158,7 @@
         console.log('有效',this.IntermediaryList)
       },
       getFailureArr(){
+        this.IntermediaryList = []
         this.failureArr = []
         for(let i = 0;i<this.intermediaryOrgList.length;i++){
           if(this.intermediaryOrgList[i].validFlag == '0'&&this.intermediaryOrgList[i].intermediaryType=='7'){

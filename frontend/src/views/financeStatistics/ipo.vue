@@ -127,7 +127,7 @@
     <el-dialog class="bigDialog" title="" :visible.sync="centerNoteFlag" :close-on-click-modal="false" width="80%"
                close="noteCancellation('3')">
       <span style="font-size: 14px;color: #333;" slot="title">{{centerNoteTitle}}</span>
-      <el-input   type="textarea" class="center-textarea-height" resize="none" placeholder="请在这里输入笔记内容..." v-model="note" :maxlength='2000' show-word-limit>
+      <el-input   type="textarea" maxlength="2000" class="center-textarea-height" resize="none" placeholder="请在这里输入笔记内容..." v-model="note" :maxlength='2000' show-word-limit>
       </el-input>
       <div slot="footer">
         <button class="small_btn_common cancel_btn" @click="noteCancellation('3')">取消</button>
@@ -181,9 +181,14 @@
                           </el-tooltip>
                         </div>
                         <!-- 1是科创版 -->
-                        <div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='1'" id="tab-third" ref="tab-third"
-                             aria-controls="pane-third" :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]" @click="onTabClick('3', $event)">问询与回复</div>
-                        <div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='0'" id="tab-third" ref="tab-third"
+                        <!--haveFeedbackData是用来判断问询与回复页面的数据是否请求回来，如果还没请求完，就禁止用户点击，等到请求回来之后再正常使用-->
+                        <div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='1'&&!haveFeedbackData" style="color:#adadad"  id="tab-third" ref="tab-third"
+                             aria-controls="pane-third" :class="['el-tabs__item_nohover is-top', {'is-active': isActive === '3'}]">问询与回复</div>
+                        <div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='1'&&haveFeedbackData" style="color:#333"  id="tab-third" ref="tab-third"
+                             aria-controls="pane-third" :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]"  @click="onTabClick('3', $event)">问询与回复</div>
+                        <div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='0'&&!haveFeedbackData" style="color:#adadad" id="tab-third" ref="tab-third"
+                             aria-controls="pane-third" :class="['el-tabs__item_nohover is-top', {'is-active': isActive === '3'}]">反馈意见</div>
+                        <div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='0'&&haveFeedbackData" style="color:#333" id="tab-third" ref="tab-third"
                              aria-controls="pane-third" :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]" @click="onTabClick('3', $event)">反馈意见</div>
                         <div v-if="headList.haveExamine=='1'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" class="el-tabs__item1"
                              style="padding-right: 0;cursor:default;color:#adadad">
@@ -261,7 +266,7 @@
 													<i class="el-icon-close" @click="noteCancellation('1')" title="关闭" style="cursor:pointer;vertical-align: -10%;font-size: 21px"></i>
 												</span>
                       </div>
-                      <el-input type="textarea" class="textarea-height" :rows="6" resize="none" placeholder="请在这里输入笔记内容..." v-model="note">
+                      <el-input type="textarea" maxlength="2000" class="textarea-height" :rows="6" resize="none" placeholder="请在这里输入笔记内容..." v-model="note">
                       </el-input>
                       <div style="float: right;margin-right: 20px;padding-top: 12px;">
                         <button class="small_btn_common cancel_btn" @click="noteCancellation('1')">取消</button>
@@ -394,6 +399,7 @@
     },
     data() {
       return {
+        haveFeedbackData : false,
         collectionAndNoteShow : false,
         currentQrCodeImg : false,
         ipoplatetype: false,
@@ -597,11 +603,14 @@
         let param1 = {
           id: this.caseId2
         }
-        getSelectFeedbackList(param1).then(res =>{
-          if (res.data.result && res.data.result.length > 0) {
-            this.tabList = res.data.result
-          }
-        });
+        // setTimeout(()=>{
+          getSelectFeedbackList(param1).then(res =>{
+            if (res.data.result && res.data.result.length > 0) {
+              this.haveFeedbackData = true;
+              this.tabList = res.data.result
+            }
+          });
+        // },7000)
       },
       // 初始化数据
       initTableData() {
@@ -1401,5 +1410,18 @@
   }
   .el-close-size{
     font-size: 21px !important;
+  }
+   .el-tabs__item_nohover{
+    padding: 0 20px;
+    height: 40px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    line-height: 40px;
+    display: inline-block;
+    list-style: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #777777;
+    position: relative;
   }
 </style>

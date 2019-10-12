@@ -71,7 +71,7 @@
     </div>
     <!-- 中介机构 -->
     <div class="IntermediaryInstitutions">
-      <div v-if="intermediaryOrgList&&intermediaryOrgList.length>0" class="title">
+      <div v-if="IntermediaryList&&IntermediaryList.length>0" class="title">
           <span class="littleRectangle"></span>
           <span class="titleText" id="intermediaryInstitutions">辅导机构</span>
       </div>
