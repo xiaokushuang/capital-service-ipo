@@ -1,5 +1,6 @@
 package com.stock.capital.enterprise.ipoCoachCase.controller;
 
+import com.stock.capital.enterprise.ipoCase.controller.IpoCaseListController;
 import com.stock.capital.enterprise.ipoCase.dto.TreeTypeProgressDto;
 import com.stock.capital.enterprise.ipoCoachCase.dto.IpoCoachCaseDto;
 import com.stock.capital.enterprise.ipoCoachCase.service.IpoCoachCaseDetailService;
@@ -18,12 +19,16 @@ public class IpoCoachCaseDetailController extends BaseController {
     @Autowired
     IpoCoachCaseDetailService ipoCoachCaseDetailService;
 
+    @Autowired
+    IpoCaseListController ipoCaseListController;
+
     @RequestMapping("queryCoachTitleInfo")
     @ResponseBody
     public JsonResponse<IpoCoachCaseDto> queryCoachTitleInfo(String id) {
         JsonResponse<IpoCoachCaseDto> jsonResponse = new JsonResponse<>();
         IpoCoachCaseDto ipoCoachCaseDto = new IpoCoachCaseDto();
         ipoCoachCaseDto = ipoCoachCaseDetailService.queryCoachTitleInfo(id);
+        ipoCoachCaseDto.setSignStatus(ipoCaseListController.getSignStatus());
         TreeTypeProgressDto processResult = ipoCoachCaseDetailService.queryIpoProcessByCaseId(id);
         if (processResult !=null && processResult.getTreeList() != null && processResult.getTreeList().size() > 0) {
             String listSize = String.valueOf(processResult.getTreeList().get(0).getProList().size() - 1);
@@ -34,8 +39,7 @@ public class IpoCoachCaseDetailController extends BaseController {
             if(StringUtils.isNotEmpty(startDate) &&StringUtils.isNotEmpty(endDate)){
                 ipoCoachCaseDto.setAllTime(ipoCoachCaseDetailService.getTimeDistance(startDate,endDate));
             }
-        }
-;
+        };
         jsonResponse.setResult(ipoCoachCaseDto);
         return jsonResponse;
     }

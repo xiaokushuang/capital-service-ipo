@@ -89,7 +89,7 @@
               </el-row>
             </div>
             <span style="padding: 0px;">
-							<relatedCase :proList="proList" @noOpenFlag="handleNoOpenFlag($event)"></relatedCase>
+							<relatedCase :proList="{proList:proList,signStatus:signStatus}" @noOpenFlag="handleNoOpenFlag($event)"></relatedCase>
 						</span>
           </el-col>
 					<el-col class="chart" style="position:relative;padding-top: 6px;padding: 0px;">
@@ -160,6 +160,7 @@
 		},
 		data() {
 			return {
+        signStatus:'',
         caseId2: this.$store.state.app.caseId,
         noOpenFlag: false, //判断公司是否开放
         proList: [
@@ -276,6 +277,7 @@
                 this.proList = res.data.result.relatedCaseDtoList
                 console.log('关联案例',this.proList)
               }
+             this.signStatus = res.data.result.signStatus
           }
         });
 			},

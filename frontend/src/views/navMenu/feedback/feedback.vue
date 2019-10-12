@@ -187,10 +187,14 @@
 
     methods: {
       innitData(){
-        this.o_letterId = this.companyProfileList.tabList[0].letterId;
-        this.tabList = this.companyProfileList.tabList;
-        console.log('反馈意见', this.tabList)
-        this.activeName = this.tabList[0].letterId;
+        if (this.companyProfileList&&this.companyProfileList.tabList&&this.companyProfileList.tabList.length > 0){
+          this.tabList = this.companyProfileList.tabList;
+          this.activeName = this.tabList[0].letterId;
+          if(this.companyProfileList.tabList[0].letterId){
+            this.o_letterId = this.companyProfileList.tabList[0].letterId;
+          }
+          console.log('反馈意见', this.tabList)
+        }
 // 第一个tab
         if (this.tabList && this.tabList.length == 1) {
           this.allQuestionList = this.tabList[0].questionList;

@@ -1,21 +1,21 @@
 <template>
     <div class="processTree">
-        <div v-if="proList.length>0">
+        <div v-if="proList.proList.length>0">
             <!-- 第一个进程 -->
             <div>
                 <el-row style="padding-left:12px">
                     <el-col :span="24" style="border-left:1px solid #E9E9E9; margin-bottom: -10px;margin-top:10px;padding-bottom: 10px;">
                         <div>
-                             <div v-for="(item,index) in proList">
+                             <div v-for="(item,index) in proList.proList">
                                 <div class="right" >
                                     <div class="border-box">
                                         <span>
-                                            <!-- <span :id="'sign' +  item.progressIndex" :class="{'circle':item.dateCompare=='1','grayCircle':item.dateCompare=='0'}" v-if="proList.length"> -->
-                                                <span v-if="proList.length" class="circle">
+                                            <!-- <span :id="'sign' +  item.progressIndex" :class="{'circle':item.dateCompare=='1','grayCircle':item.dateCompare=='0'}" v-if="proList.proList.length"> -->
+                                                <span v-if="proList.proList.length" class="circle">
                                                 <!-- 展示序号 【默认时候不加类】-->
                                                 <!-- <span :id="'num' +  item.progressIndex"> -->
                                                 <span>
-                                                    {{proList.length - index}}
+                                                    {{proList.proList.length - index}}
                                                 </span>
                                             </span>
                                         </span>
@@ -101,7 +101,8 @@ export default {
     created(){
      },
     mounted() {
-        console.log('关联案例',this.proList)
+        console.log('关联案例',this.proList.proList)
+        console.log('开放公司',this.proList.signStatus)
     },
     components: {
     },
@@ -110,7 +111,7 @@ export default {
     },
     methods: {
        gonggaoClick(id,flag) {
-            if (flag==="1") {
+            if (this.proList.signStatus==="1") {
                 const _self = this;
                 const {href} = _self.$router.resolve({
                 name: 'caseDetail',
@@ -118,7 +119,16 @@ export default {
                 });
                 this.$open(href);
             } else  {
+              if(flag==="1"){
+                const _self = this;
+                const {href} = _self.$router.resolve({
+                  name: 'caseDetail',
+                  query: {caseId: id, access_token: _self.$store.state.app.token,tenant_info:_self.$store.state.app.info}
+                });
+                this.$open(href);
+              }else{
                 this.$emit("noOpenFlag",true)
+              }
             }
             
       },
