@@ -22,7 +22,7 @@
 				<div class="text" style="position:relative;z-index: 4">
 					<p class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;" @mouseenter="mouseOverSpreadTitle(companyProfileList.title)">{{getTitle(companyProfileList.title)}}</p>
 					<span style="font-size: 14px;opacity: 0.6;">公司成立时间：</span>
-					<span style="font-size: 14px;opacity: 0.6;" v-if="companyProfileList.establishTime">{{companyProfileList.establishTime}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					<span style="font-size: 14px;opacity: 0.6;" v-if="companyProfileList.foundingTime">{{companyProfileList.foundingTime}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
           <span style="font-size: 14px;opacity: 0.6;" v-else>- -&nbsp;&nbsp;&nbsp;&nbsp;</span>
 					<span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;辅导工作历时：</span>
 					<span style="font-size: 14px;opacity: 0.6;" v-if="companyProfileList.allTime">{{companyProfileList.allTime}}</span>
