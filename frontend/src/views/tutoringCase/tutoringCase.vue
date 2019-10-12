@@ -22,12 +22,13 @@
 				<div class="text" style="position:relative;z-index: 4">
 					<p class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;" @mouseenter="mouseOverSpreadTitle(companyProfileList.title)">{{getTitle(companyProfileList.title)}}</p>
 					<span style="font-size: 14px;opacity: 0.6;">公司成立时间：</span>
-					<span style="font-size: 14px;opacity: 0.6;">{{companyProfileList.establishTime}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+					<span style="font-size: 14px;opacity: 0.6;" v-if="companyProfileList.foundingTime">{{companyProfileList.foundingTime}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <span style="font-size: 14px;opacity: 0.6;" v-else>- -&nbsp;&nbsp;&nbsp;&nbsp;</span>
 					<span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;辅导工作历时：</span>
-					<span style="font-size: 14px;opacity: 0.6;" v-if="companyProfileList.establishTime">{{companyProfileList.allTime}}</span>
+					<span style="font-size: 14px;opacity: 0.6;" v-if="companyProfileList.allTime">{{companyProfileList.allTime}}</span>
 					<span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
 					<span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;最新公告日期：</span>
-					<span style="font-size: 14px;color:#fff;opacity:0.6" v-if="companyProfileList.establishTime">{{companyProfileList.lastDate}}</span>
+					<span style="font-size: 14px;color:#fff;opacity:0.6" v-if="companyProfileList.lastDate">{{companyProfileList.lastDate}}</span>
           <span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
 				</div>
 			</div>
@@ -206,7 +207,8 @@
 				time: "",
 				clientLeft: "",
         clientRight : "",
-				companyProfileList: {
+
+        companyProfileList: {
           address: '',
           allTime: '',
           businessArea: '',
