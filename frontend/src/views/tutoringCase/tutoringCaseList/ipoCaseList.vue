@@ -531,7 +531,7 @@
                       <span v-else>--</span>
                     </template>
                   </el-table-column>
-                  <el-table-column header-align="center" align="center" prop="ipo_sum_asset_d" label="保荐机构" sortable="custom" width="150px">
+                  <el-table-column header-align="center" align="center" prop="ipo_sum_asset_d" label="保荐机构" width="150px">
                     <template slot-scope="scope">
                       <span v-if="scope.row.intermediaryName&&scope.row.intermediaryName.length>0" >
                         <span :title="getTitle(scope.row.intermediaryName).length>26?getTitle(scope.row.intermediaryName):''">{{getIntermediaryName(scope.row.intermediaryName)}}</span>
