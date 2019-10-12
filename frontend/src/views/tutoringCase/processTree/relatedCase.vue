@@ -23,7 +23,7 @@
                                     <div class="border-right">
                                         <div style="">
                                              <div :style="{'font-size': '14px', 'color': '#14bcf5','display':'inline-block','margin-right':item.caseTitle.length>=14?'-4px':'12px'}"  class="tinyHand">
-                                                <a @click="gonggaoClick(item.caseid,item.openFlag)">{{item.caseTitle}}</a>
+                                                <a @click="gonggaoClick(item.caseid,item.openFlag,item.signStatus)">{{item.caseTitle}}</a>
                                              </div>
                                               <!--<div :style="{'font-size': '14px', 'color': '#14bcf5','display':'inline-block','margin-right':item.caseTitle.slice(0,13).length>=14?'-4px':'12px'}"  class="tinyHand">-->
                                                 <!--<a @click="gonggaoClick(item.caseid,item.openFlag)">{{item.caseTitle.slice(0,13)}}</a>-->
@@ -109,8 +109,8 @@ export default {
 
     },
     methods: {
-       gonggaoClick(id,flag) {
-            if (flag==="1") {
+       gonggaoClick(id,flag,signStatus) {
+            if (signStatus==="1") {
                 const _self = this;
                 const {href} = _self.$router.resolve({
                 name: 'caseDetail',
@@ -118,7 +118,16 @@ export default {
                 });
                 this.$open(href);
             } else  {
+              if(flag==="1"){
+                const _self = this;
+                const {href} = _self.$router.resolve({
+                  name: 'caseDetail',
+                  query: {caseId: id, access_token: _self.$store.state.app.token,tenant_info:_self.$store.state.app.info}
+                });
+                this.$open(href);
+              }else{
                 this.$emit("noOpenFlag",true)
+              }
             }
             
       },
