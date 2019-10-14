@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<elasticsearch-dynamic-statement xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" nameSpace="default">
+<elasticsearch-dynamic-statement xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" nameSpace="com.stock.capital.enterprise.ipoCase.dao.IpoCaseEs">
     <select id="ipoCaseSearchByEs" type="dsl" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto">
         <![CDATA[
         {
