@@ -8,20 +8,21 @@
 <template>
   <div class="ipoCaseList feedback tutoringCaseList">
     <el-row :gutter="24">
-      <div style="position:relative">
+      <div style="position:relative;z-index: 1;">
         <el-tooltip class="ipoTip" content="IPO申报、在审、上会、发行企业案例" placement="top" effect="light">
-          <i style="cursor:pointer;position: absolute;top: 20px;left: 163px;color: #909399;" class="el-icon-question"></i>
+          <i style="cursor:pointer;position: absolute;top: 30px;left: 148px;color: #bababa;" class="el-icon-question"></i>
         </el-tooltip>
         <el-tooltip class="ipoTip" content="在辅导企业案例" placement="top" effect="light">
-          <i style="cursor:pointer;position: absolute;top: 20px;left: 273px;color: #909399" class="el-icon-question"></i>
+          <i style="cursor:pointer;position: absolute;top: 30px;left: 252px;color: #bababa" class="el-icon-question"></i>
         </el-tooltip>
       </div>
-      <el-radio-group class="selectTypeClass" v-model="radio" @change="handelMoreChange(radio)" style="margin-top:20px;margin-bottom:12px;padding-left: 12px;display:block;">
+      <el-radio-group class="selectTypeClass" v-model="radio" @change="handelMoreChange(radio)" style="">
         <el-radio :key="index" class="checkbox" v-for="(item,index) in checkboxList" :label="item.id">{{item.name}}
         </el-radio>
       </el-radio-group>
       <el-col class="chart" style="position:relative;width:285px;padding-left: 24px !important;
        padding-right: 0px !important; !important;background-color: #f7f7f7">
+
         <div class="innnerbox">
           <el-tree style="margin-top:24px;padding: 0 0 0 0" class="filter-tree" node-key="id" :data="plateTreeTag" :props="left_tree"
                    :default-expand-all="true" @node-click="handleNodeClickForSearch" ref="plateTreeTagRef">
@@ -485,34 +486,34 @@
                     </template>
                   </el-table-column>
                   <el-table-column :label="yearLabel" header-align="center">
-                    <el-table-column align="right" :prop="profit" label="净利润" sortable="custom" min-width="12%">
+                    <el-table-column align="right" :prop="profit" label="净利润（亿元）" sortable="custom" min-width="12%">
                       <template slot-scope="scope">
 												<span v-if="yearRadio===1">
-													<span v-if="scope.row.netProfitOne">{{scope.row.netProfitOne | dataInThRule}}亿元</span>
+													<span v-if="scope.row.netProfitOne">{{scope.row.netProfitOne | dataInThRule}}</span>
 													<span v-else>--</span>
 												</span>
                         <span v-if="yearRadio===2">
-													<span v-if="scope.row.netProfitTwo">{{scope.row.netProfitTwo | dataInThRule}}亿元</span>
+													<span v-if="scope.row.netProfitTwo">{{scope.row.netProfitTwo | dataInThRule}}</span>
 													<span v-else>--</span>
 												</span>
                         <span v-if="yearRadio===3">
-													<span v-if="scope.row.netProfitThree">{{scope.row.netProfitThree | dataInThRule}}亿元</span>
+													<span v-if="scope.row.netProfitThree">{{scope.row.netProfitThree | dataInThRule}}</span>
 													<span v-else>--</span>
 												</span>
                       </template>
                     </el-table-column>
-                    <el-table-column align="right" :prop="reve" label="营业收入" sortable="custom" min-width="14%">
+                    <el-table-column align="right" :prop="reve" label="营业收入（亿元）" sortable="custom" min-width="14%">
                       <template slot-scope="scope">
 												<span v-if="yearRadio===1">
-													<span v-if="scope.row.operateReveOne">{{scope.row.operateReveOne | dataInThRule}}亿元</span>
+													<span v-if="scope.row.operateReveOne">{{scope.row.operateReveOne | dataInThRule}}</span>
 													<span v-else>--</span>
 												</span>
                         <span v-if="yearRadio===2">
-													<span v-if="scope.row.operateReveTwo">{{scope.row.operateReveTwo | dataInThRule}}亿元</span>
+													<span v-if="scope.row.operateReveTwo">{{scope.row.operateReveTwo | dataInThRule}}</span>
 													<span v-else>--</span>
 												</span>
                         <span v-if="yearRadio===3">
-													<span v-if="scope.row.operateReveThree">{{scope.row.operateReveThree | dataInThRule}}亿元</span>
+													<span v-if="scope.row.operateReveThree">{{scope.row.operateReveThree | dataInThRule}}</span>
 													<span v-else>--</span>
 												</span>
                       </template>
@@ -525,13 +526,13 @@
                   <!--</template>-->
                   <!--</el-table-column>-->
 
-                  <el-table-column align="right" prop="ipo_sum_asset_d" label="最近一次估值" sortable="custom" min-width="12%">
+                  <el-table-column align="right" prop="ipo_sum_asset_d" label="最近一次估值（亿元）" sortable="custom" min-width="12%">
                     <template slot-scope="scope">
-                      <span v-if="scope.row.ipoValuationValue ">{{scope.row.ipoValuationValue/10000 | dataInThRule}}亿元</span>
+                      <span v-if="scope.row.ipoValuationValue ">{{scope.row.ipoValuationValue/10000 | dataInThRule}}</span>
                       <span v-else>--</span>
                     </template>
                   </el-table-column>
-                  <el-table-column header-align="center" align="center" prop="ipo_sum_asset_d" label="保荐机构" width="150px">
+                  <el-table-column header-align="center" align="left" prop="ipo_sum_asset_d" label="保荐机构" width="150px">
                     <template slot-scope="scope">
                       <span v-if="scope.row.intermediaryName&&scope.row.intermediaryName.length>0" >
                         <span :title="getTitle(scope.row.intermediaryName).length>26?getTitle(scope.row.intermediaryName):''">{{getIntermediaryName(scope.row.intermediaryName)}}</span>
@@ -554,7 +555,7 @@
                       <span v-if="scope.row.reviewTime==null&&scope.row.reMeetingTime==null">--</span> -->
                     </template>
                   </el-table-column>
-                  <el-table-column align="right" prop="ipo_audit_duration_i" label="历时" sortable="custom" width="100" :render-header="spendTimeRenderHeader">
+                  <el-table-column align="center" prop="ipo_audit_duration_i" label="历时" sortable="custom" width="100" :render-header="spendTimeRenderHeader">
                     <template slot-scope="scope">
                       <span v-if="scope.row.auditDuration">{{scope.row.auditDuration}}天</span>
                       <span v-else>--</span>
@@ -2280,6 +2281,15 @@
   .prospectus li {
     width: 30%;
     text-align: center;
+  }
+  .selectTypeClass {
+    background:#f7f7f7;
+    width:285px;
+    margin-top:10px;
+    padding-top:20px;
+    padding-left: 19px !important;
+    padding-right:20px;
+    display:block !important;
   }
 
   /* 受理时间及审核时间日期控件样式 */

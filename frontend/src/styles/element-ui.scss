@@ -931,5 +931,22 @@
   cursor: pointer;
   white-space: nowrap;
   outline: 0;
-  margin-right: 40px;
+  margin-right: 14px;
 }
+.selectTypeClass .el-radio__input {
+  white-space: nowrap;
+  cursor: pointer;
+  outline: 0;
+  line-height: 1;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+ .selectTypeClass .el-radio+.el-radio {
+   margin-left: 0px;
+ }
+ .selectTypeClass .el-radio+.el-radio:last-of-type {
+   margin-left: 14px;
+ }
+ .selectTypeClass .el-radio__label {
+   font-size: 12px;
+ }

@@ -46,7 +46,7 @@
 								</div>
 								<div :style="{width:isFixed?'740px':'100%'}">
 									<!-- 菜单导航栏 -->
-									<div class="el-tabs__nav-wrap is-top">
+									<div style="display:none" class="el-tabs__nav-wrap is-top">
 										<div class="el-tabs__nav-scroll">
 											<div class="el-tabs__nav">
 												<div class="el-tabs__active-bar is-top" :style="{width: tabBarWidth + 'px', transform: 'translateX(' + tabBarOffset + 'px)'}"></div>
@@ -59,13 +59,13 @@
 									</div>
 									<!-- 菜单栏下面的小分类 -->
 									<!-- 1 -->
-									<div id="title-first" class="title-body" v-show="isActive == '1'" style="position: relative;top: -40px;left: 70px;">
+									<div id="title-first" class="title-body" v-show="isActive == '1'">
 										<span v-for="(item, index) in tabFirstList">
-                      <span style="margin: 0 8px;color: #e4e4e4;" v-if="index == tabFirstList.length - 1">|</span>
+                      <!--<span style="margin: 0 8px;color: #e4e4e4;" v-if="index == tabFirstList.length - 1">|</span>-->
                       <!--{'item-active': itemActiveFirst === item.id}, -->
 											<a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'disabled': item.noClick}]"
 											 :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 1)">{{item.name}}</a>
-											<!--<span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFirstList.length - 1">|</span>-->
+											<span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFirstList.length - 1">|</span>
 										</span>
 									</div>
 								</div>
@@ -191,8 +191,13 @@
 				scrollTop: "",
 				isFixed: false,
 				itemActiveFirst: "",
-				tabFirstList: [{
-						id: '1',
+				tabFirstList: [
+				  {
+            id: '1',
+            name: '公司概览',
+          },
+          {
+						id: '2',
 						name: '辅导机构',
 					},
 				],
@@ -517,7 +522,7 @@
 
 	.chart-container {
 		position: relative;
-		padding: 10px 0px 0px;
+		padding: 4px 0px 0px;
 		width: 100%;
 	}
 

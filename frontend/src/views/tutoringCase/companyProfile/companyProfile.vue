@@ -276,6 +276,14 @@ export default {
     getPosition() {
       // debugger;
           let titleList = [];
+          let briefIntroduction = {
+            id: 'briefIntroduction',
+            name: '公司概览',
+            notes: '',
+            important: false,
+            tabId: 'tab-first',
+            noClick: true
+          }
           let intermediaryInstitutions = {
               id: 'intermediaryInstitutions',
               name: '辅导机构',
@@ -284,10 +292,13 @@ export default {
               tabId: 'tab-first',
               noClick: true
           }
-
+          if(this.companyProfileList&&this.companyProfileList.companyName){
+            briefIntroduction.noClick = false;
+          }
           if(this.IntermediaryList&&this.IntermediaryList.length>0){
             intermediaryInstitutions.noClick = false;
           }
+          titleList.push(briefIntroduction)
           titleList.push(intermediaryInstitutions)
           this.$emit('headCallBack', titleList);
     },
@@ -370,7 +381,7 @@ export default {
     text-align: left;
     line-height: normal;
     padding: 5px 10px;
-    margin-top: 32px;
+    margin-top: 12px;
     .briefIntroduction {
       // border-bottom: 1px solid #ebebeb;
       ul {
