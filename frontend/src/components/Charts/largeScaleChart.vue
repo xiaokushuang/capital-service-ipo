@@ -1,5 +1,13 @@
 <template>
-  <div :class="className" :id="id" :style="{height:height,width:width}"></div>
+  <div :style="{height:height,width:width}" style="position:relative">
+    <div :class="className" :id="id" :style="{height:height,width:width}"></div>
+    <el-tooltip class="ipoTip"  placement="top" effect="light">
+      <div slot="content">在审数据统计口径：<br/>
+        1、核准制：起始于拟上市企业在证监会官网预先披露，后续拟上市企业如果终止审查、<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 发审会审核未通过、获得证监会核准批复，则不在在审数据统计范围。<br/>
+        2、注册制：起始于拟上市企业在上海证券交易所受理，后续拟上市企业如果终止审查、<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;上市委审核未通过、证监会注册生效、证监会不予注册，则不在在审数据统计范围。</div>
+      <i style="cursor:pointer;color: #909399;position:absolute;top:15px;left: calc(50% + 123px);" class="el-icon-question"></i>
+    </el-tooltip>
+  </div>
 </template>
 
 <script>
