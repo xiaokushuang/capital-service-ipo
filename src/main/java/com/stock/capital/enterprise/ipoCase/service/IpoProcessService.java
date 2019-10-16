@@ -6,7 +6,9 @@ import com.google.common.io.Resources;
 
 import com.stock.capital.enterprise.common.dao.AttachmentMapper;
 import com.stock.capital.enterprise.common.entity.Attachment;
+import com.stock.capital.enterprise.ipoCase.dao.IpoCaseListMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoProcessMapper;
+import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFileRelationDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoProListDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoProgressDto;
@@ -18,8 +20,10 @@ import com.stock.core.service.BaseService;
 import com.stock.core.util.CompressUtil;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.ListUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
@@ -60,7 +64,8 @@ public class IpoProcessService extends BaseService {
 
     @Autowired
     private IpoProcessMapper ipoProcessMapper;
-
+    @Autowired
+    private IpoCaseListMapper ipoCaseListMapper;
     @Autowired
     private RestClient restClient;
 
@@ -92,6 +97,23 @@ public class IpoProcessService extends BaseService {
             int inquiryTimes = 1;
             int responseTimes = 1;
             for (int j = 0; j < proList.size(); j++) {
+                if (CollectionUtils.isNotEmpty(proList.get(j).getRelaList())){// 针对 科创板 审核中止、审核终止。其他不进
+                    if (proList.get(j).getProgressType().equals("39")){// 针对 审核中止 只有一行 或者没有行
+                        IpoFileRelationDto dto = proList.get(j).getRelaList().get(0);
+                        List<String> subTitles = ipoProcessMapper.selectConfLabelBy("IPO_PAUSE_REVIEW",dto.getIecResult());
+                        proList.get(j).setSubtitle(subTitles);
+                        String lawId = getLawId();
+                        proList.get(j).setAddressId(lawId);
+                        proList.get(j).setLawId(ipoProcessMapper.queryLawNoId(lawId,"第六十七条"));
+                    } else if (proList.get(j).getProgressType().equals("40")){// 针对 审核终止 只有一行或者 没有行
+                        IpoFileRelationDto dto = proList.get(j).getRelaList().get(0);
+                        List<String> subTitles = ipoProcessMapper.selectConfLabelBy("IPO_STOP_REVIEW",dto.getIecResult());
+                        proList.get(j).setSubtitle(subTitles);
+                        String lawId = getLawId();
+                        proList.get(j).setAddressId(lawId);
+                        proList.get(j).setLawId(ipoProcessMapper.queryLawNoId(lawId,"第六十四条"));
+                    }
+                }
                 proList.get(j).setProgressIndex(treeList.get(i).getTreeTypeCode() + proList.get(j).getProSort());
 
                 //标出第几次问询，第几次回复
@@ -225,6 +247,21 @@ public class IpoProcessService extends BaseService {
         return resultDto;
     }
 
+
+    private String getLawId(){
+        String result = "";
+        IpoCaseListBo law = ipoProcessMapper.querylawId();
+        if (law != null) {
+            if (StringUtils.isNoneBlank(law.getIssueLawId())) {
+                result =  law.getIssueLawId();
+            } else {
+                result = "746412002825256480";
+            }
+        } else {
+            result = "746412002825256480";
+        }
+        return "1107205720326302927";
+    }
 
     /**
      * 计算两个日期相差天数

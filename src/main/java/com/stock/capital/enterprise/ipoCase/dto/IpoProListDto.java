@@ -44,6 +44,13 @@ public class IpoProListDto implements Serializable {
     @ApiModelProperty("ipoh5所用字段，该步骤是否处理")
     private Boolean handle;
 
+    @ApiModelProperty("审核终止、审核终止进程时 返回前台的法规对应地址id")
+    private String addressId;
+    @ApiModelProperty("审核终止、审核终止进程时 所在位置的id")
+    private String lawId;
+    @ApiModelProperty("审核终止、审核终止进程时 选项显示")
+    List<String> subtitle;
+
     public Boolean getHandle() {
         return handle;
     }
@@ -130,6 +137,30 @@ public class IpoProListDto implements Serializable {
 
     public void setDateCompare(Integer dateCompare) {
         this.dateCompare = dateCompare;
+    }
+
+    public String getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(String addressId) {
+        this.addressId = addressId;
+    }
+
+    public String getLawId() {
+        return lawId;
+    }
+
+    public void setLawId(String lawId) {
+        this.lawId = lawId;
+    }
+
+    public List<String> getSubtitle() {
+        return subtitle;
+    }
+
+    public void setSubtitle(List<String> subtitle) {
+        this.subtitle = subtitle;
     }
 }
 

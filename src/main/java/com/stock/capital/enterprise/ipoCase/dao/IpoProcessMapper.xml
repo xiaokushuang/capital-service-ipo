@@ -79,4 +79,26 @@
           split_file_name relationFileTitle
         from ipo_split_map where split_file_id = #{id}
     </select>
+
+
+    <select id="selectConfLabelBy" parameterType="java.lang.String"
+            resultType="java.lang.String">
+       SELECT label_name FROM maa_conf_label WHERE label_code = #{labelCode} AND FIND_IN_SET(label_value,#{ids}) ORDER BY label_sort;
+    </select>
+
+
+    <select id="querylawId" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo">
+    select lm.id AS issueLawId,
+    case when lm.law_invalid is not null and lm.law_invalid != '' and lm.law_invalid &lt;= now() then "已失效"
+    when lm.law_effect_date > now() then "待失效"
+    when lm.modify_date is not null and lm.modify_date != ''  then "已被修改"
+    end as tmpRemarks
+    from law_evolution_group leg, laws_manage lm
+    where lm.laws_name like '%上海证券交易所科创板股票发行上市审核规则%' and lm.id= leg.law_id  and lm.laws_name not like "%的决定" having tmpRemarks is null order by lm.published desc
+    limit 1;
+  </select>
+
+    <select id="queryLawNoId" resultType="java.lang.String">
+    SELECT id FROM law_xml_structure_detail WHERE law_id = #{lawId} AND title = #{title};
+  </select>
 </mapper>
