@@ -149,10 +149,10 @@ export default {
     getAllArr(){
       this.allArr = []
       for(let i = 0;i<this.intermediaryOrgList.length;i++){
-        if(this.intermediaryOrgList[i].intermediaryType=='7'){
+        // if(this.intermediaryOrgList[i].intermediaryType=='7'){
           this.allArr.push(this.intermediaryOrgList[i])
           this.IntermediaryList = this.allArr
-        }
+        // }
       }
 
       console.log('全部符合要求的辅导机构',this.IntermediaryList)
@@ -233,10 +233,9 @@ export default {
         }
         if(res.data.result&&res.data.result.intermediaryOrgList&&res.data.result.intermediaryOrgList.length>0){
           this.intermediaryOrgList = res.data.result.intermediaryOrgList
+          console.log('所有的中介机构',this.intermediaryOrgList)
           if(this.intermediaryOrgList&&this.intermediaryOrgList.length>0){
             this.getAllArr()
-
-            console.log('中介机构',this.intermediaryOrgList)
           }
         }
         this.getPosition()
