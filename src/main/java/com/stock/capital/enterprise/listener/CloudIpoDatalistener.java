@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.stock.capital.enterprise.ipoInterfaceH5.controller.IpoFileUploadController;
 import com.stock.core.util.JsonUtil;
-import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
