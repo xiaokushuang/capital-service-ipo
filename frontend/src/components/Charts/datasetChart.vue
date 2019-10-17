@@ -55,7 +55,7 @@ export default {
       // 设置数据
       this.chart = echarts.init(document.getElementById(this.id));
       var myChartColor = ['#ca2428', '#2e444e', '#7ccbab', '#ffa128', '#227d99', '#ff5f3a','#3badda','#DDDDDD'];
-      var newArray = new Array(8); 
+      var newArray = new Array(7);
       this.chartData.map((obj,idx)=>{
         if(obj.label == "已受理"){
           newArray[0]= obj;
@@ -78,11 +78,11 @@ export default {
         if(obj.label == "提交注册"){
           newArray[6]= obj;
         }
-        if(obj.label == "注册生效"){
+        /*if(obj.label == "注册生效"){
           newArray[7]= obj;
-        }
+        }*/
       });
-      var lst  = new Array(8); 
+      var lst  = new Array(7);
       lst = newArray;
       // 设置数据
       var labels = ['沪主板', '中小板', '创业板',{

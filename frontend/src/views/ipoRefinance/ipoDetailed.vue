@@ -100,12 +100,12 @@
                           <span v-else>{{scope.row.submited}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column align="center" prop="zc" label="注册生效" sortable="custom" >
-                        <template slot-scope="scope">
-                          <span class="spanClass" v-if="getValue(scope.row.zc) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'09','unit')">{{scope.row.zc}}</span>
-                          <span v-else>{{scope.row.zc}}</span>
-                        </template>
-                    </el-table-column>
+                    <!--<el-table-column align="center" prop="zc" label="注册生效" sortable="custom" >-->
+                        <!--<template slot-scope="scope">-->
+                          <!--<span class="spanClass" v-if="getValue(scope.row.zc) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'09','unit')">{{scope.row.zc}}</span>-->
+                          <!--<span v-else>{{scope.row.zc}}</span>-->
+                        <!--</template>-->
+                    <!--</el-table-column>-->
                     <el-table-column align="center" prop="areaCount" label="合计" sortable="custom"  :class-name="heightStyle">
                         <template slot-scope="scope">
                           <span class="spanClass" v-if="getValue(scope.row.areaCount) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'','area')">{{scope.row.areaCount}}</span>
