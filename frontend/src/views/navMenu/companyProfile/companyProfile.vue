@@ -789,7 +789,6 @@ export default {
       getSupplierCustomerData(param).then(response => {
         if(response.data.result&&response.data.result.supplierMainList&&response.data.result.supplierMainList.length>0){
           this.supplierMainList = response.data.result.supplierMainList
-          debugger
           this.dealDataList(this.supplierMainList);
           this.getPosition()
         }

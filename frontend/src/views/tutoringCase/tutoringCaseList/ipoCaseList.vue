@@ -453,7 +453,7 @@
                         <br />
                         {{scope.row.companyName}}
                       </div>
-                      <div v-else>
+                      <div v-else class="noDataColor">
                         - -
                       </div>
                     </template>
@@ -463,7 +463,7 @@
                       <div v-if="scope.row.titleStr">
                         {{scope.row.titleStr}}
                       </div>
-                      <div v-else>- -</div>
+                      <div v-else class="noDataColor">- -</div>
                     </template>
                   </el-table-column>
                   <el-table-column align="left" prop="ipo_label_result_t" label="IPO进程" sortable="custom" width="100">
@@ -490,15 +490,15 @@
                       <template slot-scope="scope">
 												<span v-if="yearRadio===1">
 													<span v-if="scope.row.netProfitOne">{{scope.row.netProfitOne | dataInThRule}}</span>
-													<span v-else>--</span>
+													<span v-else class="noDataColor">--</span>
 												</span>
                         <span v-if="yearRadio===2">
 													<span v-if="scope.row.netProfitTwo">{{scope.row.netProfitTwo | dataInThRule}}</span>
-													<span v-else>--</span>
+													<span v-else class="noDataColor">--</span>
 												</span>
                         <span v-if="yearRadio===3">
 													<span v-if="scope.row.netProfitThree">{{scope.row.netProfitThree | dataInThRule}}</span>
-													<span v-else>--</span>
+													<span v-else class="noDataColor">--</span>
 												</span>
                       </template>
                     </el-table-column>
@@ -506,15 +506,15 @@
                       <template slot-scope="scope">
 												<span v-if="yearRadio===1">
 													<span v-if="scope.row.operateReveOne">{{scope.row.operateReveOne | dataInThRule}}</span>
-													<span v-else>--</span>
+													<span v-else class="noDataColor">--</span>
 												</span>
                         <span v-if="yearRadio===2">
 													<span v-if="scope.row.operateReveTwo">{{scope.row.operateReveTwo | dataInThRule}}</span>
-													<span v-else>--</span>
+													<span v-else class="noDataColor">--</span>
 												</span>
                         <span v-if="yearRadio===3">
 													<span v-if="scope.row.operateReveThree">{{scope.row.operateReveThree | dataInThRule}}</span>
-													<span v-else>--</span>
+													<span v-else class="noDataColor">--</span>
 												</span>
                       </template>
                     </el-table-column>
@@ -529,7 +529,7 @@
                   <el-table-column align="right" prop="ipo_sum_asset_d" label="最近一次估值（亿元）" sortable="custom" min-width="12%">
                     <template slot-scope="scope">
                       <span v-if="scope.row.ipoValuationValue ">{{scope.row.ipoValuationValue/10000 | dataInThRule}}</span>
-                      <span v-else>--</span>
+                      <span v-else class="noDataColor">--</span>
                     </template>
                   </el-table-column>
                   <el-table-column header-align="center" align="left" prop="ipo_sum_asset_d" label="保荐机构" width="150px">
@@ -538,7 +538,7 @@
                         <span :title="getTitle(scope.row.intermediaryName).length>26?getTitle(scope.row.intermediaryName):''">{{getIntermediaryName(scope.row.intermediaryName)}}</span>
                         <span></span>
                       </span>
-                      <span v-else>--</span>
+                      <span v-else class="noDataColor">--</span>
                     </template>
                   </el-table-column>
                   <el-table-column align="left" label="拟上市板块" width="110">
@@ -549,7 +549,7 @@
                   <el-table-column header-align="center" align="right" prop="ipo_final_time_dt" label="时间" sortable="custom" width="100" :render-header="timeRenderHeader">
                     <template slot-scope="scope">
                       <span v-if="scope.row.finalTime">{{getLocalTime(scope.row.finalTime)}}</span>
-                      <span v-else>--</span>
+                      <span v-else class="noDataColor">--</span>
                       <!-- <span v-if="scope.row.reviewTime">{{getLocalTime(scope.row.reviewTime)}}</span>
                       <span v-if="scope.row.reviewTime==null&&scope.row.reMeetingTime">{{scope.row.reMeetingTime}}</span>
                       <span v-if="scope.row.reviewTime==null&&scope.row.reMeetingTime==null">--</span> -->
@@ -558,7 +558,7 @@
                   <el-table-column align="center" prop="ipo_audit_duration_i" label="历时" sortable="custom" width="100" :render-header="spendTimeRenderHeader">
                     <template slot-scope="scope">
                       <span v-if="scope.row.auditDuration">{{scope.row.auditDuration}}天</span>
-                      <span v-else>--</span>
+                      <span v-else class="noDataColor">--</span>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -2290,6 +2290,9 @@
     padding-left: 19px !important;
     padding-right:20px;
     display:block !important;
+  }
+  .noDataColor{
+    color:#999999
   }
 
   /* 受理时间及审核时间日期控件样式 */
