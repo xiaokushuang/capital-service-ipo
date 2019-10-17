@@ -260,7 +260,7 @@ public class IpoProcessService extends BaseService {
         } else {
             result = "746412002825256480";
         }
-        return "1107205720326302927";
+        return result;
     }
 
     /**
