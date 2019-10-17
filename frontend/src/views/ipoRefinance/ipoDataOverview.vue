@@ -18,7 +18,7 @@
             <!-- 右部表 -->
             <el-col :span="12" style="padding-left:0px;padding-right:0px;">
               <div id="table1">
-                <el-table :data="tableTop" border style="width: 100%" :header-cell-class-name="tableHeaderColor" :row-class-name="tableRowClassName"> 
+                <el-table :data="tableTop" border style="width: 100%" :header-cell-class-name="tableHeaderColor" :row-class-name="tableRowClassName">
                   <el-table-column label="" width="210">
                     <template slot-scope="scope">
                         <span v-html="lableTurnName(scope.row.label)"></span>
@@ -80,7 +80,7 @@
                 :default-props="defaultProps1"
                 :all-show="allShow"
                 :default-all-show="false"
-                :all-select="allSelect"  
+                :all-select="allSelect"
               ></el-multiple-selection>
             </el-col>
             <!-- 项目公司注册地 -->
@@ -97,7 +97,7 @@
                 :tree-data="areaList"
                 :default-props="defaultProps"
                 :default-all-show="false"
-                :all-select="allSelect"  
+                :all-select="allSelect"
               ></el-multiple-selection>
             </el-col>
         </el-row>
@@ -204,11 +204,11 @@ export default {
           if(obj.label == "提交注册"){
             middle[6]= obj;
           }
-          if(obj.label == "注册生效"){
+          /*if(obj.label == "注册生效"){
             middle[7]= obj;
-          }
+          }*/
           if(obj.label == "合计"){
-            middle[8]= obj;
+            middle[7]= obj;
           }
           // middle.push(obj)
         }
@@ -264,7 +264,7 @@ export default {
 				this.areaSelect = arr;
 			} else {
 				this.industrySelect = arr;
-      } 
+      }
 		},
     ipoDataPort() {
       this.$store.dispatch("ipoDataOverviewGet").then();
@@ -286,7 +286,7 @@ export default {
 .fullDiv_border {
   width: 100%;
   height: 100%;
-  height: 500px;
+  height: 440px;
 }
 #table1 .el-table__footer-wrapper tbody td, .el-table__header-wrapper tbody td {
     background-color: #E8E8E8;
