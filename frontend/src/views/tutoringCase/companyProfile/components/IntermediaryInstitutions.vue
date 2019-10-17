@@ -9,7 +9,10 @@
       <div class="InstitutionsDetail">
         <ul>
           <li class="clear " v-for="item in IntermediaryList">
-            <p class="institutionTitle">{{item.intermediaryTypeName}}</p>
+            <p v-if="item.intermediaryType=='7'" class="institutionTitle">辅导机构</p>
+            <p v-if="item.intermediaryType=='3'" class="institutionTitle">律师事务所</p>
+            <p v-if="item.intermediaryType=='4'" class="institutionTitle">会计师事务所</p>
+
             <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'">
               <div class="image l">
                 <img v-if="item.intermediaryType=='7'" src="../../../../assets/images/coSponsors.png" alt>
@@ -23,42 +26,42 @@
                       font-style: normal; font-size: 16px; color: #363636">{{item.orgName}}</span>
                 </div>
                 <!-- 经办辅导人员 -->
-                <!--<ul>-->
-                  <!--<li class="people">-->
-                    <!--<span v-if="item.intermediaryType=='7'" style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;-->
-                    <!--font-style: normal;  font-size: 14px; color: #999999;">经办辅导人员：</span>-->
-                    <!--<span v-if="item.intermediaryType=='3'" style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;-->
-                    <!--font-style: normal;  font-size: 14px; color: #999999;">经办律师：</span>-->
-                    <!--<span v-if="item.intermediaryType=='4'" style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;-->
-                    <!--font-style: normal;  font-size: 14px; color: #999999;">经办注册会计师：</span>-->
-                    <!--<span v-if="item.agentPerson" style="font-size:14px;color:black" class="ls" :title="item.agentPerson.length>38?item.agentPerson:''">{{getContent(item.agentPerson)}}</span>-->
-                    <!--<span v-else>- -</span>-->
-                  <!--</li>-->
-                <!--</ul>-->
-                <ul v-if="item.intermediaryType=='7'" >
+                <ul>
                   <li class="people">
-                    <span  style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                    <span v-if="item.intermediaryType=='7'" style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                     font-style: normal;  font-size: 14px; color: #999999;">经办辅导人员：</span>
-                    <span v-if="item.agentPerson" style="font-size:14px;color:black" class="ls" :title="item.agentPerson.length>38?item.agentPerson:''">{{getContent(item.agentPerson)}}</span>
-                    <span v-else>- -</span>
-                  </li>
-                </ul>
-                <ul v-if="item.intermediaryType=='3'" >
-                  <li class="people">
-                    <span  style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                    <span v-if="item.intermediaryType=='3'" style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                     font-style: normal;  font-size: 14px; color: #999999;">经办律师：</span>
-                    <span v-if="item.agentPerson" style="font-size:14px;color:black" class="ls" :title="item.agentPerson.length>38?item.agentPerson:''">{{getContent(item.agentPerson)}}</span>
-                    <span v-else>- -</span>
-                  </li>
-                </ul>
-                <ul v-if="item.intermediaryType=='4'" >
-                  <li class="people">
-                    <span  style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                    <span v-if="item.intermediaryType=='4'" style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                     font-style: normal;  font-size: 14px; color: #999999;">经办注册会计师：</span>
                     <span v-if="item.agentPerson" style="font-size:14px;color:black" class="ls" :title="item.agentPerson.length>38?item.agentPerson:''">{{getContent(item.agentPerson)}}</span>
                     <span v-else>- -</span>
                   </li>
                 </ul>
+                <!--<ul v-if="item.intermediaryType=='7'" >-->
+                  <!--<li class="people">-->
+                    <!--<span  style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;-->
+                    <!--font-style: normal;  font-size: 14px; color: #999999;">经办辅导人员：</span>-->
+                    <!--<span v-if="item.agentPerson" style="font-size:14px;color:black" class="ls" :title="item.agentPerson.length>38?item.agentPerson:''">{{getContent(item.agentPerson)}}</span>-->
+                    <!--<span v-else>- -</span>-->
+                  <!--</li>-->
+                <!--</ul>-->
+                <!--<ul v-if="item.intermediaryType=='3'" >-->
+                  <!--<li class="people">-->
+                    <!--<span  style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;-->
+                    <!--font-style: normal;  font-size: 14px; color: #999999;">经办律师：</span>-->
+                    <!--<span v-if="item.agentPerson" style="font-size:14px;color:black" class="ls" :title="item.agentPerson.length>38?item.agentPerson:''">{{getContent(item.agentPerson)}}</span>-->
+                    <!--<span v-else>- -</span>-->
+                  <!--</li>-->
+                <!--</ul>-->
+                <!--<ul v-if="item.intermediaryType=='4'" >-->
+                  <!--<li class="people">-->
+                    <!--<span  style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;-->
+                    <!--font-style: normal;  font-size: 14px; color: #999999;">经办注册会计师：</span>-->
+                    <!--<span v-if="item.agentPerson" style="font-size:14px;color:black" class="ls" :title="item.agentPerson.length>38?item.agentPerson:''">{{getContent(item.agentPerson)}}</span>-->
+                    <!--<span v-else>- -</span>-->
+                  <!--</li>-->
+                <!--</ul>-->
               </div>
               <!-- 已失效标志 -->
               <span class="failure" v-show="item.validFlag == 0">
@@ -188,10 +191,16 @@
         this.IntermediaryList = []
         this.allArr = []
         for(let i = 0;i<this.intermediaryOrgList.length;i++){
-          // if(this.intermediaryOrgList[i].intermediaryType=='7'){
+          if(this.intermediaryOrgList[i].intermediaryType=='7'){
             this.allArr.push(this.intermediaryOrgList[i])
-            this.IntermediaryList = this.allArr
-          // }
+          }
+          if(this.intermediaryOrgList[i].intermediaryType=='3'){
+            this.allArr.push(this.intermediaryOrgList[i])
+          }
+          if(this.intermediaryOrgList[i].intermediaryType=='4'){
+            this.allArr.push(this.intermediaryOrgList[i])
+          }
+          this.IntermediaryList = this.allArr
         }
         console.log('全部',this.IntermediaryList)
       },
