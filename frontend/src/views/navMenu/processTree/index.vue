@@ -523,13 +523,9 @@ export default {
              }
         },
         lawsClick(item){
-          // const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=745777672757626842&access_token=' + _self.$store
-          //   .state.app.token + '&tenant_info=' + _self.$store.state.app.info;
-          // window.open(href, '_blank');
           const _self = this;
-          const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + item.lawId + '&access_token=' +
+          const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + item.addressId + '&access_token=' +
             _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
-          // let href = 'http://dev-sz.valueonline.cn/laws/lawView/1107205720326302927/all/1,4,3,7,2,15,16,8,5,13,6/ed.html';
           console.log('法规地址',href)
           this.$open(href);
         },
