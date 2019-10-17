@@ -3,9 +3,10 @@ package com.stock.capital.enterprise.ipoCase.service;
 import com.google.common.base.Throwables;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
-
+import com.stock.capital.enterprise.common.constant.Global;
 import com.stock.capital.enterprise.common.dao.AttachmentMapper;
 import com.stock.capital.enterprise.common.entity.Attachment;
+import com.stock.capital.enterprise.common.service.CommonService;
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseListMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoProcessMapper;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo;
@@ -26,6 +27,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.elasticsearch.common.Glob;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +73,9 @@ public class IpoProcessService extends BaseService {
 
     @Autowired
     private AttachmentMapper attachmentMapper;
+    
+    @Autowired
+    private CommonService commonService;
 
 
     @Value("#{app['pdf.baseUrl']}")
@@ -85,7 +90,11 @@ public class IpoProcessService extends BaseService {
     private String commonFilePath;
     @Value("#{app['declare.baseUrl']}")
     private String declarePdfUrl;
-
+    /**
+	 * 微服地址前缀
+	 */
+	@Value("#{app['service.gui.baseUrl']}")
+	private String serviceGuiBaseUrl;
     public TreeTypeProgressDto selectProcessList(String id, String sortType) {
         TreeTypeProgressDto resultDto = ipoProcessMapper.selectProcessList(id);
         List<IpoProgressDto> treeList = resultDto == null ? new ArrayList<>() : resultDto.getTreeList();
@@ -284,7 +293,13 @@ public class IpoProcessService extends BaseService {
      * 下载单个公告
      */
     public String downloadSingleAnnounce(String id, HttpServletResponse response, HttpServletRequest request) {
-        String urls = apiBaseUrl + "declareInfo/postSearchIndex";
+    	String urls = StringUtils.EMPTY;
+    	if(Global.SEARCH_SERVER_DECLARE_FLAG.equals("0")) {// 使用公告微服务接口查询
+    		String accessToken = commonService.getGuiAccessToken();
+    		urls = serviceGuiBaseUrl + "/announcement/announcement/api/postSearchIndex?access_token=" + accessToken;
+    	} else {// 使用cloud-api 接口查询
+    		urls = apiBaseUrl + "declareInfo/postSearchIndex";
+    	}
         MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
         param.add("indexId", id);
         ParameterizedTypeReference<JsonResponse<Map<String, Object>>> responseType =
@@ -369,7 +384,13 @@ public class IpoProcessService extends BaseService {
             } else {
                 selIdList.add(ids);
             }
-            String urls = apiBaseUrl + "declareInfo/postSearchIndex";
+            String urls = StringUtils.EMPTY;
+        	if(Global.SEARCH_SERVER_DECLARE_FLAG.equals("0")) {// 使用公告微服务接口查询
+        		String accessToken = commonService.getGuiAccessToken();
+        		urls = serviceGuiBaseUrl + "/announcement/announcement/api/postSearchIndex?access_token=" + accessToken;
+        	} else {// 使用cloud-api 接口查询
+        		urls = apiBaseUrl + "declareInfo/postSearchIndex";
+        	}
             //当公告不在索引中而在数据库中时，传companyId和userId进行查询
             for (String indexId : selIdList) {
                 MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
@@ -664,7 +685,13 @@ public class IpoProcessService extends BaseService {
     public String checkSingleAnnounce(String id) {
         String result = "1";
         if (StringUtils.isNotEmpty(id)) {
-            String urls = apiBaseUrl + "declareInfo/postSearchIndex";
+        	String urls = StringUtils.EMPTY;
+        	if(Global.SEARCH_SERVER_DECLARE_FLAG.equals("0")) {// 使用公告微服务接口查询
+        		String accessToken = commonService.getGuiAccessToken();
+        		urls = serviceGuiBaseUrl + "/announcement/announcement/api/postSearchIndex?access_token=" + accessToken;
+        	} else {// 使用cloud-api 接口查询
+        		urls = apiBaseUrl + "declareInfo/postSearchIndex";
+        	}
             MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
             param.add("indexId", id);
             ParameterizedTypeReference<JsonResponse<Map<String, Object>>> responseType =
@@ -691,7 +718,13 @@ public class IpoProcessService extends BaseService {
             } else {
                 selIdList.add(ids);
             }
-            String urls = apiBaseUrl + "declareInfo/postSearchIndex";
+            String urls = StringUtils.EMPTY;
+        	if(Global.SEARCH_SERVER_DECLARE_FLAG.equals("0")) {// 使用公告微服务接口查询
+        		String accessToken = commonService.getGuiAccessToken();
+        		urls = serviceGuiBaseUrl + "/announcement/announcement/api/postSearchIndex?access_token=" + accessToken;
+        	} else {// 使用cloud-api 接口查询
+        		urls = apiBaseUrl + "declareInfo/postSearchIndex";
+        	}
             //当公告不在索引中而在数据库中时，传companyId和userId进行查询
             for (String indexId : selIdList) {
                 MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
