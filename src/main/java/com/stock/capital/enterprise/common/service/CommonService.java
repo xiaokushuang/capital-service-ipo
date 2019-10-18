@@ -42,6 +42,15 @@ public class CommonService extends BaseService {
      
 	@Value("#{app['api.baseUrl']}")
 	private String apiBaseUrl;
+	
+	@Value("#{app['service.gui.baseUrl']}")
+    private String guiBaseUrl;
+    
+    @Value("#{app['service.gui.clientId']}")
+    private String clientId;
+    
+    @Value("#{app['service.gui.clientSecret']}")
+    private String clientSecret;
 
     @Autowired
     private MessageSource appMessageSource;
@@ -132,6 +141,29 @@ public class CommonService extends BaseService {
 			        List<TreeDto> list = restClient.post(url, null, responseType).getResult();
 			        return list;
 			}
+			
+		    /**
+		     * 
+		     * 取得gui的访问令牌
+		     *
+		     * @return
+		     *
+		     */
+		    public String getGuiAccessToken() {
+		        Map<String, String> accessToken = null;
+		        String result = null;
+		        String url = guiBaseUrl + "/oauth/token?grant_type=client_credentials&response_type=token&client_id="+clientId+"&client_secret="+clientSecret;
+		        ParameterizedTypeReference<Map<String, String>> responseType = new ParameterizedTypeReference<Map<String, String>>() {
+		        };
+		        try {
+		            ResponseEntity<Map<String, String>> responseEntity = restTemplate.exchange(url, HttpMethod.GET, null, responseType);
+		            accessToken = responseEntity.getBody();
+		            result = accessToken.get("access_token");
+		        } catch(Exception e) {
+		            logger.error("get gui access token error. caused by {}", Throwables.getStackTraceAsString(e));
+		        }
+		        return result;
+		    }
 		 
 
 }
