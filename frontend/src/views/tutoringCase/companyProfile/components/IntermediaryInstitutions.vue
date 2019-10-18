@@ -149,12 +149,45 @@
     created() {
       this.initIntermediaryOrgLista()
       console.log('中介机构----------子',this.intermediaryOrgList)
-      this.handleListType()
+
     },
     mounted(){
 
     },
     methods: {
+      //将同一种类型的中介机构放在一起，按照辅导-律所-会所的顺序
+      trans (data) {
+        var orderf = ["7","3","4"];
+        var tmp = [];
+        for (var i = 0; i < orderf.length; i++) {
+          for (var j = 0; j < this.IntermediaryList.length; j++) {
+            if (orderf[i] == this.IntermediaryList[j].intermediaryType){
+              tmp.push(this.IntermediaryList[j]);
+            }
+          }
+        }
+        this.IntermediaryList = tmp
+        // let cache = {} // cache存储的键是intermediaryType，值是这个intermediaryType在indices数组中的下标
+        // let indices = [] // 数组中的每一个值是一个数组，数组中的每一个元素是原数组中相同eid的下标
+        // data.forEach((item, i) => {
+        //   let intermediaryType = item.intermediaryType
+        //   let index = cache[intermediaryType]
+        //   if (index !== undefined) {
+        //     indices[index].push(i)
+        //   } else {
+        //     cache[intermediaryType] = indices.length
+        //     indices.push([i])
+        //   }
+        // })
+        // let result = []
+        // indices.forEach(item => {
+        //   item.forEach(index => {
+        //     result.push(data[index]) // 依次把index对应的元素data[index]添加进去即可
+        //   })
+        // })
+        // this.IntermediaryList = result
+        // console.log('数据排序',result)
+      },
       handleListType(){
         for(let i = 0;i<this.intermediaryOrgList.length;i++){
             if(this.intermediaryOrgList[i].intermediaryType=='7'){
@@ -191,43 +224,35 @@
         this.IntermediaryList = []
         this.allArr = []
         for(let i = 0;i<this.intermediaryOrgList.length;i++){
-          if(this.intermediaryOrgList[i].intermediaryType=='7'){
-            this.allArr.push(this.intermediaryOrgList[i])
-          }
-          if(this.intermediaryOrgList[i].intermediaryType=='3'){
-            this.allArr.push(this.intermediaryOrgList[i])
-          }
-          if(this.intermediaryOrgList[i].intermediaryType=='4'){
-            this.allArr.push(this.intermediaryOrgList[i])
-          }
+          this.allArr.push(this.intermediaryOrgList[i])
           this.IntermediaryList = this.allArr
         }
+        this.trans(this.IntermediaryList)
         console.log('全部',this.IntermediaryList)
       },
       getEffectiveArr(){
         this.IntermediaryList = []
         this.effectiveArr = []
         for(let i = 0;i<this.intermediaryOrgList.length;i++){
-        // &&this.intermediaryOrgList[i].intermediaryType=='7'
           if(this.intermediaryOrgList[i].validFlag == '1'){
             this.effectiveArr.push(this.intermediaryOrgList[i])
             this.IntermediaryList = this.effectiveArr
-
           }
         }
+        this.trans(this.IntermediaryList)
         console.log('有效',this.IntermediaryList)
       },
       getFailureArr(){
+        debugger;
         this.IntermediaryList = []
         this.failureArr = []
         for(let i = 0;i<this.intermediaryOrgList.length;i++){
-        // &&this.intermediaryOrgList[i].intermediaryType=='7'
           if(this.intermediaryOrgList[i].validFlag == '0'){
             this.failureArr.push(this.intermediaryOrgList[i])
             this.IntermediaryList = this.failureArr
-
           }
         }
+        this.trans(this.IntermediaryList)
         console.log('失效',this.IntermediaryList)
       },
       // 非空判断
