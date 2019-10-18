@@ -1,6 +1,6 @@
 <template>
     <div v-loading="flagLoading" element-loading-text="给我一点时间" :class="{'processTree':lastTab,'allJincheng':!lastTab}">
-        <div v-for="boxDataItem in treeList" v-if="treeList.length>0" :key="boxDataItem.treeTypeCode">
+        <div v-for="boxDataItem in treeList" v-if="treeList&&treeList.length>0" :key="boxDataItem.treeTypeCode">
             <!-- 第一个进程 -->
             <div>
                 <el-row style="padding-left:12px">
@@ -82,11 +82,11 @@
                                             <div v-else>
                                               <!--终止和中止节点-->
                                               <div v-if="item.isStopOrSuspend">
-                                                <div v-if="item.subtitle.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></div>
+                                                <div v-if="item.subtitle&&item.subtitle.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></div>
                                                 <div v-else v-show="item.flag" @click="lawsClick(item)" class="gonggao" style="display: block" :id="'more'+  item.progressIndex">
                                                   <p v-if="item.progressName=='审核中止'" style="color: #14bcf5;font-size: 14px;">根据《审核规则》第六十四条：</p>
                                                   <p v-if="item.progressName=='审核终止'" style="color: #14bcf5;font-size: 14px;">根据《审核规则》第六十七条：</p>
-                                                  <a v-for="lawsItem in item.subtitle">{{lawsItem}}</br></a>
+                                                  <a v-if="item.subtitle&&item.subtitle.length>0" v-for="lawsItem in item.subtitle">{{lawsItem}}</br></a>
                                                 </div>
                                               </div>
                                               <!--其他节点-->
@@ -213,11 +213,11 @@
                                           <div v-else>
                                             <!--终止和中止节点-->
                                             <div v-if="item.isStopOrSuspend">
-                                              <div v-if="item.subtitle.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></div>
+                                              <div v-if="item.subtitle&&item.subtitle.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></div>
                                               <div v-else v-show="item.flag" @click="lawsClick(item)" class="gonggao" style="display: block" :id="'more'+  item.progressIndex">
                                                 <p v-if="item.progressName=='审核中止'" style="color: #14bcf5;font-size: 14px;">根据《审核规则》第六十四条：</p>
                                                 <p v-if="item.progressName=='审核终止'" style="color: #14bcf5;font-size: 14px;">根据《审核规则》第六十七条：</p>
-                                                <a v-for="lawsItem in item.subtitle">{{lawsItem}}</br></a>
+                                                <a v-if="item.subtitle&&item.subtitle.length>0" v-for="lawsItem in item.subtitle">{{lawsItem}}</br></a>
                                               </div>
                                             </div>
                                             <!--其他节点-->

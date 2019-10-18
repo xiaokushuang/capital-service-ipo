@@ -38,30 +38,6 @@
                     <span v-else>- -</span>
                   </li>
                 </ul>
-                <!--<ul v-if="item.intermediaryType=='7'" >-->
-                  <!--<li class="people">-->
-                    <!--<span  style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;-->
-                    <!--font-style: normal;  font-size: 14px; color: #999999;">经办辅导人员：</span>-->
-                    <!--<span v-if="item.agentPerson" style="font-size:14px;color:black" class="ls" :title="item.agentPerson.length>38?item.agentPerson:''">{{getContent(item.agentPerson)}}</span>-->
-                    <!--<span v-else>- -</span>-->
-                  <!--</li>-->
-                <!--</ul>-->
-                <!--<ul v-if="item.intermediaryType=='3'" >-->
-                  <!--<li class="people">-->
-                    <!--<span  style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;-->
-                    <!--font-style: normal;  font-size: 14px; color: #999999;">经办律师：</span>-->
-                    <!--<span v-if="item.agentPerson" style="font-size:14px;color:black" class="ls" :title="item.agentPerson.length>38?item.agentPerson:''">{{getContent(item.agentPerson)}}</span>-->
-                    <!--<span v-else>- -</span>-->
-                  <!--</li>-->
-                <!--</ul>-->
-                <!--<ul v-if="item.intermediaryType=='4'" >-->
-                  <!--<li class="people">-->
-                    <!--<span  style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;-->
-                    <!--font-style: normal;  font-size: 14px; color: #999999;">经办注册会计师：</span>-->
-                    <!--<span v-if="item.agentPerson" style="font-size:14px;color:black" class="ls" :title="item.agentPerson.length>38?item.agentPerson:''">{{getContent(item.agentPerson)}}</span>-->
-                    <!--<span v-else>- -</span>-->
-                  <!--</li>-->
-                <!--</ul>-->
               </div>
               <!-- 已失效标志 -->
               <span class="failure" v-show="item.validFlag == 0">
@@ -243,7 +219,6 @@
         console.log('有效',this.IntermediaryList)
       },
       getFailureArr(){
-        debugger;
         this.IntermediaryList = []
         this.failureArr = []
         for(let i = 0;i<this.intermediaryOrgList.length;i++){
@@ -257,7 +232,6 @@
       },
       // 非空判断
       isNotEmpty(param) {
-        // debugger
         if (param != null && param !== undefined && param !== '' && param !== 'null' && param !== 'undefined') {
           return true
         } else {

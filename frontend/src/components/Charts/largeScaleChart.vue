@@ -1,12 +1,6 @@
 <template>
   <div :style="{height:height,width:width}" style="position:relative">
     <div :class="className" :id="id" :style="{height:height,width:width}"></div>
-    <el-tooltip class="ipoTip"  placement="top" effect="light">
-      <div slot="content">在审数据统计口径：<br/>
-        1、核准制：起始于拟上市企业在证监会官网预先披露，后续拟上市企业如果终止审查、<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 发审会审核未通过、获得证监会核准批复，则不在在审数据统计范围。<br/>
-        2、注册制：起始于拟上市企业在上海证券交易所受理，后续拟上市企业如果终止审查、<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;上市委审核未通过、证监会注册生效、证监会不予注册，则不在在审数据统计范围。</div>
-      <i style="cursor:pointer;color: #909399;position:absolute;top:15px;left: calc(50% + 123px);" class="el-icon-question"></i>
-    </el-tooltip>
   </div>
 </template>
 
@@ -102,18 +96,19 @@ export default {
           }
         },
         title: {
-          top: "10px",
-          left: "center",
-          text: "IPO在审企业合计数变化情况"
+          // top: "10px",
+          // left: "center",
+          // text: "IPO在审企业合计数变化情况"
         },
         legend: {
-          top: "35px",
+          top: "-3px",
           data:['沪主板','创业板','中小板','科创板']
         },
         grid: {
           left: "3px",
           right: "30px",
-          bottom: "40px",
+          top:"20px",
+          bottom: "106px",
           containLabel: true
         },
         xAxis: {
@@ -130,9 +125,10 @@ export default {
           {
             type: "inside",
             start:70,
-            end: 100
+            end: 100,
           },
           {
+            top:'60%',
             start: 0,
             end: 10,
             handleIcon:
@@ -143,7 +139,7 @@ export default {
               shadowBlur: 3,
               shadowColor: "rgba(0, 0, 0, 0.6)",
               shadowOffsetX: 2,
-              shadowOffsetY: 2
+              shadowOffsetY: 2,
             }
           }
         ],
