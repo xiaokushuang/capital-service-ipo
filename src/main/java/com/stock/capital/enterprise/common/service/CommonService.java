@@ -17,10 +17,12 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Base64Utils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;
 import com.stock.capital.enterprise.common.constant.Global;
  
@@ -31,7 +33,9 @@ import com.stock.core.dto.TreeDto;
 import com.stock.core.exception.ApplicationException;
 import com.stock.core.rest.RestClient;
 import com.stock.core.service.BaseService;
+import com.stock.core.util.CryptoUtil;
 import com.stock.core.util.DateUtil;
+import com.stock.core.util.JsonUtil;
 import com.stock.core.util.SmsClient;
 import com.stock.core.util.WebUtil;
 
@@ -165,5 +169,20 @@ public class CommonService extends BaseService {
 		        return result;
 		    }
 		 
-
+		    /**
+			 * 解密调用微服接口的数据
+			 * @param encryptData
+			 * @return
+			 */
+			public Map<String, Object> getEncryptData(String encryptData){
+				String iv = Base64Utils.encodeToString(Global.IV.getBytes(Charsets.UTF_8));
+				String encryptKey = Base64Utils.encodeToString(Global.ENCRYPT_KEY.getBytes(Charsets.UTF_8));
+				String key = Global.ENCRYPT_KEY + Global.IV;
+				String rtn = encryptData.replace(key, "");
+				rtn = CryptoUtil.decrypt(rtn, encryptKey, CryptoUtil.AES_CIPHER_ALGORITHM_CBC, iv);
+				Map<String, Object> map = JsonUtil.fromJson(rtn, Map.class);
+				String jsonString = JsonUtil.toJson(map.get("result"));
+		        Map<String, Object> dataMap = JsonUtil.fromJson(jsonString, Map.class);
+		        return dataMap;
+			}
 }
