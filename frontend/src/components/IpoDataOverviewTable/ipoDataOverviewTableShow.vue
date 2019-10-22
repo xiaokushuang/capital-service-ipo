@@ -9,38 +9,38 @@
                 <el-table-column align="center" label="沪主板" prop="hzbCount" min-width="10%" sortable="custom">
                     <template slot-scope="scope">
                         <span class="spanClass" v-if="getValue(scope.row.hzbCount) != 0" @click="openDetail('00',scope.row.label)">{{scope.row.hzbCount}}</span>
-                        <span v-else>{{scope.row.hzbCount}}</span>
+                        <span v-else class="spanClassNone">{{scope.row.hzbCount}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" label="中小板" prop="zxbCount" min-width="10%" sortable="custom">
                     <template slot-scope="scope">
                         <span class="spanClass" v-if="getValue(scope.row.zxbCount) != 0" @click="openDetail('02',scope.row.label)">{{scope.row.zxbCount}}</span>
-                        <span v-else>{{scope.row.zxbCount}}</span>
+                        <span v-else class="spanClassNone">{{scope.row.zxbCount}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" label="创业板" prop="cybCount" min-width="10%" sortable="custom">
                     <template slot-scope="scope">
                         <span class="spanClass" v-if="getValue(scope.row.cybCount) != 0" @click="openDetail('03',scope.row.label)">{{scope.row.cybCount}}</span>
-                        <span v-else>{{scope.row.cybCount}}</span>
+                        <span v-else class="spanClassNone">{{scope.row.cybCount}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" label="科创板" prop="kcCount" min-width="10%" sortable="custom" >
                     <template slot-scope="scope">
                         <span class="spanClass" v-if="getValue(scope.row.kcCount) != 0" @click="openDetail('04',scope.row.label)">{{scope.row.kcCount}}</span>
-                        <span v-else>{{scope.row.kcCount}}</span>
+                        <span v-else class="spanClassNone">{{scope.row.kcCount}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" label="合计"  prop="totalCount" min-width="10%" sortable="custom">
                     <template slot-scope="scope">
                         <span class="spanClass" v-if="getValue(scope.row.totalCount) != 0" @click="openDetail('',scope.row.label)">{{scope.row.totalCount}}</span>
-                        <span v-else>{{scope.row.totalCount}}</span>
+                        <span v-else class="spanClassNone">{{scope.row.totalCount}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" label="市场占比" min-width="10%" prop="percent" sortable="custom">
                     <template slot-scope="scope">
                         <span>{{scope.row.percent}}%</span>
                     </template>
-                </el-table-column> 
+                </el-table-column>
         </el-table>
         <papers ref="paper" :sdefault="condition_copy" :tabFlag="ipoDataOverview" :length1="20" :total="totalCount" @searchTable="search"></papers>
         <div class="bottomHeight"></div>
@@ -70,7 +70,7 @@ export default {
         }
 	},
     created() {//加载前默认调用
-    },  
+    },
     mounted(){
         this.confirmSearch();//分页查询
     },
@@ -98,7 +98,7 @@ export default {
         papers
     },
     computed:{//获取getters中方法
-	 	
+
     },
     methods : {//正常调用方法
         tdStyle({row, column, rowIndex, columnIndex}) {//设置单元格样式
@@ -119,7 +119,7 @@ export default {
 			this.pageSearch();
 		},
         pageSearch(){//分页查询调用
-            this.$refs.paper.search(this.queryParam.orderByName,this.queryParam.orderByOrder);	
+            this.$refs.paper.search(this.queryParam.orderByName,this.queryParam.orderByOrder);
         },
         search(data){//通过给定条件查询数据
             this.queryParam.pageSize = data.pageSize;
@@ -148,7 +148,7 @@ export default {
 			//参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
 			iframeDoMessage(window.parent,'popWinOut',[label,url,'1200','580']);
         }
-        
+
     },
     watch : {
         "industrySelect" : function(val, oldVal){//行业下拉列表改变
@@ -161,13 +161,18 @@ export default {
             //执行取消全部收藏
             this.confirmSearch();
         },
-    },   
+    },
 }
 </script>
 <style>
 .spanClass {
     cursor: pointer;
-    color: #66ccff;
+    color: #14bdf5;
+    font-size: 14px;
+}
+.spanClassNone{
+  color: #999999;
+  font-size: 14px;
 }
 .spanClass:hover {
     text-decoration: underline;
