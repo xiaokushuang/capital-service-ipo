@@ -123,7 +123,7 @@
         </el-row>
         <!-- 表格 -->
         <el-row>
-        <el-col class="chart" style="padding-left: 10px;padding-right: 5px">
+        <el-col class="chart" style="padding-left: 10px;">
           <div id="table2" style="margin-top: -30px;">
             <!-- 保荐机构 -->
             <el-tabs v-model="activeName">
