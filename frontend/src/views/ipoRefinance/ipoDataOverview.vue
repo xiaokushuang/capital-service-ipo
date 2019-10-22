@@ -77,13 +77,13 @@
         </el-row>
       <el-row>
         <el-col :span="24">
-          <div style="margin-top:10px;margin-bottom:16px;">
+          <div style="margin-top:10px;margin-bottom:16px;margin-left: 10px">
             <span style="display: inline-block;width:3px;height:18px;background:gray;"></span>
             <span style="display: inline-block;font-size:18px;">IPO在审企业中介机构情况</span>
           </div>
         </el-col>
       </el-row>
-        <el-row :gutter="20" style="margin-left:0px; margin-right:0px;margin-top:50px;padding-right: 10px;">
+        <el-row :gutter="20" style="margin-left:0px; margin-right:0px;margin-top:50px;">
         <!-- 所属行业 -->
           <el-col :span="6" style="border: 1px solid transparent"></el-col>
             <el-col :span="3" style="height: 30px;line-height: 30px;text-align: right"><span>项目公司所属行业</span></el-col>
