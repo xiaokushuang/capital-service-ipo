@@ -67,6 +67,12 @@
               <div v-if="headList.labelResult&&headList.labelResult == '10'">
                 <img src="../../assets/images/qxsy1.png" alt="">
               </div>
+              <div v-if="headList.labelResult&&headList.labelResult == '11'">
+                <img src="../../assets/images/kczhss.png" alt="">
+              </div>
+              <div v-if="headList.labelResult&&headList.labelResult == '12'">
+                <img src="../../assets/images/kczzzc.png" alt="">
+              </div>
             </div>
           </div>
           <div class="text" style="position:relative;z-index: 4">

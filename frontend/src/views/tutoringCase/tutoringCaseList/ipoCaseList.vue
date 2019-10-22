@@ -482,6 +482,8 @@
 												<span class="whtgResult" v-if="scope.row.labelResult==='08'">不予注册</span>
 												<span class="dshResult" v-if="scope.row.labelResult==='09'">待上会</span>
 												<span class="qxshResult" v-if="scope.row.labelResult==='10'">取消审议</span>
+												<span class="zhbjResult" v-if="scope.row.labelResult==='11'">暂缓审议</span>
+												<span class="qxshResult" v-if="scope.row.labelResult==='12'">终止注册</span>
 											</span>
                     </template>
                   </el-table-column>
