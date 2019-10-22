@@ -114,14 +114,12 @@ public class IpoProcessService extends BaseService {
                         proList.get(j).setSubtitle(subTitles);
                         String lawId = getLawId();
                         proList.get(j).setAddressId(lawId);
-                        proList.get(j).setLawId(ipoProcessMapper.queryLawNoId(lawId,"第六十七条"));
                     } else if (proList.get(j).getProgressType().equals("40")){// 针对 审核终止 只有一行或者 没有行
                         IpoFileRelationDto dto = proList.get(j).getRelaList().get(0);
                         List<String> subTitles = ipoProcessMapper.selectConfLabelBy("IPO_STOP_REVIEW",dto.getIecResult());
                         proList.get(j).setSubtitle(subTitles);
                         String lawId = getLawId();
                         proList.get(j).setAddressId(lawId);
-                        proList.get(j).setLawId(ipoProcessMapper.queryLawNoId(lawId,"第六十四条"));
                     }
                 }
                 proList.get(j).setProgressIndex(treeList.get(i).getTreeTypeCode() + proList.get(j).getProSort());
