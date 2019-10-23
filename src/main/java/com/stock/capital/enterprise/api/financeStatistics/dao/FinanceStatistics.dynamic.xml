@@ -256,7 +256,7 @@
                                                 </#list>
                                   </#if>
 								   <#if condition.financeFinaTypeT?? && (condition.financeFinaTypeT?size > 0)>
-                                                <#list condition.financeFinaTypeT as item>
+                                                ,<#list condition.financeFinaTypeT as item>
                                                 {
                                                     "match_phrase": {
                                                         "finance_finatype_t": {
@@ -273,6 +273,7 @@
                       ]
 					  }
 					  }
+					  ]
 					  <#if condition.dateStart??  && condition.dateEnd??>
                     ,"filter": [
                         {
@@ -293,7 +294,7 @@
 						}
                     ]
                     </#if>
-					]
+
                 }
             },
              <#-- 分组查询-->
