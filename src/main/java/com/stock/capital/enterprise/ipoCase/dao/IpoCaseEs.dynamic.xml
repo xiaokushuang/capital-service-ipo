@@ -270,7 +270,7 @@
                                    <#if condition.iecResultList?? && (condition.iecResultList?size > 0)>
                                        ,{
                                         "terms": {
-                                            "ipo_iec_result_t": [
+                                            "ipo_label_result_t": [
                                                 <#list condition.iecResultList as item>
                                                     <#if !item_has_next>
                                                         "${item}"
