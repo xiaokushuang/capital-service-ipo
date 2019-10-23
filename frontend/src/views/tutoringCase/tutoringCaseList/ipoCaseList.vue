@@ -127,12 +127,12 @@
               </el-select>
             </el-col>
             <el-col :span='4'>
-              <el-select ref="ifHidden" v-model="ifHidden" title="是否拆分上市" placeholder="是否拆分上市" size="small full"
-                         :tselect=true @visible-change="calls()" @keydown.enter.native="querySearch" @sure-click="sure('ifHidden')"
-                         @clear-click="clearLocal('ifHidden')">
-                <el-option :label="ifHidden" :value="ifHiddenValue">
-                  <el-tree :data="ifHiddenList" show-checkbox node-key="id" ref="treeIfHidden" highlight-current
-                           :props="default_tree" @check-change="selectHandleNodeClick('ifHidden','treeIfHidden')"></el-tree>
+              <el-select ref="isHidden" v-model="isHidden" title="是否拆分上市" placeholder="是否拆分上市" size="small full"
+                         :tselect=true @visible-change="calls()" @keydown.enter.native="querySearch" @sure-click="sure('isHidden')"
+                         @clear-click="clearLocal('isHidden')">
+                <el-option :label="isHidden" :value="isHiddenValue">
+                  <el-tree :data="isHiddenList" show-checkbox node-key="id" ref="treeisHidden" highlight-current
+                           :props="default_tree" @check-change="selectHandleNodeClick('isHidden','treeisHidden')"></el-tree>
                 </el-option>
               </el-select>
             </el-col>
@@ -619,10 +619,10 @@
           id:0,
           name:'全部'
         },
-        ifHidden:"",
-        ifHiddenValue:"",
-        treeIfHidden:"",
-        ifHiddenList:[{labelName:'是',labelValue:'1'},{labelName:'否',labelValue:'0'}],
+        isHidden:"",
+        isHiddenValue:"",
+        treeisHidden:"",
+        isHiddenList:[{labelName:'是',labelValue:'1'},{labelName:'否',labelValue:'0'}],
         caseType: "ipo", // all ipo ipofd  案例类型 三种类型
         intermediaryName: '',
         issueLawId: '', //上市条件法规id
@@ -1309,7 +1309,7 @@
             placingMechanism: _self.placingMechanismValue, //配售机制
             caseStatus: _self.caseStatusValue, //IPO进程
             iecResult: _self.iecResultValue, //审核结果
-            ifHidden:_self.ifHiddenValue,
+            isHidden:_self.isHiddenValue,
             codeOrName: _self.codeOrName, //公司名称/代码
             fdProcessTime: _self.fdProcessTime, //辅导时间范围
             fsProcessTime: _self.fsProcessTime, //发审会审核时间范围
