@@ -154,6 +154,24 @@ public class IpoCaseListBo implements Serializable {
 
     private String registerArea;    //注册地
 
+    private String ifHidden;
+    private List<String> ifHiddenList;
+
+    public List<String> getIfHiddenList() {
+        return ifHiddenList;
+    }
+
+    public void setIfHiddenList(List<String> ifHiddenList) {
+        this.ifHiddenList = ifHiddenList;
+    }
+
+    public String getIfHidden() {
+        return ifHidden;
+    }
+
+    public void setIfHidden(String ifHidden) {
+        this.ifHidden = ifHidden;
+    }
 
     public List<String> getSpecialArrangeList() {
         return specialArrangeList;

@@ -283,6 +283,23 @@
                                         }
                                     }
                                   </#if>
+                                  <#-- 是否拆分上市 -->
+                                   <#if condition.ifHiddenList?? && (condition.ifHiddenList?size > 0)>
+                                       ,{
+                                        "terms": {
+                                            "ipo_is_hidden_t": [
+                                                <#list condition.ifHiddenList as item>
+                                                    <#if !item_has_next>
+                                                        "${item}"
+                                                    <#else>
+                                                        "${item}",
+                                                    </#if>
+                                                </#list>
+                                            ],
+                                            "boost": 1
+                                        }
+                                    }
+                                  </#if>
                                    <#-- 上市条件 -->
                                    <#if condition.issueConditionList?? && (condition.issueConditionList?size > 0)>
                                        ,{
