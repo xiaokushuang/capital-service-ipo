@@ -10,10 +10,10 @@
     <el-row :gutter="24">
       <div style="position:relative;z-index: 1;">
         <el-tooltip class="ipoTip" content="IPO申报、在审、上会、发行企业案例" placement="top" effect="light">
-          <i style="cursor:pointer;position: absolute;top: 30px;left: 148px;color: #bababa;" class="el-icon-question"></i>
+          <i style="cursor:pointer;position: absolute;top: 21px;left: 149px;color: #bababa;" class="el-icon-question"></i>
         </el-tooltip>
         <el-tooltip class="ipoTip" content="在辅导企业案例" placement="top" effect="light">
-          <i style="cursor:pointer;position: absolute;top: 30px;left: 252px;color: #bababa" class="el-icon-question"></i>
+          <i style="cursor:pointer;position: absolute;top: 21px;left: 247px;color: #bababa" class="el-icon-question"></i>
         </el-tooltip>
       </div>
       <el-radio-group class="selectTypeClass" v-model="radio" @change="handelMoreChange(radio)" style="">
@@ -2287,10 +2287,8 @@
   .selectTypeClass {
     background:#f7f7f7;
     width:285px;
-    margin-top:10px;
     padding-top:20px;
-    padding-left: 19px !important;
-    padding-right:20px;
+    padding-left: 20px !important;
     display:block !important;
   }
   .noDataColor{
@@ -2328,4 +2326,7 @@
         left: -17px;
       }
   } */
+  .selectTypeClass .el-radio__label{
+    font-size: 12px !important;
+  }
 </style>
