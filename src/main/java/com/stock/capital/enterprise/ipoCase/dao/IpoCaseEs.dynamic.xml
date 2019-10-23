@@ -284,11 +284,11 @@
                                     }
                                   </#if>
                                   <#-- 是否拆分上市 -->
-                                   <#if condition.ifHiddenList?? && (condition.ifHiddenList?size > 0)>
+                                   <#if condition.isHiddenList?? && (condition.isHiddenList?size > 0)>
                                        ,{
                                         "terms": {
                                             "ipo_is_hidden_t": [
-                                                <#list condition.ifHiddenList as item>
+                                                <#list condition.isHiddenList as item>
                                                     <#if !item_has_next>
                                                         "${item}"
                                                     <#else>

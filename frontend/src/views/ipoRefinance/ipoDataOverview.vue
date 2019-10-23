@@ -163,12 +163,10 @@ import { MultidimensionalData } from "@/utils/index";
 import getters from "@/store/getters";
 import papers from "@/views/components-demo/papers";
 import IpoDataOverviewTableShow from '@/components/IpoDataOverviewTable/ipoDataOverviewTableShow'
-import ElRow from "../../../../../stock-element-ui/packages/row/src/row";
 export default {
   name: "ipoDataOverview",
   mixins: [datepicker],
   components: {
-    ElRow,
     Chart, Chart2, getters, papers, IpoDataOverviewTableShow },
   data() {
     return {

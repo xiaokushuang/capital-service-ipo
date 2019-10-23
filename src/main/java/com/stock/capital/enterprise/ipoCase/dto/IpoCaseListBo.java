@@ -154,23 +154,23 @@ public class IpoCaseListBo implements Serializable {
 
     private String registerArea;    //注册地
 
-    private String ifHidden;
-    private List<String> ifHiddenList;
+    private String isHidden;
+    private List<String> isHiddenList;
 
-    public List<String> getIfHiddenList() {
-        return ifHiddenList;
+    public String getIsHidden() {
+        return isHidden;
     }
 
-    public void setIfHiddenList(List<String> ifHiddenList) {
-        this.ifHiddenList = ifHiddenList;
+    public void setIsHidden(String isHidden) {
+        this.isHidden = isHidden;
     }
 
-    public String getIfHidden() {
-        return ifHidden;
+    public List<String> getIsHiddenList() {
+        return isHiddenList;
     }
 
-    public void setIfHidden(String ifHidden) {
-        this.ifHidden = ifHidden;
+    public void setIsHiddenList(List<String> isHiddenList) {
+        this.isHiddenList = isHiddenList;
     }
 
     public List<String> getSpecialArrangeList() {
