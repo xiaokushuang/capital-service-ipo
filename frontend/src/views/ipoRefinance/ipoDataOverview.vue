@@ -68,7 +68,8 @@
                   </el-table-column>
                   <el-table-column align="center" label="合计"  prop="totalAll" :class-name="tdStyle">
                     <template slot-scope="scope">
-                        <span>{{scope.row.totalAll}}</span>
+                        <span v-if="scope.row.totalAll != 0" style="font-weight: bold">{{scope.row.totalAll}}</span>
+                        <span v-else>{{scope.row.totalAll}}</span>
                     </template>
                   </el-table-column>
                 </el-table>

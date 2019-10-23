@@ -117,6 +117,17 @@ export default {
 			this.setPage();
 			//分页查询
 			this.pageSearch();
+			debugger;
+      var arr = document.getElementsByClassName("orderClass")
+      for (var i=0;i<arr.length;){
+        arr[i].classList.remove("orderClass")
+      }
+			if (column.order){
+        var arr = document.getElementsByClassName(column.column.id)
+        for (var i=0;i<arr.length;i++){
+          arr[i].classList.add("orderClass")
+        }
+      }
 		},
         pageSearch(){//分页查询调用
             this.$refs.paper.search(this.queryParam.orderByName,this.queryParam.orderByOrder);
@@ -188,5 +199,8 @@ export default {
 .el-table--border td, .el-table--border th {
     border-right:1px solid #DDDDDD!important;
     border-bottom:1px solid #DDDDDD!important;
+  }
+  .orderClass{
+    background-color: #F9F9F9;
   }
 </style>
