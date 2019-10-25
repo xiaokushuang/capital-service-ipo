@@ -1767,6 +1767,9 @@
       },
       //没有权限数据背景色
       cellStyle(row, column, rowIndex, columnIndex) {
+        if (row.row.id == "----"){
+          return 'no_authority'
+        }
         if (!row.row.id) {
           return 'no_authority'
         }
