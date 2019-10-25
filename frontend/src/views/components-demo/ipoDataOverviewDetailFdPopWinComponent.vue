@@ -63,7 +63,6 @@
           intermediaryType : this.$route.query.intermediaryType,
         }
         getIpoDataOverviewFdDetail(param).then(response => {
-          debugger;
           if (this.$route.query.intermediaryType){
             if (this.$route.query.intermediaryType == '7'){
               this.data = response.data.result.recommendOrgSttsList;
@@ -106,7 +105,6 @@
         exportExcelPostWindow1("/ipo/regulatory_statistics/ipoDataOverviewFdDetailExport",statisticsParamDto);
       },
       openDetail(id){
-debugger;
         if (id) {
           var caseId = id;
           const _self = this;
