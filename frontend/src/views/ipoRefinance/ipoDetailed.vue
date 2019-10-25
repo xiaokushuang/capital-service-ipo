@@ -60,13 +60,13 @@
               <el-table-column label="辅导情况" align="center"  >
                 <el-table-column align="center" :render-header="renderHeader" style="height:54px;" prop="fdcx" border="true" label="持续辅导" sortable="custom">
                   <template slot-scope="scope">
-                    <span class="spanClass" v-if="getValue(scope.row.fdcx) != 0" @click="openFdDetail(scope.row.registAddr,'','0','unit')">{{scope.row.fdcx}}</span>
+                    <span class="spanClass" v-if="getValue(scope.row.fdcx) != 0" @click="openFdDetailProv(scope.row.registAddr,'','0','unit')">{{scope.row.fdcx}}</span>
                     <span v-else>{{scope.row.fdcx}}</span>
                   </template>
                 </el-table-column>
                 <el-table-column align="center" :render-header="renderHeader" prop="fdwc" label="辅导完成（未受理）" sortable="custom" >
                   <template slot-scope="scope">
-                    <span class="spanClass" v-if="getValue(scope.row.fdwc) != 0" @click="openFdDetail(scope.row.registAddr,'','1','unit')">{{scope.row.fdwc}}</span>
+                    <span class="spanClass" v-if="getValue(scope.row.fdwc) != 0" @click="openFdDetailProv(scope.row.registAddr,'','1','unit')">{{scope.row.fdwc}}</span>
                     <span v-else>{{scope.row.fdwc}}</span>
                   </template>
                 </el-table-column>
@@ -314,7 +314,8 @@ export default {
     exportExcel() {//导出Excel
       exportExcelPostWindow1("/ipo/regulatory_statistics/ipoItemDataExport",this.queryParam);
     },
-    openFdDetail(registAddr,lastUpadteTime,approveStatus,viewType){
+    openFdDetailProv(registAddr,lastUpadteTime,approveStatus,viewType){
+      debugger;
       let url = window.location.href;
       url = url.replace(this.$route.path,'/ipoDataOverviewDetailFdPopWin');
       url = url + '&registAddr=' + registAddr + '&approveStatus=' + approveStatus;

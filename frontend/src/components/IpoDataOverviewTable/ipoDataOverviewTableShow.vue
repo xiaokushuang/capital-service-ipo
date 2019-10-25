@@ -171,6 +171,7 @@ export default {
 			iframeDoMessage(window.parent,'popWinOut',[label,url,'1200','580']);
         },
       openFdDetail(quasiListedLand,label) {//打开详情页
+        debugger;
         var intermediaryType = '7'
         if(this.id = 'first'){
           intermediaryType = '7'
