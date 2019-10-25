@@ -1721,12 +1721,11 @@
       },
       itemClickHandler(row) {
         let id = row.id;
-        // if (id = "-----"){
-        //   let url = window.location.href;
-        //   url = url.replace(this.$route.path, '/ipoOverduePopWin');
-        //   iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
-        // } else
-          if (id) {
+        if (id == "-----"){
+          let url = window.location.href;
+          url = url.replace(this.$route.path, '/ipoOverduePopWin');
+          iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
+        } else if (id) {
           var caseId = id.substring(3, id.length);
           const _self = this;
           const {
