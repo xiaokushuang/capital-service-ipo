@@ -320,7 +320,7 @@ export default {
       url = url.replace(this.$route.path,'/ipoDataOverviewDetailFdPopWin');
       url = url + '&registAddr=' + registAddr + '&approveStatus=' + approveStatus;
       //参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
-      iframeDoMessage(window.parent,'popWinOut',[label,url,'1200','580']);
+      iframeDoMessage(window.parent,'popWinOut',[registAddr,url,'1200','580']);
     },
     openDetail(registAddr,lastUpadteTime,approveStatus,viewType){
       if(viewType == 'area' && this.getValue(registAddr) == '') {//合计行合计
