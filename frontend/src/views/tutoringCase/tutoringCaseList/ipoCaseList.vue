@@ -1478,7 +1478,6 @@
       },
       //清空
       conditionClear() {
-        debugger;
         const _self = this;
         _self.title = ''; //标题
         _self.industryCsrcValue = ''; //行业
@@ -1744,6 +1743,10 @@
           this.$store.commit('CREATE_TEMP_MESSAGE', param);
           // 日志---------------------尾
           this.$open(href, '_blank');
+        } else if (id = "-----"){
+          let url = window.location.href;
+          url = url.replace(this.$route.path, '/ipoOverduePopWin');
+          iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
         } else {
           let url = window.location.href;
           url = url.replace(this.$route.path, '/ipoPopWin');

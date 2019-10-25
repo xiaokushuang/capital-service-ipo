@@ -112,6 +112,16 @@
     AND (sa.authorize_type = '00' OR sc.ipo_flag = '2' OR sc.ipo_flag = '4')
   </select>
 
+  <select id="queryOverdueAuthByCompanyId" parameterType="string" resultType="int">
+    SELECT
+      COUNT(1) AS count
+    FROM
+      sa_company sc
+    JOIN sa_application sa ON sc.id = sa.company_id
+    WHERE sc.id = #{companyId}
+     AND (sa.authorize_type = '00' AND current_date between sa.begin_time_ipo and sa.end_time_ipo OR sc.ipo_flag = '2' OR sc.ipo_flag = '4' )
+  </select>
+
   <select id="querylawId" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo">
     select lm.id AS issueLawId,
     case when lm.law_invalid is not null and lm.law_invalid != '' and lm.law_invalid &lt;= now() then "已失效"

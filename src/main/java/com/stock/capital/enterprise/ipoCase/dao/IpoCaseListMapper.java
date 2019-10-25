@@ -33,6 +33,8 @@ public interface IpoCaseListMapper {
 
     int queryAuthByCompanyId(String companyId);
 
+    int queryOverdueAuthByCompanyId(String companyId);
+
     IpoCaseListBo querylawId();
 
     List<String> queryIpoFavoriteList(@Param("companyId") String companyId,@Param("userId") String userId);

@@ -199,6 +199,12 @@ export const constantRouterMap = [
         meta: {title: '试用用户提示窗', noCache: true}
       },
       {
+        path:'ipoOverduePopWin',
+        component: _import('ipoCase/popOverdueWinComponent'),
+        name:'ipoOverduePopWin',
+        meta: {title: '正式用户续费提示窗', noCache: true}
+      },
+      {
         path:'favorite',
         component: _import('ipoCase/ipoCaseFavorite'),
         name:'favorite',
