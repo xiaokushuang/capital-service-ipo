@@ -10,10 +10,10 @@
     <el-row :gutter="24">
       <div style="position:relative;z-index: 1;">
         <el-tooltip class="ipoTip" content="IPO申报、在审、上会、发行企业案例" placement="top" effect="light">
-          <i style="cursor:pointer;position: absolute;top: 30px;left: 148px;color: #bababa;" class="el-icon-question"></i>
+          <i style="cursor:pointer;position: absolute;top: 21px;left: 149px;color: #bababa;" class="el-icon-question"></i>
         </el-tooltip>
         <el-tooltip class="ipoTip" content="在辅导企业案例" placement="top" effect="light">
-          <i style="cursor:pointer;position: absolute;top: 30px;left: 252px;color: #bababa" class="el-icon-question"></i>
+          <i style="cursor:pointer;position: absolute;top: 21px;left: 247px;color: #bababa" class="el-icon-question"></i>
         </el-tooltip>
       </div>
       <el-radio-group class="selectTypeClass" v-model="radio" @change="handelMoreChange(radio)" style="">
@@ -116,13 +116,23 @@
                 </el-option>
               </el-select>
             </el-col>
-            <el-col :span='8'>
+            <el-col :span='4'>
               <el-select ref="selectVerifyResult" v-model="iecResult" title="审核/注册结果" placeholder="审核/注册结果" size="small full"
                          :tselect=true @visible-change="calls()" @sure-click="sure('selectVerifyResult')" @keydown.enter.native="querySearch"
                          @clear-click="clearLocal('treeIecResult')">
                 <el-option :label="iecResult" :value="iecResultValue">
                   <el-tree :data="verifyResultList" default-expand-all show-checkbox node-key="id" ref="treeIecResult"
                            highlight-current :props="default_tree" @check-change="selectHandleNodeClick('iecResult','treeIecResult')"></el-tree>
+                </el-option>
+              </el-select>
+            </el-col>
+            <el-col :span='4'>
+              <el-select ref="isHidden" v-model="isHidden" title="是否拆分上市" placeholder="是否拆分上市" size="small full"
+                         :tselect=true @visible-change="calls()" @keydown.enter.native="querySearch" @sure-click="sure('isHidden')"
+                         @clear-click="clearLocal('isHidden')">
+                <el-option :label="isHidden" :value="isHiddenValue">
+                  <el-tree :data="isHiddenList" show-checkbox node-key="id" ref="treeisHidden" highlight-current
+                           :props="default_tree" @check-change="selectHandleNodeClick('isHidden','treeisHidden')"></el-tree>
                 </el-option>
               </el-select>
             </el-col>
@@ -482,11 +492,13 @@
 												<span class="whtgResult" v-if="scope.row.labelResult==='08'">不予注册</span>
 												<span class="dshResult" v-if="scope.row.labelResult==='09'">待上会</span>
 												<span class="qxshResult" v-if="scope.row.labelResult==='10'">取消审议</span>
+												<span class="zhbjResult" v-if="scope.row.labelResult==='11'">暂缓审议</span>
+												<span class="qxshResult" v-if="scope.row.labelResult==='12'">终止注册</span>
 											</span>
                     </template>
                   </el-table-column>
                   <el-table-column :label="yearLabel" header-align="center">
-                    <el-table-column align="right" :prop="profit" label="净利润（亿元）" sortable="custom" min-width="12%">
+                    <el-table-column align="right" :prop="profit" label="净利润（亿元）" sortable="custom" min-width="14%">
                       <template slot-scope="scope">
 												<span v-if="yearRadio===1">
 													<span v-if="scope.row.netProfitOne">{{scope.row.netProfitOne | dataInThRule}}</span>
@@ -607,6 +619,10 @@
           id:0,
           name:'全部'
         },
+        isHidden:"",
+        isHiddenValue:"",
+        treeisHidden:"",
+        isHiddenList:[{labelName:'是',labelValue:'1'},{labelName:'否',labelValue:'0'}],
         caseType: "ipo", // all ipo ipofd  案例类型 三种类型
         intermediaryName: '',
         issueLawId: '', //上市条件法规id
@@ -1293,6 +1309,7 @@
             placingMechanism: _self.placingMechanismValue, //配售机制
             caseStatus: _self.caseStatusValue, //IPO进程
             iecResult: _self.iecResultValue, //审核结果
+            isHidden:_self.isHiddenValue,
             codeOrName: _self.codeOrName, //公司名称/代码
             fdProcessTime: _self.fdProcessTime, //辅导时间范围
             fsProcessTime: _self.fsProcessTime, //发审会审核时间范围
@@ -1461,7 +1478,6 @@
       },
       //清空
       conditionClear() {
-        debugger;
         const _self = this;
         _self.title = ''; //标题
         _self.industryCsrcValue = ''; //行业
@@ -1705,7 +1721,11 @@
       },
       itemClickHandler(row) {
         let id = row.id;
-        if (id) {
+        if (id == "-----"){
+          let url = window.location.href;
+          url = url.replace(this.$route.path, '/ipoOverduePopWin');
+          iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
+        } else if (id) {
           var caseId = id.substring(3, id.length);
           const _self = this;
           const {
@@ -1727,7 +1747,7 @@
           this.$store.commit('CREATE_TEMP_MESSAGE', param);
           // 日志---------------------尾
           this.$open(href, '_blank');
-        } else {
+        }else {
           let url = window.location.href;
           url = url.replace(this.$route.path, '/ipoPopWin');
           iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
@@ -1747,6 +1767,9 @@
       },
       //没有权限数据背景色
       cellStyle(row, column, rowIndex, columnIndex) {
+        if (row.row.id == "-----"){
+          return 'no_authority'
+        }
         if (!row.row.id) {
           return 'no_authority'
         }
@@ -2285,10 +2308,8 @@
   .selectTypeClass {
     background:#f7f7f7;
     width:285px;
-    margin-top:10px;
     padding-top:20px;
-    padding-left: 19px !important;
-    padding-right:20px;
+    padding-left: 20px !important;
     display:block !important;
   }
   .noDataColor{
@@ -2326,4 +2347,7 @@
         left: -17px;
       }
   } */
+  .selectTypeClass .el-radio__label{
+    font-size: 12px !important;
+  }
 </style>

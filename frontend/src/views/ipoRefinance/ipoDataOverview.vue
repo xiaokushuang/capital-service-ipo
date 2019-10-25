@@ -12,7 +12,7 @@
         <el-row :gutter="20" style="margin-left:0px; margin-right:0px;">
             <el-col :span="12">
                 <div class="fullDiv_border">
-                  <div style="margin-top:20px;margin-bottom:7px;">
+                  <div style="margin-top:10px;margin-bottom:16px;">
                     <span style="display: inline-block;width:3px;height:18px;background:gray;"></span>
                     <span style="display: inline-block;font-size:18px;">IPO在审项目数据统计</span>
                   </div>
@@ -20,7 +20,7 @@
                 </div>
               <!-- ipo再审企业合计数变化情况 -->
               <div style="height:250px;marign-top:10px;">
-                <div style="margin-top:56px;margin-bottom:16px;">
+                <div style="margin-top:76px;margin-bottom:16px;">
                   <span style="display: inline-block;width:3px;height:18px;background:gray;"></span>
                   <span style="display: inline-block;font-size:18px;">IPO在审企业合计数变化情况</span>
                   <el-tooltip class="ipoTip"  placement="top" effect="light">
@@ -68,19 +68,26 @@
                   </el-table-column>
                   <el-table-column align="center" label="合计"  prop="totalAll" :class-name="tdStyle">
                     <template slot-scope="scope">
-                        <span>{{scope.row.totalAll}}</span>
+                        <span v-if="scope.row.totalAll != 0" style="font-weight: bold">{{scope.row.totalAll}}</span>
+                        <span v-else>{{scope.row.totalAll}}</span>
                     </template>
                   </el-table-column>
                 </el-table>
               </div>
             </el-col>
         </el-row>
+      <el-row>
+        <el-col :span="24">
+          <div style="margin-top:10px;margin-bottom:16px;margin-left: 10px">
+            <span style="display: inline-block;width:3px;height:18px;background:gray;"></span>
+            <span style="display: inline-block;font-size:18px;">IPO在审及辅导企业中介机构情况</span>
+          </div>
+        </el-col>
+      </el-row>
         <el-row :gutter="20" style="margin-left:0px; margin-right:0px;margin-top:50px;">
-            <el-col :span="24">
-              <div style="width:98%;border-bottom:1px solid #ddd;margin-top:20px;margin-bottom:30px;"></div>
-            </el-col>
         <!-- 所属行业 -->
-            <el-col :span="3"><span>项目公司所属行业</span></el-col>
+          <el-col :span="6" style="border: 1px solid transparent"></el-col>
+            <el-col :span="3" style="height: 30px;line-height: 30px;text-align: right"><span>项目公司所属行业</span></el-col>
             <el-col :span="6">
               <el-multiple-selection
                 ref="industryTree"
@@ -98,7 +105,7 @@
               ></el-multiple-selection>
             </el-col>
             <!-- 项目公司注册地 -->
-            <el-col :span="3"><span style="margin-left:20px;">项目公司注册地</span></el-col>
+            <el-col :span="3" style="height: 30px;line-height: 30px;text-align: right"><span style="margin-left:20px;">项目公司注册地</span></el-col>
             <el-col :span="6">
               <el-multiple-selection
                 ref="areaTree"
@@ -116,8 +123,9 @@
             </el-col>
         </el-row>
         <!-- 表格 -->
-        <el-col class="chart">
-          <div id="table2">
+        <el-row>
+        <el-col class="chart" style="padding-left: 10px;">
+          <div id="table2" style="margin-top: -30px;">
             <!-- 保荐机构 -->
             <el-tabs v-model="activeName">
               <el-tab-pane label="保荐机构" name="first">
@@ -140,6 +148,7 @@
             </el-tabs>
           </div>
         </el-col>
+        </el-row>
     </div>
 </template>
 
@@ -157,7 +166,8 @@ import IpoDataOverviewTableShow from '@/components/IpoDataOverviewTable/ipoDataO
 export default {
   name: "ipoDataOverview",
   mixins: [datepicker],
-  components: { Chart, Chart2, getters, papers, IpoDataOverviewTableShow },
+  components: {
+    Chart, Chart2, getters, papers, IpoDataOverviewTableShow },
   data() {
     return {
       activeName:'first',
@@ -267,6 +277,9 @@ export default {
       if(lable=="注册生效"){
         lable = "<span style='color:#0099cc'>注册生效</span>";
       }
+      if(lable=="已提交发审会讨论，暂缓表决"){
+        lable = "已提交发审会讨论，暂缓表决<span style='color:#0099cc'>(已提交上市委会议，暂缓审议)</span>";
+      }
       return lable;
     },
     sure(childArr,allArr,nodekey,id){// 下拉确定
@@ -314,13 +327,13 @@ export default {
   background: #e8e8e8 !important;
   text-align: center !important;
 }
-#table1 .el-table th > .cell {
+/*#table1 .el-table th > .cell {
   color: rgb(51, 51, 51);
   background: #E8E8E8!important;
-}
+}*/
 .container #table1 .el-table__header thead tr>th {
     padding: 5px;
-    background: #E8E8E8!important;
+    /*background: #E8E8E8!important;*/
 }
 /* .ipoOverview .el-table--border td, .el-table--border th {
     border-right:1px solid #DDDDDD!important;
@@ -378,19 +391,22 @@ export default {
 }
 .el-tabs__active-bar {
   width: 146px !important;
+  display: none;
 }
 .el-tabs__header {
-  width: 438px !important;
+  width: 468px !important;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .ipoOverview .tdStyle {
   border-left:1px solid #14bcf5!important;
 }
 .container {
-  padding:0 10px 0 0!important;
+  padding:0 20px 0 0!important;
 }
 .el-table .last-row {
-  background: #E8E8E8!important;
+  font-weight: bold;
 }
 .el-select-dropdown .el-input__inner, .el-select-dropdown .el-input__suffix:hover {
     cursor: pointer;
@@ -398,5 +414,36 @@ export default {
 [class*=" el-icon-"],[class^=el-icon-] {
     font-size: 13px;
 }
+  #tab-first {
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+  }
+  #tab-third{
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+  }
+  #table2 .el-tabs__item{
+    margin: 0px;
+    border: 1px solid #F5F5F5 !important;
+    background: #fff;
+    color: #525252;
+    line-height: 9px;
+    width: 100px;
+    text-align: center;
+    padding: 10px 5px;
+    font-size: 14px !important;
+    height: 30px;
+  }
+  #table2 .is-active{
+    border: 1px solid #14bcf5 !important;
+    background: #14bcf5;
+    color: #fff;
+  }
+  .el-tabs__nav-wrap{
+    height: 30px;
+  }
+  .el-tabs__nav-wrap::after{
+    background-color: transparent;
+  }
 </style>
 

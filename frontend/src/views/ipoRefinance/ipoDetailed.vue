@@ -22,7 +22,7 @@
                 :tree-data="belongsPlateList"
                 :default-props="defaultProps"
                 :default-all-show="false"
-                :all-select="allSelect" 
+                :all-select="allSelect"
               ></el-multiple-selection>
             </el-col>
             <!-- 注册地 -->
@@ -38,7 +38,7 @@
                 :tree-data="areaList"
                 :default-props="defaultProps1"
                 :default-all-show="false"
-                :all-select="allSelect" 
+                :all-select="allSelect"
               ></el-multiple-selection>
             </el-col>
             <el-col :span="12" align="right">
@@ -57,6 +57,20 @@
                         <span>{{changeAreaResult(scope.row.registAddr)}}</span>
                     </template>
                 </el-table-column>
+              <el-table-column label="辅导情况" align="center"  >
+                <el-table-column align="center" :render-header="renderHeader" style="height:54px;" prop="fdcx" border="true" label="持续辅导" sortable="custom">
+                  <template slot-scope="scope">
+                    <span class="spanClass" v-if="getValue(scope.row.fdcx) != 0" @click="openFdDetailProv(scope.row.registAddr,'','0','unit')">{{scope.row.fdcx}}</span>
+                    <span v-else>{{scope.row.fdcx}}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column align="center" :render-header="renderHeader" prop="fdwc" label="辅导完成（未受理）" sortable="custom" >
+                  <template slot-scope="scope">
+                    <span class="spanClass" v-if="getValue(scope.row.fdwc) != 0" @click="openFdDetailProv(scope.row.registAddr,'','1','unit')">{{scope.row.fdwc}}</span>
+                    <span v-else>{{scope.row.fdwc}}</span>
+                  </template>
+                </el-table-column>
+              </el-table-column>
                 <el-table-column label="在审情况" align="center"  prop="registAddr" >
                     <el-table-column align="center" :render-header="renderHeader" style="height:54px;" prop="applied" border="true" label="已受理" sortable="custom">
                         <template slot-scope="scope">
@@ -201,7 +215,7 @@ export default {
     tableHeaderColor({ row, column, rowIndex, columnIndex }) {// 修改table header的背景色
       if ((rowIndex === 1 && columnIndex === 6) || (rowIndex === 1 && columnIndex === 7)) {
         return 'row'
-      } 
+      }
     },
     renderHeader(h, { column, $index }) {//表格个别字体颜色替换
       return (
@@ -280,7 +294,7 @@ export default {
 				this.queryParam.condition.registAddr = arr;
 			} else {
 				this.queryParam.condition.belongsPlate = arr;
-      } 
+      }
       this.search();
 		},
     clearAll() {
@@ -299,6 +313,14 @@ export default {
     },
     exportExcel() {//导出Excel
       exportExcelPostWindow1("/ipo/regulatory_statistics/ipoItemDataExport",this.queryParam);
+    },
+    openFdDetailProv(registAddr,lastUpadteTime,approveStatus,viewType){
+      debugger;
+      let url = window.location.href;
+      url = url.replace(this.$route.path,'/ipoDataOverviewDetailFdPopWin');
+      url = url + '&registAddr=' + registAddr + '&approveStatus=' + approveStatus;
+      //参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
+      iframeDoMessage(window.parent,'popWinOut',[registAddr,url,'1200','580']);
     },
     openDetail(registAddr,lastUpadteTime,approveStatus,viewType){
       if(viewType == 'area' && this.getValue(registAddr) == '') {//合计行合计

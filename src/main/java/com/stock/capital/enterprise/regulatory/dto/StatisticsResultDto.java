@@ -120,8 +120,98 @@ public class StatisticsResultDto implements Serializable {
      * 保荐机构
      */
     private String recommendOrganization;
-    
-    
+
+    private String companyName;
+    private String processTime;
+    private String processType;
+    private String newTime;
+    private String time;
+    private String fdCount;
+    private String percentFd;
+    private String fdcx;
+    private String fdwc;
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getFdcx() {
+        return fdcx;
+    }
+
+    public void setFdcx(String fdcx) {
+        this.fdcx = fdcx;
+    }
+
+    public String getFdwc() {
+        return fdwc;
+    }
+
+    public void setFdwc(String fdwc) {
+        this.fdwc = fdwc;
+    }
+
+    public String getFdCount() {
+        return fdCount;
+    }
+
+    public void setFdCount(String fdCount) {
+        this.fdCount = fdCount;
+    }
+
+    public String getPercentFd() {
+        return percentFd;
+    }
+
+    public void setPercentFd(String percentFd) {
+        this.percentFd = percentFd;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getProcessTime() {
+        return processTime;
+    }
+
+    public void setProcessTime(String processTime) {
+        this.processTime = processTime;
+    }
+
+    public String getProcessType() {
+        return processType;
+    }
+
+    public void setProcessType(String processType) {
+        this.processType = processType;
+    }
+
+    public String getNewTime() {
+        return newTime;
+    }
+
+    public void setNewTime(String newTime) {
+        this.newTime = newTime;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     public String getRecommendOrganization() {
 		return recommendOrganization;
 	}

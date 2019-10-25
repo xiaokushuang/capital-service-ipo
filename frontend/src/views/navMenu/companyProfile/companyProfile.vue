@@ -78,10 +78,10 @@
               <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('103')>-1">预计市值不低于人民币<span style="color:red">20亿元</span>，最近一年营业收入不低于人民币<span style="color:red">3亿元</span>，且最近三年经营活动产生的现金流量净额累计不低于人民币<span style="color:red">1亿元</span></div>
               <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('104')>-1">预计市值不低于人民币<span style="color:red">30亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">3亿元</span></div>
               <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('105')>-1">预计市值不低于人民币<span style="color:red">40亿元</span>，主要业务或产品需经国家有关部门批准，市场空间大，目前已取得阶段性成果。医药行业企业需至少有一项核心产品获准开展二期临床试验，其他符合科创板定位的企业需具备明显的技术优势并满足相应条件</div>
-              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('201')>-1">预计市值不低于人民币<span style="color:red">100亿元</span></div>
-              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('202')>-1">预计市值不低于人民币<span style="color:red">50亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">5亿元</span></div>
-              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('301')>-1">预计市值不低于人民币<span style="color:red">100亿元</span></div>
-              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('302')>-1">预计市值不低于人民币<span style="color:red">50亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">5亿元</span></div>
+              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('201')>-1">符合相关规定的红筹企业，预计市值不低于人民币<span style="color:red">100亿元</span></div>
+              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('202')>-1">符合相关规定的红筹企业，预计市值不低于人民币<span style="color:red">50亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">5亿元</span></div>
+              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('301')>-1">发行人具有表决权差异安排的，预计市值不低于人民币<span style="color:red">100亿元</span></div>
+              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('302')>-1">发行人具有表决权差异安排的，预计市值不低于人民币<span style="color:red">50亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">5亿元</span></div>
             </div>
           </li>
           <li class="clear" style="position:relative;margin-top:0%;margin-bottom:16px">

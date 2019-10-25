@@ -4,7 +4,7 @@
     <div class="companey">
       <span id="briefIntroduction"></span>
       <div class="briefIntroduction">
-        <p v-if="companyProfileList&&companyProfileList.companyName" style="color: #333; font-weight: bold;font-size: 14px;">
+        <p v-if="companyProfileList&&companyProfileList.companyName" style="color: #333333; font-weight: bold;font-size: 14px;">
           {{companyProfileList.companyName}}
         </p>
         <ul style="display:flex;margin-bottom: 0;">
@@ -73,7 +73,7 @@
     <div class="IntermediaryInstitutions">
       <div v-if="IntermediaryList&&IntermediaryList.length>0" class="title">
           <span class="littleRectangle"></span>
-          <span class="titleText" id="intermediaryInstitutions">辅导机构</span>
+          <span class="titleText" id="intermediaryInstitutions">中介机构</span>
       </div>
       <IntermediaryInstitutions v-if="IntermediaryList&&IntermediaryList.length>0" :intermediaryOrgList="IntermediaryList"></IntermediaryInstitutions>
     </div>
@@ -375,7 +375,7 @@ export default {
     font-family: "Arial Normal", "Arial";
     font-weight: 400;
     font-style: normal;
-    font-size: 13px;
+    font-size: 14px;
     color: #999999;
     text-align: left;
     line-height: normal;

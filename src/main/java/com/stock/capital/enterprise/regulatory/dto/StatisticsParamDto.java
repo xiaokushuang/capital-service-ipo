@@ -24,7 +24,17 @@ public class StatisticsParamDto implements Serializable {
     
     //tab页
     private String tabFlag;
-    
+
+    private String intermediaryType;
+
+    public String getIntermediaryType() {
+        return intermediaryType;
+    }
+
+    public void setIntermediaryType(String intermediaryType) {
+        this.intermediaryType = intermediaryType;
+    }
+
     public String getTabFlag() {
         return tabFlag;
     }

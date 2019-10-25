@@ -270,8 +270,25 @@
                                    <#if condition.iecResultList?? && (condition.iecResultList?size > 0)>
                                        ,{
                                         "terms": {
-                                            "ipo_iec_result_t": [
+                                            "ipo_label_result_t": [
                                                 <#list condition.iecResultList as item>
+                                                    <#if !item_has_next>
+                                                        "${item}"
+                                                    <#else>
+                                                        "${item}",
+                                                    </#if>
+                                                </#list>
+                                            ],
+                                            "boost": 1
+                                        }
+                                    }
+                                  </#if>
+                                  <#-- 是否拆分上市 -->
+                                   <#if condition.isHiddenList?? && (condition.isHiddenList?size > 0)>
+                                       ,{
+                                        "terms": {
+                                            "ipo_is_hidden_t": [
+                                                <#list condition.isHiddenList as item>
                                                     <#if !item_has_next>
                                                         "${item}"
                                                     <#else>

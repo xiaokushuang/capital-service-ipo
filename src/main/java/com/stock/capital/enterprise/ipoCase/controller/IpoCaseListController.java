@@ -64,7 +64,10 @@ public class IpoCaseListController {
         JsonResponse<Map<String, Object>> response = new JsonResponse<>();
         //标识是否签约客户 默认不是
         boolean signSymbol = false;
+        // 默认没有过期
+        boolean overdueSymbol = true;
         String companyId = page.getCondition().getCompanyId();
+        companyId = "999000";
         if (companyId != null && !"".equals(companyId)) {
             int count = ipoCaseListMapper.queryAuthByCompanyId(companyId);
             // 授权类型:签约 或 证监会 或 金融办
@@ -73,7 +76,17 @@ public class IpoCaseListController {
                 signSymbol = true;
             }
         }
-
+        if (companyId != null && !"".equals(companyId)) {
+            int count = ipoCaseListMapper.queryOverdueAuthByCompanyId(companyId);
+            // 授权类型:签约 或 证监会 或 金融办
+            if (count <= 0) {
+                //展示id
+                overdueSymbol = false;
+            }
+        }
+        if (!overdueSymbol){
+            signSymbol = false;
+        }
         Map<String, Object> map = ipoCaseListService.getIpoCaseList(page, signSymbol);
         List<IpoCaseIndexDto> list = (List<IpoCaseIndexDto>) map.get("data");
         if (list != null && !list.isEmpty()) {
@@ -82,6 +95,10 @@ public class IpoCaseListController {
                 if (!signSymbol && (indexDto.getOpenFlag() == null || "0"
                     .equals(indexDto.getOpenFlag()))) {
                     indexDto.setId(null);
+                }
+                if (!overdueSymbol && (indexDto.getOpenFlag() == null || "0"
+                    .equals(indexDto.getOpenFlag()))) {
+                    indexDto.setId("-----");
                 }
                 //将净利润、营业收入、总资产 万元转亿元
                 dataChange(indexDto);

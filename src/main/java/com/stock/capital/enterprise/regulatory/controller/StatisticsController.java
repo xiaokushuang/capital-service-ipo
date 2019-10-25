@@ -879,6 +879,23 @@ public class StatisticsController extends BaseController {
           response.setResult(list);
           return response;
       }
+
+    /**
+     * 取得ipo辅导数据概览详情数据
+     */
+    @ApiOperation(value = "取得ipo数据概览详情数据", notes = "取得ipo数据概览详情数据")
+    @LogAnnotation(name = "取得ipo数据概览详情数据")
+    @RequestMapping(value = "/getIpoDataOverviewFdDetail", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResponse<StatisticsReturnDto> getIpoDataOverviewFdDetail(@ApiParam(value = "ipo数据概览查询dto") @RequestBody StatisticsParamDto dto) {
+        JsonResponse<StatisticsReturnDto> response = new JsonResponse<StatisticsReturnDto>();
+        ParameterizedTypeReference<JsonResponse<StatisticsReturnDto>> responseType = new ParameterizedTypeReference<JsonResponse<StatisticsReturnDto>>() {
+        };
+        String url = apiBaseUrl + "ipoStatistics/getIPOfdCaseDetail";
+        StatisticsReturnDto list = restClient.post(url, dto, responseType).getResult();
+        response.setResult(list);
+        return response;
+    }
       
       /**
        * 
@@ -922,6 +939,58 @@ public class StatisticsController extends BaseController {
            response.setHeader("fileName", java.net.URLEncoder.encode(fileInfo.get("fileName").toString(), "utf-8"));
            return mv;
        }
+
+    /**
+     *
+     * Excel导出--ipo辅导保荐机构/律师事务所/会计师事务所
+     * @throws IOException
+     *
+     */
+    @RequestMapping(value = "ipoDataOverviewFdDetailExport")
+    public ModelAndView ipoDataOverviewFdDetailExport(@RequestBody StatisticsParamDto statisticsParamDto, HttpServletResponse response) throws IOException{
+        ModelAndView mv = new ModelAndView();
+        String flag = statisticsParamDto.getTabFlag();
+        Map<String, Object> fileInfo = Maps.newHashMap();
+        if("first".equals(flag)){
+            mv.setView(new DownloadView());
+            String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMdd");
+            fileInfo.put("fileName", "IPO辅导案例辅导机构数据明细_"+ timeStr+".xls");
+            // 从文件服务器下载文件
+            fileInfo.put("fileBytes", statisticsService.ipoCommendFdDetailExport(statisticsParamDto,flag));
+            mv.addObject(DownloadView.EXPORT_FILE, fileInfo.get("fileBytes"));
+            mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
+            mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLS);
+        }else if("second".equals(flag)){
+            mv.setView(new DownloadView());
+            String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMdd");
+            fileInfo.put("fileName", "IPO辅导案例律师事务所数据明细_"+ timeStr+".xls");
+            // 从文件服务器下载文件
+            fileInfo.put("fileBytes", statisticsService.ipoCommendFdDetailExport(statisticsParamDto,flag));
+            mv.addObject(DownloadView.EXPORT_FILE, fileInfo.get("fileBytes"));
+            mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
+            mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLS);
+        }else if("third".equals(flag)){
+            mv.setView(new DownloadView());
+            String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMdd");
+            fileInfo.put("fileName", "IPO辅导案例会计师事务所数据明细_"+ timeStr+".xls");
+            // 从文件服务器下载文件
+            fileInfo.put("fileBytes", statisticsService.ipoCommendFdDetailExport(statisticsParamDto,flag));
+            mv.addObject(DownloadView.EXPORT_FILE, fileInfo.get("fileBytes"));
+            mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
+            mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLS);
+        }else {
+            mv.setView(new DownloadView());
+            String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMdd");
+            fileInfo.put("fileName", "IPO辅导案例数据明细"+ timeStr+".xls");
+            // 从文件服务器下载文件
+            fileInfo.put("fileBytes", statisticsService.ipoCommendFdDetailExport(statisticsParamDto,flag));
+            mv.addObject(DownloadView.EXPORT_FILE, fileInfo.get("fileBytes"));
+            mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
+            mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLS);
+        }
+        response.setHeader("fileName", java.net.URLEncoder.encode(fileInfo.get("fileName").toString(), "utf-8"));
+        return mv;
+    }
        
        /**
         * IPO在审项目数据查询

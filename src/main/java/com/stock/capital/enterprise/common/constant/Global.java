@@ -161,6 +161,13 @@ public interface Global {
      * ES公告索引名称
      */
     public static final String ES_INDEX_DECLARE_NAME = "index_declare";
-
+    /**
+ 	  * 微服解密密钥
+     */
+    public static final String ENCRYPT_KEY = "hNkYmsBUvrTd3C3o";
+    /**
+         * 微服解密偏移量
+     */
+    public static final String IV = "mLZT7OIx1qOHZaPX";
 
 }
