@@ -29,6 +29,7 @@ public class IssueSituationService extends BaseService {
     @Autowired
     private IpoCaseBizMapper ipoCaseBizMapper;
 
+
     /**
      * 发行数据
      *
@@ -58,7 +59,15 @@ public class IssueSituationService extends BaseService {
      * @return list
      */
     public List<IssueFeeDto> getIssueFeeData(String id) {
+
         List<IssueFeeDto> issueFeeList = ipoCaseIssueMapper.getIssueFeeData(id);
+        IssueDataDto issueData = getIssueData(id);
+        BigDecimal sumFina = issueData.getSumFina();
+//        原本的计算比例错误，从这里获取后从新计算并赋值
+        for (IssueFeeDto issueFeeDatum : issueFeeList) {
+            BigDecimal feeAmount = issueFeeDatum.getFeeAmount();
+            issueFeeDatum.setFeeRatio(feeAmount.multiply(new BigDecimal(100)).divide(sumFina,4,BigDecimal.ROUND_HALF_DOWN));
+        }
         if (issueFeeList != null && !issueFeeList.isEmpty()) {
             BigDecimal feeAmountS = BigDecimal.ZERO;
             BigDecimal feeRatioS = BigDecimal.ZERO;
