@@ -6,6 +6,7 @@
                 <el-option v-for="item in options" :label="item.label" :value="item.value" :key="item.value">
                 </el-option>
             </el-select>
+
             <div class="InstitutionsDetail">
                 <ul>
                     <li class="clear " v-for="item in mainList">
@@ -290,6 +291,7 @@ export default {
               this.allStitutionList = response.data.result
               this.mainList = response.data.result.mainList
               this.moreList = response.data.result.moreList
+              console.log('中介机构',this.allStitutionList)
           }
       })
     },

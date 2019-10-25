@@ -150,7 +150,17 @@ public interface Global {
     /**
      * ipo案例  使用索引服务器的类型  0 ES 1 solr
      */
-    public  static final String SEARCH_SERVER_IPO_CASE_FLAG = "1";
+    public  static final String SEARCH_SERVER_IPO_CASE_FLAG = "0";
+    /**
+     * 公告索引
+     * 0 表示当前使用的ES的searchserver 1 表示使用的是Solr的searchserver
+     */
+    public static final String SEARCH_SERVER_DECLARE_FLAG = "0";
+    
+    /**
+     * ES公告索引名称
+     */
+    public static final String ES_INDEX_DECLARE_NAME = "index_declare";
 
 
 }

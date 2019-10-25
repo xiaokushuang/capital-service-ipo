@@ -149,10 +149,10 @@ export default {
     getAllArr(){
       this.allArr = []
       for(let i = 0;i<this.intermediaryOrgList.length;i++){
-        if(this.intermediaryOrgList[i].intermediaryType=='7'){
+        // if(this.intermediaryOrgList[i].intermediaryType=='7'){
           this.allArr.push(this.intermediaryOrgList[i])
           this.IntermediaryList = this.allArr
-        }
+        // }
       }
 
       console.log('全部符合要求的辅导机构',this.IntermediaryList)
@@ -233,10 +233,9 @@ export default {
         }
         if(res.data.result&&res.data.result.intermediaryOrgList&&res.data.result.intermediaryOrgList.length>0){
           this.intermediaryOrgList = res.data.result.intermediaryOrgList
+          console.log('所有的中介机构',this.intermediaryOrgList)
           if(this.intermediaryOrgList&&this.intermediaryOrgList.length>0){
             this.getAllArr()
-
-            console.log('中介机构',this.intermediaryOrgList)
           }
         }
         this.getPosition()
@@ -276,6 +275,14 @@ export default {
     getPosition() {
       // debugger;
           let titleList = [];
+          let briefIntroduction = {
+            id: 'briefIntroduction',
+            name: '公司概览',
+            notes: '',
+            important: false,
+            tabId: 'tab-first',
+            noClick: true
+          }
           let intermediaryInstitutions = {
               id: 'intermediaryInstitutions',
               name: '辅导机构',
@@ -284,10 +291,13 @@ export default {
               tabId: 'tab-first',
               noClick: true
           }
-
+          if(this.companyProfileList&&this.companyProfileList.companyName){
+            briefIntroduction.noClick = false;
+          }
           if(this.IntermediaryList&&this.IntermediaryList.length>0){
             intermediaryInstitutions.noClick = false;
           }
+          titleList.push(briefIntroduction)
           titleList.push(intermediaryInstitutions)
           this.$emit('headCallBack', titleList);
     },
@@ -370,7 +380,7 @@ export default {
     text-align: left;
     line-height: normal;
     padding: 5px 10px;
-    margin-top: 32px;
+    margin-top: 12px;
     .briefIntroduction {
       // border-bottom: 1px solid #ebebeb;
       ul {

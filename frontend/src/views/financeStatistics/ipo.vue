@@ -18,116 +18,116 @@
     </div>
     <!-- IPO标题头部 -->
     <div ref="titleHeader" id="titleHeader" style=" width: 100%;height: 140px;position: relative">
+      <div class="titleHeaderImg">
       <!-- <svg-icon icon-class="qrCode" class-name="card-panel-icon" /> -->
-      <div v-show="ipoplatetype" @click="wxcodeBig" class="qrCode" style="position: absolute;right: 0;top: 0;" @mouseover="mouseOverQR()"
-           @mouseout="mouseOutQR()">
-        <img v-show="!currentQrCodeImg" src="../../assets/images/qrCode.svg" width="42px" class="qrImg"  style="z-index: 10;margin-top: -25px;margin-left: -17px;" />
-        <img v-show="currentQrCodeImg" src="../../assets/images/qrCodeBlue.svg" width="42px" class="qrImg"  style="z-index: 10; margin-top: -25px;margin-left: -17px;" />
-      </div>
-      <div @click="wxcodeBig" @mouseover="mouseOverQR()" @mouseleave="mouseOutQR()" class="miniProCode" style="transform: translate(-50%, -50%);z-index: 20;width: 140px;height: 160px;background: #fff;position: fixed; right: -22px;top: 140px;border-radius: 4px;"
-           v-show="ipoplatetype && mouseOverShow">
-        <img :src="wxcodeUrl" style="margin-left: 10px;margin-top: 10px; width: 120px;cursor: pointer;align-items: center;" >
-        <div style="font-size: 12px;color: #999999;text-align: center;margin-top: 10px;">手机扫码可视化查看</div>
-      </div>
-      <div :style="{'padding-left':(headList.labelResult == '' || headList.labelResult == null)?'0px':'97px','width':'1200px','position':'absolute','left': '50%','top':'50%', 'transform': 'translate(-50%,-50%)'}">
-        <div class="imgMark" style="position: absolute; z-index: 2;left: 5%;top:50%; transform: translate(-50%,-50%);z-index: 2">
-          <!-- 注册制是否是科创版的标签显示 -->
-          <div>
-            <div v-if="headList.labelResult&&headList.labelResult == '00'">
-              <img src="../../assets/images/htg1.png" alt="">
-            </div>
-            <div v-if="headList.labelResult&&headList.labelResult == '01'">
-              <img src="../../assets/images/whtg1.png" alt="">
-            </div>
-            <div v-if="headList.labelResult&&headList.labelResult == '02'">
-              <img src="../../assets/images/zhbj1.png" alt="">
-            </div>
-            <div v-if="headList.labelResult&&headList.labelResult == '03'">
-              <img src="../../assets/images/qxsh1.png" alt="">
-            </div>
-            <div v-if="headList.labelResult&&headList.labelResult == '04'">
-              <img src="../../assets/images/dsh1.png" alt="">
-            </div>
-            <div v-if="headList.labelResult&&headList.labelResult == '05'">
-              <img src="../../assets/images/kctg.png" alt="">
-            </div>
-            <div v-if="headList.labelResult&&headList.labelResult == '06'">
-              <img src="../../assets/images/kcwtg.png" alt="">
-            </div>
-            <div v-if="headList.labelResult&&headList.labelResult == '07'">
-              <img src="../../assets/images/kczcsx.png" alt="">
-            </div>
-            <div v-if="headList.labelResult&&headList.labelResult == '08'">
-              <img src="../../assets/images/kcbyzc.png" alt="">
-            </div>
-            <div v-if="headList.labelResult&&headList.labelResult == '09'">
-              <img src="../../assets/images/dsh1.png" alt="">
-            </div>
-            <div v-if="headList.labelResult&&headList.labelResult == '10'">
-              <img src="../../assets/images/qxsy1.png" alt="">
+        <div v-show="ipoplatetype" @click="wxcodeBig" class="qrCode" style="position: absolute;right: 0;top: 0;" @mouseover="mouseOverQR()"
+             @mouseout="mouseOutQR()">
+          <img v-show="!currentQrCodeImg" src="../../assets/images/qrCode.svg" width="42px" class="qrImg"  style="z-index: 10;margin-top: -25px;margin-left: -17px;" />
+          <img v-show="currentQrCodeImg" src="../../assets/images/qrCodeBlue.svg" width="42px" class="qrImg"  style="z-index: 10; margin-top: -25px;margin-left: -17px;" />
+        </div>
+        <div @click="wxcodeBig" @mouseover="mouseOverQR()" @mouseleave="mouseOutQR()" class="miniProCode" style="transform: translate(-50%, -50%);z-index: 20;width: 140px;height: 160px;background: #fff;position: fixed; right: -22px;top: 140px;border-radius: 4px;"
+             v-show="ipoplatetype && mouseOverShow">
+          <img :src="wxcodeUrl" style="margin-left: 10px;margin-top: 10px; width: 120px;cursor: pointer;align-items: center;" >
+          <div style="font-size: 12px;color: #999999;text-align: center;margin-top: 10px;">手机扫码可视化查看</div>
+        </div>
+        <div :style="{'padding-left':(headList.labelResult == '' || headList.labelResult == null)?'0px':'97px','width':'1200px','position':'absolute','left': '50%','top':'50%', 'transform': 'translate(-50%,-50%)'}">
+          <div class="imgMark" style="position: absolute; z-index: 2;left: 5%;top:50%; transform: translate(-50%,-50%);z-index: 2">
+            <!-- 注册制是否是科创版的标签显示 -->
+            <div>
+              <div v-if="headList.labelResult&&headList.labelResult == '00'">
+                <img src="../../assets/images/htg1.png" alt="">
+              </div>
+              <div v-if="headList.labelResult&&headList.labelResult == '01'">
+                <img src="../../assets/images/whtg1.png" alt="">
+              </div>
+              <div v-if="headList.labelResult&&headList.labelResult == '02'">
+                <img src="../../assets/images/zhbj1.png" alt="">
+              </div>
+              <div v-if="headList.labelResult&&headList.labelResult == '03'">
+                <img src="../../assets/images/qxsh1.png" alt="">
+              </div>
+              <div v-if="headList.labelResult&&headList.labelResult == '04'">
+                <img src="../../assets/images/dsh1.png" alt="">
+              </div>
+              <div v-if="headList.labelResult&&headList.labelResult == '05'">
+                <img src="../../assets/images/kctg.png" alt="">
+              </div>
+              <div v-if="headList.labelResult&&headList.labelResult == '06'">
+                <img src="../../assets/images/kcwtg.png" alt="">
+              </div>
+              <div v-if="headList.labelResult&&headList.labelResult == '07'">
+                <img src="../../assets/images/kczcsx.png" alt="">
+              </div>
+              <div v-if="headList.labelResult&&headList.labelResult == '08'">
+                <img src="../../assets/images/kcbyzc.png" alt="">
+              </div>
+              <div v-if="headList.labelResult&&headList.labelResult == '09'">
+                <img src="../../assets/images/dsh1.png" alt="">
+              </div>
+              <div v-if="headList.labelResult&&headList.labelResult == '10'">
+                <img src="../../assets/images/qxsy1.png" alt="">
+              </div>
             </div>
           </div>
-        </div>
-        <div class="text" style="position:relative;z-index: 4">
-          <p class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;" @mouseenter="mouseOverSpreadTitle(headList.title)">{{getTitle(headList.title)}}</p>
-          <span style="font-size: 14px;opacity: 0.6;">股份公司设立时间：</span>
-          <span style="font-size: 14px;opacity: 0.6;">{{headList.establishDate}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-          <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;辅导历时：</span>
-          <span style="font-size: 14px;opacity: 0.6;" v-if="headList.supportDuration">{{headList.supportDuration}}天</span>
-          <span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
-          <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;审核历时：</span>
-          <span style="font-size: 14px;opacity: 0.6;" v-if="headList.auditDuration">{{headList.auditDuration}}天</span>
-          <span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
-          <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;最新进程：</span>
-          <span style="font-size: 14px;color:#fff;opacity:1">{{headList.processLabel}}</span>
-        </div>
-        <div class="btn" style="position:relative;z-index:4">
-					<span v-if="headList.greenPassage" style=" display: inline-block;margin-right: 5px;margin-top:8px;background: #ff9900; font-size: 12px; color: #fff;border-radius: 2px;padding: 4.5px; position:relative;z-index:10;">{{headList.greenPassage}}
-					</span>
-          <span v-if="specialArrange&&specialArrange.length>0">
-						<span v-for="data in specialArrange" style=" display: inline-block;margin-top:8px;background: #ff9900; font-size: 12px; color: #fff;border-radius: 2px;padding: 4.5px; position:relative;z-index:10;margin-right:10px">{{data}}
-						</span>
-					</span>
-        </div>
-        <div style="color:#fff;position: absolute;right: 2%;top: 20%;z-index: 999;font-size: 14px; z-index: 999;" class="collectionsAndNotes" v-show="collectionAndNoteShow">
-					<span v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;" title="收藏">
-						<i class="fa fa-star-o favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
-					</span>
-          <span v-else @click="clickFavorite(false)" style="cursor:pointer;" title="取消收藏">
-						<i class="fa fa-star favorite_note_icon"></i><span style="margin-left: 5px">已收藏</span>
-					</span>
-          <span style="padding: 0px 5px;vertical-align: 5%;">|</span>
-          <el-popover placement="bottom" title="" width="540" trigger="manual" v-model="titleNoteFlag" popper-class="customer_popper">
-            <div class="bigDialog">
-              <div style="height: 28px;padding:0px 12px">
-                <span style="font-size: 14px;color: #333;">{{noteTitle}}</span>
-                <span style="float: right;color: #C1C1C1">
-									<i class="fa fa-square-o fa-lg" @click="openCenterNote()" title="放大" style="cursor:pointer;margin-right: 4px;"></i>
-									<i class="el-icon-close el-close-size" @click="noteCancellation('1')" title="关闭" style="cursor:pointer;vertical-align: -10%;"></i>
-								</span>
+          <div class="text" style="position:relative;z-index: 4">
+            <p class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;" @mouseenter="mouseOverSpreadTitle(headList.title)">{{getTitle(headList.title)}}</p>
+            <span style="font-size: 14px;opacity: 0.6;">股份公司设立时间：</span>
+            <span style="font-size: 14px;opacity: 0.6;">{{headList.establishDate}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;辅导历时：</span>
+            <span style="font-size: 14px;opacity: 0.6;" v-if="headList.supportDuration">{{headList.supportDuration}}天</span>
+            <span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
+            <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;审核历时：</span>
+            <span style="font-size: 14px;opacity: 0.6;" v-if="headList.auditDuration">{{headList.auditDuration}}天</span>
+            <span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
+            <span style="font-size: 14px;opacity: 0.6;">&nbsp;&nbsp;&nbsp;&nbsp;最新进程：</span>
+            <span style="font-size: 14px;color:#fff;opacity:1">{{headList.processLabel}}</span>
+          </div>
+          <div class="btn" style="position:relative;z-index:4">
+            <span v-if="headList.greenPassage" style=" display: inline-block;margin-right: 5px;margin-top:8px;background: #ff9900; font-size: 12px; color: #fff;border-radius: 2px;padding: 4.5px; position:relative;z-index:10;">{{headList.greenPassage}}
+            </span>
+            <span v-if="specialArrange&&specialArrange.length>0">
+              <span v-for="data in specialArrange" style=" display: inline-block;margin-top:8px;background: #ff9900; font-size: 12px; color: #fff;border-radius: 2px;padding: 4.5px; position:relative;z-index:10;margin-right:10px">{{data}}
+              </span>
+            </span>
+          </div>
+          <div style="color:#fff;position: absolute;right: 2%;top: 20%;z-index: 999;font-size: 14px; z-index: 999;" class="collectionsAndNotes" v-show="collectionAndNoteShow">
+            <span v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;" title="收藏">
+              <i class="fa fa-star-o favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
+            </span>
+            <span v-else @click="clickFavorite(false)" style="cursor:pointer;" title="取消收藏">
+              <i class="fa fa-star favorite_note_icon"></i><span style="margin-left: 5px">已收藏</span>
+            </span>
+            <span style="padding: 0px 5px;vertical-align: 5%;">|</span>
+            <el-popover placement="bottom" title="" width="540" trigger="manual" v-model="titleNoteFlag" popper-class="customer_popper">
+              <div class="bigDialog">
+                <div style="height: 28px;padding:0px 12px">
+                  <span style="font-size: 14px;color: #333;">{{noteTitle}}</span>
+                  <span style="float: right;color: #C1C1C1">
+                    <i class="fa fa-square-o fa-lg" @click="openCenterNote()" title="放大" style="cursor:pointer;margin-right: 4px;"></i>
+                    <i class="el-icon-close el-close-size" @click="noteCancellation('1')" title="关闭" style="cursor:pointer;vertical-align: -10%;"></i>
+                  </span>
+                </div>
+                <el-input  type="textarea" class="textarea-height" maxlength='2000' show-word-limit :rows="6" resize="none" placeholder="请在这里输入笔记内容..." v-model="note">
+                </el-input>
+                <div style="float: right;margin-right: 20px;padding-top: 12px;">
+                  <button class="small_btn_common cancel_btn" @click="noteCancellation('1')">取消</button>
+                  <button class="small_btn_common determine_btn" @click="NoteDetermination()" style="margin-left: 10px">保存
+                  </button>
+                </div>
               </div>
-              <el-input  type="textarea" class="textarea-height" :maxlength='2000' show-word-limit :rows="6" resize="none" placeholder="请在这里输入笔记内容..." v-model="note">
-              </el-input>
-              <div style="float: right;margin-right: 20px;padding-top: 12px;">
-                <button class="small_btn_common cancel_btn" @click="noteCancellation('1')">取消</button>
-                <button class="small_btn_common determine_btn" @click="NoteDetermination()" style="margin-left: 10px">保存
-                </button>
-              </div>
-            </div>
-            <span slot="reference" aria-hidden="true" @click="titleNoteFlag = !titleNoteFlag" style="cursor:pointer;">
-							<i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span>
-						</span>
-          </el-popover>
+              <span slot="reference" aria-hidden="true" @click="titleNoteFlag = !titleNoteFlag" style="cursor:pointer;">
+                <i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span>
+              </span>
+            </el-popover>
+          </div>
         </div>
-
       </div>
     </div>
-
     <!-- 屏幕中间的笔记 -->
     <el-dialog class="bigDialog" title="" :visible.sync="centerNoteFlag" :close-on-click-modal="false" width="80%"
                close="noteCancellation('3')">
       <span style="font-size: 14px;color: #333;" slot="title">{{centerNoteTitle}}</span>
-      <el-input   type="textarea" maxlength="2000" class="center-textarea-height" resize="none" placeholder="请在这里输入笔记内容..." v-model="note" :maxlength='2000' show-word-limit>
+      <el-input   type="textarea" maxlength="2000" class="center-textarea-height" resize="none" placeholder="请在这里输入笔记内容..." v-model="note" show-word-limit>
       </el-input>
       <div slot="footer">
         <button class="small_btn_common cancel_btn" @click="noteCancellation('3')">取消</button>
@@ -326,7 +326,7 @@
               </el-row>
             </div>
             <span style="padding: 0px;">
-							<processTree ref="rightModule" :caseId="caseId"></processTree>
+							<processTree ref="rightModule"  :isTechBoard="headList.isTechBoard"></processTree>
 						</span>
           </el-col>
         </el-col>
@@ -1077,14 +1077,27 @@
   }
 
   // 头部背景图
+  /*#titleHeader {*/
+    /*background-image: url("../../assets/images/IpoHeader.png"), url("../../assets/images/IpoHeaderBj.png");*/
+    /*background-repeat: no-repeat, no-repeat;*/
+    /*background-size:100% 100%;*/
+    /*background-position: center, 0 0;*/
+    /*color: #fff;*/
+  /*}*/
   #titleHeader {
-    background-image: url("../../assets/images/IpoHeader.png"), url("../../assets/images/IpoHeaderBj.png");
-    background-repeat: no-repeat, no-repeat;
-    background-size:100% 100%;
-    background-position: center, 0 0;
+    background-image: url("../../assets/images/IpoHeaderBj.png");
+    background-repeat:  no-repeat;
+    background-position:  0 0;
     color: #fff;
+    background-size: cover;
   }
-
+  .titleHeaderImg{
+    background-image:  url("../../assets/images/IpoHeader.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #fff;
+    height:100%;
+  }
   /* 头部文字标题 */
   .bottomContent {
     color: #fff;

@@ -4,7 +4,7 @@
             <!-- 第一个进程 -->
             <div>
                 <el-row style="padding-left:12px">
-                    <el-col :span="24" style="border-left:1px solid #E9E9E9; margin-bottom: -10px;margin-top:10px;padding-bottom: 10px;">
+                    <el-col :span="24" style="border-left:1px solid #E9E9E9; margin-bottom: -10px;margin-top:5px;padding-bottom: 10px;">
                         <div>
                              <div v-for="(item,index) in proList.proList">
                                 <div class="right" >
@@ -345,9 +345,8 @@ export default {
     line-height:10px;
     display:inline-block;
 }
-// 先注释掉，因为之前是点击最后一个tab页，进程树出滚动条
 .processTree{
-    margin-top:16px;
+    /*margin-top:16px;*/
 }
 .allJincheng{
     margin-top:16px;

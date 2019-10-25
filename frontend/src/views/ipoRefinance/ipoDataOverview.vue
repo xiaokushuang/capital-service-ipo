@@ -1,19 +1,37 @@
 <template>
     <div class="container ipoOverview">
         <!-- 标题 -->
-        <el-row :gutter="20" style="margin-left:0px; margin-right:0px;height:0;">
-            <el-col :span="14">
-                <span class="no-margin" style="line-height:32px;">IPO在审项目数据统计</span>
-            </el-col>
-            <el-col :span="6">
-            </el-col>
-        </el-row>
+        <!--<el-row :gutter="20" style="margin-left:0px; margin-right:0px;height:0;">-->
+            <!--<el-col :span="14">-->
+                <!--<span class="no-margin" style="line-height:32px;">IPO在审项目数据统计</span>-->
+            <!--</el-col>-->
+            <!--<el-col :span="6">-->
+            <!--</el-col>-->
+        <!--</el-row>-->
         <!-- echart table -->
         <el-row :gutter="20" style="margin-left:0px; margin-right:0px;">
             <el-col :span="12">
                 <div class="fullDiv_border">
+                  <div style="margin-top:20px;margin-bottom:7px;">
+                    <span style="display: inline-block;width:3px;height:18px;background:gray;"></span>
+                    <span style="display: inline-block;font-size:18px;">IPO在审项目数据统计</span>
+                  </div>
                     <chart height='100%' width='100%' id="datasetChart" :chartData = "getDataOverInfo"></chart>
                 </div>
+              <!-- ipo再审企业合计数变化情况 -->
+              <div style="height:250px;marign-top:10px;">
+                <div style="margin-top:56px;margin-bottom:16px;">
+                  <span style="display: inline-block;width:3px;height:18px;background:gray;"></span>
+                  <span style="display: inline-block;font-size:18px;">IPO在审企业合计数变化情况</span>
+                  <el-tooltip class="ipoTip"  placement="top" effect="light">
+                    <div slot="content">在审数据统计口径：<br/>
+                      1、核准制：起始于拟上市企业在证监会官网预先披露，后续拟上市企业如果终止审查、<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 发审会审核未通过、获得证监会核准批复，则不在在审数据统计范围。<br/>
+                      2、注册制：起始于拟上市企业在上海证券交易所受理，后续拟上市企业如果终止审查、<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 上市委审核未通过、证监会注册生效、证监会不予注册，则不在在审数据统计范围。</div>
+                    <i style="cursor:pointer;color: #909399;" class="el-icon-question"></i>
+                  </el-tooltip>
+                </div>
+                <chart2 height='100%' width='100%' id="largeScaleChart" :chartData2 = "getDataHistory"></chart2>
+              </div>
             </el-col>
             <!-- 右部表 -->
             <el-col :span="12" style="padding-left:0px;padding-right:0px;">
@@ -54,10 +72,6 @@
                     </template>
                   </el-table-column>
                 </el-table>
-              </div>
-              <!-- ipo再审企业合计数变化情况 -->
-              <div style="height:250px;marign-top:10px;">
-                  <chart2 height='100%' width='100%' id="largeScaleChart" :chartData2 = "getDataHistory"></chart2>
               </div>
             </el-col>
         </el-row>
@@ -285,8 +299,9 @@ export default {
 }
 .fullDiv_border {
   width: 100%;
-  height: 100%;
-  height: 440px;
+  /*height: 100%;*/
+  /*height: 440px;*/
+  height:220px;
 }
 #table1 .el-table__footer-wrapper tbody td, .el-table__header-wrapper tbody td {
     background-color: #E8E8E8;

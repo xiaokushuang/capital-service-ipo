@@ -114,7 +114,7 @@ public class IpoCaseListService extends BaseService {
             queryInfo.setOrderByOrder(orderByOrder);
             queryInfo.setStartRow(page.getStartRow());
             queryInfo.setPageSize(page.getPageSize());
-            queryInfo.setQueryId("ipoCaseSearchByEs");
+            queryInfo.setQueryId("com.stock.capital.enterprise.ipoCase.dao.IpoCaseEs.ipoCaseSearchByEs");
             facetResult = searchClient.searchWithFacet("ipo_case", queryInfo, IpoCaseIndexDto.class);
 
 

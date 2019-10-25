@@ -9,6 +9,7 @@
 	<div style="overflow-x:hidden">
 		<!-- 易董头条 -->
 		<div style="width: 100%;height: 46px;background: #343b4a;line-height: 46px;">
+
 			<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAaCAYAAABPY4eKAAABS2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDIgNzkuMTYwOTI0LCAyMDE3LzA3LzEzLTAxOjA2OjM5ICAgICAgICAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIi8+CiA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgo8P3hwYWNrZXQgZW5kPSJyIj8+nhxg7wAAAexJREFUSInFlj1rVFEQhp9JYiSia0RELURBEMTKiKJFRNBCLGxErf0DQgptxEJMsBBU8gsUUlgZBBsLxUJtouBXodGAxMJCQkIQiZHNY3EneBGMe7PL5m2GOWfeeeZyOYcT6nngCHAUqFHoJfAdmMm8BqwGeoENwDfgPfAcGI2ISZqRul2ds9DGJepWqX3qBXVcXVDvqTubHeBVwnsbrO9Wr6VnVj3eDPxJFXjJdyl9P9R97YaH+ji979TOtsHTu98/OtWIp6PyhP9QRIwBbzI93VZ46mHGAysBf5txy0rAv2bsUf/bu9VwM85HxEK74Ys345dGilsN78v4YiXgxzLer+xs8pLpS++k2t2IpyVfrgZwI9OBiJhfTpPl3u2D6bteGVpq8jSbbG6wvku9pdbVy1V5XX/lWzNeVGeATmAa+ACMRcRUQjuAk8AgMAccjohnVeGRzdYBV4CBXJ8GRoAJYA2wg+IY9eZeDRgDbkfEo6rQRXWpN4FNwFrgTmmvBuwFFoBZiuPzGdgFnAW6gboaESHtktqjDqnz6oR6Vd3TtgFyiN3qg9Ij4pM6rJ5o5MREi4boB4aA/vIyxfP6NTAOTFI8xesUv3RbK9jlIQ6qd9WfLq26eqal8NIQ69Vz6oj6Uf2V0Cl1VD0E8BuLL6cTC+UXbQAAAABJRU5ErkJggg=="
 			 style="height: 20px;padding-left: 16px;vertical-align: middle;">
 			<p style="display:inline-block;margin:0px;">
@@ -18,9 +19,12 @@
 		</div>
 		<!-- IPO标题头部 -->
 		<div ref="titleHeader" id="titleHeader" style=" width: 100%;height: 140px;position: relative">
-			<div style="width:1200px;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)">
-				<div class="text" style="position:relative;z-index: 4">
-					<p class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;" @mouseenter="mouseOverSpreadTitle(companyProfileList.title)">{{getTitle(companyProfileList.title)}}</p>
+      <div class="titleHeaderImg">
+			  <div style="width:1200px;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)">
+        <img  style="position:absolute;top:-37px;" src="../../assets/images/tutoringLogo.png" alt="">
+				<div class="text" style="position:relative;z-index: 4;left:131px">
+					<p v-if="companyProfileList.title" class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;" @mouseenter="mouseOverSpreadTitle(companyProfileList.title)">{{getTitle(companyProfileList.title)}}</p>
+          <p v-else class="dialogtitle" style="margin:0px 0px 8px;font-size:22px;color:#ffffff;">- -</p>
 					<span style="font-size: 14px;opacity: 0.6;">公司成立时间：</span>
 					<span style="font-size: 14px;opacity: 0.6;" v-if="companyProfileList.foundingTime">{{companyProfileList.foundingTime}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
           <span style="font-size: 14px;opacity: 0.6;" v-else>- -&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -32,6 +36,7 @@
           <span style="font-size: 14px;opacity: 0.6;" v-else>- -</span>
 				</div>
 			</div>
+      </div>
 		</div>
 		<div id="concentBody" style="width:1200px;margin: 0 auto;" class="ipoContainer">
 			<el-row :gutter="24" class="h100">
@@ -46,7 +51,7 @@
 								</div>
 								<div :style="{width:isFixed?'740px':'100%'}">
 									<!-- 菜单导航栏 -->
-									<div class="el-tabs__nav-wrap is-top">
+									<div style="display:none" class="el-tabs__nav-wrap is-top">
 										<div class="el-tabs__nav-scroll">
 											<div class="el-tabs__nav">
 												<div class="el-tabs__active-bar is-top" :style="{width: tabBarWidth + 'px', transform: 'translateX(' + tabBarOffset + 'px)'}"></div>
@@ -59,13 +64,13 @@
 									</div>
 									<!-- 菜单栏下面的小分类 -->
 									<!-- 1 -->
-									<div id="title-first" class="title-body" v-show="isActive == '1'" style="position: relative;top: -40px;left: 70px;">
+									<div id="title-first" class="title-body" v-show="isActive == '1'">
 										<span v-for="(item, index) in tabFirstList">
-                      <span style="margin: 0 8px;color: #e4e4e4;" v-if="index == tabFirstList.length - 1">|</span>
+                      <!--<span style="margin: 0 8px;color: #e4e4e4;" v-if="index == tabFirstList.length - 1">|</span>-->
                       <!--{'item-active': itemActiveFirst === item.id}, -->
 											<a :id="item.id + 'caseDetails'" href="javascript:void(0)" :class="['title-list',{'disabled': item.noClick}]"
 											 :title="item.notes" :style="{'font-weight': item.important ? 'bold' : 'normal '}" @click="jump(item.id, 1)">{{item.name}}</a>
-											<!--<span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFirstList.length - 1">|</span>-->
+											<span style="margin: 0 8px;color: #e4e4e4;" v-if="index < tabFirstList.length - 1">|</span>
 										</span>
 									</div>
 								</div>
@@ -191,8 +196,13 @@
 				scrollTop: "",
 				isFixed: false,
 				itemActiveFirst: "",
-				tabFirstList: [{
-						id: '1',
+				tabFirstList: [
+				  {
+            id: '1',
+            name: '公司概览',
+          },
+          {
+						id: '2',
 						name: '辅导机构',
 					},
 				],
@@ -475,14 +485,26 @@
 	}
 
 	// 头部背景图
-	#titleHeader {
-		background-image: url("../../assets/images/IpoHeader.png"), url("../../assets/images/IpoHeaderBj.png");
-		background-repeat: no-repeat, no-repeat;
-    background-size:100% 100%;
-		background-position: center, 0 0;
-		color: #fff;
-	}
-
+  /*#titleHeader {*/
+    /*background-image:  url("../../assets/images/IpoHeader.png"),url("../../assets/images/IpoHeaderBj.png");*/
+    /*background-repeat: no-repeat, no-repeat;*/
+    /*background-position: center, 0 0;*/
+    /*color: #fff;*/
+  /*}*/
+  #titleHeader {
+    background-image: url("../../assets/images/IpoHeaderBj.png");
+    background-repeat:  no-repeat;
+    background-position:  0 0;
+    color: #fff;
+    background-size: cover;
+  }
+  .titleHeaderImg{
+    background-image:  url("../../assets/images/IpoHeader.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #fff;
+    height:100%;
+  }
 	/* 头部文字标题 */
 	.bottomContent {
 		color: #fff;
@@ -517,7 +539,7 @@
 
 	.chart-container {
 		position: relative;
-		padding: 10px 0px 0px;
+		padding: 4px 0px 0px;
 		width: 100%;
 	}
 
@@ -568,7 +590,7 @@
 	}
 
 	.headClass {
-		margin-top: 22px;
+		margin-top: 32px;
 		color: #333;
 		font-size: 16px;
 		text-rendering: optimizeLegibility;

@@ -1,6 +1,6 @@
 <template>
     <div v-loading="flagLoading" element-loading-text="给我一点时间" :class="{'processTree':lastTab,'allJincheng':!lastTab}">
-        <div v-for="boxDataItem in treeList" v-if="treeList.length>0" :key="boxDataItem.treeTypeCode">
+        <div v-for="boxDataItem in treeList" v-if="treeList&&treeList.length>0" :key="boxDataItem.treeTypeCode">
             <!-- 第一个进程 -->
             <div>
                 <el-row style="padding-left:12px">
@@ -71,26 +71,62 @@
                                             <div :id="'each' +  item.progressIndex" style="display:none;">
                                                 <div :ref=' item.progressIndex' :class="'abc'+ item.progressIndex"></div>
                                             </div>
-                                            <p v-if="item.relaList.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></p>
-                                            <p v-else v-show="item.flag" @click="gonggaoClick(item.relaList[0])" class="gonggao" style="display: block" :id="'more'+  item.progressIndex">
+                                          <!--注册制正常---显示公告名-->
+                                            <div v-if="isTechBoard=='0'">
+                                              <p v-if="item.relaList.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></p>
+                                              <p v-else v-show="item.flag" @click="gonggaoClick(item.relaList[0])" class="gonggao" style="display: block" :id="'more'+  item.progressIndex">
                                                 <a>{{item.relaList[0].relationFileTitle}}</a>
-                                            </p>
+                                              </p>
+                                            </div>
+                                          <!--科创版---区分‘中止和终止2个节点的显示，其他节点正常显示’-->
+                                            <div v-else>
+                                              <!--终止和中止节点-->
+                                              <div v-if="item.isStopOrSuspend">
+                                                <div v-if="item.subtitle&&item.subtitle.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></div>
+                                                <div v-else v-show="item.flag" @click="lawsClick(item)" class="gonggao" style="display: block" :id="'more'+  item.progressIndex">
+                                                  <p v-if="item.progressName=='审核中止'" style="color: #14bcf5;font-size: 14px;">根据《审核规则》第六十四条：</p>
+                                                  <p v-if="item.progressName=='审核终止'" style="color: #14bcf5;font-size: 14px;">根据《审核规则》第六十七条：</p>
+                                                  <a v-if="item.subtitle&&item.subtitle.length>0" v-for="lawsItem in item.subtitle">{{lawsItem}}</br></a>
+                                                </div>
+                                              </div>
+                                              <!--其他节点-->
+                                              <div v-else>
+                                                <p v-if="item.relaList.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></p>
+                                                <p v-else v-show="item.flag" @click="gonggaoClick(item.relaList[0])" class="gonggao" style="display: block" :id="'more'+  item.progressIndex">
+                                                  <a>{{item.relaList[0].relationFileTitle}}</a>
+                                                </p>
+                                              </div>
+                                          </div>
                                         </div>
                                         <div v-if="item.flag&&item.relaList.length>1" style="margin-bottom: 24px;margin-top: 8px;">
                                             <span>
-                                                <span>
+                                              <!--核准制正常显示-->
+                                                <span v-if="isTechBoard=='0'">
                                                     <a v-if="boxDataItem.treeTypeCode == '02'" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告 ></a>
                                                     <a v-else @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多文件 ></a>
                                                 </span>
+                                              <!--科创版‘中止’和‘终止’2个节点不显示-->
+                                              <span v-else>
+                                                    <a v-if="boxDataItem.treeTypeCode == '02'&&!item.isStopOrSuspend" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告 ></a>
+                                                    <a v-if="boxDataItem.treeTypeCode != '02'&&!item.isStopOrSuspend" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多文件 ></a>
+                                                </span>
                                             </span>
                                         </div>
-                                        <div v-show="item.relaList.length!=0" v-if="!item.flag" style="margin-bottom: 14px;margin-top: 8px;">
+                                        <div v-if="!item.flag" style="margin-bottom: 14px;margin-top: 8px;">
                                             <span>
-                                                <span>
+                                              <!--核准制正常显示-->
+                                                <span v-if="isTechBoard=='0'">
                                                      <!-- 第一个进程展示的是‘查看公告’ -->
                                                     <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看公告 ></div>
                                                     <!-- 第二个进程展示的是‘查看文件’ -->
                                                     <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看文件 ></div>
+                                                </span>
+                                              <!--科创版  ‘终止和中止显示；‘查看原因’’-->
+                                              <span v-else>
+                                                     <!-- 第一个进程展示的是‘查看公告’ -->
+                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="item.isStopOrSuspend" v-show="item.subtitle&&item.subtitle.length>0"   @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看原因 ></div>
+                                                <!-- 第二个进程展示的是‘查看文件’ -->
+                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer"v-if="boxDataItem.treeTypeCode != '02'&&!item.isStopOrSuspend" v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看文件 ></div>
                                                 </span>
                                             </span>
                                         </div>
@@ -166,28 +202,65 @@
                                             <div :id="'each' +  item.progressIndex" style="display:none;">
                                                 <div :ref=' item.progressIndex' :class="'abc'+ item.progressIndex"></div>
                                             </div>
+                                          <!--注册制正常---显示公告名-->
+                                          <div v-if="isTechBoard=='0'">
                                             <p v-if="item.relaList.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></p>
-                                            <p v-else v-show="item.flag" @click="gonggaoClick(item.relaList[0])" class="gonggao" style="display: block"
-                                            :id="'more'+  item.progressIndex"><a>{{item.relaList[0].relationFileTitle}}</a></p>
+                                            <p v-else v-show="item.flag" @click="gonggaoClick(item.relaList[0])" class="gonggao" style="display: block" :id="'more'+  item.progressIndex">
+                                              <a>{{item.relaList[0].relationFileTitle}}</a>
+                                            </p>
+                                          </div>
+                                          <!--科创版---区分‘中止和终止2个节点的显示，其他节点正常显示’-->
+                                          <div v-else>
+                                            <!--终止和中止节点-->
+                                            <div v-if="item.isStopOrSuspend">
+                                              <div v-if="item.subtitle&&item.subtitle.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></div>
+                                              <div v-else v-show="item.flag" @click="lawsClick(item)" class="gonggao" style="display: block" :id="'more'+  item.progressIndex">
+                                                <p v-if="item.progressName=='审核中止'" style="color: #14bcf5;font-size: 14px;">根据《审核规则》第六十四条：</p>
+                                                <p v-if="item.progressName=='审核终止'" style="color: #14bcf5;font-size: 14px;">根据《审核规则》第六十七条：</p>
+                                                <a v-if="item.subtitle&&item.subtitle.length>0" v-for="lawsItem in item.subtitle">{{lawsItem}}</br></a>
+                                              </div>
+                                            </div>
+                                            <!--其他节点-->
+                                            <div v-else>
+                                              <p v-if="item.relaList.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></p>
+                                              <p v-else v-show="item.flag" @click="gonggaoClick(item.relaList[0])" class="gonggao" style="display: block" :id="'more'+  item.progressIndex">
+                                                <a>{{item.relaList[0].relationFileTitle}}</a>
+                                              </p>
+                                            </div>
+                                          </div>
                                         </div>
-                                        <div v-if="item.flag&&item.relaList.length>1" style="margin-bottom: 24px;margin-top: 8px;">
+                                      <div v-if="item.flag&&item.relaList.length>1" style="margin-bottom: 24px;margin-top: 8px;">
                                             <span>
-                                                <span>
+                                              <!--核准制正常显示-->
+                                                <span v-if="isTechBoard=='0'">
                                                     <a v-if="boxDataItem.treeTypeCode == '02'" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告 ></a>
                                                     <a v-else @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多文件 ></a>
                                                 </span>
-                                            </span>
-                                        </div>
-                                        <div   v-show="item.relaList.length!=0" v-if="!item.flag" style="margin-bottom: 14px;margin-top: 8px;">
-                                            <span>
-                                                <span>
-                                                     <!-- 第一个进程展示的是‘查看公告’ -->
-                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看公告 ></div>
-                                                    <!-- 第二个进程展示的是‘查看文件’ -->
-                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看文件 ></div>
+                                              <!--科创版‘中止’和‘终止’2个节点不显示-->
+                                              <span v-else>
+                                                    <a v-if="boxDataItem.treeTypeCode == '02'&&!item.isStopOrSuspend" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告 ></a>
+                                                    <a v-if="boxDataItem.treeTypeCode != '02'&&!item.isStopOrSuspend" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多文件 ></a>
                                                 </span>
                                             </span>
-                                        </div>
+                                      </div>
+                                      <div v-if="!item.flag" style="margin-bottom: 14px;margin-top: 8px;">
+                                            <span>
+                                              <!--核准制正常显示-->
+                                                <span v-if="isTechBoard=='0'">
+                                                     <!-- 第一个进程展示的是‘查看公告’ -->
+                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看公告 ></div>
+                                                  <!-- 第二个进程展示的是‘查看文件’ -->
+                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看文件 ></div>
+                                                </span>
+                                              <!--科创版  ‘终止和中止显示；‘查看原因’’-->
+                                              <span v-else>
+                                                     <!-- 第一个进程展示的是‘查看公告’ -->
+                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="item.isStopOrSuspend" v-show="item.subtitle&&item.subtitle.length>0"   @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看原因 ></div>
+                                                <!-- 第二个进程展示的是‘查看文件’ -->
+                                                    <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer"v-if="boxDataItem.treeTypeCode != '02'&&!item.isStopOrSuspend" v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看文件 ></div>
+                                                </span>
+                                            </span>
+                                      </div>
                                     </div>
                                 </div>
                                     <!-- 三个点展开全部  [在第一个和最后一个节点之间] -->
@@ -273,6 +346,7 @@ export default {
         };
     },
     name: "processTree",
+    props:["isTechBoard"],
     created(){
          // 日志--------------------功能头
       let param = {
@@ -309,11 +383,29 @@ export default {
             this.flagLoading = false;
             if(res.data.result&&res.data.result.treeList&&res.data.result.treeList.length>0){
                 this.treeList = res.data.result.treeList
+                console.log('进程树',this.treeList)
                 this.treeTypeCode = res.data.result.treeList[0].treeTypeCode
+                this.handleStopOrSuspend()
             }
         })
       },
-
+       //处理返回的relaList数组中的法规文件，‘中止审查’和‘终止审查’
+       handleStopOrSuspend(){
+         // debugger;
+          if(this.treeList&&this.treeList.length>0){
+            for(let i = 0;i<this.treeList.length;i++){
+              if(this.treeList[i].proList&&this.treeList[i].proList.length>0){
+                for(let j = 0;j<this.treeList[i].proList.length;j++){
+                  if(this.treeList[i].proList[j].progressName==='审核终止' || this.treeList[i].proList[j].progressName==='审核中止'){
+                      this.$set(this.treeList[i].proList[j],'isStopOrSuspend',true)
+                  }else{
+                      this.$set(this.treeList[i].proList[j],'isStopOrSuspend',false)
+                  }
+                }
+              }
+            }
+          }
+       },
         // 弹窗多选框
        handleSelectionChange(val) {
         this.multipleSelection = val;
@@ -430,7 +522,13 @@ export default {
                 item.flag = true;
              }
         },
-
+        lawsClick(item){
+          const _self = this;
+          const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + item.addressId + '&access_token=' +
+            _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
+          console.log('法规地址',href)
+          this.$open(href);
+        },
         // 点击展示的第一条公告名
         gonggaoClick(param){
           this.$open(encodeURI(param.baseUrl));

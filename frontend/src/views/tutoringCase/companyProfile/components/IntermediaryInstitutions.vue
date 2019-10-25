@@ -9,10 +9,16 @@
       <div class="InstitutionsDetail">
         <ul>
           <li class="clear " v-for="item in IntermediaryList">
-            <p class="institutionTitle">{{item.intermediaryTypeName}}</p>
+            <p v-if="item.intermediaryType=='7'" class="institutionTitle">辅导机构</p>
+            <p v-if="item.intermediaryType=='3'" class="institutionTitle">律师事务所</p>
+            <p v-if="item.intermediaryType=='4'" class="institutionTitle">会计师事务所</p>
+
             <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'">
               <div class="image l">
-                <img src="../../../../assets/images/coSponsors.png" alt>
+                <img v-if="item.intermediaryType=='7'" src="../../../../assets/images/coSponsors.png" alt>
+                <img v-if="item.intermediaryType=='3'" src="../../../../assets/images/lvshi.png" alt>
+                <img v-if="item.intermediaryType=='4'" src="../../../../assets/images/kuaiji.png" alt>
+
               </div>
               <div class="text l">
                 <div>
@@ -22,8 +28,12 @@
                 <!-- 经办辅导人员 -->
                 <ul>
                   <li class="people">
-                    <span style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                    <span v-if="item.intermediaryType=='7'" style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
                     font-style: normal;  font-size: 14px; color: #999999;">经办辅导人员：</span>
+                    <span v-if="item.intermediaryType=='3'" style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                    font-style: normal;  font-size: 14px; color: #999999;">经办律师：</span>
+                    <span v-if="item.intermediaryType=='4'" style="font-family: 'PingFang-SC-Regular', 'PingFang SC'; font-weight: 400;
+                    font-style: normal;  font-size: 14px; color: #999999;">经办注册会计师：</span>
                     <span v-if="item.agentPerson" style="font-size:14px;color:black" class="ls" :title="item.agentPerson.length>38?item.agentPerson:''">{{getContent(item.agentPerson)}}</span>
                     <span v-else>- -</span>
                   </li>
@@ -52,7 +62,6 @@
         mainList:[],//主要机构
         moreList:[],//更多机构
         allStitutionList:[],
-        accounts:[],//会计事务所
         accountsTotal:[],
         accountsValid:[],
         accountsUnValid:[],
@@ -64,7 +73,6 @@
         securitysTotal:[],
         securitysValid:[],
         securitysUnValid:[],
-        lawyers:[],//律师事务所
         lawyersTotal:[],
         lawyersValid:[],
         lawyersUnValid:[],
@@ -94,6 +102,9 @@
         failureArr:[],
         effectiveArr:[],
         allArr:[],
+        accountsList:[],//会计事务所列表
+        lawyersList:[],//律师事务所列表
+        tutoringList:[],//辅导机构列表
       }
     },
     watch: {
@@ -114,64 +125,113 @@
     created() {
       this.initIntermediaryOrgLista()
       console.log('中介机构----------子',this.intermediaryOrgList)
+
     },
     mounted(){
 
     },
     methods: {
+      //将同一种类型的中介机构放在一起，按照辅导-律所-会所的顺序
+      trans (data) {
+        var orderf = ["7","3","4"];
+        var tmp = [];
+        for (var i = 0; i < orderf.length; i++) {
+          for (var j = 0; j < this.IntermediaryList.length; j++) {
+            if (orderf[i] == this.IntermediaryList[j].intermediaryType){
+              tmp.push(this.IntermediaryList[j]);
+            }
+          }
+        }
+        this.IntermediaryList = tmp
+        // let cache = {} // cache存储的键是intermediaryType，值是这个intermediaryType在indices数组中的下标
+        // let indices = [] // 数组中的每一个值是一个数组，数组中的每一个元素是原数组中相同eid的下标
+        // data.forEach((item, i) => {
+        //   let intermediaryType = item.intermediaryType
+        //   let index = cache[intermediaryType]
+        //   if (index !== undefined) {
+        //     indices[index].push(i)
+        //   } else {
+        //     cache[intermediaryType] = indices.length
+        //     indices.push([i])
+        //   }
+        // })
+        // let result = []
+        // indices.forEach(item => {
+        //   item.forEach(index => {
+        //     result.push(data[index]) // 依次把index对应的元素data[index]添加进去即可
+        //   })
+        // })
+        // this.IntermediaryList = result
+        // console.log('数据排序',result)
+      },
+      handleListType(){
+        for(let i = 0;i<this.intermediaryOrgList.length;i++){
+            if(this.intermediaryOrgList[i].intermediaryType=='7'){
+              this.tutoringList.push(this.intermediaryOrgList[i])
+              console.log('辅导机构列表',this.tutoringList)
+            }
+          if(this.intermediaryOrgList[i].intermediaryType=='3'){
+            this.lawyersList.push(this.intermediaryOrgList[i])
+            console.log('律师列表',this.lawyersList)
+          }
+          if(this.intermediaryOrgList[i].intermediaryType=='4'){
+            this.accountsList.push(this.intermediaryOrgList[i])
+            console.log('会计师列表',this.accountsList)
+          }
+        }
+      },
       initIntermediaryOrgLista(){
         this.getEffectiveArr()
       },
       getAllArrFlag(){
         let allList = []
         for(let i = 0;i<this.intermediaryOrgList.length;i++){
-          if(this.intermediaryOrgList[i].intermediaryType=='7'){
+          // 3：律师  4：会计师   7：辅导机构
+          // if(this.intermediaryOrgList[i].intermediaryType=='7'){
             allList.push(this.intermediaryOrgList[i])
             if(allList&&allList.length>0){
               return true
             }
             return false
-          }
+          // }
         }
       },
       getAllArr(){
         this.IntermediaryList = []
         this.allArr = []
         for(let i = 0;i<this.intermediaryOrgList.length;i++){
-          if(this.intermediaryOrgList[i].intermediaryType=='7'){
-            this.allArr.push(this.intermediaryOrgList[i])
-            this.IntermediaryList = this.allArr
-          }
+          this.allArr.push(this.intermediaryOrgList[i])
+          this.IntermediaryList = this.allArr
         }
+        this.trans(this.IntermediaryList)
         console.log('全部',this.IntermediaryList)
       },
       getEffectiveArr(){
         this.IntermediaryList = []
         this.effectiveArr = []
         for(let i = 0;i<this.intermediaryOrgList.length;i++){
-          if(this.intermediaryOrgList[i].validFlag == '1'&&this.intermediaryOrgList[i].intermediaryType=='7'){
+          if(this.intermediaryOrgList[i].validFlag == '1'){
             this.effectiveArr.push(this.intermediaryOrgList[i])
             this.IntermediaryList = this.effectiveArr
-
           }
         }
+        this.trans(this.IntermediaryList)
         console.log('有效',this.IntermediaryList)
       },
       getFailureArr(){
         this.IntermediaryList = []
         this.failureArr = []
         for(let i = 0;i<this.intermediaryOrgList.length;i++){
-          if(this.intermediaryOrgList[i].validFlag == '0'&&this.intermediaryOrgList[i].intermediaryType=='7'){
+          if(this.intermediaryOrgList[i].validFlag == '0'){
             this.failureArr.push(this.intermediaryOrgList[i])
             this.IntermediaryList = this.failureArr
-
           }
         }
+        this.trans(this.IntermediaryList)
         console.log('失效',this.IntermediaryList)
       },
       // 非空判断
       isNotEmpty(param) {
-        // debugger
         if (param != null && param !== undefined && param !== '' && param !== 'null' && param !== 'undefined') {
           return true
         } else {

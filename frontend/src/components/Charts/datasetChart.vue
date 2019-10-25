@@ -161,7 +161,8 @@ export default {
           //top : '5%',标签过多换行重叠表格
           left : '1%',
           right : '4%',
-          bottom : '3%',
+          top : '25%',
+          bottom:'0%',
           containLabel : true
         },
         xAxis : [{
