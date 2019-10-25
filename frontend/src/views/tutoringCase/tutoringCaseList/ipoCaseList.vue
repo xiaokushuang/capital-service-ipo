@@ -1721,7 +1721,11 @@
       },
       itemClickHandler(row) {
         let id = row.id;
-        if (id) {
+        if (id = "-----"){
+          let url = window.location.href;
+          url = url.replace(this.$route.path, '/ipoOverduePopWin');
+          iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
+        } else if (id) {
           var caseId = id.substring(3, id.length);
           const _self = this;
           const {
@@ -1743,11 +1747,7 @@
           this.$store.commit('CREATE_TEMP_MESSAGE', param);
           // 日志---------------------尾
           this.$open(href, '_blank');
-        } else if (id = "-----"){
-          let url = window.location.href;
-          url = url.replace(this.$route.path, '/ipoOverduePopWin');
-          iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
-        } else {
+        }else {
           let url = window.location.href;
           url = url.replace(this.$route.path, '/ipoPopWin');
           iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
