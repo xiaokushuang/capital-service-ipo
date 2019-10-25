@@ -171,6 +171,7 @@ export default {
 			iframeDoMessage(window.parent,'popWinOut',[label,url,'1200','580']);
         },
       openFdDetail(quasiListedLand,label) {//打开详情页
+        debugger;
         var intermediaryType = '7'
         if(this.id = 'first'){
           intermediaryType = '7'
@@ -183,7 +184,6 @@ export default {
         url = url.replace(this.$route.path,'/ipoDataOverviewDetailFdPopWin');
         url = url + '&label=' + label + '&intermediaryType=' + intermediaryType + '&tabFlag=' + this.id;;
         //参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
-        alert(url)
         iframeDoMessage(window.parent,'popWinOut',[label,url,'1200','580']);
       }
 

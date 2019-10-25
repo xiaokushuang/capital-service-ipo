@@ -63,6 +63,7 @@
           intermediaryType : this.$route.query.intermediaryType,
         }
         getIpoDataOverviewFdDetail(param).then(response => {
+          debugger;
           if (this.$route.query.intermediaryType){
             if (this.$route.query.intermediaryType == '7'){
               this.data = response.data.result.recommendOrgSttsList;
