@@ -80,7 +80,7 @@
         <el-col :span="24">
           <div style="margin-top:10px;margin-bottom:16px;margin-left: 10px">
             <span style="display: inline-block;width:3px;height:18px;background:gray;"></span>
-            <span style="display: inline-block;font-size:18px;">IPO在审企业中介机构情况</span>
+            <span style="display: inline-block;font-size:18px;">IPO在审及辅导企业中介机构情况</span>
           </div>
         </el-col>
       </el-row>

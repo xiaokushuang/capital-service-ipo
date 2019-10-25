@@ -315,11 +315,11 @@ export default {
       exportExcelPostWindow1("/ipo/regulatory_statistics/ipoItemDataExport",this.queryParam);
     },
     openFdDetailProv(registAddr,lastUpadteTime,approveStatus,viewType){
+      debugger;
       let url = window.location.href;
       url = url.replace(this.$route.path,'/ipoDataOverviewDetailFdPopWin');
       url = url + '&registAddr=' + registAddr + '&approveStatus=' + approveStatus;
       //参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
-      alert(url)
       iframeDoMessage(window.parent,'popWinOut',[registAddr,url,'1200','580']);
     },
     openDetail(registAddr,lastUpadteTime,approveStatus,viewType){
