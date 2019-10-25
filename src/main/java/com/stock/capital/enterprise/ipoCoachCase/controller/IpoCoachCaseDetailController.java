@@ -32,15 +32,15 @@ public class IpoCoachCaseDetailController extends BaseController {
         TreeTypeProgressDto processResult = ipoCoachCaseDetailService.queryIpoProcessByCaseId(id);
         if (processResult !=null && processResult.getTreeList() != null && processResult.getTreeList().size() > 0) {
             String listSize = String.valueOf(processResult.getTreeList().get(0).getProList().size() - 1);
-            String endDate = "";
+            String startDate = "";
             for (int i =0;i< processResult.getTreeList().get(0).getProList().size();i++){
                 if("01".equals(processResult.getTreeList().get(0).getProList().get(i).getProgressType())){
-                    endDate = processResult.getTreeList().get(0).getProList().get(i).getRelaList().get(0).getPublishTime();
+                    startDate = processResult.getTreeList().get(0).getProList().get(i).getRelaList().get(0).getPublishTime();
                     break;
                 }
             }
-            //String endDate = processResult.getTreeList().get(0).getProList().get(0).getRelaList().get(0).getPublishTime();
-            String startDate = processResult.getTreeList().get(0).getProList().get(Integer.parseInt(listSize)).getRelaList().get(0).getPublishTime();
+            String endDate = processResult.getTreeList().get(0).getProList().get(0).getRelaList().get(0).getPublishTime();
+//            String startDate = processResult.getTreeList().get(0).getProList().get(Integer.parseInt(listSize)).getRelaList().get(0).getPublishTime();
             ipoCoachCaseDto.setLastDate(endDate);
             ipoCoachCaseDto.setTreeList(processResult.getTreeList());
             if(StringUtils.isNotEmpty(startDate) &&StringUtils.isNotEmpty(endDate)){
