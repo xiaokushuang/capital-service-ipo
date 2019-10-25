@@ -3,44 +3,55 @@
         <el-table :data="data" style="width: 100%;border-right:2px solid #DDDDDD!important;" class="paddingControl" border tooltip-effect="dark" :cell-class-name="tdStyle"
           @sort-change="sortChange" ref="multipleSelection">
            <el-table-column align="center" label="序号" type="index" width="60"></el-table-column>
-                <el-table-column v-if="id == 'first'" align="left" label="保荐机构" prop="label" min-width="30%"></el-table-column>
-                <el-table-column v-else-if="id == 'second'" align="left" label="律师事务所" prop="label" min-width="30%"></el-table-column>
-                <el-table-column v-else align="left" label="会计事务所" prop="label" min-width="30%"></el-table-column>
-                <el-table-column align="center" label="沪主板" prop="hzbCount" min-width="10%" sortable="custom">
+                <el-table-column v-if="id == 'first'" align="left" label="保荐机构" prop="label" min-width="24%"></el-table-column>
+                <el-table-column v-else-if="id == 'second'" align="left" label="律师事务所" prop="label" min-width="24%"></el-table-column>
+                <el-table-column v-else align="left" label="会计事务所" prop="label" min-width="24%"></el-table-column>
+                <el-table-column align="center" label="沪主板" prop="hzbCount" min-width="9%" sortable="custom">
                     <template slot-scope="scope">
                         <span class="spanClass" v-if="getValue(scope.row.hzbCount) != 0" @click="openDetail('00',scope.row.label)">{{scope.row.hzbCount}}</span>
                         <span v-else class="spanClassNone">{{scope.row.hzbCount}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column align="center" label="中小板" prop="zxbCount" min-width="10%" sortable="custom">
+                <el-table-column align="center" label="中小板" prop="zxbCount" min-width="9%" sortable="custom">
                     <template slot-scope="scope">
                         <span class="spanClass" v-if="getValue(scope.row.zxbCount) != 0" @click="openDetail('02',scope.row.label)">{{scope.row.zxbCount}}</span>
                         <span v-else class="spanClassNone">{{scope.row.zxbCount}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column align="center" label="创业板" prop="cybCount" min-width="10%" sortable="custom">
+                <el-table-column align="center" label="创业板" prop="cybCount" min-width="9%" sortable="custom">
                     <template slot-scope="scope">
                         <span class="spanClass" v-if="getValue(scope.row.cybCount) != 0" @click="openDetail('03',scope.row.label)">{{scope.row.cybCount}}</span>
                         <span v-else class="spanClassNone">{{scope.row.cybCount}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column align="center" label="科创板" prop="kcCount" min-width="10%" sortable="custom" >
+                <el-table-column align="center" label="科创板" prop="kcCount" min-width="9%" sortable="custom" >
                     <template slot-scope="scope">
                         <span class="spanClass" v-if="getValue(scope.row.kcCount) != 0" @click="openDetail('04',scope.row.label)">{{scope.row.kcCount}}</span>
                         <span v-else class="spanClassNone">{{scope.row.kcCount}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column align="center" label="合计"  prop="totalCount" min-width="10%" sortable="custom">
+                <el-table-column align="center" label="合计"  prop="totalCount" min-width="9%" sortable="custom">
                     <template slot-scope="scope">
                         <span class="spanClass" v-if="getValue(scope.row.totalCount) != 0" @click="openDetail('',scope.row.label)">{{scope.row.totalCount}}</span>
                         <span v-else class="spanClassNone">{{scope.row.totalCount}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column align="center" label="市场占比" min-width="10%" prop="percent" sortable="custom">
+                <el-table-column align="center" label="市场占比" min-width="9%" prop="percent" sortable="custom">
                     <template slot-scope="scope">
                         <span>{{scope.row.percent}}%</span>
                     </template>
                 </el-table-column>
+          <el-table-column align="center" label="辅导企业"  prop="fdCount" min-width="9%" sortable="custom">
+            <template slot-scope="scope">
+              <span class="spanClass" v-if="getValue(scope.row.fdCount) != 0" @click="openFdDetail('',scope.row.label)">{{scope.row.fdCount}}</span>
+              <span v-else class="spanClassNone">{{scope.row.fdCount}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" label="市场占比" min-width="9%" prop="percentFd" sortable="custom">
+            <template slot-scope="scope">
+              <span>{{scope.row.percentFd}}%</span>
+            </template>
+          </el-table-column>
         </el-table>
         <papers ref="paper" :sdefault="condition_copy" :tabFlag="ipoDataOverview" :length1="20" :total="totalCount" @searchTable="search"></papers>
         <div class="bottomHeight"></div>
@@ -158,7 +169,22 @@ export default {
              + '&registAddr=' + this.areaSelect + '&tabFlag=' + this.id;
 			//参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
 			iframeDoMessage(window.parent,'popWinOut',[label,url,'1200','580']);
+        },
+      openFdDetail(quasiListedLand,label) {//打开详情页
+        var intermediaryType = '7'
+        if(this.id = 'first'){
+          intermediaryType = '7'
+        } else if (this.id = 'second'){
+          intermediaryType = '3'
+        }else {
+          intermediaryType = '4'
         }
+        let url = window.location.href;
+        url = url.replace(this.$route.path,'/ipoDataOverviewDetailFdPopWin');
+        url = url + '&label=' + label + '&intermediaryType=' + intermediaryType + '&tabFlag=' + this.id;;
+        //参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
+        iframeDoMessage(window.parent,'popWinOut',[label,url,'1200','580']);
+      }
 
     },
     watch : {

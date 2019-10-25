@@ -1148,4 +1148,150 @@ public class StatisticsService extends BaseService implements ServletContextAwar
     public Map<String, Object> getIpoItemByCompanyCodeSelectId(String code) {
         return statisticsBizMapper.getIpoItemByCompanyCodeSelectId(code);
     }
+
+    public ByteArrayInputStream ipoCommendFdDetailExport(StatisticsParamDto statisticsParamDto , String flag) {
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        List<StatisticsResultDto> comDtos = new ArrayList<StatisticsResultDto>();
+//        if("1".equals(flag)){
+//        	comDtos = queryCommendDetail(statisticsParamDto);
+//	  	}else if("2".equals(flag)){
+//	  		comDtos = queryLawDetail(statisticsParamDto);
+//	  	}else if("3".equals(flag)){
+//	  		comDtos = queryAccountDetail(statisticsParamDto);
+//	  	}
+        if (StringUtils.isEmpty(statisticsParamDto.getIntermediaryType())){
+            comDtos = getIpoDataOverviewFdDetail(statisticsParamDto).getIpoDetailList();
+        }else {
+            if (statisticsParamDto.getIntermediaryType().equals("7")){
+                comDtos = getIpoDataOverviewFdDetail(statisticsParamDto).getRecommendOrgSttsList();
+            }else if(statisticsParamDto.getIntermediaryType().equals("3")){
+                comDtos = getIpoDataOverviewFdDetail(statisticsParamDto).getLawFirmSttsList();
+            }else if(statisticsParamDto.getIntermediaryType().equals("4")){
+                comDtos = getIpoDataOverviewFdDetail(statisticsParamDto).getAccountantOfficeSttsList();
+            }
+        }
+        HSSFSheet sheet = workbook.createSheet("Sheet1");
+        HSSFRow row = null;
+        HSSFCellStyle cellStyle = workbook.createCellStyle();
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
+        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        cellStyle.setWrapText(true);
+        HSSFFont f = workbook.createFont();
+        f.setFontHeightInPoints((short) 12);
+        f.setBold(true);
+        cellStyle.setFont(f);
+        HSSFCellStyle cs = workbook.createCellStyle();
+        cs.setWrapText(true);
+        HSSFCell cell = null;
+        cell = sheet.createRow(0).createCell((int) 0);
+        cell.setCellValue("URL Link");
+        // 内容居中
+        HSSFCellStyle conCenterStyle = workbook.createCellStyle();
+        conCenterStyle.setAlignment(HorizontalAlignment.CENTER);
+        conCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        conCenterStyle.setWrapText(true);
+        // 设置标题
+        row = sheet.createRow(0);
+        row.setHeight((short) 600);
+        //  协会机构不显示排行
+        String[] titles = new String[] {"辅导企业","注册地","辅导备案时间","辅导进程","最新进程时间","辅导历时（天）"};
+        for (int i = 0; i < 6; i++) {
+            sheet.setDefaultColumnStyle(i, cs);
+            cell = row.createCell(i);
+            cell.setCellStyle(cellStyle);
+            cell.setCellValue(titles[i]);
+        }
+        row = sheet.createRow(1);
+        row.setHeight((short) 600);
+
+        if (comDtos != null && comDtos.size() > 0) {
+            // 设置内容
+            for (int i = 0; i < comDtos.size(); i++) {
+                row = sheet.createRow(i+1);
+                row.setHeight((short) 600);
+                cell = row.createCell(0);
+                cell.setCellValue(comDtos.get(i).getCompanyName());
+                cell.setCellStyle(conCenterStyle);
+                cell = row.createCell(1);
+                cell.setCellValue(changeAreaName(comDtos.get(i).getRegistAddr()));
+                cell.setCellStyle(conCenterStyle);
+                cell = row.createCell(2);
+                cell.setCellValue(comDtos.get(i).getProcessTime());
+                cell.setCellStyle(conCenterStyle);
+                cell = row.createCell(3);
+                cell.setCellValue(comDtos.get(i).getProcessType());
+                cell.setCellStyle(conCenterStyle);
+                cell = row.createCell(4);
+                cell.setCellValue(comDtos.get(i).getNewTime());
+                cell.setCellStyle(conCenterStyle);
+                cell = row.createCell(5);
+                cell.setCellValue(comDtos.get(i).getTime());
+                cell.setCellStyle(conCenterStyle);
+                cell = row.createCell(6);
+
+                cell.setCellStyle(conCenterStyle);
+            }
+        }
+        sheet.setColumnWidth(0, 6000);
+        sheet.setColumnWidth(1, 4000);
+        sheet.setColumnWidth(2, 6000);
+        sheet.setColumnWidth(3, 6000);
+        sheet.setColumnWidth(4, 6000);
+        sheet.setColumnWidth(5, 5000);
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        try {
+            workbook.write(os);
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ByteArrayInputStream(os.toByteArray());
+    }
+
+    /**
+     * 取得ipo数据概览详情数据
+     */
+    public StatisticsReturnDto getIpoDataOverviewFdDetail(StatisticsParamDto dto) {
+        /*List<String> areaList = new ArrayList<String>();
+        List<String> industryList = new ArrayList<String>();
+        Map<String, Object> map = new HashMap<String, Object>();
+        String updateTime = statisticsBizMapper.getIPOLastTime();
+        //截止时间
+        map.put("lastUpadteTime", updateTime);
+        //会计师事务所名称
+        map.put("label", dto.getLabel());
+        //所属板块
+        map.put("quasiListedLand", dto.getQuasiListedLand());
+        //所属行业
+        if(!dto.getIndustry().isEmpty()){
+            industryList = Arrays.asList(dto.getIndustry().toString().split(","));
+            map.put("industryList", industryList);
+        }
+        //注册地
+        if(!dto.getRegistAddr().isEmpty()){
+                areaList = Arrays.asList(dto.getRegistAddr().toString().split(","));
+            map.put("areaList", areaList);
+        }
+        List<StatisticsResultDto> list = Lists.newArrayList();
+        if("first".equals(dto.getTabFlag())) {
+            //保荐机构详情页数据
+            list = statisticsBizMapper.queryCommendDetail(map);
+        } else if("second".equals(dto.getTabFlag())) {
+            //律师事务所详情页数据
+            list = statisticsBizMapper.queryLawDetail(map);
+        } else if("third".equals(dto.getTabFlag())) {
+            //律师事务所详情页数据
+            list = statisticsBizMapper.queryAccountDetail(map);
+        }
+        StatisticsReturnDto returnDto = new StatisticsReturnDto();
+        returnDto.setIpoDetailList(list);*/
+
+        ParameterizedTypeReference<JsonResponse<StatisticsReturnDto>> responseType = new ParameterizedTypeReference<JsonResponse<StatisticsReturnDto>>() {
+        };
+        String url = apiBaseUrl + "ipoStatistics/getIPOfdCaseDetail";
+        StatisticsReturnDto returnDto = restClient.post(url, dto, responseType).getResult();
+
+        return returnDto;
+    }
 }
