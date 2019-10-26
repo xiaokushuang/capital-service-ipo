@@ -110,13 +110,13 @@ public class IpoProcessService extends BaseService {
                 if (CollectionUtils.isNotEmpty(proList.get(j).getRelaList())){// 针对 科创板 审核中止、审核终止。其他不进
                     if (proList.get(j).getProgressType().equals("39")){// 针对 审核中止 只有一行 或者没有行
                         IpoFileRelationDto dto = proList.get(j).getRelaList().get(0);
-                        List<String> subTitles = ipoProcessMapper.selectConfLabelBy("IPO_PAUSE_REVIEW",dto.getIecResult());
+                        List<String> subTitles = ipoProcessMapper.selectConfLabelBy("IPO_PAUSE_REVIEW",dto.getIecReason());
                         proList.get(j).setSubtitle(subTitles);
                         String lawId = getLawId();
                         proList.get(j).setAddressId(lawId);
                     } else if (proList.get(j).getProgressType().equals("40")){// 针对 审核终止 只有一行或者 没有行
                         IpoFileRelationDto dto = proList.get(j).getRelaList().get(0);
-                        List<String> subTitles = ipoProcessMapper.selectConfLabelBy("IPO_STOP_REVIEW",dto.getIecResult());
+                        List<String> subTitles = ipoProcessMapper.selectConfLabelBy("IPO_STOP_REVIEW",dto.getIecReason());
                         proList.get(j).setSubtitle(subTitles);
                         String lawId = getLawId();
                         proList.get(j).setAddressId(lawId);
