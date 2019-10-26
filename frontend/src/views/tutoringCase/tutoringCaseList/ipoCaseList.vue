@@ -476,7 +476,7 @@
                       <div v-else class="noDataColor">- -</div>
                     </template>
                   </el-table-column>
-                  <el-table-column align="left" prop="ipo_label_result_t" label="IPO进程" sortable="custom" width="100">
+                  <el-table-column align="left" prop="ipo_process_t" label="IPO进程" sortable="custom" width="100">
                     <template slot-scope="scope">
                       {{scope.row.processLabel}}
                       <br />
