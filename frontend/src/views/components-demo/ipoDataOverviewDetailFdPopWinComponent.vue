@@ -69,6 +69,7 @@
           param = {
             label : this.$route.query.label,
             intermediaryType : this.$route.query.intermediaryType,
+            labelCode:this.$route.query.labelCode,
           }
         }
         getIpoDataOverviewFdDetail(param).then(response => {
