@@ -21,6 +21,7 @@
                     <result column="table_sort" property="tableSort" jdbcType="VARCHAR"/>
                     <result column="suffix" property="suffix" jdbcType="VARCHAR"/>
                     <result column="publish_time" property="publishTime" jdbcType="VARCHAR"/>
+                    <result column="iec_reason" property="iecReason" jdbcType="VARCHAR"/>
                 </collection>
             </collection>
         </collection>
@@ -43,7 +44,8 @@
             t3.suffix,
             t1.iec_result,
             t1.relation_file_title,
-            t1.pro_sort
+            t1.pro_sort,
+            t1.iec_reason
             FROM
             ipo_process t1
             LEFT JOIN maa_conf_label t2 ON t2.label_value = t1.process_type_code

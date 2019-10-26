@@ -79,6 +79,7 @@ import {exportExcelPostWindow1} from '@/utils'
                     industry : this.$route.query.industry,
                     registAddr : this.$route.query.registAddr,
                     tabFlag : this.$route.query.tabFlag,
+                  labelCode:this.$route.query.labelCode,
                 }
                 this.$store.dispatch('getIpoDataOverviewDetail', param).then((data) => {//(方法名，参数)
                     this.data = data.ipoDetailList;

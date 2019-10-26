@@ -26,6 +26,8 @@ public class IpoFileRelationDto implements Serializable {
     private String iecResult;
     @ApiModelProperty("状态")
     private String status;
+    @ApiModelProperty("中止原因/终止原因")
+    private String iecReason;
 
     private static final long serialVersionUID = 1L;
 
@@ -99,5 +101,13 @@ public class IpoFileRelationDto implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getIecReason() {
+        return iecReason;
+    }
+
+    public void setIecReason(String iecReason) {
+        this.iecReason = iecReason;
     }
 }

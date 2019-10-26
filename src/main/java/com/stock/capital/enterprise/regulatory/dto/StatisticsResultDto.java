@@ -131,6 +131,15 @@ public class StatisticsResultDto implements Serializable {
     private String fdcx;
     private String fdwc;
     private String id;
+    private String labelCode;
+
+    public String getLabelCode() {
+        return labelCode;
+    }
+
+    public void setLabelCode(String labelCode) {
+        this.labelCode = labelCode;
+    }
 
     public String getId() {
         return id;
