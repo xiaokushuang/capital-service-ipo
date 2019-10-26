@@ -172,9 +172,9 @@ export default {
       openFdDetail(quasiListedLand,label) {//打开详情页
         debugger;
         var intermediaryType = '7'
-        if(this.id = 'first'){
+        if(this.id == 'first'){
           intermediaryType = '7'
-        } else if (this.id = 'second'){
+        } else if (this.id == 'second'){
           intermediaryType = '3'
         }else {
           intermediaryType = '4'
