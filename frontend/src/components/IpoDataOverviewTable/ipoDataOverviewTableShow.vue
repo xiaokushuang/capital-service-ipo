@@ -8,31 +8,31 @@
                 <el-table-column v-else align="left" label="会计事务所" prop="label" min-width="24%"></el-table-column>
                 <el-table-column align="center" label="沪主板" prop="hzbCount" min-width="9%" sortable="custom">
                     <template slot-scope="scope">
-                        <span class="spanClass" v-if="getValue(scope.row.hzbCount) != 0" @click="openDetail('00',scope.row.label)">{{scope.row.hzbCount}}</span>
+                        <span class="spanClass" v-if="getValue(scope.row.hzbCount) != 0" @click="openDetail('00',scope.row.label,scope.row.labelCode)">{{scope.row.hzbCount}}</span>
                         <span v-else class="spanClassNone">{{scope.row.hzbCount}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" label="中小板" prop="zxbCount" min-width="9%" sortable="custom">
                     <template slot-scope="scope">
-                        <span class="spanClass" v-if="getValue(scope.row.zxbCount) != 0" @click="openDetail('02',scope.row.label)">{{scope.row.zxbCount}}</span>
+                        <span class="spanClass" v-if="getValue(scope.row.zxbCount) != 0" @click="openDetail('02',scope.row.label,scope.row.labelCode)">{{scope.row.zxbCount}}</span>
                         <span v-else class="spanClassNone">{{scope.row.zxbCount}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" label="创业板" prop="cybCount" min-width="9%" sortable="custom">
                     <template slot-scope="scope">
-                        <span class="spanClass" v-if="getValue(scope.row.cybCount) != 0" @click="openDetail('03',scope.row.label)">{{scope.row.cybCount}}</span>
+                        <span class="spanClass" v-if="getValue(scope.row.cybCount) != 0" @click="openDetail('03',scope.row.label,scope.row.labelCode)">{{scope.row.cybCount}}</span>
                         <span v-else class="spanClassNone">{{scope.row.cybCount}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" label="科创板" prop="kcCount" min-width="9%" sortable="custom" >
                     <template slot-scope="scope">
-                        <span class="spanClass" v-if="getValue(scope.row.kcCount) != 0" @click="openDetail('04',scope.row.label)">{{scope.row.kcCount}}</span>
+                        <span class="spanClass" v-if="getValue(scope.row.kcCount) != 0" @click="openDetail('04',scope.row.label,scope.row.labelCode)">{{scope.row.kcCount}}</span>
                         <span v-else class="spanClassNone">{{scope.row.kcCount}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" label="合计"  prop="totalCount" min-width="9%" sortable="custom">
                     <template slot-scope="scope">
-                        <span class="spanClass" v-if="getValue(scope.row.totalCount) != 0" @click="openDetail('',scope.row.label)">{{scope.row.totalCount}}</span>
+                        <span class="spanClass" v-if="getValue(scope.row.totalCount) != 0" @click="openDetail('',scope.row.label,scope.row.labelCode)">{{scope.row.totalCount}}</span>
                         <span v-else class="spanClassNone">{{scope.row.totalCount}}</span>
                     </template>
                 </el-table-column>
@@ -128,7 +128,6 @@ export default {
 			this.setPage();
 			//分页查询
 			this.pageSearch();
-			debugger;
       var arr = document.getElementsByClassName("orderClass")
       for (var i=0;i<arr.length;){
         arr[i].classList.remove("orderClass")
@@ -162,28 +161,28 @@ export default {
                 });
             }
         },
-        openDetail(quasiListedLand,label) {//打开详情页
+        openDetail(quasiListedLand,label,labelCode) {//打开详情页
             let url = window.location.href;
             url = url.replace(this.$route.path,'/ipoDataOverviewDetailPopWin');
             url = url + '&label=' + label + '&quasiListedLand=' + quasiListedLand + '&industry=' + this.industrySelect
-             + '&registAddr=' + this.areaSelect + '&tabFlag=' + this.id;
+             + '&registAddr=' + this.areaSelect + '&tabFlag=' + this.id + '&labelCode='+labelCode;
 			//参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
 			iframeDoMessage(window.parent,'popWinOut',[label,url,'1200','580']);
         },
-      openFdDetail(quasiListedLand,label) {//打开详情页
+      openFdDetail(quasiListedLand,label,labelCode) {//打开详情页
+        debugger;
         var intermediaryType = '7'
-        if(this.id = 'first'){
+        if(this.id == 'first'){
           intermediaryType = '7'
-        } else if (this.id = 'second'){
+        } else if (this.id == 'second'){
           intermediaryType = '3'
         }else {
           intermediaryType = '4'
         }
         let url = window.location.href;
         url = url.replace(this.$route.path,'/ipoDataOverviewDetailFdPopWin');
-        url = url + '&label=' + label + '&intermediaryType=' + intermediaryType + '&tabFlag=' + this.id;;
+        url = url + '&label=' + label + '&intermediaryType=' + intermediaryType + '&tabFlag=' + this.id + '&labelCode='+labelCode;
         //参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
-        alert(url)
         iframeDoMessage(window.parent,'popWinOut',[label,url,'1200','580']);
       }
 

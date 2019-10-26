@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <el-row>
+    <el-row style="height: 30px;padding-right: 5px">
       <el-col align="right" :span="24">
-        <el-button size="small" class="searchBtn" @click="exportExcel">导出excel</el-button>
+        <span @click="exportExcel" style="border: 1px solid;color: #5CDCF9;padding: 5px 12px;cursor: pointer;">导出excel</span>
 
       </el-col>
     </el-row>
@@ -50,6 +50,7 @@
 
     },
     created(){
+
     },
     mounted() {
       //页面加载完成时查询数据
@@ -58,9 +59,18 @@
     methods:{
       search(data){//通过给定条件查询数据
         // document.getElementsByClassName("is-scrolling-none")[0].scrollTop = 0;
-        let param = {
-          label : this.$route.query.label,
-          intermediaryType : this.$route.query.intermediaryType,
+        let param = {}
+        if (this.$route.query.registAddr){
+          param = {
+            registAddr : this.$route.query.registAddr,
+            approveStatus : this.$route.query.approveStatus,
+          }
+        }else {
+          param = {
+            label : this.$route.query.label,
+            intermediaryType : this.$route.query.intermediaryType,
+            labelCode:this.$route.query.labelCode,
+          }
         }
         getIpoDataOverviewFdDetail(param).then(response => {
           if (this.$route.query.intermediaryType){
@@ -149,5 +159,10 @@
   .spanClass:hover {
     text-decoration: underline;
     cursor: pointer;
+  }
+  .layui-layer-title{
+    background: white !important;
+    color: #666666 !important;
+    font-weight: 700 !important;
   }
 </style>

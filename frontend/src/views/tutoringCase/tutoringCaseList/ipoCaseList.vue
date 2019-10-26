@@ -127,9 +127,9 @@
               </el-select>
             </el-col>
             <el-col :span='4'>
-              <el-select ref="isHidden" v-model="isHidden" title="是否拆分上市" placeholder="是否拆分上市" size="small full"
-                         :tselect=true @visible-change="calls()" @keydown.enter.native="querySearch" @sure-click="sure('isHidden')"
-                         @clear-click="clearLocal('isHidden')">
+              <el-select ref="isHiddenRef" v-model="isHidden" title="是否拆分上市" placeholder="是否拆分上市" size="small full"
+                         :tselect=true @visible-change="calls()" @keydown.enter.native="querySearch" @sure-click="sure('isHiddenRef')"
+                         @clear-click="clearLocal('treeisHidden')">
                 <el-option :label="isHidden" :value="isHiddenValue">
                   <el-tree :data="isHiddenList" show-checkbox node-key="id" ref="treeisHidden" highlight-current
                            :props="default_tree" @check-change="selectHandleNodeClick('isHidden','treeisHidden')"></el-tree>
@@ -476,7 +476,7 @@
                       <div v-else class="noDataColor">- -</div>
                     </template>
                   </el-table-column>
-                  <el-table-column align="left" prop="ipo_label_result_t" label="IPO进程" sortable="custom" width="100">
+                  <el-table-column align="left" prop="ipo_process_t" label="IPO进程" sortable="custom" width="100">
                     <template slot-scope="scope">
                       {{scope.row.processLabel}}
                       <br />
@@ -622,7 +622,7 @@
         isHidden:"",
         isHiddenValue:"",
         treeisHidden:"",
-        isHiddenList:[{labelName:'是',labelValue:'1'},{labelName:'否',labelValue:'0'}],
+        isHiddenList:[{labelName:'是',labelValue:'1',id:'1'},{labelName:'否',labelValue:'0',id:'0'}],
         caseType: "ipo", // all ipo ipofd  案例类型 三种类型
         intermediaryName: '',
         issueLawId: '', //上市条件法规id
@@ -1498,6 +1498,8 @@
         _self.caseStatus = ''; //IPO进程
         _self.caseStatusValue = '';
         _self.iecResult = ''; //审核结果
+        _self.isHiddenValue = '';
+        _self.isHidden = '';
         _self.iecResultValue = '';
         _self.codeOrName = ''; //公司简称/代码
         _self.intermediary = ''; //中介机构
@@ -1514,6 +1516,7 @@
         _self.$refs.sfcTreeTagRef.setCheckedKeys([]);
         _self.$refs.treeIssueCondition.setCheckedKeys([]);
         _self.$refs.treeCompanyNature.setCheckedKeys([]);
+        _self.$refs.treeisHidden.setCheckedKeys([]);
         _self.$refs.treeIpoNum.setCheckedKeys([]);
         _self.$refs.treePlacingMechanism.setCheckedKeys([]); //配售机制
         _self.$refs.treeIecResult.setCheckedKeys([]);
@@ -1721,12 +1724,11 @@
       },
       itemClickHandler(row) {
         let id = row.id;
-        // if (id = "-----"){
-        //   let url = window.location.href;
-        //   url = url.replace(this.$route.path, '/ipoOverduePopWin');
-        //   iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
-        // } else
-          if (id) {
+        if (id == "-----"){
+          let url = window.location.href;
+          url = url.replace(this.$route.path, '/ipoOverduePopWin');
+          iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
+        } else if (id) {
           var caseId = id.substring(3, id.length);
           const _self = this;
           const {

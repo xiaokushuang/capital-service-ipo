@@ -65,8 +65,9 @@ public class IpoCaseListController {
         //标识是否签约客户 默认不是
         boolean signSymbol = false;
         // 默认没有过期
-        boolean overdueSymbol = false;
+        boolean overdueSymbol = true;
         String companyId = page.getCondition().getCompanyId();
+        companyId = "999000";
         if (companyId != null && !"".equals(companyId)) {
             int count = ipoCaseListMapper.queryAuthByCompanyId(companyId);
             // 授权类型:签约 或 证监会 或 金融办
@@ -80,10 +81,12 @@ public class IpoCaseListController {
             // 授权类型:签约 或 证监会 或 金融办
             if (count <= 0) {
                 //展示id
-                overdueSymbol = true;
+                overdueSymbol = false;
             }
         }
-
+        if (!overdueSymbol){
+            signSymbol = false;
+        }
         Map<String, Object> map = ipoCaseListService.getIpoCaseList(page, signSymbol);
         List<IpoCaseIndexDto> list = (List<IpoCaseIndexDto>) map.get("data");
         if (list != null && !list.isEmpty()) {

@@ -80,7 +80,7 @@
         <el-col :span="24">
           <div style="margin-top:10px;margin-bottom:16px;margin-left: 10px">
             <span style="display: inline-block;width:3px;height:18px;background:gray;"></span>
-            <span style="display: inline-block;font-size:18px;">IPO在审企业中介机构情况</span>
+            <span style="display: inline-block;font-size:18px;">IPO在审及辅导企业中介机构情况</span>
           </div>
         </el-col>
       </el-row>
@@ -276,6 +276,9 @@ export default {
       }
       if(lable=="注册生效"){
         lable = "<span style='color:#0099cc'>注册生效</span>";
+      }
+      if(lable=="已提交发审会讨论，暂缓表决"){
+        lable = "已提交发审会讨论，暂缓表决<span style='color:#0099cc'>(已提交上市委会议，暂缓审议)</span>";
       }
       return lable;
     },

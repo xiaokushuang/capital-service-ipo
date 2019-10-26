@@ -51,7 +51,7 @@ export function _getCassNote(_data) {
 
 export function getIpoDataOverviewFdDetail(_data) {
   return request({
-    url: '/ipo//regulatory_statistics/getIpoDataOverviewFdDetail',
+    url: '/ipo/regulatory_statistics/getIpoDataOverviewFdDetail',
     method: 'post',
     data: _data
   })

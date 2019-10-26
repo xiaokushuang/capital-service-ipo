@@ -1,10 +1,11 @@
 <template>
     <div class="container">
-        <el-row>
-            <el-col align="right" :span="24">
-                <el-button size="small" class="searchBtn" @click="exportExcel">导出excel</el-button>
-            </el-col>
-        </el-row>
+      <el-row style="height: 30px;padding-right: 5px">
+        <el-col align="right" :span="24">
+          <span @click="exportExcel" style="border: 1px solid;color: #5CDCF9;padding: 5px 12px;cursor: pointer;">导出excel</span>
+
+        </el-col>
+      </el-row>
         <div class="favorite-table">
           <el-table :data="data" style="width: 100%" class="paddingControl" border tooltip-effect="dark" ref="multipleSelection">
             <el-table-column align="center" type="index" label="序号" width="60"></el-table-column>
@@ -52,7 +53,7 @@ import {exportExcelPostWindow1} from '@/utils'
             }
         },
         computed:{
-            
+
         },
         created(){
         },

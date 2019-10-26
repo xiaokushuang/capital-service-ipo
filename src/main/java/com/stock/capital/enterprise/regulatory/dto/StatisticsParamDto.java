@@ -21,7 +21,16 @@ public class StatisticsParamDto implements Serializable {
     private String label;
     
     private String quasiListedLand;
-    
+    private String labelCode;
+
+    public String getLabelCode() {
+        return labelCode;
+    }
+
+    public void setLabelCode(String labelCode) {
+        this.labelCode = labelCode;
+    }
+
     //tab页
     private String tabFlag;
 
