@@ -43,7 +43,7 @@
                 </el-table-column>
           <el-table-column align="center" label="辅导企业"  prop="fdCount" min-width="9%" sortable="custom">
             <template slot-scope="scope">
-              <span class="spanClass" v-if="getValue(scope.row.fdCount) != 0" @click="openFdDetail('',scope.row.label)">{{scope.row.fdCount}}</span>
+              <span class="spanClass" v-if="getValue(scope.row.fdCount) != 0" @click="openFdDetail('',scope.row.label,scope.row.labelCode)">{{scope.row.fdCount}}</span>
               <span v-else class="spanClassNone">{{scope.row.fdCount}}</span>
             </template>
           </el-table-column>
