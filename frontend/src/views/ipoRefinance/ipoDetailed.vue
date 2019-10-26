@@ -438,7 +438,7 @@ export default {
 /* .table thead th{padding:6px !important;} */
 
 .container .el-table__header .row .cell {
-  color:#0099cc!important;
+  /*color:#0099cc!important;*/
 }
 .container {
   padding:0 10px 0 10px!important;
