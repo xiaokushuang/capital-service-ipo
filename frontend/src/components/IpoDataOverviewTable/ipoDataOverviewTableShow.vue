@@ -128,7 +128,6 @@ export default {
 			this.setPage();
 			//分页查询
 			this.pageSearch();
-			debugger;
       var arr = document.getElementsByClassName("orderClass")
       for (var i=0;i<arr.length;){
         arr[i].classList.remove("orderClass")
