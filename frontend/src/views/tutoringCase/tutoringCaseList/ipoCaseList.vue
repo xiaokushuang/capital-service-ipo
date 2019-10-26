@@ -1498,6 +1498,8 @@
         _self.caseStatus = ''; //IPO进程
         _self.caseStatusValue = '';
         _self.iecResult = ''; //审核结果
+        _self.isHiddenValue = '';
+        _self.isHidden = '';
         _self.iecResultValue = '';
         _self.codeOrName = ''; //公司简称/代码
         _self.intermediary = ''; //中介机构

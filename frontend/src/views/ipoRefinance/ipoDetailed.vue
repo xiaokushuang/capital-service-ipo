@@ -1,13 +1,14 @@
 <template>
     <div class="container">
         <!-- 标题 -->
-        <el-row :gutter="20" class="no-margin-tb">
-            <el-col :span="14">
-                <h3 class="no-margin" style="line-height:32px;padding-left:0px !important;">IPO在审项目数据查询</h3>
-            </el-col>
-            <el-col :span="6">
-            </el-col>
-        </el-row>
+      <el-row>
+        <el-col :span="24">
+          <div style="margin-top:10px;margin-bottom:16px;margin-left: 10px">
+            <span style="display: inline-block;width:3px;height:18px;background:gray;"></span>
+            <span style="display: inline-block;font-size:18px;">IPO在审项目数据查询</span>
+          </div>
+        </el-col>
+      </el-row>
         <!-- 板块 -->
         <el-row :gutter="20">
             <el-col :span="6">
@@ -315,11 +316,11 @@ export default {
       exportExcelPostWindow1("/ipo/regulatory_statistics/ipoItemDataExport",this.queryParam);
     },
     openFdDetailProv(registAddr,lastUpadteTime,approveStatus,viewType){
+      debugger;
       let url = window.location.href;
       url = url.replace(this.$route.path,'/ipoDataOverviewDetailFdPopWin');
       url = url + '&registAddr=' + registAddr + '&approveStatus=' + approveStatus;
       //参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
-      alert(url)
       iframeDoMessage(window.parent,'popWinOut',[registAddr,url,'1200','580']);
     },
     openDetail(registAddr,lastUpadteTime,approveStatus,viewType){
