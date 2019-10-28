@@ -10,7 +10,7 @@ public interface Global {
      * 分隔符：逗号
      */
     public static final String SEPARATOR_COMMA = ",";
-    
+
     /**
      * IPO在融资 —— 沪主板
      */
@@ -32,26 +32,26 @@ public interface Global {
      */
     public static final String OPO_BOARD_61 = "069001001006";
     /**
-     *  证监局
+     * 证监局
      */
     public static final String IPO_SFC = "SFC";
     /**
      * 证监会行业
      */
-    public static final String IPO_SFC_INDUSTRY="INDUSTRY_CSRC_2012";
+    public static final String IPO_SFC_INDUSTRY = "INDUSTRY_CSRC_2012";
     /**
      * 审核状态
      */
     public static final String IPO_VERIFY_RESULT = "IPO_VERIFY_RESULT";
-	/**
+    /**
      * 用户ID
      */
     public static final String PERSON_ID = "personId";
-      /**
+    /**
      * 披露要点类型
      */
     public static final String DECLARE_PONDER_TYPE = "1";
-	/**
+    /**
      * 报批材料类型
      */
     public static final String DECLARE_MATERIAL_TYPE = "0";
@@ -60,12 +60,12 @@ public interface Global {
      * 股票代码
      */
     public static final String COMPANY_CODE = "companyCode";
-    
+
     /**
      * 收藏的来源——易董企业端
      */
     public static final String FAVOURITE_SOURCE_ENTERPRISE = "1";
-    
+
     /**
      * 公司ID
      */
@@ -169,5 +169,17 @@ public interface Global {
          * 微服解密偏移量
      */
     public static final String IV = "mLZT7OIx1qOHZaPX";
+
+
+    /**
+     * 融资统计索引 es
+     */
+    public static final String ES_FINANCE_STATISTICS = "finance_statistics";
+
+    /**
+     * 融资统计索引 es  使用索引服务器的类型  0 ES 1 solr
+     */
+    public static final String ES_FINANCE_STATISTICS_FLAG = "0";
+
 
 }
