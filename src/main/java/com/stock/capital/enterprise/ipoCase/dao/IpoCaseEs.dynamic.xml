@@ -321,7 +321,7 @@
                                    <#if condition.placingMechanismList?? && (condition.placingMechanismList?size > 0)>
                                        ,{
                                         "terms": {
-                                            "ipo_placing_mechanism_t": [
+                                            "ipo_placing_mechanism_list_t": [
                                                 <#list condition.placingMechanismList as item>
                                                     <#if !item_has_next>
                                                         "${item}"
