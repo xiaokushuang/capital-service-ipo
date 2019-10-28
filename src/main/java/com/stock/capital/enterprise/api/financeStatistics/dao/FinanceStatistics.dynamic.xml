@@ -491,8 +491,31 @@
                                   </#if>
 								  <#-- finance_finatype_t -->
 
+
+								  <#if condition.finance_belongplate_t?? && (condition.finance_belongplate_t?size > 0)>
+                                                      <#if condition.haveCitycodeFlag?? && (condition.haveCitycodeFlag ==true)>
+                                                        ,
+                                                      </#if>
+                                                <#list condition.finance_belongplate_t as item>
+                                                {
+                                                    "match_phrase": {
+                                                        "finance_belongplate_t": {
+                                                            "query": "${item}"
+                                                        }
+                                                    }
+                                                }
+												 <#if item_has_next>
+                                                ,
+                                                </#if>
+                                                </#list>
+                                  </#if>
+
                                   <#if condition.financeFinaTypeT?? && (condition.financeFinaTypeT?size > 0)>
-                                                ,<#list condition.financeFinaTypeT as item>
+
+                                             <#if (condition.haveCitycodeFlag?? || condition.haveBelongplateFlag??)&& ( condition.haveCitycodeFlag ==true || condition.haveBelongplateFlag ==true)>
+                                                        ,
+                                               </#if>
+                                                <#list condition.financeFinaTypeT as item>
                                                 {
                                                     "match_phrase": {
                                                         "finance_finatype_t": {
@@ -506,35 +529,7 @@
                                                 </#list>
 
                                    </#if>
-								  <#if condition.finance_belongplate_t?? && (condition.finance_belongplate_t?size > 0)>
 
-                                                ,<#list condition.finance_belongplate_t as item>
-                                                {
-                                                    "match_phrase": {
-                                                        "finance_belongplate_t": {
-                                                            "query": "${item}"
-                                                        }
-                                                    }
-                                                }
-												 <#if item_has_next>
-                                                ,
-                                                </#if>
-                                                </#list>
-                                  </#if>
-								   <#if condition.financeFinaTypeT?? && (condition.financeFinaTypeT?size > 0)>
-                                                ,<#list condition.financeFinaTypeT as item>
-                                                {
-                                                    "match_phrase": {
-                                                        "finance_finatype_t": {
-                                                            "query": "${item}"
-                                                        }
-                                                    }
-                                                }
-												 <#if item_has_next>
-                                                ,
-                                                </#if>
-                                                </#list>
-                                     </#if>
 
                       ]
 					  }
@@ -617,7 +612,7 @@
         }
         ]]>
     </select>
-     <!--    公司详情页查询-->
+    <!--    公司详情页查询-->
     <select id="financeStatisticsGetQuery" type="dsl"
             resultType="com.stock.capital.enterprise.api.financeStatistics.dto.FinanceStatisticsIndexDto">
         <![CDATA[

@@ -112,6 +112,8 @@ public class FinanceDataController extends BaseController {
                 condition.put("financeIndTypeCodes", financeIndTypeCodes);
             }
 
+            condition.put("haveCitycodeFlag",false);
+            condition.put("haveBelongplateFlag",false);
             // 所在地区
             if (StringUtils.isNotEmpty(queryInfo.getCondition().getAreaSelect())) {
                 List<String> citycode = new ArrayList<>();
@@ -119,6 +121,7 @@ public class FinanceDataController extends BaseController {
                 for (int i = 0; i < code.length; i++) {
                     citycode.add(code[i]);
                 }
+                condition.put("haveCitycodeFlag",true);
                 condition.put("finance_citycode_t", citycode);
             }
             // 所属板块
@@ -128,6 +131,7 @@ public class FinanceDataController extends BaseController {
                 for (int i = 0; i < plate.length; i++) {
                     belongplate.add(plate[i]);
                 }
+                condition.put("haveBelongplateFlag",true);
                 condition.put("finance_belongplate_t", belongplate);
             }
 
