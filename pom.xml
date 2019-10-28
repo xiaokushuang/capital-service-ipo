@@ -412,6 +412,7 @@
             </activation>
             <properties>
                 <stock-core>1.0.0-SNAPSHOT</stock-core>
+<!--                <stock-core>0.0.4.RELEASE</stock-core>-->
             </properties>
         </profile>
         <profile>
@@ -423,7 +424,8 @@
         <profile>
             <id>prepub-sz</id>
             <properties>
-                <stock-core>1.0.0-SNAPSHOT</stock-core>
+<!--                <stock-core>1.0.0-SNAPSHOT</stock-core>-->
+                <stock-core>0.0.4.RELEASE</stock-core>
             </properties>
         </profile>
         <profile>
