@@ -380,29 +380,45 @@ public class FinanceDataController extends BaseController {
     @ResponseBody
     public JsonResponse<Map<String, Object>> searchCompanyDetail(@RequestBody QueryInfo<FinanceParamDto> queryInfo) {
 
-        QueryInfo<Map<String, String>> query = new QueryInfo<Map<String, String>>();
+        QueryInfo<Map<String, Object>> query = new QueryInfo<Map<String, Object>>();
         queryInfo.getCondition().setPageSize(queryInfo.getPageSize());
         queryInfo.getCondition().setStartRow(queryInfo.getStartRow());
         queryInfo.getCondition().setOrderByName(queryInfo.getOrderByName());
         queryInfo.getCondition().setOrderByOrder(queryInfo.getOrderByOrder());
         query = financeDataService.getQuery(queryInfo.getCondition());
-
-        FacetResult<FinanceStatisticsIndexDto> facetResult = searchServer.searchWithFacet(
-                Global.FINANCE_INDEX_NAME, query, FinanceStatisticsIndexDto.class);
-
-        Page<FinanceStatisticsIndexDto> page = facetResult.getPage();
-        int total = 0;
-        List<FinanceStatisticsIndexDto> resultList = Lists.newArrayList();
-        if (page != null) {
-            resultList = page.getData();
-            total = page.getTotal();
+        if (Global.ES_FINANCE_STATISTICS_FLAG.equals("0")) {
+            FacetResult<FinanceStatisticsIndexDto> facetResult = searchClient.searchWithFacet(
+                    Global.ES_FINANCE_STATISTICS, query, FinanceStatisticsIndexDto.class);
+            Page<FinanceStatisticsIndexDto> page = facetResult.getPage();
+            int total = 0;
+            List<FinanceStatisticsIndexDto> resultList = Lists.newArrayList();
+            if (page != null) {
+                resultList = page.getData();
+                total = page.getTotal();
+            }
+            Map<String, Object> map = Maps.newHashMap();
+            map.put("data", resultList);
+            map.put("total", total);
+            JsonResponse<Map<String, Object>> response = new JsonResponse<>();
+            response.setResult(map);
+            return response;
+        } else {
+            FacetResult<FinanceStatisticsIndexDto> facetResult = searchServer.searchWithFacet(
+                    Global.FINANCE_INDEX_NAME, query, FinanceStatisticsIndexDto.class);
+            Page<FinanceStatisticsIndexDto> page = facetResult.getPage();
+            int total = 0;
+            List<FinanceStatisticsIndexDto> resultList = Lists.newArrayList();
+            if (page != null) {
+                resultList = page.getData();
+                total = page.getTotal();
+            }
+            Map<String, Object> map = Maps.newHashMap();
+            map.put("data", resultList);
+            map.put("total", total);
+            JsonResponse<Map<String, Object>> response = new JsonResponse<>();
+            response.setResult(map);
+            return response;
         }
-        Map<String, Object> map = Maps.newHashMap();
-        map.put("data", resultList);
-        map.put("total", total);
-        JsonResponse<Map<String, Object>> response = new JsonResponse<>();
-        response.setResult(map);
-        return response;
     }
 
     /**
@@ -418,7 +434,7 @@ public class FinanceDataController extends BaseController {
         ModelAndView mv = new ModelAndView();
         mv.setView(new DownloadView());
         //拼接查询条件
-        QueryInfo<Map<String, String>> query = new QueryInfo<Map<String, String>>();
+        QueryInfo<Map<String, Object>> query = new QueryInfo<Map<String, Object>>();
         query = financeDataService.getQuery(dto);
         String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMddHHmmssSSS");
         String filePath = "";

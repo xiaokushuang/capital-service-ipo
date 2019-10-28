@@ -133,9 +133,11 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                                     typeList.add(type[i]);
                                 }
                                 condition.put("financeFinaTypeTList", typeList);
+                                condition.put("finance_finatype_t", facetField);
                                 resultNum = searchWithFacetInfoES(null, condition);
                                 resultSum = searchWithStatsInfoES(facetField, condition, "1");
                             } else {
+                                condition.put("finance_finatype_t", facetField);
                                 resultNum = searchWithFacetInfoES(facetField, condition);
                                 resultSum = searchWithStatsInfoES(facetField, condition, "1");
                             }
@@ -601,11 +603,11 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                 // 添加日期查询的条件
                 condition.put("dateStart", dateStart);
                 condition.put("dateEnd", dateEnd);
-                condition.put("financeFinaTypeT004", "004");
+                condition.put("financeFinaTypeTBong004", "004");
 
                 conditionsStrOther.put("dateStart", dateStart);
                 conditionsStrOther.put("dateEnd", dateEnd);
-                conditionsStrOther.put("financeFinaTypeT004", "004");
+                conditionsStrOther.put("financeFinaTypeTBong004", "004");
                 // 各图表数据取得
                 if ("1".equals(chartType)) {//柱状图数据
                     //按月为单位处理
@@ -618,8 +620,9 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                             String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, +1);
                             condition.put("dateStart", start);
                             condition.put("dateEnd", end);
-                            condition.put("financeFinaTypeT004", "004");
+                            condition.put("financeFinaTypeTBong004", "004");
                             facetField = "finance_finatype_t";
+                            condition.put("finance_finatype_t", facetField);
                             resultSum = searchWithStatsInfoES(facetField, condition, "2");
                             Map<String, Object> dataMap = new HashMap<String, Object>();
                             // 日期
@@ -641,9 +644,10 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                             String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, +1);
                             condition.put("dateStart", start);
                             condition.put("dateEnd", end);
-                            condition.put("financeFinaTypeT004", "004");
+                            condition.put("financeFinaTypeTBong004", "004");
                             //统计记录数量，总和
                             facetField = "finance_finatype_t";
+                            condition.put("finance_finatype_t", facetField);
                             resultSum = searchWithStatsInfoES(facetField, condition, "2");
                             Map<String, Object> dataMap = new HashMap<String, Object>();
                             // 日期
@@ -665,8 +669,9 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                             String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, +1);
                             condition.put("dateStart", start);
                             condition.put("dateEnd", end);
-                            condition.put("financeFinaTypeT004", "004");
+                            condition.put("financeFinaTypeTBong004", "004");
                             facetField = "finance_finatype_t";
+                            condition.put("finance_finatype_t", facetField);
                             resultSum = searchWithStatsInfoES(facetField, condition, "2");
                             Map<String, Object> dataMap = new HashMap<String, Object>();
                             // 日期
@@ -688,8 +693,9 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                             String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, +1);
                             condition.put("dateStart", start);
                             condition.put("dateEnd", end);
-                            condition.put("financeFinaTypeT004", "004");
+                            condition.put("financeFinaTypeTBong004", "004");
                             facetField = "finance_finatype_t";
+                            condition.put("finance_finatype_t", facetField);
                             resultSum = searchWithStatsInfoES(facetField, condition, "2");
                             Map<String, Object> dataMap = new HashMap<String, Object>();
                             // 日期
@@ -710,8 +716,9 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                             String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, +1);
                             condition.put("dateStart", start);
                             condition.put("dateEnd", end);
-                            condition.put("financeFinaTypeT004", "004");
+                            condition.put("financeFinaTypeTBong004", "004");
                             facetField = "finance_finatype_t";
+                            condition.put("finance_finatype_t", facetField);
                             resultSum = searchWithStatsInfoES(facetField, condition, "2");
                             Map<String, Object> dataMap = new HashMap<String, Object>();
                             // 日期
@@ -744,6 +751,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                     result.add(dataMap);
                 } else if ("3".equals(chartType)) {// 取得地图数据
                     facetField = "finance_cityname_s";
+                    condition.put("finance_cityname_s", facetField);
                     resultSum = searchWithStatsInfoES(facetField, condition, "2");
                     Map<String, Object> dataMap = new HashMap<String, Object>();
                     dataMap.put("dataSum", areaString(resultSum));
@@ -953,8 +961,11 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
 //        condition.put(Constant.SEARCH_CONDIATION, conditionsStr);
 //        condition.put(Constant.SEARCH_FACET_PIVOT, "{!stats=piv1}" + facetField);
 //        condition.put(Constant.SEARCH_STATS_PIVOT, "{!tag=piv1 sum=true}finance_sumfina_d");
+        condition.put("financeSumFinad", "finance_sumfina_d");
         queryInfo.setCondition(condition);
         queryInfo.setQueryId("com.stock.capital.enterprise.api.financeStatistics.dao.FinanceStatistics.financeStatisticsDataInfo");
+
+
         logger.debug("*******search index data*******");
         FacetResult<FinanceStatisticsIndexDto> page1 = null;
         FacetResult<BondStatisticsIndexDto> page2 = null;
@@ -974,34 +985,43 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
             field = page2.getStatisticsFieldMap().get(facetField);
         }
 
-        //List<PivotField> field = page.getStatisticsFieldMap().get(facetField);
         Map<String, Object> dataMap = Maps.newHashMap();
         if (field != null) {
-//            for (StatisticsField sf : field) {
-//                dataMap = new HashMap<String, Object>();
-//                dataMap.put("name", String.valueOf(sf.getValue()));
-//                double sum = 0;
-//                BigDecimal totalSum = new BigDecimal(0);
-//                try {
-//                    if ("1".equals(flag)) {
-//                        sum = (double) sf.getFieldStatsInfo().get("finance_sumfina_d").getSum();
-//                        BigDecimal bd = new BigDecimal(sum);
-//                        totalSum = bd.divide(new BigDecimal(100000000)).setScale(4, BigDecimal.ROUND_HALF_UP);
-//                        dataMap.put("value", totalSum);
-//                    } else {
-//                        sum = (double) sf.getFieldStatsInfo().get("finance_sumfina_d").getSum();
-//                        BigDecimal bd = new BigDecimal(sum);
-//                        totalSum = bd.setScale(4, BigDecimal.ROUND_HALF_UP);
-//                        dataMap.put("value", totalSum);
-//                    }
-//                } catch (Exception e) {
-//                    logger.error("cause by：{}", Throwables.getStackTraceAsString(e));
-//                }
-//                dataMap.put("num", sf.getCount());
-//                dataMap.put("cityName", String.valueOf(sf.getValue()));
-//                dataMap.put("condition", condition); //增加查询条件
-//                tempResult.add(dataMap);
-//            }
+            for (StatisticsField sf : field) {
+                dataMap = new HashMap<String, Object>();
+                dataMap.put("name", String.valueOf(sf.getFieldId()));
+                double sum = 0;
+                BigDecimal totalSum = new BigDecimal(0);
+                try {
+                    if ("1".equals(flag)) {
+                        if (sf.getStatisticsFieldMap() != null && sf.getStatisticsFieldMap().get("sum_count").size() > 0) {
+                            Map<String, Object> map = (Map) (sf.getStatisticsFieldMap().get("sum_count").get(0)).getValue();
+                            sum = (double) map.get("sum_count");
+                        } else {
+                            sum = 0L;
+                        }
+                        BigDecimal bd = new BigDecimal(sum);
+                        totalSum = bd.divide(new BigDecimal(100000000)).setScale(4, BigDecimal.ROUND_HALF_UP);
+                        dataMap.put("value", totalSum);
+                    } else {
+                        if (sf.getStatisticsFieldMap() != null && sf.getStatisticsFieldMap().get("sum_count").size() > 0) {
+                            Map<String, Object> map = (Map) (sf.getStatisticsFieldMap().get("sum_count").get(0)).getValue();
+                            sum = (double) map.get("sum_count");
+                        } else {
+                            sum = 0L;
+                        }
+                        BigDecimal bd = new BigDecimal(sum);
+                        totalSum = bd.setScale(4, BigDecimal.ROUND_HALF_UP);
+                        dataMap.put("value", totalSum);
+                    }
+                } catch (Exception e) {
+                    logger.error("cause by：{}", Throwables.getStackTraceAsString(e));
+                }
+                dataMap.put("num", sf.getCount());
+                dataMap.put("cityName", String.valueOf(sf.getValue()));
+                dataMap.put("condition", JsonUtil.toJson(condition)); //增加查询条件
+                tempResult.add(dataMap);
+            }
         }
         return tempResult;
     }
@@ -1194,9 +1214,9 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
     /**
      * 拼接查询公司详情条件
      */
-    public QueryInfo<Map<String, String>> getQuery(FinanceParamDto queryInfo) {
+    public QueryInfo<Map<String, Object>> getQuery(FinanceParamDto queryInfo) {
         if (Global.ES_FINANCE_STATISTICS_FLAG.equals("0")) {
-            QueryInfo<Map<String, String>> query = new QueryInfo<Map<String, String>>();
+            QueryInfo<Map<String, Object>> query = new QueryInfo<Map<String, Object>>();
             Map<String, Object> condition = Maps.newHashMap();
 //            String conditionsStr = "";
             if ("1".equals(queryInfo.getChartType())) {//柱状图
@@ -1207,13 +1227,6 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                     String end = DateUtil.datePlusToStr(time[1], DateUtil.YYYY_MM_DD, +1);
                     condition.put("dateStart", start);
                     condition.put("dateEnd", end);
-//                    String[] time = queryInfo.getSelCondition().split("至");
-//                    String startDateStr = new String();
-//                    for (String timeFlag : time) {
-//                        startDateStr = startDateStr + " 至 " + timeFlag;
-//                    }
-//                    startDateStr = startDateStr.substring(3);
-//                    conditionsStr = SolrSearchUtil.transDateStrToConditionStr(conditionsStr, startDateStr, "finance_startdate_dt");
                 }
                 if ("债券发行".equals(queryInfo.getTypeFlag())) {//债券发行
                     List<String> typeList = new ArrayList<>();
@@ -1221,42 +1234,65 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                     for (int i = 0; i < type.length; i++) {
                         typeList.add(type[i]);
                     }
-                    condition.put("financeFinaTypeT", typeList);
+                    condition.put("financeFinaTypeTList", typeList);
 //                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
                 } else {//证券发行
                     if ("004".equals(queryInfo.getFinaType())) {
-                        List<String> typeList = new ArrayList<>();
-                        typeList.add("004");
-                        condition.put("financeFinaTypeT", typeList);
+                        condition.put("finance_finatype_t_004", "004");
 //                        conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, true);
                     } else {
-                        List<String> typeList = new ArrayList<>();
-                        String[] type = queryInfo.getFinaType().split(",");
-                        for (int i = 0; i < type.length; i++) {
-                            typeList.add(type[i]);
-                        }
-                        condition.put("financeFinaTypeT", typeList);
+                        condition.put("finance_finatype_t_histogram", queryInfo.getFinaType());
 //                        conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
                     }
                 }
+                query.setQueryId("com.stock.capital.enterprise.api.financeStatistics.dao.FinanceStatistics.financeStatisticsGetQuery");
             } else if ("2".equals(queryInfo.getChartType())) {//饼状图
+                condition = Maps.newHashMap();
+                condition = JsonUtil.fromJson(queryInfo.getConditionStr(), HashMap.class);
 //                conditionsStr = queryInfo.getConditionStr();
                 if (!"004".equals(queryInfo.getFinaType())) {
+                    condition.put("finance_finatype_t_pie", queryInfo.getFinaType());
 //                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
                 }
+                List<String> pindnameList = new ArrayList<>();
+                if (queryInfo.getSelCondition().indexOf(' ') < 0) {
+                    pindnameList.add(queryInfo.getSelCondition());
+                    condition.put("financePindnameList", pindnameList);
+                } else {
+                    for (int i = 0; i < queryInfo.getSelCondition().split(" ").length; i++) {
+                        pindnameList.add(queryInfo.getSelCondition().split(" ")[i]);
+                    }
+                    condition.put("financePindnameList", pindnameList);
+                }
+                condition.put("finance_pindname", "finance_pindname" + queryInfo.getFinanceIndustry() + "_s");
+                query.setQueryId("com.stock.capital.enterprise.api.financeStatistics.dao.FinanceStatistics.financeStatisticsDataInfo");
 //                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getSelCondition(), " ", "finance_pindname" + queryInfo.getFinanceIndustry() + "_s", false, false, false);
             } else if ("3".equals(queryInfo.getChartType())) {//地图
+                condition = Maps.newHashMap();
+                condition = JsonUtil.fromJson(queryInfo.getConditionStr(), HashMap.class);
 //                conditionsStr = queryInfo.getConditionStr();
                 if (!"004".equals(queryInfo.getFinaType())) {
+                    condition.put("finance_finatype_t_map", queryInfo.getFinaType());
 //                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
                 }
+                List<String> citynameList = new ArrayList<>();
+                if (queryInfo.getSelCondition().indexOf(' ') < 0) {
+                    citynameList.add(queryInfo.getSelCondition());
+                    condition.put("finance_cityname_s_map", citynameList);
+                } else {
+                    for (int i = 0; i < queryInfo.getSelCondition().split(" ").length; i++) {
+                        citynameList.add(queryInfo.getSelCondition().split(" ")[i]);
+                    }
+                    condition.put("finance_cityname_s_map", citynameList);
+                }
+                query.setQueryId("com.stock.capital.enterprise.api.financeStatistics.dao.FinanceStatistics.financeStatisticsDataInfo");
 //                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getSelCondition(), " ", "finance_cityname_s", false, false, false);
             }
 
             // 处理关键字的检索条件
 //            condition.put(Constant.SEARCH_CONDIATION, conditionsStr);
 
-//            query.setCondition(condition);
+            query.setCondition(condition);
             String orderby = "DESC";
             // 排序顺序
             if ("ascending".equals(queryInfo.getOrderByOrder())) {
@@ -1289,14 +1325,15 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
             } else if ("sumFina".equals(queryInfo.getOrderByName())) {// 融资金额
                 orderName = "finance_sumfina_d";
             }
+
             query.setOrderByName(orderName);
             query.setOrderByOrder(orderby);
             query.setPageSize(queryInfo.getPageSize());
             query.setStartRow(queryInfo.getStartRow());
             return query;
         } else {
-            QueryInfo<Map<String, String>> query = new QueryInfo<Map<String, String>>();
-            Map<String, String> condition = Maps.newHashMap();
+            QueryInfo<Map<String, Object>> query = new QueryInfo<Map<String, Object>>();
+            Map<String, Object> condition = Maps.newHashMap();
             String conditionsStr = "";
             if ("1".equals(queryInfo.getChartType())) {//柱状图
                 conditionsStr = "index_type_t: \"finance\"";
@@ -1383,22 +1420,40 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
      * @return
      * @throws Exception
      */
-    public InputStream exportExcel(QueryInfo<Map<String, String>> query, String filePath, String chartType, String financeIndustry, String statistics) throws Exception {
-        FacetResult<FinanceStatisticsIndexDto> facetResult = searchServer.searchWithFacet(
-                Global.FINANCE_INDEX_NAME, query, FinanceStatisticsIndexDto.class);
-        Page<FinanceStatisticsIndexDto> page = facetResult.getPage();
-        List<FinanceStatisticsIndexDto> resultList = Lists.newArrayList();
-        if (page != null) {
-            resultList = page.getData();
+    public InputStream exportExcel(QueryInfo<Map<String, Object>> query, String filePath, String chartType, String financeIndustry, String statistics) throws Exception {
+        if (Global.ES_FINANCE_STATISTICS_FLAG.equals("0")) {
+            FacetResult<FinanceStatisticsIndexDto> facetResult = searchClient.searchWithFacet(
+                    Global.ES_FINANCE_STATISTICS, query, FinanceStatisticsIndexDto.class);
+            Page<FinanceStatisticsIndexDto> page = facetResult.getPage();
+            List<FinanceStatisticsIndexDto> resultList = Lists.newArrayList();
+            if (page != null) {
+                resultList = page.getData();
+            }
+            // 设置Excel内容
+            Workbook workbook = excelContentSetting(resultList, filePath, chartType, financeIndustry, statistics);
+            // 写成文件
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            workbook.write(os);
+            os.flush();
+            os.close();
+            return new ByteArrayInputStream(os.toByteArray());
+        } else {
+            FacetResult<FinanceStatisticsIndexDto> facetResult = searchServer.searchWithFacet(
+                    Global.FINANCE_INDEX_NAME, query, FinanceStatisticsIndexDto.class);
+            Page<FinanceStatisticsIndexDto> page = facetResult.getPage();
+            List<FinanceStatisticsIndexDto> resultList = Lists.newArrayList();
+            if (page != null) {
+                resultList = page.getData();
+            }
+            // 设置Excel内容
+            Workbook workbook = excelContentSetting(resultList, filePath, chartType, financeIndustry, statistics);
+            // 写成文件
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            workbook.write(os);
+            os.flush();
+            os.close();
+            return new ByteArrayInputStream(os.toByteArray());
         }
-        // 设置Excel内容
-        Workbook workbook = excelContentSetting(resultList, filePath, chartType, financeIndustry, statistics);
-        // 写成文件
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        workbook.write(os);
-        os.flush();
-        os.close();
-        return new ByteArrayInputStream(os.toByteArray());
     }
 
     /**

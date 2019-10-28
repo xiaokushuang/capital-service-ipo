@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <elasticsearch-dynamic-statement nameSpace="com.stock.capital.enterprise.api.financeStatistics.dao.FinanceStatistics">
+    <!--    证券发行、债券发行-->
     <select id="financeStatisticsDataInfo" type="dsl"
             resultType="com.stock.capital.enterprise.api.financeStatistics.dto.FinanceStatisticsIndexDto">
         <![CDATA[
@@ -27,6 +28,46 @@
                                                 </#list>
 
                                   </#if>
+                                  <#-- finance_finatype_t -->
+                                 <#if condition.finance_finatype_t_histogram?? && condition.finance_finatype_t_histogram != ''>
+                                                ,{
+                                                    "match_phrase": {
+                                                        "finance_finatype_t": {
+                                                            "query": "${condition.finance_finatype_t_histogram}"
+                                                        }
+                                                    }
+                                                }
+                                   </#if>
+                                    <#-- finance_finatype_t -->
+                                 <#if condition.finance_finatype_t_pie?? && condition.finance_finatype_t_pie != ''>
+                                                ,{
+                                                    "match_phrase": {
+                                                        "finance_finatype_t": {
+                                                            "query": "${condition.finance_finatype_t_pie}"
+                                                        }
+                                                    }
+                                                }
+                                   </#if>
+                                    <#-- finance_finatype_t -->
+                                 <#if condition.finance_finatype_t_map?? && condition.finance_finatype_t_map != ''>
+                                                ,{
+                                                    "match_phrase": {
+                                                        "finance_finatype_t": {
+                                                            "query": "${condition.finance_finatype_t_map}"
+                                                        }
+                                                    }
+                                                }
+                                   </#if>
+								   <#-- finance_finatype_t -->
+                                 <#if condition.financeFinaTypeTBong004?? && condition.financeFinaTypeTBong004 != ''>
+                                                ,{
+                                                    "match_phrase": {
+                                                        "finance_finatype_t": {
+                                                            "query": "${condition.financeFinaTypeTBong004}"
+                                                        }
+                                                    }
+                                                }
+                                   </#if>
                                     <#-- finance_indtypecode -->
                                   <#if condition.financeIndTypeCodes?? && (condition.financeIndTypeCodes?size > 0)>
 
@@ -34,6 +75,37 @@
                                                 {
                                                     "match_phrase": {
                                                         "${condition.financeIndTypeCodes.financeIndTypeCodeKey}": {
+                                                            "query": "${item}"
+                                                        }
+                                                    }
+                                                }
+												 <#if item_has_next>
+                                                ,
+                                                </#if>
+                                                </#list>
+                                  </#if>
+								    	    <#-- finance_pindname -->
+                                  <#if condition.financePindnameList?? && (condition.financePindnameList?size > 0)>
+
+                                                ,<#list condition.financePindnameList as item>
+                                                {
+                                                    "match_phrase": {
+                                                        "${condition.finance_pindname}": {
+                                                            "query": "${item}"
+                                                        }
+                                                    }
+                                                }
+												 <#if item_has_next>
+                                                ,
+                                                </#if>
+                                                </#list>
+                                  </#if>
+										<#-- finance_cityname_s -->
+                                  <#if condition.finance_cityname_s_map?? && (condition.finance_cityname_s_map?size > 0)>
+                                                ,<#list condition.finance_cityname_s_map as item>
+                                                {
+                                                    "match_phrase": {
+                                                        "finance_cityname_s": {
                                                             "query": "${item}"
                                                         }
                                                     }
@@ -76,26 +148,63 @@
             },
              <#-- 分组查询-->
             "aggs": {
-                "finance_cityname_s": {
+                  <#if condition.finance_cityname_s??  && condition.finance_cityname_s != ''>
+                "${condition.finance_cityname_s}": {
                     "terms": {
-                        "field": "finance_cityname_s",
+                        "field": "${condition.finance_cityname_s}",
                         "size": 20000
                         }
-                },
-                "finance_finatype_t": {
-                    "terms": {
-                        "field": "finance_finatype_t",
-                        "size": 20000
-                        }
+                         <#if condition.financeSumFinad??  && condition.financeSumFinad != ''>
+                                ,"aggs": {
+
+                                        "sum_count": {
+                                                      "sum": {
+                                                        "field": "${condition.financeSumFinad}"
+                                                      }
+                                                    }
+                                     }
+                                      </#if>
                 }
+                 </#if>
+                 <#if condition.finance_finatype_t??  && condition.finance_finatype_t != ''>
+                "${condition.finance_finatype_t}": {
+                    "terms": {
+                        "field": "${condition.finance_finatype_t}",
+                        "size": 20000
+                        }
+                         <#if condition.financeSumFinad??  && condition.financeSumFinad != ''>
+                                ,"aggs": {
+
+                                        "sum_count": {
+                                                      "sum": {
+                                                        "field": "${condition.financeSumFinad}"
+                                                      }
+                                                    }
+                                     }
+                                      </#if>
+                }
+                 </#if>
+
                  <#if condition.finance_pindname??  && condition.finance_pindname != ''>
-                ,"${condition.finance_pindname}": {
+                "${condition.finance_pindname}": {
                     "terms": {
                         "field": "${condition.finance_pindname}",
                         "size": 20000
                         }
+                         <#if condition.financeSumFinad??  && condition.financeSumFinad != ''>
+                                ,"aggs": {
+
+                                        "sum_count": {
+                                                      "sum": {
+                                                        "field": "${condition.financeSumFinad}"
+                                                      }
+                                                    }
+                                     }
+                                      </#if>
                 }
+
                  </#if>
+
             },
             <#-- 排序处理 -->
             "sort": [
@@ -127,7 +236,164 @@
         }
         ]]>
     </select>
+    <!--    债券发行-->
+    <select id="financeStatisticsDataInfoBond" type="dsl"
+            resultType="com.stock.capital.enterprise.api.financeStatistics.dto.FinanceStatisticsIndexDto">
+        <![CDATA[
+        {
+            "track_total_hits" : true,
+            "query": {
+                "bool": {
+                    "must": [
+                    {
+                    "match_all": { }
+                    }
+                                 <#-- finance_finatype_t -->
+                                  <#if condition.financeFinaTypeTList?? && (condition.financeFinaTypeTList?size > 0)>
+                                                ,<#list condition.financeFinaTypeTList as item>
+                                                {
+                                                    "match_phrase": {
+                                                        "finance_finatype_t": {
+                                                            "query": "${item}"
+                                                        }
+                                                    }
+                                                }
+												 <#if item_has_next>
+                                                ,
+                                                </#if>
+                                                </#list>
 
+                                  </#if>
+                                    <#-- finance_indtypecode -->
+                                  <#if condition.financeIndTypeCodes?? && (condition.financeIndTypeCodes?size > 0)>
+
+                                                ,<#list condition.financeIndTypeCodes.financeIndTypeCodeValue as item>
+                                                {
+                                                    "match_phrase": {
+                                                        "${condition.financeIndTypeCodes.financeIndTypeCodeKey}": {
+                                                            "query": "${item}"
+                                                        }
+                                                    }
+                                                }
+												 <#if item_has_next>
+                                                ,
+                                                </#if>
+                                                </#list>
+                                  </#if>
+
+                    ],
+					"must_not": [
+
+					],
+                    "filter": [
+                        {
+                            <#-- 根据时间查询 -->
+                                   <#if condition.dateStart??  && condition.dateEnd??>
+                                        "range": {
+                                            "finance_startdate_dt":{
+                                                "gte": "${condition.dateStart}",
+                                                <#if condition.dateEnd??>
+                                                "lte": "${condition.dateEnd}",
+                                                </#if>
+                                                "boost": 1
+                                                }
+                                            }
+                                        }
+                                  </#if>
+                    ]
+                }
+            },
+             <#-- 分组查询-->
+            "aggs": {
+                  <#if condition.finance_cityname_s??  && condition.finance_cityname_s != ''>
+                "${condition.finance_cityname_s}": {
+                    "terms": {
+                        "field": "${condition.finance_cityname_s}",
+                        "size": 20000
+                        }
+                         <#if condition.financeSumFinad??  && condition.financeSumFinad != ''>
+                                ,"aggs": {
+
+                                        "sum_count": {
+                                                      "sum": {
+                                                        "field": "${condition.financeSumFinad}"
+                                                      }
+                                                    }
+                                     }
+                                      </#if>
+                }
+                 </#if>
+                 <#if condition.finance_finatype_t??  && condition.finance_finatype_t != ''>
+                "${condition.finance_finatype_t}": {
+                    "terms": {
+                        "field": "${condition.finance_finatype_t}",
+                        "size": 20000
+                        }
+                         <#if condition.financeSumFinad??  && condition.financeSumFinad != ''>
+                                ,"aggs": {
+
+                                        "sum_count": {
+                                                      "sum": {
+                                                        "field": "${condition.financeSumFinad}"
+                                                      }
+                                                    }
+                                     }
+                                      </#if>
+                }
+                 </#if>
+
+                 <#if condition.finance_pindname??  && condition.finance_pindname != ''>
+                "${condition.finance_pindname}": {
+                    "terms": {
+                        "field": "${condition.finance_pindname}",
+                        "size": 20000
+                        }
+                         <#if condition.financeSumFinad??  && condition.financeSumFinad != ''>
+                                ,"aggs": {
+
+                                        "sum_count": {
+                                                      "sum": {
+                                                        "field": "${condition.financeSumFinad}"
+                                                      }
+                                                    }
+                                     }
+                                      </#if>
+                }
+
+                 </#if>
+
+            },
+            <#-- 排序处理 -->
+            "sort": [
+                <#if orderByName?? && orderByName != "">
+                <#list orderByName?split(",") as orderName>
+                    {
+                        "${orderName}": {
+                            "order": "${orderByOrder?split(",")[orderName_index]}"
+                        }
+                    }<#if orderName_has_next>,</#if>
+                </#list>
+                </#if>
+            ],
+            <#-- 高亮处理 -->
+            "highlight": {
+                "pre_tags": [
+                    "<font color=\"#FF0000\">"
+                ],
+                "post_tags": [
+                    "</font>"
+                ],
+                "fields": {
+                    "": {}
+                    <#if condition.highLight?? || condition.highLight??>
+                        ,"${condition.highLight}": {}
+                    </#if>
+                }
+            }
+        }
+        ]]>
+    </select>
+    <!--    融资查询-->
     <select id="financeSearchData" type="dsl"
             resultType="com.stock.capital.enterprise.api.financeStatistics.dto.FinanceStatisticsIndexDto">
         <![CDATA[
@@ -348,6 +614,103 @@
                     </#if>
                 }
             }
+        }
+        ]]>
+    </select>
+     <!--    公司详情页查询-->
+    <select id="financeStatisticsGetQuery" type="dsl"
+            resultType="com.stock.capital.enterprise.api.financeStatistics.dto.FinanceStatisticsIndexDto">
+        <![CDATA[
+        {
+            "track_total_hits" : true,
+             "from": ${startRow},
+             "size": ${pageSize},
+            "query": {
+                "bool": {
+                    "must": [
+                    {
+                    "match_all": { }
+                    }
+                                 <#-- finance_finatype_t -->
+                                  <#if condition.financeFinaTypeTList?? && (condition.financeFinaTypeTList?size > 0)>
+                                                ,<#list condition.financeFinaTypeTList as item>
+                                                {
+                                                    "match_phrase": {
+                                                        "finance_finatype_t": {
+                                                            "query": "${item}"
+                                                        }
+                                                    }
+                                                }
+												 <#if item_has_next>
+                                                ,
+                                                </#if>
+                                                </#list>
+
+                                  </#if>
+								  <#-- finance_finatype_t -->
+                                  <#if condition.finance_finatype_t?? && (condition.finance_finatype_t !='')>
+
+                                                ,{
+                                                    "match_phrase": {
+                                                        "finance_finatype_t": {
+                                                            "query": "${condition.finance_finatype_t}"
+                                                        }
+                                                    }
+                                                }
+
+
+                                  </#if>
+
+
+
+
+                    ],
+					"must_not": [
+					 <#-- finance_finatype_t -->
+                                  <#if condition.finance_finatype_t_004?? && (condition.finance_finatype_t_004 !='')>
+
+                                                {
+                                                    "match_phrase": {
+                                                        "finance_finatype_t": {
+                                                            "query": "${condition.finance_finatype_t_004}"
+                                                        }
+                                                    }
+                                                }
+
+
+                                  </#if>
+					],
+                    "filter": [
+                        {
+                            <#-- 根据时间查询 -->
+                                   <#if condition.dateStart??  && condition.dateEnd??>
+                                        "range": {
+                                            "finance_startdate_dt":{
+                                                "gte": "${condition.dateStart}",
+                                                <#if condition.dateEnd??>
+                                                "lte": "${condition.dateEnd}",
+                                                </#if>
+                                                "boost": 1
+                                                }
+                                            }
+                                        }
+                                  </#if>
+                    ]
+                }
+            },
+
+            <#-- 排序处理 -->
+            "sort": [
+                <#if orderByName?? && orderByName != "">
+                <#list orderByName?split(",") as orderName>
+                    {
+                        "${orderName}": {
+                            "order": "${orderByOrder?split(",")[orderName_index]}"
+                        }
+                    }<#if orderName_has_next>,</#if>
+                </#list>
+                </#if>
+            ]
         }
         ]]>
     </select>
