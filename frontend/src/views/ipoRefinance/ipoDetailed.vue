@@ -121,7 +121,7 @@
                           <!--<span v-else>{{scope.row.zc}}</span>-->
                         <!--</template>-->
                     <!--</el-table-column>-->
-                    <el-table-column align="center" prop="areaCount" label="合计" sortable="custom"  :class-name="heightStyle">
+                    <el-table-column align="center" prop="areaCount" label="在审合计" sortable="custom"  :class-name="heightStyle">
                         <template slot-scope="scope">
                           <span class="spanClass" v-if="getValue(scope.row.areaCount) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'','area')">{{scope.row.areaCount}}</span>
                           <span v-else>{{scope.row.areaCount}}</span>
