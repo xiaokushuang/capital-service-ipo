@@ -1224,7 +1224,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                 if (StringUtils.isNotEmpty(queryInfo.getSelCondition())) {
                     String[] time = queryInfo.getSelCondition().split("至");
                     String start = DateUtil.datePlusToStr(time[0], DateUtil.YYYY_MM_DD, 0);
-                    String end = DateUtil.datePlusToStr(time[1], DateUtil.YYYY_MM_DD, +1);
+                    String end = DateUtil.datePlusToStr(time[1], DateUtil.YYYY_MM_DD, 0);
                     condition.put("dateStart", start);
                     condition.put("dateEnd", end);
                 }
@@ -1241,7 +1241,12 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                         condition.put("finance_finatype_t_004", "004");
 //                        conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, true);
                     } else {
-                        condition.put("finance_finatype_t_histogram", queryInfo.getFinaType());
+                        List<String> typeList = new ArrayList<>();
+                        String[] type = queryInfo.getFinaType().split(",");
+                        for (int i = 0; i < type.length; i++) {
+                            typeList.add(type[i]);
+                        }
+                        condition.put("financeFinaTypeTList", typeList);
 //                        conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
                     }
                 }
@@ -1255,14 +1260,17 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
 //                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
                 }
                 List<String> pindnameList = new ArrayList<>();
+                condition.put("financePindnameFlag", false);
                 if (queryInfo.getSelCondition().indexOf(' ') < 0) {
                     pindnameList.add(queryInfo.getSelCondition());
                     condition.put("financePindnameList", pindnameList);
+                    condition.put("financePindnameFlag", true);
                 } else {
                     for (int i = 0; i < queryInfo.getSelCondition().split(" ").length; i++) {
                         pindnameList.add(queryInfo.getSelCondition().split(" ")[i]);
                     }
                     condition.put("financePindnameList", pindnameList);
+                    condition.put("financePindnameFlag", true);
                 }
                 condition.put("finance_pindname", "finance_pindname" + queryInfo.getFinanceIndustry() + "_s");
                 query.setQueryId("com.stock.capital.enterprise.api.financeStatistics.dao.FinanceStatistics.financeStatisticsDataInfo");
@@ -1275,16 +1283,19 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                     condition.put("finance_finatype_t_map", queryInfo.getFinaType());
 //                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
                 }
-                List<String> citynameList = new ArrayList<>();
-                if (queryInfo.getSelCondition().indexOf(' ') < 0) {
-                    citynameList.add(queryInfo.getSelCondition());
-                    condition.put("finance_cityname_s_map", citynameList);
-                } else {
-                    for (int i = 0; i < queryInfo.getSelCondition().split(" ").length; i++) {
-                        citynameList.add(queryInfo.getSelCondition().split(" ")[i]);
+                if (StringUtils.isNotBlank(queryInfo.getSelCondition())) {
+                    List<String> citynameList = new ArrayList<>();
+                    if (queryInfo.getSelCondition().indexOf(' ') < 0) {
+                        citynameList.add(queryInfo.getSelCondition());
+                        condition.put("finance_cityname_s_map", citynameList);
+                    } else {
+                        for (int i = 0; i < queryInfo.getSelCondition().split(" ").length; i++) {
+                            citynameList.add(queryInfo.getSelCondition().split(" ")[i]);
+                        }
+                        condition.put("finance_cityname_s_map", citynameList);
                     }
-                    condition.put("finance_cityname_s_map", citynameList);
                 }
+
                 query.setQueryId("com.stock.capital.enterprise.api.financeStatistics.dao.FinanceStatistics.financeStatisticsDataInfo");
 //                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getSelCondition(), " ", "finance_cityname_s", false, false, false);
             }

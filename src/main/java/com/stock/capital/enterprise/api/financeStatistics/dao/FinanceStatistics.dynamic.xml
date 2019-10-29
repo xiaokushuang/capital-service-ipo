@@ -28,16 +28,7 @@
                                                 </#list>
 
                                   </#if>
-                                  <#-- finance_finatype_t -->
-                                 <#if condition.finance_finatype_t_histogram?? && condition.finance_finatype_t_histogram != ''>
-                                                ,{
-                                                    "match_phrase": {
-                                                        "finance_finatype_t": {
-                                                            "query": "${condition.finance_finatype_t_histogram}"
-                                                        }
-                                                    }
-                                                }
-                                   </#if>
+
                                     <#-- finance_finatype_t -->
                                  <#if condition.finance_finatype_t_pie?? && condition.finance_finatype_t_pie != ''>
                                                 ,{
@@ -84,10 +75,15 @@
                                                 </#if>
                                                 </#list>
                                   </#if>
-								    	    <#-- finance_pindname -->
+
+					,
+					{
+					"bool": {
+					 "should": [
+					     <#-- finance_pindname -->
                                   <#if condition.financePindnameList?? && (condition.financePindnameList?size > 0)>
 
-                                                ,<#list condition.financePindnameList as item>
+                                                <#list condition.financePindnameList as item>
                                                 {
                                                     "match_phrase": {
                                                         "${condition.finance_pindname}": {
@@ -100,22 +96,11 @@
                                                 </#if>
                                                 </#list>
                                   </#if>
-										<#-- finance_cityname_s -->
-                                  <#if condition.finance_cityname_s_map?? && (condition.finance_cityname_s_map?size > 0)>
-                                                ,<#list condition.finance_cityname_s_map as item>
-                                                {
-                                                    "match_phrase": {
-                                                        "finance_cityname_s": {
-                                                            "query": "${item}"
-                                                        }
-                                                    }
-                                                }
-												 <#if item_has_next>
-                                                ,
-                                                </#if>
-                                                </#list>
-                                  </#if>
-					,
+
+                      ]
+					  }
+					  }
+					 ,
 					{
 					"bool": {
 					 "should": [
@@ -133,7 +118,29 @@
                                                 </#if>
                                                 </#list>
                                   </#if>
-								  <#-- finance_finatype_t -->
+
+                      ]
+					  }
+					  },
+					{
+					"bool": {
+					 "should": [
+					          <#-- finance_cityname_s -->
+                                  <#if condition.finance_cityname_s_map?? && (condition.finance_cityname_s_map?size > 0)>
+                                                <#list condition.finance_cityname_s_map as item>
+                                                {
+                                                    "match_phrase": {
+                                                        "finance_cityname_s": {
+                                                            "query": "${item}"
+                                                        }
+                                                    }
+                                                }
+												 <#if item_has_next>
+                                                ,
+                                                </#if>
+                                                </#list>
+                                  </#if>
+
                       ]
 					  }
 					  }
@@ -258,163 +265,7 @@
         }
         ]]>
     </select>
-    <!--    债券发行-->
-    <select id="financeStatisticsDataInfoBond" type="dsl"
-            resultType="com.stock.capital.enterprise.api.financeStatistics.dto.FinanceStatisticsIndexDto">
-        <![CDATA[
-        {
-            "track_total_hits" : true,
-            "query": {
-                "bool": {
-                    "must": [
-                    {
-                    "match_all": { }
-                    }
-                                 <#-- finance_finatype_t -->
-                                  <#if condition.financeFinaTypeTList?? && (condition.financeFinaTypeTList?size > 0)>
-                                                ,<#list condition.financeFinaTypeTList as item>
-                                                {
-                                                    "match_phrase": {
-                                                        "finance_finatype_t": {
-                                                            "query": "${item}"
-                                                        }
-                                                    }
-                                                }
-												 <#if item_has_next>
-                                                ,
-                                                </#if>
-                                                </#list>
 
-                                  </#if>
-                                    <#-- finance_indtypecode -->
-                                  <#if condition.financeIndTypeCodes?? && (condition.financeIndTypeCodes?size > 0)>
-
-                                                ,<#list condition.financeIndTypeCodes.financeIndTypeCodeValue as item>
-                                                {
-                                                    "match_phrase": {
-                                                        "${condition.financeIndTypeCodes.financeIndTypeCodeKey}": {
-                                                            "query": "${item}"
-                                                        }
-                                                    }
-                                                }
-												 <#if item_has_next>
-                                                ,
-                                                </#if>
-                                                </#list>
-                                  </#if>
-
-                    ],
-					"must_not": [
-
-					],
-                    "filter": [
-                        {
-                            <#-- 根据时间查询 -->
-                                   <#if condition.dateStart??  && condition.dateEnd??>
-                                        "range": {
-                                            "finance_startdate_dt":{
-                                                "gte": "${condition.dateStart}",
-                                                <#if condition.dateEnd??>
-                                                "lte": "${condition.dateEnd}",
-                                                </#if>
-                                                "boost": 1
-                                                }
-                                            }
-                                        }
-                                  </#if>
-                    ]
-                }
-            },
-             <#-- 分组查询-->
-            "aggs": {
-                  <#if condition.finance_cityname_s??  && condition.finance_cityname_s != ''>
-                "${condition.finance_cityname_s}": {
-                    "terms": {
-                        "field": "${condition.finance_cityname_s}",
-                        "size": 20000
-                        }
-                         <#if condition.financeSumFinad??  && condition.financeSumFinad != ''>
-                                ,"aggs": {
-
-                                        "sum_count": {
-                                                      "sum": {
-                                                        "field": "${condition.financeSumFinad}"
-                                                      }
-                                                    }
-                                     }
-                                      </#if>
-                }
-                 </#if>
-                 <#if condition.finance_finatype_t??  && condition.finance_finatype_t != ''>
-                "${condition.finance_finatype_t}": {
-                    "terms": {
-                        "field": "${condition.finance_finatype_t}",
-                        "size": 20000
-                        }
-                         <#if condition.financeSumFinad??  && condition.financeSumFinad != ''>
-                                ,"aggs": {
-
-                                        "sum_count": {
-                                                      "sum": {
-                                                        "field": "${condition.financeSumFinad}"
-                                                      }
-                                                    }
-                                     }
-                                      </#if>
-                }
-                 </#if>
-
-                 <#if condition.finance_pindname??  && condition.finance_pindname != ''>
-                "${condition.finance_pindname}": {
-                    "terms": {
-                        "field": "${condition.finance_pindname}",
-                        "size": 20000
-                        }
-                         <#if condition.financeSumFinad??  && condition.financeSumFinad != ''>
-                                ,"aggs": {
-
-                                        "sum_count": {
-                                                      "sum": {
-                                                        "field": "${condition.financeSumFinad}"
-                                                      }
-                                                    }
-                                     }
-                                      </#if>
-                }
-
-                 </#if>
-
-            },
-            <#-- 排序处理 -->
-            "sort": [
-                <#if orderByName?? && orderByName != "">
-                <#list orderByName?split(",") as orderName>
-                    {
-                        "${orderName}": {
-                            "order": "${orderByOrder?split(",")[orderName_index]}"
-                        }
-                    }<#if orderName_has_next>,</#if>
-                </#list>
-                </#if>
-            ],
-            <#-- 高亮处理 -->
-            "highlight": {
-                "pre_tags": [
-                    "<font color=\"#FF0000\">"
-                ],
-                "post_tags": [
-                    "</font>"
-                ],
-                "fields": {
-                    "": {}
-                    <#if condition.highLight?? || condition.highLight??>
-                        ,"${condition.highLight}": {}
-                    </#if>
-                }
-            }
-        }
-        ]]>
-    </select>
     <!--    融资查询-->
     <select id="financeSearchData" type="dsl"
             resultType="com.stock.capital.enterprise.api.financeStatistics.dto.FinanceStatisticsIndexDto">
@@ -429,53 +280,7 @@
                         {
                     "match_all": { }
                     }
-                                  <#if condition.finance_companyname_t?? && (condition.finance_companyname_t?size > 0)>
 
-                                                ,<#list condition.finance_companyname_t as item>
-                                                {
-                                                    "match_phrase": {
-                                                        "finance_companyname_t": {
-                                                            "query": "${item}"
-                                                        }
-                                                    }
-                                                }
-												 <#if item_has_next>
-                                                ,
-                                                </#if>
-                                                </#list>
-
-                                  </#if>
-                                   <#if condition.finance_securitycode_t?? && (condition.finance_securitycode_t?size > 0)>
-
-                                                ,<#list condition.finance_securitycode_t as item>
-                                                {
-                                                    "match_phrase": {
-                                                        "finance_securitycode_t": {
-                                                            "query": "${item}"
-                                                        }
-                                                    }
-                                                }
-												 <#if item_has_next>
-                                                ,
-                                                </#if>
-                                                </#list>
-                                  </#if>
-                                <#if condition.finance_securityshortname_t?? && (condition.finance_securityshortname_t?size > 0)>
-
-                                                ,<#list condition.finance_securityshortname_t as item>
-                                                {
-                                                    "match_phrase": {
-                                                        "finance_securityshortname_t": {
-                                                            "query": "${item}"
-                                                        }
-                                                    }
-                                                }
-												 <#if item_has_next>
-                                                ,
-                                                </#if>
-                                                </#list>
-
-                                  </#if>
                                     <#-- finance_indtypecode -->
                                   <#if condition.financeIndTypeCodes?? && (condition.financeIndTypeCodes?size > 0)>
 
@@ -511,13 +316,19 @@
                                                 </#if>
                                                 </#list>
                                   </#if>
-								  <#-- finance_finatype_t -->
+                      ]
+					  }
+					  }
+					   ,
+
+					{
+					"bool": {
+					 "should": [
+					    <#-- finance_finatype_t -->
 
 
 								  <#if condition.finance_belongplate_t?? && (condition.finance_belongplate_t?size > 0)>
-                                                      <#if condition.haveCitycodeFlag?? && (condition.haveCitycodeFlag ==true)>
-                                                        ,
-                                                      </#if>
+
                                                 <#list condition.finance_belongplate_t as item>
                                                 {
                                                     "match_phrase": {
@@ -531,12 +342,16 @@
                                                 </#if>
                                                 </#list>
                                   </#if>
+                      ]
+					  }
+					  }
+					   ,
 
-                                  <#if condition.financeFinaTypeT?? && (condition.financeFinaTypeT?size > 0)>
+					{
+					"bool": {
+					 "should": [
+					    <#if condition.financeFinaTypeT?? && (condition.financeFinaTypeT?size > 0)>
 
-                                             <#if (condition.haveCitycodeFlag?? || condition.haveBelongplateFlag??)&& ( condition.haveCitycodeFlag ==true || condition.haveBelongplateFlag ==true)>
-                                                        ,
-                                               </#if>
                                                 <#list condition.financeFinaTypeT as item>
                                                 {
                                                     "match_phrase": {
@@ -551,8 +366,77 @@
                                                 </#list>
 
                                    </#if>
+                      ]
+					  }
+					  }
+					    ,
 
+					{
+					"bool": {
+					 "should": [
+					    <#if condition.finance_companyname_t?? && (condition.finance_companyname_t?size > 0)>
 
+                                                <#list condition.finance_companyname_t as item>
+                                                {
+                                                    "match_phrase": {
+                                                        "finance_companyname_t": {
+                                                            "query": "${item}"
+                                                        }
+                                                    }
+                                                }
+												 <#if item_has_next>
+                                                ,
+                                                </#if>
+                                                </#list>
+
+                                  </#if>
+                      ]
+					  }
+					  }
+					      ,
+
+					{
+					"bool": {
+					 "should": [
+					   <#if condition.finance_securitycode_t?? && (condition.finance_securitycode_t?size > 0)>
+
+                                                <#list condition.finance_securitycode_t as item>
+                                                {
+                                                    "match_phrase": {
+                                                        "finance_securitycode_t": {
+                                                            "query": "${item}"
+                                                        }
+                                                    }
+                                                }
+												 <#if item_has_next>
+                                                ,
+                                                </#if>
+                                                </#list>
+                                  </#if>
+                      ]
+					  }
+					  }
+					        ,
+
+					{
+					"bool": {
+					 "should": [
+					  <#if condition.finance_securityshortname_t?? && (condition.finance_securityshortname_t?size > 0)>
+
+                                                <#list condition.finance_securityshortname_t as item>
+                                                {
+                                                    "match_phrase": {
+                                                        "finance_securityshortname_t": {
+                                                            "query": "${item}"
+                                                        }
+                                                    }
+                                                }
+												 <#if item_has_next>
+                                                ,
+                                                </#if>
+                                                </#list>
+
+                                  </#if>
                       ]
 					  }
 					  }
@@ -648,9 +532,14 @@
                     {
                     "match_all": { }
                     }
-                                 <#-- finance_finatype_t -->
+                            ,
+
+					{
+					"bool": {
+					 "should": [
+					  <#-- finance_finatype_t -->
                                   <#if condition.financeFinaTypeTList?? && (condition.financeFinaTypeTList?size > 0)>
-                                                ,<#list condition.financeFinaTypeTList as item>
+                                                <#list condition.financeFinaTypeTList as item>
                                                 {
                                                     "match_phrase": {
                                                         "finance_finatype_t": {
@@ -664,21 +553,9 @@
                                                 </#list>
 
                                   </#if>
-								  <#-- finance_finatype_t -->
-                                  <#if condition.finance_finatype_t?? && (condition.finance_finatype_t !='')>
-
-                                                ,{
-                                                    "match_phrase": {
-                                                        "finance_finatype_t": {
-                                                            "query": "${condition.finance_finatype_t}"
-                                                        }
-                                                    }
-                                                }
-
-
-                                  </#if>
-
-
+                      ]
+					  }
+					  }
 
 
                     ],
