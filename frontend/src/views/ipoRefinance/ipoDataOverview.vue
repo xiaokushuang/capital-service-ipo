@@ -84,7 +84,7 @@
           </div>
         </el-col>
       </el-row>
-        <el-row :gutter="20" style="margin-left:0px; margin-right:0px;margin-top:50px;">
+        <el-row :gutter="20" style="margin-left:0px; margin-right:0px;margin-top:50px;z-index: 10">
         <!-- 所属行业 -->
           <el-col :span="6" style="border: 1px solid transparent"></el-col>
             <el-col :span="3" style="height: 30px;line-height: 30px;text-align: right"><span>项目公司所属行业</span></el-col>
@@ -123,25 +123,25 @@
             </el-col>
         </el-row>
         <!-- 表格 -->
-        <el-row>
+        <el-row style="z-index: 1;">
         <el-col class="chart" style="padding-left: 10px;">
           <div id="table2" style="margin-top: -30px;">
             <!-- 保荐机构 -->
-            <el-tabs v-model="activeName">
+            <el-tabs v-model="activeName" @tab-click="handleClick">
               <el-tab-pane label="保荐机构" name="first">
-                <div>
+                <div v-if="isFirst">
                   <ipo-data-overview-table-show ref="ipoDataOverviewShow" :id="tabName1" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
                 </div>
               </el-tab-pane>
               <!-- 律师事务所 -->
               <el-tab-pane label="律师事务所" name="second">
-                <div>
+                <div v-if="isSecond">
                   <ipo-data-overview-table-show ref="ipoDataOverviewShow" :id="tabName2" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
                 </div>
               </el-tab-pane>
               <!-- 会计事务所 -->
               <el-tab-pane label="会计事务所" name="third">
-                <div>
+                <div v-if="isThird">
                   <ipo-data-overview-table-show ref="ipoDataOverviewShow" :id="tabName3" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
                 </div>
               </el-tab-pane>
@@ -170,6 +170,9 @@ export default {
     Chart, Chart2, getters, papers, IpoDataOverviewTableShow },
   data() {
     return {
+      isFirst:true,
+      isSecond:false,
+      isThird:false,
       activeName:'first',
       areaList:[],//地区下拉列表
       industryList:[],//行业下拉列表
@@ -242,6 +245,15 @@ export default {
   },
   watch: {},
   methods: {
+    handleClick(tab){
+      if (tab.name === 'first') {
+        this.isFirst = true
+      } else if (tab.name === 'second') {
+        this.isSecond = true
+      }else {
+        this.isThird = true
+      }
+    },
     // 修改table header的背景色
     tableHeaderColor({ row, column, rowIndex, columnIndex }) {
       if ((rowIndex === 0 && columnIndex === 2)) {
