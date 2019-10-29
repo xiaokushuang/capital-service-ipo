@@ -67,7 +67,6 @@ public class IpoCaseListController {
         // 默认没有过期
         boolean overdueSymbol = true;
         String companyId = page.getCondition().getCompanyId();
-        companyId = "999000";
         if (companyId != null && !"".equals(companyId)) {
             int count = ipoCaseListMapper.queryAuthByCompanyId(companyId);
             // 授权类型:签约 或 证监会 或 金融办

@@ -520,4 +520,11 @@
           case_common_favorite ccf
         where ccf.case_id = #{caseId} AND  ccf.`type` = #{type} and ccf.user_id = #{userId} and ccf.company_id = #{companyId}) temp
   </select>
+
+  <select id="getEstimateType" parameterType="java.lang.String" resultType="java.lang.String">
+    SELECT estimate_type FROM ipo_case
+    <where>
+      id = #{id}
+    </where>
+  </select>
 </mapper>

@@ -62,4 +62,11 @@ public interface IpoCaseBizMapper {
     List<IpoAssociatedCaseVo> getAssociatedCaseList(@Param("id") String id);
 
     Map<String, String> getCaseFavoriteAndNote(Map<String, String> map);
+
+    /**
+     * 估算费用类型
+     * @param id
+     * @return
+     */
+    String getEstimateType(@Param("id") String id);
 }

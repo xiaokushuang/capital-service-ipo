@@ -52,6 +52,10 @@ public class IssueSituationService extends BaseService {
         return issueDataDto;
     }
 
+    public String getEstimateType(String id){
+        return ipoCaseBizMapper.getEstimateType(id);
+    }
+
     /**
      * 发行费用
      *
