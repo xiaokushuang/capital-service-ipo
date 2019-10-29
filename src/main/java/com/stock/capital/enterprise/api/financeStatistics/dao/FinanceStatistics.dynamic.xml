@@ -115,6 +115,28 @@
                                                 </#if>
                                                 </#list>
                                   </#if>
+					,
+					{
+					"bool": {
+					 "should": [
+					     <#if condition.financeFinaTypeTListOr?? && (condition.financeFinaTypeTListOr?size > 0)>
+                                                <#list condition.financeFinaTypeTListOr as item>
+                                                {
+                                                    "match_phrase": {
+                                                        "finance_finatype_t": {
+                                                            "query": "${item}"
+                                                        }
+                                                    }
+                                                }
+												 <#if item_has_next>
+                                                ,
+                                                </#if>
+                                                </#list>
+                                  </#if>
+								  <#-- finance_finatype_t -->
+                      ]
+					  }
+					  }
                     ],
 					"must_not": [
 					 <#-- finance_finatype_t -->

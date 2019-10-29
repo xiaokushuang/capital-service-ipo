@@ -132,7 +132,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                                 for (int i = 0; i < type.length; i++) {
                                     typeList.add(type[i]);
                                 }
-                                condition.put("financeFinaTypeTList", typeList);
+                                condition.put("financeFinaTypeTListOr", typeList);
                                 condition.put("finance_finatype_t", facetField);
                                 resultNum = searchWithFacetInfoES(null, condition);
                                 resultSum = searchWithStatsInfoES(facetField, condition, "1");
@@ -261,12 +261,12 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                     if (finaType != null && !"".equals(finaType)) {
                         if (finaType.indexOf(',') < 0) {
                             typeList.add(finaType);
-                            condition.put("financeFinaTypeTList", typeList);
+                            condition.put("financeFinaTypeTListOr", typeList);
                         } else {
                             for (int i = 0; i < finaType.split(",").length; i++) {
                                 typeList.add(finaType.split(",")[i]);
                             }
-                            condition.put("financeFinaTypeTList", typeList);
+                            condition.put("financeFinaTypeTListOr", typeList);
                         }
                     }
                     facetField = "finance_pindname" + industrySelect + "_s";
@@ -313,13 +313,13 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                         typeList = new ArrayList<>();
                         if (finaType.indexOf(',') < 0) {
                             typeList.add(finaType);
-                            condition.put("financeFinaTypeTList", typeList);
+                            condition.put("financeFinaTypeTListOr", typeList);
                         } else {
 //                            String[] type = finaType.split(",");
                             for (int i = 0; i < finaType.split(",").length; i++) {
                                 typeList.add(finaType.split(",")[i]);
                             }
-                            condition.put("financeFinaTypeTList", typeList);
+                            condition.put("financeFinaTypeTListOr", typeList);
                         }
                     }
                     facetField = "finance_cityname_s";
@@ -339,7 +339,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                     rightDataMap.put("dataSum", areaString(resultTotalSum));
                     result.add(rightDataMap);
                     //IPO 数据
-                    typeList.add(finaType);
+                    typeList = new ArrayList<>();
                     typeList.add("001");
                     conditionsStrOther.put("financeFinaTypeTList", typeList);
                     resultTotalSum = searchWithStatsInfoES(facetField, conditionsStrOther, "1");
@@ -347,7 +347,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                     rightDataMapOne.put("dataSum", areaString(resultTotalSum));
                     result.add(rightDataMapOne);
                     //增发 数据
-                    typeList.add(finaType);
+                    typeList = new ArrayList<>();
                     typeList.add("002");
                     conditionsStrOther.put("financeFinaTypeTList", typeList);
                     resultTotalSum = searchWithStatsInfoES(facetField, conditionsStrOther, "1");
@@ -355,7 +355,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                     rightDataMapTwo.put("dataSum", areaString(resultTotalSum));
                     result.add(rightDataMapTwo);
                     //配股 数据
-                    typeList.add(finaType);
+                    typeList = new ArrayList<>();
                     typeList.add("003");
                     conditionsStrOther.put("financeFinaTypeTList", typeList);
                     resultTotalSum = searchWithStatsInfoES(facetField, conditionsStrOther, "1");
