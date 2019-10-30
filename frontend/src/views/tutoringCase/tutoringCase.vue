@@ -246,6 +246,7 @@
           registerArea: '',
           registerCity: '',
           registerProvience: '',
+          registerCountry:'',
           securitiesRegulatory: '',
           serialNum: '',
           title: '',

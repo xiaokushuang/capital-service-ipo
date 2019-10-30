@@ -25,8 +25,8 @@
           </li>
            <li class="clear" style="margin-bottom:10px;position:relative" >
             <span class="l">注册地址</span>
-            <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-if="companyProfileList&&(companyProfileList.registerProvienceText || companyProfileList.registerCityText || companyProfileList.registerAreaText)" >{{(companyProfileList.registerProvienceText == null ? "" : companyProfileList.registerProvienceText) + (companyProfileList.registerCityText == null ? "" : companyProfileList.registerCityText) + (companyProfileList.registerAreaText == null ? "" : companyProfileList.registerAreaText)}}</div>
-            <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-else >- -</div>
+            <div style="color: #333333;float:left;display:inline-block;width: 70%;margin-left: 27px;" v-if="companyProfileList&&(companyProfileList.registerCountryText || companyProfileList.registerProvienceText || companyProfileList.registerCityText || companyProfileList.registerAreaText)" >{{(companyProfileList.registerCountryText == null ? "" : companyProfileList.registerCountryText) + (companyProfileList.registerProvienceText == null ? "" : companyProfileList.registerProvienceText) + (companyProfileList.registerCityText == null ? "" : companyProfileList.registerCityText) + (companyProfileList.registerAreaText == null ? "" : companyProfileList.registerAreaText)}}</div>
+            <div style="color: #333333;float:left;display:inline-block;width: 70%;margin-left: 27px;" v-else >- -</div>
           </li>
         </ul>
         <div>

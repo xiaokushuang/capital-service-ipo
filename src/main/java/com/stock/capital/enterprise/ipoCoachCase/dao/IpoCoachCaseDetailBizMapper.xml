@@ -68,6 +68,11 @@
         (select label_name from maa_conf_label t1 where t1.label_code = 'SFC' and t1.label_value = securities_regulatory and t1.status = '1') as securitiesRegulatoryText,
         if_relevance as ifRelevance,fd_keyword as fdKeyword,company_name as companyName,company_short_name as companyShortName,
         corporate_representative as corporateRepresentative,founding_time as foundingTime,
+        t.register_country as registerCountry,
+        ( SELECT
+        REGEXP_REPLACE(p.PARAMCHNAME, "[a-z]|[A-Z]|[-]|[ ]|[.]", "")
+        FROM cfp_pvalue p
+        where p.NIPMID ='127000000001707338' AND p.eisdel = '0' AND p.PARAMCODE = t.register_country ) AS registerCountryText,
         register_provience as registerProvience,
         (select area_name from provinces t1 where t1.area_no = register_provience and t1.status = '1') as registerProvienceText,
         register_city as registerCity,
@@ -75,6 +80,11 @@
         register_area as registerArea,
         (select area_name from provinces t1 where t1.area_no = register_area and t1.status = '1') as registerAreaText,
         address,establish_time as establishTime,
+        t.business_country as businessCountry,
+        ( SELECT
+        REGEXP_REPLACE(p.PARAMCHNAME, "[a-z]|[A-Z]|[-]|[ ]|[.]", "")
+        FROM cfp_pvalue p
+        where p.NIPMID ='127000000001707338' AND p.eisdel = '0' AND p.PARAMCODE = t.business_country ) AS businessCountryText,
         business_provience as businessProvience,
         (select area_name from provinces t1 where t1.area_no = business_provience and t1.status = '1') as businessProvienceText,
         business_city as businessCity,
