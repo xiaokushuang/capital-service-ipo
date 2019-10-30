@@ -39,7 +39,7 @@
     <el-row :gutter="20" class="h100">
         <!-- 图表 -->
         <el-col :span="16" class="chart" style="position:relative">
-            <div class="row btnGroup" style="position:absolute;right:40px;top:20px;z-index:2">
+            <div class="row btnGroup" style="position:absolute;right:40px;top:20px;z-index:2" id="refreshThree">
                 <span class="singleBtn" @click="clickClass('001',$event)">IPO</span><span class="singleBtn" @click="clickClass('002',$event)">增发</span><span class="singleBtn" @click="clickClass('003',$event)">配股</span>
             </div>
             <div class="fullDiv_border">
@@ -69,21 +69,21 @@
                                         <span>{{scope.row.value}}</span>
                                     </template>
                                 </el-table-column>
-                                
+
                                 <el-table-column align="center" label="数量"  min-width="20%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.num.length==0">0</span>
                                         <a @click="companySel(scope.row,'004')">{{scope.row.num}}</a>
                                     </template>
                                 </el-table-column>
-                            </el-table>     
+                            </el-table>
                         </div>
                     </el-tab-pane>
                     <el-tab-pane label="IPO" name="second" >
                         <div rightTable>
                            <el-table
                                 ref="table1"
-                                :data="data2" 
+                                :data="data2"
                                 max-height="445"
                                 style="width: 100%">
                                 <el-table-column align="center" label="地域" min-width="30%">
@@ -98,14 +98,14 @@
                                         <span>{{scope.row.value}}</span>
                                     </template>
                                 </el-table-column>
-                                
+
                                 <el-table-column align="center" label="数量"  min-width="20%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.num.length==0">0</span>
                                         <a @click="companySel(scope.row,'001')">{{scope.row.num}}</a>
                                     </template>
                                 </el-table-column>
-                            </el-table>     
+                            </el-table>
                         </div>
                     </el-tab-pane>
                     <el-tab-pane label="增发" name="third">
@@ -127,14 +127,14 @@
                                         <span>{{scope.row.value}}</span>
                                     </template>
                                 </el-table-column>
-                                
+
                                 <el-table-column align="center" label="数量"  min-width="20%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.num.length==0">0</span>
                                         <a @click="companySel(scope.row,'002')">{{scope.row.num}}</a>
                                     </template>
                                 </el-table-column>
-                            </el-table>      
+                            </el-table>
                         </div>
                     </el-tab-pane>
                     <el-tab-pane label="配股" name="fourth">
@@ -156,14 +156,14 @@
                                         <span>{{scope.row.value}}</span>
                                     </template>
                                 </el-table-column>
-                                
+
                                 <el-table-column align="center" label="数量"  min-width="20%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.num.length==0">0</span>
                                         <a @click="companySel(scope.row,'003')">{{scope.row.num}}</a>
                                     </template>
                                 </el-table-column>
-                            </el-table>      
+                            </el-table>
                         </div>
                     </el-tab-pane>
                 </el-tabs>
@@ -224,7 +224,7 @@ export default {
   },
   methods: {
     companySel(row,finaType) {//打开公司详情页
-      this.companyDetailShow("3",this.titleName,finaType,row.cityName,row.condition);
+      this.companyDetailShow("3",this.titleName,finaType,row.name,row.condition);
     },
     //点击年度选项事件
     activeFun(data) {
@@ -233,6 +233,14 @@ export default {
       this.param.countType = this.flag;
       // this.param.dateSelect = "";
       this.param.finaType = "001,002,003";
+      var refresChildIds= document.getElementById("refreshThree").childNodes;
+               for(var i=0;i<refresChildIds.length;i++){
+                  refresChildIds[i].className ='singleBtn';
+               }
+                    this.arr.splice(0,this.arr.length);
+                       this.arr.push("001");
+                         this.arr.push("002");
+                           this.arr.push("003");
       this.value5 = "";
       this.chartThree(false);
     },
@@ -311,7 +319,7 @@ export default {
           for(let i =0; i< document.getElementById('listC').getElementsByTagName('a').length;i++) {
             if (document.getElementById('listC').getElementsByTagName('a')[i].classList.contains("active") === false) {
               document.getElementById('listC').getElementsByTagName('a')[3].classList.add("active")
-            }     
+            }
           }
           return false;
         }
@@ -333,7 +341,7 @@ export default {
           for(let i =0; i< document.getElementById('listC').getElementsByTagName('a').length;i++) {
             if (document.getElementById('listC').getElementsByTagName('a')[i].classList.contains("active") === true) {
               document.getElementById('listC').getElementsByTagName('a')[i].classList.remove("active")
-            }     
+            }
           }
         } else {
           // this.$message({
