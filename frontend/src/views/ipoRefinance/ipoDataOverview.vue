@@ -9,7 +9,7 @@
             <!--</el-col>-->
         <!--</el-row>-->
         <!-- echart table -->
-        <el-row :gutter="20" style="margin-left:0px; margin-right:0px;">
+        <el-row :gutter="20" style="margin-left:0px; margin-right:0px;z-index: 10">
             <el-col :span="12">
                 <div class="fullDiv_border">
                   <div style="margin-top:10px;margin-bottom:16px;">
@@ -45,30 +45,34 @@
                   <el-table-column label="核准制" align="center">
                     <el-table-column align="center" label="沪主板" prop="hzbCount">
                         <template slot-scope="scope">
-                            <span>{{scope.row.hzbCount}}</span>
+                          <span class="spanClass" v-if="scope.row.hzbCount != 0" @click="openDetail('沪主板',scope.row.label,'069001001001',scope.row.value)">{{scope.row.hzbCount}}</span>
+                          <span v-else class="spanClassNone">{{scope.row.hzbCount}}</span>
                         </template>
                     </el-table-column>
                     <el-table-column align="center" label="中小板" prop="zxbCount">
                         <template slot-scope="scope">
-                            <span>{{scope.row.zxbCount}}</span>
+                          <span class="spanClass" v-if="scope.row.zxbCount != 0" @click="openDetail('中小板',scope.row.label,'069001002003',scope.row.value)">{{scope.row.zxbCount}}</span>
+                          <span v-else class="spanClassNone">{{scope.row.zxbCount}}</span>
                         </template>
                     </el-table-column>
                     <el-table-column align="center" label="创业板" prop="cybCount">
                         <template slot-scope="scope">
-                            <span>{{scope.row.cybCount}}</span>
+                          <span class="spanClass" v-if="scope.row.cybCount != 0" @click="openDetail('创业板',scope.row.label,'069001002002',scope.row.value)">{{scope.row.cybCount}}</span>
+                          <span v-else class="spanClassNone">{{scope.row.cybCount}}</span>
                         </template>
                     </el-table-column>
                   </el-table-column>
                   <el-table-column label="注册制" align="center">
                     <el-table-column align="center" label="科创板" prop="kcCount" :class-name="tdStyle">
                         <template slot-scope="scope">
-                            <span>{{scope.row.kcCount}}</span>
+                          <span class="spanClass" v-if="scope.row.kcCount != 0" @click="openDetail('科创板',scope.row.label,'069001001006',scope.row.value)">{{scope.row.kcCount}}</span>
+                          <span v-else class="spanClassNone">{{scope.row.kcCount}}</span>
                         </template>
                     </el-table-column>
                   </el-table-column>
                   <el-table-column align="center" label="合计"  prop="totalAll" :class-name="tdStyle">
                     <template slot-scope="scope">
-                        <span v-if="scope.row.totalAll != 0" style="font-weight: bold">{{scope.row.totalAll}}</span>
+                        <span v-if="scope.row.totalAll != 0" style="font-weight: bold" class="spanClass" @click="openDetail('合计',scope.row.label,'',scope.row.value)">{{scope.row.totalAll}}</span>
                         <span v-else>{{scope.row.totalAll}}</span>
                     </template>
                   </el-table-column>
@@ -84,7 +88,7 @@
           </div>
         </el-col>
       </el-row>
-        <el-row :gutter="20" style="margin-left:0px; margin-right:0px;margin-top:50px;z-index: 10">
+        <el-row :gutter="20" style="margin-left:0px; margin-right:0px;margin-top:50px;z-index: 8">
         <!-- 所属行业 -->
           <el-col :span="6" style="border: 1px solid transparent"></el-col>
             <el-col :span="3" style="height: 30px;line-height: 30px;text-align: right"><span>项目公司所属行业</span></el-col>
@@ -127,21 +131,21 @@
         <el-col class="chart" style="padding-left: 10px;">
           <div id="table2" style="margin-top: -30px;">
             <!-- 保荐机构 -->
-            <el-tabs v-model="activeName" @tab-click="handleClick">
+            <el-tabs v-model="activeName">
               <el-tab-pane label="保荐机构" name="first">
-                <div v-if="isFirst">
+                <div>
                   <ipo-data-overview-table-show ref="ipoDataOverviewShow" :id="tabName1" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
                 </div>
               </el-tab-pane>
               <!-- 律师事务所 -->
               <el-tab-pane label="律师事务所" name="second">
-                <div v-if="isSecond">
+                <div>
                   <ipo-data-overview-table-show ref="ipoDataOverviewShow" :id="tabName2" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
                 </div>
               </el-tab-pane>
               <!-- 会计事务所 -->
               <el-tab-pane label="会计事务所" name="third">
-                <div v-if="isThird">
+                <div>
                   <ipo-data-overview-table-show ref="ipoDataOverviewShow" :id="tabName3" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
                 </div>
               </el-tab-pane>
@@ -163,6 +167,7 @@ import { MultidimensionalData } from "@/utils/index";
 import getters from "@/store/getters";
 import papers from "@/views/components-demo/papers";
 import IpoDataOverviewTableShow from '@/components/IpoDataOverviewTable/ipoDataOverviewTableShow'
+import {iframeDoMessage} from '@/utils/auth'
 export default {
   name: "ipoDataOverview",
   mixins: [datepicker],
@@ -245,6 +250,17 @@ export default {
   },
   watch: {},
   methods: {
+    openDetail(title,label,quasiListedLand,labelCode){
+      if (labelCode == 'totalCount'){
+        labelCode = '';
+      }
+      title = title + "（" + this.lableTurnName(label) + "）"
+      let url = window.location.href;
+      url = url.replace(this.$route.path,'/ipoDataOverviewDetailPopWin');
+      url = url + '&quasiListedLand=' + quasiListedLand +  '&tabFlag=four'+ '&labelCode='+labelCode;
+      //参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
+      iframeDoMessage(window.parent,'popWinOut',[title,url,'1200','580']);
+    },
     handleClick(tab){
       if (tab.name === 'first') {
         this.isFirst = true
@@ -457,5 +473,17 @@ export default {
   .el-tabs__nav-wrap::after{
     background-color: transparent;
   }
+.spanClass {
+  cursor: pointer;
+  color: #14bdf5;
+  font-size: 14px;
+}
+.spanClassNone{
+  color: #999999;
+  font-size: 14px;
+}
+.spanClass:hover {
+  text-decoration: underline;
+}
 </style>
 
