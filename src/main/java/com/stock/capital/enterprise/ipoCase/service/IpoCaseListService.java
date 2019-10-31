@@ -1216,7 +1216,6 @@ public class IpoCaseListService extends BaseService {
      * @return
      */
     public List<String> getIpoItemCaseIdList(IpoCaseListBo ipoCaseListBo){
-        ipoCaseListBo.setModuleId("1107243474509829937");
         return ipoCaseListMapper.getIpoItemCaseIdList(ipoCaseListBo);
     }
 }
