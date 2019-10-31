@@ -215,6 +215,23 @@
                                         }
                                     }
                                   </#if>
+                                  <#-- 案例id -->
+                                   <#if condition.caseIdList?? && (condition.caseIdList?size > 0)>
+                                       ,{
+                                        "terms": {
+                                            "id": [
+                                                <#list condition.caseIdList as item>
+                                                    <#if !item_has_next>
+                                                        "${item}"
+                                                    <#else>
+                                                        "${item}",
+                                                    </#if>
+                                                </#list>
+                                            ],
+                                            "boost": 1
+                                        }
+                                    }
+                                  </#if>
                                    <#-- 证监会行业 -->
                                    <#if condition.industryCsrcList?? && (condition.industryCsrcList?size > 0)>
                                       ,{
