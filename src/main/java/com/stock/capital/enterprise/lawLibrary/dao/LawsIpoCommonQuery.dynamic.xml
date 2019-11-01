@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<elasticsearch-dynamic-statement xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                 nameSpace="com.stock.capital.enterprise.lawLibrary.dao.LawsIpoCommonQuery">
+    <select id="LawsIpoCommonQuery" type="dsl" resultType="com.stock.capital.enterprise.lawLibrary.dto.LawIndexSearchDto">
+        <![CDATA[
+               {
+            "track_total_hits" : true,
+            "from": ${startRow},
+            "size": ${pageSize},
+            "query":{
+                "bool": {
+                    "must": [{
+                    "bool": {
+                    "must": [
+                    {
+                    "match_all": { }
+                    }
+                    <#-- 标题关键字 全部 -->
+                    <#if condition.keyAndTitles?? && (condition.keyAndTitles?size > 0)>
+                    ,{
+                        "bool": {
+                            "must": [
+                                <#list condition.keyAndTitles as item>
+                                {
+                                    "match_phrase": {
+                                        "laws_title_t": {
+                                            "query": "${item}",
+                                            "slop": 5
+                                        }
+                                    }
+                                }<#if item_has_next>,</#if>
+                                </#list>
+                            ]
+                        }
+                    }
+                    </#if>
+
+                    <#-- 标题关键字 任意 -->
+                    <#if condition.keyTitles?? && (condition.keyTitles?size > 0)>
+                    ,{
+                        "bool": {
+                            "should": [
+                                <#list condition.keyTitles as item>
+                                {
+                                    "match_phrase": {
+                                        "laws_title_t": {
+                                            "query": "${item}",
+                                            "slop": 5
+                                        }
+                                    }
+                                }<#if item_has_next>,</#if>
+                                </#list>
+                            ]
+                        }
+                    }
+                    </#if>
+
+                    <#-- 标题关键字 不包含 -->
+                    <#if condition.keyNotTitles?? && (condition.keyNotTitles?size > 0)>
+                    ,{
+                        "bool": {
+                            "must_not": [{
+                            "bool": {
+                            "should": [
+                                <#list condition.keyNotTitles as item>
+                                    {
+                                        "match_phrase": {
+                                            "laws_title_t": {
+                                                "query": "${item}",
+                                                "slop": 5
+                                            }
+                                        }
+                                    }<#if item_has_next>,</#if>
+
+                                </#list>
+                            ]
+                            }
+                            }]
+                        }
+                    }
+                    </#if>
+
+					<#-- 全文关键字 包含 -->
+                    <#if condition.keyAndAlls??  && (condition.keyAndAlls?size > 0)>
+                    ,{
+                        "bool": {
+                            "must": [{
+                                "bool":{
+                                "should":[
+                                {
+                                    "bool": {
+                                        "must": [
+                                        <#list condition.keyAndAlls as item>
+                                            {
+                                            "match_phrase": {
+                                                "laws_content_t": {
+                                                "query": "${item}",
+                                                "slop": 5
+                                                }
+                                            }
+                                            }<#if item_has_next>,</#if>
+                                        </#list>
+                                        ]
+                                    }
+                                }
+                            ]
+                            }
+                            }]
+                        }
+                    }
+                    </#if>
+
+                    <#-- 全文关键字 任意 -->
+                    <#if condition.keyAlls?? && (condition.keyAlls?size > 0)>
+                    ,{
+                        "bool": {
+                            "should": [
+                                <#list condition.keyAlls as item>
+                                {
+                                    "match_phrase": {
+                                        "laws_content_t": {
+                                            "query": "${item}",
+                                            "slop": 5
+                                        }
+                                    }
+                                }
+                                }<#if item_has_next>,</#if>
+                                </#list>
+                            ]
+                        }
+                    }
+                    </#if>
+
+                    <#-- 全文关键字 不包含 -->
+                    <#if condition.keyNotAlls?? && (condition.keyNotAlls?size > 0)>
+                    ,{
+                        "bool": {
+                            "must_not": [
+                                {
+                                    "bool":{
+                                        "should":[
+                                            <#list condition.keyNotAlls as item>
+                                            {
+                                                "match_phrase": {
+                                                    "laws_content_t": {
+                                                        "query": "${item}",
+                                                        "slop": 5
+                                                    }
+                                                }
+                                            }
+                                            }<#if item_has_next>,</#if>
+                                            </#list>
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                    </#if>
+
+					<#-- valid -->
+                    <#if condition.invalidTag??>
+                    ,{
+                        "bool": {
+                            "should": [
+								{
+									"bool" : {
+									 "should": [
+									{
+										 "bool" : {
+											"must":[
+                                                {
+                                                "match_all": { }
+                                                }
+												<#-- 发布日期-->
+												<#if condition.invalidTag??>
+												<#if condition.invalidTag == "0," || condition.invalidTag == "1,"
+												|| condition.invalidTag == "0,1," || condition.invalidTag == "0,2,">
+												,{
+													"constant_score": {
+														"filter": {
+															"range": {
+																"laws_invalid_date_dt": {
+																	<#if condition.lawsInvalidDate??>
+																		"from": "${condition.lawsInvalidDate}",
+																	</#if>
+																	"include_lower": true,
+																	"include_upper": true,
+																	"boost": 1
+																}
+															}
+														}
+													}
+												}
+												</#if>
+												<#if condition.invalidTag == "0," || condition.invalidTag == "2,"
+												|| condition.invalidTag == "0,1," || condition.invalidTag == "0,2,"
+												|| condition.invalidTag == "1,2," || condition.invalidTag == "1,3,">
+												,{
+													"constant_score": {
+														"filter": {
+															"range": {
+																"laws_effect_date_dt": {
+																	<#if condition.lawsEffectDate??>
+																		"to": "${condition.lawsEffectDate}",
+																	</#if>
+																	"include_lower": true,
+																	"include_upper": true,
+																	"boost": 1
+																}
+															}
+														}
+													}
+												}
+												</#if>
+												</#if>
+											],
+											"should": [
+												{
+													"bool" : {
+													"must":[
+														<#-- 发布日期-->
+														<#if condition.invalidTag??>
+														<#if condition.invalidTag == "1,3," || condition.invalidTag == "2,3,">
+														,{
+															"constant_score": {
+																"filter": {
+																	"range": {
+																		"laws_invalid_date_dt": {
+																			<#if condition.lawsInvalidDate??>
+																				"from": "${condition.lawsInvalidDate}",
+																			</#if>
+																			"include_lower": true,
+																			"include_upper": true,
+																			"boost": 1
+																		}
+																	}
+																}
+															}
+														}
+														</#if>
+														</#if>
+													]
+													}
+												}
+												<#if condition.invalidTag == "0,3," >
+												,{
+													"constant_score": {
+														"filter": {
+															"range": {
+																"laws_effect_date_dt": {
+																	<#if condition.lawsEffectDate??>
+																		"to": "${condition.lawsEffectDate}",
+																	</#if>
+																	"include_lower": true,
+																	"include_upper": true,
+																	"boost": 1
+																}
+															}
+														}
+													}
+												}
+												</#if>
+
+											]
+											}
+									}
+									<#if condition.invalidTag == "0,1,">
+									,{
+										"constant_score": {
+											"filter": {
+												"range": {
+													"laws_effect_date_dt": {
+														<#if condition.lawsEffectDate??>
+															"from": "${condition.lawsEffectDate}",
+														</#if>
+														"include_lower": true,
+														"include_upper": true,
+														"boost": 1
+													}
+												}
+											}
+										}
+									}
+									</#if>
+									<#if condition.invalidTag == "0,2," || condition.invalidTag == "1,2,">
+									,{
+										"constant_score": {
+											"filter": {
+												"range": {
+													"laws_invalid_date_dt": {
+														<#if condition.lawsInvalidDate??>
+															"to": "${condition.lawsInvalidDate}",
+														</#if>
+														"include_lower": true,
+														"include_upper": true,
+														"boost": 1
+													}
+												}
+											}
+										}
+									}
+									</#if>
+
+									]
+									}
+								}
+								<#if condition.lawsIsDefaultShow?? && condition.lawsIsDefaultShow != "" && condition.lawsIsDefaultShow == "1">
+								,{
+									 "terms": {
+										"laws_is_default_show_t": [
+												"${condition.lawsIsDefaultShow}"
+										]
+									}
+								}
+								</#if>
+
+                            ]
+                        }
+                    }
+                    </#if>
+
+
+
+
+
+
+                    ]
+                    }
+                    }],
+                    "must_not": [
+					],
+                    "should": [
+                    ],
+                    <#-- 过滤器查询 -->
+                    "filter": [
+                        {
+                            "bool": {
+                                "must": [
+                                {
+                                "match_all": { }
+                                }
+
+								<#-- 依据法律法规业务分类 -->
+                                <#if condition.bondClassLst?? && (condition.bondClassLst?size > 0)>
+                                ,{
+                                    "terms": {
+                                        "laws_search_bond_no_txt": [
+                                            <#list condition.bondClassLst as item>
+                                                "${item}"<#if item_has_next>,</#if>
+                                            </#list>
+                                        ]
+                                    }
+                                }
+                                </#if>
+								<#-- 依据债券品种 -->
+                                <#if condition.lawTypeLst?? && (condition.lawTypeLst?size > 0)>
+                                ,{
+                                    "terms": {
+                                        "laws_search_declare_type_txt": [
+                                            <#list condition.lawTypeLst as item>
+                                                "${item}"<#if item_has_next>,</#if>
+                                            </#list>
+                                        ]
+                                    }
+                                }
+                                </#if>
+                                <#-- 依据法律位阶 -->
+                                <#if condition.lawClassLst?? && (condition.lawClassLst?size > 0)>
+                                ,{
+                                    "terms": {
+                                        "laws_type_search_txt": [
+                                            <#list condition.lawClassLst as item>
+                                                "${item}"<#if item_has_next>,</#if>
+                                            </#list>
+                                        ]
+                                    }
+                                }
+                                </#if>
+								<#-- 依据银行机构 -->
+								<#if condition.bankClassLst?? && (condition.bankClassLst?size > 0)>
+								,{
+									 "terms": {
+                                        "laws_search_bank_no_txt": [
+                                            <#list condition.bankClassLst as item>
+                                                "${item}"<#if item_has_next>,</#if>
+                                            </#list>
+                                        ]
+                                    }
+                                 }
+								</#if>
+								<#-- 依据发文单位 -->
+								<#if condition.lawSourceLst?? && (condition.lawSourceLst?size > 0)>
+								,{
+									 "terms": {
+                                        "laws_source_search_txt": [
+                                            <#list condition.lawSourceLst as item>
+                                                "${item}"<#if item_has_next>,</#if>
+                                            </#list>
+                                        ]
+                                    }
+                                }
+								</#if>
+								<#-- 依据适用范围 -->
+								<#if condition.lawRangeLst?? && (condition.lawRangeLst?size > 0)>
+								,{
+									 "terms": {
+                                        "laws_scopes_txt": [
+                                            <#list condition.lawRangeLst as item>
+                                                "${item}"<#if item_has_next>,</#if>
+                                            </#list>
+                                        ]
+                                    }
+                                }
+								</#if>
+								<#-- 依据适用板块 -->
+								<#if condition.lawsApplyModuleLst?? && (condition.lawsApplyModuleLst?size > 0)>
+								,{
+									 "terms": {
+                                        "laws_search_apply_module_txt": [
+                                            <#list condition.lawsApplyModuleLst as item>
+                                                "${item}"<#if item_has_next>,</#if>
+                                            </#list>
+                                        ]
+                                    }
+                                 }
+								</#if>
+								<#-- 依据历史沿革 -->
+								<#if condition.lawEvolutionLst?? && (condition.lawEvolutionLst?size > 0)>
+								,{
+									 "terms": {
+                                        "laws_evolution_status_t": [
+                                            <#list condition.lawEvolutionLst as item>
+                                                "${item}"<#if item_has_next>,</#if>
+                                            </#list>
+                                        ]
+                                    }
+                                }
+								</#if>
+                                <#-- 依据发布日期-->
+                                <#if condition.publishedDateFrom?? && condition.publishedDateTo??>
+                                ,{
+                                    "constant_score": {
+                                        "filter": {
+                                            "range": {
+                                                "laws_publish_date_dt": {
+                                                    "from": "${condition.publishedDateFrom}",
+                                                    "to": "${condition.publishedDateTo}",
+                                                    "include_lower": true,
+                                                    "include_upper": true,
+                                                    "boost": 1
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                </#if>
+                                <#-- 依据生效日期-->
+                                <#if condition.effectDateFrom?? && condition.effectDateTo??>
+                                ,{
+                                    "constant_score": {
+                                        "filter": {
+                                            "range": {
+                                                "laws_effect_date_dt": {
+                                                    "from": "${condition.effectDateFrom}",
+                                                    "to": "${condition.effectDateTo}",
+                                                    "include_lower": true,
+                                                    "include_upper": true,
+                                                    "boost": 1
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                </#if>
+
+                                ]
+
+                            }
+                        }
+                    ]
+                }
+            },
+            "sort": [
+                <#if orderByName?? && orderByName != "">
+                    <#list orderByName?split(",") as orderName>
+                        {
+                            "${orderName}": {
+                                "order": "${orderByOrder?split(",")[orderName_index]}"
+                            }
+                        }<#if orderName_has_next>,</#if>
+
+                    </#list>
+                </#if>
+            ],
+            <#-- 分组查询-->
+            "aggs": {
+                "laws_type_search_txt": {
+                    "terms": {
+                    "field": "laws_type_search_txt",
+                     "size": 5000,
+                     "min_doc_count": 0
+                     }
+                },
+				"laws_search_declare_type_txt": {
+                    "terms": {
+                    "field": "laws_search_declare_type_txt",
+                     "size": 5000,
+                     "min_doc_count": 0
+                     }
+                },"laws_search_bond_no_txt": {
+                    "terms": {
+                    "field": "laws_search_bond_no_txt",
+                     "size": 5000,
+                     "min_doc_count": 0
+                     }
+                },"laws_search_bank_no_txt": {
+                    "terms": {
+                    "field": "laws_search_bank_no_txt",
+                     "size": 5000,
+                     "min_doc_count": 0
+                     }
+                }
+            },
+            <#-- 高亮处理 -->
+            "highlight": {
+                "pre_tags": [
+                    "<font color=\"#FF0000\">"
+                ],
+                "post_tags": [
+                    "</font>"
+                ],
+                "fields": {
+                    "": {}
+                    <#if condition.keyAndTitles?? || condition.keyTitles?? || condition.keyAndAlls?? || condition.keyAlls?? >
+                        ,"laws_title_t": {}
+                    </#if>
+                    <#if condition.keyAndAlls?? || condition.keyAlls?? >
+                        ,"laws_content_t": {}
+                    </#if>
+                }
+            }
+        }
+        ]]>
+    </select>
+</elasticsearch-dynamic-statement>
