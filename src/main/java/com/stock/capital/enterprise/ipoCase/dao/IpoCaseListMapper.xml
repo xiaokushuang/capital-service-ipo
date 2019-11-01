@@ -180,7 +180,7 @@
   </select>
 
   <select id="getIpoItemCaseIdList" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo" resultType="java.lang.String">
-      select concat('ipo',t1.case_id)
+      select concat('ipo',a1.case_id)
       from sa_letter a1,letter_class a2
       where a1.letter_type = a2.id
       and a1.post_status = '1' and a1.letter_valid = '0'
@@ -190,6 +190,6 @@
           from ipo_item_violation_letter
           where  module_id=#{moduleId} and node_type='03'
       )
-      GROUP BY t1.case_id
+      GROUP BY a1.case_id
   </select>
 </mapper>
