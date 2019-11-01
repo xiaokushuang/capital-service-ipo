@@ -1,5 +1,6 @@
 module.exports = {
 	NODE_ENV: '"development"',
 	ENV_CONFIG: '"dev"',
-	BASE_API: '"http://localhost:8080/htrt"'
+	BASE_API: '"http://localhost:8080/htrt"',
+  CDN_DOMAIN: '"https://static-dev.valueonline.cn"'
 }
