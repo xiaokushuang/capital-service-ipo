@@ -180,26 +180,16 @@
   </select>
 
   <select id="getIpoItemCaseIdList" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo" resultType="java.lang.String">
-    select concat('ipo',t1.id)
-    from ipo_case t1,ipo_process t2,
-    (
-        select distinct a1.letter_date
-        from sa_letter a1,letter_class a2
-        where a1.letter_type = a2.id
-        and a2.letter_class_name in ('科创板上市申请文件审核问询函','审核中心意见落实函','IPO预披露反馈意见')
-        and a1.post_status = '1' and a1.letter_valid = '0'
-        and a1.letter_date is not null
-        and a2.id in (
-            select node_id
-            from ipo_item_violation_letter
-            where  module_id=#{moduleId} and node_type='03'
-        )
-    ) t3,case_common_status_info t4
-    where t1.id = t2.bid
-    and t2.process_time = t3.letter_date
-    and t1.id = t4.case_id
-    and ifnull(t4.release_flag,'0') = '1'
-    and t2.process_type_code in ('05','32','45')
-    group by t1.id
+      select concat('ipo',t1.case_id)
+      from sa_letter a1,letter_class a2
+      where a1.letter_type = a2.id
+      and a1.post_status = '1' and a1.letter_valid = '0'
+      and a1.case_id is not null and a1.case_id != ''
+      and a2.id in (
+          select node_id
+          from ipo_item_violation_letter
+          where  module_id=#{moduleId} and node_type='03'
+      )
+      GROUP BY t1.case_id
   </select>
 </mapper>
