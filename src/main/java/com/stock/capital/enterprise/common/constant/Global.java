@@ -181,5 +181,14 @@ public interface Global {
      */
     public static final String ES_FINANCE_STATISTICS_FLAG = "0";
 
+    /**
+     * 法律法规索引
+     * 0 表示当前使用的ES的searchserver 1 表示使用的是Solr的searchserver
+     */
+    public static final String SEARCH_SERVER_LAWS_FLAG = "0";
 
+    /**
+     * 法律法规索引名称
+     */
+    public static final String LAWS_INFO_INDEX_NAME = "laws_info";
 }

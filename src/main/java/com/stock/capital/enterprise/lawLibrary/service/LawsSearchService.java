@@ -11,10 +11,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.stock.capital.enterprise.common.service.CommonService;
 import com.stock.capital.enterprise.lawLibrary.dao.CompanyRuleBizMapper;
-import com.stock.capital.enterprise.lawLibrary.dto.InvalidLawsDto;
-import com.stock.capital.enterprise.lawLibrary.dto.LawDownDto;
+import com.stock.capital.enterprise.lawLibrary.dto.*;
+import com.stock.core.Constant;
+import com.stock.core.search.SearchClient;
+import com.stock.core.search.SolrSearchUtil;
 import com.stock.core.util.BeanUtil;
 
 import org.apache.commons.lang3.StringUtils;
@@ -30,10 +34,7 @@ import org.springframework.util.MultiValueMap;
 import com.stock.capital.enterprise.common.constant.Global; 
 import com.stock.capital.enterprise.common.dao.LawIndexTagMapper;  
 import com.stock.capital.enterprise.common.entity.Code; 
-import com.stock.capital.enterprise.common.entity.LawIndexTag; 
-import com.stock.capital.enterprise.lawLibrary.dto.SearchDto;
-import com.stock.capital.enterprise.lawLibrary.dto.SearchLawsDTO;
-import com.stock.capital.enterprise.lawLibrary.dto.StatisticLawDto;
+import com.stock.capital.enterprise.common.entity.LawIndexTag;
 import com.stock.core.dto.FacetResult;
 import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.OptionDto;
@@ -52,6 +53,12 @@ public class LawsSearchService extends BaseService {
      */
     @Autowired
     private RestClient restClient;
+
+    @Autowired
+    private SearchClient searchClient;
+
+    @Autowired
+    private CommonService commonService;
  
     
     @Autowired
@@ -184,6 +191,317 @@ public class LawsSearchService extends BaseService {
         };
         FacetResult facetResult = restClient.post(apiBaseUrl + "laws_manage/ajaxLawIndex", queryInfo, responseType);
         return facetResult;
+    }
+
+    public FacetResult searchLawsEs(QueryInfo<SearchLawsDTO> queryInfo) {
+        ParameterizedTypeReference<FacetResult> responseType = new ParameterizedTypeReference<FacetResult>() {
+        };
+        queryInfo.setQueryId("com.stock.capital.enterprise.lawLibrary.dao.LawsIpoCommonQuery.LawsIpoCommonQuery");
+        FacetResult<LawIndexSearchDto> facetResult = searchClient.searchWithFacet(Global.LAWS_INFO_INDEX_NAME, queryInfo, LawIndexSearchDto.class);
+        return facetResult;
+    }
+
+    public QueryInfo<SearchLawsDTO> dealLawsQueryInfo(SearchLawsDTO searchLawsDTO) {
+        QueryInfo<SearchLawsDTO> queryInfoEs = new QueryInfo<>();
+        SearchLawsDTO conditionEs = new SearchLawsDTO();
+        BeanUtil.copy(searchLawsDTO, conditionEs);
+        String keyOffset = "~5";
+        Map<String, String> condition = Maps.newHashMap();
+//        // 检索类型：法律法规
+//        String conditionsStr = "laws_lib_type_txt: \"99\"";
+//        // 依据法律位阶
+//        conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, searchLawsDTO.getLawClass(),
+//                "laws_type_search_txt");
+//        // 依据法律法规业务分类
+//        conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, searchLawsDTO.getLawType(),
+//                "laws_search_declare_type_txt");
+//        // 依据发文单位
+//        conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, searchLawsDTO.getLawSource(),
+//                "laws_source_search_txt");
+//        // 依据适用范围
+//        conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, searchLawsDTO.getLawRange(),
+//                "laws_scopes_txt");
+
+        conditionEs.setLawLibType("99");
+
+        // 拼接条件
+        try {
+            List<String> queryFromNameList =
+                    Arrays.asList(("lawClass,lawType,lawSource,lawRange").split(","));
+            List<String> queryFromNameListNameList =
+                    Arrays.asList(("lawClassLst,lawTypeLst,lawSourceLst,lawRangeLst").split(","));
+            BeanUtil.copyAttrToList(conditionEs, queryFromNameList, queryFromNameListNameList, ",");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // 依据颁布日期
+        if(StringUtils.isNotEmpty(searchLawsDTO.getPublishedDate())){
+            List<String> publishedDateRange = DateUtil.getDateStringByRange(searchLawsDTO.getPublishedDate());
+            if(publishedDateRange != null && publishedDateRange.size() == 2) {
+                conditionEs.setPublishedDateFrom(DateUtil.getDateStr(DateUtil.getDate(publishedDateRange.get(0), DateUtil.YYYY_MM_DD_HH_MM_SS), DateUtil.YYYY_MM_DD));
+                conditionEs.setPublishedDateTo(publishedDateRange.get(1));
+            }
+        }
+//        conditionsStr = SolrSearchUtil.transDateStrToConditionStr(conditionsStr, searchLawsDto.getCondition().getPublishedDateStr(),
+//                "laws_publish_date_dt");
+        // 依据生效日期
+        if(StringUtils.isNotEmpty(searchLawsDTO.getInvalidDate())) {
+            List<String> effectDateRange = DateUtil.getDateStringByRange(searchLawsDTO.getInvalidDate());
+            if (effectDateRange != null && effectDateRange.size() == 2) {
+                conditionEs.setEffectDateFrom(DateUtil.getDateStr(DateUtil.getDate(effectDateRange.get(0), DateUtil.YYYY_MM_DD_HH_MM_SS), DateUtil.YYYY_MM_DD));
+                conditionEs.setEffectDateTo(effectDateRange.get(1));
+            }
+        }
+
+//        // 依据颁布日期
+//        conditionsStr = SolrSearchUtil.transDateStrToConditionStr(conditionsStr, searchLawsDTO.getPublishedDate(),
+//                "laws_publish_date_dt");
+//        // 依据生效日期
+//        conditionsStr = SolrSearchUtil.transDateStrToConditionStr(conditionsStr, searchLawsDTO.getInvalidDate(),
+//                "laws_effect_date_dt");
+        // 不显示失效法规
+        if(StringUtils.isNotEmpty(searchLawsDTO.getInvalidTag())){
+            if(!("0,1,2").equals(searchLawsDTO.getInvalidTag())){
+                if(StringUtils.isNoneEmpty(searchLawsDTO.getInvalidTag())){
+                    //现行有效
+                    if ("0".equals(searchLawsDTO.getInvalidTag())) {
+                        String today = DateUtil.getDateStr(new Date(), DateUtil.YYYY_MM_DD);
+//                        conditionsStr = conditionsStr + " AND laws_invalid_date_dt: { \"" + today + "T16:00:00Z\" TO * }";//小于
+//                        conditionsStr = conditionsStr + " AND laws_effect_date_dt: { * TO \"" + today + "T16:00:00Z\" ]";//大于
+                        conditionEs.setLawsInvalidDate(today+" 16:00:00");
+                        conditionEs.setLawsEffectDate(today+" 16:00:00");
+                    }
+                    //待生效
+                    else if ("1".equals(searchLawsDTO.getInvalidTag())) {
+                        String today = DateUtil.getDateStr(new Date(), DateUtil.YYYY_MM_DD);
+//                        conditionsStr = conditionsStr + " AND laws_effect_date_dt: { \"" + today + "T16:00:00Z\" TO * }";//小于
+                        conditionEs.setLawsEffectDate(today+" 16:00:00");
+                    }
+                    //已失效
+                    else if ("2".equals(searchLawsDTO.getInvalidTag())) {
+                        String today = DateUtil.getDateStr(new Date(), DateUtil.YYYY_MM_DD);
+//                        conditionsStr = conditionsStr + " AND laws_invalid_date_dt: { * TO \"" + today + "T16:00:00Z\" ]";//大于
+                        conditionEs.setLawsInvalidDate(today+" 16:00:00");
+                    }else if("0,1".equals(searchLawsDTO.getInvalidTag())){
+                        String today = DateUtil.getDateStr(new Date(), DateUtil.YYYY_MM_DD);
+//                        conditionsStr = conditionsStr + " AND (( laws_invalid_date_dt: { \"" + today + "T16:00:00Z\" TO * } AND laws_effect_date_dt: { * TO \"" + today + "T16:00:00Z\" ]) OR laws_effect_date_dt: { \"" + today + "T16:00:00Z\" TO * })";
+                        conditionEs.setLawsInvalidDate(today+" 16:00:00");
+                        conditionEs.setLawsEffectDate(today+" 16:00:00");
+                    }
+                    else if("0,2".equals(searchLawsDTO.getInvalidTag())){
+                        String today = DateUtil.getDateStr(new Date(), DateUtil.YYYY_MM_DD);
+//                        conditionsStr = conditionsStr + " AND (( laws_invalid_date_dt: { \"" + today + "T16:00:00Z\" TO * } AND laws_effect_date_dt: { * TO \"" + today + "T16:00:00Z\" ]) OR laws_invalid_date_dt: { * TO \"" + today + "T16:00:00Z\" ])";
+                        conditionEs.setLawsInvalidDate(today+" 16:00:00");
+                        conditionEs.setLawsEffectDate(today+" 16:00:00");
+                    }
+                    else if("1,2".equals(searchLawsDTO.getInvalidTag())){
+                        String today = DateUtil.getDateStr(new Date(), DateUtil.YYYY_MM_DD);
+//                        conditionsStr = conditionsStr + " AND (laws_effect_date_dt: { \"" + today + "T16:00:00Z\" TO * }";
+//                        conditionsStr = conditionsStr + " OR laws_invalid_date_dt: { * TO \"" + today + "T16:00:00Z\" ])";
+                        conditionEs.setLawsInvalidDate(today+" 16:00:00");
+                        conditionEs.setLawsEffectDate(today+" 16:00:00");
+                    }
+                }
+            }
+        }
+
+//        conditionsStr = conditionsStr + " AND ((";
+        //        标题任意关键字
+        List<String> keyTitles = Lists.newArrayList();
+//        标题全部关键字
+        List<String> keyAndTitles = Lists.newArrayList();
+//        全文全部关键字
+        List<String> keyAlls = Lists.newArrayList();
+//        全文任意关键字
+        List<String> keyAndAlls = Lists.newArrayList();
+//        不包含标题关键字
+        List<String> keyNotTitles = Lists.newArrayList();
+//        不包函全文关键字
+        List<String> keyNotAlls = Lists.newArrayList();
+        // 标题关键字
+        Boolean hasTitle = false;
+        if (StringUtils.isNotEmpty(searchLawsDTO.getKeyTitle())
+                || StringUtils.isNotEmpty(searchLawsDTO.getKeyAndTitle())
+                || StringUtils.isNotEmpty(searchLawsDTO.getKeyNotTitle())) {
+            hasTitle = true;
+            if (StringUtils.isNotEmpty(searchLawsDTO.getKeyTitle())) {
+                String[] key = searchLawsDTO.getKeyTitle().trim().split(" ");
+                commonService.dealWithSuggest(searchLawsDTO.getKeyTitle(), Constant.SUGGEST_LAW_TITLE_OR);
+//                conditionsStr = conditionsStr + "laws_title_t:(\"" + key[0] + "\"" + keyOffset;
+//                for (int i = 1; i < key.length; i++) {
+//                    if (StringUtils.isNotEmpty(key[i])) {
+//                        conditionsStr = conditionsStr + " OR \"" + key[i] + "\"" + keyOffset;
+//                    }
+//                }
+//                conditionsStr += ")";
+                keyTitles.addAll(Arrays.asList(key));
+                conditionEs.setKeyTitles(keyTitles);
+            }
+            if (StringUtils.isNotEmpty(searchLawsDTO.getKeyAndTitle())) {
+                // 如果keyTitle存在，则加AND
+//                if (StringUtils.isNotEmpty(searchLawsDTO.getKeyTitle())) {
+//                    conditionsStr += " AND ";
+//                }
+                String[] keyAnd = searchLawsDTO.getKeyAndTitle().trim().split(" ");
+                commonService.dealWithSuggest(searchLawsDTO.getKeyAndTitle(), Constant.SUGGEST_LAW_TITLE_AND);
+//                conditionsStr = conditionsStr + "laws_title_t:(\"" + keyAnd[0] + "\"" + keyOffset;
+//                for (int i = 1; i < keyAnd.length; i++) {
+//                    if (StringUtils.isNotEmpty(keyAnd[i])) {
+//                        conditionsStr = conditionsStr + " AND \"" + keyAnd[i] + "\"" + keyOffset;
+//                    }
+//                }
+//                conditionsStr += ")";
+                keyAndTitles.addAll(Arrays.asList(keyAnd));
+                conditionEs.setKeyAndTitles(keyAndTitles);
+            }
+            if (StringUtils.isNotEmpty(searchLawsDTO.getKeyNotTitle())) {
+                // 如果keyAndTitle存在，则加AND
+//                if (StringUtils.isNotEmpty(searchLawsDTO.getKeyAndTitle())
+//                        || StringUtils.isNotEmpty(searchLawsDTO.getKeyTitle())) {
+//                    conditionsStr = conditionsStr + " AND ";
+//                } else {
+//                    conditionsStr = conditionsStr + " * ";
+//                }
+                String[] keyNot = searchLawsDTO.getKeyNotTitle().trim().split(" ");
+                commonService.dealWithSuggest(searchLawsDTO.getKeyNotTitle(), Constant.SUGGEST_LAW_TITLE_NOT);
+//                conditionsStr = conditionsStr + "NOT laws_title_t:(\"" + keyNot[0] + "\"" + keyOffset;
+//                for (int i = 1; i < keyNot.length; i++) {
+//                    if (StringUtils.isNotEmpty(keyNot[i])) {
+//                        conditionsStr = conditionsStr + " OR \"" + keyNot[i] + "\"" + keyOffset;
+//                    }
+//                }
+//                conditionsStr += ")";
+                keyNotTitles.addAll(Arrays.asList(keyNot));
+                conditionEs.setKeyNotTitles(keyNotTitles);
+            }
+//            conditionsStr += ")";
+            condition.put(Constant.SEARCH_HIGHTLIGHT_FIELD, "laws_title_t");
+        }
+        // 内容关键字
+        Boolean hasContent = false;
+        if (StringUtils.isNotEmpty(searchLawsDTO.getKeyContent())
+                || StringUtils.isNotEmpty(searchLawsDTO.getKeyAndContent())
+                || StringUtils.isNotEmpty(searchLawsDTO.getKeyNotContent())) {
+            hasContent = true;
+            if (hasTitle) {
+//                conditionsStr += " AND (";
+                condition.put(Constant.SEARCH_HIGHTLIGHT_FIELD, "laws_title_t,laws_content_t");
+            } else {
+                condition.put(Constant.SEARCH_HIGHTLIGHT_FIELD, "laws_content_t,index_type_t");
+            }
+            if (StringUtils.isNotEmpty(searchLawsDTO.getKeyContent())) {
+                String[] key = searchLawsDTO.getKeyContent().trim().split(" ");
+                commonService.dealWithSuggest(searchLawsDTO.getKeyContent(), Constant.SUGGEST_LAW_CONTENT_OR);
+//                conditionsStr = conditionsStr + "laws_content_t:(\"" + key[0] + "\"" + keyOffset;
+//                for (int i = 1; i < key.length; i++) {
+//                    if (StringUtils.isNotEmpty(key[i])) {
+//                        conditionsStr = conditionsStr + " OR \"" + key[i] + "\"" + keyOffset;
+//                    }
+//                }
+//                conditionsStr += ")";
+                keyAlls.addAll(Arrays.asList(key));
+                conditionEs.setKeyAlls(keyAlls);
+            }
+            if (StringUtils.isNotEmpty(searchLawsDTO.getKeyAndContent())) {
+                // 如果keyContent存在，则加AND
+//                if (StringUtils.isNotEmpty(searchLawsDTO.getKeyContent())) {
+//                    conditionsStr = conditionsStr + " AND ";
+//                }
+                String[] keyAnd = searchLawsDTO.getKeyAndContent().trim().split(" ");
+                commonService.dealWithSuggest(searchLawsDTO.getKeyAndContent(), Constant.SUGGEST_LAW_CONTENT_AND);
+//                conditionsStr = conditionsStr + "laws_content_t:(\"" + keyAnd[0] + "\"" + keyOffset;
+//                for (int i = 1; i < keyAnd.length; i++) {
+//                    if (StringUtils.isNotEmpty(keyAnd[i])) {
+//                        conditionsStr = conditionsStr + " AND \"" + keyAnd[i] + "\"" + keyOffset;
+//                    }
+//                }
+//                conditionsStr += ")";
+                keyAndAlls.addAll(Arrays.asList(keyAnd));
+                conditionEs.setKeyAndAlls(keyAndAlls);
+            }
+            if (StringUtils.isNotEmpty(searchLawsDTO.getKeyNotContent())) {
+                // 如果keyAndContent存在，则加AND
+//                if (StringUtils.isNotEmpty(searchLawsDTO.getKeyAndContent())
+//                        || StringUtils.isNotEmpty(searchLawsDTO.getKeyContent())) {
+//                    conditionsStr = conditionsStr + " AND ";
+//                } else {
+//                    conditionsStr = conditionsStr + " * ";
+//                }
+                String[] keyNot = searchLawsDTO.getKeyNotContent().trim().split(" ");
+                commonService.dealWithSuggest(searchLawsDTO.getKeyNotContent(), Constant.SUGGEST_LAW_CONTENT_NOT);
+//                conditionsStr = conditionsStr + "NOT laws_content_t:(\"" + keyNot[0] + "\"" + keyOffset;
+//                for (int i = 1; i < keyNot.length; i++) {
+//                    if (StringUtils.isNotEmpty(keyNot[i])) {
+//                        conditionsStr = conditionsStr + " OR \"" + keyNot[i] + "\"" + keyOffset;
+//                    }
+//                }
+//                conditionsStr += ")";
+                keyNotAlls.addAll(Arrays.asList(keyNot));
+                conditionEs.setKeyNotAlls(keyNotAlls);
+            }
+//            conditionsStr += ")";
+        }
+//        if (hasTitle || hasContent) {
+//            conditionsStr += ")";
+//        } else {
+//            conditionsStr = conditionsStr.substring(0, conditionsStr.length() - 7);
+//            condition.put(Constant.SEARCH_HIGHTLIGHT_FIELD, "");
+//        }
+        String orderby = "";
+        // 排序顺序
+        if ("1".equals(searchLawsDTO.getOrderBySeq())) {
+            orderby = "desc";
+        } else {
+            orderby = "asc";
+        }
+        String orderName = "";
+        // 排序根据
+        if ("1".equals(searchLawsDTO.getOrderByType())) {
+            orderName = "laws_publish_date_dt,laws_type_sort_t";
+            if ("1".equals(searchLawsDTO.getOrderBySeq())) {
+                orderby = "desc,asc";
+            } else {
+                orderby = "asc,asc";
+            }
+        } else if ("2".equals(searchLawsDTO.getOrderByType())) {
+            // orderName = "laws_title_t";
+        } else if ("3".equals(searchLawsDTO.getOrderByType())) {
+            // 要同官网价值法库排序方式一致
+            // 当位阶相同时，按重要性降序，重要性也相同时，会按颁布时间降序
+            orderName = "laws_type_sort_t,laws_grade_t,laws_publish_date_dt";
+            // 2017/10/19 需求1833 排序顺序修改1：倒序，2：正序 by weishisheng start
+            if ("1".equals(searchLawsDTO.getOrderBySeq())) {
+                orderby = "desc,desc,desc";
+            } else {
+                orderby = "asc,desc,desc";
+            }
+            // 2017/10/19 需求1833 排序顺序修改1：倒序，2：正序 by weishisheng end
+        } else if ("4".equals(searchLawsDTO.getOrderByType())) {
+            orderName = "laws_title_s";
+        } else if ("5".equals(searchLawsDTO.getOrderByType())) {
+            // 要同官网价值法库排序方式一致
+            // 当重要性相同时，按位阶降序，位阶也相同时，按颁布时间降序
+            orderName = "laws_grade_t,laws_type_sort_t,laws_publish_date_dt";
+            if ("1".equals(searchLawsDTO.getOrderBySeq())) {
+                orderby = "desc,asc,desc";
+            } else {
+                orderby = "asc,asc,desc";
+            }
+        }else if("6".equals(searchLawsDTO.getOrderByType())){
+            orderName = "laws_source_code_s";
+        }
+        // 处理关键字的检索条件
+        JsonResponse<Object> result = new JsonResponse<Object>();
+//        condition.put(Constant.SEARCH_CONDIATION, conditionsStr);
+//        condition.put(Constant.SEARCH_FACET_FIELD, "laws_type_search_txt,laws_search_declare_type_txt");
+//        QueryInfo<Map<String, String>> queryInfo = commonSearch(condition);
+        queryInfoEs.setCondition(conditionEs);
+        queryInfoEs.setOrderByName(orderName);
+        queryInfoEs.setOrderByOrder(orderby);
+        queryInfoEs.setPageSize(searchLawsDTO.getPageSize());
+        queryInfoEs.setStartRow(searchLawsDTO.getPage());
+        return queryInfoEs;
     }
 
     public Map<String, Object> getLawsDetail(String lawId, String jingdu, String typeId, String type) {
