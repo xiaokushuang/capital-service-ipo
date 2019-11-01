@@ -113,9 +113,16 @@ public class IpoCaseListController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public JsonResponse<Map<String, Object>> getIpoItemCaseList(@RequestBody QueryInfo<IpoCaseListBo> page) {
         JsonResponse<Map<String, Object>> response = new JsonResponse<>();
+        List<String> caseIdList = new ArrayList<String>();
 
-        //获取需要展示的案例id
-        List<String> caseIdList = ipoCaseListService.getIpoItemCaseIdList(page.getCondition());
+        //直接根据案例id查询
+        if(StringUtils.isNotEmpty(page.getCondition().getCaseIdListStr())){
+            caseIdList = Arrays.asList(page.getCondition().getCaseIdListStr().split(","));
+        }else{
+            //获取需要展示的案例id
+            caseIdList = ipoCaseListService.getIpoItemCaseIdList(page.getCondition());
+        }
+
         List<IpoCaseIndexDto> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
         if(caseIdList.size()>0){
