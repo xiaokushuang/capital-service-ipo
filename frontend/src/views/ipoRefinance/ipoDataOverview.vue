@@ -175,6 +175,7 @@ export default {
     Chart, Chart2, getters, papers, IpoDataOverviewTableShow },
   data() {
     return {
+      lastUpadteTime:'',
       isFirst:true,
       isSecond:false,
       isThird:false,

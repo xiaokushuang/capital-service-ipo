@@ -1209,4 +1209,13 @@ public class IpoCaseListService extends BaseService {
         JsonResponse<List<RepTreeTagDto>> result = restClient.post(url, request, responseType);
         return result;
     }
+
+    /**
+     * 获取相关案例
+     *
+     * @return
+     */
+    public List<String> getIpoItemCaseIdList(IpoCaseListBo ipoCaseListBo){
+        return ipoCaseListMapper.getIpoItemCaseIdList(ipoCaseListBo);
+    }
 }

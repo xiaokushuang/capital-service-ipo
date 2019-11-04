@@ -42,4 +42,6 @@ public interface IpoCaseListMapper {
     List<IpoFavoriteAndNoteDto> getCassNote(IpoFavoriteAndNoteDto dto);
 
     String isCompanyFlag(String companyCode);
+
+    List<String> getIpoItemCaseIdList(IpoCaseListBo ipoCaseListBo);
 }

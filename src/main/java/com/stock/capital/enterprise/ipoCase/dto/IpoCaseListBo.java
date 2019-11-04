@@ -157,6 +157,10 @@ public class IpoCaseListBo implements Serializable {
     private String isHidden;
     private List<String> isHiddenList;
 
+    private String moduleId;
+    private String caseIdListStr;
+    private List<String> caseIdList;
+
     public String getIsHidden() {
         return isHidden;
     }
@@ -979,5 +983,29 @@ public class IpoCaseListBo implements Serializable {
 
     public void setValuationValue(Double[] valuationValue) {
         this.valuationValue = valuationValue;
+    }
+
+    public String getModuleId() {
+        return moduleId;
+    }
+
+    public void setModuleId(String moduleId) {
+        this.moduleId = moduleId;
+    }
+
+    public List<String> getCaseIdList() {
+        return caseIdList;
+    }
+
+    public void setCaseIdList(List<String> caseIdList) {
+        this.caseIdList = caseIdList;
+    }
+
+    public String getCaseIdListStr() {
+        return caseIdListStr;
+    }
+
+    public void setCaseIdListStr(String caseIdListStr) {
+        this.caseIdListStr = caseIdListStr;
     }
 }
