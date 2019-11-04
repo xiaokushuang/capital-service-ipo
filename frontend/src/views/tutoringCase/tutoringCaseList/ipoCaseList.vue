@@ -77,7 +77,8 @@
                 id="selectIndustryCsrc"
                 placeholder="发行人行业（证监会）"
                 @sure-click="sure('selectIndustryCsrc')"
-                :default-all-show="true"
+                :default-all-show="false"
+                :all-show="allShow"
                 size="small full"
                 node-key="id"
                 :tree-data="industryCrscList"
@@ -1123,7 +1124,8 @@
         sunQuityShow: true,
         assetRatioShow: true,
         shareIssueBShow: true,
-        shareIssueAShow: true
+        shareIssueAShow: true,
+        allShow: {colloge: false}//下拉列表全部展开或收起
       }
     },
     created() {
