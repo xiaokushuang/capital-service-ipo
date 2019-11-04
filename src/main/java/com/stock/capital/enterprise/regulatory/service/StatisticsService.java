@@ -639,16 +639,7 @@ public class StatisticsService extends BaseService implements ServletContextAwar
                 
                 
                 cell = row.createCell(8);
-                if("1".equals(comDtos.get(i).getHasedRandomInspection())){
-                	cell.setCellValue("是");
-                }else if("0".equals(comDtos.get(i).getHasedRandomInspection())){
-                	cell.setCellValue("否");
-                }
-                else if("2".equals(comDtos.get(i).getHasedRandomInspection())){
-                	cell.setCellValue("不适用");
-                } else {
-                    cell.setCellValue("--");
-                }
+                cell.setCellValue(comDtos.get(i).getHasedRandomInspection());
                 cell.setCellStyle(conCenterStyle);
             }
         }
@@ -813,7 +804,7 @@ public class StatisticsService extends BaseService implements ServletContextAwar
 
         rowNum++;
         row = sheet.getRow(rowNum) == null ? sheet.createRow(rowNum) : sheet.getRow(rowNum);
-        cell = row.getCell(12) == null ? row.createCell(12) : row.getCell(12);
+        cell = row.getCell(14) == null ? row.createCell(14) : row.getCell(14);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         cell.setCellValue(sdf.format(new Date()) + "年");
 
@@ -839,7 +830,15 @@ public class StatisticsService extends BaseService implements ServletContextAwar
                 cell.setCellStyle(blackBorder);
                 cell.setCellStyle(centerCellStyle);
             }
+            cell = row.getCell(2) == null ? row.createCell(2) : row.getCell(2);
+            cell.setCellStyle(blackBorder);
+            cell.setCellStyle(centerCellStyle);
+            cell.setCellValue(dto.getFdcx());
 
+            cell = row.getCell(3) == null ? row.createCell(3) : row.getCell(3);
+            cell.setCellStyle(blackBorder);
+            cell.setCellStyle(centerCellStyle);
+            cell.setCellValue(dto.getFdwc());
             cell = row.getCell(1) == null ? row.createCell(1) : row.getCell(1);
             cell.setCellStyle(blackBorder);
             cell.setCellStyle(centerCellStyle);
@@ -870,57 +869,57 @@ public class StatisticsService extends BaseService implements ServletContextAwar
              * if(name == "山东"){ resultName = "山东(不含青岛)";
              */
 
-            cell = row.getCell(2) == null ? row.createCell(2) : row.getCell(2);
+            cell = row.getCell(4) == null ? row.createCell(4) : row.getCell(4);
             cell.setCellStyle(blackBorder);
             cell.setCellStyle(centerCellStyle);
             cell.setCellValue(dto.getApplied());
 
-            cell = row.getCell(3) == null ? row.createCell(3) : row.getCell(3);
+            cell = row.getCell(5) == null ? row.createCell(5) : row.getCell(5);
             cell.setCellStyle(blackBorder);
             cell.setCellStyle(centerCellStyle);
             cell.setCellValue(dto.getReviewed());
 
-            cell = row.getCell(4) == null ? row.createCell(4) : row.getCell(4);
+            cell = row.getCell(6) == null ? row.createCell(6) : row.getCell(6);
             cell.setCellStyle(blackBorder);
             cell.setCellStyle(centerCellStyle);
             cell.setCellValue(dto.getPreUpdate());
 
-            cell = row.getCell(5) == null ? row.createCell(5) : row.getCell(5);
+            cell = row.getCell(7) == null ? row.createCell(7) : row.getCell(7);
             cell.setCellStyle(blackBorder);
             cell.setCellStyle(centerCellStyle);
             cell.setCellValue(dto.getEndYet());
 
-            cell = row.getCell(6) == null ? row.createCell(6) : row.getCell(6);
+            cell = row.getCell(8) == null ? row.createCell(8) : row.getCell(8);
             cell.setCellStyle(blackBorder);
             cell.setCellStyle(centerCellStyle);
             cell.setCellValue(dto.getProcessing());
 
-            cell = row.getCell(7) == null ? row.createCell(7) : row.getCell(7);
+            cell = row.getCell(9) == null ? row.createCell(9) : row.getCell(9);
             cell.setCellStyle(blackBorder);
             cell.setCellStyle(centerCellStyle);
             cell.setCellValue(dto.getPassed());
 
-            cell = row.getCell(8) == null ? row.createCell(8) : row.getCell(8);// 提交注册
+            cell = row.getCell(10) == null ? row.createCell(10) : row.getCell(10);// 提交注册
             cell.setCellStyle(blackBorder);
             cell.setCellStyle(centerCellStyle);
             cell.setCellValue(dto.getSubmited());
 
-            cell = row.getCell(9) == null ? row.createCell(9) : row.getCell(9);// 提交注册
+            cell = row.getCell(11) == null ? row.createCell(11) : row.getCell(11);// 提交注册
             cell.setCellStyle(blackBorder);
             cell.setCellStyle(centerCellStyle);
             cell.setCellValue(dto.getZc());
 
-            cell = row.getCell(10) == null ? row.createCell(10) : row.getCell(10);
+            cell = row.getCell(12) == null ? row.createCell(12) : row.getCell(12);
             cell.setCellStyle(blackBorder);
             cell.setCellStyle(centerCellStyle);
             cell.setCellValue(dto.getAreaCount());
 
-            cell = row.getCell(11) == null ? row.createCell(11) : row.getCell(11);
+            cell = row.getCell(13) == null ? row.createCell(13) : row.getCell(13);
             cell.setCellStyle(blackBorder);
             cell.setCellStyle(centerCellStyle);
             cell.setCellValue(dto.getWeekStopYet());
 
-            cell = row.getCell(12) == null ? row.createCell(12) : row.getCell(12);
+            cell = row.getCell(14) == null ? row.createCell(14) : row.getCell(14);
             cell.setCellStyle(blackBorder);
             cell.setCellStyle(centerCellStyle);
             cell.setCellValue(dto.getStopYet());
