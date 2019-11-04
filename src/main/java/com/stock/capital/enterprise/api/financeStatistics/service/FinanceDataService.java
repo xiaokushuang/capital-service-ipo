@@ -99,7 +99,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
             if (StringUtils.isNotEmpty(dateStartStr) && StringUtils.isNotEmpty(dateEndStr)) {
                 // 格式化开始结束日期 // 添加日期查询的条件
                 String dateStart = DateUtil.datePlusToStr(dateStartStr, DateUtil.YYYY_MM_DD, 0);
-                String dateEnd = DateUtil.datePlusToStr(dateEndStr, DateUtil.YYYY_MM_DD, +1);
+                String dateEnd = DateUtil.datePlusToStr(dateEndStr, DateUtil.YYYY_MM_DD, 0);
                 condition.put("dateStart", dateStart);
                 condition.put("dateEnd", dateEnd);
                 List<String> typeList = new ArrayList<>();
@@ -120,7 +120,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                             condition = Maps.newHashMap();
                             typeList = new ArrayList<>();
                             String start = DateUtil.datePlusToStr(param.get("startDate"), DateUtil.YYYY_MM_DD, 0);
-                            String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, +1);
+                            String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, 0);
                             condition.put("dateStart", start);
                             condition.put("dateEnd", end);
                             condition.put("financeFinaTypeT004", "004");
@@ -146,7 +146,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                             // 日期
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                             try {
-                                dataMap.put("date", DateUtil.changeDateFormat(simpleDateFormat.parse(start), DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(simpleDateFormat.parse(end), DateUtil.YYYY_MM_DD));
+                                dataMap.put("date", DateUtil.changeDateFormat(simpleDateFormat.parse(param.get("startDate")), DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(simpleDateFormat.parse(param.get("endDate")), DateUtil.YYYY_MM_DD));
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
@@ -161,7 +161,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                             condition = Maps.newHashMap();
                             typeList = new ArrayList<>();
                             String start = DateUtil.datePlusToStr(param.get("startDate"), DateUtil.YYYY_MM_DD, 0);
-                            String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, +1);
+                            String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, 0);
                             condition.put("dateStart", start);
                             condition.put("dateEnd", end);
                             condition.put("financeFinaTypeT004", "004");
@@ -175,7 +175,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                             // 日期
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                             try {
-                                dataMap.put("date", DateUtil.changeDateFormat(simpleDateFormat.parse(start), DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(simpleDateFormat.parse(end), DateUtil.YYYY_MM_DD));
+                                dataMap.put("date", DateUtil.changeDateFormat(simpleDateFormat.parse(param.get("startDate")), DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(simpleDateFormat.parse(param.get("endDate")), DateUtil.YYYY_MM_DD));
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
@@ -190,7 +190,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                             condition = Maps.newHashMap();
                             typeList = new ArrayList<>();
                             String start = DateUtil.datePlusToStr(param.get("startDate"), DateUtil.YYYY_MM_DD, 0);
-                            String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, +1);
+                            String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, 0);
                             condition.put("dateStart", start);
                             condition.put("dateEnd", end);
                             condition.put("financeFinaTypeT004", "004");
@@ -204,7 +204,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                             // 日期
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                             try {
-                                dataMap.put("date", DateUtil.changeDateFormat(simpleDateFormat.parse(start), DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(simpleDateFormat.parse(end), DateUtil.YYYY_MM_DD));
+                                dataMap.put("date", DateUtil.changeDateFormat(simpleDateFormat.parse(param.get("startDate")), DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(simpleDateFormat.parse(param.get("endDate")), DateUtil.YYYY_MM_DD));
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
@@ -218,7 +218,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                             condition = Maps.newHashMap();
                             typeList = new ArrayList<>();
                             String start = DateUtil.datePlusToStr(param.get("startDate"), DateUtil.YYYY_MM_DD, 0);
-                            String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, +1);
+                            String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, 0);
                             condition.put("dateStart", start);
                             condition.put("dateEnd", end);
                             condition.put("financeFinaTypeT004", "004");
@@ -232,7 +232,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                             // 日期
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                             try {
-                                dataMap.put("date", DateUtil.changeDateFormat(simpleDateFormat.parse(start), DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(simpleDateFormat.parse(end), DateUtil.YYYY_MM_DD));
+                                dataMap.put("date", DateUtil.changeDateFormat(simpleDateFormat.parse(param.get("startDate")), DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(simpleDateFormat.parse(param.get("endDate")), DateUtil.YYYY_MM_DD));
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
@@ -599,7 +599,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
             if (StringUtils.isNotEmpty(dateStartStr) && StringUtils.isNotEmpty(dateEndStr)) {
                 // 格式化开始结束日期
                 String dateStart = DateUtil.datePlusToStr(dateStartStr, DateUtil.YYYY_MM_DD, 0);
-                String dateEnd = DateUtil.datePlusToStr(dateEndStr, DateUtil.YYYY_MM_DD, +1);
+                String dateEnd = DateUtil.datePlusToStr(dateEndStr, DateUtil.YYYY_MM_DD, 0);
                 // 添加日期查询的条件
                 condition.put("dateStart", dateStart);
                 condition.put("dateEnd", dateEnd);
@@ -617,7 +617,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                             condition = Maps.newHashMap();
 
                             String start = DateUtil.datePlusToStr(param.get("startDate"), DateUtil.YYYY_MM_DD, 0);
-                            String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, +1);
+                            String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, 0);
                             condition.put("dateStart", start);
                             condition.put("dateEnd", end);
                             condition.put("financeFinaTypeTBong004", "004");
@@ -628,7 +628,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                             // 日期
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                             try {
-                                dataMap.put("date", DateUtil.changeDateFormat(simpleDateFormat.parse(start), DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(simpleDateFormat.parse(end), DateUtil.YYYY_MM_DD));
+                                dataMap.put("date", DateUtil.changeDateFormat(simpleDateFormat.parse(param.get("startDate")), DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(simpleDateFormat.parse(param.get("endDate")), DateUtil.YYYY_MM_DD));
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
@@ -641,7 +641,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                         for (Map<String, String> param : dateList) {
                             condition = Maps.newHashMap();
                             String start = DateUtil.datePlusToStr(param.get("startDate"), DateUtil.YYYY_MM_DD, 0);
-                            String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, +1);
+                            String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, 0);
                             condition.put("dateStart", start);
                             condition.put("dateEnd", end);
                             condition.put("financeFinaTypeTBong004", "004");
@@ -666,7 +666,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                         for (Map<String, String> param : dateList) {
                             condition = Maps.newHashMap();
                             String start = DateUtil.datePlusToStr(param.get("startDate"), DateUtil.YYYY_MM_DD, 0);
-                            String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, +1);
+                            String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, 0);
                             condition.put("dateStart", start);
                             condition.put("dateEnd", end);
                             condition.put("financeFinaTypeTBong004", "004");
@@ -690,7 +690,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                         for (Map<String, String> param : dateList) {
                             condition = Maps.newHashMap();
                             String start = DateUtil.datePlusToStr(param.get("startDate"), DateUtil.YYYY_MM_DD, 0);
-                            String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, +1);
+                            String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, 0);
                             condition.put("dateStart", start);
                             condition.put("dateEnd", end);
                             condition.put("financeFinaTypeTBong004", "004");
@@ -713,7 +713,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                         for (Map<String, String> param : dateList) {
                             condition = Maps.newHashMap();
                             String start = DateUtil.datePlusToStr(param.get("startDate"), DateUtil.YYYY_MM_DD, 0);
-                            String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, +1);
+                            String end = DateUtil.datePlusToStr(param.get("endDate"), DateUtil.YYYY_MM_DD, 0);
                             condition.put("dateStart", start);
                             condition.put("dateEnd", end);
                             condition.put("financeFinaTypeTBong004", "004");

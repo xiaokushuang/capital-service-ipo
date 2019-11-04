@@ -182,7 +182,7 @@ public class FinanceDataController extends BaseController {
             if (queryInfo.getCondition().getFinanceDate() != null && queryInfo.getCondition().getFinanceDate().length > 0) {
                 String[] time = queryInfo.getCondition().getFinanceDate();
                 String start = DateUtil.datePlusToStr(time[0], DateUtil.YYYY_MM_DD, 0);
-                String end = DateUtil.datePlusToStr(time[1], DateUtil.YYYY_MM_DD, +1);
+                String end = DateUtil.datePlusToStr(time[1], DateUtil.YYYY_MM_DD, 0);
                 condition.put("dateStart", start);
                 condition.put("dateEnd", end);
             }
