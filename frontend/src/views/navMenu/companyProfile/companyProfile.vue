@@ -520,13 +520,13 @@
                     <span v-else>- -</span>
                 </template>
             </el-table-column>
-            <el-table-column label="拟投入募集资金金额" align="right" prop="investPlan">
+            <el-table-column label="投入募集资金金额" align="right" prop="investPlan">
                 <template slot-scope="scope">
                       <span v-if="scope.row.investPlan">{{scope.row.investPlan | dataInThRule}}</span>
                     <span v-else>- -</span>
                 </template>
             </el-table-column>
-            <el-table-column label="占拟募集资金净额比例" align="right" prop="investRateStr">
+            <el-table-column label="占募集资金净额比例" align="right" prop="investRateStr">
                 <template slot-scope="scope">
                       <span v-if="scope.row.investRateStr">{{scope.row.investRateStr | dataInThRule}}%</span>
                     <span v-else>- -</span>
