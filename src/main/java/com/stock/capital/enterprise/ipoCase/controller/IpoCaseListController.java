@@ -16,10 +16,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,6 +101,42 @@ public class IpoCaseListController {
             }
             map.put("data", list);
         }
+        response.setResult(map);
+        return response;
+    }
+
+    /**
+     * 上市公司图谱查询ipo案例
+     * @return
+     */
+    @RequestMapping(value = "/getIpoItemCaseList", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public JsonResponse<Map<String, Object>> getIpoItemCaseList(@RequestBody QueryInfo<IpoCaseListBo> page) {
+        JsonResponse<Map<String, Object>> response = new JsonResponse<>();
+        List<String> caseIdList = new ArrayList<String>();
+
+        //直接根据案例id查询
+        if(StringUtils.isNotEmpty(page.getCondition().getCaseIdListStr())){
+            caseIdList = Arrays.asList(page.getCondition().getCaseIdListStr().split(","));
+        }else{
+            //获取需要展示的案例id
+            caseIdList = ipoCaseListService.getIpoItemCaseIdList(page.getCondition());
+        }
+
+        List<IpoCaseIndexDto> list = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>();
+        if(caseIdList.size()>0){
+            page.getCondition().setCaseIdList(caseIdList);
+            map = ipoCaseListService.getIpoCaseList(page, true);
+            list = (List<IpoCaseIndexDto>) map.get("data");
+            if (list != null && !list.isEmpty()) {
+                for (IpoCaseIndexDto indexDto : list) {
+                    //将净利润、营业收入、总资产 万元转亿元
+                    dataChange(indexDto);
+                }
+            }
+        }
+        map.put("data", list);
         response.setResult(map);
         return response;
     }
