@@ -653,7 +653,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                             // 日期
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                             try {
-                                dataMap.put("date", DateUtil.changeDateFormat(simpleDateFormat.parse(start), DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(simpleDateFormat.parse(end), DateUtil.YYYY_MM_DD));
+                                dataMap.put("date", DateUtil.changeDateFormat(simpleDateFormat.parse(param.get("startDate")), DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(simpleDateFormat.parse(param.get("endDate")), DateUtil.YYYY_MM_DD));
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
@@ -677,7 +677,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                             // 日期
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                             try {
-                                dataMap.put("date", DateUtil.changeDateFormat(simpleDateFormat.parse(start), DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(simpleDateFormat.parse(end), DateUtil.YYYY_MM_DD));
+                                dataMap.put("date", DateUtil.changeDateFormat(simpleDateFormat.parse(param.get("startDate")), DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(simpleDateFormat.parse(param.get("endDate")), DateUtil.YYYY_MM_DD));
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
@@ -701,7 +701,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                             // 日期
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                             try {
-                                dataMap.put("date", DateUtil.changeDateFormat(simpleDateFormat.parse(start), DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(simpleDateFormat.parse(end), DateUtil.YYYY_MM_DD));
+                                dataMap.put("date", DateUtil.changeDateFormat(simpleDateFormat.parse(param.get("startDate")), DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(simpleDateFormat.parse(param.get("endDate")), DateUtil.YYYY_MM_DD));
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
@@ -724,7 +724,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                             // 日期
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                             try {
-                                dataMap.put("date", DateUtil.changeDateFormat(simpleDateFormat.parse(start), DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(simpleDateFormat.parse(end), DateUtil.YYYY_MM_DD));
+                                dataMap.put("date", DateUtil.changeDateFormat(simpleDateFormat.parse(param.get("startDate")), DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(simpleDateFormat.parse(param.get("endDate")), DateUtil.YYYY_MM_DD));
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
