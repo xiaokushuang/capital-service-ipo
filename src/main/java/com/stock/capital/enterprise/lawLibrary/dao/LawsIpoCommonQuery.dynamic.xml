@@ -123,7 +123,6 @@
                                             "slop": 5
                                         }
                                     }
-                                }
                                 }<#if item_has_next>,</#if>
                                 </#list>
                             ]
@@ -147,7 +146,6 @@
                                                         "slop": 5
                                                     }
                                                 }
-                                            }
                                             }<#if item_has_next>,</#if>
                                             </#list>
                                         ]
@@ -157,271 +155,12 @@
                         }
                     }
                     </#if>
-					<#if condition.invalidTag??>
-					<#if condition.invalidTag == "0">
-					{
-						"bool" :{
-							"must":[
-								{
-								"match_all": { }
-								}
-								,{
-									"constant_score": {
-										"filter": {
-											"range": {
-												"laws_invalid_date_dt": {
-													<#if condition.lawsInvalidDate??>
-														"from": "${condition.lawsInvalidDate}",
-													</#if>
-													"include_lower": true,
-													"include_upper": true,
-													"boost": 1
-												}
-											}
-										}
-									}
-								}
-								,{
-									"constant_score": {
-										"filter": {
-											"range": {
-												"laws_effect_date_dt": {
-													<#if condition.lawsEffectDate??>
-														"to": "${condition.lawsEffectDate}",
-													</#if>
-													"include_lower": true,
-													"include_upper": true,
-													"boost": 1
-													}
-											}
-										}
-									}
-								}
-							]
-						}
-					}
-					</#if>
-					<#if condition.invalidTag == "1">
-					{
-						"bool" :{
-							"must":[
-								{
-								"match_all": { }
-								}
-								,{
-									"constant_score": {
-										"filter": {
-											"range": {
-												"laws_effect_date_dt": {
-													<#if condition.lawsEffectDate??>
-														"from": "${condition.lawsEffectDate}",
-													</#if>
-													"include_lower": true,
-													"include_upper": true,
-													"boost": 1
-													}
-											}
-										}
-									}
-								}
-							]
-						}
-					}
-					</#if>
-					<#if condition.invalidTag == "2">
-					,{
-						"constant_score": {
-							"filter": {
-								"range": {
-									"laws_effect_date_dt": {
-										<#if condition.lawsEffectDate??>
-											"to": "${condition.lawsEffectDate}",
-										</#if>
-										"include_lower": true,
-										"include_upper": true,
-										"boost": 1
-									}
-								}
-							}
-						}
-					}
-					</#if>
-					<#if condition.invalidTag == "0,1">
-					{
-						"bool": {
-							"should": [
-							{
-								"bool" :{
-									"must":[
-										{
-										"match_all": { }
-										}
-										,{
-											"constant_score": {
-												"filter": {
-													"range": {
-														"laws_invalid_date_dt": {
-															<#if condition.lawsInvalidDate??>
-																"from": "${condition.lawsInvalidDate}",
-															</#if>
-															"include_lower": true,
-															"include_upper": true,
-															"boost": 1
-														}
-													}
-												}
-											}
-										}
-										,{
-											"constant_score": {
-												"filter": {
-													"range": {
-														"laws_effect_date_dt": {
-															<#if condition.lawsEffectDate??>
-																"to": "${condition.lawsEffectDate}",
-															</#if>
-															"include_lower": true,
-															"include_upper": true,
-															"boost": 1
-															}
-													}
-												}
-											}
-										}
-									]
-								}
 
-							}
-							,{
-								"constant_score": {
-									"filter": {
-										"range": {
-											"laws_effect_date_dt": {
-												<#if condition.lawsEffectDate??>
-													"from": "${condition.lawsEffectDate}",
-												</#if>
-												"include_lower": true,
-												"include_upper": true,
-												"boost": 1
-											}
-										}
-									}
-								}
-							}
-							]
-						}
-					}
-					</#if>
-					<#if condition.invalidTag == "0,2">
-					{
-						"bool": {
-							"should": [
-							{
-								"bool" :{
-									"must":[
-										{
-										"match_all": { }
-										}
-										,{
-											"constant_score": {
-												"filter": {
-													"range": {
-														"laws_invalid_date_dt": {
-															<#if condition.lawsInvalidDate??>
-																"from": "${condition.lawsInvalidDate}",
-															</#if>
-															"include_lower": true,
-															"include_upper": true,
-															"boost": 1
-														}
-													}
-												}
-											}
-										}
-										,{
-											"constant_score": {
-												"filter": {
-													"range": {
-														"laws_effect_date_dt": {
-															<#if condition.lawsEffectDate??>
-																"to": "${condition.lawsEffectDate}",
-															</#if>
-															"include_lower": true,
-															"include_upper": true,
-															"boost": 1
-															}
-													}
-												}
-											}
-										}
-									]
-								}
-
-							}
-							,{
-								"constant_score": {
-									"filter": {
-										"range": {
-											"laws_invalid_date_dt": {
-												<#if condition.lawsInvalidDate??>
-													"from": "${condition.lawsInvalidDate}",
-												</#if>
-												"include_lower": true,
-												"include_upper": true,
-												"boost": 1
-											}
-										}
-									}
-								}
-							}
-							]
-						}
-					}
-					</#if>
-					<#if condition.invalidTag == "1,2">
-					{
-						"bool": {
-							"should": [
-
-								{
-									"constant_score": {
-										"filter": {
-											"range": {
-												"laws_effect_date_dt": {
-													<#if condition.lawsEffectDate??>
-														"from": "${condition.lawsEffectDate}",
-													</#if>
-													"include_lower": true,
-													"include_upper": true,
-													"boost": 1
-												}
-											}
-										}
-									}
-								}
-								,{
-									"constant_score": {
-										"filter": {
-											"range": {
-												"laws_invalid_date_dt": {
-													<#if condition.lawsInvalidDate??>
-														"from": "${condition.lawsInvalidDate}",
-													</#if>
-													"include_lower": true,
-													"include_upper": true,
-													"boost": 1
-												}
-											}
-										}
-									}
-								}
-
-							]
-						}
-					}
-					</#if>
                     ]
-                    }
+
+					}
+
+
                     }],
                     "must_not": [
 					],
@@ -435,7 +174,270 @@
                                 {
                                 "match_all": { }
                                 }
+								<#if condition.invalidTag??>
+                                <#if condition.invalidTag == "0">
+                                ,{
+                                    "bool" :{
+                                        "must":[
+                                            {
+                                            "match_all": { }
+                                            }
+                                            ,{
+                                                "constant_score": {
+                                                    "filter": {
+                                                        "range": {
+                                                            "laws_invalid_date_dt": {
+                                                                <#if condition.lawsInvalidDate??>
+                                                                    "from": "${condition.lawsInvalidDate}",
+                                                                </#if>
+                                                                "include_lower": true,
+                                                                "include_upper": true,
+                                                                "boost": 1
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            ,{
+                                                "constant_score": {
+                                                    "filter": {
+                                                        "range": {
+                                                            "laws_effect_date_dt": {
+                                                                <#if condition.lawsEffectDate??>
+                                                                    "to": "${condition.lawsEffectDate}",
+                                                                </#if>
+                                                                "include_lower": true,
+                                                                "include_upper": true,
+                                                                "boost": 1
+                                                                }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                                </#if>
+                                <#if condition.invalidTag == "1">
+                                ,{
+                                    "bool" :{
+                                        "must":[
+                                            {
+                                            "match_all": { }
+                                            }
+                                            ,{
+                                                "constant_score": {
+                                                    "filter": {
+                                                        "range": {
+                                                            "laws_effect_date_dt": {
+                                                                <#if condition.lawsEffectDate??>
+                                                                    "from": "${condition.lawsEffectDate}",
+                                                                </#if>
+                                                                "include_lower": true,
+                                                                "include_upper": true,
+                                                                "boost": 1
+                                                                }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                                </#if>
+                                <#if condition.invalidTag == "2">
+                                ,{
+                                    "constant_score": {
+                                        "filter": {
+                                            "range": {
+                                                "laws_invalid_date_dt": {
+                                                    <#if condition.lawsInvalidDate??>
+                                                        "to": "${condition.lawsInvalidDate}",
+                                                    </#if>
+                                                    "include_lower": true,
+                                                    "include_upper": true,
+                                                    "boost": 1
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                </#if>
+                                <#if condition.invalidTag == "0,1">
+                                ,{
+                                    "bool": {
+                                        "should": [
+                                        {
+                                            "bool" :{
+                                                "must":[
+                                                    {
+                                                    "match_all": { }
+                                                    }
+                                                    ,{
+                                                        "constant_score": {
+                                                            "filter": {
+                                                                "range": {
+                                                                    "laws_invalid_date_dt": {
+                                                                        <#if condition.lawsInvalidDate??>
+                                                                            "from": "${condition.lawsInvalidDate}",
+                                                                        </#if>
+                                                                        "include_lower": true,
+                                                                        "include_upper": true,
+                                                                        "boost": 1
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    ,{
+                                                        "constant_score": {
+                                                            "filter": {
+                                                                "range": {
+                                                                    "laws_effect_date_dt": {
+                                                                        <#if condition.lawsEffectDate??>
+                                                                            "to": "${condition.lawsEffectDate}",
+                                                                        </#if>
+                                                                        "include_lower": true,
+                                                                        "include_upper": true,
+                                                                        "boost": 1
+                                                                        }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
 
+                                        }
+                                        ,{
+                                            "constant_score": {
+                                                "filter": {
+                                                    "range": {
+                                                        "laws_effect_date_dt": {
+                                                            <#if condition.lawsEffectDate??>
+                                                                "from": "${condition.lawsEffectDate}",
+                                                            </#if>
+                                                            "include_lower": true,
+                                                            "include_upper": true,
+                                                            "boost": 1
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        ]
+                                    }
+                                }
+                                </#if>
+                                <#if condition.invalidTag == "0,2">
+                                ,{
+                                    "bool": {
+                                        "should": [
+                                        {
+                                            "bool" :{
+                                                "must":[
+                                                    {
+                                                    "match_all": { }
+                                                    }
+                                                    ,{
+                                                        "constant_score": {
+                                                            "filter": {
+                                                                "range": {
+                                                                    "laws_invalid_date_dt": {
+                                                                        <#if condition.lawsInvalidDate??>
+                                                                            "from": "${condition.lawsInvalidDate}",
+                                                                        </#if>
+                                                                        "include_lower": true,
+                                                                        "include_upper": true,
+                                                                        "boost": 1
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    ,{
+                                                        "constant_score": {
+                                                            "filter": {
+                                                                "range": {
+                                                                    "laws_effect_date_dt": {
+                                                                        <#if condition.lawsEffectDate??>
+                                                                            "to": "${condition.lawsEffectDate}",
+                                                                        </#if>
+                                                                        "include_lower": true,
+                                                                        "include_upper": true,
+                                                                        "boost": 1
+                                                                        }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+
+                                        }
+                                        ,{
+                                            "constant_score": {
+                                                "filter": {
+                                                    "range": {
+                                                        "laws_invalid_date_dt": {
+                                                            <#if condition.lawsInvalidDate??>
+                                                                "to": "${condition.lawsInvalidDate}",
+                                                            </#if>
+                                                            "include_lower": true,
+                                                            "include_upper": true,
+                                                            "boost": 1
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        ]
+                                    }
+                                }
+                                </#if>
+                                <#if condition.invalidTag == "1,2">
+                                ,{
+                                    "bool": {
+                                        "should": [
+
+                                            {
+                                                "constant_score": {
+                                                    "filter": {
+                                                        "range": {
+                                                            "laws_effect_date_dt": {
+                                                                <#if condition.lawsEffectDate??>
+                                                                    "from": "${condition.lawsEffectDate}",
+                                                                </#if>
+                                                                "include_lower": true,
+                                                                "include_upper": true,
+                                                                "boost": 1
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            ,{
+                                                "constant_score": {
+                                                    "filter": {
+                                                        "range": {
+                                                            "laws_invalid_date_dt": {
+                                                                <#if condition.lawsInvalidDate??>
+                                                                    "to": "${condition.lawsInvalidDate}",
+                                                                </#if>
+                                                                "include_lower": true,
+                                                                "include_upper": true,
+                                                                "boost": 1
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                        ]
+                                    }
+                                }
+                                </#if>
+                                </#if>
 								<#-- 依据法律法规业务分类 -->
                                 <#if condition.bondClassLst?? && (condition.bondClassLst?size > 0)>
                                 ,{
