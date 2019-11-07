@@ -160,6 +160,15 @@ public class IpoCaseListBo implements Serializable {
     private String moduleId;
     private String caseIdListStr;
     private List<String> caseIdList;
+    private String SearchType;
+
+    public String getSearchType() {
+        return SearchType;
+    }
+
+    public void setSearchType(String searchType) {
+        SearchType = searchType;
+    }
 
     public String getIsHidden() {
         return isHidden;
