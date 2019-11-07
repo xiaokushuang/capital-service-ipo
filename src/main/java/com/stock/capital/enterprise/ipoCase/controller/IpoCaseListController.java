@@ -116,11 +116,11 @@ public class IpoCaseListController {
         List<String> caseIdList = new ArrayList<String>();
 
         //直接根据案例id查询
-        if("0".equals(page.getCondition().getSearchType())){
-            caseIdList = Arrays.asList(page.getCondition().getCaseIdListStr().split(","));
-        }else if("1".equals(page.getCondition().getSearchType())){
-            //获取需要展示的案例id
+        if("0".equals(page.getCondition().getSearchType())||"1".equals(page.getCondition().getSearchType())){
             caseIdList = ipoCaseListService.getIpoItemCaseIdList(page.getCondition());
+        }else{
+            //获取需要展示的案例id
+            caseIdList = Arrays.asList(page.getCondition().getCaseIdListStr().split(","));
         }
 
         List<IpoCaseIndexDto> list = new ArrayList<>();
