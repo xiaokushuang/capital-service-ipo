@@ -335,7 +335,7 @@ public class LawsSearchService extends BaseService {
 //                    }
 //                }
 //                conditionsStr += ")";
-                keyTitles.addAll(Arrays.asList(key));
+                keyTitles.addAll(getListFromString(searchLawsDTO.getKeyTitle(), " "));
                 conditionEs.setKeyTitles(keyTitles);
             }
             if (StringUtils.isNotEmpty(searchLawsDTO.getKeyAndTitle())) {
@@ -352,7 +352,7 @@ public class LawsSearchService extends BaseService {
 //                    }
 //                }
 //                conditionsStr += ")";
-                keyAndTitles.addAll(Arrays.asList(keyAnd));
+                keyAndTitles.addAll(getListFromString(searchLawsDTO.getKeyAndTitle(), " "));
                 conditionEs.setKeyAndTitles(keyAndTitles);
             }
             if (StringUtils.isNotEmpty(searchLawsDTO.getKeyNotTitle())) {
@@ -372,7 +372,7 @@ public class LawsSearchService extends BaseService {
 //                    }
 //                }
 //                conditionsStr += ")";
-                keyNotTitles.addAll(Arrays.asList(keyNot));
+                keyNotTitles.addAll(getListFromString(searchLawsDTO.getKeyNotTitle(), " "));
                 conditionEs.setKeyNotTitles(keyNotTitles);
             }
 //            conditionsStr += ")";
@@ -400,7 +400,7 @@ public class LawsSearchService extends BaseService {
 //                    }
 //                }
 //                conditionsStr += ")";
-                keyAlls.addAll(Arrays.asList(key));
+                keyAlls.addAll(getListFromString(searchLawsDTO.getKeyContent(), " "));
                 conditionEs.setKeyAlls(keyAlls);
             }
             if (StringUtils.isNotEmpty(searchLawsDTO.getKeyAndContent())) {
@@ -417,7 +417,7 @@ public class LawsSearchService extends BaseService {
 //                    }
 //                }
 //                conditionsStr += ")";
-                keyAndAlls.addAll(Arrays.asList(keyAnd));
+                keyAndAlls.addAll(getListFromString(searchLawsDTO.getKeyAndContent(), " "));
                 conditionEs.setKeyAndAlls(keyAndAlls);
             }
             if (StringUtils.isNotEmpty(searchLawsDTO.getKeyNotContent())) {
@@ -437,7 +437,7 @@ public class LawsSearchService extends BaseService {
 //                    }
 //                }
 //                conditionsStr += ")";
-                keyNotAlls.addAll(Arrays.asList(keyNot));
+                keyNotAlls.addAll(getListFromString(searchLawsDTO.getKeyNotContent(), " "));
                 conditionEs.setKeyNotAlls(keyNotAlls);
             }
 //            conditionsStr += ")";
@@ -502,6 +502,21 @@ public class LawsSearchService extends BaseService {
         queryInfoEs.setPageSize(searchLawsDTO.getPageSize());
         queryInfoEs.setStartRow(searchLawsDTO.getPage());
         return queryInfoEs;
+    }
+
+    public List<String> getListFromString(String string, String split) {
+        List<String> list = Lists.newArrayList();
+        if(StringUtils.isNotEmpty(string)) {
+            // 根据split切割字符串
+            List<String> strList = Arrays.asList(string.trim().split(split));
+            for(String str : strList) {
+                if(StringUtils.isNotEmpty(str.trim())) {
+                    // 将处理后的字符串放入发回list中
+                    list.add(str.trim());
+                }
+            }
+        }
+        return list;
     }
 
     public Map<String, Object> getLawsDetail(String lawId, String jingdu, String typeId, String type) {

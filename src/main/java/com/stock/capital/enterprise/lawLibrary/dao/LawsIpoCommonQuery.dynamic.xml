@@ -290,18 +290,19 @@
 										}
 									]
 								}
-								,{
-									"constant_score": {
-										"filter": {
-											"range": {
-												"laws_effect_date_dt": {
-													<#if condition.lawsEffectDate??>
-														"from": "${condition.lawsEffectDate}",
-													</#if>
-													"include_lower": true,
-													"include_upper": true,
-													"boost": 1
-												}
+
+							}
+							,{
+								"constant_score": {
+									"filter": {
+										"range": {
+											"laws_effect_date_dt": {
+												<#if condition.lawsEffectDate??>
+													"from": "${condition.lawsEffectDate}",
+												</#if>
+												"include_lower": true,
+												"include_upper": true,
+												"boost": 1
 											}
 										}
 									}
@@ -355,18 +356,19 @@
 										}
 									]
 								}
-								,{
-									"constant_score": {
-										"filter": {
-											"range": {
-												"laws_invalid_date_dt": {
-													<#if condition.lawsInvalidDate??>
-														"from": "${condition.lawsInvalidDate}",
-													</#if>
-													"include_lower": true,
-													"include_upper": true,
-													"boost": 1
-												}
+
+							}
+							,{
+								"constant_score": {
+									"filter": {
+										"range": {
+											"laws_invalid_date_dt": {
+												<#if condition.lawsInvalidDate??>
+													"from": "${condition.lawsInvalidDate}",
+												</#if>
+												"include_lower": true,
+												"include_upper": true,
+												"boost": 1
 											}
 										}
 									}
@@ -380,7 +382,7 @@
 					{
 						"bool": {
 							"should": [
-							{
+
 								{
 									"constant_score": {
 										"filter": {
@@ -413,7 +415,7 @@
 										}
 									}
 								}
-							}
+
 							]
 						}
 					}
