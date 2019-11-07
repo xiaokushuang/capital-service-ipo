@@ -534,6 +534,15 @@
                                     }
                                 }
 								</#if>
+								<#if condition.lawLibType??>
+								,{
+									 "terms": {
+                                        "laws_lib_type_txt": [
+                                                "${condition.lawLibType}"
+                                        ]
+                                    }
+                                }
+								</#if>
                                 <#-- 依据发布日期-->
                                 <#if condition.publishedDateFrom?? && condition.publishedDateTo??>
                                 ,{
