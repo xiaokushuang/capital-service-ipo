@@ -6,6 +6,8 @@
         <![CDATA[
         {
             "track_total_hits" : true,
+              "from": ${startRow},
+             "size": ${pageSize},
             "query": {
                 "bool": {
                     "must": [
