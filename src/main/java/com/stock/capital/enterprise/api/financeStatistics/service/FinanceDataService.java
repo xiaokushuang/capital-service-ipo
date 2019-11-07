@@ -322,7 +322,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                             condition.put("financeFinaTypeTListOr", typeList);
                         }
                     }
-                    facetField = "finance_cityname_s";
+                    facetField = "finance_cityname_s.keyword";
                     condition.put("finance_cityname_s", facetField);
                     conditionsStrOther.put("finance_cityname_s", facetField);
                     resultSum = searchWithStatsInfoES(facetField, condition, "1");
@@ -750,7 +750,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                     dataMap.put("dataSum", resultSum);
                     result.add(dataMap);
                 } else if ("3".equals(chartType)) {// 取得地图数据
-                    facetField = "finance_cityname_s";
+                    facetField = "finance_cityname_s.keyword";
                     condition.put("finance_cityname_s", facetField);
                     resultSum = searchWithStatsInfoES(facetField, condition, "2");
                     Map<String, Object> dataMap = new HashMap<String, Object>();
@@ -1018,7 +1018,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                     logger.error("cause by：{}", Throwables.getStackTraceAsString(e));
                 }
                 dataMap.put("num", sf.getCount());
-                dataMap.put("cityName", String.valueOf(sf.getValue()));
+                dataMap.put("cityName", String.valueOf(sf.getFieldId()));
                 dataMap.put("condition", JsonUtil.toJson(condition)); //增加查询条件
                 tempResult.add(dataMap);
             }
