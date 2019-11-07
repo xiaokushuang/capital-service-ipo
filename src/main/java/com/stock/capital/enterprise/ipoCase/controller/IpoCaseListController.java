@@ -116,7 +116,7 @@ public class IpoCaseListController {
         List<String> caseIdList = new ArrayList<String>();
 
         //直接根据案例id查询
-        if(StringUtils.isNotEmpty(page.getCondition().getCaseIdListStr())){
+        if(StringUtils.isNotEmpty(page.getCondition().getSearchType())){
             caseIdList = Arrays.asList(page.getCondition().getCaseIdListStr().split(","));
         }else{
             //获取需要展示的案例id
