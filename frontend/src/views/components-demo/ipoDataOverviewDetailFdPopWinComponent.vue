@@ -107,10 +107,19 @@
         return label;
       },
       exportExcel() {//导出Excel
-        let statisticsParamDto = {
-          label : this.$route.query.label,
-          intermediaryType : this.$route.query.intermediaryType,
-          tabFlag:this.$route.query.tabFlag,
+        let statisticsParamDto = {}
+        if (this.$route.query.registAddr){
+          statisticsParamDto = {
+            registAddr : this.$route.query.registAddr,
+            approveStatus : this.$route.query.approveStatus,
+          }
+        }else {
+          statisticsParamDto = {
+            label : this.$route.query.label,
+            intermediaryType : this.$route.query.intermediaryType,
+            tabFlag:this.$route.query.tabFlag,
+            labelCode:this.$route.query.labelCode,
+          }
         }
         exportExcelPostWindow1("/ipo/regulatory_statistics/ipoDataOverviewFdDetailExport",statisticsParamDto);
       },
