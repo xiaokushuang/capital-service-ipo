@@ -224,7 +224,7 @@ export default {
   },
   methods: {
     companySel(row,finaType) {//打开公司详情页
-      this.companyDetailShow("3",this.titleName,finaType,row.name,row.condition);
+      this.companyDetailShow("3",this.titleName,finaType,row.cityName,row.condition);
     },
     //点击年度选项事件
     activeFun(data) {
