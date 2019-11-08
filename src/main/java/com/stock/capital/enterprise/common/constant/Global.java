@@ -179,13 +179,13 @@ public interface Global {
     /**
      * 融资统计索引 es  使用索引服务器的类型  0 ES 1 solr
      */
-    public static final String ES_FINANCE_STATISTICS_FLAG = "0";
+    public static final String ES_FINANCE_STATISTICS_FLAG = "1";
 
     /**
      * 法律法规索引
      * 0 表示当前使用的ES的searchserver 1 表示使用的是Solr的searchserver
      */
-    public static final String SEARCH_SERVER_LAWS_FLAG = "0";
+    public static final String SEARCH_SERVER_LAWS_FLAG = "1";
 
     /**
      * 法律法规索引名称
