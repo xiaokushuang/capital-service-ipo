@@ -893,27 +893,14 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
     private Map<String, Object> searchWithFacetInfoES(String facetField, Map<String, Object> condition) {
         Map<String, Object> result = new HashMap<String, Object>();
         QueryInfo<Map<String, Object>> queryInfo = new QueryInfo<Map<String, Object>>();
-        // 设置查询条件
-//        condition.put(Constant.SEARCH_CONDIATION, conditionsStr);
-        // 设置分组字段(发行家数不需要有分组字段)
-        /*if(StringUtils.isNotEmpty(facetField)){
-            condition.put(Constant.SEARCH_FACET_FIELD, facetField);
-        }*/
+
         queryInfo.setCondition(condition);
         queryInfo.setQueryId("com.stock.capital.enterprise.api.financeStatistics.dao.FinanceStatistics.financeStatisticsDataInfo");
         logger.debug("*******search index data*******");
         FacetResult<FinanceStatisticsIndexDto> page = searchClient.searchWithFacet(Global.ES_FINANCE_STATISTICS, queryInfo, FinanceStatisticsIndexDto.class);
 
-        //List<StatisticsField> field = page.getStatisticsFieldMap().get(facetField);
-        //Map<String, String> dataMap = new HashMap<String, String>();
         result.put("number", page.getPage().getTotal());
-        /*for (StatisticsField sf : field) {
-             dataMap = new HashMap<String, String>();
-             dataMap.put("name", sf.getFieldId());
-             dataMap.put("value", String.valueOf(sf.getCount()));
 
-             result.add(dataMap);
-        }   */
         return result;
     }
 
@@ -1218,9 +1205,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
         if (Global.ES_FINANCE_STATISTICS_FLAG.equals("0")) {
             QueryInfo<Map<String, Object>> query = new QueryInfo<Map<String, Object>>();
             Map<String, Object> condition = Maps.newHashMap();
-//            String conditionsStr = "";
             if ("1".equals(queryInfo.getChartType())) {//柱状图
-//                conditionsStr = "index_type_t: \"finance\"";
                 if (StringUtils.isNotEmpty(queryInfo.getSelCondition())) {
                     String[] time = queryInfo.getSelCondition().split("至");
                     String start = DateUtil.datePlusToStr(time[0], DateUtil.YYYY_MM_DD, 0);
@@ -1235,11 +1220,9 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                         typeList.add(type[i]);
                     }
                     condition.put("financeFinaTypeTList", typeList);
-//                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
                 } else {//证券发行
                     if ("004".equals(queryInfo.getFinaType())) {
                         condition.put("finance_finatype_t_004", "004");
-//                        conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, true);
                     } else {
                         List<String> typeList = new ArrayList<>();
                         String[] type = queryInfo.getFinaType().split(",");
@@ -1247,17 +1230,14 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                             typeList.add(type[i]);
                         }
                         condition.put("financeFinaTypeTList", typeList);
-//                        conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
                     }
                 }
                 query.setQueryId("com.stock.capital.enterprise.api.financeStatistics.dao.FinanceStatistics.financeStatisticsGetQuery");
             } else if ("2".equals(queryInfo.getChartType())) {//饼状图
                 condition = Maps.newHashMap();
                 condition = JsonUtil.fromJson(queryInfo.getConditionStr(), HashMap.class);
-//                conditionsStr = queryInfo.getConditionStr();
                 if (!"004".equals(queryInfo.getFinaType())) {
                     condition.put("finance_finatype_t_pie", queryInfo.getFinaType());
-//                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
                 }
                 List<String> pindnameList = new ArrayList<>();
                 condition.put("financePindnameFlag", false);
@@ -1274,14 +1254,11 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                 }
                 condition.put("finance_pindname", "finance_pindname" + queryInfo.getFinanceIndustry() + "_s");
                 query.setQueryId("com.stock.capital.enterprise.api.financeStatistics.dao.FinanceStatistics.financeStatisticsDataInfo");
-//                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getSelCondition(), " ", "finance_pindname" + queryInfo.getFinanceIndustry() + "_s", false, false, false);
             } else if ("3".equals(queryInfo.getChartType())) {//地图
                 condition = Maps.newHashMap();
                 condition = JsonUtil.fromJson(queryInfo.getConditionStr(), HashMap.class);
-//                conditionsStr = queryInfo.getConditionStr();
                 if (!"004".equals(queryInfo.getFinaType())) {
                     condition.put("finance_finatype_t_map", queryInfo.getFinaType());
-//                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
                 }
                 if (StringUtils.isNotBlank(queryInfo.getSelCondition())) {
                     List<String> citynameList = new ArrayList<>();
@@ -1297,11 +1274,8 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                 }
 
                 query.setQueryId("com.stock.capital.enterprise.api.financeStatistics.dao.FinanceStatistics.financeStatisticsDataInfo");
-//                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getSelCondition(), " ", "finance_cityname_s", false, false, false);
             }
 
-            // 处理关键字的检索条件
-//            condition.put(Constant.SEARCH_CONDIATION, conditionsStr);
 
             query.setCondition(condition);
             String orderby = "DESC";
