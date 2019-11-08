@@ -468,9 +468,9 @@
             },
              <#-- 分组查询-->
             "aggs": {
-                "finance_cityname_s.keyword": {
+                "finance_cityname_s": {
                     "terms": {
-                        "field": "finance_cityname_s.keyword",
+                        "field": "finance_cityname_s",
                         "size": 20000
                         }
                 },
