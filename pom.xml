@@ -426,7 +426,7 @@
             <id>prepub-sz</id>
             <properties>
                 <!--               <stock-core>1.0.0-SNAPSHOT</stock-core>-->
-                <stock-core>0.0.8.RELEASE</stock-core>
+                <stock-core>0.0.10.RELEASE</stock-core>
             </properties>
         </profile>
         <profile>

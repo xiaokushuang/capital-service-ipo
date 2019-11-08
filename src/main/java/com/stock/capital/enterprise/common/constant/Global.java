@@ -179,7 +179,7 @@ public interface Global {
     /**
      * 融资统计索引 es  使用索引服务器的类型  0 ES 1 solr
      */
-    public static final String ES_FINANCE_STATISTICS_FLAG = "0";
+    public static final String ES_FINANCE_STATISTICS_FLAG = "1";
 
     /**
      * 法律法规索引
