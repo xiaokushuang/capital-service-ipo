@@ -3,6 +3,7 @@ package com.stock.capital.enterprise.lawLibrary.dto;
 import java.io.Serializable;
 import java.util.List;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -502,4 +503,234 @@ public class SearchLawsDTO implements Serializable {
         this.orderColumn = orderColumn;
     }
 
+    //依据债券品种
+    private List<String> bondClassLst;
+    //依据法律法规业务分类
+    private List<String> lawTypeLst;
+    //依据法律位阶
+    private List<String> LawClassLst;
+    //依据银行机构
+    private List<String> bankClassLst;
+    //依据发文单位
+    private List<String> lawSourceLst;
+    //依据适用范围
+    private List<String> lawRangeLst;
+    //依据法律法规增加适用板块
+    private List<String> lawsApplyModuleLst;
+    //依据历史沿革
+    private List<String> lawEvolutionLst;
+    //颁布日期开始
+    private String publishedDateFrom;
+    //颁布日期结束
+    private String publishedDateTo;
+    //生效日期开始
+    private String effectDateFrom;
+    //生效日期结束
+    private String effectDateTo;
+
+    private String lawsInvalidDate;
+
+    private String lawsEffectDate;
+
+    private String lawsModifyDate;
+
+    private String lawsIsDefaultShow;
+
+    private String lawLibType;
+    @ApiModelProperty(value = "标题包含任一关键字集合", dataType = "String")
+    private List<String> keyTitles;
+    @ApiModelProperty(value = "标题包含所有关键字集合", dataType = "String")
+    private List<String> keyAndTitles;
+    @ApiModelProperty(value = "标题不包含任一关键字集合", dataType = "String")
+    private List<String> keyNotTitles;
+    @ApiModelProperty(value = "全文包含任一关键字", dataType = "String")
+    private List<String> keyAlls;
+    @ApiModelProperty(value = "全文包含所有关键字", dataType = "String")
+    private List<String> keyAndAlls;
+    @ApiModelProperty(value = "全文不包含任一关键字", dataType = "String")
+    private List<String> keyNotAlls;
+
+    public List<String> getKeyAlls() {
+        return keyAlls;
+    }
+
+    public void setKeyAlls(List<String> keyAlls) {
+        this.keyAlls = keyAlls;
+    }
+
+    public List<String> getKeyAndAlls() {
+        return keyAndAlls;
+    }
+
+    public void setKeyAndAlls(List<String> keyAndAlls) {
+        this.keyAndAlls = keyAndAlls;
+    }
+
+    public List<String> getKeyNotAlls() {
+        return keyNotAlls;
+    }
+
+    public void setKeyNotAlls(List<String> keyNotAlls) {
+        this.keyNotAlls = keyNotAlls;
+    }
+
+    public List<String> getKeyTitles() {
+        return keyTitles;
+    }
+
+    public void setKeyTitles(List<String> keyTitles) {
+        this.keyTitles = keyTitles;
+    }
+
+    public List<String> getKeyAndTitles() {
+        return keyAndTitles;
+    }
+
+    public void setKeyAndTitles(List<String> keyAndTitles) {
+        this.keyAndTitles = keyAndTitles;
+    }
+
+    public List<String> getKeyNotTitles() {
+        return keyNotTitles;
+    }
+
+    public void setKeyNotTitles(List<String> keyNotTitles) {
+        this.keyNotTitles = keyNotTitles;
+    }
+
+    public String getLawLibType() {
+        return lawLibType;
+    }
+
+    public void setLawLibType(String lawLibType) {
+        this.lawLibType = lawLibType;
+    }
+
+    public List<String> getBondClassLst() {
+        return bondClassLst;
+    }
+
+    public void setBondClassLst(List<String> bondClassLst) {
+        this.bondClassLst = bondClassLst;
+    }
+
+    public List<String> getLawTypeLst() {
+        return lawTypeLst;
+    }
+
+    public void setLawTypeLst(List<String> lawTypeLst) {
+        this.lawTypeLst = lawTypeLst;
+    }
+
+    public List<String> getLawClassLst() {
+        return LawClassLst;
+    }
+
+    public void setLawClassLst(List<String> lawClassLst) {
+        LawClassLst = lawClassLst;
+    }
+
+    public List<String> getBankClassLst() {
+        return bankClassLst;
+    }
+
+    public void setBankClassLst(List<String> bankClassLst) {
+        this.bankClassLst = bankClassLst;
+    }
+
+    public List<String> getLawSourceLst() {
+        return lawSourceLst;
+    }
+
+    public void setLawSourceLst(List<String> lawSourceLst) {
+        this.lawSourceLst = lawSourceLst;
+    }
+
+    public List<String> getLawRangeLst() {
+        return lawRangeLst;
+    }
+
+    public void setLawRangeLst(List<String> lawRangeLst) {
+        this.lawRangeLst = lawRangeLst;
+    }
+
+    public List<String> getLawsApplyModuleLst() {
+        return lawsApplyModuleLst;
+    }
+
+    public void setLawsApplyModuleLst(List<String> lawsApplyModuleLst) {
+        this.lawsApplyModuleLst = lawsApplyModuleLst;
+    }
+
+    public List<String> getLawEvolutionLst() {
+        return lawEvolutionLst;
+    }
+
+    public void setLawEvolutionLst(List<String> lawEvolutionLst) {
+        this.lawEvolutionLst = lawEvolutionLst;
+    }
+
+    public String getPublishedDateFrom() {
+        return publishedDateFrom;
+    }
+
+    public void setPublishedDateFrom(String publishedDateFrom) {
+        this.publishedDateFrom = publishedDateFrom;
+    }
+
+    public String getPublishedDateTo() {
+        return publishedDateTo;
+    }
+
+    public void setPublishedDateTo(String publishedDateTo) {
+        this.publishedDateTo = publishedDateTo;
+    }
+
+    public String getEffectDateFrom() {
+        return effectDateFrom;
+    }
+
+    public void setEffectDateFrom(String effectDateFrom) {
+        this.effectDateFrom = effectDateFrom;
+    }
+
+    public String getEffectDateTo() {
+        return effectDateTo;
+    }
+
+    public void setEffectDateTo(String effectDateTo) {
+        this.effectDateTo = effectDateTo;
+    }
+
+    public String getLawsInvalidDate() {
+        return lawsInvalidDate;
+    }
+
+    public void setLawsInvalidDate(String lawsInvalidDate) {
+        this.lawsInvalidDate = lawsInvalidDate;
+    }
+
+    public String getLawsEffectDate() {
+        return lawsEffectDate;
+    }
+
+    public void setLawsEffectDate(String lawsEffectDate) {
+        this.lawsEffectDate = lawsEffectDate;
+    }
+
+    public String getLawsModifyDate() {
+        return lawsModifyDate;
+    }
+
+    public void setLawsModifyDate(String lawsModifyDate) {
+        this.lawsModifyDate = lawsModifyDate;
+    }
+
+    public String getLawsIsDefaultShow() {
+        return lawsIsDefaultShow;
+    }
+
+    public void setLawsIsDefaultShow(String lawsIsDefaultShow) {
+        this.lawsIsDefaultShow = lawsIsDefaultShow;
+    }
 }

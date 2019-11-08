@@ -50,6 +50,17 @@ public class IpoCaseIssueController {
         return response;
     }
 
+    @ApiOperation(value = "估算费用接口", notes = "估算费用接口描述")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",dataType = "String")
+    })
+    @RequestMapping(value = "/estimateType", method = RequestMethod.GET)
+    public JsonResponse<String> estimateType(@RequestParam("id") String id){
+        JsonResponse<String> response = new JsonResponse<>();
+        response.setResult(issueSituationService.getEstimateType(id));
+        return response;
+    }
+
     @ApiOperation(value = "同行业上市公司综合毛利率接口", notes = "同行业上市公司综合毛利率接口描述")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",

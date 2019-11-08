@@ -39,6 +39,15 @@ export function getIssueFeeData(query) {
   })
 }
 
+// 费用估算
+export function getEstimateType(query) {
+  return request({
+    url: '/ipo/issue/estimateType',
+    method: 'get',
+    params: query
+  })
+}
+
 // 财务信息
 // 财务总体情况接口
 export function getSelectFinanceOverList(query) {

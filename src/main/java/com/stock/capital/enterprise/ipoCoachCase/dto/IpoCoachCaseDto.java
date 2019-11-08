@@ -34,6 +34,9 @@ public class IpoCoachCaseDto implements Serializable {
 
     private String foundingTime;//公司成立时间
 
+    private String registerCountry;//注册国家
+    private String registerCountryText;
+
     private String registerProvience;//注册省份
     private String registerProvienceText;
 
@@ -46,6 +49,9 @@ public class IpoCoachCaseDto implements Serializable {
     private String address;//详细地址
 
     private String establishTime;//设立时间
+
+    private String businessCountry;//办公国家
+    private String businessCountryText;
 
     private String businessProvience;//办公省份
     private String businessProvienceText;
@@ -195,6 +201,22 @@ public class IpoCoachCaseDto implements Serializable {
         this.foundingTime = foundingTime;
     }
 
+    public String getRegisterCountry() {
+        return registerCountry;
+    }
+
+    public void setRegisterCountry(String registerCountry) {
+        this.registerCountry = registerCountry;
+    }
+
+    public String getRegisterCountryText() {
+        return registerCountryText;
+    }
+
+    public void setRegisterCountryText(String registerCountryText) {
+        this.registerCountryText = registerCountryText;
+    }
+
     public String getRegisterProvience() {
         return registerProvience;
     }
@@ -233,6 +255,22 @@ public class IpoCoachCaseDto implements Serializable {
 
     public void setEstablishTime(String establishTime) {
         this.establishTime = establishTime;
+    }
+
+    public String getBusinessCountry() {
+        return businessCountry;
+    }
+
+    public void setBusinessCountry(String businessCountry) {
+        this.businessCountry = businessCountry;
+    }
+
+    public String getBusinessCountryText() {
+        return businessCountryText;
+    }
+
+    public void setBusinessCountryText(String businessCountryText) {
+        this.businessCountryText = businessCountryText;
     }
 
     public String getBusinessProvience() {

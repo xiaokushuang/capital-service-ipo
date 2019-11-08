@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import com.stock.capital.enterprise.common.constant.Global;
 import com.stock.capital.enterprise.regulatory.dto.ViolationParamDto;
 import com.stock.capital.enterprise.regulatory.service.ViolationService;
 import org.apache.commons.lang3.StringUtils;
@@ -485,8 +486,8 @@ public class LawsSearchController extends BaseController {
 					}
         		}
         	}
-        } 
-        
+        }
+
         conditionsStr = conditionsStr + " AND ((";
         // 标题关键字
         Boolean hasTitle = false;
@@ -658,7 +659,13 @@ public class LawsSearchController extends BaseController {
         queryInfo.setOrderByOrder(orderby);
         queryInfo.setPageSize(searchLawsDTO.getPageSize());
         queryInfo.setStartRow(searchLawsDTO.getPage());
-        result.setResult(lawsSearchService.searchLaws(queryInfo));
+        if(Global.SEARCH_SERVER_LAWS_FLAG.equals("0")){
+            QueryInfo<SearchLawsDTO> queryInfoEs = new QueryInfo<>();
+            queryInfoEs =  lawsSearchService.dealLawsQueryInfo(searchLawsDTO);
+            result.setResult(lawsSearchService.searchLawsEs(queryInfoEs));
+        }else {
+            result.setResult(lawsSearchService.searchLaws(queryInfo));
+        }
         return result;
     }
 

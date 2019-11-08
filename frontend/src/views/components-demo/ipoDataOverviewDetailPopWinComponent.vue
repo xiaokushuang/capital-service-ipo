@@ -9,7 +9,11 @@
         <div class="favorite-table">
           <el-table :data="data" style="width: 100%" class="paddingControl" border tooltip-effect="dark" ref="multipleSelection">
             <el-table-column align="center" type="index" label="序号" width="60"></el-table-column>
-            <el-table-column align="left" prop="appCompany" label="申报企业" min-width="13%"></el-table-column>
+            <el-table-column align="left" prop="appCompany" label="申报企业" min-width="13%">
+              <template slot-scope="scope">
+                <span class="spanClass" @click="openDetail(scope.row.id)" v-html="scope.row.appCompany"></span>
+              </template>
+            </el-table-column>
             <el-table-column align="center" prop="registAddr" label="注册地" min-width="8%">
                 <template slot-scope="scope">
                     <span v-html="getApproveStatus(scope.row.registAddr)"></span>
@@ -71,6 +75,35 @@ import {exportExcelPostWindow1} from '@/utils'
             this.search();
         },
         methods:{
+          openDetail(id){
+            if (id) {
+              var caseId = id;
+              const _self = this;
+              const {
+                href
+              } = _self.$router.resolve({
+                // name: 'tutoringCase',
+                name: 'caseDetail',
+                query: {
+                  caseId: caseId,
+                  access_token: _self.$route.query.access_token,
+                  tenant_info: _self.$route.query.tenant_info
+                }
+              });
+              // 日志---------------------头
+              let param = {
+                recordType: 'open', //跳转页面方式:
+                recordTab: "IPO案例详情页" //跳转tab
+              }
+              this.$store.commit('CREATE_TEMP_MESSAGE', param);
+              // 日志---------------------尾
+              this.$open(href, '_blank');
+            } else {
+              let url = window.location.href;
+              url = url.replace(this.$route.path, '/ipoPopWin');
+              iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
+            }
+          },
             search(data){//通过给定条件查询数据
                 // document.getElementsByClassName("is-scrolling-none")[0].scrollTop = 0;
                 let param = {
@@ -112,6 +145,7 @@ import {exportExcelPostWindow1} from '@/utils'
                     industry : this.$route.query.industry,
                     registAddr : this.$route.query.registAddr,
                     tabFlag:this.$route.query.tabFlag,
+                  labelCode:this.$route.query.labelCode,
                 }
                 exportExcelPostWindow1("/ipo/regulatory_statistics/ipoDataOverviewDetailExport",statisticsParamDto);
             },
@@ -128,4 +162,8 @@ import {exportExcelPostWindow1} from '@/utils'
 .container {
     min-height:500px!important;
 }
+  .spanClass:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
 </style>

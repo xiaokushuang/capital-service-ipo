@@ -39,16 +39,16 @@
             <id>stock-nexus</id>
             <url>https://nexus.valueonline.cn/repository/maven-public/</url>
         </repository>
-		<repository>
-			<id>HuaweiCloudSDK</id>
-			<url>https://mirrors.huaweicloud.com/repository/maven/huaweicloudsdk/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
+        <repository>
+            <id>HuaweiCloudSDK</id>
+            <url>https://mirrors.huaweicloud.com/repository/maven/huaweicloudsdk/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
     </repositories>
 
     <!-- Inherit defaults from Spring Boot -->
@@ -298,16 +298,16 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${swagger.version}</version>
         </dependency>
-		<dependency>
-			<groupId>com.huaweicloud</groupId>
-			<artifactId>esdk-obs-java</artifactId>
-			<version>3.19.7</version>
-		</dependency>
-		<dependency>
-			<groupId>com.huawei.vod</groupId>
-			<artifactId>cloud-java-sdk-vod</artifactId>
-			<version>2.0.3</version>
-		</dependency>
+        <dependency>
+            <groupId>com.huaweicloud</groupId>
+            <artifactId>esdk-obs-java</artifactId>
+            <version>3.19.7</version>
+        </dependency>
+        <dependency>
+            <groupId>com.huawei.vod</groupId>
+            <artifactId>cloud-java-sdk-vod</artifactId>
+            <version>2.0.3</version>
+        </dependency>
 
         <!-- Provided -->
         <dependency>
@@ -411,7 +411,9 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <stock-core>1.0.0-SNAPSHOT</stock-core>
+                <!--                <stock-core>1.0.0-SNAPSHOT</stock-core>-->
+                <stock-core>0.0.8.RELEASE</stock-core>
+                <!--                <stock-core>0.0.4.RELEASE</stock-core>-->
             </properties>
         </profile>
         <profile>
@@ -423,7 +425,8 @@
         <profile>
             <id>prepub-sz</id>
             <properties>
-                <stock-core>1.0.0-SNAPSHOT</stock-core>
+                <!--               <stock-core>1.0.0-SNAPSHOT</stock-core>-->
+                <stock-core>0.0.10.RELEASE</stock-core>
             </properties>
         </profile>
         <profile>

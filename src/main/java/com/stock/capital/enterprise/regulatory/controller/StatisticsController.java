@@ -935,6 +935,15 @@ public class StatisticsController extends BaseController {
                mv.addObject(DownloadView.EXPORT_FILE, fileInfo.get("fileBytes"));
                mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
                mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLS);
+           }else if("four".equals(flag)){
+               mv.setView(new DownloadView());
+               String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMdd");
+               fileInfo.put("fileName", "在审数据明细_"+ timeStr+".xls");
+               // 从文件服务器下载文件
+               fileInfo.put("fileBytes", statisticsService.ipoCommendDetailExport(statisticsParamDto,flag));
+               mv.addObject(DownloadView.EXPORT_FILE, fileInfo.get("fileBytes"));
+               mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
+               mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLS);
            }
            response.setHeader("fileName", java.net.URLEncoder.encode(fileInfo.get("fileName").toString(), "utf-8"));
            return mv;

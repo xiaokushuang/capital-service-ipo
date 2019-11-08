@@ -77,7 +77,8 @@
                 id="selectIndustryCsrc"
                 placeholder="发行人行业（证监会）"
                 @sure-click="sure('selectIndustryCsrc')"
-                :default-all-show="true"
+                :default-all-show="false"
+                :all-show="allShow"
                 size="small full"
                 node-key="id"
                 :tree-data="industryCrscList"
@@ -600,7 +601,7 @@
   export default {
     data() {
       return {
-        radio:1,
+        radio:0,
         // checkboxList:['全部','IPO案例','辅导案例'],
         checkboxList:[
           {
@@ -623,7 +624,7 @@
         isHiddenValue:"",
         treeisHidden:"",
         isHiddenList:[{labelName:'是',labelValue:'1',id:'1'},{labelName:'否',labelValue:'0',id:'0'}],
-        caseType: "ipo", // all ipo ipofd  案例类型 三种类型
+        caseType: "all", // all ipo ipofd  案例类型 三种类型
         intermediaryName: '',
         issueLawId: '', //上市条件法规id
         tenantInfo: '', //日志
@@ -1123,7 +1124,8 @@
         sunQuityShow: true,
         assetRatioShow: true,
         shareIssueBShow: true,
-        shareIssueAShow: true
+        shareIssueAShow: true,
+        allShow: {colloge: false}//下拉列表全部展开或收起
       }
     },
     created() {

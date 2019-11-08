@@ -116,6 +116,7 @@
              <div v-if="issueFeeData&&issueFeeData.length>0" class="title" style="margin-bottom:0px">
                 <span class="littleRectangle"></span>
                 <span class="titleText" id="distributionCosts">发行费用</span>
+                <span v-if="estimateType == 1" class="hongkuang">估算</span>
             </div>
             <!-- table2 -->
             <p v-if="issueFeeData&&issueFeeData.length>0" style="font-size:12px;color:#666;float:right">人民币/万元</p>
@@ -155,12 +156,14 @@
 <script>
 import { getIssueData } from "@/api/ipoCase/tableDemo";
 import { getIssueFeeData } from "@/api/ipoCase/tableDemo";
+import { getEstimateType } from "@/api/ipoCase/tableDemo";
 import $ from "jquery";
 
 export default {
   name: "issue",
   data() {
       return{
+          estimateType:'',
           issueFeeData:[],
           issueData:{
             epsIssueA:'',
@@ -207,12 +210,17 @@ export default {
       const param = {
         id:this.caseId
       }
-         getIssueFeeData(param).then(res=>{
-           if(res.data.result&&res.data.result.length>0){
-             this.issueFeeData = res.data.result
-           }
-             this.getPosition()
-         })
+       getEstimateType(param).then(res=>{
+         if (res.data.result&&res.data.result.length>0){
+           this.estimateType = res.data.result
+         }
+       })
+       getIssueFeeData(param).then(res=>{
+         if(res.data.result&&res.data.result.length>0){
+           this.issueFeeData = res.data.result
+         }
+           this.getPosition()
+       })
        getIssueData(param).then(res => {
          if(res.data.result){
            this.dataFlag = true;
@@ -322,6 +330,21 @@ export default {
 }
 .el-row {
   margin-bottom: 0px;
+}
+.hongkuang {
+  display: inline-block;
+  height: 22px;
+  text-align: center;
+  border: 1px solid rgba(255, 176, 173, 1);
+  font-family: "MicrosoftYaHei", "Microsoft YaHei";
+  font-weight: 400;
+  font-style: normal;
+  font-size: 12px;
+  color: #fe5461;
+  line-height: 10px;
+  margin-left: 10px;
+  padding: 4px;
+  border-radius: 2px;
 }
 </style>
 
