@@ -539,7 +539,7 @@
                   <!--</template>-->
                   <!--</el-table-column>-->
 
-                  <el-table-column align="right" prop="ipo_sum_asset_d" label="最近一次估值（亿元）" sortable="custom" min-width="12%">
+                  <el-table-column align="right" prop="ipo_valuation_d" label="最近一次估值（亿元）" sortable="custom" min-width="12%">
                     <template slot-scope="scope">
                       <span v-if="scope.row.ipoValuationValue ">{{scope.row.ipoValuationValue/10000 | dataInThRule}}</span>
                       <span v-else class="noDataColor">--</span>
@@ -1424,6 +1424,7 @@
       },
       //排序方法
       sortChange(column) {
+        // debugger;
         const _self = this;
         if (column.order != null && column.prop != null) {
           _self.orderByName = column.prop;
