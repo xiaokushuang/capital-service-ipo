@@ -1424,6 +1424,7 @@
       },
       //排序方法
       sortChange(column) {
+        debugger;
         const _self = this;
         if (column.order != null && column.prop != null) {
           _self.orderByName = column.prop;
