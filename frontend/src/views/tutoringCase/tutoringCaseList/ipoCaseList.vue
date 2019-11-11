@@ -93,7 +93,7 @@
                          @clear-click="clearLocal('treeCompanyNature')">
                 <el-option :label="companyNature" :value="companyNatureValue">
                   <el-tree :data="companyNatureList" show-checkbox node-key="id" ref="treeCompanyNature" highlight-current
-                           :props="default_tree" @check-change="selectHandleNodeClick('companyNature','treeCompanyNature')"></el-tree>
+                           :props="default_tree" check-on-click-node @check-change="selectHandleNodeClick('companyNature','treeCompanyNature')"></el-tree>
                 </el-option>
               </el-select>
             </el-col>
@@ -102,7 +102,7 @@
                          @visible-change="calls()" @sure-click="sure('selectIpoNum')" @keydown.enter.native="querySearch" @clear-click="clearLocal('treeIpoNum')">
                 <el-option :label="ipoNum" :value="ipoNumValue">
                   <el-tree :data="ipoNumList" show-checkbox node-key="id" ref="treeIpoNum" highlight-current :props="default_tree"
-                           @check-change="selectHandleNodeClick('ipoNum','treeIpoNum')"></el-tree>
+                           check-on-click-node @check-change="selectHandleNodeClick('ipoNum','treeIpoNum')"></el-tree>
                 </el-option>
               </el-select>
             </el-col>
@@ -113,7 +113,7 @@
                          @visible-change="calls()" @sure-click="sure('selectProcess')" @keydown.enter.native="querySearch" @clear-click="clearLocal('treeCaseStatus')">
                 <el-option :label="caseStatus" :value="caseStatusValue">
                   <el-tree :data="processList" show-checkbox node-key="id" ref="treeCaseStatus" highlight-current :props="default_tree"
-                           @check-change="selectHandleNodeClick('caseStatus','treeCaseStatus')"></el-tree>
+                           check-on-click-node @check-change="selectHandleNodeClick('caseStatus','treeCaseStatus')"></el-tree>
                 </el-option>
               </el-select>
             </el-col>
@@ -123,7 +123,7 @@
                          @clear-click="clearLocal('treeIecResult')">
                 <el-option :label="iecResult" :value="iecResultValue">
                   <el-tree :data="verifyResultList" default-expand-all show-checkbox node-key="id" ref="treeIecResult"
-                           highlight-current :props="default_tree" @check-change="selectHandleNodeClick('iecResult','treeIecResult')"></el-tree>
+                           highlight-current :props="default_tree" check-on-click-node @check-change="selectHandleNodeClick('iecResult','treeIecResult')"></el-tree>
                 </el-option>
               </el-select>
             </el-col>
@@ -133,7 +133,7 @@
                          @clear-click="clearLocal('treeisHidden')">
                 <el-option :label="isHidden" :value="isHiddenValue">
                   <el-tree :data="isHiddenList" show-checkbox node-key="id" ref="treeisHidden" highlight-current
-                           :props="default_tree" @check-change="selectHandleNodeClick('isHidden','treeisHidden')"></el-tree>
+                           :props="default_tree" check-on-click-node @check-change="selectHandleNodeClick('isHidden','treeisHidden')"></el-tree>
                 </el-option>
               </el-select>
             </el-col>
@@ -143,7 +143,7 @@
                          @clear-click="clearLocal('treeIssueCondition')">
                 <el-option :label="issueCondition" :value="issueConditionValue">
                   <el-tree :data="issueConditionList" default-expand-all show-checkbox node-key="id" ref="treeIssueCondition"
-                           highlight-current :props="default_tree" @check-change="selectHandleNodeClick('issueCondition','treeIssueCondition')"></el-tree>
+                           highlight-current :props="default_tree" check-on-click-node @check-change="selectHandleNodeClick('issueCondition','treeIssueCondition')"></el-tree>
                 </el-option>
               </el-select>
             </el-col>
@@ -216,7 +216,7 @@
                          @clear-click="clearLocal('treePlacingMechanism')">
                 <el-option class="psjz" :label="placingMechanism" :value="placingMechanismValue">
                   <el-tree :data="ipoMechanismList" default-expand-all show-checkbox node-key="id" ref="treePlacingMechanism"
-                           highlight-current :props="default_tree" @check-change="selectHandleNodeClick('placingMechanism','treePlacingMechanism')"></el-tree>
+                           highlight-current :props="default_tree" check-on-click-node @check-change="selectHandleNodeClick('placingMechanism','treePlacingMechanism')"></el-tree>
                 </el-option>
               </el-select>
             </el-col>
