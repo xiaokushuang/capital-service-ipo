@@ -24,7 +24,7 @@
                                 {
                                     "match_phrase": {
                                         "laws_title_t": {
-                                            "query": "${item}",
+                                            "query": "${item?j_string}",
                                             "slop": 5
                                         }
                                     }
@@ -44,7 +44,7 @@
                                 {
                                     "match_phrase": {
                                         "laws_title_t": {
-                                            "query": "${item}",
+                                            "query": "${item?j_string}",
                                             "slop": 5
                                         }
                                     }
@@ -94,7 +94,7 @@
                                             {
                                             "match_phrase": {
                                                 "laws_content_t": {
-                                                "query": "${item}",
+                                                "query": "${item?j_string}",
                                                 "slop": 5
                                                 }
                                             }
@@ -119,7 +119,7 @@
                                 {
                                     "match_phrase": {
                                         "laws_content_t": {
-                                            "query": "${item}",
+                                            "query": "${item?j_string}",
                                             "slop": 5
                                         }
                                     }
