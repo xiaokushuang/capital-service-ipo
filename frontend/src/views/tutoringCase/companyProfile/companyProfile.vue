@@ -146,6 +146,7 @@ export default {
   },
   methods: {
     addressFilter(address){// 地址过滤. 直辖市不显示省
+      address = address.replace(/null/g,"");
       var replaceList = ["北京","天津","上海","重庆",];
       for (let i = 0; i < replaceList.length; i++) {
         var replaceStr = replaceList[i];
@@ -155,6 +156,7 @@ export default {
           address = address.replace(replaceStr, "");
         }
       }
+      address = address.replace(/\s{2,3}/g,"");// 去除多余空格、 两个或者三个的时候去除空格
       return address;
     },
     //中介机构数据处理（只保留辅导机构的数据）
