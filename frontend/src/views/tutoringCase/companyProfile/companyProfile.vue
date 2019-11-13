@@ -156,7 +156,6 @@ export default {
           address = address.replace(replaceStr, "");
         }
       }
-      address = address.replace(/\s{2,3}/g,"");// 去除多余空格、 两个或者三个的时候去除空格
       return address;
     },
     //中介机构数据处理（只保留辅导机构的数据）
