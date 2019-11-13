@@ -185,7 +185,7 @@ public interface Global {
      * 法律法规索引
      * 0 表示当前使用的ES的searchserver 1 表示使用的是Solr的searchserver
      */
-    public static final String SEARCH_SERVER_LAWS_FLAG = "0";
+    public static final String SEARCH_SERVER_LAWS_FLAG = "1";
 
     /**
      * 法律法规索引名称
