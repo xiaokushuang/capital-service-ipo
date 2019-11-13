@@ -382,7 +382,7 @@
                                                 {
                                                     "match_phrase": {
                                                         "finance_companyname_t": {
-                                                            "query": "${item}"
+                                                            "query": "${item?j_string}"
                                                         }
                                                     }
                                                 }
