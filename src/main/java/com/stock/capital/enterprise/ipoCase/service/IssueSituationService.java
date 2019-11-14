@@ -69,8 +69,11 @@ public class IssueSituationService extends BaseService {
         BigDecimal sumFina = issueData.getSumFina();
 //        原本的计算比例错误，从这里获取后从新计算并赋值
         for (IssueFeeDto issueFeeDatum : issueFeeList) {
-            BigDecimal feeAmount = issueFeeDatum.getFeeAmount();
-            issueFeeDatum.setFeeRatio(feeAmount.multiply(new BigDecimal(100)).divide(sumFina,4,BigDecimal.ROUND_HALF_DOWN));
+            if (sumFina != null) {
+
+                BigDecimal feeAmount = issueFeeDatum.getFeeAmount();
+                issueFeeDatum.setFeeRatio(feeAmount.multiply(new BigDecimal(100)).divide(sumFina, 4, BigDecimal.ROUND_HALF_DOWN));
+            }
         }
         if (issueFeeList != null && !issueFeeList.isEmpty()) {
             BigDecimal feeAmountS = BigDecimal.ZERO;
@@ -79,14 +82,22 @@ public class IssueSituationService extends BaseService {
                 if (issueFeeDto.getFeeAmount() != null) {
                     feeAmountS = feeAmountS.add(issueFeeDto.getFeeAmount());
                 }
-                if (issueFeeDto.getFeeRatio() != null) {
-                    feeRatioS = feeRatioS.add(issueFeeDto.getFeeRatio());
+                if (sumFina != null) {
+                    if (issueFeeDto.getFeeRatio() != null && sumFina != null) {
+                        feeRatioS = feeRatioS.add(issueFeeDto.getFeeRatio());
+                    }
+                } else {
+                    issueFeeDto.setFeeRatio(null);
                 }
             }
             IssueFeeDto feeDto = new IssueFeeDto();
             feeDto.setFeeType("合计");
+            if (sumFina != null) {
+                feeDto.setFeeRatio(feeRatioS);
+            } else {
+                feeDto.setFeeRatio(null);
+            }
             feeDto.setFeeAmount(feeAmountS);
-            feeDto.setFeeRatio(feeRatioS);
             issueFeeList.add(feeDto);
         }
         return issueFeeList;
