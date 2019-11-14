@@ -218,6 +218,7 @@
                                   <#-- 案例id -->
                                    <#if condition.caseIdList?? && (condition.caseIdList?size > 0)>
                                        ,{
+                                       <#compress>
                                         "terms": {
                                             "id": [
                                                 <#list condition.caseIdList as item>
@@ -230,6 +231,7 @@
                                             ],
                                             "boost": 1
                                         }
+                                        </#compress>
                                     }
                                   </#if>
                                    <#-- 证监会行业 -->
