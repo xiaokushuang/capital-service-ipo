@@ -65,6 +65,7 @@ service.interceptors.response.use(
         link.style.display = 'none';
         link.href = url;
         link.setAttribute('download', fileName)
+        link.setAttribute('target', '_top');
         document.body.appendChild(link)
         link.click();
         document.body.removeChild(link); //下载完成移除元素
