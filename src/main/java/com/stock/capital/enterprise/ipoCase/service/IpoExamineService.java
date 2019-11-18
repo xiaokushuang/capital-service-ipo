@@ -1,7 +1,7 @@
 package com.stock.capital.enterprise.ipoCase.service;
 
 import com.google.common.collect.Maps;
-
+import com.stock.capital.enterprise.common.constant.Global;
 import com.stock.capital.enterprise.ipoCase.dao.IpoExamineMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoFeedbackMapper;
 import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
@@ -17,6 +17,7 @@ import com.stock.core.dao.DynamicDataSourceHolder;
 import com.stock.core.dto.FacetResult;
 import com.stock.core.dto.QueryInfo;
 import com.stock.core.dto.StatisticsField;
+import com.stock.core.search.SearchClient;
 import com.stock.core.search.SearchServer;
 import com.stock.core.service.BaseService;
 
@@ -45,6 +46,9 @@ public class IpoExamineService extends BaseService {
     private IpoFeedbackMapper ipoFeedbackMapper;
     @Autowired
     private SearchServer searchServer;
+    
+    @Autowired
+    private SearchClient searchClient;
 
     public IpoExamineDto selectExamineList(String id) {
         String orgCode = ipoFeedbackMapper.getOrgCode(id).getOrgCode();
@@ -164,26 +168,44 @@ public class IpoExamineService extends BaseService {
 
             //从云端查询标一二级标签
             Map<String, Map<String, String>> firstLabelMap = ipoFeedbackMapper.selectFirstLabelMap();
-
+            
             //从索引中查询分类个数
-            Map<String, String> condition = Maps.newHashMap();
-            StringBuilder conditionsStr = new StringBuilder("index_type_t: \"letterqa\"");
-            conditionsStr.append(" AND " + "letter_letter_id_t:");
-            conditionsStr.append(letterDto.getLetterId());
-            String conditionsGroup = "letter_question_class_new_id_txt";
+            FacetResult<IpoFeedbackIndexDto> facetResult = new FacetResult<IpoFeedbackIndexDto>();
+            
             String orderByName = "letter_question_id_t";
-            String orderByOrder = "ASC";
-            condition.put(Constant.SEARCH_CONDIATION, conditionsStr.toString());
-            condition.put(Constant.SEARCH_FACET_FIELD, conditionsGroup);
-            condition.put(Constant.SEARCH_FACET_MIN_COUNT, "1");
-            QueryInfo<Map<String, String>> queryInfo = new QueryInfo<>();
-            queryInfo.setCondition(condition);
-            queryInfo.setStartRow(0);
-            queryInfo.setPageSize(2000);
-            queryInfo.setOrderByName(orderByName);
-            queryInfo.setOrderByOrder(orderByOrder);
-            FacetResult<IpoFeedbackIndexDto> facetResult =
-                    searchServer.searchWithFacet("letterqa", queryInfo, IpoFeedbackIndexDto.class);
+    		String orderByOrder = "ASC";
+            if(Global.SEARCH_SERVER_LETTER_QA_FLAG.equals("0")) {
+        		QueryInfo<Map<String, Object>> queryEsInfo = new QueryInfo<>();
+        		Map<String, Object> condition = Maps.newHashMap();
+        		if(StringUtils.isNotEmpty(letterDto.getLetterId())) {
+        			condition.put("letterId", letterDto.getLetterId());
+        		}
+        		condition.put("groupFlag", "true");
+        		queryEsInfo.setQueryId("com.stock.capital.enterprise.ipoCase.dao.LetterQa.letterQaSearch");
+        		queryEsInfo.setStartRow(0);
+        		queryEsInfo.setPageSize(2000);
+        		queryEsInfo.setOrderByName(orderByName);
+        		queryEsInfo.setOrderByOrder(orderByOrder);
+        		queryEsInfo.setCondition(condition);
+        		facetResult = searchClient.searchWithFacet(Global.LETTER_QA_INDEX_TYPE, queryEsInfo, IpoFeedbackIndexDto.class);
+        	} else {
+        		Map<String, String> condition = Maps.newHashMap();
+        		StringBuilder conditionsStr = new StringBuilder("index_type_t: \"letterqa\"");
+        		conditionsStr.append(" AND " + "letter_letter_id_t:");
+        		conditionsStr.append(letterDto.getLetterId());
+        		String conditionsGroup = "letter_question_class_new_id_txt";
+        		condition.put(Constant.SEARCH_CONDIATION, conditionsStr.toString());
+        		condition.put(Constant.SEARCH_FACET_FIELD, conditionsGroup);
+        		condition.put(Constant.SEARCH_FACET_MIN_COUNT, "1");
+        		QueryInfo<Map<String, String>> queryInfo = new QueryInfo<>();
+        		queryInfo.setCondition(condition);
+        		queryInfo.setStartRow(0);
+        		queryInfo.setPageSize(2000);
+        		queryInfo.setOrderByName(orderByName);
+        		queryInfo.setOrderByOrder(orderByOrder);
+        		facetResult = searchServer.searchWithFacet("letterqa", queryInfo, IpoFeedbackIndexDto.class);
+        	}
+            
             List<StatisticsField> labelList =
                     facetResult.getStatisticsFieldMap().get("letter_question_class_new_id_txt");
 
