@@ -130,6 +130,7 @@ public class CommonService extends BaseService {
 		     * 处理用户搜索提示
 		     */
 		    public void dealWithSuggest(String suggestStr,String indexType) {
+				//solr 处理用户搜索
 		        MultiValueMap<String, String> param = new LinkedMultiValueMap<String, String>();
 		        param.add("suggestStr", suggestStr);
 		        param.add("indexType",indexType);
@@ -137,6 +138,14 @@ public class CommonService extends BaseService {
 		        ParameterizedTypeReference<JsonResponse<Boolean>> responseType = new ParameterizedTypeReference<JsonResponse<Boolean>>() {
 		        };
 		        restClient.post(urls, param, responseType);
+				//Es 处理用户搜索
+				MultiValueMap<String, String> paramEs = new LinkedMultiValueMap<String, String>();
+				param.add("suggestStr", suggestStr);
+				param.add("indexType",indexType);
+				String urlsEs = apiBaseUrl + "common/dealWithSuggestByEs";
+				ParameterizedTypeReference<JsonResponse<Boolean>> responseTypeEs = new ParameterizedTypeReference<JsonResponse<Boolean>>() {
+				};
+				restClient.post(urlsEs, paramEs, responseTypeEs);
 		    }
 			public List<TreeDto> getIndustryList() {
 				 ParameterizedTypeReference<JsonResponse<List<TreeDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<TreeDto>>>() {
