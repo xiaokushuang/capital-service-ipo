@@ -1,11 +1,23 @@
 package com.stock.capital.enterprise.ipoCase.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.stereotype.Service;
+
 import com.google.common.collect.Maps;
 import com.stock.capital.enterprise.common.constant.Global;
+import com.stock.capital.enterprise.common.service.CommonService;
 import com.stock.capital.enterprise.ipoCase.dao.IpoFeedbackMapper;
 import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
-import com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackIndexDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackQuestionDto;
@@ -14,20 +26,10 @@ import com.stock.core.Constant;
 import com.stock.core.dto.FacetResult;
 import com.stock.core.dto.QueryInfo;
 import com.stock.core.dto.StatisticsField;
-import com.stock.core.search.SearchClient;
+import com.stock.core.rest.RestClient;
 import com.stock.core.search.SearchServer;
 import com.stock.core.service.BaseService;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import com.stock.core.util.JsonUtil;
 
 @Service
 public class IpoFeedbackService extends BaseService {
@@ -38,7 +40,16 @@ public class IpoFeedbackService extends BaseService {
     private SearchServer searchServer;
     
     @Autowired
-    private SearchClient searchClient;
+    private RestClient restClient;
+
+    @Autowired
+    private CommonService commonService;
+    
+    /**
+	 * 微服地址前缀
+	 */
+	@Value("#{app['service.gui.baseUrl']}")
+	private String serviceGuiBaseUrl;
 
     /**
      * 初始化页面方法，查询函件相关信息
@@ -153,19 +164,35 @@ public class IpoFeedbackService extends BaseService {
             String letterId = letterIds.get(i);
             
             if(Global.SEARCH_SERVER_LETTER_QA_FLAG.equals("0")) {
-        		QueryInfo<Map<String, Object>> queryEsInfo = new QueryInfo<>();
-        		Map<String, Object> condition = Maps.newHashMap();
-        		if(StringUtils.isNotEmpty(letterId)) {
+            	String accessToken = commonService.getGuiAccessToken();
+        		String urls = serviceGuiBaseUrl + "/letter/letter/api/searchLetterQaData?access_token=" + accessToken;
+        		ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
+        		};
+        		
+                QueryInfo<Map<String, Object>> queryInfo = new QueryInfo<Map<String, Object>>();
+                Map<String, Object> condition = Maps.newHashMap();
+                
+                if(StringUtils.isNotEmpty(letterId)) {
         			condition.put("letterId", letterId);
         		}
-        		condition.put("groupFlag", "true");
-        		queryEsInfo.setQueryId("com.stock.capital.enterprise.ipoCase.dao.LetterQa.letterQaSearch");
-        		queryEsInfo.setStartRow(0);
-        		queryEsInfo.setPageSize(2000);
-        		queryEsInfo.setOrderByName(orderByName);
-        		queryEsInfo.setOrderByOrder(orderByOrder);
-        		queryEsInfo.setCondition(condition);
-        		facetResult = searchClient.searchWithFacet(Global.LETTER_QA_INDEX_TYPE, queryEsInfo, IpoFeedbackIndexDto.class);
+                
+                condition.put("groupFlag", "true");
+                
+                queryInfo.setQueryId("com.stock.capital.services.letter.api.dao.LetterApiQa.searchLetterQaData");
+                queryInfo.setCondition(condition);
+        		queryInfo.setStartRow(0);
+        		queryInfo.setPageSize(2000);
+        		queryInfo.setOrderByName(orderByName);
+        		queryInfo.setOrderByOrder(orderByOrder);
+                
+                String encryptData = restClient.post(urls, queryInfo, responseType);
+        		// 获取解密后的数据
+        		Map<String, Object> index = commonService.getEncryptData(encryptData);
+        		if(!MapUtils.isEmpty(index)) {
+        			ParameterizedTypeReference<FacetResult<IpoFeedbackIndexDto>> map = new ParameterizedTypeReference<FacetResult<IpoFeedbackIndexDto>>() {
+					};
+					facetResult = JsonUtil.fromJson(JsonUtil.toJson(index) ,map);
+        		}
         	} else {
         		Map<String, String> condition = Maps.newHashMap();
         		StringBuilder conditionsStr = new StringBuilder("index_type_t: \"letterqa\"");
@@ -331,12 +358,21 @@ public class IpoFeedbackService extends BaseService {
 		String orderByOrder = "ASC";
 		
         if(Global.SEARCH_SERVER_LETTER_QA_FLAG.equals("0")) {
-    		QueryInfo<Map<String, Object>> queryEsInfo = new QueryInfo<>();
-    		Map<String, Object> condition = Maps.newHashMap();
-    		if(StringUtils.isNotEmpty(letterId)) {
+        	String accessToken = commonService.getGuiAccessToken();
+    		String urls = serviceGuiBaseUrl + "/letter/letter/api/searchLetterQaData?access_token=" + accessToken;
+    		ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
+    		};
+    		
+            QueryInfo<Map<String, Object>> queryInfo = new QueryInfo<Map<String, Object>>();
+            Map<String, Object> condition = Maps.newHashMap();
+            
+            if(StringUtils.isNotEmpty(letterId)) {
     			condition.put("letterId", letterId);
     		}
-    		if (StringUtils.isNotEmpty(secondLabelIds) && CollectionUtils.isNotEmpty(secondLabelParamList)) {
+            
+            condition.put("groupFlag", "true");
+            
+            if (StringUtils.isNotEmpty(secondLabelIds) && CollectionUtils.isNotEmpty(secondLabelParamList)) {
     			condition.put("questionTypeList", secondLabelParamList);
     			if (StringUtils.isNotEmpty(firstLabelId)) {
     				condition.put("questionType", firstLabelId);
@@ -344,14 +380,22 @@ public class IpoFeedbackService extends BaseService {
     		} else if (StringUtils.isNotEmpty(firstLabelId)) {
     			condition.put("questionType", firstLabelId);
     		}
-    		condition.put("groupFlag", "true");
-    		queryEsInfo.setQueryId("com.stock.capital.enterprise.ipoCase.dao.LetterQa.letterQaSearch");
-    		queryEsInfo.setStartRow(0);
-    		queryEsInfo.setPageSize(2000);
-    		queryEsInfo.setOrderByName(orderByName);
-    		queryEsInfo.setOrderByOrder(orderByOrder);
-    		queryEsInfo.setCondition(condition);
-    		facetResult = searchClient.searchWithFacet(Global.LETTER_QA_INDEX_TYPE, queryEsInfo, IpoFeedbackIndexDto.class);
+            
+            queryInfo.setQueryId("com.stock.capital.services.letter.api.dao.LetterApiQa.searchLetterQaData");
+            queryInfo.setCondition(condition);
+    		queryInfo.setStartRow(0);
+    		queryInfo.setPageSize(2000);
+    		queryInfo.setOrderByName(orderByName);
+    		queryInfo.setOrderByOrder(orderByOrder);
+    		
+    		String encryptData = restClient.post(urls, queryInfo, responseType);
+    		// 获取解密后的数据
+    		Map<String, Object> index = commonService.getEncryptData(encryptData);
+    		if(!MapUtils.isEmpty(index)) {
+    			ParameterizedTypeReference<FacetResult<IpoFeedbackIndexDto>> map = new ParameterizedTypeReference<FacetResult<IpoFeedbackIndexDto>>() {
+				};
+				facetResult = JsonUtil.fromJson(JsonUtil.toJson(index) ,map);
+    		}
     	} else {
     		Map<String, String> condition = Maps.newHashMap();
     		StringBuilder conditionsStr = new StringBuilder("index_type_t: \"letterqa\"");
