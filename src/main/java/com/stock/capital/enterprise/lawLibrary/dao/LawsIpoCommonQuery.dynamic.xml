@@ -24,8 +24,7 @@
                                 {
                                     "match_phrase": {
                                         "laws_title_t": {
-                                            "query": "${item?j_string}",
-                                            "slop": 5
+                                            "query": "${item?j_string}"
                                         }
                                     }
                                 }<#if item_has_next>,</#if>
@@ -44,8 +43,7 @@
                                 {
                                     "match_phrase": {
                                         "laws_title_t": {
-                                            "query": "${item?j_string}",
-                                            "slop": 5
+                                            "query": "${item?j_string}"
                                         }
                                     }
                                 }<#if item_has_next>,</#if>
@@ -66,8 +64,7 @@
                                     {
                                         "match_phrase": {
                                             "laws_title_t": {
-                                                "query": "${item}",
-                                                "slop": 5
+                                                "query": "${item}"
                                             }
                                         }
                                     }<#if item_has_next>,</#if>
@@ -94,8 +91,7 @@
                                             {
                                             "match_phrase": {
                                                 "laws_content_t": {
-                                                "query": "${item?j_string}",
-                                                "slop": 5
+                                                "query": "${item?j_string}"
                                                 }
                                             }
                                             }<#if item_has_next>,</#if>
@@ -119,8 +115,7 @@
                                 {
                                     "match_phrase": {
                                         "laws_content_t": {
-                                            "query": "${item?j_string}",
-                                            "slop": 5
+                                            "query": "${item?j_string}"
                                         }
                                     }
                                 }<#if item_has_next>,</#if>
@@ -142,8 +137,7 @@
                                             {
                                                 "match_phrase": {
                                                     "laws_content_t": {
-                                                        "query": "${item}",
-                                                        "slop": 5
+                                                        "query": "${item}"
                                                     }
                                                 }
                                             }<#if item_has_next>,</#if>
