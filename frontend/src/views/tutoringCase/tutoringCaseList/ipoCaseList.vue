@@ -56,7 +56,7 @@
             </el-col>
           </el-row>
           <el-row :gutter="24">
-            <el-col :span='8'>
+            <el-col :span='4'>
               <el-multiple-selection
                 ref="selectRegisterArea"
                 id="selectRegisterArea"
@@ -70,6 +70,16 @@
                 :default-props="default_tree"
               >
               </el-multiple-selection>
+            </el-col>
+            <el-col :span='4'>
+              <el-select ref="selectCompanyNature" v-model="companyNature" title="企业性质" placeholder="企业性质" size="small full"
+                         :tselect=true @visible-change="calls()" @keydown.enter.native="querySearch" @sure-click="sure('selectCompanyNature')"
+                         @clear-click="clearLocal('treeCompanyNature')">
+                <el-option :label="companyNature" :value="companyNatureValue">
+                  <el-tree :data="companyNatureList" show-checkbox node-key="id" ref="treeCompanyNature" highlight-current
+                           :props="default_tree" check-on-click-node @check-change="selectHandleNodeClick('companyNature','treeCompanyNature')"></el-tree>
+                </el-option>
+              </el-select>
             </el-col>
             <el-col :span='8'>
               <el-multiple-selection
@@ -87,28 +97,69 @@
               >
               </el-multiple-selection>
             </el-col>
-            <el-col :span='4'>
-              <el-select ref="selectCompanyNature" v-model="companyNature" title="企业性质" placeholder="企业性质" size="small full"
-                         :tselect=true @visible-change="calls()" @keydown.enter.native="querySearch" @sure-click="sure('selectCompanyNature')"
-                         @clear-click="clearLocal('treeCompanyNature')">
-                <el-option :label="companyNature" :value="companyNatureValue">
-                  <el-tree :data="companyNatureList" show-checkbox node-key="id" ref="treeCompanyNature" highlight-current
-                           :props="default_tree" check-on-click-node @check-change="selectHandleNodeClick('companyNature','treeCompanyNature')"></el-tree>
-                </el-option>
-              </el-select>
-            </el-col>
-            <el-col :span='4'>
-              <el-select ref="selectIpoNum" v-model="ipoNum" title="申报次数" placeholder="申报次数" size="small full" :tselect=true
-                         @visible-change="calls()" @sure-click="sure('selectIpoNum')" @keydown.enter.native="querySearch" @clear-click="clearLocal('treeIpoNum')">
-                <el-option :label="ipoNum" :value="ipoNumValue">
-                  <el-tree :data="ipoNumList" show-checkbox node-key="id" ref="treeIpoNum" highlight-current :props="default_tree"
-                           check-on-click-node @check-change="selectHandleNodeClick('ipoNum','treeIpoNum')"></el-tree>
-                </el-option>
-              </el-select>
-            </el-col>
+           <el-col :span='7'>
+             <el-select ref="selectIssueCondition" v-model="issueCondition" title="发行人选择的上市条件" placeholder="发行人选择的上市条件" size="small full"
+                        :tselect=true @visible-change="calls()" @sure-click="sure('selectIssueCondition')" @keydown.enter.native="querySearch"
+                        @clear-click="clearLocal('treeIssueCondition')">
+               <el-option :label="issueCondition" :value="issueConditionValue">
+                 <el-tree :data="issueConditionList" default-expand-all show-checkbox node-key="id" ref="treeIssueCondition"
+                          highlight-current :props="default_tree" check-on-click-node @check-change="selectHandleNodeClick('issueCondition','treeIssueCondition')"></el-tree>
+               </el-option>
+             </el-select>
+           </el-col>
+           <el-col :span="1">
+             <el-popover placement="bottom" width="600" trigger="hover">
+               <div style="font-size: 12px">
+                 <div>
+                   <a style="color: #1990FE;margin-left: -5px" @click="openNewRule()">《上海证券交易所科创板股票上市规则》：</a>
+                 </div>
+                 <div style="margin-top: 5px">2.1.2</div>
+                 <div>发行人申请在本所科创板上市，市值及财务指标应当至少符合下列标准中的一项：</div>
+                 <div>
+                   （一）预计市值不低于人民币10亿元，最近两年净利润均为正且累计净利润不低于人民币5000万元，或者预计市值不低于人民币10亿元，最近一年净利润为正且营业收入不低于人民币1亿元；
+                 </div>
+                 <div>（二）预计市值不低于人民币15亿元，最近一年营业收入不低于人民币2亿元，且最近三年累计研发投入占最近三年累计营业收入的比例不低于15%；</div>
+                 <div>（三）预计市值不低于人民币20亿元，最近一年营业收入不低于人民币3亿元，且最近三年经营活动产生的现金流量净额累计不低于人民币1亿元；</div>
+                 <div>（四）预计市值不低于人民币30亿元，且最近一年营业收入不低于人民币3亿元；</div>
+                 <div>
+                   （五）预计市值不低于人民币40亿元，主要业务或产品需经国家有关部门批准，市场空间大，目前已取得阶段性成果。医药行业企业需至少有一项核心产品获准开展二期临床试验，其他符合科创板定位的企业需具备明显的技术优势并满足相应条件。
+                 </div>
+                 <div>
+                   本条所称净利润以扣除非经常性损益前后的孰低者为准，所称净利润、营业收入、经营活动产生的现金流量净额均指经审计的数值。
+                 </div>
+                 <div style="margin-top: 5px">2.1.3</div>
+                 <div>
+                   符合《国务院办公厅转发证监会关于开展创新企业境内发行股票或存托凭证试点若干意见的通知》（国办发﹝2018﹞21号）相关规定的红筹企业，可以申请发行股票或存托凭证并在科创板上市。
+                 </div>
+                 <div>
+                   营业收入快速增长，拥有自主研发、国际领先技术，同行业竞争中处于相对优势地位的尚未在境外上市红筹企业，申请在科创板上市的，市值及财务指标应当至少符合下列标准之一：
+                 </div>
+                 <div>（一）预计市值不低于人民币100亿元；</div>
+                 <div>（二）预计市值不低于人民币50亿元，且最近一年营业收入不低于人民币5亿元。</div>
+                 <div style="margin-top: 5px">2.1.4</div>
+                 <div>
+                   发行人具有表决权差异安排的，市值及财务指标应当至少符合下列标准中的一项：
+                 </div>
+                 <div>
+                   （一）预计市值不低于人民币100亿元；
+                 </div>
+                 <div>
+                   （二）预计市值不低于人民币50亿元，且最近一年营业收入不低于人民币5亿元。
+                 </div>
+                 <div>
+                   发行人特别表决权股份的持有人资格、公司章程关于表决权差异安排的具体规定，应当符合本规则第四章第五节的规定。
+                 </div>
+                 <div>
+                   本规则所称表决权差异安排，是指发行人依照《公司法》第一百三十一条的规定，在一般规定的普通股份之外，发行拥有特别表决权的股份（以下简称特别表决权股份）。每一特别表决权股份拥有的表决权数量大于每一普通股份拥有的表决权数量，其他股东权利与普通股份相同。
+                 </div>
+               </div>
+               <span slot="reference" class="home_new" style="margin-top: 5px;background-position:-69px -20px;cursor: pointer"></span>
+             </el-popover>
+           </el-col>
+
           </el-row>
           <el-row :gutter="24">
-            <el-col :span='8'>
+            <el-col :span='4'>
               <el-select ref="selectProcess" v-model="caseStatus" title="IPO进程" placeholder="IPO进程" size="small full" :tselect=true
                          @visible-change="calls()" @sure-click="sure('selectProcess')" @keydown.enter.native="querySearch" @clear-click="clearLocal('treeCaseStatus')">
                 <el-option :label="caseStatus" :value="caseStatusValue">
@@ -137,73 +188,28 @@
                 </el-option>
               </el-select>
             </el-col>
-            <el-col :span='7'>
-              <el-select ref="selectIssueCondition" v-model="issueCondition" title="发行人选择的上市条件" placeholder="发行人选择的上市条件" size="small full"
-                         :tselect=true @visible-change="calls()" @sure-click="sure('selectIssueCondition')" @keydown.enter.native="querySearch"
-                         @clear-click="clearLocal('treeIssueCondition')">
-                <el-option :label="issueCondition" :value="issueConditionValue">
-                  <el-tree :data="issueConditionList" default-expand-all show-checkbox node-key="id" ref="treeIssueCondition"
-                           highlight-current :props="default_tree" check-on-click-node @check-change="selectHandleNodeClick('issueCondition','treeIssueCondition')"></el-tree>
+            <el-col :span='4'>
+              <el-select ref="selectIpoNum" v-model="ipoNum" title="申报次数" placeholder="申报次数" size="small full" :tselect=true
+                         @visible-change="calls()" @sure-click="sure('selectIpoNum')" @keydown.enter.native="querySearch" @clear-click="clearLocal('treeIpoNum')">
+                <el-option :label="ipoNum" :value="ipoNumValue">
+                  <el-tree :data="ipoNumList" show-checkbox node-key="id" ref="treeIpoNum" highlight-current :props="default_tree"
+                           check-on-click-node @check-change="selectHandleNodeClick('ipoNum','treeIpoNum')"></el-tree>
                 </el-option>
               </el-select>
             </el-col>
-            <el-col :span="1">
-              <el-popover placement="bottom" width="600" trigger="hover">
-                <div style="font-size: 12px">
-                  <div>
-                    <a style="color: #1990FE;margin-left: -5px" @click="openNewRule()">《上海证券交易所科创板股票上市规则》：</a>
-                  </div>
-                  <div style="margin-top: 5px">2.1.2</div>
-                  <div>发行人申请在本所科创板上市，市值及财务指标应当至少符合下列标准中的一项：</div>
-                  <div>
-                    （一）预计市值不低于人民币10亿元，最近两年净利润均为正且累计净利润不低于人民币5000万元，或者预计市值不低于人民币10亿元，最近一年净利润为正且营业收入不低于人民币1亿元；
-                  </div>
-                  <div>（二）预计市值不低于人民币15亿元，最近一年营业收入不低于人民币2亿元，且最近三年累计研发投入占最近三年累计营业收入的比例不低于15%；</div>
-                  <div>（三）预计市值不低于人民币20亿元，最近一年营业收入不低于人民币3亿元，且最近三年经营活动产生的现金流量净额累计不低于人民币1亿元；</div>
-                  <div>（四）预计市值不低于人民币30亿元，且最近一年营业收入不低于人民币3亿元；</div>
-                  <div>
-                    （五）预计市值不低于人民币40亿元，主要业务或产品需经国家有关部门批准，市场空间大，目前已取得阶段性成果。医药行业企业需至少有一项核心产品获准开展二期临床试验，其他符合科创板定位的企业需具备明显的技术优势并满足相应条件。
-                  </div>
-                  <div>
-                    本条所称净利润以扣除非经常性损益前后的孰低者为准，所称净利润、营业收入、经营活动产生的现金流量净额均指经审计的数值。
-                  </div>
-                  <div style="margin-top: 5px">2.1.3</div>
-                  <div>
-                    符合《国务院办公厅转发证监会关于开展创新企业境内发行股票或存托凭证试点若干意见的通知》（国办发﹝2018﹞21号）相关规定的红筹企业，可以申请发行股票或存托凭证并在科创板上市。
-                  </div>
-                  <div>
-                    营业收入快速增长，拥有自主研发、国际领先技术，同行业竞争中处于相对优势地位的尚未在境外上市红筹企业，申请在科创板上市的，市值及财务指标应当至少符合下列标准之一：
-                  </div>
-                  <div>（一）预计市值不低于人民币100亿元；</div>
-                  <div>（二）预计市值不低于人民币50亿元，且最近一年营业收入不低于人民币5亿元。</div>
-                  <div style="margin-top: 5px">2.1.4</div>
-                  <div>
-                    发行人具有表决权差异安排的，市值及财务指标应当至少符合下列标准中的一项：
-                  </div>
-                  <div>
-                    （一）预计市值不低于人民币100亿元；
-                  </div>
-                  <div>
-                    （二）预计市值不低于人民币50亿元，且最近一年营业收入不低于人民币5亿元。
-                  </div>
-                  <div>
-                    发行人特别表决权股份的持有人资格、公司章程关于表决权差异安排的具体规定，应当符合本规则第四章第五节的规定。
-                  </div>
-                  <div>
-                    本规则所称表决权差异安排，是指发行人依照《公司法》第一百三十一条的规定，在一般规定的普通股份之外，发行拥有特别表决权的股份（以下简称特别表决权股份）。每一特别表决权股份拥有的表决权数量大于每一普通股份拥有的表决权数量，其他股东权利与普通股份相同。
-                  </div>
-                </div>
-                <span slot="reference" class="home_new" style="margin-top: 5px;background-position:-69px -20px;cursor: pointer"></span>
-              </el-popover>
-            </el-col>
+           <el-col :span='8' class="stockIncreasePan-class">
+             <el-multiple-selection v-if="issueFeeShow" :range="true" :tree-data="optionIssueFee" placeholder="发行费用" size="small full"
+                                    :multiple="false" @keydown.enter.native="querySearch" unit="万元" :ran="optionDto" @sure-click="rangeCallIssueFee"
+                                    :left-decimal="true">
+             </el-multiple-selection>
+           </el-col>
           </el-row>
           <el-row :gutter="24">
-            <el-col :span='8' class="stockIncreasePan-class">
-              <el-multiple-selection v-if="issueFeeShow" :range="true" :tree-data="optionIssueFee" placeholder="发行费用" size="small full"
-                                     :multiple="false" @keydown.enter.native="querySearch" unit="万元" :ran="optionDto" @sure-click="rangeCallIssueFee"
-                                     :left-decimal="true">
-              </el-multiple-selection>
-            </el-col>
+           <el-col :span='8'>
+             <el-date-picker size='small' v-model="fdProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
+                             @keydown.enter.native="querySearch" start-placeholder="辅导备案时间" end-placeholder="辅导备案时间" align="center">
+             </el-date-picker>
+           </el-col>
             <el-col :span='4' class="stockIncreasePan-class">
               <el-multiple-selection v-if="issueShow" :range="true" :tree-data="optionPeIssueA" placeholder="发行后市盈率" size="small full"
                                      :multiple="false" @keydown.enter.native="querySearch" unit="倍" :ran="optionDto" @sure-click="rangeCallPeIssueA"
@@ -228,11 +234,7 @@
             </el-col>
           </el-row>
           <el-row :gutter="24">
-            <el-col :span='8'>
-              <el-date-picker size='small' v-model="fdProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
-                              @keydown.enter.native="querySearch" start-placeholder="辅导备案时间" end-placeholder="辅导备案时间" align="center">
-              </el-date-picker>
-            </el-col>
+
             <el-col :span='8'>
               <el-date-picker size='small' v-model="ypProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
                               @keydown.enter.native="querySearch" start-placeholder="受理时间" end-placeholder="受理时间" align="center">
@@ -241,6 +243,11 @@
             <el-col :span='8'>
               <el-date-picker size='small' v-model="fsProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
                               @keydown.enter.native="querySearch" start-placeholder="审核时间" end-placeholder="审核时间" align="center">
+              </el-date-picker>
+            </el-col>
+            <el-col :span='8'>
+              <el-date-picker size='small' v-model="pubProcessTime" type="daterange" value-format="yyyy-MM-dd" unlink-panels
+                              @keydown.enter.native="querySearch" start-placeholder="上市时间" end-placeholder="上市时间" align="center">
               </el-date-picker>
             </el-col>
 
@@ -679,6 +686,7 @@
         fdProcessTime:[],
         ypProcessTime: [],
         fsProcessTime: [],
+        pubProcessTime:[],
         intermediary: '',
         intermediaryCode: '',
         industryCrscList: [],
@@ -1315,6 +1323,7 @@
             codeOrName: _self.codeOrName, //公司名称/代码
             fdProcessTime: _self.fdProcessTime, //辅导时间范围
             fsProcessTime: _self.fsProcessTime, //发审会审核时间范围
+            pubProcessTime: _self.pubProcessTime,
             ypProcessTime: _self.ypProcessTime, //预先披露时间范围
             intermediaryCode: _self.intermediaryCode, //中介机构
             profitOne: _self.profitOne, //最近一个会计年度净利润
@@ -1510,6 +1519,7 @@
         _self.fdProcessTime = []; //辅导备案时间
         _self.ypProcessTime = []; //预先披露时间
         _self.fsProcessTime = []; //发审会审核时间
+        _self.pubProcessTime = [];
         _self.orderByName = ''; //排序
         _self.orderByOrder = '';
         _self.$refs.plateTreeTagRef.setCheckedKeys([]);

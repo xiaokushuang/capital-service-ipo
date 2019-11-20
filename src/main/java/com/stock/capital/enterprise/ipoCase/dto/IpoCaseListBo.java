@@ -46,6 +46,10 @@ public class IpoCaseListBo implements Serializable {
     private String fsProcessTimeStart;
     private String fsProcessTimeEnd;
 
+    private Date[] pubProcessTime;
+    private String pubProcessTimeStart;
+    private String pubProcessTimeEnd;
+
     private Date[] ypProcessTime;
     private String ypProcessTimeStart;
     private String ypProcessTimeEnd;
@@ -161,6 +165,30 @@ public class IpoCaseListBo implements Serializable {
     private String caseIdListStr;
     private List<String> caseIdList;
     private String SearchType;
+
+    public Date[] getPubProcessTime() {
+        return pubProcessTime;
+    }
+
+    public void setPubProcessTime(Date[] pubProcessTime) {
+        this.pubProcessTime = pubProcessTime;
+    }
+
+    public String getPubProcessTimeStart() {
+        return pubProcessTimeStart;
+    }
+
+    public void setPubProcessTimeStart(String pubProcessTimeStart) {
+        this.pubProcessTimeStart = pubProcessTimeStart;
+    }
+
+    public String getPubProcessTimeEnd() {
+        return pubProcessTimeEnd;
+    }
+
+    public void setPubProcessTimeEnd(String pubProcessTimeEnd) {
+        this.pubProcessTimeEnd = pubProcessTimeEnd;
+    }
 
     public String getSearchType() {
         return SearchType;

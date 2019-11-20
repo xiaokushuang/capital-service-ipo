@@ -548,6 +548,10 @@ public class IpoCaseListService extends BaseService {
         if (bo.getFdProcessTime() != null && bo.getFdProcessTime().length > 0) {
             SetStartAndEndUtils.setStartAndEndByReflex(bo, "fdProcessTime", "date", true);
         }
+//            上市时间
+        if (bo.getPubProcessTime() != null && bo.getPubProcessTime().length > 0) {
+            SetStartAndEndUtils.setStartAndEndByReflex(bo, "pubProcessTime", "date", true);
+        }
 //            受理时间
         if (bo.getYpProcessTime() != null && bo.getYpProcessTime().length > 0) {
             SetStartAndEndUtils.setStartAndEndByReflex(bo, "ypProcessTime", "date", true);
