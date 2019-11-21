@@ -548,7 +548,7 @@
 
                   <el-table-column align="right" prop="ipo_valuation_d" label="最近一次估值（亿元）" sortable="custom" min-width="12%">
                     <template slot-scope="scope">
-                      <span v-if="scope.row.ipoValuationValue ">{{scope.row.ipoValuationValue/10000 | dataInThRule}}</span>
+                      <span v-if="scope.row.ipoValuationValue ">{{scope.row.ipoValuationValue/10000 | moneyUnit(scope.row.valuationValueUnit)}}</span>
                       <span v-else class="noDataColor">--</span>
                     </template>
                   </el-table-column>
@@ -1179,6 +1179,18 @@
       }
     },
     updated() {
+    },
+    filters:{
+      moneyUnit(value,unit){
+          if(!value) return value
+          if(value === '') return value
+          // if(value < 0) return 0;
+          let str = parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
+          if(unit){
+            str = unit.replace("UMY",'$')+str;
+          }
+          return str;
+      }
     },
     methods: {
       getTitle(item){
