@@ -25,7 +25,7 @@
           </li>
            <li class="clear" style="margin-bottom:10px;position:relative" >
             <span class="l">注册地址</span>
-            <div style="color: #333333;float:left;display:inline-block;width: 70%;margin-left: 27px;" v-if="companyProfileList&&(companyProfileList.registerCountryText || companyProfileList.registerProvienceText || companyProfileList.registerCityText || companyProfileList.registerAreaText)" >{{(companyProfileList.registerCountryText == null ? "" : companyProfileList.registerCountryText) + (companyProfileList.registerProvienceText == null ? "" : companyProfileList.registerProvienceText) + (companyProfileList.registerCityText == null ? "" : companyProfileList.registerCityText) + (companyProfileList.registerAreaText == null ? "" : companyProfileList.registerAreaText)}}</div>
+            <div style="color: #333333;float:left;display:inline-block;width: 70%;margin-left: 27px;" v-if="companyProfileList&&(companyProfileList.registerCountryText || companyProfileList.registerProvienceText || companyProfileList.registerCityText || companyProfileList.registerAreaText)" >{{addressFilter((companyProfileList.registerCountryText == null ? "" : companyProfileList.registerCountryText) + (companyProfileList.registerProvienceText == null ? "" : companyProfileList.registerProvienceText) + (companyProfileList.registerCityText == null ? "" : companyProfileList.registerCityText) + (companyProfileList.registerAreaText == null ? "" : companyProfileList.registerAreaText))}}</div>
             <div style="color: #333333;float:left;display:inline-block;width: 70%;margin-left: 27px;" v-else >- -</div>
           </li>
         </ul>
@@ -145,6 +145,19 @@ export default {
   mounted() {
   },
   methods: {
+    addressFilter(address){// 地址过滤. 直辖市不显示省
+      address = address.replace(/null/g,"");
+      var replaceList = ["北京","天津","上海","重庆",];
+      for (let i = 0; i < replaceList.length; i++) {
+        var replaceStr = replaceList[i];
+        var r = new RegExp(replaceStr,"\g");
+        var matchResult = address.match(r);
+        if (matchResult && matchResult.length > 1){
+          address = address.replace(replaceStr, "");
+        }
+      }
+      return address;
+    },
     //中介机构数据处理（只保留辅导机构的数据）
     getAllArr(){
       this.allArr = []

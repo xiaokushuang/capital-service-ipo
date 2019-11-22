@@ -42,7 +42,8 @@
            <li class="clear" style="margin-bottom:10px;position:relative" >
             <span class="l">注册地址</span>
             <!-- <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&(companyProfileList.companyProfileList.addrProv || companyProfileList.companyProfileList.addrCity || companyProfileList.companyProfileList.addrArea)" >{{companyProfileList.companyProfileList.addrProv}}{{companyProfileList.companyProfileList.addrCity}}{{companyProfileList.companyProfileList.addrArea}}</div> -->
-            <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&(companyProfileList.companyProfileList.addrCountry || companyProfileList.companyProfileList.addrProv || companyProfileList.companyProfileList.addrCity || companyProfileList.companyProfileList.addrArea)" :title="(companyProfileList.companyProfileList.addrCountry + companyProfileList.companyProfileList.addrProv + companyProfileList.companyProfileList.addrCity + companyProfileList.companyProfileList.addrArea ).length>20 ? (companyProfileList.companyProfileList.addrCountry +companyProfileList.companyProfileList.addrProv + companyProfileList.companyProfileList.addrCity + companyProfileList.companyProfileList.addrArea ):''">{{(getAdress(companyProfileList.companyProfileList.addrCountry == null ? "" : companyProfileList.companyProfileList.addrCountry) + getAdress(companyProfileList.companyProfileList.addrProv == null ? "" : companyProfileList.companyProfileList.addrProv) + (companyProfileList.companyProfileList.addrCity == null ? "" : companyProfileList.companyProfileList.addrCity) + (companyProfileList.companyProfileList.addrArea == null ? "" : companyProfileList.companyProfileList.addrArea))}}</div>
+            <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-if="companyProfileList.companyProfileList&&(companyProfileList.companyProfileList.addrCountry || companyProfileList.companyProfileList.addrProv || companyProfileList.companyProfileList.addrCity || companyProfileList.companyProfileList.addrArea)":title="addressFilter(companyProfileList.companyProfileList.addrCountry + companyProfileList.companyProfileList.addrProv + companyProfileList.companyProfileList.addrCity + companyProfileList.companyProfileList.addrArea ).length>20 ? addressFilter(companyProfileList.companyProfileList.addrCountry +companyProfileList.companyProfileList.addrProv + companyProfileList.companyProfileList.addrCity + companyProfileList.companyProfileList.addrArea ):''">
+              {{addressFilter(getAdress(companyProfileList.companyProfileList.addrCountry == null ? "" : companyProfileList.companyProfileList.addrCountry) + getAdress(companyProfileList.companyProfileList.addrProv == null ? "" : companyProfileList.companyProfileList.addrProv) + (companyProfileList.companyProfileList.addrCity == null ? "" : companyProfileList.companyProfileList.addrCity) + (companyProfileList.companyProfileList.addrArea == null ? "" : companyProfileList.companyProfileList.addrArea))}}</div>
             <div style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" v-else >- -</div>
           </li>
           <li  class="clear" style="margin-bottom:10px;position:relative" >
@@ -677,6 +678,19 @@ export default {
     },
   },
   methods: {
+    addressFilter(address){// 地址过滤. 直辖市不显示省
+      address = address.replace(/null/g,"");
+      var replaceList = ["北京","天津","上海","重庆",];
+      for (let i = 0; i < replaceList.length; i++) {
+        var replaceStr = replaceList[i];
+        var r = new RegExp(replaceStr,"\g");
+        var matchResult = address.match(r);
+        if (matchResult && matchResult.length > 1){
+          address = address.replace(replaceStr, "");
+        }
+      }
+      return address;
+    },
     getContentHy1(title){
      if(title.length>24){
        return title.substring(0,23) + '...'

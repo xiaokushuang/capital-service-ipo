@@ -39,7 +39,7 @@
                          @clear-click="clearLocal('treeProcess')">
                 <el-option :label="caseStatus" :value="caseStatusValue">
                   <el-tree :data="processList" class="filter-tree" show-checkbox node-key="id" ref="treeProcess" highlight-current
-                           :props="default_tree" @check-change="selectHandleNodeClick('caseStatus','treeProcess')"></el-tree>
+                           :props="default_tree" check-on-click-node="true" @check-change="selectHandleNodeClick('caseStatus','treeProcess')"></el-tree>
                 </el-option>
               </el-select>
             </el-col>
@@ -51,7 +51,7 @@
                          @clear-click="clearLocal('treeVerifyResult')">
                 <el-option :label="iecResult" :value="iecResultValue">
                   <el-tree :data="verifyResultList" default-expand-all show-checkbox node-key="id" ref="treeVerifyResult" highlight-current
-                           :props="default_tree" @check-change="selectHandleNodeClick('iecResult','treeVerifyResult')"></el-tree>
+                           :props="default_tree" check-on-click-node="true" @check-change="selectHandleNodeClick('iecResult','treeVerifyResult')"></el-tree>
                 </el-option>
               </el-select>
             </el-col>
@@ -63,7 +63,7 @@
                          @clear-click="clearLocal('treeIssueCondition')">
                 <el-option :label="issueCondition" :value="issueConditionValue">
                   <el-tree :data="issueConditionList" default-expand-all show-checkbox node-key="id" ref="treeIssueCondition" highlight-current
-                           :props="default_tree" @check-change="selectHandleNodeClick('issueCondition','treeIssueCondition')"></el-tree>
+                           :props="default_tree" check-on-click-node="true" @check-change="selectHandleNodeClick('issueCondition','treeIssueCondition')"></el-tree>
                 </el-option>
               </el-select>
             </el-col>

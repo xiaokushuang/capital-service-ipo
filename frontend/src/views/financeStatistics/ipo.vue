@@ -1270,7 +1270,7 @@
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12);
     background-color: #fff;
     width: 100%;
-    padding: 0 0 10px;
+    padding: 0 0 13px;
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
   }

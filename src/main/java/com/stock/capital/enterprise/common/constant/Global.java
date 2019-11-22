@@ -191,4 +191,14 @@ public interface Global {
      * 法律法规索引名称
      */
     public static final String LAWS_INFO_INDEX_NAME = "laws_info";
+    
+    /**
+     * 函件问答索引
+     * 0 表示当前使用的ES的searchserver 1 表示使用的是Solr的searchserver
+     */
+    public static final String SEARCH_SERVER_LETTER_QA_FLAG = "0";
+    /**
+     * 函件问答Es索引名称
+     */
+    public static final String LETTER_QA_INDEX_TYPE = "letter_qa";
 }

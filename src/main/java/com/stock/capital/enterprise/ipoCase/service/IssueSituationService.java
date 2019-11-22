@@ -9,10 +9,12 @@ import com.stock.capital.enterprise.ipoCase.dto.IssueDataDto;
 import com.stock.capital.enterprise.ipoCase.dto.IssueFeeDto;
 import com.stock.core.dao.DynamicDataSourceHolder;
 import com.stock.core.service.BaseService;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,7 +54,7 @@ public class IssueSituationService extends BaseService {
         return issueDataDto;
     }
 
-    public String getEstimateType(String id){
+    public String getEstimateType(String id) {
         return ipoCaseBizMapper.getEstimateType(id);
     }
 
@@ -111,7 +113,7 @@ public class IssueSituationService extends BaseService {
      */
     public List<IndustryCompareRateDto> getIndustryRateData(String id) {
         List<IndustryCompareRateDto> industryCompareRateList =
-            ipoIndustryRateBizMapper.selectIndustryRateByBid(id);
+                ipoIndustryRateBizMapper.selectIndustryRateByBid(id);
         if (industryCompareRateList != null && !industryCompareRateList.isEmpty()) {
             for (IndustryCompareRateDto industryCompareRateDto : industryCompareRateList) {
                 int lastYear = Integer.valueOf(industryCompareRateDto.getReportPeriod());
@@ -120,10 +122,10 @@ public class IssueSituationService extends BaseService {
                 industryCompareRateDto.setFirstYear((lastYear - 2) + "年");
                 List<IndustryCompareRateDetailDto> detailList = new ArrayList<>();
                 if (industryCompareRateDto.getIndustryCompareRateDetailList() != null
-                    && !industryCompareRateDto.getIndustryCompareRateDetailList().isEmpty()) {
+                        && !industryCompareRateDto.getIndustryCompareRateDetailList().isEmpty()) {
                     detailList.addAll(industryCompareRateDto.getIndustryCompareRateDetailList());
                     IndustryCompareRateDetailDto averageDetailDto =
-                        new IndustryCompareRateDetailDto();
+                            new IndustryCompareRateDetailDto();
                     averageDetailDto.setCompanyName("平均值");
                     averageDetailDto.setThirdYearRate(industryCompareRateDto.getThirdAvg());
                     averageDetailDto.setSecondYearRate(industryCompareRateDto.getSecondAvg());
@@ -136,7 +138,7 @@ public class IssueSituationService extends BaseService {
                     String companyName = resultMap.get("companyName");
                     if (StringUtils.isNotBlank(companyName)) {
                         IndustryCompareRateDetailDto selfDetailDto =
-                            new IndustryCompareRateDetailDto();
+                                new IndustryCompareRateDetailDto();
                         selfDetailDto.setCompanyName(companyName);
                         selfDetailDto.setThirdYearRate(industryCompareRateDto.getThirdYearRate());
                         selfDetailDto.setSecondYearRate(industryCompareRateDto.getSecondYearRate());

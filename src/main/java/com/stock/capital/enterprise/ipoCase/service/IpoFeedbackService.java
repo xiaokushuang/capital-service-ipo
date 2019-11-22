@@ -1,11 +1,23 @@
 package com.stock.capital.enterprise.ipoCase.service;
 
-import com.google.common.collect.Maps;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.stereotype.Service;
+
+import com.google.common.collect.Maps;
+import com.stock.capital.enterprise.common.constant.Global;
+import com.stock.capital.enterprise.common.service.CommonService;
 import com.stock.capital.enterprise.ipoCase.dao.IpoFeedbackMapper;
 import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
-import com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackIndexDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackQuestionDto;
@@ -14,19 +26,10 @@ import com.stock.core.Constant;
 import com.stock.core.dto.FacetResult;
 import com.stock.core.dto.QueryInfo;
 import com.stock.core.dto.StatisticsField;
+import com.stock.core.rest.RestClient;
 import com.stock.core.search.SearchServer;
 import com.stock.core.service.BaseService;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import com.stock.core.util.JsonUtil;
 
 @Service
 public class IpoFeedbackService extends BaseService {
@@ -35,6 +38,18 @@ public class IpoFeedbackService extends BaseService {
 
     @Autowired
     private SearchServer searchServer;
+    
+    @Autowired
+    private RestClient restClient;
+
+    @Autowired
+    private CommonService commonService;
+    
+    /**
+	 * 微服地址前缀
+	 */
+	@Value("#{app['service.gui.baseUrl']}")
+	private String serviceGuiBaseUrl;
 
     /**
      * 初始化页面方法，查询函件相关信息
@@ -143,25 +158,58 @@ public class IpoFeedbackService extends BaseService {
             Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap("");
 
             //从索引中查询分类个数
-            Map<String, String> condition = Maps.newHashMap();
-            String letterId = letterIds.get(i);
-            StringBuilder conditionsStr = new StringBuilder("index_type_t: \"letterqa\"");
-            conditionsStr.append(" AND " + "letter_letter_id_t:");
-            conditionsStr.append(letterId);
-            String conditionsGroup = "letter_question_class_new_id_txt";
+            FacetResult<IpoFeedbackIndexDto> facetResult = new FacetResult<IpoFeedbackIndexDto>();
             String orderByName = "letter_question_id_t";
             String orderByOrder = "ASC";
-            condition.put(Constant.SEARCH_CONDIATION, conditionsStr.toString());
-            condition.put(Constant.SEARCH_FACET_FIELD, conditionsGroup);
-            condition.put(Constant.SEARCH_FACET_MIN_COUNT, "1");
-            QueryInfo<Map<String, String>> queryInfo = new QueryInfo<>();
-            queryInfo.setCondition(condition);
-            queryInfo.setStartRow(0);
-            queryInfo.setPageSize(2000);
-            queryInfo.setOrderByName(orderByName);
-            queryInfo.setOrderByOrder(orderByOrder);
-            FacetResult<IpoFeedbackIndexDto> facetResult =
-                    searchServer.searchWithFacet("letterqa", queryInfo, IpoFeedbackIndexDto.class);
+            String letterId = letterIds.get(i);
+            
+            if(Global.SEARCH_SERVER_LETTER_QA_FLAG.equals("0")) {
+            	String accessToken = commonService.getGuiAccessToken();
+        		String urls = serviceGuiBaseUrl + "/letter/letter/api/searchLetterQaData?access_token=" + accessToken;
+        		ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
+        		};
+        		
+                QueryInfo<Map<String, Object>> queryInfo = new QueryInfo<Map<String, Object>>();
+                Map<String, Object> condition = Maps.newHashMap();
+                
+                if(StringUtils.isNotEmpty(letterId)) {
+        			condition.put("letterId", letterId);
+        		}
+                
+                condition.put("groupFlag", "true");
+                
+                queryInfo.setQueryId("com.stock.capital.services.letter.api.dao.LetterApiQa.searchLetterQaData");
+                queryInfo.setCondition(condition);
+        		queryInfo.setStartRow(0);
+        		queryInfo.setPageSize(2000);
+        		queryInfo.setOrderByName(orderByName);
+        		queryInfo.setOrderByOrder(orderByOrder);
+                
+                String encryptData = restClient.post(urls, queryInfo, responseType);
+        		// 获取解密后的数据
+        		Map<String, Object> index = commonService.getEncryptData(encryptData);
+        		if(!MapUtils.isEmpty(index)) {
+        			ParameterizedTypeReference<FacetResult<IpoFeedbackIndexDto>> map = new ParameterizedTypeReference<FacetResult<IpoFeedbackIndexDto>>() {
+					};
+					facetResult = JsonUtil.fromJson(JsonUtil.toJson(index) ,map);
+        		}
+        	} else {
+        		Map<String, String> condition = Maps.newHashMap();
+        		StringBuilder conditionsStr = new StringBuilder("index_type_t: \"letterqa\"");
+        		conditionsStr.append(" AND " + "letter_letter_id_t:");
+        		conditionsStr.append(letterId);
+        		String conditionsGroup = "letter_question_class_new_id_txt";
+        		condition.put(Constant.SEARCH_CONDIATION, conditionsStr.toString());
+        		condition.put(Constant.SEARCH_FACET_FIELD, conditionsGroup);
+        		condition.put(Constant.SEARCH_FACET_MIN_COUNT, "1");
+        		QueryInfo<Map<String, String>> queryInfo = new QueryInfo<>();
+        		queryInfo.setCondition(condition);
+        		queryInfo.setStartRow(0);
+        		queryInfo.setPageSize(2000);
+        		queryInfo.setOrderByName(orderByName);
+        		queryInfo.setOrderByOrder(orderByOrder);
+        		facetResult = searchServer.searchWithFacet("letterqa", queryInfo, IpoFeedbackIndexDto.class);
+        	}
             List<StatisticsField> labelList =
                     facetResult.getStatisticsFieldMap().get("letter_question_class_new_id_txt");
 
@@ -304,38 +352,82 @@ public class IpoFeedbackService extends BaseService {
         List<IpoQuestionLabelDto> secondLabelList = new ArrayList<>();
         //将二级标签用逗号分隔为数组
         List<String> secondLabelParamList = Arrays.asList(secondLabelIds.split(","));
-        Map<String, String> condition = Maps.newHashMap();
-        StringBuilder conditionsStr = new StringBuilder("index_type_t: \"letterqa\"");
-        conditionsStr.append(" AND " + "letter_letter_id_t:");
-        conditionsStr.append(letterId);
-
-        if (StringUtils.isNotEmpty(secondLabelIds) && CollectionUtils.isNotEmpty(secondLabelParamList)) {
-            conditionsStr.append(" AND " + "letter_question_class_new_id_txt:(").append(secondLabelParamList.get(0));
-            for (int i = 1; i < secondLabelParamList.size(); i++) {
-                conditionsStr.append(" OR ").append(secondLabelParamList.get(i));
-            }
-            conditionsStr.append(")");
-            if (StringUtils.isNotEmpty(firstLabelId)) {
-                conditionsStr.append(" AND " + "letter_question_class_new_id_txt:").append(firstLabelId);
-            }
-        } else if (StringUtils.isNotEmpty(firstLabelId)) {
-            conditionsStr.append(" AND " + "letter_question_class_new_id_txt:");
-            conditionsStr.append(firstLabelId);
-        }
-        String conditionsGroup = "letter_question_class_new_id_txt";
+        
+        FacetResult<IpoFeedbackIndexDto> facetResult = new FacetResult<IpoFeedbackIndexDto>();
         String orderByName = "letter_question_id_t";
-        String orderByOrder = "ASC";
-        condition.put(Constant.SEARCH_CONDIATION, conditionsStr.toString());
-        condition.put(Constant.SEARCH_FACET_FIELD, conditionsGroup);
-        condition.put(Constant.SEARCH_FACET_MIN_COUNT, "1");
-        QueryInfo<Map<String, String>> queryInfo = new QueryInfo<>();
-        queryInfo.setCondition(condition);
-        queryInfo.setStartRow(0);
-        queryInfo.setPageSize(2000);
-        queryInfo.setOrderByName(orderByName);
-        queryInfo.setOrderByOrder(orderByOrder);
-        FacetResult<IpoFeedbackIndexDto> facetResult =
-                searchServer.searchWithFacet("letterqa", queryInfo, IpoFeedbackIndexDto.class);
+		String orderByOrder = "ASC";
+		
+        if(Global.SEARCH_SERVER_LETTER_QA_FLAG.equals("0")) {
+        	String accessToken = commonService.getGuiAccessToken();
+    		String urls = serviceGuiBaseUrl + "/letter/letter/api/searchLetterQaData?access_token=" + accessToken;
+    		ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
+    		};
+    		
+            QueryInfo<Map<String, Object>> queryInfo = new QueryInfo<Map<String, Object>>();
+            Map<String, Object> condition = Maps.newHashMap();
+            
+            if(StringUtils.isNotEmpty(letterId)) {
+    			condition.put("letterId", letterId);
+    		}
+            
+            condition.put("groupFlag", "true");
+            
+            if (StringUtils.isNotEmpty(secondLabelIds) && CollectionUtils.isNotEmpty(secondLabelParamList)) {
+    			condition.put("questionTypeList", secondLabelParamList);
+    			if (StringUtils.isNotEmpty(firstLabelId)) {
+    				condition.put("questionType", firstLabelId);
+    			}
+    		} else if (StringUtils.isNotEmpty(firstLabelId)) {
+    			condition.put("questionType", firstLabelId);
+    		}
+            
+            queryInfo.setQueryId("com.stock.capital.services.letter.api.dao.LetterApiQa.searchLetterQaData");
+            queryInfo.setCondition(condition);
+    		queryInfo.setStartRow(0);
+    		queryInfo.setPageSize(2000);
+    		queryInfo.setOrderByName(orderByName);
+    		queryInfo.setOrderByOrder(orderByOrder);
+    		
+    		String encryptData = restClient.post(urls, queryInfo, responseType);
+    		// 获取解密后的数据
+    		Map<String, Object> index = commonService.getEncryptData(encryptData);
+    		if(!MapUtils.isEmpty(index)) {
+    			ParameterizedTypeReference<FacetResult<IpoFeedbackIndexDto>> map = new ParameterizedTypeReference<FacetResult<IpoFeedbackIndexDto>>() {
+				};
+				facetResult = JsonUtil.fromJson(JsonUtil.toJson(index) ,map);
+    		}
+    	} else {
+    		Map<String, String> condition = Maps.newHashMap();
+    		StringBuilder conditionsStr = new StringBuilder("index_type_t: \"letterqa\"");
+    		conditionsStr.append(" AND " + "letter_letter_id_t:");
+    		conditionsStr.append(letterId);
+    		
+    		if (StringUtils.isNotEmpty(secondLabelIds) && CollectionUtils.isNotEmpty(secondLabelParamList)) {
+    			conditionsStr.append(" AND " + "letter_question_class_new_id_txt:(").append(secondLabelParamList.get(0));
+    			for (int i = 1; i < secondLabelParamList.size(); i++) {
+    				conditionsStr.append(" OR ").append(secondLabelParamList.get(i));
+    			}
+    			conditionsStr.append(")");
+    			if (StringUtils.isNotEmpty(firstLabelId)) {
+    				conditionsStr.append(" AND " + "letter_question_class_new_id_txt:").append(firstLabelId);
+    			}
+    		} else if (StringUtils.isNotEmpty(firstLabelId)) {
+    			conditionsStr.append(" AND " + "letter_question_class_new_id_txt:");
+    			conditionsStr.append(firstLabelId);
+    		}
+    		String conditionsGroup = "letter_question_class_new_id_txt";
+    		condition.put(Constant.SEARCH_CONDIATION, conditionsStr.toString());
+    		condition.put(Constant.SEARCH_FACET_FIELD, conditionsGroup);
+    		condition.put(Constant.SEARCH_FACET_MIN_COUNT, "1");
+    		QueryInfo<Map<String, String>> queryInfo = new QueryInfo<>();
+    		queryInfo.setCondition(condition);
+    		queryInfo.setStartRow(0);
+    		queryInfo.setPageSize(2000);
+    		queryInfo.setOrderByName(orderByName);
+    		queryInfo.setOrderByOrder(orderByOrder);
+    		facetResult = searchServer.searchWithFacet("letterqa", queryInfo, IpoFeedbackIndexDto.class);
+    	}
+        
         List<StatisticsField> labelList =
                 facetResult.getStatisticsFieldMap().get("letter_question_class_new_id_txt");
         List<IpoFeedbackIndexDto> questionList = facetResult.getPage().getData();

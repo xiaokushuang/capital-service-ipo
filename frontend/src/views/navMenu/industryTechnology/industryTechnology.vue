@@ -174,8 +174,9 @@
             label="发明专利"
             width="180">
             <template slot-scope="scope">
-              <span v-if="scope.row.fm"> {{parseFloat(scope.row.fm.toFixed(2))}}
-                <span v-if="scope.row.labelName=='占比'">%</span>
+              <span v-if="scope.row.fm">
+                <span v-if="scope.row.labelName=='占比'">{{parseFloat(scope.row.fm.toFixed(2))}}%</span>
+                <span v-else>{{parseFloat(scope.row.fm.toFixed(2))}}</span>
               </span>
               <span v-else> - - </span>
            </template>
@@ -185,8 +186,9 @@
             prop="sy"
             label="实用新型专利">
             <template slot-scope="scope">
-              <span v-if="scope.row.sy"> {{parseFloat(scope.row.sy.toFixed(2))}}
-                <span v-if="scope.row.labelName=='占比'">%</span>
+              <span v-if="scope.row.sy">
+                <span v-if="scope.row.labelName=='占比'">{{parseFloat(scope.row.sy.toFixed(2))}}%</span>
+                <span v-else>{{parseFloat(scope.row.sy.toFixed(2))}}</span>
               </span>
               <span v-else> - - </span>
            </template>
@@ -196,8 +198,9 @@
             prop="wg"
             label="外观设计专利">
             <template slot-scope="scope">
-              <span v-if="scope.row.wg"> {{parseFloat(scope.row.wg.toFixed(2))}}
-                <span v-if="scope.row.labelName=='占比'">%</span>
+              <span v-if="scope.row.wg">
+                <span v-if="scope.row.labelName=='占比'">{{parseFloat(scope.row.wg.toFixed(2))}}%</span>
+                <span v-else>{{parseFloat(scope.row.wg.toFixed(2))}}</span>
               </span>
               <span v-else> - - </span>
            </template>
@@ -207,8 +210,9 @@
             prop="gw"
             label="国际专利">
              <template slot-scope="scope">
-              <span v-if="scope.row.gw"> {{parseFloat(scope.row.gw.toFixed(2))}}
-                <span v-if="scope.row.labelName=='占比'">%</span>
+              <span v-if="scope.row.gw">
+                <span v-if="scope.row.labelName=='占比'">{{parseFloat(scope.row.gw.toFixed(2))}}%</span>
+                <span v-else>{{parseFloat(scope.row.gw.toFixed(2))}}</span>
               </span>
               <span v-else> - - </span>
            </template>
@@ -218,8 +222,9 @@
             prop="hj"
             label="合计">
             <template slot-scope="scope">
-              <span v-if="scope.row.hj"> {{parseFloat(scope.row.hj.toFixed(2))}}
-                <span v-if="scope.row.labelName=='占比'">%</span>
+              <span v-if="scope.row.hj">
+                <span v-if="scope.row.labelName=='占比'">{{parseFloat(scope.row.hj.toFixed(2))}}%</span>
+                <span v-else>{{parseFloat(scope.row.hj.toFixed(2))}}</span>
               </span>
               <span v-else> - - </span>
            </template>
@@ -246,24 +251,27 @@
             </el-table-column>
             <el-table-column align="right"  :label="yfSpendingTitle.firstYearDate" header-align="right">
                 <template slot-scope="scope">
-                  <span v-if="scope.row.firstYearValue"> {{scope.row.firstYearValue | dataInThRule}}
-                   <span v-if="scope.row.labelName === '研发投入占营业收入的比例'">%</span>
+                  <span v-if="scope.row.firstYearValue">
+                    <span v-if="scope.row.labelName === '研发投入占营业收入的比例'">{{scope.row.firstYearValue | dataInThRule}}%</span>
+                    <span v-else>{{scope.row.firstYearValue | dataInThRule}}</span>
                   </span>
                   <span v-else> - - </span>
                 </template>
             </el-table-column>
              <el-table-column align="right"  :label="yfSpendingTitle.secondYearDate" header-align="right">
                 <template slot-scope="scope">
-                  <span v-if="scope.row.secondYearValue"> {{scope.row.secondYearValue | dataInThRule}}
-                   <span v-if="scope.row.labelName === '研发投入占营业收入的比例'">%</span>
+                  <span v-if="scope.row.secondYearValue">
+                    <span v-if="scope.row.labelName === '研发投入占营业收入的比例'">{{scope.row.secondYearValue | dataInThRule}}%</span>
+                    <span v-else>{{scope.row.secondYearValue | dataInThRule}}</span>
                   </span>
                   <span v-else> - - </span>
               </template>
             </el-table-column>
             <el-table-column align="right"  :label="yfSpendingTitle.thirdYearDate" header-align="right">
               <template slot-scope="scope">
-                  <span v-if="scope.row.thirdYearValue"> {{scope.row.thirdYearValue | dataInThRule}}
-                    <span v-if="scope.row.labelName === '研发投入占营业收入的比例'">%</span>
+                  <span v-if="scope.row.thirdYearValue">
+                    <span v-if="scope.row.labelName === '研发投入占营业收入的比例'">{{scope.row.thirdYearValue | dataInThRule}}%</span>
+                    <span v-else>{{scope.row.thirdYearValue | dataInThRule}}</span>
                   </span>
                   <span v-else> - - </span>
               </template>
@@ -271,8 +279,8 @@
             <el-table-column align="right" :label="yfSpendingTitle.forthYearDate">
                 <template slot-scope="scope">
                             <span v-if="scope.row.forthYearValue">
-                              {{scope.row.forthYearValue | dataInThRule}}
-                              <span v-if="scope.row.labelName === '研发投入占营业收入的比例'">%</span>
+                              <span v-if="scope.row.labelName === '研发投入占营业收入的比例'">{{scope.row.forthYearValue | dataInThRule}}%</span>
+                              <span v-else>{{scope.row.forthYearValue | dataInThRule}}</span>
                             </span>
                             <span v-else> - - </span>
                 </template>
@@ -282,8 +290,9 @@
               label="合计"
               align="right">
               <template slot-scope="scope">
-                  <span v-if="scope.row.allNumValue"> {{scope.row.allNumValue | dataInThRule}}
-                    <span v-if="scope.row.labelName === '研发投入占营业收入的比例'">%</span>
+                  <span v-if="scope.row.allNumValue">
+                    <span v-if="scope.row.labelName === '研发投入占营业收入的比例'">{{scope.row.allNumValue | dataInThRule}}%</span>
+                    <span v-else>{{scope.row.allNumValue | dataInThRule}}</span>
                   </span>
               </template>
             </el-table-column>

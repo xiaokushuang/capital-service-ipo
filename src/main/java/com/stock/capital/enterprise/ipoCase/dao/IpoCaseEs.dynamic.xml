@@ -433,6 +433,25 @@
                                             }
                                         }
                                     </#if>
+                                   <#-- 上市时间 -->
+                                    <#if condition.pubProcessTimeStart?? && condition.pubProcessTimeEnd??>
+                                        ,{
+                                            "constant_score": {
+                                                "filter": {
+                                                    "range": {
+                                                        "ipo_public_time_dt": {
+                                                            "from": "${condition.pubProcessTimeStart}",
+                                                            "to": "${condition.pubProcessTimeEnd}",
+                                                            "include_lower": true,
+                                                            "include_upper": true,
+                                                            "boost": 1
+                                                        }
+                                                    }
+                                                },
+                                                "boost": 1
+                                            }
+                                        }
+                                    </#if>
                                    <#-- 受理时间 -->
                                      <#if condition.ypProcessTimeStart?? && condition.ypProcessTimeEnd??>
                                         ,{

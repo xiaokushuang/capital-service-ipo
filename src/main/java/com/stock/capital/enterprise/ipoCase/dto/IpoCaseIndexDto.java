@@ -197,6 +197,9 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
     @Field("ipo_valuation_d")
     @IndexField(name = "ipo_valuation_d",description = "最近一次估值")
     private Double ipoValuationValue;//最近一次估值
+    @Field("ipo_valuation_unit_t")
+    @IndexField(name = "ipo_valuation_unit_t",description = "估值单位")
+    private String valuationValueUnit;
 
     @Field("ipo_placing_mechanism_t")
     @IndexField(name = "ipo_placing_mechanism_t",description = "配售机制")
@@ -270,6 +273,14 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
     @IndexField(name = "ipo_fd_time_dt",description = "辅导备案时间")
     private Date ipoFdTime;//辅导备案时间
 
+
+    public String getValuationValueUnit() {
+        return valuationValueUnit;
+    }
+
+    public void setValuationValueUnit(String valuationValueUnit) {
+        this.valuationValueUnit = valuationValueUnit;
+    }
 
     public List<String> getIndustryCsrcList() {
         return industryCsrcList;
