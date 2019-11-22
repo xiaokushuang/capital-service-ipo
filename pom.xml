@@ -430,7 +430,7 @@
         <profile>
             <id>prod</id>
             <properties>
-                <stock-core>0.0.11.RELEASE</stock-core>
+                <stock-core>0.0.13.RELEASE</stock-core>
             </properties>
         </profile>
     </profiles>
