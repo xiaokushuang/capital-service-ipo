@@ -411,9 +411,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <!--                <stock-core>1.0.0-SNAPSHOT</stock-core>-->
-                <stock-core>0.0.8.RELEASE</stock-core>
-                <!--                <stock-core>0.0.4.RELEASE</stock-core>-->
+                <stock-core>1.0.0-SNAPSHOT</stock-core>
             </properties>
         </profile>
         <profile>
@@ -432,7 +430,7 @@
         <profile>
             <id>prod</id>
             <properties>
-                <stock-core>0.0.10.RELEASE</stock-core>
+                <stock-core>0.0.11.RELEASE</stock-core>
             </properties>
         </profile>
     </profiles>

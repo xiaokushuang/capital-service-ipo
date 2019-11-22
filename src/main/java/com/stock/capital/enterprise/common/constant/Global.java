@@ -196,7 +196,7 @@ public interface Global {
      * 函件问答索引
      * 0 表示当前使用的ES的searchserver 1 表示使用的是Solr的searchserver
      */
-    public static final String SEARCH_SERVER_LETTER_QA_FLAG = "0";
+    public static final String SEARCH_SERVER_LETTER_QA_FLAG = "1";
     /**
      * 函件问答Es索引名称
      */
