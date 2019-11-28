@@ -148,7 +148,7 @@
         <span class="titleText" id="distributionCosts">发行后走势及战略配售情况</span>
       </div>
       <p style="font-size:16px;color:#333;font-weight:400;margin-top:12px">发行后股价走势</p>
-      <div id="issueChart" style="height:600px;width:100%"></div>
+      <div id="issueChart" style="height:600px;width:850px;align-items: center;"></div>
       <el-table v-if="tableData" :data="tableData" style="width: 100%;margin-top: -60px;" stripe border>
         <el-table-column type="index" label="序号" align='center' width="107" style="font-weight: normal;">
           <template slot-scope="scope">
