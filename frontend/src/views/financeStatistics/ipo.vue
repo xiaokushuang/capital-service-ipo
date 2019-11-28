@@ -857,6 +857,10 @@
         let offsetTop = document.querySelector("#titleHeader").offsetHeight + 10;
         let fixBody = document.querySelector("#headerTop").offsetHeight + 10;
         let clientLeft = window.getComputedStyle(document.querySelector("#concentBody"), null)["margin-left"];
+        if(clientLeft == "0px"){
+           console.log("如果clientLeft为0,则计算padding像素:"+(document.body.clientWidth-document.querySelector('#msgBody').clientWidth)/2+"px")
+          clientLeft = (document.body.clientWidth-document.querySelector('#concentBody').clientWidth)/2+"px";
+        }
         let clientRight = window.getComputedStyle(document.querySelector("#concentBody"), null)["margin-right"];
         this.scrollTop = scrollTop;
         if (scrollTop > offsetTop) {
