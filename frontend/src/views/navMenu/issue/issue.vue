@@ -142,13 +142,16 @@
         </el-table-column>
       </el-table>
     </div>
+    <!--  发行后走势及战略配售模块 -->
     <div class="placement" v-show="placementData.subs && placementData.subs.length > 0">
       <div class="title" style="margin-bottom:0px">
         <span class="littleRectangle"></span>
         <span class="titleText" id="issuePlacement">发行后走势及战略配售情况</span>
       </div>
       <p v-if="echartData && echartData.length > 0" style="font-size:16px;color:#333;font-weight:400;margin-top:12px">发行后股价走势</p>
+       <!-- 用于实例化EChart图的div  给定id -->
       <div v-show = "echartData && echartData.length > 0" id="issueChart" style="height:600px;width:850px;align-items: center;"></div>
+      <!-- 交易日股价情况表格 -->
       <el-table v-if="echartData && echartData.length > 0" :data="tableData" style="width: 100%;margin-top: -60px;" stripe border>
         <el-table-column type="index" label="序号" align='center' width="107" style="font-weight: normal;">
           <template slot-scope="scope">
@@ -168,6 +171,7 @@
           </template>
         </el-table-column>
       </el-table>
+      <!-- 战略配售表格 -->
       <p v-if="placementData.subs && placementData.subs.length > 0 " style="font-size:16px;color:#333;font-weight:500;margin-top:24px">战略配售情况</p>
       <el-table v-if="placementData.subs && placementData.subs.length > 0" :data="placementData.subs" style="width: 100%" stripe border>
         <el-table-column type="index" label="序号" align='center' width="57" >
@@ -317,6 +321,7 @@
           }
           this.getPosition();
         })
+        // 获取配售战略数据-后台录入
         getPlacementData(param).then(res => {
           if (res.data.result) {
             this.placementData = res.data.result;
@@ -324,8 +329,8 @@
           // this.getPosition();
         })
         var self = this;
+        // 获取发行后股价走势接口 获取echart数据和交易日表格数据
         getPriceAfterIssuance(param).then(res => {
-          debugger;
           if (res.data.result) {
             this.echartData = res.data.result.echartResult;
             this.tableData = res.data.result.tableResult;
@@ -334,6 +339,7 @@
         })
 
       },
+      // 切分Echart需要的数据格式
       splitData(rawData) {
         var categoryData = [];
         var values = [];
@@ -350,17 +356,18 @@
           volumes: volumes
         };
       },
+      // 初始化Echart
       initEchart() {
         var upColor = '#00da3c';
         var downColor = '#ec0000';
         this.issueChart = this.$echarts.init(document.getElementById("issueChart"));
         var rawData = this.echartData;
-        debugger
         var data = this.splitData(rawData);
         var option = {
           backgroundColor: '#fff',
           animation: false,
           tooltip: {
+            // 通过x轴触发
             trigger: 'axis',
             axisPointer: {
               type: 'cross'
@@ -379,13 +386,12 @@
               obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
               return obj;
             },
+            // 提示框内容自定义
             formatter: function(params, ticket, callback) {
-              debugger;
-              console.log(params);
               var htmlStr = '';
               for (var i = 0; i < params.length; i++) {
                 var param = params[i];
-                var xName = param.name; //x轴的名称
+                var xName = param.name; //x轴数据名称
                 var seriesName = param.seriesName; //图例名称
                 var value = param.value; //y轴值
                 var color = param.color; //图例颜色
@@ -410,9 +416,9 @@
               return htmlStr;
             },
 
-            // extraCssText: 'width: 170px'
           },
           axisPointer: {
+            // 链接全部表格通过x轴触发
             link: {
               xAxisIndex: 'all'
             },
@@ -421,14 +427,8 @@
             }
           },
           toolbox: {
-            feature: {
-              dataZoom: {
-                yAxisIndex: false
-              },
-              brush: {
-                type: ['lineX', 'clear']
-              }
-            }
+            // 不展示工具栏组件
+              show:false,
           },
           brush: {
             xAxisIndex: 'all',
@@ -526,7 +526,7 @@
               }
             }
           ],
-
+          // 数据
           series: [{
               name: '发行股价变化',
               type: 'candlestick',
@@ -551,6 +551,7 @@
         };
         this.issueChart.setOption(option);
       },
+      // 读取 表格头部数据展示 带问号？通过h(createElement创建)
       shareholderRenderHeader(h, {
         column
       }) {
@@ -613,6 +614,7 @@
       closeTips() {
         this.tipFlag = false;
       },
+      // 打开法规地址
       openNewRule() {
         // 待修改 TODO 返回lawId
         const _self = this;
@@ -640,6 +642,7 @@
           tabId: 'tab-fifth',
           noClick: true
         }
+        // 新增菜单返回 返回战略配售模块 用于锚点定位
         let issuePlacement = {
           id: 'issuePlacement',
           name: '发行后走势及战略配售情况',
@@ -654,7 +657,6 @@
         if (this.issueFeeData && this.issueFeeData.length > 0) {
           distributionCosts.noClick = false;
         }
-        debugger;
         if(this.placementData.subs && this.placementData.subs.length > 0){
           issuePlacement.noClick = false;
         }
