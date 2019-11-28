@@ -1,8 +1,6 @@
 package com.stock.capital.enterprise.ipoCase.dao;
 
-import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo;
-import com.stock.capital.enterprise.ipoCase.dto.IpoFileRelationDto;
-import com.stock.capital.enterprise.ipoCase.dto.TreeTypeProgressDto;
+import com.stock.capital.enterprise.ipoCase.dto.*;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -52,4 +50,6 @@ public interface IpoProcessMapper {
      * @return 某一条id
      */
     String queryLawNoId(@Param("lawId")String lawId, @Param("title") String title);
+
+    IpoProListDto getIssueData(@Param("id") String id);
 }

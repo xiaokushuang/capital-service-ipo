@@ -38,6 +38,22 @@ export function getIssueFeeData(query) {
     params: query
   })
 }
+// 战略配售情况
+export function getPlacementData(query) {
+  return request({
+    url: '/ipo/issue/getPlacementData',
+    method: 'get',
+    params: query
+  })
+}
+// 股价发行后走势
+export function getPriceAfterIssuance(query) {
+  return request({
+    url: '/ipo/issue/getPriceAfterIssuance',
+    method: 'get',
+    params: query
+  })
+}
 
 // 费用估算
 export function getEstimateType(query) {

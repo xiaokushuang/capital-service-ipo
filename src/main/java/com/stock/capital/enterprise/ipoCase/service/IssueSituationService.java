@@ -3,11 +3,7 @@ package com.stock.capital.enterprise.ipoCase.service;
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseBizMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseIssueMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoIndustryRateBizMapper;
-import com.stock.capital.enterprise.ipoCase.dto.IndustryCompareRateDetailDto;
-import com.stock.capital.enterprise.ipoCase.dto.IndustryCompareRateDto;
-import com.stock.capital.enterprise.ipoCase.dto.IssueDataDto;
-import com.stock.capital.enterprise.ipoCase.dto.IssueFeeDto;
-import com.stock.core.dao.DynamicDataSourceHolder;
+import com.stock.capital.enterprise.ipoCase.dto.*;
 import com.stock.core.service.BaseService;
 
 import java.math.BigDecimal;
@@ -150,5 +146,24 @@ public class IssueSituationService extends BaseService {
             }
         }
         return industryCompareRateList;
+    }
+
+    //  获取战略配售情况数据
+    public StrategicPlacementMainDto getPlacementData(String id) {
+        StrategicPlacementMainDto mainDto = ipoCaseIssueMapper.getPlacementMainData(id);
+        if (mainDto != null && StringUtils.isNotEmpty(mainDto.getId())) {
+            mainDto.setSubs(ipoCaseIssueMapper.getPlacementSubData(mainDto.getId()));
+            for (StrategicPlacementSubDto sub : mainDto.getSubs()) {
+                if (sub.getInitialNumberTenThousand() != null && sub.getAllottedNumberTenThousand() != null) {
+                    sub.setRadio(sub.getAllottedNumberTenThousand().divide(sub.getInitialNumberTenThousand(), 4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)));
+                }
+            }
+        }
+        return mainDto;
+    }
+
+//    获取发行后股价数据
+    public List<Map<String, Object>> getPriceAfterIssuance(String processTime, String companyCode) {
+        return ipoCaseIssueMapper.getPriceAfterIssuance(processTime,companyCode);
     }
 }
