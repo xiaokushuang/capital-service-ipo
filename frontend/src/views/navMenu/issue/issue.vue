@@ -149,10 +149,11 @@
         <span class="titleText" id="issuePlacement">发行后走势及战略配售情况</span>
       </div>
       <p v-if="echartData && echartData.length > 0" style="font-size:16px;color:#333;font-weight:400;margin-top:12px">发行后股价走势</p>
-       <!-- 用于实例化EChart图的div  给定id -->
-      <div v-show = "echartData && echartData.length > 0" id="issueChart" style="height:600px;width:850px;align-items: center;"></div>
+      <!-- 用于实例化EChart图的div  给定id -->
+      <div v-show="echartData && echartData.length > 0" id="issueChart" style="height:600px;width:850px;align-items: center;"></div>
       <!-- 交易日股价情况表格 -->
-      <el-table v-if="echartData && echartData.length > 0" :data="tableData" style="width: 100%;margin-top: -60px;" stripe border>
+      <el-table v-if="echartData && echartData.length > 0" :data="tableData" style="width: 100%;margin-top: -60px;"
+        stripe border>
         <el-table-column type="index" label="序号" align='center' width="107" style="font-weight: normal;">
           <template slot-scope="scope">
             {{scope.$index+1}}
@@ -173,8 +174,9 @@
       </el-table>
       <!-- 战略配售表格 -->
       <p v-if="placementData.subs && placementData.subs.length > 0 " style="font-size:16px;color:#333;font-weight:500;margin-top:24px">战略配售情况</p>
-      <el-table v-if="placementData.subs && placementData.subs.length > 0" :data="placementData.subs" style="width: 100%" stripe border>
-        <el-table-column type="index" label="序号" align='center' width="57" >
+      <el-table v-if="placementData.subs && placementData.subs.length > 0" :data="placementData.subs" style="width: 100%"
+        stripe border>
+        <el-table-column type="index" label="序号" align='center' width="57">
           <template slot-scope="scope">
             {{scope.$index+1}}
           </template>
@@ -295,8 +297,7 @@
       // 日志------------------功能尾
       this.initTableData()
     },
-    mounted() {
-    },
+    mounted() {},
     methods: {
       initTableData() {
         // 动态传id
@@ -347,6 +348,7 @@
         for (var i = 0; i < rawData.length; i++) {
           categoryData.push(rawData[i].splice(0, 1)[0]);
           values.push(rawData[i]);
+          // 判断开盘价和收盘价大小 进行颜色的修改
           volumes.push([i, rawData[i][4], rawData[i][0] > rawData[i][1] ? 1 : -1]);
         }
 
@@ -356,8 +358,19 @@
           volumes: volumes
         };
       },
+      dataFormat(value) {
+        if (!value) return value
+        if (value === '') return value
+        // if(value < 0) return 0;
+        let str = parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
+        if(str.length > 3){
+          str = str.substr(0,str.length-3);
+        }
+        return str;
+      },
       // 初始化Echart
       initEchart() {
+        var self = this;
         var upColor = '#00da3c';
         var downColor = '#ec0000';
         this.issueChart = this.$echarts.init(document.getElementById("issueChart"));
@@ -395,20 +408,21 @@
                 var seriesName = param.seriesName; //图例名称
                 var value = param.value; //y轴值
                 var color = param.color; //图例颜色
-                var spanPoint ='<span style="margin-right:5px;display:inline-block;width:10px;height:10px;border-radius:5px;background-color:' +
+                var spanPoint =
+                  '<span style="margin-right:5px;display:inline-block;width:10px;height:10px;border-radius:5px;background-color:' +
                   color + ';"></span>';
 
-                htmlStr += '<br>' +spanPoint+ xName + '<br/>'; //x轴的名称
+                htmlStr += '<br>' + spanPoint + xName + '<br/>'; //x轴的名称
 
                 htmlStr += '<div>';
                 if (seriesName.indexOf("成交量") == -1) {
                   htmlStr +=
-                    '<div>开盘价: ' + param.data[1] +'</div>'+
+                    '<div>开盘价: ' + param.data[1] + '</div>' +
                     '<div>收盘价: ' + param.data[2] + '</div>' +
                     '<div>最低价: ' + param.data[3] + '</div>' +
                     '<div>最高价: ' + param.data[4] + '</div>';
                 } else {
-                  htmlStr += '<div>成交量：' + param.data[1] + '</div>'; //x轴的名称
+                  htmlStr += '<div>成交量：' + self.dataFormat(param.data[1]) + '</div>'; //x轴的名称
 
                 }
                 htmlStr += '</div>';
@@ -428,7 +442,7 @@
           },
           toolbox: {
             // 不展示工具栏组件
-              show:false,
+            show: false,
           },
           brush: {
             xAxisIndex: 'all',
@@ -657,7 +671,7 @@
         if (this.issueFeeData && this.issueFeeData.length > 0) {
           distributionCosts.noClick = false;
         }
-        if(this.placementData.subs && this.placementData.subs.length > 0){
+        if (this.placementData.subs && this.placementData.subs.length > 0) {
           issuePlacement.noClick = false;
         }
         titleList.push(distributionData)
