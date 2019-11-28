@@ -142,14 +142,14 @@
         </el-table-column>
       </el-table>
     </div>
-    <div class="placement" v-show="placementData.subs">
+    <div class="placement" v-show="placementData.subs && placementData.subs.length > 0">
       <div class="title" style="margin-bottom:0px">
         <span class="littleRectangle"></span>
-        <span class="titleText" id="distributionCosts">发行后走势及战略配售情况</span>
+        <span class="titleText" id="issuePlacement">发行后走势及战略配售情况</span>
       </div>
-      <p v-if="echartData" style="font-size:16px;color:#333;font-weight:400;margin-top:12px">发行后股价走势</p>
-      <div v-show = "echartData" id="issueChart" style="height:600px;width:850px;align-items: center;"></div>
-      <el-table v-if="echartData" :data="tableData" style="width: 100%;margin-top: -60px;" stripe border>
+      <p v-if="echartData && echartData.length > 0" style="font-size:16px;color:#333;font-weight:400;margin-top:12px">发行后股价走势</p>
+      <div v-show = "echartData && echartData.length > 0" id="issueChart" style="height:600px;width:850px;align-items: center;"></div>
+      <el-table v-if="echartData && echartData.length > 0" :data="tableData" style="width: 100%;margin-top: -60px;" stripe border>
         <el-table-column type="index" label="序号" align='center' width="107" style="font-weight: normal;">
           <template slot-scope="scope">
             {{scope.$index+1}}
@@ -168,8 +168,8 @@
           </template>
         </el-table-column>
       </el-table>
-      <p v-if="placementData.subs" style="font-size:16px;color:#333;font-weight:500;margin-top:12px">战略配售情况</p>
-      <el-table v-if="placementData.subs" :data="placementData.subs" style="width: 100%" stripe border>
+      <p v-if="placementData.subs && placementData.subs.length > 0 " style="font-size:16px;color:#333;font-weight:500;margin-top:24px">战略配售情况</p>
+      <el-table v-if="placementData.subs && placementData.subs.length > 0" :data="placementData.subs" style="width: 100%" stripe border>
         <el-table-column type="index" label="序号" align='center' width="57" >
           <template slot-scope="scope">
             {{scope.$index+1}}
@@ -640,14 +640,27 @@
           tabId: 'tab-fifth',
           noClick: true
         }
+        let issuePlacement = {
+          id: 'issuePlacement',
+          name: '发行后走势及战略配售情况',
+          notes: '',
+          important: false,
+          tabId: 'tab-fifth',
+          noClick: true
+        }
         if (this.dataFlag) {
           distributionData.noClick = false;
         }
         if (this.issueFeeData && this.issueFeeData.length > 0) {
           distributionCosts.noClick = false;
         }
+        debugger;
+        if(this.placementData.subs && this.placementData.subs.length > 0){
+          issuePlacement.noClick = false;
+        }
         titleList.push(distributionData)
         titleList.push(distributionCosts)
+        titleList.push(issuePlacement)
         this.$emit('headCallBack', titleList);
         //         //返回父组件用于锚点定位尾
       },
