@@ -397,8 +397,8 @@
                 htmlStr += '<div>';
                 if (seriesName.indexOf("成交量") == -1) {
                   htmlStr +=
-                    '<div>今日开盘价: ' + param.data[1] +'</div>'+
-                    '<div>今日收盘价: ' + param.data[2] + '</div>' +
+                    '<div>开盘价: ' + param.data[1] +'</div>'+
+                    '<div>收盘价: ' + param.data[2] + '</div>' +
                     '<div>最低价: ' + param.data[3] + '</div>' +
                     '<div>最高价: ' + param.data[4] + '</div>';
                 } else {
