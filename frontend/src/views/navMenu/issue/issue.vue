@@ -147,9 +147,9 @@
         <span class="littleRectangle"></span>
         <span class="titleText" id="distributionCosts">发行后走势及战略配售情况</span>
       </div>
-      <p style="font-size:16px;color:#333;font-weight:400;margin-top:12px">发行后股价走势</p>
-      <div id="issueChart" style="height:600px;width:850px;align-items: center;"></div>
-      <el-table v-if="tableData" :data="tableData" style="width: 100%;margin-top: -60px;" stripe border>
+      <p v-if="echartData" style="font-size:16px;color:#333;font-weight:400;margin-top:12px">发行后股价走势</p>
+      <div v-show = "echartData" id="issueChart" style="height:600px;width:850px;align-items: center;"></div>
+      <el-table v-if="echartData" :data="tableData" style="width: 100%;margin-top: -60px;" stripe border>
         <el-table-column type="index" label="序号" align='center' width="107" style="font-weight: normal;">
           <template slot-scope="scope">
             {{scope.$index+1}}
@@ -195,7 +195,7 @@
             <span v-else> - - </span>
           </template>
         </el-table-column>
-        <el-table-column style="width:8.5%" prop="radio" label="占比" align='center' :render-header="radioRenderHeader">
+        <el-table-column style="width:8.5%" prop="radio" label="占比" align='right' :render-header="radioRenderHeader">
           <template slot-scope="scope">
             <span v-if="scope.row.radio"> {{scope.row.radio | dataInThRule}}%</span>
             <span v-else> - - </span>
