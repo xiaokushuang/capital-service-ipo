@@ -64,13 +64,16 @@ public class IssueSituationService extends BaseService {
 
         List<IssueFeeDto> issueFeeList = ipoCaseIssueMapper.getIssueFeeData(id);
         IssueDataDto issueData = getIssueData(id);
-        BigDecimal sumFina = issueData.getSumFina();
+        BigDecimal sumFina = null;
+        if (issueData != null) {
+            sumFina = issueData.getSumFina();
 //        原本的计算比例错误，从这里获取后从新计算并赋值
-        for (IssueFeeDto issueFeeDatum : issueFeeList) {
-            if (sumFina != null) {
+            for (IssueFeeDto issueFeeDatum : issueFeeList) {
+                if (sumFina != null) {
 
-                BigDecimal feeAmount = issueFeeDatum.getFeeAmount();
-                issueFeeDatum.setFeeRatio(feeAmount.multiply(new BigDecimal(100)).divide(sumFina, 4, BigDecimal.ROUND_HALF_DOWN));
+                    BigDecimal feeAmount = issueFeeDatum.getFeeAmount();
+                    issueFeeDatum.setFeeRatio(feeAmount.multiply(new BigDecimal(100)).divide(sumFina, 4, BigDecimal.ROUND_HALF_DOWN));
+                }
             }
         }
         if (issueFeeList != null && !issueFeeList.isEmpty()) {
@@ -162,8 +165,8 @@ public class IssueSituationService extends BaseService {
         return mainDto;
     }
 
-//    获取发行后股价数据
+    //    获取发行后股价数据
     public List<Map<String, Object>> getPriceAfterIssuance(String processTime, String companyCode) {
-        return ipoCaseIssueMapper.getPriceAfterIssuance(processTime,companyCode);
+        return ipoCaseIssueMapper.getPriceAfterIssuance(processTime, companyCode);
     }
 }
