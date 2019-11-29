@@ -159,13 +159,13 @@
             {{scope.$index+1}}
           </template>
         </el-table-column>
-        <el-table-column style="width:20%" prop="title" label="" align='center'>
+        <el-table-column min-width="20%" prop="title" label="" align='left'>
         </el-table-column>
-        <el-table-column style="width:20%" prop="trade_date" label="日期" align='center'>
+        <el-table-column min-width="20%" prop="trade_date" label="日期" align='right'>
         </el-table-column>
-        <el-table-column style="width:25%" prop="NEW" label="收盘价" align='center'>
+        <el-table-column min-width="25%" prop="NEW" label="收盘价" align='right'>
         </el-table-column>
-        <el-table-column style="width:20%" prop="CHG" label="对比发行价涨跌幅" align='center'>
+        <el-table-column min-width="20%" prop="CHG" label="对比发行价涨跌幅" align='right'>
           <template slot-scope="scope">
             <span v-if="scope.row.CHG"> {{scope.row.CHG}}%</span>
             <span v-else> - - </span>
@@ -181,39 +181,39 @@
             {{scope.$index+1}}
           </template>
         </el-table-column>
-        <el-table-column style="width:22%" prop="strategicInvestorName" label="战略投资者名称" align='center'>
+        <el-table-column min-width="21%" prop="strategicInvestorName" label="战略投资者名称" align='left'>
         </el-table-column>
-        <el-table-column style="width:20%" prop="shareholderType" label="股东类型" align='center' :render-header="shareholderRenderHeader">
+        <el-table-column min-width="20%" prop="shareholderType" label="股东类型" align='center' :render-header="shareholderRenderHeader">
           <template slot-scope="scope">
             <span v-if="scope.row.shareholderType"> {{scope.row.shareholderType}}</span>
             <span v-else> - - </span>
           </template>
         </el-table-column>
-        <el-table-column style="width:12.5%" prop="initialNumberTenThousand" label="初始认购股数（万股）" align='center'>
+        <el-table-column min-width="12.5%" prop="initialNumberTenThousand" label="初始认购股数（万股）" align='right'>
           <template slot-scope="scope">
             <span v-if="scope.row.initialNumberTenThousand"> {{scope.row.initialNumberTenThousand | dataInThRule}}</span>
             <span v-else> - - </span>
           </template>
         </el-table-column>
-        <el-table-column style="width:12.5%" prop="allottedNumberTenThousand" label="获配股数（万股）" align='center'>
+        <el-table-column min-width="11%" prop="allottedNumberTenThousand" label="获配股数（万股）" align='right'>
           <template slot-scope="scope">
             <span v-if="scope.row.allottedNumberTenThousand"> {{scope.row.allottedNumberTenThousand | dataInThRule}}</span>
             <span v-else> - - </span>
           </template>
         </el-table-column>
-        <el-table-column style="width:8.5%" prop="radio" label="占比" align='right' :render-header="radioRenderHeader">
+        <el-table-column min-width="9.5%" prop="radio" label="占比" align='right' :render-header="radioRenderHeader">
           <template slot-scope="scope">
             <span v-if="scope.row.radio"> {{scope.row.radio | dataInThRule}}%</span>
             <span v-else> - - </span>
           </template>
         </el-table-column>
-        <el-table-column style="width:11%" prop="allottedAmountTenThousand" label="获配金额（万元）" align='right'>
+        <el-table-column min-width="11%" prop="allottedAmountTenThousand" label="获配金额（万元）" align='right'>
           <template slot-scope="scope">
             <span v-if="scope.row.allottedAmountTenThousand"> {{scope.row.allottedAmountTenThousand | dataInThRule}}</span>
             <span v-else> - - </span>
           </template>
         </el-table-column>
-        <el-table-column style="width:7%" prop="salesRestrictionPeriodMonth" label="限售期" align='center'>
+        <el-table-column min-width="8.5%" prop="salesRestrictionPeriodMonth" label="限售期" align='left'>
           <template slot-scope="scope">
             <span v-if="scope.row.salesRestrictionPeriodMonth"> {{scope.row.salesRestrictionPeriodMonth}}个月</span>
             <span v-else> - - </span>
