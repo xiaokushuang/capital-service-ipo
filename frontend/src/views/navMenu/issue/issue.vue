@@ -327,7 +327,7 @@
           if (res.data.result) {
             this.placementData = res.data.result;
           }
-          // this.getPosition();
+          this.getPosition();
         })
         var self = this;
         // 获取发行后股价走势接口 获取echart数据和交易日表格数据
