@@ -6,7 +6,7 @@ import {showFullScreenLoading, tryHideFullScreenLoading} from './axiosHelperLoad
 
 // create an axios instance
 const service = axios.create({
-  baseURL: '',// process.env.BASE_API, // api的base_url
+  baseURL: process.env.BASE_API,// process.env.BASE_API, // api的base_url
   timeout: 20000 // request timeout
 });
 
@@ -26,8 +26,8 @@ service.interceptors.request.use(
     config.headers['Authorization'] = store.state.app.token;
     config.headers['X-Tenant-Info'] = store.state.app.info;
     // fixed GET request method caching problem
-    config.headers['Cache-Control'] = 'no-cache';
-    config.headers['Pragma'] = 'no-cache';
+    //config.headers['Cache-Control'] = 'no-cache';
+    //config.headers['Pragma'] = 'no-cache';
     showFullScreenLoading();
     // debugger
     if(store.state.app.parentCookieFlag && config.url != '/log/collect'){
