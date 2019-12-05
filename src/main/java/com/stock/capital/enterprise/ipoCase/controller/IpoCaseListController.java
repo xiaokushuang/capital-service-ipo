@@ -63,8 +63,8 @@ public class IpoCaseListController {
         boolean signSymbol = false;
         // 默认没有过期
         boolean overdueSymbol = true;
-        String companyId = page.getCondition().getCompanyId();
-        if (companyId != null && !"".equals(companyId)) {
+        String companyId = StringUtils.isNotEmpty(page.getCondition().getCompanyId()) ? page.getCondition().getCompanyId() : getUserInfo().getCompanyId();
+        if (StringUtils.isNotEmpty(companyId)) {
             int count = ipoCaseListMapper.queryAuthByCompanyId(companyId);
             // 授权类型:签约 或 证监会 或 金融办
             if (count > 0) {
@@ -72,7 +72,7 @@ public class IpoCaseListController {
                 signSymbol = true;
             }
         }
-        if (companyId != null && !"".equals(companyId)) {
+        if (StringUtils.isNotEmpty(companyId)) {
             int count = ipoCaseListMapper.queryOverdueAuthByCompanyId(companyId);
             // 授权类型:签约 或 证监会 或 金融办
             if (count <= 0) {
