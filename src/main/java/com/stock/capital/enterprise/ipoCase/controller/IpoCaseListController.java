@@ -5,6 +5,7 @@ import com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFavoriteAndNoteDto;
 import com.stock.capital.enterprise.ipoCase.service.IpoCaseListService;
+import com.stock.core.controller.BaseController;
 import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.QueryInfo;
 import com.stock.core.dto.UserInfo;
@@ -32,7 +33,7 @@ import static com.stock.core.security.UserInfoHolder.getUserInfo;
 @Api(tags = {"IPO检索页接口类"}, description = "IPO检索页接口描述")
 @RestController
 @RequestMapping("search")
-public class IpoCaseListController {
+public class IpoCaseListController extends BaseController {
 
     @Autowired
     private IpoCaseListService ipoCaseListService;
