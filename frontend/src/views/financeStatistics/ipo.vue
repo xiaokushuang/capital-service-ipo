@@ -269,13 +269,13 @@
                         <span style="font-size: 14px;color: #333;">{{noteTitle}}</span>
                         <span style="float: right;color: #C1C1C1">
 													<i class="fa fa-square-o fa-lg" @click="openCenterNote()" title="放大" style="cursor:pointer;margin-right: 4px;"></i>
-													<i class="el-icon-close" @click="noteCancellation('1')" title="关闭" style="cursor:pointer;vertical-align: -10%;font-size: 21px"></i>
+													<i class="el-icon-close" @click="noteCancellation('2')" title="关闭" style="cursor:pointer;vertical-align: -10%;font-size: 21px"></i>
 												</span>
                       </div>
                       <el-input type="textarea" :maxlength="2000" class="textarea-height" :rows="6" resize="none" placeholder="请在这里输入笔记内容..." v-model="note">
                       </el-input>
                       <div style="float: right;margin-right: 20px;padding-top: 12px;">
-                        <button class="small_btn_common cancel_btn" @click="noteCancellation('1')">取消</button>
+                        <button class="small_btn_common cancel_btn" @click="noteCancellation('2')">取消</button>
                         <button class="small_btn_common determine_btn" @click="NoteDetermination()" style="margin-left: 10px">保存
                         </button>
                       </div>
