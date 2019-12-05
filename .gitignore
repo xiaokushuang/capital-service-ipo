@@ -6,3 +6,5 @@ frontend/package-lock.json
 frontend/node_modules/
 frontend/.vscode/
 service_ipo_log/
+frontend/dist
+package-lock.json
