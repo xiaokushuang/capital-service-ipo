@@ -608,6 +608,7 @@
   export default {
     data() {
       return {
+        serviceBaseUrl:'',
         radio:0,
         // checkboxList:['全部','IPO案例','辅导案例'],
         checkboxList:[
@@ -1621,8 +1622,9 @@
 
         const _self = this;
         _getSelectData().then(response => {
-          // debugger;
+           debugger;
           if (response.data.result) {
+            _self.serviceBaseUrl = response.data.result.serviceBaseUrl;
             if (response.data.result.industryCrscList && response.data.result.industryCrscList.length > 0) {
               _self.industryCrscList = response.data.result.industryCrscList;
             }
@@ -1783,13 +1785,13 @@
       },
       openNew() {
         const _self = this;
-        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=745777672757626842&access_token=' + _self.$store
+        const href = _self.serviceBaseUrl + 'ui/laws/laws/lawsDetail?lawId=745777672757626842&access_token=' + _self.$store
           .state.app.token + '&tenant_info=' + _self.$store.state.app.info;
         window.open(href, '_blank');
       },
       openNewRule() {
         const _self = this;
-        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + _self.issueLawId + '&access_token=' +
+        const href = _self.serviceBaseUrl + 'ui/laws/laws/lawsDetail?lawId=' + _self.issueLawId + '&access_token=' +
           _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
         window.open(href, '_blank');
       },
