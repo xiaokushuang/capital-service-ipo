@@ -8,6 +8,14 @@ export function getCaseDetail(query) {
     params: query
   })
 }
+
+export function getServiceBaseUrl(query) {
+  return request({
+    url:'/ipo/ipoProcess/getServiceBaseUrl',
+    method: 'get',
+    params: query
+  })
+}
 // 资本市场接口描述
 export function getMarketData(query) {
   return request({
