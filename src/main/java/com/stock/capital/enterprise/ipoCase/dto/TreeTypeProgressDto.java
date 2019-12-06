@@ -17,6 +17,16 @@ public class TreeTypeProgressDto implements Serializable {
     @ApiModelProperty("主表id")
     private String caseId;
 
+    private String serviceBaseUrl;
+
+    public String getServiceBaseUrl() {
+        return serviceBaseUrl;
+    }
+
+    public void setServiceBaseUrl(String serviceBaseUrl) {
+        this.serviceBaseUrl = serviceBaseUrl;
+    }
+
     public List<IpoProgressDto> getTreeList() {
         return treeList;
     }
