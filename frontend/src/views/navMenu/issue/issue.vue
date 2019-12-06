@@ -471,8 +471,8 @@
             {
               left: '10%',
               right: '8%',
-              top: '63%',
-              height: '16%'
+              top: '65%',
+              height: '8%'
             }
           ],
           xAxis: [{
@@ -545,6 +545,8 @@
               name: '发行股价变化',
               type: 'candlestick',
               data: data.values,
+              barWidth:'20',
+              barMinHeight:"10",
               itemStyle: {
                 normal: {
                   color: upColor,
@@ -557,6 +559,8 @@
             {
               name: '成交量',
               type: 'bar',
+              barWidth:'20',
+              barMinHeight:"5",
               xAxisIndex: 1,
               yAxisIndex: 1,
               data: data.volumes
