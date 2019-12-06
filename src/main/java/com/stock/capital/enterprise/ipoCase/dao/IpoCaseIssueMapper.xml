@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.stock.capital.enterprise.ipoCase.dao.IpoCaseIssueMapper">
-  <select id="getIssueFeeData" parameterType="string" resultType="com.stock.capital.enterprise.ipoCase.dto.IssueFeeDto">
+    <select id="getIssueFeeData" parameterType="string"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IssueFeeDto">
     SELECT iic.id,iic.bid,iic.feeType,
     CONVERT(iic.fee_amount,DECIMAL(18,2)) AS feeAmount,
     CONVERT(iic.fee_amount/i.investTotal*100,DECIMAL(18,2)) AS feeRatio
@@ -22,7 +23,7 @@
     (SELECT SUM(invest_plan) AS investTotal FROM ipo_invest_item WHERE bid = #{bid}) i
   </select>
 
-  <select id="getIssueData" parameterType="string" resultType="com.stock.capital.enterprise.ipoCase.dto.IssueDataDto">
+    <select id="getIssueData" parameterType="string" resultType="com.stock.capital.enterprise.ipoCase.dto.IssueDataDto">
     SELECT
       lfi.PARVALUE AS parValue,
       lfi.ISSUEPRICE AS issuePrice,
@@ -52,8 +53,8 @@ CONVERT(lfp.SHAREOVERPLACE/10000,DECIMAL(18,2)) AS shareOverPlace,
   </select>
 
 
-
-  <select id="getIssueDataFromLocal" parameterType="string" resultType="com.stock.capital.enterprise.ipoCase.dto.IssueDataDto">
+    <select id="getIssueDataFromLocal" parameterType="string"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IssueDataDto">
     SELECT
           lfi.share_value AS parValue,
           lfi.issue_price AS issuePrice,
@@ -81,4 +82,21 @@ CONVERT(lfp.SHAREOVERPLACE/10000,DECIMAL(18,2)) AS shareOverPlace,
             linfo.org_code = #{orgCode} AND linfo.fin_type = '001'
         limit 1
   </select>
+    <select id="getPlacementMainData" parameterType="map"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.StrategicPlacementMainDto">
+        select id,bid,main_remark remark,bussiness_type businessType from strategic_placement_main where bid = #{id} limit 1
+    </select>
+    <select id="getPlacementSubData" parameterType="map"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.StrategicPlacementSubDto">
+        select m.id,m.pid,m.strategic_investor_name strategicInvestorName,(select label_name from maa_conf_label where label_code = "IPO_SHARE_HOLDER_TYPE" and label_value=m.shareholder_type)AS shareholderType,m.initial_number_single initialNumberSingle,
+            m.allotted_number_single allottedNumberSingle,m.allotted_amount_single allottedAmountSingle,m.sales_restriction_period_month salesRestrictionPeriodMonth
+            ,m.initial_number_ten_thousand initialNumberTenThousand,m.allotted_number_ten_thousand allottedNumberTenThousand,m.allotted_amount_ten_thousand allottedAmountTenThousand
+        from strategic_placement_sub m
+        where pid = #{id}
+    </select>
+
+    <select id="getPriceAfterIssuance" parameterType="map" resultType="map">
+       select m.`OPEN`,m.NEW,m.HIGH,m.LOW,m.TVOL,m.trade_date,m.LCLOSE from vc_trad_sk_daily m
+       where m.SECURITY_CD = #{companyCode} and m.trade_date >= #{processTime} ORDER BY trade_date asc limit 20;
+    </select>
 </mapper>

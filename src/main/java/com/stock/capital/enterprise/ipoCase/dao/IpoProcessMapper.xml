@@ -103,4 +103,7 @@
     <select id="queryLawNoId" resultType="java.lang.String">
     SELECT id FROM law_xml_structure_detail WHERE law_id = #{lawId} AND title = #{title};
   </select>
+    <select id="getIssueData" parameterType="map" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoProListDto">
+        select m.process_time processTime,t.company_code progressType from ipo_process m,ipo_case t where m.bid = #{id} and t.id = m.bid and m.tree_type_code = '02' and m.process_type_code = '19' ORDER BY m.process_time desc limit 1
+    </select>
 </mapper>

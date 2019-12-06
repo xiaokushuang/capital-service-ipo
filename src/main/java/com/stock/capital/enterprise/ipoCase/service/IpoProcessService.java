@@ -792,4 +792,8 @@ public class IpoProcessService extends BaseService {
         }
         return result;
     }
+
+    public IpoProListDto getIssueData(String id) {
+        return ipoProcessMapper.getIssueData(id);
+    }
 }
