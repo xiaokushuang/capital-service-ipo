@@ -423,7 +423,6 @@
                     '<div>最高价: ' + param.data[4] + '</div>';
                 } else {
                   htmlStr += '<div>成交量：' + self.dataFormat(param.data[1]) + '</div>'; //x轴的名称
-
                 }
                 htmlStr += '</div>';
               }
@@ -457,10 +456,10 @@
             dimension: 2,
             pieces: [{
               value: 1,
-              color: downColor
+              color: upColor
             }, {
               value: -1,
-              color: upColor
+              color: downColor
             }]
           },
           grid: [{
@@ -519,7 +518,7 @@
           yAxis: [{
               scale: true,
               splitArea: {
-                show: true
+                show: false
               }
             },
             {
@@ -546,11 +545,11 @@
               type: 'candlestick',
               data: data.values,
               barWidth:'20',
-              barMinHeight:"10",
+              barMinHeight:"2",
               itemStyle: {
                 normal: {
-                  color: upColor,
-                  color0: downColor,
+                  color: downColor,
+                  color0: upColor,
                   borderColor: null,
                   borderColor0: null
                 }
@@ -560,7 +559,7 @@
               name: '成交量',
               type: 'bar',
               barWidth:'20',
-              barMinHeight:"5",
+              barMinHeight:"1",
               xAxisIndex: 1,
               yAxisIndex: 1,
               data: data.volumes
