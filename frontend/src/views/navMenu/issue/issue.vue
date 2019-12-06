@@ -148,7 +148,12 @@
         <span class="littleRectangle"></span>
         <span class="titleText" id="issuePlacement">发行后走势及战略配售情况</span>
       </div>
-      <p v-if="echartData && echartData.length > 0" style="font-size:16px;color:#333;font-weight:400;margin-top:12px">发行后股价走势</p>
+      <p v-if="echartData && echartData.length > 0" style="font-size:16px;color:#333;font-weight:400;margin-top:12px">发行后股价走势
+      <!-- <el-tooltip class="ipoTip"  content="此处只展示发行后20个交易日股价走势" placement="top" effect="light">
+                <i style="cursor:pointer;color: #bababa;" class="el-icon-question"></i>
+       </el-tooltip> -->
+      </p>
+
       <!-- 用于实例化EChart图的div  给定id -->
       <div v-show="echartData && echartData.length > 0" id="issueChart" style="height:600px;width:850px;align-items: center;"></div>
       <!-- 交易日股价情况表格 -->
@@ -422,6 +427,7 @@
                     '<div>最低价: ' + param.data[3] + '</div>' +
                     '<div>最高价: ' + param.data[4] + '</div>';
                 } else {
+                  debugger;
                   htmlStr += '<div>成交量：' + self.dataFormat(param.data[1]) + '</div>'; //x轴的名称
                 }
                 htmlStr += '</div>';
@@ -478,7 +484,7 @@
               type: 'category',
               data: data.categoryData,
               scale: true,
-              boundaryGap: false,
+              boundaryGap: true,
               axisLine: {
                 onZero: false
               },
@@ -499,7 +505,7 @@
               gridIndex: 1,
               data: data.categoryData,
               scale: true,
-              boundaryGap: false,
+              boundaryGap: true,
               axisLine: {
                 onZero: false
               },
