@@ -360,6 +360,7 @@
 </template>
 <script>
   import { getSelectFeedbackList } from "@/api/ipoCase/companyProfile";
+  import {getServiceBaseUrl} from '@/api/ipoCase/companyProfile'
   //反馈意见
   import { getSelectTabList } from "@/api/ipoCase/companyProfile";
   import {
@@ -1041,9 +1042,13 @@
       caseId(n, o) {}
     },
     created() {
-      // 获取二维码图片流
-      this.wxcodeUrl = "/ipo/ipoInterfaceH5/getQrCode?id=" + this.$store.state.app.caseId + "&access_token=" + this.$store
-        .state.app.token
+      var param = {};
+      getServiceBaseUrl(param).then(res => {
+        let result = res.data.result;
+        // 获取二维码图片流
+        this.wxcodeUrl = result + "/ipo/ipoInterfaceH5/getQrCode?id=" + this.$store.state.app.caseId + "&access_token=" + this.$store
+          .state.app.token
+      })
       this.initTableData();
       this.initFeedBackData()
     },
