@@ -360,6 +360,7 @@
 </template>
 <script>
   import { getSelectFeedbackList } from "@/api/ipoCase/companyProfile";
+  import {getServiceBaseUrl} from '@/api/ipoCase/companyProfile'
   //反馈意见
   import { getSelectTabList } from "@/api/ipoCase/companyProfile";
   import {
