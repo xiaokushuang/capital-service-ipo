@@ -57,6 +57,7 @@ public class IpoCaseListService extends BaseService {
     private SearchClient searchClient;
 
 
+
     /**
      * 检索页查询列表
      *
@@ -1225,5 +1226,30 @@ public class IpoCaseListService extends BaseService {
      */
     public List<String> getIpoItemCaseIdList(IpoCaseListBo ipoCaseListBo){
         return ipoCaseListMapper.getIpoItemCaseIdList(ipoCaseListBo);
+    }
+
+
+    /**
+     * es获取letter_case_id_t
+     *
+     * @return
+     */
+    public FacetResult<LetterClassIndexDto> searchSuperviseLetter(QueryInfo<IpoCaseListBo> page) {
+        QueryInfo<Map<String, Object>> queryInfo = new QueryInfo<>();
+        queryInfo.setQueryId("com.stock.capital.enterprise.ipoCase.dto.LetterInfo.letterInfoOtherSearch");
+        queryInfo.setPageSize(5000);
+        queryInfo.setStartRow(0);
+        queryInfo.setOrderByName("letter_letter_date_dt");
+        queryInfo.setOrderByOrder("desc");
+        Map<String, Object> condition = new HashMap<String, Object>();
+        condition.put("questionType", getIpoItemCaseIdList(page.getCondition()));
+        condition.put("letterApplyModule",Arrays.asList("4".split(",")));
+        condition.put("queryFlag", "tree");
+        condition.put("groupFlag", "true");
+        condition.put("letterType",Arrays.asList(page.getCondition().getCheckCase().split(",")));
+        queryInfo.setCondition(condition);
+        FacetResult<LetterClassIndexDto> facetResultletterType = searchClient.searchWithFacet(Global.LETTER_INFO_INDEX_TYPE, queryInfo,
+                LetterClassIndexDto.class);
+        return facetResultletterType;
     }
 }

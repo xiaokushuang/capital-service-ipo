@@ -201,4 +201,15 @@ public interface Global {
      * 函件问答Es索引名称
      */
     public static final String LETTER_QA_INDEX_TYPE = "letter_qa";
+
+    /**
+     * 监管函件Es索引名称
+     */
+    public static final String LETTER_INFO_INDEX_TYPE = "letter_info";
+    /**
+     * 监管函件TypeCode
+     */
+    public static final String INDEX_MODULE_LETTER = "04";
+
+
 }
