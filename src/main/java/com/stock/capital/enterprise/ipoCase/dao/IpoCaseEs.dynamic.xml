@@ -843,6 +843,17 @@
                         "field": "ipo_belongs_bureau_t",
                         "size": 20000
                         }
+                },
+                "ipo_market_num_d": {
+                    "filter": {
+                        "bool": {
+                            "must": [{
+                                "exists": {
+                                    "field": "ipo_market_type_ss"
+                                }
+                            }]
+                        }
+                    }
                 }
             }
         }

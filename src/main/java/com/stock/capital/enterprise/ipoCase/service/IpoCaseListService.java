@@ -401,6 +401,8 @@ public class IpoCaseListService extends BaseService {
         List<StatisticsField> plateList = facetResult.getStatisticsFieldMap().get("ipo_plate_t");
         List<StatisticsField> marketList =
                 facetResult.getStatisticsFieldMap().get("ipo_market_type_ss");
+        List<StatisticsField> marketNumList =
+                facetResult.getStatisticsFieldMap().get("ipo_market_num_d");
         List<StatisticsField> greenList =
                 facetResult.getStatisticsFieldMap().get("ipo_green_passage_t");
         List<StatisticsField> arrangeList =
@@ -421,6 +423,11 @@ public class IpoCaseListService extends BaseService {
         long marketTreeNum = 0;
         if (marketTreeTag != null && !marketTreeTag.isEmpty()) {
             marketTreeNum = assebleTreeData(marketTreeTag, marketList, false);
+//            如果可以查出树的值，则给计算的数据从新赋值
+            if (marketNumList != null && marketNumList.size() > 0){
+                Map<String,Long> maps = (Map<String, Long>) marketNumList.get(0).getValue();
+                marketTreeNum = maps.get("ipo_market_num_d");
+            }
         }
         //绿色通道树
         List<RegTreeDto> greenTreeTag = ipoCaseListMapper.getTreeTagByCode("IPO_GREEN_PASSAGE");
