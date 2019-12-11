@@ -1046,7 +1046,7 @@
       getServiceBaseUrl(param).then(res => {
         let result = res.data.result;
         // 获取二维码图片流
-        this.wxcodeUrl = result + "/ipo/ipoInterfaceH5/getQrCode?id=" + this.$store.state.app.caseId + "&access_token=" + this.$store
+        this.wxcodeUrl = result + "ipo/ipoInterfaceH5/getQrCode?id=" + this.$store.state.app.caseId + "&access_token=" + this.$store
           .state.app.token
       })
       this.initTableData();
