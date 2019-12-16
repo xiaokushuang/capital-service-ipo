@@ -167,7 +167,7 @@ public class IssueSituationService extends BaseService {
         if (mainDto != null && StringUtils.isNotEmpty(mainDto.getId())) {
             mainDto.setSubs(ipoCaseIssueMapper.getPlacementSubData(mainDto.getId()));
             for (StrategicPlacementSubDto sub : mainDto.getSubs()) {
-                if (issueData.getNextIssueNum() != null && sub.getAllottedNumberTenThousand() != null) {
+                if (issueData!= null && issueData.getNextIssueNum() != null && sub.getAllottedNumberTenThousand() != null) {
                     sub.setRadio(sub.getAllottedNumberTenThousand().divide(issueData.getNextIssueNum(), 4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)));
                 } else {
                     sub.setRadio(null);
