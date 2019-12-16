@@ -853,6 +853,9 @@ public class IpoCaseListService extends BaseService {
         if (CollectionUtils.isEmpty(caseIds)) {
             return new HashMap<>();
         } else {
+            for (String caseId : caseIds) {
+                caseId = "ipo"+caseId;
+            }
             IpoCaseListBo bo = page.getCondition();
 
 //        获取排序
