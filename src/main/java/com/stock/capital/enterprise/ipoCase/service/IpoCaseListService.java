@@ -471,6 +471,11 @@ public class IpoCaseListService extends BaseService {
     }
 
     private void resetCondition(IpoCaseListBo bo) {
+
+//        去除空格
+        if (StringUtils.isNotEmpty(bo.getCodeOrName())){
+            bo.setCodeOrName(bo.getCodeOrName().trim());
+        }
 //        左侧树筛选
 //        拟上市板块
         if (StringUtils.isNotEmpty(bo.getIpoPlate())){
