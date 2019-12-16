@@ -738,7 +738,15 @@
           },
           {
             id: 4,
-            value: '30'
+            value: '30-50'
+          },
+          {
+            id: 5,
+            value: '50-100'
+          },
+          {
+            id: 6,
+            value: '100'
           }
         ],
         optionIssueFee: [{

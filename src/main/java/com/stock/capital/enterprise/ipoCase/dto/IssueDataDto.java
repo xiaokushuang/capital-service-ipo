@@ -21,6 +21,12 @@ public class IssueDataDto implements Serializable {
     @ApiModelProperty("发行价格")
     private BigDecimal issuePrice;
 
+    @ApiModelProperty("发行前股本")
+    private BigDecimal preIssueNum;
+
+    @ApiModelProperty("发行后股本")
+    private BigDecimal nextIssueNum;
+
     @ApiModelProperty("发行数量")
     private BigDecimal shareIssued;
 
@@ -62,6 +68,22 @@ public class IssueDataDto implements Serializable {
 
     @ApiModelProperty("承销方式")
     private String uwMethod;
+
+    public BigDecimal getPreIssueNum() {
+        return preIssueNum;
+    }
+
+    public void setPreIssueNum(BigDecimal preIssueNum) {
+        this.preIssueNum = preIssueNum;
+    }
+
+    public BigDecimal getNextIssueNum() {
+        return nextIssueNum;
+    }
+
+    public void setNextIssueNum(BigDecimal nextIssueNum) {
+        this.nextIssueNum = nextIssueNum;
+    }
 
     public BigDecimal getParValue() {
         return parValue;

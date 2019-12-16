@@ -47,6 +47,15 @@ public class IssueSituationService extends BaseService {
 //        IssueDataDto issueDataDto1 = ipoCaseIssueMapper.getIssueData(orgCode);
 //        DynamicDataSourceHolder.cleanDataSource();
         IssueDataDto issueDataDto = ipoCaseIssueMapper.getIssueDataFromLocal(orgCode);//测试案例org_code  10092703
+//        禅道 - 10425 - yangj 增加发行前股本，发行后股本
+//        根据id获取发行前股本 即 注册资本
+        CompanyOverviewVo ipoCaseDetail = ipoCaseBizMapper.getIpoCaseDetail(id);
+        if (issueDataDto != null && ipoCaseDetail != null && ipoCaseDetail.getRegisteredAssets() != null) {
+            issueDataDto.setPreIssueNum(ipoCaseDetail.getRegisteredAssets());
+            if (issueDataDto.getShareIssued() != null) {
+                issueDataDto.setNextIssueNum(ipoCaseDetail.getRegisteredAssets().add(issueDataDto.getShareIssued()));
+            }
+        }
         return issueDataDto;
     }
 
@@ -153,12 +162,15 @@ public class IssueSituationService extends BaseService {
 
     //  获取战略配售情况数据
     public StrategicPlacementMainDto getPlacementData(String id) {
+        IssueDataDto issueData = getIssueData(id);
         StrategicPlacementMainDto mainDto = ipoCaseIssueMapper.getPlacementMainData(id);
         if (mainDto != null && StringUtils.isNotEmpty(mainDto.getId())) {
             mainDto.setSubs(ipoCaseIssueMapper.getPlacementSubData(mainDto.getId()));
             for (StrategicPlacementSubDto sub : mainDto.getSubs()) {
-                if (sub.getInitialNumberTenThousand() != null && sub.getAllottedNumberTenThousand() != null) {
-                    sub.setRadio(sub.getAllottedNumberTenThousand().divide(sub.getInitialNumberTenThousand(), 4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)));
+                if (issueData.getNextIssueNum() != null && sub.getAllottedNumberTenThousand() != null) {
+                    sub.setRadio(sub.getAllottedNumberTenThousand().divide(issueData.getNextIssueNum(), 4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)));
+                } else {
+                    sub.setRadio(null);
                 }
             }
         }

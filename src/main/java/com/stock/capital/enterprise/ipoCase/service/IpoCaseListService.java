@@ -425,8 +425,7 @@ public class IpoCaseListService extends BaseService {
             marketTreeNum = assebleTreeData(marketTreeTag, marketList, false);
 //            如果可以查出树的值，则给计算的数据从新赋值
             if (marketNumList != null && marketNumList.size() > 0){
-                Map<String,Long> maps = (Map<String, Long>) marketNumList.get(0).getValue();
-                marketTreeNum = maps.get("ipo_market_num_d");
+                marketTreeNum = marketNumList.get(0).getCount();
             }
         }
         //绿色通道树
