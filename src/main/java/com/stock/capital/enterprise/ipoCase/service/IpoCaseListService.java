@@ -1,5 +1,6 @@
 package com.stock.capital.enterprise.ipoCase.service;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.stock.capital.enterprise.common.constant.Global;
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseListMapper;
@@ -846,15 +847,16 @@ public class IpoCaseListService extends BaseService {
         String userId = userInfo.getUserId();
 
 //        String companyId = "999000";
-//        String userId = "746715777856730981";
+//        String userId = "746633289841890189";
         List<String> caseIds = ipoCaseListMapper.queryIpoFavoriteList(companyId, userId);
         Map<String, Object> resultMap = Maps.newHashMap();
         //案例id
         if (CollectionUtils.isEmpty(caseIds)) {
             return new HashMap<>();
         } else {
+            List<String> caseIdList = Lists.newArrayList();
             for (String caseId : caseIds) {
-                caseId = "ipo"+caseId;
+                caseIdList.add("ipo"+caseId);
             }
             IpoCaseListBo bo = page.getCondition();
 
@@ -904,7 +906,7 @@ public class IpoCaseListService extends BaseService {
                     }
                 }
                 resetCondition(bo);
-                bo.setCaseIdList(caseIds);
+                bo.setCaseIdList(caseIdList);
                 QueryInfo<IpoCaseListBo> queryInfo = new QueryInfo<IpoCaseListBo>();
                 queryInfo.setCondition(bo);
                 queryInfo.setOrderByName(orderByName);
