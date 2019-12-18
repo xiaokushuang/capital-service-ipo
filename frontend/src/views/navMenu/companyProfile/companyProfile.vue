@@ -591,6 +591,7 @@ import mainTable from "@/views/tables/mainTable";
 import barOrPieChart from "@/components/Charts/barOrPieChart";
 // 导入中介机构
 import IntermediaryInstitutions from "@/views/navMenu/companyProfile/components/IntermediaryInstitutions"
+import {getServiceBaseUrl} from '@/api/ipoCase/companyProfile'
 export default {
   name: "companyProfile",
   components: {
@@ -601,6 +602,7 @@ export default {
 
   data() {
     return {
+      serviceBaseUrl:'',
       isLogin: true,
       listLoading: false,
       gqTableList: [],
@@ -651,6 +653,11 @@ export default {
       }
       // this.$store.commit('CREATE_MESSAGE',param)
       // 日志------------------功能尾
+    var pt = {};
+    getServiceBaseUrl(pt).then(res => {
+      let result = res.data.result;
+      this.serviceBaseUrl =result;
+    })
     this.getData();
   },
   mounted() {
@@ -716,7 +723,7 @@ export default {
             let url = window.location.href;
             let token = this.$store.state.app.token
             url = url.substr(0,url.indexOf("ui"));
-            url = url + 'ipo/ipoProcess/downloadSplitFile?access_token='+token+
+            url = this.serviceBaseUrl + 'ipo/ipoProcess/downloadSplitFile?access_token='+token+
                     '&fileId='+ fileId;
               window.open(url);
       },
