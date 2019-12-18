@@ -296,7 +296,7 @@ public class IpoProcessService extends BaseService {
     	Map<String, Object> index = Maps.newHashMap();
     	MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
 		param.add("indexId", id);
-    	if(Global.SEARCH_SERVER_DECLARE_FLAG.equals("0")) {// 使用公告微服务接口查询
+//    	if(Global.SEARCH_SERVER_DECLARE_FLAG.equals("0")) {// 使用公告微服务接口查询
     		String accessToken = commonService.getGuiAccessToken();
     		urls = serviceGuiBaseUrl + "/announcement/announcement/api/postSearchIndex?access_token=" + accessToken;
             ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
@@ -304,13 +304,13 @@ public class IpoProcessService extends BaseService {
     		String encryptData = restClient.post(urls, param, responseType);
     		// 获取解密后的数据
     		index = commonService.getEncryptData(encryptData);
-    	} else {// 使用cloud-api 接口查询
-    		urls = apiBaseUrl + "declareInfo/postSearchIndex";
-    		ParameterizedTypeReference<JsonResponse<Map<String, Object>>> responseType =
-    				new ParameterizedTypeReference<JsonResponse<Map<String, Object>>>() {
-    		};
-    		index = restClient.post(urls, param, responseType).getResult();
-    	}
+//    	} else {// 使用cloud-api 接口查询
+//    		urls = apiBaseUrl + "declareInfo/postSearchIndex";
+//    		ParameterizedTypeReference<JsonResponse<Map<String, Object>>> responseType =
+//    				new ParameterizedTypeReference<JsonResponse<Map<String, Object>>>() {
+//    		};
+//    		index = restClient.post(urls, param, responseType).getResult();
+//    	}
         String title = StringUtils.EMPTY;
         String url;
         String infoUrl = String.valueOf(index.get("infoUrl"));
@@ -394,7 +394,7 @@ public class IpoProcessService extends BaseService {
                 param.add("indexId", indexId);
                 String urls = StringUtils.EMPTY;
                 Map<String, Object> index = Maps.newHashMap();
-            	if(Global.SEARCH_SERVER_DECLARE_FLAG.equals("0")) {// 使用公告微服务接口查询
+//            	if(Global.SEARCH_SERVER_DECLARE_FLAG.equals("0")) {// 使用公告微服务接口查询
             		String accessToken = commonService.getGuiAccessToken();
             		urls = serviceGuiBaseUrl + "/announcement/announcement/api/postSearchIndex?access_token=" + accessToken;
                     ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
@@ -402,13 +402,13 @@ public class IpoProcessService extends BaseService {
             		String encryptData = restClient.post(urls, param, responseType);
             		// 获取解密后的数据
             		index = commonService.getEncryptData(encryptData);
-            	} else {// 使用cloud-api 接口查询
-            		urls = apiBaseUrl + "declareInfo/postSearchIndex";
-            		ParameterizedTypeReference<JsonResponse<Map<String, Object>>> responseType =
-            				new ParameterizedTypeReference<JsonResponse<Map<String, Object>>>() {
-            		};
-            		index = restClient.post(urls, param, responseType).getResult();
-            	}
+//            	} else {// 使用cloud-api 接口查询
+//            		urls = apiBaseUrl + "declareInfo/postSearchIndex";
+//            		ParameterizedTypeReference<JsonResponse<Map<String, Object>>> responseType =
+//            				new ParameterizedTypeReference<JsonResponse<Map<String, Object>>>() {
+//            		};
+//            		index = restClient.post(urls, param, responseType).getResult();
+//            	}
                 Map<String, String> srcFile = new HashMap<>();
                 String URL;
                 String infoUrl = String.valueOf(index.get("infoUrl"));
@@ -699,7 +699,7 @@ public class IpoProcessService extends BaseService {
         	Map<String, Object> index = Maps.newHashMap();
         	MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
     		param.add("indexId", id);
-        	if(Global.SEARCH_SERVER_DECLARE_FLAG.equals("0")) {// 使用公告微服务接口查询
+//        	if(Global.SEARCH_SERVER_DECLARE_FLAG.equals("0")) {// 使用公告微服务接口查询
         		String accessToken = commonService.getGuiAccessToken();
         		urls = serviceGuiBaseUrl + "/announcement/announcement/api/postSearchIndex?access_token=" + accessToken;
         		ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
@@ -707,13 +707,13 @@ public class IpoProcessService extends BaseService {
         		String encryptData = restClient.post(urls, param, responseType);
         		// 获取解密后的数据
         		index = commonService.getEncryptData(encryptData);
-        	} else {// 使用cloud-api 接口查询
-        		urls = apiBaseUrl + "declareInfo/postSearchIndex";
-        		ParameterizedTypeReference<JsonResponse<Map<String, Object>>> responseType =
-        				new ParameterizedTypeReference<JsonResponse<Map<String, Object>>>() {
-        		};
-        		index = restClient.post(urls, param, responseType).getResult();
-        	}
+//        	} else {// 使用cloud-api 接口查询
+//        		urls = apiBaseUrl + "declareInfo/postSearchIndex";
+//        		ParameterizedTypeReference<JsonResponse<Map<String, Object>>> responseType =
+//        				new ParameterizedTypeReference<JsonResponse<Map<String, Object>>>() {
+//        		};
+//        		index = restClient.post(urls, param, responseType).getResult();
+//        	}
             if (null == index) {
                 result = "0";
             }
@@ -739,7 +739,7 @@ public class IpoProcessService extends BaseService {
             for (String indexId : selIdList) {
                 param.add("indexId", indexId);
                 String urls = StringUtils.EMPTY;
-            	if(Global.SEARCH_SERVER_DECLARE_FLAG.equals("0")) {// 使用公告微服务接口查询
+//            	if(Global.SEARCH_SERVER_DECLARE_FLAG.equals("0")) {// 使用公告微服务接口查询
             		String accessToken = commonService.getGuiAccessToken();
             		urls = serviceGuiBaseUrl + "/announcement/announcement/api/postSearchIndex?access_token=" + accessToken;
             		ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
@@ -747,12 +747,12 @@ public class IpoProcessService extends BaseService {
             		String encryptData = restClient.post(urls, param, responseType);
             		// 获取解密后的数据
             		index = commonService.getEncryptData(encryptData);
-            	} else {// 使用cloud-api 接口查询
-            		ParameterizedTypeReference<JsonResponse<Map<String, Object>>> responseType =
-                            new ParameterizedTypeReference<JsonResponse<Map<String, Object>>>() {};
-            		urls = apiBaseUrl + "declareInfo/postSearchIndex";
-            		index = restClient.post(urls, param, responseType).getResult();
-            	}
+//            	} else {// 使用cloud-api 接口查询
+//            		ParameterizedTypeReference<JsonResponse<Map<String, Object>>> responseType =
+//                            new ParameterizedTypeReference<JsonResponse<Map<String, Object>>>() {};
+//            		urls = apiBaseUrl + "declareInfo/postSearchIndex";
+//            		index = restClient.post(urls, param, responseType).getResult();
+//            	}
                 if (null == index) {
                     result = "0";
                 }

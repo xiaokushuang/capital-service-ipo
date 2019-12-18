@@ -221,13 +221,13 @@ public class ViolationService extends BaseService {
      * @param queryInfo
      * @return
      */
-    public FacetResult<PunishmentSearchDto> searchPunishment(QueryInfo<Map<String, String>> queryInfo) {
-        ParameterizedTypeReference<JsonResponse<FacetResult<PunishmentSearchDto>>> responseType = new ParameterizedTypeReference<JsonResponse<FacetResult<PunishmentSearchDto>>>() {
-        };
-        String url = apiBaseUrl + "violation/ajaxPunishmentIndex";
-        FacetResult<PunishmentSearchDto> result = restClient.post(url, queryInfo, responseType).getResult();
-        return result;
-    }
+//    public FacetResult<PunishmentSearchDto> searchPunishment(QueryInfo<Map<String, String>> queryInfo) {
+//        ParameterizedTypeReference<JsonResponse<FacetResult<PunishmentSearchDto>>> responseType = new ParameterizedTypeReference<JsonResponse<FacetResult<PunishmentSearchDto>>>() {
+//        };
+//        String url = apiBaseUrl + "violation/ajaxPunishmentIndex";
+//        FacetResult<PunishmentSearchDto> result = restClient.post(url, queryInfo, responseType).getResult();
+//        return result;
+//    }
 
     /**
      * 检索违规案例
@@ -235,13 +235,13 @@ public class ViolationService extends BaseService {
      * @param queryInfo
      * @return
      */
-    public FacetResult<ViolationSearchDto> searchViolation(QueryInfo<Map<String, String>> queryInfo) {
-        ParameterizedTypeReference<JsonResponse<FacetResult<ViolationSearchDto>>> responseType = new ParameterizedTypeReference<JsonResponse<FacetResult<ViolationSearchDto>>>() {
-        };
-        String url = apiBaseUrl + "violation/ajaxViolationIndex";
-        FacetResult<ViolationSearchDto> result = restClient.post(url, queryInfo, responseType).getResult();
-        return result;
-    }
+//    public FacetResult<ViolationSearchDto> searchViolation(QueryInfo<Map<String, String>> queryInfo) {
+//        ParameterizedTypeReference<JsonResponse<FacetResult<ViolationSearchDto>>> responseType = new ParameterizedTypeReference<JsonResponse<FacetResult<ViolationSearchDto>>>() {
+//        };
+//        String url = apiBaseUrl + "violation/ajaxViolationIndex";
+//        FacetResult<ViolationSearchDto> result = restClient.post(url, queryInfo, responseType).getResult();
+//        return result;
+//    }
  
 
     /**
@@ -347,14 +347,14 @@ public class ViolationService extends BaseService {
      * @param queryInfo
      * @return
      */
-    public Map<String, String> getViolationOverview(ViolationOverviewDto searchDto) {
-        ParameterizedTypeReference<JsonResponse<Map<String, String>>> responseType = new ParameterizedTypeReference<JsonResponse<Map<String, String>>>() {
-        };
-        String url = apiBaseUrl + "violation/getViolationOverview";
-        Map<String, String> queryInfo = getDateMap(searchDto);
-        JsonResponse<Map<String, String>> list = restClient.post(url, queryInfo, responseType);
-        return list.getResult();
-    }
+//    public Map<String, String> getViolationOverview(ViolationOverviewDto searchDto) {
+//        ParameterizedTypeReference<JsonResponse<Map<String, String>>> responseType = new ParameterizedTypeReference<JsonResponse<Map<String, String>>>() {
+//        };
+//        String url = apiBaseUrl + "violation/getViolationOverview";
+//        Map<String, String> queryInfo = getDateMap(searchDto);
+//        JsonResponse<Map<String, String>> list = restClient.post(url, queryInfo, responseType);
+//        return list.getResult();
+//    }
     
     
     /**
