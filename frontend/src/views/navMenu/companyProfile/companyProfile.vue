@@ -591,6 +591,7 @@ import mainTable from "@/views/tables/mainTable";
 import barOrPieChart from "@/components/Charts/barOrPieChart";
 // 导入中介机构
 import IntermediaryInstitutions from "@/views/navMenu/companyProfile/components/IntermediaryInstitutions"
+import {getServiceBaseUrl} from '@/api/ipoCase/companyProfile'
 export default {
   name: "companyProfile",
   components: {
