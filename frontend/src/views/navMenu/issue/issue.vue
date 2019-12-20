@@ -22,12 +22,12 @@
             </el-col>
           </el-row>
           <el-row :gutter="24" class="simulation_table">
-            <el-col :span="6" class="label"><span>发行前股本</span></el-col>
+            <el-col :span="6" class="label"><span>发行前总股本</span></el-col>
             <el-col :span="6" class="value">
               <span v-if="issueData.preIssueNum"> {{issueData.preIssueNum | dataInThRule}} 万股</span>
               <span v-else> - - </span>
             </el-col>
-            <el-col :span="6" class="label"><span>发行后股本</span></el-col>
+            <el-col :span="6" class="label"><span>发行后总股本</span></el-col>
             <el-col :span="6" class="value">
               <span v-if="issueData.nextIssueNum"> {{issueData.nextIssueNum | dataInThRule}} 万股</span>
               <span v-else> - - </span>
