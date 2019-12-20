@@ -4,8 +4,10 @@ import com.stock.capital.enterprise.ipoCase.dao.IpoCaseListMapper;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFavoriteAndNoteDto;
+import com.stock.capital.enterprise.ipoCase.dto.LetterClassIndexDto;
 import com.stock.capital.enterprise.ipoCase.service.IpoCaseListService;
 import com.stock.core.controller.BaseController;
+import com.stock.core.dto.FacetResult;
 import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.QueryInfo;
 import com.stock.core.dto.UserInfo;
@@ -115,12 +117,16 @@ public class IpoCaseListController extends BaseController {
     public JsonResponse<Map<String, Object>> getIpoItemCaseList(@RequestBody QueryInfo<IpoCaseListBo> page) {
         JsonResponse<Map<String, Object>> response = new JsonResponse<>();
         List<String> caseIdList = new ArrayList<String>();
-
         //直接根据案例id查询
         if("0".equals(page.getCondition().getSearchType())){
-            caseIdList = ipoCaseListService.getIpoItemCaseIdList(page.getCondition());
+            FacetResult<LetterClassIndexDto> letterClassIndexList= ipoCaseListService.searchSuperviseLetter(page);
+            List<LetterClassIndexDto> letterCaseIdList=letterClassIndexList.getPage().getData();
+            if (letterCaseIdList.size()>0){
+                for (int i=0;i<letterCaseIdList.size();i++){
+                    caseIdList.add("ipo"+letterCaseIdList.get(i).getLetterCaseId());
+                }
+            }
         }
-
         List<IpoCaseIndexDto> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
         if(caseIdList.size()>0){

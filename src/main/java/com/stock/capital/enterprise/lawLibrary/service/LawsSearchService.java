@@ -185,13 +185,13 @@ public class LawsSearchService extends BaseService {
         return restClient.post(url, params, responseType).getResult();
     }
 
-    @SuppressWarnings("rawtypes")
-    public FacetResult searchLaws(QueryInfo<Map<String, String>> queryInfo) {
-        ParameterizedTypeReference<FacetResult> responseType = new ParameterizedTypeReference<FacetResult>() {
-        };
-        FacetResult facetResult = restClient.post(apiBaseUrl + "laws_manage/ajaxLawIndex", queryInfo, responseType);
-        return facetResult;
-    }
+//    @SuppressWarnings("rawtypes")
+//    public FacetResult searchLaws(QueryInfo<Map<String, String>> queryInfo) {
+//        ParameterizedTypeReference<FacetResult> responseType = new ParameterizedTypeReference<FacetResult>() {
+//        };
+//        FacetResult facetResult = restClient.post(apiBaseUrl + "laws_manage/ajaxLawIndex", queryInfo, responseType);
+//        return facetResult;
+//    }
 
     public FacetResult searchLawsEs(QueryInfo<SearchLawsDTO> queryInfo) {
         ParameterizedTypeReference<FacetResult> responseType = new ParameterizedTypeReference<FacetResult>() {

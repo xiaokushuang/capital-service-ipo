@@ -166,6 +166,16 @@ public class IpoCaseListBo implements Serializable {
     private List<String> caseIdList;
     private String SearchType;
 
+    private String checkCase;
+
+    public String getCheckCase() {
+        return checkCase;
+    }
+
+    public void setCheckCase(String checkCase) {
+        this.checkCase = checkCase;
+    }
+
     public Date[] getPubProcessTime() {
         return pubProcessTime;
     }

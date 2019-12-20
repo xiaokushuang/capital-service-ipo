@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<elasticsearch-dynamic-statement xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    nameSpace="com.stock.capital.enterprise.ipoCase.dto.LetterInfo">
+    <select id="letterInfoOtherSearch" type="dsl" resultType="com.stock.capital.enterprise.ipoCase.dto.LetterClassIndexDto">
+        <![CDATA[
+        {   
+            "from": ${startRow},
+            "size": ${pageSize},
+            "_source":["letter_case_id_t"],
+            "track_total_hits" : true,
+            "query":{
+                "bool": {
+                    "must": [{
+                    "bool": {
+                    "must": [
+                    {
+                    "match_all": { }
+                    }
+                    ]
+                    }
+                    },{
+                      "exists": {
+                        "field": "letter_case_id_t"
+                      }
+                    }],
+                    "must_not": [],
+                    "should": [],
+                    <#-- 过滤器查询 -->
+                    "filter": [
+                        {
+                            "bool": {
+                                "must": [
+                                {
+                                "match_all": { }
+                                }
+                                <#-- 模块-->
+                                <#if condition.letterApplyModule?? && (condition.letterApplyModule?size > 0)>
+                                ,{
+                                    "terms": {
+                                        "letter_letter_apply_module_txt": [
+                                            <#list condition.letterApplyModule as item>
+                                                "${item}"<#if item_has_next>,</#if>
+                                            </#list>   
+                                        ]
+                                    }
+                                }
+                                </#if>
+                                <#-- 函件类别-->
+                                <#if condition.letterType?? && (condition.letterType?size > 0)>
+                                ,{
+                                    "terms": {
+                                        "letter_letter_type_txt": [
+                                            <#list condition.letterType as item>
+                                                "${item}"<#if item_has_next>,</#if>
+                                            </#list>
+                                        ]
+                                    }
+                                }
+                                </#if>
+                                <#-- 问题类别-->
+                                <#if condition.questionType?? && (condition.questionType?size > 0)>
+                                ,{
+                                    "terms": {
+                                        "letter_question_class_new_id_txt": [
+                                            <#list condition.questionType as item>
+                                                "${item}"<#if item_has_next>,</#if>
+                                            </#list>
+                                        ]
+                                    }
+                                }
+                                </#if>
+                                <#-- 所属证监局-->
+                                <#if condition.belongsToSFCType??>
+                                ,{
+                                    "terms": {
+                                        "company_area_txt": [
+                                            "${condition.belongsToSFCType}"        
+                                        ]
+                                    }
+                                }
+                                </#if>
+                                <#-- 热门分类-->
+                                <#if condition.hotClass??>
+                                ,{
+                                    "terms": {
+                                        "letter_question_class_new_id_txt": [
+                                            "${condition.hotClass}"        
+                                        ]
+                                    }
+                                }
+                                </#if>
+                                <#-- 公司code-->
+                                <#if condition.companyCodeList?? && (condition.companyCodeList?size > 0)>
+                                ,{
+                                    "terms": {
+                                        "letter_company_id_t": [
+                                            <#list condition.companyCodeList as item>
+                                                "${item}"<#if item_has_next>,</#if>
+                                            </#list>   
+                                        ]
+                                    }
+                                }
+                                </#if>
+                                <#-- 发函单位-->
+                                <#if condition.ipoSendUnitSelect?? && (condition.ipoSendUnitSelect?size > 0)>
+                                ,{
+                                    "terms": {
+                                        "letter_letter_org_code_value_t": [
+                                            <#list condition.ipoSendUnitSelect as item>
+                                                "${item}"<#if item_has_next>,</#if>
+                                            </#list>   
+                                        ]
+                                    }
+                                }
+                                </#if>
+                                <#-- 回复状态-->
+                                <#if condition.replyStatus??>
+                                ,{
+                                    "terms": {
+                                        "letter_return_code_t": [
+                                            "${condition.replyStatus}"        
+                                        ]
+                                    }
+                                }
+                                </#if>
+                                <#-- 所属板块-->
+                                <#if condition.stockBoardSelect?? && (condition.stockBoardSelect?size > 0)>
+                                ,{
+                                    "terms": {
+                                        "letter_belong_plate_t": [
+                                            <#list condition.stockBoardSelect as item>
+                                                "${item}"<#if item_has_next>,</#if>
+                                            </#list>   
+                                        ]
+                                    }
+                                }
+                                </#if>
+                                <#-- 所在地区-->
+                                <#if condition.areaSelect?? && (condition.areaSelect?size > 0)>
+                                ,{
+                                    "terms": {
+                                        "letter_area_no_txt": [
+                                            <#list condition.areaSelect as item>
+                                                "${item}"<#if item_has_next>,</#if>
+                                            </#list>   
+                                        ]
+                                    }
+                                }
+                                </#if>
+                                <#-- 审核结果-->
+                                <#if condition.auditSelect?? && (condition.auditSelect?size > 0)>
+                                ,{
+                                    "terms": {
+                                        "letter_ipo_case_status_t": [
+                                            <#list condition.auditSelect as item>
+                                                "${item}"<#if item_has_next>,</#if>
+                                            </#list>   
+                                        ]
+                                    }
+                                }
+                                </#if>
+                                <#-- 关联法规-->
+                                <#if condition.lawId?? && (condition.lawId?size > 0)>
+                                ,{
+                                    "terms": {
+                                        "letter_laws_id_txt": [
+                                            <#list condition.lawId as item>
+                                                "${item}"<#if item_has_next>,</#if>
+                                            </#list>   
+                                        ]
+                                    }
+                                }
+                                </#if>
+                                <#-- 所属行业-->
+                                <#if condition.industrySelect?? && (condition.industrySelect?size > 0)>
+                                ,{
+                                    "terms": {
+                                        "letter_industry_no_txt": [
+                                            <#list condition.industrySelect as item>
+                                                "${item}"<#if item_has_next>,</#if>
+                                            </#list>   
+                                        ]
+                                    }
+                                }
+                                </#if>
+                                <#-- 发函日期-->
+                                <#if condition.letterDateFrom?? && condition.letterDateTo??>
+                                ,{
+                                    "constant_score": {
+                                        "filter": {
+                                            "range": {
+                                                "letter_letter_date_dt": {
+                                                    "from": "${condition.letterDateFrom}",
+                                                    "to": "${condition.letterDateTo}",
+                                                    "include_lower": true,
+                                                    "include_upper": true
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                </#if>
+                                <#-- 回函日期-->
+                                <#if condition.letterReturnDateFrom?? && condition.letterReturnDateTo??>
+                                ,{
+                                    "constant_score": {
+                                        "filter": {
+                                            "range": {
+                                                "letter_letter_return_date_dt": {
+                                                    "from": "${condition.letterReturnDateFrom}",
+                                                    "to": "${condition.letterReturnDateTo}",
+                                                    "include_lower": true,
+                                                    "include_upper": true
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                </#if>
+                                <#-- 依据拟上市板块-->
+                                <#if condition.ipoPlateSelect?? && (condition.ipoPlateSelect?size > 0)>
+                                ,{
+                                    "terms": {
+                                        "ipo_plate_module_t": [
+                                            <#list condition.ipoPlateSelect as item>
+                                                "${item}"<#if item_has_next>,</#if>
+                                            </#list>   
+                                        ]
+                                    }
+                                }
+                                </#if>
+                                <#-- 依据发行人选择的上市条件-->
+                                <#if condition.ipoIssueSelect?? && (condition.ipoIssueSelect?size > 0)>
+                                ,{
+                                    "terms": {
+                                        "letter_Issue_condition_txt": [
+                                            <#list condition.ipoIssueSelect as item>
+                                                "${item}"<#if item_has_next>,</#if>
+                                            </#list>   
+                                        ]
+                                    }
+                                }
+                                </#if>
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            "sort": [
+                <#if orderByName?? && orderByName != "">
+                <#list orderByName?split(",") as orderName>
+                    {
+                        "${orderName}": {
+                            "order": "${orderByOrder?split(",")[orderName_index]}"
+                        }
+                    }<#if orderName_has_next>,</#if>
+                </#list>
+                </#if>
+            ]
+
+        }
+        ]]>
+    </select>
+</elasticsearch-dynamic-statement>

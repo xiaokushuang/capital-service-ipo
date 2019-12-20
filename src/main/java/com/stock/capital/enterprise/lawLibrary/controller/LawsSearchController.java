@@ -659,13 +659,13 @@ public class LawsSearchController extends BaseController {
         queryInfo.setOrderByOrder(orderby);
         queryInfo.setPageSize(searchLawsDTO.getPageSize());
         queryInfo.setStartRow(searchLawsDTO.getPage());
-        if(Global.SEARCH_SERVER_LAWS_FLAG.equals("0")){
+//        if(Global.SEARCH_SERVER_LAWS_FLAG.equals("0")){
             QueryInfo<SearchLawsDTO> queryInfoEs = new QueryInfo<>();
             queryInfoEs =  lawsSearchService.dealLawsQueryInfo(searchLawsDTO);
             result.setResult(lawsSearchService.searchLawsEs(queryInfoEs));
-        }else {
-            result.setResult(lawsSearchService.searchLaws(queryInfo));
-        }
+//        }else {
+//            result.setResult(lawsSearchService.searchLaws(queryInfo));
+//        }
         return result;
     }
 

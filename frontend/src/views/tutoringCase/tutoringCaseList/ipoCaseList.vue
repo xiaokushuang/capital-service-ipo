@@ -440,11 +440,11 @@
           <el-row :gutter="24">
             <el-col :span='14'>
               <span style="font-size: 12px;color: #666">为您检索到相关结果{{totalCount}}条，默认以</span>
-              <span style="font-size: 12px;color: #333">发审会审核时间↓</span>
+              <span style="font-size: 12px;color: #333">审核时间/辅导备案时间↓</span>
               <span style="font-size: 12px;color: #666">排序。</span>
               <a style="color:#1990fe;font-size: 12px" @click="searchFlag == false ? searchFlag=true : searchFlag=false">
-                <a v-if="searchFlag">收起核准制上市条件检索</a>
-                <a v-else>展开核准制上市条件检索</a>
+                <a v-if="searchFlag">收起财务数据条件检索</a>
+                <a v-else>展开财务数据条件检索</a>
               </a>
             </el-col>
             <el-col :span="10" style="text-align: right">
@@ -738,7 +738,15 @@
           },
           {
             id: 4,
-            value: '30'
+            value: '30-50'
+          },
+          {
+            id: 5,
+            value: '50-100'
+          },
+          {
+            id: 6,
+            value: '100'
           }
         ],
         optionIssueFee: [{
