@@ -984,12 +984,12 @@
       },
       openNew() {
         const _self = this;
-        const href = _self.serviceBaseUrl + '/ui/laws/laws/lawsDetail?lawId=745777672757626842&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
+        const href = _self.serviceBaseUrl + 'ui/laws/laws/lawsDetail?lawId=745777672757626842&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
         window.open(href, '_blank');
       },
       openNewRule() {
         const _self = this;
-        const href = _self.serviceBaseUrl + '/ui/laws/laws/lawsDetail?lawId='+_self.issueLawId+'&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
+        const href = _self.serviceBaseUrl + 'ui/laws/laws/lawsDetail?lawId='+_self.issueLawId+'&access_token=' + _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
         window.open(href, '_blank');
       },
       //没有权限数据背景色
