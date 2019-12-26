@@ -316,8 +316,12 @@
                 exportExcelPostWindow1("/ipo/regulatory_statistics/ipoItemDataExport",this.queryParam);
             },
             openFdDetailProv(label,registAddr,lastUpadteTime,approveStatus,viewType){
+              var subTitle = registAddr;
+                if(registAddr == '合计' && this.queryParam.condition.registAddr){
+                    registAddr = this.queryParam.condition.registAddr;
+                }
                 let url = window.location.href;
-                let title = '在审项目数据明细（'+registAddr+" "+label+"）"
+                let title = '在审项目数据明细（'+subTitle+" "+label+"）"
                 url = url.replace(this.$route.path,'/ipoDataOverviewDetailFdPopWin');
                 url = url + '&registAddr=' + registAddr + '&approveStatus=' + approveStatus+'&belongsPlate=' + this.queryParam.condition.belongsPlate;
                 //参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语

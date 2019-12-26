@@ -58,6 +58,7 @@
         },
         methods:{
             search(data){//通过给定条件查询数据
+
                 // document.getElementsByClassName("is-scrolling-none")[0].scrollTop = 0;
                 let param = {}
                 if (this.$route.query.registAddr){
