@@ -31,129 +31,135 @@
   </div>
 </template>
 <script>
-  import { mapGetters } from 'vuex'
-  import {iframeDoMessage} from '@/utils/auth'
-  import common from '@/mixins/common'
-  import {exportExcelPostWindow1} from '@/utils'
-  import {
-    getIpoDataOverviewFdDetail
-  } from '@/api/ipoCase/ipoCaseListApi'
-  export default {
-    mixins: [common],
-    name:'ipoDataOverviewDetailFdPopWin',
-    data(){
-      return {
-        data:[],
-      }
-    },
-    computed:{
-
-    },
-    created(){
-
-    },
-    mounted() {
-      //页面加载完成时查询数据
-      this.search();
-    },
-    methods:{
-      search(data){//通过给定条件查询数据
-        // document.getElementsByClassName("is-scrolling-none")[0].scrollTop = 0;
-        let param = {}
-        if (this.$route.query.registAddr){
-          param = {
-            registAddr : this.$route.query.registAddr,
-            approveStatus : this.$route.query.approveStatus,
-          }
-        }else {
-          param = {
-            label : this.$route.query.label,
-            intermediaryType : this.$route.query.intermediaryType,
-            labelCode:this.$route.query.labelCode,
-          }
-        }
-        getIpoDataOverviewFdDetail(param).then(response => {
-          if (this.$route.query.intermediaryType){
-            if (this.$route.query.intermediaryType == '7'){
-              this.data = response.data.result.recommendOrgSttsList;
-            }else if(this.$route.query.intermediaryType == '3'){
-              this.data = response.data.result.lawFirmSttsList;
-            }else {
-              this.data = response.data.result.accountantOfficeSttsList;
+    import { mapGetters } from 'vuex'
+    import {iframeDoMessage} from '@/utils/auth'
+    import common from '@/mixins/common'
+    import {exportExcelPostWindow1} from '@/utils'
+    import {
+        getIpoDataOverviewFdDetail
+    } from '@/api/ipoCase/ipoCaseListApi'
+    export default {
+        mixins: [common],
+        name:'ipoDataOverviewDetailFdPopWin',
+        data(){
+            return {
+                data:[],
             }
-          }else {
-            this.data = response.data.result.ipoDetailList;
-          }
-        });
-      },
-      getApproveStatus(name) {//地区特殊处理
-        if(name == '广东') {
-          name = '广东<br/>(不含深圳)';
-        } else if(name == '辽宁') {
-          name = '辽宁<br/>(不含大连)';
-        } else if(name == '浙江') {
-          name = '浙江<br/>(不含宁波)';
-        } else if(name == '福建') {
-          name = '福建<br/>(不含厦门)';
-        } else if(name == '山东') {
-          name = '山东<br/>(不含青岛)';
-        }
-        return name;
-      },
-      checkEmpty(label) {//判断空值
-        if(this.getValue(label) == '') {
-          label = '--'
-        }
-        return label;
-      },
-      exportExcel() {//导出Excel
-        let statisticsParamDto = {}
-        if (this.$route.query.registAddr){
-          statisticsParamDto = {
-            registAddr : this.$route.query.registAddr,
-            approveStatus : this.$route.query.approveStatus,
-          }
-        }else {
-          statisticsParamDto = {
-            label : this.$route.query.label,
-            intermediaryType : this.$route.query.intermediaryType,
-            tabFlag:this.$route.query.tabFlag,
-            labelCode:this.$route.query.labelCode,
-          }
-        }
-        exportExcelPostWindow1("/ipo/regulatory_statistics/ipoDataOverviewFdDetailExport",statisticsParamDto);
-      },
-      openDetail(id){
-        if (id) {
-          var caseId = id;
-          const _self = this;
-          const {
-            href
-          } = _self.$router.resolve({
-            // name: 'tutoringCase',
-            name: 'tutoringCase',
-            query: {
-              caseId: caseId,
-              access_token: _self.$route.query.access_token,
-              tenant_info: _self.$route.query.tenant_info
+        },
+        computed:{
+
+        },
+        created(){
+
+        },
+        mounted() {
+            //页面加载完成时查询数据
+            this.search();
+        },
+        methods:{
+            search(data){//通过给定条件查询数据
+                // document.getElementsByClassName("is-scrolling-none")[0].scrollTop = 0;
+                let param = {}
+                if (this.$route.query.registAddr){
+                    param = {
+                        registAddr : this.$route.query.registAddr,
+                        approveStatus : this.$route.query.approveStatus,
+                    }
+                    if(this.$route.query.belongsPlate){
+                        param.belongsPlate = this.$route.query.belongsPlate;
+                    }
+                }else {
+                    param = {
+                        label : this.$route.query.label,
+                        intermediaryType : this.$route.query.intermediaryType,
+                        labelCode:this.$route.query.labelCode,
+                    }
+                }
+                getIpoDataOverviewFdDetail(param).then(response => {
+                    if (this.$route.query.intermediaryType){
+                        if (this.$route.query.intermediaryType == '7'){
+                            this.data = response.data.result.recommendOrgSttsList;
+                        }else if(this.$route.query.intermediaryType == '3'){
+                            this.data = response.data.result.lawFirmSttsList;
+                        }else {
+                            this.data = response.data.result.accountantOfficeSttsList;
+                        }
+                    }else {
+                        this.data = response.data.result.ipoDetailList;
+                    }
+                });
+            },
+            getApproveStatus(name) {//地区特殊处理
+                if(name == '广东') {
+                    name = '广东<br/>(不含深圳)';
+                } else if(name == '辽宁') {
+                    name = '辽宁<br/>(不含大连)';
+                } else if(name == '浙江') {
+                    name = '浙江<br/>(不含宁波)';
+                } else if(name == '福建') {
+                    name = '福建<br/>(不含厦门)';
+                } else if(name == '山东') {
+                    name = '山东<br/>(不含青岛)';
+                }
+                return name;
+            },
+            checkEmpty(label) {//判断空值
+                if(this.getValue(label) == '') {
+                    label = '--'
+                }
+                return label;
+            },
+            exportExcel() {//导出Excel
+                let statisticsParamDto = {}
+                if (this.$route.query.registAddr){
+                    statisticsParamDto = {
+                        registAddr : this.$route.query.registAddr,
+                        approveStatus : this.$route.query.approveStatus,
+                    }
+                    if(this.$route.query.belongsPlate){
+                        statisticsParamDto.belongsPlate = this.$route.query.belongsPlate;
+                    }
+                }else {
+                    statisticsParamDto = {
+                        label : this.$route.query.label,
+                        intermediaryType : this.$route.query.intermediaryType,
+                        tabFlag:this.$route.query.tabFlag,
+                        labelCode:this.$route.query.labelCode,
+                    }
+                }
+                exportExcelPostWindow1("/ipo/regulatory_statistics/ipoDataOverviewFdDetailExport",statisticsParamDto);
+            },
+            openDetail(id){
+                if (id) {
+                    var caseId = id;
+                    const _self = this;
+                    const {
+                        href
+                    } = _self.$router.resolve({
+                        // name: 'tutoringCase',
+                        name: 'tutoringCase',
+                        query: {
+                            caseId: caseId,
+                            access_token: _self.$route.query.access_token,
+                            tenant_info: _self.$route.query.tenant_info
+                        }
+                    });
+                    // 日志---------------------头
+                    let param = {
+                        recordType: 'open', //跳转页面方式:
+                        recordTab: "IPO案例详情页" //跳转tab
+                    }
+                    this.$store.commit('CREATE_TEMP_MESSAGE', param);
+                    // 日志---------------------尾
+                    this.$open(href, '_blank');
+                } else {
+                    let url = window.location.href;
+                    url = url.replace(this.$route.path, '/ipoPopWin');
+                    iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
+                }
             }
-          });
-          // 日志---------------------头
-          let param = {
-            recordType: 'open', //跳转页面方式:
-            recordTab: "IPO案例详情页" //跳转tab
-          }
-          this.$store.commit('CREATE_TEMP_MESSAGE', param);
-          // 日志---------------------尾
-          this.$open(href, '_blank');
-        } else {
-          let url = window.location.href;
-          url = url.replace(this.$route.path, '/ipoPopWin');
-          iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
         }
-      }
     }
-  }
 </script>
 <style>
   .container .el-table th>.cell {
