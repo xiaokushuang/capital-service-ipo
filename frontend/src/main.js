@@ -5,7 +5,7 @@ import Element from 'element-ui'
 // 引入echarts
 import echarts from 'echarts'
 Vue.prototype.$echarts = echarts
-import 'echarts/map/js/china.js';
+//import 'echarts/map/js/china.js';
 
 import '@/styles/index.scss' // global css
 import App from './App'
