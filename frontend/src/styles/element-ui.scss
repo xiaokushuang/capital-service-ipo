@@ -6,6 +6,12 @@
  .el-col .el-date-editor{
    width: 100% !important;
  }
+ .el-select-dropdown__item{
+    height: 100%;
+    background-color: white !important;
+    font-size: 14px;
+    font-weight: 500;
+  }
 
  .el-upload {
    input[type="file"] {
