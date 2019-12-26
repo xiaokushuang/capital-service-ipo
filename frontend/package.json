@@ -50,7 +50,7 @@
     "vuedraggable": "2.15.0",
     "vuex": "^3.1.1",
     "xlsx": "^0.11.16",
-    "element-ui": "2.8.3d"
+    "element-ui": "2.8.2f"
   },
   "devDependencies": {
     "autoprefixer": "7.2.3",
@@ -101,7 +101,7 @@
     "vue-orgchart": "^1.1.4",
     "vue-peity": "^0.5.0",
     "vue-style-loader": "3.0.3",
-    "vue-template-compiler": "2.5.22",
+    "vue-template-compiler": "^2.5.22",
     "webpack": "3.10.0",
     "webpack-bundle-analyzer": "2.9.1",
     "webpack-dev-server": "2.9.7",
