@@ -12,6 +12,9 @@
     font-size: 14px !important;
     font-weight: 500 !important;
   }
+ .el-select-dropdown__item:hover{
+   background-color: white !important;
+ }
 
  .el-upload {
    input[type="file"] {
