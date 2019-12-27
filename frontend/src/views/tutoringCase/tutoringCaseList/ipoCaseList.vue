@@ -2388,4 +2388,7 @@
   .selectTypeClass .el-radio__label{
     font-size: 12px !important;
   }
+  tbody tr td .cell{
+    min-height: 60px;
+  }
 </style>
