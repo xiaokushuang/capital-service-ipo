@@ -3,40 +3,6 @@
  .el-breadcrumb__inner, .el-breadcrumb__inner a{
   font-weight: 400!important;
 }
- .el-col .el-date-editor{
-   width: 100% !important;
- }
- .el-select-dropdown__item{
-    height: 100% !important;
-    background-color: white !important;
-    font-size: 14px !important;
-    font-weight: 500 !important;
-  }
- .el-select-dropdown__item:hover{
-   background-color: white !important;
- }
- tbody tr td{
-   padding-top: 0px !important;
-   padding-bottom: 0px !important;
- }
- .el-button{
-   border-radius: 0px !important;
- }
- .el-button--default{
-   background-image: linear-gradient(180deg,#f4f4f4 0,#eaeaea) !important;
-   border-bottom-color: #c6c6c6 !important;
- }
-
- .el-tooltip__popper.is-light{
-   background: #fff !important;
-   border: 1px solid #eee !important;
- }
- .el-tooltip__popper{
-   padding: 16px !important;
- }
- .popper__arrow{
-   border-color: transparent !important;
- }
 
  .el-upload {
    input[type="file"] {

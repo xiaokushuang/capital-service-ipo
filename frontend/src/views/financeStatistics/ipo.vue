@@ -1452,7 +1452,4 @@
     color: #777777;
     position: relative;
   }
-  .el-button--default{
-    background-image: none !important;
-  }
 </style>

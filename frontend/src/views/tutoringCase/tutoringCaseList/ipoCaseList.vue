@@ -198,7 +198,7 @@
               </el-select>
             </el-col>
            <el-col :span='8' class="stockIncreasePan-class">
-             <el-multiple-selection :range="true" :tree-data="optionIssueFee" placeholder="发行费用" size="small full"
+             <el-multiple-selection v-if="issueFeeShow" :range="true" :tree-data="optionIssueFee" placeholder="发行费用" size="small full"
                                     :multiple="false" @keydown.enter.native="querySearch" unit="万元" :ran="optionDto" @sure-click="rangeCallIssueFee"
                                     :left-decimal="true">
              </el-multiple-selection>
@@ -211,7 +211,7 @@
              </el-date-picker>
            </el-col>
             <el-col :span='4' class="stockIncreasePan-class">
-              <el-multiple-selection :range="true" :tree-data="optionPeIssueA" placeholder="发行后市盈率" size="small full"
+              <el-multiple-selection v-if="issueShow" :range="true" :tree-data="optionPeIssueA" placeholder="发行后市盈率" size="small full"
                                      :multiple="false" @keydown.enter.native="querySearch" unit="倍" :ran="optionDto" @sure-click="rangeCallPeIssueA"
                                      :left-decimal="true">
               </el-multiple-selection>
@@ -227,7 +227,7 @@
               </el-select>
             </el-col>
             <el-col :span='8'>
-              <el-multiple-selection :range="true" :tree-data="optionAuditDuration" placeholder="审核历时（辅导历时）"
+              <el-multiple-selection v-if="durationShow" :range="true" :tree-data="optionAuditDuration" placeholder="审核历时（辅导历时）"
                                      size="small full" :multiple="false" @keydown.enter.native="querySearch" unit="天" :ran="optionDto" @sure-click="rangeAuditDuration"
                                      :left-decimal="true">
               </el-multiple-selection>
@@ -2387,11 +2387,5 @@
   } */
   .selectTypeClass .el-radio__label{
     font-size: 12px !important;
-  }
-  tbody tr td .cell{
-    min-height: 60px;
-  }
-  .el-button{
-    padding: 5px 12px !important;
   }
 </style>
