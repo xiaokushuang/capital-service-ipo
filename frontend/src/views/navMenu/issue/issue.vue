@@ -269,6 +269,7 @@
   import $ from "jquery";
   import {getServiceBaseUrl} from '@/api/ipoCase/companyProfile'
   import echarts from 'echarts'
+  Vue.prototype.$echarts = echarts
   export default {
     name: "issue",
     data() {

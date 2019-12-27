@@ -7,6 +7,7 @@
 
 <script>
 import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 export default {
   data() {
     return {
@@ -97,7 +98,7 @@ export default {
         _self.initPieChart(series,params.name,params.dataIndex,'');
       });
        this.barChart.setOption({
-            color:[ 
+            color:[
                 '#ea5365', '#f9b162', '#36a2eb', '#4ec8e5', '#f98962',
                 '#8780e4', '#d192e0', '#ed7ae2', '#aabfe2', '#5b6878',
             ],
@@ -200,9 +201,9 @@ initPieChart(dataList,nameTempO,num,flag) {
     }
   }
   var option = {
-         color:[ 
+         color:[
                 '#ea5365', '#f9b162', '#36a2eb', '#4ec8e5', '#f98962',
-                '#8780e4', '#d192e0', '#ed7ae2', '#aabfe2', '#5b6878', 
+                '#8780e4', '#d192e0', '#ed7ae2', '#aabfe2', '#5b6878',
             ],
          title: {
                 text: "• "+nameTemp+" _ 主营业务分布",
@@ -233,7 +234,7 @@ initPieChart(dataList,nameTempO,num,flag) {
                   }
                   return [posX, posY];
                 },
-           //百分比显示，模板变量有 {a}、{b}、{c}、{d}，分别表示系列名，数据名，数据值，百分比。{d}数据会根据value值计算百分比                         
+           //百分比显示，模板变量有 {a}、{b}、{c}、{d}，分别表示系列名，数据名，数据值，百分比。{d}数据会根据value值计算百分比
           formatter: "{a}{b} : {c} ({d}%)"
         },
         series: [
