@@ -1455,11 +1455,4 @@
   .el-button--default{
     background-image: none !important;
   }
-  .el-tooltip__popper.is-light{
-    background: #fff !important;
-    border: 1px solid #eee !important;
-  }
-  .el-tooltip__popper{
-    padding: 16px !important;
-  }
 </style>

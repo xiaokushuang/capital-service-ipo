@@ -28,6 +28,14 @@
    border-bottom-color: #c6c6c6 !important;
  }
 
+ .el-tooltip__popper.is-light{
+   background: #fff !important;
+   border: 1px solid #eee !important;
+ }
+ .el-tooltip__popper{
+   padding: 16px !important;
+ }
+
  .el-upload {
    input[type="file"] {
      display: none !important;
