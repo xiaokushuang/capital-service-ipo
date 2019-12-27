@@ -54,6 +54,7 @@ public class IssueSituationService extends BaseService {
             issueDataDto.setPreIssueNum(ipoCaseDetail.getRegisteredAssets());
             if (issueDataDto.getShareIssued() != null) {
                 issueDataDto.setNextIssueNum(ipoCaseDetail.getRegisteredAssets().add(issueDataDto.getShareIssued()));
+                issueDataDto.setIssuedRatio(issueDataDto.getShareIssued().divide(issueDataDto.getNextIssueNum(),4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)));
             }
         }
         return issueDataDto;

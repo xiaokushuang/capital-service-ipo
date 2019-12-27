@@ -176,15 +176,21 @@
             {{scope.$index+1}}
           </template>
         </el-table-column>
-        <el-table-column min-width="20%" prop="title" label="" align='left'>
+        <el-table-column min-width="17%" prop="title" label="" align='left'>
         </el-table-column>
-        <el-table-column min-width="15%" prop="trade_date" label="日期" align='right'>
+        <el-table-column min-width="13%" prop="trade_date" label="日期" align='right'>
         </el-table-column>
-        <el-table-column min-width="15%" prop="NEW" label="收盘价(元/股)" align='right'>
+        <el-table-column min-width="13%" prop="OPEN" label="开盘价(元/股)" align='right'>
         </el-table-column>
-        <el-table-column min-width="15%" prop="marketValue" label="市值(亿元)" align='right'>
+        <el-table-column min-width="13%" prop="NEW" label="收盘价(元/股)" align='right'>
         </el-table-column>
-        <el-table-column min-width="15%" prop="CHG" label="对比发行价涨跌幅" align='right'>
+        <el-table-column min-width="12%" prop="marketValue" label="市值(亿元)" align='right'>
+          <template slot-scope="scope">
+            <span v-if="scope.row.marketValue"> {{scope.row.marketValue}}</span>
+            <span v-else> - - </span>
+          </template>
+        </el-table-column>
+        <el-table-column min-width="18%" prop="CHG" label="对比发行价涨跌幅" align='right'>
           <template slot-scope="scope">
             <span v-if="scope.row.CHG"> {{scope.row.CHG}}%</span>
             <span v-else> - - </span>
@@ -208,13 +214,13 @@
             <span v-else> - - </span>
           </template>
         </el-table-column>
-        <el-table-column min-width="12.5%" prop="initialNumberTenThousand" label="初始认购股数（万股）" align='right'>
+        <!-- <el-table-column min-width="12.5%" prop="initialNumberTenThousand" label="初始认购股数（万股）" align='right'>
           <template slot-scope="scope">
             <span v-if="scope.row.initialNumberTenThousand"> {{scope.row.initialNumberTenThousand | dataInThRule}}</span>
             <span v-else> - - </span>
           </template>
-        </el-table-column>
-        <el-table-column min-width="11%" prop="allottedNumberTenThousand" label="获配股数（万股）" align='right'>
+        </el-table-column> -->
+        <el-table-column min-width="16%" prop="allottedNumberTenThousand" label="获配股数（万股）" align='right'>
           <template slot-scope="scope">
             <span v-if="scope.row.allottedNumberTenThousand"> {{scope.row.allottedNumberTenThousand | dataInThRule}}</span>
             <span v-else> - - </span>
@@ -226,7 +232,7 @@
             <span v-else> - - </span>
           </template>
         </el-table-column>
-        <el-table-column min-width="11%" prop="allottedAmountTenThousand" label="获配金额（万元）" align='right'>
+        <el-table-column min-width="16%" prop="allottedAmountTenThousand" label="获配金额（万元）" align='right'>
           <template slot-scope="scope">
             <span v-if="scope.row.allottedAmountTenThousand"> {{scope.row.allottedAmountTenThousand | dataInThRule}}</span>
             <span v-else> - - </span>
