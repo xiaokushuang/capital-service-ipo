@@ -268,6 +268,7 @@
   } from "@/api/ipoCase/tableDemo";
   import $ from "jquery";
   import {getServiceBaseUrl} from '@/api/ipoCase/companyProfile'
+  import echarts from 'echarts'
   export default {
     name: "issue",
     data() {
