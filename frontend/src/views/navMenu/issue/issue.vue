@@ -518,7 +518,9 @@
                         },
                         axisPointer: {
                             z: 100
-                        }
+                        },
+                        splitNumber: 19,
+                        max: 19,
 
                     },
                         {
@@ -536,10 +538,13 @@
                             splitLine: {
                                 show: false
                             },
+                            // max: '20',
                             axisLabel: {
                                 show: true,
                                 interval: "auto"
                             },
+                            splitNumber: 19,
+                            max: 19,
                         }
                     ],
                     yAxis: [{
