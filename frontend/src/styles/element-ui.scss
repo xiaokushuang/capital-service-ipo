@@ -18,9 +18,17 @@
  tbody tr td{
    padding-top: 0px !important;
    padding-bottom: 0px !important;
+   border-radius: 0px !important;
  }
  tbody tr td .cell{
    height: 60px;
+ }
+ .el-button{
+   padding: 5px 12px !important;
+ }
+ .el-button--default{
+   background-image: linear-gradient(180deg,#f4f4f4 0,#eaeaea) !important;
+   border-bottom-color: #c6c6c6 !important;
  }
 
  .el-upload {
