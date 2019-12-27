@@ -2391,4 +2391,7 @@
   tbody tr td .cell{
     min-height: 60px;
   }
+  .el-button{
+    padding: 5px 12px !important;
+  }
 </style>
