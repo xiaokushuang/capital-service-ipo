@@ -35,6 +35,9 @@
  .el-tooltip__popper{
    padding: 16px !important;
  }
+ .popper__arrow{
+   border-color: transparent !important;
+ }
 
  .el-upload {
    input[type="file"] {
