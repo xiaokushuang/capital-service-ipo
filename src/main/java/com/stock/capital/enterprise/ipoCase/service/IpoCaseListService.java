@@ -39,9 +39,6 @@ public class IpoCaseListService extends BaseService {
     @Value("#{app['api.baseUrl']}")
     private String apiBaseUrl;
 
-    @Value("#{app['service.baseUrl']}")
-    private String serviceBaseUrl;
-
     @Autowired
     private RestClient restClient;
 
@@ -412,7 +409,6 @@ public class IpoCaseListService extends BaseService {
         //配售机制
         List<RegTreeDto> placingMechanism = ipoCaseListMapper.getLabelByCode("IPO_PLACING_MECHANISM");
         resultMap.put("placingMechanism", sortSelectList(placingMechanism));
-        resultMap.put("serviceBaseUrl", serviceBaseUrl);
         return resultMap;
     }
 

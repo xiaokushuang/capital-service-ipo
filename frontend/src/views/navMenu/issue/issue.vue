@@ -267,14 +267,12 @@
     getEstimateType
   } from "@/api/ipoCase/tableDemo";
   import $ from "jquery";
-  import {getServiceBaseUrl} from '@/api/ipoCase/companyProfile'
   import echarts from 'echarts'
   Vue.prototype.$echarts = echarts
   export default {
     name: "issue",
     data() {
       return {
-        serviceBaseUrl:'',
         issueChart: null,
         estimateType: '',
         issueFeeData: [],
@@ -358,11 +356,6 @@
             this.tableData = res.data.result.tableResult;
             self.initEchart();
           }
-        })
-        var param1 = {};
-        getServiceBaseUrl(param1).then(res => {
-          let result1 = res.data.result;
-          this.serviceBaseUrl =result1;
         })
 
       },
@@ -662,7 +655,7 @@
       openNewRule() {
         // 待修改 TODO 返回lawId
         const _self = this;
-        const href = _self.serviceBaseUrl + 'ui/laws/laws/lawsDetail?lawId=746412002832382310&access_token=' + _self
+        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=746412002832382310&access_token=' + _self
           .$store
           .state.app.token + '&tenant_info=' + _self.$store.state.app.info;
         window.open(href, '_blank');

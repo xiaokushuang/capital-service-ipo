@@ -50,7 +50,7 @@
     "vuedraggable": "2.15.0",
     "vuex": "3.1.1",
     "xlsx": "^0.11.16",
-    "element-ui": "2.8.2f"
+    "element-ui": "2.8.3d"
   },
   "devDependencies": {
     "autoprefixer": "7.2.3",
