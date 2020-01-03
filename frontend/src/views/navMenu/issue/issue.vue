@@ -275,6 +275,8 @@
         getEstimateType
     } from "@/api/ipoCase/tableDemo";
     import $ from "jquery";
+    import echarts from 'echarts'
+    Vue.prototype.$echarts = echarts
     import {getServiceBaseUrl} from '@/api/ipoCase/companyProfile'
     export default {
         name: "issue",
@@ -310,6 +312,7 @@
                 tipFlag: false,
             }
         },
+<<<<<<< HEAD
         created() {
             // 日志--------------------功能头
             let param = {

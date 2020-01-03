@@ -62,14 +62,12 @@
 <script>
 import {getDownloadFileData} from '@/api/ipoCase/companyProfile'
 import {checkFile} from '@/api/ipoCase/companyProfile'
-import {getServiceBaseUrl} from '@/api/ipoCase/companyProfile'
 export default {
     name:'moreNotice',
     data() {
       return {
         multipleSelection: [],
         dialogVisible:false,
-        serviceBaseUrl:'',
       }
     },
     props:["moreNoticeList"],
@@ -82,13 +80,6 @@ export default {
 　　　　deep: true,  //对象内部的属性监听，也叫深度监听
        immediate: true //immediate表示在watch中首次绑定的时候，是否执行handler，值为true则表示在watch中声明的时候，就立即执行handler方法，值为false，则和一般使用watch一样，在数据发生变化的时候才执行handler
 　　}  
-  },
-  created() {
-    var param = {};
-    getServiceBaseUrl(param).then(res => {
-      let result = res.data.result;
-      this.serviceBaseUrl =result;
-    })
   },
     methods: {
        //初始化下载数据
@@ -112,7 +103,7 @@ export default {
             let url = window.location.href;
             let token = this.$store.state.app.token
             url = url.substr(0,url.indexOf("ui"));
-            url = this.serviceBaseUrl + 'ipo/ipoProcess/downloadFile?access_token='+token+
+            url = url + 'ipo/ipoProcess/downloadFile?access_token='+token+
                   '&fileId='+ fileIdLabel + '&fileType='+ fileType;
             window.open(url);
           }else{
@@ -134,7 +125,7 @@ export default {
               let url = window.location.href;
               let token = this.$store.state.app.token
               url = url.substr(0,url.indexOf("ui"));
-              url = this.serviceBaseUrl + 'ipo/ipoProcess/downloadFile?access_token='+token+
+              url = url + 'ipo/ipoProcess/downloadFile?access_token='+token+
                     '&fileId='+ fileId + '&fileType='+ fileType;
               window.open(url);
             }else{
