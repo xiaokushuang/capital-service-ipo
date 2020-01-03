@@ -206,9 +206,9 @@
             {{scope.$index+1}}
           </template>
         </el-table-column>
-        <el-table-column min-width="19%" prop="strategicInvestorName" label="战略投资者名称" align='left'>
+        <el-table-column min-width="17%" prop="strategicInvestorName" label="战略投资者名称" align='left'>
         </el-table-column>
-        <el-table-column min-width="18%" prop="shareholderType" label="股东类型" align='center' :render-header="shareholderRenderHeader">
+        <el-table-column min-width="17%" prop="shareholderType" label="股东类型" align='center' :render-header="shareholderRenderHeader">
           <template slot-scope="scope">
             <span v-if="scope.row.shareholderType"> {{scope.row.shareholderType}}</span>
             <span v-else> - - </span>
@@ -238,7 +238,7 @@
             <span v-else> - - </span>
           </template>
         </el-table-column>
-        <el-table-column min-width="12.5%" prop="salesRestrictionPeriodMonth" label="限售期" align='left'>
+        <el-table-column min-width="15.5%" prop="salesRestrictionPeriodMonth" label="限售期" align='left'>
           <template slot-scope="scope">
             <span v-if="scope.row.salesRestrictionPeriodMonth"> {{scope.row.salesRestrictionPeriodMonth}}</span>
             <span v-else> - - </span>
