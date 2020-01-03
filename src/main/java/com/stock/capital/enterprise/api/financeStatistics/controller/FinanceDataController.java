@@ -17,8 +17,6 @@ import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.Page;
 import com.stock.core.dto.QueryInfo;
 import com.stock.core.search.SearchClient;
-import com.stock.core.search.SearchServer;
-import com.stock.core.search.SolrSearchUtil;
 import com.stock.core.util.DateUtil;
 import com.stock.core.web.DownloadView;
 import org.apache.commons.lang3.StringUtils;
@@ -43,8 +41,8 @@ public class FinanceDataController extends BaseController {
     @Autowired
     private FinanceDataService financeDataService;
 
-    @Autowired
-    private SearchServer searchServer;
+//    @Autowired
+//    private SearchServer searchServer;
 
     @Autowired
     private ViolationService violationService;
@@ -96,7 +94,7 @@ public class FinanceDataController extends BaseController {
     @RequestMapping(value = "financeSearchData")
     @ResponseBody
     public JsonResponse<Map<String, Object>> financeSearchApi(@RequestBody QueryInfo<FinanceParamDto> queryInfo) {
-        if (Global.ES_FINANCE_STATISTICS_FLAG.equals("0")) {
+//        if (Global.ES_FINANCE_STATISTICS_FLAG.equals("0")) {
             Map<String, Object> condition = new HashMap<>();
 
             // 所属行业
@@ -235,110 +233,110 @@ public class FinanceDataController extends BaseController {
             JsonResponse<Map<String, Object>> response = new JsonResponse<>();
             response.setResult(map);
             return response;
-        } else {
-            Map<String, String> condition = Maps.newHashMap();
-            String conditionsStr = "index_type_t: \"finance\"";
-
-            // 所属行业
-            String financeIndCode = "finance_indtypecode" + queryInfo.getCondition().getFinanceIndustry() + "_t";
-            if (StringUtils.isNotEmpty(queryInfo.getCondition().getFinanceIndustry())) {
-                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getCondition().getFinanceIndustry(),
-                        financeIndCode, false, false, false);
-            }
-
-            // 所在地区
-            conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, queryInfo.getCondition().getAreaSelect(),
-                    "finance_citycode_t");
-
-            // 所属板块
-            conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, queryInfo.getCondition().getStockBoardSelect(),
-                    "finance_belongplate_t");
-
-            // 公司名称
-            if (StringUtils.isNotEmpty(queryInfo.getCondition().getCompanyName())) {
-                // conditionsStr += " AND finance_companyname_t:*" + financeParamDto.getCompanyName() + "*";
-                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getCondition().getCompanyName(), " ", "finance_companyname_t", false, false, false);
-                // 高亮字段设定
-                condition.put(Constant.SEARCH_HIGHTLIGHT_FIELD, "finance_companyname_t");
-            }
-
-            // 证券代码
-            if (StringUtils.isNotEmpty(queryInfo.getCondition().getSecurityCode())) {
-                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getCondition().getSecurityCode(), " ", "finance_securitycode_t", false, false, false);
-            }
-
-            // 证券简称
-            if (StringUtils.isNotEmpty(queryInfo.getCondition().getSecurityShortName())) {
-                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getCondition().getSecurityShortName(), " ", "finance_securityshortname_t", false, false, false);
-            }
-
-            // 融资方式
-            conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, queryInfo.getCondition().getFinancingMode(),
-                    "finance_finatype_t");
-
-            // 依据日期
-            if (queryInfo.getCondition().getFinanceDate() != null && queryInfo.getCondition().getFinanceDate().length > 0) {
-                String[] time = queryInfo.getCondition().getFinanceDate();
-                String startDateStr = new String();
-                for (String timeFlag : time) {
-                    startDateStr = startDateStr + " 至 " + timeFlag;
-                }
-                startDateStr = startDateStr.substring(3);
-                conditionsStr = SolrSearchUtil.transDateStrToConditionStr(conditionsStr, startDateStr, "finance_startdate_dt");
-            }
-
-
-            // 处理关键字的检索条件
-            condition.put(Constant.SEARCH_CONDIATION, conditionsStr);
-
-            QueryInfo<Map<String, String>> query = new QueryInfo<Map<String, String>>();
-            query.setCondition(condition);
-
-            // 排序顺序
-            String orderby = "DESC,DESC";
-            // 排序顺序
-            if ("ascending".equals(queryInfo.getOrderByOrder())) {
-                orderby = "ASC";
-            } else if ("descending".equals(queryInfo.getOrderByOrder())) {
-                orderby = "DESC";
-            }
-            String orderName = "finance_startdate_dt , finance_sumfina_d";
-            // 排序根据
-            if ("companyName".equals(queryInfo.getOrderByName())) {// 公司名称
-                //orderName = "finance_companyname_t";
-                orderName = "finance_companyname_sort_s";
-            } else if ("financeDate".equals(queryInfo.getOrderByName())) {// 融资日期
-                orderName = "finance_startdate_dt";
-            } else if ("securityCode".equals(queryInfo.getOrderByName())) {// 证券代码
-                //orderName = "finance_securitycode_t";
-                orderName = "finance_securitycode_sort_s";
-            } else if ("securityShortName".equals(queryInfo.getOrderByName())) {// 证券简称
-                //orderName = "finance_securityshortname_t";
-                orderName = "finance_securityshortname_sort_s";
-            } else if ("sumFina".equals(queryInfo.getOrderByName())) {// 融资金额
-                orderName = "finance_sumfina_d";
-            }
-            query.setOrderByName(orderName);
-            query.setOrderByOrder(orderby);
-            query.setPageSize(queryInfo.getPageSize());
-            query.setStartRow(queryInfo.getStartRow());
-            FacetResult<FinanceStatisticsIndexDto> facetResult = searchServer.searchWithFacet(
-                    Global.FINANCE_INDEX_NAME, query, FinanceStatisticsIndexDto.class);
-
-            Page<FinanceStatisticsIndexDto> page = facetResult.getPage();
-            int total = 0;
-            List<FinanceStatisticsIndexDto> resultList = Lists.newArrayList();
-            if (page != null) {
-                resultList = page.getData();
-                total = page.getTotal();
-            }
-            Map<String, Object> map = Maps.newHashMap();
-            map.put("data", resultList);
-            map.put("total", total);
-            JsonResponse<Map<String, Object>> response = new JsonResponse<>();
-            response.setResult(map);
-            return response;
-        }
+//        } else {
+//            Map<String, String> condition = Maps.newHashMap();
+//            String conditionsStr = "index_type_t: \"finance\"";
+//
+//            // 所属行业
+//            String financeIndCode = "finance_indtypecode" + queryInfo.getCondition().getFinanceIndustry() + "_t";
+//            if (StringUtils.isNotEmpty(queryInfo.getCondition().getFinanceIndustry())) {
+//                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getCondition().getFinanceIndustry(),
+//                        financeIndCode, false, false, false);
+//            }
+//
+//            // 所在地区
+//            conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, queryInfo.getCondition().getAreaSelect(),
+//                    "finance_citycode_t");
+//
+//            // 所属板块
+//            conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, queryInfo.getCondition().getStockBoardSelect(),
+//                    "finance_belongplate_t");
+//
+//            // 公司名称
+//            if (StringUtils.isNotEmpty(queryInfo.getCondition().getCompanyName())) {
+//                // conditionsStr += " AND finance_companyname_t:*" + financeParamDto.getCompanyName() + "*";
+//                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getCondition().getCompanyName(), " ", "finance_companyname_t", false, false, false);
+//                // 高亮字段设定
+//                condition.put(Constant.SEARCH_HIGHTLIGHT_FIELD, "finance_companyname_t");
+//            }
+//
+//            // 证券代码
+//            if (StringUtils.isNotEmpty(queryInfo.getCondition().getSecurityCode())) {
+//                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getCondition().getSecurityCode(), " ", "finance_securitycode_t", false, false, false);
+//            }
+//
+//            // 证券简称
+//            if (StringUtils.isNotEmpty(queryInfo.getCondition().getSecurityShortName())) {
+//                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getCondition().getSecurityShortName(), " ", "finance_securityshortname_t", false, false, false);
+//            }
+//
+//            // 融资方式
+//            conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, queryInfo.getCondition().getFinancingMode(),
+//                    "finance_finatype_t");
+//
+//            // 依据日期
+//            if (queryInfo.getCondition().getFinanceDate() != null && queryInfo.getCondition().getFinanceDate().length > 0) {
+//                String[] time = queryInfo.getCondition().getFinanceDate();
+//                String startDateStr = new String();
+//                for (String timeFlag : time) {
+//                    startDateStr = startDateStr + " 至 " + timeFlag;
+//                }
+//                startDateStr = startDateStr.substring(3);
+//                conditionsStr = SolrSearchUtil.transDateStrToConditionStr(conditionsStr, startDateStr, "finance_startdate_dt");
+//            }
+//
+//
+//            // 处理关键字的检索条件
+//            condition.put(Constant.SEARCH_CONDIATION, conditionsStr);
+//
+//            QueryInfo<Map<String, String>> query = new QueryInfo<Map<String, String>>();
+//            query.setCondition(condition);
+//
+//            // 排序顺序
+//            String orderby = "DESC,DESC";
+//            // 排序顺序
+//            if ("ascending".equals(queryInfo.getOrderByOrder())) {
+//                orderby = "ASC";
+//            } else if ("descending".equals(queryInfo.getOrderByOrder())) {
+//                orderby = "DESC";
+//            }
+//            String orderName = "finance_startdate_dt , finance_sumfina_d";
+//            // 排序根据
+//            if ("companyName".equals(queryInfo.getOrderByName())) {// 公司名称
+//                //orderName = "finance_companyname_t";
+//                orderName = "finance_companyname_sort_s";
+//            } else if ("financeDate".equals(queryInfo.getOrderByName())) {// 融资日期
+//                orderName = "finance_startdate_dt";
+//            } else if ("securityCode".equals(queryInfo.getOrderByName())) {// 证券代码
+//                //orderName = "finance_securitycode_t";
+//                orderName = "finance_securitycode_sort_s";
+//            } else if ("securityShortName".equals(queryInfo.getOrderByName())) {// 证券简称
+//                //orderName = "finance_securityshortname_t";
+//                orderName = "finance_securityshortname_sort_s";
+//            } else if ("sumFina".equals(queryInfo.getOrderByName())) {// 融资金额
+//                orderName = "finance_sumfina_d";
+//            }
+//            query.setOrderByName(orderName);
+//            query.setOrderByOrder(orderby);
+//            query.setPageSize(queryInfo.getPageSize());
+//            query.setStartRow(queryInfo.getStartRow());
+//            FacetResult<FinanceStatisticsIndexDto> facetResult = searchServer.searchWithFacet(
+//                    Global.FINANCE_INDEX_NAME, query, FinanceStatisticsIndexDto.class);
+//
+//            Page<FinanceStatisticsIndexDto> page = facetResult.getPage();
+//            int total = 0;
+//            List<FinanceStatisticsIndexDto> resultList = Lists.newArrayList();
+//            if (page != null) {
+//                resultList = page.getData();
+//                total = page.getTotal();
+//            }
+//            Map<String, Object> map = Maps.newHashMap();
+//            map.put("data", resultList);
+//            map.put("total", total);
+//            JsonResponse<Map<String, Object>> response = new JsonResponse<>();
+//            response.setResult(map);
+//            return response;
+//        }
     }
 
     @RequestMapping(value = "getStockBoardList")
@@ -390,7 +388,7 @@ public class FinanceDataController extends BaseController {
         queryInfo.getCondition().setOrderByName(queryInfo.getOrderByName());
         queryInfo.getCondition().setOrderByOrder(queryInfo.getOrderByOrder());
         query = financeDataService.getQuery(queryInfo.getCondition());
-        if (Global.ES_FINANCE_STATISTICS_FLAG.equals("0")) {
+//        if (Global.ES_FINANCE_STATISTICS_FLAG.equals("0")) {
             FacetResult<FinanceStatisticsIndexDto> facetResult = searchClient.searchWithFacet(
                     Global.ES_FINANCE_STATISTICS, query, FinanceStatisticsIndexDto.class);
             Page<FinanceStatisticsIndexDto> page = facetResult.getPage();
@@ -406,23 +404,23 @@ public class FinanceDataController extends BaseController {
             JsonResponse<Map<String, Object>> response = new JsonResponse<>();
             response.setResult(map);
             return response;
-        } else {
-            FacetResult<FinanceStatisticsIndexDto> facetResult = searchServer.searchWithFacet(
-                    Global.FINANCE_INDEX_NAME, query, FinanceStatisticsIndexDto.class);
-            Page<FinanceStatisticsIndexDto> page = facetResult.getPage();
-            int total = 0;
-            List<FinanceStatisticsIndexDto> resultList = Lists.newArrayList();
-            if (page != null) {
-                resultList = page.getData();
-                total = page.getTotal();
-            }
-            Map<String, Object> map = Maps.newHashMap();
-            map.put("data", resultList);
-            map.put("total", total);
-            JsonResponse<Map<String, Object>> response = new JsonResponse<>();
-            response.setResult(map);
-            return response;
-        }
+//        } else {
+//            FacetResult<FinanceStatisticsIndexDto> facetResult = searchServer.searchWithFacet(
+//                    Global.FINANCE_INDEX_NAME, query, FinanceStatisticsIndexDto.class);
+//            Page<FinanceStatisticsIndexDto> page = facetResult.getPage();
+//            int total = 0;
+//            List<FinanceStatisticsIndexDto> resultList = Lists.newArrayList();
+//            if (page != null) {
+//                resultList = page.getData();
+//                total = page.getTotal();
+//            }
+//            Map<String, Object> map = Maps.newHashMap();
+//            map.put("data", resultList);
+//            map.put("total", total);
+//            JsonResponse<Map<String, Object>> response = new JsonResponse<>();
+//            response.setResult(map);
+//            return response;
+//        }
     }
 
     /**

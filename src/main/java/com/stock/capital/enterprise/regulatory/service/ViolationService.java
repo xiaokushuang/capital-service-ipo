@@ -35,7 +35,7 @@ import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.OptionDto;
 import com.stock.core.dto.QueryInfo;
 import com.stock.core.rest.RestClient;
-import com.stock.core.search.SolrSearchUtil;
+//import com.stock.core.search.SolrSearchUtil;
 import com.stock.core.service.BaseService;
 import com.stock.core.util.DateUtil;
 import com.stock.core.util.JsonUtil;
@@ -287,58 +287,58 @@ public class ViolationService extends BaseService {
      * @return
      * @throws ParseException 
      */
-    public String transDateStrToConditionStr(String conditionsStr, String dateStr, String key, String keyString) throws ParseException {
-        if (StringUtils.isNotEmpty(dateStr)) {
-            String eL = "[0-9]{4}-[0-9]{2}-[0-9]{2} 至 [0-9]{4}-[0-9]{2}-[0-9]{2}";
-            Pattern p = Pattern.compile(eL);
-            Matcher m = p.matcher(dateStr.trim());
-            boolean dateFlag = m.matches();
-            if (dateFlag) {
-            	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
-            	String strList = "";
-                String[] dateRange = dateStr.split(" 至 ");
-                Date startDate = null;
-                Date endDate = null;
-                Date startDateM = null;
-                Date endDateM = null;
-                startDate = DateUtil.getDate(dateRange[0], DateUtil.YYYY_MM_DD);
-                endDate = DateUtil.getDate(dateRange[1], DateUtil.YYYY_MM_DD);
-				startDateM = sdf.parse(dateRange[0]);
-				endDateM = sdf.parse(dateRange[1]);
-                Calendar dd = Calendar.getInstance();//定义日期实例               
-
-                dd.setTime(startDateM);//设置日期起始时间
-
-                while(dd.getTime().before(endDateM)){//判断是否到结束日期                
-	
-	                String str = sdf.format(dd.getTime());
-	
-	                strList = strList+","+str;
-	
-	                dd.add(Calendar.MONTH, 1);//进行当前日期月份加1
-
-                }
-                String endStr = sdf.format(dd.getTime());
-                strList = strList+","+endStr;
-                strList = strList.substring(1, strList.length());
-                String[] array = strList.split(",");
-                String solrDateStr = SolrSearchUtil.parseDateKeyWords(key, startDate, endDate);
-                if (StringUtils.isNotEmpty(solrDateStr)) {
-                    if (StringUtils.isNotEmpty(conditionsStr)) {
-                        conditionsStr = conditionsStr + " AND " + "(" + solrDateStr + " OR " + keyString + ":(\"" + array[0] + "\"";
-                    } else {
-                        conditionsStr = "(" + solrDateStr + " OR " + keyString + ":(\"" + array[0] + "\"";
-                    }
-                    for (int i = 1; i < array.length; i++) {
-                        conditionsStr = conditionsStr + " OR \"" + array[i] + "\"";
-                    }
-                    conditionsStr = conditionsStr + ")";
-                    conditionsStr += ")";
-                }
-            }
-        }     
-        return conditionsStr;
-    }   
+//    public String transDateStrToConditionStr(String conditionsStr, String dateStr, String key, String keyString) throws ParseException {
+//        if (StringUtils.isNotEmpty(dateStr)) {
+//            String eL = "[0-9]{4}-[0-9]{2}-[0-9]{2} 至 [0-9]{4}-[0-9]{2}-[0-9]{2}";
+//            Pattern p = Pattern.compile(eL);
+//            Matcher m = p.matcher(dateStr.trim());
+//            boolean dateFlag = m.matches();
+//            if (dateFlag) {
+//            	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+//            	String strList = "";
+//                String[] dateRange = dateStr.split(" 至 ");
+//                Date startDate = null;
+//                Date endDate = null;
+//                Date startDateM = null;
+//                Date endDateM = null;
+//                startDate = DateUtil.getDate(dateRange[0], DateUtil.YYYY_MM_DD);
+//                endDate = DateUtil.getDate(dateRange[1], DateUtil.YYYY_MM_DD);
+//				startDateM = sdf.parse(dateRange[0]);
+//				endDateM = sdf.parse(dateRange[1]);
+//                Calendar dd = Calendar.getInstance();//定义日期实例               
+//
+//                dd.setTime(startDateM);//设置日期起始时间
+//
+//                while(dd.getTime().before(endDateM)){//判断是否到结束日期                
+//	
+//	                String str = sdf.format(dd.getTime());
+//	
+//	                strList = strList+","+str;
+//	
+//	                dd.add(Calendar.MONTH, 1);//进行当前日期月份加1
+//
+//                }
+//                String endStr = sdf.format(dd.getTime());
+//                strList = strList+","+endStr;
+//                strList = strList.substring(1, strList.length());
+//                String[] array = strList.split(",");
+//                String solrDateStr = SolrSearchUtil.parseDateKeyWords(key, startDate, endDate);
+//                if (StringUtils.isNotEmpty(solrDateStr)) {
+//                    if (StringUtils.isNotEmpty(conditionsStr)) {
+//                        conditionsStr = conditionsStr + " AND " + "(" + solrDateStr + " OR " + keyString + ":(\"" + array[0] + "\"";
+//                    } else {
+//                        conditionsStr = "(" + solrDateStr + " OR " + keyString + ":(\"" + array[0] + "\"";
+//                    }
+//                    for (int i = 1; i < array.length; i++) {
+//                        conditionsStr = conditionsStr + " OR \"" + array[i] + "\"";
+//                    }
+//                    conditionsStr = conditionsStr + ")";
+//                    conditionsStr += ")";
+//                }
+//            }
+//        }     
+//        return conditionsStr;
+//    }   
     //niuxin bug3959 end 20170518
     
     /**

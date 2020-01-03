@@ -34,7 +34,6 @@ import com.stock.core.controller.BaseController;
 import com.stock.core.dto.JsonResponse;
 import com.stock.core.dto.OptionDto;
 import com.stock.core.dto.QueryInfo;
-import com.stock.core.search.SolrSearchUtil;
 import com.stock.core.util.BeanUtil;
 import com.stock.core.util.DateUtil;
 import com.stock.core.util.JsonUtil;
@@ -434,24 +433,24 @@ public class LawsSearchController extends BaseController {
         Map<String, String> condition = Maps.newHashMap();
         // 检索类型：法律法规
         String conditionsStr = "laws_lib_type_txt: \"99\"";
-        // 依据法律位阶
-        conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, searchLawsDTO.getLawClass(),
-                "laws_type_search_txt");
-        // 依据法律法规业务分类
-        conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, searchLawsDTO.getLawType(),
-                "laws_search_declare_type_txt");
-        // 依据发文单位
-        conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, searchLawsDTO.getLawSource(),
-                "laws_source_search_txt");
-        // 依据适用范围
-        conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, searchLawsDTO.getLawRange(),
-                "laws_scopes_txt");
-        // 依据颁布日期
-        conditionsStr = SolrSearchUtil.transDateStrToConditionStr(conditionsStr, searchLawsDTO.getPublishedDate(),
-                "laws_publish_date_dt");
-        // 依据生效日期
-        conditionsStr = SolrSearchUtil.transDateStrToConditionStr(conditionsStr, searchLawsDTO.getInvalidDate(),
-                "laws_effect_date_dt");
+//        // 依据法律位阶
+//        conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, searchLawsDTO.getLawClass(),
+//                "laws_type_search_txt");
+//        // 依据法律法规业务分类
+//        conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, searchLawsDTO.getLawType(),
+//                "laws_search_declare_type_txt");
+//        // 依据发文单位
+//        conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, searchLawsDTO.getLawSource(),
+//                "laws_source_search_txt");
+//        // 依据适用范围
+//        conditionsStr = SolrSearchUtil.transArrayStrToConditionStr(conditionsStr, searchLawsDTO.getLawRange(),
+//                "laws_scopes_txt");
+//        // 依据颁布日期
+//        conditionsStr = SolrSearchUtil.transDateStrToConditionStr(conditionsStr, searchLawsDTO.getPublishedDate(),
+//                "laws_publish_date_dt");
+//        // 依据生效日期
+//        conditionsStr = SolrSearchUtil.transDateStrToConditionStr(conditionsStr, searchLawsDTO.getInvalidDate(),
+//                "laws_effect_date_dt");
         // 不显示失效法规
         if(StringUtils.isNotEmpty(searchLawsDTO.getInvalidTag())){
         	if(!("0,1,2").equals(searchLawsDTO.getInvalidTag())){

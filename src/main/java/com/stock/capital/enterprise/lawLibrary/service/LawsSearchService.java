@@ -18,7 +18,6 @@ import com.stock.capital.enterprise.lawLibrary.dao.CompanyRuleBizMapper;
 import com.stock.capital.enterprise.lawLibrary.dto.*;
 import com.stock.core.Constant;
 import com.stock.core.search.SearchClient;
-import com.stock.core.search.SolrSearchUtil;
 import com.stock.core.util.BeanUtil;
 
 import org.apache.commons.lang3.StringUtils;
