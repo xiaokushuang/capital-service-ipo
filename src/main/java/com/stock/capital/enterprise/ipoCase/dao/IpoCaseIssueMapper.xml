@@ -89,7 +89,7 @@ CONVERT(lfp.SHAREOVERPLACE/10000,DECIMAL(18,2)) AS shareOverPlace,
     <select id="getPlacementSubData" parameterType="map"
             resultType="com.stock.capital.enterprise.ipoCase.dto.StrategicPlacementSubDto">
         select m.id,m.pid,m.strategic_investor_name strategicInvestorName,(select label_name from maa_conf_label where label_code = "IPO_SHARE_HOLDER_TYPE" and label_value=m.shareholder_type)AS shareholderType,m.initial_number_single initialNumberSingle,
-            m.allotted_number_single allottedNumberSingle,m.allotted_amount_single allottedAmountSingle,m.sales_restriction_period_month salesRestrictionPeriodMonth
+            m.allotted_number_single allottedNumberSingle,m.allotted_amount_single allottedAmountSingle,(select label_name from maa_conf_label where label_code = "IPO_SALE_RESTRICTION_PERIOD" and label_value=m.sales_restriction_period_month) salesRestrictionPeriodMonth
             ,m.initial_number_ten_thousand initialNumberTenThousand,m.allotted_number_ten_thousand allottedNumberTenThousand,m.allotted_amount_ten_thousand allottedAmountTenThousand
         from strategic_placement_sub m
         where pid = #{id}
