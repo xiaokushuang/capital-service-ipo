@@ -13,15 +13,12 @@ import com.stock.capital.enterprise.common.service.IndexFieldBindService;
 import com.stock.core.Constant;
 import com.stock.core.dto.*;
 import com.stock.core.search.SearchClient;
-import com.stock.core.search.SearchServer;
-import com.stock.core.search.SolrSearchUtil;
 import com.stock.core.service.BaseService;
 import com.stock.core.util.DateSplitUtil;
 import com.stock.core.util.DateUtil;
 import com.stock.core.util.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.solr.client.solrj.response.PivotField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +43,8 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
 
     private Logger logger = LoggerFactory.getLogger(FinanceDataService.class);
 
-    @Autowired
-    private SearchServer searchServer;
+//    @Autowired
+//    private SearchServer searchServer;
 
     @Autowired
     private CodeMapper codeMapper;
@@ -91,7 +88,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                 "*******getResearchStatisticsDataInfo*******param ： dateStartStr = {},dateEndStr = {},chartType = {}, countType = {}",
                 dateStartStr, dateEndStr, chartType, countType);
 
-        if (Global.ES_FINANCE_STATISTICS_FLAG.equals("0")) {
+//        if (Global.ES_FINANCE_STATISTICS_FLAG.equals("0")) {
             Map<String, Object> condition = Maps.newHashMap();
             Map<String, Object> conditionsStrOther = new HashMap<>();
             String facetField = "";
@@ -364,209 +361,209 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                     result.add(rightDataMapThree);
                 }
             }
-        } else {
-            String facetField = "";
-            String conditionsStr = "";
-
-            if (StringUtils.isNotEmpty(dateStartStr) && StringUtils.isNotEmpty(dateEndStr)) {
-                // 格式化开始结束日期
-                Date dateStart = DateUtil.getDate(dateStartStr, DateUtil.YYYY_MM_DD);
-                Date dateEnd = DateUtil.getDate(dateEndStr, DateUtil.YYYY_MM_DD);
-                // 添加日期查询的条件
-                conditionsStr = SolrSearchUtil.parseDateKeyWords("finance_startdate_dt", dateStart, dateEnd);
-                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, true);
-                // 各图表数据取得
-                if ("1".equals(chartType)) {//柱状图数据
-                    //按月为单位处理
-                    //拿到融资类型数据
-                    String finaType = map.get("finaType");
-                    if ("0".equals(countType) || "1".equals(countType) || "5".equals(countType) || "6".equals(countType)) {
-                        List<Map<String, String>> dateList = DateSplitUtil.getDateSplit(dateStartStr, dateEndStr, DateSplitUtil.SPLIT_MONTH);
-                        for (Map<String, String> param : dateList) {
-                            Date start = DateUtil.getDate(param.get("startDate"), DateUtil.YYYY_MM_DD);
-                            Date end = DateUtil.getDate(param.get("endDate"), DateUtil.YYYY_MM_DD);
-
-                            //统计记录数量，总和
-                            conditionsStr = SolrSearchUtil.parseDateKeyWords("finance_startdate_dt", start, end);
-                            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, true);
-                            facetField = "finance_finatype_t";
-                            String newCon = null;
-                            if (StringUtils.isNotEmpty(finaType)) {
-                                String[] type = finaType.split(",");
-                                newCon = SolrSearchUtil.transformArrayToString(conditionsStr, type, "finance_finatype_t", false, false, false);
-                                resultNum = searchWithFacetInfo(null, newCon);
-                                resultSum = searchWithStatsInfo(facetField, newCon, "1");
-                            } else {
-                                resultNum = searchWithFacetInfo(facetField, conditionsStr);
-                                resultSum = searchWithStatsInfo(facetField, conditionsStr, "1");
-                            }
-
-                            Map<String, Object> dataMap = new HashMap<String, Object>();
-                            // 日期
-                            dataMap.put("date", DateUtil.changeDateFormat(start, DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(end, DateUtil.YYYY_MM_DD));
-                            dataMap.put("dataNum", resultNum);
-                            dataMap.put("dataSum", resultSum);
-                            result.add(dataMap);
-                        }
-                        //按季度为单位处理
-                    } else if ("2".equals(countType)) {
-                        List<Map<String, String>> dateList = DateSplitUtil.getDateSplit(dateStartStr, dateEndStr, DateSplitUtil.SPLIT_SEASON);
-                        for (Map<String, String> param : dateList) {
-                            Date start = DateUtil.getDate(param.get("startDate"), DateUtil.YYYY_MM_DD);
-                            Date end = DateUtil.getDate(param.get("endDate"), DateUtil.YYYY_MM_DD);
-
-                            //统计记录数量，总和
-                            conditionsStr = SolrSearchUtil.parseDateKeyWords("finance_startdate_dt", start, end);
-                            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, true);
-                            facetField = "finance_finatype_t";
-                            resultNum = searchWithFacetInfo(facetField, conditionsStr);
-                            resultSum = searchWithStatsInfo(facetField, conditionsStr, "1");
-
-                            Map<String, Object> dataMap = new HashMap<String, Object>();
-                            // 日期
-                            dataMap.put("date", DateUtil.changeDateFormat(start, DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(end, DateUtil.YYYY_MM_DD));
-                            dataMap.put("dataNum", resultNum);
-                            dataMap.put("dataSum", resultSum);
-                            result.add(dataMap);
-                        }
-                        //按年为单位处理
-                    } else if ("3".equals(countType) || "4".equals(countType)) {
-                        List<Map<String, String>> dateList = DateSplitUtil.getDateSplit(dateStartStr, dateEndStr, DateSplitUtil.SPLIT_YEARS);
-                        for (Map<String, String> param : dateList) {
-                            Date start = DateUtil.getDate(param.get("startDate"), DateUtil.YYYY_MM_DD);
-                            Date end = DateUtil.getDate(param.get("endDate"), DateUtil.YYYY_MM_DD);
-
-                            //统计记录数量，总和
-                            conditionsStr = SolrSearchUtil.parseDateKeyWords("finance_startdate_dt", start, end);
-                            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, true);
-                            facetField = "finance_finatype_t";
-                            resultNum = searchWithFacetInfo(facetField, conditionsStr);
-                            resultSum = searchWithStatsInfo(facetField, conditionsStr, "1");
-
-                            Map<String, Object> dataMap = new HashMap<String, Object>();
-                            // 日期
-                            dataMap.put("date", DateUtil.changeDateFormat(start, DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(end, DateUtil.YYYY_MM_DD));
-                            dataMap.put("dataNum", resultNum);
-                            dataMap.put("dataSum", resultSum);
-                            result.add(dataMap);
-                        }
-                    } else if ("7".equals(countType)) {
-                        List<Map<String, String>> dateList = DateSplitUtil.getDateSplit(dateStartStr, dateEndStr, DateSplitUtil.SPLIT_YEARS);
-                        for (Map<String, String> param : dateList) {
-                            Date start = DateUtil.getDate(param.get("startDate"), DateUtil.YYYY_MM_DD);
-                            Date end = DateUtil.getDate(param.get("endDate"), DateUtil.YYYY_MM_DD);
-
-                            //统计记录数量，总和
-                            conditionsStr = SolrSearchUtil.parseDateKeyWords("finance_startdate_dt", start, end);
-                            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, true);
-                            facetField = "finance_finatype_t";
-                            resultNum = searchWithFacetInfo(facetField, conditionsStr);
-                            resultSum = searchWithStatsInfo(facetField, conditionsStr, "1");
-
-                            Map<String, Object> dataMap = new HashMap<String, Object>();
-                            // 日期
-                            dataMap.put("date", DateUtil.getDateStr(start, DateUtil.YYYY_MM_DD));
-                            dataMap.put("dataNum", resultNum);
-                            dataMap.put("dataSum", resultSum);
-                            result.add(dataMap);
-                        }
-                    }
-                } else if ("2".equals(chartType)) {// 取得扇形图
-                    String industrySelect = map.get("industrySelect");
-                    String finaType = map.get("finaType");
-                    //用于扇形图右侧的tab数据的查询条件
-                    String conditionsStrOther = "";
-                    String condition = "";
-                    conditionsStrOther = SolrSearchUtil.transformValueToString(conditionsStr, map.get("industrySelect"), "finance_indtypecode" + industrySelect + "_t", false, false, false);
-                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, map.get("industrySelect"), "finance_indtypecode" + industrySelect + "_t", false, false, false);
-
-                    if (finaType != null && !"".equals(finaType)) {
-                        if (finaType.indexOf(',') < 0) {
-                            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, finaType, "finance_finatype_t", false, false, false);
-                        } else {
-                            String[] type = finaType.split(",");
-                            conditionsStr = SolrSearchUtil.transformArrayToString(conditionsStr, type, "finance_finatype_t", false, false, false);
-                        }
-                    }
-                    facetField = "finance_pindname" + industrySelect + "_s";
-                    resultSum = searchWithStatsInfo(facetField, conditionsStr, "1");
-                    Map<String, Object> dataMap = new HashMap<String, Object>();
-                    dataMap.put("dataSum", resultSum);
-                    result.add(dataMap);
-
-                    //得到证券行业分布图右侧列表数据
-                    //得到全部数据
-                    resultTotalSum = searchWithStatsInfo(facetField, conditionsStrOther, "1");
-                    Map<String, Object> rightDataMap = new HashMap<String, Object>();
-                    rightDataMap.put("dataSum", resultTotalSum);
-                    result.add(rightDataMap);
-                    //IPO 数据
-                    condition = SolrSearchUtil.transformValueToString(conditionsStrOther, "001", "finance_finatype_t", false, false, false);
-                    resultTotalSum = searchWithStatsInfo(facetField, condition, "1");
-                    Map<String, Object> rightDataMapOne = new HashMap<String, Object>();
-                    rightDataMapOne.put("dataSum", resultTotalSum);
-                    result.add(rightDataMapOne);
-                    //增发 数据
-                    condition = SolrSearchUtil.transformValueToString(conditionsStrOther, "002", "finance_finatype_t", false, false, false);
-                    resultTotalSum = searchWithStatsInfo(facetField, condition, "1");
-                    Map<String, Object> rightDataMapTwo = new HashMap<String, Object>();
-                    rightDataMapTwo.put("dataSum", resultTotalSum);
-                    result.add(rightDataMapTwo);
-                    //配股 数据
-                    condition = SolrSearchUtil.transformValueToString(conditionsStrOther, "003", "finance_finatype_t", false, false, false);
-                    resultTotalSum = searchWithStatsInfo(facetField, condition, "1");
-                    Map<String, Object> rightDataMapThree = new HashMap<String, Object>();
-                    rightDataMapThree.put("dataSum", resultTotalSum);
-                    result.add(rightDataMapThree);
-                } else if ("3".equals(chartType)) {// 取得地图数据
-                    String conditionsStrOther = "";
-                    String condition = "";
-                    String finaType = map.get("finaType");
-                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, null, null, false, false, false);
-                    conditionsStrOther = SolrSearchUtil.transformValueToString(conditionsStr, null, null, false, false, false);
-                    if (finaType != null && !"".equals(finaType)) {
-                        if (finaType.indexOf(',') < 0) {
-                            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, finaType, "finance_finatype_t", false, false, false);
-                        } else {
-                            String[] type = finaType.split(",");
-                            conditionsStr = SolrSearchUtil.transformArrayToString(conditionsStr, type, "finance_finatype_t", false, false, false);
-                        }
-                    }
-                    facetField = "finance_cityname_s";
-                    resultSum = searchWithStatsInfo(facetField, conditionsStr, "1");
-                    resultSum = areaString(resultSum);
-                    resultSum = addProvincesData(resultSum);//补齐省份的数据
-                    Map<String, Object> dataMap = new HashMap<String, Object>();
-                    dataMap.put("dataSum", resultSum);
-                    result.add(dataMap);
-
-                    //得到证券行业分布图右侧列表数据
-                    //得到全部数据
-                    resultTotalSum = searchWithStatsInfo(facetField, conditionsStrOther, "1");
-                    Map<String, Object> rightDataMap = new HashMap<String, Object>();
-                    rightDataMap.put("dataSum", areaString(resultTotalSum));
-                    result.add(rightDataMap);
-                    //IPO 数据
-                    condition = SolrSearchUtil.transformValueToString(conditionsStrOther, "001", "finance_finatype_t", false, false, false);
-                    resultTotalSum = searchWithStatsInfo(facetField, condition, "1");
-                    Map<String, Object> rightDataMapOne = new HashMap<String, Object>();
-                    rightDataMapOne.put("dataSum", areaString(resultTotalSum));
-                    result.add(rightDataMapOne);
-                    //增发 数据
-                    condition = SolrSearchUtil.transformValueToString(conditionsStrOther, "002", "finance_finatype_t", false, false, false);
-                    resultTotalSum = searchWithStatsInfo(facetField, condition, "1");
-                    Map<String, Object> rightDataMapTwo = new HashMap<String, Object>();
-                    rightDataMapTwo.put("dataSum", areaString(resultTotalSum));
-                    result.add(rightDataMapTwo);
-                    //配股 数据
-                    condition = SolrSearchUtil.transformValueToString(conditionsStrOther, "003", "finance_finatype_t", false, false, false);
-                    resultTotalSum = searchWithStatsInfo(facetField, condition, "1");
-                    Map<String, Object> rightDataMapThree = new HashMap<String, Object>();
-                    rightDataMapThree.put("dataSum", areaString(resultTotalSum));
-                    result.add(rightDataMapThree);
-                }
-            }
-        }
+//        } else {
+//            String facetField = "";
+//            String conditionsStr = "";
+//
+//            if (StringUtils.isNotEmpty(dateStartStr) && StringUtils.isNotEmpty(dateEndStr)) {
+//                // 格式化开始结束日期
+//                Date dateStart = DateUtil.getDate(dateStartStr, DateUtil.YYYY_MM_DD);
+//                Date dateEnd = DateUtil.getDate(dateEndStr, DateUtil.YYYY_MM_DD);
+//                // 添加日期查询的条件
+//                conditionsStr = SolrSearchUtil.parseDateKeyWords("finance_startdate_dt", dateStart, dateEnd);
+//                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, true);
+//                // 各图表数据取得
+//                if ("1".equals(chartType)) {//柱状图数据
+//                    //按月为单位处理
+//                    //拿到融资类型数据
+//                    String finaType = map.get("finaType");
+//                    if ("0".equals(countType) || "1".equals(countType) || "5".equals(countType) || "6".equals(countType)) {
+//                        List<Map<String, String>> dateList = DateSplitUtil.getDateSplit(dateStartStr, dateEndStr, DateSplitUtil.SPLIT_MONTH);
+//                        for (Map<String, String> param : dateList) {
+//                            Date start = DateUtil.getDate(param.get("startDate"), DateUtil.YYYY_MM_DD);
+//                            Date end = DateUtil.getDate(param.get("endDate"), DateUtil.YYYY_MM_DD);
+//
+//                            //统计记录数量，总和
+//                            conditionsStr = SolrSearchUtil.parseDateKeyWords("finance_startdate_dt", start, end);
+//                            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, true);
+//                            facetField = "finance_finatype_t";
+//                            String newCon = null;
+//                            if (StringUtils.isNotEmpty(finaType)) {
+//                                String[] type = finaType.split(",");
+//                                newCon = SolrSearchUtil.transformArrayToString(conditionsStr, type, "finance_finatype_t", false, false, false);
+//                                resultNum = searchWithFacetInfo(null, newCon);
+//                                resultSum = searchWithStatsInfo(facetField, newCon, "1");
+//                            } else {
+//                                resultNum = searchWithFacetInfo(facetField, conditionsStr);
+//                                resultSum = searchWithStatsInfo(facetField, conditionsStr, "1");
+//                            }
+//
+//                            Map<String, Object> dataMap = new HashMap<String, Object>();
+//                            // 日期
+//                            dataMap.put("date", DateUtil.changeDateFormat(start, DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(end, DateUtil.YYYY_MM_DD));
+//                            dataMap.put("dataNum", resultNum);
+//                            dataMap.put("dataSum", resultSum);
+//                            result.add(dataMap);
+//                        }
+//                        //按季度为单位处理
+//                    } else if ("2".equals(countType)) {
+//                        List<Map<String, String>> dateList = DateSplitUtil.getDateSplit(dateStartStr, dateEndStr, DateSplitUtil.SPLIT_SEASON);
+//                        for (Map<String, String> param : dateList) {
+//                            Date start = DateUtil.getDate(param.get("startDate"), DateUtil.YYYY_MM_DD);
+//                            Date end = DateUtil.getDate(param.get("endDate"), DateUtil.YYYY_MM_DD);
+//
+//                            //统计记录数量，总和
+//                            conditionsStr = SolrSearchUtil.parseDateKeyWords("finance_startdate_dt", start, end);
+//                            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, true);
+//                            facetField = "finance_finatype_t";
+//                            resultNum = searchWithFacetInfo(facetField, conditionsStr);
+//                            resultSum = searchWithStatsInfo(facetField, conditionsStr, "1");
+//
+//                            Map<String, Object> dataMap = new HashMap<String, Object>();
+//                            // 日期
+//                            dataMap.put("date", DateUtil.changeDateFormat(start, DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(end, DateUtil.YYYY_MM_DD));
+//                            dataMap.put("dataNum", resultNum);
+//                            dataMap.put("dataSum", resultSum);
+//                            result.add(dataMap);
+//                        }
+//                        //按年为单位处理
+//                    } else if ("3".equals(countType) || "4".equals(countType)) {
+//                        List<Map<String, String>> dateList = DateSplitUtil.getDateSplit(dateStartStr, dateEndStr, DateSplitUtil.SPLIT_YEARS);
+//                        for (Map<String, String> param : dateList) {
+//                            Date start = DateUtil.getDate(param.get("startDate"), DateUtil.YYYY_MM_DD);
+//                            Date end = DateUtil.getDate(param.get("endDate"), DateUtil.YYYY_MM_DD);
+//
+//                            //统计记录数量，总和
+//                            conditionsStr = SolrSearchUtil.parseDateKeyWords("finance_startdate_dt", start, end);
+//                            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, true);
+//                            facetField = "finance_finatype_t";
+//                            resultNum = searchWithFacetInfo(facetField, conditionsStr);
+//                            resultSum = searchWithStatsInfo(facetField, conditionsStr, "1");
+//
+//                            Map<String, Object> dataMap = new HashMap<String, Object>();
+//                            // 日期
+//                            dataMap.put("date", DateUtil.changeDateFormat(start, DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(end, DateUtil.YYYY_MM_DD));
+//                            dataMap.put("dataNum", resultNum);
+//                            dataMap.put("dataSum", resultSum);
+//                            result.add(dataMap);
+//                        }
+//                    } else if ("7".equals(countType)) {
+//                        List<Map<String, String>> dateList = DateSplitUtil.getDateSplit(dateStartStr, dateEndStr, DateSplitUtil.SPLIT_YEARS);
+//                        for (Map<String, String> param : dateList) {
+//                            Date start = DateUtil.getDate(param.get("startDate"), DateUtil.YYYY_MM_DD);
+//                            Date end = DateUtil.getDate(param.get("endDate"), DateUtil.YYYY_MM_DD);
+//
+//                            //统计记录数量，总和
+//                            conditionsStr = SolrSearchUtil.parseDateKeyWords("finance_startdate_dt", start, end);
+//                            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, true);
+//                            facetField = "finance_finatype_t";
+//                            resultNum = searchWithFacetInfo(facetField, conditionsStr);
+//                            resultSum = searchWithStatsInfo(facetField, conditionsStr, "1");
+//
+//                            Map<String, Object> dataMap = new HashMap<String, Object>();
+//                            // 日期
+//                            dataMap.put("date", DateUtil.getDateStr(start, DateUtil.YYYY_MM_DD));
+//                            dataMap.put("dataNum", resultNum);
+//                            dataMap.put("dataSum", resultSum);
+//                            result.add(dataMap);
+//                        }
+//                    }
+//                } else if ("2".equals(chartType)) {// 取得扇形图
+//                    String industrySelect = map.get("industrySelect");
+//                    String finaType = map.get("finaType");
+//                    //用于扇形图右侧的tab数据的查询条件
+//                    String conditionsStrOther = "";
+//                    String condition = "";
+//                    conditionsStrOther = SolrSearchUtil.transformValueToString(conditionsStr, map.get("industrySelect"), "finance_indtypecode" + industrySelect + "_t", false, false, false);
+//                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, map.get("industrySelect"), "finance_indtypecode" + industrySelect + "_t", false, false, false);
+//
+//                    if (finaType != null && !"".equals(finaType)) {
+//                        if (finaType.indexOf(',') < 0) {
+//                            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, finaType, "finance_finatype_t", false, false, false);
+//                        } else {
+//                            String[] type = finaType.split(",");
+//                            conditionsStr = SolrSearchUtil.transformArrayToString(conditionsStr, type, "finance_finatype_t", false, false, false);
+//                        }
+//                    }
+//                    facetField = "finance_pindname" + industrySelect + "_s";
+//                    resultSum = searchWithStatsInfo(facetField, conditionsStr, "1");
+//                    Map<String, Object> dataMap = new HashMap<String, Object>();
+//                    dataMap.put("dataSum", resultSum);
+//                    result.add(dataMap);
+//
+//                    //得到证券行业分布图右侧列表数据
+//                    //得到全部数据
+//                    resultTotalSum = searchWithStatsInfo(facetField, conditionsStrOther, "1");
+//                    Map<String, Object> rightDataMap = new HashMap<String, Object>();
+//                    rightDataMap.put("dataSum", resultTotalSum);
+//                    result.add(rightDataMap);
+//                    //IPO 数据
+//                    condition = SolrSearchUtil.transformValueToString(conditionsStrOther, "001", "finance_finatype_t", false, false, false);
+//                    resultTotalSum = searchWithStatsInfo(facetField, condition, "1");
+//                    Map<String, Object> rightDataMapOne = new HashMap<String, Object>();
+//                    rightDataMapOne.put("dataSum", resultTotalSum);
+//                    result.add(rightDataMapOne);
+//                    //增发 数据
+//                    condition = SolrSearchUtil.transformValueToString(conditionsStrOther, "002", "finance_finatype_t", false, false, false);
+//                    resultTotalSum = searchWithStatsInfo(facetField, condition, "1");
+//                    Map<String, Object> rightDataMapTwo = new HashMap<String, Object>();
+//                    rightDataMapTwo.put("dataSum", resultTotalSum);
+//                    result.add(rightDataMapTwo);
+//                    //配股 数据
+//                    condition = SolrSearchUtil.transformValueToString(conditionsStrOther, "003", "finance_finatype_t", false, false, false);
+//                    resultTotalSum = searchWithStatsInfo(facetField, condition, "1");
+//                    Map<String, Object> rightDataMapThree = new HashMap<String, Object>();
+//                    rightDataMapThree.put("dataSum", resultTotalSum);
+//                    result.add(rightDataMapThree);
+//                } else if ("3".equals(chartType)) {// 取得地图数据
+//                    String conditionsStrOther = "";
+//                    String condition = "";
+//                    String finaType = map.get("finaType");
+//                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, null, null, false, false, false);
+//                    conditionsStrOther = SolrSearchUtil.transformValueToString(conditionsStr, null, null, false, false, false);
+//                    if (finaType != null && !"".equals(finaType)) {
+//                        if (finaType.indexOf(',') < 0) {
+//                            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, finaType, "finance_finatype_t", false, false, false);
+//                        } else {
+//                            String[] type = finaType.split(",");
+//                            conditionsStr = SolrSearchUtil.transformArrayToString(conditionsStr, type, "finance_finatype_t", false, false, false);
+//                        }
+//                    }
+//                    facetField = "finance_cityname_s";
+//                    resultSum = searchWithStatsInfo(facetField, conditionsStr, "1");
+//                    resultSum = areaString(resultSum);
+//                    resultSum = addProvincesData(resultSum);//补齐省份的数据
+//                    Map<String, Object> dataMap = new HashMap<String, Object>();
+//                    dataMap.put("dataSum", resultSum);
+//                    result.add(dataMap);
+//
+//                    //得到证券行业分布图右侧列表数据
+//                    //得到全部数据
+//                    resultTotalSum = searchWithStatsInfo(facetField, conditionsStrOther, "1");
+//                    Map<String, Object> rightDataMap = new HashMap<String, Object>();
+//                    rightDataMap.put("dataSum", areaString(resultTotalSum));
+//                    result.add(rightDataMap);
+//                    //IPO 数据
+//                    condition = SolrSearchUtil.transformValueToString(conditionsStrOther, "001", "finance_finatype_t", false, false, false);
+//                    resultTotalSum = searchWithStatsInfo(facetField, condition, "1");
+//                    Map<String, Object> rightDataMapOne = new HashMap<String, Object>();
+//                    rightDataMapOne.put("dataSum", areaString(resultTotalSum));
+//                    result.add(rightDataMapOne);
+//                    //增发 数据
+//                    condition = SolrSearchUtil.transformValueToString(conditionsStrOther, "002", "finance_finatype_t", false, false, false);
+//                    resultTotalSum = searchWithStatsInfo(facetField, condition, "1");
+//                    Map<String, Object> rightDataMapTwo = new HashMap<String, Object>();
+//                    rightDataMapTwo.put("dataSum", areaString(resultTotalSum));
+//                    result.add(rightDataMapTwo);
+//                    //配股 数据
+//                    condition = SolrSearchUtil.transformValueToString(conditionsStrOther, "003", "finance_finatype_t", false, false, false);
+//                    resultTotalSum = searchWithStatsInfo(facetField, condition, "1");
+//                    Map<String, Object> rightDataMapThree = new HashMap<String, Object>();
+//                    rightDataMapThree.put("dataSum", areaString(resultTotalSum));
+//                    result.add(rightDataMapThree);
+//                }
+//            }
+//        }
 
         logger.debug("*******getResearchStatisticsDataInfo*******DATA ： {}", JsonUtil.toJson(result));
         return result;
@@ -592,7 +589,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
         String countType = map.get("countType");
         logger.debug("*******getResearchBondDataInfo*******param ： dateStartStr = {},dateEndStr = {},chartType = {}, countType = {}",
                 dateStartStr, dateEndStr, chartType, countType);
-        if (Global.ES_FINANCE_STATISTICS_FLAG.equals("0")) {
+//        if (Global.ES_FINANCE_STATISTICS_FLAG.equals("0")) {
             String facetField = "";
             Map<String, Object> condition = Maps.newHashMap();
             Map<String, Object> conditionsStrOther = new HashMap<>();
@@ -765,119 +762,119 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                     result.add(chartDataMap);
                 }
             }
-        } else {
-            String facetField = "";
-            String conditionsStr = "";
-            if (StringUtils.isNotEmpty(dateStartStr) && StringUtils.isNotEmpty(dateEndStr)) {
-                // 格式化开始结束日期
-                Date dateStart = DateUtil.getDate(dateStartStr, DateUtil.YYYY_MM_DD);
-                Date dateEnd = DateUtil.getDate(dateEndStr, DateUtil.YYYY_MM_DD);
-                // 添加日期查询的条件
-                conditionsStr = SolrSearchUtil.parseDateKeyWords("finance_startdate_dt", dateStart, dateEnd);
-                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, false);
-                // 各图表数据取得
-                if ("1".equals(chartType)) {//柱状图数据
-                    //按月为单位处理
-                    if ("0".equals(countType) || "1".equals(countType) || "5".equals(countType) || "6".equals(countType)) {
-                        List<Map<String, String>> dateList = DateSplitUtil.getDateSplit(dateStartStr, dateEndStr, DateSplitUtil.SPLIT_MONTH);
-                        for (Map<String, String> param : dateList) {
-                            Date start = DateUtil.getDate(param.get("startDate"), DateUtil.YYYY_MM_DD);
-                            Date end = DateUtil.getDate(param.get("endDate"), DateUtil.YYYY_MM_DD);
-                            conditionsStr = SolrSearchUtil.parseDateKeyWords("finance_startdate_dt", start, end);
-                            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, false);
-                            facetField = "finance_finatype_t";
-                            resultSum = searchWithStatsInfo(facetField, conditionsStr, "2");
-                            Map<String, Object> dataMap = new HashMap<String, Object>();
-                            // 日期
-                            dataMap.put("date", DateUtil.changeDateFormat(start, DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(end, DateUtil.YYYY_MM_DD));
-                            dataMap.put("dataSum", resultSum);
-                            result.add(dataMap);
-                        }
-                        //按季度为单位处理
-                    } else if ("2".equals(countType)) {
-                        List<Map<String, String>> dateList = DateSplitUtil.getDateSplit(dateStartStr, dateEndStr, DateSplitUtil.SPLIT_SEASON);
-                        for (Map<String, String> param : dateList) {
-                            Date start = DateUtil.getDate(param.get("startDate"), DateUtil.YYYY_MM_DD);
-                            Date end = DateUtil.getDate(param.get("endDate"), DateUtil.YYYY_MM_DD);
-                            conditionsStr = SolrSearchUtil.parseDateKeyWords("finance_startdate_dt", start, end);
-                            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, false);
-                            facetField = "finance_finatype_t";
-                            resultSum = searchWithStatsInfo(facetField, conditionsStr, "2");
-                            Map<String, Object> dataMap = new HashMap<String, Object>();
-                            dataMap.put("date", DateUtil.changeDateFormat(start, DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(end, DateUtil.YYYY_MM_DD));
-                            dataMap.put("dataSum", resultSum);
-                            result.add(dataMap);
-                        }
-                        //按年为单位处理
-                    } else if ("3".equals(countType) || "4".equals(countType)) {
-                        List<Map<String, String>> dateList = DateSplitUtil.getDateSplit(dateStartStr, dateEndStr, DateSplitUtil.SPLIT_YEARS);
-                        for (Map<String, String> param : dateList) {
-                            Date start = DateUtil.getDate(param.get("startDate"), DateUtil.YYYY_MM_DD);
-                            Date end = DateUtil.getDate(param.get("endDate"), DateUtil.YYYY_MM_DD);
-                            conditionsStr = SolrSearchUtil.parseDateKeyWords("finance_startdate_dt", start, end);
-                            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, false);
-                            facetField = "finance_finatype_t";
-                            resultSum = searchWithStatsInfo(facetField, conditionsStr, "2");
-                            Map<String, Object> dataMap = new HashMap<String, Object>();
-                            dataMap.put("date", DateUtil.changeDateFormat(start, DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(end, DateUtil.YYYY_MM_DD));
-                            dataMap.put("dataSum", resultSum);
-                            result.add(dataMap);
-                        }
-                        // 以年为单位处理
-                    } else if ("5".equals(countType)) {
-                        List<Map<String, String>> dateList = DateSplitUtil.getDateSplit(dateStartStr, dateEndStr, DateSplitUtil.SPLIT_SEASON);
-                        for (Map<String, String> param : dateList) {
-                            Date start = DateUtil.getDate(param.get("startDate"), DateUtil.YYYY_MM_DD);
-                            Date end = DateUtil.getDate(param.get("endDate"), DateUtil.YYYY_MM_DD);
-                            conditionsStr = SolrSearchUtil.parseDateKeyWords("finance_startdate_dt", start, end);
-                            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, false);
-                            facetField = "finance_finatype_t";
-                            resultSum = searchWithStatsInfo(facetField, conditionsStr, "2");
-                            Map<String, Object> dataMap = new HashMap<String, Object>();
-                            dataMap.put("date", DateUtil.changeDateFormat(start, DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(end, DateUtil.YYYY_MM_DD));
-                            dataMap.put("dataSum", resultSum);
-                            result.add(dataMap);
-                        }
-                    } else if ("7".equals(countType)) {
-                        List<Map<String, String>> dateList = DateSplitUtil.getDateSplit(dateStartStr, dateEndStr, DateSplitUtil.SPLIT_YEARS);
-                        for (Map<String, String> param : dateList) {
-                            Date start = DateUtil.getDate(param.get("startDate"), DateUtil.YYYY_MM_DD);
-                            Date end = DateUtil.getDate(param.get("endDate"), DateUtil.YYYY_MM_DD);
-                            conditionsStr = SolrSearchUtil.parseDateKeyWords("finance_startdate_dt", start, end);
-                            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, false);
-                            facetField = "finance_finatype_t";
-                            resultSum = searchWithStatsInfo(facetField, conditionsStr, "2");
-                            Map<String, Object> dataMap = new HashMap<String, Object>();
-                            dataMap.put("date", DateUtil.changeDateFormat(start, DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(end, DateUtil.YYYY_MM_DD));
-                            dataMap.put("dataSum", resultSum);
-                            result.add(dataMap);
-                        }
-                    }
-                } else if ("2".equals(chartType)) {// 取得扇形图
-                    String industrySelect = map.get("industrySelect");
-                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, map.get("industrySelect"), "finance_indtypecode" + industrySelect + "_t", false, false, false);
-                    facetField = "finance_pindname" + industrySelect + "_s";
-                    resultSum = searchWithStatsInfo(facetField, conditionsStr, "2");
-                    Map<String, Object> dataMap = new HashMap<String, Object>();
-                    dataMap.put("dataSum", resultSum);
-                    result.add(dataMap);
-                } else if ("3".equals(chartType)) {// 取得地图数据
-                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, null, null, false, false, false);
-                    facetField = "finance_cityname_s";
-                    resultSum = searchWithStatsInfo(facetField, conditionsStr, "2");
-                    Map<String, Object> dataMap = new HashMap<String, Object>();
-                    dataMap.put("dataSum", areaString(resultSum));
-                    result.add(dataMap);
-                    //补齐省份的数据
-                    Map<String, Object> chartDataMap = new HashMap<String, Object>();
-                    List<Map<String, Object>> resultTotalSum = new ArrayList<Map<String, Object>>();
-                    resultTotalSum = searchWithStatsInfo(facetField, conditionsStr, "2");
-                    resultTotalSum = addProvincesData(areaString(resultTotalSum));
-                    chartDataMap.put("dataSum", resultTotalSum);
-                    result.add(chartDataMap);
-                }
-            }
-        }
+//        } else {
+//            String facetField = "";
+//            String conditionsStr = "";
+//            if (StringUtils.isNotEmpty(dateStartStr) && StringUtils.isNotEmpty(dateEndStr)) {
+//                // 格式化开始结束日期
+//                Date dateStart = DateUtil.getDate(dateStartStr, DateUtil.YYYY_MM_DD);
+//                Date dateEnd = DateUtil.getDate(dateEndStr, DateUtil.YYYY_MM_DD);
+//                // 添加日期查询的条件
+//                conditionsStr = SolrSearchUtil.parseDateKeyWords("finance_startdate_dt", dateStart, dateEnd);
+//                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, false);
+//                // 各图表数据取得
+//                if ("1".equals(chartType)) {//柱状图数据
+//                    //按月为单位处理
+//                    if ("0".equals(countType) || "1".equals(countType) || "5".equals(countType) || "6".equals(countType)) {
+//                        List<Map<String, String>> dateList = DateSplitUtil.getDateSplit(dateStartStr, dateEndStr, DateSplitUtil.SPLIT_MONTH);
+//                        for (Map<String, String> param : dateList) {
+//                            Date start = DateUtil.getDate(param.get("startDate"), DateUtil.YYYY_MM_DD);
+//                            Date end = DateUtil.getDate(param.get("endDate"), DateUtil.YYYY_MM_DD);
+//                            conditionsStr = SolrSearchUtil.parseDateKeyWords("finance_startdate_dt", start, end);
+//                            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, false);
+//                            facetField = "finance_finatype_t";
+//                            resultSum = searchWithStatsInfo(facetField, conditionsStr, "2");
+//                            Map<String, Object> dataMap = new HashMap<String, Object>();
+//                            // 日期
+//                            dataMap.put("date", DateUtil.changeDateFormat(start, DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(end, DateUtil.YYYY_MM_DD));
+//                            dataMap.put("dataSum", resultSum);
+//                            result.add(dataMap);
+//                        }
+//                        //按季度为单位处理
+//                    } else if ("2".equals(countType)) {
+//                        List<Map<String, String>> dateList = DateSplitUtil.getDateSplit(dateStartStr, dateEndStr, DateSplitUtil.SPLIT_SEASON);
+//                        for (Map<String, String> param : dateList) {
+//                            Date start = DateUtil.getDate(param.get("startDate"), DateUtil.YYYY_MM_DD);
+//                            Date end = DateUtil.getDate(param.get("endDate"), DateUtil.YYYY_MM_DD);
+//                            conditionsStr = SolrSearchUtil.parseDateKeyWords("finance_startdate_dt", start, end);
+//                            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, false);
+//                            facetField = "finance_finatype_t";
+//                            resultSum = searchWithStatsInfo(facetField, conditionsStr, "2");
+//                            Map<String, Object> dataMap = new HashMap<String, Object>();
+//                            dataMap.put("date", DateUtil.changeDateFormat(start, DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(end, DateUtil.YYYY_MM_DD));
+//                            dataMap.put("dataSum", resultSum);
+//                            result.add(dataMap);
+//                        }
+//                        //按年为单位处理
+//                    } else if ("3".equals(countType) || "4".equals(countType)) {
+//                        List<Map<String, String>> dateList = DateSplitUtil.getDateSplit(dateStartStr, dateEndStr, DateSplitUtil.SPLIT_YEARS);
+//                        for (Map<String, String> param : dateList) {
+//                            Date start = DateUtil.getDate(param.get("startDate"), DateUtil.YYYY_MM_DD);
+//                            Date end = DateUtil.getDate(param.get("endDate"), DateUtil.YYYY_MM_DD);
+//                            conditionsStr = SolrSearchUtil.parseDateKeyWords("finance_startdate_dt", start, end);
+//                            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, false);
+//                            facetField = "finance_finatype_t";
+//                            resultSum = searchWithStatsInfo(facetField, conditionsStr, "2");
+//                            Map<String, Object> dataMap = new HashMap<String, Object>();
+//                            dataMap.put("date", DateUtil.changeDateFormat(start, DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(end, DateUtil.YYYY_MM_DD));
+//                            dataMap.put("dataSum", resultSum);
+//                            result.add(dataMap);
+//                        }
+//                        // 以年为单位处理
+//                    } else if ("5".equals(countType)) {
+//                        List<Map<String, String>> dateList = DateSplitUtil.getDateSplit(dateStartStr, dateEndStr, DateSplitUtil.SPLIT_SEASON);
+//                        for (Map<String, String> param : dateList) {
+//                            Date start = DateUtil.getDate(param.get("startDate"), DateUtil.YYYY_MM_DD);
+//                            Date end = DateUtil.getDate(param.get("endDate"), DateUtil.YYYY_MM_DD);
+//                            conditionsStr = SolrSearchUtil.parseDateKeyWords("finance_startdate_dt", start, end);
+//                            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, false);
+//                            facetField = "finance_finatype_t";
+//                            resultSum = searchWithStatsInfo(facetField, conditionsStr, "2");
+//                            Map<String, Object> dataMap = new HashMap<String, Object>();
+//                            dataMap.put("date", DateUtil.changeDateFormat(start, DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(end, DateUtil.YYYY_MM_DD));
+//                            dataMap.put("dataSum", resultSum);
+//                            result.add(dataMap);
+//                        }
+//                    } else if ("7".equals(countType)) {
+//                        List<Map<String, String>> dateList = DateSplitUtil.getDateSplit(dateStartStr, dateEndStr, DateSplitUtil.SPLIT_YEARS);
+//                        for (Map<String, String> param : dateList) {
+//                            Date start = DateUtil.getDate(param.get("startDate"), DateUtil.YYYY_MM_DD);
+//                            Date end = DateUtil.getDate(param.get("endDate"), DateUtil.YYYY_MM_DD);
+//                            conditionsStr = SolrSearchUtil.parseDateKeyWords("finance_startdate_dt", start, end);
+//                            conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, false);
+//                            facetField = "finance_finatype_t";
+//                            resultSum = searchWithStatsInfo(facetField, conditionsStr, "2");
+//                            Map<String, Object> dataMap = new HashMap<String, Object>();
+//                            dataMap.put("date", DateUtil.changeDateFormat(start, DateUtil.YYYY_MM_DD) + "至" + DateUtil.changeDateFormat(end, DateUtil.YYYY_MM_DD));
+//                            dataMap.put("dataSum", resultSum);
+//                            result.add(dataMap);
+//                        }
+//                    }
+//                } else if ("2".equals(chartType)) {// 取得扇形图
+//                    String industrySelect = map.get("industrySelect");
+//                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, map.get("industrySelect"), "finance_indtypecode" + industrySelect + "_t", false, false, false);
+//                    facetField = "finance_pindname" + industrySelect + "_s";
+//                    resultSum = searchWithStatsInfo(facetField, conditionsStr, "2");
+//                    Map<String, Object> dataMap = new HashMap<String, Object>();
+//                    dataMap.put("dataSum", resultSum);
+//                    result.add(dataMap);
+//                } else if ("3".equals(chartType)) {// 取得地图数据
+//                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, null, null, false, false, false);
+//                    facetField = "finance_cityname_s";
+//                    resultSum = searchWithStatsInfo(facetField, conditionsStr, "2");
+//                    Map<String, Object> dataMap = new HashMap<String, Object>();
+//                    dataMap.put("dataSum", areaString(resultSum));
+//                    result.add(dataMap);
+//                    //补齐省份的数据
+//                    Map<String, Object> chartDataMap = new HashMap<String, Object>();
+//                    List<Map<String, Object>> resultTotalSum = new ArrayList<Map<String, Object>>();
+//                    resultTotalSum = searchWithStatsInfo(facetField, conditionsStr, "2");
+//                    resultTotalSum = addProvincesData(areaString(resultTotalSum));
+//                    chartDataMap.put("dataSum", resultTotalSum);
+//                    result.add(chartDataMap);
+//                }
+//            }
+//        }
 
         logger.debug("*******getResearchBondDataInfo*******DATA ： {}", JsonUtil.toJson(result));
         return result;
@@ -904,33 +901,33 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
         return result;
     }
 
-    private Map<String, Object> searchWithFacetInfo(String facetField, String conditionsStr) {
-        Map<String, Object> result = new HashMap<String, Object>();
-        QueryInfo<Map<String, String>> queryInfo = new QueryInfo<Map<String, String>>();
-
-        Map<String, String> condition = Maps.newHashMap();
-        // 设置查询条件
-        condition.put(Constant.SEARCH_CONDIATION, conditionsStr);
-        // 设置分组字段(发行家数不需要有分组字段)
-        /*if(StringUtils.isNotEmpty(facetField)){
-            condition.put(Constant.SEARCH_FACET_FIELD, facetField);
-        }*/
-        queryInfo.setCondition(condition);
-        logger.debug("*******search index data*******");
-        FacetResult<FinanceStatisticsIndexDto> page = searchServer.searchWithFacet("finance", queryInfo, FinanceStatisticsIndexDto.class);
-
-        //List<StatisticsField> field = page.getStatisticsFieldMap().get(facetField);
-        //Map<String, String> dataMap = new HashMap<String, String>();
-        result.put("number", page.getPage().getTotal());
-        /*for (StatisticsField sf : field) {
-             dataMap = new HashMap<String, String>();
-             dataMap.put("name", sf.getFieldId());
-             dataMap.put("value", String.valueOf(sf.getCount()));
-            
-             result.add(dataMap);
-        }   */
-        return result;
-    }
+//    private Map<String, Object> searchWithFacetInfo(String facetField, String conditionsStr) {
+//        Map<String, Object> result = new HashMap<String, Object>();
+//        QueryInfo<Map<String, String>> queryInfo = new QueryInfo<Map<String, String>>();
+//
+//        Map<String, String> condition = Maps.newHashMap();
+//        // 设置查询条件
+//        condition.put(Constant.SEARCH_CONDIATION, conditionsStr);
+//        // 设置分组字段(发行家数不需要有分组字段)
+//        /*if(StringUtils.isNotEmpty(facetField)){
+//            condition.put(Constant.SEARCH_FACET_FIELD, facetField);
+//        }*/
+//        queryInfo.setCondition(condition);
+//        logger.debug("*******search index data*******");
+//        FacetResult<FinanceStatisticsIndexDto> page = searchServer.searchWithFacet("finance", queryInfo, FinanceStatisticsIndexDto.class);
+//
+//        //List<StatisticsField> field = page.getStatisticsFieldMap().get(facetField);
+//        //Map<String, String> dataMap = new HashMap<String, String>();
+//        result.put("number", page.getPage().getTotal());
+//        /*for (StatisticsField sf : field) {
+//             dataMap = new HashMap<String, String>();
+//             dataMap.put("name", sf.getFieldId());
+//             dataMap.put("value", String.valueOf(sf.getCount()));
+//            
+//             result.add(dataMap);
+//        }   */
+//        return result;
+//    }
 
     /**
      * Es查询
@@ -1013,60 +1010,60 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
         return tempResult;
     }
 
-    private List<Map<String, Object>> searchWithStatsInfo(String facetField, String conditionsStr, String flag) {
-        List<Map<String, Object>> tempResult = new ArrayList<Map<String, Object>>();
-        QueryInfo<Map<String, String>> queryInfo = new QueryInfo<Map<String, String>>();
-        Map<String, String> condition = Maps.newHashMap();
-
-        // 设置查询条件
-        condition.put(Constant.SEARCH_CONDIATION, conditionsStr);
-        condition.put(Constant.SEARCH_FACET_PIVOT, "{!stats=piv1}" + facetField);
-        condition.put(Constant.SEARCH_STATS_PIVOT, "{!tag=piv1 sum=true}finance_sumfina_d");
-
-        queryInfo.setCondition(condition);
-        logger.debug("*******search index data*******");
-        StatsResult<FinanceStatisticsIndexDto> page1 = null;
-        StatsResult<BondStatisticsIndexDto> page2 = null;
-        List<PivotField> field = null;
-        if ("1".equals(flag)) {
-            page1 = searchServer.searchWithStats("finance", queryInfo, FinanceStatisticsIndexDto.class);
-            field = page1.getStatisticsFieldMap().get(facetField);
-        } else if ("2".equals(flag)) {
-            page2 = searchServer.searchWithStats("finance", queryInfo, BondStatisticsIndexDto.class);
-            field = page2.getStatisticsFieldMap().get(facetField);
-        }
-
-        //List<PivotField> field = page.getStatisticsFieldMap().get(facetField);
-        Map<String, Object> dataMap = Maps.newHashMap();
-        if (field != null) {
-            for (PivotField sf : field) {
-                dataMap = new HashMap<String, Object>();
-                dataMap.put("name", String.valueOf(sf.getValue()));
-                double sum = 0;
-                BigDecimal totalSum = new BigDecimal(0);
-                try {
-                    if ("1".equals(flag)) {
-                        sum = (double) sf.getFieldStatsInfo().get("finance_sumfina_d").getSum();
-                        BigDecimal bd = new BigDecimal(sum);
-                        totalSum = bd.divide(new BigDecimal(100000000)).setScale(4, BigDecimal.ROUND_HALF_UP);
-                        dataMap.put("value", totalSum);
-                    } else {
-                        sum = (double) sf.getFieldStatsInfo().get("finance_sumfina_d").getSum();
-                        BigDecimal bd = new BigDecimal(sum);
-                        totalSum = bd.setScale(4, BigDecimal.ROUND_HALF_UP);
-                        dataMap.put("value", totalSum);
-                    }
-                } catch (Exception e) {
-                    logger.error("cause by：{}", Throwables.getStackTraceAsString(e));
-                }
-                dataMap.put("num", sf.getCount());
-                dataMap.put("cityName", String.valueOf(sf.getValue()));
-                dataMap.put("condition", conditionsStr); //增加查询条件
-                tempResult.add(dataMap);
-            }
-        }
-        return tempResult;
-    }
+//    private List<Map<String, Object>> searchWithStatsInfo(String facetField, String conditionsStr, String flag) {
+//        List<Map<String, Object>> tempResult = new ArrayList<Map<String, Object>>();
+//        QueryInfo<Map<String, String>> queryInfo = new QueryInfo<Map<String, String>>();
+//        Map<String, String> condition = Maps.newHashMap();
+//
+//        // 设置查询条件
+//        condition.put(Constant.SEARCH_CONDIATION, conditionsStr);
+//        condition.put(Constant.SEARCH_FACET_PIVOT, "{!stats=piv1}" + facetField);
+//        condition.put(Constant.SEARCH_STATS_PIVOT, "{!tag=piv1 sum=true}finance_sumfina_d");
+//
+//        queryInfo.setCondition(condition);
+//        logger.debug("*******search index data*******");
+//        StatsResult<FinanceStatisticsIndexDto> page1 = null;
+//        StatsResult<BondStatisticsIndexDto> page2 = null;
+//        List<PivotField> field = null;
+//        if ("1".equals(flag)) {
+//            page1 = searchServer.searchWithStats("finance", queryInfo, FinanceStatisticsIndexDto.class);
+//            field = page1.getStatisticsFieldMap().get(facetField);
+//        } else if ("2".equals(flag)) {
+//            page2 = searchServer.searchWithStats("finance", queryInfo, BondStatisticsIndexDto.class);
+//            field = page2.getStatisticsFieldMap().get(facetField);
+//        }
+//
+//        //List<PivotField> field = page.getStatisticsFieldMap().get(facetField);
+//        Map<String, Object> dataMap = Maps.newHashMap();
+//        if (field != null) {
+//            for (PivotField sf : field) {
+//                dataMap = new HashMap<String, Object>();
+//                dataMap.put("name", String.valueOf(sf.getValue()));
+//                double sum = 0;
+//                BigDecimal totalSum = new BigDecimal(0);
+//                try {
+//                    if ("1".equals(flag)) {
+//                        sum = (double) sf.getFieldStatsInfo().get("finance_sumfina_d").getSum();
+//                        BigDecimal bd = new BigDecimal(sum);
+//                        totalSum = bd.divide(new BigDecimal(100000000)).setScale(4, BigDecimal.ROUND_HALF_UP);
+//                        dataMap.put("value", totalSum);
+//                    } else {
+//                        sum = (double) sf.getFieldStatsInfo().get("finance_sumfina_d").getSum();
+//                        BigDecimal bd = new BigDecimal(sum);
+//                        totalSum = bd.setScale(4, BigDecimal.ROUND_HALF_UP);
+//                        dataMap.put("value", totalSum);
+//                    }
+//                } catch (Exception e) {
+//                    logger.error("cause by：{}", Throwables.getStackTraceAsString(e));
+//                }
+//                dataMap.put("num", sf.getCount());
+//                dataMap.put("cityName", String.valueOf(sf.getValue()));
+//                dataMap.put("condition", conditionsStr); //增加查询条件
+//                tempResult.add(dataMap);
+//            }
+//        }
+//        return tempResult;
+//    }
 
     //获取月份
     /*private String getMonthStr(Date date, String format) {
@@ -1202,7 +1199,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
      * 拼接查询公司详情条件
      */
     public QueryInfo<Map<String, Object>> getQuery(FinanceParamDto queryInfo) {
-        if (Global.ES_FINANCE_STATISTICS_FLAG.equals("0")) {
+//        if (Global.ES_FINANCE_STATISTICS_FLAG.equals("0")) {
             QueryInfo<Map<String, Object>> query = new QueryInfo<Map<String, Object>>();
             Map<String, Object> condition = Maps.newHashMap();
             if ("1".equals(queryInfo.getChartType())) {//柱状图
@@ -1316,86 +1313,86 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
             query.setPageSize(queryInfo.getPageSize());
             query.setStartRow(queryInfo.getStartRow());
             return query;
-        } else {
-            QueryInfo<Map<String, Object>> query = new QueryInfo<Map<String, Object>>();
-            Map<String, Object> condition = Maps.newHashMap();
-            String conditionsStr = "";
-            if ("1".equals(queryInfo.getChartType())) {//柱状图
-                conditionsStr = "index_type_t: \"finance\"";
-                if (StringUtils.isNotEmpty(queryInfo.getSelCondition())) {
-                    String[] time = queryInfo.getSelCondition().split("至");
-                    String startDateStr = new String();
-                    for (String timeFlag : time) {
-                        startDateStr = startDateStr + " 至 " + timeFlag;
-                    }
-                    startDateStr = startDateStr.substring(3);
-                    conditionsStr = SolrSearchUtil.transDateStrToConditionStr(conditionsStr, startDateStr, "finance_startdate_dt");
-                }
-                if ("债券发行".equals(queryInfo.getTypeFlag())) {//债券发行
-                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
-                } else {//证券发行
-                    if ("004".equals(queryInfo.getFinaType())) {
-                        conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, true);
-                    } else {
-                        conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
-                    }
-                }
-            } else if ("2".equals(queryInfo.getChartType())) {//饼状图
-                conditionsStr = queryInfo.getConditionStr();
-                if (!"004".equals(queryInfo.getFinaType())) {
-                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
-                }
-                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getSelCondition(), " ", "finance_pindname" + queryInfo.getFinanceIndustry() + "_s", false, false, false);
-            } else if ("3".equals(queryInfo.getChartType())) {//地图
-                conditionsStr = queryInfo.getConditionStr();
-                if (!"004".equals(queryInfo.getFinaType())) {
-                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
-                }
-                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getSelCondition(), " ", "finance_cityname_s", false, false, false);
-            }
-
-            // 处理关键字的检索条件
-            condition.put(Constant.SEARCH_CONDIATION, conditionsStr);
-
-            query.setCondition(condition);
-            String orderby = "DESC";
-            // 排序顺序
-            if ("ascending".equals(queryInfo.getOrderByOrder())) {
-                orderby = "ASC";
-            } else if ("descending".equals(queryInfo.getOrderByOrder())) {
-                orderby = "DESC";
-            }
-            String orderName = "finance_startdate_dt";
-            // 排序根据
-            if ("companyName".equals(queryInfo.getOrderByName())) {// 公司名称
-                orderName = "finance_companyname_sort_s";
-            } else if ("financeDate".equals(queryInfo.getOrderByName())) {// 上市日期
-                orderName = "finance_startdate_dt";
-            } else if ("securityCode".equals(queryInfo.getOrderByName())) {// 证券代码
-                orderName = "finance_securitycode_sort_s";
-            } else if ("securityShortName".equals(queryInfo.getOrderByName())) {// 证券简称
-                orderName = "finance_securityshortname_sort_s";
-            } else if ("financeIndustry".equals(queryInfo.getOrderByName())) {// 所属行业
-                if ("2".equals(queryInfo.getChartType())) {
-                    orderName = "finance_pindcode" + queryInfo.getFinanceIndustry() + "_t";
-                } else {
-                    orderName = "finance_pindcode001_t";
-                }
-            } else if ("cityName".equals(queryInfo.getOrderByName())) {// 所属地区
-                orderName = "finance_citycode_t";
-            } else if ("belongPlate".equals(queryInfo.getOrderByName())) {// 所属板块
-                orderName = "finance_belongplate_t";
-            } else if ("finaType".equals(queryInfo.getOrderByName())) {// 融资方式
-                orderName = "finance_finatype_t";
-            } else if ("sumFina".equals(queryInfo.getOrderByName())) {// 融资金额
-                orderName = "finance_sumfina_d";
-            }
-            query.setOrderByName(orderName);
-            query.setOrderByOrder(orderby);
-            query.setPageSize(queryInfo.getPageSize());
-            query.setStartRow(queryInfo.getStartRow());
-            return query;
-        }
+//        } else {
+//            QueryInfo<Map<String, Object>> query = new QueryInfo<Map<String, Object>>();
+//            Map<String, Object> condition = Maps.newHashMap();
+//            String conditionsStr = "";
+//            if ("1".equals(queryInfo.getChartType())) {//柱状图
+//                conditionsStr = "index_type_t: \"finance\"";
+//                if (StringUtils.isNotEmpty(queryInfo.getSelCondition())) {
+//                    String[] time = queryInfo.getSelCondition().split("至");
+//                    String startDateStr = new String();
+//                    for (String timeFlag : time) {
+//                        startDateStr = startDateStr + " 至 " + timeFlag;
+//                    }
+//                    startDateStr = startDateStr.substring(3);
+//                    conditionsStr = SolrSearchUtil.transDateStrToConditionStr(conditionsStr, startDateStr, "finance_startdate_dt");
+//                }
+//                if ("债券发行".equals(queryInfo.getTypeFlag())) {//债券发行
+//                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
+//                } else {//证券发行
+//                    if ("004".equals(queryInfo.getFinaType())) {
+//                        conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, "004", "finance_finatype_t", false, false, true);
+//                    } else {
+//                        conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
+//                    }
+//                }
+//            } else if ("2".equals(queryInfo.getChartType())) {//饼状图
+//                conditionsStr = queryInfo.getConditionStr();
+//                if (!"004".equals(queryInfo.getFinaType())) {
+//                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
+//                }
+//                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getSelCondition(), " ", "finance_pindname" + queryInfo.getFinanceIndustry() + "_s", false, false, false);
+//            } else if ("3".equals(queryInfo.getChartType())) {//地图
+//                conditionsStr = queryInfo.getConditionStr();
+//                if (!"004".equals(queryInfo.getFinaType())) {
+//                    conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getFinaType(), "finance_finatype_t", false, false, false);
+//                }
+//                conditionsStr = SolrSearchUtil.transformValueToString(conditionsStr, queryInfo.getSelCondition(), " ", "finance_cityname_s", false, false, false);
+//            }
+//
+//            // 处理关键字的检索条件
+//            condition.put(Constant.SEARCH_CONDIATION, conditionsStr);
+//
+//            query.setCondition(condition);
+//            String orderby = "DESC";
+//            // 排序顺序
+//            if ("ascending".equals(queryInfo.getOrderByOrder())) {
+//                orderby = "ASC";
+//            } else if ("descending".equals(queryInfo.getOrderByOrder())) {
+//                orderby = "DESC";
+//            }
+//            String orderName = "finance_startdate_dt";
+//            // 排序根据
+//            if ("companyName".equals(queryInfo.getOrderByName())) {// 公司名称
+//                orderName = "finance_companyname_sort_s";
+//            } else if ("financeDate".equals(queryInfo.getOrderByName())) {// 上市日期
+//                orderName = "finance_startdate_dt";
+//            } else if ("securityCode".equals(queryInfo.getOrderByName())) {// 证券代码
+//                orderName = "finance_securitycode_sort_s";
+//            } else if ("securityShortName".equals(queryInfo.getOrderByName())) {// 证券简称
+//                orderName = "finance_securityshortname_sort_s";
+//            } else if ("financeIndustry".equals(queryInfo.getOrderByName())) {// 所属行业
+//                if ("2".equals(queryInfo.getChartType())) {
+//                    orderName = "finance_pindcode" + queryInfo.getFinanceIndustry() + "_t";
+//                } else {
+//                    orderName = "finance_pindcode001_t";
+//                }
+//            } else if ("cityName".equals(queryInfo.getOrderByName())) {// 所属地区
+//                orderName = "finance_citycode_t";
+//            } else if ("belongPlate".equals(queryInfo.getOrderByName())) {// 所属板块
+//                orderName = "finance_belongplate_t";
+//            } else if ("finaType".equals(queryInfo.getOrderByName())) {// 融资方式
+//                orderName = "finance_finatype_t";
+//            } else if ("sumFina".equals(queryInfo.getOrderByName())) {// 融资金额
+//                orderName = "finance_sumfina_d";
+//            }
+//            query.setOrderByName(orderName);
+//            query.setOrderByOrder(orderby);
+//            query.setPageSize(queryInfo.getPageSize());
+//            query.setStartRow(queryInfo.getStartRow());
+//            return query;
+//        }
     }
 
     /**
@@ -1406,7 +1403,7 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
      * @throws Exception
      */
     public InputStream exportExcel(QueryInfo<Map<String, Object>> query, String filePath, String chartType, String financeIndustry, String statistics) throws Exception {
-        if (Global.ES_FINANCE_STATISTICS_FLAG.equals("0")) {
+//        if (Global.ES_FINANCE_STATISTICS_FLAG.equals("0")) {
             FacetResult<FinanceStatisticsIndexDto> facetResult = searchClient.searchWithFacet(
                     Global.ES_FINANCE_STATISTICS, query, FinanceStatisticsIndexDto.class);
             Page<FinanceStatisticsIndexDto> page = facetResult.getPage();
@@ -1422,23 +1419,23 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
             os.flush();
             os.close();
             return new ByteArrayInputStream(os.toByteArray());
-        } else {
-            FacetResult<FinanceStatisticsIndexDto> facetResult = searchServer.searchWithFacet(
-                    Global.FINANCE_INDEX_NAME, query, FinanceStatisticsIndexDto.class);
-            Page<FinanceStatisticsIndexDto> page = facetResult.getPage();
-            List<FinanceStatisticsIndexDto> resultList = Lists.newArrayList();
-            if (page != null) {
-                resultList = page.getData();
-            }
-            // 设置Excel内容
-            Workbook workbook = excelContentSetting(resultList, filePath, chartType, financeIndustry, statistics);
-            // 写成文件
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
-            workbook.write(os);
-            os.flush();
-            os.close();
-            return new ByteArrayInputStream(os.toByteArray());
-        }
+//        } else {
+//            FacetResult<FinanceStatisticsIndexDto> facetResult = searchServer.searchWithFacet(
+//                    Global.FINANCE_INDEX_NAME, query, FinanceStatisticsIndexDto.class);
+//            Page<FinanceStatisticsIndexDto> page = facetResult.getPage();
+//            List<FinanceStatisticsIndexDto> resultList = Lists.newArrayList();
+//            if (page != null) {
+//                resultList = page.getData();
+//            }
+//            // 设置Excel内容
+//            Workbook workbook = excelContentSetting(resultList, filePath, chartType, financeIndustry, statistics);
+//            // 写成文件
+//            ByteArrayOutputStream os = new ByteArrayOutputStream();
+//            workbook.write(os);
+//            os.flush();
+//            os.close();
+//            return new ByteArrayInputStream(os.toByteArray());
+//        }
     }
 
     /**

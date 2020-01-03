@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.stock.core.annotation.Document;
 import com.stock.core.annotation.IndexField;
 import com.stock.core.dto.Indexable;
-import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -20,275 +19,275 @@ public class FinanceStatisticsIndexDto extends Indexable implements Serializable
      */
     private static final long serialVersionUID = 1L;
     // 地区
-    @Field("finance_cityname_s")
+    //@Field("finance_cityname_s")
     @IndexField(name = "finance_cityname_s")
     private String cityName;
     
     // 公司名
-    @Field("finance_securityname_t")
+    //@Field("finance_securityname_t")
     @IndexField(name = "finance_securityname_t")
     private String securityName;
     
     // 公司代码
-    @Field("finance_securitycode_t")
+    //@Field("finance_securitycode_t")
     @IndexField(name = "finance_securitycode_t")
     private String securityCode;
     
     // 融资日期
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    @Field("finance_startdate_dt")
+    //@Field("finance_startdate_dt")
     @IndexField(name = "finance_startdate_dt")
     private Date financeDate;
     
     // 融资方式
-    @Field("finance_finatype_t")
+    //@Field("finance_finatype_t")
     @IndexField(name = "finance_finatype_t")
     private String finaType;
     
     // 融资金额
-    @Field("finance_sumfina_d")
+    //@Field("finance_sumfina_d")
     @IndexField(name = "finance_sumfina_d")
     private double sumFina;
 
-    @Field("finance_finance_id_t")
+    //@Field("finance_finance_id_t")
     @IndexField(name = "finance_finance_id_t")
     private String financeId;
 
-    @Field("finance_financecode_t")
+    //@Field("finance_financecode_t")
     @IndexField(name = "finance_financecode_t")
     private String financeCode;
 
-    @Field("finance_datetypecode_t")
+    //@Field("finance_datetypecode_t")
     @IndexField(name = "finance_datetypecode_t")
     private String dateTypeCode;
 
-    @Field("finance_datetype_t")
+    //@Field("finance_datetype_t")
     @IndexField(name = "finance_datetype_t")
     private String dateType;
 
-    @Field("finance_startdate_t")
+    //@Field("finance_startdate_t")
     @IndexField(name = "finance_startdate_t")
     private String startDate;
 
-    @Field("finance_enddate_t")
+    //@Field("finance_enddate_t")
     @IndexField(name = "finance_enddate_t")
     private String endDate;
 
-    @Field("finance_companycode_t")
+    //@Field("finance_companycode_t")
     @IndexField(name = "finance_companycode_t")
     private String companyCode;
 
-    @Field("finance_companyname_t")
+    //@Field("finance_companyname_t")
     @IndexField(name = "finance_companyname_t")
     private String companyName;
 
-    @Field("finance_belongplate_t")
+    //@Field("finance_belongplate_t")
     @IndexField(name = "finance_belongplate_t")
     private String belongPlate;
 
-    @Field("finance_securitytypecode_t")
+    //@Field("finance_securitytypecode_t")
     @IndexField(name = "finance_securitytypecode_t")
     private String securityTypeCode;
 
-    @Field("finance_securitytype_t")
+    //@Field("finance_securitytype_t")
     @IndexField(name = "finance_securitytype_t")
     private String securityType;
 
-    @Field("finance_indtypecode009_t")
+    //@Field("finance_indtypecode009_t")
     @IndexField(name = "finance_indtypecode009_t")
     private String indTypeCode009;
 
-    @Field("finance_paramcode009_t")
+    //@Field("finance_paramcode009_t")
     @IndexField(name = "finance_paramcode009_t")
     private String paramCode009;
 
-    @Field("finance_indcode009_t")
+    //@Field("finance_indcode009_t")
     @IndexField(name = "finance_indcode009_t")
     private String indCode009;
 
-    @Field("finance_indname009_s")
+    //@Field("finance_indname009_s")
     @IndexField(name = "finance_indname009_s")
     private String indName009;
 
-    @Field("finance_pindcode009_t")
+    //@Field("finance_pindcode009_t")
     @IndexField(name = "finance_pindcode009_t")
     private String pIndCode009;
 
-    @Field("finance_pindname009_s")
+    //@Field("finance_pindname009_s")
     @IndexField(name = "finance_pindname009_s")
     private String pIndName009;
 
-    @Field("finance_indtypecode008_t")
+    //@Field("finance_indtypecode008_t")
     @IndexField(name = "finance_indtypecode008_t")
     private String indTypeCode008;
 
-    @Field("finance_paramcode008_t")
+    //@Field("finance_paramcode008_t")
     @IndexField(name = "finance_paramcode008_t")
     private String paramCode008;
 
-    @Field("finance_indcode008_t")
+    //@Field("finance_indcode008_t")
     @IndexField(name = "finance_indcode008_t")
     private String indCode008;
 
-    @Field("finance_indname008_s")
+    //@Field("finance_indname008_s")
     @IndexField(name = "finance_indname008_s")
     private String indName008;
 
-    @Field("finance_pindcode008_t")
+    //@Field("finance_pindcode008_t")
     @IndexField(name = "finance_pindcode008_t")
     private String pIndCode008;
 
-    @Field("finance_pindname008_s")
+    //@Field("finance_pindname008_s")
     @IndexField(name = "finance_pindname008_s")
     private String pIndName008;
 
-    @Field("finance_indtypecode006_t")
+    //@Field("finance_indtypecode006_t")
     @IndexField(name = "finance_indtypecode006_t")
     private String indTypeCode006;
 
-    @Field("finance_paramcode006_t")
+    //@Field("finance_paramcode006_t")
     @IndexField(name = "finance_paramcode006_t")
     private String paramCode006;
 
-    @Field("finance_indcode006_t")
+    //@Field("finance_indcode006_t")
     @IndexField(name = "finance_indcode006_t")
     private String indCode006;
 
-    @Field("finance_indname006_s")
+    //@Field("finance_indname006_s")
     @IndexField(name = "finance_indname006_s")
     private String indName006;
 
-    @Field("finance_pindcode006_t")
+    //@Field("finance_pindcode006_t")
     @IndexField(name = "finance_pindcode006_t")
     private String pIndCode006;
 
-    @Field("finance_pindname006_s")
+    //@Field("finance_pindname006_s")
     @IndexField(name = "finance_pindname006_s")
     private String pIndName006;
 
-    @Field("finance_indtypecode005_t")
+    //@Field("finance_indtypecode005_t")
     @IndexField(name = "finance_indtypecode005_t")
     private String indTypeCode005;
 
-    @Field("finance_paramcode005_t")
+    //@Field("finance_paramcode005_t")
     @IndexField(name = "finance_paramcode005_t")
     private String paramCode005;
 
-    @Field("finance_indcode005_t")
+    //@Field("finance_indcode005_t")
     @IndexField(name = "finance_indcode005_t")
     private String indCode005;
 
-    @Field("finance_indname005_s")
+    //@Field("finance_indname005_s")
     @IndexField(name = "finance_indname005_s")
     private String indName005;
 
-    @Field("finance_pindcode005_t")
+    //@Field("finance_pindcode005_t")
     @IndexField(name = "finance_pindcode005_t")
     private String pIndCode005;
 
-    @Field("finance_pindname005_s")
+    //@Field("finance_pindname005_s")
     @IndexField(name = "finance_pindname005_s")
     private String pIndName005;
 
-    @Field("finance_indtypecode004_t")
+    //@Field("finance_indtypecode004_t")
     @IndexField(name = "finance_indtypecode004_t")
     private String indTypeCode004;
 
-    @Field("finance_paramcode004_t")
+    //@Field("finance_paramcode004_t")
     @IndexField(name = "finance_paramcode004_t")
     private String paramCode004;
 
-    @Field("finance_indcode004_t")
+    //@Field("finance_indcode004_t")
     @IndexField(name = "finance_indcode004_t")
     private String indCode004;
 
-    @Field("finance_indname004_s")
+    //@Field("finance_indname004_s")
     @IndexField(name = "finance_indname004_s")
     private String indName004;
 
-    @Field("finance_pindcode004_t")
+    //@Field("finance_pindcode004_t")
     @IndexField(name = "finance_pindcode004_t")
     private String pIndCode004;
 
-    @Field("finance_pindname004_s")
+    //@Field("finance_pindname004_s")
     @IndexField(name = "finance_pindname004_s")
     private String pIndName004;
 
-    @Field("finance_indtypecode003_t")
+    //@Field("finance_indtypecode003_t")
     @IndexField(name = "finance_indtypecode003_t")
     private String indTypeCode003;
 
-    @Field("finance_paramcode003_t")
+    //@Field("finance_paramcode003_t")
     @IndexField(name = "finance_paramcode003_t")
     private String paramCode003;
 
-    @Field("finance_indcode003_t")
+    //@Field("finance_indcode003_t")
     @IndexField(name = "finance_indcode003_t")
     private String indCode003;
 
-    @Field("finance_indname003_s")
+    //@Field("finance_indname003_s")
     @IndexField(name = "finance_indname003_s")
     private String indName003;
 
-    @Field("finance_pindcode003_t")
+    //@Field("finance_pindcode003_t")
     @IndexField(name = "finance_pindcode003_t")
     private String pIndCode003;
 
-    @Field("finance_pindname003_s")
+    //@Field("finance_pindname003_s")
     @IndexField(name = "finance_pindname003_s")
     private String pIndName003;
 
-    @Field("finance_indtypecode002_t")
+    //@Field("finance_indtypecode002_t")
     @IndexField(name = "finance_indtypecode002_t")
     private String indTypeCode002;
 
-    @Field("finance_paramcode002_t")
+    //@Field("finance_paramcode002_t")
     @IndexField(name = "finance_paramcode002_t")
     private String paramCode002;
 
-    @Field("finance_indcode002_t")
+    //@Field("finance_indcode002_t")
     @IndexField(name = "finance_indcode002_t")
     private String indCode002;
 
-    @Field("finance_indname002_s")
+    //@Field("finance_indname002_s")
     @IndexField(name = "finance_indname002_s")
     private String indName002;
 
-    @Field("finance_pindcode002_t")
+    //@Field("finance_pindcode002_t")
     @IndexField(name = "finance_pindcode002_t")
     private String pIndCode002;
 
-    @Field("finance_pindname002_s")
+    //@Field("finance_pindname002_s")
     @IndexField(name = "finance_pindname002_s")
     private String pIndName002;
 
-    @Field("finance_indtypecode001_t")
+    //@Field("finance_indtypecode001_t")
     @IndexField(name = "finance_indtypecode001_t")
     private String indTypeCode001;
 
-    @Field("finance_paramcode001_t")
+    //@Field("finance_paramcode001_t")
     @IndexField(name = "finance_paramcode001_t")
     private String paramCode001;
 
-    @Field("finance_indcode001_t")
+    //@Field("finance_indcode001_t")
     @IndexField(name = "finance_indcode001_t")
     private String indCode001;
 
-    @Field("finance_indname001_s")
+    //@Field("finance_indname001_s")
     @IndexField(name = "finance_indname001_s")
     private String indName001;
 
-    @Field("finance_pindcode001_t")
+    //@Field("finance_pindcode001_t")
     @IndexField(name = "finance_pindcode001_t")
     private String pIndCode001;
 
-    @Field("finance_pindname001_s")
+    //@Field("finance_pindname001_s")
     @IndexField(name = "finance_pindname001_s")
     private String pIndName001;
     
     // 公司简称
-    @Field("finance_securityshortname_t")
+    //@Field("finance_securityshortname_t")
     @IndexField(name = "finance_securityshortname_t")
     private String securityShortName;
     
@@ -332,7 +331,7 @@ public class FinanceStatisticsIndexDto extends Indexable implements Serializable
         this.cityCode = cityCode;
     }
 
-    @Field("finance_citycode_t")
+    //@Field("finance_citycode_t")
     @IndexField(name = "finance_citycode_t")
     private String cityCode;
 

@@ -6,17 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>IPO | 易董平台</title>
-  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vue-orgchart/dist/style.min.css"> -->
 </head>
 <script src=<%= htmlWebpackPlugin.options.path %>/tinymce/tinymce.min.js></script>
 <script src=<%= htmlWebpackPlugin.options.path %>/tinymce/aes.js></script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/vue-orgchart/dist/vue-orgchart.min.js"></script> -->
-<!--<script src="https://cdn.jsdelivr.net/npm/html2canvas@0.5.0-beta4/dist/html2canvas.min.js"></script>-->
 <script src=<%= htmlWebpackPlugin.options.cdn %>/npm/html2canvas/0.5.0-beta4/html2canvas.min.js></script>
-<!-- <script src="../node_modules/vue-orgchart/dist/vue-orgchart.min.js"></script>
-<script src="../node_modules/orgchart.js/node_modules/html2canvas/dist/html2canvas.min.js"></script> -->
+<link rel="stylesheet" href="<%= process.env.CDN_BASE %>/static/font-awesome/4.7.0/css/font-awesome.css">
+
+<script type="text/javascript" src="<%= process.env.CDN_BASE %>/static/vue/2.5.22/vue.min.js"></script>
+<script type="text/javascript" src="<%= process.env.CDN_BASE %>/static/vuex/3.1.1/vuex.min.js"></script>
+<script type="text/javascript" src="<%= process.env.CDN_BASE %>/static/vue-router/3.0.2/vue-router.min.js"></script>
+<script type="text/javascript" src="<%= process.env.CDN_BASE %>/static/vue-i18n/8.14.1/vue-i18n.min.js"></script>
+<script type="text/javascript" src="<%= process.env.CDN_BASE %>/static/stock-element-ui/2.8.3d/index.js"></script>
+<script type="text/javascript" src="<%= process.env.CDN_BASE %>/static/utils/aes.js"></script>
+
 <body style="font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Arial,sans-serif;">
 <div id="app"></div>
-<!-- built files will be auto injected -->
 </body>
 </html>

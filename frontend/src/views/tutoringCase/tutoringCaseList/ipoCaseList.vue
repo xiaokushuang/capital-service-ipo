@@ -198,7 +198,7 @@
               </el-select>
             </el-col>
            <el-col :span='8' class="stockIncreasePan-class">
-             <el-multiple-selection v-if="issueFeeShow" :range="true" :tree-data="optionIssueFee" placeholder="发行费用" size="small full"
+             <el-multiple-selection :range="true" :tree-data="optionIssueFee" placeholder="发行费用" size="small full"
                                     :multiple="false" @keydown.enter.native="querySearch" unit="万元" :ran="optionDto" @sure-click="rangeCallIssueFee"
                                     :left-decimal="true">
              </el-multiple-selection>
@@ -211,7 +211,7 @@
              </el-date-picker>
            </el-col>
             <el-col :span='4' class="stockIncreasePan-class">
-              <el-multiple-selection v-if="issueShow" :range="true" :tree-data="optionPeIssueA" placeholder="发行后市盈率" size="small full"
+              <el-multiple-selection  :range="true" :tree-data="optionPeIssueA" placeholder="发行后市盈率" size="small full"
                                      :multiple="false" @keydown.enter.native="querySearch" unit="倍" :ran="optionDto" @sure-click="rangeCallPeIssueA"
                                      :left-decimal="true">
               </el-multiple-selection>
@@ -227,7 +227,7 @@
               </el-select>
             </el-col>
             <el-col :span='8'>
-              <el-multiple-selection v-if="durationShow" :range="true" :tree-data="optionAuditDuration" placeholder="审核历时（辅导历时）"
+              <el-multiple-selection  :range="true" :tree-data="optionAuditDuration" placeholder="审核历时（辅导历时）"
                                      size="small full" :multiple="false" @keydown.enter.native="querySearch" unit="天" :ran="optionDto" @sure-click="rangeAuditDuration"
                                      :left-decimal="true">
               </el-multiple-selection>
@@ -608,7 +608,6 @@
   export default {
     data() {
       return {
-        serviceBaseUrl:'',
         radio:0,
         // checkboxList:['全部','IPO案例','辅导案例'],
         checkboxList:[
@@ -1630,9 +1629,8 @@
 
         const _self = this;
         _getSelectData().then(response => {
-           debugger;
+          // debugger;
           if (response.data.result) {
-            _self.serviceBaseUrl = response.data.result.serviceBaseUrl;
             if (response.data.result.industryCrscList && response.data.result.industryCrscList.length > 0) {
               _self.industryCrscList = response.data.result.industryCrscList;
             }
@@ -1793,13 +1791,13 @@
       },
       openNew() {
         const _self = this;
-        const href = _self.serviceBaseUrl + 'ui/laws/laws/lawsDetail?lawId=745777672757626842&access_token=' + _self.$store
+        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=745777672757626842&access_token=' + _self.$store
           .state.app.token + '&tenant_info=' + _self.$store.state.app.info;
         window.open(href, '_blank');
       },
       openNewRule() {
         const _self = this;
-        const href = _self.serviceBaseUrl + 'ui/laws/laws/lawsDetail?lawId=' + _self.issueLawId + '&access_token=' +
+        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + _self.issueLawId + '&access_token=' +
           _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
         window.open(href, '_blank');
       },

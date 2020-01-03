@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.stock.core.annotation.IndexField;
 import com.stock.core.dto.Indexable;
 
-import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -15,108 +14,108 @@ public class IpoFeedbackIndexDto extends Indexable implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Field("letter_question_label_content_t")
+    //@Field("letter_question_label_content_t")
     @IndexField(name="letter_question_label_content_t", description="函件问题标签内容")
     private String questionLabelContent;
 
-    @Field("letter_answer_label_content_t")
+    //@Field("letter_answer_label_content_t")
     @IndexField(name="letter_answer_label_content_t", description="函件回答标签内容")
     private String answerLabelContent;
 
-    @Field("letter_sortno_l")
+    //@Field("letter_sortno_l")
     @IndexField(name = "letter_sortno_l", description = "排序")
     private Long sortNo;
 
-    @Field("letter_question_id_t")
+    //@Field("letter_question_id_t")
     @IndexField(name = "letter_question_id_t", description = "回答id")
     private String questionId;
 
-    @Field("letter_letter_type_txt")
+    //@Field("letter_letter_type_txt")
     @IndexField(name = "letter_letter_type_txt", description = "函件类别")
     private List<String> letterType;
 
-    @Field("letter_letter_type_name_t")
+    //@Field("letter_letter_type_name_t")
     @IndexField(name = "letter_letter_type_name_t", description = "函件类别名称")
     private String letterTypeName;
 
-    @Field("letter_question_class_id_txt")
+    //@Field("letter_question_class_id_txt")
     @IndexField(name = "letter_question_class_id_txt", description = "")
     private List<String> questionClassId;
 
-    @Field("letter_letter_id_t")
+    //@Field("letter_letter_id_t")
     @IndexField(name = "letter_letter_id_t", description = "函件id")
     private String letterId;
 
-    @Field("letter_letter_name_t")
+    //@Field("letter_letter_name_t")
     @IndexField(name = "letter_letter_name_t", description = "函件名称")
     private String letterName;
 
-    @Field("letter_question_content_t")
+    //@Field("letter_question_content_t")
     @IndexField(name = "letter_question_content_t", description = "问题内容")
     private String questContents;
 
-    @Field("letter_answer_content_t")
+    //@Field("letter_answer_content_t")
     @IndexField(name = "letter_answer_content_t", description = "回答内容")
     private String answersContents;
 
-    @Field("letter_company_id_t")
+    //@Field("letter_company_id_t")
     @IndexField(name = "letter_company_id_t", description = "公司id")
     private String companyId;
 
-    @Field("letter_company_name_t")
+    //@Field("letter_company_name_t")
     @IndexField(name = "letter_company_name_t", description = "公司名称")
     private String companyName;
 
-    @Field("letter_letter_org_t")
+    //@Field("letter_letter_org_t")
     @IndexField(name = "letter_letter_org_t", description = "发函单位")
     private String letterOrg;
 
-    @Field("letter_return_code_t")
+    //@Field("letter_return_code_t")
     @IndexField(name = "letter_return_code_t", description = "")
     private String returnCode;
 
-    @Field("letter_return_name_t")
+    //@Field("letter_return_name_t")
     @IndexField(name = "letter_return_name_t", description = "")
     private String returnCodeName;
 
-    @Field("letter_industry_no_txt")
+    //@Field("letter_industry_no_txt")
     @IndexField(name = "letter_industry_no_txt", description = "行业")
     private List<String> industryNo;
 
-    @Field("letter_industry_name_txt")
+    //@Field("letter_industry_name_txt")
     @IndexField(name = "letter_industry_name_txt", description = "行业名称")
     private List<String> industryName;
 
-    @Field("letter_belong_plate_t")
+    //@Field("letter_belong_plate_t")
     @IndexField(name = "letter_belong_plate_t", description = "板块")
     private String belongPlateCode;
 
-    @Field("letter_belong_palate_name_t")
+    //@Field("letter_belong_palate_name_t")
     @IndexField(name="letter_belong_palate_name_t", description="所属板块汉字名称")
     private String belongPlateName;
 
-    @Field("letter_area_no_txt")
+    //@Field("letter_area_no_txt")
     @IndexField(name="letter_area_no_txt", description="公司所属地区")
     private List<String> areaNos;
 
-    @Field("letter_provinces_name_t")
+    //@Field("letter_provinces_name_t")
     @IndexField(name="letter_provinces_name_t", description="公司所属地区汉字名称")
     private String provincesName;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    @Field("letter_letter_date_dt")
+    //@Field("letter_letter_date_dt")
     @IndexField(name="letter_letter_date_dt", description="发函日期")
     private Date letterDate;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    @Field("letter_letter_return_date_dt")
+    //@Field("letter_letter_return_date_dt")
     @IndexField(name="letter_letter_return_date_dt", description="回函日期")
     private Date letterReturnDate;
 
     //2018-02-27 需求3851 by wangyu start
-    @Field("company_area_txt")
+    //@Field("company_area_txt")
     @IndexField(name="company_area_txt", description="公司所在地区")
     private List<String> companyArea;
     //2018-02-27 需求3851 by wangyu end
@@ -127,37 +126,37 @@ public class IpoFeedbackIndexDto extends Indexable implements Serializable {
 
     //2018/5/5 需求4194 by liuh Start
     //公司全称
-    @Field("letter_company_zh_name_t")
+    //@Field("letter_company_zh_name_t")
     @IndexField(name="letter_company_zh_name_t", description="函件公司全称")
     private String companyZhName;
 
     // 适用板块
-    @Field("letter_letter_apply_module_txt")
+    //@Field("letter_letter_apply_module_txt")
     @IndexField(name="letter_letter_apply_module_txt", description="适用板块")
     private List<String> letterApplyModule;
 
     // 函件新问题类型
-    @Field("letter_question_class_new_id_txt")
+    //@Field("letter_question_class_new_id_txt")
     @IndexField(name="letter_question_class_new_id_txt", description="函件新问题类型")
     private List<String> questionClassNewId;
 
     // 并购重组问询主体类型
-    @Field("letter_rela_body_id_txt")
+    //@Field("letter_rela_body_id_txt")
     @IndexField(name="letter_rela_body_id_txt", description="并购重组问询主体类型")
     private List<String> relaBodyId;
 
     // 问询主体关联问题类型组合
-    @Field("letter_rela_body_question_id_txt")
+    //@Field("letter_rela_body_question_id_txt")
     @IndexField(name="letter_rela_body_question_id_txt", description="问询主体关联问题类型组合")
     private List<String> relaBodyQuestionId;
 
     // 函件新问题类型名称（分板块存）
-    @Field("letter_question_class_name_txt")
+    //@Field("letter_question_class_name_txt")
     @IndexField(name="letter_question_class_name_txt", description="函件新问题类型名称")
     private List<String> questionClassName;
 
     // 公司东财代码
-    @Field("letter_company_rela_code_t")
+    //@Field("letter_company_rela_code_t")
     @IndexField(name="letter_company_rela_code_t", description="函件公司东财代码")
     private String companyRelaCode;
 

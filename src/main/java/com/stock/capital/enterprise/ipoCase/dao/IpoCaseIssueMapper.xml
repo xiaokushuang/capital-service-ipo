@@ -79,7 +79,7 @@ CONVERT(lfp.SHAREOVERPLACE/10000,DECIMAL(18,2)) AS shareOverPlace,
             LEFT JOIN st_issue_place lfp ON linfo.financing_code = lfp.financing_code
             LEFT JOIN ipo_underwrite lfu ON linfo.financing_code = lfu.financing_code
         WHERE
-            linfo.org_code = #{orgCode} AND linfo.fin_type = '001'
+            linfo.org_code = #{orgCode} AND linfo.fin_type = '001' AND linfo.source_del = '0'
         limit 1
   </select>
     <select id="getPlacementMainData" parameterType="map"

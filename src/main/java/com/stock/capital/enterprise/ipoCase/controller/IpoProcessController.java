@@ -30,9 +30,6 @@ public class IpoProcessController extends BaseController {
     @Autowired
     private IpoProcessService ipoProcessService;
 
-    @Value("#{app['service.baseUrl']}")
-    private String serviceBaseUrl;
-
     @ApiOperation(value = "ipo进程接口", notes = "根据caseId获取ipo进程")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String"),
@@ -45,7 +42,6 @@ public class IpoProcessController extends BaseController {
         }
         JsonResponse<TreeTypeProgressDto> response = new JsonResponse<>();
         TreeTypeProgressDto resultList = ipoProcessService.selectProcessList(id, sortType);
-        resultList.setServiceBaseUrl(serviceBaseUrl);
         response.setResult(resultList);
         return response;
     }
@@ -93,12 +89,6 @@ public class IpoProcessController extends BaseController {
             @ApiImplicitParam(name = "fileId", value = "文件id", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "fileType", value = "文件类型 01：公告 02：文件", required = true, paramType = "query", dataType = "String"),
     })
-    @RequestMapping(value = "/getServiceBaseUrl", method = RequestMethod.GET)
-    public JsonResponse<String> getServiceBaseUrl(){
-        JsonResponse<String> result = new JsonResponse<>();
-        result.setResult(serviceBaseUrl);
-        return result;
-    }
     @RequestMapping(value = "/checkFile", method = RequestMethod.GET)
     public JsonResponse<String> checkFile(String fileId, String fileType) {
         JsonResponse<String> result = new JsonResponse<>();

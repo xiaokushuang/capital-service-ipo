@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.stock.capital.enterprise.common.constant.Global;
 import com.stock.core.annotation.FieldAnnotation;
 import com.stock.core.dto.Indexable;
-import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -19,65 +18,65 @@ public class FinanceIndexDto extends Indexable implements Serializable {
     private static final long serialVersionUID = -5002003750383159169L;
     //公司代码
     @FieldAnnotation(name = "公司代码",value = "finance_companyCode_t")
-    @Field("finance_companyCode_t")
+    //@Field("finance_companyCode_t")
     private String code;
     //公司名字
     @FieldAnnotation(name = "公司代码",value = "finance_companyName_t")
-    @Field("finance_companyName_s")
+    //@Field("finance_companyName_s")
     private String companyName;
     //所属板块
     @FieldAnnotation(name = "所属板块",value = "finance_belongPlate_s")
-    @Field("finance_belongPlate_s")
+    //@Field("finance_belongPlate_s")
     private List<String> plates;
     //所属地区
     @FieldAnnotation(name = "所属地区",value = "finance_cityName_s")
-    @Field("finance_cityName_s")
+    //@Field("finance_cityName_s")
     private String regionName;
     //所属行业
     @FieldAnnotation(name = "所属行业",value = "finance_pindname001_t")
-    @Field("finance_pindname001_t")
+    //@Field("finance_pindname001_t")
     private String industriesName1;
     
     @FieldAnnotation(name = "所属行业",value = "finance_pindname002_t")
-    @Field("finance_pindname002_t")
+    //@Field("finance_pindname002_t")
     private String industriesName2;
     
     @FieldAnnotation(name = "所属行业",value = "finance_pindname003_t")
-    @Field("finance_pindname003_t")
+    //@Field("finance_pindname003_t")
     private String industriesName3;
     
     @FieldAnnotation(name = "所属行业",value = "finance_pindname004_t")
-    @Field("finance_pindname004_t")
+    //@Field("finance_pindname004_t")
     private String industriesName4;
     
     @FieldAnnotation(name = "所属行业",value = "finance_pindname005_t")
-    @Field("finance_pindname005_t")
+    //@Field("finance_pindname005_t")
     private String industriesName5;
     
     @FieldAnnotation(name = "所属行业",value = "finance_pindname006_t")
-    @Field("finance_pindname006_t")
+    //@Field("finance_pindname006_t")
     private String industriesName6;
     
     @FieldAnnotation(name = "所属行业",value = "finance_pindname008_t")
-    @Field("finance_pindname008_t")
+    //@Field("finance_pindname008_t")
     private String industriesName8;
     
     @FieldAnnotation(name = "所属行业",value = "finance_pindname009_t")
-    @Field("finance_pindname009_t")
+    //@Field("finance_pindname009_t")
     private String industriesName9;
     //时间
     @FieldAnnotation(name = "融资时间",value = "finance_startDate_t")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    @Field("finance_startDate_t")
+    //@Field("finance_startDate_t")
     private Date financeDate;
     //融资方式
     @FieldAnnotation(name = "融资方式",value = "finance_finaType_t")
-    @Field("finance_finaType_t")
+    //@Field("finance_finaType_t")
     private String financeMode;
     //融资金额
     @FieldAnnotation(name = "融资金额",value = "finance_sumFina_d")
-    @Field("finance_sumFina_d")
+    //@Field("finance_sumFina_d")
     private String financeAmount;
     public String getCode() {
         return code;

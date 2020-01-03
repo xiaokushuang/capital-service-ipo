@@ -7,7 +7,7 @@ import com.stock.capital.enterprise.common.dto.PageOperationDto;
 import com.stock.core.annotation.Document;
 import com.stock.core.annotation.FieldAnnotation;
 import com.stock.core.annotation.IndexField;
-import org.apache.solr.client.solrj.beans.Field;
+//import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -22,88 +22,88 @@ public class LawIndexSearchDto extends PageOperationDto implements Serializable 
     private static final long serialVersionUID = -5283286219691106934L;
 
     @FieldAnnotation(name = "法规标题", value = "laws_title_t")
-    @Field("laws_title_t")
+    //@Field("laws_title_t")
     @IndexField(name = "laws_title_t")
     private String title;
 
     @FieldAnnotation(name = "法规内容", value = "laws_content_t")
-    @Field("laws_content_t")
+    //@Field("laws_content_t")
     @IndexField(name = "laws_content_t")
     private String content;
 
-    @Field("laws_keyword_t")
+    //@Field("laws_keyword_t")
     @IndexField(name = "laws_keyword_t")
     private String keyword;
 
-    @Field("laws_type_t")
+    //@Field("laws_type_t")
     @IndexField(name = "laws_type_t")
     private String lawType;
 
     @FieldAnnotation(name = "法规位阶Code", value = "laws_type_search_txt")
-    @Field("laws_type_search_txt")
+    //@Field("laws_type_search_txt")
     @IndexField(name = "laws_type_search_txt")
     private List<String> lawTypeSearch;
 
     @FieldAnnotation(name = "发文单位Code", value = "laws_source_search_txt")
-    @Field("laws_source_search_txt")
+    //@Field("laws_source_search_txt")
     @IndexField(name = "laws_source_search_txt")
     private List<String> lawSourceSearch;
 
-    @Field("laws_source_t")
+    //@Field("laws_source_t")
     @IndexField(name = "laws_source_t")
     private String lawSource;
 
-    @Field("laws_type_sort_t")
+    //@Field("laws_type_sort_t")
     @IndexField(name = "laws_type_sort_t")
     private String typeSort;
 
-    @Field("laws_declare_type_t")
+    //@Field("laws_declare_type_t")
     @IndexField(name = "laws_declare_type_t")
     private String declareType;
 
     @FieldAnnotation(name = "业务分类Code", value = "laws_search_declare_type_txt")
-    @Field("laws_search_declare_type_txt")
+    //@Field("laws_search_declare_type_txt")
     @IndexField(name = "laws_search_declare_type_txt")
     private List<String> declareTypeList;
 
-    @Field("laws_hint_info_t")
+    //@Field("laws_hint_info_t")
     @IndexField(name = "laws_hint_info_t")
     private String hintInfo;
 
-    @Field("laws_sign_t")
+    //@Field("laws_sign_t")
     @IndexField(name = "laws_sign_t")
     private String lawSign;
 
-    @Field("laws_grade_t")
+    //@Field("laws_grade_t")
     @IndexField(name = "laws_grade_t")
     private String lawGrade;
 
     @FieldAnnotation(name = "适用范围Code", value = "laws_scopes_txt")
-    @Field("laws_scopes_txt")
+    //@Field("laws_scopes_txt")
     @IndexField(name = "laws_scopes_txt")
     private List<String> lawsScopes;
 
-    @Field("laws_show_flag_t")
+    //@Field("laws_show_flag_t")
     @IndexField(name = "laws_show_flag_t")
     private String lawShowFlag;
 
     @FieldAnnotation(name = "颁布日期", value = "laws_publish_date_dt")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    @Field("laws_publish_date_dt")
+    //@Field("laws_publish_date_dt")
     @IndexField(name = "laws_publish_date_dt")
     private Date publishDate;
 
     @FieldAnnotation(name = "失效时间", value = "laws_invalid_date_dt")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    @Field("laws_invalid_date_dt")
+    //@Field("laws_invalid_date_dt")
     @IndexField(name = "laws_invalid_date_dt")
     private Date lawInvalidDate;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    @Field("laws_modify_date_dt")
+    //@Field("laws_modify_date_dt")
     @IndexField(name = "laws_modify_date_dt")
     private Date lawModifyDate;
 
@@ -116,44 +116,44 @@ public class LawIndexSearchDto extends PageOperationDto implements Serializable 
     @FieldAnnotation(name = "生效日期", value = "laws_effect_date_dt")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    @Field("laws_effect_date_dt")
+    //@Field("laws_effect_date_dt")
     @IndexField(name = "laws_effect_date_dt")
     private Date lawEffectDate;
 
     @FieldAnnotation(name = "适用板块", value = "laws_apply_module_t")
-    @Field("laws_apply_module_t")
+    //@Field("laws_apply_module_t")
     @IndexField(name = "laws_apply_module_t")
     private String lawsApplyModule;
 
     @FieldAnnotation(name = "适用板块list", value = "laws_search_apply_module_txt")
-    @Field("laws_search_apply_module_txt")
+    //@Field("laws_search_apply_module_txt")
     @IndexField(name = "laws_search_apply_module_txt")
     private List<String> lawsApplyModuleList;
 
     @FieldAnnotation(name = "债券品种", value = "laws_bond_no_t")
-    @Field("laws_bond_no_t")
+    //@Field("laws_bond_no_t")
     @IndexField(name = "laws_bond_no_t")
     private String bondNo;
 
     @FieldAnnotation(name = "债券品种list", value = "laws_search_bond_no_txt")
-    @Field("laws_search_bond_no_txt")
+    //@Field("laws_search_bond_no_txt")
     @IndexField(name = "laws_search_bond_no_txt")
     private List<String> bondNoList;
 
     private List<String> lawsTypeValList;
 
     @FieldAnnotation(name = "法规沿革",value = "laws_evolution_status_t")
-    @Field("laws_evolution_status_t")
+    //@Field("laws_evolution_status_t")
     @IndexField(name = "laws_evolution_status_t")
     private String lawEvolutionStatus;
 
     @FieldAnnotation(name = "是否含有违规案例",value = "laws_violate_flag_t")
-    @Field("laws_violate_flag_t")
+    //@Field("laws_violate_flag_t")
     @IndexField(name = "laws_violate_flag_t")
     private String lawViolateFlag;
 
     @FieldAnnotation(name = "是否含有函件",value = "laws_letter_flag_t")
-    @Field("laws_letter_flag_t")
+    //@Field("laws_letter_flag_t")
     @IndexField(name = "laws_letter_flag_t")
     private String lawLetterFlag;
 

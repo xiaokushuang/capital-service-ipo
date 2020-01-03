@@ -255,7 +255,11 @@ export default {
       if (labelCode == 'totalCount'){
         labelCode = '';
       }
-      title = title + "（" + this.lableTurnName(label) + "）"
+      if(title == '合计' && label == '合计' ){
+         title = '合计';
+      }else{
+        title = title + "（" + this.lableTurnName(label) + "）"
+      }
       let url = window.location.href;
       url = url.replace(this.$route.path,'/ipoDataOverviewDetailPopWin');
       url = url + '&quasiListedLand=' + quasiListedLand +  '&tabFlag=four'+ '&labelCode='+labelCode;

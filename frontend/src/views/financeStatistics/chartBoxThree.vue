@@ -179,6 +179,7 @@ import datepicker from "@/mixins/datepicker";
 import { mapGetters } from "vuex";
 import { GetDateDiff } from "@/utils";
 import chartBoxThree from "./chartBoxThree";
+import 'echarts/map/js/china.js';
 // import china from "echarts/map/js/china"
 import common from '@/mixins/common'
 export default {

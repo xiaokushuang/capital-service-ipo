@@ -2,6 +2,7 @@
 <elasticsearch-dynamic-statement xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" nameSpace="com.stock.capital.enterprise.ipoCase.dao.IpoCaseEs">
     <select id="ipoCaseSearchByEs" type="dsl" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseIndexDto">
         <![CDATA[
+        <#compress>
         {
             "track_total_hits" : true,
             "from": ${startRow},
@@ -105,52 +106,10 @@
                       <#if condition.registerAreaList??  && (condition.registerAreaList?size > 0)>
                         ,{
                           "bool": {
-                            "should": [
+                            "must": [
                                {
                                         "terms": {
-                                            "ipo_addr_country_t": [
-                                                <#list condition.registerAreaList as item>
-                                                    <#if !item_has_next>
-                                                        "${item}"
-                                                    <#else>
-                                                        "${item}",
-                                                    </#if>
-                                                </#list>
-                                            ],
-                                            "boost": 1
-                                        }
-                                    },
-                                    {
-                                        "terms": {
-                                            "ipo_addr_prov_t": [
-                                                <#list condition.registerAreaList as item>
-                                                    <#if !item_has_next>
-                                                        "${item}"
-                                                    <#else>
-                                                        "${item}",
-                                                    </#if>
-                                                </#list>
-                                            ],
-                                            "boost": 1
-                                        }
-                                    },
-                                    {
-                                        "terms": {
-                                            "ipo_addr_city_t": [
-                                                <#list condition.registerAreaList as item>
-                                                    <#if !item_has_next>
-                                                        "${item}"
-                                                    <#else>
-                                                        "${item}",
-                                                    </#if>
-                                                </#list>
-                                            ],
-                                            "boost": 1
-                                        }
-                                    },
-                                    {
-                                        "terms": {
-                                            "ipo_addr_area_t": [
+                                            "ipo_register_addr_ss": [
                                                 <#list condition.registerAreaList as item>
                                                     <#if !item_has_next>
                                                         "${item}"
@@ -857,6 +816,7 @@
                 }
             }
         }
+         </#compress>
         ]]>
     </select>
 

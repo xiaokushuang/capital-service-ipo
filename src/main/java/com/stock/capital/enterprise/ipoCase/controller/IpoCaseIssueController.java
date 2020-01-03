@@ -36,8 +36,8 @@ public class IpoCaseIssueController {
 
     @ApiOperation(value = "发行数据接口", notes = "发行数据接口描述")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
-            dataType = "String")
+            @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
+                    dataType = "String")
     })
     @RequestMapping(value = "/issueData", method = RequestMethod.GET)
     public JsonResponse<IssueDataDto> issueData(@RequestParam("id") String id) {
@@ -49,8 +49,8 @@ public class IpoCaseIssueController {
 
     @ApiOperation(value = "发行费用接口", notes = "发行费用接口描述")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
-            dataType = "String")
+            @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
+                    dataType = "String")
     })
     @RequestMapping(value = "/issueFeeData", method = RequestMethod.GET)
     public JsonResponse<List<IssueFeeDto>> issueFeeData(@RequestParam("id") String id) {
@@ -72,6 +72,12 @@ public class IpoCaseIssueController {
         List<Map<String,Object>> tableResult = new LinkedList<>();
         Map<String,Object> result = null;
         BigDecimal issuePrice = null;
+//        获取发行后股本
+        boolean issueFlag = false;
+        IssueDataDto issueData = issueSituationService.getIssueData(id);
+        if (issueData != null && issueData.getNextIssueNum() != null){
+            issueFlag = true;
+        }
 //        先判断是否存在上市节点 通过processType 存储证券代码
         IpoProListDto ipoProgressDto =  ipoProcessService.getIssueData(id);
         if (ipoProgressDto != null && StringUtils.isNotEmpty(ipoProgressDto.getProcessTime()) && StringUtils.isNotEmpty(ipoProgressDto.getProgressType())){
@@ -101,16 +107,17 @@ public class IpoCaseIssueController {
                     echartResult.add(subs);
                     if (i == 0 ){
                         issuePrice = (BigDecimal) stringStringMap.get("LCLOSE");
-                        putData("发行首日",tableResult,stringStringMap,issuePrice);
+                        putData("发行首日",tableResult,stringStringMap,issuePrice,issueFlag,issueData);
+
                     }
                     if (i == 4){
-                        putData("发行后第5个交易日",tableResult,stringStringMap,issuePrice);
+                        putData("发行后第5个交易日",tableResult,stringStringMap,issuePrice, issueFlag, issueData);
                     }
                     if (i == 9){
-                        putData("发行后第10个交易日",tableResult,stringStringMap,issuePrice);
+                        putData("发行后第10个交易日",tableResult,stringStringMap,issuePrice, issueFlag, issueData);
                     }
                     if (i == 19){
-                        putData("发行后第20个交易日",tableResult,stringStringMap,issuePrice);
+                        putData("发行后第20个交易日",tableResult,stringStringMap,issuePrice, issueFlag, issueData);
                     }
                 }
                 result.put("echartResult",echartResult);
@@ -121,18 +128,24 @@ public class IpoCaseIssueController {
         return response;
     }
 
-    private void putData(String title, List<Map<String, Object>> tableResult, Map<String, Object> stringStringMap, BigDecimal issuePrice) {
+    private void putData(String title, List<Map<String, Object>> tableResult, Map<String, Object> stringStringMap, BigDecimal issuePrice, boolean issueFlag, IssueDataDto issueData) {
         BigDecimal newPrice = (BigDecimal) stringStringMap.get("NEW");
         BigDecimal radio = newPrice.divide(issuePrice, 4, BigDecimal.ROUND_HALF_UP).subtract(new BigDecimal(1)).multiply(new BigDecimal(100));
         stringStringMap.put("title",title);
         stringStringMap.put("CHG",radio);
+        if (issueFlag){
+            BigDecimal marketValue = newPrice.multiply(issueData.getNextIssueNum()).divide(new BigDecimal(10000), 2, BigDecimal.ROUND_HALF_UP);
+            stringStringMap.put("marketValue",marketValue);
+        }else{
+            stringStringMap.put("marketValue",null);
+        }
         tableResult.add(stringStringMap);
     }
 
 
     @ApiOperation(value = "估算费用接口", notes = "估算费用接口描述")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",dataType = "String")
+            @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",dataType = "String")
     })
     @RequestMapping(value = "/estimateType", method = RequestMethod.GET)
     public JsonResponse<String> estimateType(@RequestParam("id") String id){
@@ -143,12 +156,12 @@ public class IpoCaseIssueController {
 
     @ApiOperation(value = "同行业上市公司综合毛利率接口", notes = "同行业上市公司综合毛利率接口描述")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
-            dataType = "String")
+            @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
+                    dataType = "String")
     })
     @RequestMapping(value = "/industryRateData", method = RequestMethod.GET)
     public JsonResponse<List<IndustryCompareRateDto>> industryRateData(
-        @RequestParam("id") String id) {
+            @RequestParam("id") String id) {
         JsonResponse<List<IndustryCompareRateDto>> response = new JsonResponse<>();
         response.setResult(issueSituationService.getIndustryRateData(id));
         return response;

@@ -2,7 +2,6 @@ package com.stock.capital.enterprise.api.financeStatistics.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.stock.core.dto.Indexable;
-import org.apache.solr.client.solrj.beans.Field;
 
 import java.io.Serializable;
 
@@ -13,47 +12,47 @@ public class BondStatisticsIndexDto extends Indexable implements Serializable{
      * serialVersionUID:TODO(用一句话描述这个变量表示什么).
      */
     private static final long serialVersionUID = 1L;
-    @Field("bond_bondid_t")
+    //@Field("bond_bondid_t")
     private String bondId;
     
-    @Field("bond_securitycode_t")
+    //@Field("bond_securitycode_t")
     private String securityCode;
     
-    @Field("bond_securityname_t")
+    //@Field("bond_securityname_t")
     private String securityName;
     
-    @Field("bond_securitysname_t")
+    //@Field("bond_securitysname_t")
     private String securitysName;
     
-    @Field("bond_securitytype_t")
+    //@Field("bond_securitytype_t")
     private String securityType;
     
-    @Field("bond_securitycodename_t")
+    //@Field("bond_securitycodename_t")
     private String securityCodeName;
     
-    @Field("bond_issuenum_t")
+    //@Field("bond_issuenum_t")
     private String issueNum;
     
-    @Field("bond_bondperiod_t")
+    //@Field("bond_bondperiod_t")
     private String bondPeriod;
     
     
-    @Field("bond_issuevol_d")
+    //@Field("bond_issuevol_d")
     private double issueVol;
     
-    @Field("bond_issuedate_t")
+    //@Field("bond_issuedate_t")
     private String issueDate;
     
-    @Field("bond_listpubdate_t")
+    //@Field("bond_listpubdate_t")
     private String listPubDate;
     
-    @Field("bond_listdate_t")
+    //@Field("bond_listdate_t")
     private String listDate;
     
-    @Field("bond_companycode_s")
+    //@Field("bond_companycode_s")
     private String companyCode;
     
-    @Field("bond_companycode_s")
+    //@Field("bond_companycode_s")
     private String companyName;
     
     public String getCompanyName() {
@@ -130,162 +129,162 @@ public class BondStatisticsIndexDto extends Indexable implements Serializable{
         this.indTypeCode001 = indTypeCode001;
     }
 
-    @Field("bond_indname001_s")
+    //@Field("bond_indname001_s")
     private String indName001;
     
-    @Field("bond_pindcode001_t")
+    //@Field("bond_pindcode001_t")
     private String pIndCode001;
     
-    @Field("bond_pindname001_s")
+    //@Field("bond_pindname001_s")
     private String pIndName001;
 
-    @Field("bond_cityname_s")
+    //@Field("bond_cityname_s")
     private String cityName;
     
-    @Field("bond_citycode_t")
+    //@Field("bond_citycode_t")
     private String cityCode;
     
-    @Field("bond_belongplate_t")
+    //@Field("bond_belongplate_t")
     private String belongPlate;
     
-    @Field("bond_indtypecode009_t")
+    //@Field("bond_indtypecode009_t")
     private String indTypeCode009;
     
-    @Field("bond_paramcode009_t")
+    //@Field("bond_paramcode009_t")
     private String paramCode009;
     
-    @Field("bond_indcode009_t")
+    //@Field("bond_indcode009_t")
     private String indCode009;
     
-    @Field("bond_indname009_s")
+    //@Field("bond_indname009_s")
     private String indName009;
     
-    @Field("bond_pindcode009_s")
+    //@Field("bond_pindcode009_s")
     private String pIndCode009;
     
-    @Field("bond_pindname009_s")
+    //@Field("bond_pindname009_s")
     private String pIndName009;
 
 
-    @Field("bond_indtypecode008_t")
+    //@Field("bond_indtypecode008_t")
     private String indTypeCode008;
     
-    @Field("bond_paramcode008_t")
+    //@Field("bond_paramcode008_t")
     private String paramCode008;
     
-    @Field("bond_indcode008_t")
+    //@Field("bond_indcode008_t")
     private String indCode008;
     
-    @Field("bond_indname008_s")
+    //@Field("bond_indname008_s")
     private String indName008;
     
-    @Field("bond_pindcode008_t")
+    //@Field("bond_pindcode008_t")
     private String pIndCode008;
     
-    @Field("bond_pindname008_s")
+    //@Field("bond_pindname008_s")
     private String pIndName008;
 
 
-    @Field("bond_indtypecode006_t")
+    //@Field("bond_indtypecode006_t")
     private String indTypeCode006;
     
-    @Field("bond_paramcode006_t")
+    //@Field("bond_paramcode006_t")
     private String paramCode006;
     
-    @Field("bond_indcode006_t")
+    //@Field("bond_indcode006_t")
     private String indCode006;
     
-    @Field("bond_indname006_s")
+    //@Field("bond_indname006_s")
     private String indName006;
     
-    @Field("bond_pindcode006_t")
+    //@Field("bond_pindcode006_t")
     private String pIndCode006;
     
-    @Field("bond_pindname006_s")
+    //@Field("bond_pindname006_s")
     private String pIndName006;
 
 
-    @Field("bond_indtypecode005_t")
+    //@Field("bond_indtypecode005_t")
     private String indTypeCode005;
     
-    @Field("bond_paramcode005_t")
+    //@Field("bond_paramcode005_t")
     private String paramCode005;
     
-    @Field("bond_indcode005_t")
+    //@Field("bond_indcode005_t")
     private String indCode005;
     
-    @Field("bond_indname005_s")
+    //@Field("bond_indname005_s")
     private String indName005;
     
-    @Field("bond_pindcode005_t")
+    //@Field("bond_pindcode005_t")
     private String pIndCode005;
     
-    @Field("bond_pindname005_s")
+    //@Field("bond_pindname005_s")
     private String pIndName005;
 
-    @Field("bond_indtypecode004_t")
+    //@Field("bond_indtypecode004_t")
     private String indTypeCode004;
     
-    @Field("bond_paramcode004_t")
+    //@Field("bond_paramcode004_t")
     private String paramCode004;
     
-    @Field("bond_indcode004_t")
+    //@Field("bond_indcode004_t")
     private String indCode004;
     
-    @Field("bond_indname004_s")
+    //@Field("bond_indname004_s")
     private String indName004;
     
-    @Field("bond_pindcode004_t")
+    //@Field("bond_pindcode004_t")
     private String pIndCode004;
     
-    @Field("bond_pindname004_s")
+    //@Field("bond_pindname004_s")
     private String pIndName004;
     
 
-    @Field("bond_indtypecode003_t")
+    //@Field("bond_indtypecode003_t")
     private String indTypeCode003;
     
-    @Field("bond_paramcode003_t")
+    //@Field("bond_paramcode003_t")
     private String paramCode003;
     
-    @Field("bond_indcode003_t")
+    //@Field("bond_indcode003_t")
     private String indCode003;
     
-    @Field("bond_indname003_s")
+    //@Field("bond_indname003_s")
     private String indName003;
     
-    @Field("bond_pindcode003_t")
+    //@Field("bond_pindcode003_t")
     private String pIndCode003;
     
-    @Field("bond_pindname003_s")
+    //@Field("bond_pindname003_s")
     private String pIndName003;
     
 
-    @Field("bond_indtypecode002_t")
+    //@Field("bond_indtypecode002_t")
     private String indTypeCode002;
     
-    @Field("bond_paramcode002_t")
+    //@Field("bond_paramcode002_t")
     private String paramCode002;
     
-    @Field("bond_indcode002_t")
+    //@Field("bond_indcode002_t")
     private String indCode002;
     
-    @Field("bond_indname002_s")
+    //@Field("bond_indname002_s")
     private String indName002;
     
-    @Field("bond_pindcode002_t")
+    //@Field("bond_pindcode002_t")
     private String pIndCode002;
     
-    @Field("bond_pindname002_s")
+    //@Field("bond_pindname002_s")
     private String pIndName002;
 
-    @Field("bond_indtypecode001_t")
+    //@Field("bond_indtypecode001_t")
     private String indTypeCode001;
     
-    @Field("bond_paramcode001_t")
+    //@Field("bond_paramcode001_t")
     private String paramCode001;
     
-    @Field("bond_indcode001_t")
+    //@Field("bond_indcode001_t")
     private String indCode001;
     
     
