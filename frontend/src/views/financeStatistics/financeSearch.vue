@@ -17,6 +17,20 @@
         </el-col>
         <el-col :span='8'>
             <el-multiple-selection 
+                ref="industrySelectShow1"
+                id="industrySelectShow1"
+                placeholder="所属行业"
+                @sure-click="sure" 
+                size="small full"
+                :search-menu="true"
+                node-key="id"
+                :tree-data="getIndustryInfo"
+                :default-props="defaultProps"
+                :default-all-show="false"
+            ></el-multiple-selection>
+        </el-col>
+        <el-col :span='8'>
+            <el-multiple-selection 
                 ref="areaTree"
                 id="areaTree"
                 placeholder="所在地区"
@@ -29,6 +43,8 @@
                 :default-all-show="false"
             ></el-multiple-selection>
         </el-col>
+      </el-row>
+      <el-row :gutter="24">
         <el-col :span='8'>
           <el-multiple-selection 
               ref="stockBoardTree"
@@ -43,19 +59,17 @@
               :default-all-show="false"
           ></el-multiple-selection>
         </el-col>
-      </el-row>
-      <el-row :gutter="24">
         <el-col :span="8">
             <el-input v-model="queryParam.condition.companyName" @keyup.enter.native="confirmSearch" placeholder="请输入公司名称" size="small"></el-input>
         </el-col>
         <el-col :span="8">
             <el-input v-model="queryParam.condition.securityCode" @keyup.enter.native="confirmSearch" placeholder="请输入证券(债券)代码" size="small"></el-input>
         </el-col>
-        <el-col :span="8">
-            <el-input v-model="queryParam.condition.securityShortName" @keyup.enter.native="confirmSearch" placeholder="请输入证券(债券)简称" size="small"></el-input>
-        </el-col>			
       </el-row>
       <el-row :gutter="24">
+        <el-col :span="8">
+            <el-input v-model="queryParam.condition.securityShortName" @keyup.enter.native="confirmSearch" placeholder="请输入证券(债券)简称" size="small"></el-input>
+        </el-col>		
         <el-col :span='8'>
             <el-multiple-selection 
               ref="financingTree"
@@ -150,7 +164,7 @@ export default {
         orderByName: "",
         orderByOrder: "",
         condition: {
-          financeIndustry:'001',//所选行业分类
+          financeIndustry:'008',//所选行业分类
           areaSelect:'',//地区
           stockBoardSelect:'',//板块
           companyName:'',//公司名称
@@ -158,11 +172,12 @@ export default {
           securityShortName:'',//证券简称
           financingMode:'',//融资方式
           financeDate:[],//活动日期
+          industrySelect:'',//行业类别
         }
       },
       labelPosition:'right',//设置form中label对齐方式
       financeSearchData:[],//列表数据
-      selected:'001',//分类no,用于拼接行业名称
+      selected:'008',//分类no,用于拼接行业名称
       defaultProps: {
         children: "children",
         label: "name"
@@ -195,11 +210,14 @@ export default {
     this.classGet(true);
     this.regionGet(true);
     this.plateGet(true);
+    this.industGet();
     this.confirmSearch();//分页查询
   },
   methods: {
     changeFinanceIndustry() {//改变分类
       this.selected = this.queryParam.condition.financeIndustry;
+      //改变分类后刷新对应的所属行业下拉列表
+      this.industGet(this.selected);
       this.confirmSearch();
     },
     sortChange(column){//排序查询
@@ -232,10 +250,10 @@ export default {
 				startRow : 1,
 				pageSize : 20,
 				condition : {
-          financeIndustry:'001'
+          financeIndustry:'008'
 				}
       }
-      this.selected = '001';
+      this.selected = '008';
 			this.clearAllDropDownList();
 			//分页查询调用
 			this.confirmSearch();
@@ -245,6 +263,7 @@ export default {
 			this.$refs.areaTree.setCheckedKeys([]);
       this.$refs.stockBoardTree.setCheckedKeys([]);
       this.$refs.financingTree.setCheckedKeys([]);
+      this.$refs.industrySelectShow1.setCheckedKeys([]);
 		},
     sure(childArr,allArr,nodekey,id){// 下拉确定
 			let arr ='';
@@ -257,6 +276,8 @@ export default {
 				this.queryParam.condition.stockBoardSelect = arr;
       } else if(id == 'financingTree') {
 				this.queryParam.condition.financingMode = arr;
+      } else if(id == 'industrySelectShow1') {
+				this.queryParam.condition.industrySelect = arr;
       } 
 			this.confirmSearch();
 		},
@@ -275,6 +296,13 @@ export default {
     plateGet() {
       this.$store.dispatch("ipoPlateInfoGet");
     },
+     // 行业类别
+    industGet(data) {
+      data = this.selected;
+      // this.queryParam.pageSize = data.pageSize;
+      this.$store.dispatch("ipoindustryInfoGet", data).then((data) => {//(方法名，参数)
+      });
+    },
   },
   computed: {
     ...mapGetters([
@@ -282,6 +310,7 @@ export default {
       "getSFClass",
       "getSFCRegion",
       "getPlateInfo",
+      "getIndustryInfo",//行业分类
       // "getCompanyByCode"
     ])
   },

@@ -49,21 +49,28 @@
                 <div rightTable rightTable1>
                     <el-table
                         ref="table0"
+                        id="tableLine"
                         :data="tableData"
                         max-height="485"
                         style="width: 100%">
                         <el-table-column align="center" label="日期" min-width="50%">
                             <template slot-scope="scope">
-                                <span>{{scope.row.date}}</span>
+                                <!-- <span>{{scope.row.date}}</span> -->
+                                <a @click="companySel(scope.row,'004')">
+                                            <a>{{scope.row.date}}</a>
+                                        </a>
                             </template>
                         </el-table-column>
 
                         <el-table-column align="center" label="金额（亿元）"  min-width="31%">
                             <template slot-scope="scope">
                                 <span v-if="scope.row.dataSum.length==0">0.0000</span>
-                                <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
+                                <!-- <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
                                     <span v-if="o.name=='004'">{{o.value}}</span>
-                                </span>
+                                </span> -->
+                                <a v-else v-for='(o,i) in scope.row.dataSum' :key="i" @click="companySel(scope.row,'004')">
+                                    <a v-if="o.name=='004'">{{o.value}}</a>
+                                </a>
                             </template>
                         </el-table-column>
 
@@ -262,5 +269,12 @@ export default {
 }
 .list a.active {
   color: #0285ac;
+}
+</style>
+<style scoped lang="scss">
+#tableLine tr:hover{
+  .cell a a{
+    text-decoration: underline;
+  }
 }
 </style>

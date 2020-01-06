@@ -98,8 +98,9 @@ public class FinanceDataController extends BaseController {
     public JsonResponse<Map<String, Object>> financeSearchApi(@RequestBody QueryInfo<FinanceParamDto> queryInfo) {
         if (Global.ES_FINANCE_STATISTICS_FLAG.equals("0")) {
             Map<String, Object> condition = new HashMap<>();
-
-            // 所属行业
+        	//改变所属行业对应分类的下拉多选框内容
+            
+            // 行业分类
             if (StringUtils.isNotEmpty(queryInfo.getCondition().getFinanceIndustry())) {
                 List<String> financeIndtypecod = new ArrayList<>();
                 String[] type = queryInfo.getCondition().getFinanceIndustry().split(",");
@@ -110,6 +111,18 @@ public class FinanceDataController extends BaseController {
                 financeIndTypeCodes.setFinanceIndTypeCodeKey("finance_indtypecode" + queryInfo.getCondition().getFinanceIndustry() + "_t");
                 financeIndTypeCodes.setFinanceIndTypeCodeValue(financeIndtypecod);
                 condition.put("financeIndTypeCodes", financeIndTypeCodes);
+            }
+            //所属行业code
+            if (StringUtils.isNotEmpty(queryInfo.getCondition().getIndustrySelect())) {
+                List<String> financeIndcode = new ArrayList<>();
+                String[] type = queryInfo.getCondition().getIndustrySelect().split(",");
+                for (int i = 0; i < type.length; i++) {
+                	financeIndcode.add(type[i]);
+                }
+                FinanceIndTypeCode financeIndCodes = new FinanceIndTypeCode();
+                financeIndCodes.setFinanceIndCodeKey("finance_indcode" + queryInfo.getCondition().getFinanceIndustry() + "_t");
+                financeIndCodes.setFinanceIndCodeValue(financeIndcode);
+                condition.put("financeIndCodes", financeIndCodes);
             }
 
             condition.put("haveCitycodeFlag",false);
@@ -370,6 +383,20 @@ public class FinanceDataController extends BaseController {
         @SuppressWarnings("unchecked")
         List<Map<String, String>> itemsObject = (List<Map<String, String>>) cache.get("Paramch_Name", List.class);
         response.put("data", itemsObject);
+
+        return response;
+    }
+    
+    //行业类别(随行业分类改变下拉选项数据)
+    @RequestMapping(value = "getIndustryList")
+    @ResponseBody
+    public Map<String, Object> getIndustryList(@RequestBody String financeIndustry) {
+        // 设定table返回值
+        Map<String, Object> response = Maps.newHashMap();
+        String regx = "=";
+        financeIndustry = financeIndustry.replaceAll(regx," ");
+        
+        response.put("data", financeDataService.getIndustryList(financeIndustry));
 
         return response;
     }

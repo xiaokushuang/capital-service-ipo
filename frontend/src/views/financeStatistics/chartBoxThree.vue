@@ -49,7 +49,7 @@
         <!-- 右侧选项卡和table -->
         <el-col :span="8" class="chart">
             <div class="fullDiv_border">
-                <el-tabs v-model="activeName" @tab-click="handleClick">
+                <el-tabs v-model="activeName" @tab-click="handleClick" id="tableLine">
                     <el-tab-pane label="全部" name="first">
                         <div rightTable>
                            <el-table
@@ -59,14 +59,16 @@
                                 style="width: 100%">
                                 <el-table-column align="center" label="地域" min-width="30%">
                                     <template slot-scope="scope">
-                                        <span>{{scope.row.name}}</span>
+                                        <!-- <span>{{scope.row.name}}</span> -->
+                                        <a @click="companySel(scope.row,'004')">{{scope.row.name}}</a>
                                     </template>
                                 </el-table-column>
 
                                 <el-table-column align="center" label="金额（亿元）"  min-width="50%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.value.length==0">0.0000</span>
-                                        <span>{{scope.row.value}}</span>
+                                        <!-- <span>{{scope.row.value}}</span> -->
+                                        <a @click="companySel(scope.row,'004')">{{scope.row.value}}</a>
                                     </template>
                                 </el-table-column>
 
@@ -88,14 +90,16 @@
                                 style="width: 100%">
                                 <el-table-column align="center" label="地域" min-width="30%">
                                     <template slot-scope="scope">
-                                        <span>{{scope.row.name}}</span>
+                                        <!-- <span>{{scope.row.name}}</span> -->
+                                        <a @click="companySel(scope.row,'001')">{{scope.row.name}}</a>
                                     </template>
                                 </el-table-column>
 
                                 <el-table-column align="center" label="金额（亿元）"  min-width="50%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.value.length==0">0.0000</span>
-                                        <span>{{scope.row.value}}</span>
+                                        <!-- <span>{{scope.row.value}}</span> -->
+                                        <a @click="companySel(scope.row,'001')">{{scope.row.value}}</a>
                                     </template>
                                 </el-table-column>
 
@@ -117,14 +121,16 @@
                                 style="width: 100%">
                                 <el-table-column align="center" label="地域" min-width="30%">
                                     <template slot-scope="scope">
-                                        <span>{{scope.row.name}}</span>
+                                        <!-- <span>{{scope.row.name}}</span> -->
+                                        <a @click="companySel(scope.row,'002')">{{scope.row.name}}</a>
                                     </template>
                                 </el-table-column>
 
                                 <el-table-column align="center" label="金额（亿元）"  min-width="50%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.value.length==0">0.0000</span>
-                                        <span>{{scope.row.value}}</span>
+                                        <!-- <span>{{scope.row.value}}</span> -->
+                                        <a @click="companySel(scope.row,'002')">{{scope.row.value}}</a>
                                     </template>
                                 </el-table-column>
 
@@ -146,14 +152,16 @@
                                 style="width: 100%">
                                 <el-table-column align="center" label="地域" min-width="30%">
                                     <template slot-scope="scope">
-                                        <span>{{scope.row.name}}</span>
+                                        <!-- <span>{{scope.row.name}}</span> -->
+                                        <a @click="companySel(scope.row,'003')">{{scope.row.name}}</a>
                                     </template>
                                 </el-table-column>
 
                                 <el-table-column align="center" label="金额（亿元）"  min-width="50%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.value.length==0">0.0000</span>
-                                        <span>{{scope.row.value}}</span>
+                                        <!-- <span>{{scope.row.value}}</span> -->
+                                        <a @click="companySel(scope.row,'003')">{{scope.row.value}}</a>
                                     </template>
                                 </el-table-column>
 
@@ -419,5 +427,12 @@ export default {
   font-size:14px;
   font-family:'Microsoft YaHei'!important;
   line-height:1.42857143;
+}
+</style>
+<style scoped lang="scss">
+#tableLine tr:hover{
+  .cell a{
+    text-decoration: underline;
+  }
 }
 </style>

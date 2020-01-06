@@ -50,18 +50,21 @@
                     <el-table
                         ref="table0"
                         :data="data0"
+                        id="tableLine"
                         max-height="485"
                         style="width: 100%">
                         <el-table-column align="center" label="地域" min-width="30%">
                             <template slot-scope="scope">
-                                <span>{{scope.row.name}}</span>
+                                <!-- <span>{{scope.row.name}}</span> -->
+                                <a @click="companySel(scope.row,'004')">{{scope.row.name}}</a>
                             </template>
                         </el-table-column>
 
                         <el-table-column align="center" label="金额（亿元）"  min-width="50%">
                             <template slot-scope="scope">
                                 <span v-if="scope.row.value.length==0">0.0000</span>
-                                <span>{{scope.row.value}}</span>
+                                <!-- <span>{{scope.row.value}}</span> -->
+                                <a @click="companySel(scope.row,'004')">{{scope.row.value}}</a>
                             </template>
                         </el-table-column>
                         
@@ -283,5 +286,12 @@ export default {
     background: #F2F1EF;
     color: #333333;
     border: 1px solid #D5D5D5;
+}
+</style>
+<style scoped lang="scss">
+#tableLine tr:hover{
+  .cell a{
+    text-decoration: underline;
+  }
 }
 </style>

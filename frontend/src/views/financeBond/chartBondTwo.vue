@@ -60,20 +60,23 @@
               <div rightTable rightTable1>
                   <el-table
                       ref="table0"
+                      id="tableLine"
                       :data="data0"
                       max-height="485"
                       style="width: 100%">
                       <el-table-column align="left" label="行业" min-width="40%">
                           <template slot-scope="scope">
                               <span :title="scope.row.name" v-if="scope.row.name.length > 8">{{scope.row.name.substring(0,8) + '...'}}</span>
-                              <span :title="scope.row.name" v-else>{{scope.row.name}}</span>
+                              <!-- <span :title="scope.row.name" v-else>{{scope.row.name}}</span> -->
+                              <a :title="scope.row.name" v-else @click="companySel(scope.row,'004')">{{scope.row.name}}</a>
                           </template>
                       </el-table-column>
 
                       <el-table-column align="center" label="金额（亿元）"  min-width="40%">
                           <template slot-scope="scope">
                               <span v-if="scope.row.value.length==0">0.0000</span>
-                              <span>{{scope.row.value}}</span>
+                              <!-- <span>{{scope.row.value}}</span> -->
+                              <a @click="companySel(scope.row,'004')">{{scope.row.value}}</a>
                           </template>
                       </el-table-column>
                       
@@ -323,5 +326,12 @@ export default {
   background: #f2f1ef;
   color: #333333;
   border: 1px solid #d5d5d5;
+}
+</style>
+<style scoped lang="scss">
+#tableLine tr:hover{
+  .cell a{
+    text-decoration: underline;
+  }
 }
 </style>

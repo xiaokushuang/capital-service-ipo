@@ -46,7 +46,7 @@
         <!-- 右侧选项卡和table -->
         <el-col :span="8" class="chart">
             <div class="fullDiv_border">
-                <el-tabs v-model="activeName" @tab-click="handleClick">
+                <el-tabs v-model="activeName" @tab-click="handleClick" id="tableLine">
                     <el-tab-pane label="全部" name="first">
                         <div rightTable>
                            <el-table
@@ -56,22 +56,31 @@
                                 style="width: 100%">
                                 <el-table-column align="center" label="日期" min-width="50%">
                                     <template slot-scope="scope">
-                                        <span>{{scope.row.date}}</span>
+                                        <!-- <span @click="companySel(scope.row,'004')">{{scope.row.date}}</span> -->
+                                        <a @click="companySel(scope.row,'004')">
+                                            <a>{{scope.row.date}}</a>
+                                        </a>
                                     </template>
                                 </el-table-column>
 
                                 <el-table-column align="center" label="金额（亿元）"  min-width="32%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.dataSum.length==0">0.0000</span>
-                                        <span v-else  v-for='(o,i) in scope.row.dataSum' :key="i">
+                                        <!-- <span v-else  v-for='(o,i) in scope.row.dataSum' :key="i" @click="companySel(scope.row,'004')">
                                             <span>{{o.value}}</span>
-                                        </span>
+                                        </span> -->
+                                        <a v-else v-for='(o,i) in scope.row.dataSum' :key="i" @click="companySel(scope.row,'004')">
+                                            <a>{{o.value}}</a>
+                                        </a>
                                     </template>
                                 </el-table-column>
 
                                 <el-table-column align="center" label="数量"  min-width="18%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.dataSum.length==0">0</span>
+                                        <!-- <span v-else  v-for='(o,i) in scope.row.dataSum' :key="i" @click="companySel(scope.row,'004')">
+                                            <span>{{o.num}}</span>
+                                        </span> -->
                                         <a v-else v-for='(o,i) in scope.row.dataSum' :key="i" @click="companySel(scope.row,'004')">
                                             <a>{{o.num}}</a>
                                         </a>
@@ -89,16 +98,22 @@
                                 style="width: 100%">
                                 <el-table-column align="center" label="日期" min-width="50%">
                                     <template slot-scope="scope">
-                                        <span>{{scope.row.date}}</span>
+                                        <!-- <span>{{scope.row.date}}</span> -->
+                                        <a @click="companySel(scope.row,'001')">
+                                            <a>{{scope.row.date}}</a>
+                                        </a>
                                     </template>
                                 </el-table-column>
 
                                 <el-table-column align="center" label="金额（亿元）"  min-width="32%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.dataSum.length==0">0.0000</span>
-                                        <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
+                                        <!-- <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
                                             <span v-if="o.name=='001'">{{o.value}}</span>
-                                        </span>
+                                        </span> -->
+                                        <a v-else v-for='(o,i) in scope.row.dataSum' :key="i" @click="companySel(scope.row,'001')">
+                                            <a v-if="o.name=='001'">{{o.value}}</a>
+                                        </a>
                                     </template>
                                 </el-table-column>
 
@@ -122,16 +137,22 @@
                                 style="width: 100%">
                                 <el-table-column align="center" label="日期" min-width="50%">
                                     <template slot-scope="scope">
-                                        <span>{{scope.row.date}}</span>
+                                        <!-- <span>{{scope.row.date}}</span> -->
+                                        <a @click="companySel(scope.row,'002')">
+                                            <a>{{scope.row.date}}</a>
+                                        </a>
                                     </template>
                                 </el-table-column>
 
                                 <el-table-column align="center" label="金额（亿元）"  min-width="32%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.dataSum.length==0">0.0000</span>
-                                        <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
+                                        <!-- <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
                                             <span v-if="o.name=='002'">{{o.value}}</span>
-                                        </span>
+                                        </span> -->
+                                        <a v-else v-for='(o,i) in scope.row.dataSum' :key="i" @click="companySel(scope.row,'002')">
+                                            <a v-if="o.name=='002'">{{o.value}}</a>
+                                        </a>
                                     </template>
                                 </el-table-column>
 
@@ -155,16 +176,22 @@
                                 style="width: 100%">
                                 <el-table-column align="center" label="日期" min-width="50%">
                                     <template slot-scope="scope">
-                                        <span>{{scope.row.date}}</span>
+                                        <!-- <span>{{scope.row.date}}</span> -->
+                                        <a @click="companySel(scope.row,'003')">
+                                            <a>{{scope.row.date}}</a>
+                                        </a>
                                     </template>
                                 </el-table-column>
 
                                 <el-table-column align="center" label="金额（亿元）"  min-width="32%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.dataSum.length==0">0.0000</span>
-                                        <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
+                                        <!-- <span v-else v-for='(o,i) in scope.row.dataSum' :key="i">
                                             <span v-if="o.name=='003'">{{o.value}}</span>
-                                        </span>
+                                        </span> -->
+                                        <a v-else v-for='(o,i) in scope.row.dataSum' :key="i" @click="companySel(scope.row,'003')">
+                                            <a v-if="o.name=='003'">{{o.value}}</a>
+                                        </a>
                                     </template>
                                 </el-table-column>
 
@@ -436,5 +463,16 @@ export default {
 }
 .list a.active {
   color: #0285ac;
+}
+</style>
+<style scoped lang="scss">
+#tableLine tr:hover{
+  .cell a a{
+    text-decoration: underline;
+    // border-bottom: 1px;
+    
+    // padding-bottom: 5px;
+    // border-bottom: 2px solid #f89;
+  }
 }
 </style>

@@ -24,7 +24,7 @@ export function searchBond(param) {
     data: param
   })
 }
-// 行业分类
+// 行业类别
 export function SFClassification() {
   return request({
     url: `/ipo/financeStatistics/getFinanceList`,
@@ -43,6 +43,14 @@ export function plateInfo() {
   return request({
     url: `/ipo/financeStatistics/getStockBoardList`,
     method: 'post'
+  })
+}
+// 所属行业
+export function IndustryInfo(param) {
+  return request({
+    url: `/ipo/financeStatistics/getIndustryList`,
+    method: 'post',
+    data: param
   })
 }
 // ipo数据概览
