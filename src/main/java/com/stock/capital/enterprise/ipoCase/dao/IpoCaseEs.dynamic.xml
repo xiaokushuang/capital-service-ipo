@@ -379,7 +379,7 @@
                                             "constant_score": {
                                                 "filter": {
                                                     "range": {
-                                                        "ipo_final_time_dt": {
+                                                        "ipo_review_meeting_time_dt": {
                                                             "from": "${condition.fsProcessTimeStart}",
                                                             "to": "${condition.fsProcessTimeEnd}",
                                                             "include_lower": true,
