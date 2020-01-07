@@ -200,7 +200,7 @@
            <el-col :span='8' class="stockIncreasePan-class">
              <el-multiple-selection v-if="issueFeeShow" :range="true" :tree-data="optionIssueFee" placeholder="发行费用" size="small full"
                                     :multiple="false" @keydown.enter.native="querySearch" unit="万元" :ran="optionDto" @sure-click="rangeCallIssueFee"
-                                    :left-decimal="true">
+                                    :left-decimal="true" ref="issueFeeRef">
              </el-multiple-selection>
            </el-col>
           </el-row>
@@ -213,7 +213,7 @@
             <el-col :span='4' class="stockIncreasePan-class">
               <el-multiple-selection v-if="issueShow" :range="true" :tree-data="optionPeIssueA" placeholder="发行后市盈率" size="small full"
                                      :multiple="false" @keydown.enter.native="querySearch" unit="倍" :ran="optionDto" @sure-click="rangeCallPeIssueA"
-                                     :left-decimal="true">
+                                     :left-decimal="true" ref="issueRef">
               </el-multiple-selection>
             </el-col>
             <el-col :span='4'>
@@ -229,7 +229,7 @@
             <el-col :span='8'>
               <el-multiple-selection v-if="durationShow" :range="true" :tree-data="optionAuditDuration" placeholder="审核历时（辅导历时）"
                                      size="small full" :multiple="false" @keydown.enter.native="querySearch" unit="天" :ran="optionDto" @sure-click="rangeAuditDuration"
-                                     :left-decimal="true">
+                                     :left-decimal="true" ref="durationRef">
               </el-multiple-selection>
             </el-col>
           </el-row>
@@ -1578,9 +1578,15 @@
             obj.className = 'el-tree-node__label'
           }
         }
-        _self.issueShow = false;
-        _self.issueFeeShow = false;
-        _self.durationShow = false;
+        this.$refs.issueRef.forClear();
+        this.$refs.issueRef.forSure();
+        this.$refs.issueFeeRef.forClear();
+        this.$refs.issueFeeRef.forSure();
+        this.$refs.durationRef.forClear();
+        this.$refs.durationRef.forSure();
+        //_self.issueShow = false;
+        //_self.issueFeeShow = false;
+        //_self.durationShow = false;
         _self.profitOneShow = false;
         _self.profitTwoShow = false;
         _self.profitThreeShow = false;
