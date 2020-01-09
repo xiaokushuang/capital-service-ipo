@@ -27,6 +27,7 @@ public class IpoInvestService extends BaseService {
         BigDecimal sumPre = new BigDecimal("0");
         BigDecimal sumRate = new BigDecimal("0");
         if(CollectionUtils.isNotEmpty(investItemList)){
+            BigDecimal investPlanLimit = investItemList.get(0).getInvestPlanLimit();
             for (IpoInvestItemDto dto : investItemList) {
                 BigDecimal rate = new BigDecimal("0");
                 if(dto.getInvestPlanLimit().compareTo(BigDecimal.ZERO) != 0){
@@ -37,8 +38,9 @@ public class IpoInvestService extends BaseService {
                 sumPlan = sumPlan.add(dto.getInvestPlan());
                 sumTotal = sumTotal.add(dto.getInvestTotal());
                 sumPre = sumPre.add(dto.getInvestPre());
-                sumRate = sumRate.add(rate);
+//                sumRate = sumRate.add(rate);
             }
+            sumRate = sumTotal.divide(investPlanLimit,4,BigDecimal.ROUND_HALF_UP);
         }
         if(CollectionUtils.isNotEmpty(investItemList)){
             sumDto.setItemName("总计");
