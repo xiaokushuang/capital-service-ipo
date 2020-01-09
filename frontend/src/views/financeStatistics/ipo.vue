@@ -1042,13 +1042,9 @@
       caseId(n, o) {}
     },
     created() {
-      var param = {};
-      getServiceBaseUrl(param).then(res => {
-        let result = res.data.result;
-        // 获取二维码图片流
-        this.wxcodeUrl = result + "ipo/ipoInterfaceH5/getQrCode?id=" + this.$store.state.app.caseId + "&access_token=" + this.$store
-          .state.app.token
-      })
+      // 获取二维码图片流
+      this.wxcodeUrl = "/ipo/ipoInterfaceH5/getQrCode?id=" + this.$store.state.app.caseId + "&access_token=" + this.$store
+        .state.app.token
       this.initTableData();
       this.initFeedBackData()
     },
