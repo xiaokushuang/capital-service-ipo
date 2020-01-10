@@ -299,11 +299,15 @@
                                                 </#if>
                                                 </#list>
                                   </#if>
+                    ,
                     
-                                    <#-- finance_indcode -->
-                                  <#if condition.financeIndCodes?? && (condition.financeIndCodes?size > 0)>
-
-                                                ,<#list condition.financeIndCodes.financeIndCodeValue as item>
+					{
+					"bool": {
+					 "should": [
+							 <#-- finance_indcode -->
+					     <#if condition.financeIndCodes?? && (condition.financeIndCodes?size > 0)>
+					     
+                                                <#list condition.financeIndCodes.financeIndCodeValue as item>
                                                 {
                                                     "match_phrase": {
                                                         "${condition.financeIndCodes.financeIndCodeKey}": {
@@ -316,8 +320,10 @@
                                                 </#if>
                                                 </#list>
                                   </#if>
-                    ,
-
+                      ]
+					  }
+					  }
+					   ,
 					{
 					"bool": {
 					 "should": [
