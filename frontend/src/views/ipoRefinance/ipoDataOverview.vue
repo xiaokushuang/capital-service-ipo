@@ -215,7 +215,7 @@ export default {
     tableTop() {
       var middle = []
       this.getDataOverInfo.map((obj, idx) => {
-        if(obj.label != '终止审查' && obj.label != '预披露更新' && obj.label != '已上发审会，暂缓表决(已提交上市委会议，暂缓审议)') {
+        if(obj.label != '终止审查' && obj.label != '预披露更新' && obj.label != '已上发审会，暂缓表决') {
           if(obj.label == "已受理" || obj.label == "已受理(已受理)"){
             middle[0]= obj;
           }
@@ -231,7 +231,8 @@ export default {
           if(obj.label == "中止审查" || obj.label == "中止审查(中止)"){
             middle[4]= obj;
           }
-          if(obj.label == "已提交发审会讨论，暂缓表决(已提交上市委会议，暂缓审议)"){
+          if(obj.label == "已提交发审会讨论，暂缓表决"){
+            obj.label == "已提交发审会讨论，暂缓表决(已提交上市委会议，暂缓审议)"
             middle[5]= obj;
           }
           if(obj.label == "提交注册"){
