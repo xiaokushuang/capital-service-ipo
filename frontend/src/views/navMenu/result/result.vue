@@ -2351,6 +2351,6 @@ export default {
   max-width: 810px;
 }
 </style>
-</style>
+
 
 
