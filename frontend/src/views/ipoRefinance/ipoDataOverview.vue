@@ -232,7 +232,7 @@ export default {
             middle[4]= obj;
           }
           if(obj.label == "已提交发审会讨论，暂缓表决"){
-            obj.label == "已提交发审会讨论，暂缓表决(已提交上市委会议，暂缓审议)"
+            obj.label = "已提交发审会讨论，暂缓表决(已提交上市委会议，暂缓审议)"
             middle[5]= obj;
           }
           if(obj.label == "提交注册"){
