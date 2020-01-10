@@ -232,7 +232,6 @@ export default {
             middle[4]= obj;
           }
           if(obj.label == "已提交发审会讨论，暂缓表决"){
-            obj.label = "已提交发审会讨论，暂缓表决(已提交上市委会议，暂缓审议)"
             middle[5]= obj;
           }
           if(obj.label == "提交注册"){
@@ -311,7 +310,7 @@ export default {
       if(lable=="注册生效"){
         lable = "<span style='color:#0099cc'>注册生效</span>";
       }
-      if(lable=="已提交发审会讨论，暂缓表决(已提交上市委会议，暂缓审议)"){
+      if(lable=="已提交发审会讨论，暂缓表决"){
         lable = "已提交发审会讨论，暂缓表决<span style='color:#0099cc'>(已提交上市委会议，暂缓审议)</span>";
       }
       return lable;
