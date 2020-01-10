@@ -212,9 +212,9 @@ export const constantRouterMap = [
       },
       {
         path:'favorite',
-        component: _import('ipoCase/ipoCaseFavorite'),
+        component: _import('ipoCaseFavoriteAndNote/ipoCaseFavorite'),
         name:'favorite',
-        meta: {title: '收藏和笔记', noCache: true}
+        meta: {title: '收藏', noCache: true}
       },
 			{
 			  path: 'ipoCaseFavoriteAndNote',
