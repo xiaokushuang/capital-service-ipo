@@ -238,6 +238,8 @@
                     label = '(上市委会议通过)'
                 } else if(name == '终止审查') {
                     label = '(终止)'
+                } else if(name == '已提交发审会讨论，暂缓表决') {
+                  label = '(已提交上市委会议，暂缓审议)'
                 }
                 return label;
             },
