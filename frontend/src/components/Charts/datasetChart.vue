@@ -72,7 +72,7 @@ export default {
         if(obj.label == "中止审查"){
           newArray[4]= obj;
         }
-        if(obj.label == "已提交发审会讨论，暂缓表决"){
+        if(obj.label == "已提交发审会讨论，暂缓表决(已提交上市委会议，暂缓审议)"){
           newArray[5]= obj;
         }
         if(obj.label == "提交注册"){
