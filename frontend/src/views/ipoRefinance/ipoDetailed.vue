@@ -97,7 +97,7 @@
                 <span v-else>{{scope.row.endYet}}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" :render-header="renderHeader" prop="processing" label="发审会暂缓表决" sortable="custom" >
+            <el-table-column align="center" width="150" :render-header="renderHeader" prop="processing" label="发审会暂缓表决" sortable="custom" >
               <template slot-scope="scope">
                 <span class="spanClass" v-if="getValue(scope.row.processing) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'06','unit')">{{scope.row.processing}}</span>
                 <span v-else>{{scope.row.processing}}</span>
@@ -239,7 +239,7 @@
                 } else if(name == '终止审查') {
                     label = '(终止)'
                 } else if(name == '发审会暂缓表决') {
-                  label = '(上市委暂缓审议)'
+                  label = '(上市委会议暂缓审议)'
                 }
                 return label;
             },
@@ -355,7 +355,7 @@
                             break;
                         case '04': appLabel = approveStatus.replace("04", "中止审查<span style='color:#0099cc'>(中止)</span>");
                             break;
-                        case '06': appLabel = approveStatus.replace("06", "发审会暂缓表决<span style='color:#0099cc'>(上市委暂缓审议)</span>");
+                        case '06': appLabel = approveStatus.replace("06", "发审会暂缓表决<span style='color:#0099cc'>(上市委会议暂缓审议)</span>");
                             break;
                         case '09': appLabel = approveStatus.replace("09", "<span style='color:#0099cc'>注册生效</span>");
                             break;
