@@ -27,6 +27,8 @@
                                 <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
                                 <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待上会</span>
                                 <span class="qxshResult" v-if="baseList[0].iecResult=='10'">取消审议</span>
+                               <span class="zhbjResult" v-if="baseList[0].iecResult=='11'">暂缓审议</span>
+                                <span class="qxshResult" v-if="baseList[0].iecResult=='12'">终止注册</span>
                             </span>
                         </p>
                     </div>
@@ -79,6 +81,8 @@
                                 <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
                                 <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待上会</span>
                                 <span class="qxshResult" v-if="baseList[0].iecResult=='10'">取消审议</span>
+                              <span class="zhbjResult" v-if="baseList[0].iecResult=='11'">暂缓审议</span>
+                                <span class="qxshResult" v-if="baseList[0].iecResult=='12'">终止注册</span>
                             </span>
                             <!-- <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span> -->
                         </p>
@@ -130,6 +134,8 @@
                                 <span class="whtgResult" v-if="baseList[1].iecResult=='08'">不予注册</span>
                                 <span class="dshResult"  v-if="baseList[1].iecResult=='09'">待上会</span>
                                 <span class="qxshResult"  v-if="baseList[1].iecResult=='10'">取消审议</span>
+                               <span class="zhbjResult" v-if="baseList[1].iecResult=='11'">暂缓审议</span>
+                                <span class="qxshResult" v-if="baseList[1].iecResult=='12'">终止注册</span>
                             </span>
                             <!-- <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03','dshResult' : baseList[1].iecResult == '04'}">{{ baseList[1].iecResultStr}}</span> -->
                         </p>
@@ -183,6 +189,8 @@
                                 <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
                                 <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待上会</span>
                                 <span class="qxshResult" v-if="baseList[0].iecResult=='10'">取消审议</span>
+                                <span class="zhbjResult" v-if="baseList[0].iecResult=='11'">暂缓审议</span>
+                                <span class="qxshResult" v-if="baseList[0].iecResult=='12'">终止注册</span>
                             </span>
                             <!-- <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span> -->
                         </p>
@@ -234,6 +242,8 @@
                                 <span class="whtgResult" v-if="baseList[1].iecResult=='08'">不予注册</span>
                                 <span class="dshResult"  v-if="baseList[1].iecResult=='09'">待上会</span>
                                 <span class="qxshResult" v-if="baseList[1].iecResult=='10'">取消审议</span>
+                                <span class="zhbjResult" v-if="baseList[1].iecResult=='11'">暂缓审议</span>
+                                <span class="qxshResult" v-if="baseList[1].iecResult=='12'">终止注册</span>
                             </span>
                             <!-- <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03','dshResult' : baseList[1].iecResult == '04'}">{{ baseList[1].iecResultStr}}</span> -->
                         </p>
@@ -285,6 +295,8 @@
                                 <span class="whtgResult" v-if="baseList[2].iecResult=='08'">不予注册</span>
                                 <span class="dshResult"  v-if="baseList[2].iecResult=='09'">待上会</span>
                                 <span class="qxshResult" v-if="baseList[2].iecResult=='10'">取消审议</span>
+                                <span class="zhbjResult" v-if="baseList[2].iecResult=='11'">暂缓审议</span>
+                                <span class="qxshResult" v-if="baseList[2].iecResult=='12'">终止注册</span>
                             </span>
                             <!-- <span  :class="{'htgResult' : baseList[2].iecResult == '00','whtgResult' : baseList[2].iecResult == '01','zhbjResult' : baseList[2].iecResult == '02','qxshResult' : baseList[2].iecResult == '03','dshResult' : baseList[2].iecResult == '04'}">{{ baseList[2].iecResultStr}}</span> -->
                         </p>
@@ -342,6 +354,8 @@
                                 <span class="whtgResult" v-if="item.iecResult=='08'">不予注册</span>
                                 <span class="dshResult"  v-if="item.iecResult=='09'">待上会</span>
                                 <span class="qxshResult" v-if="item.iecResult=='10'">取消审议</span>
+                               <span class="zhbjResult" v-if="item.iecResult=='11'">暂缓审议</span>
+                                <span class="qxshResult" v-if="item.iecResult=='12'">终止注册</span>
                             </span>
                         </p>
                     </div>
@@ -384,6 +398,8 @@
                             <span class="whtgResult" v-if="item.iecResult=='08'">不予注册</span>
                             <span class="dshResult"  v-if="item.iecResult=='09'">待上会</span>
                             <span class="qxshResult" v-if="item.iecResult=='10'">取消审议</span>
+                            <span class="zhbjResult" v-if="item.iecResult=='11'">暂缓审议</span>
+                            <span class="qxshResult" v-if="item.iecResult=='12'">终止注册</span>
                         </span>
                     </p>
                   </div>
@@ -412,6 +428,8 @@
                                 <span class="whtgResult" v-if="item.iecResult=='08'">不予注册</span>
                                 <span class="dshResult"  v-if="item.iecResult=='09'">待上会</span>
                                 <span class="qxshResult" v-if="item.iecResult=='10'">取消审议</span>
+                                <span class="zhbjResult" v-if="item.iecResult=='11'">暂缓审议</span>
+                                <span class="qxshResult" v-if="item.iecResult=='12'">终止注册</span>
                             </span>
                         </p>
                     </div>
@@ -2333,6 +2351,6 @@ export default {
   max-width: 810px;
 }
 </style>
-</style>
+
 
 

@@ -59,6 +59,8 @@
                                             <span v-if="(item.progressType=='35' || item.progressType=='38' || item.progressType=='44')&&item.iecResult=='08'" :style="{'background':whtg}" class="whtg">不予注册</span>
                                             <span v-if="(item.progressType=='35' || item.progressType=='38' || item.progressType=='44')&&item.iecResult=='09'" :style="{'background':dsh}" class="dsh">待上会</span>
                                             <span v-if="(item.progressType=='35' || item.progressType=='38' || item.progressType=='44')&&item.iecResult=='10'" :style="{'background':qxsh}" class="qxsh">取消审议</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38' || item.progressType=='44')&&item.iecResult=='11'" :style="{'background':zhbj}" class="zhbj">暂缓审议</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38' || item.progressType=='44')&&item.iecResult=='12'" :style="{'background':qxsh}" class="qxsh">终止注册</span>
                                         </div>
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)" style="cursor: pointer;"
@@ -190,6 +192,8 @@
                                             <span v-if="(item.progressType=='35' || item.progressType=='38' || item.progressType=='44')&&item.iecResult=='08'" :style="{'background':whtg}" class="whtg">不予注册</span>
                                             <span v-if="(item.progressType=='35' || item.progressType=='38' || item.progressType=='44')&&item.iecResult=='09'" :style="{'background':dsh}" class="dsh">待上会</span>
                                             <span v-if="(item.progressType=='35' || item.progressType=='38' || item.progressType=='44')&&item.iecResult=='10'" :style="{'background':qxsh}" class="qxsh">取消审议</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38' || item.progressType=='44')&&item.iecResult=='11'" :style="{'background':zhbj}" class="zhbj">暂缓审议</span>
+                                            <span v-if="(item.progressType=='35' || item.progressType=='38' || item.progressType=='44')&&item.iecResult=='12'" :style="{'background':qxsh}" class="qxsh">终止注册</span>
                                         </div>
                                         <div style="font-size: 12px;margin-top: 8px;color: #999;margin-bottom: 12px;">
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)" style="cursor: pointer;"

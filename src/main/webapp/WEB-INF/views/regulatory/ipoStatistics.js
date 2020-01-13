@@ -86,7 +86,7 @@ function chartSetting(lst) {
 		if(lst[i].label == "中止审查"){
 			newArray[4]= lst[i];
 		}
-		if(lst[i].label == "已提交发审会讨论，暂缓表决"){
+		if(lst[i].label == "已提交发审会讨论，暂缓表决(已提交上市委会议，暂缓审议)"){
 			newArray[5]= lst[i];
 		}
 		if(lst[i].label == "提交注册"){
@@ -224,7 +224,7 @@ function reviewTableSetting(lst) {
 		if(lst[i].label == "中止审查"){
 			newArray[4]= lst[i];
 		}
-		if(lst[i].label == "已提交发审会讨论，暂缓表决"){
+		if(lst[i].label == "已提交发审会讨论，暂缓表决(已提交上市委会议，暂缓审议)"){
 			newArray[5]= lst[i];
 		}
 		if(lst[i].label == "提交注册"){
