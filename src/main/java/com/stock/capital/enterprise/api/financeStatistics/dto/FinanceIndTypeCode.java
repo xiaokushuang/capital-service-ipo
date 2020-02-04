@@ -5,8 +5,12 @@ import java.util.List;
 
 public class FinanceIndTypeCode implements Serializable {
     private static final long serialVersionUID = -5947504118081212341L;
+    //行业类别
     private String financeIndTypeCodeKey;
     private List<String> financeIndTypeCodeValue;
+    //所属行业
+    private String financeIndCodeKey;
+    private List<String> financeIndCodeValue;
 
     public String getFinanceIndTypeCodeKey() {
         return financeIndTypeCodeKey;
@@ -23,4 +27,22 @@ public class FinanceIndTypeCode implements Serializable {
     public void setFinanceIndTypeCodeValue(List<String> financeIndTypeCodeValue) {
         this.financeIndTypeCodeValue = financeIndTypeCodeValue;
     }
+
+	public String getFinanceIndCodeKey() {
+		return financeIndCodeKey;
+	}
+
+	public void setFinanceIndCodeKey(String financeIndCodeKey) {
+		this.financeIndCodeKey = financeIndCodeKey;
+	}
+
+	public List<String> getFinanceIndCodeValue() {
+		return financeIndCodeValue;
+	}
+
+	public void setFinanceIndCodeValue(List<String> financeIndCodeValue) {
+		this.financeIndCodeValue = financeIndCodeValue;
+	}
+    
+    
 }

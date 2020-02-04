@@ -17,17 +17,20 @@ import com.stock.core.service.BaseService;
 import com.stock.core.util.DateSplitUtil;
 import com.stock.core.util.DateUtil;
 import com.stock.core.util.JsonUtil;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.context.support.ServletContextResource;
 
 import javax.servlet.ServletContext;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -1706,4 +1709,14 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
         }
         return map;
     }
+    /**
+     * 随行业分类改变所属行业的下拉列表值
+     */
+    public List<TreeDto> getIndustryList(String financeIndustry) {
+//		 ParameterizedTypeReference<JsonResponse<List<TreeDto>>> responseType = new ParameterizedTypeReference<JsonResponse<List<TreeDto>>>() {
+//	        };
+	        List<TreeDto> list = financeStatisticsBizMapper.postDeclareIndexIndustry(financeIndustry);
+	        return list;
+	}
+    
 }

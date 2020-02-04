@@ -154,7 +154,8 @@ export default {
             name: "数量（家数）",
             /*min: 0,
 			            max: 15000,
-			            interval: 3000,*/
+                  interval: 3000,*/
+            splitLine:false,  
             axisLabel: {
               formatter: function (value, index) {  //y轴千分位格式化
                 return value.toString().replace(/(\d{1,3})(?=(\d{3})+$)/g,'$1,');      
