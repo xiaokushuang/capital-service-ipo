@@ -168,6 +168,16 @@ public class IpoCaseListBo implements Serializable {
 
     private String checkCase;
 
+    private String letterNodeId;
+
+    public String getLetterNodeId() {
+        return letterNodeId;
+    }
+
+    public void setLetterNodeId(String letterNodeId) {
+        this.letterNodeId = letterNodeId;
+    }
+
     public String getCheckCase() {
         return checkCase;
     }
