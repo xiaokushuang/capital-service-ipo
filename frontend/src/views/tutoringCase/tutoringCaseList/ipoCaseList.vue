@@ -1156,6 +1156,21 @@
       this.$store.commit('CREATE_MESSAGE', param)
     },
     mounted() {
+      //ipo前端列表页展示增加参数，外部跳入本页的时候可以默认展示全部案例、ipo案例、辅导案例
+      var casetype  =this.$route.query['showFlag'];
+      if(casetype){
+        // 这里需要将获取到的字符串类型转为数值类型  因为都是通过数值类型进行的判断
+        casetype = parseInt(casetype);
+        this.radio = casetype;
+        if(casetype===0){
+          this.caseType = 'all'
+        }else if(casetype===1){
+          this.caseType = 'ipo'
+        }else if(casetype===2){
+          this.caseType = 'ipofd'
+        }
+      }
+
       // 日志
       this.tenantInfo = this.$route.query['tenant_info'];
       this.tableLoading = true;
