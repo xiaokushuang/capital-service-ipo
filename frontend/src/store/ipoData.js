@@ -23,6 +23,7 @@ import {
 	ipoItemDataQuery,
 	getIpoItemDataDetail,
 	getIpoItemByCompanyCodeSelectId,
+  getFeePaymentFlag,
 } from '@/api/ipo'
 import {
 	MultidimensionalData
@@ -746,6 +747,17 @@ const ipo = {
 		}, queryParam) { //获取ipo在审项目详情页数据
 			return new Promise((resolve, reject) => {
 				getIpoItemByCompanyCodeSelectId(queryParam).then(response => {
+					resolve(response.data.result);
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+    getFeePaymentFlag({
+			commit
+		}, queryParam) { //获取ipo在审项目详情页数据
+			return new Promise((resolve, reject) => {
+				getFeePaymentFlag(queryParam).then(response => {
 					resolve(response.data.result);
 				}).catch(error => {
 					reject(error)
