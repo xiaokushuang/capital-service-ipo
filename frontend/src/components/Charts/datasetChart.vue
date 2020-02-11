@@ -138,6 +138,9 @@ export default {
           },
         tooltip : {
           trigger : 'axis',
+          position: function (point, params, dom, rect, size) {
+            return [point[0], '30'];
+          },
           axisPointer : { // 坐标轴指示器，坐标轴触发有效
             type : 'shadow', // 默认为直线，可选为：'line' | 'shadow'
             shadowStyle : {
