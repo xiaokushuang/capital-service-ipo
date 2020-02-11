@@ -363,7 +363,7 @@
                             break;
                         case '03': appLabel = approveStatus.replace("03", "已通过发审会<span style='color:#0099cc'>(上市委会议通过)</span>");
                             break;
-                        case '05': appLabel = approveStatus.replace("05", this.yearShow + "年终止审查<span style='color:#0099cc'>(终止)</span>");
+                        case '05': appLabel = approveStatus.replace("05", this.yearShow + "终止审查<span style='color:#0099cc'>(终止)</span>");
                             break;
                         case '99': appLabel = approveStatus.replace("99", "最近一周终止审查<span style='color:#0099cc'>(终止)</span>");
                             break;
