@@ -61,13 +61,13 @@
           <el-table-column label="辅导情况" align="center"  >
             <el-table-column align="center" :render-header="renderHeader" style="height:54px;" prop="fdcx" border="true" label="持续辅导" sortable="custom">
               <template slot-scope="scope">
-                <span class="spanClass" v-if="getValue(scope.row.fdcx) != 0" @click="openFdDetailProv('持续辅导',scope.row.registAddr ?  scope.row.registAddr:'合计','','0','unit')">{{scope.row.fdcx}}</span>
+                <span class="spanClass" v-if="getValue(scope.row.fdcx) != 0 && signSymbol" @click="openFdDetailProv('持续辅导',scope.row.registAddr ?  scope.row.registAddr:'合计','','0','unit')">{{scope.row.fdcx}}</span>
                 <span v-else>{{scope.row.fdcx}}</span>
               </template>
             </el-table-column>
             <el-table-column align="center" :render-header="renderHeader" prop="fdwc" label="辅导完成（未受理）" sortable="custom" >
               <template slot-scope="scope">
-                <span class="spanClass" v-if="getValue(scope.row.fdwc) != 0" @click="openFdDetailProv('辅导完成（未受理）',scope.row.registAddr ?  scope.row.registAddr:'合计','','1','unit')">{{scope.row.fdwc}}</span>
+                <span class="spanClass" v-if="getValue(scope.row.fdwc) != 0 && signSymbol" @click="openFdDetailProv('辅导完成（未受理）',scope.row.registAddr ?  scope.row.registAddr:'合计','','1','unit')">{{scope.row.fdwc}}</span>
                 <span v-else>{{scope.row.fdwc}}</span>
               </template>
             </el-table-column>
@@ -75,43 +75,43 @@
           <el-table-column label="在审情况" align="center"  prop="registAddr" >
             <el-table-column align="center" :render-header="renderHeader" style="height:54px;" prop="applied" border="true" label="已受理" sortable="custom">
               <template slot-scope="scope">
-                <span class="spanClass" v-if="getValue(scope.row.applied) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'00','unit')">{{scope.row.applied}}</span>
+                <span class="spanClass" v-if="getValue(scope.row.applied) != 0 && signSymbol" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'00','unit')">{{scope.row.applied}}</span>
                 <span v-else>{{scope.row.applied}}</span>
               </template>
             </el-table-column>
             <el-table-column align="center" :render-header="renderHeader" prop="reviewed" label="已反馈" sortable="custom" >
               <template slot-scope="scope">
-                <span class="spanClass" v-if="getValue(scope.row.reviewed) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'01','unit')">{{scope.row.reviewed}}</span>
+                <span class="spanClass" v-if="getValue(scope.row.reviewed) != 0 && signSymbol" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'01','unit')">{{scope.row.reviewed}}</span>
                 <span v-else>{{scope.row.reviewed}}</span>
               </template>
             </el-table-column>
             <el-table-column align="center" prop="preUpdate" label="预先披露更新" sortable="custom" >
               <template slot-scope="scope">
-                <span class="spanClass" v-if="getValue(scope.row.preUpdate) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'02','unit')">{{scope.row.preUpdate}}</span>
+                <span class="spanClass" v-if="getValue(scope.row.preUpdate) != 0 && signSymbol" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'02','unit')">{{scope.row.preUpdate}}</span>
                 <span v-else>{{scope.row.preUpdate}}</span>
               </template>
             </el-table-column>
             <el-table-column align="center" :render-header="renderHeader" prop="endYet" label="中止审查" sortable="custom" >
               <template slot-scope="scope">
-                <span class="spanClass" v-if="getValue(scope.row.endYet) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'04','unit')">{{scope.row.endYet}}</span>
+                <span class="spanClass" v-if="getValue(scope.row.endYet) != 0 && signSymbol" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'04','unit')">{{scope.row.endYet}}</span>
                 <span v-else>{{scope.row.endYet}}</span>
               </template>
             </el-table-column>
             <el-table-column align="center" width="150" :render-header="renderHeader" prop="processing" label="发审会暂缓表决" sortable="custom" >
               <template slot-scope="scope">
-                <span class="spanClass" v-if="getValue(scope.row.processing) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'06','unit')">{{scope.row.processing}}</span>
+                <span class="spanClass" v-if="getValue(scope.row.processing) != 0 && signSymbol" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'06','unit')">{{scope.row.processing}}</span>
                 <span v-else>{{scope.row.processing}}</span>
               </template>
             </el-table-column>
             <el-table-column align="center" :render-header="renderHeader" prop="passed" label="已通过发审会" sortable="custom" >
               <template slot-scope="scope">
-                <span class="spanClass" v-if="getValue(scope.row.passed) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'03','unit')">{{scope.row.passed}}</span>
+                <span class="spanClass" v-if="getValue(scope.row.passed) != 0 && signSymbol" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'03','unit')">{{scope.row.passed}}</span>
                 <span v-else>{{scope.row.passed}}</span>
               </template>
             </el-table-column>
             <el-table-column align="center" prop="submited" label="提交注册" sortable="custom">
               <template slot-scope="scope">
-                <span class="spanClass" v-if="getValue(scope.row.submited) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'10','unit')">{{scope.row.submited}}</span>
+                <span class="spanClass" v-if="getValue(scope.row.submited) != 0 && signSymbol" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'10','unit')">{{scope.row.submited}}</span>
                 <span v-else>{{scope.row.submited}}</span>
               </template>
             </el-table-column>
@@ -123,7 +123,7 @@
             <!--</el-table-column>-->
             <el-table-column align="center" prop="areaCount" label="在审合计" sortable="custom"  :class-name="heightStyle">
               <template slot-scope="scope">
-                <span class="spanClass" v-if="getValue(scope.row.areaCount) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'','area')">{{scope.row.areaCount}}</span>
+                <span class="spanClass" v-if="getValue(scope.row.areaCount) != 0 && signSymbol" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'','area')">{{scope.row.areaCount}}</span>
                 <span v-else>{{scope.row.areaCount}}</span>
               </template>
             </el-table-column>
@@ -131,13 +131,13 @@
           <el-table-column label="终止审查" :render-header="renderHeader" align="center" prop="registAddr" >
             <el-table-column align="center" prop="weekStopYet" label="最近一周" sortable="custom" >
               <template slot-scope="scope">
-                <span class="spanClass" v-if="getValue(scope.row.weekStopYet) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'99','unit')">{{scope.row.weekStopYet}}</span>
+                <span class="spanClass" v-if="getValue(scope.row.weekStopYet) != 0 && signSymbol" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'99','unit')">{{scope.row.weekStopYet}}</span>
                 <span v-else>{{scope.row.weekStopYet}}</span>
               </template>
             </el-table-column>
             <el-table-column align="center" prop="stopYet" :label="yearShow" sortable="custom">
               <template slot-scope="scope">
-                <span class="spanClass" v-if="getValue(scope.row.stopYet) != 0" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'05','unit')">{{scope.row.stopYet}}</span>
+                <span class="spanClass" v-if="getValue(scope.row.stopYet) != 0 && signSymbol" @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'05','unit')">{{scope.row.stopYet}}</span>
                 <span v-else>{{scope.row.stopYet}}</span>
               </template>
             </el-table-column>
