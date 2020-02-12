@@ -45,19 +45,19 @@
                   <el-table-column label="核准制" align="center">
                     <el-table-column align="center" label="沪主板" prop="hzbCount">
                         <template slot-scope="scope">
-                          <span class="spanClass" v-if="scope.row.hzbCount != 0 && signSymbol" @click="openDetail('沪主板',scope.row.label,'069001001001',scope.row.value)">{{scope.row.hzbCount}}</span>
+                          <span class="spanClass" v-if="scope.row.hzbCount != 0 " @click="openDetail('沪主板',scope.row.label,'069001001001',scope.row.value)">{{scope.row.hzbCount}}</span>
                           <span v-else class="spanClassNone">{{scope.row.hzbCount}}</span>
                         </template>
                     </el-table-column>
                     <el-table-column align="center" label="中小板" prop="zxbCount">
                         <template slot-scope="scope">
-                          <span class="spanClass" v-if="scope.row.zxbCount != 0 && signSymbol" @click="openDetail('中小板',scope.row.label,'069001002003',scope.row.value)">{{scope.row.zxbCount}}</span>
+                          <span class="spanClass" v-if="scope.row.zxbCount != 0 " @click="openDetail('中小板',scope.row.label,'069001002003',scope.row.value)">{{scope.row.zxbCount}}</span>
                           <span v-else class="spanClassNone">{{scope.row.zxbCount}}</span>
                         </template>
                     </el-table-column>
                     <el-table-column align="center" label="创业板" prop="cybCount">
                         <template slot-scope="scope">
-                          <span class="spanClass" v-if="scope.row.cybCount != 0 && signSymbol" @click="openDetail('创业板',scope.row.label,'069001002002',scope.row.value)">{{scope.row.cybCount}}</span>
+                          <span class="spanClass" v-if="scope.row.cybCount != 0 " @click="openDetail('创业板',scope.row.label,'069001002002',scope.row.value)">{{scope.row.cybCount}}</span>
                           <span v-else class="spanClassNone">{{scope.row.cybCount}}</span>
                         </template>
                     </el-table-column>
@@ -65,14 +65,14 @@
                   <el-table-column label="注册制" align="center">
                     <el-table-column align="center" label="科创板" prop="kcCount" :class-name="tdStyle">
                         <template slot-scope="scope">
-                          <span class="spanClass" v-if="scope.row.kcCount != 0 && signSymbol" @click="openDetail('科创板',scope.row.label,'069001001006',scope.row.value)">{{scope.row.kcCount}}</span>
+                          <span class="spanClass" v-if="scope.row.kcCount != 0 " @click="openDetail('科创板',scope.row.label,'069001001006',scope.row.value)">{{scope.row.kcCount}}</span>
                           <span v-else class="spanClassNone">{{scope.row.kcCount}}</span>
                         </template>
                     </el-table-column>
                   </el-table-column>
                   <el-table-column align="center" label="合计"  prop="totalAll" :class-name="tdStyle">
                     <template slot-scope="scope">
-                        <span v-if="scope.row.totalAll != 0 && signSymbol" style="font-weight: bold" class="spanClass" @click="openDetail('合计',scope.row.label,'',scope.row.value)">{{scope.row.totalAll}}</span>
+                        <span v-if="scope.row.totalAll != 0" style="font-weight: bold" class="spanClass" @click="openDetail('合计',scope.row.label,'',scope.row.value)">{{scope.row.totalAll}}</span>
                         <span v-else>{{scope.row.totalAll}}</span>
                     </template>
                   </el-table-column>
@@ -267,10 +267,15 @@ export default {
   watch: {},
   methods: {
     openDetail(title,label,quasiListedLand,labelCode){
-        if(!this.feeFlag){
-            let url = window.location.href;
-            url = url.replace(this.$route.path, '/ipoOverduePopWin');
-            iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
+        if (this.fromFlag && !this.signSymbol) {
+          let url = window.location.href;
+          url = url.replace(this.$route.path, '/ipoPopWin');
+          iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
+        
+        } else if (this.fromFlag && !this.feeFlag) {
+          let url = window.location.href;
+          url = url.replace(this.$route.path, '/ipoOverduePopWin');
+          iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
         }else {
             if (labelCode == 'totalCount') {
                 labelCode = '';
@@ -512,4 +517,3 @@ export default {
   text-decoration: underline;
 }
 </style>
-
