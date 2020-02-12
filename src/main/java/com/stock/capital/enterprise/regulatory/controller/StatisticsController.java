@@ -892,7 +892,6 @@ public class StatisticsController extends BaseController {
           JsonResponse<Map<String, Boolean>> response = new JsonResponse<Map<String, Boolean>>();
           Map<String, Boolean> map = new HashMap<>();
           String companyId = getUserInfo().getCompanyId();
-          companyId = "999000";
           if (StringUtils.isNotEmpty(companyId)) {
               int count = ipoCaseListMapper.queryOverdueAuthByCompanyId(companyId);
               // 授权类型:签约 或 证监会 或 金融办
