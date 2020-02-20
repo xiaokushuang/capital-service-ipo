@@ -26,6 +26,7 @@
                 node-key="id"
                 :tree-data="getIndustryInfo"
                 :default-props="defaultProps"
+                :all-show="allShow"
                 :default-all-show="false"
             ></el-multiple-selection>
         </el-col>
@@ -182,6 +183,7 @@ export default {
         children: "children",
         label: "name"
       },
+      allShow: {colloge: false,},//下拉列表全部展开或收起
       defaultPropss: {
         label: "label"
       },
@@ -215,9 +217,12 @@ export default {
   },
   methods: {
     changeFinanceIndustry() {//改变分类
+    //先清空下拉列表选值
+      this.$refs.industrySelectShow1.setCheckedKeys([]);
       this.selected = this.queryParam.condition.financeIndustry;
       //改变分类后刷新对应的所属行业下拉列表
       this.industGet(this.selected);
+      this.queryParam.condition.industrySelect ="";
       this.confirmSearch();
     },
     sortChange(column){//排序查询
@@ -254,7 +259,8 @@ export default {
 				}
       }
       this.selected = '008';
-			this.clearAllDropDownList();
+      this.clearAllDropDownList();
+      this.changeFinanceIndustry();
 			//分页查询调用
 			this.confirmSearch();
 		},
