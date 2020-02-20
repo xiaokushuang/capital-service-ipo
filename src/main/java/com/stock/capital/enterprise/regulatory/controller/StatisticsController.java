@@ -1,14 +1,13 @@
 package com.stock.capital.enterprise.regulatory.controller;
 
+import com.stock.capital.enterprise.ipoCase.dao.IpoCaseListMapper;
 import com.stock.core.rest.RestClient;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
@@ -56,6 +55,9 @@ public class StatisticsController extends BaseController {
 
     @Value("#{app['api.baseUrl']}")
     private String apiBaseUrl;
+
+    @Autowired
+    private IpoCaseListMapper ipoCaseListMapper;
 
     /**
      * 接口调用
@@ -877,6 +879,37 @@ public class StatisticsController extends BaseController {
           String url = apiBaseUrl + "ipoStatistics/getIpoDataOverviewDetail";
           StatisticsReturnDto list = restClient.post(url, dto, responseType).getResult();
           response.setResult(list);
+          return response;
+      }
+      /**
+       * 取得ipo独立项目标识
+       */
+      @RequestMapping(value = "/getFeePaymentFlag", method = RequestMethod.POST)
+      @ResponseBody
+      public JsonResponse<Map<String, Boolean>> getFeePaymentFlag() {
+          Boolean feeFlag = false;
+          Boolean signSymbol = false;
+          JsonResponse<Map<String, Boolean>> response = new JsonResponse<Map<String, Boolean>>();
+          Map<String, Boolean> map = new HashMap<>();
+          String companyId = getUserInfo().getCompanyId();
+          if (StringUtils.isNotEmpty(companyId)) {
+              int count = ipoCaseListMapper.queryOverdueAuthByCompanyId(companyId);
+              // 授权类型:签约 或 证监会 或 金融办
+              if (count > 0) {
+                  feeFlag = true;
+              }
+          }
+          if (StringUtils.isNotEmpty(companyId)) {
+              int count = ipoCaseListMapper.queryAuthByCompanyId(companyId);
+              // 授权类型:签约 或 证监会 或 金融办
+              if (count > 0) {
+                  //展示id
+                  signSymbol = true;
+              }
+          }
+          map.put("feeFlag",feeFlag);
+          map.put("signSymbol",signSymbol);
+          response.setResult(map);
           return response;
       }
 

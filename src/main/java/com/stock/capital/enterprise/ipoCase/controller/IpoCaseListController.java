@@ -225,7 +225,8 @@ public class IpoCaseListController extends BaseController {
         JsonResponse<Map<String, Object>> response = new JsonResponse<>();
         //标识是否签约客户 默认不是
         boolean signSymbol = false;
-        String companyId = page.getCondition().getCompanyId();
+        //String companyId = page.getCondition().getCompanyId();
+        String companyId = getUserInfo().getCompanyId();
         if (companyId != null && !"".equals(companyId)) {
             int count = ipoCaseListMapper.queryAuthByCompanyId(companyId);
             // 授权类型:签约 或 证监会 或 金融办

@@ -45,19 +45,19 @@
                   <el-table-column label="核准制" align="center">
                     <el-table-column align="center" label="沪主板" prop="hzbCount">
                         <template slot-scope="scope">
-                          <span class="spanClass" v-if="scope.row.hzbCount != 0" @click="openDetail('沪主板',scope.row.label,'069001001001',scope.row.value)">{{scope.row.hzbCount}}</span>
+                          <span class="spanClass" v-if="scope.row.hzbCount != 0 " @click="openDetail('沪主板',scope.row.label,'069001001001',scope.row.value)">{{scope.row.hzbCount}}</span>
                           <span v-else class="spanClassNone">{{scope.row.hzbCount}}</span>
                         </template>
                     </el-table-column>
                     <el-table-column align="center" label="中小板" prop="zxbCount">
                         <template slot-scope="scope">
-                          <span class="spanClass" v-if="scope.row.zxbCount != 0" @click="openDetail('中小板',scope.row.label,'069001002003',scope.row.value)">{{scope.row.zxbCount}}</span>
+                          <span class="spanClass" v-if="scope.row.zxbCount != 0 " @click="openDetail('中小板',scope.row.label,'069001002003',scope.row.value)">{{scope.row.zxbCount}}</span>
                           <span v-else class="spanClassNone">{{scope.row.zxbCount}}</span>
                         </template>
                     </el-table-column>
                     <el-table-column align="center" label="创业板" prop="cybCount">
                         <template slot-scope="scope">
-                          <span class="spanClass" v-if="scope.row.cybCount != 0" @click="openDetail('创业板',scope.row.label,'069001002002',scope.row.value)">{{scope.row.cybCount}}</span>
+                          <span class="spanClass" v-if="scope.row.cybCount != 0 " @click="openDetail('创业板',scope.row.label,'069001002002',scope.row.value)">{{scope.row.cybCount}}</span>
                           <span v-else class="spanClassNone">{{scope.row.cybCount}}</span>
                         </template>
                     </el-table-column>
@@ -65,7 +65,7 @@
                   <el-table-column label="注册制" align="center">
                     <el-table-column align="center" label="科创板" prop="kcCount" :class-name="tdStyle">
                         <template slot-scope="scope">
-                          <span class="spanClass" v-if="scope.row.kcCount != 0" @click="openDetail('科创板',scope.row.label,'069001001006',scope.row.value)">{{scope.row.kcCount}}</span>
+                          <span class="spanClass" v-if="scope.row.kcCount != 0 " @click="openDetail('科创板',scope.row.label,'069001001006',scope.row.value)">{{scope.row.kcCount}}</span>
                           <span v-else class="spanClassNone">{{scope.row.kcCount}}</span>
                         </template>
                     </el-table-column>
@@ -197,12 +197,27 @@ export default {
       industrySelect:'',//所属行业选中
       areaSelect:'',//所属地区选中
       allSelect:{colloge: false,},
+        feeFlag : true,
+        fromFlag : false,
+        signSymbol:true,
     };
   },
   created() {//加载前默认调用
     this.getAllDropDownList();
   },
   mounted() {
+     // 获取fromFlag 判断是否是独立项目
+     var fromFlag = this.$route.query['fromFlag'];
+     // 判断是否是独立收费模块
+     if(fromFlag){
+         this.fromFlag = true;
+         this.$store.dispatch('getFeePaymentFlag', '').then((data) => {//(方法名，参数)
+            this.feeFlag = data.feeFlag;//判断是否独立收费模块
+             this.signSymbol = data.signSymbol;
+         });
+     }else{
+       this.feeFlag = true;
+     }
     //页面加载完成时刷新echart图表
     this.ipoDataPort(true)
   },
@@ -252,19 +267,30 @@ export default {
   watch: {},
   methods: {
     openDetail(title,label,quasiListedLand,labelCode){
-      if (labelCode == 'totalCount'){
-        labelCode = '';
-      }
-      if(title == '合计' && label == '合计' ){
-         title = '合计';
-      }else{
-        title = title + "（" + this.lableTurnName(label) + "）"
-      }
-      let url = window.location.href;
-      url = url.replace(this.$route.path,'/ipoDataOverviewDetailPopWin');
-      url = url + '&quasiListedLand=' + quasiListedLand +  '&tabFlag=four'+ '&labelCode='+labelCode;
-      //参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
-      iframeDoMessage(window.parent,'popWinOut',[title,url,'1200','580']);
+        if (this.fromFlag && !this.signSymbol) {
+          let url = window.location.href;
+          url = url.replace(this.$route.path, '/ipoPopWin');
+          iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
+        
+        } else if (this.fromFlag && !this.feeFlag) {
+          let url = window.location.href;
+          url = url.replace(this.$route.path, '/ipoOverduePopWin');
+          iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
+        }else {
+            if (labelCode == 'totalCount') {
+                labelCode = '';
+            }
+            if (title == '合计' && label == '合计') {
+                title = '合计';
+            } else {
+                title = title + "（" + this.lableTurnName(label) + "）"
+            }
+            let url = window.location.href;
+            url = url.replace(this.$route.path, '/ipoDataOverviewDetailPopWin');
+            url = url + '&quasiListedLand=' + quasiListedLand + '&tabFlag=four' + '&labelCode=' + labelCode;
+            //参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
+            iframeDoMessage(window.parent, 'popWinOut', [title, url, '1200', '580']);
+        }
     },
     handleClick(tab){
       if (tab.name === 'first') {
@@ -491,4 +517,3 @@ export default {
   text-decoration: underline;
 }
 </style>
-

@@ -145,7 +145,6 @@ export function searchIndex(query) {//获取融资查询列表数据
 export function getUserInfo(token) {
   return request({
     url: '/htrt/getUserInfo',
-    url: '/htrt/getUserInfo',
     method: 'post',
     params: {
       token
@@ -222,4 +221,10 @@ export function getIpoItemByCompanyCodeSelectId(query) {//通过公司code查询
       data: query,//参数
   })
 }
-
+export function getFeePaymentFlag(query) {//通过公司code查询ipo最新得id
+  return request({
+      url: '/ipo/regulatory_statistics/getFeePaymentFlag',//controller路径
+      method: 'post',//请求方式
+      data: query,//参数
+  })
+}
