@@ -206,7 +206,7 @@ export default {
         lable = "已通过发审会(上市委会议通过)";
       }
       if(lable=="中止审查"){
-        lable = "中止审查(中止)";
+        lable = "中止审查(中止及财报更新)";
       }
       if(lable=="注册生效"){
         lable = "注册生效";
