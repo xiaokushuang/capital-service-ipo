@@ -693,7 +693,7 @@ public class StatisticsController extends BaseController {
               String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMdd");
               fileInfo.put("fileName", "IPO保荐机构数据明细_"+ timeStr+".xls");
               // 从文件服务器下载文件
-              fileInfo.put("fileBytes", statisticsService.ipoRefinanceDetailExport(statisticsParamDto));
+              fileInfo.put("fileBytes", statisticsService.ipoRefinanceDetailExportNew(statisticsParamDto));
               mv.addObject(DownloadView.EXPORT_FILE, fileInfo.get("fileBytes"));
               mv.addObject(DownloadView.EXPORT_FILE_NAME, fileInfo.get("fileName"));
               mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.XLS);

@@ -61,11 +61,12 @@ table tbody tr td.left {
             <table id="ipoAreaDetail" class="dataTable">
                 <thead>
                     <tr role="row" style="background: #a0adb5; color: #fff;">
-                            <th style="width: 10%; text-align: center;">序号</th>
+                            <th style="width: 5%; text-align: center;">序号</th>
+                            <th style="width: 10%; text-align: center;">股票代码</th>
                             <th style="width: 15%; text-align: center;">申报企业</th>
+                            <th style="width: 10%; text-align: center;">申请类型</th>
                             <th style="width: 15%; text-align: center;">注册地</th>
                             <th style="width: 15%; text-align: center;">所属行业</th>
-                            <th style="width: 15%; text-align: center;">拟上市地</th>
                             <th style="width: 15%; text-align: center;">保荐机构</th>
                             <th style="width: 15%; text-align: center;">审核状态</th>
                         </tr>
@@ -75,7 +76,9 @@ table tbody tr td.left {
                         <c:forEach items="${companyList}" var="cl" varStatus="status">
                             <tr>
                                 <td>${status.index + 1}</td>
+                                <td>${cl.companyCode}</td>
                                 <td>${cl.appCompany}</td>
+                                <td>${cl.appTypeName}</td>
                                 <td>
                                     <c:choose>
                                         <c:when test="${cl.registAddr == '广东'}">广东<br>(不含深圳)</c:when>
@@ -87,9 +90,6 @@ table tbody tr td.left {
                                     </c:choose>
                                 </td>
                                 <td>${cl.belongTrade}</td>
-                                <td>
-                                	${cl.quasiListedLand}
-                                </td>
                                 <td>${cl.recommendOrganization}</td>
                                 <td>
                                 	${cl.approveStatus}

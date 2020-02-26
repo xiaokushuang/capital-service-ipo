@@ -132,8 +132,41 @@ public class StatisticsResultDto implements Serializable {
     private String fdwc;
     private String id;
     private String labelCode;
+    
+    //申请类型 00非公开发行股票，01公司债，02可转债，03配股，04优先股
+    private String appType;
+    
+    //申请类型名称
+    private String appTypeName;
+    
+    //公司code
+    private String companyCode;
+    
+    public String getAppType() {
+		return appType;
+	}
 
-    public String getLabelCode() {
+	public void setAppType(String appType) {
+		this.appType = appType;
+	}
+
+	public String getAppTypeName() {
+		return appTypeName;
+	}
+
+	public void setAppTypeName(String appTypeName) {
+		this.appTypeName = appTypeName;
+	}
+
+	public String getCompanyCode() {
+		return companyCode;
+	}
+
+	public void setCompanyCode(String companyCode) {
+		this.companyCode = companyCode;
+	}
+
+	public String getLabelCode() {
         return labelCode;
     }
 
