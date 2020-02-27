@@ -23,6 +23,11 @@
                         <span v-if="getValue(scope.row[`pIndName${financeIndustry}`] ) == ''">--</span>
                         <span>{{scope.row[`pIndName${financeIndustry}`]}}</span>
                     </div>
+                    <!-- 证券发型图 行业名称显示修改 -->
+                    <div v-else-if="chartType == '1'">
+                        <span v-if="getValue(scope.row[`pIndName008`] ) == ''">--</span>
+                        <span>{{scope.row[`pIndName008`]}}</span>
+                    </div>
                     <div v-else>
                         <span v-if="getValue(scope.row[`pIndName001`] ) == ''">--</span>
                         <span>{{scope.row[`pIndName001`]}}</span>
