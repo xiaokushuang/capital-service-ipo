@@ -1525,8 +1525,10 @@ public class FinanceDataService extends BaseService implements ServletContextAwa
                 String pIndName = "";
                 if ("2".equals(chartType)) {
                     pIndName = getpIndName(dto, financeIndustry);
+                } else if ("1".equals(chartType)){
+                    pIndName = dto.getpIndName008();
                 } else {
-                    pIndName = dto.getpIndName001();
+                	pIndName = dto.getpIndName001();
                 }
                 if (StringUtils.isEmpty(pIndName)) {
                     pIndName = "--";
