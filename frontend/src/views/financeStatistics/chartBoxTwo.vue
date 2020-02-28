@@ -209,7 +209,7 @@ export default {
   data() {
     return {
       value5: "",
-      code_value: "001",
+      code_value: "008",
       flag: 1,//记录点击的时间选择
       activeName: "first",
       param: {
