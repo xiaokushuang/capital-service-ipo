@@ -26,6 +26,10 @@ public class FinanceParamDto implements Serializable {
      */
     private String areaSelect;
     /**
+     * 所属行业下拉列表（多选）
+     */
+    private String industrySelect;
+    /**
      * 融资方式
      */
     private String financingMode;
@@ -221,5 +225,15 @@ public class FinanceParamDto implements Serializable {
     public void setFinanceDate(String[] financeDate) {
         this.financeDate = financeDate;
     }
+
+	public String getIndustrySelect() {
+		return industrySelect;
+	}
+
+	public void setIndustrySelect(String industrySelect) {
+		this.industrySelect = industrySelect;
+	}
+    
+    
 
 }

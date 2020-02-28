@@ -772,7 +772,7 @@ public class IpoCaseListService extends BaseService {
         queryInfo.setOrderByName("letter_letter_date_dt");
         queryInfo.setOrderByOrder("desc");
         Map<String, Object> condition = new HashMap<String, Object>();
-        condition.put("questionType", getIpoItemCaseIdList(page.getCondition()));
+        condition.put("questionType", Arrays.asList(page.getCondition().getLetterNodeId().split(",")));
         condition.put("letterApplyModule",Arrays.asList("4".split(",")));
         condition.put("queryFlag", "tree");
         condition.put("groupFlag", "true");

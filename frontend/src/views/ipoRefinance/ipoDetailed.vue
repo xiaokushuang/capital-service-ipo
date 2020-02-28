@@ -46,7 +46,7 @@
                 <span v-else>{{scope.row.fdcx}}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" :render-header="renderHeader" prop="fdwc" label="辅导完成（未受理）" sortable="custom">
+            <el-table-column align="center" width="100px" :render-header="renderHeader" prop="fdwc" label="辅导完成（未受理）" sortable="custom">
               <template slot-scope="scope">
                 <span class="spanClass" v-if="getValue(scope.row.fdwc) != 0 " @click="openFdDetailProv('辅导完成（未受理）',scope.row.registAddr ?  scope.row.registAddr:'合计','','1','unit')">{{scope.row.fdwc}}</span>
                 <span v-else>{{scope.row.fdwc}}</span>
@@ -67,26 +67,26 @@
                 <span v-else>{{scope.row.reviewed}}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" prop="preUpdate" label="预先披露更新" sortable="custom">
+            <el-table-column align="center"  prop="preUpdate" label="预先披露更新" sortable="custom">
               <template slot-scope="scope">
                 <span class="spanClass" v-if="getValue(scope.row.preUpdate) != 0 " @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'02','unit')">{{scope.row.preUpdate}}</span>
                 <span v-else>{{scope.row.preUpdate}}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" :render-header="renderHeader" prop="endYet" label="中止审查" sortable="custom">
+            <el-table-column align="center" width="120px" :render-header="renderHeader" prop="endYet" label="中止审查" sortable="custom">
               <template slot-scope="scope">
                 <span class="spanClass" v-if="getValue(scope.row.endYet) != 0 " @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'04','unit')">{{scope.row.endYet}}</span>
                 <span v-else>{{scope.row.endYet}}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="150" :render-header="renderHeader" prop="processing" label="发审会暂缓表决"
+            <el-table-column align="center" width="150px" :render-header="renderHeader" prop="processing" label="发审会暂缓表决"
               sortable="custom">
               <template slot-scope="scope">
                 <span class="spanClass" v-if="getValue(scope.row.processing) != 0 " @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'06','unit')">{{scope.row.processing}}</span>
                 <span v-else>{{scope.row.processing}}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" :render-header="renderHeader" prop="passed" label="已通过发审会" sortable="custom">
+            <el-table-column align="center" width="125px" :render-header="renderHeader" prop="passed" label="已通过发审会" sortable="custom">
               <template slot-scope="scope">
                 <span class="spanClass" v-if="getValue(scope.row.passed) != 0 " @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'03','unit')">{{scope.row.passed}}</span>
                 <span v-else>{{scope.row.passed}}</span>
@@ -254,7 +254,7 @@
         } else if (name == '已反馈') {
           label = '(已问询)'
         } else if (name == '中止审查') {
-          label = '(中止)'
+          label = '(中止及财报更新)'
         } else if (name == '已通过发审会') {
           label = '(上市委会议通过)'
         } else if (name == '终止审查') {
@@ -405,7 +405,7 @@
                 appLabel = approveStatus.replace("02", "预先披露更新");
                 break;
               case '04':
-                appLabel = approveStatus.replace("04", "中止审查<span style='color:#0099cc'>(中止)</span>");
+                appLabel = approveStatus.replace("04", "中止审查<span style='color:#0099cc'>(中止及财报更新)</span>");
                 break;
               case '06':
                 appLabel = approveStatus.replace("06", "发审会暂缓表决<span style='color:#0099cc'>(上市委会议暂缓审议)</span>");

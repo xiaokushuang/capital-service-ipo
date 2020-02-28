@@ -243,7 +243,7 @@ export default {
           if(obj.label == "已通过发审会" || obj.label == "已通过发审会(上市委会议通过)"){
             middle[3]= obj;
           }
-          if(obj.label == "中止审查" || obj.label == "中止审查(中止)"){
+          if(obj.label == "中止审查" || obj.label == "中止审查(中止及财报更新)"){
             middle[4]= obj;
           }
           if(obj.label == "已提交发审会讨论，暂缓表决(已提交上市委会议，暂缓审议)"){
@@ -327,8 +327,8 @@ export default {
       if(lable=="已通过发审会(上市委会议通过)"){
         lable = "已通过发审会<span style='color:#0099cc'>(上市委会议通过)</span>";
       }
-      if(lable=="中止审查(中止)"){
-        lable = "中止审查<span style='color:#0099cc'>(中止)</span>";
+      if(lable=="中止审查(中止及财报更新)"){
+        lable = "中止审查<span style='color:#0099cc'>(中止及财报更新)</span>";
       }
       if(lable=="提交注册"){
         lable = "<span style='color:#0099cc'>提交注册</span>";

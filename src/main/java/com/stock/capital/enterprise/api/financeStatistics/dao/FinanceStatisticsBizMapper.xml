@@ -7,4 +7,16 @@
     from provinces t
     where (t.parent_id is null or t.parent_id = '') and t.area_name != '香港特别行政区' and t.area_name != '澳门特别行政区'
 </select>
+<select id="postDeclareIndexIndustry" parameterType="java.lang.String" resultType="com.stock.core.dto.TreeDto">
+    SELECT cp.PARAMORDER,
+   		   cp.PARAMCODE AS id,
+   		   cp.PARAMCHNAME AS name,
+    LEFT(cp.PARAMCODE, length(cp.PARAMCODE) - 3) AS parentId
+         FROM cfp_pvalue cp
+         WHERE cp.nipmid = '127000000843737369'
+             AND LEFT(cp.PARAMCODE, 3) = #{financeIndustry}
+             AND eisdel = '0'
+		 AND cp.PARAMORDER is not null
+		 AND length(cp.PARAMCODE) &lt;= 9; 
+</select>
 </mapper>

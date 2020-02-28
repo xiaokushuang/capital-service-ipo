@@ -5,6 +5,7 @@ import {
 	SFClassification,
 	SFCRegion,
 	plateInfo,
+	IndustryInfo,
 	ipoDataOverview,
 	ipoDataHistory,
 	projectBelong,
@@ -45,6 +46,7 @@ const ipo = {
 		ipoSFClass: [],
 		ipoRegion: [],
 		plateInfo: [],
+		industryInfo:[],
 		ipoDataOverview: [],
 		ipoDataHistory: [],
 		projectBelong: [],
@@ -292,6 +294,35 @@ const ipo = {
 						// console.log(5)
 						// console.log(param.data)
 						// console.log(MultidimensionalData(param.data))
+					}
+					resolve()
+				}).catch((error) => {
+					console.log(error)
+					if (error && error.response && error.response.status === 401) {
+						if (error.response.data && error.response.data.message) {
+							Message({
+								message: error.response.data.message,
+								type: 'error',
+								duration: 5 * 1000
+							})
+						}
+					}
+					reject(error)
+				})
+			})
+		},
+		// 行业类别
+		ipoindustryInfoGet({
+			commit
+		}, order) {
+			return new Promise((resolve, reject) => {
+				let param = {}
+				IndustryInfo(order).then((response) => {
+					param.data = response.data.data
+					// resolve(response.data.data);
+					if (typeof param.data === 'object') {
+						param.type = 'industryInfo'
+						commit('SET_IPO_TYPE', param)
 					}
 					resolve()
 				}).catch((error) => {
@@ -783,6 +814,9 @@ const ipo = {
 		getSFClass: state => state.ipoSFClass,
 		getSFCRegion: state => {
 			return MultidimensionalData(state.ipoRegion)
+		},
+		getIndustryInfo: state => {
+			return MultidimensionalData(state.industryInfo)
 		},
 		getPlateInfo: state => state.plateInfo,
 		getDataOverInfo: state => {
