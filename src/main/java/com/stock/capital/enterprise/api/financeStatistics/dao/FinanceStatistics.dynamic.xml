@@ -309,9 +309,9 @@
 					     
                                                 <#list condition.financeIndCodes.financeIndCodeValue as item>
                                                 {
-                                                    "match_phrase": {
+                                                    "prefix": {
                                                         "${condition.financeIndCodes.financeIndCodeKey}": {
-                                                            "query": "${item}"
+                                                            "value": "${item}"
                                                         }
                                                     }
                                                 }
