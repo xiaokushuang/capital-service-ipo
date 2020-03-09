@@ -161,7 +161,7 @@ public class IpoCaseOverviewController extends BaseController {
         @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
             dataType = "String")
     })
-    @RequestMapping(value = "/supplierCustomerData", method = RequestMethod.GET)
+    @RequestMapping(value = {"/supplierCustomerData","/newSupplierCustomerData"}, method = RequestMethod.GET)
     public JsonResponse<Map<String, List<SupplierCustomerMainDto>>> supplierCustomerData(
         @RequestParam("id") String id) {
         JsonResponse<Map<String, List<SupplierCustomerMainDto>>> response = new JsonResponse<>();
