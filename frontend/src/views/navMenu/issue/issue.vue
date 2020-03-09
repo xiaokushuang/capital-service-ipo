@@ -190,7 +190,7 @@
             <span v-else> - - </span>
           </template>
         </el-table-column>
-        <el-table-column min-width="18%" prop="CHG" label="对比发行价涨跌幅" align='right'>
+        <el-table-column min-width="18%" prop="CHG" label="对比发行价涨跌幅" align='right' :render-header="CHGHeader">
           <template slot-scope="scope">
             <span v-if="scope.row.CHG"> {{scope.row.CHG}}%</span>
             <span v-else> - - </span>
@@ -655,6 +655,26 @@
                         })
                     ], {
                         content: '占比：获配股数占本次发行后总股本的比例'
+                    })
+                ]);
+            },
+          CHGHeader(h, {
+                column
+            }) {
+                return h('span', [h('span', column.label),
+                    h('el-tooltip', {
+                        props: {
+                            effect: 'light',
+                            content: '发行价格为'+  this.tableData[0].issuePrice + '元/股',
+                            placement: 'top'
+                        },
+                    }, [
+                        h('i', {
+                            class: 'el-icon-question',
+                            style: 'color:#909399;margin-left:5px;cursor:pointer;font-size:12px'
+                        })
+                    ], {
+                        content: '发行价格为'+ this.tableData[0].issuePrice  + '元/股'
                     })
                 ]);
             },
