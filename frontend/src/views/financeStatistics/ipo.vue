@@ -117,7 +117,7 @@
           </div>
 
 
-          <div style="color:#fff;position: absolute;right: 2%;top: -22%;z-index: 999;font-size: 14px; z-index: 999;" class="collectionsAndNotes" v-show="collectionAndNoteShow&&ipoplatetype">
+          <div  :class="{collectionsAndNotes:true,boxStyle1:(specialArrange&&specialArrange.length>0)||headList.greenPassage,boxStyle2: !specialArrange.length && !headList.greenPassage}" v-show="collectionAndNoteShow&&ipoplatetype">
             <span v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;" title="收藏">
               <i class="fa fa-star-o favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
             </span>
@@ -589,6 +589,8 @@
         noteTitle: '编辑笔记',
         centerNoteTitle: '编辑笔记', //中间笔记title
         favoriteFlag: true, //判断收藏
+        boxStyle1:'boxStyle1',//样式
+        boxStyle2:'boxStyle2',//样式
       };
     },
     created() {
@@ -1462,5 +1464,11 @@
     font-weight: 500;
     color: #777777;
     position: relative;
+  }
+  .boxStyle1{
+    color:#fff;position: absolute;right: 2%;top: -22%;z-index: 999;font-size: 14px; z-index: 999;
+  }
+  .boxStyle2{
+    color:#fff;position: absolute;right: 2%;top: -65%;z-index: 999;font-size: 14px; z-index: 999;
   }
 </style>
