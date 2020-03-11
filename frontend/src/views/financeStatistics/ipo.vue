@@ -117,7 +117,7 @@
           </div>
 
 
-          <div style="color:#fff;position: absolute;right: 2%;top: -65%;z-index: 999;font-size: 14px; z-index: 999;" class="collectionsAndNotes" v-show="collectionAndNoteShow&&ipoplatetype">
+          <div style="color:#fff;position: absolute;right: 2%;top: -22%%;z-index: 999;font-size: 14px; z-index: 999;" class="collectionsAndNotes" v-show="collectionAndNoteShow&&ipoplatetype">
             <span v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;" title="收藏">
               <i class="fa fa-star-o favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
             </span>
