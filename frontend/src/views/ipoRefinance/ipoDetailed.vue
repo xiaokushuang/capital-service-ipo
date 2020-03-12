@@ -187,7 +187,7 @@
     },
     mounted() {
       debugger;
-      console.log("我是屏幕高:"+window.innerHeight);
+      console.log("我是屏幕高:"+document.documentElement.clientHeight);
       this.tableHeight = document.documentElement.clientHeight - 220 - 35;
       console.log("我是table 高 :L  " + this.tableHeight);
       // 获取fromFlag 判断是否是独立项目
