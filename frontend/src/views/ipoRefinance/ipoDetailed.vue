@@ -188,7 +188,7 @@
     mounted() {
       debugger;
       console.log("我是屏幕高:"+window.screen.height);
-      this.tableHeight = document.documentElement.clientHeight-320;
+      this.tableHeight = document.documentElement.clientHeight+0-320;
       console.log("我是table 高 :L  " + this.tableHeight);
       // 获取fromFlag 判断是否是独立项目
       var fromFlag = this.$route.query['fromFlag'];
