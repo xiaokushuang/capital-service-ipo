@@ -85,7 +85,7 @@
               </span>
             </span>
           </div>
-          <div style="color:#fff;position: absolute;right: 2%;top: 20%;z-index: 999;font-size: 14px; z-index: 999;" class="collectionsAndNotes" v-show="collectionAndNoteShow&&!ipoplatetype">
+          <div style="color:#fff;position: absolute;right: 2%;top: 20%;z-index: 999;font-size: 14px; z-index: 999;" class="collectionsAndNotes" v-if="collectionAndNoteShow&&!ipoplatetype">
             <span v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;" title="收藏">
               <i class="fa fa-star-o favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
             </span>
@@ -117,14 +117,14 @@
           </div>
 
 
-          <div  :class="{collectionsAndNotes:true,boxStyle1:(specialArrange&&specialArrange.length>0)||headList.greenPassage,boxStyle2: !specialArrange.length && !headList.greenPassage}" v-show="collectionAndNoteShow&&ipoplatetype">
-            <span v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;" title="收藏">
+          <div  :class="{collectionsAndNotes:true,boxStyle1:(specialArrange&&specialArrange.length>0)||headList.greenPassage,boxStyle2: !specialArrange.length && !headList.greenPassage}" v-if="collectionAndNoteShow&&ipoplatetype" style="display: inline-block;">
+            <span v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;position: absolute;margin-left: -112px;margin-top: 18px;" title="收藏">
               <i class="fa fa-star-o favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
             </span>
             <span v-else @click="clickFavorite(false)" style="cursor:pointer;" title="取消收藏">
               <i class="fa fa-star favorite_note_icon"></i><span style="margin-left: 5px">已收藏</span>
             </span>
-            <span style="padding: 0px 5px;vertical-align: 5%;">|</span>
+            <span style="padding: 0px 5px;vertical-align: 5%;position: absolute;margin-top: 18px;margin-left: -63px;">|</span>
             <el-popover placement="bottom" title="" width="540" trigger="manual" v-model="titleNoteFlag" popper-class="customer_popper">
               <div class="bigDialog">
                 <div style="height: 28px;padding:0px 12px">
@@ -142,14 +142,20 @@
                   </button>
                 </div>
               </div>
-              <span slot="reference" aria-hidden="true" @click="titleNoteFlag = !titleNoteFlag" style="cursor:pointer;">
+              <span slot="reference" aria-hidden="true" @click="titleNoteFlag = !titleNoteFlag" style="cursor:pointer; position: absolute;margin-top: 18px;margin-left: -50px;">
                 <i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span>
               </span>
             </el-popover>
-            <div @click="wxcodeBig" class="miniProCode" style=";width: 88px;height: 88px;background: #fff;margin-top: 8px;margin-left:16px;border-radius: 4px;"
+            <el-popover
+              placement="bottom"
+              width="280"
+              trigger="hover">
+              <img :src="wxcodeUrl" style="margin-left: 9px;margin-top: 8px; width: 240px;cursor: pointer;align-items: center;">
+            <div slot="reference" class="miniProCode" style=";width: 120px; height: 120px;background: #fff;margin-top: -2px;margin-left:16px;border-radius: 4px; display: inline-block"
                  v-show="ipoplatetype">
-              <img :src="wxcodeUrl" style="margin-left: 5px;margin-top: 5px; width: 78px;cursor: pointer;align-items: center;" >
+              <img :src="wxcodeUrl" style="margin-left: 8px;margin-top: 8px; width: 104px;cursor: pointer;align-items: center;" >
             </div>
+            </el-popover>
           </div>
         </div>
       </div>
