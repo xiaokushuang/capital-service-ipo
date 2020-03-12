@@ -121,7 +121,7 @@
             <span v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;position: absolute;margin-left: -112px;margin-top: 18px;" title="收藏">
               <i class="fa fa-star-o favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
             </span>
-            <span v-else @click="clickFavorite(false)" style="cursor:pointer;" title="取消收藏">
+            <span v-else @click="clickFavorite(false)" style="cursor:pointer;position: absolute;margin-left: -112px;margin-top: 18px;" title="取消收藏">
               <i class="fa fa-star favorite_note_icon"></i><span style="margin-left: 5px">已收藏</span>
             </span>
             <span style="padding: 0px 5px;vertical-align: 5%;position: absolute;margin-top: 18px;margin-left: -63px;">|</span>
