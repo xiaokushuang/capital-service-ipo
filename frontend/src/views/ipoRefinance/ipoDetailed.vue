@@ -30,7 +30,8 @@
     <!-- table -->
     <el-row>
       <el-col :span="24">
-        <el-table :data="data" style="width: 100%" height="678" class="paddingControl" border tooltip-effect="dark" ref="multipleSelection"
+        <div style="height: 85vh">
+        <el-table :data="data" style="width: 100%" height="100%" class="paddingControl" border tooltip-effect="dark" ref="multipleSelection"
           :row-class-name="tableRowClassName" :header-cell-class-name="tableHeaderColor" @sort-change="sortChange">
           <el-table-column label="序号" align="center" :index="indexMethod" type="index" width="60" style="border-right:1px solid #fff"></el-table-column>
           <el-table-column label="注册地" align="center">
@@ -126,6 +127,7 @@
             </el-table-column>
           </el-table-column>
         </el-table>
+        </div>
         <div class="bottomHeight"></div>
       </el-col>
     </el-row>
