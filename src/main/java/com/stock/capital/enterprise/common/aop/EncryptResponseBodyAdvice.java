@@ -36,6 +36,7 @@ public class EncryptResponseBodyAdvice extends AbstractMappingJacksonResponseBod
         WHITE_LIST.add("ipoFileUpload");
         WHITE_LIST.add("ipoInterfaceH5");
         WHITE_LIST.add("/health");
+        WHITE_LIST.add("/newSupplierCustomerData");
     }
 
 
