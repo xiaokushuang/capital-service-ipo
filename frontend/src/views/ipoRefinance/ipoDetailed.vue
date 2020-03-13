@@ -30,7 +30,7 @@
     <!-- table -->
     <el-row>
       <el-col :span="24">
-        <el-table :data="data" style="width: 100%" :height="600" class="paddingControl" border tooltip-effect="dark" ref="multipleSelection"
+        <el-table :data="data" style="width: 100%" :height="616" class="paddingControl" border tooltip-effect="dark" ref="multipleSelection"
           :row-class-name="tableRowClassName" :header-cell-class-name="tableHeaderColor" @sort-change="sortChange">
           <el-table-column label="序号" align="center" :index="indexMethod" type="index" width="60" style="border-right:1px solid #fff"></el-table-column>
           <el-table-column label="注册地" align="center">
@@ -178,7 +178,6 @@
         feeFlag: true,
         fromFlag: false,
         signSymbol: true,
-        tableHeight:null,
       };
     },
     created() { //加载前默认调用
@@ -187,9 +186,6 @@
     },
     mounted() {
       debugger;
-      console.log("我是屏幕高:" + window.screen.height);
-      this.tableHeight = window.screen.height - 320 - 75;
-      console.log("我是table 高 :L  " + this.tableHeight);
       // 获取fromFlag 判断是否是独立项目
       var fromFlag = this.$route.query['fromFlag'];
       // 判断是否是独立收费模块
