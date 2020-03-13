@@ -151,9 +151,9 @@
               width="280"
               trigger="hover">
               <img :src="wxcodeUrl" style="margin-left: 9px;margin-top: 8px; width: 240px;cursor: pointer;align-items: center;">
-            <div slot="reference" class="miniProCode" style=";width: 120px; height: 120px;background: #fff;margin-top: -2px;margin-left:16px;border-radius: 4px; display: inline-block"
+            <div slot="reference" :class={miniProCode,displayInlineBlock:displayType,displayNone:!displayType} style=";width: 120px; height: 120px;background: #fff;margin-top: -2px;margin-left:16px;border-radius: 4px;"
                  v-show="ipoplatetype">
-              <img :src="wxcodeUrl" style="margin-left: 8px;margin-top: 8px; width: 104px;cursor: pointer;align-items: center;" >
+              <img :src="wxcodeUrl" @load="imgDidload" style="margin-left: 8px;margin-top: 8px; width: 104px;cursor: pointer;align-items: center;" >
             </div>
             </el-popover>
           </div>
@@ -597,6 +597,10 @@
         favoriteFlag: true, //判断收藏
         boxStyle1:'boxStyle1',//样式
         boxStyle2:'boxStyle2',//样式
+        miniProCode:'miniProCode',
+        displayInlineBlock:'displayInlineBlock',
+        displayNone:'displayNone',
+        displayType:false,
       };
     },
     created() {
@@ -615,6 +619,9 @@
     mounted() {
     },
     methods: {
+      imgDidload(){
+        this.displayType=true;
+      },
       // 未开放公司
       handleNoOpenFlag(data) {
         this.noOpenFlag = data
@@ -1476,5 +1483,11 @@
   }
   .boxStyle2{
     color:#fff;position: absolute;right: 2%;top: -65%;z-index: 999;font-size: 14px; z-index: 999;
+  }
+  .displayInlineBlock{
+    display: inline-block;
+  }
+  .displayNone{
+    display: none;
   }
 </style>
