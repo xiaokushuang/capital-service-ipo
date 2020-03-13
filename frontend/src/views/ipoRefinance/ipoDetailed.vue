@@ -187,9 +187,11 @@
     },
     mounted() {
       debugger;
-      console.log("我是屏幕高:"+window.screen.height);
-      this.tableHeight = window.screen.height-320-75;
-      console.log("我是table 高 :L  " + this.tableHeight);
+      this.$nextTick(() => {
+        console.log("我是屏幕高:" + window.screen.height);
+        this.tableHeight = window.screen.height - 320 - 75;
+        console.log("我是table 高 :L  " + this.tableHeight);
+      })
       // 获取fromFlag 判断是否是独立项目
       var fromFlag = this.$route.query['fromFlag'];
       // 判断是否是独立收费模块
