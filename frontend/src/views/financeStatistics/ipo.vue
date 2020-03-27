@@ -19,17 +19,6 @@
     <!-- IPO标题头部 -->
     <div ref="titleHeader" id="titleHeader" style=" width: 100%;height: 140px;position: relative">
       <div class="titleHeaderImg">
-      <!-- <svg-icon icon-class="qrCode" class-name="card-panel-icon" /> -->
-        <div v-show="ipoplatetype" @click="wxcodeBig" class="qrCode" style="position: absolute;right: 0;top: 0;" @mouseover="mouseOverQR()"
-             @mouseout="mouseOutQR()">
-          <img v-show="!currentQrCodeImg" src="../../assets/images/qrCode.svg" width="42px" class="qrImg"  style="z-index: 10;margin-top: -25px;margin-left: -17px;" />
-          <img v-show="currentQrCodeImg" src="../../assets/images/qrCodeBlue.svg" width="42px" class="qrImg"  style="z-index: 10; margin-top: -25px;margin-left: -17px;" />
-        </div>
-        <div @click="wxcodeBig" @mouseover="mouseOverQR()" @mouseleave="mouseOutQR()" class="miniProCode" style="transform: translate(-50%, -50%);z-index: 20;width: 140px;height: 160px;background: #fff;position: fixed; right: -22px;top: 140px;border-radius: 4px;"
-             v-show="ipoplatetype && mouseOverShow">
-          <img :src="wxcodeUrl" style="margin-left: 10px;margin-top: 10px; width: 120px;cursor: pointer;align-items: center;" >
-          <div style="font-size: 12px;color: #999999;text-align: center;margin-top: 10px;">手机扫码可视化查看</div>
-        </div>
         <div :style="{'padding-left':(headList.labelResult == '' || headList.labelResult == null)?'0px':'97px','width':'1200px','position':'absolute','left': '50%','top':'50%', 'transform': 'translate(-50%,-50%)'}">
           <div class="imgMark" style="position: absolute; z-index: 2;left: 5%;top:50%; transform: translate(-50%,-50%);z-index: 2">
             <!-- 注册制是否是科创版的标签显示 -->
@@ -96,7 +85,7 @@
               </span>
             </span>
           </div>
-          <div style="color:#fff;position: absolute;right: 2%;top: 20%;z-index: 999;font-size: 14px; z-index: 999;" class="collectionsAndNotes" v-show="collectionAndNoteShow">
+          <div style="color:#fff;position: absolute;right: 2%;top: 20%;z-index: 999;font-size: 14px; z-index: 999;" class="collectionsAndNotes" v-if="collectionAndNoteShow&&!ipoplatetype">
             <span v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;" title="收藏">
               <i class="fa fa-star-o favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
             </span>
@@ -124,6 +113,48 @@
               <span slot="reference" aria-hidden="true" @click="titleNoteFlag = !titleNoteFlag" style="cursor:pointer;">
                 <i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span>
               </span>
+            </el-popover>
+          </div>
+
+
+          <div  :class="{collectionsAndNotes:true,boxStyle1:(specialArrange&&specialArrange.length>0)||headList.greenPassage,boxStyle2: !specialArrange.length && !headList.greenPassage}" v-if="collectionAndNoteShow&&ipoplatetype" style="display: inline-block;">
+            <span v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;position: absolute;margin-left: -112px;margin-top: 18px;" title="收藏">
+              <i class="fa fa-star-o favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
+            </span>
+            <span v-else @click="clickFavorite(false)" style="cursor:pointer;position: absolute;margin-left: -125px;margin-top: 18px;" title="取消收藏">
+              <i class="fa fa-star favorite_note_icon"></i><span style="margin-left: 5px">已收藏</span>
+            </span>
+            <span style="padding: 0px 5px;vertical-align: 5%;position: absolute;margin-top: 18px;margin-left: -63px;">|</span>
+            <el-popover placement="bottom" title="" width="540" trigger="manual" v-model="titleNoteFlag" popper-class="customer_popper">
+              <div class="bigDialog">
+                <div style="height: 28px;padding:0px 12px">
+                  <span style="font-size: 14px;color: #333;">{{noteTitle}}</span>
+                  <span style="float: right;color: #C1C1C1">
+                    <i class="fa fa-square-o fa-lg" @click="openCenterNote()" title="放大" style="cursor:pointer;margin-right: 4px;"></i>
+                    <i class="el-icon-close el-close-size" @click="noteCancellation('1')" title="关闭" style="cursor:pointer;vertical-align: -10%;"></i>
+                  </span>
+                </div>
+                <el-input  type="textarea" class="textarea-height" :maxlength='2000' show-word-limit :rows="6" resize="none" placeholder="请在这里输入笔记内容..." v-model="note">
+                </el-input>
+                <div style="float: right;margin-right: 20px;padding-top: 12px;">
+                  <button class="small_btn_common cancel_btn" @click="noteCancellation('1')">取消</button>
+                  <button class="small_btn_common determine_btn" @click="NoteDetermination()" style="margin-left: 10px">保存
+                  </button>
+                </div>
+              </div>
+              <span slot="reference" aria-hidden="true" @click="titleNoteFlag = !titleNoteFlag" style="cursor:pointer; position: absolute;margin-top: 18px;margin-left: -50px;">
+                <i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span>
+              </span>
+            </el-popover>
+            <el-popover
+              placement="bottom"
+              width="280"
+              trigger="hover">
+              <img :src="wxcodeUrl" style="margin-left: 9px;margin-top: 8px; width: 240px;cursor: pointer;align-items: center;">
+            <div slot="reference" :class={miniProCode,displayInlineBlock:displayType,displayNone:!displayType} style=";width: 120px; height: 120px;background: #fff;margin-top: -2px;margin-left:16px;border-radius: 4px;"
+                 v-show="ipoplatetype">
+              <img :src="wxcodeUrl" @load="imgDidload" style="margin-left: 8px;margin-top: 8px; width: 104px;cursor: pointer;align-items: center;" >
+            </div>
             </el-popover>
           </div>
         </div>
@@ -408,7 +439,6 @@
       return {
         haveFeedbackData : false,
         collectionAndNoteShow : false,
-        currentQrCodeImg : false,
         ipoplatetype: false,
         wxcodeimgload: false,
         mouseOverShow: false, //鼠标悬浮展示
@@ -565,6 +595,12 @@
         noteTitle: '编辑笔记',
         centerNoteTitle: '编辑笔记', //中间笔记title
         favoriteFlag: true, //判断收藏
+        boxStyle1:'boxStyle1',//样式
+        boxStyle2:'boxStyle2',//样式
+        miniProCode:'miniProCode',
+        displayInlineBlock:'displayInlineBlock',
+        displayNone:'displayNone',
+        displayType:false,
       };
     },
     created() {
@@ -583,14 +619,8 @@
     mounted() {
     },
     methods: {
-      // 鼠标展示二维码
-      mouseOverQR() {
-        this.currentQrCodeImg = true;
-        this.mouseOverShow = true;
-      },
-      mouseOutQR() {
-        this.currentQrCodeImg = false;
-        this.mouseOverShow = false;
+      imgDidload(){
+        this.displayType=true;
       },
       // 未开放公司
       handleNoOpenFlag(data) {
@@ -1103,7 +1133,7 @@
     background-size: cover;
   }
   .titleHeaderImg{
-    background-image:  url("../../assets/images/IpoHeader.png");
+    background-image:  url("../../assets/images/IpoHeaderIPO.png");
     background-repeat: no-repeat;
     background-position: center;
     color: #fff;
@@ -1447,5 +1477,17 @@
     font-weight: 500;
     color: #777777;
     position: relative;
+  }
+  .boxStyle1{
+    color:#fff;position: absolute;right: 2%;top: -22%;z-index: 999;font-size: 14px; z-index: 999;
+  }
+  .boxStyle2{
+    color:#fff;position: absolute;right: 2%;top: -65%;z-index: 999;font-size: 14px; z-index: 999;
+  }
+  .displayInlineBlock{
+    display: inline-block;
+  }
+  .displayNone{
+    display: none;
   }
 </style>

@@ -133,6 +133,7 @@ public class IpoCaseIssueController {
         BigDecimal radio = newPrice.divide(issuePrice, 4, BigDecimal.ROUND_HALF_UP).subtract(new BigDecimal(1)).multiply(new BigDecimal(100));
         stringStringMap.put("title",title);
         stringStringMap.put("CHG",radio);
+        stringStringMap.put("issuePrice",issuePrice);
         if (issueFlag){
             BigDecimal marketValue = newPrice.multiply(issueData.getNextIssueNum()).divide(new BigDecimal(10000), 2, BigDecimal.ROUND_HALF_UP);
             stringStringMap.put("marketValue",marketValue);
