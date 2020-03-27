@@ -54,7 +54,7 @@
                                 :data="tableData1"
                                 max-height="445"
                                 style="width: 100%">
-                                <el-table-column align="center" label="日期" min-width="50%">
+                                <el-table-column align="center" label="日期" min-width="51%">
                                     <template slot-scope="scope">
                                         <!-- <span @click="companySel(scope.row,'004')">{{scope.row.date}}</span> -->
                                         <a @click="companySel(scope.row,'004')">
@@ -75,7 +75,7 @@
                                     </template>
                                 </el-table-column>
 
-                                <el-table-column align="center" label="数量"  min-width="18%">
+                                <el-table-column align="center" label="数量"  min-width="17%">
                                     <template slot-scope="scope">
                                         <span v-if="scope.row.dataSum.length==0">0</span>
                                         <!-- <span v-else  v-for='(o,i) in scope.row.dataSum' :key="i" @click="companySel(scope.row,'004')">
