@@ -21,6 +21,7 @@ import com.stock.core.rest.RestClient;
 import com.stock.core.service.BaseService;
 import com.stock.core.util.CompressUtil;
 
+import com.stock.core.util.JsonUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.io.FileUtils;
@@ -303,7 +304,12 @@ public class IpoProcessService extends BaseService {
     		};
     		String encryptData = restClient.post(urls, param, responseType);
     		// 获取解密后的数据
-    		index = commonService.getEncryptData(encryptData);
+//    		index = commonService.getEncryptData(encryptData);
+
+        Map<String, Object> map = JsonUtil.fromJson(encryptData, Map.class);
+        String jsonString = JsonUtil.toJson(map.get("result"));
+        index = JsonUtil.fromJson(jsonString, Map.class);
+
 //    	} else {// 使用cloud-api 接口查询
 //    		urls = apiBaseUrl + "declareInfo/postSearchIndex";
 //    		ParameterizedTypeReference<JsonResponse<Map<String, Object>>> responseType =
@@ -401,7 +407,12 @@ public class IpoProcessService extends BaseService {
             		};
             		String encryptData = restClient.post(urls, param, responseType);
             		// 获取解密后的数据
-            		index = commonService.getEncryptData(encryptData);
+//            		index = commonService.getEncryptData(encryptData);
+
+                Map<String, Object> map = JsonUtil.fromJson(encryptData, Map.class);
+                String jsonString = JsonUtil.toJson(map.get("result"));
+                index = JsonUtil.fromJson(jsonString, Map.class);
+
 //            	} else {// 使用cloud-api 接口查询
 //            		urls = apiBaseUrl + "declareInfo/postSearchIndex";
 //            		ParameterizedTypeReference<JsonResponse<Map<String, Object>>> responseType =
@@ -706,7 +717,12 @@ public class IpoProcessService extends BaseService {
         		};
         		String encryptData = restClient.post(urls, param, responseType);
         		// 获取解密后的数据
-        		index = commonService.getEncryptData(encryptData);
+//        		index = commonService.getEncryptData(encryptData);
+
+            Map<String, Object> map = JsonUtil.fromJson(encryptData, Map.class);
+            String jsonString = JsonUtil.toJson(map.get("result"));
+            index = JsonUtil.fromJson(jsonString, Map.class);
+
 //        	} else {// 使用cloud-api 接口查询
 //        		urls = apiBaseUrl + "declareInfo/postSearchIndex";
 //        		ParameterizedTypeReference<JsonResponse<Map<String, Object>>> responseType =
@@ -746,7 +762,12 @@ public class IpoProcessService extends BaseService {
             		};
             		String encryptData = restClient.post(urls, param, responseType);
             		// 获取解密后的数据
-            		index = commonService.getEncryptData(encryptData);
+//            		index = commonService.getEncryptData(encryptData);
+
+                Map<String, Object> map = JsonUtil.fromJson(encryptData, Map.class);
+                String jsonString = JsonUtil.toJson(map.get("result"));
+                index = JsonUtil.fromJson(jsonString, Map.class);
+
 //            	} else {// 使用cloud-api 接口查询
 //            		ParameterizedTypeReference<JsonResponse<Map<String, Object>>> responseType =
 //                            new ParameterizedTypeReference<JsonResponse<Map<String, Object>>>() {};

@@ -21,6 +21,8 @@
         <pinyin4j.version>2.5.1</pinyin4j.version>
         <ews.version>2.0</ews.version>
         <swagger.version>2.7.0</swagger.version>
+        <httpclient.version>4.5.12</httpclient.version>
+        <httpcore.version>4.4.13</httpcore.version>
         <stock-core>1.0.0-SNAPSHOT</stock-core>
     </properties>
 
