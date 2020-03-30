@@ -34,13 +34,12 @@ public class IpoExportWordService extends BaseService {
   private static final Logger logger = LoggerFactory.getLogger(IpoExportWordService.class);
 
 
-  public void getCompanyInformation(String caseId){
+  public Map<String,Object> getCompanyInformation(String caseId){
     long start,end;
     start = System.currentTimeMillis();
 
     logger.info("导出word api 开始");
 
-    JsonResponse<Map<String,Object>> response = new JsonResponse<>();
     Map<String,Object> resultMap = new HashMap<>();
 //    二、公司概况
     CompanyOverviewVo companyInformation = companyOverviewService.getIpoCaseDetail(caseId);//公司概览-拟上市板块 模块
@@ -82,6 +81,7 @@ public class IpoExportWordService extends BaseService {
 
     end = System.currentTimeMillis();
     logger.info("导出word api结束" +  "Run Time:" + (end - start) + "(ms)");
+    return resultMap;
   }
 
 }

@@ -28,7 +28,8 @@ public class IpoExportWordController {
   public JsonResponse<Map<String, Object>> getCompanyInformation(
       @RequestParam("caseId") String caseId) {
     JsonResponse response = new JsonResponse();
-    exportWordService.getCompanyInformation(caseId);
+    Map<String,Object> resultMap = exportWordService.getCompanyInformation(caseId);
+    response.setResult(resultMap);
     return response;
   }
 
