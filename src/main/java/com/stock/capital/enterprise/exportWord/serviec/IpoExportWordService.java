@@ -2,6 +2,7 @@ package com.stock.capital.enterprise.exportWord.serviec;
 
 import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
 import com.stock.capital.enterprise.ipoCase.dto.IndustryCompareRateDto;
+import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFinanceDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoInvestItemDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto;
@@ -125,7 +126,11 @@ public class IpoExportWordService extends BaseService {
     resultMap.put("issueFeeList",issueFeeList);
     resultMap.put("strategicPlacementMain",strategicPlacementMain);
 
+//  十二、中介机构
+    Map<String, List<IntermediaryOrgDto>> intermediaryOrgList = companyOverviewService.getIntermediaryOrgData(caseId, "1");//生效的中介机构
+    resultMap.put("intermediaryOrgList",intermediaryOrgList);
     end = System.currentTimeMillis();
+
 
     logger.info("导出word api结束" +  "Run Time:" + (end - start) + "(ms)");
     return resultMap;
