@@ -3,6 +3,7 @@ package com.stock.capital.enterprise.exportWord.serviec;
 import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
 import com.stock.capital.enterprise.ipoCase.dto.IndustryCompareRateDto;
 import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFinanceDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoInvestItemDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto;
@@ -114,8 +115,10 @@ public class IpoExportWordService extends BaseService {
     List<IpoInvestItemDto> ipoInvestItem = ipoInvestService.selectInvestItem(caseId);
     resultMap.put("ipoInvestItem",ipoInvestItem);
 
-//    七、问询与回复（科创板注册制）
-//    List<IpoFeedbackDto> ipoFeedbackList = ipoFeedbackService.selectNewFeedbackList(caseId);//问题数量 回复情况
+//    七、问询与回复（科创板注册制） 八、反馈意见（核准制）
+    List<IpoFeedbackDto> ipoFeedbackList = ipoFeedbackService.selectNewFeedbackList(caseId);
+    resultMap.put("ipoFeedbackList",ipoFeedbackList);
+
 
 
 //    十一、发行概况

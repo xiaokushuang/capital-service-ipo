@@ -6,9 +6,7 @@ import com.stock.core.dto.JsonResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
-import java.io.IOException;
 import java.util.Map;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,13 +30,10 @@ public class IpoExportWordController {
           dataType = "String")
   })
   public JsonResponse<Map<String, Object>> getCompanyInformation (
-      @RequestParam("caseId") String caseId, HttpServletResponse response) throws IOException {
+      @RequestParam("caseId") String caseId) {
     JsonResponse result = new JsonResponse();
     Map<String,Object> resultMap = exportWordService.getCompanyInformation(caseId);
     result.setResult(resultMap);
-
-    byte[] qrCode = wxUtils.getMiNiQr(caseId,"");
-    response.getOutputStream().write(qrCode);
     return result;
   }
 
