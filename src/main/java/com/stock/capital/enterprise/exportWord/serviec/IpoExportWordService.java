@@ -18,6 +18,7 @@ import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.StrategicPlacementMainDto;
 import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
+import com.stock.capital.enterprise.ipoCase.service.IpoExamineService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFinanceService;
 import com.stock.capital.enterprise.ipoCase.service.IpoInvestService;
@@ -48,6 +49,9 @@ public class IpoExportWordService extends BaseService {
 
   @Autowired
   public IpoFeedbackService ipoFeedbackService;
+
+  @Autowired
+  public IpoExamineService ipoExamineService;
 
   private static final Logger logger = LoggerFactory.getLogger(IpoExportWordService.class);
 
@@ -119,6 +123,9 @@ public class IpoExportWordService extends BaseService {
     List<IpoFeedbackDto> ipoFeedbackList = ipoFeedbackService.selectNewFeedbackList(caseId);
     resultMap.put("ipoFeedbackList",ipoFeedbackList);
 
+//    九、审核结果及关注问题（注册制）
+    IpoFeedbackDto ipoFeedbackDto = ipoExamineService.selectExamineBaseList(caseId); //baseList
+    List<IpoFeedbackDto> resultList = ipoExamineService.selectNewExamineList(caseId);
 
 
 //    十一、发行概况

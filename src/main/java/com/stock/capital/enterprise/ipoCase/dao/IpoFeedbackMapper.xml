@@ -298,4 +298,7 @@
         </if>
         order by t1.letter_date
     </select>
+    <select id="selectFileNo" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT letter_file_no FROM sa_letter WHERE id = #{letterId}
+    </select>
 </mapper>

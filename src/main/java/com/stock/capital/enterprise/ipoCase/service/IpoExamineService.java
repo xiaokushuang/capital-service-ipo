@@ -4,9 +4,11 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -147,7 +149,8 @@ public class IpoExamineService extends BaseService {
         List<IpoFeedbackDto> resultList = new ArrayList<>();
         String orgCode = ipoFeedbackMapper.getOrgCode(id).getOrgCode();
         //从数据库查询所有二级标签
-        Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap("");
+        Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper
+            .selectSecondLabelMap("");
         //查询关联函件的节点日期
 //        List<IpoExamineBaseDto> baseList = ipoExamineMapper.selectExamineBaseList(id);
         List<Date> dateList = ipoExamineMapper.selectLetterDate(id);
@@ -179,70 +182,57 @@ public class IpoExamineService extends BaseService {
             List<IpoQuestionLabelDto> firstLabelList = new ArrayList<>();
 
             //从云端查询标一二级标签
-            Map<String, Map<String, String>> firstLabelMap = ipoFeedbackMapper.selectFirstLabelMap();
-            
+            Map<String, Map<String, String>> firstLabelMap = ipoFeedbackMapper
+                .selectFirstLabelMap();
+
             //从索引中查询分类个数
             FacetResult<IpoFeedbackIndexDto> facetResult = new FacetResult<IpoFeedbackIndexDto>();
-            
+
             String orderByName = "letter_question_id_t";
-    		String orderByOrder = "ASC";
+            String orderByOrder = "ASC";
 //            if(Global.SEARCH_SERVER_LETTER_QA_FLAG.equals("0")) {
-            	String accessToken = commonService.getGuiAccessToken();
-        		String urls = serviceGuiBaseUrl + "/letter/letter/api/searchLetterQaData?access_token=" + accessToken;
-        		ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
-        		};
-        		
-                QueryInfo<Map<String, Object>> queryInfo = new QueryInfo<Map<String, Object>>();
-                Map<String, Object> condition = Maps.newHashMap();
-                
-                if(StringUtils.isNotEmpty(letterDto.getLetterId())) {
-        			condition.put("letterId", letterDto.getLetterId());
-        		}
-                
-                condition.put("groupFlag", "true");
-                
-                queryInfo.setQueryId("com.stock.capital.services.letter.api.dao.LetterApiQa.searchLetterQaData");
-                queryInfo.setCondition(condition);
-        		queryInfo.setStartRow(0);
-        		queryInfo.setPageSize(2000);
-        		queryInfo.setOrderByName(orderByName);
-        		queryInfo.setOrderByOrder(orderByOrder);
-                
-                String encryptData = restClient.post(urls, queryInfo, responseType);
-        		// 获取解密后的数据
-        		Map<String, Object> index = commonService.getEncryptData(encryptData);
-        		if(!MapUtils.isEmpty(index)) {
-        			ParameterizedTypeReference<FacetResult<IpoFeedbackIndexDto>> map = new ParameterizedTypeReference<FacetResult<IpoFeedbackIndexDto>>() {
-					};
-					facetResult = JsonUtil.fromJson(JsonUtil.toJson(index) ,map);
-        		}
-//        	} else {
-//        		Map<String, String> condition = Maps.newHashMap();
-//        		StringBuilder conditionsStr = new StringBuilder("index_type_t: \"letterqa\"");
-//        		conditionsStr.append(" AND " + "letter_letter_id_t:");
-//        		conditionsStr.append(letterDto.getLetterId());
-//        		String conditionsGroup = "letter_question_class_new_id_txt";
-//        		condition.put(Constant.SEARCH_CONDIATION, conditionsStr.toString());
-//        		condition.put(Constant.SEARCH_FACET_FIELD, conditionsGroup);
-//        		condition.put(Constant.SEARCH_FACET_MIN_COUNT, "1");
-//        		QueryInfo<Map<String, String>> queryInfo = new QueryInfo<>();
-//        		queryInfo.setCondition(condition);
-//        		queryInfo.setStartRow(0);
-//        		queryInfo.setPageSize(2000);
-//        		queryInfo.setOrderByName(orderByName);
-//        		queryInfo.setOrderByOrder(orderByOrder);
-//        		facetResult = searchServer.searchWithFacet("letterqa", queryInfo, IpoFeedbackIndexDto.class);
-//        	}
-            
+            String accessToken = commonService.getGuiAccessToken();
+            String urls = serviceGuiBaseUrl + "/letter/letter/api/searchLetterQaData?access_token="
+                + accessToken;
+            ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
+            };
+
+            QueryInfo<Map<String, Object>> queryInfo = new QueryInfo<Map<String, Object>>();
+            Map<String, Object> condition = Maps.newHashMap();
+
+            if (StringUtils.isNotEmpty(letterDto.getLetterId())) {
+                condition.put("letterId", letterDto.getLetterId());
+            }
+
+            condition.put("groupFlag", "true");
+
+            queryInfo.setQueryId(
+                "com.stock.capital.services.letter.api.dao.LetterApiQa.searchLetterQaData");
+            queryInfo.setCondition(condition);
+            queryInfo.setStartRow(0);
+            queryInfo.setPageSize(2000);
+            queryInfo.setOrderByName(orderByName);
+            queryInfo.setOrderByOrder(orderByOrder);
+
+            String encryptData = restClient.post(urls, queryInfo, responseType);
+            // 获取解密后的数据
+            Map<String, Object> index = commonService.getEncryptData(encryptData);
+            if (!MapUtils.isEmpty(index)) {
+                ParameterizedTypeReference<FacetResult<IpoFeedbackIndexDto>> map = new ParameterizedTypeReference<FacetResult<IpoFeedbackIndexDto>>() {
+                };
+                facetResult = JsonUtil.fromJson(JsonUtil.toJson(index), map);
+            }
+
             List<StatisticsField> labelList =
-                    facetResult.getStatisticsFieldMap().get("letter_question_class_new_id_txt");
+                facetResult.getStatisticsFieldMap().get("letter_question_class_new_id_txt");
 
             //循环标签，将标签个数赋值
             for (StatisticsField labelDto : labelList) {
                 if (null != firstLabelMap.get(labelDto.getFieldId())) {
                     IpoQuestionLabelDto questionLabelDto = new IpoQuestionLabelDto();
                     questionLabelDto.setLabelCode(labelDto.getFieldId());
-                    questionLabelDto.setLabelName(firstLabelMap.get(labelDto.getFieldId()).get("letterClassName"));
+                    questionLabelDto.setLabelName(
+                        firstLabelMap.get(labelDto.getFieldId()).get("letterClassName"));
                     questionLabelDto.setLabelCount(String.valueOf(labelDto.getCount()));
                     String sort = firstLabelMap.get(labelDto.getFieldId()).get("sort");
                     if (StringUtils.isEmpty(sort)) {
@@ -254,7 +244,7 @@ public class IpoExamineService extends BaseService {
             }
             //一级标签排序
             firstLabelList.sort((IpoQuestionLabelDto c1, IpoQuestionLabelDto c2) ->
-                    (c1.getSort() > c2.getSort() ? 1 : (c1.getSort() == c2.getSort() ? 0 : -1)));
+                (c1.getSort() > c2.getSort() ? 1 : (c1.getSort() == c2.getSort() ? 0 : -1)));
 
             List<IpoFeedbackIndexDto> questionList = facetResult.getPage().getData();
             //一级标签添加全部标签
@@ -263,7 +253,7 @@ public class IpoExamineService extends BaseService {
             questionLabelDto.setLabelName("全部");
             questionLabelDto.setLabelCount(String.valueOf(questionList.size()));
             firstLabelList.add(0, questionLabelDto);
-
+            Map<String,String> labelMap = firstLabelList.stream().collect(Collectors.toMap(IpoQuestionLabelDto::getLabelCode,IpoQuestionLabelDto::getLabelName));
             ipoFeedbackResultDto.setQuestionLabelList(firstLabelList);
             //定义一个问题列表数组
             List<IpoFeedbackQuestionDto> questionResultList = new ArrayList<>();
@@ -312,17 +302,29 @@ public class IpoExamineService extends BaseService {
                     if (CollectionUtils.isNotEmpty(belongLabel)) {
                         for (String belongLabelStr : belongLabel) {
                             if (null != secondLabelMap.get(belongLabelStr)) {
-                                secondLabelList.add(secondLabelMap.get(belongLabelStr).get("letterClassName"));
+                                secondLabelList
+                                    .add(secondLabelMap.get(belongLabelStr).get("letterClassName"));
                             }
                         }
                     }
                     questionResultDto.setLabelList(secondLabelList);
+                    List<IpoQuestionLabelDto> questionLabelList = new LinkedList<>();
+                    for (int i = 0; i < questionDto.getQuestionClassNewId().size(); i++) {
+                        String tmp = questionDto.getQuestionClassNewId().get(i);
+                        if (labelMap!= null && labelMap.containsKey(tmp)){
+                            IpoQuestionLabelDto tempDto = new IpoQuestionLabelDto();
+                            tempDto.setLabelName(labelMap.get(tmp));
+                            tempDto.setLabelCode(tmp);
+                            questionLabelList.add(tempDto);
+                        }
+                    }
+                    questionResultDto.setQuestionLabelList(questionLabelList);
                     questionResultList.add(questionResultDto);
                     if (StringUtils.isNotEmpty(questionResultDto.getAnswer())) {
                         answerCount++;
                     }
                 }
-                if(StringUtils.isNotEmpty(ipoFeedbackResultDto.getLetterName())){
+                if (StringUtils.isNotEmpty(ipoFeedbackResultDto.getLetterName())) {
                     ipoFeedbackResultDto.setQuestionCount(questionCount);
                     ipoFeedbackResultDto.setAnswerCount(answerCount);
                     ipoFeedbackResultDto.setQuestionList(questionResultList);
@@ -331,17 +333,18 @@ public class IpoExamineService extends BaseService {
             }
         }
 
-        if(CollectionUtils.isNotEmpty(resultList)){
+        if (CollectionUtils.isNotEmpty(resultList)) {
             //如果注册反馈意见只有一次，则命名为 注册反馈意见，否则 按上面逻辑展示第一次，第二次
-            if(registerCount ==1){
-                for(IpoFeedbackDto dto:resultList){
-                    if("注册反馈意见".indexOf(dto.getLetterName()) > 0){
+            if (registerCount == 1) {
+                for (IpoFeedbackDto dto : resultList) {
+                    if ("注册反馈意见".indexOf(dto.getLetterName()) > 0) {
                         dto.setLetterName("注册反馈意见");
                     }
                 }
             }
             //按照日期排序，注册反馈取回函日期，其他取来函日期
-            resultList.sort((IpoFeedbackDto c1,IpoFeedbackDto c2) -> c1.getLetterDate() == null? 1:c1.getLetterDate().compareTo(c2.getLetterDate()) );
+            resultList.sort((IpoFeedbackDto c1, IpoFeedbackDto c2) -> c1.getLetterDate() == null ? 1
+                : c1.getLetterDate().compareTo(c2.getLetterDate()));
         }
         return resultList;
     }

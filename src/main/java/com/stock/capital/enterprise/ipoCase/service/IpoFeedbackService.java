@@ -332,6 +332,7 @@ public class IpoFeedbackService extends BaseService {
                     ipoFeedbackResultDto.setIntervalDate(between_days(questionList.get(0).getLetterDate(),questionList.get(0).getLetterReturnDate()));
                 }
             }
+            ipoFeedbackResultDto.setLetterFileNo(ipoFeedbackMapper.selectFileNo(ipoFeedbackResultDto.getLetterId()));
             resultList.add(ipoFeedbackResultDto);
         }
 
