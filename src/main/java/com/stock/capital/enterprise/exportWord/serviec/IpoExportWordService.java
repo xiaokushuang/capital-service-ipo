@@ -1,6 +1,7 @@
 package com.stock.capital.enterprise.exportWord.serviec;
 
 import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
+import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
 import com.stock.capital.enterprise.ipoCase.dto.IndustryCompareRateDto;
 import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
@@ -63,6 +64,11 @@ public class IpoExportWordService extends BaseService {
     logger.info("导出word api 开始");
 
     Map<String,Object> resultMap = new HashMap<>();
+
+//    第一页
+    HeadDataVo head = companyOverviewService.getHeadData(caseId);// 审核历时 IPO进程
+    resultMap.put("head",head);
+
 //    二、公司概况
     //公司概览-拟上市板块 模块
     //股权结构图， 股权结构标签 structureLabel 图 structureUrl
