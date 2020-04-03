@@ -116,7 +116,6 @@ public class IpoExportWordService extends BaseService {
     MainIncomeVo mainIncomeVo = companyOverviewService.getIncomeData(caseId);//主营业务收入构成
     //supplierMainList  报告期前五名供应商情况
     //customerMainList  报告期前五名客户情况
-    // FIXME: 2020/3/26 数据需要验证
     Map<String, List<SupplierCustomerMainDto>> supplierInformation = companyOverviewService.getSupCusData(caseId);//主营业务收入构成
     resultMap.put("mainIncome",mainIncomeVo);
     resultMap.put("supplierInformation",supplierInformation);
