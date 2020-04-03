@@ -25,7 +25,9 @@ public class IpoProgressDto implements Serializable {
     private String treeTypeName;
     @ApiModelProperty("股份公司设立时间")
     private String publishDate;
-
+    //    针对 IPO 导出 word 新增字段
+    @ApiModelProperty("进程总历时")
+    private String durationDay;
 
     public String getTreeTypeCode() {
         return treeTypeCode;
@@ -81,5 +83,13 @@ public class IpoProgressDto implements Serializable {
 
     public void setPublishDate(String publishDate) {
         this.publishDate = publishDate;
+    }
+
+    public String getDurationDay() {
+        return durationDay;
+    }
+
+    public void setDurationDay(String durationDay) {
+        this.durationDay = durationDay;
     }
 }

@@ -7,6 +7,8 @@ import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFinanceDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoInvestItemDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoProListDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoProgressDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyVo;
 import com.stock.capital.enterprise.ipoCase.dto.IpoValuationDto;
@@ -18,16 +20,19 @@ import com.stock.capital.enterprise.ipoCase.dto.MainIncomeVo;
 import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
 import com.stock.capital.enterprise.ipoCase.dto.StrategicPlacementMainDto;
 import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
+import com.stock.capital.enterprise.ipoCase.dto.TreeTypeProgressDto;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.ipoCase.service.IpoExamineService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFinanceService;
 import com.stock.capital.enterprise.ipoCase.service.IpoInvestService;
+import com.stock.capital.enterprise.ipoCase.service.IpoProcessService;
 import com.stock.capital.enterprise.ipoCase.service.IssueSituationService;
 import com.stock.core.service.BaseService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,13 +59,17 @@ public class IpoExportWordService extends BaseService {
   @Autowired
   public IpoExamineService ipoExamineService;
 
+  @Autowired
+  public IpoProcessService ipoProcessService;
+
+
   private static final Logger logger = LoggerFactory.getLogger(IpoExportWordService.class);
 
 
   public Map<String,Object> getCompanyInformation(String caseId){
     long start,end;
     start = System.currentTimeMillis();
-
+//  只对IPO 做导出， IPO 辅导不做导出
     logger.info("导出word api 开始");
 
     Map<String,Object> resultMap = new HashMap<>();
@@ -68,6 +77,26 @@ public class IpoExportWordService extends BaseService {
 //    第一页
     HeadDataVo head = companyOverviewService.getHeadData(caseId);// 审核历时 IPO进程
     resultMap.put("head",head);
+
+//    一、IPO进程
+    TreeTypeProgressDto treeTypeProgress = ipoProcessService.selectProcessList(caseId, "02");
+
+    List<IpoProgressDto> treeList = treeTypeProgress.getTreeList();
+    for (int i = 0; i < treeList.size(); i++) {
+      if (treeList.get(i).getProList() != null) {
+        IpoProgressDto ipoProgress = treeList.get(i);
+        Integer durationDay = 0;
+        for (int j = 0; j < ipoProgress.getProList().size(); j++) {
+          IpoProListDto ipoPro = ipoProgress.getProList().get(j);
+          Integer lastDay = Integer
+              .parseInt(StringUtils.isNotBlank(ipoPro.getLastDay()) ? ipoPro.getLastDay() : "0");
+          durationDay += lastDay;
+        }
+        ipoProgress.setDurationDay(durationDay+""); //总计天数
+      }
+    }
+
+    resultMap.put("treeTypeProgress",treeTypeProgress);
 
 //    二、公司概况
     //公司概览-拟上市板块 模块
@@ -132,6 +161,9 @@ public class IpoExportWordService extends BaseService {
 //    九、审核结果及关注问题（注册制）
     IpoFeedbackDto ipoFeedbackDto = ipoExamineService.selectExamineBaseList(caseId); //baseList
     List<IpoFeedbackDto> resultList = ipoExamineService.selectNewExamineList(caseId);
+
+    resultMap.put("ipoFeedbackDto",ipoFeedbackDto);
+    resultMap.put("resultList",resultList);
 
 
 //    十一、发行概况
