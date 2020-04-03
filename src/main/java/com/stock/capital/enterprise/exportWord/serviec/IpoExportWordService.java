@@ -160,10 +160,8 @@ public class IpoExportWordService extends BaseService {
 //    九、审核结果及关注问题（注册制）
     IpoFeedbackDto ipoFeedbackDto = ipoExamineService.selectExamineBaseList(caseId); //baseList
     List<IpoFeedbackDto> resultList = ipoExamineService.selectNewExamineList(caseId);
-
     resultMap.put("ipoFeedbackDto",ipoFeedbackDto);
     resultMap.put("resultList",resultList);
-
 
 //    十一、发行概况
     IssueDataDto issueData = issueSituationService.getIssueData(caseId);//发行数据
@@ -177,7 +175,6 @@ public class IpoExportWordService extends BaseService {
     Map<String, List<IntermediaryOrgDto>> intermediaryOrgList = companyOverviewService.getIntermediaryOrgData(caseId, "1");//生效的中介机构
     resultMap.put("intermediaryOrgList",intermediaryOrgList);
     end = System.currentTimeMillis();
-
 
     logger.info("导出word api结束" +  "Run Time:" + (end - start) + "(ms)");
     return resultMap;
