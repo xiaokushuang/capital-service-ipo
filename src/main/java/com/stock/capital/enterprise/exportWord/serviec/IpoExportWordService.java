@@ -29,6 +29,7 @@ import com.stock.capital.enterprise.ipoCase.service.IpoInvestService;
 import com.stock.capital.enterprise.ipoCase.service.IpoProcessService;
 import com.stock.capital.enterprise.ipoCase.service.IssueSituationService;
 import com.stock.core.service.BaseService;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,6 +94,8 @@ public class IpoExportWordService extends BaseService {
           durationDay += lastDay;
         }
         ipoProgress.setDurationDay(durationDay+""); //总计天数
+
+        Collections.reverse(ipoProgress.getProList());
       }
     }
 
