@@ -76,11 +76,11 @@ public class IpoExportWordService extends BaseService {
     Map<String,Object> resultMap = new HashMap<>();
 
 //    第一页
-    HeadDataVo head = companyOverviewService.getHeadData(caseId);// 审核历时 IPO进程
+    HeadDataVo head = companyOverviewService.getHeadData("98197418692119801");// 审核历时 IPO进程
     resultMap.put("head",head);
 
 //    一、IPO进程
-    TreeTypeProgressDto treeTypeProgress = ipoProcessService.selectProcessList(caseId, "02");
+    TreeTypeProgressDto treeTypeProgress = ipoProcessService.selectProcessList("98197418692119801", "02");
 
     List<IpoProgressDto> treeList = treeTypeProgress.getTreeList();
     for (int i = 0; i < treeList.size(); i++) {
@@ -139,14 +139,14 @@ public class IpoExportWordService extends BaseService {
 
 //    五、财务信息
 //   财务总体情况：表头日期：dateList 数据（倒序排列）：IpoFinanceOverList
-    IpoFinanceDto ipoFinance = ipoFinanceService.selectFinanceOverList(caseId);
+    IpoFinanceDto ipoFinance = ipoFinanceService.selectFinanceOverList("97952444248599350");
 //   资产与负债情况
 //    dateList 资产类项目列表：ipoAssetItemList 负债类项目列表：ipoDebtItemList 权益类项目列表：ipoEquityItemList
-    IpoFinanceDto assetLiability = ipoFinanceService.selectFinanceList(caseId);
+    IpoFinanceDto assetLiability = ipoFinanceService.selectFinanceList("97952444248599350");
 //    收入与利润情况 表头日期：dateLis 收入类项目：IpoProfitItemList 成本类项目：IpoCostItemList 利润类项目：IpoReturnOverList
-    IpoFinanceDto incomeProfit = ipoFinanceService.selectFinanceProfitList(caseId);
+    IpoFinanceDto incomeProfit = ipoFinanceService.selectFinanceProfitList("97952444248599350");
 //    主要财务指标 表头日期：dateLis  主要财务指标：IpoMainIndexList
-    IpoFinanceDto financialIndex = ipoFinanceService.selectMainIndexList(caseId);
+    IpoFinanceDto financialIndex = ipoFinanceService.selectMainIndexList("97952444248599350");
     resultMap.put("ipoFinance",ipoFinance);
     resultMap.put("assetLiability",assetLiability);
     resultMap.put("incomeProfit",incomeProfit);
@@ -161,15 +161,15 @@ public class IpoExportWordService extends BaseService {
     resultMap.put("ipoFeedbackList",ipoFeedbackList);
 
 //    九、审核结果及关注问题（注册制）
-    IpoFeedbackDto ipoFeedbackDto = ipoExamineService.selectExamineBaseList(caseId); //baseList
-    List<IpoFeedbackDto> resultList = ipoExamineService.selectNewExamineList(caseId);
+    IpoFeedbackDto ipoFeedbackDto = ipoExamineService.selectExamineBaseList("98197418692115791"); //baseList
+    List<IpoFeedbackDto> resultList = ipoExamineService.selectNewExamineList("98197418692115791");
     resultMap.put("ipoFeedbackDto",ipoFeedbackDto);
     resultMap.put("resultList",resultList);
 
 //    十一、发行概况
-    IssueDataDto issueData = issueSituationService.getIssueData(caseId);//发行数据
-    List<IssueFeeDto> issueFeeList = issueSituationService.getIssueFeeData(caseId);//发行费用
-    StrategicPlacementMainDto strategicPlacementMain = issueSituationService.getPlacementData(caseId);//发行费用
+    IssueDataDto issueData = issueSituationService.getIssueData("97952444248599350");//发行数据
+    List<IssueFeeDto> issueFeeList = issueSituationService.getIssueFeeData("97952444248599350");//发行费用
+    StrategicPlacementMainDto strategicPlacementMain = issueSituationService.getPlacementData("97952444248599350");//发行费用
     resultMap.put("issueData",issueData);
     resultMap.put("issueFeeList",issueFeeList);
     resultMap.put("strategicPlacementMain",strategicPlacementMain);
