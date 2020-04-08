@@ -4,6 +4,7 @@ import com.google.common.base.Splitter;
 import com.stock.capital.enterprise.ipoCase.dto.*;
 import com.stock.core.service.BaseService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ooxml.POIXMLDocumentPart;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.usermodel.*;
@@ -158,19 +159,63 @@ public class IpoExportWordActorService extends BaseService {
                 List<SupplierCustomerMainDto> supplierInformation = ((Map<String,List<SupplierCustomerMainDto>>)dataMap.get("supplierInformation")).get("supplierMainList");
       SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
       XWPFDocument xdoc = new XWPFDocument(inputStream);
-        /*Map<String, POIXMLDocumentPart> chartsMap = new HashMap<String, POIXMLDocumentPart>();
-         List<POIXMLDocumentPart> relations = xdoc.getRelations();
-         for (POIXMLDocumentPart poixmlDocumentPart : relations) {
-             String str = poixmlDocumentPart.toString();
-             if (str.contains("charts")) {
-         System.out.println("str：" + str);
-         String key = str.replaceAll("Name: ", "")
+      Map<String, POIXMLDocumentPart> chartsMap = new HashMap<String, POIXMLDocumentPart>();
+      List<POIXMLDocumentPart> relations = xdoc.getRelations();
+      for (POIXMLDocumentPart poixmlDocumentPart : relations) {
+          String str = poixmlDocumentPart.toString();
+          if (poixmlDocumentPart instanceof XWPFChart) {
+              String key = str.replaceAll("Name: ", "")
                  .replaceAll(" - Content Type: application/vnd\\.openxmlformats-officedocument\\.drawingml\\.chart\\+xml", "").trim();
-         System.out.println("key：" + key);
-         chartsMap.put(key, poixmlDocumentPart);
-         }
-         }*/
-
+              chartsMap.put(key, poixmlDocumentPart);
+          }
+      }
+      if (mainIncomeVo != null && mainIncomeVo.getMainIncomeInfoList() != null){
+          List<String> titleArr = new ArrayList<String>();
+          titleArr.add("近三年主营业务趋势");
+          List<String> fldNameArr = new ArrayList<String>();
+          List<Map<String, String>> listItemsByType = new ArrayList<Map<String, String>>();
+          Map<String, String> base1 = new HashMap<String, String>();
+          fldNameArr.add("item1");
+          if (StringUtils.isNotEmpty(mainIncomeVo.getOnePeriodForIncome())){
+              base1.put("item1", mainIncomeVo.getOnePeriodForIncome());
+          }
+          Map<String, String> base2 = new HashMap<String, String>();
+          if (StringUtils.isNotEmpty(mainIncomeVo.getThirdYearForIncome())){
+              base2.put("item1", mainIncomeVo.getThirdYearForIncome());
+          }
+          Map<String, String> base3 = new HashMap<String, String>();
+          if (StringUtils.isNotEmpty(mainIncomeVo.getSecondYearForIncome())){
+              base3.put("item1", mainIncomeVo.getSecondYearForIncome());
+          }
+          Map<String, String> base4 = new HashMap<String, String>();
+          if (StringUtils.isNotEmpty(mainIncomeVo.getFirstYearForIncome())){
+              base4.put("item1", mainIncomeVo.getFirstYearForIncome());
+          }
+          for (int i=0;i<mainIncomeVo.getMainIncomeInfoList().size();i++){
+              if (!mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName().equals("合计")){
+                  fldNameArr.add(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName());
+                  titleArr.add(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName());
+                  if (StringUtils.isNotEmpty(mainIncomeVo.getOnePeriodForIncome())){
+                      base1.put(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName(), mainIncomeVo.getMainIncomeInfoList().get(i).getOnePeriodAmount()+"");
+                  }
+                  if (StringUtils.isNotEmpty(mainIncomeVo.getThirdYearForIncome())){
+                      base2.put(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName(), mainIncomeVo.getMainIncomeInfoList().get(i).getThirdYearAmount()+"");
+                  }
+                  if (StringUtils.isNotEmpty(mainIncomeVo.getSecondYearForIncome())){
+                      base3.put(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName(), mainIncomeVo.getMainIncomeInfoList().get(i).getSecondYearAmount()+"");
+                  }
+                  if (StringUtils.isNotEmpty(mainIncomeVo.getFirstYearForIncome())){
+                      base4.put(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName(), mainIncomeVo.getMainIncomeInfoList().get(i).getFirstYearAmount()+"");
+                  }
+              }
+          }
+          listItemsByType.add(base1);
+          listItemsByType.add(base2);
+          listItemsByType.add(base3);
+          listItemsByType.add(base4);
+          POIXMLDocumentPart poixmlDocumentPart0 = chartsMap.get("/word/charts/chart1.xml");
+          new PoiWordTools().replaceBarCharts(poixmlDocumentPart0, titleArr, fldNameArr, listItemsByType);
+      }
       Iterator<XWPFParagraph> itPara = xdoc.getParagraphsIterator();
       XpwfUtils test = new XpwfUtils();
       while (itPara.hasNext()) {
@@ -418,8 +463,11 @@ public class IpoExportWordActorService extends BaseService {
                   }
               }
               continue;
-          }else if("#股权结构图#".equals(paragraph.getText())){
+          }/*else if("#股权结构图#".equals(paragraph.getText())){
               try {
+                  if (imgUrl.indexOf("https") == -1){
+                      imgUrl = imgUrl.replaceAll("http","https");
+                  }
                   HttpURLConnection connection = (HttpURLConnection) new URL(imgUrl).openConnection();
                   InputStream img = connection.getInputStream();
                   paragraph.getRuns().get(0).addPicture(img, XWPFDocument.PICTURE_TYPE_JPEG, imgUrl, Units.toEMU(200), Units.toEMU(200));
@@ -427,7 +475,7 @@ public class IpoExportWordActorService extends BaseService {
                   e.printStackTrace();
               }
               continue;
-          }
+          }*/
       }
       Iterator<XWPFTable> itTable = xdoc.getTablesIterator();
       while (itTable.hasNext()) {
