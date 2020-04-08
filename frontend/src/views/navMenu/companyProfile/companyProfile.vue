@@ -897,7 +897,7 @@ export default {
           }
           let majorSuppliers = {
               id: 'majorSuppliers',
-              name: '前五名供应商',
+              name: '主要供应商',
               notes: '',
               important: false,
               tabId: 'tab-first',
@@ -905,7 +905,7 @@ export default {
           }
             let majorCustomer = {
               id: 'majorCustomer',
-              name: '前五名客户',
+              name: '主要客户',
               notes: '',
               important: false,
               tabId: 'tab-first',
