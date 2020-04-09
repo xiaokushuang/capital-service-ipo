@@ -466,10 +466,16 @@
                           v-loading="tableLoading" ref="tables" @row-click="itemClickHandler" class="case" element-loading-text="给我一点时间">
                   <el-table-column align="left" width="100" label="公司">
                     <template slot-scope="scope">
-                      <div v-if="scope.row.companyCode || scope.row.companyName">
+                      <div v-if="scope.row.companyCode && scope.row.companyName">
                         {{scope.row.companyCode}}
                         <br />
                         {{scope.row.companyName}}
+                      </div>
+                      <div v-else-if="scope.row.companyName">
+                        {{scope.row.companyName}}
+                      </div>
+                      <div v-else-if="scope.row.companyCode">
+                        {{scope.row.companyCode}}
                       </div>
                       <div v-else class="noDataColor">
                         - -
