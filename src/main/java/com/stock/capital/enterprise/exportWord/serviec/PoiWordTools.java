@@ -39,7 +39,7 @@ public class PoiWordTools {
         //刷新内置excel数据
         new PoiWordTools().refreshExcel(chart, listItemsByType, fldNameArr, titleArr);
         //刷新页面显示数据
-        refreshBarStrGraphContent(barChart, BarSerList, listItemsByType, fldNameArr, 1);
+//        refreshBarStrGraphContent(barChart, BarSerList, listItemsByType, fldNameArr, 1);
 
     }
 

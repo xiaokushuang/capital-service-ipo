@@ -157,7 +157,7 @@ public class IpoExportWordService extends BaseService {
     resultMap.put("ipoInvestItem",ipoInvestItem);
 
 //    七、问询与回复（科创板注册制） 八、反馈意见（核准制）
-    List<IpoFeedbackDto> ipoFeedbackList = ipoFeedbackService.selectNewFeedbackList(caseId);
+    List<IpoFeedbackDto> ipoFeedbackList = ipoFeedbackService.selectNewFeedbackList("98114881248925363");
     resultMap.put("ipoFeedbackList",ipoFeedbackList);
 
 //    九、审核结果及关注问题（注册制）

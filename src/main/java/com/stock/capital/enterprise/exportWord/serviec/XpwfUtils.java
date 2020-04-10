@@ -380,24 +380,35 @@ public class XpwfUtils {
 	}
 
 	public void setCellNewContent(XWPFTable table, int rowIndex, int col, String content,int tempRowIndex){
-		setCellNew(table,rowIndex,col,content,tempRowIndex,false);
+		setCellNew(table,rowIndex,col,content,tempRowIndex,false,false);
 	}
 
 	public void setCellNewContentBold(XWPFTable table, int rowIndex, int col, String content,int tempRowIndex){
-		setCellNew(table,rowIndex,col,content,tempRowIndex,true);
+		setCellNew(table,rowIndex,col,content,tempRowIndex,true,false);
+	}
+
+    public void setCellNewContentTitleNotTemp(XWPFTable table, int rowIndex, int col, String content,int tempRowIndex){
+        setCellNew(table,rowIndex,col,content,tempRowIndex,true,true);
+    }
+	public void setCellNewContentNotTemp(XWPFTable table, int rowIndex, int col, String content,int tempRowIndex){
+		setCellNew(table,rowIndex,col,content,tempRowIndex,false,true);
 	}
 	/**
 	 * @Description: 设置单元格内容
 	 */
-	public void setCellNew(XWPFTable table, int rowIndex, int col, String content,int tempRowIndex,boolean boldFlag) {
+	public void setCellNew(XWPFTable table, int rowIndex, int col, String content,int tempRowIndex,boolean boldFlag,boolean tempFlag) {
 		XWPFTableCell cell = table.getRow(rowIndex).getCell(col);
 		XWPFTableCell tempCell = table.getRow(tempRowIndex).getCell(col);
 		if (rowIndex != tempRowIndex) {
-			//if(rowIndex == tempRowIndex + 1){
+			if(rowIndex == tempRowIndex + 1 || rowIndex==0){
 				tempCell = table.getRow(rowIndex).getCell(col);
-			/*}else{
-				tempCell = table.getRow(rowIndex - 2).getCell(col);
-			}*/
+			}else{
+			    if (tempFlag){
+                    tempCell = table.getRow(rowIndex).getCell(col);
+                }else {
+                    tempCell = table.getRow(rowIndex - 2).getCell(col);
+                }
+			}
 			if (tempCell != null && tempCell.getVerticalAlignment() != null) {
 				cell.setVerticalAlignment(tempCell.getVerticalAlignment());
 				if(StringUtils.isNotEmpty(tempCell.getColor())){
