@@ -714,7 +714,7 @@
         // 获取关联案例数据
         getRelatedCaseData(param).then(res => {
           this.flagLoading = false;
-          console.log('关联案例接口数据', res.data.result)
+          // console.log('关联案例接口数据', res.data.result)
           if (res.data.result) {
             this.proList = res.data.result
           }
@@ -889,7 +889,7 @@
         let fixBody = document.querySelector("#headerTop").offsetHeight + 10;
         let clientLeft = window.getComputedStyle(document.querySelector("#concentBody"), null)["margin-left"];
         if(clientLeft == "0px"){
-           console.log("如果clientLeft为0,则计算padding像素:"+(document.body.clientWidth-document.querySelector('#concentBody').clientWidth)/2+"px")
+           // console.log("如果clientLeft为0,则计算padding像素:"+(document.body.clientWidth-document.querySelector('#concentBody').clientWidth)/2+"px")
           clientLeft = (document.body.clientWidth-document.querySelector('#concentBody').clientWidth)/2+"px";
         }
         let clientRight = window.getComputedStyle(document.querySelector("#concentBody"), null)["margin-right"];

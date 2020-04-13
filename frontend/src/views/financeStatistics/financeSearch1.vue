@@ -199,8 +199,8 @@ export default {
 
   methods: {
       ceshi(a,b){
-        console.log(a.target)
-        console.log(b)
+        // console.log(a.target)
+        // console.log(b)
       },
       //下拉菜单method
       handleNodeClick2(data, node, component){
@@ -250,11 +250,11 @@ export default {
 
       //table点击
       handleClick(row) {
-        console.log(row);
+        // console.log(row);
       },
       //table排序
       sortChange(column){
-        console.log(column)
+        // console.log(column)
         if(column.order!=null&&column.prop!=null){
           this.orderByName=column.prop,
           this.orderByOrder=column.order
@@ -266,11 +266,11 @@ export default {
       },
       //table选中事件
       handleSelectionChange(val){//val 选中数据
-        console.log(val)
+        // console.log(val)
         this.multipleSelection = val;
       },
       search(val){
-        console.log(val)
+        // console.log(val)
       }
 
 

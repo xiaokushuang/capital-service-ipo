@@ -461,8 +461,8 @@ export default {
     this.getData();
   },
   mounted() {
-    console.log('哇哇哇哇',this.companyProfileList)
-    console.log('行业地位',this.companyProfileList.companyProfileList.industryStatusOverview,this.industryStatus)
+    // console.log('哇哇哇哇',this.companyProfileList)
+    // console.log('行业地位',this.companyProfileList.companyProfileList.industryStatusOverview,this.industryStatus)
   },
   methods: {
     getData() {
@@ -474,7 +474,7 @@ export default {
       getIndustryStatus(param).then(res=>{
         if(res.data.result&&res.data.result.length>0){
           this.industryStatus = res.data.result
-          console.log('排名',this.industryStatus)
+          // console.log('排名',this.industryStatus)
           // this.industryStatusOverview = this.companyProfileList.companyProfileList.industryStatusOverview.replace(/\n|\r\n/g,"<br/>")
           this.industryStatusOverview = this.industryStatus[0].industryStatusOverview.replace(/\n|\r\n/g,"<br/>")
         }
@@ -498,7 +498,7 @@ export default {
             if(res.data.result&&res.data.result.patentData.length>0){
               // 专利情况
               this.patentSituationTableData = res.data.result.patentData
-              console.log('专利情况',this.patentSituationTableData)
+              // console.log('专利情况',this.patentSituationTableData)
               this.getPosition()
               }
                if(res.data.result&&res.data.result.devDate!=null){

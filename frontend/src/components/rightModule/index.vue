@@ -73,7 +73,7 @@
             }
         },
         mounted(){
-            console.log(document.querySelector('.math').parentNode.offsetWidth)
+            // console.log(document.querySelector('.math').parentNode.offsetWidth)
             this.boxWidth = document.querySelector('.math').parentNode.offsetWidth;
             this.boxData = [
                 {

@@ -494,7 +494,7 @@
 				return data.label.indexOf(value) !== -1;
 			},
 			selectOptionClick(){
-				console.log('取消select点击')
+				// console.log('取消select点击')
 			},
 			//tree方法
 			handleCheckChange(data, checked, indeterminate) {
@@ -506,7 +506,7 @@
 				arr.map((obj,idx)=>{
 					str+=obj.label+','
 				})
-				console.log(arr)
+				// console.log(arr)
 				self.value = str
 			},
 			clear(){
@@ -519,13 +519,13 @@
 		},
 		activated(){//缓存组件更新数据钩子
 			this.of++;
-			console.log(1)
+			// console.log(1)
 		},
 		updated(){
-			console.log`更新了`
+			// console.log`更新了`
 		},
 	    mounted(){
-	      console.log`编译了`
+	      // console.log`编译了`
 	    },
 	    filters: {
 			statusFilter(status) {

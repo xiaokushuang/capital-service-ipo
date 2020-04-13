@@ -44,7 +44,7 @@ export default {
 	watch:{
 		chartData(n,o){
 			this.initChart()
-			console.log('饼图的---------------数据变了')
+			// console.log('饼图的---------------数据变了')
 			//console.log(this.chartData)
 		}
 	},
@@ -100,7 +100,7 @@ export default {
 						
         this.chart = echarts.init(document.getElementById(this.id))
         this.chart.setOption(chartOption);
-        console.log(this.chartData)
+        // console.log(this.chartData)
     }
   }
 }
