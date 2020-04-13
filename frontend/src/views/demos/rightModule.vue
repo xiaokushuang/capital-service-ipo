@@ -15,7 +15,7 @@
 </template>
 <script>
     import rightModule from '@/components/rightModule'
-    console.log(rightModule)
+    // console.log(rightModule)
     export default {
         name:'rightModuleDemo',
         components:{

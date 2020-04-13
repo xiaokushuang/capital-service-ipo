@@ -36,8 +36,8 @@ import {mapGetters} from 'vuex'
 	},
 	created(){
 		this.$store.dispatch('ipoGet')
-		console.log('别来烦我')
-		console.log(this.getIpo)
+		// console.log('别来烦我')
+		// console.log(this.getIpo)
 	}
   }
 </script>

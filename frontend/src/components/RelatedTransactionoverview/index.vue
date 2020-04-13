@@ -172,7 +172,7 @@ export default {
         }).catch(err => { })
       },
       handleCreateOne(){
-          console.log(1);
+          // console.log(1);
         this.dialogFormVisibleOne = true
             let param = {
                         }
@@ -181,11 +181,11 @@ export default {
                 }).catch(err => { })
       },
       handleCreatesTwo(){
-          console.log(2);
+          // console.log(2);
         this.dialogFormVisibleTow = true  
       },
       handleCreatesThree(){
-          console.log(3);
+          // console.log(3);
         this.dialogFormVisibleThree =true
       },
       objectSpanMethod({ row, column, rowIndex, columnIndex }) {
@@ -210,8 +210,8 @@ export default {
 },
 watch: {
      'myDoneListRecordTow': function (val,oldVal){
-         console.log(val)
-         console.log(oldVal)
+         // console.log(val)
+         // console.log(oldVal)
      }
 }
 };

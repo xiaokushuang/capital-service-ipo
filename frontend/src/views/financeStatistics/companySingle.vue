@@ -133,7 +133,7 @@ export default {
       activeFun(data){
           this.flag = data;//选中样式
           //给chart换数据
-          console.log(this.flag)
+          // console.log(this.flag)
           this.param.countType = this.flag;
           this.param.dateSelect = '';
           this.chartOne(false)
@@ -195,11 +195,11 @@ export default {
 
       //table点击
       handleClick(row) {
-        console.log(row);
+        // console.log(row);
       },
       //table排序
       sortChange(column){
-        console.log(column)
+        // console.log(column)
         if(column.order!=null&&column.prop!=null){
           this.orderByName=column.prop,
           this.orderByOrder=column.order
@@ -211,15 +211,15 @@ export default {
       },
       //table选中事件
       handleSelectionChange(val){//val 选中数据
-        console.log(val)
+        // console.log(val)
         this.multipleSelection = val;
       },
       search(val){
-        console.log(val)
+        // console.log(val)
       },
       //tab点击
       handleClick(tab, event) {
-        console.log(tab, event);
+        // console.log(tab, event);
       }
   },
   computed:{
@@ -251,7 +251,7 @@ export default {
             this.param.countType = 7;
             if(flg>=30){
                 this.param.dateSelect = start+' 至 '+end;
-                console.log(this.param)
+                // console.log(this.param)
                 this.chartOne(false)
             }else{
                 this.$message({
@@ -263,8 +263,8 @@ export default {
           
       },
       getIpo(n,o){
-          console.log('getIpo变了')
-          console.log(n)
+          // console.log('getIpo变了')
+          // console.log(n)
           //数据变化时更新chart
           //this.tableData = n;
       }
