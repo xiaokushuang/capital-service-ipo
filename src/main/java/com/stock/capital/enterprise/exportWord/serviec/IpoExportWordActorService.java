@@ -6,7 +6,11 @@ import com.stock.core.service.BaseService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ooxml.POIXMLDocumentPart;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.util.Units;
+import org.apache.poi.wp.usermodel.Paragraph;
+import org.apache.poi.xddf.usermodel.chart.*;
 import org.apache.poi.xwpf.usermodel.*;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
@@ -18,6 +22,7 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.awt.*;
 import java.io.*;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
@@ -25,12 +30,17 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
 
 @Service
 public class IpoExportWordActorService extends BaseService {
 
     @Autowired
     private IpoExportWordService ipoExportWordService;
+
+    private static final int COLUMN_LANGUAGES = 0;
+    private static final int COLUMN_COUNTRIES = 1;
+    private static final int COLUMN_SPEAKERS = 2;
 
     public static List<String> patternList = new ArrayList();
 
@@ -51,7 +61,7 @@ public class IpoExportWordActorService extends BaseService {
     }
 
 
-    public Map<String,Object> exportWordCase(InputStream inputStream, String caseId) throws IOException {
+    public Map<String,Object> exportWordCase(InputStream inputStream, String caseId) throws Exception {
       Map<String,Object> exportMap = new HashMap<>();
       Map<String,Object> dataMap = ipoExportWordService.getCompanyInformation(caseId);
       Map<String,String> wordMap = new HashMap<>();
@@ -617,9 +627,9 @@ public class IpoExportWordActorService extends BaseService {
                       run2.setText("回函时间：" + df.format(ipoFeedbackList.get(b).getReturnDate()));
                       run2.addBreak();
                   }
-                  if (StringUtils.isNotEmpty("1")){
+                  if (StringUtils.isNotEmpty(ipoFeedbackList.get(b).getIntervalDate())){
                       XWPFRun run2 = paragraph.createRun();
-                      run2.setText("回函用时：" + "");
+                      run2.setText("回函用时：" + ipoFeedbackList.get(b).getIntervalDate()+"天");
                       run2.addBreak();
                   }
                   if (StringUtils.isNotEmpty(String.valueOf(ipoFeedbackList.get(b).getQuestionCount()))){
@@ -627,11 +637,39 @@ public class IpoExportWordActorService extends BaseService {
                       run2.setText( "问题数量：共计" + ipoFeedbackList.get(b).getQuestionCount()+"个问题" );
                       run2.addBreak();
                   }
-                  if (StringUtils.isNotEmpty("1")){
+                  if (StringUtils.isNotEmpty(String.valueOf(ipoFeedbackList.get(b).getAnswerCount()))){
                       XWPFRun run2 = paragraph.createRun();
-                      run2.setText( "回复情况：共计" + "" + "个回复");
+                      run2.setText( "回复情况：共计" + ipoFeedbackList.get(b).getAnswerCount() + "个回复");
                       run2.addBreak();
                   }
+              //插入图表
+                  List<IpoQuestionLabelDto> list=ipoFeedbackList.get(b).getQuestionLabelList();
+                  //XWPFChart chart = xdoc.getCharts().get(0);
+                  List<String> series = new ArrayList<>();
+                  series.add("countries");
+                  // Category Axis Data
+                  List<String> listLanguages = new ArrayList<>(10);
+                  // Values
+                  List<Double> listCountries = new ArrayList<>(10);
+                  for(int i = 0; i < list.size();i++) {
+                      listCountries.add(Double.valueOf(list.get(i).getLabelCount()));
+                      listLanguages.add(list.get(i).getLabelName());
+                  }
+                  String[] categories = listLanguages.toArray(new String[0]);
+                  Double[] values1 = listCountries.toArray(new Double[0]);
+                  Double[] values2 = listCountries.toArray(new Double[0]);
+                  XWPFChart chart = xdoc.createChart(XDDFChart.DEFAULT_WIDTH * 50,  XDDFChart.DEFAULT_HEIGHT * 100);
+                  setBarData(chart, "", series.toArray(new String[]{}), categories, values1,values2);
+                  xdoc.removeBodyElement(xdoc.getBodyElements().size()-1);
+                  itPara = xdoc.getParagraphsIterator();
+                  XWPFRun newRun = paragraph.createRun();
+                  String relationId = xdoc.getRelationId(chart);
+                  java.lang.reflect.Method attach = XWPFChart.class.getDeclaredMethod("attach", String.class, XWPFRun.class);
+                  attach.setAccessible(true);
+                  attach.invoke(chart, relationId, newRun);
+                  chart.setChartWidth(XDDFChart.DEFAULT_WIDTH * 5);
+                  chart.setChartHeight(XDDFChart.DEFAULT_HEIGHT * 5);
+                  newRun.addBreak();
               }
               continue;
           }
@@ -700,22 +738,22 @@ public class IpoExportWordActorService extends BaseService {
                   }
                   List<SupplierCustomerInfoDto> list=supplierMainList.get(z).getSupplierCustomerInfoList();
                   for (int n=0;n<list.size();n++){
-                      XWPFTableRow row_2 = table.createRow();
-                      setTitleBold(0,row_2,n+1+"",8,true);
-                      setTitleBold(1,row_2,list.get(n).getCompanyName(),8,false);
-                      setTitleBold(2,row_2,list.get(n).getThirdYearContent(),8,false);
-                      setTitleBold(3,row_2,twoMarkStr(list.get(n).getThirdYearAmount().toString()),8,false);
-                      setTitleBold(4,row_2,twoMarkStr(list.get(n).getThirdYearRatio().toString())+"%",8,false);
-                      setTitleBold(5,row_2,list.get(n).getSecondYearContent(),8,false);
-                      setTitleBold(6,row_2,twoMarkStr(list.get(n).getSecondYearAmount().toString()),8,false);
-                      setTitleBold(7,row_2,twoMarkStr(list.get(n).getSecondYearRatio().toString())+"%",8,false);
-                      setTitleBold(8,row_2,list.get(n).getFirstYearContent(),8,false);
-                      setTitleBold(9,row_2,twoMarkStr(list.get(n).getFirstYearAmount().toString()),8,false);
-                      setTitleBold(10,row_2,twoMarkStr(list.get(n).getFirstYearRatio().toString())+"%",8,false);
-                      if (n%2!=0){
-                          for (int p=0;p<11;p++){
-                              row_2.getCell(p).setColor("E7F3FF");
-                          }
+                          XWPFTableRow row_2 = table.createRow();
+                          setTitleBold(0,row_2,n+1+"",8,true);
+                          setTitleBold(1,row_2,list.get(n).getCompanyName(),8,false);
+                          setTitleBold(2,row_2,list.get(n).getThirdYearContent(),8,false);
+                          setTitleBold(3,row_2,twoMarkStr(list.get(n).getThirdYearAmount().toString()),8,false);
+                          setTitleBold(4,row_2,twoMarkStr(list.get(n).getThirdYearRatio().toString())+"%",8,false);
+                          setTitleBold(5,row_2,list.get(n).getSecondYearContent(),8,false);
+                          setTitleBold(6,row_2,twoMarkStr(list.get(n).getSecondYearAmount().toString()),8,false);
+                          setTitleBold(7,row_2,twoMarkStr(list.get(n).getSecondYearRatio().toString())+"%",8,false);
+                          setTitleBold(8,row_2,list.get(n).getFirstYearContent(),8,false);
+                          setTitleBold(9,row_2,twoMarkStr(list.get(n).getFirstYearAmount().toString()),8,false);
+                          setTitleBold(10,row_2,twoMarkStr(list.get(n).getFirstYearRatio().toString())+"%",8,false);
+                          if (n%2!=0){
+                              for (int p=0;p<11;p++){
+                                  row_2.getCell(p).setColor("E7F3FF");
+                              }
                       }
                   }
                   //合并行
@@ -798,23 +836,24 @@ public class IpoExportWordActorService extends BaseService {
                   }
                   List<SupplierCustomerInfoDto> list=customerMainList.get(z).getSupplierCustomerInfoList();
                   for (int n=0;n<list.size();n++){
-                      XWPFTableRow row_2 = table.createRow();
-                      setTitleBold(0,row_2,n+1+"",8,true);
-                      setTitleBold(1,row_2,list.get(n).getCompanyName(),8,false);
-                      setTitleBold(2,row_2,list.get(n).getThirdYearContent(),8,false);
-                      setTitleBold(3,row_2,twoMarkStr(list.get(n).getThirdYearAmount().toString()),8,false);
-                      setTitleBold(4,row_2,twoMarkStr(list.get(n).getThirdYearRatio().toString())+"%",8,false);
-                      setTitleBold(5,row_2,list.get(n).getSecondYearContent(),8,false);
-                      setTitleBold(6,row_2,twoMarkStr(list.get(n).getSecondYearAmount().toString()),8,false);
-                      setTitleBold(7,row_2,twoMarkStr(list.get(n).getSecondYearRatio().toString())+"%",8,false);
-                      setTitleBold(8,row_2,list.get(n).getFirstYearContent(),8,false);
-                      setTitleBold(9,row_2,twoMarkStr(list.get(n).getFirstYearAmount().toString()),8,false);
-                      setTitleBold(10,row_2,twoMarkStr(list.get(n).getFirstYearRatio().toString())+"%",8,false);
-                      if (n%2!=0){
-                          for (int p=0;p<11;p++){
-                              row_2.getCell(p).setColor("E7F3FF");
+                          XWPFTableRow row_2 = table.createRow();
+                          setTitleBold(0,row_2,n+1+"",8,true);
+                          setTitleBold(1,row_2,list.get(n).getCompanyName(),8,false);
+                          setTitleBold(2,row_2,list.get(n).getThirdYearContent(),8,false);
+                          setTitleBold(3,row_2,twoMarkStr(list.get(n).getThirdYearAmount().toString()),8,false);
+                          setTitleBold(4,row_2,twoMarkStr(list.get(n).getThirdYearRatio().toString())+"%",8,false);
+                          setTitleBold(5,row_2,list.get(n).getSecondYearContent(),8,false);
+                          setTitleBold(6,row_2,twoMarkStr(list.get(n).getSecondYearAmount().toString()),8,false);
+                          setTitleBold(7,row_2,twoMarkStr(list.get(n).getSecondYearRatio().toString())+"%",8,false);
+                          setTitleBold(8,row_2,list.get(n).getFirstYearContent(),8,false);
+                          setTitleBold(9,row_2,twoMarkStr(list.get(n).getFirstYearAmount().toString()),8,false);
+                          setTitleBold(10,row_2,twoMarkStr(list.get(n).getFirstYearRatio().toString())+"%",8,false);
+                          if (n%2!=0){
+                              for (int p=0;p<11;p++){
+                                  row_2.getCell(p).setColor("E7F3FF");
+                              }
                           }
-                      }
+
                   }
                   //合并行
                   fillTable(table);
@@ -1359,15 +1398,12 @@ public class IpoExportWordActorService extends BaseService {
           }
       }
       ByteArrayOutputStream os = new ByteArrayOutputStream();
-      xdoc.createTOC();
+
       xdoc.write(os);
       os.close();
       exportMap.put("inputStream",new ByteArrayInputStream(os.toByteArray()));
       return exportMap;
     }
-
-
-
 
 
     public void replaceNeedBreak(XWPFParagraph para, String t, String key) {
@@ -1659,4 +1695,37 @@ public class IpoExportWordActorService extends BaseService {
     }
 
 
+    private static void setBarData(XWPFChart chart, String chartTitle, String[] series, String[] categories, Double[] values1, Double[] values2) {
+        XDDFChartAxis bottomAxis = chart.createCategoryAxis(AxisPosition.BOTTOM);
+        //bottomAxis.setTitle(series[2]);
+        XDDFValueAxis leftAxis = chart.createValueAxis(AxisPosition.LEFT);
+//        leftAxis.setTitle(series[0]+","+series[1]);
+        leftAxis.setCrosses(AxisCrosses.AUTO_ZERO);
+        leftAxis.setMajorTickMark(AxisTickMark.OUT);
+        leftAxis.setCrossBetween(AxisCrossBetween.BETWEEN);
+
+        final int numOfPoints = categories.length;
+        final String categoryDataRange = chart.formatRange(new CellRangeAddress(1, numOfPoints, COLUMN_LANGUAGES, COLUMN_LANGUAGES));
+        final String valuesDataRange = chart.formatRange(new CellRangeAddress(1, numOfPoints, COLUMN_COUNTRIES, COLUMN_COUNTRIES));
+        final XDDFDataSource<?> categoriesData = XDDFDataSourcesFactory.fromArray(categories, categoryDataRange, COLUMN_LANGUAGES);
+        final XDDFNumericalDataSource<? extends Number> valuesData = XDDFDataSourcesFactory.fromArray(values1, valuesDataRange, COLUMN_COUNTRIES);
+        valuesData.setFormatCode("General");
+
+        XDDFBarChartData bar = (XDDFBarChartData) chart.createData(ChartTypes.BAR, bottomAxis, leftAxis);
+        bar.setBarGrouping(BarGrouping.CLUSTERED);
+
+        XDDFBarChartData.Series series1 = (XDDFBarChartData.Series) bar.addSeries(categoriesData, valuesData);
+        series1.setTitle(series[0], chart.setSheetTitle(series[0], COLUMN_COUNTRIES));
+
+        bar.setVaryColors(true);
+        bar.setBarDirection(BarDirection.COL);
+        chart.plot(bar);
+
+        XDDFChartLegend legend = chart.getOrAddLegend();
+        legend.setPosition(LegendPosition.BOTTOM);
+        legend.setOverlay(false);
+        chart.setTitleText(chartTitle);
+        chart.setTitleOverlay(false);
+        chart.setAutoTitleDeleted(false);
+    }
 }
