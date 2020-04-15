@@ -299,20 +299,20 @@ public class IpoExportWordActorService extends BaseService {
                   fldNameArr.add(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName());
                   titleArr.add(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName());
                   if (StringUtils.isNotEmpty(mainIncomeVo.getOnePeriodForIncome())){
-                      base1.put(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName(), mainIncomeVo.getMainIncomeInfoList().get(i).getOnePeriodAmount()+"");
-                      listCountries.add(Double.valueOf(mainIncomeVo.getMainIncomeInfoList().get(i).getOnePeriodAmount().toString()));
+                      base1.put(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName(),toChangeNum( mainIncomeVo.getMainIncomeInfoList().get(i).getOnePeriodAmount()+""));
+                      listCountries.add(Double.valueOf(toChangeNum(mainIncomeVo.getMainIncomeInfoList().get(i).getOnePeriodAmount()+"")));
                   }
                   if (StringUtils.isNotEmpty(mainIncomeVo.getThirdYearForIncome())){
-                      base2.put(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName(), mainIncomeVo.getMainIncomeInfoList().get(i).getThirdYearAmount()+"");
-                      listCountries2.add(Double.valueOf(mainIncomeVo.getMainIncomeInfoList().get(i).getThirdYearAmount().toString()));
+                      base2.put(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName(), toChangeNum(mainIncomeVo.getMainIncomeInfoList().get(i).getThirdYearAmount()+""));
+                      listCountries2.add(Double.valueOf(toChangeNum(mainIncomeVo.getMainIncomeInfoList().get(i).getThirdYearAmount()+"")));
                   }
                   if (StringUtils.isNotEmpty(mainIncomeVo.getSecondYearForIncome())){
-                      base3.put(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName(), mainIncomeVo.getMainIncomeInfoList().get(i).getSecondYearAmount()+"");
-                      listCountries3.add(Double.valueOf(mainIncomeVo.getMainIncomeInfoList().get(i).getSecondYearAmount().toString()));
+                      base3.put(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName(),toChangeNum( mainIncomeVo.getMainIncomeInfoList().get(i).getSecondYearAmount()+""));
+                      listCountries3.add(Double.valueOf(toChangeNum(mainIncomeVo.getMainIncomeInfoList().get(i).getSecondYearAmount()+"")));
                   }
                   if (StringUtils.isNotEmpty(mainIncomeVo.getFirstYearForIncome())){
-                      base4.put(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName(), mainIncomeVo.getMainIncomeInfoList().get(i).getFirstYearAmount()+"");
-                      listCountries4.add( Double.valueOf(mainIncomeVo.getMainIncomeInfoList().get(i).getFirstYearAmount().toString()));
+                      base4.put(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName(), toChangeNum(mainIncomeVo.getMainIncomeInfoList().get(i).getFirstYearAmount()+""));
+                      listCountries4.add( Double.valueOf(toChangeNum(mainIncomeVo.getMainIncomeInfoList().get(i).getFirstYearAmount()+"")));
                   }
               }
           }
@@ -760,16 +760,16 @@ public class IpoExportWordActorService extends BaseService {
                       if (!mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName().equals("合计")){
                           series.add(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName());
                           if (StringUtils.isNotEmpty(mainIncomeVo.getOnePeriodForIncome())){
-                              listCountries.add(Double.valueOf(mainIncomeVo.getMainIncomeInfoList().get(i).getOnePeriodAmount().toString()));
+                              listCountries.add(Double.valueOf(toChangeNum(mainIncomeVo.getMainIncomeInfoList().get(i).getOnePeriodAmount()+"")));
                           }
                           if (StringUtils.isNotEmpty(mainIncomeVo.getThirdYearForIncome())){
-                              listCountries2.add(Double.valueOf(mainIncomeVo.getMainIncomeInfoList().get(i).getThirdYearAmount().toString()));
+                              listCountries2.add(Double.valueOf(toChangeNum(mainIncomeVo.getMainIncomeInfoList().get(i).getThirdYearAmount()+"")));
                           }
                           if (StringUtils.isNotEmpty(mainIncomeVo.getSecondYearForIncome())){
-                              listCountries3.add(Double.valueOf(mainIncomeVo.getMainIncomeInfoList().get(i).getSecondYearAmount().toString()));
+                              listCountries3.add(Double.valueOf(toChangeNum(mainIncomeVo.getMainIncomeInfoList().get(i).getSecondYearAmount()+"")));
                           }
                           if (StringUtils.isNotEmpty(mainIncomeVo.getFirstYearForIncome())){
-                              listCountries4.add( Double.valueOf(mainIncomeVo.getMainIncomeInfoList().get(i).getFirstYearAmount().toString()));
+                              listCountries4.add( Double.valueOf(toChangeNum(mainIncomeVo.getMainIncomeInfoList().get(i).getFirstYearAmount()+"")));
                           }
                       }
                   }
@@ -1078,10 +1078,10 @@ public class IpoExportWordActorService extends BaseService {
                           setTitleBold(3,row_2,twoMarkStr(list.get(n).getOnePeriodAmount()+""),8,false);
                           setTitleBold(4,row_2,twoMarkStr(list.get(n).getOnePeriodRatio()+"")+"%",8,false);
                           setTitleBold(5,row_2,list.get(n).getThirdYearContent(),8,false);
-                          setTitleBold(6,row_2,twoMarkStr(list.get(n).getThirdYearAmount().toString()),8,false);
+                          setTitleBold(6,row_2,twoMarkStr(list.get(n).getThirdYearAmount()+""),8,false);
                           setTitleBold(7,row_2,twoMarkStr(list.get(n).getThirdYearRatio()+"")+"%",8,false);
                           setTitleBold(8,row_2,list.get(n).getSecondYearContent(),8,false);
-                          setTitleBold(9,row_2,twoMarkStr(list.get(n).getSecondYearAmount().toString()),8,false);
+                          setTitleBold(9,row_2,twoMarkStr(list.get(n).getSecondYearAmount()+""),8,false);
                           setTitleBold(10,row_2,twoMarkStr(list.get(n).getSecondYearRatio()+"")+"%",8,false);
                           setTitleBold(11,row_2,list.get(n).getFirstYearContent(),8,false);
                           setTitleBold(12,row_2,twoMarkStr(list.get(n).getFirstYearAmount()+""),8,false);
@@ -2034,6 +2034,13 @@ public class IpoExportWordActorService extends BaseService {
         }
         DecimalFormat df = new DecimalFormat("#0.00");
         return df.format(Float.parseFloat(str));
+    }
+
+    public  String toChangeNum(String str){
+        if(str == null || "null".equals(str)||"".equals(str)){
+            return "0";
+        }
+        return str;
     }
 
     //跨列合并
