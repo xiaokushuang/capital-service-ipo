@@ -112,8 +112,8 @@
               </div>
               <div slot="reference" aria-hidden="true" style="line-height: 20px;display: inline-block">
                 <div style="cursor:pointer;display: inline-block" @click="titleNoteFlag = !titleNoteFlag"><i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span></div>
-                <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(129, 152, 251);" @click="exportWordCase">
-                  <img src="../../assets/images/wordUploadFix.png" style="width: 16px;height: 16px"/>
+                <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(255, 255, 255);" @click="exportWordCase">
+                  <img src="../../assets/images/wordUplodTop.png" style="width: 13px;height: 13px;position: relative;top: 1px;"/>
                   <span>下载Word</span>
                 </div>
               </div>
@@ -149,7 +149,7 @@
               <div slot="reference" aria-hidden="true" style="line-height: 20px; position: absolute;margin-top: 18px;margin-left: -170px;">
                 <div style="cursor:pointer;display: inline-block" @click="titleNoteFlag = !titleNoteFlag"><i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span></div>
                 <div style="cursor:pointer;margin-left: 15px;display: inline-block" @click="exportWordCase">
-                  <img src="../../assets/images/wordUplodTop.png"/>
+                  <img src="../../assets/images/wordUplodTop.png" style="width: 13px;height: 13px;position: relative;top: 1px;" />
                   <span>下载Word</span>
                 </div>
               </div>
@@ -322,7 +322,7 @@
                     <div slot="reference" aria-hidden="true" style="line-height: 20px;display: inline-block">
                       <div style="cursor:pointer;display: inline-block" @click="titleNoteFlag = !titleNoteFlag"><i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span></div>
                       <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(129, 152, 251);" @click="exportWordCase">
-                        <img src="../../assets/images/wordUploadFix.png" style="width: 16px;height: 16px"/>
+                        <img src="../../assets/images/wordUploadFix.png" style="width: 13px;height: 13px;position: relative;top: 1px;"/>
                         <span>下载Word</span>
                       </div>
 										</div>
