@@ -328,7 +328,7 @@ public class IpoExportWordActorService extends BaseService {
         wordMap.put("审核结果","审核结果:"+((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getIecResultStr());
         wordMap.put("审核日期","审核日期:"+((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getExamineDateStr());
         wordMap.put("审核历时","审核历时:"+wordMap.get("#审核历时#")+"天");
-        wordMap.put("IPO进程","IPO进程:"+((HeadDataVo)dataMap.get("head")).getProcessLabel());
+        wordMap.put("IPO进程详情","IPO进程:"+((HeadDataVo)dataMap.get("head")).getProcessLabel());
 
         wordMap.put("注册地址说明",((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrCountry());
         wordMap.put("证监会行业说明",((CompanyOverviewVo)dataMap.get("companyInformation")).getIndustryCsrc());
