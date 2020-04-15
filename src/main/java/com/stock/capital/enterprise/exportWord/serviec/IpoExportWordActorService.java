@@ -38,6 +38,9 @@ public class IpoExportWordActorService extends BaseService {
     @Autowired
     private IpoExportWordService ipoExportWordService;
 
+    @Autowired
+    private POIWordInsertChartUtils poiWordInsertChartUtils;
+
     private static final int COLUMN_LANGUAGES = 0;
     private static final int COLUMN_COUNTRIES = 1;
     private static final int COLUMN_SPEAKERS = 2;
@@ -260,6 +263,7 @@ public class IpoExportWordActorService extends BaseService {
           listItemsByType.add(base4);
           POIXMLDocumentPart poixmlDocumentPart0 = chartsMap.get("/word/charts/chart1.xml");
           new PoiWordTools().replaceBarCharts(poixmlDocumentPart0, titleArr, fldNameArr, listItemsByType);
+//          poiWordInsertChartUtils.setSimpleBarData(poixmlDocumentPart0,"0","","x轴",titleArr,fldNameArr,listItemsByType);
 
           POIXMLDocumentPart poixmlDocumentPart1 = chartsMap.get("/word/charts/chart2.xml");
           new PoiWordTools().replacePieCharts(poixmlDocumentPart1, titleArr, fldNameArr, listItemsByType);
@@ -933,41 +937,113 @@ public class IpoExportWordActorService extends BaseService {
                       test.replaceTableCell(td,wordMap.get("#主营业务#"));
                   }
                   else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#每股面值#") != -1) {
-                      test.replaceTableCell(td,twoMarkStr(issueData.getParValue()+""));
+                      if(issueData!=null){
+                          test.replaceTableCell(td,twoMarkStr(issueData.getParValue()+""));
+                      }else {
+                          test.replaceTableCell(td,"--");
+                      }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行价格#") != -1) {
-                      test.replaceTableCell(td,twoMarkStr(issueData.getIssuePrice()+""));
+                      if(issueData!=null){
+                          test.replaceTableCell(td,twoMarkStr(issueData.getIssuePrice()+""));
+                      }else {
+                          test.replaceTableCell(td,"--");
+                      }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行前总股本#") != -1) {
-                      test.replaceTableCell(td,twoMarkStr(issueData.getPreIssueNum()+""));
+                      if(issueData!=null){
+                          test.replaceTableCell(td,twoMarkStr(issueData.getPreIssueNum()+""));
+                      }else {
+                          test.replaceTableCell(td,"--");
+                      }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行后总股本#") != -1) {
-                      test.replaceTableCell(td,twoMarkStr(issueData.getNextIssueNum()+""));
+                      if(issueData!=null){
+                          test.replaceTableCell(td,twoMarkStr(issueData.getNextIssueNum()+""));
+                      }else {
+                          test.replaceTableCell(td,"--");
+                      }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行数量总计#") != -1) {
-                      test.replaceTableCell(td,twoMarkStr(issueData.getShareIssued()+""));
+                      if(issueData!=null){
+                          test.replaceTableCell(td,twoMarkStr(issueData.getShareIssued()+""));
+                      }else {
+                          test.replaceTableCell(td,"--");
+                      }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#募集资金总额#") != -1) {
-                      test.replaceTableCell(td,twoMarkStr(issueData.getSumFina()+""));
+                      if(issueData!=null){
+                          test.replaceTableCell(td,twoMarkStr(issueData.getSumFina()+""));
+                      }else {
+                          test.replaceTableCell(td,"--");
+                      }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#占发行后总股本的比例#") != -1) {
-                      test.replaceTableCell(td,twoMarkStr(issueData.getIssuedRatio()+""));
+                      if(issueData!=null){
+                          test.replaceTableCell(td,twoMarkStr(issueData.getIssuedRatio()+""));
+                      }else {
+                          test.replaceTableCell(td,"--");
+                      }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#募集资金净额#") != -1) {
-                      test.replaceTableCell(td,twoMarkStr(issueData.getNetSumFina()+""));
+                      if(issueData!=null){
+                          test.replaceTableCell(td,twoMarkStr(issueData.getNetSumFina()+""));
+                      }else {
+                          test.replaceTableCell(td,"--");
+                      }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#网上发行数量#") != -1) {
-                      test.replaceTableCell(td,twoMarkStr(issueData.getShareIssueOn()+""));
+                      if(issueData!=null){
+                          test.replaceTableCell(td,twoMarkStr(issueData.getShareIssueOn()+""));
+                      }else {
+                          test.replaceTableCell(td,"--");
+                      }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#网下配售数量#") != -1) {
-                      test.replaceTableCell(td,twoMarkStr(issueData.getShareIssued()+""));
+                      if(issueData!=null){
+                          test.replaceTableCell(td,twoMarkStr(issueData.getShareIssued()+""));
+                      }else {
+                          test.replaceTableCell(td,"--");
+                      }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#战略配售数量#") != -1) {
-                      test.replaceTableCell(td,twoMarkStr(issueData.getSharesTrategicPlace()+""));
+                      if(issueData!=null){
+                          test.replaceTableCell(td,twoMarkStr(issueData.getSharesTrategicPlace()+""));
+                      }else {
+                          test.replaceTableCell(td,"--");
+                      }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#超额配售数量#") != -1) {
-                      test.replaceTableCell(td,twoMarkStr(issueData.getShareOverPlace()+""));
+                      if(issueData!=null){
+                          test.replaceTableCell(td,twoMarkStr(issueData.getShareOverPlace()+""));
+                      }else {
+                          test.replaceTableCell(td,"--");
+                      }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#老股东公开发售股份#") != -1) {
-                      test.replaceTableCell(td,twoMarkStr(issueData.getExseNumBse()+""));
+                      if(issueData!=null){
+                          test.replaceTableCell(td,twoMarkStr(issueData.getExseNumBse()+""));
+                      }else {
+                          test.replaceTableCell(td,"--");
+                      }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行后市盈率#") != -1) {
-                      test.replaceTableCell(td,twoMarkStr(issueData.getPeIssueA()+""));
+                      if(issueData!=null){
+                          test.replaceTableCell(td,twoMarkStr(issueData.getPeIssueA()+""));
+                      }else {
+                          test.replaceTableCell(td,"--");
+                      }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行前每股收益#") != -1) {
-                      test.replaceTableCell(td,twoMarkStr(issueData.getEpsIssueB()+""));
+                      if(issueData!=null){
+                          test.replaceTableCell(td,twoMarkStr(issueData.getEpsIssueB()+""));
+                      }else {
+                          test.replaceTableCell(td,"--");
+                      }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行后每股收益#") != -1) {
-                      test.replaceTableCell(td,twoMarkStr(issueData.getEpsIssueA()+""));
+                      if(issueData!=null){
+                          test.replaceTableCell(td,twoMarkStr(issueData.getEpsIssueA()+""));
+                      }else {
+                          test.replaceTableCell(td,"--");
+                      }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行方式#") != -1) {
-                      test.replaceTableCell(td,issueData.getIssueMethod()+"");
+                      if(issueData!=null){
+                          test.replaceTableCell(td,issueData.getIssueMethod()+"");
+                      }else {
+                          test.replaceTableCell(td,"--");
+                      }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#承销方式#") != -1) {
-                      test.replaceTableCell(td,issueData.getUwMethod()+"");
+                      if(issueData!=null){
+                          test.replaceTableCell(td,issueData.getUwMethod()+"");
+                      }else {
+                          test.replaceTableCell(td,"--");
+                      }
                   }
                   else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#主营业务表格#") != -1) {
                       if (j + 8 < cellList.size()) {
@@ -1181,12 +1257,16 @@ public class IpoExportWordActorService extends BaseService {
                               test.setCellNewContentTitleNotTemp(table, 0, 2, assetLiability.getDateList().getThirdYearDate(), i);
                               test.setCellNewContentTitleNotTemp(table, 0, 3, assetLiability.getDateList().getSecondYearDate(), i);
                               test.setCellNewContentTitleNotTemp(table, 0, 4, assetLiability.getDateList().getFirstYearDate(), i);
-                              for (int n = 0; n < table.getNumberOfRows(); n++) {
+                              for (int n = 1; n < table.getNumberOfRows(); n++) {
                                   XWPFTableRow asstr = table.getRow(n);
                                   List<XWPFTableCell> assCellList = asstr.getTableCells();
                                   int no = n;
                                   XWPFTableCell asstd = assCellList.get(0);// 取得单元格
                                   for (int z=0;z<tb.size();z++){
+                                      test.setCellNewContentNotTemp(table, no, 1, "--", i);
+                                      test.setCellNewContentNotTemp(table, no, 2, "--", i);
+                                      test.setCellNewContentNotTemp(table, no, 3, "--", i);
+                                      test.setCellNewContentNotTemp(table, no, 4, "--", i);
                                       if (tb.get(z).getItemName().equals(asstd.getText())){
                                           test.setCellNewContentNotTemp(table, no, 1, twoMarkStr(tb.get(z).getForthYearValue() + ""), i);
                                           test.setCellNewContentNotTemp(table, no, 2, twoMarkStr(tb.get(z).getThirdYearValue() + ""), i);
@@ -1228,12 +1308,16 @@ public class IpoExportWordActorService extends BaseService {
                               test.setCellNewContentTitleNotTemp(table, 0, 2, incomeProfit.getDateList().getThirdYearDate(), i);
                               test.setCellNewContentTitleNotTemp(table, 0, 3, incomeProfit.getDateList().getSecondYearDate(), i);
                               test.setCellNewContentTitleNotTemp(table, 0, 4, incomeProfit.getDateList().getFirstYearDate(), i);
-                              for (int n = 0; n < table.getNumberOfRows(); n++) {
+                              for (int n = 1; n < table.getNumberOfRows(); n++) {
                                   XWPFTableRow asstr = table.getRow(n);
                                   List<XWPFTableCell> assCellList = asstr.getTableCells();
                                   int no = n;
                                   XWPFTableCell asstd = assCellList.get(0);// 取得单元格
                                   for (int z=0;z<tb.size();z++){
+                                      test.setCellNewContentNotTemp(table, no, 1, "--", i);
+                                      test.setCellNewContentNotTemp(table, no, 2, "--", i);
+                                      test.setCellNewContentNotTemp(table, no, 3, "--", i);
+                                      test.setCellNewContentNotTemp(table, no, 4, "--", i);
                                       if (tb.get(z).getItemName().equals(asstd.getText())){
                                           test.setCellNewContentNotTemp(table, no, 1, twoMarkStr(tb.get(z).getForthYearValue() + ""), i);
                                           test.setCellNewContentNotTemp(table, no, 2, twoMarkStr(tb.get(z).getThirdYearValue() + ""), i);
@@ -1389,31 +1473,31 @@ public class IpoExportWordActorService extends BaseService {
                                   test.setCellNewContent(table, no, 3, "", i);
                                   test.setCellNewContent(table, no, 4, "", i);
                                   test.setCellNewContent(table, no, 5, "", i);
-                                  if (treeTypeProgress.getTreeList().get(2) != null && n < treeTypeProgress.getTreeList().get(2).getProList().size()){
-                                      test.setCellNewContent(table, no, 0, treeTypeProgress.getTreeList().get(2).getProList().get(n).getProcessTime(), i);
-                                      test.setCellNewContent(table, no, 1, treeTypeProgress.getTreeList().get(2).getProList().get(n).getProgressName(), i);
+                                  if (treeTypeProgress.getTreeList().get(2).getProList()!= null && n < treeTypeProgress.getTreeList().get(2).getProList().size()){
+                                      test.setCellNewContent(table, no, 0, isNull(treeTypeProgress.getTreeList().get(2).getProList().get(n).getProcessTime()), i);
+                                      test.setCellNewContent(table, no, 1, isNull(treeTypeProgress.getTreeList().get(2).getProList().get(n).getProgressName()), i);
                                   }
-                                  if (treeTypeProgress.getTreeList().get(1) != null && n < treeTypeProgress.getTreeList().get(1).getProList().size()){
-                                      test.setCellNewContent(table, no, 2, treeTypeProgress.getTreeList().get(1).getProList().get(n).getProcessTime(), i);
-                                      test.setCellNewContent(table, no, 3, treeTypeProgress.getTreeList().get(1).getProList().get(n).getProgressName(), i);
+                                  if (treeTypeProgress.getTreeList().get(1).getProList() != null && n < treeTypeProgress.getTreeList().get(1).getProList().size()){
+                                      test.setCellNewContent(table, no, 2, isNull(treeTypeProgress.getTreeList().get(1).getProList().get(n).getProcessTime()), i);
+                                      test.setCellNewContent(table, no, 3, isNull(treeTypeProgress.getTreeList().get(1).getProList().get(n).getProgressName()), i);
                                   }
-                                  if (treeTypeProgress.getTreeList().get(0) != null && n < treeTypeProgress.getTreeList().get(0).getProList().size()){
-                                      test.setCellNewContent(table, no, 4, treeTypeProgress.getTreeList().get(0).getProList().get(n).getProcessTime(), i);
-                                      test.setCellNewContent(table, no, 5, treeTypeProgress.getTreeList().get(0).getProList().get(n).getProgressName(), i);
+                                  if (treeTypeProgress.getTreeList().get(0).getProList() != null && n < treeTypeProgress.getTreeList().get(0).getProList().size()){
+                                      test.setCellNewContent(table, no, 4, isNull(treeTypeProgress.getTreeList().get(0).getProList().get(n).getProcessTime()), i);
+                                      test.setCellNewContent(table, no, 5, isNull(treeTypeProgress.getTreeList().get(0).getProList().get(n).getProgressName()), i);
                                   }
                                   no++;
                               }
-                              test.setCellNewContent(table, no, 0, "共计历时" + wordMap.get("#辅导历时#") + "天", i);
-                              test.setCellNewContent(table, no, 1, "共计历时" + wordMap.get("#审核历时#") + "天", i);
-                              test.setCellNewContent(table, no, 2, "共计历时" + wordMap.get("#发行历时#") + "天", i);
-                              if ( (treeTypeProgress.getTreeList().get(2) == null ||treeTypeProgress.getTreeList().get(2).getProList().size()==0)
-                                      &&(treeTypeProgress.getTreeList().get(1) == null||treeTypeProgress.getTreeList().get(1).getProList().size()==0)
-                                      &&(treeTypeProgress.getTreeList().get(0) == null ||treeTypeProgress.getTreeList().get(0).getProList().size()==0)){
+                              test.setCellNewContent(table, no, 0, "共计历时" + isNull(wordMap.get("#辅导历时#")) + "天", i);
+                              test.setCellNewContent(table, no, 1, "共计历时" + isNull(wordMap.get("#审核历时#")) + "天", i);
+                              test.setCellNewContent(table, no, 2, "共计历时" + isNull(wordMap.get("#发行历时#")) + "天", i);
+                              if ( (treeTypeProgress.getTreeList().get(2).getProList() == null ||treeTypeProgress.getTreeList().get(2).getProList().size()==0)
+                                      &&(treeTypeProgress.getTreeList().get(1).getProList() == null||treeTypeProgress.getTreeList().get(1).getProList().size()==0)
+                                      &&(treeTypeProgress.getTreeList().get(0).getProList() == null ||treeTypeProgress.getTreeList().get(0).getProList().size()==0)){
                                   test.deleteTableRow(table,table.getNumberOfRows()-2);
                                   test.deleteTableRow(table,table.getNumberOfRows()-2);
-                              } else if (treeTypeProgress.getTreeList().get(2).getProList().size()==1
-                              ||treeTypeProgress.getTreeList().get(1).getProList().size()==1
-                              ||treeTypeProgress.getTreeList().get(0).getProList().size()==1){
+                              } else if ( (treeTypeProgress.getTreeList().get(2).getProList()!=null&&treeTypeProgress.getTreeList().get(2).getProList().size()<=1)
+                              &&(treeTypeProgress.getTreeList().get(1).getProList()!=null&&treeTypeProgress.getTreeList().get(1).getProList().size()<=1)
+                              &&(treeTypeProgress.getTreeList().get(0).getProList()!=null&&treeTypeProgress.getTreeList().get(0).getProList().size()<=1)){
                                   test.deleteTableRow(table,table.getNumberOfRows()-2);
                               }
                               break lableA;
@@ -1608,14 +1692,14 @@ public class IpoExportWordActorService extends BaseService {
     }
 
     public String isNull(String str){
-        if (str==null){
+        if (str==null||"null".equals(str)||"".equals(str)){
             str="--";
         }
         return str;
     }
 
     public String twoMarkStr(String str){
-        if(str == null || "null".equals(str)){
+        if(str == null || "null".equals(str)||"".equals(str)){
             return "--";
         }
         DecimalFormat df = new DecimalFormat("#0.00");
