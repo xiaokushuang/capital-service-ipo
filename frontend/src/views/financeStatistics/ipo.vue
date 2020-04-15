@@ -86,13 +86,13 @@
             </span>
           </div>
           <div style="color:#fff;position: absolute;right: 2%;top: 20%;z-index: 999;font-size: 14px; z-index: 999;" class="collectionsAndNotes" v-if="collectionAndNoteShow&&!ipoplatetype">
-            <span v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;" title="收藏">
+            <div v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;line-height: 20px;display: inline-block" title="收藏">
               <i class="fa fa-star-o favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
-            </span>
-            <span v-else @click="clickFavorite(false)" style="cursor:pointer;" title="取消收藏">
+            </div>
+            <div v-else @click="clickFavorite(false)" style="cursor:pointer;line-height: 20px;display: inline-block" title="取消收藏">
               <i class="fa fa-star favorite_note_icon"></i><span style="margin-left: 5px">已收藏</span>
-            </span>
-            <span style="padding: 0px 5px;vertical-align: 5%;">|</span>
+            </div>
+            <span style="padding: 0px 5px;vertical-align: 5%;line-height: 20px;display: inline-block">|</span>
             <el-popover placement="bottom" title="" width="540" trigger="manual" v-model="titleNoteFlag" popper-class="customer_popper">
               <div class="bigDialog">
                 <div style="height: 28px;padding:0px 12px">
@@ -110,21 +110,25 @@
                   </button>
                 </div>
               </div>
-              <span slot="reference" aria-hidden="true" @click="titleNoteFlag = !titleNoteFlag" style="cursor:pointer;">
-                <i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span>
-              </span>
+              <div slot="reference" aria-hidden="true" style="line-height: 20px;display: inline-block">
+                <div style="cursor:pointer;display: inline-block" @click="titleNoteFlag = !titleNoteFlag"><i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span></div>
+                <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(129, 152, 251);" @click="exportWordCase">
+                  <img src="../../assets/images/wordUploadFix.png" style="width: 16px;height: 16px"/>
+                  <span>下载Word</span>
+                </div>
+              </div>
             </el-popover>
           </div>
 
 
           <div  :class="{collectionsAndNotes:true,boxStyle1:(specialArrange&&specialArrange.length>0)||headList.greenPassage,boxStyle2: !specialArrange.length && !headList.greenPassage}" v-if="collectionAndNoteShow&&ipoplatetype" style="display: inline-block;">
-            <span v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;position: absolute;margin-left: -112px;margin-top: 18px;" title="收藏">
+            <div v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;position: absolute;margin-left: -232px;margin-top: 18px;line-height: 20px" title="收藏">
               <i class="fa fa-star-o favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
-            </span>
-            <span v-else @click="clickFavorite(false)" style="cursor:pointer;position: absolute;margin-left: -125px;margin-top: 18px;" title="取消收藏">
+            </div>
+            <div v-else @click="clickFavorite(false)" style="cursor:pointer;position: absolute;margin-left: -125px;margin-top: 18px;line-height: 20px" title="取消收藏">
               <i class="fa fa-star favorite_note_icon"></i><span style="margin-left: 5px">已收藏</span>
-            </span>
-            <span style="padding: 0px 5px;vertical-align: 5%;position: absolute;margin-top: 18px;margin-left: -63px;">|</span>
+            </div>
+            <div style="padding: 0px 5px;vertical-align: 5%;position: absolute;margin-top: 18px;margin-left: -183px;line-height: 20px">|</div>
             <el-popover placement="bottom" title="" width="540" trigger="manual" v-model="titleNoteFlag" popper-class="customer_popper">
               <div class="bigDialog">
                 <div style="height: 28px;padding:0px 12px">
@@ -142,9 +146,13 @@
                   </button>
                 </div>
               </div>
-              <span slot="reference" aria-hidden="true" @click="titleNoteFlag = !titleNoteFlag" style="cursor:pointer; position: absolute;margin-top: 18px;margin-left: -50px;">
-                <i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span>
-              </span>
+              <div slot="reference" aria-hidden="true" style="line-height: 20px; position: absolute;margin-top: 18px;margin-left: -170px;">
+                <div style="cursor:pointer;display: inline-block" @click="titleNoteFlag = !titleNoteFlag"><i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span></div>
+                <div style="cursor:pointer;margin-left: 15px;display: inline-block" @click="exportWordCase">
+                  <img src="../../assets/images/wordUplodTop.png"/>
+                  <span>下载Word</span>
+                </div>
+              </div>
             </el-popover>
             <el-popover
               placement="bottom"
@@ -287,13 +295,13 @@
                   </div>
                 </div>
                 <div v-if="isFixed" :style="{'color':'#4c4c4c','font-size': '14px','top':'30px','position':'absolute','right':clientRight,'padding-right':'12px'}" class="collectionsAndNotes">
-									<span v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;" title="收藏">
+									<div v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;line-height: 20px;display: inline-block" title="收藏">
 										<i class="fa fa-star-o favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
-									</span>
-                  <span v-else @click="clickFavorite(false)" style="cursor:pointer;" title="取消收藏">
+									</div>
+                  <div v-else @click="clickFavorite(false)" style="cursor:pointer;line-height: 20px;display: inline-block" title="取消收藏">
 										<i class="fa fa-star favorite_note_icon"></i><span style="margin-left: 5px">已收藏</span>
-									</span>
-                  <span style="padding: 0px 5px;vertical-align: 5%;">|</span>
+									</div>
+                  <div style="padding: 0px 5px;vertical-align: 5%;line-height: 20px;display: inline-block">|</div>
                   <el-popover placement="bottom" title="" width="540" trigger="manual" v-model="scrollNoteFlag" popper-class="customer_popper">
                     <div class="bigDialog">
                       <div style="height: 28px;padding:0px 12px">
@@ -311,9 +319,13 @@
                         </button>
                       </div>
                     </div>
-                    <span slot="reference" aria-hidden="true" @click="scrollNoteFlag = !scrollNoteFlag" style="cursor:pointer;">
-											<i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span>
-										</span>
+                    <div slot="reference" aria-hidden="true" style="line-height: 20px;display: inline-block">
+                      <div style="cursor:pointer;display: inline-block" @click="titleNoteFlag = !titleNoteFlag"><i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span></div>
+                      <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(129, 152, 251);" @click="exportWordCase">
+                        <img src="../../assets/images/wordUploadFix.png" style="width: 16px;height: 16px"/>
+                        <span>下载Word</span>
+                      </div>
+										</div>
                   </el-popover>
                 </div>
               </div>
@@ -390,7 +402,7 @@
   </div>
 </template>
 <script>
-  import { getSelectFeedbackList } from "@/api/ipoCase/companyProfile";
+  import { getSelectFeedbackList,exportWordCase} from "@/api/ipoCase/companyProfile";
   import {getServiceBaseUrl} from '@/api/ipoCase/companyProfile'
   //反馈意见
   import { getSelectTabList } from "@/api/ipoCase/companyProfile";
@@ -619,6 +631,12 @@
     mounted() {
     },
     methods: {
+      exportWordCase(){
+        let params = {
+          caseId: this.$store.state.app.caseId
+        }
+        exportWordCase(params)
+      },
       imgDidload(){
         this.displayType=true;
       },

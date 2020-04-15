@@ -160,6 +160,9 @@ public class IpoFeedbackIndexDto extends Indexable implements Serializable {
     @IndexField(name="letter_company_rela_code_t", description="函件公司东财代码")
     private String companyRelaCode;
 
+    @IndexField(name = "letter_file_no_t", description = "函件文号")
+    private String letterFileNo;
+
     public String getCompanyZhName() {
         return companyZhName;
     }
@@ -424,5 +427,13 @@ public class IpoFeedbackIndexDto extends Indexable implements Serializable {
 
     public void setCompanyRelaCode(String companyRelaCode) {
         this.companyRelaCode = companyRelaCode;
+    }
+
+    public String getLetterFileNo() {
+        return letterFileNo;
+    }
+
+    public void setLetterFileNo(String letterFileNo) {
+        this.letterFileNo = letterFileNo;
     }
 }

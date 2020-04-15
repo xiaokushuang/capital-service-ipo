@@ -111,7 +111,7 @@ public class CompanyOverviewService extends BaseService {
     }
 
     /**
-     * 登陆其他资本市场信息
+     * 拆分上市情况
      *
      * @param id 案例id
      * @return list
@@ -122,9 +122,6 @@ public class CompanyOverviewService extends BaseService {
             AttachmentExample example = new AttachmentExample();
             example.createCriteria().andBusinessIdEqualTo(ipoSplitDto.getId());
             List<Attachment> attachmentList = attachmentMapper.selectByExample(example);
-//            String fileType = ipoSplitDto.getSplitFileName().substring(ipoSplitDto.getSplitFileName().lastIndexOf("."));
-//            String baseUrl = fileViewPath + "open/ipoFile/" + ipoSplitDto.getSplitFileId() + fileType;
-//            ipoSplitDto.setFilePath(baseUrl);
 
             List<IpoFileDto> fileList = new ArrayList<>();
             for (Attachment attachment : attachmentList) {

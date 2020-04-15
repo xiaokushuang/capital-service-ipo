@@ -197,3 +197,13 @@ export function NoteDetermination(query) {
 		data : query  //post方式 通过data传值
   })
 }
+
+export function exportWordCase(query) {
+  return request({
+    url: '/ipo/IpoExportWordActorController/exportWordCase',
+    method: 'post',//请求方式
+    params: query,//参数
+    headers:{'Content-Type':'application/json;charset=UTF-8 '},
+    responseType: 'blob'//设置response类型，下载
+  })
+}
