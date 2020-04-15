@@ -65,7 +65,7 @@ public class IpoExportWordActorService extends BaseService {
       Map<String,Object> exportMap = new HashMap<>();
       Map<String,Object> dataMap = ipoExportWordService.getCompanyInformation(caseId);
       Map<String,String> wordMap = new HashMap<>();
-      wordMap.put("#公司名称#",((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyZhName());
+      wordMap.put("#公司名字#",((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyZhName());
       wordMap.put("#公司简称#",((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyName());
       wordMap.put("#证券代码#",((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyCode());
       wordMap.put("#拟上市板块#",((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate());
@@ -322,7 +322,7 @@ public class IpoExportWordActorService extends BaseService {
         }
 //文本框
         int len=((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().size();
-        wordMap.put("公司名称",((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyZhName());
+        wordMap.put("公司名称详情",((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyZhName());
 //        wordMap.put("公司名称类型",((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyZhName()+"\n"+"IPO");
         wordMap.put("拟上市板块","拟上市板块:"+((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate());
         wordMap.put("审核结果","审核结果:"+((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getIecResultStr());
@@ -658,7 +658,7 @@ public class IpoExportWordActorService extends BaseService {
                   String[] categories = listLanguages.toArray(new String[0]);
                   Double[] values1 = listCountries.toArray(new Double[0]);
                   Double[] values2 = listCountries.toArray(new Double[0]);
-                  XWPFChart chart = xdoc.createChart(XDDFChart.DEFAULT_WIDTH * 50,  XDDFChart.DEFAULT_HEIGHT * 100);
+                  XWPFChart chart = xdoc.createChart(XDDFChart.DEFAULT_WIDTH * 10,  XDDFChart.DEFAULT_HEIGHT * 15);
                   setBarData(chart, "", series.toArray(new String[]{}), categories, values1,values2);
                   xdoc.removeBodyElement(xdoc.getBodyElements().size()-1);
                   itPara = xdoc.getParagraphsIterator();
@@ -667,12 +667,13 @@ public class IpoExportWordActorService extends BaseService {
                   java.lang.reflect.Method attach = XWPFChart.class.getDeclaredMethod("attach", String.class, XWPFRun.class);
                   attach.setAccessible(true);
                   attach.invoke(chart, relationId, newRun);
-                  chart.setChartWidth(XDDFChart.DEFAULT_WIDTH * 5);
-                  chart.setChartHeight(XDDFChart.DEFAULT_HEIGHT * 5);
+                  chart.setChartWidth(XDDFChart.DEFAULT_WIDTH * 10);
+                  chart.setChartHeight(XDDFChart.DEFAULT_HEIGHT * 8);
                   newRun.addBreak();
               }
               continue;
           }
+
           else if("#主要供应商情况#".equals(paragraph.getText())){
               test.clearParagraph(paragraph);
               for(int z=supplierMainList.size()-1;z>=0;z--){
@@ -904,6 +905,8 @@ public class IpoExportWordActorService extends BaseService {
                   XWPFTableCell td = cellList.get(j);// 取得单元格
                   if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#公司简称#") != -1) {
                       test.replaceTableCell(td,wordMap.get("#公司简称#"));
+                  }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#公司名字#") != -1) {
+                      test.replaceTableCell(td,wordMap.get("#公司名字#"));
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#证券代码#") != -1) {
                       test.replaceTableCell(td,wordMap.get("#证券代码#"));
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#拟上市板块#") != -1) {
