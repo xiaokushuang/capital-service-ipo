@@ -1,6 +1,7 @@
 package com.stock.capital.enterprise.exportWord.serviec;
 
 import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import com.stock.capital.enterprise.ipoCase.dto.*;
 import com.stock.core.service.BaseService;
 import org.apache.commons.lang3.StringUtils;
@@ -222,38 +223,50 @@ public class IpoExportWordActorService extends BaseService {
           List<Map<String, String>> listItemsByType = new ArrayList<Map<String, String>>();
           Map<String, String> base1 = new HashMap<String, String>();
           fldNameArr.add("item1");
+          List<String> listLanguages = new ArrayList<>();
           if (StringUtils.isNotEmpty(mainIncomeVo.getOnePeriodForIncome())){
               base1.put("item1", mainIncomeVo.getOnePeriodForIncome());
+              listLanguages.add(mainIncomeVo.getOnePeriodForIncome());
           }
           Map<String, String> base2 = new HashMap<String, String>();
           if (StringUtils.isNotEmpty(mainIncomeVo.getThirdYearForIncome())){
               base2.put("item1", mainIncomeVo.getThirdYearForIncome());
+              listLanguages.add(mainIncomeVo.getThirdYearForIncome());
           }
           Map<String, String> base3 = new HashMap<String, String>();
           if (StringUtils.isNotEmpty(mainIncomeVo.getSecondYearForIncome())){
               base3.put("item1", mainIncomeVo.getSecondYearForIncome());
+              listLanguages.add(mainIncomeVo.getSecondYearForIncome());
           }
           Map<String, String> base4 = new HashMap<String, String>();
           if (StringUtils.isNotEmpty(mainIncomeVo.getFirstYearForIncome())){
               base4.put("item1", mainIncomeVo.getFirstYearForIncome());
+              listLanguages.add(mainIncomeVo.getFirstYearForIncome());
           }
 
-
+          List<Double> listCountries = new ArrayList<>();
+          List<Double> listCountries2 = new ArrayList<>();
+          List<Double> listCountries3 = new ArrayList<>();
+          List<Double> listCountries4 = new ArrayList<>();
           for (int i=0;i<mainIncomeVo.getMainIncomeInfoList().size();i++){
               if (!mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName().equals("合计")){
                   fldNameArr.add(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName());
                   titleArr.add(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName());
                   if (StringUtils.isNotEmpty(mainIncomeVo.getOnePeriodForIncome())){
                       base1.put(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName(), mainIncomeVo.getMainIncomeInfoList().get(i).getOnePeriodAmount()+"");
+                      listCountries.add(Double.valueOf(mainIncomeVo.getMainIncomeInfoList().get(i).getOnePeriodAmount().toString()));
                   }
                   if (StringUtils.isNotEmpty(mainIncomeVo.getThirdYearForIncome())){
                       base2.put(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName(), mainIncomeVo.getMainIncomeInfoList().get(i).getThirdYearAmount()+"");
+                      listCountries2.add(Double.valueOf(mainIncomeVo.getMainIncomeInfoList().get(i).getThirdYearAmount().toString()));
                   }
                   if (StringUtils.isNotEmpty(mainIncomeVo.getSecondYearForIncome())){
                       base3.put(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName(), mainIncomeVo.getMainIncomeInfoList().get(i).getSecondYearAmount()+"");
+                      listCountries3.add(Double.valueOf(mainIncomeVo.getMainIncomeInfoList().get(i).getSecondYearAmount().toString()));
                   }
                   if (StringUtils.isNotEmpty(mainIncomeVo.getFirstYearForIncome())){
                       base4.put(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName(), mainIncomeVo.getMainIncomeInfoList().get(i).getFirstYearAmount()+"");
+                      listCountries4.add( Double.valueOf(mainIncomeVo.getMainIncomeInfoList().get(i).getFirstYearAmount().toString()));
                   }
               }
           }
@@ -261,11 +274,11 @@ public class IpoExportWordActorService extends BaseService {
           listItemsByType.add(base2);
           listItemsByType.add(base3);
           listItemsByType.add(base4);
-          POIXMLDocumentPart poixmlDocumentPart0 = chartsMap.get("/word/charts/chart1.xml");
-          new PoiWordTools().replaceBarCharts(poixmlDocumentPart0, titleArr, fldNameArr, listItemsByType);
-//          poiWordInsertChartUtils.setSimpleBarData(poixmlDocumentPart0,"0","","x轴",titleArr,fldNameArr,listItemsByType);
+//          POIXMLDocumentPart poixmlDocumentPart0 = chartsMap.get("/word/charts/chart1.xml");
+//          new PoiWordTools().replaceBarCharts(poixmlDocumentPart0, titleArr, fldNameArr, listItemsByType);
 
-          POIXMLDocumentPart poixmlDocumentPart1 = chartsMap.get("/word/charts/chart2.xml");
+
+          POIXMLDocumentPart poixmlDocumentPart1 = chartsMap.get("/word/charts/chart1.xml");
           new PoiWordTools().replacePieCharts(poixmlDocumentPart1, titleArr, fldNameArr, listItemsByType);
       }
         if (industryCompareList != null &&industryCompareList.get(0)!=null){
@@ -292,7 +305,7 @@ public class IpoExportWordActorService extends BaseService {
                 base1.put("item4", dto.getIndustryCompareRateDetailList().get(z).getFirstYearRate().toString());
                 listItemsByType.add(base1);
             }
-            POIXMLDocumentPart poixmlDocumentPart3 = chartsMap.get("/word/charts/chart3.xml");
+            POIXMLDocumentPart poixmlDocumentPart3 = chartsMap.get("/word/charts/chart2.xml");
             new PoiWordTools().replaceLineCharts(poixmlDocumentPart3, titleArr, fldNameArr, listItemsByType);
         }
         if (industryCompareList != null &&industryCompareList.get(1)!=null){
@@ -319,7 +332,7 @@ public class IpoExportWordActorService extends BaseService {
                 base1.put("item4", dto.getIndustryCompareRateDetailList().get(z).getFirstYearRate().toString());
                 listItemsByType.add(base1);
             }
-            POIXMLDocumentPart poixmlDocumentPart4 = chartsMap.get("/word/charts/chart4.xml");
+            POIXMLDocumentPart poixmlDocumentPart4 = chartsMap.get("/word/charts/chart3.xml");
             new PoiWordTools().replaceLineCharts(poixmlDocumentPart4, titleArr, fldNameArr, listItemsByType);
 
 
@@ -603,6 +616,74 @@ public class IpoExportWordActorService extends BaseService {
                   e.printStackTrace();
               }
               continue;
+          } else if("#主营业务柱状图#".equals(paragraph.getText())){
+              test.clearParagraph(paragraph);
+              if (mainIncomeVo != null && mainIncomeVo.getMainIncomeInfoList() != null){
+                  List<String> listLanguages = new ArrayList<>();
+                  if (StringUtils.isNotEmpty(mainIncomeVo.getOnePeriodForIncome())){
+                      listLanguages.add(mainIncomeVo.getOnePeriodForIncome());
+                  }
+                  if (StringUtils.isNotEmpty(mainIncomeVo.getThirdYearForIncome())){
+                      listLanguages.add(mainIncomeVo.getThirdYearForIncome());
+                  }
+                  if (StringUtils.isNotEmpty(mainIncomeVo.getSecondYearForIncome())){
+                      listLanguages.add(mainIncomeVo.getSecondYearForIncome());
+                  }
+                  if (StringUtils.isNotEmpty(mainIncomeVo.getFirstYearForIncome())){
+                      listLanguages.add(mainIncomeVo.getFirstYearForIncome());
+                  }
+
+                  List<Double> listCountries = new ArrayList<>();
+                  List<Double> listCountries2 = new ArrayList<>();
+                  List<Double> listCountries3 = new ArrayList<>();
+                  List<Double> listCountries4 = new ArrayList<>();
+                  List<String> series = new ArrayList<>();
+                  for (int i=0;i<mainIncomeVo.getMainIncomeInfoList().size();i++){
+                      if (!mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName().equals("合计")){
+                          series.add(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName());
+                          if (StringUtils.isNotEmpty(mainIncomeVo.getOnePeriodForIncome())){
+                              listCountries.add(Double.valueOf(mainIncomeVo.getMainIncomeInfoList().get(i).getOnePeriodAmount().toString()));
+                          }
+                          if (StringUtils.isNotEmpty(mainIncomeVo.getThirdYearForIncome())){
+                              listCountries2.add(Double.valueOf(mainIncomeVo.getMainIncomeInfoList().get(i).getThirdYearAmount().toString()));
+                          }
+                          if (StringUtils.isNotEmpty(mainIncomeVo.getSecondYearForIncome())){
+                              listCountries3.add(Double.valueOf(mainIncomeVo.getMainIncomeInfoList().get(i).getSecondYearAmount().toString()));
+                          }
+                          if (StringUtils.isNotEmpty(mainIncomeVo.getFirstYearForIncome())){
+                              listCountries4.add( Double.valueOf(mainIncomeVo.getMainIncomeInfoList().get(i).getFirstYearAmount().toString()));
+                          }
+                      }
+                  }
+
+                  List<List<Double>> yValues = Lists.newArrayList();
+                  yValues.add(listCountries);
+                  yValues.add(listCountries2);
+                  yValues.add(listCountries3);
+                  yValues.add(listCountries4);
+                  List<List<Double>> zhuziList = Lists.newArrayList();
+                  for (int k=0;k<3;k++){
+                      List<Double> zhuzi = new ArrayList<>();
+                      for (int p=0;p<yValues.size();p++){
+                          zhuzi.add(yValues.get(p).get(k));
+                      }
+                      zhuziList.add(zhuzi);
+                  }
+
+
+                  XWPFChart chart = xdoc.createChart(XDDFChart.DEFAULT_WIDTH * 8, XDDFChart.DEFAULT_HEIGHT * 10);
+                  poiWordInsertChartUtils.setSimpleBarData(chart,"1","","",series,listLanguages,zhuziList);
+                  xdoc.removeBodyElement(xdoc.getBodyElements().size()-1);
+                  itPara = xdoc.getParagraphsIterator();
+                  XWPFRun newRun = paragraph.createRun();
+                  String relationId = xdoc.getRelationId(chart);
+                  java.lang.reflect.Method attach = XWPFChart.class.getDeclaredMethod("attach", String.class, XWPFRun.class);
+                  attach.setAccessible(true);
+                  attach.invoke(chart, relationId, newRun);
+                  chart.setChartWidth(XDDFChart.DEFAULT_WIDTH * 10);
+                  chart.setChartHeight(XDDFChart.DEFAULT_HEIGHT * 8);
+                  newRun.addBreak();
+              }
           }
           else if("#问询回复/反馈意见流程#".equals(paragraph.getText())){
               test.clearParagraph(paragraph);
