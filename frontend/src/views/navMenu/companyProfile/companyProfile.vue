@@ -20,9 +20,16 @@
             <div v-else  style="color: #333333;float:left;display:inline-block;width: 53%;margin-left: 27px;">- -</div>
           </li>
             <li  class="clear" style="margin-bottom:10px;position:relative" >
-            <span  class="l">所属行业(战略新兴)</span>
-            <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.strageticIndustries "  style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" :title="companyProfileList.companyProfileList.strageticIndustries.length>22 ? companyProfileList.companyProfileList.strageticIndustries:''">{{getContentHy(companyProfileList.companyProfileList.strageticIndustries)}}</div>
-            <div v-else  style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;">- -</div>
+            <div v-if="companyProfileList.companyProfileList && companyProfileList.companyProfileList.plateCode == '069001003001'">
+              <span  class="l">所属行业(战略新兴)</span>
+              <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.strageticIndustries "  style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" :title="companyProfileList.companyProfileList.strageticIndustries.length>22 ? companyProfileList.companyProfileList.strageticIndustries:''">{{getContentHy(companyProfileList.companyProfileList.strageticIndustries)}}</div>
+              <div v-else  style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;">- -</div>
+            </div>
+            <div>
+              <span  class="l">所属行业(国民经济)</span>
+              <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.nationalIndustries "  style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" :title="companyProfileList.companyProfileList.nationalIndustries.length>22 ? companyProfileList.companyProfileList.nationalIndustries:''">{{getContentHy(companyProfileList.companyProfileList.nationalIndustries)}}</div>
+              <div v-else  style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;">- -</div>
+            </div>
           </li>
           <li  class="clear" style="margin-bottom:10px;position:relative" >
             <span  class="l">公司简称</span>
@@ -83,6 +90,11 @@
               <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('202')>-1">符合相关规定的红筹企业，预计市值不低于人民币<span style="color:red">50亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">5亿元</span></div>
               <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('301')>-1">发行人具有表决权差异安排的，预计市值不低于人民币<span style="color:red">100亿元</span></div>
               <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('302')>-1">发行人具有表决权差异安排的，预计市值不低于人民币<span style="color:red">50亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">5亿元</span></div>
+
+              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('401')>-1">市值不低于<span style="color:red">2亿元</span>，最近两年净利润均不低于<span style="color:red">2亿元</span>1500万元且加权平均净资产收益率平均不低于<span style="color:red">10%</span>，或者最近一年净利润不低于<span style="color:red">2500万元</span>且加权平均净资产收益率不低于<span style="color:red">10%</span></div>
+              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('402')>-1">市值不低于<span style="color:red">4亿元</span>，最近两年营业收入平均不低于<span style="color:red">1亿元</span>且增长率不低于<span style="color:red">30%</span>，最近一年经营活动产生的现金流量净额为正</div>
+              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('403')>-1">市值不低于<span style="color:red">8亿元</span>，最近一年营业收入不低于<span style="color:red">2亿元</span>，最近两年研发投入合计占最近两年营业收入合计比例不低于<span style="color:red">8%</span></div>
+              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('404')>-1">市值不低于<span style="color:red">15亿元</span>，最近两年研发投入合计不低于<span style="color:red">5000万元</span></div>
             </div>
           </li>
           <li class="clear" style="position:relative;margin-top:0%;margin-bottom:16px">
@@ -91,6 +103,31 @@
             <div  style="color: #333333;float:left;display:inline-block;width: 80%;margin-left: 27px;" v-else >- -</div>
           </li>
         </div>
+      </div>
+      <div class="others" v-if="this.otcDataList&&this.otcDataList.length>0">
+        <p style="color:black">新三板挂牌情况</p>
+        <ul v-for="item in otcDataList">
+          <li style=" width: 30%;position:relative">
+            <span>证券代码</span>&nbsp;&nbsp;
+            <div v-if="item.companyCode" style="color:black;margin-left: 25%;margin-top: -17.5px;">{{item.companyCode}}</div>
+            <div v-else style="color:black;margin-left: 25%;margin-top: -17.5px;">- -</div>
+          </li>
+          <li style=" width: 20%;">
+            <span>所属层级</span>&nbsp;&nbsp;
+            <span v-if="item.otcLevelName" style="color:black">{{item.otcLevelName}}</span>
+            <span v-else style="color:black">- -</span>
+          </li>
+          <li style=" width: 25%;">
+            <span>挂牌日</span>&nbsp;&nbsp;
+            <span v-if="item.otcPublishTime" style="color:black">{{item.otcPublishTime}}</span>
+            <span v-else style="color:black">- -</span>
+          </li>
+          <li style=" width: 25%;">
+            <span>主办券商</span>&nbsp;&nbsp;
+            <span v-if="item.hostBrokerName" style="color:black">{{item.hostBrokerName}}</span>
+            <span v-else style="color:black">- -</span>
+          </li>
+        </ul>
       </div>
       <!-- 登录其他资本市场 -->
       <div class="others" v-if="this.otherMarketInfoList&&this.otherMarketInfoList.length>0">
@@ -575,6 +612,7 @@
 
 import $ from "jquery";
 import { getMarketData } from "@/api/ipoCase/companyProfile";
+import { getOtcData } from "@/api/ipoCase/companyProfile";
 import { getShareHolderData } from "@/api/ipoCase/companyProfile";
 import { getRaiseMoneyTableList } from "@/api/ipoCase/companyProfile";
 import { getSupplierCustomerData } from '@/api/ipoCase/tableDemo';
@@ -601,6 +639,7 @@ export default {
 
   data() {
     return {
+      otcDataList:[],
       isLogin: true,
       listLoading: false,
       gqTableList: [],
@@ -770,6 +809,13 @@ export default {
           this.otherMarketInfoList = res.data.result//其他登录市场
         }
           this.getPosition()
+      });
+      // 新三板挂牌情况
+      getOtcData(param).then(res=>{
+        if(res.data.result&&res.data.result.length>0){
+          this.otcDataList = res.data.result//新三板挂牌情况
+        }
+        this.getPosition()
       });
       // 拆分上市情况
       getSpliteData(param).then(res=>{

@@ -2,6 +2,17 @@
     <div class="financialInformation">
         <!-- 财务数据 -->
         <div class="financialData">
+          <div style="position: absolute;right: 0px;top: 0px">
+            <el-popover
+              placement="right"
+              width="200"
+              trigger="click">
+                <div v-for="(item,index) in finCompanyList" style="margin-bottom: 10px;cursor: pointer;" class="finCompany" @click="openFinancial(item)">
+                  <span v-if="item.companyCode.indexOf('A') == -1">{{item.companyCode}}</span><span>{{item.companyName}}</span>
+                </div>
+              <span slot="reference" style="color: rgb(20, 188, 245);font-size: 14px;cursor: pointer">深度分析财务情况>></span>
+            </el-popover>
+          </div>
             <!-- 财务总体情况 -->
             <div class="allAssets">
                 <div style="margin-top:36px" v-if="allAssetsTableTitle!=null&&allAssetsTableTitle.firstYearDate " class="title">
@@ -81,6 +92,9 @@ import allAssetsTable from "@/views/tables/allAssetsTable";
 import incomeTable from "@/views/tables/incomeTable";
 import compareTable from "@/views/tables/compareTable";
 import keyFinancialIndicatorTable from "@/views/tables/keyFinancialIndicatorTable";
+import { openFinancialReVision } from "@/api/ipoCase/companyProfile";
+import { queryCompanyForFin } from "@/api/ipoCase/companyProfile";
+
 import echarts from 'echarts'
 // 财务总体情况
  import { getSelectFinanceOverList } from '@/api/ipoCase/tableDemo'
@@ -94,6 +108,8 @@ export default {
     name:'financialInformation',
     data(){
         return {
+            finCompanyList:'',
+            tempOpen:'',
             caseId:this.$store.state.app.caseId,
             maoChartTableData:[],
             // 表格data
@@ -138,7 +154,7 @@ export default {
                 secondYearDate:'',
                 firstYearDate:''
                 },
-            ipoProfitItemList :[],//收益类项目列表 
+            ipoProfitItemList :[],//收益类项目列表
             ipoCostItemList :[],//成本类项目列表
             ipoReturnOverList :[],//利润类项目列表
         }
@@ -163,10 +179,48 @@ export default {
     //   this.$store.commit('CREATE_MESSAGE',param)
       // 日志------------------功能尾
         this.initTableData()
+        this.queryCompanyForFin()
     },
     mounted () {
     },
     methods:{
+        queryCompanyForFin(){
+          const param = {
+            id:this.caseId,
+          }
+          queryCompanyForFin(param).then(res=>{
+            if (res.data.result){
+              this.finCompanyList = res.data.result
+            }
+          })
+        },
+        //打开财务分析
+        openFinancial(val){
+          //重新登录易董地址
+          let loginUrl = this.$route.query.parentBaseUrl;
+          let ajaxSettings = {
+            access_token : this.$route.query.access_token,
+            typeCode  : 2,//回购：‘2’其他参照 capital-enterprise  index.jsp
+            searchCompanyCode  : val.companyCode,//被查询的公司code
+            searchCompanyName  : val.companyName,//被查询的公司简称
+            searchReportType :val.finYear+val.finType,//例：2018001
+            industry  : "1",
+            showAll :"",
+            companyType  : "1",
+            loginUrl: loginUrl
+          }
+          //转换成json
+          this.tempOpen = window.open();
+          openFinancialReVision(ajaxSettings).then(res=>{
+            if(res.data.result && res.data.result.message){
+              let parame = encodeURI(encodeURI("access_token="+res.data.result.token+"&tenantInfo=" + this.$route.query.tenant_info));
+              let newLocation = res.data.result.serviceBaseUrl + "ui/finance-report/financialReVision/dupontContainer?" + parame;
+              this.tempOpen.location = newLocation;
+            }else{
+              this.tempOpen.close();
+            }
+          });
+        },
         // 锚点定位
         getPosition(){
            //返回父组件用于锚点定位头
@@ -204,7 +258,7 @@ export default {
                     noClick: true
                 }
 
-               
+
                  if(this.allAssetsTableTitle!=null&&this.allAssetsTableTitle.firstYearDate){
                     allAssets.noClick = false;
                  }
@@ -221,7 +275,7 @@ export default {
                 titleList.push(assetsDebts)
                 titleList.push(income)
                 titleList.push(keyFinancialIndicators)
-               
+
                 this.$emit('headCallBack', titleList);
             //返回父组件用于锚点定位尾
         },
@@ -237,7 +291,7 @@ export default {
                     this.allAssetsTableTitle = res.data.result.dateList
                  }
                  if(res.data.result&&res.data.result.ipoFinanceOverList!=null&&res.data.result.ipoFinanceOverList.length>0){
-                     this.allAssetsTableContent = res.data.result.ipoFinanceOverList 
+                     this.allAssetsTableContent = res.data.result.ipoFinanceOverList
                  this.getPosition()
                  }
             })
@@ -256,7 +310,7 @@ export default {
                     if(res.data.result&&res.data.result.ipoEquityItemList!=null&&res.data.result.ipoEquityItemList.length>0){
                         this.ipoEquityItemList = res.data.result.ipoEquityItemList//权益类项目列表
                     }
-                
+
               })
             //   收入与利润
             getSelectFinanceProfitList(param).then(res => {
@@ -273,7 +327,7 @@ export default {
                       if(res.data.result&&res.data.result.ipoReturnOverList!=null&&res.data.result.ipoReturnOverList.length>0){
                           this.ipoReturnOverList = res.data.result.ipoReturnOverList//利润类项目列表
                       }
-                    
+
              })
               //   主要财务指标
             getSelectMainIndexList(param).then(res => {
@@ -281,7 +335,7 @@ export default {
                     this.MainIndexTableTitle = res.data.result.dateList
                  }
                  if(res.data.result&&res.data.result.ipoMainIndexList!=null&&res.data.result.ipoMainIndexList.length>0){
-                     this.MainIndexTableContent = res.data.result.ipoMainIndexList 
+                     this.MainIndexTableContent = res.data.result.ipoMainIndexList
                      this.getPosition()
                  }
             })
@@ -297,9 +351,12 @@ export default {
         }
     },
 }
- 
+
 </script>
 <style scoped lang="scss">
+  .finCompany:hover{
+    color: rgb(20, 188, 245);
+  }
 .l {
   float: left;
 }

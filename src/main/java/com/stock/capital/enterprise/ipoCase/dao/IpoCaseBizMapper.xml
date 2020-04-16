@@ -23,6 +23,8 @@
     <result column="stragetic_industries" property="strageticIndustries" jdbcType="VARCHAR"/>
     <result column="placing_mechanism" property="placingMechanism" jdbcType="VARCHAR"/>
       <result column="industryCsrcCode" property="industryCsrcCode" jdbcType="VARCHAR"/>
+    <result column="plateCode" property="plateCode" jdbcType="VARCHAR" />
+    <result column="nationalIndustries" property="nationalIndustries" jdbcType="VARCHAR" />
   </resultMap>
 
   <resultMap id="SupCusResultMap" type="com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto" >
@@ -59,6 +61,7 @@
     ic.company_zh_name,
     ic.industry_status_overview,
     ic.industry_csrc AS industryCsrcCode,
+    ic.ipo_plate plateCode,
     (SELECT mcl.label_name FROM maa_conf_label mcl WHERE mcl.label_code = 'IPO_PLATE' AND mcl.label_value = ic.ipo_plate) AS ipo_plate,
     (SELECT group_concat(mcl1.label_name) FROM maa_conf_label mcl1 WHERE mcl1.label_code = 'INDUSTRY_CSRC_2012' AND find_in_set(mcl1.label_value,TRIM(LEADING '0' FROM ic.industry_csrc))) AS industry_csrc,
     ic.company_name,
@@ -81,7 +84,8 @@
     (SELECT group_concat(mcl3.label_name) FROM maa_conf_label mcl3 WHERE mcl3.label_code = 'IPO_STRUCTURE_TYPE' AND find_in_set(mcl3.label_value,ic.structure_label)) AS structure_label,
     ic.structure_url,
     (SELECT group_concat(mcl4.label_name) FROM maa_conf_label mcl4 WHERE mcl4.label_code = 'STRAGETIC_EMERGING_INDUSTRIES' AND find_in_set(mcl4.label_value,ic.stragetic_industries)) AS stragetic_industries,
-    (SELECT group_concat(mcl5.label_name) FROM maa_conf_label mcl5 WHERE mcl5.label_code = 'IPO_PLACING_MECHANISM' AND find_in_set(mcl5.label_value,ic.placing_mechanism)) AS placing_mechanism
+    (SELECT group_concat(mcl5.label_name) FROM maa_conf_label mcl5 WHERE mcl5.label_code = 'IPO_PLACING_MECHANISM' AND find_in_set(mcl5.label_value,ic.placing_mechanism)) AS placing_mechanism,
+    (SELECT group_concat(mcl6.label_name) FROM maa_conf_label mcl6 WHERE mcl6.label_code = 'INDUSTRIES_NATIONAL_2020' AND find_in_set(mcl6.label_value,ic.national_industries)) AS nationalIndustries
   FROM
     ipo_case ic
   WHERE
@@ -184,6 +188,27 @@
     SELECT id, bid, market_type AS marketTypeCode,(SELECT mcl.label_name FROM maa_conf_label mcl WHERE mcl.label_code = 'IPO_CAPITAL_MARKET' AND mcl.label_value = market_type) AS marketType,
      company_code AS companyCode, company_name AS companyName, list_time AS listTime, delist_time AS delistTime FROM ipo_other_market_info
     WHERE bid = #{bid}
+  </select>
+
+  <select id="getOtcData" parameterType="string"
+          resultType="com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto">
+    SELECT t.company_code companyCode,t.otc_level,
+    (select m.label_name FROM maa_conf_label m where m.label_code = 'IPO_OTC_LEVEL'
+        AND m.status = '1' and m.label_value=t.otc_level) AS otcLevelName,
+    t.host_broker_name hostBrokerName,DATE_FORMAT(t.publish_time,'%Y-%m-%d') otcPublishTime
+    FROM ipo_otc_listing t WHERE t.bid = #{id}
+  </select>
+
+  <select id="queryCompanyForFin" parameterType="string"
+          resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo">
+    SELECT tb.*,year(tb.date) finYear,(CASE WHEN DATE_FORMAT(tb.date,'%m%d') &lt;= '0331' THEN '003' WHEN DATE_FORMAT(tb.date,'%m%d') > '0331'
+    AND DATE_FORMAT(tb.date,'%m%d') &lt;= '0630' THEN '002' WHEN DATE_FORMAT(tb.date,'%m%d') > '0630'
+    AND DATE_FORMAT(tb.date,'%m%d') &lt;= '0930' THEN '004' WHEN DATE_FORMAT(tb.date,'%m%d') > '0930'
+    AND DATE_FORMAT(tb.date,'%m%d') &lt;= '1231' THEN '001' ELSE '' END) finType
+    FROM(SELECT t1.SECURITY_CD companyCode,t1.SECURITY_NM companyName,
+    (SELECT DATE_FORMAT(m.report_period,'%Y-%m-%d') FROM ipo_main_income_info m WHERE m.bid = t.id LIMIT 1) AS date
+    FROM ipo_case t,vc_company t1 WHERE t.id = '746524673180966565' AND t.company_name = t1.SECURITY_NM) AS tb
+    WHERE tb.date != '' and tb.date is not null ORDER BY tb.companyCode DESC
   </select>
 
   <select id="getSpliteData" parameterType="string"
@@ -417,7 +442,7 @@
     ic.title,
     ic.establish_date AS establishDate,
     (SELECT group_concat(mcl2.label_name) FROM maa_conf_label mcl2 WHERE mcl2.label_code = 'IPO_SPECIAL_ARRANGE' AND find_in_set(mcl2.label_value,ic.special_arrange)) AS specialArrange,
-    CASE WHEN ic.ipo_plate = '069001001006' THEN 1 ELSE 0 END AS isTechBoard,
+    CASE WHEN ic.ipo_plate = '069001001006' THEN 1 WHEN ic.ipo_plate = '069001003001' THEN 2 ELSE 0 END AS isTechBoard,
     (SELECT mcl.label_name FROM maa_conf_label mcl WHERE mcl.label_code = 'IPO_GREEN_PASSAGE' AND
     mcl.label_value = ic.green_passage) AS greenPassage,
     (SELECT mcl1.label_name FROM maa_conf_label mcl1 WHERE mcl1.label_code = 'IPO_STATUS' AND

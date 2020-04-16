@@ -36,6 +36,36 @@ public class OtherMarketInfoDto implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date delistTime;
 
+    private String otcLevelName;
+
+    private String hostBrokerName;
+
+    private String otcPublishTime;
+
+    public String getOtcLevelName() {
+        return otcLevelName;
+    }
+
+    public void setOtcLevelName(String otcLevelName) {
+        this.otcLevelName = otcLevelName;
+    }
+
+    public String getHostBrokerName() {
+        return hostBrokerName;
+    }
+
+    public void setHostBrokerName(String hostBrokerName) {
+        this.hostBrokerName = hostBrokerName;
+    }
+
+    public String getOtcPublishTime() {
+        return otcPublishTime;
+    }
+
+    public void setOtcPublishTime(String otcPublishTime) {
+        this.otcPublishTime = otcPublishTime;
+    }
+
     public String getMarketTypeCode() {
         return marketTypeCode;
     }

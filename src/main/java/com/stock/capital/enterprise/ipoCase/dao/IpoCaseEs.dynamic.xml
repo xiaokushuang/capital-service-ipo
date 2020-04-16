@@ -671,6 +671,22 @@
                                             }
                                         }
                                   </#if>
+                                  <#-- 募集资金总额 -->
+                                   <#if condition.raiseFeeSumSta?? ||  condition.raiseFeeSumEnd??>
+                                       ,{
+                                        "range": {
+                                            "raise_fee_sum_d":{
+                                                <#if condition.raiseFeeSumSta??>
+                                                "gte": ${condition.raiseFeeSumSta},
+                                                </#if>
+                                                <#if condition.raiseFeeSumEnd??>
+                                                "lte": ${condition.raiseFeeSumEnd},
+                                                </#if>
+                                                "boost": 1
+                                                }
+                                            }
+                                        }
+                                  </#if>
                                   <#-- 拟上市板块 -->
                                    <#if condition.ipoPlateList?? && (condition.ipoPlateList?size > 0)>
                                        ,{

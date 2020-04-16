@@ -46,7 +46,7 @@
                     </div>
                     <!-- 委员弹窗 -->
                     <el-dialog
-                        :title="companyProfileList.headList.isTechBoard==0?'发审会委员':'上市会委员'"
+                        :title="companyProfileList.headList.isTechBoard==0?'发审会委员': '上市会委员'"
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
@@ -458,6 +458,90 @@
               </li>
             </ul>
         </div>
+      <div class="one" v-if="companyProfileList.headList.isTechBoard==2">
+        <ul style="padding-left: 0;">
+          <li v-for="(item,index) in baseList" :key="index">
+            <div v-if="item.processTypeCode =='72'" style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
+              <div class="text">
+                <p style="font-size:14px;">
+                  <span style="font-family:'微软雅黑';font-weight:400;color:#999;">审核会议: </span>
+                  <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{item.relationFileTitle}} _ </span>
+                  <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{item.examineDate}}</span>
+                </p>
+              </div>
+              <div class="text ">
+                <p style="font-size:14px;">
+                  <span style="font-size:14px;color:#999;">审核结果: </span>
+                  <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{item.companyName}}</span>
+                  <span>
+                                <span class="htgResult"  v-if="item.iecResult=='00'">获通过</span>
+                                <span class="whtgResult" v-if="item.iecResult=='01'">未获通过</span>
+                                <span class="zhbjResult" v-if="item.iecResult=='02'">暂缓表决</span>
+                                <span class="qxshResult" v-if="item.iecResult=='03'">取消审核</span>
+                                <span class="dshResult"  v-if="item.iecResult=='04'">待上会</span>
+                                <span class="tgResult"   v-if="item.iecResult=='05'">通过</span>
+                                <span class="wtgResult"  v-if="item.iecResult=='06'">未通过</span>
+                                <span class="zcsxResult" v-if="item.iecResult=='07'">注册生效</span>
+                                <span class="whtgResult" v-if="item.iecResult=='08'">不予注册</span>
+                                <span class="dshResult"  v-if="item.iecResult=='09'">待上会</span>
+                                <span class="qxshResult" v-if="item.iecResult=='10'">取消审议</span>
+                               <span class="zhbjResult" v-if="item.iecResult=='11'">暂缓审议</span>
+                                <span class="qxshResult" v-if="item.iecResult=='12'">终止注册</span>
+                              <span class="tgResult" v-if="item.iecResult==='25'">核准</span>
+                              <span class="whtgResult" v-if="item.iecResult==='26'">不予核准</span>
+                            </span>
+                </p>
+              </div>
+              <div class="text ">
+                <p style="font-size:14px;">
+                  <span v-if="companyProfileList.headList.isTechBoard==2" style="color:#999;">挂牌委员会委员: </span>
+                  <span v-if="item.member&&item.member.length>0">
+                               <span style="color:#333;font-family:'微软雅黑'">{{item.member}}</span>
+                                <span  style="color:#333;"> ;</span>
+                                <span style="color:#1990FE;cursor:pointer" @click="handleMemberDetail(item.examineDate)">详情 &gt;</span>
+                             </span>
+                  <span v-else>- -</span>
+                </p>
+              </div>
+              <!-- 委员弹窗 -->
+              <el-dialog
+                :title="companyProfileList.headList.isTechBoard==2?'挂牌委员会委员':'上市委员会委员'"
+                :visible.sync="dialogVisible"
+                width="1004px"
+                :before-close="handleClose">
+                <member v-if="companyProfileList.headList.isTechBoard==0" :memberData={memberList:memberList}></member>
+                <!-- 精选层挂牌委员会委员 -->
+                <kcMember v-if="companyProfileList.headList.isTechBoard==1" :memberData={memberList:memberList}></kcMember>
+              </el-dialog>
+            </div>
+            <div v-if="item.processTypeCode =='90'" style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
+              <div class="text ">
+                <p style="font-size:14px;">
+                  <span style="font-size:14px;color:#999;">核准结果 : </span>
+                  <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{item.examineDate}}</span>
+                  <span>
+                            <span class="htgResult"  v-if="item.iecResult=='00'">获通过</span>
+                            <span class="whtgResult" v-if="item.iecResult=='01'">未获通过</span>
+                            <span class="zhbjResult" v-if="item.iecResult=='02'">暂缓表决</span>
+                            <span class="qxshResult" v-if="item.iecResult=='03'">取消审核</span>
+                            <span class="dshResult"  v-if="item.iecResult=='04'">待上会</span>
+                            <span class="tgResult"   v-if="item.iecResult=='05'">通过</span>
+                            <span class="wtgResult"  v-if="item.iecResult=='06'">未通过</span>
+                            <span class="zcsxResult"  v-if="item.iecResult=='07'">注册生效</span>
+                            <span class="whtgResult" v-if="item.iecResult=='08'">不予注册</span>
+                            <span class="dshResult"  v-if="item.iecResult=='09'">待上会</span>
+                            <span class="qxshResult" v-if="item.iecResult=='10'">取消审议</span>
+                            <span class="zhbjResult" v-if="item.iecResult=='11'">暂缓审议</span>
+                            <span class="qxshResult" v-if="item.iecResult=='12'">终止注册</span>
+                            <span class="tgResult" v-if="item.iecResult==='25'">核准</span>
+                            <span class="whtgResult" v-if="item.iecResult==='26'">不予核准</span>
+                        </span>
+                </p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
        <!-- 筛选问题列表 -->
         <div>
            <!-- 非科创版 -->
