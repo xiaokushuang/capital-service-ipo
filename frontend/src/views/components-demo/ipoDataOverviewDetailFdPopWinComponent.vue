@@ -74,6 +74,7 @@
                         label : this.$route.query.label,
                         intermediaryType : this.$route.query.intermediaryType,
                         labelCode:this.$route.query.labelCode,
+                        registAddr:this.$route.query.areaSelect,
                     }
                 }
                 getIpoDataOverviewFdDetail(param).then(response => {
