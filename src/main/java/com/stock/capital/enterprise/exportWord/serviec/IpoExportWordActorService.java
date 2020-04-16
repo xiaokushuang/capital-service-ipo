@@ -90,7 +90,7 @@ public class IpoExportWordActorService extends BaseService {
       }else {
           wordMap.put("#注册地址#",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrCountry()));
       }
-      wordMap.put("#注册资本#",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getRegisteredAssets()+""));
+      wordMap.put("#注册资本#",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getRegisteredAssets()+"")+"万元");
       wordMap.put("#战略新兴行业#",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getStrageticIndustries()));
       wordMap.put("#证监会行业#",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getIndustryCsrc()));
       wordMap.put("#实际控制人#",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getActualController()));
@@ -381,11 +381,11 @@ public class IpoExportWordActorService extends BaseService {
                   if (StringUtils.isNotEmpty(otherList.get(b).getMarketType())){
                       content = content + otherList.get(b).getMarketType()+"\n";
                   }
-                  if (StringUtils.isNotEmpty(otherList.get(b).getCompanyName())){
-                      content = content + otherList.get(b).getCompanyName();
-                  }
+//                  if (StringUtils.isNotEmpty(otherList.get(b).getCompanyName())){
+//                      content = content +"公司代码："+ otherList.get(b).getCompanyName();
+//                  }
                   if (StringUtils.isNotEmpty(otherList.get(b).getCompanyCode())){
-                      content = content + otherList.get(b).getCompanyCode()+"\n";
+                      content = content +"公司代码："+ otherList.get(b).getCompanyCode()+"\n";
                   }
                   if (StringUtils.isNotEmpty(otherList.get(b).getListTime()+"")){
                       content = content + "上市日/挂牌日："+isNullTime(otherList.get(b).getListTime())+"\n";
@@ -394,6 +394,7 @@ public class IpoExportWordActorService extends BaseService {
                       content = content + "退市日/摘牌日："+isNullTime(otherList.get(b).getDelistTime())+"\n";
                   }
               }
+
               String text = paragraph.getRuns().get(0).text().replaceAll("#资本市场#", content);
               if (text != null) {
                   if (text.indexOf("\n") == -1) {
@@ -436,14 +437,14 @@ public class IpoExportWordActorService extends BaseService {
                       content = content + "时间：" + ((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationDate()+"\n";
                   }
                   if ((((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationPrice())!=null){
-                      content = content + "股价：" + ((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationPrice().toString()+"元/股\n";
+                      content = content + "股价：" + twoMarkStr(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationPrice().toString())+"元/股\n";
                       flag++;
                   }
                   if ((((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationEquity())!=null){
-                      content = content + "总股本：" + ((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationEquity().toString()+"万股\n";
+                      content = content + "总股本：" + twoMarkStr(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationEquity().toString())+"万股\n";
                   }
                   if ((((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationValue())!=null){
-                      content = content + "估值：" + ((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationValue()+"亿元\n";
+                      content = content + "估值：" + twoMarkStr(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationValue()+"")+"亿元\n";
                   }
                   if (StringUtils.isNotEmpty(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationMemo())){
                       content = content + ((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationMemo()+"\n";
@@ -678,17 +679,17 @@ public class IpoExportWordActorService extends BaseService {
               test.clearParagraph(paragraph);
               if (mainIncomeVo != null && mainIncomeVo.getMainIncomeInfoList() != null){
                   List<String> listLanguages = new ArrayList<>();
-                  if (StringUtils.isNotEmpty(mainIncomeVo.getOnePeriodForIncome())){
-                      listLanguages.add(mainIncomeVo.getOnePeriodForIncome());
-                  }
-                  if (StringUtils.isNotEmpty(mainIncomeVo.getThirdYearForIncome())){
-                      listLanguages.add(mainIncomeVo.getThirdYearForIncome());
+                  if (StringUtils.isNotEmpty(mainIncomeVo.getFirstYearForIncome())){
+                      listLanguages.add(mainIncomeVo.getFirstYearForIncome());
                   }
                   if (StringUtils.isNotEmpty(mainIncomeVo.getSecondYearForIncome())){
                       listLanguages.add(mainIncomeVo.getSecondYearForIncome());
                   }
-                  if (StringUtils.isNotEmpty(mainIncomeVo.getFirstYearForIncome())){
-                      listLanguages.add(mainIncomeVo.getFirstYearForIncome());
+                  if (StringUtils.isNotEmpty(mainIncomeVo.getThirdYearForIncome())){
+                      listLanguages.add(mainIncomeVo.getThirdYearForIncome());
+                  }
+                  if (StringUtils.isNotEmpty(mainIncomeVo.getOnePeriodForIncome())){
+                      listLanguages.add(mainIncomeVo.getOnePeriodForIncome());
                   }
 
                   List<Double> listCountries = new ArrayList<>();
@@ -715,13 +716,15 @@ public class IpoExportWordActorService extends BaseService {
                   }
 
                   List<List<Double>> yValues = Lists.newArrayList();
-                  yValues.add(listCountries);
-                  yValues.add(listCountries2);
-                  yValues.add(listCountries3);
                   yValues.add(listCountries4);
+                  yValues.add(listCountries3);
+                  yValues.add(listCountries2);
+                  yValues.add(listCountries);
+
+
                   List<List<Double>> zhuziList = Lists.newArrayList();
                   int len=yValues.get(0).size();
-                  for (int k=len-1;k>len;k--){
+                  for (int k=0;k<len;k++){
                       List<Double> zhuzi = new ArrayList<>();
                       for (int p=0;p<yValues.size();p++){
                           zhuzi.add(yValues.get(p).get(k));
@@ -853,7 +856,7 @@ public class IpoExportWordActorService extends BaseService {
                       newParaRun.setFontFamily("微软雅黑");
                       newParaRun.setFontSize(10);
                       newParaRun.setBold(true);
-                      newParaRun.setText("("+sort+")"+customerMainList.get(z).getTitle());
+                      newParaRun.setText("("+sort+")"+supplierMainList.get(z).getTitle());
                       newpa1.setStyle("4");//标题三
                       newpa1.setSpacingBefore(13);
                       newpa1.setSpacingAfter(13);
@@ -1092,22 +1095,24 @@ public class IpoExportWordActorService extends BaseService {
                       //折线图
                       List<String> series = new ArrayList<>();
                       List<String> listLanguages = new ArrayList<>();
-                      listLanguages.add(industryCompareList.get(z).getThirdYear());
-                      listLanguages.add(industryCompareList.get(z).getSecondYear());
                       listLanguages.add(industryCompareList.get(z).getFirstYear());
+                      listLanguages.add(industryCompareList.get(z).getSecondYear());
+                      listLanguages.add(industryCompareList.get(z).getThirdYear());
                       List<Double> listCountries = new ArrayList<>();
                       List<Double> listCountries2 = new ArrayList<>(10);
                       List<Double> listCountries3 = new ArrayList<>(10);
-                      for (int u=0;u<list.size();u++){
+                      for (int u=list.size()-1;u>=0;u--){
                           listCountries.add(Double.valueOf(toChangeNum(list.get(u).getThirdYearRate()+"")));
                           listCountries2.add(Double.valueOf(toChangeNum(list.get(u).getSecondYearRate()+"")));
                           listCountries3.add(Double.valueOf(toChangeNum(list.get(u).getFirstYearRate()+"")));
                           series.add(list.get(u).getCompanyName());
                       }
                       List<List<Double>> yValues = Lists.newArrayList();
-                      yValues.add(listCountries);
-                      yValues.add(listCountries2);
                       yValues.add(listCountries3);
+                      yValues.add(listCountries2);
+                      yValues.add(listCountries);
+
+
                       List<List<Double>> zhuziList = Lists.newArrayList();
                       int len=yValues.get(0).size();
                       for (int k=0;k<len;k++){
@@ -1226,49 +1231,49 @@ public class IpoExportWordActorService extends BaseService {
                   }
                   else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#每股面值#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkStr(issueData.getParValue()+""));
+                          test.replaceTableCell(td,twoMarkStr(issueData.getParValue()+"")+"元/股");
                       }else {
                           test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行价格#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkStr(issueData.getIssuePrice()+""));
+                          test.replaceTableCell(td,twoMarkStr(issueData.getIssuePrice()+"")+"元/股");
                       }else {
                           test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行前总股本#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkStr(issueData.getPreIssueNum()+""));
+                          test.replaceTableCell(td,twoMarkStr(issueData.getPreIssueNum()+"")+"万股");
                       }else {
                           test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行后总股本#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkStr(issueData.getNextIssueNum()+""));
+                          test.replaceTableCell(td,twoMarkStr(issueData.getNextIssueNum()+"")+"万股");
                       }else {
                           test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行数量总计#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkStr(issueData.getShareIssued()+""));
+                          test.replaceTableCell(td,twoMarkStr(issueData.getShareIssued()+"")+"万股");
                       }else {
                           test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#募集资金总额#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkStr(issueData.getSumFina()+""));
+                          test.replaceTableCell(td,twoMarkStr(issueData.getSumFina()+"")+"万元");
                       }else {
                           test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#占发行后总股本的比例#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkStr(issueData.getIssuedRatio()+""));
+                          test.replaceTableCell(td,twoMarkStr(issueData.getIssuedRatio()+"")+"%");
                       }else {
                           test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#募集资金净额#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkStr(issueData.getNetSumFina()+""));
+                          test.replaceTableCell(td,twoMarkStr(issueData.getNetSumFina()+"")+"万元");
                       }else {
                           test.replaceTableCell(td,"--");
                       }
@@ -1280,7 +1285,7 @@ public class IpoExportWordActorService extends BaseService {
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#网下配售数量#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkStr(issueData.getShareIssued()+""));
+                          test.replaceTableCell(td,twoMarkStr(issueData.getShareIssued()+"")+"万股");
                       }else {
                           test.replaceTableCell(td,"--");
                       }
@@ -1412,11 +1417,11 @@ public class IpoExportWordActorService extends BaseService {
                               test.setCellNewContent(table, 1, 3, twoMarkStr(ipoTechnology.getPatentData().get(0).getWg()+""), i);
                               test.setCellNewContent(table, 1, 4, twoMarkStr(ipoTechnology.getPatentData().get(0).getGw()+""), i);
                               test.setCellNewContent(table, 1, 5, twoMarkStr(ipoTechnology.getPatentData().get(0).getHj()+""), i);
-                              test.setCellNewContent(table, 2, 1, twoMarkStr(ipoTechnology.getPatentData().get(1).getFm()+""), i);
-                              test.setCellNewContent(table, 2, 2, twoMarkStr(ipoTechnology.getPatentData().get(1).getSy()+""), i);
-                              test.setCellNewContent(table, 2, 3, twoMarkStr(ipoTechnology.getPatentData().get(1).getWg()+""), i);
-                              test.setCellNewContent(table, 2, 4, twoMarkStr(ipoTechnology.getPatentData().get(1).getGw()+""), i);
-                              test.setCellNewContent(table, 2, 5, twoMarkStr(ipoTechnology.getPatentData().get(1).getHj()+""), i);
+                              test.setCellNewContent(table, 2, 1, twoMarkStr(ipoTechnology.getPatentData().get(1).getFm()+"")+"%", i);
+                              test.setCellNewContent(table, 2, 2, twoMarkStr(ipoTechnology.getPatentData().get(1).getSy()+"")+"%", i);
+                              test.setCellNewContent(table, 2, 3, twoMarkStr(ipoTechnology.getPatentData().get(1).getWg()+"")+"%", i);
+                              test.setCellNewContent(table, 2, 4, twoMarkStr(ipoTechnology.getPatentData().get(1).getGw()+"")+"%", i);
+                              test.setCellNewContent(table, 2, 5, twoMarkStr(ipoTechnology.getPatentData().get(1).getHj()+"")+"%", i);
                               break lableA;
                           }else {
                               test.setCellNewContent(table, 1, 1, "--", i);
@@ -1494,10 +1499,10 @@ public class IpoExportWordActorService extends BaseService {
                               test.setCellNewContentTitleNotTemp(table, 0, 3, ipoFinance.getDateList().getSecondYearDate(), i);
                               test.setCellNewContentTitleNotTemp(table, 0, 4, ipoFinance.getDateList().getFirstYearDate(), i);
                               for (int k = 0; k < tb.size(); k++) {
-                                  test.setCellNewContentNotTemp(table, no, 1, twoMarkStr(tb.get(k).getForthYearValue()+""), i);
-                                  test.setCellNewContentNotTemp(table, no, 2, twoMarkStr(tb.get(k).getThirdYearValue()+""), i);
-                                  test.setCellNewContentNotTemp(table, no, 3, twoMarkStr(tb.get(k).getSecondYearValue()+""), i);
-                                  test.setCellNewContentNotTemp(table, no, 4, twoMarkStr(tb.get(k).getFirstYearValue()+""), i);
+                                  test.setCellNewContentNotTemp(table, no, 1, twoMarkThStr(tb.get(k).getForthYearValue()+""), i);
+                                  test.setCellNewContentNotTemp(table, no, 2, twoMarkThStr(tb.get(k).getThirdYearValue()+""), i);
+                                  test.setCellNewContentNotTemp(table, no, 3, twoMarkThStr(tb.get(k).getSecondYearValue()+""), i);
+                                  test.setCellNewContentNotTemp(table, no, 4, twoMarkThStr(tb.get(k).getFirstYearValue()+""), i);
                                   no++;
                               }
                               break lableA;
@@ -1539,10 +1544,10 @@ public class IpoExportWordActorService extends BaseService {
                                       test.setCellNewContentNotTemp(table, no, 3, "--", i);
                                       test.setCellNewContentNotTemp(table, no, 4, "--", i);
                                       if (tb.get(z).getItemName().equals(asstd.getText())){
-                                          test.setCellNewContentNotTemp(table, no, 1, twoMarkStr(tb.get(z).getForthYearValue() + ""), i);
-                                          test.setCellNewContentNotTemp(table, no, 2, twoMarkStr(tb.get(z).getThirdYearValue() + ""), i);
-                                          test.setCellNewContentNotTemp(table, no, 3, twoMarkStr(tb.get(z).getSecondYearValue() + ""), i);
-                                          test.setCellNewContentNotTemp(table, no, 4, twoMarkStr(tb.get(z).getFirstYearValue() + ""), i);
+                                          test.setCellNewContentNotTemp(table, no, 1, twoMarkTh(tb.get(z).getForthYearValue() + ""), i);
+                                          test.setCellNewContentNotTemp(table, no, 2, twoMarkTh(tb.get(z).getThirdYearValue() + ""), i);
+                                          test.setCellNewContentNotTemp(table, no, 3, twoMarkTh(tb.get(z).getSecondYearValue() + ""), i);
+                                          test.setCellNewContentNotTemp(table, no, 4, twoMarkTh(tb.get(z).getFirstYearValue() + ""), i);
                                           break;
                                       }
                                   }
@@ -1628,10 +1633,10 @@ public class IpoExportWordActorService extends BaseService {
                                          test.setCellNewContentNotTemp(table, no, 3, "--", i);
                                          test.setCellNewContentNotTemp(table, no, 4, "--", i);
                                          if (tb.get(z).getItemName().equals(asstd.getText())) {
-                                             test.setCellNewContentNotTemp(table, no, 1, twoMarkStr(tb.get(z).getForthYearValue() + ""), i);
-                                             test.setCellNewContentNotTemp(table, no, 2, twoMarkStr(tb.get(z).getThirdYearValue() + ""), i);
-                                             test.setCellNewContentNotTemp(table, no, 3, twoMarkStr(tb.get(z).getSecondYearValue() + ""), i);
-                                             test.setCellNewContentNotTemp(table, no, 4, twoMarkStr(tb.get(z).getFirstYearValue() + ""), i);
+                                             test.setCellNewContentNotTemp(table, no, 1, twoMarkTh(tb.get(z).getForthYearValue() + ""), i);
+                                             test.setCellNewContentNotTemp(table, no, 2, twoMarkTh(tb.get(z).getThirdYearValue() + ""), i);
+                                             test.setCellNewContentNotTemp(table, no, 3, twoMarkTh(tb.get(z).getSecondYearValue() + ""), i);
+                                             test.setCellNewContentNotTemp(table, no, 4, twoMarkTh(tb.get(z).getFirstYearValue() + ""), i);
                                              break;
                                          }
                                      }
@@ -1784,8 +1789,7 @@ public class IpoExportWordActorService extends BaseService {
                                   if (no >= table.getNumberOfRows()-1) {
                                       test.insertTableRowAtIndex(table, no);
                                   }
-                                  //先赋空 保证表格样式
-                                  test.setCellNewContent(table, no, 0, listTreeTypeProgress.get(k).get("cell0").toString(), i);
+                                  test.setCellNewContentBold(table, no, 0, listTreeTypeProgress.get(k).get("cell0").toString(), i);
                                   test.setCellNewContent(table, no, 1, listTreeTypeProgress.get(k).get("cell1").toString(), i);
                                   test.setCellNewContent(table, no, 2, listTreeTypeProgress.get(k).get("cell2").toString(), i);
                                   test.setCellNewContent(table, no, 3, listTreeTypeProgress.get(k).get("cell3").toString(), i);
@@ -1799,9 +1803,9 @@ public class IpoExportWordActorService extends BaseService {
                               } else if (listTreeTypeProgress.size()==1){
                                   test.deleteTableRow(table,table.getNumberOfRows()-2);
                               }
-                              test.setCellNewContent(table, table.getNumberOfRows()-1, 0, "共计历时" + isNull(wordMap.get("#辅导历时#")) + "天", i);
-                              test.setCellNewContent(table, table.getNumberOfRows()-1, 1, "共计历时" + isNull(wordMap.get("#审核历时#")) + "天", i);
-                              test.setCellNewContent(table, table.getNumberOfRows()-1, 2, "共计历时" + isNull(wordMap.get("#发行历时#")) + "天", i);
+                              test.setCellNewContentBold(table, table.getNumberOfRows()-1, 0, "共计历时" + isNull(wordMap.get("#辅导历时#")) + "天", i);
+                              test.setCellNewContentBold(table, table.getNumberOfRows()-1, 1, "共计历时" + isNull(wordMap.get("#审核历时#")) + "天", i);
+                              test.setCellNewContentBold(table, table.getNumberOfRows()-1, 2, "共计历时" + isNull(wordMap.get("#发行历时#")) + "天", i);
                               break lableA;
                           }
                       }
@@ -2015,12 +2019,27 @@ public class IpoExportWordActorService extends BaseService {
         return sd.format(str);
 
     }
-
     public String twoMarkStr(String str){
         if(str == null || "null".equals(str)||"".equals(str)){
             return "--";
         }
         DecimalFormat df = new DecimalFormat("#0.00");
+        return df.format(Float.parseFloat(str));
+    }
+
+    public String twoMarkTh(String str){
+        if(str == null || "null".equals(str)||"".equals(str)){
+            return  "";
+        }
+        DecimalFormat df = new DecimalFormat(",###,##0.00");
+        return df.format(Float.parseFloat(str));
+    }
+
+    public String twoMarkThStr(String str){
+        if(str == null || "null".equals(str)||"".equals(str)){
+            return "--";
+        }
+        DecimalFormat df = new DecimalFormat(",###,##0.00");
         return df.format(Float.parseFloat(str));
     }
     public String twoMarkStrBFH(String str){
