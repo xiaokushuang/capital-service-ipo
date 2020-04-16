@@ -983,7 +983,7 @@ public class IpoExportWordActorService extends BaseService {
                           }
                       }
                       //合并行
-                      fillTable(table);
+                      fillTable(table,1500);
                       mergeCellsHorizontal(table,0,0,1);
                       mergeCellsHorizontal(table,0,2,4);
                       mergeCellsHorizontal(table,0,5,7);
@@ -1102,7 +1102,7 @@ public class IpoExportWordActorService extends BaseService {
 
                       }
                       //合并行
-                      fillTable(table);
+                      fillTable(table,1500);
                       mergeCellsHorizontal(table,0,0,1);
                       mergeCellsHorizontal(table,0,2,4);
                       mergeCellsHorizontal(table,0,5,7);
@@ -1174,6 +1174,7 @@ public class IpoExportWordActorService extends BaseService {
                           }
 
                       }
+                      fillTable(table,2000);
                       //边框颜色
                       setBorderStyle(table);
                   }
@@ -2072,16 +2073,16 @@ public class IpoExportWordActorService extends BaseService {
         }
     }
 
-    public  void fillTable(XWPFTable table) {
+    public  void fillTable(XWPFTable table,int width) {
         for (int rowIndex = 0; rowIndex < table.getNumberOfRows(); rowIndex++) {
             XWPFTableRow row = table.getRow(rowIndex);
             row.setHeight(132);
             for (int colIndex = 0; colIndex < row.getTableCells().size(); colIndex++) {
                 XWPFTableCell cell = row.getCell(colIndex);
                 if(rowIndex%2==0){
-                    setCellText(cell, 1500);
+                    setCellText(cell, width);
                 }else{
-                    setCellText(cell, 1500);
+                    setCellText(cell, width);
                 }
             }
         }
