@@ -399,7 +399,7 @@ public class IpoExportWordActorService extends BaseService {
         wordMap.put("拟上市板块","拟上市板块:"+((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate());
 
         wordMap.put("审核历时","审核历时:"+wordMap.get("#审核历时#")+"天");
-        wordMap.put("IPO进程详情","IPO进程:"+((HeadDataVo)dataMap.get("head")).getProcessLabel());
+        wordMap.put("IPO进程详情","IPO进程:"+isNull(((HeadDataVo)dataMap.get("head")).getProcessLabel()));
 
         wordMap.put("注册地址说明",((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrCountry());
         wordMap.put("证监会行业说明",((CompanyOverviewVo)dataMap.get("companyInformation")).getIndustryCsrc());
@@ -1228,6 +1228,12 @@ public class IpoExportWordActorService extends BaseService {
                       test.replaceTableCell(td,wordMap.get("#上市标准#"));
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#主营业务#") != -1) {
                       test.replaceTableCell(td,wordMap.get("#主营业务#"));
+                  }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#辅导历时#") != -1) {
+                      test.replaceTableCell(td,wordMap.get("#辅导历时#"));
+                  }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#审核历时#") != -1) {
+                      test.replaceTableCell(td,wordMap.get("#审核历时#"));
+                  }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行历时#") != -1) {
+                      test.replaceTableCell(td,wordMap.get("#发行历时#"));
                   }
                   else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#每股面值#") != -1) {
                       if(issueData!=null){
@@ -1816,9 +1822,7 @@ public class IpoExportWordActorService extends BaseService {
                                   }
                                   no++;
                               }
-                              test.setCellNewContent(table, no, 0, "共计历时" + isNull(wordMap.get("#辅导历时#")) + "天", i);
-                              test.setCellNewContent(table, no, 1, "共计历时" + isNull(wordMap.get("#审核历时#")) + "天", i);
-                              test.setCellNewContent(table, no, 2, "共计历时" + isNull(wordMap.get("#发行历时#")) + "天", i);
+
                               if ( (treeTypeProgress.getTreeList().get(2).getProList() == null ||treeTypeProgress.getTreeList().get(2).getProList().size()==0)
                                       &&(treeTypeProgress.getTreeList().get(1).getProList() == null||treeTypeProgress.getTreeList().get(1).getProList().size()==0)
                                       &&(treeTypeProgress.getTreeList().get(0).getProList() == null ||treeTypeProgress.getTreeList().get(0).getProList().size()==0)){
@@ -1829,6 +1833,9 @@ public class IpoExportWordActorService extends BaseService {
                               &&(treeTypeProgress.getTreeList().get(0).getProList()!=null&&treeTypeProgress.getTreeList().get(0).getProList().size()<=1)){
                                   test.deleteTableRow(table,table.getNumberOfRows()-2);
                               }
+                              test.setCellNewContent(table, table.getNumberOfRows()-1, 0, "共计历时" + isNull(wordMap.get("#辅导历时#")) + "天", i);
+                              test.setCellNewContent(table, table.getNumberOfRows()-1, 1, "共计历时" + isNull(wordMap.get("#审核历时#")) + "天", i);
+                              test.setCellNewContent(table, table.getNumberOfRows()-1, 2, "共计历时" + isNull(wordMap.get("#发行历时#")) + "天", i);
                               break lableA;
                           }
                       }
