@@ -24,6 +24,31 @@ export function getMarketData(query) {
     params: query
   })
 }
+
+export function getOtcData(query) {
+  return request({
+    url: '/ipo/companyOverview/getOtcData',
+    method: 'get',
+    params: query
+  })
+}
+
+export function openFinancialReVision(query) {
+  return request({
+    url: '/ipo/companyOverview/openFinancialReVision',
+    method: 'get',
+    params: query
+  })
+}
+
+export function queryCompanyForFin(query) {
+  return request({
+    url: '/ipo/companyOverview/queryCompanyForFin',
+    method: 'get',
+    params: query
+  })
+}
+
 // 拆分上市情况GET /companyOverview/spliteData
 export function getSpliteData(query) {
   return request({

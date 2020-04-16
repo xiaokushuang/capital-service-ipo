@@ -102,13 +102,14 @@
                         :tselect=true @visible-change="calls()" @sure-click="sure('selectIssueCondition')" @keydown.enter.native="querySearch"
                         @clear-click="clearLocal('treeIssueCondition')">
                <el-option :label="issueCondition" :value="issueConditionValue">
-                 <el-tree :data="issueConditionList" default-expand-all show-checkbox node-key="id" ref="treeIssueCondition"
+                 <el-tree :data="issueConditionList" default-expanded-keys="[pid0,pid1]" show-checkbox node-key="id" ref="treeIssueCondition"
                           highlight-current :props="default_tree" check-on-click-node @check-change="selectHandleNodeClick('issueCondition','treeIssueCondition')"></el-tree>
                </el-option>
              </el-select>
            </el-col>
            <el-col :span="1">
-             <el-popover placement="bottom" width="600" trigger="hover">
+             <i class="el-icon-info" style="color: #c2c2c2;line-height: 30px;cursor: pointer" title="点击查看上市条件" @click="issueClick"></i>
+             <!--<el-popover placement="bottom" width="600" trigger="hover">
                <div style="font-size: 12px">
                  <div>
                    <a style="color: #1990FE;margin-left: -5px" @click="openNewRule()">《上海证券交易所科创板股票上市规则》：</a>
@@ -154,7 +155,7 @@
                  </div>
                </div>
                <span slot="reference" class="home_new" style="margin-top: 5px;background-position:-69px -20px;cursor: pointer"></span>
-             </el-popover>
+             </el-popover>-->
            </el-col>
 
           </el-row>
@@ -173,7 +174,7 @@
                          :tselect=true @visible-change="calls()" @sure-click="sure('selectVerifyResult')" @keydown.enter.native="querySearch"
                          @clear-click="clearLocal('treeIecResult')">
                 <el-option :label="iecResult" :value="iecResultValue">
-                  <el-tree :data="verifyResultList" default-expand-all show-checkbox node-key="id" ref="treeIecResult"
+                  <el-tree :data="verifyResultList"  show-checkbox node-key="id" ref="treeIecResult"
                            highlight-current :props="default_tree" check-on-click-node @check-change="selectHandleNodeClick('iecResult','treeIecResult')"></el-tree>
                 </el-option>
               </el-select>
@@ -437,6 +438,74 @@
               </div>
             </div>
           </div>
+          <el-dialog top="10vh"
+                     title="发行人选择的上市条件"
+                     :visible.sync="dialogIssueCondition"
+                     width="50%" id="issueDialog">
+            <div style="display: inline-block;width: 15%;padding-left: 20px">
+              <div :class="issueDialogSel == '1' ? 'issueSel':''" style="cursor: pointer" @click="issueDialogClick('1')">科创板上市条件</div>
+              <div :class="issueDialogSel == '2' ? 'issueSel':''" style="cursor: pointer" @click="issueDialogClick('2')">精选层上市条件</div>
+            </div>
+            <div style="display: inline-block;width: 80%;vertical-align: top;padding-bottom: 20px">
+              <div v-if="issueDialogSel == '1'">
+                <div>
+                  <a style="color: #1990FE;margin-left: -5px" @click="openNewRule()">《上海证券交易所科创板股票上市规则》：</a>
+                </div>
+                <div style="margin-top: 5px">2.1.2</div>
+                <div>发行人申请在本所科创板上市，市值及财务指标应当至少符合下列标准中的一项：</div>
+                <div>
+                  （一）预计市值不低于人民币10亿元，最近两年净利润均为正且累计净利润不低于人民币5000万元，或者预计市值不低于人民币10亿元，最近一年净利润为正且营业收入不低于人民币1亿元；
+                </div>
+                <div>（二）预计市值不低于人民币15亿元，最近一年营业收入不低于人民币2亿元，且最近三年累计研发投入占最近三年累计营业收入的比例不低于15%；</div>
+                <div>（三）预计市值不低于人民币20亿元，最近一年营业收入不低于人民币3亿元，且最近三年经营活动产生的现金流量净额累计不低于人民币1亿元；</div>
+                <div>（四）预计市值不低于人民币30亿元，且最近一年营业收入不低于人民币3亿元；</div>
+                <div>
+                  （五）预计市值不低于人民币40亿元，主要业务或产品需经国家有关部门批准，市场空间大，目前已取得阶段性成果。医药行业企业需至少有一项核心产品获准开展二期临床试验，其他符合科创板定位的企业需具备明显的技术优势并满足相应条件。
+                </div>
+                <div>
+                  本条所称净利润以扣除非经常性损益前后的孰低者为准，所称净利润、营业收入、经营活动产生的现金流量净额均指经审计的数值。
+                </div>
+                <div style="margin-top: 5px">2.1.3</div>
+                <div>
+                  符合《国务院办公厅转发证监会关于开展创新企业境内发行股票或存托凭证试点若干意见的通知》（国办发﹝2018﹞21号）相关规定的红筹企业，可以申请发行股票或存托凭证并在科创板上市。
+                </div>
+                <div>
+                  营业收入快速增长，拥有自主研发、国际领先技术，同行业竞争中处于相对优势地位的尚未在境外上市红筹企业，申请在科创板上市的，市值及财务指标应当至少符合下列标准之一：
+                </div>
+                <div>（一）预计市值不低于人民币100亿元；</div>
+                <div>（二）预计市值不低于人民币50亿元，且最近一年营业收入不低于人民币5亿元。</div>
+                <div style="margin-top: 5px">2.1.4</div>
+                <div>
+                  发行人具有表决权差异安排的，市值及财务指标应当至少符合下列标准中的一项：
+                </div>
+                <div>
+                  （一）预计市值不低于人民币100亿元；
+                </div>
+                <div>
+                  （二）预计市值不低于人民币50亿元，且最近一年营业收入不低于人民币5亿元。
+                </div>
+                <div>
+                  发行人特别表决权股份的持有人资格、公司章程关于表决权差异安排的具体规定，应当符合本规则第四章第五节的规定。
+                </div>
+                <div>
+                  本规则所称表决权差异安排，是指发行人依照《公司法》第一百三十一条的规定，在一般规定的普通股份之外，发行拥有特别表决权的股份（以下简称特别表决权股份）。每一特别表决权股份拥有的表决权数量大于每一普通股份拥有的表决权数量，其他股东权利与普通股份相同。
+                </div>
+              </div>
+              <div v-else>
+                <div>
+                  <a style="color: #1990FE;margin-left: -5px" @click="openNewRuleJxc()">《全国中小企业股份转让系统分层管理办法》：</a>
+                </div>
+                <div style="margin-top: 5px">第十五条</div>
+                <div>挂牌公司进入精选层，应当符合下列条件之一：</div>
+                <div>
+                  （一）市值不低于2亿元，最近两年净利润均不低于1500万元且加权平均净资产收益率平均不低于10%，或者最近一年净利润不低于2500万元且加权平均净资产收益率不低于10%；
+                </div>
+                <div>（二）市值不低于4亿元，最近两年营业收入平均不低于1亿元且增长率不低于30%，最近一年经营活动产生的现金流量净额为正；</div>
+                <div>（三）市值不低于8亿元，最近一年营业收入不低于2亿元，最近两年研发投入合计占最近两年营业收入合计比例不低于8%；</div>
+                <div>（四）市值不低于15亿元，最近两年研发投入合计不低于5000万元。前款所称市值是指以挂牌公司向不特定合格投资者公开发行（以下简称公开发行）价格计算的股票市值。</div>
+              </div>
+            </div>
+          </el-dialog>
           <el-row :gutter="24">
             <el-col :span='14'>
               <span style="font-size: 12px;color: #666">为您检索到相关结果{{totalCount}}条，默认以</span>
@@ -493,22 +562,23 @@
                   <el-table-column align="left" prop="ipo_process_t" label="IPO进程" sortable="custom" width="100">
                     <template slot-scope="scope">
                       {{scope.row.processLabel}}
-                      <br />
-                      <span>
-												<span class="htgResult" v-if="scope.row.labelResult==='00'">获通过</span>
-												<span class="whtgResult" v-if="scope.row.labelResult==='01'">未获通过</span>
-												<span class="zhbjResult" v-if="scope.row.labelResult==='02'">暂缓表决</span>
-												<span class="qxshResult" v-if="scope.row.labelResult==='03'">取消审核</span>
-												<span class="dshResult" v-if="scope.row.labelResult==='04'">待上会</span>
-												<span class="tgResult" v-if="scope.row.labelResult==='05'">通过</span>
-												<span class="wtgResult" v-if="scope.row.labelResult==='06'">未通过</span>
-												<span class="zcsxResult" v-if="scope.row.labelResult==='07'">注册生效</span>
-												<span class="whtgResult" v-if="scope.row.labelResult==='08'">不予注册</span>
-												<span class="dshResult" v-if="scope.row.labelResult==='09'">待上会</span>
-												<span class="qxshResult" v-if="scope.row.labelResult==='10'">取消审议</span>
-												<span class="zhbjResult" v-if="scope.row.labelResult==='11'">暂缓审议</span>
-												<span class="qxshResult" v-if="scope.row.labelResult==='12'">终止注册</span>
-											</span>
+                      <div>
+												<div class="htgResult" v-if="scope.row.labelResult==='00'">获通过</div>
+												<div class="whtgResult" v-if="scope.row.labelResult==='01'">未获通过</div>
+												<div class="zhbjResult" v-if="scope.row.labelResult==='02'">暂缓表决</div>
+												<div class="qxshResult" v-if="scope.row.labelResult==='03'">取消审核</div>
+												<div class="dshResult" v-if="scope.row.labelResult==='04'">待上会</div>
+												<div class="tgResult" v-if="scope.row.labelResult==='05'">通过</div>
+												<div class="wtgResult" v-if="scope.row.labelResult==='06'">未通过</div>
+												<div class="zcsxResult" v-if="scope.row.labelResult==='07'">注册生效</div>
+												<div class="whtgResult" v-if="scope.row.labelResult==='08'">不予注册</div>
+												<div class="dshResult" v-if="scope.row.labelResult==='09'">待上会</div>
+												<div class="qxshResult" v-if="scope.row.labelResult==='10'">取消审议</div>
+												<div class="zhbjResult" v-if="scope.row.labelResult==='11'">暂缓审议</div>
+												<div class="qxshResult" v-if="scope.row.labelResult==='12'">终止注册</div>
+                        <div class="tgResult" v-if="scope.row.labelResult==='25'">核准</div>
+                        <div class="whtgResult" v-if="scope.row.labelResult==='26'">不予核准</div>
+											</div>
                     </template>
                   </el-table-column>
                   <el-table-column :label="yearLabel" header-align="center">
@@ -552,9 +622,15 @@
                   <!--</template>-->
                   <!--</el-table-column>-->
 
-                  <el-table-column align="right" prop="ipo_valuation_d" label="最近一次估值（亿元）" sortable="custom" min-width="12%">
+                  <!--<el-table-column align="right" prop="ipo_valuation_d" label="最近一次估值（亿元）" sortable="custom" min-width="12%">
                     <template slot-scope="scope">
                       <span v-if="scope.row.ipoValuationValue ">{{scope.row.ipoValuationValue/10000 | moneyUnit(scope.row.valuationValueUnit)}}</span>
+                      <span v-else class="noDataColor">&#45;&#45;</span>
+                    </template>
+                  </el-table-column>-->
+                  <el-table-column align="right" prop="raise_fee_sum_d" label="募集资金总额（亿元）" sortable="custom" min-width="12%">
+                    <template slot-scope="scope">
+                      <span v-if="scope.row.raiseFeeSum">{{scope.row.raiseFeeSum}}</span>
                       <span v-else class="noDataColor">--</span>
                     </template>
                   </el-table-column>
@@ -614,6 +690,8 @@
   export default {
     data() {
       return {
+        issueDialogSel:'1',
+        dialogIssueCondition:false,
         radio:0,
         // checkboxList:['全部','IPO案例','辅导案例'],
         checkboxList:[
@@ -640,6 +718,7 @@
         caseType: "all", // all ipo ipofd  案例类型 三种类型
         intermediaryName: '',
         issueLawId: '', //上市条件法规id
+        issueLawJxcId:'',
         tenantInfo: '', //日志
         tableData: [],
         tableLoading: false,
@@ -1221,6 +1300,12 @@
       }
     },
     methods: {
+      issueDialogClick(val){
+        this.issueDialogSel = val
+      },
+      issueClick(){
+        this.dialogIssueCondition = true
+      },
       getTitle(item){
         var intermediaryTitle = ''
         for(let i = 0;i<item.length;i++){
@@ -1409,6 +1494,7 @@
           _self.tableLoading = false;
           if (response.data && response.data.success && response.data.result) {
             _self.issueLawId = response.data.result.issueLawId;
+            _self.issueLawJxcId = response.data.result.issueLawJxcId;
             _self.totalCount = response.data.result.total;
             _self.tableData = response.data.result.data;
             console.log('表格数据',_self.tableData)
@@ -1662,7 +1748,24 @@
               _self.strageticIndustriesList = response.data.result.strageticIndustriesList;
             }
             if (response.data.result.issueConditionList && response.data.result.issueConditionList.length > 0) {
-              _self.issueConditionList = response.data.result.issueConditionList;
+              let arr = [{
+                id:'pid0',
+                labelName:"科创板上市条件",
+                labelValue:"1",
+                name:null,
+                num: null,
+                pId: "0",
+                children:[]
+              }];
+              for (let i=0;i<response.data.result.issueConditionList.length;i++){
+                if (response.data.result.issueConditionList[i].labelValue != '4' && response.data.result.issueConditionList[i].pId == '0'){
+                  arr[0].children.push(response.data.result.issueConditionList[i])
+                }else {
+                  response.data.result.issueConditionList[i].id = 'pid1'
+                  arr.push(response.data.result.issueConditionList[i])
+                }
+              }
+              _self.issueConditionList = arr;
             }
             if (response.data.result.companyNatureList && response.data.result.companyNatureList.length > 0) {
               _self.companyNatureList = response.data.result.companyNatureList;
@@ -1822,6 +1925,12 @@
       openNewRule() {
         const _self = this;
         const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + _self.issueLawId + '&access_token=' +
+          _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
+        window.open(href, '_blank');
+      },
+      openNewRuleJxc() {
+        const _self = this;
+        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + _self.issueLawJxcId + '&access_token=' +
           _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
         window.open(href, '_blank');
       },
@@ -2270,8 +2379,8 @@
     color: #f9b162;
     padding: 5px;
     padding-left: 10px;
-    line-height: 10px;
-    display: inline-block;
+    line-height: 11px;
+    /*display: inline-block;*/
     background-size: cover;
     background: url('../../../assets/images/zhbj.png') no-repeat;
   }
@@ -2281,8 +2390,8 @@
     color: #ea5365;
     padding: 5px;
     padding-left: 10px;
-    line-height: 10px;
-    display: inline-block;
+    line-height: 11px;
+    /*display: inline-block;*/
     background-size: cover;
     background: url('../../../assets/images/whtg.png') no-repeat;
   }
@@ -2292,8 +2401,8 @@
     color: #ea5365;
     padding: 5px;
     padding-left: 10px;
-    line-height: 10px;
-    display: inline-block;
+    line-height: 11px;
+    /*display: inline-block;*/
     background-size: cover;
     background: url('../../../assets/images/wtg.png') no-repeat;
 
@@ -2304,8 +2413,8 @@
     color: #4ec8e5;
     padding: 5px;
     padding-left: 10px;
-    line-height: 10px;
-    display: inline-block;
+    line-height: 11px;
+    /*display: inline-block;*/
     background-size: cover;
     background: url('../../../assets/images/htg.png') no-repeat;
   }
@@ -2315,8 +2424,8 @@
     color: #4ec8e5;
     padding: 5px;
     padding-left: 10px;
-    line-height: 10px;
-    display: inline-block;
+    line-height: 11px;
+    /*display: inline-block;*/
     background-size: cover;
     background: url('../../../assets/images/zcsx.png') no-repeat;
   }
@@ -2326,8 +2435,8 @@
     color: #4ec8e5;
     padding: 5px;
     padding-left: 10px;
-    line-height: 10px;
-    display: inline-block;
+    line-height: 11px;
+    /*display: inline-block;*/
     background-size: cover;
     background: url('../../../assets/images/tg.png') no-repeat;
   }
@@ -2337,8 +2446,8 @@
     color: #aabfe2;
     padding: 5px;
     padding-left: 10px;
-    line-height: 10px;
-    display: inline-block;
+    line-height: 11px;
+    /*display: inline-block;*/
     background-size: cover;
     background: url('../../../assets/images/qxsh.png') no-repeat;
   }
@@ -2349,8 +2458,8 @@
     padding: 5px;
     padding-left: 10px;
     padding-right: 6px;
-    line-height: 10px;
-    display: inline-block;
+    line-height: 11px;
+    /*display: inline-block;*/
     background-size: cover;
     background: url('../../../assets/images/dsh.png') no-repeat;
   }
@@ -2409,5 +2518,12 @@
   } */
   .selectTypeClass .el-radio__label{
     font-size: 12px !important;
+  }
+  #issueDialog .el-dialog__header{
+    padding-left: 20px;
+    padding-top: 20px;
+  }
+  .issueSel{
+    color:rgb(25, 144, 254)
   }
 </style>

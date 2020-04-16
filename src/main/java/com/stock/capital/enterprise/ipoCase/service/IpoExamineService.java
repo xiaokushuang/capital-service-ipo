@@ -376,9 +376,9 @@ public class IpoExamineService extends BaseService {
             String examineDate = baseDto.getExamineDate();
             //查询发审委委员名单
             String member = ipoExamineMapper.selectLocalExamineMember(orgCode, examineDate);
-            DynamicDataSourceHolder.setDataSource("dongcai");
-            String member1 = ipoExamineMapper.selectExamineMember(orgCode, examineDate);
-            DynamicDataSourceHolder.cleanDataSource();
+            //DynamicDataSourceHolder.setDataSource("dongcai");
+            //String member1 = ipoExamineMapper.selectExamineMember(orgCode, examineDate);
+            //DynamicDataSourceHolder.cleanDataSource();
             baseDto.setMember(member);
         }
         ipoFeedbackResultDto.setBaseList(baseList);

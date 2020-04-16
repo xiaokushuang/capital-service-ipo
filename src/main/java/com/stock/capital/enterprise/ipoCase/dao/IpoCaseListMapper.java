@@ -44,4 +44,6 @@ public interface IpoCaseListMapper {
     String isCompanyFlag(String companyCode);
 
     List<String> getIpoItemCaseIdList(IpoCaseListBo ipoCaseListBo);
+
+    IpoCaseListBo querylawIdjxc();
 }

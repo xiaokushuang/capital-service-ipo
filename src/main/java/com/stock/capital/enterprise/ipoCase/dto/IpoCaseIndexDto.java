@@ -153,6 +153,10 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
 
     @IndexField(name = "ipo_valuation_d",description = "最近一次估值")
     private Double ipoValuationValue;//最近一次估值
+
+    @IndexField(name = "raise_fee_sum_d",description = "募集资金总额")
+    private Double raiseFeeSum;//募集资金总额
+
     @IndexField(name = "ipo_valuation_unit_t",description = "估值单位")
     private String valuationValueUnit;
 
@@ -210,6 +214,13 @@ public class IpoCaseIndexDto extends Indexable implements Serializable {
     @IndexField(name = "ipo_fd_time_dt",description = "辅导备案时间")
     private Date ipoFdTime;//辅导备案时间
 
+    public Double getRaiseFeeSum() {
+        return raiseFeeSum;
+    }
+
+    public void setRaiseFeeSum(Double raiseFeeSum) {
+        this.raiseFeeSum = raiseFeeSum;
+    }
 
     public String getValuationValueUnit() {
         return valuationValueUnit;

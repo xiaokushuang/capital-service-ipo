@@ -1,20 +1,7 @@
 package com.stock.capital.enterprise.ipoCase.dao;
 
-import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
-import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
-import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoAssociatedCaseVo;
-import com.stock.capital.enterprise.ipoCase.dto.IpoPersonInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyDateDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyPatentDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyRemarksDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyTableDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoValuationDto;
-import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.MainIncomeInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
+import com.stock.capital.enterprise.ipoCase.dto.*;
+
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.annotations.Param;
@@ -69,4 +56,8 @@ public interface IpoCaseBizMapper {
      * @return
      */
     String getEstimateType(@Param("id") String id);
+
+    List<OtherMarketInfoDto> getOtcData(String id);
+
+    List<IpoCaseListVo> queryCompanyForFin(String id);
 }

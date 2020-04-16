@@ -85,6 +85,28 @@ public class IpoCaseOverviewController extends BaseController {
         return response;
     }
 
+    @RequestMapping(value = "/getOtcData", method = RequestMethod.GET)
+    public JsonResponse<List<OtherMarketInfoDto>> getOtcData(@RequestParam("id") String id) {
+        JsonResponse<List<OtherMarketInfoDto>> response = new JsonResponse<>();
+        response.setResult(companyOverviewService.getOtcData(id));
+        return response;
+    }
+
+    @RequestMapping(value = "/queryCompanyForFin", method = RequestMethod.GET)
+    @ResponseBody
+    public JsonResponse<List<IpoCaseListVo>> queryCompanyForFin(@RequestParam("id") String id) {
+        JsonResponse<List<IpoCaseListVo>> response = new JsonResponse<>();
+        response.setResult(companyOverviewService.queryCompanyForFin(id));
+        return response;
+    }
+
+    @RequestMapping(value = "/openFinancialReVision", method = RequestMethod.GET)
+    public JsonResponse<Map<String, Object>> openFinancialReVision(Map<String, String> map) {
+        JsonResponse<Map<String, Object>> response = new JsonResponse<Map<String, Object>>();
+        response.setResult(companyOverviewService.openFinancialReVision(map));
+        return response;
+    }
+
   @ApiOperation(value = "拆分上市情况接口", notes = "拆分上市情况接口描述")
   @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query",
           dataType = "String")

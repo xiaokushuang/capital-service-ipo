@@ -62,6 +62,12 @@
               <div v-if="headList.labelResult&&headList.labelResult == '12'">
                 <img src="../../assets/images/kczzzc.png" alt="">
               </div>
+              <div v-if="headList.labelResult&&headList.labelResult == '25'">
+                <img src="../../assets/images/jxchz.png" alt="">
+              </div>
+              <div v-if="headList.labelResult&&headList.labelResult == '26'">
+                <img src="../../assets/images/jxcbyhz.png" alt="">
+              </div>
             </div>
           </div>
           <div class="text" style="position:relative;z-index: 4">
@@ -219,7 +225,7 @@
                           </el-tooltip>
                         </div>
                         <!-- 1是科创版 -->
-                        <div v-if="headList.haveFeedback=='1'&&headList.isTechBoard =='1'" id="tab-third" ref="tab-third" class="el-tabs__item1"
+                        <div v-if="headList.haveFeedback=='1'&&(headList.isTechBoard =='1' || headList.isTechBoard =='2')" id="tab-third" ref="tab-third" class="el-tabs__item1"
                              aria-controls="pane-third" style="cursor:default;color:#adadad">
                           <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无问询与回复信息" placement="top" effect="light">
                             <el-button class="btnClass">问询与回复</el-button>
