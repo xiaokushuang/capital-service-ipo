@@ -69,10 +69,10 @@ public class IpoExportWordActorService extends BaseService {
       Map<String,Object> exportMap = new HashMap<>();
       Map<String,Object> dataMap = ipoExportWordService.getCompanyInformation(caseId);
       Map<String,String> wordMap = new HashMap<>();
-      wordMap.put("#公司名字#",((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyZhName());
-      wordMap.put("#公司简称#",((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyName());
-      wordMap.put("#证券代码#",((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyCode());
-      wordMap.put("#拟上市板块#",((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate());
+      wordMap.put("#公司名字#",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyZhName()));
+      wordMap.put("#公司简称#",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyName()));
+      wordMap.put("#证券代码#",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyCode()));
+      wordMap.put("#拟上市板块#",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate()));
       if (StringUtils.isNotEmpty(((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate())){
         if (((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate().equals("上交所科创板")){
             wordMap.put("#板块类型#","注册制");
@@ -234,7 +234,59 @@ public class IpoExportWordActorService extends BaseService {
           }
       }
       TreeTypeProgressDto treeTypeProgress = (TreeTypeProgressDto)dataMap.get("treeTypeProgress");
+        List<Map<String,Object>> listTreeTypeProgress=new ArrayList<>();
       if (treeTypeProgress != null && treeTypeProgress.getTreeList() != null){
+          int max=0;
+          List<IpoProListDto> list0=new ArrayList<>();
+          List<IpoProListDto> list1=new ArrayList<>();
+          List<IpoProListDto> list2=new ArrayList<>();
+          for (int p=0;p<treeTypeProgress.getTreeList().size();p++){
+              if ("00".equals(treeTypeProgress.getTreeList().get(p).getTreeTypeCode())){
+                  list0=treeTypeProgress.getTreeList().get(p).getProList();
+                  if (list0.size()>max){
+                      max=list0.size();
+                  }
+              }else if ("01".equals(treeTypeProgress.getTreeList().get(p).getTreeTypeCode())){
+                  list1=treeTypeProgress.getTreeList().get(p).getProList();
+                  if (list1.size()>max){
+                      max=list1.size();
+                  }
+              }else if ("02".equals(treeTypeProgress.getTreeList().get(p).getTreeTypeCode())){
+                  list2=treeTypeProgress.getTreeList().get(p).getProList();
+                  if (list2.size()>max){
+                      max=list2.size();
+                  }
+              }
+          }
+         listTreeTypeProgress=new ArrayList<>(max);
+          for (int p=0;p<max;p++){
+              Map<String,Object> map0=new HashMap<>();
+              if(p<list0.size()){
+                  map0.put("cell0",isNull(list0.get(p).getProcessTime()));
+                  map0.put("cell1",isNull(list0.get(p).getProgressName()));
+              }else {
+                  map0.put("cell0","--");
+                  map0.put("cell1","--");
+              }
+              if(p<list1.size()){
+                  map0.put("cell2",isNull(list1.get(p).getProcessTime()));
+                  map0.put("cell3",isNull(list1.get(p).getProgressName()));
+              }else {
+                  map0.put("cell2","--");
+                  map0.put("cell3","--");
+              }
+              if(p<list2.size()){
+                  map0.put("cell4",isNull(list2.get(p).getProcessTime()));
+                  map0.put("cell5",isNull(list2.get(p).getProgressName()));
+              }else {
+                  map0.put("cell4","--");
+                  map0.put("cell5","--");
+              }
+              listTreeTypeProgress.add(map0);
+          }
+
+
+
           for (int i=0;i<treeTypeProgress.getTreeList().size();i++){
               if (i == 0){
                   wordMap.put("#发行历时#",treeTypeProgress.getTreeList().get(i).getDurationDay());
@@ -387,22 +439,22 @@ public class IpoExportWordActorService extends BaseService {
         if(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList()!=null){
             int len=((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().size();
             wordMap.put("审核结果","审核结果:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getIecResultStr()));
-            wordMap.put("审核日期","审核日期:"+((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getExamineDateStr());
+            wordMap.put("审核日期","审核日期:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getExamineDateStr()));
         }else {
             wordMap.put("审核结果","审核结果:"+"--");
             wordMap.put("审核日期","审核日期:"+"--");
         }
 
 
-        wordMap.put("公司名称详情",((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyName());
+        wordMap.put("公司名称详情",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyName()));
 //        wordMap.put("公司名称类型",((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyZhName()+"\n"+"IPO");
-        wordMap.put("拟上市板块","拟上市板块:"+((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate());
+        wordMap.put("拟上市板块","拟上市板块:"+isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate()));
 
-        wordMap.put("审核历时","审核历时:"+wordMap.get("#审核历时#")+"天");
+        wordMap.put("审核历时","审核历时:"+isNull(wordMap.get("#审核历时#"))+"天");
         wordMap.put("IPO进程详情","IPO进程:"+isNull(((HeadDataVo)dataMap.get("head")).getProcessLabel()));
 
-        wordMap.put("注册地址说明",((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrCountry());
-        wordMap.put("证监会行业说明",((CompanyOverviewVo)dataMap.get("companyInformation")).getIndustryCsrc());
+        wordMap.put("注册地址说明",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrCountry()));
+        wordMap.put("证监会行业说明",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getIndustryCsrc()));
         for (XWPFParagraph paragraph : xdoc.getParagraphs())
             for (XmlObject object : paragraph.getCTP().getRArray()) {
                 XmlCursor cursor = object.newCursor();
@@ -480,8 +532,8 @@ public class IpoExportWordActorService extends BaseService {
                   if (StringUtils.isNotEmpty(splitList.get(b).getSplitMarket())){
                       content = content + "所在市场：" + splitList.get(b).getSplitMarket()+"\n";
                   }
-                  if (StringUtils.isNotEmpty(splitList.get(b).getShareProportion()+"")){
-                      content = content + "直接或间接持有人股份：" + splitList.get(b).getShareProportion()+"%\n";
+                  if (splitList.get(b).getShareProportion()!=null){
+                      content = content + "直接或间接持有人股份：" + splitList.get(b).getShareProportion()+""+"%\n";
                   }
               }
               if ("".equals(content)){
@@ -788,7 +840,8 @@ public class IpoExportWordActorService extends BaseService {
                   yValues.add(listCountries3);
                   yValues.add(listCountries4);
                   List<List<Double>> zhuziList = Lists.newArrayList();
-                  for (int k=0;k<3;k++){
+                  int len=yValues.get(0).size();
+                  for (int k=0;k<len;k++){
                       List<Double> zhuzi = new ArrayList<>();
                       for (int p=0;p<yValues.size();p++){
                           zhuzi.add(yValues.get(p).get(k));
@@ -1584,11 +1637,13 @@ public class IpoExportWordActorService extends BaseService {
                               test.setCellNewContentTitleNotTemp(table, 0, 3, financialIndex.getDateList().getSecondYearDate(), i);
                               test.setCellNewContentTitleNotTemp(table, 0, 4, financialIndex.getDateList().getFirstYearDate(), i);
                               for (int k = 0; k < tb.size(); k++) {
-                                  test.setCellNewContentNotTemp(table, no, 1, twoMarkStr(tb.get(k).getForthYearValue()+""), i);
-                                  test.setCellNewContentNotTemp(table, no, 2, twoMarkStr(tb.get(k).getThirdYearValue()+""), i);
-                                  test.setCellNewContentNotTemp(table, no, 3, twoMarkStr(tb.get(k).getSecondYearValue()+""), i);
-                                  test.setCellNewContentNotTemp(table, no, 4, twoMarkStr(tb.get(k).getFirstYearValue()+""), i);
-                                  no++;
+                                  if (table.getRow(no)!=null && table.getRow(no).getCell(0).getText().indexOf(tb.get(k).getItemName())!=-1){
+                                      test.setCellNewContentNotTemp(table, no, 1, twoMarkStr(tb.get(k).getForthYearValue()+""), i);
+                                      test.setCellNewContentNotTemp(table, no, 2, twoMarkStr(tb.get(k).getThirdYearValue()+""), i);
+                                      test.setCellNewContentNotTemp(table, no, 3, twoMarkStr(tb.get(k).getSecondYearValue()+""), i);
+                                      test.setCellNewContentNotTemp(table, no, 4, twoMarkStr(tb.get(k).getFirstYearValue()+""), i);
+                                      no++;
+                                  }
                               }
                               break lableA;
                           }else {
@@ -1789,49 +1844,24 @@ public class IpoExportWordActorService extends BaseService {
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#ipo进程表格#") != -1) {
                       if (j + 5 < cellList.size()) {
                           int no = rowCnt+2;
-                          if (treeTypeProgress != null && treeTypeProgress.getTreeList() != null){
-                              int k = 0;
-                              for (int m=0;m<treeTypeProgress.getTreeList().size();m++){
-                                  if (treeTypeProgress.getTreeList().get(m).getProList() != null){
-                                      if (treeTypeProgress.getTreeList().get(m).getProList().size() > k){
-                                          k = treeTypeProgress.getTreeList().get(m).getProList().size();
-                                      }
-                                  }
-                              }
-                              for (int n=0;n<k;n++){
+                          if (listTreeTypeProgress != null){
+                              for (int k = 0; k < listTreeTypeProgress.size(); k++) {
                                   if (no >= table.getNumberOfRows()-1) {
                                       test.insertTableRowAtIndex(table, no);
                                   }
                                   //先赋空 保证表格样式
-                                  test.setCellNewContent(table, no, 0, "", i);
-                                  test.setCellNewContent(table, no, 1, "", i);
-                                  test.setCellNewContent(table, no, 2, "", i);
-                                  test.setCellNewContent(table, no, 3, "", i);
-                                  test.setCellNewContent(table, no, 4, "", i);
-                                  test.setCellNewContent(table, no, 5, "", i);
-                                  if (treeTypeProgress.getTreeList().get(2).getProList()!= null && n < treeTypeProgress.getTreeList().get(2).getProList().size()){
-                                      test.setCellNewContent(table, no, 0, isNull(treeTypeProgress.getTreeList().get(2).getProList().get(n).getProcessTime()), i);
-                                      test.setCellNewContent(table, no, 1, isNull(treeTypeProgress.getTreeList().get(2).getProList().get(n).getProgressName()), i);
-                                  }
-                                  if (treeTypeProgress.getTreeList().get(1).getProList() != null && n < treeTypeProgress.getTreeList().get(1).getProList().size()){
-                                      test.setCellNewContent(table, no, 2, isNull(treeTypeProgress.getTreeList().get(1).getProList().get(n).getProcessTime()), i);
-                                      test.setCellNewContent(table, no, 3, isNull(treeTypeProgress.getTreeList().get(1).getProList().get(n).getProgressName()), i);
-                                  }
-                                  if (treeTypeProgress.getTreeList().get(0).getProList() != null && n < treeTypeProgress.getTreeList().get(0).getProList().size()){
-                                      test.setCellNewContent(table, no, 4, isNull(treeTypeProgress.getTreeList().get(0).getProList().get(n).getProcessTime()), i);
-                                      test.setCellNewContent(table, no, 5, isNull(treeTypeProgress.getTreeList().get(0).getProList().get(n).getProgressName()), i);
-                                  }
+                                  test.setCellNewContent(table, no, 0, listTreeTypeProgress.get(k).get("cell0").toString(), i);
+                                  test.setCellNewContent(table, no, 1, listTreeTypeProgress.get(k).get("cell1").toString(), i);
+                                  test.setCellNewContent(table, no, 2, listTreeTypeProgress.get(k).get("cell2").toString(), i);
+                                  test.setCellNewContent(table, no, 3, listTreeTypeProgress.get(k).get("cell3").toString(), i);
+                                  test.setCellNewContent(table, no, 4, listTreeTypeProgress.get(k).get("cell4").toString(), i);
+                                  test.setCellNewContent(table, no, 5, listTreeTypeProgress.get(k).get("cell5").toString(), i);
                                   no++;
                               }
-
-                              if ( (treeTypeProgress.getTreeList().get(2).getProList() == null ||treeTypeProgress.getTreeList().get(2).getProList().size()==0)
-                                      &&(treeTypeProgress.getTreeList().get(1).getProList() == null||treeTypeProgress.getTreeList().get(1).getProList().size()==0)
-                                      &&(treeTypeProgress.getTreeList().get(0).getProList() == null ||treeTypeProgress.getTreeList().get(0).getProList().size()==0)){
+                              if (listTreeTypeProgress==null||listTreeTypeProgress.size()==0){
                                   test.deleteTableRow(table,table.getNumberOfRows()-2);
                                   test.deleteTableRow(table,table.getNumberOfRows()-2);
-                              } else if ( (treeTypeProgress.getTreeList().get(2).getProList()!=null&&treeTypeProgress.getTreeList().get(2).getProList().size()<=1)
-                              &&(treeTypeProgress.getTreeList().get(1).getProList()!=null&&treeTypeProgress.getTreeList().get(1).getProList().size()<=1)
-                              &&(treeTypeProgress.getTreeList().get(0).getProList()!=null&&treeTypeProgress.getTreeList().get(0).getProList().size()<=1)){
+                              } else if (listTreeTypeProgress.size()==1){
                                   test.deleteTableRow(table,table.getNumberOfRows()-2);
                               }
                               test.setCellNewContent(table, table.getNumberOfRows()-1, 0, "共计历时" + isNull(wordMap.get("#辅导历时#")) + "天", i);
