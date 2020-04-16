@@ -384,12 +384,20 @@ public class IpoExportWordActorService extends BaseService {
 //
 //        }
 //文本框
-        int len=((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().size();
-        wordMap.put("公司名称详情",((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyZhName());
+        if(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList()!=null){
+            int len=((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().size();
+            wordMap.put("审核结果","审核结果:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getIecResultStr()));
+            wordMap.put("审核日期","审核日期:"+((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getExamineDateStr());
+        }else {
+            wordMap.put("审核结果","审核结果:"+"--");
+            wordMap.put("审核日期","审核日期:"+"--");
+        }
+
+
+        wordMap.put("公司名称详情",((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyName());
 //        wordMap.put("公司名称类型",((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyZhName()+"\n"+"IPO");
         wordMap.put("拟上市板块","拟上市板块:"+((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate());
-        wordMap.put("审核结果","审核结果:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getIecResultStr()));
-        wordMap.put("审核日期","审核日期:"+((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getExamineDateStr());
+
         wordMap.put("审核历时","审核历时:"+wordMap.get("#审核历时#")+"天");
         wordMap.put("IPO进程详情","IPO进程:"+((HeadDataVo)dataMap.get("head")).getProcessLabel());
 
