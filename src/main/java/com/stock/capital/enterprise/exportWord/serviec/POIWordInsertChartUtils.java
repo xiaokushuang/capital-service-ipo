@@ -80,32 +80,74 @@ public class POIWordInsertChartUtils {
         final String categoryDataRange = chart.formatRange(new CellRangeAddress(1, numOfPoints, COLUMN_LANGUAGES, COLUMN_LANGUAGES));
         String[] categories = xTitles.toArray(new String[0]);
         final XDDFDataSource<?> categoriesData = XDDFDataSourcesFactory.fromArray(categories, categoryDataRange, COLUMN_LANGUAGES);
-        //创建bar
-        XDDFBarChartData bar = (XDDFBarChartData) chart.createData(ChartTypes.BAR, bottomAxis, leftAxis);
-
-        if (!yValues.isEmpty()){
-            for (int i = 0;i<yValues.size();i++) {
-                List<Double> yValue = yValues.get(i);
-                Double[] value = yValue.toArray(new Double[0]);
-                final String valuesDataRange = chart.formatRange(new CellRangeAddress(1, numOfPoints, i+1, i+1));
-                final XDDFNumericalDataSource<? extends Number> valuesData = XDDFDataSourcesFactory.fromArray(value, valuesDataRange, i+1);
-                valuesData.setFormatCode("General");
-                XDDFBarChartData.Series series1 = (XDDFBarChartData.Series) bar.addSeries(categoriesData, valuesData);
-                if (yTitles.size() > 1){
-                    series1.setTitle(yTitles.get(i), chart.setSheetTitle(yTitles.get(i), i+1));
-                }else{
-                    series1.setTitle(yTitles.get(i), chart.setSheetTitle(yTitles.get(0), i+1));
+        //创建bar--------!!!!!!
+        if ("0".equals(ifStack) || "1".equals(ifStack) ){
+            XDDFBarChartData bar = (XDDFBarChartData) chart.createData(ChartTypes.BAR, bottomAxis, leftAxis);
+            if (!yValues.isEmpty()){
+                for (int i = 0;i<yValues.size();i++) {
+                    List<Double> yValue = yValues.get(i);
+                    Double[] value = yValue.toArray(new Double[0]);
+                    final String valuesDataRange = chart.formatRange(new CellRangeAddress(1, numOfPoints, i+1, i+1));
+                    final XDDFNumericalDataSource<? extends Number> valuesData = XDDFDataSourcesFactory.fromArray(value, valuesDataRange, i+1);
+                    valuesData.setFormatCode("General");
+                    XDDFBarChartData.Series series1 = (XDDFBarChartData.Series) bar.addSeries(categoriesData, valuesData);
+                    if (yTitles.size() > 1){
+                        series1.setTitle(yTitles.get(i), chart.setSheetTitle(yTitles.get(i), i+1));
+                    }else{
+                        series1.setTitle(yTitles.get(0), chart.setSheetTitle(yTitles.get(0), i+1));
+                    }
                 }
             }
-        }
-        bar.setVaryColors(true);
-        bar.setBarDirection(BarDirection.COL);
+            bar.setVaryColors(true);
+            bar.setBarDirection(BarDirection.COL);
 //        堆积柱状图
-        if ("1".equals(ifStack)){
-            bar.setBarGrouping(BarGrouping.STACKED);
-            chart.getCTChart().getPlotArea().getBarChartArray(0).addNewOverlap().setVal((byte)100);
+            if ("1".equals(ifStack)){
+                bar.setBarGrouping(BarGrouping.STACKED);
+                chart.getCTChart().getPlotArea().getBarChartArray(0).addNewOverlap().setVal((byte)100);
+            }
+            chart.plot(bar);
+        }else if ("2".equals(ifStack)){//饼图
+            XDDFPieChartData bar = (XDDFPieChartData) chart.createData(ChartTypes.PIE, bottomAxis, leftAxis);
+            if (!yValues.isEmpty()){
+                for (int i = 0;i<yValues.size();i++) {
+                    List<Double> yValue = yValues.get(i);
+                    Double[] value = yValue.toArray(new Double[0]);
+                    final String valuesDataRange = chart.formatRange(new CellRangeAddress(1, numOfPoints, i+1, i+1));
+                    final XDDFNumericalDataSource<? extends Number> valuesData = XDDFDataSourcesFactory.fromArray(value, valuesDataRange, i+1);
+                    valuesData.setFormatCode("General");
+                    XDDFPieChartData.Series series1 = (XDDFPieChartData.Series) bar.addSeries(categoriesData, valuesData);
+                    if (yTitles.size() > 1){
+                        series1.setTitle(yTitles.get(i), chart.setSheetTitle(yTitles.get(i), i+1));
+                    }else{
+                        series1.setTitle(yTitles.get(0), chart.setSheetTitle(yTitles.get(0), i+1));
+                    }
+                }
+            }
+            bar.setVaryColors(true);
+//            bar.setBarDirection(BarDirection.COL);
+            chart.plot(bar);
+        }else if ("3".equals(ifStack)){//折线
+            XDDFLineChartData bar = (XDDFLineChartData) chart.createData(ChartTypes.LINE, bottomAxis, leftAxis);
+            if (!yValues.isEmpty()){
+                for (int i = 0;i<yValues.size();i++) {
+                    List<Double> yValue = yValues.get(i);
+                    Double[] value = yValue.toArray(new Double[0]);
+                    final String valuesDataRange = chart.formatRange(new CellRangeAddress(1, numOfPoints, i+1, i+1));
+                    final XDDFNumericalDataSource<? extends Number> valuesData = XDDFDataSourcesFactory.fromArray(value, valuesDataRange, i+1);
+                    valuesData.setFormatCode("General");
+                    XDDFLineChartData.Series series1 = (XDDFLineChartData.Series) bar.addSeries(categoriesData, valuesData);
+                    if (yTitles.size() > 1){
+                        series1.setTitle(yTitles.get(i), chart.setSheetTitle(yTitles.get(i), i+1));
+                    }else{
+                        series1.setTitle(yTitles.get(0), chart.setSheetTitle(yTitles.get(0), i+1));
+                    }
+                }
+            }
+            bar.setVaryColors(true);
+//            bar.setBarDirection(BarDirection.COL);
+            chart.plot(bar);
         }
-        chart.plot(bar);
+
         XDDFChartLegend legend = chart.getOrAddLegend();
         legend.setPosition(LegendPosition.BOTTOM);
         legend.setOverlay(false);

@@ -447,7 +447,7 @@ public class XpwfUtils {
 		}
 		newRun.setBold(boldFlag);
 		newRun.setFontSize(10);
-		newRun.setFontFamily("楷体");
+		newRun.setFontFamily("宋体");
 		if (tmpR != null) {
 			newRun.setBold(boldFlag || tmpR.isBold());
 			newRun.setItalic(tmpR.isItalic());
