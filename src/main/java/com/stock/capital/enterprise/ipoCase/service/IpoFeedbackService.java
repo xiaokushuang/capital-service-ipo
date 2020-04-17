@@ -324,8 +324,8 @@ public class IpoFeedbackService extends BaseService {
             ipoFeedbackResultDto.setQuestionCount(questionCount);
             ipoFeedbackResultDto.setAnswerCount(answerCount);
             ipoFeedbackResultDto.setQuestionList(questionResultList);
-            ipoFeedbackResultDto.setLetterFileNo(questionList.get(0).getLetterFileNo());
             if (questionList != null && questionList.size() > 0) {
+                ipoFeedbackResultDto.setLetterFileNo(questionList.get(0).getLetterFileNo());
                 ipoFeedbackResultDto.setLetterDate(questionList.get(0).getLetterDate());
                 ipoFeedbackResultDto.setReturnDate(questionList.get(0).getLetterReturnDate());
                 if (questionList.get(0).getLetterDate() != null && questionList.get(0).getLetterReturnDate() != null){
