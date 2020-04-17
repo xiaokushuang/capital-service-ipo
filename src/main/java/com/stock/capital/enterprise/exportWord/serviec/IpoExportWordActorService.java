@@ -318,10 +318,10 @@ public class IpoExportWordActorService extends BaseService {
 //文本框
         if(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList()!=null){
             int len=((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().size();
-            wordMap.put("审核结果","审核结果:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getIecResultStr()));
+            wordMap.put("审核结果类型","审核结果:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getIecResultStr()));
             wordMap.put("审核日期","审核日期:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getExamineDateStr()));
         }else {
-            wordMap.put("审核结果","审核结果:"+"--");
+            wordMap.put("审核结果类型","审核结果:"+"--");
             wordMap.put("审核日期","审核日期:"+"--");
         }
 
@@ -762,85 +762,99 @@ public class IpoExportWordActorService extends BaseService {
           else if("#问询回复/反馈意见流程#".equals(paragraph.getText())){
               test.clearParagraph(paragraph);
               SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-              if (ipoFeedbackList.size()==0){
+              if (ipoFeedbackList==null||ipoFeedbackList.size()==0){
                   XWPFRun run2 = paragraph.createRun();
                   run2.setFontFamily("宋体");
                   run2.setFontSize(10);
                   run2.setText("    暂无数据");
               }
-              for (int b=0;b<ipoFeedbackList.size();b++){
-                  int sort=b+1;
-                  XWPFRun run1 = paragraph.createRun();
-                  run1.setText(sort+"、"+isNull(ipoFeedbackList.get(b).getLetterName()));
-                  run1.setFontSize(16);
-                  run1.setColor("333399");
-                  run1.setBold(true);
-                  run1.setFontFamily("宋体");
-                  run1.addBreak();
-                  if (StringUtils.isNotEmpty(ipoFeedbackList.get(b).getLetterFileNo())){
-                      XWPFRun run2 = paragraph.createRun();
-                      run2.setText("函件文号：" + ipoFeedbackList.get(b).getLetterFileNo());
-                      run2.addBreak();
+              if (ipoFeedbackList!=null &&ipoFeedbackList.size()>0){
+                  for (int b=0;b<ipoFeedbackList.size();b++){
+                      XmlCursor cursor1 = paragraph.getCTP().newCursor();
+                      cursor1.toNextSibling();
+                      XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
+                      int sort=b+1;
+                      XWPFRun run1 = newpa1.createRun();
+                      run1.setText(sort+"、"+isNull(ipoFeedbackList.get(b).getLetterName()));
+                      run1.setFontSize(16);
+                      run1.setColor("333399");
+                      run1.setBold(true);
+                      newpa1.setStyle("4");
+                      run1.setFontFamily("微软雅黑");
+                      XmlCursor cursor2= newpa1.getCTP().newCursor();
+                      cursor2.toNextSibling();
+                      XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
+                      if (StringUtils.isNotEmpty(ipoFeedbackList.get(b).getLetterFileNo())){
+                          XWPFRun run2 = newpa2.createRun();
+                          run2.setText("函件文号：" + ipoFeedbackList.get(b).getLetterFileNo());
+                          run2.addBreak();
+                      }
+                      if (ipoFeedbackList.get(b).getLetterDate()!=null){
+                          XWPFRun run2 = newpa2.createRun();
+                          run2.setText("发函时间：" + df.format(ipoFeedbackList.get(b).getLetterDate()));
+                          run2.addBreak();
+                      }
+                      if (ipoFeedbackList.get(b).getReturnDate()!=null){
+                          XWPFRun run2 = newpa2.createRun();
+                          run2.setText("回函时间：" + df.format(ipoFeedbackList.get(b).getReturnDate()));
+                          run2.addBreak();
+                      }
+                      if (StringUtils.isNotEmpty(ipoFeedbackList.get(b).getIntervalDate())){
+                          XWPFRun run2 = newpa2.createRun();
+                          run2.setText("回函用时：" + ipoFeedbackList.get(b).getIntervalDate()+"天");
+                          run2.addBreak();
+                      }
+                      if (StringUtils.isNotEmpty(String.valueOf(ipoFeedbackList.get(b).getQuestionCount()))){
+                          XWPFRun run2 = newpa2.createRun();
+                          run2.setText( "问题数量：共计" + ipoFeedbackList.get(b).getQuestionCount()+"个问题" );
+                          run2.addBreak();
+                      }
+                      if (StringUtils.isNotEmpty(String.valueOf(ipoFeedbackList.get(b).getAnswerCount()))){
+                          XWPFRun run2 = newpa2.createRun();
+                          run2.setText( "回复情况：共计" + ipoFeedbackList.get(b).getAnswerCount() + "个回复");
+                          run2.addBreak();
+                      }
+                      XmlCursor cursor3= newpa2.getCTP().newCursor();
+                      cursor3.toNextSibling();
+                      XWPFParagraph newpa3 = xdoc.insertNewParagraph(cursor3);
+                      //插入图表
+                      List<IpoQuestionLabelDto> list=ipoFeedbackList.get(b).getQuestionLabelList();
+                      //XWPFChart chart = xdoc.getCharts().get(0);
+                      List<String> series = new ArrayList<>();
+                      series.add("countries");
+                      // Category Axis Data
+                      List<String> listLanguages = new ArrayList<>(10);
+                      // Values
+                      List<Double> listCountries = new ArrayList<>(10);
+                      for(int i = 0; i < list.size();i++) {
+                          listCountries.add(Double.valueOf(list.get(i).getLabelCount()));
+                          listLanguages.add(list.get(i).getLabelName());
+                      }
+                      String[] categories = listLanguages.toArray(new String[0]);
+                      Double[] values1 = listCountries.toArray(new Double[0]);
+                      Double[] values2 = listCountries.toArray(new Double[0]);
+                      XWPFChart chart = xdoc.createChart(XDDFChart.DEFAULT_WIDTH * 10,  XDDFChart.DEFAULT_HEIGHT * 15);
+                      setBarData(chart, "", series.toArray(new String[]{}), categories, values1,values2);
+                      xdoc.removeBodyElement(xdoc.getBodyElements().size()-1);
+                      itPara = xdoc.getParagraphsIterator();
+                      XWPFRun newRun = newpa3.createRun();
+                      String relationId = xdoc.getRelationId(chart);
+                      java.lang.reflect.Method attach = XWPFChart.class.getDeclaredMethod("attach", String.class, XWPFRun.class);
+                      attach.setAccessible(true);
+                      attach.invoke(chart, relationId, newRun);
+                      chart.setChartWidth(XDDFChart.DEFAULT_WIDTH * 10);
+                      chart.setChartHeight(XDDFChart.DEFAULT_HEIGHT * 8);
+                      newRun.addBreak();
+                      paragraph=newpa3;
                   }
-                  if (ipoFeedbackList.get(b).getLetterDate()!=null){
-                      XWPFRun run2 = paragraph.createRun();
-                      run2.setText("发函时间：" + df.format(ipoFeedbackList.get(b).getLetterDate()));
-                      run2.addBreak();
-                  }
-                  if (ipoFeedbackList.get(b).getReturnDate()!=null){
-                      XWPFRun run2 = paragraph.createRun();
-                      run2.setText("回函时间：" + df.format(ipoFeedbackList.get(b).getReturnDate()));
-                      run2.addBreak();
-                  }
-                  if (StringUtils.isNotEmpty(ipoFeedbackList.get(b).getIntervalDate())){
-                      XWPFRun run2 = paragraph.createRun();
-                      run2.setText("回函用时：" + ipoFeedbackList.get(b).getIntervalDate()+"天");
-                      run2.addBreak();
-                  }
-                  if (StringUtils.isNotEmpty(String.valueOf(ipoFeedbackList.get(b).getQuestionCount()))){
-                      XWPFRun run2 = paragraph.createRun();
-                      run2.setText( "问题数量：共计" + ipoFeedbackList.get(b).getQuestionCount()+"个问题" );
-                      run2.addBreak();
-                  }
-                  if (StringUtils.isNotEmpty(String.valueOf(ipoFeedbackList.get(b).getAnswerCount()))){
-                      XWPFRun run2 = paragraph.createRun();
-                      run2.setText( "回复情况：共计" + ipoFeedbackList.get(b).getAnswerCount() + "个回复");
-                      run2.addBreak();
-                  }
-              //插入图表
-                  List<IpoQuestionLabelDto> list=ipoFeedbackList.get(b).getQuestionLabelList();
-                  //XWPFChart chart = xdoc.getCharts().get(0);
-                  List<String> series = new ArrayList<>();
-                  series.add("countries");
-                  // Category Axis Data
-                  List<String> listLanguages = new ArrayList<>(10);
-                  // Values
-                  List<Double> listCountries = new ArrayList<>(10);
-                  for(int i = 0; i < list.size();i++) {
-                      listCountries.add(Double.valueOf(list.get(i).getLabelCount()));
-                      listLanguages.add(list.get(i).getLabelName());
-                  }
-                  String[] categories = listLanguages.toArray(new String[0]);
-                  Double[] values1 = listCountries.toArray(new Double[0]);
-                  Double[] values2 = listCountries.toArray(new Double[0]);
-                  XWPFChart chart = xdoc.createChart(XDDFChart.DEFAULT_WIDTH * 10,  XDDFChart.DEFAULT_HEIGHT * 15);
-                  setBarData(chart, "", series.toArray(new String[]{}), categories, values1,values2);
-                  xdoc.removeBodyElement(xdoc.getBodyElements().size()-1);
-                  itPara = xdoc.getParagraphsIterator();
-                  XWPFRun newRun = paragraph.createRun();
-                  String relationId = xdoc.getRelationId(chart);
-                  java.lang.reflect.Method attach = XWPFChart.class.getDeclaredMethod("attach", String.class, XWPFRun.class);
-                  attach.setAccessible(true);
-                  attach.invoke(chart, relationId, newRun);
-                  chart.setChartWidth(XDDFChart.DEFAULT_WIDTH * 10);
-                  chart.setChartHeight(XDDFChart.DEFAULT_HEIGHT * 8);
-                  newRun.addBreak();
               }
+
               continue;
-          }else if ("#审核关注问题流程#".equals(paragraph.getText())){
+          }
+          else if ("#审核关注问题流程#".equals(paragraph.getText())){
               test.clearParagraph(paragraph);
               SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-              if (baseList.size()==0){
+              if (baseList==null||baseList.size()==0){
                   XWPFRun run2 = paragraph.createRun();
                   run2.setFontFamily("宋体");
                   run2.setFontSize(10);
@@ -853,112 +867,150 @@ public class IpoExportWordActorService extends BaseService {
               }else {
                   titleStr="发审委会议关注问题";
               }
-
               int sort=0;
-              for (int b=0;b<baseList.size();b++){
-                  sort++;
-                  XWPFRun run1 = paragraph.createRun();
-                  run1.setText(sort+"、"+titleStr);
-                  run1.setFontSize(16);
-                  run1.setColor("333399");
-                  run1.setBold(true);
-                  paragraph.setStyle("4");
-                  run1.setFontFamily("微软雅黑");
-                  run1.addBreak();
-                  if (StringUtils.isNotEmpty(baseList.get(b).getRelationFileTitle())){
-                      XWPFRun run2 = paragraph.createRun();
-                      run2.setText("审核会议:" + baseList.get(b).getRelationFileTitle());
-                      run2.addBreak();
-                  }
-                  if (StringUtils.isNotEmpty(baseList.get(b).getExamineDate())){
-                      XWPFRun run2 = paragraph.createRun();
-                      run2.setText("审核时间：" + baseList.get(b).getExamineDate());
-                      run2.addBreak();
-                  }
-                  if (StringUtils.isNotEmpty(baseList.get(b).getIecResultStr())){
-                      XWPFRun run2 = paragraph.createRun();
-                      run2.setText("审核结果：" + baseList.get(b).getIecResultStr());
-                      run2.addBreak();
-                  }
-                  if (StringUtils.isNotEmpty(baseList.get(b).getMember())){
-                      XWPFRun run2 = paragraph.createRun();
-                      run2.setText(" 发审会委员:" + baseList.get(b).getMember());
-                      run2.addBreak();
+              if (baseList!=null && baseList.size()>0){
+                  for (int b=0;b<baseList.size();b++){
+                      XmlCursor cursor1 = paragraph.getCTP().newCursor();
+                      cursor1.toNextSibling();
+                      XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
+                      sort++;
+                      XWPFRun run1 = newpa1.createRun();
+                      run1.setText(sort+"、"+titleStr);
+                      run1.setFontSize(16);
+                      run1.setColor("333399");
+                      run1.setBold(true);
+                      newpa1.setStyle("4");
+                      run1.setFontFamily("微软雅黑");
+                      XmlCursor cursor2 = newpa1.getCTP().newCursor();
+                      cursor2.toNextSibling();
+                      XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
+                      XWPFRun run2 = newpa2.createRun();
+                      if (StringUtils.isNotEmpty(baseList.get(b).getRelationFileTitle())){
+                          run2.setText("审核会议:" + baseList.get(b).getRelationFileTitle());
+                          run2.addBreak();
+                      }
+                      if (StringUtils.isNotEmpty(baseList.get(b).getExamineDate())){
+                          run2.setText("审核时间：" + baseList.get(b).getExamineDate());
+                          run2.addBreak();
+                      }
+                      if (StringUtils.isNotEmpty(baseList.get(b).getIecResultStr())){
+                          run2.setText("审核结果：" + baseList.get(b).getIecResultStr());
+                          run2.addBreak();
+                      }
+                      if (StringUtils.isNotEmpty(baseList.get(b).getMember())){
+                          run2.setText(" 发审会委员:" + baseList.get(b).getMember());
+                          run2.addBreak();
+                      }
+                      paragraph=newpa2;
                   }
               }
-              for (int c=0;c<resultList.size();c++){
-                  sort++;
-                  XWPFRun run3 = paragraph.createRun();
-                  run3.setText(sort+"、"+resultList.get(c).getLetterName());
-                  run3.setFontSize(16);
-                  run3.setColor("333399");
-                  run3.setBold(true);
-                  paragraph.setStyle("5");
-                  run3.setFontFamily("微软雅黑");
-                  run3.addBreak();
-                  if (StringUtils.isNotEmpty(resultList.get(c).getLetterFileNo())){
-                      XWPFRun run8 = paragraph.createRun();
-                      run8.setText("    函件文号：" + resultList.get(c).getLetterFileNo());
-                      run8.addBreak();
-                  }
-                  if (resultList.get(c).getLetterDate()!=null){
-                      XWPFRun run8 = paragraph.createRun();
-                      run8.setText("    发函时间：" + df.format(resultList.get(c).getLetterDate()));
-                      run8.addBreak();
-                  }
-                  if (resultList.get(c).getReturnDate()!=null){
-                      XWPFRun run8 = paragraph.createRun();
-                      run8.setText("    回函时间：" + df.format(resultList.get(c).getReturnDate()));
-                      run8.addBreak();
-                  }
-                  if (StringUtils.isNotEmpty(resultList.get(c).getIntervalDate())){
-                      XWPFRun run8 = paragraph.createRun();
-                      run8.setText("    回函用时：" + resultList.get(c).getIntervalDate());
-                      run8.addBreak();
-                  }
-                  if (StringUtils.isNotEmpty(resultList.get(c).getIntervalDate())){
-                      XWPFRun run8 = paragraph.createRun();
-                      run8.setText("    问题数量：" + "共计"+resultList.get(c).getQuestionCount()+"个问题");
-                      run8.addBreak();
-                  }
-                  if (StringUtils.isNotEmpty(resultList.get(c).getIntervalDate())){
-                      XWPFRun run8 = paragraph.createRun();
-                      run8.setText("    回复情况：" + "共计"+resultList.get(c).getAnswerCount()+"个回复");
-                      run8.addBreak();
-                  }
-                  List<IpoFeedbackQuestionDto>  questionList=resultList.get(c).getQuestionList();
-                  int questTitle=0;
-                  for (int d=0;d<questionList.size();d++){
-                      questTitle=d+1;
-                      XWPFRun run4 = paragraph.createRun();
-                      run4.setText("（"+questTitle+"）"+"问");
-                      run4.setFontSize(10);
-                      run4.setColor("000000");
-                      run4.setBold(true);
-                      paragraph.setStyle("5");
-                      run4.setFontFamily("微软雅黑");
-                      run4.addBreak();
-                      String questLabel="";
-                      for (int e=0;e<questionList.get(d).getQuestionLabelList().size();e++){
-                          questLabel+=questionList.get(d).getQuestionLabelList().get(e).getLabelName()+",";
+              if (resultList!=null && resultList.size()>0 ){
+                  for (int c=0;c<resultList.size();c++){
+                      XmlCursor cursor1 = paragraph.getCTP().newCursor();
+                      cursor1.toNextSibling();
+                      XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
+                      sort++;
+                      XWPFRun run3 = newpa1.createRun();
+                      run3.setText(sort+"、"+resultList.get(c).getLetterName());
+                      run3.setFontSize(16);
+                      run3.setColor("333399");
+                      run3.setBold(true);
+                      newpa1.setStyle("4");
+                      run3.setFontFamily("微软雅黑");
+                      XmlCursor cursor2 = newpa1.getCTP().newCursor();
+                      cursor2.toNextSibling();
+                      XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
+                      if (StringUtils.isNotEmpty(resultList.get(c).getLetterFileNo())){
+                          XWPFRun run8 = newpa2.createRun();
+                          run8.setText("    函件文号：" + resultList.get(c).getLetterFileNo());
                       }
-                      XWPFRun run6 = paragraph.createRun();
-                      run6.setText("    问题类型:" + questLabel);
-                      run6.addBreak();
-                      XWPFRun run5 = paragraph.createRun();
-                      String answer="";
-                      if (StringUtils.isNotEmpty( questionList.get(d).getQuestion())){
-                          answer="已回复";
+                      if (resultList.get(c).getLetterDate()!=null){
+                          XWPFRun run8 = newpa2.createRun();
+                          run8.setText("    发函时间：" + df.format(resultList.get(c).getLetterDate()));
                       }
-                      run5.setText("    回复情况:" + answer);
-                      run5.addBreak();
-                      XWPFRun run7= paragraph.createRun();
-                      run7.setText( questionList.get(d).getQuestion());
-                      run7.addBreak();
+                      if (resultList.get(c).getReturnDate()!=null){
+                          XWPFRun run8 = newpa2.createRun();
+                          run8.setText("    回函时间：" + df.format(resultList.get(c).getReturnDate()));
+                      }
+                      if (StringUtils.isNotEmpty(resultList.get(c).getIntervalDate())){
+                          XWPFRun run8 = newpa2.createRun();
+                          run8.setText("    回函用时：" + resultList.get(c).getIntervalDate());
+                      }
+                      if (StringUtils.isNotEmpty(resultList.get(c).getIntervalDate())){
+                          XWPFRun run8 = newpa2.createRun();
+                          run8.setText("    问题数量：" + "共计"+resultList.get(c).getQuestionCount()+"个问题");
+                      }
+                      if (StringUtils.isNotEmpty(resultList.get(c).getIntervalDate())){
+                          XWPFRun run8 = newpa2.createRun();
+                          run8.setText("    回复情况：" + "共计"+resultList.get(c).getAnswerCount()+"个回复");
+                      }
+                      XmlCursor cursor3 = newpa2.getCTP().newCursor();
+                      cursor3.toNextSibling();
+                      XWPFParagraph newpa3 = xdoc.insertNewParagraph(cursor3);
+                      //插入图表
+                      List<IpoQuestionLabelDto> list=resultList.get(c).getQuestionLabelList();
+                      List<String> series = new ArrayList<>();
+                      series.add("countries");
+                      List<String> listLanguages = new ArrayList<>();
+                      List<Double> listCountries = new ArrayList<>();
+                      for(int i = 0; i < list.size();i++) {
+                          listCountries.add(Double.valueOf(list.get(i).getLabelCount()));
+                          listLanguages.add(list.get(i).getLabelName());
+                      }
+                      String[] categories = listLanguages.toArray(new String[0]);
+                      Double[] values1 = listCountries.toArray(new Double[0]);
+                      Double[] values2 = listCountries.toArray(new Double[0]);
+                      XWPFChart chart = xdoc.createChart(XDDFChart.DEFAULT_WIDTH * 10,  XDDFChart.DEFAULT_HEIGHT * 15);
+                      setBarData(chart, "", series.toArray(new String[]{}), categories, values1,values2);
+                      xdoc.removeBodyElement(xdoc.getBodyElements().size()-1);
+                      itPara = xdoc.getParagraphsIterator();
+                      XWPFRun newRun = newpa3.createRun();
+                      String relationId = xdoc.getRelationId(chart);
+                      java.lang.reflect.Method attach = XWPFChart.class.getDeclaredMethod("attach", String.class, XWPFRun.class);
+                      attach.setAccessible(true);
+                      attach.invoke(chart, relationId, newRun);
+                      chart.setChartWidth(XDDFChart.DEFAULT_WIDTH * 10);
+                      chart.setChartHeight(XDDFChart.DEFAULT_HEIGHT * 8);
+                      newRun.addBreak();
+                      if(resultList.get(c).getQuestionList()!=null){
+                          //问
+                          List<IpoFeedbackQuestionDto>  questionList=resultList.get(c).getQuestionList();
+                          int questTitle=0;
+                          for (int d=0;d<questionList.size();d++){
+                              questTitle=d+1;
+                              XWPFRun run4 = newpa3.createRun();
+                              run4.setText("（"+questTitle+"）"+"问");
+                              run4.setFontSize(10);
+                              run4.setColor("000000");
+                              run4.setBold(true);
+                              newpa3.setStyle("5");
+                              run4.setFontFamily("微软雅黑");
+                              run4.addBreak();
+                              String questLabel="";
+                              for (int e=0;e<questionList.get(d).getQuestionLabelList().size();e++){
+                                  questLabel+=questionList.get(d).getQuestionLabelList().get(e).getLabelName()+",";
+                              }
+                              XWPFRun run6 = newpa3.createRun();
+                              run6.setText("    问题类型:" + questLabel);
+                              run6.addBreak();
+                              XWPFRun run5 = newpa3.createRun();
+                              String answer="";
+                              if (StringUtils.isNotEmpty( questionList.get(d).getQuestion())){
+                                  answer="已回复";
+                              }
+                              run5.setText("    回复情况:" + answer);
+                              run5.addBreak();
+                              XWPFRun run7= newpa3.createRun();
+                              run7.setText( questionList.get(d).getQuestion());
+                              run7.addBreak();
+                          }
+                      }
+                      paragraph=newpa3;
                   }
               }
-          }
+              itPara = xdoc.getParagraphsIterator();
 
+          }
           else if("#主要供应商情况#".equals(paragraph.getText())){
               test.clearParagraph(paragraph);
               if (supplierMainList!=null && supplierMainList.size()>0){
@@ -1189,7 +1241,8 @@ public class IpoExportWordActorService extends BaseService {
               }
 
               continue;
-          }else if("#行业毛利率对比#".equals(paragraph.getText())){
+          }
+          else if("#行业毛利率对比#".equals(paragraph.getText())){
               test.clearParagraph(paragraph);
               if (industryCompareList!=null && industryCompareList.size()>0){
                   for(int z=industryCompareList.size()-1;z>=0;z--){
