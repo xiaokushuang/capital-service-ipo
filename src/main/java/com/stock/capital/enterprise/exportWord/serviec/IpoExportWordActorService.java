@@ -108,16 +108,16 @@ public class IpoExportWordActorService extends BaseService {
 //          wordMap.put("#估值详情#",isEm(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationMemo()));
 //      }
       if (((CompanyOverviewVo)dataMap.get("companyInformation")).getStructureLabel()==null){
-          wordMap.put("#股权结构类型#","暂无股权结构");
+          wordMap.put("#股权结构类型#","    暂无股权结构");
       }else {
-          wordMap.put("#股权结构类型#",isEm(((CompanyOverviewVo)dataMap.get("companyInformation")).getStructureLabel()));
+          wordMap.put("#股权结构类型#",isEm(((CompanyOverviewVo)dataMap.get("companyInformation")).getStructureLabel())+" ");
       }
       List<IssuerIndustryStatusDto> industryStatusDtoList = (List<IssuerIndustryStatusDto>)dataMap.get("industryStatusDtoList");
       MainIncomeVo mainIncomeVo = (MainIncomeVo)dataMap.get("mainIncome");
       if (mainIncomeVo!=null &&mainIncomeVo.getMainIncomeInfoList() != null){
           wordMap.put("#主营业务描述#"," ");
       }else {
-          wordMap.put("#主营业务描述#","暂无主营业务");
+          wordMap.put("#主营业务描述#","    暂无主营业务");
       }
 
       List<SupplierCustomerMainDto> supplierMainList = ((Map<String,List<SupplierCustomerMainDto>>)dataMap.get("supplierInformation")).get("supplierMainList");
@@ -127,7 +127,7 @@ public class IpoExportWordActorService extends BaseService {
       if (competitorData!=null && competitorData.size()>0){
           wordMap.put("#主要竞争对手详细#"," ");
       }else {
-          wordMap.put("#主要竞争对手详细#","暂无主要竞争对手简介");
+          wordMap.put("#主要竞争对手详细#","    暂无主要竞争对手简介");
       }
       List<IndustryCompareRateDto> industryCompareList = (List<IndustryCompareRateDto>)dataMap.get("industryCompareList");
 
@@ -135,13 +135,13 @@ public class IpoExportWordActorService extends BaseService {
       if (ipoTechnology != null && ipoTechnology.getCoreData() != null&&ipoTechnology.getCoreData().size()>0){
           wordMap.put("#研发人员备注#",ipoTechnology.getRemarksData().getCoreRemarks()+" ");
       }else {
-          wordMap.put("#研发人员备注#","暂无研发人员信息");
+          wordMap.put("#研发人员备注#","    暂无研发人员信息");
       }
       if (ipoTechnology != null && ipoTechnology.getDevData() != null&&ipoTechnology.getDevData().size()>0){
           wordMap.put("#研发投入备注#",ipoTechnology.getRemarksData().getDevRemarks()+" ");
           wordMap.put("#研发投入单位#","单位：万元");
       }else {
-          wordMap.put("#研发投入备注#","暂无研发投入信息");
+          wordMap.put("#研发投入备注#","    暂无研发投入信息");
           wordMap.put("#研发投入单位#"," ");
         }
       IssueDataDto issueData = (IssueDataDto)dataMap.get("issueData");
@@ -157,9 +157,9 @@ public class IpoExportWordActorService extends BaseService {
       }
       List<IpoInvestItemDto> ipoInvestItem = (List<IpoInvestItemDto>)dataMap.get("ipoInvestItem");
       if (ipoInvestItem != null && ipoInvestItem.size()>0){
-          wordMap.put("#募集资金备注#",ipoInvestItem.get(0).getInvestRemark());
+          wordMap.put("#募集资金备注#",ipoInvestItem.get(0).getInvestRemark()+" ");
       }else {
-          wordMap.put("#募集资金备注#","暂无募集资金内容");
+          wordMap.put("#募集资金备注#","    暂无募集资金内容");
       }
         if (ipoInvestItem != null && ipoInvestItem.size()>0){
             wordMap.put("#募集资金单位#","单位：万元");
@@ -175,13 +175,13 @@ public class IpoExportWordActorService extends BaseService {
       if (issueFeeList!=null && issueFeeList.size()>0){
         wordMap.put("#发行费用描述#"," ");
       }else {
-        wordMap.put("#发行费用描述#","暂无发行费用");
+        wordMap.put("#发行费用描述#","    暂无发行费用");
       }
       StrategicPlacementMainDto strategicPlacementMain =(StrategicPlacementMainDto)dataMap.get("strategicPlacementMain");
       if (strategicPlacementMain!=null && strategicPlacementMain.getSubs()!=null && strategicPlacementMain.getSubs().size()>0){
           wordMap.put("#战略配售情况#"," ");
       }else {
-          wordMap.put("#战略配售情况#","  暂无战略配售情况");
+          wordMap.put("#战略配售情况#","    暂无战略配售情况");
       }
       Map<String, List<IntermediaryOrgDto>> intermediaryOrgList = (Map<String, List<IntermediaryOrgDto>>)dataMap.get("intermediaryOrgList");
       List<IntermediaryOrgDto> bjorg = new ArrayList<>();
