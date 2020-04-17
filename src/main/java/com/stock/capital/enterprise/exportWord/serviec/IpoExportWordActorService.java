@@ -77,9 +77,11 @@ public class IpoExportWordActorService extends BaseService {
         if (((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate().equals("上交所科创板")){
             wordMap.put("#板块类型#","注册制");
             wordMap.put("#问询回复/反馈意见#","问询与回复（注册制）");
+            wordMap.put("#审核关注问题#","审核结果及注册（注册制）");
         }else {
             wordMap.put("#板块类型#","核准制");
             wordMap.put("#问询回复/反馈意见#","反馈意见（核准制）");
+            wordMap.put("#审核关注问题#","审核结果及注册（核准制）");
         }
       }
       wordMap.put("#企业性质#",((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyNature());
@@ -100,13 +102,7 @@ public class IpoExportWordActorService extends BaseService {
       wordMap.put("#主营业务#",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getMajorBusinesses()));
       List<OtherMarketInfoDto> otherList = (List<OtherMarketInfoDto>)dataMap.get("otherMarkInfo");
       List<IpoSplitDto> splitList = (List<IpoSplitDto>)dataMap.get("splitList");
-//      if ((List<IpoValuationDto>)dataMap.get("valuationList") != null && ((List<IpoValuationDto>) dataMap.get("valuationList")).size()>0){
-//          wordMap.put("#估值时间#",isNull(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationDate()));
-//          wordMap.put("#估值股价#",isNull(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationPrice()+""));
-//          wordMap.put("#估值总股本#",isNull(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationEquity()+""));
-//          wordMap.put("#总估值#",isNull(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationValue()+""));
-//          wordMap.put("#估值详情#",isEm(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationMemo()));
-//      }
+
       if (((CompanyOverviewVo)dataMap.get("companyInformation")).getStructureLabel()==null){
           wordMap.put("#股权结构类型#","    暂无股权结构");
       }else {
@@ -120,7 +116,11 @@ public class IpoExportWordActorService extends BaseService {
           wordMap.put("#主营业务描述#","    暂无主营业务");
       }
 
-      List<SupplierCustomerMainDto> supplierMainList = ((Map<String,List<SupplierCustomerMainDto>>)dataMap.get("supplierInformation")).get("supplierMainList");
+      IpoFeedbackDto ipoFeedback=  ((IpoFeedbackDto)dataMap.get("ipoFeedbackDto"));
+      List<IpoExamineBaseDto> baseList=ipoFeedback.getBaseList();
+        List<IpoFeedbackDto> resultList=(List<IpoFeedbackDto>)dataMap.get("resultList");
+
+        List<SupplierCustomerMainDto> supplierMainList = ((Map<String,List<SupplierCustomerMainDto>>)dataMap.get("supplierInformation")).get("supplierMainList");
       List<SupplierCustomerMainDto> customerMainList = ((Map<String,List<SupplierCustomerMainDto>>)dataMap.get("supplierInformation")).get("customerMainList");
       List<IpoFeedbackDto> ipoFeedbackList =  (List<IpoFeedbackDto>)dataMap.get("ipoFeedbackList");
       List<MainCompetitorInfoDto> competitorData = (List<MainCompetitorInfoDto>)dataMap.get("competitorData");
@@ -837,6 +837,126 @@ public class IpoExportWordActorService extends BaseService {
                   newRun.addBreak();
               }
               continue;
+          }else if ("#审核关注问题流程#".equals(paragraph.getText())){
+              test.clearParagraph(paragraph);
+              SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+              if (baseList.size()==0){
+                  XWPFRun run2 = paragraph.createRun();
+                  run2.setFontFamily("宋体");
+                  run2.setFontSize(10);
+                  run2.setText("    暂无数据");
+              }
+              String type=wordMap.get("#板块类型#");
+              String titleStr="";
+              if ("注册制".equals(type)){
+                  titleStr="上市委会议关注问题";
+              }else {
+                  titleStr="发审委会议关注问题";
+              }
+
+              int sort=0;
+              for (int b=0;b<baseList.size();b++){
+                  sort++;
+                  XWPFRun run1 = paragraph.createRun();
+                  run1.setText(sort+"、"+titleStr);
+                  run1.setFontSize(16);
+                  run1.setColor("333399");
+                  run1.setBold(true);
+                  paragraph.setStyle("4");
+                  run1.setFontFamily("微软雅黑");
+                  run1.addBreak();
+                  if (StringUtils.isNotEmpty(baseList.get(b).getRelationFileTitle())){
+                      XWPFRun run2 = paragraph.createRun();
+                      run2.setText("审核会议:" + baseList.get(b).getRelationFileTitle());
+                      run2.addBreak();
+                  }
+                  if (StringUtils.isNotEmpty(baseList.get(b).getExamineDate())){
+                      XWPFRun run2 = paragraph.createRun();
+                      run2.setText("审核时间：" + baseList.get(b).getExamineDate());
+                      run2.addBreak();
+                  }
+                  if (StringUtils.isNotEmpty(baseList.get(b).getIecResultStr())){
+                      XWPFRun run2 = paragraph.createRun();
+                      run2.setText("审核结果：" + baseList.get(b).getIecResultStr());
+                      run2.addBreak();
+                  }
+                  if (StringUtils.isNotEmpty(baseList.get(b).getMember())){
+                      XWPFRun run2 = paragraph.createRun();
+                      run2.setText(" 发审会委员:" + baseList.get(b).getMember());
+                      run2.addBreak();
+                  }
+              }
+              for (int c=0;c<resultList.size();c++){
+                  sort++;
+                  XWPFRun run3 = paragraph.createRun();
+                  run3.setText(sort+"、"+resultList.get(c).getLetterName());
+                  run3.setFontSize(16);
+                  run3.setColor("333399");
+                  run3.setBold(true);
+                  paragraph.setStyle("5");
+                  run3.setFontFamily("微软雅黑");
+                  run3.addBreak();
+                  if (StringUtils.isNotEmpty(resultList.get(c).getLetterFileNo())){
+                      XWPFRun run8 = paragraph.createRun();
+                      run8.setText("    函件文号：" + resultList.get(c).getLetterFileNo());
+                      run8.addBreak();
+                  }
+                  if (resultList.get(c).getLetterDate()!=null){
+                      XWPFRun run8 = paragraph.createRun();
+                      run8.setText("    发函时间：" + df.format(resultList.get(c).getLetterDate()));
+                      run8.addBreak();
+                  }
+                  if (resultList.get(c).getReturnDate()!=null){
+                      XWPFRun run8 = paragraph.createRun();
+                      run8.setText("    回函时间：" + df.format(resultList.get(c).getReturnDate()));
+                      run8.addBreak();
+                  }
+                  if (StringUtils.isNotEmpty(resultList.get(c).getIntervalDate())){
+                      XWPFRun run8 = paragraph.createRun();
+                      run8.setText("    回函用时：" + resultList.get(c).getIntervalDate());
+                      run8.addBreak();
+                  }
+                  if (StringUtils.isNotEmpty(resultList.get(c).getIntervalDate())){
+                      XWPFRun run8 = paragraph.createRun();
+                      run8.setText("    问题数量：" + "共计"+resultList.get(c).getQuestionCount()+"个问题");
+                      run8.addBreak();
+                  }
+                  if (StringUtils.isNotEmpty(resultList.get(c).getIntervalDate())){
+                      XWPFRun run8 = paragraph.createRun();
+                      run8.setText("    回复情况：" + "共计"+resultList.get(c).getAnswerCount()+"个回复");
+                      run8.addBreak();
+                  }
+                  List<IpoFeedbackQuestionDto>  questionList=resultList.get(c).getQuestionList();
+                  int questTitle=0;
+                  for (int d=0;d<questionList.size();d++){
+                      questTitle=d+1;
+                      XWPFRun run4 = paragraph.createRun();
+                      run4.setText("（"+questTitle+"）"+"问");
+                      run4.setFontSize(10);
+                      run4.setColor("000000");
+                      run4.setBold(true);
+                      paragraph.setStyle("5");
+                      run4.setFontFamily("微软雅黑");
+                      run4.addBreak();
+                      String questLabel="";
+                      for (int e=0;e<questionList.get(d).getQuestionLabelList().size();e++){
+                          questLabel+=questionList.get(d).getQuestionLabelList().get(e).getLabelName()+",";
+                      }
+                      XWPFRun run6 = paragraph.createRun();
+                      run6.setText("    问题类型:" + questLabel);
+                      run6.addBreak();
+                      XWPFRun run5 = paragraph.createRun();
+                      String answer="";
+                      if (StringUtils.isNotEmpty( questionList.get(d).getQuestion())){
+                          answer="已回复";
+                      }
+                      run5.setText("    回复情况:" + answer);
+                      run5.addBreak();
+                      XWPFRun run7= paragraph.createRun();
+                      run7.setText( questionList.get(d).getQuestion());
+                      run7.addBreak();
+                  }
+              }
           }
 
           else if("#主要供应商情况#".equals(paragraph.getText())){
