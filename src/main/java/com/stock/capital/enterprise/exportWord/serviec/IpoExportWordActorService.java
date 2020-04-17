@@ -133,7 +133,7 @@ public class IpoExportWordActorService extends BaseService {
 
       IpoTechnologyVo ipoTechnology = (IpoTechnologyVo)dataMap.get("ipoTechnology");
       if (ipoTechnology != null && ipoTechnology.getCoreData() != null&&ipoTechnology.getCoreData().size()>0){
-          wordMap.put("#研发人员备注#",ipoTechnology.getRemarksData().getCoreRemarks()+" ");
+          wordMap.put("#研发人员备注#","    " +ipoTechnology.getRemarksData().getCoreRemarks()+" ");
       }else {
           wordMap.put("#研发人员备注#","    暂无研发人员信息");
       }
@@ -1904,12 +1904,12 @@ public class IpoExportWordActorService extends BaseService {
                                   test.setCellNewContentBold(table, no, 0, no+"", i);
                                   test.setCellNewContentBold(table, no, 1, issueFeeList.get(k).getFeeType(), i);
                                   test.setCellNewContentBold(table, no, 2, issueFeeList.get(k).getFeeAmount()+"", i);
-                                  test.setCellNewContentBold(table, no, 3, twoMarkStr(issueFeeList.get(k).getFeeRatio()+""), i);
+                                  test.setCellNewContentBold(table, no, 3, twoMarkStrBFH(issueFeeList.get(k).getFeeRatio()+""), i);
                               }else {
                                   test.setCellNewContentBold(table, no, 0, no+"", i);
                                   test.setCellNewContent(table, no, 1, issueFeeList.get(k).getFeeType(), i);
                                   test.setCellNewContent(table, no, 2, issueFeeList.get(k).getFeeAmount()+"", i);
-                                  test.setCellNewContent(table, no, 3, twoMarkStr(issueFeeList.get(k).getFeeRatio()+""), i);
+                                  test.setCellNewContent(table, no, 3, twoMarkStrBFH(issueFeeList.get(k).getFeeRatio()+""), i);
                               }
 
                               no++;
@@ -1936,7 +1936,7 @@ public class IpoExportWordActorService extends BaseService {
                                   test.setCellNewContent(table, no, 1, tb.get(k).getStrategicInvestorName(), i);
                                   test.setCellNewContent(table, no, 2, tb.get(k).getShareholderType(), i);
                                   test.setCellNewContent(table, no, 3, twoMarkStr(tb.get(k).getAllottedNumberTenThousand()+""), i);
-                                  test.setCellNewContent(table, no, 4, twoMarkStr(tb.get(k).getRadio()+""), i);
+                                  test.setCellNewContent(table, no, 4, twoMarkStrBFH(tb.get(k).getRadio()+""), i);
                                   test.setCellNewContent(table, no, 5, twoMarkStr(tb.get(k).getAllottedAmountTenThousand()+""), i);
                                   test.setCellNewContent(table, no, 6, tb.get(k).getSalesRestrictionPeriodMonth()+"", i);
                                   no++;
