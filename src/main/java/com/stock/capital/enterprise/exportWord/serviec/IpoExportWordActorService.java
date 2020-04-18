@@ -785,33 +785,30 @@ public class IpoExportWordActorService extends BaseService {
                       XmlCursor cursor2= newpa1.getCTP().newCursor();
                       cursor2.toNextSibling();
                       XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
+                      XWPFRun run2 = newpa2.createRun();
+                      run2.setFontFamily("宋体");
+                      run2.setFontSize(11);
                       if (StringUtils.isNotEmpty(ipoFeedbackList.get(b).getLetterFileNo())){
-                          XWPFRun run2 = newpa2.createRun();
                           run2.setText("函件文号：" + ipoFeedbackList.get(b).getLetterFileNo());
                           run2.addBreak();
                       }
                       if (ipoFeedbackList.get(b).getLetterDate()!=null){
-                          XWPFRun run2 = newpa2.createRun();
                           run2.setText("发函时间：" + df.format(ipoFeedbackList.get(b).getLetterDate()));
                           run2.addBreak();
                       }
                       if (ipoFeedbackList.get(b).getReturnDate()!=null){
-                          XWPFRun run2 = newpa2.createRun();
                           run2.setText("回函时间：" + df.format(ipoFeedbackList.get(b).getReturnDate()));
                           run2.addBreak();
                       }
                       if (StringUtils.isNotEmpty(ipoFeedbackList.get(b).getIntervalDate())){
-                          XWPFRun run2 = newpa2.createRun();
                           run2.setText("回函用时：" + ipoFeedbackList.get(b).getIntervalDate()+"天");
                           run2.addBreak();
                       }
                       if (StringUtils.isNotEmpty(String.valueOf(ipoFeedbackList.get(b).getQuestionCount()))){
-                          XWPFRun run2 = newpa2.createRun();
                           run2.setText( "问题数量：共计" + ipoFeedbackList.get(b).getQuestionCount()+"个问题" );
                           run2.addBreak();
                       }
                       if (StringUtils.isNotEmpty(String.valueOf(ipoFeedbackList.get(b).getAnswerCount()))){
-                          XWPFRun run2 = newpa2.createRun();
                           run2.setText( "回复情况：共计" + ipoFeedbackList.get(b).getAnswerCount() + "个回复");
                           run2.addBreak();
                       }
@@ -886,6 +883,8 @@ public class IpoExportWordActorService extends BaseService {
                       cursor2.toNextSibling();
                       XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
                       XWPFRun run2 = newpa2.createRun();
+                      run2.setFontFamily("宋体");
+                      run2.setFontSize(11);
                       if (StringUtils.isNotEmpty(baseList.get(b).getRelationFileTitle())){
                           run2.setText("审核会议:" + baseList.get(b).getRelationFileTitle());
                           run2.addBreak();
@@ -923,26 +922,38 @@ public class IpoExportWordActorService extends BaseService {
                       XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
                       if (StringUtils.isNotEmpty(resultList.get(c).getLetterFileNo())){
                           XWPFRun run8 = newpa2.createRun();
+                          run8.setFontFamily("宋体");
+                          run8.setFontSize(11);
                           run8.setText("    函件文号：" + resultList.get(c).getLetterFileNo());
                       }
                       if (resultList.get(c).getLetterDate()!=null){
                           XWPFRun run8 = newpa2.createRun();
+                          run8.setFontFamily("宋体");
+                          run8.setFontSize(11);
                           run8.setText("    发函时间：" + df.format(resultList.get(c).getLetterDate()));
                       }
                       if (resultList.get(c).getReturnDate()!=null){
                           XWPFRun run8 = newpa2.createRun();
+                          run8.setFontFamily("宋体");
+                          run8.setFontSize(11);
                           run8.setText("    回函时间：" + df.format(resultList.get(c).getReturnDate()));
                       }
                       if (StringUtils.isNotEmpty(resultList.get(c).getIntervalDate())){
                           XWPFRun run8 = newpa2.createRun();
+                          run8.setFontFamily("宋体");
+                          run8.setFontSize(11);
                           run8.setText("    回函用时：" + resultList.get(c).getIntervalDate());
                       }
                       if (StringUtils.isNotEmpty(resultList.get(c).getIntervalDate())){
                           XWPFRun run8 = newpa2.createRun();
+                          run8.setFontFamily("宋体");
+                          run8.setFontSize(11);
                           run8.setText("    问题数量：" + "共计"+resultList.get(c).getQuestionCount()+"个问题");
                       }
                       if (StringUtils.isNotEmpty(resultList.get(c).getIntervalDate())){
                           XWPFRun run8 = newpa2.createRun();
+                          run8.setFontFamily("宋体");
+                          run8.setFontSize(11);
                           run8.setText("    回复情况：" + "共计"+resultList.get(c).getAnswerCount()+"个回复");
                       }
                       XmlCursor cursor3 = newpa2.getCTP().newCursor();
@@ -992,9 +1003,13 @@ public class IpoExportWordActorService extends BaseService {
                                   questLabel+=questionList.get(d).getQuestionLabelList().get(e).getLabelName()+",";
                               }
                               XWPFRun run6 = newpa3.createRun();
+                              run6.setFontFamily("宋体");
+                              run6.setFontSize(11);
                               run6.setText("    问题类型:" + questLabel);
                               run6.addBreak();
                               XWPFRun run5 = newpa3.createRun();
+                              run5.setFontFamily("宋体");
+                              run5.setFontSize(11);
                               String answer="";
                               if (StringUtils.isNotEmpty( questionList.get(d).getQuestion())){
                                   answer="已回复";
@@ -1845,7 +1860,7 @@ public class IpoExportWordActorService extends BaseService {
                                   }
                                   test.setCellNewContentBold(table, no, 2, twoMarkStr(ipoInvestItem.get(k).getInvestTotal()+""), i);
                                   test.setCellNewContentBold(table, no, 3, twoMarkStr(ipoInvestItem.get(k).getInvestPlan()+""), i);
-                                  test.setCellNewContentBold(table, no, 4, twoMarkStrBFH(ipoInvestItem.get(k).getInvestRateStr()+""), i);
+                                  test.setCellNewContentBold(table, no, 4, isNull(ipoInvestItem.get(k).getInvestRateStr()+""), i);
                                   test.setCellNewContentBold(table, no, 5, twoMarkStr(ipoInvestItem.get(k).getInvestPre()+""), i);
                               }else {
                                   test.setCellNewContentBold(table, no, 0, ipoInvestItem.get(k).getItemName(), i);
@@ -1856,7 +1871,7 @@ public class IpoExportWordActorService extends BaseService {
                                   }
                                   test.setCellNewContent(table, no, 2, twoMarkStr(ipoInvestItem.get(k).getInvestTotal()+""), i);
                                   test.setCellNewContent(table, no, 3, twoMarkStr(ipoInvestItem.get(k).getInvestPlan()+""), i);
-                                  test.setCellNewContent(table, no, 4, twoMarkStrBFH(ipoInvestItem.get(k).getInvestRateStr()+""), i);
+                                  test.setCellNewContent(table, no, 4,isNull(ipoInvestItem.get(k).getInvestRateStr()) , i);
                                   test.setCellNewContent(table, no, 5, twoMarkStr(ipoInvestItem.get(k).getInvestPre()+""), i);
                               }
 
