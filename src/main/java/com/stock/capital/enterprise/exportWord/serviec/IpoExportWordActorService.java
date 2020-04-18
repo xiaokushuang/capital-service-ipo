@@ -1773,11 +1773,20 @@ public class IpoExportWordActorService extends BaseService {
                                   test.setCellNewContent(table, no, 4, twoMarkStr(tb.get(k).getFirstYearValue()+""), i);
                                   no++;
                               }
+                              if (tb==null||tb.size()==0){
+                                  test.deleteTableRow(table,table.getNumberOfRows()-1);
+                                  test.deleteTableRow(table,table.getNumberOfRows()-1);
+                                  test.deleteTableRow(table,table.getNumberOfRows()-1);
+                              } else if (tb.size()==1){
+                                  test.deleteTableRow(table,table.getNumberOfRows()-1);
+                              }
                               break lableA;
                           }
+
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#收入与利润情况表格#") != -1) {
                       if (j + 3 < cellList.size()) {
+                          int no = rowCnt+1;
                           if (incomeProfit != null) {
                               List<IpoItemDto> tb = new ArrayList<>();
                               if (incomeProfit.getIpoProfitItemList()!=null){
@@ -1795,37 +1804,34 @@ public class IpoExportWordActorService extends BaseService {
                                   test.setCellNewContentTitleNotTemp(table, 0, 3, incomeProfit.getDateList().getSecondYearDate(), i);
                                   test.setCellNewContentTitleNotTemp(table, 0, 4, incomeProfit.getDateList().getFirstYearDate(), i);
                               }
-                             for (int n = 1; n < table.getNumberOfRows(); n++) {
-                                  XWPFTableRow asstr = table.getRow(n);
-                                  List<XWPFTableCell> assCellList = asstr.getTableCells();
-                                  int no = n;
-                                  XWPFTableCell asstd = assCellList.get(0);// 取得单元格
-                                 if (tb.size()>0) {
-                                     for (int z = 0; z < tb.size(); z++) {
-                                         test.setCellNewContentNotTemp(table, no, 1, "", i);
-                                         test.setCellNewContentNotTemp(table, no, 2, "", i);
-                                         test.setCellNewContentNotTemp(table, no, 3, "", i);
-                                         test.setCellNewContentNotTemp(table, no, 4, "", i);
-                                         if (tb.get(z).getItemName().equals(asstd.getText())) {
-                                             test.setCellNewContentNotTemp(table, no, 1, twoMarkThStr(tb.get(z).getForthYearValue() + ""), i);
-                                             test.setCellNewContentNotTemp(table, no, 2, twoMarkThStr(tb.get(z).getThirdYearValue() + ""), i);
-                                             test.setCellNewContentNotTemp(table, no, 3, twoMarkThStr(tb.get(z).getSecondYearValue() + ""), i);
-                                             test.setCellNewContentNotTemp(table, no, 4, twoMarkThStr(tb.get(z).getFirstYearValue() + ""), i);
-                                             break;
-                                         }
+                             if (tb.size()>0) {
+                                 for (int z = 0; z < tb.size(); z++) {
+                                     if (no >= table.getNumberOfRows()) {
+                                         test.insertTableRowAtIndex(table, no);
                                      }
-                                 }else{
-                                     test.setCellNewContentNotTemp(table, 0, 1, "--", i);
-                                     test.setCellNewContentNotTemp(table, 0, 2, "--", i);
-                                     test.setCellNewContentNotTemp(table, 0, 3, "--", i);
-                                     test.setCellNewContentNotTemp(table, 0, 4, "--", i);
-                                      for (int z=0;z<16;z++){
-                                          test.setCellNewContentNotTemp(table, no, 1, "--", i);
-                                          test.setCellNewContentNotTemp(table, no, 2, "--", i);
-                                          test.setCellNewContentNotTemp(table, no, 3, "--", i);
-                                          test.setCellNewContentNotTemp(table, no, 4, "--", i);
-                                      }
-                                  }
+                                     if ("收入类项目：".equals(tb.get(z).getItemName())||"成本类项目：".equals(tb.get(z).getItemName())||"利润类项目：".equals(tb.get(z).getItemName())){
+                                         test.setCellNewContentBold(table, no, 0, tb.get(z).getItemName(), i);
+                                         test.setCellNewContent(table, no, 1, twoMarkTh(tb.get(z).getForthYearValue() + ""), i);
+                                         test.setCellNewContent(table, no, 2, twoMarkTh(tb.get(z).getThirdYearValue() + ""), i);
+                                         test.setCellNewContent(table, no, 3, twoMarkTh(tb.get(z).getSecondYearValue() + ""), i);
+                                         test.setCellNewContent(table, no, 4, twoMarkTh(tb.get(z).getFirstYearValue() + ""), i);
+                                     }else {
+                                         test.setCellNewContentBold(table, no, 0, tb.get(z).getItemName(), i);
+                                         test.setCellNewContent(table, no, 1, twoMarkThStr(tb.get(z).getForthYearValue() + ""), i);
+                                         test.setCellNewContent(table, no, 2, twoMarkThStr(tb.get(z).getThirdYearValue() + ""), i);
+                                         test.setCellNewContent(table, no, 3, twoMarkThStr(tb.get(z).getSecondYearValue() + ""), i);
+                                         test.setCellNewContent(table, no, 4, twoMarkThStr(tb.get(z).getFirstYearValue() + ""), i);
+                                     }
+                                     no++;
+                                 }
+                                 break lableA;
+                             }
+                              if (tb==null||tb.size()==0){
+                                  test.deleteTableRow(table,table.getNumberOfRows()-1);
+                                  test.deleteTableRow(table,table.getNumberOfRows()-1);
+                                  test.deleteTableRow(table,table.getNumberOfRows()-1);
+                              } else if (tb.size()==1){
+                                  test.deleteTableRow(table,table.getNumberOfRows()-1);
                               }
                           }
                       }
