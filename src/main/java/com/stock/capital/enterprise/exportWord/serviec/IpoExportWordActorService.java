@@ -186,6 +186,11 @@ public class IpoExportWordActorService extends BaseService {
       }else {
           wordMap.put("#战略配售情况#","    暂无战略配售情况");
       }
+      if (ipoTechnology != null && ipoTechnology.getPatentData() != null &&ipoTechnology.getPatentData().size()>0){
+          wordMap.put("#专利情况详情#"," ");
+      }else {
+          wordMap.put("#专利情况详情#","    暂无专利情况");
+      }
 
       if(ipoFinance != null && ipoFinance.getIpoFinanceOverList() != null){
           wordMap.put("#财务总体情况详情#"," ");
@@ -439,7 +444,7 @@ public class IpoExportWordActorService extends BaseService {
                       content = content + "所在市场：" + splitList.get(b).getSplitMarket()+"\n";
                   }
                   if (splitList.get(b).getShareProportion()!=null){
-                      content = content + "直接或间接持有人股份：" + splitList.get(b).getShareProportion().doubleValue()+""+"%\n";
+                      content = content + "直接或间接持有人股份：" + isNullBigZero(splitList.get(b).getShareProportion())+""+"%\n";
                   }
               }
               if ("".equals(content)){
@@ -461,13 +466,13 @@ public class IpoExportWordActorService extends BaseService {
                       content = content + "时间：" + ((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationDate()+"\n";
                   }
                   if ((((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationPrice())!=null){
-                      content = content + "股价：" + twoMarkThStr(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationPrice().toString())+((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationPriceUnit()+"\n";
+                      content = content + "股价：" + twoMarkThStr(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationPrice().toString())+((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationPriceUnit()+"/股\n";
                   }
                   if ((((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationEquity())!=null){
-                      content = content + "总股本：" + twoMarkThStr(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationEquity().toString())+((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationEquityUnit()+"\n";
+                      content = content + "总股本：" + twoMarkThStr(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationEquity().toString())+"万股\n";
                   }
                   if ((((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationValue())!=null){
-                      content = content + "估值：" + twoMarkThStr(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationValue()+"")+"亿元\n";
+                      content = content + "估值：" + twoMarkThStr(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationValue()+"")+"亿"+((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationEquityUnit()+"\n";
                   }
                   if (StringUtils.isNotEmpty(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationMemo())){
                       content = content + ((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationMemo()+"\n";
@@ -1651,17 +1656,9 @@ public class IpoExportWordActorService extends BaseService {
                               test.setCellNewContent(table, 2, 5, twoMarkStr(ipoTechnology.getPatentData().get(1).getHj()+"")+"%", i);
                               break lableA;
                           }else {
-                              test.setCellNewContent(table, 1, 1, "--", i);
-                              test.setCellNewContent(table, 1, 2,"--", i);
-                              test.setCellNewContent(table, 1, 3, "--", i);
-                              test.setCellNewContent(table, 1, 4, "--", i);
-                              test.setCellNewContent(table, 1, 5,"--", i);
-                              test.setCellNewContent(table, 2, 1, "--", i);
-                              test.setCellNewContent(table, 2, 2, "--", i);
-                              test.setCellNewContent(table, 2, 3, "--", i);
-                              test.setCellNewContent(table, 2, 4, "--", i);
-                              test.setCellNewContent(table, 2, 5,"--", i);
-                              break lableA;
+                              test.deleteTableRow(table,table.getNumberOfRows()-1);
+                              test.deleteTableRow(table,table.getNumberOfRows()-1);
+                              test.deleteTableRow(table,table.getNumberOfRows()-1);
                           }
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#研发投入表格#") != -1) {
@@ -1906,7 +1903,7 @@ public class IpoExportWordActorService extends BaseService {
                                   test.setCellNewContentBold(table, no, 1, isNull(ipoInvestItem.get(k).getItemTypeStr()), i);
                                   test.setCellNewContentBold(table, no, 2, isNullBigZero(ipoInvestItem.get(k).getInvestTotal()), i);
                                   test.setCellNewContentBold(table, no, 3, isNullBigZero(ipoInvestItem.get(k).getInvestPlan()), i);
-                                  test.setCellNewContentBold(table, no, 4, isNullBigZeroBFH(ipoInvestItem.get(k).getInvestRateStr()), i);
+                                  test.setCellNewContentBold(table, no, 4, isNull(ipoInvestItem.get(k).getInvestRateStr()), i);
                                   test.setCellNewContentBold(table, no, 5, isNullBigZero(ipoInvestItem.get(k).getInvestPre()), i);
                               }else {
                                   test.setCellNewContentBold(table, no, 0, ipoInvestItem.get(k).getItemName(), i);
@@ -2264,7 +2261,7 @@ public class IpoExportWordActorService extends BaseService {
         if (str==null||"null".equals(str)||"".equals(str)){
             return "--";
         }
-        DecimalFormat df = new DecimalFormat("#0.00");
+        DecimalFormat df = new DecimalFormat(",###,##0.00");
         return df.format(Float.parseFloat(str.doubleValue()+""));
     }
     public String isNullBigDoubleBFH(BigDecimal str){
