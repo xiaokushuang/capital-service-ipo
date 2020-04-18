@@ -1903,7 +1903,7 @@ public class IpoExportWordActorService extends BaseService {
                                   test.setCellNewContentBold(table, no, 1, isNull(ipoInvestItem.get(k).getItemTypeStr()), i);
                                   test.setCellNewContentBold(table, no, 2, isNullBigZero(ipoInvestItem.get(k).getInvestTotal()), i);
                                   test.setCellNewContentBold(table, no, 3, isNullBigZero(ipoInvestItem.get(k).getInvestPlan()), i);
-                                  test.setCellNewContentBold(table, no, 4, isNull(ipoInvestItem.get(k).getInvestRateStr()), i);
+                                  test.setCellNewContentBold(table, no, 4, isNullBigZeroBFH(ipoInvestItem.get(k).getInvestRateStr()), i);
                                   test.setCellNewContentBold(table, no, 5, isNullBigZero(ipoInvestItem.get(k).getInvestPre()), i);
                               }else {
                                   test.setCellNewContentBold(table, no, 0, ipoInvestItem.get(k).getItemName(), i);
@@ -2253,8 +2253,9 @@ public class IpoExportWordActorService extends BaseService {
         }else if (StringUtils.isEmpty(str)){
             return o;
         }
-        str=str.substring(0,str.length()-2)+"%";
-        return str;
+        str=str.substring(0,str.length()-1);
+        DecimalFormat df = new DecimalFormat("#0.00");
+        return df.format(Float.parseFloat(str+""))+"%";
     }
 
     public String isNullBigDouble(BigDecimal str){
