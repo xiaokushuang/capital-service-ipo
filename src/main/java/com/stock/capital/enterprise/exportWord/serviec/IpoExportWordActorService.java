@@ -2240,7 +2240,7 @@ public class IpoExportWordActorService extends BaseService {
 
     public String isNullBigZero(BigDecimal str){
         if (str.compareTo(BigDecimal.ZERO) != 0){
-            DecimalFormat df = new DecimalFormat("#0.00");
+            DecimalFormat df = new DecimalFormat(",###,##0.00");
             return df.format(Float.parseFloat(str.doubleValue()+""));
         }
         return "--";
