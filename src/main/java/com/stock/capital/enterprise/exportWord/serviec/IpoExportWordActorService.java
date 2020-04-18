@@ -86,8 +86,9 @@ public class IpoExportWordActorService extends BaseService {
         }
       }
       wordMap.put("#企业性质#",((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyNature());
-      if (StringUtils.isEmpty(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrCountry()) ||
-                ((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrCountry().equals("中国")){
+      if (StringUtils.isNotEmpty(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrProv()) ||
+              StringUtils.isNotEmpty(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrCity())||
+              StringUtils.isNotEmpty(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrArea())){
           wordMap.put("#注册地址#",isEm(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrProv())+isEm(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrCity())
                   +isEm(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrArea()));
       }else {
@@ -360,7 +361,7 @@ public class IpoExportWordActorService extends BaseService {
         wordMap.put("审核历时","审核历时:"+isNull(wordMap.get("#审核历时#"))+"天");
         wordMap.put("IPO进程详情","IPO进程:"+isNull(((HeadDataVo)dataMap.get("head")).getProcessLabel()));
 
-        wordMap.put("注册地址说明",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrCountry()));
+        wordMap.put("注册地址说明",wordMap.get("#注册地址#"));
         wordMap.put("证监会行业说明",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getIndustryCsrc()));
         for (XWPFParagraph paragraph : xdoc.getParagraphs())
             for (XmlObject object : paragraph.getCTP().getRArray()) {

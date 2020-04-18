@@ -2,6 +2,7 @@ package com.stock.capital.enterprise.exportWord.controller;
 
 import com.stock.capital.enterprise.exportWord.serviec.IpoExportWordActorService;
 import com.stock.capital.enterprise.exportWord.serviec.IpoExportWordService;
+import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
 import com.stock.capital.enterprise.utils.WXUtils;
 import com.stock.core.dto.JsonResponse;
 import com.stock.core.web.DownloadView;
@@ -31,7 +32,8 @@ public class IpoExportWordActorController {
 
   @Autowired
   private IpoExportWordActorService ipoExportWordActorService;
-
+  @Autowired
+  private IpoExportWordService ipoExportWordService;
   /**
    * 导出Word
    * @throws Exception
@@ -42,11 +44,14 @@ public class IpoExportWordActorController {
     ModelAndView mv = new ModelAndView();
     Resource resource = new ClassPathResource("templates/IPO导出word模板.docx");
     mv.setView(new DownloadView());
+    Map<String,Object> dataMap = ipoExportWordService.getCompanyInformation(caseId);
+    String name=((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyZhName();
+
     Map<String,Object> exportMap = ipoExportWordActorService.exportWordCase(resource.getInputStream(),caseId);
     mv.addObject(DownloadView.EXPORT_FILE, (InputStream)exportMap.get("inputStream"));
-    mv.addObject(DownloadView.EXPORT_FILE_NAME, "IPO导出word.docx");
+    mv.addObject(DownloadView.EXPORT_FILE_NAME, name+"导出word.docx");
     mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.DOCX);
-    response.setHeader("fileName", java.net.URLEncoder.encode("IPO导出word.docx", "utf-8"));
+    response.setHeader("fileName", java.net.URLEncoder.encode(name+"导出word.docx", "utf-8"));
     return mv;
   }
 
