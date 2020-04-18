@@ -493,9 +493,15 @@ public class IpoExportWordActorService extends BaseService {
                       }
                   }
               }else {
-                  test.clearParagraph(paragraph);
-                  XWPFRun run = paragraph.createRun();
-                  run.setText("    暂无行业信息");
+                  content="    暂无行业信息";
+                  String text = paragraph.getRuns().get(0).text().replaceAll("#行业地位#", content);
+                  if (text != null) {
+                      if (text.indexOf("\n") == -1) {
+                          paragraph.getRuns().get(0).setText(text, 0);
+                      } else {
+                          replaceNeedBreak(paragraph, text, "#行业地位#");
+                      }
+                  }
               }
 
 
