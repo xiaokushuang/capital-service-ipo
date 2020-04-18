@@ -1180,7 +1180,7 @@ public class IpoExportWordActorService extends BaseService {
                   newParaRun.setFontFamily("宋体 (正文)");
                   newParaRun.setFontSize(11);
                   newParaRun.setBold(false);
-                  newParaRun.setText("    暂无主要供应商情况");
+                  newParaRun.setText("                        暂无主要供应商情况");
               }
 
 
@@ -1297,7 +1297,7 @@ public class IpoExportWordActorService extends BaseService {
                       newParaRun.setFontFamily("宋体 (正文)");
                       newParaRun.setFontSize(11);
                       newParaRun.setBold(false);
-                      newParaRun.setText("    暂无主要客户情况");
+                      newParaRun.setText("                        暂无主要客户情况");
               }
 
               continue;
@@ -1500,7 +1500,7 @@ public class IpoExportWordActorService extends BaseService {
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#占发行后总股本的比例#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkStr(issueData.getIssuedRatio()+"")+"%");
+                          test.replaceTableCell(td,twoMarkStrBFH(issueData.getIssuedRatio()+""));
                       }else {
                           test.replaceTableCell(td,"--");
                       }
@@ -1554,7 +1554,7 @@ public class IpoExportWordActorService extends BaseService {
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行后每股收益#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkStr(issueData.getEpsIssueA()+""));
+                          test.replaceTableCell(td,twoMarkStr(issueData.getEpsIssueA()+"")+"元/股");
                       }else {
                           test.replaceTableCell(td,"--");
                       }
