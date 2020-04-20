@@ -79,7 +79,7 @@ public class IpoExportWordActorController {
         InputStream is = new FileInputStream(filePath + ".docx");
         logger.info("#######【重新读取】###########");
         mv.addObject(DownloadView.EXPORT_FILE, is);
-    }catch (){
+    }catch (Exception e){
         mv.addObject(DownloadView.EXPORT_FILE, (InputStream)exportMap.get("inputStream"));
     }
 
