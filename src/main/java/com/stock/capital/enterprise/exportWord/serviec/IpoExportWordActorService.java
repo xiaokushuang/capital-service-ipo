@@ -87,13 +87,30 @@ public class IpoExportWordActorService extends BaseService {
       }
       wordMap.put("#企业性质#",((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyNature());
       if (StringUtils.isNotEmpty(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrProv()) ||
+              StringUtils.isNotEmpty(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrProv()) ||
               StringUtils.isNotEmpty(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrCity())||
               StringUtils.isNotEmpty(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrArea())){
-          wordMap.put("#注册地址#",isEm(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrProv())+isEm(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrCity())
-                  +isEm(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrArea()));
+          if("北京".equals(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrProv())||
+                  "上海".equals(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrProv())||
+                  "上海".equals(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrProv())||
+                  "上海".equals(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrProv())){
+              wordMap.put("#注册地址#",isEm(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrCountry())
+                      +isEm(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrCity())
+                      +isEm(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrArea()));
+          }else {
+              wordMap.put("#注册地址#",isEm(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrCountry())
+                      +isEm(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrProv())
+                      +isEm(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrCity())
+                      +isEm(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrArea()));
+          }
+
       }else {
           wordMap.put("#注册地址#",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrCountry()));
       }
+
+
+
+
       wordMap.put("#注册资本#",twoMarkThStr(((CompanyOverviewVo)dataMap.get("companyInformation")).getRegisteredAssets()+"")+"万元");
       wordMap.put("#战略新兴行业#",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getStrageticIndustries()));
       wordMap.put("#证监会行业#",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getIndustryCsrc()));
@@ -438,8 +455,10 @@ public class IpoExportWordActorService extends BaseService {
           }else if("#拆分上市情况#".equals(paragraph.getText())){
               String content = "";
               for (int b=0;b<splitList.size();b++){
+
                   if (StringUtils.isNotEmpty(splitList.get(b).getCompanyName())){
-                      content = content + "上市公司：" + splitList.get(b).getCompanyName()+"公司\n";
+                      String[] arr=splitList.get(b).getCompanyName().split("\\(|\\)");
+                      content = content + "上市公司：" + arr[0]+"公司("+""+arr[1]+")"+"\n";
                   }
                   if (StringUtils.isNotEmpty(splitList.get(b).getSplitMarket())){
                       content = content + "所在市场：" + splitList.get(b).getSplitMarket()+"\n";
@@ -473,7 +492,7 @@ public class IpoExportWordActorService extends BaseService {
                       content = content + "总股本：" + twoMarkThStr(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationEquity().toString())+"万股\n";
                   }
                   if ((((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationValue())!=null){
-                      content = content + "估值：" + twoMarkThStr(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationValue()+"")+"亿"+((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationEquityUnit()+"\n";
+                      content = content + "估值：" + twoMarkThStr(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationValue().floatValue()/10000+"")+"亿"+((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationEquityUnit()+"\n";
                   }
                   if (StringUtils.isNotEmpty(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationMemo())){
                       content = content + ((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationMemo()+"\n";
@@ -1410,7 +1429,7 @@ public class IpoExportWordActorService extends BaseService {
                   newParaRun.setFontFamily("宋体 (正文)");
                   newParaRun.setFontSize(11);
                   newParaRun.setBold(false);
-                  newParaRun.setText("    暂无毛利率对比情况");
+                  newParaRun.setText("                        暂无毛利率对比情况");
               }
 
               continue;
@@ -1994,7 +2013,7 @@ public class IpoExportWordActorService extends BaseService {
                                   test.setCellNewContent(table, no, 3, twoMarkStr(tb.get(k).getAllottedNumberTenThousand()+""), i);
                                   test.setCellNewContent(table, no, 4, twoMarkStrBFH(tb.get(k).getRadio()+""), i);
                                   test.setCellNewContent(table, no, 5, twoMarkStr(tb.get(k).getAllottedAmountTenThousand()+""), i);
-                                  test.setCellNewContent(table, no, 6, tb.get(k).getSalesRestrictionPeriodMonth()+"", i);
+                                  test.setCellNewContent(table, no, 6, isNull(tb.get(k).getSalesRestrictionPeriodMonth()+""), i);
                                   no++;
                               }
                               if (tb==null||tb.size()==0){
