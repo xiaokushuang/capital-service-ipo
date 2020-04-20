@@ -224,9 +224,12 @@ public class IpoExportWordActorService extends BaseService {
           wordMap.put("#财务指标表格情况#","    暂无财务指标表格情况");
       }
 
-      if (assetLiability == null ||ipoFinance.getIpoFinanceOverList() == null){
+      if (assetLiability == null || ipoFinance.getIpoFinanceOverList() == null || ipoFinance.getIpoFinanceOverList().size()==0){
           wordMap.put("#资产与负债情况#","    暂无资产与负债情况");
           wordMap.put("#资产与负债情况单位#","    ");
+      }else {
+          wordMap.put("#资产与负债情况#","   ");
+          wordMap.put("#资产与负债情况单位#","单位：万元");
       }
       Map<String, List<IntermediaryOrgDto>> intermediaryOrgList = (Map<String, List<IntermediaryOrgDto>>)dataMap.get("intermediaryOrgList");
       List<IntermediaryOrgDto> bjorg = new ArrayList<>();
@@ -517,15 +520,20 @@ public class IpoExportWordActorService extends BaseService {
               String content = "";
               if (industryStatusDtoList!=null && industryStatusDtoList.size()>0){
                   for (int b=0;b<industryStatusDtoList.size();b++){
-                      if (StringUtils.isNotEmpty(industryStatusDtoList.get(b).getRankingRange())){
-                          content = content + industryStatusDtoList.get(b).getRankingRange();
+                      if (StringUtils.isNotEmpty(industryStatusDtoList.get(b).getRankingRange())
+                              &&StringUtils.isNotEmpty(industryStatusDtoList.get(b).getRankingIndicator())
+                     && StringUtils.isNotEmpty(industryStatusDtoList.get(b).getRanking())){
+//                          if (StringUtils.isNotEmpty(industryStatusDtoList.get(b).getRankingRange())){
+                              content = content + industryStatusDtoList.get(b).getRankingRange();
+//                          }
+//                          if (StringUtils.isNotEmpty(industryStatusDtoList.get(b).getRankingIndicator())){
+                              content = content + industryStatusDtoList.get(b).getRankingIndicator();
+//                          }
+//                          if (StringUtils.isNotEmpty(industryStatusDtoList.get(b).getRanking())){
+                              content = content + "第"+industryStatusDtoList.get(b).getRanking()+"名\n";
+//                          }
                       }
-                      if (StringUtils.isNotEmpty(industryStatusDtoList.get(b).getRankingIndicator())){
-                          content = content + industryStatusDtoList.get(b).getRankingIndicator();
-                      }
-                      if (StringUtils.isNotEmpty(industryStatusDtoList.get(b).getRanking())){
-                          content = content + "第"+industryStatusDtoList.get(b).getRanking()+"名\n";
-                      }
+
                   }
                   if (industryStatusDtoList.size()>0 && StringUtils.isNotEmpty(industryStatusDtoList.get(0).getIndustryStatusOverview())){
                       content = content + industryStatusDtoList.get(0).getIndustryStatusOverview()+"\n";
@@ -1780,9 +1788,29 @@ public class IpoExportWordActorService extends BaseService {
                           int no = rowCnt+1;
                           if (assetLiability != null && ipoFinance.getIpoFinanceOverList() != null) {
                               List<IpoItemDto> tb = new ArrayList<>();
-                              tb.addAll(assetLiability.getIpoAssetItemList());
-                              tb.addAll(assetLiability.getIpoDebtItemList());
-                              tb.addAll(assetLiability.getIpoEquityItemList());
+                              List<IpoItemDto> list=new ArrayList<>();
+                              IpoItemDto dto=new IpoItemDto();
+                              if (assetLiability.getIpoAssetItemList().size()>0){
+                                  dto.setItemName("资产类项目：");
+                                  list.add(dto);
+                                  list.addAll(assetLiability.getIpoAssetItemList());
+                                  tb.addAll(list);
+                              }
+                              if (assetLiability.getIpoAssetItemList().size()>0){
+                                  dto.setItemName("负债类项目：");
+                                  list.add(dto);
+                                  list.addAll(assetLiability.getIpoDebtItemList());
+                                  tb.addAll(list);
+                              }
+                              if (assetLiability.getIpoAssetItemList().size()>0){
+                                  dto.setItemName("权益类项目：");
+                                  list.add(dto);
+                                  list.addAll(assetLiability.getIpoDebtItemList());
+                                  tb.addAll(list);
+                              }
+//                              tb.addAll(assetLiability.getIpoAssetItemList());
+//                              tb.addAll(assetLiability.getIpoDebtItemList());
+//                              tb.addAll(assetLiability.getIpoEquityItemList());
                               test.setCellNewContentTitleNotTemp(table, 0, 0,"项目", i);
                               test.setCellNewContentTitleNotTemp(table, 0, 1, assetLiability.getDateList().getForthYearDate(), i);
                               test.setCellNewContentTitleNotTemp(table, 0, 2, assetLiability.getDateList().getThirdYearDate(), i);
@@ -1863,15 +1891,36 @@ public class IpoExportWordActorService extends BaseService {
                           int no = rowCnt+1;
                           if (incomeProfit != null) {
                               List<IpoItemDto> tb = new ArrayList<>();
-                              if (incomeProfit.getIpoProfitItemList()!=null){
-                                  tb.addAll(incomeProfit.getIpoProfitItemList());
+                              List<IpoItemDto> list=new ArrayList<>();
+                              IpoItemDto dto=new IpoItemDto();
+                              if (incomeProfit.getIpoProfitItemList()!=null&&incomeProfit.getIpoProfitItemList().size()>0){
+                                  dto.setItemName("收入类项目：");
+                                  list.add(dto);
+                                  list.addAll(assetLiability.getIpoAssetItemList());
+                                  tb.addAll(list);
                               }
-                              if (incomeProfit.getIpoCostItemList()!=null){
-                                  tb.addAll(incomeProfit.getIpoCostItemList());
+                              if (incomeProfit.getIpoCostItemList()!=null&&incomeProfit.getIpoCostItemList().size()>0){
+                                  dto.setItemName("成本类项目：");
+                                  list.add(dto);
+                                  list.addAll(assetLiability.getIpoDebtItemList());
+                                  tb.addAll(list);
                               }
-                              if (incomeProfit.getIpoReturnOverList()!=null){
-                                  tb.addAll(incomeProfit.getIpoReturnOverList());
+                              if (incomeProfit.getIpoReturnOverList()!=null&&incomeProfit.getIpoReturnOverList().size()>0){
+                                  dto.setItemName("利润类项目：");
+                                  list.add(dto);
+                                  list.addAll(assetLiability.getIpoDebtItemList());
+                                  tb.addAll(list);
                               }
+
+//                              if (incomeProfit.getIpoProfitItemList()!=null){
+//                                  tb.addAll(incomeProfit.getIpoProfitItemList());
+//                              }
+//                              if (incomeProfit.getIpoCostItemList()!=null){
+//                                  tb.addAll(incomeProfit.getIpoCostItemList());
+//                              }
+//                              if (incomeProfit.getIpoReturnOverList()!=null){
+//                                  tb.addAll(incomeProfit.getIpoReturnOverList());
+//                              }
                               if (incomeProfit.getDateList()!=null){
                                   test.setCellNewContentTitleNotTemp(table, 0, 1, incomeProfit.getDateList().getForthYearDate(), i);
                                   test.setCellNewContentTitleNotTemp(table, 0, 2, incomeProfit.getDateList().getThirdYearDate(), i);
