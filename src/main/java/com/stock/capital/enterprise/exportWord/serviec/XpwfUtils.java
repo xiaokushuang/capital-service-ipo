@@ -753,6 +753,29 @@ public class XpwfUtils {
 		p.getRuns().get(0).setText(text,0);
 	}
 
+	public void replaceTableCellHH(XWPFTableCell cell,String content) {
+		XWPFParagraph p = getCellFirstParagraph(cell);
+		XWPFRun newRun = p.createRun();
+        p.setSpacingBetween(1, LineSpacingRule.AUTO);
+        newRun.setFontFamily("宋体");
+        newRun.setFontSize(11);
+		if(content.indexOf("\n") > 0){
+			String[] text = content.split("\n");
+			for (int f = 0; f < text.length; f++) {
+				if (f == 0) {
+					newRun.setText(text[f].trim());
+				} else {
+					// 换行
+					newRun.addBreak();
+					newRun.setText(text[f].trim());
+				}
+			}
+		} else {
+			newRun.setText(content);
+		}
+		p.getRuns().get(0).setText(content,0);
+	}
+
 	/**
 	 * @Description: 跨列合并
 	 */
