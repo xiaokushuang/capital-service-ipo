@@ -60,26 +60,29 @@ public class IpoExportWordActorController {
     String name=((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyZhName();
     logger.info("#######【开始导出】###########");
     Map<String,Object> exportMap = ipoExportWordActorService.exportWordCase(resource.getInputStream(),caseId);
-    logger.info("#######【poi导出完成】###########");
-    Document doc = new Document((InputStream)exportMap.get("inputStream"));
-    logger.info("#######【转spire】###########");
-    doc.updateTableOfContents();
-    logger.info("#######【更新目录】###########");
-    String path = filePath+"tempDocFiles";
-    File dir = new File(path);
-    if (!dir.exists()) {
-      dir.mkdir();
+    try {
+        logger.info("#######【poi导出完成】###########");
+        Document doc = new Document((InputStream)exportMap.get("inputStream"));
+        logger.info("#######【转spire】###########");
+        doc.updateTableOfContents();
+        logger.info("#######【更新目录】###########");
+        String path = filePath+"tempDocFiles";
+        File dir = new File(path);
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+        String filePath = path + File.separator + UUID.randomUUID();
+        logger.info("#######【路径"+filePath+"】###########");
+        doc.saveToFile(filePath + ".docx", FileFormat.Docx);
+        doc.close();
+        //重新读取文档，进行操作
+        InputStream is = new FileInputStream(filePath + ".docx");
+        logger.info("#######【重新读取】###########");
+        mv.addObject(DownloadView.EXPORT_FILE, is);
+    }catch (){
+        mv.addObject(DownloadView.EXPORT_FILE, (InputStream)exportMap.get("inputStream"));
     }
-    String filePath = path + File.separator + UUID.randomUUID();
-    logger.info("#######【路径"+filePath+"】###########");
-    doc.saveToFile(filePath + ".docx", FileFormat.Docx);
-    doc.close();
-    //重新读取文档，进行操作
-    InputStream is = new FileInputStream(filePath + ".docx");
-    logger.info("#######【重新读取】###########");
-    mv.addObject(DownloadView.EXPORT_FILE, is);
 
-    //mv.addObject(DownloadView.EXPORT_FILE, (InputStream)exportMap.get("inputStream"));
     mv.addObject(DownloadView.EXPORT_FILE_NAME, name+"导出word.docx");
     mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.DOCX);
     response.setHeader("fileName", java.net.URLEncoder.encode(name+"导出word.docx", "utf-8"));
