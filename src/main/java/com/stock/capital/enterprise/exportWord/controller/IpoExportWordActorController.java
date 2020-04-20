@@ -63,6 +63,7 @@ public class IpoExportWordActorController {
     }
     String filePath = path + File.separator + UUID.randomUUID();
     doc.saveToFile(filePath + ".docx", FileFormat.Docx);
+    doc.close();
     //重新读取文档，进行操作
     InputStream is = new FileInputStream(filePath + ".docx");
     mv.addObject(DownloadView.EXPORT_FILE, is);
