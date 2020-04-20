@@ -180,9 +180,11 @@ public class IpoExportWordActorService extends BaseService {
       }
       List<IpoInvestItemDto> ipoInvestItem = (List<IpoInvestItemDto>)dataMap.get("ipoInvestItem");
       if (ipoInvestItem != null && ipoInvestItem.size()>0){
+          wordMap.put("#募集资金详情#"," ");
           wordMap.put("#募集资金备注#",ipoInvestItem.get(0).getInvestRemark()+" ");
       }else {
-          wordMap.put("#募集资金备注#","暂无募集资金内容");
+          wordMap.put("#募集资金详情#","暂无募集资金内容");
+          wordMap.put("#募集资金备注#"," ");
       }
         if (ipoInvestItem != null && ipoInvestItem.size()>0){
             wordMap.put("#募集资金单位#","单位：万元");
@@ -2119,6 +2121,7 @@ public class IpoExportWordActorService extends BaseService {
       xdoc.write(os);
       os.close();
       exportMap.put("inputStream",new ByteArrayInputStream(os.toByteArray()));
+      exportMap.put("companyName",wordMap.get("#公司名字#"));
       return exportMap;
     }
 

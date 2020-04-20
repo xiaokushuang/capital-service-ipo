@@ -56,8 +56,8 @@ public class IpoExportWordActorController {
     ModelAndView mv = new ModelAndView();
     Resource resource = new ClassPathResource("templates/IPO导出word模板.docx");
     mv.setView(new DownloadView());
-    Map<String,Object> dataMap = ipoExportWordService.getCompanyInformation(caseId);
-    String name=((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyZhName();
+//    Map<String,Object> dataMap = ipoExportWordService.getCompanyInformation(caseId);
+//    String name=((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyZhName();
     logger.info("#######【开始导出】###########");
     Map<String,Object> exportMap = ipoExportWordActorService.exportWordCase(resource.getInputStream(),caseId);
     /*try {
@@ -84,9 +84,9 @@ public class IpoExportWordActorController {
         mv.addObject(DownloadView.EXPORT_FILE, (InputStream)exportMap.get("inputStream"));
     //}
 
-    mv.addObject(DownloadView.EXPORT_FILE_NAME, name+"导出word.docx");
+    mv.addObject(DownloadView.EXPORT_FILE_NAME, exportMap.get("companyName")+"导出word.docx");
     mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.DOCX);
-    response.setHeader("fileName", java.net.URLEncoder.encode(name+"导出word.docx", "utf-8"));
+    response.setHeader("fileName", java.net.URLEncoder.encode(exportMap.get("companyName")+"导出word.docx", "utf-8"));
     logger.info("#######【导出完成】###########");
     return mv;
   }
