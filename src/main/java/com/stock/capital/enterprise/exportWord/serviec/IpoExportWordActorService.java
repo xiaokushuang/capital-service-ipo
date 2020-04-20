@@ -92,8 +92,8 @@ public class IpoExportWordActorService extends BaseService {
               StringUtils.isNotEmpty(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrArea())){
           if("北京".equals(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrProv())||
                   "上海".equals(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrProv())||
-                  "上海".equals(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrProv())||
-                  "上海".equals(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrProv())){
+                  "天津".equals(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrProv())||
+                  "重庆".equals(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrProv())){
               wordMap.put("#注册地址#",isEm(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrCountry())
                       +isEm(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrCity())
                       +isEm(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrArea()));
@@ -108,16 +108,18 @@ public class IpoExportWordActorService extends BaseService {
           wordMap.put("#注册地址#",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getAddrCountry()));
       }
 
-
-
+      String placing="";
+        if (((CompanyOverviewVo)dataMap.get("companyInformation")).getPlacingMechanism()!=null){
+            placing=((CompanyOverviewVo)dataMap.get("companyInformation")).getPlacingMechanism().replaceAll(",","；");
+        }
 
       wordMap.put("#注册资本#",twoMarkThStr(((CompanyOverviewVo)dataMap.get("companyInformation")).getRegisteredAssets()+"")+"万元");
       wordMap.put("#战略新兴行业#",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getStrageticIndustries()));
       wordMap.put("#证监会行业#",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getIndustryCsrc()));
       wordMap.put("#实际控制人#",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getActualController()));
       wordMap.put("#控股股东#",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getControlShareholder()));
-      wordMap.put("#配售机制#",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getPlacingMechanism()));
-      wordMap.put("#上市标准#",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getIssueConditionName()));
+      wordMap.put("#配售机制#",isNull(placing));
+      wordMap.put("#上市标准#",issueConditionName(((CompanyOverviewVo)dataMap.get("companyInformation")).getIssueCondition()));
       wordMap.put("#主营业务#",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getMajorBusinesses()));
       List<OtherMarketInfoDto> otherList = (List<OtherMarketInfoDto>)dataMap.get("otherMarkInfo");
       List<IpoSplitDto> splitList = (List<IpoSplitDto>)dataMap.get("splitList");
@@ -178,9 +180,11 @@ public class IpoExportWordActorService extends BaseService {
       }
       List<IpoInvestItemDto> ipoInvestItem = (List<IpoInvestItemDto>)dataMap.get("ipoInvestItem");
       if (ipoInvestItem != null && ipoInvestItem.size()>0){
+          wordMap.put("#募集资金详情#"," ");
           wordMap.put("#募集资金备注#",ipoInvestItem.get(0).getInvestRemark()+" ");
       }else {
-          wordMap.put("#募集资金备注#","暂无募集资金内容");
+          wordMap.put("#募集资金详情#","暂无募集资金内容");
+          wordMap.put("#募集资金备注#"," ");
       }
         if (ipoInvestItem != null && ipoInvestItem.size()>0){
             wordMap.put("#募集资金单位#","单位：万元");
@@ -1480,7 +1484,7 @@ public class IpoExportWordActorService extends BaseService {
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#配售机制#") != -1) {
                       test.replaceTableCell(td,wordMap.get("#配售机制#"));
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#上市标准#") != -1) {
-                      test.replaceTableCell(td,wordMap.get("#上市标准#"));
+                      test.replaceTableCellHH(td,wordMap.get("#上市标准#"));
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#主营业务#") != -1) {
                       test.replaceTableCell(td,wordMap.get("#主营业务#"));
                   }
@@ -2117,6 +2121,7 @@ public class IpoExportWordActorService extends BaseService {
       xdoc.write(os);
       os.close();
       exportMap.put("inputStream",new ByteArrayInputStream(os.toByteArray()));
+      exportMap.put("companyName",wordMap.get("#公司名字#"));
       return exportMap;
     }
 
@@ -2294,6 +2299,45 @@ public class IpoExportWordActorService extends BaseService {
         }
 
         cursor.toParent();
+    }
+
+    public String issueConditionName(String str){
+        String content="";
+        if (str!=null){
+           String[] arr=str.split(",");
+           for (int i=0;i<arr.length;i++){
+               if ("101".equals(arr[i])){
+                   content+="预计市值不低于人民币10亿元，最近两年净利润均为正且累计净利润不低于人民币5000万元，或者预计市值不低于人民币10亿元，最近一年净利润为正且营业收入不低于人民币1亿元\n";
+               }else if ("102".equals(arr[i])){
+                   content+="预计市值不低于人民币15亿元，最近一年营业收入不低于人民币2亿元，且最近三年累计研发投入占最近三年累计营业收入的比例不低于15%\n";
+               }else if ("103".equals(arr[i])){
+                   content+=" 预计市值不低于人民币20亿元，最近一年营业收入不低于人民币3亿元，且最近三年经营活动产生的现金流量净额累计不低于人民币1亿元\n";
+               } else if ("104".equals(arr[i])){
+                   content+=" 预计市值不低于人民币30亿元，且最近一年营业收入不低于人民币3亿元\n";
+               }else if ("105".equals(arr[i])){
+                   content+="预计市值不低于人民币40亿元，主要业务或产品需经国家有关部门批准，市场空间大，目前已取得阶段性成果。医药行业企业需至少有一项核心产品获准开展二期临床试验，其他符合科创板定位的企业需具备明显的技术优势并满足相应条件\n";
+               }else if ("201".equals(arr[i])){
+                   content+="符合相关规定的红筹企业，预计市值不低于人民币100亿元\n";
+               }else if ("202".equals(arr[i])){
+                   content+="符合相关规定的红筹企业，预计市值不低于人民币50亿元，且最近一年营业收入不低于人民币5亿元\n";
+               }else if ("301".equals(arr[i])){
+                   content+="发行人具有表决权差异安排的，预计市值不低于人民币100亿元\n";
+               } else if ("302".equals(arr[i])){
+                   content+="发行人具有表决权差异安排的，预计市值不低于人民币50亿元，且最近一年营业收入不低于人民币5亿元\n";
+               }else if ("401".equals(arr[i])){
+                   content+="市值不低于2亿元，最近两年净利润均不低于2亿元1500万元且加权平均净资产收益率平均不低于10%，或者最近一年净利润不低于2500万元且加权平均净资产收益率不低于10%\n";
+               }else if ("402".equals(arr[i])){
+                   content+=" 市值不低于4亿元，最近两年营业收入平均不低于1亿元且增长率不低于30%，最近一年经营活动产生的现金流量净额为正\n";
+               }else if ("403".equals(arr[i])){
+                   content+="市值不低于8亿元，最近一年营业收入不低于2亿元，最近两年研发投入合计占最近两年营业收入合计比例不低于8%\n";
+               }else if ("404".equals(arr[i])){
+                   content+="市值不低于15亿元，最近两年研发投入合计不低于5000万元\n";
+               }
+           }
+        }else {
+            content="--";
+        }
+            return content;
     }
 
     public String isNull(String str){
