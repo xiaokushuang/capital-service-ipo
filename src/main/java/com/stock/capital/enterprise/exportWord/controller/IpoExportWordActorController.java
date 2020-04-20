@@ -54,7 +54,7 @@ public class IpoExportWordActorController {
 
     Map<String,Object> exportMap = ipoExportWordActorService.exportWordCase(resource.getInputStream(),caseId);
 
-    Document doc = new Document((InputStream)exportMap.get("inputStream"));
+   /* Document doc = new Document((InputStream)exportMap.get("inputStream"));
     doc.updateTableOfContents();
     String path = "C:\\tempDocFiles";
     File dir = new File(path);
@@ -65,8 +65,10 @@ public class IpoExportWordActorController {
     doc.saveToFile(filePath + ".docx", FileFormat.Docx);
     //重新读取文档，进行操作
     InputStream is = new FileInputStream(filePath + ".docx");
-
     mv.addObject(DownloadView.EXPORT_FILE, is);
+    */
+
+    mv.addObject(DownloadView.EXPORT_FILE, (InputStream)exportMap.get("inputStream"));
     mv.addObject(DownloadView.EXPORT_FILE_NAME, name+"导出word.docx");
     mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.DOCX);
     response.setHeader("fileName", java.net.URLEncoder.encode(name+"导出word.docx", "utf-8"));
