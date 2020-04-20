@@ -1,5 +1,7 @@
 package com.stock.capital.enterprise.exportWord.controller;
 
+import com.spire.doc.Document;
+import com.spire.doc.FileFormat;
 import com.stock.capital.enterprise.exportWord.serviec.IpoExportWordActorService;
 import com.stock.capital.enterprise.exportWord.serviec.IpoExportWordService;
 import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
@@ -20,9 +22,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+import java.util.UUID;
 
 @Api(tags = {"IPO导出word"}, description = "IPO导出word")
 @RestController
@@ -48,7 +53,20 @@ public class IpoExportWordActorController {
     String name=((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyZhName();
 
     Map<String,Object> exportMap = ipoExportWordActorService.exportWordCase(resource.getInputStream(),caseId);
-    mv.addObject(DownloadView.EXPORT_FILE, (InputStream)exportMap.get("inputStream"));
+
+    Document doc = new Document((InputStream)exportMap.get("inputStream"));
+    doc.updateTableOfContents();
+    String path = "C:\\tempDocFiles";
+    File dir = new File(path);
+    if (!dir.exists()) {
+      dir.mkdir();
+    }
+    String filePath = path + File.separator + UUID.randomUUID();
+    doc.saveToFile(filePath + ".docx", FileFormat.Docx);
+    //重新读取文档，进行操作
+    InputStream is = new FileInputStream(filePath + ".docx");
+
+    mv.addObject(DownloadView.EXPORT_FILE, is);
     mv.addObject(DownloadView.EXPORT_FILE_NAME, name+"导出word.docx");
     mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.DOCX);
     response.setHeader("fileName", java.net.URLEncoder.encode(name+"导出word.docx", "utf-8"));
