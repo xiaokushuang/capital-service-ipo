@@ -779,18 +779,18 @@ public class IpoExportWordActorService extends BaseService {
                   newRun.addBreak();
 
               //饼图
-                  XWPFChart chart1 = xdoc.createChart(XDDFChart.DEFAULT_WIDTH * 8, XDDFChart.DEFAULT_HEIGHT * 10);
-                  poiWordInsertChartUtils.setSimpleBarData(chart1,"2","","",series,listLanguages,zhuziList);
-                  xdoc.removeBodyElement(xdoc.getBodyElements().size()-1);
-                  itPara = xdoc.getParagraphsIterator();
-                  XWPFRun newRun1 = paragraph.createRun();
-                  String relationId1 = xdoc.getRelationId(chart1);
-                  java.lang.reflect.Method attach1 = XWPFChart.class.getDeclaredMethod("attach", String.class, XWPFRun.class);
-                  attach1.setAccessible(true);
-                  attach1.invoke(chart1, relationId1, newRun1);
-                  chart1.setChartWidth(XDDFChart.DEFAULT_WIDTH * 10);
-                  chart1.setChartHeight(XDDFChart.DEFAULT_HEIGHT * 8);
-                  newRun1.addBreak();
+//                  XWPFChart chart1 = xdoc.createChart(XDDFChart.DEFAULT_WIDTH * 8, XDDFChart.DEFAULT_HEIGHT * 10);
+//                  poiWordInsertChartUtils.setSimpleBarData(chart1,"2","","",series,listLanguages,zhuziList);
+//                  xdoc.removeBodyElement(xdoc.getBodyElements().size()-1);
+//                  itPara = xdoc.getParagraphsIterator();
+//                  XWPFRun newRun1 = paragraph.createRun();
+//                  String relationId1 = xdoc.getRelationId(chart1);
+//                  java.lang.reflect.Method attach1 = XWPFChart.class.getDeclaredMethod("attach", String.class, XWPFRun.class);
+//                  attach1.setAccessible(true);
+//                  attach1.invoke(chart1, relationId1, newRun1);
+//                  chart1.setChartWidth(XDDFChart.DEFAULT_WIDTH * 10);
+//                  chart1.setChartHeight(XDDFChart.DEFAULT_HEIGHT * 8);
+//                  newRun1.addBreak();
               }
           }
           else if("#问询回复/反馈意见流程#".equals(paragraph.getText())){
@@ -1265,16 +1265,16 @@ public class IpoExportWordActorService extends BaseService {
                           setTitleBold(1,row_2,list.get(n).getCompanyName(),8,false);
                           setTitleBold(2,row_2,list.get(n).getOnePeriodContent(),8,false);
                           setTitleBold(3,row_2,twoMarkStr(list.get(n).getOnePeriodAmount()+""),8,false);
-                          setTitleBold(4,row_2,twoMarkStr(list.get(n).getOnePeriodRatio()+"")+"%",8,false);
+                          setTitleBold(4,row_2,twoMarkStrBFH(list.get(n).getOnePeriodRatio()+""),8,false);
                           setTitleBold(5,row_2,list.get(n).getThirdYearContent(),8,false);
                           setTitleBold(6,row_2,twoMarkStr(list.get(n).getThirdYearAmount()+""),8,false);
-                          setTitleBold(7,row_2,twoMarkStr(list.get(n).getThirdYearRatio()+"")+"%",8,false);
+                          setTitleBold(7,row_2,twoMarkStrBFH(list.get(n).getThirdYearRatio()+""),8,false);
                           setTitleBold(8,row_2,list.get(n).getSecondYearContent(),8,false);
                           setTitleBold(9,row_2,twoMarkStr(list.get(n).getSecondYearAmount()+""),8,false);
-                          setTitleBold(10,row_2,twoMarkStr(list.get(n).getSecondYearRatio()+"")+"%",8,false);
+                          setTitleBold(10,row_2,twoMarkStrBFH(list.get(n).getSecondYearRatio()+""),8,false);
                           setTitleBold(11,row_2,list.get(n).getFirstYearContent(),8,false);
                           setTitleBold(12,row_2,twoMarkStr(list.get(n).getFirstYearAmount()+""),8,false);
-                          setTitleBold(13,row_2,twoMarkStr(list.get(n).getFirstYearRatio()+"")+"%",8,false);
+                          setTitleBold(13,row_2,twoMarkStrBFH(list.get(n).getFirstYearRatio()+""),8,false);
                           if (n%2!=0){
                               for (int p=0;p<14;p++){
                                   row_2.getCell(p).setColor("E7F3FF");
@@ -1378,7 +1378,8 @@ public class IpoExportWordActorService extends BaseService {
                       XWPFTable table =xdoc.insertNewTbl(newpa2.getCTP().newCursor());
                       XWPFTableRow row_0 = table.getRow(0);
                       SimpleDateFormat df1 = new SimpleDateFormat("yyyy年");
-                      row_0.getCell(0).setText("企业名称");
+//                      row_0.getCell(0).setText("");
+                      setTitleBold(0,row_0,"企业名称",8,true);
                       row_0.addNewTableCell();
                       setTitleBold(1,row_0,industryCompareList.get(z).getThirdYear(),8,true);
                       row_0.addNewTableCell();
