@@ -71,9 +71,9 @@ public class POIWordInsertChartUtils {
 ////            TODO  多个可能的处理逻辑
 //            leftAxis.setTitle(yTitles.get(0));
 //        }
-//        leftAxis.setCrosses(AxisCrosses.AUTO_ZERO);
-//        leftAxis.setMajorTickMark(AxisTickMark.OUT);
-//        leftAxis.setCrossBetween(AxisCrossBetween.BETWEEN);
+        leftAxis.setCrosses(AxisCrosses.AUTO_ZERO);
+        leftAxis.setMajorTickMark(AxisTickMark.OUT);
+        leftAxis.setCrossBetween(AxisCrossBetween.BETWEEN);
 
         final int numOfPoints = xTitles.size();
 //        分类
