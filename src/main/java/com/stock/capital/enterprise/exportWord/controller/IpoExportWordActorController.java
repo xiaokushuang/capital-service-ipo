@@ -12,6 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +40,9 @@ public class IpoExportWordActorController {
   private IpoExportWordActorService ipoExportWordActorService;
   @Autowired
   private IpoExportWordService ipoExportWordService;
+
+  @Value("#{app['file.path']}")
+  private String filePath;
   /**
    * 导出Word
    * @throws Exception
@@ -56,7 +60,7 @@ public class IpoExportWordActorController {
 
     Document doc = new Document((InputStream)exportMap.get("inputStream"));
     doc.updateTableOfContents();
-    String path = "C:\\tempDocFiles";
+    String path = filePath+"tempDocFiles";
     File dir = new File(path);
     if (!dir.exists()) {
       dir.mkdir();
