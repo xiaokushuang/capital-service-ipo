@@ -60,7 +60,7 @@ public class IpoExportWordActorController {
     String name=((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyZhName();
     logger.info("#######【开始导出】###########");
     Map<String,Object> exportMap = ipoExportWordActorService.exportWordCase(resource.getInputStream(),caseId);
-    /*try {
+    try {
         logger.info("#######【poi导出完成】###########");
         Document doc = new Document((InputStream)exportMap.get("inputStream"));
         logger.info("#######【转spire】###########");
@@ -80,9 +80,9 @@ public class IpoExportWordActorController {
         logger.info("#######【重新读取】###########");
         mv.addObject(DownloadView.EXPORT_FILE, is);
     }catch (Exception e){
-        logger.info("#######【spire错误："+e+"】###########");*/
+        logger.info("#######【spire错误："+e+"】###########");
         mv.addObject(DownloadView.EXPORT_FILE, (InputStream)exportMap.get("inputStream"));
-    //}
+    }
 
     mv.addObject(DownloadView.EXPORT_FILE_NAME, name+"导出word.docx");
     mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.DOCX);
