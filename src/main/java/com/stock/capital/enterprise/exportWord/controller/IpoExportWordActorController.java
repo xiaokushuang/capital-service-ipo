@@ -80,6 +80,7 @@ public class IpoExportWordActorController {
         logger.info("#######【重新读取】###########");
         mv.addObject(DownloadView.EXPORT_FILE, is);
     }catch (Exception e){
+        logger.info("#######【spire错误："+e+"】###########");
         mv.addObject(DownloadView.EXPORT_FILE, (InputStream)exportMap.get("inputStream"));
     }
 
