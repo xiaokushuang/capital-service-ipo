@@ -87,7 +87,7 @@ public class IpoExportWordService extends BaseService {
       if (treeList.get(i).getProList() != null) {
         IpoProgressDto ipoProgress = treeList.get(i);
         Integer durationDay = 0;
-        for (int j = 0; j < ipoProgress.getProList().size(); j++) {
+        for (int j = 0; j < ipoProgress.getProList().size() -1 ; j++) {
           IpoProListDto ipoPro = ipoProgress.getProList().get(j);
           Integer lastDay = Integer
               .parseInt(StringUtils.isNotBlank(ipoPro.getLastDay()) ? ipoPro.getLastDay() : "0");
