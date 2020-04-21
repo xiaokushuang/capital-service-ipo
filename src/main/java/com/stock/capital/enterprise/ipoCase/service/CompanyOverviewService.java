@@ -397,38 +397,42 @@ public class CompanyOverviewService extends BaseService {
                 if (dto.getOnePeriodAmount() != null) {
                     onePeriodAmountS = onePeriodAmountS.add(dto.getOnePeriodAmount());
                 }
-                if (dto.getOnePeriodRatio() != null) {
-                    onePeriodRatioS = onePeriodRatioS.add(dto.getOnePeriodRatio());
-                }
+//                if (dto.getOnePeriodRatio() != null) {
+//                    onePeriodRatioS = onePeriodRatioS.add(dto.getOnePeriodRatio());
+//                }
                 if (dto.getThirdYearAmount() != null) {
                     thirdYearAmountS = thirdYearAmountS.add(dto.getThirdYearAmount());
                 }
-                if (dto.getThirdYearRatio() != null) {
-                    thirdYearRatioS = thirdYearRatioS.add(dto.getThirdYearRatio());
-                }
+//                if (dto.getThirdYearRatio() != null) {
+//                    thirdYearRatioS = thirdYearRatioS.add(dto.getThirdYearRatio());
+//                }
                 if (dto.getSecondYearAmount() != null) {
                     secondYearAmountS = secondYearAmountS.add(dto.getSecondYearAmount());
                 }
-                if (dto.getSecondYearRatio() != null) {
-                    secondYearRatioS = secondYearRatioS.add(dto.getSecondYearRatio());
-                }
+//                if (dto.getSecondYearRatio() != null) {
+//                    secondYearRatioS = secondYearRatioS.add(dto.getSecondYearRatio());
+//                }
                 if (dto.getFirstYearAmount() != null) {
                     firstYearAmountS = firstYearAmountS.add(dto.getFirstYearAmount());
                 }
-                if (dto.getFirstYearRatio() != null) {
-                    firstYearRatioS = firstYearRatioS.add(dto.getFirstYearRatio());
-                }
+//                if (dto.getFirstYearRatio() != null) {
+//                    firstYearRatioS = firstYearRatioS.add(dto.getFirstYearRatio());
+//                }
             }
             MainIncomeInfoDto sumDto = new MainIncomeInfoDto();
             sumDto.setBusinessName("合计");
             sumDto.setOnePeriodAmount(onePeriodAmountS);
-            sumDto.setOnePeriodRatio(onePeriodRatioS);
+//            sumDto.setOnePeriodRatio(onePeriodRatioS);
+            sumDto.setOnePeriodRatio(new BigDecimal("100"));
             sumDto.setThirdYearAmount(thirdYearAmountS);
-            sumDto.setThirdYearRatio(thirdYearRatioS);
+//            sumDto.setThirdYearRatio(thirdYearRatioS);
+            sumDto.setThirdYearRatio(new BigDecimal("100"));
             sumDto.setSecondYearAmount(secondYearAmountS);
-            sumDto.setSecondYearRatio(secondYearRatioS);
+//            sumDto.setSecondYearRatio(secondYearRatioS);
+            sumDto.setSecondYearRatio(new BigDecimal("100"));
             sumDto.setFirstYearAmount(firstYearAmountS);
-            sumDto.setFirstYearRatio(firstYearRatioS);
+//            sumDto.setFirstYearRatio(firstYearRatioS);
+            sumDto.setFirstYearRatio(new BigDecimal("100"));
             mainIncomeInfoList.add(sumDto);
             mainIncomeVo.setMainIncomeInfoList(mainIncomeInfoList);
         }
