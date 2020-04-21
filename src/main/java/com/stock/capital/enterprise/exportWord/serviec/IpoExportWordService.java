@@ -206,12 +206,15 @@ public class IpoExportWordService extends BaseService {
     keyValueMap.put("基本每股收益", "基本每股收益 (元/股)");
     keyValueMap.put("扣除非经常性损益后的基本每股收益", "扣除非经常性损益后的基本每股收益 (元/股)");
 
-    for (int i = 0; i < ipoMainIndexList.size(); i++) {
-      IpoItemDto tmp = ipoMainIndexList.get(i);
-      if (keyValueMap.containsKey(tmp.getItemName())){
-        tmp.setItemName(keyValueMap.get(tmp.getItemName()));
+    if (ipoMainIndexList!=null&&ipoMainIndexList.size()>0){
+      for (int i = 0; i < ipoMainIndexList.size(); i++) {
+        IpoItemDto tmp = ipoMainIndexList.get(i);
+        if (keyValueMap.containsKey(tmp.getItemName())){
+          tmp.setItemName(keyValueMap.get(tmp.getItemName()));
+        }
       }
     }
+
 
   }
 }

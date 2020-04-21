@@ -366,6 +366,63 @@ public class IpoExportWordActorService extends BaseService {
               chartsMap.put(key, poixmlDocumentPart);
           }
       }
+        if (mainIncomeVo != null && mainIncomeVo.getMainIncomeInfoList() != null){
+            List<String> titleArr = new ArrayList<String>();
+            titleArr.add("近三年主营业务趋势");
+            List<String> fldNameArr = new ArrayList<String>();
+            List<Map<String, String>> listItemsByType = new ArrayList<Map<String, String>>();
+            fldNameArr.add("item1");
+            if (StringUtils.isNotEmpty(mainIncomeVo.getOnePeriodForIncome())){
+                fldNameArr.add(mainIncomeVo.getOnePeriodForIncome());
+                titleArr.add(mainIncomeVo.getOnePeriodForIncome());
+            }
+//            if (StringUtils.isNotEmpty(mainIncomeVo.getThirdYearForIncome())){
+//                fldNameArr.add(mainIncomeVo.getThirdYearForIncome());
+//                titleArr.add(mainIncomeVo.getThirdYearForIncome());
+//
+//            }
+//            if (StringUtils.isNotEmpty(mainIncomeVo.getSecondYearForIncome())){
+//                fldNameArr.add(mainIncomeVo.getSecondYearForIncome());
+//                titleArr.add(mainIncomeVo.getSecondYearForIncome());
+//
+//            }
+//            if (StringUtils.isNotEmpty(mainIncomeVo.getFirstYearForIncome())){
+//                fldNameArr.add(mainIncomeVo.getFirstYearForIncome());
+//                titleArr.add(mainIncomeVo.getFirstYearForIncome());
+//            }
+
+
+            for (int i=0;i<mainIncomeVo.getMainIncomeInfoList().size();i++){
+                if (!mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName().equals("合计")){
+                    Map<String, String> base1 = new HashMap<String, String>();
+                    if (StringUtils.isNotEmpty(mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName())){
+                        base1.put("item1", mainIncomeVo.getMainIncomeInfoList().get(i).getBusinessName());
+                    }
+                    if (StringUtils.isNotEmpty(mainIncomeVo.getOnePeriodForIncome())){
+                        base1.put(mainIncomeVo.getOnePeriodForIncome(), isNullBig(mainIncomeVo.getMainIncomeInfoList().get(i).getOnePeriodAmount()));
+                    }
+//                    if (StringUtils.isNotEmpty(mainIncomeVo.getThirdYearForIncome())){
+//                        base1.put(mainIncomeVo.getThirdYearForIncome(), isNullBig(mainIncomeVo.getMainIncomeInfoList().get(i).getThirdYearAmount()));
+//                    }
+//                    if (StringUtils.isNotEmpty(mainIncomeVo.getSecondYearForIncome())){
+//                        base1.put(mainIncomeVo.getSecondYearForIncome(), isNullBig(mainIncomeVo.getMainIncomeInfoList().get(i).getSecondYearAmount()));
+//                    }
+//                    if (StringUtils.isNotEmpty(mainIncomeVo.getFirstYearForIncome())){
+//                        base1.put(mainIncomeVo.getFirstYearForIncome(), isNullBig(mainIncomeVo.getMainIncomeInfoList().get(i).getFirstYearAmount()));
+//                    }
+                    listItemsByType.add(base1);
+                }
+
+            }
+//            listItemsByType.add(base1);
+//            listItemsByType.add(base2);
+//            listItemsByType.add(base3);
+//            listItemsByType.add(base4);
+
+//饼图
+            POIXMLDocumentPart poixmlDocumentPart1 = chartsMap.get("/word/charts/chart1.xml");
+            new PoiWordTools().replacePieCharts(poixmlDocumentPart1, titleArr, fldNameArr, listItemsByType);
+        }
 
 //文本框
         if(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList()!=null){
@@ -395,6 +452,7 @@ public class IpoExportWordActorService extends BaseService {
       int ids = 123;
       Iterator<XWPFParagraph> itPara = xdoc.getParagraphsIterator();
       XpwfUtils test = new XpwfUtils();
+      int parapraphPos=0;
       while (itPara.hasNext()) {
           XWPFParagraph paragraph = (XWPFParagraph) itPara.next();
           Set<String> set = wordMap.keySet();
@@ -424,9 +482,17 @@ public class IpoExportWordActorService extends BaseService {
                   }
               }
           }
+
+
           if(StringUtils.isEmpty(paragraph.getText())){//如果段落为空
               continue;
-          }else if("#资本市场#".equals(paragraph.getText())){
+          } if ("#饼图位置#".equals(paragraph.getText())){
+              test.clearParagraph(paragraph);
+                if (mainIncomeVo == null || mainIncomeVo.getMainIncomeInfoList() == null){
+                    parapraphPos = xdoc.getPosOfParagraph(paragraph);
+                }
+              continue;
+            }else if("#资本市场#".equals(paragraph.getText())){
               String content = "";
               for (int b=0;b<otherList.size();b++){
                   if (StringUtils.isNotEmpty(otherList.get(b).getMarketType())){
@@ -1458,6 +1524,10 @@ public class IpoExportWordActorService extends BaseService {
               continue;
           }
       }
+
+        if (mainIncomeVo == null || mainIncomeVo.getMainIncomeInfoList() == null){
+            xdoc.removeBodyElement(parapraphPos+1);
+        }
       Iterator<XWPFTable> itTable = xdoc.getTablesIterator();
       while (itTable.hasNext()) {
           XWPFTable table = itTable.next();
@@ -2136,6 +2206,10 @@ public class IpoExportWordActorService extends BaseService {
               }
           }
       }
+
+
+
+
         //xdoc.createTOC();
         //createTOC(xdoc);
       ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -2417,6 +2491,14 @@ public class IpoExportWordActorService extends BaseService {
         str=str.substring(0,str.length()-1);
         DecimalFormat df = new DecimalFormat("#0.00");
         return df.format(Float.parseFloat(str+""))+"%";
+    }
+
+    public String isNullBig(BigDecimal str){
+        if (str==null||"null".equals(str)||"".equals(str)){
+            return "0";
+        }
+        DecimalFormat df = new DecimalFormat(",###,##0.00");
+        return df.format(Float.parseFloat(str.doubleValue()+""));
     }
 
     public String isNullBigDouble(BigDecimal str){
