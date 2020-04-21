@@ -1449,8 +1449,6 @@ public class IpoExportWordActorService extends BaseService {
                   }
               }else {
                   XWPFRun newParaRun = paragraph.createRun();
-                  newParaRun.getCTR().getDrawingList().get(0).getInlineList().get(0).getDocPr().setId(Long.parseLong(ids+""));
-                  ids++;
                   newParaRun.setFontFamily("宋体 (正文)");
                   newParaRun.setFontSize(11);
                   newParaRun.setBold(false);
