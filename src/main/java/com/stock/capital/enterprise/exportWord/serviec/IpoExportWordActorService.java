@@ -1900,19 +1900,19 @@ public class IpoExportWordActorService extends BaseService {
                               if (incomeProfit.getIpoProfitItemList()!=null&&incomeProfit.getIpoProfitItemList().size()>0){
                                   dto.setItemName("收入类项目：");
                                   list.add(dto);
-                                  list.addAll(assetLiability.getIpoProfitItemList());
+                                  list.addAll(incomeProfit.getIpoProfitItemList());
                                   tb.addAll(list);
                               }
                               if (incomeProfit.getIpoCostItemList()!=null&&incomeProfit.getIpoCostItemList().size()>0){
                                   dto.setItemName("成本类项目：");
                                   list.add(dto);
-                                  list.addAll(assetLiability.getIpoCostItemList());
+                                  list.addAll(incomeProfit.getIpoCostItemList());
                                   tb.addAll(list);
                               }
                               if (incomeProfit.getIpoReturnOverList()!=null&&incomeProfit.getIpoReturnOverList().size()>0){
                                   dto.setItemName("利润类项目：");
                                   list.add(dto);
-                                  list.addAll(assetLiability.getIpoReturnOverList());
+                                  list.addAll(incomeProfit.getIpoReturnOverList());
                                   tb.addAll(list);
                               }
 
