@@ -16,6 +16,9 @@ public class ipoExportWord extends BaseTest {
 
   @Test
   public void testSelectProcessList() throws Exception {
-    ipoExportWordService.getCompanyInformation("97952444248599354");//上级数控
+
+//    ipoExportWordService.getCompanyInformation("97952444248599354");//上级数控
+    ipoExportWordService.getCompanyInformation("97952444248599434");//中创物流首次公开发行
+//    ipoExportWordService.getCompanyInformation("98171333342405324");//硅产业
   }
 }
