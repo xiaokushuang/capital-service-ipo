@@ -6,11 +6,7 @@
  * @LastEditors: Please set LastEditors
  -->
 <template>
-  <div style="overflow:hidden"  v-loading="loading"
-       element-loading-text="下载中..."
-       element-loading-spinner="el-icon-loading"
-       element-loading-background="rgba(255, 255, 255, 0.5)"
-       v-loading.fullscreen.lock="fullscreenLoading">
+  <div style="overflow:hidden" >
     <!-- 易董头条 -->
     <div style="width: 100%;height: 46px;background: #343b4a;line-height: 46px;">
       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAaCAYAAABPY4eKAAABS2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDIgNzkuMTYwOTI0LCAyMDE3LzA3LzEzLTAxOjA2OjM5ICAgICAgICAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIi8+CiA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgo8P3hwYWNrZXQgZW5kPSJyIj8+nhxg7wAAAexJREFUSInFlj1rVFEQhp9JYiSia0RELURBEMTKiKJFRNBCLGxErf0DQgptxEJMsBBU8gsUUlgZBBsLxUJtouBXodGAxMJCQkIQiZHNY3EneBGMe7PL5m2GOWfeeeZyOYcT6nngCHAUqFHoJfAdmMm8BqwGeoENwDfgPfAcGI2ISZqRul2ds9DGJepWqX3qBXVcXVDvqTubHeBVwnsbrO9Wr6VnVj3eDPxJFXjJdyl9P9R97YaH+ji979TOtsHTu98/OtWIp6PyhP9QRIwBbzI93VZ46mHGAysBf5txy0rAv2bsUf/bu9VwM85HxEK74Ys345dGilsN78v4YiXgxzLer+xs8pLpS++k2t2IpyVfrgZwI9OBiJhfTpPl3u2D6bteGVpq8jSbbG6wvku9pdbVy1V5XX/lWzNeVGeATmAa+ACMRcRUQjuAk8AgMAccjohnVeGRzdYBV4CBXJ8GRoAJYA2wg+IY9eZeDRgDbkfEo6rQRXWpN4FNwFrgTmmvBuwFFoBZiuPzGdgFnAW6gboaESHtktqjDqnz6oR6Vd3TtgFyiN3qg9Ij4pM6rJ5o5MREi4boB4aA/vIyxfP6NTAOTFI8xesUv3RbK9jlIQ6qd9WfLq26eqal8NIQ69Vz6oj6Uf2V0Cl1VD0E8BuLL6cTC+UXbQAAAABJRU5ErkJggg=="
@@ -122,9 +118,12 @@
               </div>
               <div slot="reference" aria-hidden="true" style="line-height: 20px;display: inline-block">
                 <div style="cursor:pointer;display: inline-block" @click="titleNoteFlag = !titleNoteFlag"><i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span></div>
-                <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(255, 255, 255);" @click="exportWordCase"  >
+                <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(255, 255, 255);" @click="exportWordCase" v-if="loading" >
                   <img src="../../assets/images/wordUplodTop.png" style="width: 13px;height: 13px;position: relative;top: 1px;"/>
                   <span>下载Word</span>
+                </div>
+                <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(255, 255, 255);" v-else>
+                  <span>下载中…</span>
                 </div>
               </div>
             </el-popover>
@@ -158,9 +157,12 @@
               </div>
               <div slot="reference" aria-hidden="true" style="line-height: 20px; position: absolute;margin-top: 18px;margin-left: -170px;">
                 <div style="cursor:pointer;display: inline-block" @click="titleNoteFlag = !titleNoteFlag"><i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span></div>
-                <div style="cursor:pointer;margin-left: 15px;display: inline-block" @click="exportWordCase" >
+                <div style="cursor:pointer;margin-left: 15px;display: inline-block" @click="exportWordCase" v-if="loading">
                   <img src="../../assets/images/wordUplodTop.png" style="width: 13px;height: 13px;position: relative;top: 1px;" />
                   <span>下载Word</span>
+                </div>
+                <div style="cursor:pointer;margin-left: 15px;display: inline-block" v-else >
+                  <span>下载中…</span>
                 </div>
               </div>
             </el-popover>
@@ -331,9 +333,12 @@
                     </div>
                     <div slot="reference" aria-hidden="true" style="line-height: 20px;display: inline-block">
                       <div style="cursor:pointer;display: inline-block" @click="titleNoteFlag = !titleNoteFlag"><i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span></div>
-                      <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(129, 152, 251);" @click="exportWordCase"  >
+                      <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(129, 152, 251);" @click="exportWordCase" v-if="loading" >
                         <img src="../../assets/images/wordUploadFix.png" style="width: 13px;height: 13px;position: relative;top: 1px;"/>
                         <span>下载Word</span>
+                      </div>
+                      <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(129, 152, 251);" v-else  >
+                        <span>下载中…</span>
                       </div>
 										</div>
                   </el-popover>
@@ -414,7 +419,6 @@
 <script>
   import { getSelectFeedbackList,exportWordCase} from "@/api/ipoCase/companyProfile";
   import {getServiceBaseUrl} from '@/api/ipoCase/companyProfile'
-  import { Loading } from 'element-ui';
   //反馈意见
   import { getSelectTabList } from "@/api/ipoCase/companyProfile";
   import {
@@ -460,7 +464,7 @@
     },
     data() {
       return {
-        loading:false,
+        loading:true,
         haveFeedbackData : false,
         collectionAndNoteShow : false,
         ipoplatetype: false,
@@ -647,15 +651,15 @@
         let params = {
           caseId: this.$store.state.app.caseId
         }
-        //this.loading=true;
-        let startloading = Loading.service({
+        this.loading=false;
+        /*let startloading = Loading.service({
           lock: true,
           text: '下载中……',
           background: 'rgba(255, 255, 255, 0.5)'
-        });
+        });*/
         exportWordCase(params).then(res =>{
-          //this.loading=false;
-          startloading.close();
+          this.loading=true;
+          //startloading.close();
         });
       },
       imgDidload(){
