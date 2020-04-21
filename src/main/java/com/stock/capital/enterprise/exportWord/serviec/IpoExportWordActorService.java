@@ -340,11 +340,11 @@ public class IpoExportWordActorService extends BaseService {
 
 
           for (int i=0;i<treeTypeProgress.getTreeList().size();i++){
-              if (i == 0){
+              if ("02".equals(treeTypeProgress.getTreeList().get(i).getTreeTypeCode())){
                   wordMap.put("#发行历时#",treeTypeProgress.getTreeList().get(i).getDurationDay());
-              }else if (i == 1){
+              }else if ("01".equals(treeTypeProgress.getTreeList().get(i).getTreeTypeCode())){
                   wordMap.put("#审核历时#",treeTypeProgress.getTreeList().get(i).getDurationDay());
-              }else if (i == 2){
+              }else if ("00".equals(treeTypeProgress.getTreeList().get(i).getTreeTypeCode())){
                   wordMap.put("#辅导历时#",treeTypeProgress.getTreeList().get(i).getDurationDay());
               }
           }
