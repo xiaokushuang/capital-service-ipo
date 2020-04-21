@@ -392,8 +392,7 @@ public class IpoExportWordActorService extends BaseService {
                 XmlCursor cursor = object.newCursor();
                 eachchild(cursor, 0, wordMap);
             }
-
-
+      int ids = 123;
       Iterator<XWPFParagraph> itPara = xdoc.getParagraphsIterator();
       XpwfUtils test = new XpwfUtils();
       while (itPara.hasNext()) {
@@ -734,6 +733,8 @@ public class IpoExportWordActorService extends BaseService {
                       HttpURLConnection connection = (HttpURLConnection) new URL(imgUrl).openConnection();
                       InputStream img = connection.getInputStream();
                       paragraph.getRuns().get(0).addPicture(img, XWPFDocument.PICTURE_TYPE_JPEG, imgUrl, Units.toEMU(400), Units.toEMU(400));
+                      paragraph.getRuns().get(0).getCTR().getDrawingList().get(0).getInlineList().get(0).getDocPr().setId(Long.parseLong(ids+""));
+                      ids++;
 
                   }
                   } catch (InvalidFormatException e) {
@@ -807,6 +808,8 @@ public class IpoExportWordActorService extends BaseService {
                   attach.invoke(chart, relationId, newRun);
                   chart.setChartWidth(XDDFChart.DEFAULT_WIDTH * 10);
                   chart.setChartHeight(XDDFChart.DEFAULT_HEIGHT * 8);
+                  newRun.getCTR().getDrawingList().get(0).getInlineList().get(0).getDocPr().setId(Long.parseLong(ids+""));
+                  ids++;
                   newRun.addBreak();
 
               //饼图
@@ -1400,6 +1403,8 @@ public class IpoExportWordActorService extends BaseService {
                       attach1.invoke(chart1, relationId1, newRun1);
                       chart1.setChartWidth(XDDFChart.DEFAULT_WIDTH * 10);
                       chart1.setChartHeight(XDDFChart.DEFAULT_HEIGHT * 8);
+                      newRun1.getCTR().getDrawingList().get(0).getInlineList().get(0).getDocPr().setId(Long.parseLong(ids+""));
+                      ids++;
                       newRun1.addBreak();
                       //表格
                       XmlCursor cursor2=newpa4.getCTP().newCursor();
@@ -1438,6 +1443,8 @@ public class IpoExportWordActorService extends BaseService {
                   }
               }else {
                   XWPFRun newParaRun = paragraph.createRun();
+                  newParaRun.getCTR().getDrawingList().get(0).getInlineList().get(0).getDocPr().setId(Long.parseLong(ids+""));
+                  ids++;
                   newParaRun.setFontFamily("宋体 (正文)");
                   newParaRun.setFontSize(11);
                   newParaRun.setBold(false);
