@@ -823,6 +823,14 @@ public class IpoExportWordActorService extends BaseService {
 //                  itPara = xdoc.getParagraphsIterator();
 //                  XWPFRun newRun1 = paragraph.createRun();
 //                  String relationId1 = xdoc.getRelationId(chart1);
+//                  java.lang.reflect.Method attach1 = XWPFChart.class.getDeclaredMethod("attach", String.class, XWPFRun.class);
+//                  attach1.setAccessible(true);
+//                  attach1.invoke(chart1, relationId1, newRun1);
+//                  chart1.setChartWidth(XDDFChart.DEFAULT_WIDTH * 10);
+//                  chart1.setChartHeight(XDDFChart.DEFAULT_HEIGHT * 8);
+//                  newRun1.getCTR().getDrawingList().get(0).getInlineList().get(0).getDocPr().setId(Long.parseLong(ids+""));
+//                  ids++;
+//                  newRun1.addBreak();
               }
           }
           else if("#问询回复/反馈意见流程#".equals(paragraph.getText())){
