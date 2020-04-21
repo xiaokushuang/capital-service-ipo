@@ -1800,16 +1800,16 @@ public class IpoExportWordActorService extends BaseService {
                                   list.addAll(assetLiability.getIpoAssetItemList());
                                   tb.addAll(list);
                               }
-                              if (assetLiability.getIpoAssetItemList().size()>0){
+                              if (assetLiability.getIpoDebtItemList().size()>0){
                                   dto.setItemName("负债类项目：");
                                   list.add(dto);
                                   list.addAll(assetLiability.getIpoDebtItemList());
                                   tb.addAll(list);
                               }
-                              if (assetLiability.getIpoAssetItemList().size()>0){
+                              if (assetLiability.getIpoEquityItemList().size()>0){
                                   dto.setItemName("权益类项目：");
                                   list.add(dto);
-                                  list.addAll(assetLiability.getIpoDebtItemList());
+                                  list.addAll(assetLiability.getIpoEquityItemList());
                                   tb.addAll(list);
                               }
 //                              tb.addAll(assetLiability.getIpoAssetItemList());
@@ -1900,19 +1900,19 @@ public class IpoExportWordActorService extends BaseService {
                               if (incomeProfit.getIpoProfitItemList()!=null&&incomeProfit.getIpoProfitItemList().size()>0){
                                   dto.setItemName("收入类项目：");
                                   list.add(dto);
-                                  list.addAll(assetLiability.getIpoAssetItemList());
+                                  list.addAll(assetLiability.getIpoProfitItemList());
                                   tb.addAll(list);
                               }
                               if (incomeProfit.getIpoCostItemList()!=null&&incomeProfit.getIpoCostItemList().size()>0){
                                   dto.setItemName("成本类项目：");
                                   list.add(dto);
-                                  list.addAll(assetLiability.getIpoDebtItemList());
+                                  list.addAll(assetLiability.getIpoCostItemList());
                                   tb.addAll(list);
                               }
                               if (incomeProfit.getIpoReturnOverList()!=null&&incomeProfit.getIpoReturnOverList().size()>0){
                                   dto.setItemName("利润类项目：");
                                   list.add(dto);
-                                  list.addAll(assetLiability.getIpoDebtItemList());
+                                  list.addAll(assetLiability.getIpoReturnOverList());
                                   tb.addAll(list);
                               }
 
