@@ -813,18 +813,16 @@ public class IpoExportWordActorService extends BaseService {
                   newRun.addBreak();
 
               //饼图
+//                  List<String> listLanguages1 = new ArrayList<>();
+//                  listLanguages1.add(listLanguages.get(listLanguages.size()-1));
+//                  List<List<Double>> yValues1 = Lists.newArrayList();
+//                  yValues1.add(yValues.get(yValues.size()-1));
 //                  XWPFChart chart1 = xdoc.createChart(XDDFChart.DEFAULT_WIDTH * 8, XDDFChart.DEFAULT_HEIGHT * 10);
-//                  poiWordInsertChartUtils.setSimpleBarData(chart1,"2","","",series,listLanguages,zhuziList);
+//                  poiWordInsertChartUtils.setSimpleBarData(chart1,"2","","",listLanguages1,series,yValues1);
 //                  xdoc.removeBodyElement(xdoc.getBodyElements().size()-1);
 //                  itPara = xdoc.getParagraphsIterator();
 //                  XWPFRun newRun1 = paragraph.createRun();
 //                  String relationId1 = xdoc.getRelationId(chart1);
-//                  java.lang.reflect.Method attach1 = XWPFChart.class.getDeclaredMethod("attach", String.class, XWPFRun.class);
-//                  attach1.setAccessible(true);
-//                  attach1.invoke(chart1, relationId1, newRun1);
-//                  chart1.setChartWidth(XDDFChart.DEFAULT_WIDTH * 10);
-//                  chart1.setChartHeight(XDDFChart.DEFAULT_HEIGHT * 8);
-//                  newRun1.addBreak();
               }
           }
           else if("#问询回复/反馈意见流程#".equals(paragraph.getText())){
