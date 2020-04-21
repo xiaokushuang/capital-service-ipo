@@ -1527,6 +1527,7 @@ public class IpoExportWordActorService extends BaseService {
 
         if (mainIncomeVo == null || mainIncomeVo.getMainIncomeInfoList() == null){
             xdoc.removeBodyElement(parapraphPos+1);
+            xdoc.removeBodyElement(parapraphPos);
         }
       Iterator<XWPFTable> itTable = xdoc.getTablesIterator();
       while (itTable.hasNext()) {
