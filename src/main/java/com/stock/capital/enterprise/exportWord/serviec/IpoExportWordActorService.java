@@ -2116,6 +2116,8 @@ public class IpoExportWordActorService extends BaseService {
               }
           }
       }
+        //xdoc.createTOC();
+        //createTOC(xdoc);
       ByteArrayOutputStream os = new ByteArrayOutputStream();
 
       xdoc.write(os);
@@ -2124,6 +2126,30 @@ public class IpoExportWordActorService extends BaseService {
       exportMap.put("companyName",wordMap.get("#公司名字#"));
       return exportMap;
     }
+
+    /*public static void createTOC(XWPFDocument doc) {
+        CTSdtBlock block = doc.getDocument().getBody().addNewSdt();
+        TOC toc = new TOC(block);
+
+        *//*当前位置调用添加正文的方法，需要传参XWPFDocumen对象*//*
+        List<XWPFParagraph> paragraphs = doc.getParagraphs();
+        for (XWPFParagraph par : paragraphs) {
+            String parStyle = par.getStyle();
+            if (parStyle != null) {
+
+                //获取书签，书签的对应关系很重要，关系到目录能否正常跳转
+                List<CTBookmark> bookmarkList = par.getCTP().getBookmarkStartList();
+                try {
+                    int level = Integer.parseInt(parStyle);
+
+                    //添加标题
+                    toc.addRow(level, par.getText(), 1, "112723803");
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }*/
 
 
     public void replaceNeedBreak(XWPFParagraph para, String t, String key) {
