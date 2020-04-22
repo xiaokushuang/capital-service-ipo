@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -64,23 +65,32 @@ public class IpoExportWordActorController {
   }
   @RequestMapping(value = "exportWordCase")
   @ResponseBody
-  public ModelAndView exportWordCase(String title,String filePath, HttpServletResponse response) throws Exception {
+  public ModelAndView exportWordCase(String title,String filePath, HttpServletResponse response) {
     ModelAndView mv = new ModelAndView();
     try {
       mv.setView(new DownloadView());
       InputStream is = new FileInputStream(filePath + ".docx");
-      logger.info("#######【重新读取】###########");
       mv.addObject(DownloadView.EXPORT_FILE, is);
       mv.addObject(DownloadView.EXPORT_FILE_NAME, title+"导出word.docx");
       mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.DOCX);
       response.setHeader("fileName", java.net.URLEncoder.encode(title+"导出word.docx", "utf-8"));
-      File file = new File(filePath);
-      file.delete();
-      logger.info("#######【导出完成】###########");
     }catch (Exception e){
 
     }
     return mv;
+  }
+
+  /**
+   * 每晚定时删除生成的word文件
+   */
+  @Scheduled(cron = "0 05 04 * * ? ")
+  public void deleteWordSchedule() {
+    String path = filePath + "tempDocFiles";
+    File dir = new File(path);
+    File[] listFile = dir.listFiles();
+    for (File file : listFile){
+      file.delete();
+    }
   }
 
 }
