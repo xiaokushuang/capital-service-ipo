@@ -677,6 +677,7 @@
           title: this.headList.title,
           filePath:filePath
         }
+        debugger
         exportWordIfSucess(params).then(res =>{
           if (res.data){
             clearInterval(this.timer)
