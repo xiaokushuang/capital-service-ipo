@@ -465,6 +465,7 @@
     data() {
       return {
         timer:'',
+        timerTimes:0,
         loading:true,
         haveFeedbackData : false,
         collectionAndNoteShow : false,
@@ -673,13 +674,24 @@
         });
       },
       wordInterval(filePath){
+        if (this.timerTimes <= 20){
+          this.timerTimes++;
+        }else {
+          clearInterval(this.timer);
+          this.loading=true;
+          this.$message({
+            message: '下载超时',
+            type: 'warning'
+          });
+        }
         let params = {
           title: this.headList.title,
           filePath:filePath
         }
-        debugger
+        console.log("第"+this.timerTimes+"次定时")
         exportWordIfSucess(params).then(res =>{
           if (res.data){
+            console.log("word已生成")
             clearInterval(this.timer)
             exportWordCase(params).then(res =>{
               this.loading=true;
