@@ -86,7 +86,7 @@ public class PoiWordTools {
         new PoiWordTools().refreshExcel(chart, listItemsByType, fldNameArr, titleArr);
         //刷新页面显示数据
         new PoiWordTools().refreshPieStrGraphContent(pieChart, pieSerList, listItemsByType, fldNameArr, 1);
-
+        chart.setTitleText(titleArr.get(1));
     }
 
 

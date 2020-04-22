@@ -892,6 +892,7 @@ public class IpoExportWordActorService extends BaseService {
                       }
                       zhuziList.add(zhuzi);
                   }
+                  Collections.reverse(series);
                   XWPFChart chart = xdoc.createChart(XDDFChart.DEFAULT_WIDTH * 8, XDDFChart.DEFAULT_HEIGHT * 10);
                   poiWordInsertChartUtils.setSimpleBarData(chart,"1","","",series,listLanguages,zhuziList);
                   xdoc.removeBodyElement(xdoc.getBodyElements().size()-1);
@@ -1225,9 +1226,9 @@ public class IpoExportWordActorService extends BaseService {
                       }
                       //标题
                       XWPFRun newParaRun = newpa1.createRun();
-                      newParaRun.setFontFamily("宋体 (正文)");
+                      newParaRun.setFontFamily("微软雅黑");
                       newParaRun.setFontSize(11);
-                      newParaRun.setBold(true);
+                      newParaRun.setBold(false);
                       newParaRun.setText("("+sort+")"+isNull(supplierMainList.get(z).getTitle()));
                       newpa1.setStyle("4");//标题三
                       //表格
@@ -1336,9 +1337,9 @@ public class IpoExportWordActorService extends BaseService {
                       }
                       //标题
                       XWPFRun newParaRun = newpa1.createRun();
-                      newParaRun.setFontFamily("宋体 (正文)");
+                      newParaRun.setFontFamily("微软雅黑");
                       newParaRun.setFontSize(11);
-                      newParaRun.setBold(true);
+                      newParaRun.setBold(false);
                       newParaRun.setText("("+sort+")"+customerMainList.get(z).getTitle());
                       newpa1.setStyle("4");
                       //表格
@@ -1453,9 +1454,9 @@ public class IpoExportWordActorService extends BaseService {
                       List<IndustryCompareRateDetailDto> list=industryCompareList.get(z).getIndustryCompareRateDetailList();
                       //标题
                       XWPFRun newParaRun = newpa1.createRun();
-                      newParaRun.setFontFamily("宋体 (正文)");
+                      newParaRun.setFontFamily("微软雅黑");
                       newParaRun.setFontSize(11);
-                      newParaRun.setBold(true);
+                      newParaRun.setBold(false);
                       newParaRun.setText("("+sort+")"+isNull(industryCompareList.get(z).getTitle()));
                       newpa1.setStyle("4");
                       newpa1.createRun();
