@@ -2,6 +2,8 @@ package com.stock.capital.enterprise.exportWord.serviec;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import com.spire.doc.FileFormat;
+import com.stock.capital.enterprise.exportWord.controller.IpoExportWordActorController;
 import com.stock.capital.enterprise.ipoCase.dto.*;
 import com.stock.core.service.BaseService;
 import org.apache.commons.lang3.StringUtils;
@@ -20,7 +22,13 @@ import org.openxmlformats.schemas.drawingml.x2006.chart.CTBarSer;
 import org.openxmlformats.schemas.drawingml.x2006.chart.CTChart;
 import org.openxmlformats.schemas.drawingml.x2006.chart.CTPlotArea;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
 import java.awt.*;
@@ -34,6 +42,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
+@EnableAsync
 @Service
 public class IpoExportWordActorService extends BaseService {
 
@@ -48,6 +57,8 @@ public class IpoExportWordActorService extends BaseService {
     private static final int COLUMN_SPEAKERS = 2;
 
     public static List<String> patternList = new ArrayList();
+
+    private static final Logger logger = LoggerFactory.getLogger(IpoExportWordActorController.class);
 
     //需要处理的节点名称
     static {
@@ -65,6 +76,24 @@ public class IpoExportWordActorService extends BaseService {
         patternList.add("w:t");
     }
 
+    @Async
+    public void createWordAsync(String caseId, String filePath){
+        logger.info("#######【开始异步导出】###########");
+        try {
+            Resource resource = new ClassPathResource("templates/IPO导出word模板.docx");
+            Map<String, Object> exportMap = exportWordCase(resource.getInputStream(), caseId);
+            logger.info("#######【poi导出完成，开始刷新目录】###########");
+            com.spire.doc.Document doc = new com.spire.doc.Document((InputStream) exportMap.get("inputStream"));
+            logger.info("#######【转spire】###########");
+            doc.updateTableOfContents();
+            logger.info("#######【更新目录完成】###########");
+            doc.saveToFile(filePath + ".docx", FileFormat.Docx);
+            doc.close();
+            logger.info("#######【导出完成】###########");
+        }catch (Exception e) {
+            logger.info("#######【spire错误：" + e + "】###########");
+        }
+    }
 
     public Map<String,Object> exportWordCase(InputStream inputStream, String caseId) throws Exception {
       Map<String,Object> exportMap = new HashMap<>();

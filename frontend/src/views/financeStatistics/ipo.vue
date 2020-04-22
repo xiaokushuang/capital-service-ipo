@@ -123,7 +123,7 @@
                   <span>下载Word</span>
                 </div>
                 <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(255, 255, 255);" v-else>
-                  <span>下载中…</span>
+                  <span>下载中<i class="el-icon-loading"></i></span>
                 </div>
               </div>
             </el-popover>
@@ -162,7 +162,7 @@
                   <span>下载Word</span>
                 </div>
                 <div style="cursor:pointer;margin-left: 15px;display: inline-block" v-else >
-                  <span>下载中…</span>
+                  <span>下载中<i class="el-icon-loading"></i></span>
                 </div>
               </div>
             </el-popover>
@@ -338,7 +338,7 @@
                         <span>下载Word</span>
                       </div>
                       <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(129, 152, 251);" v-else  >
-                        <span>下载中…</span>
+                        <span>下载中<i class="el-icon-loading"></i></span>
                       </div>
 										</div>
                   </el-popover>
@@ -417,7 +417,7 @@
   </div>
 </template>
 <script>
-  import { getSelectFeedbackList,exportWordCase} from "@/api/ipoCase/companyProfile";
+  import { getSelectFeedbackList,exportWordCase,exportWordCaseData,exportWordIfSucess} from "@/api/ipoCase/companyProfile";
   import {getServiceBaseUrl} from '@/api/ipoCase/companyProfile'
   //反馈意见
   import { getSelectTabList } from "@/api/ipoCase/companyProfile";
@@ -464,6 +464,7 @@
     },
     data() {
       return {
+        timer:'',
         loading:true,
         haveFeedbackData : false,
         collectionAndNoteShow : false,
@@ -657,9 +658,33 @@
           text: '下载中……',
           background: 'rgba(255, 255, 255, 0.5)'
         });*/
-        exportWordCase(params).then(res =>{
-          this.loading=true;
+        exportWordCaseData(params).then(res =>{
+          if (res.data.filePath){
+            this.$message({
+              message: 'WORD后台导出中，请稍后……',
+              type: 'success'
+            });
+            clearInterval(this.timer)
+            this.timer = setInterval(() => {
+              this.wordInterval(res.data.filePath)
+            }, 8000)
+          }
           //startloading.close();
+        });
+      },
+      wordInterval(filePath){
+        let params = {
+          title: this.headList.title,
+          filePath:filePath
+        }
+        exportWordIfSucess(params).then(res =>{
+          if (res.data){
+            exportWordCase(params).then(res =>{
+              this.loading=true;
+              clearInterval(this.timer)
+            })
+          }
+
         });
       },
       imgDidload(){
