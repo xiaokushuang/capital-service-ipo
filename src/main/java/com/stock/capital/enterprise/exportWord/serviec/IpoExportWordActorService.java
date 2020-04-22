@@ -876,7 +876,7 @@ public class IpoExportWordActorService extends BaseService {
                   chart.setChartHeight(XDDFChart.DEFAULT_HEIGHT * 8);
                   newRun.getCTR().getDrawingList().get(0).getInlineList().get(0).getDocPr().setId(Long.parseLong(ids+""));
                   ids++;
-                  newRun.addBreak();
+//                  newRun.addBreak();
 
               //饼图
 //                  List<String> listLanguages1 = new ArrayList<>();
@@ -1527,7 +1527,6 @@ public class IpoExportWordActorService extends BaseService {
 
         if (mainIncomeVo == null || mainIncomeVo.getMainIncomeInfoList() == null){
             xdoc.removeBodyElement(parapraphPos+1);
-            xdoc.removeBodyElement(parapraphPos);
         }
       Iterator<XWPFTable> itTable = xdoc.getTablesIterator();
       while (itTable.hasNext()) {
