@@ -679,9 +679,9 @@
         }
         exportWordIfSucess(params).then(res =>{
           if (res.data){
+            clearInterval(this.timer)
             exportWordCase(params).then(res =>{
               this.loading=true;
-              clearInterval(this.timer)
             })
           }
 
