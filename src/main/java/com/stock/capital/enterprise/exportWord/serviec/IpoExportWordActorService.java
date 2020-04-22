@@ -2526,7 +2526,7 @@ public class IpoExportWordActorService extends BaseService {
         if (str==null||"null".equals(str)||"".equals(str)){
             return "0";
         }
-        DecimalFormat df = new DecimalFormat(",###,##0.00");
+        DecimalFormat df = new DecimalFormat("#0.00");
         return df.format(Float.parseFloat(str.doubleValue()+""));
     }
 
