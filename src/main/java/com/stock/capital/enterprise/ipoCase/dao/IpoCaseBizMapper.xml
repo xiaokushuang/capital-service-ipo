@@ -459,7 +459,6 @@
           ipo_process
         WHERE
           tree_type_code = '00'
-        AND process_type_code = '03'
         AND bid = ic.id
       ),
       (
@@ -469,7 +468,6 @@
           ipo_process
         WHERE
           tree_type_code = '00'
-        AND process_type_code = '01'
         AND bid = ic.id
       )
     ) AS supportDuration,
