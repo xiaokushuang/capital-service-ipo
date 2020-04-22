@@ -67,6 +67,7 @@ public class IpoExportWordActorController {
   public ModelAndView exportWordCase(String title,String filePath, HttpServletResponse response) throws Exception {
     ModelAndView mv = new ModelAndView();
     try {
+      mv.setView(new DownloadView());
       InputStream is = new FileInputStream(filePath + ".docx");
       logger.info("#######【重新读取】###########");
       mv.addObject(DownloadView.EXPORT_FILE, is);
