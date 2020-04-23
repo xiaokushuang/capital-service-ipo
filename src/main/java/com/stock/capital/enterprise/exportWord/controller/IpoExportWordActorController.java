@@ -69,7 +69,9 @@ public class IpoExportWordActorController {
   public ModelAndView exportWordCase(@RequestParam("title") String title, @RequestParam("filePath") String filePath, HttpServletResponse response) {
     ModelAndView mv = new ModelAndView();
     try {
-      logger.info("#######【word定时导出】###########");
+      logger.info("#######【word定时导出启动】###########");
+      Thread.sleep(5000);
+        logger.info("#######【导出开始】###########");
       mv.setView(new DownloadView());
       InputStream is = new FileInputStream(filePath + ".docx");
       mv.addObject(DownloadView.EXPORT_FILE, is);
