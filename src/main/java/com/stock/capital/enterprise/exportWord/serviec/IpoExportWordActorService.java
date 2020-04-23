@@ -949,7 +949,7 @@ public class IpoExportWordActorService extends BaseService {
                       run1.setFontSize(16);
                       run1.setColor("333399");
                       run1.setBold(true);
-                      newpa1.setStyle("4");
+                      newpa1.setStyle("3");
                       newpa1.setSpacingAfter(0);
                       newpa1.setSpacingBefore(12);
                       run1.setFontFamily("微软雅黑");
@@ -1174,7 +1174,7 @@ public class IpoExportWordActorService extends BaseService {
                               run4.setFontSize(10);
                               run4.setColor("000000");
                               run4.setBold(true);
-                              newpa3.setStyle("4");
+                              newpa3.setStyle("5");
                               run4.setFontFamily("微软雅黑");
                               run4.addBreak();
                               String questLabel="";
