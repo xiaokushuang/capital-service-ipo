@@ -106,6 +106,18 @@ public class POIWordInsertChartUtils {
                 chart.getCTChart().getPlotArea().getBarChartArray(0).addNewOverlap().setVal((byte)100);
             }
             chart.plot(bar);
+            if ("0".equals(ifStack)){
+                for (int s = 0 ; s < yValues.size(); s++) {
+                    chart.getCTChart().getPlotArea().getBarChartArray(0).getSerArray(s).addNewDLbls();
+                    chart.getCTChart().getPlotArea().getBarChartArray(0).getSerArray(s).getDLbls()
+                            .addNewDLblPos().setVal(org.openxmlformats.schemas.drawingml.x2006.chart.STDLblPos.CTR);
+                    chart.getCTChart().getPlotArea().getBarChartArray(0).getSerArray(s).getDLbls().addNewShowVal().setVal(true);
+                    chart.getCTChart().getPlotArea().getBarChartArray(0).getSerArray(s).getDLbls().addNewShowLegendKey().setVal(false);
+                    chart.getCTChart().getPlotArea().getBarChartArray(0).getSerArray(s).getDLbls().addNewShowCatName().setVal(false);
+                    chart.getCTChart().getPlotArea().getBarChartArray(0).getSerArray(s).getDLbls().addNewShowSerName().setVal(false);
+                }
+            }
+
         }else if ("2".equals(ifStack)){//饼图
             XDDFPieChartData bar = (XDDFPieChartData) chart.createData(ChartTypes.PIE, bottomAxis, leftAxis);
             if (!yValues.isEmpty()){
