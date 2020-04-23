@@ -78,7 +78,7 @@ public class IpoExportWordActorService extends BaseService {
 
     @Async
     public void createWordAsync(String caseId, String filePath){
-        logger.info("#######【开始异步导出】###########");
+        logger.info("#######【开始异步导出caseId"+caseId+"】###########");
         try {
             Resource resource = new ClassPathResource("templates/IPO导出word模板.docx");
             Map<String, Object> exportMap = exportWordCase(resource.getInputStream(), caseId);
@@ -949,7 +949,7 @@ public class IpoExportWordActorService extends BaseService {
                       run1.setFontSize(16);
                       run1.setColor("333399");
                       run1.setBold(true);
-                      newpa1.setStyle("4");
+                      newpa1.setStyle("3");
                       newpa1.setSpacingAfter(0);
                       newpa1.setSpacingBefore(12);
                       run1.setFontFamily("微软雅黑");
@@ -1049,7 +1049,7 @@ public class IpoExportWordActorService extends BaseService {
                       run1.setFontSize(16);
                       run1.setColor("333399");
                       run1.setBold(true);
-                      newpa1.setStyle("4");
+                      newpa1.setStyle("3");
                       newpa1.setSpacingAfter(0);
                       newpa1.setSpacingBefore(12);
                       run1.setFontFamily("微软雅黑");
@@ -1092,7 +1092,7 @@ public class IpoExportWordActorService extends BaseService {
                       newpa1.setSpacingBefore(12);
                       run3.setColor("333399");
                       run3.setBold(true);
-                      newpa1.setStyle("4");
+                      newpa1.setStyle("3");
                       run3.setFontFamily("微软雅黑");
                       XmlCursor cursor2 = newpa1.getCTP().newCursor();
                       cursor2.toNextSibling();
@@ -1229,7 +1229,7 @@ public class IpoExportWordActorService extends BaseService {
                       newParaRun.setFontFamily("微软雅黑");
                       newParaRun.setFontSize(11);
                       newParaRun.setBold(false);
-                      newParaRun.setText("("+sort+")"+isNull(supplierMainList.get(z).getTitle()));
+                      newParaRun.setText("  "+"("+sort+")"+isNull(supplierMainList.get(z).getTitle()));
                       newpa1.setStyle("4");//标题三
                       //表格
                       SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -1340,7 +1340,7 @@ public class IpoExportWordActorService extends BaseService {
                       newParaRun.setFontFamily("微软雅黑");
                       newParaRun.setFontSize(11);
                       newParaRun.setBold(false);
-                      newParaRun.setText("("+sort+")"+customerMainList.get(z).getTitle());
+                      newParaRun.setText("  "+"("+sort+")"+isNull(customerMainList.get(z).getTitle()));
                       newpa1.setStyle("4");
                       //表格
                       XmlCursor cursor2=newpa1.getCTP().newCursor();
@@ -1457,7 +1457,7 @@ public class IpoExportWordActorService extends BaseService {
                       newParaRun.setFontFamily("微软雅黑");
                       newParaRun.setFontSize(11);
                       newParaRun.setBold(false);
-                      newParaRun.setText("("+sort+")"+isNull(industryCompareList.get(z).getTitle()));
+                      newParaRun.setText("  "+"("+sort+")"+isNull(industryCompareList.get(z).getTitle()));
                       newpa1.setStyle("4");
                       newpa1.createRun();
                       //折线图
@@ -2724,6 +2724,17 @@ public class IpoExportWordActorService extends BaseService {
         bar.setVaryColors(true);
         bar.setBarDirection(BarDirection.COL);
         chart.plot(bar);
+        List<List<Double>> yValues = Lists.newArrayList();
+        yValues.add(Arrays.asList(values1));
+        for (int s = 0 ; s < yValues.size(); s++) {
+            chart.getCTChart().getPlotArea().getBarChartArray(0).getSerArray(s).addNewDLbls();
+            chart.getCTChart().getPlotArea().getBarChartArray(0).getSerArray(s).getDLbls()
+                    .addNewDLblPos().setVal(org.openxmlformats.schemas.drawingml.x2006.chart.STDLblPos.CTR);
+            chart.getCTChart().getPlotArea().getBarChartArray(0).getSerArray(s).getDLbls().addNewShowVal().setVal(true);
+            chart.getCTChart().getPlotArea().getBarChartArray(0).getSerArray(s).getDLbls().addNewShowLegendKey().setVal(false);
+            chart.getCTChart().getPlotArea().getBarChartArray(0).getSerArray(s).getDLbls().addNewShowCatName().setVal(false);
+            chart.getCTChart().getPlotArea().getBarChartArray(0).getSerArray(s).getDLbls().addNewShowSerName().setVal(false);
+        }
 
         XDDFChartLegend legend = chart.getOrAddLegend();
         legend.setPosition(LegendPosition.BOTTOM);
