@@ -1000,23 +1000,10 @@ public class IpoExportWordActorService extends BaseService {
                           listCountries.add(Double.valueOf(list.get(i).getLabelCount()));
                           listLanguages.add(list.get(i).getLabelName());
                       }
-//                      String[] categories = listLanguages.toArray(new String[0]);
-//                      Double[] values1 = listCountries.toArray(new Double[0]);
-//                      Double[] values2 = listCountries.toArray(new Double[0]);
                       List<List<Double>> yValues = Lists.newArrayList();
                       yValues.add(listCountries);
-//                      List<List<Double>> zhuziList = Lists.newArrayList();
-//                      int len=yValues.get(0).size();
-//                      for (int k=0;k<len;k++){
-//                          List<Double> zhuzi = new ArrayList<>();
-//                          for (int p=0;p<yValues.size();p++){
-//                              zhuzi.add(yValues.get(p).get(k));
-//                          }
-//                          zhuziList.add(zhuzi);
-//                      }
                       XWPFChart chart = xdoc.createChart(XDDFChart.DEFAULT_WIDTH * 10,  XDDFChart.DEFAULT_HEIGHT * 15);
                       poiWordInsertChartUtils.setSimpleBarData(chart,"0","","",series,listLanguages,yValues);
-//                      setBarData(chart, "", categories, series.toArray(new String[]{}), values1,values2);
                       xdoc.removeBodyElement(xdoc.getBodyElements().size()-1);
                       itPara = xdoc.getParagraphsIterator();
                       XWPFRun newRun = newpa3.createRun();
@@ -1162,11 +1149,15 @@ public class IpoExportWordActorService extends BaseService {
                           listCountries.add(Double.valueOf(list.get(i).getLabelCount()));
                           listLanguages.add(list.get(i).getLabelName());
                       }
-                      String[] categories = listLanguages.toArray(new String[0]);
-                      Double[] values1 = listCountries.toArray(new Double[0]);
-                      Double[] values2 = listCountries.toArray(new Double[0]);
+                      List<List<Double>> yValues = Lists.newArrayList();
+                      yValues.add(listCountries);
                       XWPFChart chart = xdoc.createChart(XDDFChart.DEFAULT_WIDTH * 10,  XDDFChart.DEFAULT_HEIGHT * 15);
-                      setBarData(chart, "", series.toArray(new String[]{}), categories, values1,values2);
+                      poiWordInsertChartUtils.setSimpleBarData(chart,"0","","",series,listLanguages,yValues);
+//                      String[] categories = listLanguages.toArray(new String[0]);
+//                      Double[] values1 = listCountries.toArray(new Double[0]);
+//                      Double[] values2 = listCountries.toArray(new Double[0]);
+//                      XWPFChart chart = xdoc.createChart(XDDFChart.DEFAULT_WIDTH * 10,  XDDFChart.DEFAULT_HEIGHT * 15);
+//                      setBarData(chart, "", series.toArray(new String[]{}), categories, values1,values2);
                       xdoc.removeBodyElement(xdoc.getBodyElements().size()-1);
                       itPara = xdoc.getParagraphsIterator();
                       XWPFRun newRun = newpa3.createRun();
@@ -1176,6 +1167,8 @@ public class IpoExportWordActorService extends BaseService {
                       attach.invoke(chart, relationId, newRun);
                       chart.setChartWidth(XDDFChart.DEFAULT_WIDTH * 10);
                       chart.setChartHeight(XDDFChart.DEFAULT_HEIGHT * 8);
+                      newRun.getCTR().getDrawingList().get(0).getInlineList().get(0).getDocPr().setId(Long.parseLong(ids+""));
+                      ids++;
                       newRun.addBreak();
                       if(resultList.get(c).getQuestionList()!=null){
                           //问

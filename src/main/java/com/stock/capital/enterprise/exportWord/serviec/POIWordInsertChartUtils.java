@@ -3,6 +3,10 @@ package com.stock.capital.enterprise.exportWord.serviec;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xddf.usermodel.PresetColor;
+import org.apache.poi.xddf.usermodel.XDDFColor;
+import org.apache.poi.xddf.usermodel.XDDFShapeProperties;
+import org.apache.poi.xddf.usermodel.XDDFSolidFillProperties;
 import org.apache.poi.xddf.usermodel.chart.*;
 import org.apache.poi.xwpf.usermodel.XWPFChart;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -96,6 +100,9 @@ public class POIWordInsertChartUtils {
                     }else{
                         series1.setTitle(yTitles.get(0), chart.setSheetTitle(yTitles.get(0), i+1));
                     }
+                    if ("0".equals(ifStack) ){
+                        solidFillSeries(bar,i,PresetColor.CORNFLOWER_BLUE);
+                    }
                 }
             }
             bar.setVaryColors(true);
@@ -104,6 +111,9 @@ public class POIWordInsertChartUtils {
             if ("1".equals(ifStack)){
                 bar.setBarGrouping(BarGrouping.STACKED);
                 chart.getCTChart().getPlotArea().getBarChartArray(0).addNewOverlap().setVal((byte)100);
+                XDDFChartLegend legend = chart.getOrAddLegend();
+                legend.setPosition(LegendPosition.BOTTOM);
+                legend.setOverlay(false);
             }
             chart.plot(bar);
             if ("0".equals(ifStack)){
@@ -116,6 +126,7 @@ public class POIWordInsertChartUtils {
                     chart.getCTChart().getPlotArea().getBarChartArray(0).getSerArray(s).getDLbls().addNewShowCatName().setVal(false);
                     chart.getCTChart().getPlotArea().getBarChartArray(0).getSerArray(s).getDLbls().addNewShowSerName().setVal(false);
                 }
+
             }
 
         }else if ("2".equals(ifStack)){//饼图
@@ -138,6 +149,9 @@ public class POIWordInsertChartUtils {
             bar.setVaryColors(true);
 //            bar.setBarDirection(BarDirection.COL);
             chart.plot(bar);
+            XDDFChartLegend legend = chart.getOrAddLegend();
+            legend.setPosition(LegendPosition.BOTTOM);
+            legend.setOverlay(false);
         }else if ("3".equals(ifStack)){//折线
             XDDFLineChartData bar = (XDDFLineChartData) chart.createData(ChartTypes.LINE, bottomAxis, leftAxis);
             if (!yValues.isEmpty()){
@@ -158,15 +172,27 @@ public class POIWordInsertChartUtils {
             bar.setVaryColors(true);
 //            bar.setBarDirection(BarDirection.COL);
             chart.plot(bar);
+            XDDFChartLegend legend = chart.getOrAddLegend();
+            legend.setPosition(LegendPosition.BOTTOM);
+            legend.setOverlay(false);
         }
 
-        XDDFChartLegend legend = chart.getOrAddLegend();
-        legend.setPosition(LegendPosition.BOTTOM);
-        legend.setOverlay(false);
+
 
         chart.setTitleText(chartTitle);
         chart.setTitleOverlay(false);
         chart.setAutoTitleDeleted(false);
+    }
+
+    private  void solidFillSeries(XDDFChartData data, int index, PresetColor color) {
+        XDDFSolidFillProperties fill = new XDDFSolidFillProperties(XDDFColor.from(color));
+        XDDFChartData.Series series = data.getSeries().get(index);
+        XDDFShapeProperties properties = series.getShapeProperties();
+        if (properties == null) {
+            properties = new XDDFShapeProperties();
+        }
+        properties.setFillProperties(fill);
+        series.setShapeProperties(properties);
     }
 
 }
