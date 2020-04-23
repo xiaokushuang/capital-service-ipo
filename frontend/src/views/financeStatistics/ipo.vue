@@ -674,13 +674,14 @@
         });
       },
       wordInterval(filePath){
-        if (this.timerTimes <= 20){
+        if (this.timerTimes <= 30){
           this.timerTimes++;
         }else {
           clearInterval(this.timer);
           this.loading=true;
+          this.timerTimes = 0;
           this.$message({
-            message: '下载超时',
+            message: 'WORD下载超时,请重新下载。',
             type: 'warning'
           });
         }
@@ -692,6 +693,7 @@
         exportWordIfSucess(params).then(res =>{
           if (res.data){
             console.log("word已生成")
+            this.timerTimes = 0;
             clearInterval(this.timer)
             exportWordCase(params).then(res =>{
               this.loading=true;

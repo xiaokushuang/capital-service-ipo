@@ -78,7 +78,7 @@ public class IpoExportWordActorService extends BaseService {
 
     @Async
     public void createWordAsync(String caseId, String filePath){
-        logger.info("#######【开始异步导出】###########");
+        logger.info("#######【开始异步导出caseId"+caseId+"】###########");
         try {
             Resource resource = new ClassPathResource("templates/IPO导出word模板.docx");
             Map<String, Object> exportMap = exportWordCase(resource.getInputStream(), caseId);
