@@ -3,6 +3,7 @@ package com.stock.capital.enterprise.exportWord.controller;
 import com.stock.capital.enterprise.exportWord.serviec.IpoExportWordActorService;
 import com.stock.core.web.DownloadView;
 import io.swagger.annotations.Api;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,10 +58,15 @@ public class IpoExportWordActorController {
   @ResponseBody
   public Boolean exportWordIfSucess(String filePath) throws Exception {
     Boolean result = true;
+    InputStream is = null;
     try {
-      InputStream is = new FileInputStream(filePath + ".docx");
+      is = new FileInputStream(filePath + ".docx");
     }catch (Exception e){
       result = false;
+    }finally {
+      if (is != null){
+        IOUtils.closeQuietly(is);
+      }
     }
     return result;
   }
@@ -75,6 +81,7 @@ public class IpoExportWordActorController {
       mv.setView(new DownloadView());
       InputStream is = new FileInputStream(filePath + ".docx");
       mv.addObject(DownloadView.EXPORT_FILE, is);
+      mv.addObject(DownloadView.EXPORT_PATH, filePath + ".docx");
       mv.addObject(DownloadView.EXPORT_FILE_NAME, title+"导出word.docx");
       mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.DOCX);
       response.setHeader("fileName", java.net.URLEncoder.encode(title+"导出word.docx", "utf-8"));

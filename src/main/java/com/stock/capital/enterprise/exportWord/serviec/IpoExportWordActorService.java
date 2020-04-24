@@ -1,6 +1,7 @@
 package com.stock.capital.enterprise.exportWord.serviec;
 
 import com.google.common.base.Splitter;
+import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.spire.doc.FileFormat;
 import com.stock.capital.enterprise.exportWord.controller.IpoExportWordActorController;
@@ -91,7 +92,7 @@ public class IpoExportWordActorService extends BaseService {
             doc.close();
             logger.info("#######【导出完成】###########");
         }catch (Exception e) {
-            logger.info("#######【spire错误：" + e + "】###########");
+            logger.info("#######【spire错误：" + e + "】###########"+ Throwables.getStackTraceAsString(e));
         }
     }
 
