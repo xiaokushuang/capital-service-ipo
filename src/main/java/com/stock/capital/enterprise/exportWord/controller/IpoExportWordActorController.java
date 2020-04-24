@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -75,21 +76,29 @@ public class IpoExportWordActorController {
   }
   @RequestMapping(value = "exportWordCase")
   @ResponseBody
-  public ModelAndView exportWordCase(@RequestParam("title") String title, @RequestParam("filePath") String filePath, HttpServletResponse response) {
+  public ModelAndView exportWordCase(@RequestParam("title") String title, @RequestParam("filePath") String filePath, HttpServletResponse response)  {
     ModelAndView mv = new ModelAndView();
+      InputStream is = null;
     try {
       logger.info("#######【word定时导出启动"+title+"】###########");
       Thread.sleep(5000);
         logger.info("#######【导出开始】###########");
       mv.setView(new DownloadView());
-      InputStream is = new FileInputStream(filePath + ".docx");
+      is = new FileInputStream(filePath + ".docx");
       mv.addObject(DownloadView.EXPORT_FILE, is);
 //      mv.addObject(DownloadView.EXPORT_PATH, filePath + ".docx");
       mv.addObject(DownloadView.EXPORT_FILE_NAME, title+"导出word.docx");
       mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.DOCX);
       response.setHeader("fileName", java.net.URLEncoder.encode(title+"导出word.docx", "utf-8"));
     }catch (Exception e){
-
+        if (is == null){
+            try {
+                is = new FileInputStream(filePath + ".docx");
+            }catch (Exception sube){
+                logger.error("####第二次获取doc文件失败####"+Throwables.getStackTraceAsString(e));
+            }
+        }
+        logger.info("#####导出word异常#####"+Throwables.getStackTraceAsString(e));
     }
     return mv;
   }
