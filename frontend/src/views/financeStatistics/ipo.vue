@@ -668,7 +668,7 @@
             clearInterval(this.timer)
             this.timer = setInterval(() => {
               this.wordInterval(res.data.filePath)
-            }, 8000)
+            }, 20000)
           }
           //startloading.close();
         });

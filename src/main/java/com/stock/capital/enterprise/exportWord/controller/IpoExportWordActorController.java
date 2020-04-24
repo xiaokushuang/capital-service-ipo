@@ -1,5 +1,6 @@
 package com.stock.capital.enterprise.exportWord.controller;
 
+import com.google.common.base.Throwables;
 import com.stock.capital.enterprise.exportWord.serviec.IpoExportWordActorService;
 import com.stock.core.web.DownloadView;
 import io.swagger.annotations.Api;
@@ -63,6 +64,7 @@ public class IpoExportWordActorController {
     try {
       is = new FileInputStream(filePath + ".docx");
     }catch (Exception e){
+      logger.info("#################进入定时获取流看是否存在报错#################"+ Throwables.getStackTraceAsString(e));
       result = false;
     }finally {
       if (is != null){
