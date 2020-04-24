@@ -20,12 +20,12 @@
             <div v-else  style="color: #333333;float:left;display:inline-block;width: 53%;margin-left: 27px;">- -</div>
           </li>
             <li  class="clear" style="margin-bottom:10px;position:relative" >
-            <div v-if="companyProfileList.companyProfileList && companyProfileList.companyProfileList.plateCode == '069001003001'">
+            <div v-if="companyProfileList.companyProfileList && companyProfileList.companyProfileList.plateCode != '069001003001'">
               <span  class="l">所属行业(战略新兴)</span>
               <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.strageticIndustries "  style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" :title="companyProfileList.companyProfileList.strageticIndustries.length>22 ? companyProfileList.companyProfileList.strageticIndustries:''">{{getContentHy(companyProfileList.companyProfileList.strageticIndustries)}}</div>
               <div v-else  style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;">- -</div>
             </div>
-            <div>
+            <div v-else>
               <span  class="l">所属行业(国民经济)</span>
               <div v-if="companyProfileList.companyProfileList&&companyProfileList.companyProfileList.nationalIndustries "  style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;" :title="companyProfileList.companyProfileList.nationalIndustries.length>22 ? companyProfileList.companyProfileList.nationalIndustries:''">{{getContentHy(companyProfileList.companyProfileList.nationalIndustries)}}</div>
               <div v-else  style="color: #333333;float:left;display:inline-block;width: 50%;margin-left: 27px;">- -</div>
