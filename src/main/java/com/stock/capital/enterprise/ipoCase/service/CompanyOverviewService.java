@@ -603,9 +603,7 @@ public class CompanyOverviewService extends BaseService {
     public List<IpoCaseListVo> queryCompanyForFin(String id) {
         return ipoCaseBizMapper.queryCompanyForFin(id);
     }
-
     public Map<String,Object> openFinancialReVision(Map<String,String> map) {
-        logger.info(JsonUtil.toJson(map));
         //通过市值分析的接口获取belongPlate
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
         parameters.add("companyCode", map.get("searchCompanyCode"));
