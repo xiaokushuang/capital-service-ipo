@@ -6,6 +6,7 @@
         <result column="bid" property="caseId" jdbcType="VARCHAR"/>
         <collection property="treeList" ofType="com.stock.capital.enterprise.ipoCase.dto.IpoProgressDto">
             <result column="tree_type_code" property="treeTypeCode" jdbcType="VARCHAR"/>
+            <result column="ipo_plate" property="ipoPlate" jdbcType="VARCHAR"/>
             <collection property="proList" ofType="com.stock.capital.enterprise.ipoCase.dto.IpoProListDto">
                 <result column="process_type_code" property="progressType" jdbcType="VARCHAR"/>
                 <result column="label_name" property="progressName" jdbcType="VARCHAR"/>
@@ -31,6 +32,7 @@
         SELECT
             t1.bid,
             t1.tree_type_code,
+            (SELECT m.ipo_plate FROM ipo_case m WHERE m.id = t1.bid) ipo_plate,
             t1.process_type_code,
             t2.label_name,
             t1.pro_sort,
