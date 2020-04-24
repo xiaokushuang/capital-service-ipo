@@ -200,7 +200,7 @@ export default {
          let url = window.location.href;
          url = url.replace(this.$route.path, '/ipoPopWin');
          iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
-       
+
        } else if (this.fromFlag && !this.feeFlag) {
          let url = window.location.href;
          url = url.replace(this.$route.path, '/ipoOverduePopWin');
@@ -216,7 +216,7 @@ export default {
           }
           let url = window.location.href;
           url = url.replace(this.$route.path,'/ipoDataOverviewDetailFdPopWin');
-          url = url + '&label=' + label + '&intermediaryType=' + intermediaryType + '&tabFlag=' + this.id + '&labelCode='+labelCode;
+          url = url + '&label=' + label + '&intermediaryType=' + intermediaryType + '&tabFlag=' + this.id + '&labelCode='+labelCode+ '&registAddr=' +this.registAddr;;
           //参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
           iframeDoMessage(window.parent,'popWinOut',[label,url,'1200','580']);
         }

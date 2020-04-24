@@ -102,7 +102,7 @@ export default {
   },
   methods: {
     resize() {
-      console.log('resize')
+      // console.log('resize')
     },
     search(a,b){//搜索 
         if(arguments.pageSize!=0){
@@ -111,10 +111,10 @@ export default {
         }
         let data = this.submitData;
         data.fromPaper = this.fromPaper;
-        console.log(`从${data.fromPaper}多少条开始查`)
-        console.log(`要查${data.pageSize}条`)
-        console.log(`按照${data.orderByName}字段排序`)
-        console.log(`排序方式：${data.orderByOrder}`)
+        // console.log(`从${data.fromPaper}多少条开始查`)
+        // console.log(`要查${data.pageSize}条`)
+        // console.log(`按照${data.orderByName}字段排序`)
+        // console.log(`排序方式：${data.orderByOrder}`)
         this.$emit('searchTable',data)
         iframeDoMessage(window.parent,'scrollTop',[]);
     },

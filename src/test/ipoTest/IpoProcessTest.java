@@ -2,6 +2,7 @@ package ipoTest;
 
 import base.BaseTest;
 
+import com.stock.capital.enterprise.exportWord.serviec.IpoExportWordService;
 import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
 import com.stock.capital.enterprise.ipoCase.dto.IpoExamineDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
@@ -15,15 +16,11 @@ import com.stock.capital.enterprise.regulatory.service.StatisticsService;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 
 import java.util.List;
 
 import javax.annotation.Resource;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 public class IpoProcessTest extends BaseTest {
     final static Logger logger  =  LoggerFactory.getLogger(IpoProcessTest.class );
@@ -42,6 +39,8 @@ public class IpoProcessTest extends BaseTest {
     private IpoExamineService ipoExamineService;
     @Resource
     private CompanyOverviewService companyOverviewService;
+    @Resource
+    private IpoExportWordService exportWordService;
 
     @Test
     public void testSelectProcessList() throws Exception {
@@ -60,7 +59,8 @@ public class IpoProcessTest extends BaseTest {
 
     @Test
     public void testSelectFinanceOverList() throws Exception {
-        ipoFinanceService.selectFinanceOverList("97952444248599344");
+//        ipoFinanceService.selectFinanceOverList("97952444248599344");
+        exportWordService.getCompanyInformation("98171333342429172");
     }
 
     @Test

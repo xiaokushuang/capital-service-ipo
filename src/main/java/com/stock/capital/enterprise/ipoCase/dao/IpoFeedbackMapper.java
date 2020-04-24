@@ -67,4 +67,9 @@ public interface IpoFeedbackMapper {
      * 查询科创板函件id
      */
     List<String> selectKcbLetterIds(@Param("orgId") String orgId, @Param("processDateList") List<String> processDateList);
+
+    /***
+     * 查询函件函件文号
+     */
+    String selectFileNo(@Param("letterId") String letterId);
 }

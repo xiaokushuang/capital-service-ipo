@@ -1,7 +1,10 @@
 package com.stock.capital.enterprise.ipoCase.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -133,16 +136,18 @@ public class IpoFeedbackService extends BaseService {
         CompanyOverviewVo companyOverviewVo = ipoFeedbackMapper.getOrgCode(id);
         String ipoPlate = companyOverviewVo.getIpoPlate();
 //        List<String> processDateList = ipoFeedbackMapper.selectFeedbackProcess(id);
-        List<String> processDateList = ipoFeedbackMapper.selectFeedbackProcess(id);
+        List<String> processDateList = ipoFeedbackMapper.selectFeedbackProcess(id);//进程树时间
         if (CollectionUtils.isEmpty(processDateList)) {
             return new ArrayList<>();
         }
 
         List<String> letterIds = new ArrayList<>();
         if ("069001001006".equals(ipoPlate)) {
-            letterIds = ipoFeedbackMapper.selectKcbLetterIds(companyOverviewVo.getOrgCode(), processDateList);
+            letterIds = ipoFeedbackMapper
+                .selectKcbLetterIds(companyOverviewVo.getOrgCode(), processDateList);
         } else {
-            letterIds = ipoFeedbackMapper.selectLetterIds(companyOverviewVo.getOrgCode(), processDateList);
+            letterIds = ipoFeedbackMapper
+                .selectLetterIds(companyOverviewVo.getOrgCode(), processDateList);
         }
         int feedbackCount = 0;
         for (int i = 0; i < letterIds.size(); i++) {
@@ -153,71 +158,60 @@ public class IpoFeedbackService extends BaseService {
             List<IpoQuestionLabelDto> firstLabelList = new ArrayList<>();
 
             //从云端查询标一二级标签
-            Map<String, Map<String, String>> firstLabelMap = ipoFeedbackMapper.selectFirstLabelMap();
-            Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap("");
+            Map<String, Map<String, String>> firstLabelMap = ipoFeedbackMapper
+                .selectFirstLabelMap();
+            Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper
+                .selectSecondLabelMap("");
 
             //从索引中查询分类个数
             FacetResult<IpoFeedbackIndexDto> facetResult = new FacetResult<IpoFeedbackIndexDto>();
             String orderByName = "letter_question_id_t";
             String orderByOrder = "ASC";
             String letterId = letterIds.get(i);
-            
+
 //            if(Global.SEARCH_SERVER_LETTER_QA_FLAG.equals("0")) {
-            	String accessToken = commonService.getGuiAccessToken();
-        		String urls = serviceGuiBaseUrl + "/letter/letter/api/searchLetterQaData?access_token=" + accessToken;
-        		ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
-        		};
-        		
-                QueryInfo<Map<String, Object>> queryInfo = new QueryInfo<Map<String, Object>>();
-                Map<String, Object> condition = Maps.newHashMap();
-                
-                if(StringUtils.isNotEmpty(letterId)) {
-        			condition.put("letterId", letterId);
-        		}
-                
-                condition.put("groupFlag", "true");
-                
-                queryInfo.setQueryId("com.stock.capital.services.letter.api.dao.LetterApiQa.searchLetterQaData");
-                queryInfo.setCondition(condition);
-        		queryInfo.setStartRow(0);
-        		queryInfo.setPageSize(2000);
-        		queryInfo.setOrderByName(orderByName);
-        		queryInfo.setOrderByOrder(orderByOrder);
-                
-                String encryptData = restClient.post(urls, queryInfo, responseType);
-        		// 获取解密后的数据
-        		Map<String, Object> index = commonService.getEncryptData(encryptData);
-        		if(!MapUtils.isEmpty(index)) {
-        			ParameterizedTypeReference<FacetResult<IpoFeedbackIndexDto>> map = new ParameterizedTypeReference<FacetResult<IpoFeedbackIndexDto>>() {
-					};
-					facetResult = JsonUtil.fromJson(JsonUtil.toJson(index) ,map);
-        		}
-//        	} else {
-//        		Map<String, String> condition = Maps.newHashMap();
-//        		StringBuilder conditionsStr = new StringBuilder("index_type_t: \"letterqa\"");
-//        		conditionsStr.append(" AND " + "letter_letter_id_t:");
-//        		conditionsStr.append(letterId);
-//        		String conditionsGroup = "letter_question_class_new_id_txt";
-//        		condition.put(Constant.SEARCH_CONDIATION, conditionsStr.toString());
-//        		condition.put(Constant.SEARCH_FACET_FIELD, conditionsGroup);
-//        		condition.put(Constant.SEARCH_FACET_MIN_COUNT, "1");
-//        		QueryInfo<Map<String, String>> queryInfo = new QueryInfo<>();
-//        		queryInfo.setCondition(condition);
-//        		queryInfo.setStartRow(0);
-//        		queryInfo.setPageSize(2000);
-//        		queryInfo.setOrderByName(orderByName);
-//        		queryInfo.setOrderByOrder(orderByOrder);
-//        		facetResult = searchServer.searchWithFacet("letterqa", queryInfo, IpoFeedbackIndexDto.class);
-//        	}
+            String accessToken = commonService.getGuiAccessToken();
+            String urls = serviceGuiBaseUrl + "/letter/letter/api/searchLetterQaData?access_token="
+                + accessToken;
+            ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
+            };
+
+            QueryInfo<Map<String, Object>> queryInfo = new QueryInfo<Map<String, Object>>();
+            Map<String, Object> condition = Maps.newHashMap();
+
+            if (StringUtils.isNotEmpty(letterId)) {
+                condition.put("letterId", letterId);
+            }
+
+            condition.put("groupFlag", "true");
+
+            queryInfo.setQueryId(
+                "com.stock.capital.services.letter.api.dao.LetterApiQa.searchLetterQaData");
+            queryInfo.setCondition(condition);
+            queryInfo.setStartRow(0);
+            queryInfo.setPageSize(2000);
+            queryInfo.setOrderByName(orderByName);
+            queryInfo.setOrderByOrder(orderByOrder);
+
+            String encryptData = restClient.post(urls, queryInfo, responseType);
+            // 获取解密后的数据
+            Map<String, Object> index = commonService.getEncryptData(encryptData);
+            if (!MapUtils.isEmpty(index)) {
+                ParameterizedTypeReference<FacetResult<IpoFeedbackIndexDto>> map =
+                    new ParameterizedTypeReference<FacetResult<IpoFeedbackIndexDto>>() {
+                    };
+                facetResult = JsonUtil.fromJson(JsonUtil.toJson(index), map);
+            }
             List<StatisticsField> labelList =
-                    facetResult.getStatisticsFieldMap().get("letter_question_class_new_id_txt");
+                facetResult.getStatisticsFieldMap().get("letter_question_class_new_id_txt");
 
             //循环标签，将标签个数赋值
             for (StatisticsField labelDto : labelList) {
                 if (null != firstLabelMap.get(labelDto.getFieldId())) {
                     IpoQuestionLabelDto questionLabelDto = new IpoQuestionLabelDto();
                     questionLabelDto.setLabelCode(labelDto.getFieldId());
-                    questionLabelDto.setLabelName(firstLabelMap.get(labelDto.getFieldId()).get("letterClassName"));
+                    questionLabelDto.setLabelName(
+                        firstLabelMap.get(labelDto.getFieldId()).get("letterClassName"));
                     questionLabelDto.setLabelCount(String.valueOf(labelDto.getCount()));
                     String sort = firstLabelMap.get(labelDto.getFieldId()).get("sort");
                     if (StringUtils.isEmpty(sort)) {
@@ -229,7 +223,7 @@ public class IpoFeedbackService extends BaseService {
             }
             //一级标签排序
             firstLabelList.sort((IpoQuestionLabelDto c1, IpoQuestionLabelDto c2) ->
-                    (c1.getSort() > c2.getSort() ? 1 : (c1.getSort() == c2.getSort() ? 0 : -1)));
+                (c1.getSort() > c2.getSort() ? 1 : (c1.getSort() == c2.getSort() ? 0 : -1)));
 
             List<IpoFeedbackIndexDto> questionList = facetResult.getPage().getData();
             //一级标签添加全部标签
@@ -248,9 +242,9 @@ public class IpoFeedbackService extends BaseService {
                 //添加前台需要展示的函件类型名称
                 String letterTypeName = questionList.get(0).getLetterTypeName();
                 if ("069001001006".equals(ipoPlate)) {
-                    if("审核中心意见落实函".equals(letterTypeName)){
+                    if ("审核中心意见落实函".equals(letterTypeName)) {
                         ipoFeedbackResultDto.setLetterName("落实函");
-                    }else{
+                    } else {
                         if (feedbackCount == 0) {
                             ipoFeedbackResultDto.setLetterName("第一次问询");
                         } else if (feedbackCount == 1) {
@@ -272,10 +266,10 @@ public class IpoFeedbackService extends BaseService {
                         } else if (feedbackCount == 9) {
                             ipoFeedbackResultDto.setLetterName("第十次问询");
                         }
-                        feedbackCount ++;
+                        feedbackCount++;
                     }
 
-                }else{
+                } else {
                     if (feedbackCount == 0) {
                         ipoFeedbackResultDto.setLetterName("第一次反馈意见");
                     } else if (feedbackCount == 1) {
@@ -297,10 +291,8 @@ public class IpoFeedbackService extends BaseService {
                     } else if (feedbackCount == 9) {
                         ipoFeedbackResultDto.setLetterName("第十次反馈意见");
                     }
-                    feedbackCount ++;
+                    feedbackCount++;
                 }
-
-
 
                 for (IpoFeedbackIndexDto questionDto : questionList) {
                     //定义二级标签集合
@@ -317,7 +309,8 @@ public class IpoFeedbackService extends BaseService {
                     if (CollectionUtils.isNotEmpty(belongLabel)) {
                         for (String belongLabelStr : belongLabel) {
                             if (null != secondLabelMap.get(belongLabelStr)) {
-                                secondLabelList.add(secondLabelMap.get(belongLabelStr).get("letterClassName"));
+                                secondLabelList
+                                    .add(secondLabelMap.get(belongLabelStr).get("letterClassName"));
                             }
                         }
                     }
@@ -331,10 +324,41 @@ public class IpoFeedbackService extends BaseService {
             ipoFeedbackResultDto.setQuestionCount(questionCount);
             ipoFeedbackResultDto.setAnswerCount(answerCount);
             ipoFeedbackResultDto.setQuestionList(questionResultList);
+            ipoFeedbackResultDto.setLetterFileNo(questionList.get(0).getLetterFileNo());
+            if (questionList != null && questionList.size() > 0) {
+                ipoFeedbackResultDto.setLetterDate(questionList.get(0).getLetterDate());
+                ipoFeedbackResultDto.setReturnDate(questionList.get(0).getLetterReturnDate());
+                if (questionList.get(0).getLetterDate() != null && questionList.get(0).getLetterReturnDate() != null){
+                    ipoFeedbackResultDto.setIntervalDate(between_days(questionList.get(0).getLetterDate(),questionList.get(0).getLetterReturnDate()));
+                }
+            }
+            ipoFeedbackResultDto.setLetterFileNo(ipoFeedbackMapper.selectFileNo(ipoFeedbackResultDto.getLetterId()));
             resultList.add(ipoFeedbackResultDto);
         }
 
         return resultList;
+    }
+
+
+    public String between_days(Date startDate, Date endDate) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");// 自定义时间格式
+        Calendar calendar_a = Calendar.getInstance();// 获取日历对象
+        Calendar calendar_b = Calendar.getInstance();
+        Date date_a = null;
+        Date date_b = null;
+        try {
+            calendar_a.setTime(startDate);// 设置日历
+            calendar_b.setTime(endDate);
+        } catch (Exception e) {
+            e.printStackTrace();//格式化异常
+        }
+
+        long time_a = calendar_a.getTimeInMillis();
+        long time_b = calendar_b.getTimeInMillis();
+
+        long between_days = (time_b - time_a) / (1000 * 3600 * 24);//计算相差天数
+
+        return between_days + "";
     }
 
     /**

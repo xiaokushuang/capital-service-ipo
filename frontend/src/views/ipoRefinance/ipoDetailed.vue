@@ -185,7 +185,6 @@
       this.getYear();
     },
     mounted() {
-      debugger;
       // 获取fromFlag 判断是否是独立项目
       var fromFlag = this.$route.query['fromFlag'];
       // 判断是否是独立收费模块
@@ -366,7 +365,6 @@
         }
       },
       openDetail(registAddr, lastUpadteTime, approveStatus, viewType) {
-        debugger;
        if (this.fromFlag && !this.signSymbol) {
            let url = window.location.href;
            url = url.replace(this.$route.path, '/ipoPopWin');

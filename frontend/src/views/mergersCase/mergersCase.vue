@@ -449,7 +449,7 @@ export default {
       //   input2: this.formLabelAlign.input2,
       //   plate: this.formLabelAlign.plate
       // }; 
-      console.log(this.formLabelAlign);
+      // console.log(this.formLabelAlign);
     },
     // 表格接口
     dataGet() {
@@ -493,7 +493,7 @@ export default {
           }
         }
       }
-      console.log(city);
+      // console.log(city);
     },
     //下拉菜单method
     handleNodeClick2(data, node, component) {
@@ -529,7 +529,7 @@ export default {
 
     },
     calls(data) {
-      console.log(data);
+      // console.log(data);
       //下拉回复上次选项
       // if (!data) {
       //   this.$refs.tree.setCheckedNodes(this.selectSpace); //通过node值设置默认选中
@@ -557,14 +557,14 @@ export default {
 
     //table点击
     handleClick(row) {
-      console.log(row);
+      // console.log(row);
     },
     shareClick(row){
-       console.log(row);
+       // console.log(row);
     },
     //table排序
     sortChange(column) {
-      console.log(column);
+      // console.log(column);
       if (column.order != null && column.prop != null) {
         (this.orderByName = column.prop), (this.orderByOrder = column.order);
       } else {
@@ -576,11 +576,11 @@ export default {
     //table选中事件
     handleSelectionChange(val) {
       //val 选中数据
-      console.log(val);
+      // console.log(val);
       this.multipleSelection = val;
     },
     search(val) { 
-      console.log(val);
+      // console.log(val);
     }
   },
   computed: {

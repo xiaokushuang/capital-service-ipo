@@ -9,9 +9,11 @@ import com.stock.capital.enterprise.ipoCase.dao.IpoCaseBizMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseListMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoIssuerIndustryStatusBizMapper;
 import com.stock.capital.enterprise.ipoCase.dto.*;
+import com.stock.core.dao.RedisDao;
 import com.stock.core.dto.JsonResponse;
 import com.stock.core.rest.RestClient;
 import com.stock.core.service.BaseService;
+import com.stock.core.util.JsonUtil;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -48,6 +50,9 @@ public class CompanyOverviewService extends BaseService {
     private IpoCaseListMapper ipoCaseListMapper;
 
     @Autowired
+    private RedisDao redisDao;
+
+    @Autowired
     private RestClient restClient;
 
     @Value("#{app['file.viewPath']}")
@@ -55,6 +60,14 @@ public class CompanyOverviewService extends BaseService {
 
     @Value("#{app['api.baseUrl']}")
     private String apiBaseUrl;
+
+    @Value("#{app['service.baseUrl']}")
+    private String serviceBaseUrl;
+
+    /**
+     * 财务报告，redis中key的首部
+     */
+    public static final String FINANCIALREPORT_COMPANY_KEY_PREFIX = "services:financialreport:";
 
     /**
      * 案例基础信息
@@ -111,7 +124,7 @@ public class CompanyOverviewService extends BaseService {
     }
 
     /**
-     * 登陆其他资本市场信息
+     * 拆分上市情况
      *
      * @param id 案例id
      * @return list
@@ -122,9 +135,6 @@ public class CompanyOverviewService extends BaseService {
             AttachmentExample example = new AttachmentExample();
             example.createCriteria().andBusinessIdEqualTo(ipoSplitDto.getId());
             List<Attachment> attachmentList = attachmentMapper.selectByExample(example);
-//            String fileType = ipoSplitDto.getSplitFileName().substring(ipoSplitDto.getSplitFileName().lastIndexOf("."));
-//            String baseUrl = fileViewPath + "open/ipoFile/" + ipoSplitDto.getSplitFileId() + fileType;
-//            ipoSplitDto.setFilePath(baseUrl);
 
             List<IpoFileDto> fileList = new ArrayList<>();
             for (Attachment attachment : attachmentList) {
@@ -576,5 +586,45 @@ public class CompanyOverviewService extends BaseService {
 
     public Map<String,String> getCaseFavoriteAndNote(Map<String,String> map){
         return ipoCaseBizMapper.getCaseFavoriteAndNote(map);
+    }
+
+    public List<OtherMarketInfoDto> getOtcData(String id) {
+        return ipoCaseBizMapper.getOtcData(id);
+    }
+
+    public List<IpoCaseListVo> queryCompanyForFin(String id) {
+        return ipoCaseBizMapper.queryCompanyForFin(id);
+    }
+
+    public Map<String,Object> openFinancialReVision(Map<String,String> map) {
+        //通过市值分析的接口获取belongPlate
+        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+        parameters.add("companyCode", map.get("searchCompanyCode"));
+        parameters.add("userId", getUserInfo().getUserId());
+        // 调用api
+        ParameterizedTypeReference<JsonResponse<List<Company>>> responseType = new ParameterizedTypeReference<JsonResponse<List<Company>>>() {
+        };
+        List<Company> data = restClient.post("http://dev-sz.valueonline.cn/capital-cloud-api/company_info/queryByFinancialReport", parameters, responseType).getResult();
+        if(data != null && data.size() > 0){
+            map.put("belongsPlate",data.get(0).getBelongsPlate());
+            map.put("companyType",data.get(0).getIpoFlag());
+        }else{
+            map.put("belongsPlate","1");
+        }
+
+        Map resultMap = new HashMap();
+        map.put("userId",getUserInfo().getUserId());
+        map.put("username",getUserInfo().getUsername());
+        map.put("companyId",getUserInfo().getCompanyId());
+        map.put("identityType",getUserInfo().getIdentityType());
+        String jsonStr = JsonUtil.toJson(map);
+        String result ="false";
+        String token = map.get("access_token");
+        redisDao.setObjectWithExpire(FINANCIALREPORT_COMPANY_KEY_PREFIX+token, jsonStr, 24 * 60 * 60 * 1000);
+        result = "true";
+        resultMap.put("message",result);
+        resultMap.put("token",token);
+        resultMap.put("serviceBaseUrl",serviceBaseUrl);
+        return resultMap;
     }
 }

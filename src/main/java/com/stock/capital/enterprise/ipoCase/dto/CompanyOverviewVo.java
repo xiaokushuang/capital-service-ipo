@@ -93,6 +93,28 @@ public class CompanyOverviewVo implements Serializable {
     @ApiModelProperty("行业code")
     private String industryCsrcCode;
 
+    @ApiModelProperty("板块code")
+    private String plateCode;
+
+    @ApiModelProperty("国民经济行业")
+    private String nationalIndustries;
+
+    public String getPlateCode() {
+        return plateCode;
+    }
+
+    public void setPlateCode(String plateCode) {
+        this.plateCode = plateCode;
+    }
+
+    public String getNationalIndustries() {
+        return nationalIndustries;
+    }
+
+    public void setNationalIndustries(String nationalIndustries) {
+        this.nationalIndustries = nationalIndustries;
+    }
+
     public String getAddrCountry() {
         return addrCountry;
     }

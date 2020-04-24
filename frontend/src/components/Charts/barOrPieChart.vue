@@ -1,7 +1,7 @@
 <template>
     <div class="clear" id="chartParent">
-         <div class="l" id="barChart" style="height:300px;width:50%"></div>
-         <div class="l" id="pieChart" style="height:300px;width:50%"></div>
+         <div class="l" id="barChart" style="height:300px;width:55%"></div>
+         <div class="l" id="pieChart" style="height:300px;width:45%"></div>
     </div>
 </template>
 
@@ -63,18 +63,42 @@ export default {
         }
       this.barChart = echarts.init(document.getElementById('barChart'))
 
+      var keyMap = {"firstYearForIncome": undefined,
+                    "secondYearForIncome": undefined,
+                    "thirdYearForIncome": undefined,
+                    "onePeriodForIncome": undefined};
+
+      for (var i = 0; i < dataList.mainIncomeInfoList.slice(0,-1).length; i++) {
+        var a1 = dataList.mainIncomeInfoList.slice(0,-1)[i].firstYearAmount >0 ? dataList.mainIncomeInfoList.slice(0,-1)[i].firstYearAmount : undefined;
+        var a2 = dataList.mainIncomeInfoList.slice(0,-1)[i].secondYearAmount >0 ? dataList.mainIncomeInfoList.slice(0,-1)[i].secondYearAmount : undefined;
+        var a3 = dataList.mainIncomeInfoList.slice(0,-1)[i].thirdYearAmount >0 ? dataList.mainIncomeInfoList.slice(0,-1)[i].thirdYearAmount : undefined;
+        var a4 = dataList.mainIncomeInfoList.slice(0,-1)[i].onePeriodAmount >0 ? dataList.mainIncomeInfoList.slice(0,-1)[i].onePeriodAmount : undefined;
+        keyMap.firstYearForIncome = keyMap.firstYearForIncome != undefined ? keyMap.firstYearForIncome : a1 > 0 ? dataList.firstYearForIncome : undefined;
+        keyMap.secondYearForIncome = keyMap.secondYearForIncome != undefined ? keyMap.secondYearForIncome : a2 > 0 ? dataList.secondYearForIncome : undefined;
+        keyMap.thirdYearForIncome = keyMap.thirdYearForIncome != undefined ? keyMap.thirdYearForIncome : a3 > 0 ? dataList.thirdYearForIncome : undefined;
+        keyMap.onePeriodForIncome = keyMap.onePeriodForIncome != undefined ? keyMap.onePeriodForIncome : a4 > 0 ? dataList.onePeriodForIncome : undefined;
+      }
+
     //  循环获取柱状图数据
       for (var i = 0; i < dataList.mainIncomeInfoList.slice(0,-1).length; i++) {
           this.lengendData.push(dataList.mainIncomeInfoList.slice(0,-1)[i].businessName);
           this.barYY = [];
-          var a1 = dataList.mainIncomeInfoList.slice(0,-1)[i].firstYearAmount;
-          var a2 = dataList.mainIncomeInfoList.slice(0,-1)[i].secondYearAmount;
-          var a3 = dataList.mainIncomeInfoList.slice(0,-1)[i].thirdYearAmount;
-          var a4 = dataList.mainIncomeInfoList.slice(0,-1)[i].onePeriodAmount;
-          this.barYY.push(a1)
-          this.barYY.push(a2)
-          this.barYY.push(a3)
-          this.barYY.push(a4)
+          var a1 = dataList.mainIncomeInfoList.slice(0,-1)[i].firstYearAmount >0 ? dataList.mainIncomeInfoList.slice(0,-1)[i].firstYearAmount : undefined;
+          var a2 = dataList.mainIncomeInfoList.slice(0,-1)[i].secondYearAmount >0 ? dataList.mainIncomeInfoList.slice(0,-1)[i].secondYearAmount : undefined;
+          var a3 = dataList.mainIncomeInfoList.slice(0,-1)[i].thirdYearAmount >0 ? dataList.mainIncomeInfoList.slice(0,-1)[i].thirdYearAmount : undefined;
+          var a4 = dataList.mainIncomeInfoList.slice(0,-1)[i].onePeriodAmount >0 ? dataList.mainIncomeInfoList.slice(0,-1)[i].onePeriodAmount : undefined;
+          if (keyMap.firstYearForIncome != undefined) {
+            this.barYY.push(a1)
+          }
+          if (keyMap.secondYearForIncome != undefined) {
+            this.barYY.push(a2)
+          }
+          if (keyMap.thirdYearForIncome != undefined) {
+            this.barYY.push(a3)
+          }
+          if (keyMap.onePeriodForIncome != undefined) {
+            this.barYY.push(a4)
+          }
           var barBusinessName;
             barBusinessName = dataList.mainIncomeInfoList.slice(0,-1)[i].businessName
           this.barChartY.push(
@@ -88,7 +112,20 @@ export default {
                              )
 
                }
-         this.barChartX = [dataList.firstYearForIncome,dataList.secondYearForIncome,dataList.thirdYearForIncome,dataList.onePeriodForIncome]
+      // this.barChartX = [dataList.firstYearForIncome,dataList.secondYearForIncome,dataList.thirdYearForIncome,dataList.onePeriodForIncome]
+      if (keyMap.firstYearForIncome != undefined){
+        this.barChartX.push(keyMap.firstYearForIncome);
+      }
+      if (keyMap.secondYearForIncome != undefined){
+        this.barChartX.push(keyMap.secondYearForIncome);
+      }
+      if (keyMap.thirdYearForIncome != undefined){
+        this.barChartX.push(keyMap.thirdYearForIncome);
+      }
+      if (keyMap.onePeriodForIncome != undefined){
+        this.barChartX.push(keyMap.onePeriodForIncome);
+      }
+
    // 点击柱状图获取相应数据
       this.barChart.on("click", function(params) {
         // debugger

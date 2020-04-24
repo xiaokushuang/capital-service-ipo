@@ -24,6 +24,31 @@ export function getMarketData(query) {
     params: query
   })
 }
+
+export function getOtcData(query) {
+  return request({
+    url: '/ipo/companyOverview/getOtcData',
+    method: 'get',
+    params: query
+  })
+}
+
+export function openFinancialReVision(query) {
+  return request({
+    url: '/ipo/companyOverview/openFinancialReVision',
+    method: 'get',
+    params: query
+  })
+}
+
+export function queryCompanyForFin(query) {
+  return request({
+    url: '/ipo/companyOverview/queryCompanyForFin',
+    method: 'get',
+    params: query
+  })
+}
+
 // 拆分上市情况GET /companyOverview/spliteData
 export function getSpliteData(query) {
   return request({
@@ -195,5 +220,15 @@ export function NoteDetermination(query) {
     method: 'post',
     // params: query
 		data : query  //post方式 通过data传值
+  })
+}
+
+export function exportWordCase(query) {
+  return request({
+    url: '/ipo/IpoExportWordActorController/exportWordCase',
+    method: 'post',//请求方式
+    params: query,//参数
+    headers:{'Content-Type':'application/json;charset=UTF-8 '},
+    responseType: 'blob'//设置response类型，下载
   })
 }

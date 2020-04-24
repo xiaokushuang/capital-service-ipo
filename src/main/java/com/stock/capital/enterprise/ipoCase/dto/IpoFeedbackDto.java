@@ -40,7 +40,10 @@ public class IpoFeedbackDto implements Serializable {
     private Date letterDate;
     @ApiModelProperty("函件日期:回函日期")
     private Date returnDate;
-
+    @ApiModelProperty("来函回函时间差")
+    private String intervalDate;
+    @ApiModelProperty("函件文号")
+    private String letterFileNo;
 
     private static final long serialVersionUID = 1L;
 
@@ -167,4 +170,20 @@ public class IpoFeedbackDto implements Serializable {
     public void setReturnDate(Date returnDate) {
         this.returnDate = returnDate;
     }
+
+    public String getIntervalDate() {
+        return intervalDate;
+    }
+
+    public void setIntervalDate(String intervalDate) {
+        this.intervalDate = intervalDate;
+    }
+
+  public String getLetterFileNo() {
+    return letterFileNo;
+  }
+
+  public void setLetterFileNo(String letterFileNo) {
+    this.letterFileNo = letterFileNo;
+  }
 }
