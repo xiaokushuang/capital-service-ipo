@@ -216,7 +216,8 @@ export default {
           this.tempOpen = window.open();
           openFinancialReVision(ajaxSettings).then(res=>{
             if(res.data.result && res.data.result.message){
-              let parame = encodeURI(encodeURI("access_token="+res.data.result.token+"&tenantInfo=" + this.$route.query.tenant_info));
+              let parame = encodeURI(encodeURI("access_token="+this.$route.query.access_token+"&tenantInfo=" + this.$route.query.tenant_info));
+              console.log(parame);
               let newLocation = res.data.result.serviceBaseUrl + "ui/finance-report/financialReVision/dupontContainer?" + parame;
               this.tempOpen.location = newLocation;
             }else{
