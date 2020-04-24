@@ -689,13 +689,13 @@
             clearInterval(this.timer)
             this.timer = setInterval(() => {
               this.wordInterval(res.data.filePath)
-            }, 30000)
+            }, 8000)
           }
           //startloading.close();
         });
       },
       wordInterval(filePath){
-        if (this.timerTimes <= 10){
+        if (this.timerTimes <= 30){
           this.timerTimes++;
         }else {
           clearInterval(this.timer);
