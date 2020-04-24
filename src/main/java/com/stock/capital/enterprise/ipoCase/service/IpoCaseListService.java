@@ -176,6 +176,16 @@ public class IpoCaseListService extends BaseService {
         } else {
             resultMap.put("issueLawId", "746412002835704646");
         }
+        IpoCaseListBo lawjxc = ipoCaseListMapper.querylawIdjxc();
+        if (lawjxc != null) {
+            if (StringUtils.isNoneBlank(lawjxc.getIssueLawId())) {
+                resultMap.put("issueLawJxcId", lawjxc.getIssueLawId());
+            } else {
+                resultMap.put("issueLawJxcId", "458629827245657197");
+            }
+        } else {
+            resultMap.put("issueLawJxcId", "458629827245657197");
+        }
         resultMap.put("plateTreeTag", plateTreeTag);
         resultMap.put("plateTreeNum", plateTreeNum);
         resultMap.put("marketTreeTag", marketTreeTag);

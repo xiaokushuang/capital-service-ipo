@@ -119,7 +119,7 @@
       sa_company sc
     JOIN sa_application sa ON sc.id = sa.company_id
     WHERE sc.id = #{companyId}
-		 AND ((sa.charge_apply_module = (SELECT code_value from sa_code WHERE code_no = 'CHARGE_APPLY_MODULE' AND code_name = 'IPO库')
+		 AND ((FIND_IN_SET((SELECT code_value from sa_code WHERE code_no = 'CHARGE_APPLY_MODULE' AND code_name = 'IPO库'),sa.charge_apply_module)
      AND sa.authorize_type = '00' AND current_date between sa.begin_time_ipo and sa.end_time_ipo) OR sc.ipo_flag = '2' OR sc.ipo_flag = '4' OR sc.ipo_flag = '7' )
   </select>
 
