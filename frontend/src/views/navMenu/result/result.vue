@@ -487,6 +487,12 @@
                                 <span class="qxshResult" v-if="item.iecResult=='10'">取消审议</span>
                                <span class="zhbjResult" v-if="item.iecResult=='11'">暂缓审议</span>
                                 <span class="qxshResult" v-if="item.iecResult=='12'">终止注册</span>
+
+                              <span class="tgResult" v-if="item.iecResult==='21'">通过</span>
+                              <span class="wtgResult" v-if="item.iecResult==='22'">未通过</span>
+                              <span class="dshResult" v-if="item.iecResult==='27'">待上会</span>
+                              <span class="qxshResult" v-if="item.iecResult==='23'">取消审议</span>
+                              <span class="zhbjResult" v-if="item.iecResult==='24'">暂缓审议</span>
                               <span class="tgResult" v-if="item.iecResult==='25'">核准</span>
                               <span class="whtgResult" v-if="item.iecResult==='26'">不予核准</span>
                             </span>
@@ -533,6 +539,11 @@
                             <span class="qxshResult" v-if="item.iecResult=='10'">取消审议</span>
                             <span class="zhbjResult" v-if="item.iecResult=='11'">暂缓审议</span>
                             <span class="qxshResult" v-if="item.iecResult=='12'">终止注册</span>
+                              <span class="tgResult" v-if="item.iecResult==='21'">通过</span>
+                              <span class="wtgResult" v-if="item.iecResult==='22'">未通过</span>
+                              <span class="dshResult" v-if="item.iecResult==='27'">待上会</span>
+                              <span class="qxshResult" v-if="item.iecResult==='23'">取消审议</span>
+                              <span class="zhbjResult" v-if="item.iecResult==='24'">暂缓审议</span>
                             <span class="tgResult" v-if="item.iecResult==='25'">核准</span>
                             <span class="whtgResult" v-if="item.iecResult==='26'">不予核准</span>
                         </span>

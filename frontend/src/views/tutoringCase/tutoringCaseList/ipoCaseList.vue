@@ -577,6 +577,12 @@
 												<div class="qxshResult" v-if="scope.row.labelResult==='10'">取消审议</div>
 												<div class="zhbjResult" v-if="scope.row.labelResult==='11'">暂缓审议</div>
 												<div class="qxshResult" v-if="scope.row.labelResult==='12'">终止注册</div>
+
+                        <div class="tgResult" v-if="scope.row.labelResult==='21'">通过</div>
+                        <div class="wtgResult" v-if="scope.row.labelResult==='22'">未通过</div>
+                        <div class="dshResult" v-if="scope.row.labelResult==='27'">待上会</div>
+                        <div class="qxshResult" v-if="scope.row.labelResult==='23'">取消审议</div>
+                        <div class="zhbjResult" v-if="scope.row.labelResult==='24'">暂缓审议</div>
                         <div class="tgResult" v-if="scope.row.labelResult==='25'">核准</div>
                         <div class="whtgResult" v-if="scope.row.labelResult==='26'">不予核准</div>
 											</div>
