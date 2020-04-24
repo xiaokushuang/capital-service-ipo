@@ -81,7 +81,7 @@ public class IpoExportWordActorController {
       mv.setView(new DownloadView());
       InputStream is = new FileInputStream(filePath + ".docx");
       mv.addObject(DownloadView.EXPORT_FILE, is);
-      mv.addObject(DownloadView.EXPORT_PATH, filePath + ".docx");
+//      mv.addObject(DownloadView.EXPORT_PATH, filePath + ".docx");
       mv.addObject(DownloadView.EXPORT_FILE_NAME, title+"导出word.docx");
       mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.DOCX);
       response.setHeader("fileName", java.net.URLEncoder.encode(title+"导出word.docx", "utf-8"));
