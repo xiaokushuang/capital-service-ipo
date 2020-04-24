@@ -26,8 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -39,11 +37,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Service
 public class CompanyOverviewService extends BaseService {
 
-    private static final Logger logger = LoggerFactory.getLogger(CompanyOverviewService.class);
-
     @Autowired
     private IpoCaseBizMapper ipoCaseBizMapper;
-    
+
     @Autowired
     private IpoIssuerIndustryStatusBizMapper ipoIssuerIndustryStatusBizMapper;
 
@@ -284,8 +280,8 @@ public class CompanyOverviewService extends BaseService {
             result = null;
         }
         return result;
-    }    
-    
+    }
+
     /**
      * 报告期主要供应商及客户情况
      *
@@ -608,19 +604,14 @@ public class CompanyOverviewService extends BaseService {
         //通过市值分析的接口获取belongPlate
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
         parameters.add("companyCode", map.get("searchCompanyCode"));
-        logger.info("companyCode"+map.get("searchCompanyCode"));
         parameters.add("userId", getUserInfo().getUserId());
-        logger.info("userId"+getUserInfo().getUserId());
         // 调用api
         ParameterizedTypeReference<JsonResponse<List<Company>>> responseType = new ParameterizedTypeReference<JsonResponse<List<Company>>>() {
         };
         List<Company> data = restClient.post(apiBaseUrl + "company_info/queryByFinancialReport", parameters, responseType).getResult();
-        logger.info("data"+apiBaseUrl + "company_info/queryByFinancialReport");
         if(data != null && data.size() > 0){
             map.put("belongsPlate",data.get(0).getBelongsPlate());
-            logger.info("belongsPlate"+data.get(0).getBelongsPlate());
             map.put("companyType",data.get(0).getIpoFlag());
-            logger.info("companyType"+data.get(0).getIpoFlag());
         }else{
             map.put("belongsPlate","1");
         }
@@ -630,15 +621,14 @@ public class CompanyOverviewService extends BaseService {
         map.put("username",getUserInfo().getUsername());
         map.put("companyId",getUserInfo().getCompanyId());
         map.put("identityType",getUserInfo().getIdentityType());
-        logger.info("identityType"+getUserInfo().getIdentityType());
         String jsonStr = JsonUtil.toJson(map);
         String result ="false";
         String token = map.get("access_token");
-        logger.info("token"+map.get("access_token"));
         redisDao.setObjectWithExpire(FINANCIALREPORT_COMPANY_KEY_PREFIX+token, jsonStr, 24 * 60 * 60 * 1000);
         result = "true";
         resultMap.put("message",result);
         resultMap.put("token",token);
+        resultMap.put("serviceBaseUrl",serviceBaseUrl);
         return resultMap;
     }
 }
