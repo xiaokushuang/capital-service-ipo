@@ -691,6 +691,7 @@
         }
         console.log("第"+this.timerTimes+"次定时")
         exportWordIfSucess(params).then(res =>{
+          console.log(res)
           if (res.data){
             console.log("word已生成")
             this.timerTimes = 0;

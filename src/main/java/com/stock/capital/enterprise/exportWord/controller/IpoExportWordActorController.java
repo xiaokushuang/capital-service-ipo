@@ -57,6 +57,7 @@ public class IpoExportWordActorController {
   @RequestMapping(value = "exportWordIfSucess")
   @ResponseBody
   public Boolean exportWordIfSucess(String filePath) throws Exception {
+    logger.info("#################进入定时获取流看是否存在#################"+filePath);
     Boolean result = true;
     InputStream is = null;
     try {
