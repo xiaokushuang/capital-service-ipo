@@ -668,13 +668,13 @@
             clearInterval(this.timer)
             this.timer = setInterval(() => {
               this.wordInterval(res.data.filePath)
-            }, 60000)
+            }, 8000)
           }
           //startloading.close();
         });
       },
       wordInterval(filePath){
-        if (this.timerTimes <= 10){
+        if (this.timerTimes <= 30){
           this.timerTimes++;
         }else {
           clearInterval(this.timer);
@@ -687,7 +687,8 @@
         }
         let params = {
           title: this.headList.title,
-          filePath:filePath
+          filePath:filePath,
+            timestamp: new Date().getTime()
         }
         console.log("第"+this.timerTimes+"次定时")
         exportWordIfSucess(params).then(res =>{
