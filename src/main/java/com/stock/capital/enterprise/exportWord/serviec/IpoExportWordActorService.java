@@ -42,6 +42,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 @EnableAsync
 @Service
@@ -77,6 +78,9 @@ public class IpoExportWordActorService extends BaseService {
         patternList.add("w:t");
     }
 
+//    存储filePath 判断是否word生成完毕
+    public static  ConcurrentHashMap<String,String> docMap = new ConcurrentHashMap<>();
+
     @Async
     public void createWordAsync(String caseId, String filePath){
         logger.info("#######【开始异步导出caseId"+caseId+"】###########");
@@ -90,6 +94,7 @@ public class IpoExportWordActorService extends BaseService {
             logger.info("#######【更新目录完成】###########");
             doc.saveToFile(filePath + ".docx", FileFormat.Docx);
             doc.close();
+            docMap.put(filePath,"success");
             logger.info("#######【导出完成】###########");
         }catch (Exception e) {
             logger.info("#######【spire错误：" + e + "】###########"+ Throwables.getStackTraceAsString(e));
@@ -2757,5 +2762,14 @@ public class IpoExportWordActorService extends BaseService {
             return "";
         }
         return str;
+    }
+
+    public Boolean exportWordIfSucess(String filePath) {
+        String s = docMap.get(filePath);
+        if (StringUtils.isNotEmpty(s)){
+            docMap.remove(filePath);
+            return true;
+        }
+        return false;
     }
 }

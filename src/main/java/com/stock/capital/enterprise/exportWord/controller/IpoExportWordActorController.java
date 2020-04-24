@@ -59,20 +59,21 @@ public class IpoExportWordActorController {
   @RequestMapping(value = "exportWordIfSucess")
   @ResponseBody
   public Boolean exportWordIfSucess(String filePath) throws Exception {
-    logger.info("#################进入定时获取流看是否存在#################"+filePath);
-    Boolean result = true;
-    InputStream is = null;
-    try {
-      is = new FileInputStream(filePath + ".docx");
-    }catch (Exception e){
-      logger.info("#################进入定时获取流看是否存在报错#################"+ Throwables.getStackTraceAsString(e));
-      result = false;
-    }finally {
-      if (is != null){
-        IOUtils.closeQuietly(is);
-      }
-    }
-    return result;
+      return ipoExportWordActorService.exportWordIfSucess(filePath);
+//    logger.info("#################进入定时获取流看是否存在#################"+filePath);
+//    Boolean result = true;
+//    InputStream is = null;
+//    try {
+//      is = new FileInputStream(filePath + ".docx");
+//    }catch (Exception e){
+//      logger.info("#################进入定时获取流看是否存在报错#################"+ Throwables.getStackTraceAsString(e));
+//      result = false;
+//    }finally {
+//      if (is != null){
+//        IOUtils.closeQuietly(is);
+//      }
+//    }
+//    return result;
   }
   @RequestMapping(value = "exportWordCase")
   @ResponseBody
@@ -81,7 +82,7 @@ public class IpoExportWordActorController {
       InputStream is = null;
     try {
       logger.info("#######【word定时导出启动"+title+"】###########");
-      Thread.sleep(5000);
+//      Thread.sleep(5000);
         logger.info("#######【导出开始】###########");
       mv.setView(new DownloadView());
       is = new FileInputStream(filePath + ".docx");
