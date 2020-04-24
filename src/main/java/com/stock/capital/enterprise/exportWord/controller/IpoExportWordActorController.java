@@ -1,34 +1,39 @@
 package com.stock.capital.enterprise.exportWord.controller;
 
+import com.google.common.base.Throwables;
 import com.stock.capital.enterprise.exportWord.serviec.IpoExportWordActorService;
-import com.stock.capital.enterprise.exportWord.serviec.IpoExportWordService;
-import com.stock.capital.enterprise.utils.WXUtils;
-import com.stock.core.dto.JsonResponse;
 import com.stock.core.web.DownloadView;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Api(tags = {"IPO导出word"}, description = "IPO导出word")
 @RestController
 @RequestMapping(value = "IpoExportWordActorController")
 public class IpoExportWordActorController {
 
+  private static final Logger logger = LoggerFactory.getLogger(IpoExportWordActorController.class);
 
+  @Value("#{app['file.path']}")
+  private String filePath;
   @Autowired
   private IpoExportWordActorService ipoExportWordActorService;
 
@@ -36,18 +41,80 @@ public class IpoExportWordActorController {
    * 导出Word
    * @throws Exception
    */
+  @RequestMapping(value = "exportWordCaseData")
+  @ResponseBody
+  public Map<String, String> exportWordCaseData(String caseId){
+    Map<String, String> map = new HashMap<>();
+    String path = filePath + "tempDocFiles";
+    File dir = new File(path);
+    if (!dir.exists()) {
+      dir.mkdir();
+    }
+    String filePath = path + File.separator + UUID.randomUUID();
+    logger.info("#######【路径" + filePath + "】###########");
+    ipoExportWordActorService.createWordAsync(caseId,filePath);
+    map.put("filePath",filePath);
+    return map;
+  }
+  @RequestMapping(value = "exportWordIfSucess")
+  @ResponseBody
+  public Boolean exportWordIfSucess(String filePath) throws Exception {
+      return ipoExportWordActorService.exportWordIfSucess(filePath);
+//    logger.info("#################进入定时获取流看是否存在#################"+filePath);
+//    Boolean result = true;
+//    InputStream is = null;
+//    try {
+//      is = new FileInputStream(filePath + ".docx");
+//    }catch (Exception e){
+//      logger.info("#################进入定时获取流看是否存在报错#################"+ Throwables.getStackTraceAsString(e));
+//      result = false;
+//    }finally {
+//      if (is != null){
+//        IOUtils.closeQuietly(is);
+//      }
+//    }
+//    return result;
+  }
   @RequestMapping(value = "exportWordCase")
   @ResponseBody
-  public ModelAndView exportWordCase(HttpServletRequest request, String caseId, HttpServletResponse response) throws Exception {
+  public ModelAndView exportWordCase(@RequestParam("title") String title, @RequestParam("filePath") String filePath, HttpServletResponse response)  {
     ModelAndView mv = new ModelAndView();
-    Resource resource = new ClassPathResource("templates/IPO导出word模板.docx");
-    mv.setView(new DownloadView());
-    Map<String,Object> exportMap = ipoExportWordActorService.exportWordCase(resource.getInputStream(),caseId);
-    mv.addObject(DownloadView.EXPORT_FILE, (InputStream)exportMap.get("inputStream"));
-    mv.addObject(DownloadView.EXPORT_FILE_NAME, "IPO导出word.docx");
-    mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.DOCX);
-    response.setHeader("fileName", java.net.URLEncoder.encode("IPO导出word.docx", "utf-8"));
+      InputStream is = null;
+    try {
+      logger.info("#######【word定时导出启动"+title+"】###########");
+//      Thread.sleep(5000);
+        logger.info("#######【导出开始】###########");
+      mv.setView(new DownloadView());
+      is = new FileInputStream(filePath + ".docx");
+      mv.addObject(DownloadView.EXPORT_FILE, is);
+//      mv.addObject(DownloadView.EXPORT_PATH, filePath + ".docx");
+      mv.addObject(DownloadView.EXPORT_FILE_NAME, title+"导出word.docx");
+      mv.addObject(DownloadView.EXPORT_FILE_TYPE, DownloadView.FILE_TYPE.DOCX);
+      response.setHeader("fileName", java.net.URLEncoder.encode(title+"导出word.docx", "utf-8"));
+    }catch (Exception e){
+        if (is == null){
+            try {
+                is = new FileInputStream(filePath + ".docx");
+            }catch (Exception sube){
+                logger.error("####第二次获取doc文件失败####"+Throwables.getStackTraceAsString(e));
+            }
+        }
+        logger.info("#####导出word异常#####"+Throwables.getStackTraceAsString(e));
+    }
     return mv;
+  }
+
+  /**
+   * 每晚定时删除生成的word文件
+   */
+  @Scheduled(cron = "0 05 04 * * ? ")
+  public void deleteWordSchedule() {
+    String path = filePath + "tempDocFiles";
+    File dir = new File(path);
+    File[] listFile = dir.listFiles();
+    for (File file : listFile){
+      file.delete();
+    }
   }
 
 }

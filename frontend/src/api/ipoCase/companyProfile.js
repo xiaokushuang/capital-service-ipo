@@ -223,6 +223,22 @@ export function NoteDetermination(query) {
   })
 }
 
+export function exportWordIfSucess(query) {
+  return request({
+    url: '/ipo/IpoExportWordActorController/exportWordIfSucess',
+    method: 'get',
+    params : query
+  })
+}
+
+export function exportWordCaseData(query) {
+  return request({
+    url: '/ipo/IpoExportWordActorController/exportWordCaseData',
+    method: 'get',
+    params : query
+  })
+}
+
 export function exportWordCase(query) {
   return request({
     url: '/ipo/IpoExportWordActorController/exportWordCase',

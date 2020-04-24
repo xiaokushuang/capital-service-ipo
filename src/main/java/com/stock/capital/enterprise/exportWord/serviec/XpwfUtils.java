@@ -446,8 +446,8 @@ public class XpwfUtils {
 			newRun.setText(content);
 		}
 		newRun.setBold(boldFlag);
-		newRun.setFontSize(10);
-		newRun.setFontFamily("楷体");
+		newRun.setFontSize(11);
+		newRun.setFontFamily("宋体 (正文)");
 		if (tmpR != null) {
 			newRun.setBold(boldFlag || tmpR.isBold());
 			newRun.setItalic(tmpR.isItalic());
@@ -751,6 +751,30 @@ public class XpwfUtils {
 	public void replaceTableCell(XWPFTableCell cell,String text) {
 		XWPFParagraph p = getCellFirstParagraph(cell);
 		p.getRuns().get(0).setText(text,0);
+	}
+
+	public void replaceTableCellHH(XWPFTableCell cell,String content) {
+//		XWPFParagraph p = getCellFirstParagraph(cell);
+//		XWPFRun newRun = p.createRun();
+//        p.setSpacingBetween(1, LineSpacingRule.AUTO);
+		cell.removeParagraph(0);
+		XWPFParagraph xwpfParagraph1 = cell.addParagraph();
+		xwpfParagraph1.setSpacingBetween(1, LineSpacingRule.AUTO);
+		if(content.indexOf("\n") !=-1){
+			String[] text = content.split("\n");
+			for (String s : text) {
+				XWPFRun run = xwpfParagraph1.createRun();//对某个段落设置格式
+				run.setFontFamily("宋体");
+				run.setFontSize(11);
+				run.setText(s.trim());
+				run.addBreak();//换行
+			}
+		} else {
+			XWPFRun run = xwpfParagraph1.createRun();//对某个段落设置格式
+			run.setFontFamily("宋体");
+			run.setFontSize(11);
+			run.setText(content);
+		}
 	}
 
 	/**

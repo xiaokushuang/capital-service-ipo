@@ -502,7 +502,8 @@
                 </div>
                 <div>（二）市值不低于4亿元，最近两年营业收入平均不低于1亿元且增长率不低于30%，最近一年经营活动产生的现金流量净额为正；</div>
                 <div>（三）市值不低于8亿元，最近一年营业收入不低于2亿元，最近两年研发投入合计占最近两年营业收入合计比例不低于8%；</div>
-                <div>（四）市值不低于15亿元，最近两年研发投入合计不低于5000万元。前款所称市值是指以挂牌公司向不特定合格投资者公开发行（以下简称公开发行）价格计算的股票市值。</div>
+                <div>（四）市值不低于15亿元，最近两年研发投入合计不低于5000万元。</div>
+                <div>前款所称市值是指以挂牌公司向不特定合格投资者公开发行（以下简称公开发行）价格计算的股票市值。</div>
               </div>
             </div>
           </el-dialog>
@@ -576,6 +577,12 @@
 												<div class="qxshResult" v-if="scope.row.labelResult==='10'">取消审议</div>
 												<div class="zhbjResult" v-if="scope.row.labelResult==='11'">暂缓审议</div>
 												<div class="qxshResult" v-if="scope.row.labelResult==='12'">终止注册</div>
+
+                        <div class="tgResult" v-if="scope.row.labelResult==='21'">通过</div>
+                        <div class="wtgResult" v-if="scope.row.labelResult==='22'">未通过</div>
+                        <div class="dshResult" v-if="scope.row.labelResult==='27'">待上会</div>
+                        <div class="qxshResult" v-if="scope.row.labelResult==='23'">取消审议</div>
+                        <div class="zhbjResult" v-if="scope.row.labelResult==='24'">暂缓审议</div>
                         <div class="tgResult" v-if="scope.row.labelResult==='25'">核准</div>
                         <div class="whtgResult" v-if="scope.row.labelResult==='26'">不予核准</div>
 											</div>

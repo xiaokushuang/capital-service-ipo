@@ -207,7 +207,7 @@
     AND DATE_FORMAT(tb.date,'%m%d') &lt;= '1231' THEN '001' ELSE '' END) finType
     FROM(SELECT t1.SECURITY_CD companyCode,t1.SECURITY_NM companyName,
     (SELECT DATE_FORMAT(m.report_period,'%Y-%m-%d') FROM ipo_main_income_info m WHERE m.bid = t.id LIMIT 1) AS date
-    FROM ipo_case t,vc_company t1 WHERE t.id = '746524673180966565' AND t.company_name = t1.SECURITY_NM) AS tb
+    FROM ipo_case t,vc_company t1 WHERE t.id = #{id} AND t.company_name = t1.SECURITY_NM) AS tb
     WHERE tb.date != '' and tb.date is not null ORDER BY tb.companyCode DESC
   </select>
 
@@ -459,7 +459,6 @@
           ipo_process
         WHERE
           tree_type_code = '00'
-        AND process_type_code = '03'
         AND bid = ic.id
       ),
       (
@@ -469,7 +468,6 @@
           ipo_process
         WHERE
           tree_type_code = '00'
-        AND process_type_code = '01'
         AND bid = ic.id
       )
     ) AS supportDuration,

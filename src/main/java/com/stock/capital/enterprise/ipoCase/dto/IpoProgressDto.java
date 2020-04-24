@@ -29,6 +29,16 @@ public class IpoProgressDto implements Serializable {
     @ApiModelProperty("进程总历时")
     private String durationDay;
 
+    private String ipoPlate;
+
+    public String getIpoPlate() {
+        return ipoPlate;
+    }
+
+    public void setIpoPlate(String ipoPlate) {
+        this.ipoPlate = ipoPlate;
+    }
+
     public String getTreeTypeCode() {
         return treeTypeCode;
     }

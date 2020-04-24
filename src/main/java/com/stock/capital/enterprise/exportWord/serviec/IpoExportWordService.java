@@ -7,6 +7,7 @@ import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFinanceDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoInvestItemDto;
+import com.stock.capital.enterprise.ipoCase.dto.IpoItemDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoProListDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoProgressDto;
 import com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto;
@@ -87,7 +88,7 @@ public class IpoExportWordService extends BaseService {
       if (treeList.get(i).getProList() != null) {
         IpoProgressDto ipoProgress = treeList.get(i);
         Integer durationDay = 0;
-        for (int j = 0; j < ipoProgress.getProList().size(); j++) {
+        for (int j = 0; j < ipoProgress.getProList().size() -1 ; j++) {
           IpoProListDto ipoPro = ipoProgress.getProList().get(j);
           Integer lastDay = Integer
               .parseInt(StringUtils.isNotBlank(ipoPro.getLastDay()) ? ipoPro.getLastDay() : "0");
@@ -108,12 +109,10 @@ public class IpoExportWordService extends BaseService {
     List<OtherMarketInfoDto> otherMarkInfo = companyOverviewService.getMarketData(caseId);//公司概览-登陆其他资本市场 模块
     List<IpoSplitDto> splitList = companyOverviewService.getSpliteData(caseId);// 拆分上市情况
     List<IpoValuationDto> valuationList = companyOverviewService.getVluationData(caseId);//最近一次估值情况
-//    CompanyOverviewVo equityStructureVo = companyOverviewService.getIpoCaseDetail(caseId);
     resultMap.put("companyInformation",companyInformation);
     resultMap.put("otherMarkInfo",otherMarkInfo);
     resultMap.put("splitList",splitList);
     resultMap.put("valuationList",valuationList);
-//    resultMap.put("equityStructure",equityStructureVo);
 
 //    三、公司生产经营情况
     MainIncomeVo mainIncomeVo = companyOverviewService.getIncomeData(caseId);//主营业务收入构成
@@ -147,6 +146,7 @@ public class IpoExportWordService extends BaseService {
     IpoFinanceDto incomeProfit = ipoFinanceService.selectFinanceProfitList(caseId);
 //    主要财务指标 表头日期：dateLis  主要财务指标：IpoMainIndexList
     IpoFinanceDto financialIndex = ipoFinanceService.selectMainIndexList(caseId);
+    ipoFinanceHandling(financialIndex);// 对数据进行加工
     resultMap.put("ipoFinance",ipoFinance);
     resultMap.put("assetLiability",assetLiability);
     resultMap.put("incomeProfit",incomeProfit);
@@ -183,4 +183,38 @@ public class IpoExportWordService extends BaseService {
     return resultMap;
   }
 
+
+
+  /**
+   * 对数据进行加工
+   * itemName 数据根据word 后边添加单位
+   * @param financialIndex
+   */
+  private void ipoFinanceHandling(IpoFinanceDto financialIndex){
+
+//    主要财务指标列表
+    List<IpoItemDto> ipoMainIndexList = financialIndex.getIpoMainIndexList();
+
+    Map<String, String> keyValueMap = new HashMap<>();
+    keyValueMap.put("流动比率", "流动比率 (倍)");
+    keyValueMap.put("速动比率", "速动比率 (倍)");
+    keyValueMap.put("资产负债率", "资产负债率 (%)");
+    keyValueMap.put("无形资产占净资产的比例", "无形资产占净资产的比例 (%)");
+    keyValueMap.put("加权平均净资产收益率", "加权平均净资产收益率 (%)");
+    keyValueMap.put("应收账款周转率", "应收账款周转率 (次)");
+    keyValueMap.put("息税折旧摊销前利润/负债合计", "息税折旧摊销前利润/负债合计 (万元)");
+    keyValueMap.put("基本每股收益", "基本每股收益 (元/股)");
+    keyValueMap.put("扣除非经常性损益后的基本每股收益", "扣除非经常性损益后的基本每股收益 (元/股)");
+
+    if (ipoMainIndexList!=null&&ipoMainIndexList.size()>0){
+      for (int i = 0; i < ipoMainIndexList.size(); i++) {
+        IpoItemDto tmp = ipoMainIndexList.get(i);
+        if (keyValueMap.containsKey(tmp.getItemName())){
+          tmp.setItemName(keyValueMap.get(tmp.getItemName()));
+        }
+      }
+    }
+
+
+  }
 }

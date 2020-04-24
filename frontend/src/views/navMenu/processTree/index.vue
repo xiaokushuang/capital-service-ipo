@@ -8,7 +8,8 @@
                          <!-- 进程名 -->
                         <div class="jincheng">
                             <img  v-if="boxDataItem.treeTypeCode" src="../../../assets/images/jinchengjian.png" alt="">
-                            <p v-if="boxDataItem.treeTypeCode == '02'">上市</p>
+                            <p v-if="boxDataItem.treeTypeCode == '02' && boxDataItem.ipoPlate != '069001003001' ">上市</p>
+                            <p v-if="boxDataItem.treeTypeCode == '02' && boxDataItem.ipoPlate == '069001003001' ">挂牌</p>
                             <p v-if="boxDataItem.treeTypeCode == '01'">审核</p>
                             <p v-if="boxDataItem.treeTypeCode == '00'">辅导</p>
                             <p v-if="boxDataItem.treeTypeCode == '03'">股份公司设立</p>

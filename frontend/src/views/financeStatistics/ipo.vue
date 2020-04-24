@@ -6,7 +6,7 @@
  * @LastEditors: Please set LastEditors
  -->
 <template>
-  <div style="overflow:hidden"  v-loading="loading">
+  <div style="overflow:hidden" >
     <!-- 易董头条 -->
     <div style="width: 100%;height: 46px;background: #343b4a;line-height: 46px;">
       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAaCAYAAABPY4eKAAABS2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDIgNzkuMTYwOTI0LCAyMDE3LzA3LzEzLTAxOjA2OjM5ICAgICAgICAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIi8+CiA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgo8P3hwYWNrZXQgZW5kPSJyIj8+nhxg7wAAAexJREFUSInFlj1rVFEQhp9JYiSia0RELURBEMTKiKJFRNBCLGxErf0DQgptxEJMsBBU8gsUUlgZBBsLxUJtouBXodGAxMJCQkIQiZHNY3EneBGMe7PL5m2GOWfeeeZyOYcT6nngCHAUqFHoJfAdmMm8BqwGeoENwDfgPfAcGI2ISZqRul2ds9DGJepWqX3qBXVcXVDvqTubHeBVwnsbrO9Wr6VnVj3eDPxJFXjJdyl9P9R97YaH+ji979TOtsHTu98/OtWIp6PyhP9QRIwBbzI93VZ46mHGAysBf5txy0rAv2bsUf/bu9VwM85HxEK74Ys345dGilsN78v4YiXgxzLer+xs8pLpS++k2t2IpyVfrgZwI9OBiJhfTpPl3u2D6bteGVpq8jSbbG6wvku9pdbVy1V5XX/lWzNeVGeATmAa+ACMRcRUQjuAk8AgMAccjohnVeGRzdYBV4CBXJ8GRoAJYA2wg+IY9eZeDRgDbkfEo6rQRXWpN4FNwFrgTmmvBuwFFoBZiuPzGdgFnAW6gboaESHtktqjDqnz6oR6Vd3TtgFyiN3qg9Ij4pM6rJ5o5MREi4boB4aA/vIyxfP6NTAOTFI8xesUv3RbK9jlIQ6qd9WfLq26eqal8NIQ69Vz6oj6Uf2V0Cl1VD0E8BuLL6cTC+UXbQAAAABJRU5ErkJggg=="
@@ -61,6 +61,21 @@
               </div>
               <div v-if="headList.labelResult&&headList.labelResult == '12'">
                 <img src="../../assets/images/kczzzc.png" alt="">
+              </div>
+              <div v-if="headList.labelResult&&headList.labelResult == '21'">
+                <img src="../../assets/images/kctg.png" alt="">
+              </div>
+              <div v-if="headList.labelResult&&headList.labelResult == '22'">
+                <img src="../../assets/images/kcwtg.png" alt="">
+              </div>
+              <div v-if="headList.labelResult&&headList.labelResult == '27'">
+                <img src="../../assets/images/dsh1.png" alt="">
+              </div>
+              <div v-if="headList.labelResult&&headList.labelResult == '23'">
+                <img src="../../assets/images/qxsy1.png" alt="">
+              </div>
+              <div v-if="headList.labelResult&&headList.labelResult == '24'">
+                <img src="../../assets/images/kczhss.png" alt="">
               </div>
               <div v-if="headList.labelResult&&headList.labelResult == '25'">
                 <img src="../../assets/images/jxchz.png" alt="">
@@ -118,9 +133,14 @@
               </div>
               <div slot="reference" aria-hidden="true" style="line-height: 20px;display: inline-block">
                 <div style="cursor:pointer;display: inline-block" @click="titleNoteFlag = !titleNoteFlag"><i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span></div>
-                <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(255, 255, 255);" @click="exportWordCase"  >
+                <div v-show="false">
+                <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(255, 255, 255);" @click="exportWordCase" v-if="loading" >
                   <img src="../../assets/images/wordUplodTop.png" style="width: 13px;height: 13px;position: relative;top: 1px;"/>
                   <span>下载Word</span>
+                </div>
+                <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(255, 255, 255);" v-else>
+                  <span>下载中<i class="el-icon-loading"></i></span>
+                </div>
                 </div>
               </div>
             </el-popover>
@@ -131,7 +151,7 @@
             <div v-if="favoriteFlag" @click="clickFavorite(true)" style="cursor:pointer;position: absolute;margin-left: -232px;margin-top: 18px;line-height: 20px" title="收藏">
               <i class="fa fa-star-o favorite_note_icon"></i><span style="margin-left: 5px">收藏</span>
             </div>
-            <div v-else @click="clickFavorite(false)" style="cursor:pointer;position: absolute;margin-left: -125px;margin-top: 18px;line-height: 20px" title="取消收藏">
+            <div v-else @click="clickFavorite(false)" style="cursor:pointer;position: absolute;margin-left: -247px;margin-top: 18px;line-height: 20px" title="取消收藏">
               <i class="fa fa-star favorite_note_icon"></i><span style="margin-left: 5px">已收藏</span>
             </div>
             <div style="padding: 0px 5px;vertical-align: 5%;position: absolute;margin-top: 18px;margin-left: -183px;line-height: 20px">|</div>
@@ -154,9 +174,14 @@
               </div>
               <div slot="reference" aria-hidden="true" style="line-height: 20px; position: absolute;margin-top: 18px;margin-left: -170px;">
                 <div style="cursor:pointer;display: inline-block" @click="titleNoteFlag = !titleNoteFlag"><i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span></div>
-                <div style="cursor:pointer;margin-left: 15px;display: inline-block" @click="exportWordCase" >
+                <div v-show="false">
+                <div style="cursor:pointer;margin-left: 15px;display: inline-block" @click="exportWordCase" v-if="loading">
                   <img src="../../assets/images/wordUplodTop.png" style="width: 13px;height: 13px;position: relative;top: 1px;" />
                   <span>下载Word</span>
+                </div>
+                <div style="cursor:pointer;margin-left: 15px;display: inline-block" v-else >
+                  <span>下载中<i class="el-icon-loading"></i></span>
+                </div>
                 </div>
               </div>
             </el-popover>
@@ -327,9 +352,14 @@
                     </div>
                     <div slot="reference" aria-hidden="true" style="line-height: 20px;display: inline-block">
                       <div style="cursor:pointer;display: inline-block" @click="titleNoteFlag = !titleNoteFlag"><i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span></div>
-                      <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(129, 152, 251);" @click="exportWordCase"  >
+                      <div v-show="false">
+                      <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(129, 152, 251);" @click="exportWordCase" v-if="loading" >
                         <img src="../../assets/images/wordUploadFix.png" style="width: 13px;height: 13px;position: relative;top: 1px;"/>
                         <span>下载Word</span>
+                      </div>
+                      <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(129, 152, 251);" v-else  >
+                        <span>下载中<i class="el-icon-loading"></i></span>
+                      </div>
                       </div>
 										</div>
                   </el-popover>
@@ -408,7 +438,7 @@
   </div>
 </template>
 <script>
-  import { getSelectFeedbackList,exportWordCase} from "@/api/ipoCase/companyProfile";
+  import { getSelectFeedbackList,exportWordCase,exportWordCaseData,exportWordIfSucess} from "@/api/ipoCase/companyProfile";
   import {getServiceBaseUrl} from '@/api/ipoCase/companyProfile'
   //反馈意见
   import { getSelectTabList } from "@/api/ipoCase/companyProfile";
@@ -455,7 +485,9 @@
     },
     data() {
       return {
-        loading:false,
+        timer:'',
+        timerTimes:0,
+        loading:true,
         haveFeedbackData : false,
         collectionAndNoteShow : false,
         ipoplatetype: false,
@@ -642,9 +674,55 @@
         let params = {
           caseId: this.$store.state.app.caseId
         }
-        this.loading=true;
-        exportWordCase(params).then(res =>{
-          this.loading=false;
+        this.loading=false;
+        /*let startloading = Loading.service({
+          lock: true,
+          text: '下载中……',
+          background: 'rgba(255, 255, 255, 0.5)'
+        });*/
+        exportWordCaseData(params).then(res =>{
+          if (res.data.filePath){
+            this.$message({
+              message: 'WORD后台导出中，请稍后……',
+              type: 'success'
+            });
+            clearInterval(this.timer)
+            this.timer = setInterval(() => {
+              this.wordInterval(res.data.filePath)
+            }, 8000)
+          }
+          //startloading.close();
+        });
+      },
+      wordInterval(filePath){
+        if (this.timerTimes <= 30){
+          this.timerTimes++;
+        }else {
+          clearInterval(this.timer);
+          this.loading=true;
+          this.timerTimes = 0;
+          this.$message({
+            message: 'WORD下载超时,请重新下载。',
+            type: 'warning'
+          });
+        }
+        let params = {
+          title: this.headList.title,
+          filePath:filePath,
+            timestamp: new Date().getTime()
+        }
+        console.log("第"+this.timerTimes+"次定时")
+        exportWordIfSucess(params).then(res =>{
+          console.log(res)
+          if (res.data){
+            console.log("word已生成")
+            this.timerTimes = 0;
+            clearInterval(this.timer)
+            exportWordCase(params).then(res =>{
+              this.loading=true;
+            })
+          }
+
         });
       },
       imgDidload(){

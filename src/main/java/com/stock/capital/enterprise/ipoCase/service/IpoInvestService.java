@@ -5,6 +5,7 @@ import com.stock.capital.enterprise.ipoCase.dto.IpoInvestItemDto;
 import com.stock.core.service.BaseService;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +41,12 @@ public class IpoInvestService extends BaseService {
                 sumPre = sumPre.add(dto.getInvestPre());
 //                sumRate = sumRate.add(rate);
             }
-            sumRate = sumTotal.divide(investPlanLimit,4,BigDecimal.ROUND_HALF_UP);
+            if (investPlanLimit.compareTo(BigDecimal.ZERO) != 0){
+                sumRate = sumPlan.divide(investPlanLimit,4,BigDecimal.ROUND_HALF_UP);
+            }else {
+                sumRate=new BigDecimal("0") ;
+            }
+
         }
         if(CollectionUtils.isNotEmpty(investItemList)){
             sumDto.setItemName("总计");
@@ -48,8 +54,17 @@ public class IpoInvestService extends BaseService {
             sumDto.setInvestPlan(sumPlan);
             sumDto.setInvestPre(sumPre);
             if(sumRate.compareTo(BigDecimal.ZERO) != 0){
+                /**
+                 * 大于100 则小数点显示2位有效小数， 小于 100 同样显示 2位 有效小数
+                 */
+                BigDecimal sum = sumRate.multiply(new BigDecimal("100"));
+                BigDecimal tmp = new BigDecimal("100");
+                int priecision = 4;
+                if (sum.compareTo(tmp) == 1){
+                    priecision = 5;
+                }
                 sumDto.setInvestRateStr(String.valueOf(sumRate.multiply(new BigDecimal("100")
-                        , new MathContext(4, RoundingMode.HALF_UP))) + "%");
+                        , new MathContext(priecision, RoundingMode.HALF_UP))) + "%");
             }
             investItemList.add(sumDto);
         }

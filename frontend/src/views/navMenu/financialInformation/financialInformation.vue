@@ -2,7 +2,7 @@
     <div class="financialInformation">
         <!-- 财务数据 -->
         <div class="financialData">
-          <div style="position: absolute;right: 0px;top: 0px">
+          <div style="position: absolute;right: 0px;top: 0px" v-if="finCompanyList.length>1">
             <el-popover
               placement="right"
               width="200"
@@ -12,6 +12,9 @@
                 </div>
               <span slot="reference" style="color: rgb(20, 188, 245);font-size: 14px;cursor: pointer">深度分析财务情况>></span>
             </el-popover>
+          </div>
+          <div style="position: absolute;right: 0px;top: 0px;color: rgb(20, 188, 245);font-size: 14px;cursor: pointer"  v-if="finCompanyList.length == 1" @click="openFinancial(finCompanyList[0])">
+            深度分析财务情况>>
           </div>
             <!-- 财务总体情况 -->
             <div class="allAssets">
@@ -213,7 +216,8 @@ export default {
           this.tempOpen = window.open();
           openFinancialReVision(ajaxSettings).then(res=>{
             if(res.data.result && res.data.result.message){
-              let parame = encodeURI(encodeURI("access_token="+res.data.result.token+"&tenantInfo=" + this.$route.query.tenant_info));
+              let parame = encodeURI(encodeURI("access_token="+this.$route.query.access_token+"&tenantInfo=" + this.$route.query.tenant_info));
+              console.log(parame);
               let newLocation = res.data.result.serviceBaseUrl + "ui/finance-report/financialReVision/dupontContainer?" + parame;
               this.tempOpen.location = newLocation;
             }else{
