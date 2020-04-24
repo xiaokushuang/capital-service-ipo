@@ -608,7 +608,7 @@ public class CompanyOverviewService extends BaseService {
         // 调用api
         ParameterizedTypeReference<JsonResponse<List<Company>>> responseType = new ParameterizedTypeReference<JsonResponse<List<Company>>>() {
         };
-        List<Company> data = restClient.post("http://dev-sz.valueonline.cn/capital-cloud-api/company_info/queryByFinancialReport", parameters, responseType).getResult();
+        List<Company> data = restClient.post(apiBaseUrl + "company_info/queryByFinancialReport", parameters, responseType).getResult();
         if(data != null && data.size() > 0){
             map.put("belongsPlate",data.get(0).getBelongsPlate());
             map.put("companyType",data.get(0).getIpoFlag());

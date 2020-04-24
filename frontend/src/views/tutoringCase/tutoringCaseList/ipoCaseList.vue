@@ -1496,7 +1496,6 @@
           orderByOrder: _self.orderByOrder
         };
         _getIpoCaseList(_data).then(response => {
-          // debugger;
           console.log('参数',_data)
           _self.tableLoading = false;
           if (response.data && response.data.success && response.data.result) {
