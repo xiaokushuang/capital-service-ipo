@@ -33,11 +33,11 @@ export function getOtcData(query) {
   })
 }
 
-export function openFinancialReVision(query) {
+export function openFinancialReVision(param) {
   return request({
     url: '/ipo/companyOverview/openFinancialReVision',
-    method: 'get',
-    params: query
+    method: 'post',
+    data: param
   })
 }
 

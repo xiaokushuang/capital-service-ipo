@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -37,9 +39,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Service
 public class CompanyOverviewService extends BaseService {
 
+    private static final Logger logger = LoggerFactory.getLogger(CompanyOverviewService.class);
+
     @Autowired
     private IpoCaseBizMapper ipoCaseBizMapper;
-    
+
     @Autowired
     private IpoIssuerIndustryStatusBizMapper ipoIssuerIndustryStatusBizMapper;
 
@@ -280,8 +284,8 @@ public class CompanyOverviewService extends BaseService {
             result = null;
         }
         return result;
-    }    
-    
+    }
+
     /**
      * 报告期主要供应商及客户情况
      *
@@ -599,7 +603,6 @@ public class CompanyOverviewService extends BaseService {
     public List<IpoCaseListVo> queryCompanyForFin(String id) {
         return ipoCaseBizMapper.queryCompanyForFin(id);
     }
-
     public Map<String,Object> openFinancialReVision(Map<String,String> map) {
         //通过市值分析的接口获取belongPlate
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();

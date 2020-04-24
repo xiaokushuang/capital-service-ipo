@@ -100,10 +100,11 @@ public class IpoCaseOverviewController extends BaseController {
         return response;
     }
 
-    @RequestMapping(value = "/openFinancialReVision", method = RequestMethod.GET)
-    public JsonResponse<Map<String, Object>> openFinancialReVision(Map<String, String> map) {
+    @RequestMapping(value = "/openFinancialReVision")
+    @ResponseBody
+    public JsonResponse<Map<String, Object>> openFinancialReVision(@RequestBody Map parame) {
         JsonResponse<Map<String, Object>> response = new JsonResponse<Map<String, Object>>();
-        response.setResult(companyOverviewService.openFinancialReVision(map));
+        response.setResult(companyOverviewService.openFinancialReVision(parame));
         return response;
     }
 
