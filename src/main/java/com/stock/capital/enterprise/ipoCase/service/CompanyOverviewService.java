@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -36,6 +38,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class CompanyOverviewService extends BaseService {
+
+    private static final Logger logger = LoggerFactory.getLogger(CompanyOverviewService.class);
 
     @Autowired
     private IpoCaseBizMapper ipoCaseBizMapper;
@@ -624,6 +628,7 @@ public class CompanyOverviewService extends BaseService {
         String jsonStr = JsonUtil.toJson(map);
         String result ="false";
         String token = map.get("access_token");
+        logger.info("token----------+++++++++++++++++++++------+++--------"+map.get("access_token"));
         redisDao.setObjectWithExpire(FINANCIALREPORT_COMPANY_KEY_PREFIX+token, jsonStr, 24 * 60 * 60 * 1000);
         result = "true";
         resultMap.put("message",result);
