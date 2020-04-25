@@ -604,7 +604,7 @@ public class CompanyOverviewService extends BaseService {
         return ipoCaseBizMapper.queryCompanyForFin(id);
     }
     public Map<String,Object> openFinancialReVision(Map<String,String> map) {
-        logger.info(JsonUtil.toJson(map));
+        map.put("loginUrl",serviceBaseUrl);
         //通过市值分析的接口获取belongPlate
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
         parameters.add("companyCode", map.get("searchCompanyCode"));
@@ -628,7 +628,6 @@ public class CompanyOverviewService extends BaseService {
         String jsonStr = JsonUtil.toJson(map);
         String result ="false";
         String token = map.get("access_token");
-        logger.info("###############"+jsonStr);
         redisDao.setObjectWithExpire(FINANCIALREPORT_COMPANY_KEY_PREFIX+token, jsonStr, 24 * 60 * 60 * 1000);
         result = "true";
         resultMap.put("message",result);
