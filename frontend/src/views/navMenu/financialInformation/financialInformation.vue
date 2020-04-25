@@ -203,13 +203,13 @@ export default {
         openFinancial(val){
           debugger
           //重新登录易董地址
-          let loginUrl = this.$route.query.parentBaseUrl;
+          let loginUrl = 'https://micro-dev.valueonline.cn';
           let ajaxSettings = {
             access_token : this.$route.query.access_token,
             typeCode  : 2,//回购：‘2’其他参照 capital-enterprise  index.jsp
             searchCompanyCode  : val.companyCode,//被查询的公司code
             searchCompanyName  : val.companyName,//被查询的公司简称
-            searchReportType :val.finYear,//例：2018001
+            searchReportType :val.finYear+val.finType,//例：2018001
             industry  : "1",
             showAll :"",
             companyType  : "1",
