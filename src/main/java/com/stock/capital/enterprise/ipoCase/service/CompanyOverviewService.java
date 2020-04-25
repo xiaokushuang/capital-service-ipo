@@ -628,6 +628,7 @@ public class CompanyOverviewService extends BaseService {
         String jsonStr = JsonUtil.toJson(map);
         String result ="false";
         String token = map.get("access_token");
+        logger.info("###############"+jsonStr);
         redisDao.setObjectWithExpire(FINANCIALREPORT_COMPANY_KEY_PREFIX+token, jsonStr, 24 * 60 * 60 * 1000);
         result = "true";
         resultMap.put("message",result);
