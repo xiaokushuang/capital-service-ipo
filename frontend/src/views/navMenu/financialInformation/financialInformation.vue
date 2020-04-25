@@ -2,7 +2,6 @@
     <div class="financialInformation">
         <!-- 财务数据 -->
         <div class="financialData">
-          <div v-show="false">
           <div style="position: absolute;right: 0px;top: 0px" v-if="finCompanyList.length>1">
             <el-popover
               placement="right"
@@ -13,7 +12,6 @@
                 </div>
               <span slot="reference" style="color: rgb(20, 188, 245);font-size: 14px;cursor: pointer">深度分析财务情况>></span>
             </el-popover>
-          </div>
           <div style="position: absolute;right: 0px;top: 0px;color: rgb(20, 188, 245);font-size: 14px;cursor: pointer"  v-if="finCompanyList.length == 1" @click="openFinancial(finCompanyList[0])">
             深度分析财务情况>>
           </div>
