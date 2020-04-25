@@ -2,7 +2,6 @@
     <div class="financialInformation">
         <!-- 财务数据 -->
         <div class="financialData">
-          <div v-show="false">
           <div style="position: absolute;right: 0px;top: 0px" v-if="finCompanyList.length>1">
             <el-popover
               placement="right"
@@ -13,7 +12,6 @@
                 </div>
               <span slot="reference" style="color: rgb(20, 188, 245);font-size: 14px;cursor: pointer">深度分析财务情况>></span>
             </el-popover>
-          </div>
           <div style="position: absolute;right: 0px;top: 0px;color: rgb(20, 188, 245);font-size: 14px;cursor: pointer"  v-if="finCompanyList.length == 1" @click="openFinancial(finCompanyList[0])">
             深度分析财务情况>>
           </div>
@@ -202,7 +200,6 @@ export default {
         //打开财务分析
         openFinancial(val){
           //重新登录易董地址
-          let loginUrl = this.$route.query.parentBaseUrl;
           let ajaxSettings = {
             access_token : this.$route.query.access_token,
             typeCode  : 2,//回购：‘2’其他参照 capital-enterprise  index.jsp
@@ -211,8 +208,7 @@ export default {
             searchReportType :val.finYear+val.finType,//例：2018001
             industry  : "1",
             showAll :"",
-            companyType  : "1",
-            loginUrl: loginUrl
+            companyType  : "1"
           }
           //转换成json
           this.tempOpen = window.open();
