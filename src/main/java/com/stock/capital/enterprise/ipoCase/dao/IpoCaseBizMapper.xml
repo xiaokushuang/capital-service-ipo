@@ -201,7 +201,7 @@
 
   <select id="queryCompanyForFin" parameterType="string"
           resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo">
-    SELECT tb.*,year(tb.date) finYear,(CASE WHEN DATE_FORMAT(tb.date,'%m%d') &lt;= '0331' THEN '003' WHEN DATE_FORMAT(tb.date,'%m%d') > '0331'
+    SELECT tb.*,tb.date finYear,(CASE WHEN DATE_FORMAT(tb.date,'%m%d') &lt;= '0331' THEN '003' WHEN DATE_FORMAT(tb.date,'%m%d') > '0331'
     AND DATE_FORMAT(tb.date,'%m%d') &lt;= '0630' THEN '002' WHEN DATE_FORMAT(tb.date,'%m%d') > '0630'
     AND DATE_FORMAT(tb.date,'%m%d') &lt;= '0930' THEN '004' WHEN DATE_FORMAT(tb.date,'%m%d') > '0930'
     AND DATE_FORMAT(tb.date,'%m%d') &lt;= '1231' THEN '001' ELSE '' END) finType
