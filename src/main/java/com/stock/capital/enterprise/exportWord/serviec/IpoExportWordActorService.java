@@ -2193,7 +2193,7 @@ public class IpoExportWordActorService extends BaseService {
                                   if (no >= table.getNumberOfRows()) {
                                       test.insertTableRowAtIndex(table, no);
                                   }
-                                  test.setCellNewContent(table, no, 0, no+"", i);
+                                  test.setCellNewContentBold(table, no, 0, no+"", i);
                                   test.setCellNewContent(table, no, 1, tb.get(k).getStrategicInvestorName(), i);
                                   test.setCellNewContent(table, no, 2, tb.get(k).getShareholderType(), i);
                                   test.setCellNewContent(table, no, 3, twoMarkStr(tb.get(k).getAllottedNumberTenThousand()+""), i);
