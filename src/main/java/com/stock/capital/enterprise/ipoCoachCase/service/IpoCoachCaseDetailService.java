@@ -37,7 +37,7 @@ public class IpoCoachCaseDetailService extends BaseService {
         // 查询关联的ipo案例
         if (ipoRelatedCaseDtoList != null) {
             ipoCoachCaseDto.setRelatedCaseDtoList(ipoRelatedCaseDtoList);
-        }else{
+        } else {
             ipoCoachCaseDto.setRelatedCaseDtoList(new ArrayList<IpoRelatedCaseDto>());
         }
 //        List<IpoProgressDto> intermediaryOrgDtoList = ipoCoachCaseDetailBizMapper.queryCoachProgress(id);
@@ -61,6 +61,9 @@ public class IpoCoachCaseDetailService extends BaseService {
         return ipoCoachCaseDto;
     }
 
+    @Value("#{app['pdf.baseUrl']}")
+    private String pdfBaseUrl;
+
     public TreeTypeProgressDto queryIpoProcessByCaseId(String caseId) {
         TreeTypeProgressDto treeTypeProgressDto = new TreeTypeProgressDto();
         treeTypeProgressDto = ipoCoachCaseDetailBizMapper.queryIpoProcessByCaseId(caseId);
@@ -76,12 +79,21 @@ public class IpoCoachCaseDetailService extends BaseService {
                 }
                 String time = "";
                 for (IpoFileRelationDto item : list.get(i).getRelaList()) {
-                    if ("htm".equals(item.getSuffix()) || "html".equals(item.getSuffix())) {
-                        String baseUrl = fileViewPath + "open/ipoFile/" + item.getRelaId() + ".png";
-                        item.setBaseUrl(baseUrl);
+                    if ("xsb".equals(item.getProcessType())) {
+                        if ("pdf".equals(item.getSuffix())) {
+                            String baseUrl = pdfBaseUrl + "web/viewer.html?file=" + item.getUrl() + "&originTitle=" + item.getRelationFileTitle();
+                            item.setBaseUrl(baseUrl);
+                        } else {
+                            item.setBaseUrl(item.getUrl());
+                        }
                     } else {
-                        String baseUrl = fileViewPath + "open/ipoFile/" + item.getRelaId() + "." + item.getSuffix();
-                        item.setBaseUrl(baseUrl);
+                        if ("htm".equals(item.getSuffix()) || "html".equals(item.getSuffix())) {
+                            String baseUrl = fileViewPath + "open/ipoFile/" + item.getRelaId() + ".png";
+                            item.setBaseUrl(baseUrl);
+                        } else {
+                            String baseUrl = fileViewPath + "open/ipoFile/" + item.getRelaId() + "." + item.getSuffix();
+                            item.setBaseUrl(baseUrl);
+                        }
                     }
                     if (StringUtils.isNotEmpty(item.getPublishTime())) {
                         list.get(i).setProcessTime(item.getPublishTime());

@@ -20,6 +20,8 @@
                     <result column="relation_file_title" property="relationFileTitle"
                             jdbcType="VARCHAR"/>
                     <result column="table_sort" property="tableSort" jdbcType="VARCHAR"/>
+                    <result column="processType" property="processType" jdbcType="VARCHAR"/>
+                    <result column="url" property="url" jdbcType="VARCHAR"/>
                     <result column="suffix" property="suffix" jdbcType="VARCHAR"/>
                     <result column="publish_time" property="publishTime" jdbcType="VARCHAR"/>
                     <result column="iec_reason" property="iecReason" jdbcType="VARCHAR"/>
@@ -39,6 +41,8 @@
             t1.id,
             t1.relation_file_id,
             t3.title,
+            t3.process_type processType,
+            t3.url,
             date_format(t1.process_time,'%Y-%m-%d') process_time,
             date_format(t1.process_time,'%Y-%m-%d') publish_time,
             t1.table_sort,
@@ -73,7 +77,9 @@
         select
           title relationFileTitle,
           notice_time publishTime,
-          suffix
+          suffix,
+          process_type processType,
+          url
         from ipo_file where id = #{id}
     </select>
 
