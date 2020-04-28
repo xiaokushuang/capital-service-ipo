@@ -88,16 +88,14 @@ public class IpoExportWordActorService extends BaseService {
             Resource resource = new ClassPathResource("templates/IPO导出word模板.docx");
             Map<String, Object> exportMap = exportWordCase(resource.getInputStream(), caseId);
             logger.info("#######【poi导出完成，开始刷新目录】###########");
-            synchronized (IpoExportWordActorService.class) {
-                com.spire.doc.Document doc = new com.spire.doc.Document((InputStream) exportMap.get("inputStream"));
-                logger.info("#######【转spire】###########");
-                doc.updateTableOfContents();
-                logger.info("#######【更新目录完成】###########");
-                doc.saveToFile(filePath + ".docx", FileFormat.Docx);
-                doc.close();
-                docMap.put(filePath, "success");
-                logger.info("#######【导出完成】###########");
-            }
+            com.spire.doc.Document doc = new com.spire.doc.Document((InputStream) exportMap.get("inputStream"));
+            logger.info("#######【转spire】###########");
+            doc.updateTableOfContents();
+            logger.info("#######【更新目录完成】###########");
+            doc.saveToFile(filePath + ".docx", FileFormat.Docx);
+            doc.close();
+            docMap.put(filePath,"success");
+            logger.info("#######【导出完成】###########");
         }catch (Exception e) {
             logger.info("#######【spire错误：" + e + "】###########"+ Throwables.getStackTraceAsString(e));
         }
