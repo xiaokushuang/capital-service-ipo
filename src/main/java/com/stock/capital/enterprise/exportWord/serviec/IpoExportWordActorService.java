@@ -112,12 +112,12 @@ public class IpoExportWordActorService extends BaseService {
       if (StringUtils.isNotEmpty(((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate())){
         if (((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate().equals("上交所科创板")){
             wordMap.put("#板块类型#","注册制");
-            wordMap.put("#问询回复/反馈意见#","问询与回复（注册制）");
-            wordMap.put("#审核关注问题#","审核结果及注册（注册制）");
+            wordMap.put("#问询回复/反馈意见#","问询与回复");
+            wordMap.put("#审核关注问题#","审核结果及注册");
         }else {
             wordMap.put("#板块类型#","核准制");
-            wordMap.put("#问询回复/反馈意见#","反馈意见（核准制）");
-            wordMap.put("#审核关注问题#","审核结果及注册（核准制）");
+            wordMap.put("#问询回复/反馈意见#","反馈意见");
+            wordMap.put("#审核关注问题#","审核结果及注册");
         }
       }
       wordMap.put("#企业性质#",((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyNature());
@@ -168,8 +168,10 @@ public class IpoExportWordActorService extends BaseService {
       MainIncomeVo mainIncomeVo = (MainIncomeVo)dataMap.get("mainIncome");
       if (mainIncomeVo!=null &&mainIncomeVo.getMainIncomeInfoList() != null){
           wordMap.put("#主营业务描述#"," ");
+          wordMap.put("#主营业务单位#","单位：万元");
       }else {
           wordMap.put("#主营业务描述#","    暂无主营业务");
+          wordMap.put("#主营业务单位#"," ");
       }
 
       IpoFeedbackDto ipoFeedback=  ((IpoFeedbackDto)dataMap.get("ipoFeedbackDto"));
@@ -462,20 +464,28 @@ public class IpoExportWordActorService extends BaseService {
 //文本框
         if(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList()!=null){
             int len=((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().size();
-            wordMap.put("审核结果类型","审核结果:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getIecResultStr()));
-            wordMap.put("审核日期","审核日期:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getExamineDateStr()));
+            wordMap.put("审核结果类型","注册结果:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getIecResultStr()));
+            wordMap.put("审核日期","注册日期:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getExamineDateStr()));
         }else {
-            wordMap.put("审核结果类型","审核结果:"+"--");
-            wordMap.put("审核日期","审核日期:"+"--");
+            wordMap.put("审核结果类型","注册结果:"+"--");
+            wordMap.put("审核日期","注册日期:"+"--");
         }
-
-
-        wordMap.put("公司名称详情",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyName()));
-//        wordMap.put("公司名称类型",((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyZhName()+"\n"+"IPO");
-        wordMap.put("拟上市板块","拟上市板块:"+isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate()));
 
         wordMap.put("审核历时","审核历时:"+isNull(wordMap.get("#审核历时#"))+"天");
         wordMap.put("IPO进程详情","IPO进程:"+isNull(((HeadDataVo)dataMap.get("head")).getProcessLabel()));
+        wordMap.put("公司名称详情",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getCompanyName()));
+
+        if(((HeadDataVo)dataMap.get("head")).getProcessLabel()!=null
+                &&("已上市".equals(((HeadDataVo)dataMap.get("head")).getProcessLabel())||"已发行".equals(((HeadDataVo)dataMap.get("head")).getProcessLabel()))){
+            wordMap.put("拟上市板块","上市板块:"+isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate()));
+            wordMap.put("#拟上市板块表格文字#","上市板块");
+        }else {
+            wordMap.put("拟上市板块","拟上市板块:"+isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate()));
+            wordMap.put("#拟上市板块表格文字#","拟上市板块");
+        }
+
+
+
 
         wordMap.put("注册地址说明",wordMap.get("#注册地址#"));
         wordMap.put("证监会行业说明",isNull(((CompanyOverviewVo)dataMap.get("companyInformation")).getIndustryCsrc()));
@@ -845,20 +855,6 @@ public class IpoExportWordActorService extends BaseService {
           } else if("#主营业务柱状图#".equals(paragraph.getText())){
               test.clearParagraph(paragraph);
               if (mainIncomeVo != null && mainIncomeVo.getMainIncomeInfoList() != null){
-                  List<String> listLanguages = new ArrayList<>();
-                  if (StringUtils.isNotEmpty(mainIncomeVo.getFirstYearForIncome())){
-                      listLanguages.add(mainIncomeVo.getFirstYearForIncome());
-                  }
-                  if (StringUtils.isNotEmpty(mainIncomeVo.getSecondYearForIncome())){
-                      listLanguages.add(mainIncomeVo.getSecondYearForIncome());
-                  }
-                  if (StringUtils.isNotEmpty(mainIncomeVo.getThirdYearForIncome())){
-                      listLanguages.add(mainIncomeVo.getThirdYearForIncome());
-                  }
-                  if (StringUtils.isNotEmpty(mainIncomeVo.getOnePeriodForIncome())){
-                      listLanguages.add(mainIncomeVo.getOnePeriodForIncome());
-                  }
-
                   List<Double> listCountries = new ArrayList<>();
                   List<Double> listCountries2 = new ArrayList<>();
                   List<Double> listCountries3 = new ArrayList<>();
@@ -881,14 +877,44 @@ public class IpoExportWordActorService extends BaseService {
                           }
                       }
                   }
-
+                  List<String> listLanguages = new ArrayList<>();
                   List<List<Double>> yValues = Lists.newArrayList();
-                  yValues.add(listCountries4);
-                  yValues.add(listCountries3);
-                  yValues.add(listCountries2);
-                  yValues.add(listCountries);
-
-
+                  for(Double i:listCountries4){
+                      if(i != 0.0){
+                          yValues.add(listCountries4);
+                          if (StringUtils.isNotEmpty(mainIncomeVo.getFirstYearForIncome())){
+                              listLanguages.add(mainIncomeVo.getFirstYearForIncome());
+                          }
+                          break;
+                      }
+                  }
+                  for(Double i:listCountries3){
+                      if(i != 0.0){
+                          yValues.add(listCountries3);
+                          if (StringUtils.isNotEmpty(mainIncomeVo.getSecondYearForIncome())){
+                              listLanguages.add(mainIncomeVo.getSecondYearForIncome());
+                          }
+                          break;
+                      }
+                  }
+                  for(Double i:listCountries2){
+                      if(i != 0.0){
+                          yValues.add(listCountries2);
+                          if (StringUtils.isNotEmpty(mainIncomeVo.getThirdYearForIncome())){
+                              listLanguages.add(mainIncomeVo.getThirdYearForIncome());
+                          }
+                          break;
+                      }
+                  }
+                  for(Double i:listCountries){
+                      if(i != 0.0){
+                          yValues.add(listCountries);
+                          if (StringUtils.isNotEmpty(mainIncomeVo.getOnePeriodForIncome())){
+                              listLanguages.add(mainIncomeVo.getOnePeriodForIncome());
+                          }
+                          break;
+                      }
+                  }
                   List<List<Double>> zhuziList = Lists.newArrayList();
                   int len=yValues.get(0).size();
                   for (int k=0;k<len;k++){
@@ -912,27 +938,6 @@ public class IpoExportWordActorService extends BaseService {
                   chart.setChartHeight(XDDFChart.DEFAULT_HEIGHT * 8);
                   newRun.getCTR().getDrawingList().get(0).getInlineList().get(0).getDocPr().setId(Long.parseLong(ids+""));
                   ids++;
-//                  newRun.addBreak();
-
-              //饼图
-//                  List<String> listLanguages1 = new ArrayList<>();
-//                  listLanguages1.add(listLanguages.get(listLanguages.size()-1));
-//                  List<List<Double>> yValues1 = Lists.newArrayList();
-//                  yValues1.add(yValues.get(yValues.size()-1));
-//                  XWPFChart chart1 = xdoc.createChart(XDDFChart.DEFAULT_WIDTH * 8, XDDFChart.DEFAULT_HEIGHT * 10);
-//                  poiWordInsertChartUtils.setSimpleBarData(chart1,"2","","",listLanguages1,series,yValues1);
-//                  xdoc.removeBodyElement(xdoc.getBodyElements().size()-1);
-//                  itPara = xdoc.getParagraphsIterator();
-//                  XWPFRun newRun1 = paragraph.createRun();
-//                  String relationId1 = xdoc.getRelationId(chart1);
-//                  java.lang.reflect.Method attach1 = XWPFChart.class.getDeclaredMethod("attach", String.class, XWPFRun.class);
-//                  attach1.setAccessible(true);
-//                  attach1.invoke(chart1, relationId1, newRun1);
-//                  chart1.setChartWidth(XDDFChart.DEFAULT_WIDTH * 10);
-//                  chart1.setChartHeight(XDDFChart.DEFAULT_HEIGHT * 8);
-//                  newRun1.getCTR().getDrawingList().get(0).getInlineList().get(0).getDocPr().setId(Long.parseLong(ids+""));
-//                  ids++;
-//                  newRun1.addBreak();
               }
           }
           else if("#问询回复/反馈意见流程#".equals(paragraph.getText())){
@@ -1002,6 +1007,16 @@ public class IpoExportWordActorService extends BaseService {
                       List<String> listLanguages = new ArrayList<>(10);
                       // Values
                       List<Double> listCountries = new ArrayList<>(10);
+                      Collections.sort(list, new Comparator<IpoQuestionLabelDto>() {
+                          @Override
+                          public int compare(IpoQuestionLabelDto o1, IpoQuestionLabelDto o2) {
+                              int i = Integer.parseInt(o2.getLabelCount()) - Integer.parseInt(o1.getLabelCount()) ;
+                              if(i == 0){
+                                  return  Integer.parseInt(o2.getLabelCount()) - Integer.parseInt(o1.getLabelCount());
+                              }
+                              return i;
+                          }
+                      });
                       for(int i = 0; i < list.size();i++) {
                           listCountries.add(Double.valueOf(list.get(i).getLabelCount()));
                           listLanguages.add(list.get(i).getLabelName());
@@ -1151,6 +1166,16 @@ public class IpoExportWordActorService extends BaseService {
                       series.add("countries");
                       List<String> listLanguages = new ArrayList<>();
                       List<Double> listCountries = new ArrayList<>();
+                      Collections.sort(list, new Comparator<IpoQuestionLabelDto>() {
+                          @Override
+                          public int compare(IpoQuestionLabelDto o1, IpoQuestionLabelDto o2) {
+                              int i = Integer.parseInt(o2.getLabelCount()) - Integer.parseInt(o1.getLabelCount()) ;
+                              if(i == 0){
+                                  return  Integer.parseInt(o2.getLabelCount()) - Integer.parseInt(o1.getLabelCount());
+                              }
+                              return i;
+                          }
+                      });
                       for(int i = 0; i < list.size();i++) {
                           listCountries.add(Double.valueOf(list.get(i).getLabelCount()));
                           listLanguages.add(list.get(i).getLabelName());
@@ -1159,11 +1184,6 @@ public class IpoExportWordActorService extends BaseService {
                       yValues.add(listCountries);
                       XWPFChart chart = xdoc.createChart(XDDFChart.DEFAULT_WIDTH * 10,  XDDFChart.DEFAULT_HEIGHT * 15);
                       poiWordInsertChartUtils.setSimpleBarData(chart,"0","","",series,listLanguages,yValues);
-//                      String[] categories = listLanguages.toArray(new String[0]);
-//                      Double[] values1 = listCountries.toArray(new Double[0]);
-//                      Double[] values2 = listCountries.toArray(new Double[0]);
-//                      XWPFChart chart = xdoc.createChart(XDDFChart.DEFAULT_WIDTH * 10,  XDDFChart.DEFAULT_HEIGHT * 15);
-//                      setBarData(chart, "", series.toArray(new String[]{}), categories, values1,values2);
                       xdoc.removeBodyElement(xdoc.getBodyElements().size()-1);
                       itPara = xdoc.getParagraphsIterator();
                       XWPFRun newRun = newpa3.createRun();
@@ -1242,15 +1262,28 @@ public class IpoExportWordActorService extends BaseService {
                       newParaRun.setFontFamily("微软雅黑");
                       newParaRun.setFontSize(11);
                       newParaRun.setBold(false);
-                      newParaRun.setText("  "+"("+sort+")"+isNull(supplierMainList.get(z).getTitle()));
+                      newParaRun.setText("  "+"("+sort+")"+isNullEmp(supplierMainList.get(z).getTitle()));
                       newpa1.setStyle("4");//标题三
-                      //表格
-                      SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
-                      XmlCursor cursor2=newpa1.getCTP().newCursor();
+                      //单位
+                      XmlCursor cursor2 = newpa1.getCTP().newCursor();
                       cursor2.toNextSibling();
                       XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
                       itPara = xdoc.getParagraphsIterator();
-                      XWPFTable table =xdoc.insertNewTbl(newpa2.getCTP().newCursor());
+                      XWPFRun newParaRunDW = newpa2.createRun();
+                      newpa2.setFontAlignment(3);//对齐方式  右对齐
+                      newpa2.setSpacingBetween(1, LineSpacingRule.AUTO);
+                      newParaRunDW.setFontFamily("微软雅黑");
+                      newParaRunDW.setFontSize(9);
+                      newParaRunDW.setColor("333399");
+                      newParaRunDW.setBold(true);
+                      newParaRunDW.setText("单位：万元");
+                      //表格
+                      SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
+                      XmlCursor cursor3=newpa2.getCTP().newCursor();
+                      cursor3.toNextSibling();
+                      XWPFParagraph newpa3 = xdoc.insertNewParagraph(cursor3);
+                      itPara = xdoc.getParagraphsIterator();
+                      XWPFTable table =xdoc.insertNewTbl(newpa3.getCTP().newCursor());
                       XWPFTableRow row_0 = table.getRow(0);
                       row_0.getCell(0).setText("");
                       row_0.addNewTableCell().setText("");
@@ -1353,14 +1386,27 @@ public class IpoExportWordActorService extends BaseService {
                       newParaRun.setFontFamily("微软雅黑");
                       newParaRun.setFontSize(11);
                       newParaRun.setBold(false);
-                      newParaRun.setText("  "+"("+sort+")"+isNull(customerMainList.get(z).getTitle()));
+                      newParaRun.setText("  "+"("+sort+")"+isNullEmp(customerMainList.get(z).getTitle()));
                       newpa1.setStyle("4");
-                      //表格
-                      XmlCursor cursor2=newpa1.getCTP().newCursor();
+                      //单位
+                      XmlCursor cursor2 = newpa1.getCTP().newCursor();
                       cursor2.toNextSibling();
                       XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
                       itPara = xdoc.getParagraphsIterator();
-                      XWPFTable table =xdoc.insertNewTbl(newpa2.getCTP().newCursor());
+                      XWPFRun newParaRunDW = newpa2.createRun();
+                      newpa2.setFontAlignment(3);//对齐方式  右对齐
+                      newpa2.setSpacingBetween(1, LineSpacingRule.AUTO);
+                      newParaRunDW.setFontFamily("微软雅黑");
+                      newParaRunDW.setFontSize(9);
+                      newParaRunDW.setColor("333399");
+                      newParaRunDW.setBold(true);
+                      newParaRunDW.setText("单位：万元");
+                      //表格
+                      XmlCursor cursor3=newpa2.getCTP().newCursor();
+                      cursor3.toNextSibling();
+                      XWPFParagraph newpa3 = xdoc.insertNewParagraph(cursor3);
+                      itPara = xdoc.getParagraphsIterator();
+                      XWPFTable table =xdoc.insertNewTbl(newpa3.getCTP().newCursor());
                       XWPFTableRow row_0 = table.getRow(0);
                       SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
                       row_0.getCell(0).setText("");
@@ -1465,20 +1511,31 @@ public class IpoExportWordActorService extends BaseService {
                           newpa1 = xdoc.insertNewParagraph(cursor1);
                       }
                       List<IndustryCompareRateDetailDto> list=industryCompareList.get(z).getIndustryCompareRateDetailList();
-                      //标题
-                      XWPFRun newParaRun = newpa1.createRun();
-                      newParaRun.setFontFamily("微软雅黑");
-                      newParaRun.setFontSize(11);
-                      newParaRun.setBold(false);
-                      newParaRun.setText("  "+"("+sort+")"+isNull(industryCompareList.get(z).getTitle()));
-                      newpa1.setStyle("4");
-                      newpa1.createRun();
+                      if (industryCompareList.size()==1&&StringUtils.isNotEmpty(industryCompareList.get(z).getTitle())){
+                          //标题
+                          XWPFRun newParaRun = newpa1.createRun();
+                          newParaRun.setFontFamily("微软雅黑");
+                          newParaRun.setFontSize(11);
+                          newParaRun.setBold(false);
+                          newParaRun.setText("  "+"("+sort+")"+isNullEmp(industryCompareList.get(z).getTitle()));
+                          newpa1.setStyle("4");
+                          newpa1.createRun();
+                      }else if (industryCompareList.size()>1){
+                          //标题
+                          XWPFRun newParaRun = newpa1.createRun();
+                          newParaRun.setFontFamily("微软雅黑");
+                          newParaRun.setFontSize(11);
+                          newParaRun.setBold(false);
+                          newParaRun.setText("  "+"("+sort+")"+isNullEmp(industryCompareList.get(z).getTitle()));
+                          newpa1.setStyle("4");
+                          newpa1.createRun();
+                      }
                       //折线图
                       List<String> series = new ArrayList<>();
                       List<String> listLanguages = new ArrayList<>();
-                      listLanguages.add(industryCompareList.get(z).getFirstYear());
-                      listLanguages.add(industryCompareList.get(z).getSecondYear());
-                      listLanguages.add(industryCompareList.get(z).getThirdYear());
+//                      listLanguages.add(industryCompareList.get(z).getFirstYear());
+//                      listLanguages.add(industryCompareList.get(z).getSecondYear());
+//                      listLanguages.add(industryCompareList.get(z).getThirdYear());
                       List<Double> listCountries = new ArrayList<>();
                       List<Double> listCountries2 = new ArrayList<>(10);
                       List<Double> listCountries3 = new ArrayList<>(10);
@@ -1489,11 +1546,30 @@ public class IpoExportWordActorService extends BaseService {
                           series.add(list.get(u).getCompanyName());
                       }
                       List<List<Double>> yValues = Lists.newArrayList();
-                      yValues.add(listCountries3);
-                      yValues.add(listCountries2);
-                      yValues.add(listCountries);
-
-
+//                      yValues.add(listCountries3);
+//                      yValues.add(listCountries2);
+//                      yValues.add(listCountries);
+                      for(Double i:listCountries3){
+                          if(i != 0.0){
+                              yValues.add(listCountries3);
+                              listLanguages.add(industryCompareList.get(z).getFirstYear());
+                              break;
+                          }
+                      }
+                      for(Double i:listCountries2){
+                          if(i != 0.0){
+                              yValues.add(listCountries2);
+                              listLanguages.add(industryCompareList.get(z).getSecondYear());
+                              break;
+                          }
+                      }
+                      for(Double i:listCountries){
+                          if(i != 0.0){
+                              yValues.add(listCountries);
+                              listLanguages.add(industryCompareList.get(z).getThirdYear());
+                              break;
+                          }
+                      }
                       List<List<Double>> zhuziList = Lists.newArrayList();
                       int len=yValues.get(0).size();
                       for (int k=0;k<len;k++){
@@ -1591,6 +1667,8 @@ public class IpoExportWordActorService extends BaseService {
                       test.replaceTableCell(td,wordMap.get("#证券代码#"));
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#拟上市板块#") != -1) {
                       test.replaceTableCell(td,wordMap.get("#拟上市板块#"));
+                  }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#拟上市板块表格文字#") != -1) {
+                      test.replaceTableCell(td,wordMap.get("#拟上市板块表格文字#"));
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#企业性质#") != -1) {
                       test.replaceTableCell(td,wordMap.get("#企业性质#"));
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#注册地址#") != -1) {
@@ -2509,6 +2587,14 @@ public class IpoExportWordActorService extends BaseService {
         }
         return str;
     }
+
+    public String isNullEmp(String str){
+        if (str==null||"null".equals(str)||"".equals(str)){
+            str="";
+        }
+        return str;
+    }
+
     public String isNullBigInt(BigDecimal str){
         if (str==null||"null".equals(str)||"".equals(str)){
            return "--";
