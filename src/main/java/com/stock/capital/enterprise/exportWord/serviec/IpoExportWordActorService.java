@@ -497,7 +497,6 @@ public class IpoExportWordActorService extends BaseService {
       int ids = 123;
       Iterator<XWPFParagraph> itPara = xdoc.getParagraphsIterator();
       XpwfUtils test = new XpwfUtils();
-      int parapraphPos=0;
       while (itPara.hasNext()) {
           XWPFParagraph paragraph = (XWPFParagraph) itPara.next();
           Set<String> set = wordMap.keySet();
@@ -531,13 +530,7 @@ public class IpoExportWordActorService extends BaseService {
 
           if(StringUtils.isEmpty(paragraph.getText())){//如果段落为空
               continue;
-          } if ("#饼图位置#".equals(paragraph.getText())){
-              test.clearParagraph(paragraph);
-                if (mainIncomeVo == null || mainIncomeVo.getMainIncomeInfoList() == null){
-                    parapraphPos = xdoc.getPosOfParagraph(paragraph);
-                }
-              continue;
-            }else if("#资本市场#".equals(paragraph.getText())){
+          } else if("#资本市场#".equals(paragraph.getText())){
               String content = "";
               for (int b=0;b<otherList.size();b++){
                   if (StringUtils.isNotEmpty(otherList.get(b).getMarketType())){
@@ -1290,70 +1283,66 @@ public class IpoExportWordActorService extends BaseService {
                       row_0.addNewTableCell().setText("");
                       setTitleBold(2,row_0,df1.format(supplierMainList.get(z).getReportPeriod()),8,true);
                       row_0.addNewTableCell().setText("");
+                      row_0.addNewTableCell();
+                      setTitleBold(4,row_0,supplierMainList.get(z).getThirdYearForSupplier(),8,true);
                       row_0.addNewTableCell().setText("");
                       row_0.addNewTableCell();
-                      setTitleBold(5,row_0,supplierMainList.get(z).getThirdYearForSupplier(),8,true);
-                      row_0.addNewTableCell().setText("");
-                      row_0.addNewTableCell().setText("");
-                      row_0.addNewTableCell();
-                      setTitleBold(8,row_0,supplierMainList.get(z).getSecondYearForSupplier(),8,true);
-                      row_0.addNewTableCell().setText("");
+                      setTitleBold(6,row_0,supplierMainList.get(z).getSecondYearForSupplier(),8,true);
                       row_0.addNewTableCell().setText("");
                       row_0.addNewTableCell();
-                      setTitleBold(11,row_0,supplierMainList.get(z).getFirstYearForSupplier(),8,true);
+                      setTitleBold(8,row_0,supplierMainList.get(z).getFirstYearForSupplier(),8,true);
                       row_0.addNewTableCell().setText("");
-                      row_0.addNewTableCell().setText("");
-                      for (int p=0;p<14;p++){
+                      for (int p=0;p<10;p++){
                           row_0.getCell(p).setColor("E7F3FF");
                       }
                       XWPFTableRow row_1 = table.createRow();
                       setTitleBold(0,row_1,"序号",8,true);
                       setTitleBold(1,row_1,"公司",8,true);
-                      setTitleBold(2,row_1,"采购内容",8,true);
-                      setTitleBold(3,row_1,"金额",8,true);
-                      setTitleBold(4,row_1,"占比",8,true);
-                      setTitleBold(5,row_1,"采购内容",8,true);
+//                      setTitleBold(2,row_1,"采购内容",8,true);
+                      setTitleBold(2,row_1,"金额",8,true);
+                      setTitleBold(3,row_1,"占比",8,true);
+//                      setTitleBold(5,row_1,"采购内容",8,true);
+                      setTitleBold(4,row_1,"金额",8,true);
+                      setTitleBold(5,row_1,"占比",8,true);
+//                      setTitleBold(8,row_1,"采购内容",8,true);
                       setTitleBold(6,row_1,"金额",8,true);
                       setTitleBold(7,row_1,"占比",8,true);
-                      setTitleBold(8,row_1,"采购内容",8,true);
-                      setTitleBold(9,row_1,"金额",8,true);
-                      setTitleBold(10,row_1,"占比",8,true);
-                      setTitleBold(11,row_1,"采购内容",8,true);
-                      setTitleBold(12,row_1,"金额",8,true);
-                      setTitleBold(13,row_1,"占比",8,true);
-                      for (int p=0;p<14;p++){
+//                      setTitleBold(11,row_1,"采购内容",8,true);
+                      setTitleBold(8,row_1,"金额",8,true);
+                      setTitleBold(9,row_1,"占比",8,true);
+                      for (int p=0;p<10;p++){
                           row_1.getCell(p).setColor("E7F3FF");
                       }
                       List<SupplierCustomerInfoDto> list=supplierMainList.get(z).getSupplierCustomerInfoList();
                       for (int n=0;n<list.size();n++){
                           XWPFTableRow row_2 = table.createRow();
                           setTitleBold(0,row_2,n+1+"",8,true);
-                          setTitleBold(1,row_2,list.get(n).getCompanyName(),8,false);
-                          setTitleBold(2,row_2,list.get(n).getOnePeriodContent(),8,false);
-                          setTitleBold(3,row_2,twoMarkStr(list.get(n).getOnePeriodAmount()+""),8,false);
-                          setTitleBold(4,row_2,twoMarkStrBFH(list.get(n).getOnePeriodRatio()+""),8,false);
-                          setTitleBold(5,row_2,list.get(n).getThirdYearContent(),8,false);
-                          setTitleBold(6,row_2,twoMarkStr(list.get(n).getThirdYearAmount()+""),8,false);
-                          setTitleBold(7,row_2,twoMarkStrBFH(list.get(n).getThirdYearRatio()+""),8,false);
-                          setTitleBold(8,row_2,list.get(n).getSecondYearContent(),8,false);
-                          setTitleBold(9,row_2,twoMarkStr(list.get(n).getSecondYearAmount()+""),8,false);
-                          setTitleBold(10,row_2,twoMarkStrBFH(list.get(n).getSecondYearRatio()+""),8,false);
-                          setTitleBold(11,row_2,list.get(n).getFirstYearContent(),8,false);
-                          setTitleBold(12,row_2,twoMarkStr(list.get(n).getFirstYearAmount()+""),8,false);
-                          setTitleBold(13,row_2,twoMarkStrBFH(list.get(n).getFirstYearRatio()+""),8,false);
+                          setTitleBold(1,row_2,list.get(n).getCompanyName(),7,false);
+//                          setTitleBold(2,row_2,list.get(n).getOnePeriodContent(),8,false);
+                          setTitleBold(2,row_2,twoMarkStr(list.get(n).getOnePeriodAmount()+""),7,false);
+                          setTitleBold(3,row_2,twoMarkStrBFH(list.get(n).getOnePeriodRatio()+""),7,false);
+//                          setTitleBold(5,row_2,list.get(n).getThirdYearContent(),8,false);
+                          setTitleBold(4,row_2,twoMarkStr(list.get(n).getThirdYearAmount()+""),7,false);
+                          setTitleBold(5,row_2,twoMarkStrBFH(list.get(n).getThirdYearRatio()+""),7,false);
+//                          setTitleBold(8,row_2,list.get(n).getSecondYearContent(),8,false);
+                          setTitleBold(6,row_2,twoMarkStr(list.get(n).getSecondYearAmount()+""),7,false);
+                          setTitleBold(7,row_2,twoMarkStrBFH(list.get(n).getSecondYearRatio()+""),7,false);
+//                          setTitleBold(11,row_2,list.get(n).getFirstYearContent(),8,false);
+                          setTitleBold(8,row_2,twoMarkStr(list.get(n).getFirstYearAmount()+""),7,false);
+                          setTitleBold(9,row_2,twoMarkStrBFH(list.get(n).getFirstYearRatio()+""),7,false);
                           if (n%2!=0){
-                              for (int p=0;p<14;p++){
+                              for (int p=0;p<10;p++){
                                   row_2.getCell(p).setColor("E7F3FF");
                               }
                           }
                       }
                       //合并行
-                      fillTable(table,1500);
+                      fillTable(table,2500);
                       mergeCellsHorizontal(table,0,0,1);
-                      mergeCellsHorizontal(table,0,2,4);
-                      mergeCellsHorizontal(table,0,5,7);
-                      mergeCellsHorizontal(table,0,8,10);
-                      mergeCellsHorizontal(table,0,11,13);
+                      mergeCellsHorizontal(table,0,2,3);
+                      mergeCellsHorizontal(table,0,4,5);
+                      mergeCellsHorizontal(table,0,6,7);
+                      mergeCellsHorizontal(table,0,8,9);
                       //边框颜色
                       setBorderStyle(table);
                   }
@@ -1414,21 +1403,16 @@ public class IpoExportWordActorService extends BaseService {
                       row_0.addNewTableCell();
                       setTitleBold(2,row_0,df1.format(customerMainList.get(z).getReportPeriod()),8,true);
                       row_0.addNewTableCell().setText("");
+                      row_0.addNewTableCell();
+                      setTitleBold(4,row_0,customerMainList.get(z).getThirdYearForCustomer(),8,true);
                       row_0.addNewTableCell().setText("");
                       row_0.addNewTableCell();
-                      setTitleBold(5,row_0,customerMainList.get(z).getThirdYearForCustomer(),8,true);
-                      row_0.addNewTableCell().setText("");
-                      row_0.addNewTableCell().setText("");
-                      row_0.addNewTableCell();
-                      setTitleBold(8,row_0,customerMainList.get(z).getSecondYearForCustomer(),8,true);
-                      row_0.addNewTableCell().setText("");
+                      setTitleBold(6,row_0,customerMainList.get(z).getSecondYearForCustomer(),8,true);
                       row_0.addNewTableCell().setText("");
                       row_0.addNewTableCell();
-                      setTitleBold(11,row_0,customerMainList.get(z).getFirstYearForCustomer(),8,true);
+                      setTitleBold(8,row_0,customerMainList.get(z).getFirstYearForCustomer(),8,true);
                       row_0.addNewTableCell().setText("");
-                      row_0.addNewTableCell().setText("");
-
-                      for (int p=0;p<14;p++){
+                      for (int p=0;p<9;p++){
                           row_0.getCell(p).setColor("E7F3FF");
                       }
 //                  row_0.addNewTableCell().setText(customerMainList.get(z).get);
@@ -1437,53 +1421,52 @@ public class IpoExportWordActorService extends BaseService {
                       XWPFTableRow row_1 = table.createRow();
                       setTitleBold(0,row_1,"序号",8,true);
                       setTitleBold(1,row_1,"公司",8,true);
-                      setTitleBold(2,row_1,"交易情况",8,true);
-                      setTitleBold(3,row_1,"金额",8,true);
-                      setTitleBold(4,row_1,"占比",8,true);
-                      setTitleBold(5,row_1,"交易情况",8,true);
+//                      setTitleBold(2,row_1,"交易情况",8,true);
+                      setTitleBold(2,row_1,"金额",8,true);
+                      setTitleBold(3,row_1,"占比",8,true);
+//                      setTitleBold(5,row_1,"交易情况",8,true);
+                      setTitleBold(4,row_1,"金额",8,true);
+                      setTitleBold(5,row_1,"占比",8,true);
+//                      setTitleBold(8,row_1,"交易情况",8,true);
                       setTitleBold(6,row_1,"金额",8,true);
                       setTitleBold(7,row_1,"占比",8,true);
-                      setTitleBold(8,row_1,"交易情况",8,true);
-                      setTitleBold(9,row_1,"金额",8,true);
-                      setTitleBold(10,row_1,"占比",8,true);
-                      setTitleBold(11,row_1,"交易情况",8,true);
-                      setTitleBold(12,row_1,"金额",8,true);
-                      setTitleBold(13,row_1,"占比",8,true);
-
-                      for (int p=0;p<14;p++){
+//                      setTitleBold(11,row_1,"交易情况",8,true);
+                      setTitleBold(8,row_1,"金额",8,true);
+                      setTitleBold(9,row_1,"占比",8,true);
+                      for (int p=0;p<10;p++){
                           row_1.getCell(p).setColor("E7F3FF");
                       }
                       List<SupplierCustomerInfoDto> list=customerMainList.get(z).getSupplierCustomerInfoList();
                       for (int n=0;n<list.size();n++){
                           XWPFTableRow row_2 = table.createRow();
                           setTitleBold(0,row_2,n+1+"",8,true);
-                          setTitleBold(1,row_2,list.get(n).getCompanyName(),8,false);
-                          setTitleBold(2,row_2,list.get(n).getOnePeriodContent(),8,false);
-                          setTitleBold(3,row_2,twoMarkStr(list.get(n).getOnePeriodAmount()+""),8,false);
-                          setTitleBold(4,row_2,twoMarkStrBFH(list.get(n).getOnePeriodRatio()+""),8,false);
-                          setTitleBold(5,row_2,list.get(n).getThirdYearContent(),8,false);
-                          setTitleBold(6,row_2,twoMarkStr(list.get(n).getThirdYearAmount()+""),8,false);
-                          setTitleBold(7,row_2,twoMarkStrBFH(list.get(n).getThirdYearRatio()+""),8,false);
-                          setTitleBold(8,row_2,list.get(n).getSecondYearContent(),8,false);
-                          setTitleBold(9,row_2,twoMarkStr(list.get(n).getSecondYearAmount()+""),8,false);
-                          setTitleBold(10,row_2,twoMarkStrBFH(list.get(n).getSecondYearRatio()+""),8,false);
-                          setTitleBold(11,row_2,list.get(n).getFirstYearContent(),8,false);
-                          setTitleBold(12,row_2,twoMarkStr(list.get(n).getFirstYearAmount()+""),8,false);
-                          setTitleBold(13,row_2,twoMarkStrBFH(list.get(n).getFirstYearRatio()+""),8,false);
+                          setTitleBold(1,row_2,list.get(n).getCompanyName(),7,false);
+//                          setTitleBold(2,row_2,list.get(n).getOnePeriodContent(),7,false);
+                          setTitleBold(2,row_2,twoMarkStr(list.get(n).getOnePeriodAmount()+""),7,false);
+                          setTitleBold(3,row_2,twoMarkStrBFH(list.get(n).getOnePeriodRatio()+""),7,false);
+//                          setTitleBold(5,row_2,list.get(n).getThirdYearContent(),7,false);
+                          setTitleBold(4,row_2,twoMarkStr(list.get(n).getThirdYearAmount()+""),7,false);
+                          setTitleBold(5,row_2,twoMarkStrBFH(list.get(n).getThirdYearRatio()+""),7,false);
+//                          setTitleBold(8,row_2,list.get(n).getSecondYearContent(),7,false);
+                          setTitleBold(6,row_2,twoMarkStr(list.get(n).getSecondYearAmount()+""),7,false);
+                          setTitleBold(7,row_2,twoMarkStrBFH(list.get(n).getSecondYearRatio()+""),7,false);
+//                          setTitleBold(11,row_2,list.get(n).getFirstYearContent(),7,false);
+                          setTitleBold(8,row_2,twoMarkStr(list.get(n).getFirstYearAmount()+""),7,false);
+                          setTitleBold(9,row_2,twoMarkStrBFH(list.get(n).getFirstYearRatio()+""),7,false);
                           if (n%2!=0){
-                              for (int p=0;p<14;p++){
+                              for (int p=0;p<10;p++){
                                   row_2.getCell(p).setColor("E7F3FF");
                               }
                           }
 
                       }
                       //合并行
-                      fillTable(table,1500);
+                      fillTable(table,2500);
                       mergeCellsHorizontal(table,0,0,1);
-                      mergeCellsHorizontal(table,0,2,4);
-                      mergeCellsHorizontal(table,0,5,7);
-                      mergeCellsHorizontal(table,0,8,10);
-                      mergeCellsHorizontal(table,0,11,13);
+                      mergeCellsHorizontal(table,0,2,3);
+                      mergeCellsHorizontal(table,0,4,5);
+                      mergeCellsHorizontal(table,0,6,7);
+                      mergeCellsHorizontal(table,0,8,9);
                       //边框颜色
                       setBorderStyle(table);
                   }
@@ -1494,7 +1477,6 @@ public class IpoExportWordActorService extends BaseService {
                       newParaRun.setBold(false);
                       newParaRun.setText("                        暂无主要客户情况");
               }
-
               continue;
           }
           else if("#行业毛利率对比#".equals(paragraph.getText())){
@@ -1536,51 +1518,63 @@ public class IpoExportWordActorService extends BaseService {
 //                      listLanguages.add(industryCompareList.get(z).getFirstYear());
 //                      listLanguages.add(industryCompareList.get(z).getSecondYear());
 //                      listLanguages.add(industryCompareList.get(z).getThirdYear());
-                      List<Double> listCountries = new ArrayList<>();
-                      List<Double> listCountries2 = new ArrayList<>(10);
-                      List<Double> listCountries3 = new ArrayList<>(10);
+                      List<String> listCountries = new ArrayList<>();
+                      List<String> listCountries2 = new ArrayList<>(10);
+                      List<String> listCountries3 = new ArrayList<>(10);
+                      List<List<String>> xTitle = Lists.newArrayList();
                       for (int u=list.size()-1;u>=0;u--){
-                          listCountries.add(Double.valueOf(toChangeNum(list.get(u).getThirdYearRate()+"")));
-                          listCountries2.add(Double.valueOf(toChangeNum(list.get(u).getSecondYearRate()+"")));
-                          listCountries3.add(Double.valueOf(toChangeNum(list.get(u).getFirstYearRate()+"")));
+                          List<String> title=new ArrayList<>();
+                          listCountries.add(list.get(u).getThirdYearRate()+"");
+                          listCountries2.add(list.get(u).getSecondYearRate()+"");
+                          listCountries3.add(list.get(u).getFirstYearRate()+"");
                           series.add(list.get(u).getCompanyName());
+                          if (!"null".equals(list.get(u).getFirstYearRate()+"")){
+                              title.add(industryCompareList.get(z).getFirstYear());
+                          }
+                          if (!"null".equals(list.get(u).getSecondYearRate()+"")){
+                              title.add(industryCompareList.get(z).getSecondYear());
+                          }
+                          if (!"null".equals(list.get(u).getThirdYearRate()+"")) {
+                              title.add(industryCompareList.get(z).getThirdYear());
+                          }
+                          xTitle.add(title);
                       }
-                      List<List<Double>> yValues = Lists.newArrayList();
+                      List<List<String>> yValues = Lists.newArrayList();
 //                      yValues.add(listCountries3);
 //                      yValues.add(listCountries2);
 //                      yValues.add(listCountries);
-                      for(Double i:listCountries3){
-                          if(i != 0.0){
+                      for(String i:listCountries3){
+                          if(!"null".equals(i)){
                               yValues.add(listCountries3);
-                              listLanguages.add(industryCompareList.get(z).getFirstYear());
                               break;
                           }
                       }
-                      for(Double i:listCountries2){
-                          if(i != 0.0){
+                      for(String i:listCountries2){
+                          if(!"null".equals(i)){
                               yValues.add(listCountries2);
-                              listLanguages.add(industryCompareList.get(z).getSecondYear());
                               break;
                           }
                       }
-                      for(Double i:listCountries){
-                          if(i != 0.0){
+                      for(String i:listCountries){
+                          if(!"null".equals(i)){
                               yValues.add(listCountries);
-                              listLanguages.add(industryCompareList.get(z).getThirdYear());
                               break;
                           }
                       }
                       List<List<Double>> zhuziList = Lists.newArrayList();
+
                       int len=yValues.get(0).size();
                       for (int k=0;k<len;k++){
                           List<Double> zhuzi = new ArrayList<>();
                           for (int p=0;p<yValues.size();p++){
-                              zhuzi.add(yValues.get(p).get(k));
+                              if (!"null".equals(yValues.get(p).get(k))){
+                                  zhuzi.add(Double.valueOf(yValues.get(p).get(k)));
+                              }
                           }
                           zhuziList.add(zhuzi);
                       }
                       XWPFChart chart1 = xdoc.createChart(XDDFChart.DEFAULT_WIDTH * 8, XDDFChart.DEFAULT_HEIGHT * 10);
-                      poiWordInsertChartUtils.setSimpleBarData(chart1,"3","","",series,listLanguages,zhuziList);
+                      poiWordInsertChartUtils.setSimpleBarDataLine(chart1,"3","","",series,xTitle,zhuziList);
                       xdoc.removeBodyElement(xdoc.getBodyElements().size()-1);
                       itPara = xdoc.getParagraphsIterator();
                       XmlCursor cursor4 = newpa1.getCTP().newCursor();
@@ -1644,9 +1638,6 @@ public class IpoExportWordActorService extends BaseService {
           }
       }
 
-        if (mainIncomeVo == null || mainIncomeVo.getMainIncomeInfoList() == null){
-            xdoc.removeBodyElement(parapraphPos+1);
-        }
       Iterator<XWPFTable> itTable = xdoc.getTablesIterator();
       while (itTable.hasNext()) {
           XWPFTable table = itTable.next();
@@ -2779,6 +2770,7 @@ public class IpoExportWordActorService extends BaseService {
         headRun.setFontSize(fontSize);
         headRun.setText(str);
         headRun.setBold(f);//是否粗体
+        para.setSpacingBetween(1, LineSpacingRule.AUTO);
         //垂直居中
         para.setVerticalAlignment(TextAlignment.CENTER);
         //水平居中

@@ -195,4 +195,54 @@ public class POIWordInsertChartUtils {
         series.setShapeProperties(properties);
     }
 
+    public void setSimpleBarDataLine(XWPFChart chart,String ifStack, String chartTitle,String bottomTitle, List<String> yTitles,List<List<String>> xTitles,List<List<Double>> yValues) {
+        XDDFChartAxis bottomAxis = chart.createCategoryAxis(AxisPosition.BOTTOM);
+        bottomAxis.setTitle(bottomTitle);
+        XDDFValueAxis leftAxis = chart.createValueAxis(AxisPosition.LEFT);
+
+        leftAxis.setCrosses(AxisCrosses.AUTO_ZERO);
+        leftAxis.setMajorTickMark(AxisTickMark.OUT);
+        leftAxis.setCrossBetween(AxisCrossBetween.BETWEEN);
+
+//        final int numOfPoints = xTitles.size();
+//        分类
+//        final String categoryDataRange = chart.formatRange(new CellRangeAddress(1, numOfPoints, COLUMN_LANGUAGES, COLUMN_LANGUAGES));
+//        String[] categories = xTitles.toArray(new String[0]);
+//        final XDDFDataSource<?> categoriesData = XDDFDataSourcesFactory.fromArray(categories, categoryDataRange, COLUMN_LANGUAGES);
+
+        XDDFLineChartData bar = (XDDFLineChartData) chart.createData(ChartTypes.LINE, bottomAxis, leftAxis);
+        if (!xTitles.isEmpty()){
+            for (int i = 0;i<xTitles.size();i++){
+                List<String> xValue = xTitles.get(i);
+                int numOfPoints = xValue.size();
+                String categoryDataRange = chart.formatRange(new CellRangeAddress(1, numOfPoints, COLUMN_LANGUAGES, COLUMN_LANGUAGES));
+                String[] categories = xValue.toArray(new String[0]);
+                XDDFDataSource<?> categoriesData = XDDFDataSourcesFactory.fromArray(categories, categoryDataRange, COLUMN_LANGUAGES);
+                if (!yValues.isEmpty()){
+//                    for (int j = 0;j<yValues.size();j++) {
+                        List<Double> yValue = yValues.get(i);
+                        Double[] value = yValue.toArray(new Double[0]);
+                        final String valuesDataRange = chart.formatRange(new CellRangeAddress(1, numOfPoints, i+1, i+1));
+                        final XDDFNumericalDataSource<? extends Number> valuesData = XDDFDataSourcesFactory.fromArray(value, valuesDataRange, i+1);
+                        valuesData.setFormatCode("General");
+                        XDDFLineChartData.Series series1 = (XDDFLineChartData.Series) bar.addSeries(categoriesData, valuesData);
+                        if (yTitles.size() > 1){
+                            series1.setTitle(yTitles.get(i), chart.setSheetTitle(yTitles.get(i), i+1));
+                        }else{
+                            series1.setTitle(yTitles.get(0), chart.setSheetTitle(yTitles.get(0), i+1));
+                        }
+//                    }
+
+                }
+            }
+        }
+        bar.setVaryColors(true);
+        chart.plot(bar);
+        XDDFChartLegend legend = chart.getOrAddLegend();
+        legend.setPosition(LegendPosition.BOTTOM);
+        legend.setOverlay(false);
+        chart.setTitleText(chartTitle);
+        chart.setTitleOverlay(false);
+        chart.setAutoTitleDeleted(false);
+    }
 }
