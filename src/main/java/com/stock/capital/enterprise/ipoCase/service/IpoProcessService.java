@@ -571,6 +571,7 @@ public class IpoProcessService extends BaseService {
                     title = title.substring(0, 40);
                 }
                 String fileName = title + System.currentTimeMillis() + "." + suffix;
+                fileName = fileName.replaceAll("\\:", "-");
 //                采用压缩zip的一个方法  将流放到map中然后放在list中  通过调用zip压缩方法获取zip文件
                 if ("xsb".equals(fileDto.getProcessType())){
                     srcFile.put(fileName,new URL(fileDto.getUrl()).openStream());
