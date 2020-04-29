@@ -211,6 +211,12 @@ export const constantRouterMap = [
         meta: {title: '正式用户续费提示窗', noCache: true}
       },
       {
+        path:'lawWinopen',
+        component: _import('tutoringCase/tutoringCaseList/lawWinopen'),
+        name:'lawWinopen',
+        meta: {title: '上市条件法规弹窗', noCache: true}
+      },
+      {
         path:'favorite',
         component: _import('ipoCaseFavoriteAndNote/ipoCaseFavorite'),
         name:'favorite',
