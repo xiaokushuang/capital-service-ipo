@@ -383,8 +383,16 @@ public class XpwfUtils {
 		setCellNew(table,rowIndex,col,content,tempRowIndex,false,false);
 	}
 
+	public void setCellNewContentEight(XWPFTable table, int rowIndex, int col, String content,int tempRowIndex){
+		setCellNewEight(table,rowIndex,col,content,tempRowIndex,false,false);
+	}
+
 	public void setCellNewContentBold(XWPFTable table, int rowIndex, int col, String content,int tempRowIndex){
 		setCellNew(table,rowIndex,col,content,tempRowIndex,true,false);
+	}
+
+	public void setCellNewContentBoldEight(XWPFTable table, int rowIndex, int col, String content,int tempRowIndex){
+		setCellNewEight(table,rowIndex,col,content,tempRowIndex,true,false);
 	}
 
     public void setCellNewContentTitleNotTemp(XWPFTable table, int rowIndex, int col, String content,int tempRowIndex){
@@ -393,6 +401,12 @@ public class XpwfUtils {
 	public void setCellNewContentNotTemp(XWPFTable table, int rowIndex, int col, String content,int tempRowIndex){
 		setCellNew(table,rowIndex,col,content,tempRowIndex,false,true);
 	}
+
+	public void setCellNewContentTitleNotTempEight(XWPFTable table, int rowIndex, int col, String content,int tempRowIndex){
+		setCellNewEight(table,rowIndex,col,content,tempRowIndex,true,true);
+	}
+
+
 	/**
 	 * @Description: 设置单元格内容
 	 */
@@ -447,6 +461,171 @@ public class XpwfUtils {
 		}
 		newRun.setBold(boldFlag);
 		newRun.setFontSize(11);
+		newRun.setFontFamily("宋体 (正文)");
+		if (tmpR != null) {
+			newRun.setBold(boldFlag || tmpR.isBold());
+			newRun.setItalic(tmpR.isItalic());
+			newRun.setUnderline(tmpR.getUnderline());
+			newRun.setTextPosition(tmpR.getTextPosition());
+			if (tmpR.getFontSize() != -1) {
+				newRun.setFontSize(tmpR.getFontSize());
+			}
+			if (tmpR.getFontFamily() != null) {
+				newRun.setFontFamily(tmpR.getFontFamily());
+			}
+			if (tmpR.getCTR() != null) {
+				if (tmpR.getCTR().isSetRPr()) {
+					CTRPr tmpRPr = tmpR.getCTR().getRPr();
+					if (tmpRPr.isSetRFonts()) {
+						CTFonts tmpFonts = tmpRPr.getRFonts();
+						CTRPr newRunPr = newRun.getCTR().isSetRPr() ? newRun.getCTR().getRPr() : newRun.getCTR().addNewRPr();
+						CTFonts cellFonts = newRunPr.isSetRFonts() ? newRunPr.getRFonts() : newRunPr.addNewRFonts();
+						cellFonts.setAscii(tmpFonts.getAscii());
+						cellFonts.setCs(tmpFonts.getCs());
+						cellFonts.setEastAsia(tmpFonts.getEastAsia());
+						cellFonts.setHAnsi(tmpFonts.getHAnsi());
+					}
+				}
+			}
+			if (cellRunList.size() == 2) {
+				p.removeRun(0);
+			}
+			if (tempP.getCTP() != null) {
+				if (tempP.getCTP().getPPr() != null) {
+					CTPPr tmpPPr = tempP.getCTP().getPPr();
+					CTPPr cellPPr = p.getCTP().getPPr() != null ? p.getCTP().getPPr() : p.getCTP().addNewPPr();
+					// 复制段落间距信息
+					CTSpacing tmpSpacing = tmpPPr.getSpacing();
+					if (tmpSpacing != null) {
+						CTSpacing cellSpacing = cellPPr.getSpacing() != null ? cellPPr.getSpacing() : cellPPr.addNewSpacing();
+						if (tmpSpacing.getAfter() != null) {
+							cellSpacing.setAfter(tmpSpacing.getAfter());
+						}
+						if (tmpSpacing.getAfterAutospacing() != null) {
+							cellSpacing.setAfterAutospacing(tmpSpacing.getAfterAutospacing());
+						}
+						if (tmpSpacing.getAfterLines() != null) {
+							cellSpacing.setAfterLines(tmpSpacing.getAfterLines());
+						}
+						if (tmpSpacing.getBefore() != null) {
+							cellSpacing.setBefore(tmpSpacing.getBefore());
+						}
+						if (tmpSpacing.getBeforeAutospacing() != null) {
+							cellSpacing.setBeforeAutospacing(tmpSpacing.getBeforeAutospacing());
+						}
+						if (tmpSpacing.getBeforeLines() != null) {
+							cellSpacing.setBeforeLines(tmpSpacing.getBeforeLines());
+						}
+						if (tmpSpacing.getLine() != null) {
+							cellSpacing.setLine(tmpSpacing.getLine());
+						}
+						if (tmpSpacing.getLineRule() != null) {
+							cellSpacing.setLineRule(tmpSpacing.getLineRule());
+						}
+					}
+					// 复制段落缩进信息
+					CTInd tmpInd = tmpPPr.getInd();
+					if (tmpInd != null) {
+						CTInd cellInd = cellPPr.getInd() != null ? cellPPr.getInd() : cellPPr.addNewInd();
+						if (tmpInd.getFirstLine() != null) {
+							cellInd.setFirstLine(tmpInd.getFirstLine());
+						}
+						if (tmpInd.getFirstLineChars() != null) {
+							cellInd.setFirstLineChars(tmpInd.getFirstLineChars());
+						}
+						if (tmpInd.getHanging() != null) {
+							cellInd.setHanging(tmpInd.getHanging());
+						}
+						if (tmpInd.getHangingChars() != null) {
+							cellInd.setHangingChars(tmpInd.getHangingChars());
+						}
+						if (tmpInd.getLeft() != null) {
+							cellInd.setLeft(tmpInd.getLeft());
+						}
+						if (tmpInd.getLeftChars() != null) {
+							cellInd.setLeftChars(tmpInd.getLeftChars());
+						}
+						if (tmpInd.getRight() != null) {
+							cellInd.setRight(tmpInd.getRight());
+						}
+						if (tmpInd.getRightChars() != null) {
+							cellInd.setRightChars(tmpInd.getRightChars());
+						}
+					}
+				}
+			}
+			if(tempCell.getCTTc().getTcPr().getTcBorders() != null && tempCell.getCTTc().getTcPr().getTcBorders().getRight() != null
+					&& tempCell.getCTTc().getTcPr().getTcBorders().getRight().getVal() != STBorder.NIL){
+				CTTcBorders tblBorders = cell.getCTTc().getTcPr().addNewTcBorders();
+				CTBorder cTBorder = tblBorders.addNewRight();
+				cTBorder.setVal(tempCell.getCTTc().getTcPr().getTcBorders().getRight().getVal());
+				cTBorder.setColor(tempCell.getCTTc().getTcPr().getTcBorders().getRight().getColor());
+			}
+			p.setBorderBetween(tempP.getBorderBetween());
+			p.setBorderBottom(tempP.getBorderBottom());
+			p.setBorderLeft(tempP.getBorderLeft());
+			//p.setBorderRight(tempP.getBorderRight());
+			p.setBorderTop(tempP.getBorderTop());
+			p.setAlignment(tempP.getAlignment());
+			p.setPageBreak(tempP.isPageBreak());
+		}
+	}
+
+
+	/**
+	 * @Description: 设置单元格内容 8字体
+	 */
+	public void setCellNewEight(XWPFTable table, int rowIndex, int col, String content,int tempRowIndex,boolean boldFlag,boolean tempFlag) {
+		XWPFTableCell cell = table.getRow(rowIndex).getCell(col);
+		XWPFTableCell tempCell = table.getRow(tempRowIndex).getCell(col);
+		if (rowIndex != tempRowIndex) {
+			if(rowIndex == tempRowIndex + 1 || rowIndex==0){
+				tempCell = table.getRow(rowIndex).getCell(col);
+			}else{
+				if (tempFlag){
+					tempCell = table.getRow(rowIndex).getCell(col);
+				}else {
+					tempCell = table.getRow(rowIndex - 2).getCell(col);
+				}
+			}
+			if (tempCell != null && tempCell.getVerticalAlignment() != null) {
+				cell.setVerticalAlignment(tempCell.getVerticalAlignment());
+				if(StringUtils.isNotEmpty(tempCell.getColor())){
+					cell.setColor(tempCell.getColor());
+				}
+			} else {
+				cell.setVerticalAlignment(XWPFVertAlign.CENTER);
+			}
+		}else {
+			cell.setVerticalAlignment(XWPFVertAlign.CENTER);
+		}
+		XWPFParagraph p = getCellFirstParagraph(cell);
+		XWPFParagraph tempP = getCellFirstParagraph(tempCell);
+		XWPFRun tmpR = null;
+		if (tempP.getRuns() != null && tempP.getRuns().size() > 0) {
+			tmpR = tempP.getRuns().get(0);
+		}
+		List<XWPFRun> cellRunList = p.getRuns();
+		for (int i = cellRunList.size() - 1; i > 0; i--) {
+			p.removeRun(i);
+		}
+		XWPFRun newRun = p.createRun();
+		if(content.indexOf("\n") > 0){
+			String[] text = content.split("\n");
+			for (int f = 0; f < text.length; f++) {
+				if (f == 0) {
+					newRun.setText(text[f].trim());
+				} else {
+					// 换行
+					newRun.addBreak();
+					newRun.setText(text[f].trim());
+				}
+			}
+		} else {
+			newRun.setText(content);
+		}
+		newRun.setBold(boldFlag);
+		newRun.setFontSize(8);
 		newRun.setFontFamily("宋体 (正文)");
 		if (tmpR != null) {
 			newRun.setBold(boldFlag || tmpR.isBold());
