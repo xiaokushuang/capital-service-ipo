@@ -131,7 +131,6 @@ public class POIWordInsertChartUtils {
                     chart.getCTChart().getPlotArea().getBarChartArray(0).getSerArray(s).getDLbls().addNewShowCatName().setVal(false);
                     chart.getCTChart().getPlotArea().getBarChartArray(0).getSerArray(s).getDLbls().addNewShowSerName().setVal(false);
                 }
-
             }
 
         }else if ("2".equals(ifStack)){//饼图
@@ -195,8 +194,9 @@ public class POIWordInsertChartUtils {
             newR.setT("                                                                                     单位：万元");
         }
 
-
-//        chart.setTitleText(chartTitle);
+        if ("0".equals(ifStack)){
+            chart.setTitleText(chartTitle);
+        }
         chart.setTitleOverlay(false);
         chart.setAutoTitleDeleted(false);
     }
@@ -248,8 +248,6 @@ public class POIWordInsertChartUtils {
                         }else{
                             series1.setTitle(yTitles.get(0), chart.setSheetTitle(yTitles.get(0), i+1));
                         }
-//                    }
-
                 }
             }
         }
