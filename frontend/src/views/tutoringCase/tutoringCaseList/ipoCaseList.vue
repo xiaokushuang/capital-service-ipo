@@ -2469,7 +2469,6 @@
     padding-left: 10px;
     padding-right: 6px;
     line-height: 11px;
-    /*display: inline-block;*/
     background-size: cover;
     background: url('../../../assets/images/dsh.png') no-repeat;
   }
