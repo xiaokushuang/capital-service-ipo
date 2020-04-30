@@ -2665,6 +2665,13 @@ public class IpoExportWordActorService extends BaseService {
                 if ((List<IpoValuationDto>)dataMap.get("valuationList") == null || ((List<IpoValuationDto>) dataMap.get("valuationList")).size()<1){
                     int posOfParagraph = xdoc.getPosOfParagraph(next);
                     titlLlists.add(posOfParagraph);
+                }else if(StringUtils.isEmpty(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationDate())
+                &&(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationPrice())==null
+                &&(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationEquity())==null
+                &&(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationValue())==null
+                &&StringUtils.isEmpty(((List<IpoValuationDto>)dataMap.get("valuationList")).get(0).getValuationMemo())) {
+                    int posOfParagraph = xdoc.getPosOfParagraph(next);
+                    titlLlists.add(posOfParagraph);
                 }
             }
             if (next.getText().indexOf("5、股权结构") != -1) {
