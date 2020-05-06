@@ -274,55 +274,16 @@ public class IpoExportWordActorService extends BaseService {
           wordMap.put("#资产与负债情况单位#","单位：万元");
       }
       Map<String, List<IntermediaryOrgDto>> intermediaryOrgList = (Map<String, List<IntermediaryOrgDto>>)dataMap.get("intermediaryOrgList");
-      List<IntermediaryOrgDto> bjorg = new ArrayList<>();
-      List<IntermediaryOrgDto> laworg = new ArrayList<>();
-      List<IntermediaryOrgDto> finorg = new ArrayList<>();
-      List<IntermediaryOrgDto> fzcorg = new ArrayList<>();
-      List<IntermediaryOrgDto> yzorg = new ArrayList<>();
-      List<IntermediaryOrgDto> yzfhorg = new ArrayList<>();
-      List<IntermediaryOrgDto> zcpgorg = new ArrayList<>();
-      if (intermediaryOrgList != null){
-          if (intermediaryOrgList.get("mainList") != null){
-              List<IntermediaryOrgDto> mainList = intermediaryOrgList.get("mainList");
-              for (int i=0;i<mainList.size();i++){
-                  if (mainList.get(i).getIntermediaryType().equals("1")){
-                      bjorg.add(mainList.get(i));
-                  }else if (mainList.get(i).getIntermediaryType().equals("3") && mainList.get(i).getOrgType().equals("01")){
-                      laworg.add(mainList.get(i));
-                  }else if (mainList.get(i).getIntermediaryType().equals("4") && mainList.get(i).getOrgType().equals("01")){
-                      finorg.add(mainList.get(i));
-                  }else if (mainList.get(i).getIntermediaryType().equals("2") && mainList.get(i).getOrgType().equals("03")){
-                      fzcorg.add(mainList.get(i));
-                  }else if (mainList.get(i).getIntermediaryType().equals("4") && mainList.get(i).getOrgType().equals("02")){
-                      yzorg.add(mainList.get(i));
-                  }else if (mainList.get(i).getIntermediaryType().equals("4") && mainList.get(i).getOrgType().equals("03")){
-                      yzfhorg.add(mainList.get(i));
-                  }else if (mainList.get(i).getIntermediaryType().equals("5") && mainList.get(i).getOrgType().equals("01")){
-                      zcpgorg.add(mainList.get(i));
-                  }
-              }
-          }
-          if (intermediaryOrgList.get("moreList") != null){
-              List<IntermediaryOrgDto> moreList = intermediaryOrgList.get("moreList");
-              for (int i=0;i<moreList.size();i++){
-                  if (moreList.get(i).getIntermediaryType().equals("1")){
-                      bjorg.add(moreList.get(i));
-                  }else if (moreList.get(i).getIntermediaryType().equals("3") && moreList.get(i).getOrgType().equals("01")){
-                      laworg.add(moreList.get(i));
-                  }else if (moreList.get(i).getIntermediaryType().equals("4") && moreList.get(i).getOrgType().equals("01")){
-                      finorg.add(moreList.get(i));
-                  }else if (moreList.get(i).getIntermediaryType().equals("2") && moreList.get(i).getOrgType().equals("03")){
-                      fzcorg.add(moreList.get(i));
-                  }else if (moreList.get(i).getIntermediaryType().equals("4") && moreList.get(i).getOrgType().equals("02")){
-                      yzorg.add(moreList.get(i));
-                  }else if (moreList.get(i).getIntermediaryType().equals("4") && moreList.get(i).getOrgType().equals("03")){
-                      yzfhorg.add(moreList.get(i));
-                  }else if (moreList.get(i).getIntermediaryType().equals("5") && moreList.get(i).getOrgType().equals("01")){
-                      zcpgorg.add(moreList.get(i));
-                  }
-              }
-          }
-      }
+        List<IntermediaryOrgDto> mainList=new ArrayList<>();
+        List<IntermediaryOrgDto> moreList=new ArrayList<>();
+        if (intermediaryOrgList != null){
+            if (intermediaryOrgList.get("mainList") != null){
+                mainList = intermediaryOrgList.get("mainList");
+            }
+            if (intermediaryOrgList.get("moreList") != null){
+                moreList = intermediaryOrgList.get("moreList");
+            }
+        }
       TreeTypeProgressDto treeTypeProgress = (TreeTypeProgressDto)dataMap.get("treeTypeProgress");
         List<Map<String,Object>> listTreeTypeProgress=new ArrayList<>();
       if (treeTypeProgress != null && treeTypeProgress.getTreeList() != null){
@@ -653,250 +614,191 @@ public class IpoExportWordActorService extends BaseService {
           }else if ("#中介机构#".equals(paragraph.getText())){
               test.clearParagraph(paragraph);
               int sort=0;
-              if (bjorg!=null && bjorg.size()>0){
-                  XmlCursor cursor1 = paragraph.getCTP().newCursor();
-                  cursor1.toNextSibling();
-                  XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
-                  sort++;
-                  XWPFRun run1 = newpa1.createRun();
-                  run1.setText(sort+"、"+"保荐结构");
-                  run1.setFontSize(16);
-                  run1.setColor("333399");
-                  run1.setBold(true);
-                  newpa1.setStyle("3");
-                  newpa1.setSpacingAfter(0);
-                  newpa1.setSpacingBefore(12);
-                  run1.setFontFamily("微软雅黑");
-                  XmlCursor cursor2 = newpa1.getCTP().newCursor();
-                  cursor2.toNextSibling();
-                  XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
-                  for (int b=0;b<bjorg.size();b++){
+              if (mainList!=null && mainList.size()>0){
+                  for (int p=0;p<mainList.size();p++){
+                      XmlCursor cursor1 = paragraph.getCTP().newCursor();
+                      cursor1.toNextSibling();
+                      XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
+                      sort++;
+                      XWPFRun run1 = newpa1.createRun();
+                      run1.setText(sort+"、"+mainList.get(p).getIntermediaryTypeName());
+                      run1.setFontSize(16);
+                      run1.setColor("333399");
+                      run1.setBold(true);
+                      newpa1.setStyle("3");
+                      newpa1.setSpacingAfter(0);
+                      newpa1.setSpacingBefore(12);
+                      run1.setFontFamily("微软雅黑");
+                      XmlCursor cursor2 = newpa1.getCTP().newCursor();
+                      cursor2.toNextSibling();
+                      XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
                       XWPFRun run2 = newpa2.createRun();
                       newpa2.setSpacingBetween(1, LineSpacingRule.AUTO);
                       run2.setFontFamily("宋体");
                       run2.setBold(false);
                       run2.setFontSize(11);
-                      if (StringUtils.isNotEmpty( bjorg.get(b).getOrgName())){
-                          run2.setText("    "+"机构名称:" + bjorg.get(b).getOrgName());
+                      if (mainList.get(p).getIntermediaryType().equals("1")){
+                          if (StringUtils.isNotEmpty(mainList.get(p).getOrgName()))
+                              run2.setText("    "+"机构名称:" + mainList.get(p).getOrgName());
                           run2.addBreak();
+                          if (StringUtils.isNotEmpty(mainList.get(p).getRepresentPerson())){
+                              run2.setText("    "+"保荐代表人:" + mainList.get(p).getRepresentPerson());
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(mainList.get(p).getAssistPerson() )){
+                              run2.setText("    "+"项目协办人:" +mainList.get(p).getAssistPerson() );
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(mainList.get(p).getAgentPerson())){
+                              run2.setText("    "+"项目经办人:" +mainList.get(p).getAgentPerson()  );
+                              run2.addBreak();
+                          }
                       }
-                      if (StringUtils.isNotEmpty(bjorg.get(b).getRepresentPerson())){
-                          run2.setText("    "+"保荐代表人:" + bjorg.get(b).getRepresentPerson());
-                          run2.addBreak();
+                      if (mainList.get(p).getIntermediaryType().equals("3")){
+                          if (StringUtils.isNotEmpty(mainList.get(p).getOrgName())){
+                              run2.setText("    "+"机构名称:" + mainList.get(p).getOrgName() );
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(mainList.get(p).getAgentPerson())){
+                              run2.setText("    "+"经办律师:" + mainList.get(p).getAgentPerson());
+                              run2.addBreak();
+                          }
                       }
-                      if (StringUtils.isNotEmpty(bjorg.get(b).getAssistPerson() )){
-                          run2.setText("    "+"项目协办人:" +bjorg.get(b).getAssistPerson() );
-                          run2.addBreak();
+                      if (mainList.get(p).getIntermediaryType().equals("4")){
+                          if (StringUtils.isNotEmpty(mainList.get(p).getOrgName())){
+                              run2.setText("    "+"机构名称:" + mainList.get(p).getOrgName() );
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(mainList.get(p).getAgentPerson())){
+                              run2.setText("    "+"注册会计师:" + mainList.get(p).getAgentPerson());
+                              run2.addBreak();
+                          }
                       }
-                      if (StringUtils.isNotEmpty(bjorg.get(b).getAgentPerson())){
-                          run2.setText("    "+"项目经办人:" +bjorg.get(b).getAgentPerson()  );
-                          run2.addBreak();
+                      if (mainList.get(p).getIntermediaryType().equals("2")){
+                          if (StringUtils.isNotEmpty(mainList.get(p).getOrgName())){
+                              run2.setText("    "+"机构名称:" + mainList.get(p).getOrgName() );
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(mainList.get(p).getAgentPerson())){
+                              run2.setText("    "+"项目经办人:" + mainList.get(p).getAgentPerson());
+                              run2.addBreak();
+                          }
                       }
+                      if (mainList.get(p).getIntermediaryType().equals("5")){
+                          if (StringUtils.isNotEmpty( mainList.get(p).getOrgName())){
+                              run2.setText("    "+"机构名称:" +  mainList.get(p).getOrgName() );
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(mainList.get(p).getAgentPerson())){
+                              run2.setText("    "+"注册资产评估师:" + mainList.get(p).getAgentPerson());
+                              run2.addBreak();
+                          }
+                      }
+                      if (mainList.get(p).getIntermediaryType().equals("6")){
+                          if (StringUtils.isNotEmpty(mainList.get(p).getOrgName())){
+                              run2.setText("    "+"机构名称:" +  mainList.get(p).getOrgName());
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(mainList.get(p).getAgentPerson() )){
+                              run2.setText("    "+"经办人:" + mainList.get(p).getAgentPerson() );
+                              run2.addBreak();
+                          }
+                      }
+                      paragraph=newpa2;
                   }
-                  paragraph=newpa2;
               }
-              if (laworg!=null && laworg.size()>0){
-                  XmlCursor cursor1 = paragraph.getCTP().newCursor();
-                  cursor1.toNextSibling();
-                  XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
-                  sort++;
-                  XWPFRun run1 = newpa1.createRun();
-                  run1.setText(sort+"、"+"律师事务所");
-                  run1.setFontSize(16);
-                  run1.setColor("333399");
-                  run1.setBold(true);
-                  newpa1.setStyle("3");
-                  newpa1.setSpacingAfter(0);
-                  newpa1.setSpacingBefore(12);
-                  run1.setFontFamily("微软雅黑");
-                  XmlCursor cursor2 = newpa1.getCTP().newCursor();
-                  cursor2.toNextSibling();
-                  XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
-                  for (int b=0;b<laworg.size();b++){
+              if (moreList!=null && moreList.size()>0){
+                  for (int p=0;p<moreList.size();p++){
+                      XmlCursor cursor1 = paragraph.getCTP().newCursor();
+                      cursor1.toNextSibling();
+                      XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
+                      sort++;
+                      XWPFRun run1 = newpa1.createRun();
+                      run1.setText(sort+"、"+moreList.get(p).getIntermediaryTypeName());
+                      run1.setFontSize(16);
+                      run1.setColor("333399");
+                      run1.setBold(true);
+                      newpa1.setStyle("3");
+                      newpa1.setSpacingAfter(0);
+                      newpa1.setSpacingBefore(12);
+                      run1.setFontFamily("微软雅黑");
+                      XmlCursor cursor2 = newpa1.getCTP().newCursor();
+                      cursor2.toNextSibling();
+                      XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
                       XWPFRun run2 = newpa2.createRun();
                       newpa2.setSpacingBetween(1, LineSpacingRule.AUTO);
                       run2.setFontFamily("宋体");
-                      run2.setFontSize(11);
                       run2.setBold(false);
-                      if (StringUtils.isNotEmpty(laworg.get(b).getOrgName())){
-                          run2.setText("    "+"机构名称:" + laworg.get(b).getOrgName() );
-                          run2.addBreak();
-                      }
-                      if (StringUtils.isNotEmpty(laworg.get(b).getAgentPerson())){
-                          run2.setText("    "+"经办律师:" + laworg.get(b).getAgentPerson());
-                          run2.addBreak();
-                      }
-                  }
-                  paragraph=newpa2;
-              }
-              if (finorg!=null && finorg.size()>0){
-                  XmlCursor cursor1 = paragraph.getCTP().newCursor();
-                  cursor1.toNextSibling();
-                  XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
-                  sort++;
-                  XWPFRun run1 = newpa1.createRun();
-                  run1.setText(sort+"、"+"会计师事务所");
-                  run1.setFontSize(16);
-                  run1.setColor("333399");
-                  run1.setBold(true);
-                  newpa1.setStyle("3");
-                  newpa1.setSpacingAfter(0);
-                  newpa1.setSpacingBefore(12);
-                  run1.setFontFamily("微软雅黑");
-                  XmlCursor cursor2 = newpa1.getCTP().newCursor();
-                  cursor2.toNextSibling();
-                  XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
-                  for (int b=0;b<finorg.size();b++){
-                      XWPFRun run2 = newpa2.createRun();
-                      newpa2.setSpacingBetween(1, LineSpacingRule.AUTO);
-                      run2.setFontFamily("宋体");
                       run2.setFontSize(11);
-                      run2.setBold(false);
-                      if (StringUtils.isNotEmpty(finorg.get(b).getOrgName())){
-                          run2.setText("    "+"机构名称:" + finorg.get(b).getOrgName() );
+                      if (moreList.get(p).getIntermediaryType().equals("1")){
+                          if (StringUtils.isNotEmpty(moreList.get(p).getOrgName()))
+                              run2.setText("    "+"机构名称:" + moreList.get(p).getOrgName());
                           run2.addBreak();
+                          if (StringUtils.isNotEmpty(moreList.get(p).getRepresentPerson())){
+                              run2.setText("    "+"保荐代表人:" + moreList.get(p).getRepresentPerson());
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(moreList.get(p).getAssistPerson() )){
+                              run2.setText("    "+"项目协办人:" +moreList.get(p).getAssistPerson() );
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(moreList.get(p).getAgentPerson())){
+                              run2.setText("    "+"项目经办人:" +moreList.get(p).getAgentPerson()  );
+                              run2.addBreak();
+                          }
                       }
-                      if (StringUtils.isNotEmpty(finorg.get(b).getAgentPerson())){
-                          run2.setText("    "+"注册会计师:" + finorg.get(b).getAgentPerson());
-                          run2.addBreak();
+                      if (moreList.get(p).getIntermediaryType().equals("3")){
+                          if (StringUtils.isNotEmpty(moreList.get(p).getOrgName())){
+                              run2.setText("    "+"机构名称:" + moreList.get(p).getOrgName() );
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(moreList.get(p).getAgentPerson())){
+                              run2.setText("    "+"经办律师:" + moreList.get(p).getAgentPerson());
+                              run2.addBreak();
+                          }
                       }
+                      if (moreList.get(p).getIntermediaryType().equals("4")){
+                          if (StringUtils.isNotEmpty(moreList.get(p).getOrgName())){
+                              run2.setText("    "+"机构名称:" + moreList.get(p).getOrgName() );
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(moreList.get(p).getAgentPerson())){
+                              run2.setText("    "+"注册会计师:" + moreList.get(p).getAgentPerson());
+                              run2.addBreak();
+                          }
+                      }
+                      if (moreList.get(p).getIntermediaryType().equals("2")){
+                          if (StringUtils.isNotEmpty(moreList.get(p).getOrgName())){
+                              run2.setText("    "+"机构名称:" + moreList.get(p).getOrgName() );
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(moreList.get(p).getAgentPerson())){
+                              run2.setText("    "+"项目经办人:" + moreList.get(p).getAgentPerson());
+                              run2.addBreak();
+                          }
+                      }
+                      if (moreList.get(p).getIntermediaryType().equals("5")){
+                          if (StringUtils.isNotEmpty( moreList.get(p).getOrgName())){
+                              run2.setText("    "+"机构名称:" +  moreList.get(p).getOrgName() );
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(moreList.get(p).getAgentPerson())){
+                              run2.setText("    "+"注册资产评估师:" + moreList.get(p).getAgentPerson());
+                              run2.addBreak();
+                          }
+                      }
+                      if (moreList.get(p).getIntermediaryType().equals("6")){
+                          if (StringUtils.isNotEmpty(moreList.get(p).getOrgName())){
+                              run2.setText("    "+"机构名称:" +  moreList.get(p).getOrgName());
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(moreList.get(p).getAgentPerson() )){
+                              run2.setText("    "+"经办人:" + moreList.get(p).getAgentPerson() );
+                              run2.addBreak();
+                          }
+                      }
+                      paragraph=newpa2;
                   }
-                  paragraph=newpa2;
-              }
-              if (fzcorg!=null && fzcorg.size()>0){
-                  XmlCursor cursor1 = paragraph.getCTP().newCursor();
-                  cursor1.toNextSibling();
-                  XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
-                  sort++;
-                  XWPFRun run1 = newpa1.createRun();
-                  run1.setText(sort+"、"+"副主承销商");
-                  run1.setFontSize(16);
-                  run1.setColor("333399");
-                  run1.setBold(true);
-                  newpa1.setStyle("3");
-                  newpa1.setSpacingAfter(0);
-                  newpa1.setSpacingBefore(12);
-                  run1.setFontFamily("微软雅黑");
-                  XmlCursor cursor2 = newpa1.getCTP().newCursor();
-                  cursor2.toNextSibling();
-                  XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
-                  for (int b=0;b<fzcorg.size();b++){
-                      XWPFRun run2 = newpa2.createRun();
-                      newpa2.setSpacingBetween(1, LineSpacingRule.AUTO);
-                      run2.setFontFamily("宋体");
-                      run2.setFontSize(11);
-                      run2.setBold(false);
-                      if (StringUtils.isNotEmpty(fzcorg.get(b).getOrgName())){
-                          run2.setText("    "+"机构名称:" + fzcorg.get(b).getOrgName() );
-                          run2.addBreak();
-                      }
-                      if (StringUtils.isNotEmpty(fzcorg.get(b).getAgentPerson())){
-                          run2.setText("    "+"项目经办人:" + fzcorg.get(b).getAgentPerson());
-                          run2.addBreak();
-                      }
-                  }
-                  paragraph=newpa2;
-              }
-              if (yzorg!=null && yzorg.size()>0){
-                  XmlCursor cursor1 = paragraph.getCTP().newCursor();
-                  cursor1.toNextSibling();
-                  XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
-                  sort++;
-                  XWPFRun run1 = newpa1.createRun();
-                  run1.setText(sort+"、"+"验资机构");
-                  run1.setFontSize(16);
-                  run1.setColor("333399");
-                  run1.setBold(true);
-                  newpa1.setStyle("3");
-                  newpa1.setSpacingAfter(0);
-                  newpa1.setSpacingBefore(12);
-                  run1.setFontFamily("微软雅黑");
-                  XmlCursor cursor2 = newpa1.getCTP().newCursor();
-                  cursor2.toNextSibling();
-                  XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
-                  for (int b=0;b<yzorg.size();b++){
-                      XWPFRun run2 = newpa2.createRun();
-                      newpa2.setSpacingBetween(1, LineSpacingRule.AUTO);
-                      run2.setFontFamily("宋体");
-                      run2.setFontSize(11);
-                      run2.setBold(false);
-                      if (StringUtils.isNotEmpty( yzorg.get(b).getOrgName())){
-                          run2.setText("    "+"机构名称:" +  yzorg.get(b).getOrgName() );
-                          run2.addBreak();
-                      }
-                      if (StringUtils.isNotEmpty(yzorg.get(b).getAgentPerson())){
-                          run2.setText("    "+"项目经办人:" + yzorg.get(b).getAgentPerson());
-                          run2.addBreak();
-                      }
-                  }
-                  paragraph=newpa2;
-              }
-              if (yzfhorg!=null && yzfhorg.size()>0){
-                  XmlCursor cursor1 = paragraph.getCTP().newCursor();
-                  cursor1.toNextSibling();
-                  XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
-                  sort++;
-                  XWPFRun run1 = newpa1.createRun();
-                  run1.setText(sort+"、"+"验资复核机构");
-                  run1.setFontSize(16);
-                  run1.setColor("333399");
-                  run1.setBold(true);
-                  newpa1.setStyle("3");
-                  newpa1.setSpacingAfter(0);
-                  newpa1.setSpacingBefore(12);
-                  run1.setFontFamily("微软雅黑");
-                  XmlCursor cursor2 = newpa1.getCTP().newCursor();
-                  cursor2.toNextSibling();
-                  XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
-                  for (int b=0;b<yzfhorg.size();b++){
-                      XWPFRun run2 = newpa2.createRun();
-                      newpa2.setSpacingBetween(1, LineSpacingRule.AUTO);
-                      run2.setFontFamily("宋体");
-                      run2.setFontSize(11);
-                      run2.setBold(false);
-                      if (StringUtils.isNotEmpty(yzfhorg.get(b).getOrgName())){
-                          run2.setText("    "+"机构名称:" +  yzfhorg.get(b).getOrgName());
-                          run2.addBreak();
-                      }
-                      if (StringUtils.isNotEmpty(yzfhorg.get(b).getAgentPerson() )){
-                          run2.setText("    "+"注册会计师:" + yzfhorg.get(b).getAgentPerson() );
-                          run2.addBreak();
-                      }
-                  }
-                  paragraph=newpa2;
-              }
-              if (zcpgorg!=null && zcpgorg.size()>0){
-                  XmlCursor cursor1 = paragraph.getCTP().newCursor();
-                  cursor1.toNextSibling();
-                  XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
-                  sort++;
-                  XWPFRun run1 = newpa1.createRun();
-                  run1.setText(sort+"、"+"资产评估机构");
-                  run1.setFontSize(16);
-                  run1.setColor("333399");
-                  run1.setBold(true);
-                  newpa1.setStyle("3");
-                  newpa1.setSpacingAfter(0);
-                  newpa1.setSpacingBefore(12);
-                  run1.setFontFamily("微软雅黑");
-                  XmlCursor cursor2 = newpa1.getCTP().newCursor();
-                  cursor2.toNextSibling();
-                  XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
-                  for (int b=0;b<zcpgorg.size();b++){
-                      XWPFRun run2 = newpa2.createRun();
-                      newpa2.setSpacingBetween(1, LineSpacingRule.AUTO);
-                      run2.setFontFamily("宋体");
-                      run2.setFontSize(11);
-                      if (StringUtils.isNotEmpty(zcpgorg.get(b).getOrgName())){
-                          run2.setText("    "+"机构名称:" +  zcpgorg.get(b).getOrgName());
-                          run2.addBreak();
-                      }
-                      if (StringUtils.isNotEmpty(zcpgorg.get(b).getAgentPerson())){
-                          run2.setText("    "+"注册资产评估师:" + zcpgorg.get(b).getAgentPerson());
-                          run2.addBreak();
-                      }
-                  }
-                  paragraph=newpa2;
               }
               itPara = xdoc.getParagraphsIterator();
               continue;
@@ -2852,10 +2754,7 @@ public class IpoExportWordActorService extends BaseService {
                 }
             }
             if (next.getText().indexOf("十、中介机构") != -1) {
-                if ((bjorg==null || bjorg.size()==0)&&(laworg==null || laworg.size()==0)
-                &&(finorg==null || finorg.size()==0)&&(fzcorg==null || fzcorg.size()==0)
-                &&(yzorg==null || yzorg.size()==0)&&(yzfhorg==null || yzfhorg.size()==0)
-                &&(zcpgorg==null || zcpgorg.size()==0)){
+                if ((mainList==null || mainList.size()==0)&&(moreList==null||moreList.size()==0)){
                     int posOfParagraph = xdoc.getPosOfParagraph(next);
                     titlLlists.add(posOfParagraph);
                 }

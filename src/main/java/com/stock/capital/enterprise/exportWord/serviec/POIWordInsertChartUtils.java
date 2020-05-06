@@ -191,7 +191,7 @@ public class POIWordInsertChartUtils {
             CTRegularTextRun newR = rich.addNewP().addNewR();
             newR.addNewRPr().setB(false);
             newR.getRPr().setSz(1100);
-            newR.setT("                                                                                     单位：万元");
+            newR.setT("                                                 单位：万元");
         }
 
         if ("0".equals(ifStack)){
