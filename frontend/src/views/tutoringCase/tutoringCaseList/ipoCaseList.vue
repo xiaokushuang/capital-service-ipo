@@ -72,14 +72,19 @@
               </el-multiple-selection>
             </el-col>
             <el-col :span='4'>
-              <el-select ref="selectCompanyNature" v-model="companyNature" title="企业性质" placeholder="企业性质" size="small full"
-                         :tselect=true @visible-change="calls()" @keydown.enter.native="querySearch" @sure-click="sure('selectCompanyNature')"
-                         @clear-click="clearLocal('treeCompanyNature')">
-                <el-option :label="companyNature" :value="companyNatureValue">
-                  <el-tree :data="companyNatureList" show-checkbox node-key="id" ref="treeCompanyNature" highlight-current
-                           :props="default_tree" check-on-click-node @check-change="selectHandleNodeClick('companyNature','treeCompanyNature')"></el-tree>
-                </el-option>
-              </el-select>
+              <el-multiple-selection
+                ref="selectCompanyNature"
+                id="selectCompanyNature"
+                placeholder="企业性质"
+                @sure-click="sure('selectCompanyNature')"
+                :default-all-show="false"
+                size="small full"
+                node-key="id"
+                :tree-data="companyNatureList"
+                :search-menu="false"
+                :default-props="default_tree"
+              >
+              </el-multiple-selection>
             </el-col>
             <el-col :span='8'>
               <el-multiple-selection
@@ -98,14 +103,19 @@
               </el-multiple-selection>
             </el-col>
            <el-col :span='7'>
-             <el-select ref="selectIssueCondition" v-model="issueCondition" title="发行人选择的上市条件" placeholder="发行人选择的上市条件" size="small full"
-                        :tselect=true @visible-change="calls()" @sure-click="sure('selectIssueCondition')" @keydown.enter.native="querySearch"
-                        @clear-click="clearLocal('treeIssueCondition')">
-               <el-option :label="issueCondition" :value="issueConditionValue">
-                 <el-tree :data="issueConditionList" default-expanded-keys="[pid0,pid1]" show-checkbox node-key="id" ref="treeIssueCondition"
-                          highlight-current :props="default_tree" check-on-click-node @check-change="selectHandleNodeClick('issueCondition','treeIssueCondition')"></el-tree>
-               </el-option>
-             </el-select>
+             <el-multiple-selection
+               ref="selectIssueCondition"
+               id="selectIssueCondition"
+               placeholder="发行人选择的上市条件"
+               @sure-click="sure('selectIssueCondition')"
+               :default-all-show="false"
+               size="small full"
+               node-key="id"
+               :tree-data="issueConditionList"
+               :search-menu="false"
+               :default-props="default_tree"
+             >
+             </el-multiple-selection>
            </el-col>
            <el-col :span="1">
              <i class="el-icon-info" style="color: #c2c2c2;line-height: 30px;cursor: pointer" title="点击查看上市条件" @click="issueClick"></i>
@@ -161,42 +171,64 @@
           </el-row>
           <el-row :gutter="24">
             <el-col :span='4'>
-              <el-select ref="selectProcess" v-model="caseStatus" title="IPO进程" placeholder="IPO进程" size="small full" :tselect=true
-                         @visible-change="calls()" @sure-click="sure('selectProcess')" @keydown.enter.native="querySearch" @clear-click="clearLocal('treeCaseStatus')">
-                <el-option :label="caseStatus" :value="caseStatusValue">
-                  <el-tree :data="processList" show-checkbox node-key="id" ref="treeCaseStatus" highlight-current :props="default_tree"
-                           check-on-click-node @check-change="selectHandleNodeClick('caseStatus','treeCaseStatus')"></el-tree>
-                </el-option>
-              </el-select>
+              <el-multiple-selection
+                ref="selectProcess"
+                id="selectProcess"
+                placeholder="IPO进程"
+                @sure-click="sure('selectProcess')"
+                :default-all-show="false"
+                size="small full"
+                node-key="id"
+                :tree-data="processList"
+                :search-menu="false"
+                :default-props="default_tree"
+              >
+              </el-multiple-selection>
             </el-col>
             <el-col :span='4'>
-              <el-select ref="selectVerifyResult" v-model="iecResult" title="审核/注册结果" placeholder="审核/注册结果" size="small full"
-                         :tselect=true @visible-change="calls()" @sure-click="sure('selectVerifyResult')" @keydown.enter.native="querySearch"
-                         @clear-click="clearLocal('treeIecResult')">
-                <el-option :label="iecResult" :value="iecResultValue">
-                  <el-tree :data="verifyResultList"  show-checkbox node-key="id" ref="treeIecResult"
-                           highlight-current :props="default_tree" check-on-click-node @check-change="selectHandleNodeClick('iecResult','treeIecResult')"></el-tree>
-                </el-option>
-              </el-select>
+              <el-multiple-selection
+                ref="selectVerifyResult"
+                id="selectVerifyResult"
+                placeholder="审核/注册结果"
+                @sure-click="sure('selectVerifyResult')"
+                :default-all-show="false"
+                size="small full"
+                node-key="id"
+                :tree-data="verifyResultList"
+                :search-menu="false"
+                :default-props="default_tree"
+              >
+              </el-multiple-selection>
             </el-col>
             <el-col :span='4'>
-              <el-select ref="isHiddenRef" v-model="isHidden" title="是否拆分上市" placeholder="是否拆分上市" size="small full"
-                         :tselect=true @visible-change="calls()" @keydown.enter.native="querySearch" @sure-click="sure('isHiddenRef')"
-                         @clear-click="clearLocal('treeisHidden')">
-                <el-option :label="isHidden" :value="isHiddenValue">
-                  <el-tree :data="isHiddenList" show-checkbox node-key="id" ref="treeisHidden" highlight-current
-                           :props="default_tree" check-on-click-node @check-change="selectHandleNodeClick('isHidden','treeisHidden')"></el-tree>
-                </el-option>
-              </el-select>
+              <el-multiple-selection
+                ref="isHiddenRef"
+                id="isHiddenRef"
+                placeholder="是否拆分上市"
+                @sure-click="sure('isHiddenRef')"
+                :default-all-show="false"
+                size="small full"
+                node-key="id"
+                :tree-data="isHiddenList"
+                :search-menu="false"
+                :default-props="default_tree"
+              >
+              </el-multiple-selection>
             </el-col>
             <el-col :span='4'>
-              <el-select ref="selectIpoNum" v-model="ipoNum" title="申报次数" placeholder="申报次数" size="small full" :tselect=true
-                         @visible-change="calls()" @sure-click="sure('selectIpoNum')" @keydown.enter.native="querySearch" @clear-click="clearLocal('treeIpoNum')">
-                <el-option :label="ipoNum" :value="ipoNumValue">
-                  <el-tree :data="ipoNumList" show-checkbox node-key="id" ref="treeIpoNum" highlight-current :props="default_tree"
-                           check-on-click-node @check-change="selectHandleNodeClick('ipoNum','treeIpoNum')"></el-tree>
-                </el-option>
-              </el-select>
+              <el-multiple-selection
+                ref="selectIpoNum"
+                id="selectIpoNum"
+                placeholder="申报次数"
+                @sure-click="sure('selectIpoNum')"
+                :default-all-show="false"
+                size="small full"
+                node-key="id"
+                :tree-data="ipoNumList"
+                :search-menu="false"
+                :default-props="default_tree"
+              >
+              </el-multiple-selection>
             </el-col>
            <el-col :span='8' class="stockIncreasePan-class">
              <el-multiple-selection v-if="issueFeeShow" :range="true" :tree-data="optionIssueFee" placeholder="发行费用" size="small full"
@@ -218,14 +250,19 @@
               </el-multiple-selection>
             </el-col>
             <el-col :span='4'>
-              <el-select ref="selectPlacingMechanism" v-model="placingMechanism" title="配售机制" placeholder="配售机制" size="small full"
-                         :tselect=true @visible-change="calls()" @sure-click="sure('selectPlacingMechanism')" @keydown.enter.native="querySearch"
-                         @clear-click="clearLocal('treePlacingMechanism')">
-                <el-option class="psjz" :label="placingMechanism" :value="placingMechanismValue">
-                  <el-tree :data="ipoMechanismList" default-expand-all show-checkbox node-key="id" ref="treePlacingMechanism"
-                           highlight-current :props="default_tree" check-on-click-node @check-change="selectHandleNodeClick('placingMechanism','treePlacingMechanism')"></el-tree>
-                </el-option>
-              </el-select>
+              <el-multiple-selection
+                ref="selectPlacingMechanism"
+                id="selectPlacingMechanism"
+                placeholder="配售机制"
+                @sure-click="sure('selectPlacingMechanism')"
+                :default-all-show="false"
+                size="small full"
+                node-key="id"
+                :tree-data="ipoMechanismList"
+                :search-menu="false"
+                :default-props="default_tree"
+              >
+              </el-multiple-selection>
             </el-col>
             <el-col :span='8'>
               <el-multiple-selection v-if="durationShow" :range="true" :tree-data="optionAuditDuration" placeholder="审核历时（辅导历时）"
@@ -718,9 +755,6 @@
           id:0,
           name:'全部'
         },
-        isHidden:"",
-        isHiddenValue:"",
-        treeisHidden:"",
         isHiddenList:[{labelName:'是',labelValue:'1',id:'1'},{labelName:'否',labelValue:'0',id:'0'}],
         caseType: "all", // all ipo ipofd  案例类型 三种类型
         intermediaryName: '',
@@ -762,18 +796,6 @@
         industryCsrcValue: '',
         strageticIndustries: '', //战略新兴
         strageticIndustriesValue: '', //战略新兴
-        issueCondition: '',
-        issueConditionValue: '',
-        companyNature: '',
-        companyNatureValue: '',
-        ipoNum: '',
-        ipoNumValue: '',
-        placingMechanism: '', //配售机制
-        placingMechanismValue: '', //配售机制
-        caseStatus: '',
-        caseStatusValue: '',
-        iecResult: '',
-        iecResultValue: '',
         codeOrName: '',
         fdProcessTime:[],
         ypProcessTime: [],
@@ -786,17 +808,11 @@
         strageticIndustriesList: [], //战略新兴
         treeStrageticIndustries: '', //战略新兴
         issueConditionList: [],
-        treeIssueCondition: '',
         companyNatureList: [],
-        treeCompanyNature: '',
         ipoNumList: [],
         ipoMechanismList: [], //配售机制
-        treeIpoNum: '',
-        treePlacingMechanism: '', //配售机制
         verifyResultList: [],
-        treeIecResult: '',
         processList: [],
-        treeCaseStatus: '',
         profitOne: [],
         profitTwo: [],
         profitThree: [],
@@ -1449,13 +1465,13 @@
             title: _self.title, //标题关键字（包含全部以空格断开）
             registerArea : this.$refs.selectRegisterArea.selectSpace.map((item)=>{return item.labelValue}).join(','), // 省市区境外
             strageticIndustries: _self.strageticIndustriesValue, //发行人行业（战略新兴）
-            issueCondition: _self.issueConditionValue, //发行人选择的上市条件
-            companyNature: _self.companyNatureValue, //企业性质
-            ipoNum: _self.ipoNumValue, //申报次数
-            placingMechanism: _self.placingMechanismValue, //配售机制
-            caseStatus: _self.caseStatusValue, //IPO进程
-            iecResult: _self.iecResultValue, //审核结果
-            isHidden:_self.isHiddenValue,
+            issueCondition: this.$refs.selectIssueCondition.selectSpace.map((item)=>{return item.labelValue}).join(','), //发行人选择的上市条件
+            companyNature: this.$refs.selectCompanyNature.selectSpace.map((item)=>{return item.labelValue}).join(','), //企业性质
+            ipoNum: this.$refs.selectIpoNum.selectSpace.map((item)=>{return item.labelValue}).join(','), //申报次数
+            placingMechanism: this.$refs.selectPlacingMechanism.selectSpace.map((item)=>{return item.labelValue}).join(','), //配售机制
+            caseStatus: this.$refs.selectProcess.selectSpace.map((item)=>{return item.labelValue}).join(','), //IPO进程
+            iecResult: this.$refs.selectVerifyResult.selectSpace.map((item)=>{return item.labelValue}).join(','), //审核结果
+            isHidden:this.$refs.isHiddenRef.selectSpace.map((item)=>{return item.labelValue}).join(','),//是否拆分上市
             codeOrName: _self.codeOrName, //公司名称/代码
             fdProcessTime: _self.fdProcessTime, //辅导时间范围
             fsProcessTime: _self.fsProcessTime, //发审会审核时间范围
@@ -1633,22 +1649,15 @@
         // _self.registerArea = '';
         this.$refs.selectRegisterArea.setCheckedKeys([]); //注册地
         this.$refs.selectIndustryCsrc.setCheckedKeys([]);
+        this.$refs.selectCompanyNature.setCheckedKeys([]);//企业性质
         _self.strageticIndustriesValue = ''; //战略新兴
         _self.strageticIndustries = '';
-        _self.issueConditionValue = ''; //发行人选择的上市条件
-        _self.issueCondition = '';
-        _self.companyNatureValue = ''; //企业性质
-        _self.companyNature = '';
-        _self.ipoNum = ''; //ipo次数
-        _self.ipoNumValue = '';
-        _self.placingMechanism = ''; //配售机制
-        _self.placingMechanismValue = '';
-        _self.caseStatus = ''; //IPO进程
-        _self.caseStatusValue = '';
-        _self.iecResult = ''; //审核结果
-        _self.isHiddenValue = '';
-        _self.isHidden = '';
-        _self.iecResultValue = '';
+        this.$refs.selectIssueCondition.setCheckedKeys([]);//发行人选择的上市条件
+        this.$refs.selectIpoNum.setCheckedKeys([]); //ipo次数
+        this.$refs.selectPlacingMechanism.setCheckedKeys([]); //配售机制
+        this.$refs.selectProcess.setCheckedKeys([]);//IPO进程
+        this.$refs.selectVerifyResult.setCheckedKeys([]); //审核结果
+        this.$refs.isHiddenRef.setCheckedKeys([]);//是否拆分上市
         _self.codeOrName = ''; //公司简称/代码
         _self.intermediary = ''; //中介机构
         _self.intermediaryCode = '';
@@ -1663,13 +1672,6 @@
         _self.$refs.greenTreeTagRef.setCheckedKeys([]);
         _self.$refs.specialArrangeTagRef.setCheckedKeys([]);
         _self.$refs.sfcTreeTagRef.setCheckedKeys([]);
-        _self.$refs.treeIssueCondition.setCheckedKeys([]);
-        _self.$refs.treeCompanyNature.setCheckedKeys([]);
-        _self.$refs.treeisHidden.setCheckedKeys([]);
-        _self.$refs.treeIpoNum.setCheckedKeys([]);
-        _self.$refs.treePlacingMechanism.setCheckedKeys([]); //配售机制
-        _self.$refs.treeIecResult.setCheckedKeys([]);
-        _self.$refs.treeCaseStatus.setCheckedKeys([]);
         _self.profitOne = [];
         _self.profitTwo = [];
         _self.profitThree = [];
