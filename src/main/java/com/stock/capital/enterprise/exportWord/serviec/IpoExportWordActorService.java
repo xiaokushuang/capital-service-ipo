@@ -426,11 +426,23 @@ public class IpoExportWordActorService extends BaseService {
 //文本框
         if(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList()!=null){
             int len=((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().size();
-            wordMap.put("审核结果类型","注册结果:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getIecResultStr()));
-            wordMap.put("审核日期","注册日期:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getExamineDateStr()));
+            if (((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate().equals("上交所科创板")){
+                wordMap.put("审核结果类型","注册结果:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getIecResultStr()));
+                wordMap.put("审核日期","注册日期:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getExamineDateStr()));
+            }else {
+                wordMap.put("审核结果类型","审核结果:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getIecResultStr()));
+                wordMap.put("审核日期","审核日期:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getExamineDateStr()));
+
+            }
         }else {
-            wordMap.put("审核结果类型","注册结果:"+"--");
-            wordMap.put("审核日期","注册日期:"+"--");
+            if (((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate().equals("上交所科创板")){
+                wordMap.put("审核结果类型","注册结果:"+"--");
+                wordMap.put("审核日期","注册日期:"+"--");
+            }else {
+                wordMap.put("审核结果类型","审核结果:"+"--");
+                wordMap.put("审核日期","审核日期:"+"--");
+            }
+
         }
 
         wordMap.put("审核历时","审核历时:"+isNull(wordMap.get("#审核历时#"))+"天");
