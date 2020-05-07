@@ -1035,14 +1035,20 @@ public class IpoExportWordActorService extends BaseService {
               }
               String type=wordMap.get("#板块类型#");
               String titleStr="";
-              if ("注册制".equals(type)){
-                  titleStr="上市委会议关注问题";
-              }else {
-                  titleStr="发审委会议关注问题";
-              }
               int sort=0;
               if (baseList!=null && baseList.size()>0){
                   for (int b=0;b<baseList.size();b++){
+                      if(((HeadDataVo)dataMap.get("head")).getIsTechBoard()==0){
+                          titleStr="上市委会议关注问题";
+                      }else if(((HeadDataVo)dataMap.get("head")).getIsTechBoard()==1){
+                          if("35".equals(baseList.get(b).getProcessTypeCode())){
+                              titleStr="上市委会议关注问题";
+                          }else if("38".equals(baseList.get(b).getProcessTypeCode())){
+                              titleStr="注册结果";
+                          }else if("44".equals(baseList.get(b).getProcessTypeCode())){
+                              titleStr="上市委会议关注问题";
+                          }
+                      }
                       XmlCursor cursor1 = paragraph.getCTP().newCursor();
                       cursor1.toNextSibling();
                       XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
@@ -1063,21 +1069,69 @@ public class IpoExportWordActorService extends BaseService {
                       newpa2.setSpacingBetween(1, LineSpacingRule.AUTO);
                       run2.setFontFamily("宋体");
                       run2.setFontSize(11);
-                      if (StringUtils.isNotEmpty(baseList.get(b).getRelationFileTitle())){
-                          run2.setText("    "+"审核会议:" + baseList.get(b).getRelationFileTitle());
-                          run2.addBreak();
-                      }
-                      if (StringUtils.isNotEmpty(baseList.get(b).getExamineDate())){
-                          run2.setText("    "+"审核时间：" + baseList.get(b).getExamineDate());
-                          run2.addBreak();
-                      }
-                      if (StringUtils.isNotEmpty(baseList.get(b).getIecResultStr())){
-                          run2.setText("    "+"审核结果：" + baseList.get(b).getIecResultStr());
-                          run2.addBreak();
-                      }
-                      if (StringUtils.isNotEmpty(baseList.get(b).getMember())){
-                          run2.setText("    "+"发审会委员:" + baseList.get(b).getMember());
-                          run2.addBreak();
+                      if(((HeadDataVo)dataMap.get("head")).getIsTechBoard()==0){
+                          if (StringUtils.isNotEmpty(baseList.get(b).getRelationFileTitle())){
+                              run2.setText("    "+"审核会议:" + baseList.get(b).getRelationFileTitle());
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(baseList.get(b).getExamineDate())){
+                              run2.setText("    "+"审核时间：" + baseList.get(b).getExamineDate());
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(baseList.get(b).getIecResultStr())){
+                              run2.setText("    "+"审核结果：" + baseList.get(b).getIecResultStr());
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(baseList.get(b).getMember())){
+                              run2.setText("    "+"发审会委员:" + baseList.get(b).getMember());
+                              run2.addBreak();
+                          }
+                      }else if(((HeadDataVo)dataMap.get("head")).getIsTechBoard()==1){
+                          if("35".equals(baseList.get(b).getProcessTypeCode())){
+                              if (StringUtils.isNotEmpty(baseList.get(b).getRelationFileTitle())){
+                                  run2.setText("    "+"审核会议:" + baseList.get(b).getRelationFileTitle());
+                                  run2.addBreak();
+                              }
+                              if (StringUtils.isNotEmpty(baseList.get(b).getExamineDate())){
+                                  run2.setText("    "+"审核时间：" + baseList.get(b).getExamineDate());
+                                  run2.addBreak();
+                              }
+                              if (StringUtils.isNotEmpty(baseList.get(b).getIecResultStr())){
+                                  run2.setText("    "+"审核结果：" + baseList.get(b).getIecResultStr());
+                                  run2.addBreak();
+                              }
+                              if (StringUtils.isNotEmpty(baseList.get(b).getMember())){
+                                  run2.setText("    "+"上市委员会委员:" + baseList.get(b).getMember());
+                                  run2.addBreak();
+                              }
+                          }else if ("38".equals(baseList.get(b).getProcessTypeCode())){
+                              if (StringUtils.isNotEmpty(baseList.get(b).getExamineDate())){
+                                  run2.setText("    "+"注册时间：" + baseList.get(b).getExamineDate());
+                                  run2.addBreak();
+                              }
+                              if (StringUtils.isNotEmpty(baseList.get(b).getIecResultStr())){
+                                  run2.setText("    "+"审注册结果：" + baseList.get(b).getIecResultStr());
+                                  run2.addBreak();
+                              }
+                          }else if ("44".equals(baseList.get(b).getProcessTypeCode())){
+                              if (StringUtils.isNotEmpty(baseList.get(b).getRelationFileTitle())){
+                                  run2.setText("    "+"复审会议:" + baseList.get(b).getRelationFileTitle());
+                                  run2.addBreak();
+                              }
+                              if (StringUtils.isNotEmpty(baseList.get(b).getExamineDate())){
+                                  run2.setText("    "+"复审时间：" + baseList.get(b).getExamineDate());
+                                  run2.addBreak();
+                              }
+                              if (StringUtils.isNotEmpty(baseList.get(b).getIecResultStr())){
+                                  run2.setText("    "+"复审结果：" + baseList.get(b).getIecResultStr());
+                                  run2.addBreak();
+                              }
+                              if (StringUtils.isNotEmpty(baseList.get(b).getMember())){
+                                  run2.setText("    "+"上市委员会委员:" + baseList.get(b).getMember());
+                                  run2.addBreak();
+                              }
+
+                          }
                       }
                       paragraph=newpa2;
                   }
