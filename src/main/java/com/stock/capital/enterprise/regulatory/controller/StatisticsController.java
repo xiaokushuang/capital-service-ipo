@@ -702,7 +702,7 @@ public class StatisticsController extends BaseController {
               mv.setView(new DownloadView());
               Map<String, Object> fileInfo = Maps.newHashMap();
               String timeStr = DateUtil.getDateStr(new Date(), "yyyyMMdd");
-              fileInfo.put("fileName", "IPO保荐机构数据明细_"+ timeStr+".xls");
+              fileInfo.put("fileName", "再融资保荐机构数据明细_"+ timeStr+".xls");
               // 从文件服务器下载文件
               fileInfo.put("fileBytes", statisticsService.ipoCommendDetailExport(statisticsParamDto,flag));
               mv.addObject(DownloadView.EXPORT_FILE, fileInfo.get("fileBytes"));
