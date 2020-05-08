@@ -999,8 +999,10 @@ public class IpoExportWordActorService extends BaseService {
                           }
                       });
                       for(int i = 0; i < list.size();i++) {
-                          listCountries.add(Double.valueOf(list.get(i).getLabelCount()));
-                          listLanguages.add(list.get(i).getLabelName());
+                          if (!"全部".equals(list.get(i).getLabelName())){
+                              listCountries.add(Double.valueOf(list.get(i).getLabelCount()));
+                              listLanguages.add(list.get(i).getLabelName());
+                          }
                       }
                       List<List<Double>> yValues = Lists.newArrayList();
                       yValues.add(listCountries);
@@ -1212,8 +1214,10 @@ public class IpoExportWordActorService extends BaseService {
                           }
                       });
                       for(int i = 0; i < list.size();i++) {
-                          listCountries.add(Double.valueOf(list.get(i).getLabelCount()));
-                          listLanguages.add(list.get(i).getLabelName());
+                          if(!"全部".equals(list.get(i).getLabelName())){
+                              listCountries.add(Double.valueOf(list.get(i).getLabelCount()));
+                              listLanguages.add(list.get(i).getLabelName());
+                          }
                       }
                       List<List<Double>> yValues = Lists.newArrayList();
                       yValues.add(listCountries);
