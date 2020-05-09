@@ -47,6 +47,8 @@
                     <!--<result column="title" property="relaName" jdbcType="VARCHAR"/>-->
                     <result column="process_time" property="publishTime" jdbcType="VARCHAR"/>
                     <result column="table_sort" property="tableSort" jdbcType="VARCHAR"/>
+                    <result column="processType" property="processType" jdbcType="VARCHAR"/>
+                    <result column="url" property="url" jdbcType="VARCHAR"/>
                     <result column="status" property="status" jdbcType="VARCHAR"/>
                     <result column="suffix" property="suffix" jdbcType="VARCHAR"/>
                     <result column="iec_result" property="iecResult" jdbcType="VARCHAR"/>
@@ -123,6 +125,8 @@
         t1.id,
         t1.relation_file_id,
         t3.title,
+        t3.process_type processType,
+        t3.url,
         date_format(t1.process_time,'%Y-%m-%d') process_time,
         t1.table_sort,
         t1.`status`,

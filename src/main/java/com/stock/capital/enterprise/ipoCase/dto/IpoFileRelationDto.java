@@ -29,6 +29,25 @@ public class IpoFileRelationDto implements Serializable {
     @ApiModelProperty("中止原因/终止原因")
     private String iecReason;
 
+    private String processType;
+    private String url;
+
+    public String getProcessType() {
+        return processType;
+    }
+
+    public void setProcessType(String processType) {
+        this.processType = processType;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {

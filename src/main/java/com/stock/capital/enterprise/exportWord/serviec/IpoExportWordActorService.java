@@ -274,55 +274,16 @@ public class IpoExportWordActorService extends BaseService {
           wordMap.put("#资产与负债情况单位#","单位：万元");
       }
       Map<String, List<IntermediaryOrgDto>> intermediaryOrgList = (Map<String, List<IntermediaryOrgDto>>)dataMap.get("intermediaryOrgList");
-      List<IntermediaryOrgDto> bjorg = new ArrayList<>();
-      List<IntermediaryOrgDto> laworg = new ArrayList<>();
-      List<IntermediaryOrgDto> finorg = new ArrayList<>();
-      List<IntermediaryOrgDto> fzcorg = new ArrayList<>();
-      List<IntermediaryOrgDto> yzorg = new ArrayList<>();
-      List<IntermediaryOrgDto> yzfhorg = new ArrayList<>();
-      List<IntermediaryOrgDto> zcpgorg = new ArrayList<>();
-      if (intermediaryOrgList != null){
-          if (intermediaryOrgList.get("mainList") != null){
-              List<IntermediaryOrgDto> mainList = intermediaryOrgList.get("mainList");
-              for (int i=0;i<mainList.size();i++){
-                  if (mainList.get(i).getIntermediaryType().equals("1")){
-                      bjorg.add(mainList.get(i));
-                  }else if (mainList.get(i).getIntermediaryType().equals("3") && mainList.get(i).getOrgType().equals("01")){
-                      laworg.add(mainList.get(i));
-                  }else if (mainList.get(i).getIntermediaryType().equals("4") && mainList.get(i).getOrgType().equals("01")){
-                      finorg.add(mainList.get(i));
-                  }else if (mainList.get(i).getIntermediaryType().equals("2") && mainList.get(i).getOrgType().equals("03")){
-                      fzcorg.add(mainList.get(i));
-                  }else if (mainList.get(i).getIntermediaryType().equals("4") && mainList.get(i).getOrgType().equals("02")){
-                      yzorg.add(mainList.get(i));
-                  }else if (mainList.get(i).getIntermediaryType().equals("4") && mainList.get(i).getOrgType().equals("03")){
-                      yzfhorg.add(mainList.get(i));
-                  }else if (mainList.get(i).getIntermediaryType().equals("5") && mainList.get(i).getOrgType().equals("01")){
-                      zcpgorg.add(mainList.get(i));
-                  }
-              }
-          }
-          if (intermediaryOrgList.get("moreList") != null){
-              List<IntermediaryOrgDto> moreList = intermediaryOrgList.get("moreList");
-              for (int i=0;i<moreList.size();i++){
-                  if (moreList.get(i).getIntermediaryType().equals("1")){
-                      bjorg.add(moreList.get(i));
-                  }else if (moreList.get(i).getIntermediaryType().equals("3") && moreList.get(i).getOrgType().equals("01")){
-                      laworg.add(moreList.get(i));
-                  }else if (moreList.get(i).getIntermediaryType().equals("4") && moreList.get(i).getOrgType().equals("01")){
-                      finorg.add(moreList.get(i));
-                  }else if (moreList.get(i).getIntermediaryType().equals("2") && moreList.get(i).getOrgType().equals("03")){
-                      fzcorg.add(moreList.get(i));
-                  }else if (moreList.get(i).getIntermediaryType().equals("4") && moreList.get(i).getOrgType().equals("02")){
-                      yzorg.add(moreList.get(i));
-                  }else if (moreList.get(i).getIntermediaryType().equals("4") && moreList.get(i).getOrgType().equals("03")){
-                      yzfhorg.add(moreList.get(i));
-                  }else if (moreList.get(i).getIntermediaryType().equals("5") && moreList.get(i).getOrgType().equals("01")){
-                      zcpgorg.add(moreList.get(i));
-                  }
-              }
-          }
-      }
+        List<IntermediaryOrgDto> mainList=new ArrayList<>();
+        List<IntermediaryOrgDto> moreList=new ArrayList<>();
+        if (intermediaryOrgList != null){
+            if (intermediaryOrgList.get("mainList") != null){
+                mainList = intermediaryOrgList.get("mainList");
+            }
+            if (intermediaryOrgList.get("moreList") != null){
+                moreList = intermediaryOrgList.get("moreList");
+            }
+        }
       TreeTypeProgressDto treeTypeProgress = (TreeTypeProgressDto)dataMap.get("treeTypeProgress");
         List<Map<String,Object>> listTreeTypeProgress=new ArrayList<>();
       if (treeTypeProgress != null && treeTypeProgress.getTreeList() != null){
@@ -465,11 +426,23 @@ public class IpoExportWordActorService extends BaseService {
 //文本框
         if(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList()!=null){
             int len=((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().size();
-            wordMap.put("审核结果类型","注册结果:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getIecResultStr()));
-            wordMap.put("审核日期","注册日期:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getExamineDateStr()));
+            if (((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate().equals("上交所科创板")){
+                wordMap.put("审核结果类型","注册结果:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getIecResultStr()));
+                wordMap.put("审核日期","注册日期:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getExamineDateStr()));
+            }else {
+                wordMap.put("审核结果类型","审核结果:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getIecResultStr()));
+                wordMap.put("审核日期","审核日期:"+isNull(((IpoFeedbackDto)dataMap.get("ipoFeedbackDto")).getBaseList().get(len-1).getExamineDateStr()));
+
+            }
         }else {
-            wordMap.put("审核结果类型","注册结果:"+"--");
-            wordMap.put("审核日期","注册日期:"+"--");
+            if (((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate().equals("上交所科创板")){
+                wordMap.put("审核结果类型","注册结果:"+"--");
+                wordMap.put("审核日期","注册日期:"+"--");
+            }else {
+                wordMap.put("审核结果类型","审核结果:"+"--");
+                wordMap.put("审核日期","审核日期:"+"--");
+            }
+
         }
 
         wordMap.put("审核历时","审核历时:"+isNull(wordMap.get("#审核历时#"))+"天");
@@ -653,250 +626,191 @@ public class IpoExportWordActorService extends BaseService {
           }else if ("#中介机构#".equals(paragraph.getText())){
               test.clearParagraph(paragraph);
               int sort=0;
-              if (bjorg!=null && bjorg.size()>0){
-                  XmlCursor cursor1 = paragraph.getCTP().newCursor();
-                  cursor1.toNextSibling();
-                  XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
-                  sort++;
-                  XWPFRun run1 = newpa1.createRun();
-                  run1.setText(sort+"、"+"保荐结构");
-                  run1.setFontSize(16);
-                  run1.setColor("333399");
-                  run1.setBold(true);
-                  newpa1.setStyle("3");
-                  newpa1.setSpacingAfter(0);
-                  newpa1.setSpacingBefore(12);
-                  run1.setFontFamily("微软雅黑");
-                  XmlCursor cursor2 = newpa1.getCTP().newCursor();
-                  cursor2.toNextSibling();
-                  XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
-                  for (int b=0;b<bjorg.size();b++){
+              if (mainList!=null && mainList.size()>0){
+                  for (int p=0;p<mainList.size();p++){
+                      XmlCursor cursor1 = paragraph.getCTP().newCursor();
+                      cursor1.toNextSibling();
+                      XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
+                      sort++;
+                      XWPFRun run1 = newpa1.createRun();
+                      run1.setText(sort+"、"+mainList.get(p).getIntermediaryTypeName());
+                      run1.setFontSize(16);
+                      run1.setColor("333399");
+                      run1.setBold(true);
+                      newpa1.setStyle("3");
+                      newpa1.setSpacingAfter(0);
+                      newpa1.setSpacingBefore(12);
+                      run1.setFontFamily("微软雅黑");
+                      XmlCursor cursor2 = newpa1.getCTP().newCursor();
+                      cursor2.toNextSibling();
+                      XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
                       XWPFRun run2 = newpa2.createRun();
                       newpa2.setSpacingBetween(1, LineSpacingRule.AUTO);
                       run2.setFontFamily("宋体");
                       run2.setBold(false);
                       run2.setFontSize(11);
-                      if (StringUtils.isNotEmpty( bjorg.get(b).getOrgName())){
-                          run2.setText("    "+"机构名称:" + bjorg.get(b).getOrgName());
+                      if (mainList.get(p).getIntermediaryType().equals("1")){
+                          if (StringUtils.isNotEmpty(mainList.get(p).getOrgName()))
+                              run2.setText("    "+"机构名称:" + mainList.get(p).getOrgName());
                           run2.addBreak();
+                          if (StringUtils.isNotEmpty(mainList.get(p).getRepresentPerson())){
+                              run2.setText("    "+"保荐代表人:" + mainList.get(p).getRepresentPerson());
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(mainList.get(p).getAssistPerson() )){
+                              run2.setText("    "+"项目协办人:" +mainList.get(p).getAssistPerson() );
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(mainList.get(p).getAgentPerson())){
+                              run2.setText("    "+"项目经办人:" +mainList.get(p).getAgentPerson()  );
+                              run2.addBreak();
+                          }
                       }
-                      if (StringUtils.isNotEmpty(bjorg.get(b).getRepresentPerson())){
-                          run2.setText("    "+"保荐代表人:" + bjorg.get(b).getRepresentPerson());
-                          run2.addBreak();
+                      if (mainList.get(p).getIntermediaryType().equals("3")){
+                          if (StringUtils.isNotEmpty(mainList.get(p).getOrgName())){
+                              run2.setText("    "+"机构名称:" + mainList.get(p).getOrgName() );
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(mainList.get(p).getAgentPerson())){
+                              run2.setText("    "+"经办律师:" + mainList.get(p).getAgentPerson());
+                              run2.addBreak();
+                          }
                       }
-                      if (StringUtils.isNotEmpty(bjorg.get(b).getAssistPerson() )){
-                          run2.setText("    "+"项目协办人:" +bjorg.get(b).getAssistPerson() );
-                          run2.addBreak();
+                      if (mainList.get(p).getIntermediaryType().equals("4")){
+                          if (StringUtils.isNotEmpty(mainList.get(p).getOrgName())){
+                              run2.setText("    "+"机构名称:" + mainList.get(p).getOrgName() );
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(mainList.get(p).getAgentPerson())){
+                              run2.setText("    "+"注册会计师:" + mainList.get(p).getAgentPerson());
+                              run2.addBreak();
+                          }
                       }
-                      if (StringUtils.isNotEmpty(bjorg.get(b).getAgentPerson())){
-                          run2.setText("    "+"项目经办人:" +bjorg.get(b).getAgentPerson()  );
-                          run2.addBreak();
+                      if (mainList.get(p).getIntermediaryType().equals("2")){
+                          if (StringUtils.isNotEmpty(mainList.get(p).getOrgName())){
+                              run2.setText("    "+"机构名称:" + mainList.get(p).getOrgName() );
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(mainList.get(p).getAgentPerson())){
+                              run2.setText("    "+"项目经办人:" + mainList.get(p).getAgentPerson());
+                              run2.addBreak();
+                          }
                       }
+                      if (mainList.get(p).getIntermediaryType().equals("5")){
+                          if (StringUtils.isNotEmpty( mainList.get(p).getOrgName())){
+                              run2.setText("    "+"机构名称:" +  mainList.get(p).getOrgName() );
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(mainList.get(p).getAgentPerson())){
+                              run2.setText("    "+"注册资产评估师:" + mainList.get(p).getAgentPerson());
+                              run2.addBreak();
+                          }
+                      }
+                      if (mainList.get(p).getIntermediaryType().equals("6")){
+                          if (StringUtils.isNotEmpty(mainList.get(p).getOrgName())){
+                              run2.setText("    "+"机构名称:" +  mainList.get(p).getOrgName());
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(mainList.get(p).getAgentPerson() )){
+                              run2.setText("    "+"经办人:" + mainList.get(p).getAgentPerson() );
+                              run2.addBreak();
+                          }
+                      }
+                      paragraph=newpa2;
                   }
-                  paragraph=newpa2;
               }
-              if (laworg!=null && laworg.size()>0){
-                  XmlCursor cursor1 = paragraph.getCTP().newCursor();
-                  cursor1.toNextSibling();
-                  XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
-                  sort++;
-                  XWPFRun run1 = newpa1.createRun();
-                  run1.setText(sort+"、"+"律师事务所");
-                  run1.setFontSize(16);
-                  run1.setColor("333399");
-                  run1.setBold(true);
-                  newpa1.setStyle("3");
-                  newpa1.setSpacingAfter(0);
-                  newpa1.setSpacingBefore(12);
-                  run1.setFontFamily("微软雅黑");
-                  XmlCursor cursor2 = newpa1.getCTP().newCursor();
-                  cursor2.toNextSibling();
-                  XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
-                  for (int b=0;b<laworg.size();b++){
+              if (moreList!=null && moreList.size()>0){
+                  for (int p=0;p<moreList.size();p++){
+                      XmlCursor cursor1 = paragraph.getCTP().newCursor();
+                      cursor1.toNextSibling();
+                      XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
+                      sort++;
+                      XWPFRun run1 = newpa1.createRun();
+                      run1.setText(sort+"、"+moreList.get(p).getIntermediaryTypeName());
+                      run1.setFontSize(16);
+                      run1.setColor("333399");
+                      run1.setBold(true);
+                      newpa1.setStyle("3");
+                      newpa1.setSpacingAfter(0);
+                      newpa1.setSpacingBefore(12);
+                      run1.setFontFamily("微软雅黑");
+                      XmlCursor cursor2 = newpa1.getCTP().newCursor();
+                      cursor2.toNextSibling();
+                      XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
                       XWPFRun run2 = newpa2.createRun();
                       newpa2.setSpacingBetween(1, LineSpacingRule.AUTO);
                       run2.setFontFamily("宋体");
-                      run2.setFontSize(11);
                       run2.setBold(false);
-                      if (StringUtils.isNotEmpty(laworg.get(b).getOrgName())){
-                          run2.setText("    "+"机构名称:" + laworg.get(b).getOrgName() );
-                          run2.addBreak();
-                      }
-                      if (StringUtils.isNotEmpty(laworg.get(b).getAgentPerson())){
-                          run2.setText("    "+"经办律师:" + laworg.get(b).getAgentPerson());
-                          run2.addBreak();
-                      }
-                  }
-                  paragraph=newpa2;
-              }
-              if (finorg!=null && finorg.size()>0){
-                  XmlCursor cursor1 = paragraph.getCTP().newCursor();
-                  cursor1.toNextSibling();
-                  XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
-                  sort++;
-                  XWPFRun run1 = newpa1.createRun();
-                  run1.setText(sort+"、"+"会计师事务所");
-                  run1.setFontSize(16);
-                  run1.setColor("333399");
-                  run1.setBold(true);
-                  newpa1.setStyle("3");
-                  newpa1.setSpacingAfter(0);
-                  newpa1.setSpacingBefore(12);
-                  run1.setFontFamily("微软雅黑");
-                  XmlCursor cursor2 = newpa1.getCTP().newCursor();
-                  cursor2.toNextSibling();
-                  XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
-                  for (int b=0;b<finorg.size();b++){
-                      XWPFRun run2 = newpa2.createRun();
-                      newpa2.setSpacingBetween(1, LineSpacingRule.AUTO);
-                      run2.setFontFamily("宋体");
                       run2.setFontSize(11);
-                      run2.setBold(false);
-                      if (StringUtils.isNotEmpty(finorg.get(b).getOrgName())){
-                          run2.setText("    "+"机构名称:" + finorg.get(b).getOrgName() );
+                      if (moreList.get(p).getIntermediaryType().equals("1")){
+                          if (StringUtils.isNotEmpty(moreList.get(p).getOrgName()))
+                              run2.setText("    "+"机构名称:" + moreList.get(p).getOrgName());
                           run2.addBreak();
+                          if (StringUtils.isNotEmpty(moreList.get(p).getRepresentPerson())){
+                              run2.setText("    "+"保荐代表人:" + moreList.get(p).getRepresentPerson());
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(moreList.get(p).getAssistPerson() )){
+                              run2.setText("    "+"项目协办人:" +moreList.get(p).getAssistPerson() );
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(moreList.get(p).getAgentPerson())){
+                              run2.setText("    "+"项目经办人:" +moreList.get(p).getAgentPerson()  );
+                              run2.addBreak();
+                          }
                       }
-                      if (StringUtils.isNotEmpty(finorg.get(b).getAgentPerson())){
-                          run2.setText("    "+"注册会计师:" + finorg.get(b).getAgentPerson());
-                          run2.addBreak();
+                      if (moreList.get(p).getIntermediaryType().equals("3")){
+                          if (StringUtils.isNotEmpty(moreList.get(p).getOrgName())){
+                              run2.setText("    "+"机构名称:" + moreList.get(p).getOrgName() );
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(moreList.get(p).getAgentPerson())){
+                              run2.setText("    "+"经办律师:" + moreList.get(p).getAgentPerson());
+                              run2.addBreak();
+                          }
                       }
+                      if (moreList.get(p).getIntermediaryType().equals("4")){
+                          if (StringUtils.isNotEmpty(moreList.get(p).getOrgName())){
+                              run2.setText("    "+"机构名称:" + moreList.get(p).getOrgName() );
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(moreList.get(p).getAgentPerson())){
+                              run2.setText("    "+"注册会计师:" + moreList.get(p).getAgentPerson());
+                              run2.addBreak();
+                          }
+                      }
+                      if (moreList.get(p).getIntermediaryType().equals("2")){
+                          if (StringUtils.isNotEmpty(moreList.get(p).getOrgName())){
+                              run2.setText("    "+"机构名称:" + moreList.get(p).getOrgName() );
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(moreList.get(p).getAgentPerson())){
+                              run2.setText("    "+"项目经办人:" + moreList.get(p).getAgentPerson());
+                              run2.addBreak();
+                          }
+                      }
+                      if (moreList.get(p).getIntermediaryType().equals("5")){
+                          if (StringUtils.isNotEmpty( moreList.get(p).getOrgName())){
+                              run2.setText("    "+"机构名称:" +  moreList.get(p).getOrgName() );
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(moreList.get(p).getAgentPerson())){
+                              run2.setText("    "+"注册资产评估师:" + moreList.get(p).getAgentPerson());
+                              run2.addBreak();
+                          }
+                      }
+                      if (moreList.get(p).getIntermediaryType().equals("6")){
+                          if (StringUtils.isNotEmpty(moreList.get(p).getOrgName())){
+                              run2.setText("    "+"机构名称:" +  moreList.get(p).getOrgName());
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(moreList.get(p).getAgentPerson() )){
+                              run2.setText("    "+"经办人:" + moreList.get(p).getAgentPerson() );
+                              run2.addBreak();
+                          }
+                      }
+                      paragraph=newpa2;
                   }
-                  paragraph=newpa2;
-              }
-              if (fzcorg!=null && fzcorg.size()>0){
-                  XmlCursor cursor1 = paragraph.getCTP().newCursor();
-                  cursor1.toNextSibling();
-                  XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
-                  sort++;
-                  XWPFRun run1 = newpa1.createRun();
-                  run1.setText(sort+"、"+"副主承销商");
-                  run1.setFontSize(16);
-                  run1.setColor("333399");
-                  run1.setBold(true);
-                  newpa1.setStyle("3");
-                  newpa1.setSpacingAfter(0);
-                  newpa1.setSpacingBefore(12);
-                  run1.setFontFamily("微软雅黑");
-                  XmlCursor cursor2 = newpa1.getCTP().newCursor();
-                  cursor2.toNextSibling();
-                  XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
-                  for (int b=0;b<fzcorg.size();b++){
-                      XWPFRun run2 = newpa2.createRun();
-                      newpa2.setSpacingBetween(1, LineSpacingRule.AUTO);
-                      run2.setFontFamily("宋体");
-                      run2.setFontSize(11);
-                      run2.setBold(false);
-                      if (StringUtils.isNotEmpty(fzcorg.get(b).getOrgName())){
-                          run2.setText("    "+"机构名称:" + fzcorg.get(b).getOrgName() );
-                          run2.addBreak();
-                      }
-                      if (StringUtils.isNotEmpty(fzcorg.get(b).getAgentPerson())){
-                          run2.setText("    "+"项目经办人:" + fzcorg.get(b).getAgentPerson());
-                          run2.addBreak();
-                      }
-                  }
-                  paragraph=newpa2;
-              }
-              if (yzorg!=null && yzorg.size()>0){
-                  XmlCursor cursor1 = paragraph.getCTP().newCursor();
-                  cursor1.toNextSibling();
-                  XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
-                  sort++;
-                  XWPFRun run1 = newpa1.createRun();
-                  run1.setText(sort+"、"+"验资机构");
-                  run1.setFontSize(16);
-                  run1.setColor("333399");
-                  run1.setBold(true);
-                  newpa1.setStyle("3");
-                  newpa1.setSpacingAfter(0);
-                  newpa1.setSpacingBefore(12);
-                  run1.setFontFamily("微软雅黑");
-                  XmlCursor cursor2 = newpa1.getCTP().newCursor();
-                  cursor2.toNextSibling();
-                  XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
-                  for (int b=0;b<yzorg.size();b++){
-                      XWPFRun run2 = newpa2.createRun();
-                      newpa2.setSpacingBetween(1, LineSpacingRule.AUTO);
-                      run2.setFontFamily("宋体");
-                      run2.setFontSize(11);
-                      run2.setBold(false);
-                      if (StringUtils.isNotEmpty( yzorg.get(b).getOrgName())){
-                          run2.setText("    "+"机构名称:" +  yzorg.get(b).getOrgName() );
-                          run2.addBreak();
-                      }
-                      if (StringUtils.isNotEmpty(yzorg.get(b).getAgentPerson())){
-                          run2.setText("    "+"项目经办人:" + yzorg.get(b).getAgentPerson());
-                          run2.addBreak();
-                      }
-                  }
-                  paragraph=newpa2;
-              }
-              if (yzfhorg!=null && yzfhorg.size()>0){
-                  XmlCursor cursor1 = paragraph.getCTP().newCursor();
-                  cursor1.toNextSibling();
-                  XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
-                  sort++;
-                  XWPFRun run1 = newpa1.createRun();
-                  run1.setText(sort+"、"+"验资复核机构");
-                  run1.setFontSize(16);
-                  run1.setColor("333399");
-                  run1.setBold(true);
-                  newpa1.setStyle("3");
-                  newpa1.setSpacingAfter(0);
-                  newpa1.setSpacingBefore(12);
-                  run1.setFontFamily("微软雅黑");
-                  XmlCursor cursor2 = newpa1.getCTP().newCursor();
-                  cursor2.toNextSibling();
-                  XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
-                  for (int b=0;b<yzfhorg.size();b++){
-                      XWPFRun run2 = newpa2.createRun();
-                      newpa2.setSpacingBetween(1, LineSpacingRule.AUTO);
-                      run2.setFontFamily("宋体");
-                      run2.setFontSize(11);
-                      run2.setBold(false);
-                      if (StringUtils.isNotEmpty(yzfhorg.get(b).getOrgName())){
-                          run2.setText("    "+"机构名称:" +  yzfhorg.get(b).getOrgName());
-                          run2.addBreak();
-                      }
-                      if (StringUtils.isNotEmpty(yzfhorg.get(b).getAgentPerson() )){
-                          run2.setText("    "+"注册会计师:" + yzfhorg.get(b).getAgentPerson() );
-                          run2.addBreak();
-                      }
-                  }
-                  paragraph=newpa2;
-              }
-              if (zcpgorg!=null && zcpgorg.size()>0){
-                  XmlCursor cursor1 = paragraph.getCTP().newCursor();
-                  cursor1.toNextSibling();
-                  XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
-                  sort++;
-                  XWPFRun run1 = newpa1.createRun();
-                  run1.setText(sort+"、"+"资产评估机构");
-                  run1.setFontSize(16);
-                  run1.setColor("333399");
-                  run1.setBold(true);
-                  newpa1.setStyle("3");
-                  newpa1.setSpacingAfter(0);
-                  newpa1.setSpacingBefore(12);
-                  run1.setFontFamily("微软雅黑");
-                  XmlCursor cursor2 = newpa1.getCTP().newCursor();
-                  cursor2.toNextSibling();
-                  XWPFParagraph newpa2 = xdoc.insertNewParagraph(cursor2);
-                  for (int b=0;b<zcpgorg.size();b++){
-                      XWPFRun run2 = newpa2.createRun();
-                      newpa2.setSpacingBetween(1, LineSpacingRule.AUTO);
-                      run2.setFontFamily("宋体");
-                      run2.setFontSize(11);
-                      if (StringUtils.isNotEmpty(zcpgorg.get(b).getOrgName())){
-                          run2.setText("    "+"机构名称:" +  zcpgorg.get(b).getOrgName());
-                          run2.addBreak();
-                      }
-                      if (StringUtils.isNotEmpty(zcpgorg.get(b).getAgentPerson())){
-                          run2.setText("    "+"注册资产评估师:" + zcpgorg.get(b).getAgentPerson());
-                          run2.addBreak();
-                      }
-                  }
-                  paragraph=newpa2;
               }
               itPara = xdoc.getParagraphsIterator();
               continue;
@@ -1085,8 +999,10 @@ public class IpoExportWordActorService extends BaseService {
                           }
                       });
                       for(int i = 0; i < list.size();i++) {
-                          listCountries.add(Double.valueOf(list.get(i).getLabelCount()));
-                          listLanguages.add(list.get(i).getLabelName());
+                          if (!"全部".equals(list.get(i).getLabelName())){
+                              listCountries.add(Double.valueOf(list.get(i).getLabelCount()));
+                              listLanguages.add(list.get(i).getLabelName());
+                          }
                       }
                       List<List<Double>> yValues = Lists.newArrayList();
                       yValues.add(listCountries);
@@ -1121,14 +1037,20 @@ public class IpoExportWordActorService extends BaseService {
               }
               String type=wordMap.get("#板块类型#");
               String titleStr="";
-              if ("注册制".equals(type)){
-                  titleStr="上市委会议关注问题";
-              }else {
-                  titleStr="发审委会议关注问题";
-              }
               int sort=0;
               if (baseList!=null && baseList.size()>0){
                   for (int b=0;b<baseList.size();b++){
+                      if(((HeadDataVo)dataMap.get("head")).getIsTechBoard()==0){
+                          titleStr="上市委会议关注问题";
+                      }else if(((HeadDataVo)dataMap.get("head")).getIsTechBoard()==1){
+                          if("35".equals(baseList.get(b).getProcessTypeCode())){
+                              titleStr="上市委会议关注问题";
+                          }else if("38".equals(baseList.get(b).getProcessTypeCode())){
+                              titleStr="注册结果";
+                          }else if("44".equals(baseList.get(b).getProcessTypeCode())){
+                              titleStr="上市委会议关注问题";
+                          }
+                      }
                       XmlCursor cursor1 = paragraph.getCTP().newCursor();
                       cursor1.toNextSibling();
                       XWPFParagraph newpa1 = xdoc.insertNewParagraph(cursor1);
@@ -1149,21 +1071,69 @@ public class IpoExportWordActorService extends BaseService {
                       newpa2.setSpacingBetween(1, LineSpacingRule.AUTO);
                       run2.setFontFamily("宋体");
                       run2.setFontSize(11);
-                      if (StringUtils.isNotEmpty(baseList.get(b).getRelationFileTitle())){
-                          run2.setText("    "+"审核会议:" + baseList.get(b).getRelationFileTitle());
-                          run2.addBreak();
-                      }
-                      if (StringUtils.isNotEmpty(baseList.get(b).getExamineDate())){
-                          run2.setText("    "+"审核时间：" + baseList.get(b).getExamineDate());
-                          run2.addBreak();
-                      }
-                      if (StringUtils.isNotEmpty(baseList.get(b).getIecResultStr())){
-                          run2.setText("    "+"审核结果：" + baseList.get(b).getIecResultStr());
-                          run2.addBreak();
-                      }
-                      if (StringUtils.isNotEmpty(baseList.get(b).getMember())){
-                          run2.setText("    "+"发审会委员:" + baseList.get(b).getMember());
-                          run2.addBreak();
+                      if(((HeadDataVo)dataMap.get("head")).getIsTechBoard()==0){
+                          if (StringUtils.isNotEmpty(baseList.get(b).getRelationFileTitle())){
+                              run2.setText("    "+"审核会议:" + baseList.get(b).getRelationFileTitle());
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(baseList.get(b).getExamineDate())){
+                              run2.setText("    "+"审核时间：" + baseList.get(b).getExamineDate());
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(baseList.get(b).getIecResultStr())){
+                              run2.setText("    "+"审核结果：" + baseList.get(b).getIecResultStr());
+                              run2.addBreak();
+                          }
+                          if (StringUtils.isNotEmpty(baseList.get(b).getMember())){
+                              run2.setText("    "+"发审会委员:" + baseList.get(b).getMember());
+                              run2.addBreak();
+                          }
+                      }else if(((HeadDataVo)dataMap.get("head")).getIsTechBoard()==1){
+                          if("35".equals(baseList.get(b).getProcessTypeCode())){
+                              if (StringUtils.isNotEmpty(baseList.get(b).getRelationFileTitle())){
+                                  run2.setText("    "+"审核会议:" + baseList.get(b).getRelationFileTitle());
+                                  run2.addBreak();
+                              }
+                              if (StringUtils.isNotEmpty(baseList.get(b).getExamineDate())){
+                                  run2.setText("    "+"审核时间：" + baseList.get(b).getExamineDate());
+                                  run2.addBreak();
+                              }
+                              if (StringUtils.isNotEmpty(baseList.get(b).getIecResultStr())){
+                                  run2.setText("    "+"审核结果：" + baseList.get(b).getIecResultStr());
+                                  run2.addBreak();
+                              }
+                              if (StringUtils.isNotEmpty(baseList.get(b).getMember())){
+                                  run2.setText("    "+"上市委员会委员:" + baseList.get(b).getMember());
+                                  run2.addBreak();
+                              }
+                          }else if ("38".equals(baseList.get(b).getProcessTypeCode())){
+                              if (StringUtils.isNotEmpty(baseList.get(b).getExamineDate())){
+                                  run2.setText("    "+"注册时间：" + baseList.get(b).getExamineDate());
+                                  run2.addBreak();
+                              }
+                              if (StringUtils.isNotEmpty(baseList.get(b).getIecResultStr())){
+                                  run2.setText("    "+"审注册结果：" + baseList.get(b).getIecResultStr());
+                                  run2.addBreak();
+                              }
+                          }else if ("44".equals(baseList.get(b).getProcessTypeCode())){
+                              if (StringUtils.isNotEmpty(baseList.get(b).getRelationFileTitle())){
+                                  run2.setText("    "+"复审会议:" + baseList.get(b).getRelationFileTitle());
+                                  run2.addBreak();
+                              }
+                              if (StringUtils.isNotEmpty(baseList.get(b).getExamineDate())){
+                                  run2.setText("    "+"复审时间：" + baseList.get(b).getExamineDate());
+                                  run2.addBreak();
+                              }
+                              if (StringUtils.isNotEmpty(baseList.get(b).getIecResultStr())){
+                                  run2.setText("    "+"复审结果：" + baseList.get(b).getIecResultStr());
+                                  run2.addBreak();
+                              }
+                              if (StringUtils.isNotEmpty(baseList.get(b).getMember())){
+                                  run2.setText("    "+"上市委员会委员:" + baseList.get(b).getMember());
+                                  run2.addBreak();
+                              }
+
+                          }
                       }
                       paragraph=newpa2;
                   }
@@ -1244,8 +1214,10 @@ public class IpoExportWordActorService extends BaseService {
                           }
                       });
                       for(int i = 0; i < list.size();i++) {
-                          listCountries.add(Double.valueOf(list.get(i).getLabelCount()));
-                          listLanguages.add(list.get(i).getLabelName());
+                          if(!"全部".equals(list.get(i).getLabelName())){
+                              listCountries.add(Double.valueOf(list.get(i).getLabelCount()));
+                              listLanguages.add(list.get(i).getLabelName());
+                          }
                       }
                       List<List<Double>> yValues = Lists.newArrayList();
                       yValues.add(listCountries);
@@ -1454,7 +1426,7 @@ public class IpoExportWordActorService extends BaseService {
                               }
                           }
                           //合并行
-                          fillTable(table,2500);
+                          fillTable(table,2000,"1");
                           mergeCellsHorizontal(table,0,0,1);
                           int mergeOrder1=2;
                           int mergeOrder2=3;
@@ -1488,79 +1460,6 @@ public class IpoExportWordActorService extends BaseService {
                           newParaRun.setBold(false);
                           newParaRun.setText("彻底删除");
                       }
-
-
-
-
-//
-//
-//                      //表格
-//                      SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
-//                      XmlCursor cursor3=newpa2.getCTP().newCursor();
-//                      cursor3.toNextSibling();
-//                      XWPFParagraph newpa3 = xdoc.insertNewParagraph(cursor3);
-//                      itPara = xdoc.getParagraphsIterator();
-//                      XWPFTable table =xdoc.insertNewTbl(newpa3.getCTP().newCursor());
-//                      XWPFTableRow row_0 = table.getRow(0);
-//                      row_0.getCell(0).setText("");
-//                      row_0.addNewTableCell().setText("");
-//                      row_0.addNewTableCell().setText("");
-//                      setTitleBold(2,row_0,df1.format(supplierMainList.get(z).getReportPeriod()),8,true);
-//                      row_0.addNewTableCell().setText("");
-//                      row_0.addNewTableCell();
-//                      setTitleBold(4,row_0,supplierMainList.get(z).getThirdYearForSupplier(),8,true);
-//                      row_0.addNewTableCell().setText("");
-//                      row_0.addNewTableCell();
-//                      setTitleBold(6,row_0,supplierMainList.get(z).getSecondYearForSupplier(),8,true);
-//                      row_0.addNewTableCell().setText("");
-//                      row_0.addNewTableCell();
-//                      setTitleBold(8,row_0,supplierMainList.get(z).getFirstYearForSupplier(),8,true);
-//                      row_0.addNewTableCell().setText("");
-//                      for (int p=0;p<10;p++){
-//                          row_0.getCell(p).setColor("E7F3FF");
-//                      }
-//                      XWPFTableRow row_1 = table.createRow();
-//                      setTitleBold(0,row_1,"序号",8,true);
-//                      setTitleBold(1,row_1,"公司",8,true);
-//                      setTitleBold(2,row_1,"金额",8,true);
-//                      setTitleBold(3,row_1,"占比",8,true);
-//                      setTitleBold(4,row_1,"金额",8,true);
-//                      setTitleBold(5,row_1,"占比",8,true);
-//                      setTitleBold(6,row_1,"金额",8,true);
-//                      setTitleBold(7,row_1,"占比",8,true);
-//                      setTitleBold(8,row_1,"金额",8,true);
-//                      setTitleBold(9,row_1,"占比",8,true);
-//                      for (int p=0;p<10;p++){
-//                          row_1.getCell(p).setColor("E7F3FF");
-//                      }
-//                      List<SupplierCustomerInfoDto> list=supplierMainList.get(z).getSupplierCustomerInfoList();
-//                      for (int n=0;n<list.size();n++){
-//                          XWPFTableRow row_2 = table.createRow();
-//                          setTitleBold(0,row_2,n+1+"",8,true);
-//                          setTitleBold(1,row_2,list.get(n).getCompanyName(),7,false);
-//                          setTitleBold(2,row_2,twoMarkStr(list.get(n).getOnePeriodAmount()+""),7,false);
-//                          setTitleBold(3,row_2,twoMarkStrBFH(list.get(n).getOnePeriodRatio()+""),7,false);
-//                          setTitleBold(4,row_2,twoMarkStr(list.get(n).getThirdYearAmount()+""),7,false);
-//                          setTitleBold(5,row_2,twoMarkStrBFH(list.get(n).getThirdYearRatio()+""),7,false);
-//                          setTitleBold(6,row_2,twoMarkStr(list.get(n).getSecondYearAmount()+""),7,false);
-//                          setTitleBold(7,row_2,twoMarkStrBFH(list.get(n).getSecondYearRatio()+""),7,false);
-//                          setTitleBold(8,row_2,twoMarkStr(list.get(n).getFirstYearAmount()+""),7,false);
-//                          setTitleBold(9,row_2,twoMarkStrBFH(list.get(n).getFirstYearRatio()+""),7,false);
-//                          if (n%2!=0){
-//                              for (int p=0;p<10;p++){
-//                                  row_2.getCell(p).setColor("E7F3FF");
-//                              }
-//                          }
-//                      }
-//                      //合并行
-//                      fillTable(table,2500);
-//                      mergeCellsHorizontal(table,0,0,1);
-//                      mergeCellsHorizontal(table,0,2,3);
-//                      mergeCellsHorizontal(table,0,4,5);
-//                      mergeCellsHorizontal(table,0,6,7);
-//                      mergeCellsHorizontal(table,0,8,9);
-//                      //边框颜色
-//                      setBorderStyle(table);
                   }
               }
 
@@ -1710,7 +1609,7 @@ public class IpoExportWordActorService extends BaseService {
                               }
                           }
                           //合并行
-                          fillTable(table,2500);
+                          fillTable(table,2000,"1");
                           mergeCellsHorizontal(table,0,0,1);
                           int mergeOrder1=2;
                           int mergeOrder2=3;
@@ -1891,7 +1790,7 @@ public class IpoExportWordActorService extends BaseService {
                               }
                           }
                       }
-                      fillTable(table,3000);
+                      fillTable(table,3000,"2");
                       //边框颜色
                       setBorderStyle(table);
                   }
@@ -1919,7 +1818,7 @@ public class IpoExportWordActorService extends BaseService {
               // 迭代列，默认从0开始
               for (int j = 0; j < cellList.size(); j++) {
                   XWPFTableCell td = cellList.get(j);// 取得单元格
-                  if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#公司简称#") != -1) {
+                  if(StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#公司简称#") != -1){
                       test.replaceTableCell(td,wordMap.get("#公司简称#"));
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#公司名字#") != -1) {
                       test.replaceTableCell(td,wordMap.get("#公司名字#"));
@@ -1935,20 +1834,28 @@ public class IpoExportWordActorService extends BaseService {
                       test.replaceTableCell(td,wordMap.get("#注册地址#"));
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#注册资本#") != -1) {
                       test.replaceTableCell(td,wordMap.get("#注册资本#"));
-                  }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#战略新兴行业#") != -1) {
-                      test.replaceTableCell(td,wordMap.get("#战略新兴行业#"));
+                  }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#配售机制#") != -1) {
+                      test.replaceTableCell(td,wordMap.get("#配售机制#"));
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#证监会行业#") != -1) {
                       test.replaceTableCell(td,wordMap.get("#证监会行业#"));
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#实际控制人#") != -1) {
                       test.replaceTableCell(td,wordMap.get("#实际控制人#"));
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#控股股东#") != -1) {
                       test.replaceTableCell(td,wordMap.get("#控股股东#"));
-                  }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#配售机制#") != -1) {
-                      test.replaceTableCell(td,wordMap.get("#配售机制#"));
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#上市标准#") != -1) {
-                      test.replaceTableCellHH(td,wordMap.get("#上市标准#"));
+                      if (((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate().equals("上交所科创板")){
+                          test.replaceTableCellHH(td,wordMap.get("#上市标准#"));
+                      }
+                  } else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#战略新兴行业#") != -1) {
+                      if (((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate().equals("上交所科创板")){
+                          test.replaceTableCell(td,wordMap.get("#战略新兴行业#"));
+                      }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#主营业务#") != -1) {
                       test.replaceTableCell(td,wordMap.get("#主营业务#"));
+                      if (!((CompanyOverviewVo)dataMap.get("companyInformation")).getIpoPlate().equals("上交所科创板")){
+                          test.deleteTableRow(table,table.getNumberOfRows()-2);
+                          test.deleteTableRow(table,table.getNumberOfRows()-2);
+                      }
                   }
 //                  else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#辅导历时#") != -1) {
 //                      test.replaceTableCell(td,wordMap.get("#辅导历时#"));
@@ -1957,127 +1864,88 @@ public class IpoExportWordActorService extends BaseService {
 //                  }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行历时#") != -1) {
 //                      test.replaceTableCell(td,wordMap.get("#发行历时#"));
 //                  }
-                  else if(StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#每股面值#") != -1){//删除发行费用表格
-                      if (issueData==null){
-                          test.deleteTableRow(table,table.getNumberOfRows()-1);
-                          test.deleteTableRow(table,table.getNumberOfRows()-1);
-                          test.deleteTableRow(table,table.getNumberOfRows()-1);
-                          test.deleteTableRow(table,table.getNumberOfRows()-1);
-                          test.deleteTableRow(table,table.getNumberOfRows()-1);
-                          test.deleteTableRow(table,table.getNumberOfRows()-1);
-                          test.deleteTableRow(table,table.getNumberOfRows()-1);
-                          test.deleteTableRow(table,table.getNumberOfRows()-1);
-                          test.deleteTableRow(table,table.getNumberOfRows()-1);
-                      }
-                      break lableA;
-                  }
                   else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#每股面值#") != -1) {
                       if(issueData!=null){
                           test.replaceTableCell(td,twoMarkThStr(issueData.getParValue()+"")+"元/股");
                       }else {
-                          test.replaceTableCell(td,"--");
+                          test.deleteTableRow(table,table.getNumberOfRows()-1);
+                          test.deleteTableRow(table,table.getNumberOfRows()-1);
+                          test.deleteTableRow(table,table.getNumberOfRows()-1);
+                          test.deleteTableRow(table,table.getNumberOfRows()-1);
+                          test.deleteTableRow(table,table.getNumberOfRows()-1);
+                          test.deleteTableRow(table,table.getNumberOfRows()-1);
+                          test.deleteTableRow(table,table.getNumberOfRows()-1);
+                          test.deleteTableRow(table,table.getNumberOfRows()-1);
+                          test.deleteTableRow(table,table.getNumberOfRows()-1);
+                          break lableA;
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行价格#") != -1) {
                       if(issueData!=null){
                           test.replaceTableCell(td,twoMarkThStr(issueData.getIssuePrice()+"")+"元/股");
-                      }else {
-                          test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行前总股本#") != -1) {
                       if(issueData!=null){
                           test.replaceTableCell(td,twoMarkThStr(issueData.getPreIssueNum()+"")+"万股");
-                      }else {
-                          test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行后总股本#") != -1) {
                       if(issueData!=null){
                           test.replaceTableCell(td,twoMarkThStr(issueData.getNextIssueNum()+"")+"万股");
-                      }else {
-                          test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行数量总计#") != -1) {
                       if(issueData!=null){
                           test.replaceTableCell(td,twoMarkThStr(issueData.getShareIssued()+"")+"万股");
-                      }else {
-                          test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#募集资金总额#") != -1) {
                       if(issueData!=null){
                           test.replaceTableCell(td,twoMarkThStr(issueData.getSumFina()+"")+"万元");
-                      }else {
-                          test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#占发行后总股本的比例#") != -1) {
                       if(issueData!=null){
                           test.replaceTableCell(td,twoMarkStrBFH(issueData.getIssuedRatio()+""));
-                      }else {
-                          test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#募集资金净额#") != -1) {
                       if(issueData!=null){
                           test.replaceTableCell(td,twoMarkThStr(issueData.getNetSumFina()+"")+"万元");
-                      }else {
-                          test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#网上发行数量#") != -1) {
                       if(issueData!=null){
                           test.replaceTableCell(td,twoMarkThStr(issueData.getShareIssueOn()+"")+"万股");
-                      }else {
-                          test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#网下配售数量#") != -1) {
                       if(issueData!=null){
                           test.replaceTableCell(td,twoMarkThStr(issueData.getShareIssued()+"")+"万股");
-                      }else {
-                          test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#战略配售数量#") != -1) {
                       if(issueData!=null){
                           test.replaceTableCell(td,twoMarkThStr(issueData.getSharesTrategicPlace()+""));
-                      }else {
-                          test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#超额配售数量#") != -1) {
                       if(issueData!=null){
                           test.replaceTableCell(td,twoMarkThStr(issueData.getShareOverPlace()+""));
-                      }else {
-                          test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#老股东公开发售股份#") != -1) {
                       if(issueData!=null){
                           test.replaceTableCell(td,twoMarkThStr(issueData.getExseNumBse()+""));
-                      }else {
-                          test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行后市盈率#") != -1) {
                       if(issueData!=null){
                           test.replaceTableCell(td,twoMarkThStr(issueData.getPeIssueA()+"")+" 倍");
-                      }else {
-                          test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行前每股收益#") != -1) {
                       if(issueData!=null){
                           test.replaceTableCell(td,twoMarkThStr(issueData.getEpsIssueB()+""));
-                      }else {
-                          test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行后每股收益#") != -1) {
                       if(issueData!=null){
                           test.replaceTableCell(td,twoMarkThStr(issueData.getEpsIssueA()+"")+"元/股");
-                      }else {
-                          test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行方式#") != -1) {
                       if(issueData!=null){
                           test.replaceTableCell(td,isNull(issueData.getIssueMethod()+""));
-                      }else {
-                          test.replaceTableCell(td,"--");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#承销方式#") != -1) {
                       if(issueData!=null){
                           test.replaceTableCell(td,isNull(issueData.getUwMethod()+""));
-                      }else {
-                          test.replaceTableCell(td,"--");
                       }
                   }
                   else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#主营业务表格#") != -1) {
@@ -2100,8 +1968,8 @@ public class IpoExportWordActorService extends BaseService {
                                       test.setCellNewContentBoldEight(table, no, 4, isNullBFH(mainIncomeVo.getMainIncomeInfoList().get(k).getThirdYearRatio()+""), i);
                                       test.setCellNewContentBoldEight(table, no, 5, isNullBigDouble(mainIncomeVo.getMainIncomeInfoList().get(k).getSecondYearAmount()), i);
                                       test.setCellNewContentBoldEight(table, no, 6, isNullBFH(mainIncomeVo.getMainIncomeInfoList().get(k).getSecondYearRatio()+""), i);
-                                      test.setCellNewContentBoldEight(table, no, 7, isNullBigDouble(mainIncomeVo.getMainIncomeInfoList().get(k).getFirstYearAmount()), i);
-                                      test.setCellNewContentBoldEight(table, no, 8, isNullBFH(mainIncomeVo.getMainIncomeInfoList().get(k).getFirstYearRatio()+""), i);
+                                      test.setCellNewContentBoldEight(table, no, 7, isNullBig00(mainIncomeVo.getMainIncomeInfoList().get(k).getFirstYearAmount()), i);
+                                      test.setCellNewContentBoldEight(table, no, 8, isNullBFH00(mainIncomeVo.getMainIncomeInfoList().get(k).getFirstYearRatio()+""), i);
                                   }else {
                                       test.setCellNewContentBoldEight(table, no, 0, isNull(mainIncomeVo.getMainIncomeInfoList().get(k).getBusinessName()+""), i);
                                       test.setCellNewContentEight(table, no, 1, isNullBigDouble(mainIncomeVo.getMainIncomeInfoList().get(k).getOnePeriodAmount()), i);
@@ -2182,11 +2050,11 @@ public class IpoExportWordActorService extends BaseService {
                               test.setCellNewContent(table, 1, 3, isNullBigInt(ipoTechnology.getPatentData().get(0).getWg()), i);
                               test.setCellNewContent(table, 1, 4, isNullBigInt(ipoTechnology.getPatentData().get(0).getGw()), i);
                               test.setCellNewContent(table, 1, 5, isNullBigInt(ipoTechnology.getPatentData().get(0).getHj()), i);
-                              test.setCellNewContent(table, 2, 1, twoMarkStr(ipoTechnology.getPatentData().get(1).getFm()+"")+"%", i);
-                              test.setCellNewContent(table, 2, 2, twoMarkStr(ipoTechnology.getPatentData().get(1).getSy()+"")+"%", i);
-                              test.setCellNewContent(table, 2, 3, twoMarkStr(ipoTechnology.getPatentData().get(1).getWg()+"")+"%", i);
-                              test.setCellNewContent(table, 2, 4, twoMarkStr(ipoTechnology.getPatentData().get(1).getGw()+"")+"%", i);
-                              test.setCellNewContent(table, 2, 5, twoMarkStr(ipoTechnology.getPatentData().get(1).getHj()+"")+"%", i);
+                              test.setCellNewContent(table, 2, 1, isNullBFH00(ipoTechnology.getPatentData().get(1).getFm()+""), i);
+                              test.setCellNewContent(table, 2, 2, isNullBFH00(ipoTechnology.getPatentData().get(1).getSy()+""), i);
+                              test.setCellNewContent(table, 2, 3, isNullBFH00(ipoTechnology.getPatentData().get(1).getWg()+""), i);
+                              test.setCellNewContent(table, 2, 4, isNullBFH00(ipoTechnology.getPatentData().get(1).getGw()+""), i);
+                              test.setCellNewContent(table, 2, 5, isNullBFH00(ipoTechnology.getPatentData().get(1).getHj()+""), i);
                               break lableA;
                           }else {
                               test.deleteTableRow(table,table.getNumberOfRows()-1);
@@ -2614,9 +2482,9 @@ public class IpoExportWordActorService extends BaseService {
                               } else if (listTreeTypeProgress.size()==1){
                                   test.deleteTableRow(table,table.getNumberOfRows()-2);
                               }
-                              test.setCellNewContentBold(table, table.getNumberOfRows()-1, 0, "共计历时" + isNull(wordMap.get("#辅导历时#")) + "天", i);
-                              test.setCellNewContentBold(table, table.getNumberOfRows()-1, 1, "共计历时" + isNull(wordMap.get("#审核历时#")) + "天", i);
-                              test.setCellNewContentBold(table, table.getNumberOfRows()-1, 2, "共计历时" + isNull(wordMap.get("#发行历时#")) + "天", i);
+                              test.setCellNewContentBold(table, table.getNumberOfRows()-1, 0, "共计历时" + isNullEm(wordMap.get("#辅导历时#")) + "天", i);
+                              test.setCellNewContentBold(table, table.getNumberOfRows()-1, 1, "共计历时" + isNullEm(wordMap.get("#审核历时#")) + "天", i);
+                              test.setCellNewContentBold(table, table.getNumberOfRows()-1, 2, "共计历时" + isNullEm(wordMap.get("#发行历时#")) + "天", i);
                               break lableA;
                           }
                       }
@@ -2852,10 +2720,7 @@ public class IpoExportWordActorService extends BaseService {
                 }
             }
             if (next.getText().indexOf("十、中介机构") != -1) {
-                if ((bjorg==null || bjorg.size()==0)&&(laworg==null || laworg.size()==0)
-                &&(finorg==null || finorg.size()==0)&&(fzcorg==null || fzcorg.size()==0)
-                &&(yzorg==null || yzorg.size()==0)&&(yzfhorg==null || yzfhorg.size()==0)
-                &&(zcpgorg==null || zcpgorg.size()==0)){
+                if ((mainList==null || mainList.size()==0)&&(moreList==null||moreList.size()==0)){
                     int posOfParagraph = xdoc.getPosOfParagraph(next);
                     titlLlists.add(posOfParagraph);
                 }
@@ -3135,6 +3000,13 @@ public class IpoExportWordActorService extends BaseService {
         return str;
     }
 
+    public String isNullEm(String str){
+        if (str==null||"null".equals(str)||"".equals(str)){
+            str="- -";
+        }
+        return str;
+    }
+
     public String isNullEmp(String str){
         if (str==null||"null".equals(str)||"".equals(str)){
             str="";
@@ -3184,6 +3056,23 @@ public class IpoExportWordActorService extends BaseService {
         DecimalFormat df = new DecimalFormat(",###,##0.00");
         return df.format(Float.parseFloat(str.doubleValue()+""));
     }
+
+    public String isNullBig00(BigDecimal str){
+        if (str==null||"null".equals(str)||"".equals(str)||"0.00".equals(str.doubleValue())){
+            return "--";
+        }
+        DecimalFormat df = new DecimalFormat(",###,##0.00");
+        return df.format(Float.parseFloat(str.doubleValue()+""));
+    }
+
+    public String isNullBFH00(String str){
+        if (str==null||"null".equals(str)||"".equals(str)||"0.00".equals(str)||"0.0000".equals(str)){
+            return str="--";
+        }
+        DecimalFormat df = new DecimalFormat("#0.00");
+        return df.format(Float.parseFloat(str))+"%";
+    }
+
     public String isNullBigDoubleBFH(BigDecimal str){
         if (str==null||"null".equals(str)||"".equals(str)){
             return "--";
@@ -3260,17 +3149,24 @@ public class IpoExportWordActorService extends BaseService {
         }
     }
 
-    public  void fillTable(XWPFTable table,int width) {
+    public  void fillTable(XWPFTable table,int width,String str) {
         for (int rowIndex = 0; rowIndex < table.getNumberOfRows(); rowIndex++) {
             XWPFTableRow row = table.getRow(rowIndex);
             row.setHeight(132);
             for (int colIndex = 0; colIndex < row.getTableCells().size(); colIndex++) {
                 XWPFTableCell cell = row.getCell(colIndex);
-                if(rowIndex%2==0){
-                    setCellText(cell, width);
-                }else{
+                if ("1".equals(str)){
+                    if (colIndex==0){
+                        setCellText(cell, 1500);
+                    }else if (colIndex==1){
+                        setCellText(cell, 3500);
+                    }else {
+                        setCellText(cell, width);
+                    }
+                }else {
                     setCellText(cell, width);
                 }
+
             }
         }
     }
