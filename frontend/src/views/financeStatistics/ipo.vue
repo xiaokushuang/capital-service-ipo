@@ -804,7 +804,7 @@
             if (res.data.result.ipoPlate == '上交所科创板') {
               this.ipoplatetype = true;
             }
-            if (res.data.result.ipoPlate.ipoPlate != '新三板精选层'){
+            if (res.data.result.ipoPlate != '新三板精选层'){
               this.wordFlag = true
             }
             //this.ipoplatetype = false;
