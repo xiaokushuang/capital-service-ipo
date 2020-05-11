@@ -1041,14 +1041,14 @@ public class IpoExportWordActorService extends BaseService {
               if (baseList!=null && baseList.size()>0){
                   for (int b=0;b<baseList.size();b++){
                       if(((HeadDataVo)dataMap.get("head")).getIsTechBoard()==0){
-                          titleStr="上市委会议关注问题";
+                          titleStr="发审委会议结果";
                       }else if(((HeadDataVo)dataMap.get("head")).getIsTechBoard()==1){
                           if("35".equals(baseList.get(b).getProcessTypeCode())){
-                              titleStr="上市委会议关注问题";
+                              titleStr="上市委会议结果";
                           }else if("38".equals(baseList.get(b).getProcessTypeCode())){
                               titleStr="注册结果";
                           }else if("44".equals(baseList.get(b).getProcessTypeCode())){
-                              titleStr="上市委会议关注问题";
+                              titleStr="上市委会议结果";
                           }
                       }
                       XmlCursor cursor1 = paragraph.getCTP().newCursor();
@@ -1112,7 +1112,7 @@ public class IpoExportWordActorService extends BaseService {
                                   run2.addBreak();
                               }
                               if (StringUtils.isNotEmpty(baseList.get(b).getIecResultStr())){
-                                  run2.setText("    "+"审注册结果：" + baseList.get(b).getIecResultStr());
+                                  run2.setText("    "+"审核注册结果：" + baseList.get(b).getIecResultStr());
                                   run2.addBreak();
                               }
                           }else if ("44".equals(baseList.get(b).getProcessTypeCode())){
@@ -1866,7 +1866,11 @@ public class IpoExportWordActorService extends BaseService {
 //                  }
                   else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#每股面值#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkThStr(issueData.getParValue()+"")+"元/股");
+                          if (issueData.getParValue()!=null){
+                              test.replaceTableCell(td,twoMarkThStr(issueData.getParValue()+"")+"元/股");
+                          }else {
+                              test.replaceTableCell(td,"- -");
+                          }
                       }else {
                           test.deleteTableRow(table,table.getNumberOfRows()-1);
                           test.deleteTableRow(table,table.getNumberOfRows()-1);
@@ -1881,63 +1885,124 @@ public class IpoExportWordActorService extends BaseService {
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行价格#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkThStr(issueData.getIssuePrice()+"")+"元/股");
+                          if (issueData.getIssuePrice()!=null){
+                              test.replaceTableCell(td,twoMarkThStr(issueData.getIssuePrice()+"")+"元/股");
+                          }else {
+                              test.replaceTableCell(td,"- -");
+                          }
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行前总股本#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkThStr(issueData.getPreIssueNum()+"")+"万股");
+                          if (issueData.getPreIssueNum()!=null){
+                              test.replaceTableCell(td,twoMarkThStr(issueData.getPreIssueNum()+"")+"万股");
+                          }else {
+                              test.replaceTableCell(td,"- -");
+                          }
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行后总股本#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkThStr(issueData.getNextIssueNum()+"")+"万股");
+                          if (issueData.getNextIssueNum()!=null){
+                              test.replaceTableCell(td,twoMarkThStr(issueData.getNextIssueNum()+"")+"万股");
+                          }else {
+                              test.replaceTableCell(td,"- -");
+                          }
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行数量总计#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkThStr(issueData.getShareIssued()+"")+"万股");
+                          if (issueData.getShareIssued()!=null){
+                              test.replaceTableCell(td,twoMarkThStr(issueData.getShareIssued()+"")+"万股");
+                          }else {
+                              test.replaceTableCell(td,"- -");
+                          }
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#募集资金总额#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkThStr(issueData.getSumFina()+"")+"万元");
+                          if (issueData.getSumFina()!=null){
+                              test.replaceTableCell(td,twoMarkThStr(issueData.getSumFina()+"")+"万元");
+                          }else {
+                              test.replaceTableCell(td,"- -");
+
+                          }
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#占发行后总股本的比例#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkStrBFH(issueData.getIssuedRatio()+""));
+                          if (issueData.getIssuedRatio()!=null){
+                              test.replaceTableCell(td,twoMarkStrBFH(issueData.getIssuedRatio()+""));
+                          }else {
+                              test.replaceTableCell(td,"- -");
+                          }
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#募集资金净额#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkThStr(issueData.getNetSumFina()+"")+"万元");
+                          if (issueData.getNetSumFina()!=null){
+                              test.replaceTableCell(td,twoMarkThStr(issueData.getNetSumFina()+"")+"万元");
+                          }else {
+                              test.replaceTableCell(td,"- -");
+                          }
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#网上发行数量#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkThStr(issueData.getShareIssueOn()+"")+"万股");
+                          if (issueData.getShareIssueOn()!=null){
+                              test.replaceTableCell(td,twoMarkThStr(issueData.getShareIssueOn()+"")+"万股");
+                          }else {
+                              test.replaceTableCell(td,"- -");
+                          }
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#网下配售数量#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkThStr(issueData.getShareIssued()+"")+"万股");
+                          if (issueData.getShareIssued()!=null){
+                              test.replaceTableCell(td,twoMarkThStr(issueData.getShareIssued()+"")+"万股");
+                          }else {
+                              test.replaceTableCell(td,"- -");
+                          }
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#战略配售数量#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkThStr(issueData.getSharesTrategicPlace()+""));
+                          if (issueData.getSharesTrategicPlace()!=null){
+                              test.replaceTableCell(td,twoMarkThStr(issueData.getSharesTrategicPlace()+"")+"万股");
+                          }else {
+                              test.replaceTableCell(td,"- -");
+                          }
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#超额配售数量#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkThStr(issueData.getShareOverPlace()+""));
+                          if (issueData.getShareOverPlace()!=null){
+                              test.replaceTableCell(td,twoMarkThStr(issueData.getShareOverPlace()+"")+"万股");
+                          }else {
+                              test.replaceTableCell(td,"- -");
+                          }
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#老股东公开发售股份#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkThStr(issueData.getExseNumBse()+""));
+                          if (issueData.getExseNumBse()!=null){
+                              test.replaceTableCell(td,twoMarkThStr(issueData.getExseNumBse()+"")+"万股");
+                          }else {
+                              test.replaceTableCell(td,"- -");
+                          }
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行后市盈率#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkThStr(issueData.getPeIssueA()+"")+" 倍");
+                          if (issueData.getPeIssueA()!=null){
+                              test.replaceTableCell(td,twoMarkThStr(issueData.getPeIssueA()+"")+" 倍");
+                          }else {
+                              test.replaceTableCell(td,"- -");
+                          }
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行前每股收益#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkThStr(issueData.getEpsIssueB()+""));
+                          if (issueData.getEpsIssueB()!=null){
+                              test.replaceTableCell(td,twoMarkThStr(issueData.getEpsIssueB()+"")+"元/股");
+                          }else {
+                              test.replaceTableCell(td,"- -");
+                          }
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行后每股收益#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkThStr(issueData.getEpsIssueA()+"")+"元/股");
+                          if (issueData.getEpsIssueA()!=null){
+                              test.replaceTableCell(td,twoMarkThStr(issueData.getEpsIssueA()+"")+"元/股");
+                          }else {
+                              test.replaceTableCell(td,"- -");
+                          }
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行方式#") != -1) {
                       if(issueData!=null){
