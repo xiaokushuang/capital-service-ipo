@@ -1041,14 +1041,14 @@ public class IpoExportWordActorService extends BaseService {
               if (baseList!=null && baseList.size()>0){
                   for (int b=0;b<baseList.size();b++){
                       if(((HeadDataVo)dataMap.get("head")).getIsTechBoard()==0){
-                          titleStr="上市委会议结果";
+                          titleStr="发审委会议结果";
                       }else if(((HeadDataVo)dataMap.get("head")).getIsTechBoard()==1){
                           if("35".equals(baseList.get(b).getProcessTypeCode())){
-                              titleStr="发审委会议结果";
+                              titleStr="上市委会议结果";
                           }else if("38".equals(baseList.get(b).getProcessTypeCode())){
                               titleStr="注册结果";
                           }else if("44".equals(baseList.get(b).getProcessTypeCode())){
-                              titleStr="发审委会议结果";
+                              titleStr="上市委会议结果";
                           }
                       }
                       XmlCursor cursor1 = paragraph.getCTP().newCursor();
