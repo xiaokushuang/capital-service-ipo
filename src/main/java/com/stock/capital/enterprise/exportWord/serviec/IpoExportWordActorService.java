@@ -1112,7 +1112,7 @@ public class IpoExportWordActorService extends BaseService {
                                   run2.addBreak();
                               }
                               if (StringUtils.isNotEmpty(baseList.get(b).getIecResultStr())){
-                                  run2.setText("    "+"审注册结果：" + baseList.get(b).getIecResultStr());
+                                  run2.setText("    "+"审核注册结果：" + baseList.get(b).getIecResultStr());
                                   run2.addBreak();
                               }
                           }else if ("44".equals(baseList.get(b).getProcessTypeCode())){
@@ -1917,15 +1917,15 @@ public class IpoExportWordActorService extends BaseService {
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#战略配售数量#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkThStr(issueData.getSharesTrategicPlace()+""));
+                          test.replaceTableCell(td,twoMarkThStr(issueData.getSharesTrategicPlace()+"")+"万股");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#超额配售数量#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkThStr(issueData.getShareOverPlace()+""));
+                          test.replaceTableCell(td,twoMarkThStr(issueData.getShareOverPlace()+"")+"万股");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#老股东公开发售股份#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkThStr(issueData.getExseNumBse()+""));
+                          test.replaceTableCell(td,twoMarkThStr(issueData.getExseNumBse()+"")+"万股");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行后市盈率#") != -1) {
                       if(issueData!=null){
@@ -1933,7 +1933,7 @@ public class IpoExportWordActorService extends BaseService {
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行前每股收益#") != -1) {
                       if(issueData!=null){
-                          test.replaceTableCell(td,twoMarkThStr(issueData.getEpsIssueB()+""));
+                          test.replaceTableCell(td,twoMarkThStr(issueData.getEpsIssueB()+"")+"元/股");
                       }
                   }else if (StringUtils.isNotEmpty(td.getText()) && td.getText().indexOf("#发行后每股收益#") != -1) {
                       if(issueData!=null){
