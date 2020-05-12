@@ -1112,7 +1112,7 @@ public class IpoExportWordActorService extends BaseService {
                                   run2.addBreak();
                               }
                               if (StringUtils.isNotEmpty(baseList.get(b).getIecResultStr())){
-                                  run2.setText("    "+"审核注册结果：" + baseList.get(b).getIecResultStr());
+                                  run2.setText("    "+"注册结果：" + baseList.get(b).getIecResultStr());
                                   run2.addBreak();
                               }
                           }else if ("44".equals(baseList.get(b).getProcessTypeCode())){
