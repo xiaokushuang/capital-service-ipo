@@ -197,7 +197,7 @@ export default {
     },
     lableTurnToName(lable){
       if(lable=="已受理"){
-        lable = "已受理(已受理)";
+        lable = "预先披露(已受理)";
       }
       if(lable=="已反馈"){
         lable = "已反馈(已问询)";

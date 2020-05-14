@@ -231,7 +231,10 @@ export default {
       var middle = []
       this.getDataOverInfo.map((obj, idx) => {
         if(obj.label != '终止审查' && obj.label != '预披露更新' && obj.label != '已上发审会，暂缓表决') {
-          if(obj.label == "已受理" || obj.label == "已受理(已受理)"){
+          if(obj.label == "已受理" || obj.label == "已受理(已受理)" || obj.label == "预先披露(已受理)"){
+            if (obj.label == "已受理(已受理)") {
+              obj.label = "预先披露（已受理）"
+            }
             middle[0]= obj;
           }
           if(obj.label == "已反馈" || obj.label == "已反馈(已问询)"){
@@ -239,7 +242,7 @@ export default {
           }
           if(obj.label == "预先披露更新"){
             middle[2]= obj;
-          }
+          }obj.l
           if(obj.label == "已通过发审会" || obj.label == "已通过发审会(上市委会议通过)"){
             middle[3]= obj;
           }
