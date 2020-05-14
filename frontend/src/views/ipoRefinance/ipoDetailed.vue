@@ -55,7 +55,7 @@
           </el-table-column>
           <el-table-column label="在审情况" align="center" prop="registAddr">
             <el-table-column align="center" :render-header="renderHeader" style="height:54px;" prop="applied" border="true"
-              label="已受理" sortable="custom">
+              label="预先披露" sortable="custom">
               <template slot-scope="scope">
                 <span class="spanClass" v-if="getValue(scope.row.applied) != 0 " @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'00','unit')">{{scope.row.applied}}</span>
                 <span v-else>{{scope.row.applied}}</span>
@@ -248,7 +248,7 @@
       },
       getLabel(name) { //表头名称修改
         var label = ''
-        if (name == '已受理') {
+        if (name == '预先披露') {
           label = '(已受理)'
         } else if (name == '已反馈') {
           label = '(已问询)'
@@ -394,7 +394,7 @@
           if (approveStatus != null && approveStatus != '') {
             switch (approveStatus) {
               case '00':
-                appLabel = approveStatus.replace("00", "已受理<span style='color:#0099cc'>(已受理)</span>");
+                appLabel = approveStatus.replace("00", "预先披露<span style='color:#0099cc'>(已受理)</span>");
                 break;
               case '01':
                 appLabel = approveStatus.replace("01", "已反馈<span style='color:#0099cc'>(已问询)</span>");
