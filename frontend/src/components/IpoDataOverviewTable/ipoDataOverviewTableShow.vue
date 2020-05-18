@@ -1,6 +1,6 @@
 <template>
     <div class="favorite-table">
-        <el-table :data="data" style="width: 100%;border-right:2px solid #DDDDDD!important;" class="paddingControl" border tooltip-effect="dark" :cell-class-name="tdStyle"
+        <el-table :data="data" style="width: 100%;border-right:2px solid #DDDDDD!important;" class="paddingControl" border tooltip-effect="dark"
           @sort-change="sortChange" ref="multipleSelection">
            <el-table-column align="center" label="序号" type="index" width="60"></el-table-column>
                 <el-table-column v-if="id == 'first'" align="left" label="保荐机构" prop="label" min-width="24%"></el-table-column>
@@ -127,11 +127,11 @@ export default {
 
     },
     methods : {//正常调用方法
-        tdStyle({row, column, rowIndex, columnIndex}) {//设置单元格样式
-            if(columnIndex == 5 || columnIndex == 6) {
-                return 'tdStyle'
-            }
-        },
+        // tdStyle({row, column, rowIndex, columnIndex}) {//设置单元格样式
+        //     if(columnIndex == 5 || columnIndex == 6) {
+        //         return 'tdStyle'
+        //     }
+        // },
         sortChange(column){//排序查询
 			//设置排序
 			if (column.order != null && column.prop != null) {

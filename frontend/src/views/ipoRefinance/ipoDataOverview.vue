@@ -42,35 +42,31 @@
                         <span v-html="lableTurnName(scope.row.label)"></span>
                     </template>
                   </el-table-column>
-                  <el-table-column label="核准制" align="center">
-                    <el-table-column align="center" label="沪主板" prop="hzbCount">
-                        <template slot-scope="scope">
-                          <span class="spanClass" v-if="scope.row.hzbCount != 0 " @click="openDetail('沪主板',scope.row.label,'069001001001',scope.row.value)">{{scope.row.hzbCount}}</span>
-                          <span v-else class="spanClassNone">{{scope.row.hzbCount}}</span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column align="center" label="中小板" prop="zxbCount">
-                        <template slot-scope="scope">
-                          <span class="spanClass" v-if="scope.row.zxbCount != 0 " @click="openDetail('中小板',scope.row.label,'069001002003',scope.row.value)">{{scope.row.zxbCount}}</span>
-                          <span v-else class="spanClassNone">{{scope.row.zxbCount}}</span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column align="center" label="创业板" prop="cybCount">
-                        <template slot-scope="scope">
-                          <span class="spanClass" v-if="scope.row.cybCount != 0 " @click="openDetail('创业板',scope.row.label,'069001002002',scope.row.value)">{{scope.row.cybCount}}</span>
-                          <span v-else class="spanClassNone">{{scope.row.cybCount}}</span>
-                        </template>
-                    </el-table-column>
+                  <el-table-column align="center" label="沪主板" prop="hzbCount">
+                      <template slot-scope="scope">
+                        <span class="spanClass" v-if="scope.row.hzbCount != 0 " @click="openDetail('沪主板',scope.row.label,'069001001001',scope.row.value)">{{scope.row.hzbCount}}</span>
+                        <span v-else class="spanClassNone">{{scope.row.hzbCount}}</span>
+                      </template>
                   </el-table-column>
-                  <el-table-column label="注册制" align="center">
-                    <el-table-column align="center" label="科创板" prop="kcCount" :class-name="tdStyle">
-                        <template slot-scope="scope">
-                          <span class="spanClass" v-if="scope.row.kcCount != 0 " @click="openDetail('科创板',scope.row.label,'069001001006',scope.row.value)">{{scope.row.kcCount}}</span>
-                          <span v-else class="spanClassNone">{{scope.row.kcCount}}</span>
-                        </template>
-                    </el-table-column>
+                  <el-table-column align="center" label="中小板" prop="zxbCount">
+                      <template slot-scope="scope">
+                        <span class="spanClass" v-if="scope.row.zxbCount != 0 " @click="openDetail('中小板',scope.row.label,'069001002003',scope.row.value)">{{scope.row.zxbCount}}</span>
+                        <span v-else class="spanClassNone">{{scope.row.zxbCount}}</span>
+                      </template>
                   </el-table-column>
-                  <el-table-column align="center" label="合计"  prop="totalAll" :class-name="tdStyle">
+                  <el-table-column align="center" label="创业板" prop="cybCount">
+                      <template slot-scope="scope">
+                        <span class="spanClass" v-if="scope.row.cybCount != 0 " @click="openDetail('创业板',scope.row.label,'069001002002',scope.row.value)">{{scope.row.cybCount}}</span>
+                        <span v-else class="spanClassNone">{{scope.row.cybCount}}</span>
+                      </template>
+                  </el-table-column>
+                  <el-table-column align="center" label="科创板" prop="kcCount" >
+                      <template slot-scope="scope">
+                        <span class="spanClass" v-if="scope.row.kcCount != 0 " @click="openDetail('科创板',scope.row.label,'069001001006',scope.row.value)">{{scope.row.kcCount}}</span>
+                        <span v-else class="spanClassNone">{{scope.row.kcCount}}</span>
+                      </template>
+                  </el-table-column>
+                  <el-table-column align="center" label="合计"  prop="totalAll">
                     <template slot-scope="scope">
                         <span v-if="scope.row.totalAll != 0" style="font-weight: bold" class="spanClass" @click="openDetail('合计',scope.row.label,'',scope.row.value)">{{scope.row.totalAll}}</span>
                         <span v-else>{{scope.row.totalAll}}</span>
@@ -399,15 +395,15 @@ export default {
     border-bottom:1px solid #DDDDDD!important;
   } */
 
-.ipoOverview .row1 {
-  border-left: 1px solid #14bcf5!important;
-  border-top: 1px solid #14bcf5!important;
-  border-bottom:none!important;
-}
-.container .el-table__header .row1 .cell {
-  font-weight:normal;
-  color:#0099cc!important;
-}
+/*.ipoOverview .row1 {*/
+  /*border-left: 1px solid #14bcf5!important;*/
+  /*border-top: 1px solid #14bcf5!important;*/
+  /*border-bottom:none!important;*/
+/*}*/
+/*.container .el-table__header .row1 .cell {*/
+  /*font-weight:normal;*/
+  /*color:#0099cc!important;*/
+/*}*/
 .ipoOverview .row2 {
   border-left: 1px solid #14bcf5!important;
 }
