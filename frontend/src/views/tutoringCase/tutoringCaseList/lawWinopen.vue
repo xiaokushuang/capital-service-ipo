@@ -10,7 +10,7 @@
     <div style="display: inline-block;vertical-align: top;width: 650px;padding-top: 20px;padding-left: 20px" class="lawContent">
       <div v-if="issueDialogSel == '1'">
         <div>
-          <a style="color: #14bcf5;margin-left: -5px" @click="">《首次公开发行股票并上市管理办法（2018年修订）》：</a>
+          <a style="color: #14bcf5;margin-left: -5px" @click="openLawZbzxb()">《首次公开发行股票并上市管理办法》：</a>
         </div>
         <div style="margin-top: 5px">第二十六条</div>
         <div>发行人应当符合下列条件：</div>
@@ -27,7 +27,7 @@
       </div>
       <div v-if="issueDialogSel == '2'">
         <div>
-          <a style="color: #14bcf5;margin-left: -5px" @click="">《深圳证券交易所创业板股票上市规则（2020年修订征求意见稿）》：</a>
+          <a style="color: #14bcf5;margin-left: -5px" @click="openLawCyb()">《深圳证券交易所创业板股票上市规则》：</a>
         </div>
         <div style="margin-top: 5px">2.1.2【一般企业要求】</div>
         <div>发行人为境内企业且不存在表决权差异安排的，市值及财务指标应当至少符合下列标准中的一项：</div>
@@ -61,7 +61,7 @@
         </div>
         <div>  &#160;  </div>
         <div>
-          <a style="color: #14bcf5;margin-left: -5px;" @click="">《首次公开发行股票并在创业板上市管理办法（2018年修订）》：</a>
+          <a style="color: #14bcf5;margin-left: -5px;" @click="openLawCybt()">《首次公开发行股票并在创业板上市管理办法（2018年修订）》：</a>
         </div>
         <div style="margin-top: 5px">第十一条</div>
         <div>发行人申请首次公开发行股票应当符合下列条件：</div>
@@ -148,7 +148,7 @@
       </div>
       <div v-if="issueDialogSel == '5'">
         <div>
-          <a style="color: #14bcf5;margin-left: -5px" @click="">《国务院办公厅转发证监会关于开展创新企业境内发行股票或存托凭证试点若干意见的通知》：</a>
+          <a style="color: #14bcf5;margin-left: -5px" @click="openLawHc()">《国务院办公厅转发证监会关于开展创新企业境内发行股票或存托凭证试点若干意见的通知》：</a>
         </div>
         <div style="margin-top: 5px">三、试点企业</div>
         <div>
@@ -176,6 +176,24 @@
       issueDialogClick(val){
         this.issueDialogSel = val
       },
+      openLawZbzxb(){//主板、中小板
+        const _self = this;
+        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + _self.$route.query.issueLawZbzxbId + '&access_token=' +
+          _self.$route.query.access_token + '&tenant_info=' + _self.$route.query.tenant_info;
+        window.open(href, '_blank');
+      },
+      openLawCyb(){//创业板1
+        const _self = this;
+        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + _self.$route.query.issueLawCybId + '&access_token=' +
+          _self.$route.query.access_token + '&tenant_info=' + _self.$route.query.tenant_info;
+        window.open(href, '_blank');
+      },
+      openLawCybt(){//创业板 首次公开发行股票并在创业板上市管理办法（2018年修订）
+        const _self = this;
+        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + _self.$route.query.issueLawCybtId + '&access_token=' +
+          _self.$route.query.access_token + '&tenant_info=' + _self.$route.query.tenant_info;
+        window.open(href, '_blank');
+      },
       openNewRule() {
         const _self = this;
         const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + _self.$route.query.issueLawId + '&access_token=' +
@@ -185,6 +203,12 @@
       openNewRuleJxc() {
         const _self = this;
         const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + _self.$route.query.issueLawJxcId + '&access_token=' +
+          _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
+        window.open(href, '_blank');
+      },
+      openLawHc() {
+        const _self = this;
+        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + _self.$route.query.issueLawHcId + '&access_token=' +
           _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
         window.open(href, '_blank');
       }

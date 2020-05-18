@@ -145,6 +145,50 @@
     limit 1;
   </select>
 
+  <select id="querylawIdzbzxb" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo">
+    select lm.id AS issueLawId,
+    case when lm.law_invalid is not null and lm.law_invalid != '' and lm.law_invalid &lt;= now() then "已失效"
+    when lm.law_effect_date > now() then "待失效"
+    when lm.modify_date is not null and lm.modify_date != ''  then "已被修改"
+    end as tmpRemarks
+    from law_evolution_group leg, laws_manage lm
+    where lm.laws_name like '%首次公开发行股票并上市管理办法%%' and lm.id= leg.law_id  and lm.laws_name not like "%的决定" having tmpRemarks is null order by lm.published desc
+    limit 1;
+  </select>
+
+  <select id="querylawIdcyb" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo">
+    select lm.id AS issueLawId,
+    case when lm.law_invalid is not null and lm.law_invalid != '' and lm.law_invalid &lt;= now() then "已失效"
+    when lm.law_effect_date > now() then "待失效"
+    when lm.modify_date is not null and lm.modify_date != ''  then "已被修改"
+    end as tmpRemarks
+    from law_evolution_group leg, laws_manage lm
+    where lm.laws_name like '%深圳证券交易所创业板股票上市规则%%' and lm.id= leg.law_id  and lm.laws_name not like "%的决定" having tmpRemarks is null order by lm.published desc
+    limit 1;
+  </select>
+
+  <select id="querylawIdcybt" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo">
+    select lm.id AS issueLawId,
+    case when lm.law_invalid is not null and lm.law_invalid != '' and lm.law_invalid &lt;= now() then "已失效"
+    when lm.law_effect_date > now() then "待失效"
+    when lm.modify_date is not null and lm.modify_date != ''  then "已被修改"
+    end as tmpRemarks
+    from law_evolution_group leg, laws_manage lm
+    where lm.laws_name like '%首次公开发行股票并在创业板上市管理办法（2018年修订）%%' and lm.id= leg.law_id  and lm.laws_name not like "%的决定" having tmpRemarks is null order by lm.published desc
+    limit 1;
+  </select>
+
+  <select id="querylawIdhc" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListBo">
+    select lm.id AS issueLawId,
+    case when lm.law_invalid is not null and lm.law_invalid != '' and lm.law_invalid &lt;= now() then "已失效"
+    when lm.law_effect_date > now() then "待失效"
+    when lm.modify_date is not null and lm.modify_date != ''  then "已被修改"
+    end as tmpRemarks
+    from law_evolution_group leg, laws_manage lm
+    where lm.laws_name like '%国务院办公厅转发证监会关于开展创新企业境内发行股票或存托凭证试点若干意见的通知%%' and lm.id= leg.law_id  and lm.laws_name not like "%的决定" having tmpRemarks is null order by lm.published desc
+    limit 1;
+  </select>
+
   <select id="queryIpoFavoriteList" resultType="java.lang.String">
     select t1.case_id from case_common_favorite t1 where t1.company_id = #{companyId} and t1.user_id = #{userId} and t1.type = '4'
   </select>
