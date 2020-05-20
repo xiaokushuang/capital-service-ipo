@@ -550,6 +550,7 @@
       this.$store.commit('CREATE_MESSAGE',param)
     },
     mounted() {
+      alert(tableLoading)
       // 日志
       this.tenantInfo = this.$route.query['tenant_info'];
       this.tableLoading = true;
@@ -622,6 +623,7 @@
         this.$refs.paper.search()
       },
       search(data) {
+        alert(tableLoading)
         const _self = this;
         _self.tableLoading = true;
         _self.tableData = [];
