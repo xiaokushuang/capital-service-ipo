@@ -694,7 +694,7 @@
           orderByOrder: _self.orderByOrder
         };
         _queryIpoFavoriteList(_data).then(response => {
-          // _self.tableLoading = false;
+           _self.tableLoading = false;
           if (response.data && response.data.success && response.data.result) {
             _self.issueLawId = response.data.result.issueLawId;
             _self.totalCount = response.data.result.total;
