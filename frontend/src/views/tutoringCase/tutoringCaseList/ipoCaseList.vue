@@ -1329,11 +1329,8 @@
       issueClick(){
         let url = window.location.href;
         //this.dialogIssueCondition = true
-        alert(url);
         url = url.replace(this.$route.path, '/lawWinopen');
-        alert(url);
         url = url+'&issueLawId='+this.issueLawId+'&issueLawJxcId='+this.issueLawJxcId
-        alert(url);
         iframeDoMessage(window.parent, 'popWinOut', ['发行人选择的上市条件', url, '900', '650']);
       },
       getTitle(item){
