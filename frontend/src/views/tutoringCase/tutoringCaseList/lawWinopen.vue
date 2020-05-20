@@ -96,7 +96,7 @@
         const _self = this;
         alert(_self.$route.query.tenant_info)
         const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + _self.$route.query.issueLawId + '&access_token=' +
-          _self.$route.query.access_token + '&tenant_info=' + _self.$route.query.issueLawId;
+          _self.$route.query.access_token + '&tenant_info=' + _self.$route.query.tenant_info;
         window.open(href, '_blank');
       },
       openNewRuleJxc() {
