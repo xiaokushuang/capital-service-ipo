@@ -1328,6 +1328,7 @@
       },
       issueClick(){
         //this.dialogIssueCondition = true
+        alert(_self.$store.state.app.info);
         let url = window.location.href;
         url = url.replace(this.$route.path, '/lawWinopen?issueLawId='+this.issueLawId+'&issueLawJxcId='+this.issueLawJxcId+ '&access_token=' +
           this.$store.state.app.token + '&tenant_info=' + this.$store.state.app.info);

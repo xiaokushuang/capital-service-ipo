@@ -94,8 +94,7 @@
       },
       openNewRule() {
         const _self = this;
-        debugger;
-        alert(_self.$store.state.app.info)
+        alert(_self.$route.query.tenant_info)
         const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + _self.$route.query.issueLawId + '&access_token=' +
           self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
         window.open(href, '_blank');
