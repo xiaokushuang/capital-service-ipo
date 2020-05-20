@@ -101,7 +101,7 @@
       openNewRuleJxc() {
         const _self = this;
         const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + _self.$route.query.issueLawJxcId + '&access_token=' +
-          _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
+          _self.$route.query.access_token + '&tenant_info=' + _self.$route.query.tenant_info;
         window.open(href, '_blank');
       }
     },

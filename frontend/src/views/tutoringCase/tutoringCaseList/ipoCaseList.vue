@@ -1327,10 +1327,10 @@
         this.issueDialogSel = val
       },
       issueClick(){
-        //this.dialogIssueCondition = true
         let url = window.location.href;
-        url = url.replace(this.$route.path, '/lawWinopen?issueLawId='+this.issueLawId+'&issueLawJxcId='+this.issueLawJxcId+ '&access_token=' +
-          this.$store.state.app.token + '&tenant_info=' + this.$store.state.app.info);
+        //this.dialogIssueCondition = true
+        url = url.replace(this.$route.path, '/lawWinopen');
+        url = url+'&issueLawId='+this.issueLawId+'&issueLawJxcId='+this.issueLawJxcId
         iframeDoMessage(window.parent, 'popWinOut', ['发行人选择的上市条件', url, '900', '650']);
       },
       getTitle(item){
