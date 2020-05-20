@@ -1942,6 +1942,8 @@
       },
       openNewRuleJxc() {
         const _self = this;
+        debugger;
+        alert(_self.$store.state.app.info);
         const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + _self.issueLawJxcId + '&access_token=' +
           _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
         window.open(href, '_blank');
