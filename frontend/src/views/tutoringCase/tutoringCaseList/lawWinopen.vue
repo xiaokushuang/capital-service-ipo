@@ -94,14 +94,16 @@
       },
       openNewRule() {
         const _self = this;
+        debugger;
+        alert(_self.$store.state.app.info)
         const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + _self.$route.query.issueLawId + '&access_token=' +
-          _self.$route.query.access_token + '&tenant_info=' + _self.$route.query.tenant_info;
+          self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
         window.open(href, '_blank');
       },
       openNewRuleJxc() {
         const _self = this;
         const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + _self.$route.query.issueLawJxcId + '&access_token=' +
-          _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
+          self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
         window.open(href, '_blank');
       }
     },
