@@ -138,7 +138,7 @@
                   <span v-show="wordFlag">导出报告</span>
                 </div>
                 <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(255, 255, 255);" v-else>
-                  <span>下载中<i class="el-icon-loading"></i></span>
+                  <span>导出中<i class="el-icon-loading"></i></span>
                 </div>
               </div>
             </el-popover>
@@ -177,7 +177,7 @@
                   <span v-show="wordFlag">导出报告</span>
                 </div>
                 <div style="cursor:pointer;margin-left: 15px;display: inline-block" v-else >
-                  <span>下载中<i class="el-icon-loading"></i></span>
+                  <span>导出中<i class="el-icon-loading"></i></span>
                 </div>
               </div>
             </el-popover>
@@ -353,7 +353,7 @@
                         <span v-show="wordFlag">导出报告</span>
                       </div>
                       <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(129, 152, 251);" v-else  >
-                        <span>下载中<i class="el-icon-loading"></i></span>
+                        <span>导出中<i class="el-icon-loading"></i></span>
                       </div>
 										</div>
                   </el-popover>
