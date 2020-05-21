@@ -347,7 +347,7 @@
                       </div>
                     </div>
                     <div slot="reference" aria-hidden="true" style="line-height: 20px;display: inline-block">
-                      <div style="cursor:pointer;display: inline-block" @click="titleNoteFlag = !titleNoteFlag"><i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span></div>
+                      <div style="cursor:pointer;display: inline-block" @click="scrollNoteFlag = !scrollNoteFlag"><i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span></div>
                       <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(129, 152, 251);" @click="exportWordCase" v-if="loading" >
                         <img src="../../assets/images/wordUploadFix.png" style="width: 13px;height: 13px;position: relative;top: 1px;" v-show="wordFlag"/>
                         <span v-show="wordFlag">下载Word</span>
