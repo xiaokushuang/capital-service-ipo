@@ -135,7 +135,7 @@
                 <div style="cursor:pointer;display: inline-block" @click="titleNoteFlag = !titleNoteFlag"><i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span></div>
                 <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(255, 255, 255);" @click="exportWordCase" v-if="loading" >
                   <img src="../../assets/images/wordUplodTop.png" style="width: 13px;height: 13px;position: relative;top: 1px;" v-show="wordFlag"/>
-                  <span v-show="wordFlag">下载Word</span>
+                  <span v-show="wordFlag">导出报告</span>
                 </div>
                 <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(255, 255, 255);" v-else>
                   <span>下载中<i class="el-icon-loading"></i></span>
@@ -174,7 +174,7 @@
                 <div style="cursor:pointer;display: inline-block" @click="titleNoteFlag = !titleNoteFlag"><i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span></div>
                 <div style="cursor:pointer;margin-left: 15px;display: inline-block" @click="exportWordCase" v-if="loading">
                   <img src="../../assets/images/wordUplodTop.png" style="width: 13px;height: 13px;position: relative;top: 1px;"  v-show="wordFlag"/>
-                  <span v-show="wordFlag">下载Word</span>
+                  <span v-show="wordFlag">导出报告</span>
                 </div>
                 <div style="cursor:pointer;margin-left: 15px;display: inline-block" v-else >
                   <span>下载中<i class="el-icon-loading"></i></span>
@@ -350,7 +350,7 @@
                       <div style="cursor:pointer;display: inline-block" @click="scrollNoteFlag = !scrollNoteFlag"><i class="fa fa-pencil favorite_note_icon"></i><span style="margin-left: 5px">笔记</span></div>
                       <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(129, 152, 251);" @click="exportWordCase" v-if="loading" >
                         <img src="../../assets/images/wordUploadFix.png" style="width: 13px;height: 13px;position: relative;top: 1px;" v-show="wordFlag"/>
-                        <span v-show="wordFlag">下载Word</span>
+                        <span v-show="wordFlag">导出报告</span>
                       </div>
                       <div style="cursor:pointer;margin-left: 15px;display: inline-block;color: rgb(129, 152, 251);" v-else  >
                         <span>下载中<i class="el-icon-loading"></i></span>
@@ -678,7 +678,7 @@
         exportWordCaseData(params).then(res =>{
           if (res.data.filePath){
             this.$message({
-              message: 'WORD后台导出中，请稍后……',
+              message: '报告后台导出中，请稍后……',
               type: 'success'
             });
             clearInterval(this.timer)
