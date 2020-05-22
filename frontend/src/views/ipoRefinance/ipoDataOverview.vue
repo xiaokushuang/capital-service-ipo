@@ -324,6 +324,9 @@ export default {
       if(lable=="已受理(已受理)"){
         lable = "已受理<span style='color:#0099cc'>(已受理)</span>";
       }
+      if (lable=="预先披露(已受理)"){
+        lable = "预先披露<span style='color:#0099cc'>(已受理)</span>";
+      }
       if(lable=="已反馈(已问询)"){
         lable = "已反馈<span style='color:#0099cc'>(已问询)</span>";
       }
