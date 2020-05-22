@@ -5,6 +5,7 @@ import com.stock.capital.enterprise.ipoCase.dao.IpoExamineMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoFeedbackMapper;
 import com.stock.capital.enterprise.ipoCase.dto.*;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
+import com.stock.capital.enterprise.ipoCase.service.IpoExamineService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.capital.enterprise.ipoCase.service.IssueSituationService;
 import com.stock.core.controller.BaseController;
@@ -14,6 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +43,9 @@ public class IpoCaseOverviewController extends BaseController {
     private IpoFeedbackService ipoFeedbackService;
     @Autowired
     private IssueSituationService issueSituationService;
+    @Autowired
+    private IpoExamineService ipoExamineService;
+
 
 
     @ApiOperation(value = "案例详细接口", notes = "案例详细接接口描述")
@@ -229,21 +234,54 @@ public class IpoCaseOverviewController extends BaseController {
     public JsonResponse<HeadDataVo> headData(@RequestParam("id") String id) {
         JsonResponse<HeadDataVo> response = new JsonResponse<>();
         HeadDataVo headDataVo = companyOverviewService.getHeadData(id);
+        headDataVo.setIsCybBoard(0);
         //判断是否显示反馈意见
-        List<IpoFeedbackDto> ipoFeedbackList = ipoFeedbackService.selectNewFeedbackList(id);
-//        List<String> processDateList = ipoFeedbackMapper.selectFeedbackProcess(id);
-        if(CollectionUtils.isNotEmpty(ipoFeedbackList)){
+        Map<String, List<IpoFeedbackDto>> ipoFeedbackMap= ipoFeedbackService.selectNewFeedbackList(id);
+        List<IpoFeedbackDto> ipoFeedbackList = new ArrayList<>();
+        if (ipoFeedbackMap.containsKey("ratifyList") && ipoFeedbackMap.containsKey("registerList")){//创业板 核准制 + 注册制
+          List<IpoFeedbackDto> ratifyList = ipoFeedbackMap.get("ratifyList");//核准制
+          List<IpoFeedbackDto> registerList = ipoFeedbackMap.get("registerList");//注册制
+          headDataVo.setIsCybBoard(1);// 创业板判断字段
+          if(CollectionUtils.isNotEmpty(ratifyList)){
+            headDataVo.setHaveFeedbackCyb(0);//反馈意见 核准制
+          }else{
+            headDataVo.setHaveFeedbackCyb(1);
+          }
+          if(CollectionUtils.isNotEmpty(registerList)){
+            headDataVo.setHaveReportBackCyb(0);//注册制 回复与问询
+          }else{
+            headDataVo.setHaveReportBackCyb(1);
+          }
+        }else if (ipoFeedbackMap.containsKey("ratifyList")){//核准制
+          ipoFeedbackList = ipoFeedbackMap.get("ratifyList");
+        }else if (ipoFeedbackMap.containsKey("registerList")){//注册制
+          ipoFeedbackList = ipoFeedbackMap.get("registerList");
+        }
+//        List<IpoFeedbackDto> ipoFeedbackList = ipoFeedbackService.selectNewFeedbackList(id);
+        if(CollectionUtils.isNotEmpty(ipoFeedbackList)){//问询与回复 反馈意见
             headDataVo.setHaveFeedback(0);
         }else{
             headDataVo.setHaveFeedback(1);
         }
+
         //判断是否显示审核结果
         //查询发审会基础信息
-        List<IpoExamineBaseDto> baseList = ipoExamineMapper.selectExamineBaseList(id);
-        if(CollectionUtils.isNotEmpty(baseList)){
+//        List<IpoExamineBaseDto> baseList = ipoExamineMapper.selectExamineBaseList(id);
+        Map<String, List<IpoExamineBaseDto>> examineMap = ipoExamineService.selectExaminList(id);
+        if (CollectionUtils.isNotEmpty(examineMap.get("ratifyList")) || CollectionUtils
+            .isNotEmpty(examineMap.get("registerList"))) {
+          if (CollectionUtils.isNotEmpty(examineMap.get("ratifyList"))) {//核准制
+            headDataVo.setHaveRatifyExamine(0);
             headDataVo.setHaveExamine(0);
-        }else{
-            headDataVo.setHaveExamine(1);
+          }
+          if (CollectionUtils.isNotEmpty(examineMap.get("registerList"))) {//注册制
+            headDataVo.setHaveRegisterExamine(0);
+            headDataVo.setHaveExamine(0);
+          }
+        } else {
+          headDataVo.setHaveRatifyExamine(1);
+          headDataVo.setHaveRegisterExamine(1);
+          headDataVo.setHaveExamine(1);
         }
         //判断是否显示发行概况
         //检查是否有上市进程

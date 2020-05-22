@@ -46,14 +46,29 @@ public class HeadDataVo implements Serializable {
     @ApiModelProperty("是否有反馈意见数据 0:显示 1:没有反馈进程 2:没有问题列表")
     private Integer haveFeedback;
 
+    @ApiModelProperty("针对创业板: 是否有回复与问询 0:显示 1:没有数据")
+    private Integer haveReportBackCyb;
+
+    @ApiModelProperty("针对创业板: 是否有反馈意见 0:显示 1:没有数据")
+    private Integer haveFeedbackCyb;
+
     @ApiModelProperty("是否有审核结果数据 0:显示 1:没有发审会进程")
     private Integer haveExamine;
+
+    @ApiModelProperty("是否有发审会关注问题 0:显示 1没有发审会关注问题")
+    private Integer haveRatifyExamine;
+
+    @ApiModelProperty("是否有上市委关注问题 0:显示 1没有上市委关注问题")
+    private Integer haveRegisterExamine;
 
     @ApiModelProperty("是否有发行上市进程 0:显示 1:没有发审会进程")
     private Integer havePublic;
 
     @ApiModelProperty("是否是科创板 0:否 1:是")
     private Integer isTechBoard;
+
+    @ApiModelProperty("创业板 : 1 创业板 0 非创业板")
+    private Integer isCybBoard;
 
     @ApiModelProperty("页面是否置灰显示 1: 灰色 0: 不是灰色")
     private Integer isGray;
@@ -215,5 +230,45 @@ public class HeadDataVo implements Serializable {
 
     public void setCaseNote(String caseNote) {
         this.caseNote = caseNote;
+    }
+
+    public Integer getIsCybBoard() {
+        return isCybBoard;
+    }
+
+    public void setIsCybBoard(Integer isCybBoard) {
+        this.isCybBoard = isCybBoard;
+    }
+
+    public Integer getHaveReportBackCyb() {
+        return haveReportBackCyb;
+    }
+
+    public void setHaveReportBackCyb(Integer haveReportBackCyb) {
+        this.haveReportBackCyb = haveReportBackCyb;
+    }
+
+    public Integer getHaveFeedbackCyb() {
+        return haveFeedbackCyb;
+    }
+
+    public void setHaveFeedbackCyb(Integer haveFeedbackCyb) {
+        this.haveFeedbackCyb = haveFeedbackCyb;
+    }
+
+    public Integer getHaveRatifyExamine() {
+        return haveRatifyExamine;
+    }
+
+    public void setHaveRatifyExamine(Integer haveRatifyExamine) {
+        this.haveRatifyExamine = haveRatifyExamine;
+    }
+
+    public Integer getHaveRegisterExamine() {
+        return haveRegisterExamine;
+    }
+
+    public void setHaveRegisterExamine(Integer haveRegisterExamine) {
+        this.haveRegisterExamine = haveRegisterExamine;
     }
 }

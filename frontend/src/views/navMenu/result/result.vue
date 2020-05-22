@@ -458,7 +458,7 @@
               </li>
             </ul>
         </div>
-      <div class="one" v-if="companyProfileList.headList.isTechBoard==2">
+        <div class="one" v-if="companyProfileList.headList.isTechBoard==2">
         <ul style="padding-left: 0;">
           <li v-for="(item,index) in baseList" :key="index">
             <div v-if="item.processTypeCode =='72'" style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">

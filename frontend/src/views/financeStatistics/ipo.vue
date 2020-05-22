@@ -239,14 +239,16 @@
                         </div>
                         <div id="tab-second" ref="tab-second" aria-controls="pane-second" :class="['el-tabs__item is-top', {'is-active': isActive === '2'}]"
                              @click="onTabClick('2', $event)">财务信息</div>
-                        <div v-if="headList.haveFeedback=='1'&&headList.isTechBoard =='0'" id="tab-third" ref="tab-third" class="el-tabs__item1"
+
+                  <!------------------------------------以下是非创业板块 isCybBoard =1 是创业板--------------------------------->
+                        <div v-if="headList.haveFeedback=='1'&&headList.isTechBoard =='0'&&headList.isCybBoard != '1'" id="tab-third" ref="tab-third" class="el-tabs__item1"
                              aria-controls="pane-third" style="cursor:default;color:#adadad">
                           <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无反馈意见信息" placement="top" effect="light">
                             <el-button class="btnClass">反馈意见</el-button>
                           </el-tooltip>
                         </div>
                         <!-- 1是科创版 -->
-                        <div v-if="headList.haveFeedback=='1'&&(headList.isTechBoard =='1' || headList.isTechBoard =='2')" id="tab-third" ref="tab-third" class="el-tabs__item1"
+                        <div v-if="headList.haveFeedback=='1'&&(headList.isTechBoard =='1' || headList.isTechBoard =='2')&&headList.isCybBoard != '1'" class="el-tabs__item1"
                              aria-controls="pane-third" style="cursor:default;color:#adadad">
                           <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无问询与回复信息" placement="top" effect="light">
                             <el-button class="btnClass">问询与回复</el-button>
@@ -254,22 +256,59 @@
                         </div>
                         <!-- 1是科创版 -->
                         <!--haveFeedbackData是用来判断问询与回复页面的数据是否请求回来，如果还没请求完，就禁止用户点击，等到请求回来之后再正常使用-->
-                        <div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='1'&&!haveFeedbackData" style="color:#adadad"  id="tab-third" ref="tab-third"
+                        <div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='1'&&!haveFeedbackData&&headList.isCybBoard != '1'" style="color:#adadad"
                              aria-controls="pane-third" :class="['el-tabs__item_nohover is-top', {'is-active': isActive === '3'}]">问询与回复</div>
-                        <div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='1'&&haveFeedbackData" style="color:#333"  id="tab-third" ref="tab-third"
+                        <div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='1'&&haveFeedbackData&&headList.isCybBoard != '1'" style="color:#333"
                              aria-controls="pane-third" :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]"  @click="onTabClick('3', $event)">问询与回复</div>
-                        <div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='0'&&!haveFeedbackData" style="color:#adadad" id="tab-third" ref="tab-third"
+                        <div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='0'&&!haveFeedbackData&&headList.isCybBoard != '1'" style="color:#adadad"
                              aria-controls="pane-third" :class="['el-tabs__item_nohover is-top', {'is-active': isActive === '3'}]">反馈意见</div>
-                        <div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='0'&&haveFeedbackData" style="color:#333" id="tab-third" ref="tab-third"
+                        <div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='0'&&haveFeedbackData&&headList.isCybBoard != '1'" style="color:#333"
                              aria-controls="pane-third" :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]" @click="onTabClick('3', $event)">反馈意见</div>
-                        <div v-if="headList.haveExamine=='1'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" class="el-tabs__item1"
+                        <div v-if="headList.haveExamine=='1'&&headList.isCybBoard != '1'" aria-controls="pane-fourth" class="el-tabs__item1"
                              style="padding-right: 0;cursor:default;color:#adadad">
                           <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无审核结果及关注问题信息" placement="top" effect="light">
                             <el-button class="btnClass">审核结果及关注问题</el-button>
                           </el-tooltip>
                         </div>
-                        <div v-if="headList.haveExamine=='0'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" :class="['el-tabs__item is-top', {'is-active': isActive === '4'}]"
+                        <div v-if="headList.haveExamine=='0'&&headList.isCybBoard != '1'" id="tab-fourth" ref="tab-fourth" aria-controls="pane-fourth" :class="['el-tabs__item is-top', {'is-active': isActive === '4'}]"
                              @click="onTabClick('4', $event)" style="padding-right: 0">审核结果及关注问题</div>
+                   <!---------------------------------------以上是非创业板块------------------------------------------>
+                        <!----------------------------------以下是创业板块-------------------------------->
+
+                        <div v-if="headList.isCybBoard=='1'&&headList.haveReportBackCyb=='1'" class="el-tabs__item1"
+                             aria-controls="pane-third" style="cursor:default;color:#adadad">
+                          <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无问询与回复信息" placement="top" effect="light">
+                            <el-button class="btnClass">问询与回复</el-button>
+                          </el-tooltip>
+                        </div>
+                        <!--上市委关注问题-->
+
+
+                        <div v-if="headList.haveFeedbackCyb=='0'&&headList.isCybBoard=='1'&&!haveFeedbackData" style="color:#adadad"
+                             aria-controls="pane-third" :class="['el-tabs__item_nohover is-top', {'is-active': isActive === '11'}]">反馈意见</div>
+                        <div v-if="headList.haveFeedbackCyb=='0'&&headList.isCybBoard=='1'&&haveFeedbackData" style="color:#333"
+                             aria-controls="pane-third" :class="['el-tabs__item is-top', {'is-active': isActive === '11'}]" @click="onTabClick('11', $event)">反馈意见</div>
+
+                        <div v-if="headList.haveRatifyExamine=='0'&&headList.isCybBoard == '1'"  aria-controls="pane-fourth" :class="['el-tabs__item is-top', {'is-active': isActive === '13'}]"
+                             @click="onTabClick('13', $event)">发审委关注问题</div>
+
+                        <div v-if="headList.haveReportBackCyb=='0'&&headList.isCybBoard=='1'&&!haveFeedbackData" style="color:#adadad"
+                             aria-controls="pane-third" :class="['el-tabs__item_nohover is-top', {'is-active': isActive === '12'}]">问询与回复</div>
+                        <div v-if="headList.haveReportBackCyb=='0'&&headList.isCybBoard=='1'&&haveFeedbackData" style="color:#333"
+                             aria-controls="pane-third" :class="['el-tabs__item is-top', {'is-active': isActive === '12'}]"  @click="onTabClick('12', $event)">问询与回复</div>
+
+                        <div v-if="headList.haveRegisterExamine=='1'&&headList.isCybBoard=='1'" aria-controls="pane-fourth" class="el-tabs__item1"
+                             style="padding-right: 0;cursor:default;color:#adadad">
+                          <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无上市委关注问题信息" placement="top" effect="light">
+                            <el-button class="btnClass">上市委关注问题</el-button>
+                          </el-tooltip>
+                        </div>
+                        <div v-if="headList.haveRegisterExamine=='0'&&headList.isCybBoard=='1'" aria-controls="pane-fourth" :class="['el-tabs__item is-top', {'is-active': isActive === '14'}]"
+                             @click="onTabClick('14', $event)">上市委关注问题</div>
+
+                        <!------------------------------以上是创业板块---------------------------------->
+
+
                         <div v-if="headList.havePublic=='1'" id="tab-fifth" ref="tab-fifth" aria-controls="pane-fifth" class="el-tabs__item1"
                              style="padding-right: 0;cursor:default;color:#adadad">
                           <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无发行概况信息" placement="top" effect="light">
@@ -362,8 +401,10 @@
               <!-- 点击不同菜单展示不同下面内容 -->
               <div class="el-tabs__content">
                 <!-- 动态加载tab -->
-                <keep-alive>
-                  <component :is="showComponent" id="componentId" v-on:headCallBack="headCall" :companyProfileList='{companyProfileList:this.companyProfileList,headList:this.headList,tabList:this.tabList}'></component>
+                <keep-alive :exclude="['feedback']">
+                  <component :is="showComponent" id="componentId" v-on:headCallBack="headCall" ref="testRef"
+                             :companyProfileList='{companyProfileList:this.companyProfileList,headList:this.headList,tabList:this.tabList}'
+                             ></component>
                 </keep-alive>
               </div>
             </div>
@@ -496,6 +537,8 @@
         companyId: '999600',
         proList: [], //关联案例数据
         tabList: [],//反馈意见数据
+        tabRatifyList: [],//创业板数据(反馈意见)
+        tabRegisterList: [],//创业板数据(问询与回复)
         // 动态加载组件
         companyProfile: companyProfile,
         financialInformation: financialInformation,
@@ -613,7 +656,12 @@
           iecResult: '',
           processLabel: '',
           supportDuration: '',
-          title: ''
+          title: '',
+          isCybBoard:'',
+          haveFeedbackCyb:'',//针对创业板: 是否有反馈意见 0:显示 1:没有数据
+          haveReportBackCyb:'',//针对创业板: 是否有回复与问询 0:显示 1:没有数据
+          haveRatifyExamine:'',//针对创业板: 是否有发审会关注问题 0:显示 1没有发审会关注问题
+          haveRegisterExamine:''//针对创业板: 是否有上市委关注问题 0:显示 1没有上市委关注问题
         },
         companyProfileList: {
           actualController: "",
@@ -741,14 +789,19 @@
         let param1 = {
           id: this.caseId2
         }
-        // setTimeout(()=>{
           getSelectFeedbackList(param1).then(res =>{
-            if (res.data.result && res.data.result.length > 0) {
+            if (res.data.result.ratifyList && res.data.result.registerList) {
               this.haveFeedbackData = true;
-              this.tabList = res.data.result
+              if (res.data.result.ratifyList && res.data.result.ratifyList.length > 0){
+                this.tabRatifyList=res.data.result.ratifyList;
+                this.tabList = res.data.result.ratifyList;
+              }
+              if (res.data.result.registerList && res.data.result.registerList.length > 0){
+                this.tabRegisterList=res.data.result.registerList;
+                this.tabList=res.data.result.registerList;
+              }
             }
           });
-        // },7000)
       },
       // 初始化数据
       initTableData() {
@@ -849,13 +902,13 @@
         // tabs标签页焦点
         this.isActive = isActive;
         // 控制tabs标签的下边边框长度和位置
-        if (isActive === '1' || isActive === '4') {
-          this.tabBarWidth = event.currentTarget.offsetWidth - 20;
+        if (isActive === '1' || isActive === '4'|| isActive === '13'|| isActive === '14') {
+          this.tabBarWidth = event.currentTarget.offsetWidth - 30;
         } else {
-          this.tabBarWidth = event.currentTarget.offsetWidth - 40;
+          this.tabBarWidth = event.currentTarget.offsetWidth - 30;
         }
         if (isActive != '1') {
-          this.tabBarOffset = event.currentTarget.offsetLeft + 20;
+          this.tabBarOffset = event.currentTarget.offsetLeft + 15;
         } else {
           this.tabBarOffset = event.currentTarget.offsetLeft;
         }
@@ -978,6 +1031,40 @@
                 if (document.documentElement.scrollTop > scrollhight) {
                   document.documentElement.scrollTop = scrollhight;
                 }
+              }
+              break
+            case '11':
+              debugger;
+              // 反馈意见【没有锚点定位】
+              that.showComponent = feedback
+              that.$refs.rightModule.treeListMethods(false);
+              that.$refs.testRef.feedbackShow(that.tabRatifyList,true);
+              targetList = document.getElementById('title-third').children;
+              var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
+              if (document.documentElement.scrollTop > scrollhight) {
+                document.documentElement.scrollTop = scrollhight;
+              }
+              break
+            case '12':
+              debugger;
+              // 问询与回复【没有锚点定位】
+              that.showComponent = feedback
+              that.$refs.rightModule.treeListMethods(false);
+              that.$refs.testRef.feedbackShow(that.tabRegisterList,false);
+              targetList = document.getElementById('title-third').children;
+              var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
+              if (document.documentElement.scrollTop > scrollhight) {
+                document.documentElement.scrollTop = scrollhight;
+              }
+              break
+            case '13':
+              // 审核结果及关注问题【没有锚点定位】
+              that.showComponent = result
+              that.$refs.rightModule.treeListMethods(false);
+              targetList = document.getElementById('title-fourth').children;
+              var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
+              if (document.documentElement.scrollTop > scrollhight) {
+                document.documentElement.scrollTop = scrollhight;
               }
               break
             default:
@@ -1349,10 +1436,11 @@
 
   .el-tabs__item {
     color: #333;
+    padding: 0 15px;
   }
 
   .el-tabs__item1 {
-    padding: 0 20px;
+    padding: 0 15px;
     height: 40px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;

@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +64,36 @@ public class IpoExamineService extends BaseService {
 	 */
 	@Value("#{app['service.gui.baseUrl']}")
 	private String serviceGuiBaseUrl;
+
+
+	  public Map<String, List<IpoExamineBaseDto>> selectExaminList(String id){
+        List<IpoExamineBaseDto> baseList = ipoExamineMapper.selectExamineBaseList(id);
+        Map<String, List<IpoExamineBaseDto>> result = new HashMap<>();
+        result.put("ratifyList",new ArrayList<IpoExamineBaseDto>());//核准制
+        result.put("registerList",new ArrayList<IpoExamineBaseDto>());//注册制
+        result.put("newList",new ArrayList<IpoExamineBaseDto>());//新三板
+        for (int i = 0; i < baseList.size(); i++) {
+            IpoExamineBaseDto dto = baseList.get(i);
+            if (dto.getProcessTypeCode().equals("07")){// 核准制 发审会
+                List<IpoExamineBaseDto> list = result.get("ratifyList");
+                list.add(dto);
+            }else if (dto.getProcessTypeCode().equals("35")// 注册制  上市委
+                || dto.getProcessTypeCode().equals("38")
+                || dto.getProcessTypeCode().equals("44")
+            ){
+                List<IpoExamineBaseDto> list = result.get("registerList");
+                list.add(dto);
+            } else if (dto.getProcessTypeCode().equals("72") //新三板
+                || dto.getProcessTypeCode().equals("90")
+            ){
+                List<IpoExamineBaseDto> list = result.get("newList");
+                list.add(dto);
+            }
+
+        }
+
+        return result;
+    }
 
     public IpoExamineDto selectExamineList(String id) {
         String orgCode = ipoFeedbackMapper.getOrgCode(id).getOrgCode();
