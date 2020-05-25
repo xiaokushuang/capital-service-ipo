@@ -372,9 +372,7 @@ public class IpoFeedbackService extends BaseService {
    * @return
    */
   private List<IpoFeedbackDto> selectRegisterFeedbackList(String id) {
-    // TODO: 2020/5/21 死值需要改回原来
-    id="98114881248925363";//上海硅产业集团股份有限公司
-
+//    id="98114881248925363";//上海硅产业集团股份有限公司
     List<IpoFeedbackDto> resultList = new ArrayList<>();
     //根据案例id查询公司的东财内码
     CompanyOverviewVo companyOverviewVo = ipoFeedbackMapper.getOrgCode(id);
@@ -558,8 +556,7 @@ public class IpoFeedbackService extends BaseService {
    * @return
    */
   private List<IpoFeedbackDto> selectRatifyFeedbackList(String id) {
-    // TODO: 2020/5/21 死值需要改回原来
-    id = "97952444248599354";
+//    id = "97952444248599354";
     List<IpoFeedbackDto> resultList = new ArrayList<>();
     //根据案例id查询公司的东财内码
     CompanyOverviewVo companyOverviewVo = ipoFeedbackMapper.getOrgCode(id);

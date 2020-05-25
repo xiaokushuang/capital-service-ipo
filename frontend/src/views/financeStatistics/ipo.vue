@@ -275,15 +275,6 @@
                    <!---------------------------------------以上是非创业板块------------------------------------------>
                         <!----------------------------------以下是创业板块-------------------------------->
 
-                        <div v-if="headList.isCybBoard=='1'&&headList.haveReportBackCyb=='1'" class="el-tabs__item1"
-                             aria-controls="pane-third" style="cursor:default;color:#adadad">
-                          <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无问询与回复信息" placement="top" effect="light">
-                            <el-button class="btnClass">问询与回复</el-button>
-                          </el-tooltip>
-                        </div>
-                        <!--上市委关注问题-->
-
-
                         <div v-if="headList.haveFeedbackCyb=='0'&&headList.isCybBoard=='1'&&!haveFeedbackData" style="color:#adadad"
                              aria-controls="pane-third" :class="['el-tabs__item_nohover is-top', {'is-active': isActive === '11'}]">反馈意见</div>
                         <div v-if="headList.haveFeedbackCyb=='0'&&headList.isCybBoard=='1'&&haveFeedbackData" style="color:#333"
@@ -291,6 +282,14 @@
 
                         <div v-if="headList.haveRatifyExamine=='0'&&headList.isCybBoard == '1'"  aria-controls="pane-fourth" :class="['el-tabs__item is-top', {'is-active': isActive === '13'}]"
                              @click="onTabClick('13', $event)">发审委关注问题</div>
+
+
+                        <div v-if="headList.isCybBoard=='1'&&headList.haveReportBackCyb=='1'" class="el-tabs__item1"
+                             aria-controls="pane-third" style="cursor:default;color:#adadad">
+                          <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无问询与回复信息" placement="top" effect="light">
+                            <el-button class="btnClass">问询与回复</el-button>
+                          </el-tooltip>
+                        </div>
 
                         <div v-if="headList.haveReportBackCyb=='0'&&headList.isCybBoard=='1'&&!haveFeedbackData" style="color:#adadad"
                              aria-controls="pane-third" :class="['el-tabs__item_nohover is-top', {'is-active': isActive === '12'}]">问询与回复</div>
@@ -1034,7 +1033,6 @@
               }
               break
             case '11':
-              debugger;
               // 反馈意见【没有锚点定位】
               that.showComponent = feedback
               that.$refs.rightModule.treeListMethods(false);
@@ -1046,7 +1044,6 @@
               }
               break
             case '12':
-              debugger;
               // 问询与回复【没有锚点定位】
               that.showComponent = feedback
               that.$refs.rightModule.treeListMethods(false);
@@ -1058,8 +1055,22 @@
               }
               break
             case '13':
-              // 审核结果及关注问题【没有锚点定位】
+              // 发审会关注问题
+              that.tabList.resultType = "ratify";
               that.showComponent = result
+              that.$refs.testRef.setResultType("ratify");
+              that.$refs.rightModule.treeListMethods(false);
+              targetList = document.getElementById('title-fourth').children;
+              var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
+              if (document.documentElement.scrollTop > scrollhight) {
+                document.documentElement.scrollTop = scrollhight;
+              }
+              break
+            case '14':
+              // 上市委关注问题
+              that.tabList.resultType = "register";
+              that.showComponent = result
+              that.$refs.testRef.setResultType("register");
               that.$refs.rightModule.treeListMethods(false);
               targetList = document.getElementById('title-fourth').children;
               var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
