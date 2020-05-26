@@ -206,7 +206,7 @@
                 id="selectPlacingMechanism"
                 placeholder="配售机制"
                 @sure-click="sure('selectPlacingMechanism')"
-                :default-all-show="false"
+                :default-all-show="true"
                 size="small full"
                 node-key="id"
                 :tree-data="ipoMechanismList"
