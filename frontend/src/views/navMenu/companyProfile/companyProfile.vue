@@ -96,7 +96,7 @@
               <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('403')>-1">标准三：市值不低于<span style="color:red">8亿元</span>，最近一年营业收入不低于<span style="color:red">2亿元</span>，最近两年研发投入合计占最近两年营业收入合计比例不低于<span style="color:red">8%</span></div>
               <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('404')>-1">标准四：市值不低于<span style="color:red">15亿元</span>，最近两年研发投入合计不低于<span style="color:red">5000万元</span></div>
 
-              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('501')>-1">一般企业标准一：最近两年净利润均为正，且累计净利润不低于人民币<span style="color:red">15亿元</span></div>
+              <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('501')>-1">一般企业标准一：最近两年净利润均为正，且累计净利润不低于人民币<span style="color:red">5000万元</span></div>
               <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('502')>-1">一般企业标准二：预计市值不低于人民币<span style="color:red">10亿元</span>，最近一年净利润为正且营业收入不低于人民币<span style="color:red">1亿元</span></div>
               <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('503')>-1">一般企业标准三：预计市值不低于人民币<span style="color:red">50亿元</span>，且最近一年营业收入不低于人民币<span style="color:red">3亿元</span></div>
               <div v-if="companyProfileList.companyProfileList.issueCondition&&companyProfileList.companyProfileList.issueCondition.indexOf('601')>-1">红筹企业标准一：预计市值不低于人民币<span style="color:red">100亿元</span>，且最近一年净利润为正</div>
