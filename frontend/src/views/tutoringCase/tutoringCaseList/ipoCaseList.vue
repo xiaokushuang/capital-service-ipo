@@ -494,7 +494,7 @@
                 <a v-if="searchFlag">收起财务数据条件检索</a>
                 <a v-else>展开财务数据条件检索</a>
               </a>
-              <a style="color:#1990fe;font-size: 12px" @click="issueClick" title="查看发行上市条件">
+              <a style="color:#1990fe;font-size: 12px; margin-left: 10px;" @click="issueClick" title="查看发行上市条件">
                 <a>查看发行上市条件</a>
               </a>
             </el-col>
@@ -1277,10 +1277,11 @@
       issueClick(){
         //this.dialogIssueCondition = true
         let url = window.location.href;
-        url = url.replace(this.$route.path, '/lawWinopen?issueLawId='+this.issueLawId+'&issueLawJxcId='+this.issueLawJxcId+
-          +'&issueLawZbzxbId='+this.issueLawZbzxbId+'&issueLawCybId='+this.issueLawCybId+'&issueLawCybtId='+this.issueLawCybtId+'&issueLawHcId='+this.issueLawHcId+
-          '&access_token=' + this.$store.state.app.token + '&tenant_info=' + this.$store.state.app.info);
-        iframeDoMessage(window.parent, 'popWinOut', ['发行人选择的上市条件', url, '900', '650']);
+        url = url.replace(this.$route.path, '/lawWinopen?issueLawId='+this.issueLawId+'&issueLawJxcId='+this.issueLawJxcId
+          +'&issueLawZbzxbId='+this.issueLawZbzxbId+'&issueLawCybId='+this.issueLawCybId+'&issueLawCybtId='+this.issueLawCybtId+'&issueLawHcId='+this.issueLawHcId
+          +'&access_token=' + this.$store.state.app.token + '&tenant_info=' + this.$store.state.app.info);
+        debugger;
+        iframeDoMessage(window.parent, 'popWinOut', ['发行人选择的上市条件', url, '900', '600']);
       },
       getTitle(item){
         var intermediaryTitle = ''

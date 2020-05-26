@@ -1,11 +1,11 @@
 <template>
   <div style="font-size: 13px;color: #333333">
     <div style="display: inline-block;width: 180px;height: 599px;background-color: rgba(245, 247, 250, 1);padding:0px 20px">
-      <div :class="issueDialogSel == '1' ? 'issueSel':'issueSelNormal'"  @click="issueDialogClick('1')">主板、中小板上市条件</div>
-      <div :class="issueDialogSel == '2' ? 'issueSel':'issueSelNormal'"  @click="issueDialogClick('2')">创业板上市条件</div>
-      <div :class="issueDialogSel == '3' ? 'issueSel':'issueSelNormal'"  @click="issueDialogClick('3')">科创板上市条件</div>
-      <div :class="issueDialogSel == '4' ? 'issueSel':'issueSelNormal'"  @click="issueDialogClick('4')">精选层上市条件</div>
-      <div :class="issueDialogSel == '5' ? 'issueSel':'issueSelNormal'"  @click="issueDialogClick('5')">红筹企业要求</div>
+      <div :class="issueDialogSel == '1' ? 'issueSel':'issueSelNormal'"  @click="issueDialogClick('1')" style="cursor:pointer">主板、中小板上市条件</div>
+      <div :class="issueDialogSel == '2' ? 'issueSel':'issueSelNormal'"  @click="issueDialogClick('2')" style="cursor:pointer">创业板上市条件</div>
+      <div :class="issueDialogSel == '3' ? 'issueSel':'issueSelNormal'"  @click="issueDialogClick('3')" style="cursor:pointer">科创板上市条件</div>
+      <div :class="issueDialogSel == '4' ? 'issueSel':'issueSelNormal'"  @click="issueDialogClick('4')" style="cursor:pointer">精选层上市条件</div>
+      <div :class="issueDialogSel == '5' ? 'issueSel':'issueSelNormal'"  @click="issueDialogClick('5')" style="cursor:pointer">红筹企业要求</div>
     </div>
     <div style="display: inline-block;vertical-align: top;width: 650px;padding-top: 20px;padding-left: 20px" class="lawContent">
       <div v-if="issueDialogSel == '1'">
