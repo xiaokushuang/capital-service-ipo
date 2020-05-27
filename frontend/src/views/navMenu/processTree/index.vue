@@ -92,7 +92,7 @@
                                                 <div :ref=' item.progressIndex' :class="'abc'+ item.progressIndex"></div>
                                             </div>
                                           <!--注册制正常---显示公告名-->
-                                            <div v-if="isTechBoard=='0'">
+                                            <div v-if="isTechBoard=='0'&&isCybBoard!='1'">
                                               <p v-if="item.relaList.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></p>
                                               <p v-else v-show="item.flag" @click="gonggaoClick(item.relaList[0])" class="gonggao" style="display: block" :id="'more'+  item.progressIndex">
                                                 <a>{{item.relaList[0].relationFileTitle}}</a>
@@ -121,7 +121,7 @@
                                         <div v-if="item.flag&&item.relaList.length>1" style="margin-bottom: 24px;margin-top: 8px;">
                                             <span>
                                               <!--核准制正常显示-->
-                                                <span v-if="isTechBoard=='0'">
+                                                <span v-if="isTechBoard=='0'&&isCybBoard!='1'">
                                                     <a v-if="boxDataItem.treeTypeCode == '02'" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告 ></a>
                                                     <a v-else @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多文件 ></a>
                                                 </span>
@@ -135,7 +135,7 @@
                                         <div v-if="!item.flag" style="margin-bottom: 14px;margin-top: 8px;">
                                             <span>
                                               <!--核准制正常显示-->
-                                                <span v-if="isTechBoard=='0'">
+                                                <span v-if="isTechBoard=='0'&&isCybBoard!='1'">
                                                      <!-- 第一个进程展示的是‘查看公告’ -->
                                                     <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看公告 ></div>
                                                     <!-- 第二个进程展示的是‘查看文件’ -->
@@ -232,7 +232,7 @@
                                                 <div :ref=' item.progressIndex' :class="'abc'+ item.progressIndex"></div>
                                             </div>
                                           <!--注册制正常---显示公告名-->
-                                          <div v-if="isTechBoard=='0'">
+                                          <div v-if="isTechBoard=='0'&&isCybBoard!='1'">
                                             <p v-if="item.relaList.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></p>
                                             <p v-else v-show="item.flag" @click="gonggaoClick(item.relaList[0])" class="gonggao" style="display: block" :id="'more'+  item.progressIndex">
                                               <a>{{item.relaList[0].relationFileTitle}}</a>
@@ -261,7 +261,7 @@
                                       <div v-if="item.flag&&item.relaList.length>1" style="margin-bottom: 24px;margin-top: 8px;">
                                             <span>
                                               <!--核准制正常显示-->
-                                                <span v-if="isTechBoard=='0'">
+                                                <span v-if="isTechBoard=='0'&&isCybBoard!='1'">
                                                     <a v-if="boxDataItem.treeTypeCode == '02'" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告 ></a>
                                                     <a v-else @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多文件 ></a>
                                                 </span>
@@ -275,7 +275,7 @@
                                       <div v-if="!item.flag" style="margin-bottom: 14px;margin-top: 8px;">
                                             <span>
                                               <!--核准制正常显示-->
-                                                <span v-if="isTechBoard=='0'">
+                                                <span v-if="isTechBoard=='0'&&isCybBoard!='1'">
                                                      <!-- 第一个进程展示的是‘查看公告’ -->
                                                     <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看公告 ></div>
                                                   <!-- 第二个进程展示的是‘查看文件’ -->
