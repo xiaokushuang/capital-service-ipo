@@ -1037,7 +1037,9 @@
               that.tabList=that.tabRatifyList;
               that.showComponent = feedback
               that.$refs.rightModule.treeListMethods(false);
-              that.$refs.testRef.feedbackShow(that.tabRatifyList,true);
+              that.$refs.testRef.$nextTick(()=>{
+                that.$refs.testRef.feedbackShow(that.tabRatifyList,true);
+              })
               targetList = document.getElementById('title-third').children;
               var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
               if (document.documentElement.scrollTop > scrollhight) {
@@ -1049,7 +1051,9 @@
               that.tabList=that.tabRegisterList;
               that.showComponent = feedback
               that.$refs.rightModule.treeListMethods(false);
-              that.$refs.testRef.feedbackShow(that.tabRegisterList,false);
+              that.$refs.testRef.$nextTick(()=>{
+                that.$refs.testRef.feedbackShow(that.tabRegisterList,false);
+              })
               targetList = document.getElementById('title-third').children;
               var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
               if (document.documentElement.scrollTop > scrollhight) {
