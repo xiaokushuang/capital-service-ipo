@@ -1,7 +1,7 @@
 <template>
     <div class="result">
         <!-- 不是科创版 审核会议展示-->
-        <div class="one" v-if="companyProfileList.headList.isTechBoard==0||caseType=='ratify'">
+        <div class="one" v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'">
             <ul v-if="baseList.length == 1" style="padding-left: 0;">
                  <li v-show="baseList.length>0" style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
                     <div class="text">
@@ -327,7 +327,7 @@
             </ul>
         </div>
         <!-- 是科创版 审核会议展示-->
-        <div class="one" v-if="companyProfileList.headList.isTechBoard==1">
+        <div class="one" v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'">
             <ul style="padding-left: 0;">
               <li v-for="(item,index) in baseList" :key="index">
                 <div v-if="item.processTypeCode =='35'" style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
@@ -361,7 +361,7 @@
                     </div>
                     <div class="text ">
                          <p style="font-size:14px;">
-                             <span v-if="companyProfileList.headList.isTechBoard==1" style="color:#999;">上市委员会委员: </span>
+                             <span v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" style="color:#999;">上市委员会委员: </span>
                               <span v-if="item.member&&item.member.length>0">
                                <span style="color:#333;font-family:'微软雅黑'">{{item.member}}</span>
                                 <span  style="color:#333;"> ;</span>
@@ -372,13 +372,13 @@
                     </div>
                     <!-- 委员弹窗 -->
                     <el-dialog
-                        :title="companyProfileList.headList.isTechBoard==0?'发审会委员':'上市委员会委员'"
+                        :title="companyProfileList.headList.isTechBoard==0&&caseType!='register'?'发审会委员':'上市委员会委员'"
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
-                        <member v-if="companyProfileList.headList.isTechBoard==0" :memberData={memberList:memberList}></member>
+                        <member v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" :memberData={memberList:memberList}></member>
                         <!-- 科创版上市委委员 -->
-                        <kcMember v-if="companyProfileList.headList.isTechBoard==1" :memberData={memberList:memberList}></kcMember>
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList}></kcMember>
                     </el-dialog>
                 </div>
                 <div v-if="item.processTypeCode =='38'" style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
@@ -435,7 +435,7 @@
                     </div>
                     <div class="text ">
                          <p style="font-size:14px;">
-                             <span v-if="companyProfileList.headList.isTechBoard==1" style="color:#999;">上市委员会委员: </span>
+                             <span v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" style="color:#999;">上市委员会委员: </span>
                               <span v-if="item.member&&item.member.length>0">
                                <span style="color:#333;font-family:'微软雅黑'">{{item.member}}</span>
                                 <span  style="color:#333;"> ;</span>
@@ -446,13 +446,13 @@
                     </div>
                     <!-- 委员弹窗 -->
                     <el-dialog
-                        :title="companyProfileList.headList.isTechBoard==0?'发审会委员':'上市委员会委员'"
+                        :title="companyProfileList.headList.isTechBoard==0&&caseType!='register'?'发审会委员':'上市委员会委员'"
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
-                        <member v-if="companyProfileList.headList.isTechBoard==0" :memberData={memberList:memberList}></member>
+                        <member v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" :memberData={memberList:memberList}></member>
                         <!-- 科创版上市委委员 -->
-                        <kcMember v-if="companyProfileList.headList.isTechBoard==1" :memberData={memberList:memberList}></kcMember>
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList}></kcMember>
                     </el-dialog>
                 </div>
               </li>
@@ -515,9 +515,9 @@
                 :visible.sync="dialogVisible"
                 width="1004px"
                 :before-close="handleClose">
-                <member v-if="companyProfileList.headList.isTechBoard==0" :memberData={memberList:memberList}></member>
+                <member v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" :memberData={memberList:memberList}></member>
                 <!-- 精选层挂牌委员会委员 -->
-                <kcMember v-if="companyProfileList.headList.isTechBoard==1" :memberData={memberList:memberList}></kcMember>
+                <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList}></kcMember>
               </el-dialog>
             </div>
             <div v-if="item.processTypeCode =='90'" style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
@@ -556,7 +556,7 @@
        <!-- 筛选问题列表 -->
         <div>
            <!-- 非科创版 -->
-            <div v-if="tabList&&tabList.length>0&&tabList[0].questionList&&tabList[0].questionList.length>0&&(companyProfileList.headList.isTechBoard==0||caseType=='ratify')" class="title">
+            <div v-if="tabList&&tabList.length>0&&tabList[0].questionList&&tabList[0].questionList.length>0&&(companyProfileList.headList.isTechBoard==0&&caseType!='register')" class="title">
                 <span class="littleRectangle"></span>
                 <span class="titleText" id="result">发审委会议关注问题</span>
             </div>
