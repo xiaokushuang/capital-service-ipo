@@ -56,7 +56,7 @@
                                                 class="tinyHand">
                                             </div>
                                             <!-- <span class="tg" style="margin-right:12px"></span> -->
-                                        <!-- 审核结果 -->
+                                            <!-- 审核结果 -->
                                             <span v-if="item.progressType=='07'&&item.iecResult=='00'" :style={background:htg}  class="htg" >获通过</span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='01'" :style={background:whtg} class="whtg">未获通过</span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='02'" :style={background:zhbj} class="zhbj">暂缓表决 </span>
@@ -99,7 +99,7 @@
                                               </p>
                                             </div>
                                           <!--科创版---区分‘中止和终止2个节点的显示，其他节点正常显示’-->
-                                            <div v-else>
+                                            <div v-if="isTechBoard!='0'||isCybBoard=='1'">
                                               <!--终止和中止节点-->
                                               <div v-if="item.isStopOrSuspend">
                                                 <div v-if="item.subtitle&&item.subtitle.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></div>
@@ -126,7 +126,7 @@
                                                     <a v-else @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多文件 ></a>
                                                 </span>
                                               <!--科创版‘中止’和‘终止’2个节点不显示-->
-                                              <span v-else>
+                                              <span v-if="isTechBoard!='0'||isCybBoard=='1'">
                                                     <a v-if="boxDataItem.treeTypeCode == '02'&&!item.isStopOrSuspend" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告 ></a>
                                                     <a v-if="boxDataItem.treeTypeCode != '02'&&!item.isStopOrSuspend" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多文件 ></a>
                                                 </span>
@@ -142,7 +142,7 @@
                                                     <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看文件 ></div>
                                                 </span>
                                               <!--科创版  ‘终止和中止显示；‘查看原因’’-->
-                                              <span v-else>
+                                              <span v-if="isTechBoard!='0'||isCybBoard=='1'">
                                                      <!-- 第一个进程展示的是‘查看公告’ -->
                                                     <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="item.isStopOrSuspend" v-show="item.subtitle&&item.subtitle.length>0"   @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看原因 ></div>
                                                 <!-- 第二个进程展示的是‘查看文件’ -->
@@ -239,7 +239,7 @@
                                             </p>
                                           </div>
                                           <!--科创版---区分‘中止和终止2个节点的显示，其他节点正常显示’-->
-                                          <div v-else>
+                                          <div v-if="isTechBoard!='0'||isCybBoard=='1'">
                                             <!--终止和中止节点-->
                                             <div v-if="item.isStopOrSuspend">
                                               <div v-if="item.subtitle&&item.subtitle.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></div>
@@ -266,7 +266,7 @@
                                                     <a v-else @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多文件 ></a>
                                                 </span>
                                               <!--科创版‘中止’和‘终止’2个节点不显示-->
-                                              <span v-else>
+                                              <span v-if="isTechBoard!='0'||isCybBoard=='1'">
                                                     <a v-if="boxDataItem.treeTypeCode == '02'&&!item.isStopOrSuspend" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告 ></a>
                                                     <a v-if="boxDataItem.treeTypeCode != '02'&&!item.isStopOrSuspend" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多文件 ></a>
                                                 </span>
@@ -282,7 +282,7 @@
                                                     <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看文件 ></div>
                                                 </span>
                                               <!--科创版  ‘终止和中止显示；‘查看原因’’-->
-                                              <span v-else>
+                                              <span v-if="isTechBoard!='0'||isCybBoard=='1'">
                                                      <!-- 第一个进程展示的是‘查看公告’ -->
                                                     <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="item.isStopOrSuspend" v-show="item.subtitle&&item.subtitle.length>0"   @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看原因 ></div>
                                                 <!-- 第二个进程展示的是‘查看文件’ -->
@@ -375,7 +375,7 @@ export default {
         };
     },
     name: "processTree",
-    props:["isTechBoard"],
+    props:["isTechBoard","isCybBoard"],
     created(){
          // 日志--------------------功能头
       let param = {

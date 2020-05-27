@@ -445,7 +445,7 @@
               </el-row>
             </div>
             <span style="padding: 0px;">
-							<processTree ref="rightModule"  :isTechBoard="headList.isTechBoard"></processTree>
+							<processTree ref="rightModule"  :isTechBoard="headList.isTechBoard" :isCybBoard="headList.isCybBoard"></processTree>
 						</span>
           </el-col>
         </el-col>
