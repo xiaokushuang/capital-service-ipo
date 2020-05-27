@@ -1034,6 +1034,7 @@
               break
             case '11':
               // 反馈意见【没有锚点定位】
+              that.tabList=that.tabRatifyList;
               that.showComponent = feedback
               that.$refs.rightModule.treeListMethods(false);
               that.$refs.testRef.feedbackShow(that.tabRatifyList,true);
@@ -1044,7 +1045,8 @@
               }
               break
             case '12':
-              // 问询与回复【没有锚点定位】
+              // 问询与回复【没有锚点定位】说
+              that.tabList=that.tabRegisterList;
               that.showComponent = feedback
               that.$refs.rightModule.treeListMethods(false);
               that.$refs.testRef.feedbackShow(that.tabRegisterList,false);
@@ -1058,7 +1060,9 @@
               // 发审会关注问题
               that.tabList.resultType = "ratify";
               that.showComponent = result
-              that.$refs.testRef.setResultType("ratify");
+              that.$refs.testRef.$nextTick(()=>{
+                that.$refs.testRef.setResultType("ratify");
+              })
               that.$refs.rightModule.treeListMethods(false);
               targetList = document.getElementById('title-fourth').children;
               var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;
@@ -1070,7 +1074,9 @@
               // 上市委关注问题
               that.tabList.resultType = "register";
               that.showComponent = result
-              that.$refs.testRef.setResultType("register");
+              that.$refs.testRef.$nextTick(()=>{
+                that.$refs.testRef.setResultType("register");
+              })
               that.$refs.rightModule.treeListMethods(false);
               targetList = document.getElementById('title-fourth').children;
               var scrollhight = document.getElementById('titleHeader').offsetHeight + 56;

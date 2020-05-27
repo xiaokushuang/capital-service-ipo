@@ -185,11 +185,11 @@
       this.isShowAll = true;
     },
     mounted(){
-      console.log('111',this.companyProfileList.tabList)
     },
 
     methods: {
       feedbackShow(tablist,isRatify){
+        this.companyProfileList.tabList=[];
         this.isRatify = isRatify;
         this.companyProfileList.tabList = tablist;
         this.innitData();
@@ -201,7 +201,6 @@
           if(this.companyProfileList.tabList[0].letterId){
             this.o_letterId = this.companyProfileList.tabList[0].letterId;
           }
-          console.log('反馈意见', this.tabList)
         }
 // 第一个tab
         if (this.tabList && this.tabList.length == 1) {
