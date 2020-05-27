@@ -967,7 +967,21 @@ export default {
           console.log('审核结果',res)
             if (res.data.result && res.data.result.length > 0) {
             this.o_letterId = res.data.result[0].letterId;
-            this.tabList = res.data.result;
+            this.tabList = [];
+            if (this.caseType != ''&& this.caseType != undefined){
+              console.log("创业板模块",this.caseType,res.data.result);
+              for (let i = 0; i < res.data.result.length; i++) {
+                var tmp = res.data.result[i];
+                //针对创业板
+                if(this.caseType=='ratify' && tmp.letterName == "发审会关注问题"){//核准制
+                    this.tabList.push(tmp);
+                } else if (this.caseType == "register" && (tmp.letterName == "上市会关注问题" || tmp.letterName=="复审会关注问题")) {// 注册制
+                  this.tabList.push(tmp);
+                }
+              }
+            } else {
+              this.tabList = res.data.result;
+            }
             console.log('审核结果',this.tabList)
             this.activeName = this.tabList[0].letterId;
                // 第一个tab
