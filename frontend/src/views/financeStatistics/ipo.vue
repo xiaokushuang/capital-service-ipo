@@ -1457,11 +1457,11 @@
 
   .el-tabs__item {
     color: #333;
-    padding: 0 15px;
+    padding: 0 10px;
   }
 
   .el-tabs__item1 {
-    padding: 0 15px;
+    padding: 0 10px;
     height: 40px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
