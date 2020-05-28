@@ -102,7 +102,7 @@
               >
               </el-multiple-selection>
             </el-col>
-           <el-col :span='7'>
+           <el-col :span='8'>
              <el-multiple-selection
                ref="selectIssueCondition"
                id="selectIssueCondition"
@@ -117,56 +117,7 @@
              >
              </el-multiple-selection>
            </el-col>
-           <el-col :span="1">
-             <i class="el-icon-info" style="color: #c2c2c2;line-height: 30px;cursor: pointer" title="点击查看上市条件" @click="issueClick"></i>
-             <!--<el-popover placement="bottom" width="600" trigger="hover">
-               <div style="font-size: 12px">
-                 <div>
-                   <a style="color: #1990FE;margin-left: -5px" @click="openNewRule()">《上海证券交易所科创板股票上市规则》：</a>
-                 </div>
-                 <div style="margin-top: 5px">2.1.2</div>
-                 <div>发行人申请在本所科创板上市，市值及财务指标应当至少符合下列标准中的一项：</div>
-                 <div>
-                   （一）预计市值不低于人民币10亿元，最近两年净利润均为正且累计净利润不低于人民币5000万元，或者预计市值不低于人民币10亿元，最近一年净利润为正且营业收入不低于人民币1亿元；
-                 </div>
-                 <div>（二）预计市值不低于人民币15亿元，最近一年营业收入不低于人民币2亿元，且最近三年累计研发投入占最近三年累计营业收入的比例不低于15%；</div>
-                 <div>（三）预计市值不低于人民币20亿元，最近一年营业收入不低于人民币3亿元，且最近三年经营活动产生的现金流量净额累计不低于人民币1亿元；</div>
-                 <div>（四）预计市值不低于人民币30亿元，且最近一年营业收入不低于人民币3亿元；</div>
-                 <div>
-                   （五）预计市值不低于人民币40亿元，主要业务或产品需经国家有关部门批准，市场空间大，目前已取得阶段性成果。医药行业企业需至少有一项核心产品获准开展二期临床试验，其他符合科创板定位的企业需具备明显的技术优势并满足相应条件。
-                 </div>
-                 <div>
-                   本条所称净利润以扣除非经常性损益前后的孰低者为准，所称净利润、营业收入、经营活动产生的现金流量净额均指经审计的数值。
-                 </div>
-                 <div style="margin-top: 5px">2.1.3</div>
-                 <div>
-                   符合《国务院办公厅转发证监会关于开展创新企业境内发行股票或存托凭证试点若干意见的通知》（国办发﹝2018﹞21号）相关规定的红筹企业，可以申请发行股票或存托凭证并在科创板上市。
-                 </div>
-                 <div>
-                   营业收入快速增长，拥有自主研发、国际领先技术，同行业竞争中处于相对优势地位的尚未在境外上市红筹企业，申请在科创板上市的，市值及财务指标应当至少符合下列标准之一：
-                 </div>
-                 <div>（一）预计市值不低于人民币100亿元；</div>
-                 <div>（二）预计市值不低于人民币50亿元，且最近一年营业收入不低于人民币5亿元。</div>
-                 <div style="margin-top: 5px">2.1.4</div>
-                 <div>
-                   发行人具有表决权差异安排的，市值及财务指标应当至少符合下列标准中的一项：
-                 </div>
-                 <div>
-                   （一）预计市值不低于人民币100亿元；
-                 </div>
-                 <div>
-                   （二）预计市值不低于人民币50亿元，且最近一年营业收入不低于人民币5亿元。
-                 </div>
-                 <div>
-                   发行人特别表决权股份的持有人资格、公司章程关于表决权差异安排的具体规定，应当符合本规则第四章第五节的规定。
-                 </div>
-                 <div>
-                   本规则所称表决权差异安排，是指发行人依照《公司法》第一百三十一条的规定，在一般规定的普通股份之外，发行拥有特别表决权的股份（以下简称特别表决权股份）。每一特别表决权股份拥有的表决权数量大于每一普通股份拥有的表决权数量，其他股东权利与普通股份相同。
-                 </div>
-               </div>
-               <span slot="reference" class="home_new" style="margin-top: 5px;background-position:-69px -20px;cursor: pointer"></span>
-             </el-popover>-->
-           </el-col>
+
 
           </el-row>
           <el-row :gutter="24">
@@ -255,7 +206,7 @@
                 id="selectPlacingMechanism"
                 placeholder="配售机制"
                 @sure-click="sure('selectPlacingMechanism')"
-                :default-all-show="false"
+                :default-all-show="true"
                 size="small full"
                 node-key="id"
                 :tree-data="ipoMechanismList"
@@ -291,100 +242,90 @@
 
           </el-row>
           <div v-show="searchFlag" style="display:flex">
-            <div class="left" style="width:45%;margin-right:24px">
+            <div class="left" style="width:100%;">
               <el-row :gutter="24" style="background:#f9f9f9;margin-bottom:0px;padding-top:10px">
-                <el-radio-group v-model="yearRadio" style="width:100%">
+                <el-radio-group v-model="yearRadio" style="width:45%">
                   <el-radio style="width:31%" :label="1">最近一个会计年度累计</el-radio>
                   <el-radio style="width:31%" :label="2">最近两个会计年度累计</el-radio>
                   <el-radio style="width:31%" :label="3">最近三个会计年度累计</el-radio>
                 </el-radio-group>
               </el-row>
-              <div style="background:#f9f9f9;margin-bottom:10px;padding:10px 5px 5px 5px">
+              <div style="background:#f9f9f9;margin-bottom:10px;padding:10px 5px 0.1px 5px">
                 <el-row :gutter="24">
-                  <el-col :span='12'>
-                    <el-multiple-selection v-if="yearRadio===1&&profitOneShow" style="width: 205.5%" :range="true" :tree-data="optionNetProfitOne"
+                  <el-col :span='8'>
+                    <el-multiple-selection v-if="yearRadio===1&&profitOneShow" :range="true" :tree-data="optionNetProfitOne"
                                            placeholder="招股书最近一个会计年度净利润" size="small full" :multiple="false" unit="亿元" :ran="optionDto" @sure-click="rangeCallProfitOne"
                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
-                    <el-multiple-selection v-if="yearRadio===2&&profitTwoShow" style="width: 205.5%" :range="true" :tree-data="optionNetProfitTwo"
+                    <el-multiple-selection v-if="yearRadio===2&&profitTwoShow" :range="true" :tree-data="optionNetProfitTwo"
                                            placeholder="招股书最近两个会计年度净利润" size="small full" :multiple="false" unit="亿元" :ran="optionDto" @sure-click="rangeCallProfitTwo"
                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
-                    <el-multiple-selection v-if="yearRadio===3&&profitThreeShow" style="width: 205.5%" :range="true" :tree-data="optionNetProfitThree"
+                    <el-multiple-selection v-if="yearRadio===3&&profitThreeShow" :range="true" :tree-data="optionNetProfitThree"
                                            placeholder="招股书最近三个会计年度净利润" size="small full" :multiple="false" unit="亿元" :ran="optionDto" @sure-click="rangeCallProfitThree"
                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
                   </el-col>
-                </el-row>
-                <el-row :gutter="24">
-                  <el-col :span='12'>
-                    <el-multiple-selection v-if="yearRadio===1&&reveOneShow" style="width: 205.5%" :range="true" :tree-data="optionOperateReveOne"
+                  <el-col :span='8'>
+                    <el-multiple-selection v-if="yearRadio===1&&reveOneShow" :range="true" :tree-data="optionOperateReveOne"
                                            placeholder="招股书最近一个会计年度营业收入" size="small full" :multiple="false" unit="亿元" :ran="optionDto" @sure-click="rangeCallReveOne"
                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
-                    <el-multiple-selection v-if="yearRadio===2&&reveTwoShow" style="width: 205.5%" :range="true" :tree-data="optionOperateReveTwo"
+                    <el-multiple-selection v-if="yearRadio===2&&reveTwoShow" :range="true" :tree-data="optionOperateReveTwo"
                                            placeholder="招股书最近两个会计年度营业收入" size="small full" :multiple="false" unit="亿元" :ran="optionDto" @sure-click="rangeCallReveTwo"
                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
-                    <el-multiple-selection v-if="yearRadio===3&&reveThreeShow" style="width: 205.5%" :range="true" :tree-data="optionOperateReveThree"
+                    <el-multiple-selection v-if="yearRadio===3&&reveThreeShow" :range="true" :tree-data="optionOperateReveThree"
                                            placeholder="招股书最近三个会计年度营业收入" size="small full" :multiple="false" unit="亿元" :ran="optionDto" @sure-click="rangeCallReveThree"
                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
                   </el-col>
-                </el-row>
-                <el-row :gutter="24">
-                  <el-col :span='12'>
-                    <el-multiple-selection v-if="yearRadio===1&&cashOneShow" style="width: 205.5%" :range="true" :tree-data="optionOperateCashFlowOne"
+                  <el-col :span='8'>
+                    <el-multiple-selection v-if="yearRadio===1&&cashOneShow" :range="true" :tree-data="optionOperateCashFlowOne"
                                            placeholder="招股书最近一个会计年度经营活动现金流量净额" size="small full" :multiple="false" unit="亿元" :ran="optionDto"
                                            @sure-click="rangeCallCashFlowOne" @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
-                    <el-multiple-selection v-if="yearRadio===2&&cashTwoShow" style="width: 205.5%" :range="true" :tree-data="optionOperateCashFlowTwo"
+                    <el-multiple-selection v-if="yearRadio===2&&cashTwoShow" :range="true" :tree-data="optionOperateCashFlowTwo"
                                            placeholder="招股书最近两个会计年度经营活动现金流量净额" size="small full" :multiple="false" unit="亿元" :ran="optionDto"
                                            @sure-click="rangeCallCashFlowTwo" @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
-                    <el-multiple-selection v-if="yearRadio===3&&cashThreeShow" style="width: 205.5%" :range="true" :tree-data="optionOperateCashFlowThree"
+                    <el-multiple-selection v-if="yearRadio===3&&cashThreeShow" :range="true" :tree-data="optionOperateCashFlowThree"
                                            placeholder="招股书最近三个会计年度经营活动现金流量净额" size="small full" :multiple="false" unit="亿元" :ran="optionDto"
                                            @sure-click="rangeCallCashFlowThree" @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
                   </el-col>
                 </el-row>
               </div>
-              <div style="background:#f9f9f9;margin-bottom:10px;padding:10px 5px 5px 5px">
+              <div style="background:#f9f9f9;margin-bottom:10px;padding:10px 5px 0.1px 5px">
                 <el-row :gutter="24">
-                  <el-col :span='12'>
-                    <el-multiple-selection v-if="sunAssetShow" style="width: 205.5%" :range="true" :tree-data="optionSunAsset"
+                  <el-col :span='8'>
+                    <el-multiple-selection v-if="sunAssetShow" :range="true" :tree-data="optionSunAsset"
                                            placeholder="招股书最近一期末总资产" size="small full" :multiple="false" unit="万元" :ran="optionDto" @sure-click="rangeCallSunAsset"
                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
                   </el-col>
-                </el-row>
-                <el-row :gutter="24">
-                  <el-col :span='12'>
-                    <el-multiple-selection v-if="sunQuityShow" style="width: 205.5%" :range="true" :tree-data="optionSumShareQuity"
+                  <el-col :span='8 '>
+                    <el-multiple-selection v-if="sunQuityShow" :range="true" :tree-data="optionSumShareQuity"
                                            placeholder="招股书最近一期末净资产" size="small full" :multiple="false" unit="万元" :ran="optionDto" @sure-click="rangeCallSumShareQuity"
                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
                   </el-col>
-                </el-row>
-                <el-row :gutter="24">
-                  <el-col :span='12'>
-                    <el-multiple-selection v-if="assetRatioShow" style="width: 205.5%" :range="true" :tree-data="optionAssetRatio"
+                  <el-col :span='8'>
+                    <el-multiple-selection v-if="assetRatioShow" :range="true" :tree-data="optionAssetRatio"
                                            placeholder="招股书最近一期末无形资产占净资产的比例" size="small full" :multiple="false" unit="%" :ran="optionDto" @sure-click="rangeCallAssetRatio"
                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
                   </el-col>
                 </el-row>
                 <el-row :gutter="24">
-                  <el-col :span='12'>
-                    <el-multiple-selection v-if="shareIssueBShow" style="width: 205.5%" :range="true" :tree-data="optionShareIssueB"
+                  <el-col :span='8'>
+                    <el-multiple-selection v-if="shareIssueBShow" :range="true" :tree-data="optionShareIssueB"
                                            placeholder="发行前股本总额" size="small full" :multiple="false" unit="万股" :ran="optionDto" @sure-click="rangeCallShareIssueB"
                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
                   </el-col>
-                </el-row>
-                <el-row :gutter="24">
-                  <el-col :span='12'>
-                    <el-multiple-selection v-if="shareIssueAShow" style="width: 205.5%" :range="true" :tree-data="optionShareIssueA"
+                  <el-col :span='8'>
+                    <el-multiple-selection v-if="shareIssueAShow" :range="true" :tree-data="optionShareIssueA"
                                            placeholder="发行后股本总额" size="small full" :multiple="false" unit="万股" :ran="optionDto" @sure-click="rangeCallShareIssueA"
                                            @keydown.enter.native="querySearch" :left-decimal="true">
                     </el-multiple-selection>
@@ -392,160 +333,160 @@
                 </el-row>
               </div>
             </div>
-            <div class="right" style="flex:1;">
-              <div style="background:#f9f9f9;padding:10px">
-                <div>
-                  <div class="clear" style="margin-bottom:5px">
-                    <span class="l" style="color: #333333;font-size:14px;">主板上市条件</span>
-                    <span class="r" style="color: #999999;font-size:12px">试点企业，可不适用第<span class="quan">1</span>项、第<span class="quan">5</span>项规定。</span>
-                  </div>
-                  <div>
-                    <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
-                      <span class="quan">1</span>
-                      <div class="topOne">
-                        最近<span style="color:#14BCF5">3</span>个会计年度净利润均为正数且<span style="color:#14BCF5">累计超过3000万元</span>（人民币），净利润以扣除非经常性损益前后较低者为计算依据；
-                      </div>
-                    </div>
-                    <!-- <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:7px">
-                      <span class="quan" style="position: relative; top: -17px;;">2</span>
-                      <div style="display: inline-block;margin-left: 0.5%;">
-                        最近<span style="color:#14BCF5">3</span>个会计年度营业收入<span style="color: #14BCF5">累计超过3亿元</span>(人民币)；<br>
-                        <span><span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">3</span>个会计年度经营活动产生的现金流量净额<span style="color:#14BCF5">累计超过5000万元</span>(人民币)；</span>
-                      </div>
-                    </div> -->
-                    <div class="clear" style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:7px">
-                      <span class="quan" style="float:left">2</span>
-                      <div style="display: inline-block;margin-left: 0.5%;float:left">
-                        最近<span style="color:#14BCF5">3</span>个会计年度营业收入<span style="color: #14BCF5">累计超过3亿元</span>(人民币)；<br>
-                        <span><span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">3</span>个会计年度经营活动产生的现金流量净额<span
-                          style="color:#14BCF5">累计超过5000万元</span>(人民币)；</span>
-                      </div>
-                    </div>
-                    <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
-                      <span class="quan">3</span>
-                      发行前股本总额<span style="color:#14BCF5">不少于3000万元</span> (人民币)；
-                    </p>
-                    <p class="clear" style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
-                      <span style="float:left" class="quan">4</span>
-                      <span style="float:left;display:inline-block;width: 93%; margin-left: 4px;">最近一期末无形资产（扣除土地使用权、水面养殖权和采矿权等后）占净资产的比例<span
-                        style="color:#333333;">不高于20％；</span></span>
-                    </p>
-                    <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
-                      <span class="quan">5</span>
-                      最近一期末不存在未弥补亏损。
-                    </p>
-                  </div>
-                </div>
-                <div>
-                  <div class="clear" style="margin-bottom:5px;margin-top: 10px;">
-                    <span class="l" style="color: #333333;font-size:14px;">创业板上市条件</span>
-                    <span class="r" style="color: #999999;font-size:12px">试点企业，可不适用第<span class="quan">2</span>项规定和第<span class="quan">3</span>项“不存在未弥补亏损”的规定。</span>
-                  </div>
-                  <div>
-                    <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
-                      <span class="quan">1</span>
-                      <div class="bottomOne">
-                        发行人是依法设立且持续经营三年以上的股份有限公司。有限责任公司按原账面净资产值折股整体变更为股份有限公司的，持续经营时间可以从有限责任公司成立之日起计算；
-                      </div>
-                    </div>
-                    <div class="clear" style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
-                      <span class="quan" style="float:left">2</span>
-                      <div style="display: inline-block;margin-left: 0.5%;float:left;width: 95%;">
-                        最近<span style="color: #14BCF5">2</span>年连续盈利，最近两年净利润<span style="color: #14BCF5">累计不少于1000万元</span>;<br>
-                        <span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">1</span>年盈利，最近一年营业收入<span style="color:#14BCF5">不少于5000万元。</span>(
-                        净利润以扣除非经常性损益前后孰低者为计算依据)
-                      </div>
-                    </div>
-                    <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
-                      <span class="quan">3</span>
-                      最近一期末净资产<span style="color:#14BCF5">不少于2000万元</span>，且不存在未弥补亏损；
-                    </p>
-                    <p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">
-                      <span class="quan">4</span>
+            <!--<div class="right" style="flex:1;">-->
+              <!--<div style="background:#f9f9f9;padding:10px">-->
+                <!--<div>-->
+                  <!--<div class="clear" style="margin-bottom:5px">-->
+                    <!--<span class="l" style="color: #333333;font-size:14px;">主板上市条件</span>-->
+                    <!--<span class="r" style="color: #999999;font-size:12px">试点企业，可不适用第<span class="quan">1</span>项、第<span class="quan">5</span>项规定。</span>-->
+                  <!--</div>-->
+                  <!--<div>-->
+                    <!--<div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">-->
+                      <!--<span class="quan">1</span>-->
+                      <!--<div class="topOne">-->
+                        <!--最近<span style="color:#14BCF5">3</span>个会计年度净利润均为正数且<span style="color:#14BCF5">累计超过3000万元</span>（人民币），净利润以扣除非经常性损益前后较低者为计算依据；-->
+                      <!--</div>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash; <div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:7px">-->
+                      <!--<span class="quan" style="position: relative; top: -17px;;">2</span>-->
+                      <!--<div style="display: inline-block;margin-left: 0.5%;">-->
+                        <!--最近<span style="color:#14BCF5">3</span>个会计年度营业收入<span style="color: #14BCF5">累计超过3亿元</span>(人民币)；<br>-->
+                        <!--<span><span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">3</span>个会计年度经营活动产生的现金流量净额<span style="color:#14BCF5">累计超过5000万元</span>(人民币)；</span>-->
+                      <!--</div>-->
+                    <!--</div> &ndash;&gt;-->
+                    <!--<div class="clear" style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:7px">-->
+                      <!--<span class="quan" style="float:left">2</span>-->
+                      <!--<div style="display: inline-block;margin-left: 0.5%;float:left">-->
+                        <!--最近<span style="color:#14BCF5">3</span>个会计年度营业收入<span style="color: #14BCF5">累计超过3亿元</span>(人民币)；<br>-->
+                        <!--<span><span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">3</span>个会计年度经营活动产生的现金流量净额<span-->
+                          <!--style="color:#14BCF5">累计超过5000万元</span>(人民币)；</span>-->
+                      <!--</div>-->
+                    <!--</div>-->
+                    <!--<p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">-->
+                      <!--<span class="quan">3</span>-->
+                      <!--发行前股本总额<span style="color:#14BCF5">不少于3000万元</span> (人民币)；-->
+                    <!--</p>-->
+                    <!--<p class="clear" style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">-->
+                      <!--<span style="float:left" class="quan">4</span>-->
+                      <!--<span style="float:left;display:inline-block;width: 93%; margin-left: 4px;">最近一期末无形资产（扣除土地使用权、水面养殖权和采矿权等后）占净资产的比例<span-->
+                        <!--style="color:#333333;">不高于20％；</span></span>-->
+                    <!--</p>-->
+                    <!--<p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">-->
+                      <!--<span class="quan">5</span>-->
+                      <!--最近一期末不存在未弥补亏损。-->
+                    <!--</p>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div>-->
+                  <!--<div class="clear" style="margin-bottom:5px;margin-top: 10px;">-->
+                    <!--<span class="l" style="color: #333333;font-size:14px;">创业板上市条件</span>-->
+                    <!--<span class="r" style="color: #999999;font-size:12px">试点企业，可不适用第<span class="quan">2</span>项规定和第<span class="quan">3</span>项“不存在未弥补亏损”的规定。</span>-->
+                  <!--</div>-->
+                  <!--<div>-->
+                    <!--<div style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">-->
+                      <!--<span class="quan">1</span>-->
+                      <!--<div class="bottomOne">-->
+                        <!--发行人是依法设立且持续经营三年以上的股份有限公司。有限责任公司按原账面净资产值折股整体变更为股份有限公司的，持续经营时间可以从有限责任公司成立之日起计算；-->
+                      <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="clear" style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">-->
+                      <!--<span class="quan" style="float:left">2</span>-->
+                      <!--<div style="display: inline-block;margin-left: 0.5%;float:left;width: 95%;">-->
+                        <!--最近<span style="color: #14BCF5">2</span>年连续盈利，最近两年净利润<span style="color: #14BCF5">累计不少于1000万元</span>;<br>-->
+                        <!--<span style="color: #000000;">或</span>:最近<span style="color:#14BCF5">1</span>年盈利，最近一年营业收入<span style="color:#14BCF5">不少于5000万元。</span>(-->
+                        <!--净利润以扣除非经常性损益前后孰低者为计算依据)-->
+                      <!--</div>-->
+                    <!--</div>-->
+                    <!--<p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">-->
+                      <!--<span class="quan">3</span>-->
+                      <!--最近一期末净资产<span style="color:#14BCF5">不少于2000万元</span>，且不存在未弥补亏损；-->
+                    <!--</p>-->
+                    <!--<p style="color: #666666;font-size: 12px;margin-top:0px;margin-bottom:6px">-->
+                      <!--<span class="quan">4</span>-->
 
-                      发行后股本总额<span style="color:#14BCF5">不少于3000万元。</span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <p style="color: #888888;font-size:12px;margin-top: 0px;">
-                  中国证监会根据<a style="color: #1990FE;text-decoration:underline" @click="openNew()">《关于开展创新企业境内发行股票或存托凭证试点的若干意见》</a>等规定认定的试点企业可不适用部分上市条件中的规定。
-                </p>
-              </div>
-            </div>
+                      <!--发行后股本总额<span style="color:#14BCF5">不少于3000万元。</span>-->
+                    <!--</p>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div>-->
+                <!--<p style="color: #888888;font-size:12px;margin-top: 0px;">-->
+                  <!--中国证监会根据<a style="color: #1990FE;text-decoration:underline" @click="openNew()">《关于开展创新企业境内发行股票或存托凭证试点的若干意见》</a>等规定认定的试点企业可不适用部分上市条件中的规定。-->
+                <!--</p>-->
+              <!--</div>-->
+            <!--</div>-->
           </div>
-          <el-dialog top="10vh"
-                     title="发行人选择的上市条件"
-                     :visible.sync="dialogIssueCondition"
-                     width="50%" id="issueDialog">
-            <div style="display: inline-block;width: 15%;padding-left: 20px">
-              <div :class="issueDialogSel == '1' ? 'issueSel':''" style="cursor: pointer" @click="issueDialogClick('1')">科创板上市条件</div>
-              <div :class="issueDialogSel == '2' ? 'issueSel':''" style="cursor: pointer" @click="issueDialogClick('2')">精选层上市条件</div>
-            </div>
-            <div style="display: inline-block;width: 80%;vertical-align: top;padding-bottom: 20px">
-              <div v-if="issueDialogSel == '1'">
-                <div>
-                  <a style="color: #1990FE;margin-left: -5px" @click="openNewRule()">《上海证券交易所科创板股票上市规则》：</a>
-                </div>
-                <div style="margin-top: 5px">2.1.2</div>
-                <div>发行人申请在本所科创板上市，市值及财务指标应当至少符合下列标准中的一项：</div>
-                <div>
-                  （一）预计市值不低于人民币10亿元，最近两年净利润均为正且累计净利润不低于人民币5000万元，或者预计市值不低于人民币10亿元，最近一年净利润为正且营业收入不低于人民币1亿元；
-                </div>
-                <div>（二）预计市值不低于人民币15亿元，最近一年营业收入不低于人民币2亿元，且最近三年累计研发投入占最近三年累计营业收入的比例不低于15%；</div>
-                <div>（三）预计市值不低于人民币20亿元，最近一年营业收入不低于人民币3亿元，且最近三年经营活动产生的现金流量净额累计不低于人民币1亿元；</div>
-                <div>（四）预计市值不低于人民币30亿元，且最近一年营业收入不低于人民币3亿元；</div>
-                <div>
-                  （五）预计市值不低于人民币40亿元，主要业务或产品需经国家有关部门批准，市场空间大，目前已取得阶段性成果。医药行业企业需至少有一项核心产品获准开展二期临床试验，其他符合科创板定位的企业需具备明显的技术优势并满足相应条件。
-                </div>
-                <div>
-                  本条所称净利润以扣除非经常性损益前后的孰低者为准，所称净利润、营业收入、经营活动产生的现金流量净额均指经审计的数值。
-                </div>
-                <div style="margin-top: 5px">2.1.3</div>
-                <div>
-                  符合《国务院办公厅转发证监会关于开展创新企业境内发行股票或存托凭证试点若干意见的通知》（国办发﹝2018﹞21号）相关规定的红筹企业，可以申请发行股票或存托凭证并在科创板上市。
-                </div>
-                <div>
-                  营业收入快速增长，拥有自主研发、国际领先技术，同行业竞争中处于相对优势地位的尚未在境外上市红筹企业，申请在科创板上市的，市值及财务指标应当至少符合下列标准之一：
-                </div>
-                <div>（一）预计市值不低于人民币100亿元；</div>
-                <div>（二）预计市值不低于人民币50亿元，且最近一年营业收入不低于人民币5亿元。</div>
-                <div style="margin-top: 5px">2.1.4</div>
-                <div>
-                  发行人具有表决权差异安排的，市值及财务指标应当至少符合下列标准中的一项：
-                </div>
-                <div>
-                  （一）预计市值不低于人民币100亿元；
-                </div>
-                <div>
-                  （二）预计市值不低于人民币50亿元，且最近一年营业收入不低于人民币5亿元。
-                </div>
-                <div>
-                  发行人特别表决权股份的持有人资格、公司章程关于表决权差异安排的具体规定，应当符合本规则第四章第五节的规定。
-                </div>
-                <div>
-                  本规则所称表决权差异安排，是指发行人依照《公司法》第一百三十一条的规定，在一般规定的普通股份之外，发行拥有特别表决权的股份（以下简称特别表决权股份）。每一特别表决权股份拥有的表决权数量大于每一普通股份拥有的表决权数量，其他股东权利与普通股份相同。
-                </div>
-              </div>
-              <div v-else>
-                <div>
-                  <a style="color: #1990FE;margin-left: -5px" @click="openNewRuleJxc()">《全国中小企业股份转让系统分层管理办法》：</a>
-                </div>
-                <div style="margin-top: 5px">第十五条</div>
-                <div>挂牌公司进入精选层，应当符合下列条件之一：</div>
-                <div>
-                  （一）市值不低于2亿元，最近两年净利润均不低于1500万元且加权平均净资产收益率平均不低于10%，或者最近一年净利润不低于2500万元且加权平均净资产收益率不低于10%；
-                </div>
-                <div>（二）市值不低于4亿元，最近两年营业收入平均不低于1亿元且增长率不低于30%，最近一年经营活动产生的现金流量净额为正；</div>
-                <div>（三）市值不低于8亿元，最近一年营业收入不低于2亿元，最近两年研发投入合计占最近两年营业收入合计比例不低于8%；</div>
-                <div>（四）市值不低于15亿元，最近两年研发投入合计不低于5000万元。</div>
-                <div>前款所称市值是指以挂牌公司向不特定合格投资者公开发行（以下简称公开发行）价格计算的股票市值。</div>
-              </div>
-            </div>
-          </el-dialog>
-          <el-row :gutter="24">
-            <el-col :span='14'>
+          <!--<el-dialog top="10vh"-->
+                     <!--title="发行人选择的上市条件"-->
+                     <!--:visible.sync="dialogIssueCondition"-->
+                     <!--width="50%" id="issueDialog">-->
+            <!--<div style="display: inline-block;width: 15%;padding-left: 20px">-->
+              <!--<div :class="issueDialogSel == '1' ? 'issueSel':''" style="cursor: pointer" @click="issueDialogClick('1')">科创板上市条件</div>-->
+              <!--<div :class="issueDialogSel == '2' ? 'issueSel':''" style="cursor: pointer" @click="issueDialogClick('2')">精选层上市条件</div>-->
+            <!--</div>-->
+            <!--<div style="display: inline-block;width: 80%;vertical-align: top;padding-bottom: 20px">-->
+              <!--<div v-if="issueDialogSel == '1'">-->
+                <!--<div>-->
+                  <!--<a style="color: #1990FE;margin-left: -5px" @click="openNewRule()">《上海证券交易所科创板股票上市规则》：</a>-->
+                <!--</div>-->
+                <!--<div style="margin-top: 5px">2.1.2</div>-->
+                <!--<div>发行人申请在本所科创板上市，市值及财务指标应当至少符合下列标准中的一项：</div>-->
+                <!--<div>-->
+                  <!--（一）预计市值不低于人民币10亿元，最近两年净利润均为正且累计净利润不低于人民币5000万元，或者预计市值不低于人民币10亿元，最近一年净利润为正且营业收入不低于人民币1亿元；-->
+                <!--</div>-->
+                <!--<div>（二）预计市值不低于人民币15亿元，最近一年营业收入不低于人民币2亿元，且最近三年累计研发投入占最近三年累计营业收入的比例不低于15%；</div>-->
+                <!--<div>（三）预计市值不低于人民币20亿元，最近一年营业收入不低于人民币3亿元，且最近三年经营活动产生的现金流量净额累计不低于人民币1亿元；</div>-->
+                <!--<div>（四）预计市值不低于人民币30亿元，且最近一年营业收入不低于人民币3亿元；</div>-->
+                <!--<div>-->
+                  <!--（五）预计市值不低于人民币40亿元，主要业务或产品需经国家有关部门批准，市场空间大，目前已取得阶段性成果。医药行业企业需至少有一项核心产品获准开展二期临床试验，其他符合科创板定位的企业需具备明显的技术优势并满足相应条件。-->
+                <!--</div>-->
+                <!--<div>-->
+                  <!--本条所称净利润以扣除非经常性损益前后的孰低者为准，所称净利润、营业收入、经营活动产生的现金流量净额均指经审计的数值。-->
+                <!--</div>-->
+                <!--<div style="margin-top: 5px">2.1.3</div>-->
+                <!--<div>-->
+                  <!--符合《国务院办公厅转发证监会关于开展创新企业境内发行股票或存托凭证试点若干意见的通知》（国办发﹝2018﹞21号）相关规定的红筹企业，可以申请发行股票或存托凭证并在科创板上市。-->
+                <!--</div>-->
+                <!--<div>-->
+                  <!--营业收入快速增长，拥有自主研发、国际领先技术，同行业竞争中处于相对优势地位的尚未在境外上市红筹企业，申请在科创板上市的，市值及财务指标应当至少符合下列标准之一：-->
+                <!--</div>-->
+                <!--<div>（一）预计市值不低于人民币100亿元；</div>-->
+                <!--<div>（二）预计市值不低于人民币50亿元，且最近一年营业收入不低于人民币5亿元。</div>-->
+                <!--<div style="margin-top: 5px">2.1.4</div>-->
+                <!--<div>-->
+                  <!--发行人具有表决权差异安排的，市值及财务指标应当至少符合下列标准中的一项：-->
+                <!--</div>-->
+                <!--<div>-->
+                  <!--（一）预计市值不低于人民币100亿元；-->
+                <!--</div>-->
+                <!--<div>-->
+                  <!--（二）预计市值不低于人民币50亿元，且最近一年营业收入不低于人民币5亿元。-->
+                <!--</div>-->
+                <!--<div>-->
+                  <!--发行人特别表决权股份的持有人资格、公司章程关于表决权差异安排的具体规定，应当符合本规则第四章第五节的规定。-->
+                <!--</div>-->
+                <!--<div>-->
+                  <!--本规则所称表决权差异安排，是指发行人依照《公司法》第一百三十一条的规定，在一般规定的普通股份之外，发行拥有特别表决权的股份（以下简称特别表决权股份）。每一特别表决权股份拥有的表决权数量大于每一普通股份拥有的表决权数量，其他股东权利与普通股份相同。-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div v-else>-->
+                <!--<div>-->
+                  <!--<a style="color: #1990FE;margin-left: -5px" @click="openNewRuleJxc()">《全国中小企业股份转让系统分层管理办法》：</a>-->
+                <!--</div>-->
+                <!--<div style="margin-top: 5px">第十五条</div>-->
+                <!--<div>挂牌公司进入精选层，应当符合下列条件之一：</div>-->
+                <!--<div>-->
+                  <!--（一）市值不低于2亿元，最近两年净利润均不低于1500万元且加权平均净资产收益率平均不低于10%，或者最近一年净利润不低于2500万元且加权平均净资产收益率不低于10%；-->
+                <!--</div>-->
+                <!--<div>（二）市值不低于4亿元，最近两年营业收入平均不低于1亿元且增长率不低于30%，最近一年经营活动产生的现金流量净额为正；</div>-->
+                <!--<div>（三）市值不低于8亿元，最近一年营业收入不低于2亿元，最近两年研发投入合计占最近两年营业收入合计比例不低于8%；</div>-->
+                <!--<div>（四）市值不低于15亿元，最近两年研发投入合计不低于5000万元。</div>-->
+                <!--<div>前款所称市值是指以挂牌公司向不特定合格投资者公开发行（以下简称公开发行）价格计算的股票市值。</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</el-dialog>-->
+          <el-row :gutter="24" style="margin-bottom: 24px">
+            <el-col :span='18'>
               <span style="font-size: 12px;color: #666">为您检索到相关结果{{totalCount}}条，默认以</span>
               <span style="font-size: 12px;color: #333">审核时间/辅导备案时间↓</span>
               <span style="font-size: 12px;color: #666">排序。</span>
@@ -553,8 +494,11 @@
                 <a v-if="searchFlag">收起财务数据条件检索</a>
                 <a v-else>展开财务数据条件检索</a>
               </a>
+              <a style="color:#1990fe;font-size: 12px; margin-left: 10px;" @click="issueClick" title="查看发行上市条件">
+                <a>查看发行上市条件</a>
+              </a>
             </el-col>
-            <el-col :span="10" style="text-align: right">
+            <el-col :span="6" style="text-align: right">
               <div class="smallbutton">
                 <el-button @click="conditionClear" style="position:absolute; right :78px;height: 30px;">
                   清空条件
@@ -735,7 +679,7 @@
     data() {
       return {
         issueDialogSel:'1',
-        dialogIssueCondition:false,
+        // dialogIssueCondition:false,
         radio:0,
         // checkboxList:['全部','IPO案例','辅导案例'],
         checkboxList:[
@@ -760,6 +704,10 @@
         intermediaryName: '',
         issueLawId: '', //上市条件法规id
         issueLawJxcId:'',
+        issueLawZbzxbId:'',// 主板、中小板上市条件
+        issueLawCybId:'',//创业板上市条件1
+        issueLawCybtId:'',//首次公开发行股票并在创业板上市管理办法（2018年修订） 创业板上市条件
+        issueLawHcId:'',//红筹企业要求
         tenantInfo: '', //日志
         tableData: [],
         tableLoading: false,
@@ -1331,6 +1279,7 @@
         //this.dialogIssueCondition = true
         url = url.replace(this.$route.path, '/lawWinopen');
         url = url+'&issueLawId='+this.issueLawId+'&issueLawJxcId='+this.issueLawJxcId
+          +'&issueLawZbzxbId='+this.issueLawZbzxbId+'&issueLawCybId='+this.issueLawCybId+'&issueLawCybtId='+this.issueLawCybtId+'&issueLawHcId='+this.issueLawHcId
         iframeDoMessage(window.parent, 'popWinOut', ['发行人选择的上市条件', url, '900', '650']);
       },
       getTitle(item){
@@ -1521,6 +1470,12 @@
           if (response.data && response.data.success && response.data.result) {
             _self.issueLawId = response.data.result.issueLawId;
             _self.issueLawJxcId = response.data.result.issueLawJxcId;
+
+            _self.issueLawZbzxbId = response.data.result.issueLawZbzxbId;
+            _self.issueLawCybId = response.data.result.issueLawCybId;
+            _self.issueLawCybtId = response.data.result.issueLawCybtId;
+            _self.issueLawHcId = response.data.result.issueLawHcId;
+
             _self.totalCount = response.data.result.total;
             _self.tableData = response.data.result.data;
             console.log('表格数据',_self.tableData)
@@ -1760,7 +1715,17 @@
               _self.strageticIndustriesList = response.data.result.strageticIndustriesList;
             }
             if (response.data.result.issueConditionList && response.data.result.issueConditionList.length > 0) {
-              let arr = [{
+              let arr = [
+                {
+                  id:'pid1',
+                  labelName:"创业板上市条件",
+                  labelValue:"2",
+                  name:null,
+                  num: null,
+                  pId: "0",
+                  children:[]
+                },
+                {
                 id:'pid0',
                 labelName:"科创板上市条件",
                 labelValue:"1",
@@ -1771,9 +1736,13 @@
               }];
               for (let i=0;i<response.data.result.issueConditionList.length;i++){
                 if (response.data.result.issueConditionList[i].labelValue != '4' && response.data.result.issueConditionList[i].pId == '0'){
-                  arr[0].children.push(response.data.result.issueConditionList[i])
+                  if (response.data.result.issueConditionList[i].labelValue < '4') {
+                    arr[1].children.push(response.data.result.issueConditionList[i])
+                  } else {
+                    arr[0].children.push(response.data.result.issueConditionList[i])
+                  }
                 }else {
-                  response.data.result.issueConditionList[i].id = 'pid1'
+                  response.data.result.issueConditionList[i].id = 'pid2'
                   arr.push(response.data.result.issueConditionList[i])
                 }
               }
@@ -1928,24 +1897,24 @@
           iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
         }
       },
-      openNew() {
-        const _self = this;
-        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=745777672757626842&access_token=' + _self.$store
-          .state.app.token + '&tenant_info=' + _self.$store.state.app.info;
-        window.open(href, '_blank');
-      },
-      openNewRule() {
-        const _self = this;
-        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + _self.issueLawId + '&access_token=' +
-          _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
-        window.open(href, '_blank');
-      },
-      openNewRuleJxc() {
-        const _self = this;
-        const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + _self.issueLawJxcId + '&access_token=' +
-          _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
-        window.open(href, '_blank');
-      },
+      // openNew() {
+      //   const _self = this;
+      //   const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=745777672757626842&access_token=' + _self.$store
+      //     .state.app.token + '&tenant_info=' + _self.$store.state.app.info;
+      //   window.open(href, '_blank');
+      // },
+      // openNewRule() {
+      //   const _self = this;
+      //   const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + _self.issueLawId + '&access_token=' +
+      //     _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
+      //   window.open(href, '_blank');
+      // },
+      // openNewRuleJxc() {
+      //   const _self = this;
+      //   const href = window.location.origin + '/ui/laws/laws/lawsDetail?lawId=' + _self.issueLawJxcId + '&access_token=' +
+      //     _self.$store.state.app.token + '&tenant_info=' + _self.$store.state.app.info;
+      //   window.open(href, '_blank');
+      // },
       //没有权限数据背景色
       cellStyle(row, column, rowIndex, columnIndex) {
         if (row.row.id == "-----"){

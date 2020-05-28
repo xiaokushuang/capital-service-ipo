@@ -16,6 +16,10 @@ public interface IpoExamineMapper {
 
     /**
      * 查询发审会基本信息
+     * 进程节点
+     * '07' 发审会审核 , 核准制
+     * '35' 上市委会议,'38' 注册结果,'44' 上市委复审会议, 注册制
+     * '72' 挂牌委会议,'90' 核准结果, 新三板
      */
     List<IpoExamineBaseDto> selectExamineBaseList(String id);
 

@@ -46,4 +46,14 @@ public interface IpoCaseListMapper {
     List<String> getIpoItemCaseIdList(IpoCaseListBo ipoCaseListBo);
 
     IpoCaseListBo querylawIdjxc();
+
+    IpoCaseListBo querylawIdzbzxb();
+
+    IpoCaseListBo querylawIdcyb();
+
+    IpoCaseListBo querylawIdcybt();
+
+    IpoCaseListBo querylawIdhc();
+
+
 }

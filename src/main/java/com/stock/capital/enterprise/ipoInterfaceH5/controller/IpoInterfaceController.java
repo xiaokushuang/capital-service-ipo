@@ -1691,7 +1691,19 @@ public class IpoInterfaceController extends BaseController {
      */
     @RequestMapping(value = "/selectNewFeedbackList", method = RequestMethod.GET)
     public List<IpoFeedbackDto> selectNewFeedbackList(String id) {
-        List<IpoFeedbackDto> letterList = ipoFeedbackService.selectNewFeedbackList(id);
+
+      List<IpoFeedbackDto> letterList = new ArrayList<>();
+      Map<String, List<IpoFeedbackDto>> ipoFeedbackMap= ipoFeedbackService.selectNewFeedbackList(id);
+      // 首先判断是不是核准制. 原逻辑是 除了 上交所科创板 都是核准制, 后期变更 深交所创业板为 注册制+核准制
+      if (ipoFeedbackMap.containsKey("ratifyList")){//核准制
+        letterList = ipoFeedbackMap.get("ratifyList");
+      }else {//注册制
+        if (ipoFeedbackMap.containsKey("registerList")){
+          letterList = ipoFeedbackMap.get("registerList");
+        }
+      }
+//      List<IpoFeedbackDto> letterList = ipoFeedbackService.selectNewFeedbackList(id);
+
         for(IpoFeedbackDto dto:letterList){
             List<IpoFeedbackDto> questionList = ipoFeedbackService.selectNewQuestionList(dto.getLetterId(),"","","");
             if(CollectionUtils.isNotEmpty(questionList) && questionList.size() > 0){

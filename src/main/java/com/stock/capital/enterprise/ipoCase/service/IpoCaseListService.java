@@ -166,7 +166,7 @@ public class IpoCaseListService extends BaseService {
             sfcTreeNum = assebleTreeData(sfcTreeTag, bureauList, true);
         }
 
-        IpoCaseListBo law = ipoCaseListMapper.querylawId();
+        IpoCaseListBo law = ipoCaseListMapper.querylawId();//科创版上市条件
         if (law != null) {
             if (StringUtils.isNoneBlank(law.getIssueLawId())) {
                 resultMap.put("issueLawId", law.getIssueLawId());
@@ -176,7 +176,7 @@ public class IpoCaseListService extends BaseService {
         } else {
             resultMap.put("issueLawId", "746412002835704646");
         }
-        IpoCaseListBo lawjxc = ipoCaseListMapper.querylawIdjxc();
+        IpoCaseListBo lawjxc = ipoCaseListMapper.querylawIdjxc();//精选层上市条件
         if (lawjxc != null) {
             if (StringUtils.isNoneBlank(lawjxc.getIssueLawId())) {
                 resultMap.put("issueLawJxcId", lawjxc.getIssueLawId());
@@ -186,6 +186,54 @@ public class IpoCaseListService extends BaseService {
         } else {
             resultMap.put("issueLawJxcId", "458629827245657197");
         }
+
+//        746126805383933368  首次公开发行股票并上市管理办法    主板、中小板上市条件
+        IpoCaseListBo lawzbzxb = ipoCaseListMapper.querylawIdzbzxb();//主板、中小板上市条件
+        if (lawzbzxb != null) {
+            if (StringUtils.isNoneBlank(lawzbzxb.getIssueLawId())) {
+                resultMap.put("issueLawZbzxbId", lawzbzxb.getIssueLawId());
+            } else {
+                resultMap.put("issueLawZbzxbId", "746126805383933368");
+            }
+        } else {
+            resultMap.put("issueLawZbzxbId", "746126805383933368");
+        }
+//        746412002806435811  深圳证券交易所创业板股票上市规则  创业板上市条件
+        IpoCaseListBo lawcyb = ipoCaseListMapper.querylawIdcyb();//创业板上市条件
+        if (lawcyb != null) {
+            if (StringUtils.isNoneBlank(lawcyb.getIssueLawId())) {
+                resultMap.put("issueLawCybId", lawcyb.getIssueLawId());
+            } else {
+                resultMap.put("issueLawCybId", "746412002806435811");
+            }
+        } else {
+            resultMap.put("issueLawCybId", "746412002806435811");
+        }
+
+//        746126805383932799  首次公开发行股票并在创业板上市管理办法（2018年修订） 创业板上市条件
+      IpoCaseListBo lawcybt = ipoCaseListMapper.querylawIdcybt();//创业板上市条件
+      if (lawcybt != null) {
+        if (StringUtils.isNoneBlank(lawcybt.getIssueLawId())) {
+          resultMap.put("issueLawCybtId", lawcybt.getIssueLawId());
+        } else {
+          resultMap.put("issueLawCybtId", "746126805383932799");
+        }
+      } else {
+        resultMap.put("issueLawCybtId", "746126805383932799");
+      }
+
+//        745777672757626842  国务院办公厅转发证监会关于开展创新企业境内发行股票或存托凭证试点若干意见的通知 红筹企业要求
+      IpoCaseListBo lawhc = ipoCaseListMapper.querylawIdhc();//红筹企业要求
+      if (lawhc != null) {
+        if (StringUtils.isNoneBlank(lawhc.getIssueLawId())) {
+          resultMap.put("issueLawHcId", lawhc.getIssueLawId());
+        } else {
+          resultMap.put("issueLawHcId", "745777672757626842");
+        }
+      } else {
+        resultMap.put("issueLawHcId", "745777672757626842");
+      }
+
         resultMap.put("plateTreeTag", plateTreeTag);
         resultMap.put("plateTreeNum", plateTreeNum);
         resultMap.put("marketTreeTag", marketTreeTag);

@@ -6,6 +6,7 @@ import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
 import com.stock.core.controller.BaseController;
 import com.stock.core.dto.JsonResponse;
 
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -70,10 +71,10 @@ public class IpoFeedbackController extends BaseController {
             @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String"),
     })
     @RequestMapping(value = "/selectNewFeedbackList", method = RequestMethod.GET)
-    public JsonResponse<List<IpoFeedbackDto>> selectNewFeedbackList(String id) {
-        JsonResponse<List<IpoFeedbackDto>> response = new JsonResponse<>();
-        List<IpoFeedbackDto> resultList = ipoFeedbackService.selectNewFeedbackList(id);
-        response.setResult(resultList);
+    public JsonResponse<Map<String,List<IpoFeedbackDto>>> selectNewFeedbackList(String id) {
+        JsonResponse<Map<String,List<IpoFeedbackDto>>> response = new JsonResponse<>();
+        Map<String, List<IpoFeedbackDto>> ipoFeedbackMap= ipoFeedbackService.selectNewFeedbackList(id);
+        response.setResult(ipoFeedbackMap);
         return response;
     }
 

@@ -157,8 +157,17 @@ public class IpoExportWordService extends BaseService {
     resultMap.put("ipoInvestItem",ipoInvestItem);
 
 //    七、问询与回复（科创板注册制） 八、反馈意见（核准制）
-    List<IpoFeedbackDto> ipoFeedbackList = ipoFeedbackService.selectNewFeedbackList(caseId);
-    resultMap.put("ipoFeedbackList",ipoFeedbackList);
+    Map<String, List<IpoFeedbackDto>> ipoFeedbackMap= ipoFeedbackService.selectNewFeedbackList(caseId);
+    // 首先判断是不是核准制. 原逻辑是 除了 上交所科创板 都是核准制, 后期变更 深交所创业板为 注册制+核准制
+    if (ipoFeedbackMap.containsKey("ratifyList")){//核准制
+      resultMap.put("ipoFeedbackList",ipoFeedbackMap.get("ratifyList"));
+    }else {//注册制
+      if (ipoFeedbackMap.containsKey("registerList")){
+        resultMap.put("ipoFeedbackList",ipoFeedbackMap.get("registerList"));
+      }
+    }
+//    List<IpoFeedbackDto> ipoFeedbackList = ipoFeedbackService.selectNewFeedbackList(caseId);
+//    resultMap.put("ipoFeedbackList",ipoFeedbackList);
 
 //    九、审核结果及关注问题（注册制）
     IpoFeedbackDto ipoFeedbackDto = ipoExamineService.selectExamineBaseList(caseId); //baseList

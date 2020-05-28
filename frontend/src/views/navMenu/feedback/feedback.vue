@@ -9,24 +9,26 @@
       </div>
       <!-- 有多级标签选择 -->
       <div v-if="tabList&&tabList.length > 1" class="clear">
-        <div v-if="tabList.length==2&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共两轮反馈：</div>
-        <div v-if="tabList.length==3&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共三轮反馈：</div>
-        <div v-if="tabList.length==4&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共四轮反馈：</div>
-        <div v-if="tabList.length==5&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共五轮反馈：</div>
-        <div v-if="tabList.length==6&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共六轮反馈：</div>
-        <div v-if="tabList.length==7&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共七轮反馈：</div>
-        <div v-if="tabList.length==8&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共八轮反馈：</div>
-        <div v-if="tabList.length==9&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共九轮反馈：</div>
-        <div v-if="tabList.length==10&&companyProfileList.headList.isTechBoard==0" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共十轮反馈：</div>
-        <div v-if="tabList.length==2&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 21;font-style: normal;font-size: 14px;color: #A1A1A1;">共两轮问询：</div>
-        <div v-if="tabList.length==3&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共三轮问询：</div>
-        <div v-if="tabList.length==4&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共四轮问询：</div>
-        <div v-if="tabList.length==5&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共五轮问询：</div>
-        <div v-if="tabList.length==6&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共六轮问询：</div>
-        <div v-if="tabList.length==7&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共七轮问询：</div>
-        <div v-if="tabList.length==8&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共八轮问询：</div>
-        <div v-if="tabList.length==9&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共九轮问询：</div>
-        <div v-if="tabList.length==10&&companyProfileList.headList.isTechBoard==1" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共十轮问询：</div>
+        <!--如果是 不是科创板 && 不是创业板  || 反馈意见标识=true-->
+        <div v-if="tabList.length==2&&((companyProfileList.headList.isTechBoard==0&&companyProfileList.headList.haveReportBackCyb!=0)||isRatify)" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共两轮反馈：</div>
+        <div v-if="tabList.length==3&&((companyProfileList.headList.isTechBoard==0&&companyProfileList.headList.haveReportBackCyb!=0)||isRatify)" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共三轮反馈：</div>
+        <div v-if="tabList.length==4&&((companyProfileList.headList.isTechBoard==0&&companyProfileList.headList.haveReportBackCyb!=0)||isRatify)" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共四轮反馈：</div>
+        <div v-if="tabList.length==5&&((companyProfileList.headList.isTechBoard==0&&companyProfileList.headList.haveReportBackCyb!=0)||isRatify)" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共五轮反馈：</div>
+        <div v-if="tabList.length==6&&((companyProfileList.headList.isTechBoard==0&&companyProfileList.headList.haveReportBackCyb!=0)||isRatify)" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共六轮反馈：</div>
+        <div v-if="tabList.length==7&&((companyProfileList.headList.isTechBoard==0&&companyProfileList.headList.haveReportBackCyb!=0)||isRatify)" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共七轮反馈：</div>
+        <div v-if="tabList.length==8&&((companyProfileList.headList.isTechBoard==0&&companyProfileList.headList.haveReportBackCyb!=0)||isRatify)" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共八轮反馈：</div>
+        <div v-if="tabList.length==9&&((companyProfileList.headList.isTechBoard==0&&companyProfileList.headList.haveReportBackCyb!=0)||isRatify)" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共九轮反馈：</div>
+        <div v-if="tabList.length==10&&((companyProfileList.headList.isTechBoard==0&&companyProfileList.headList.haveReportBackCyb!=0)||isRatify)" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共十轮反馈：</div>
+        <!--如果是 是科创板 || 反馈意见标识=false-->
+        <div v-if="tabList.length==2&&(companyProfileList.headList.isTechBoard==1||!isRatify)" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共两轮问询：</div>
+        <div v-if="tabList.length==3&&(companyProfileList.headList.isTechBoard==1||!isRatify)" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共三轮问询：</div>
+        <div v-if="tabList.length==4&&(companyProfileList.headList.isTechBoard==1||!isRatify)" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共四轮问询：</div>
+        <div v-if="tabList.length==5&&(companyProfileList.headList.isTechBoard==1||!isRatify)" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共五轮问询：</div>
+        <div v-if="tabList.length==6&&(companyProfileList.headList.isTechBoard==1||!isRatify)" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共六轮问询：</div>
+        <div v-if="tabList.length==7&&(companyProfileList.headList.isTechBoard==1||!isRatify)" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共七轮问询：</div>
+        <div v-if="tabList.length==8&&(companyProfileList.headList.isTechBoard==1||!isRatify)" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共八轮问询：</div>
+        <div v-if="tabList.length==9&&(companyProfileList.headList.isTechBoard==1||!isRatify)" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共九轮问询：</div>
+        <div v-if="tabList.length==10&&(companyProfileList.headList.isTechBoard==1||!isRatify)" style="float:left;position:relative;top: 12px;font-family: 'PingFangSC-Thin', 'PingFang SC Thin', 'PingFang SC';font-weight: 200;font-style: normal;font-size: 14px;color: #A1A1A1;">共十轮问询：</div>
         <div>
           <el-tabs v-model="activeName" @tab-click="handleTabClick">
             <el-tab-pane :label="tabList[0].letterName" :name="tabList[0].letterId">
@@ -78,6 +80,7 @@
     props:["companyProfileList"],
     data() {
       return {
+        isRatify:'',// 是否是审核制
         flagLoading:true,
         caseId: this.$store.state.app.caseId,
         // 总共数据
@@ -182,10 +185,15 @@
       this.isShowAll = true;
     },
     mounted(){
-      console.log('111',this.companyProfileList.tabList)
     },
 
     methods: {
+      feedbackShow(tablist,isRatify){
+        this.companyProfileList.tabList=[];
+        this.isRatify = isRatify;
+        this.companyProfileList.tabList = tablist;
+        this.innitData();
+      },
       innitData(){
         if (this.companyProfileList&&this.companyProfileList.tabList&&this.companyProfileList.tabList.length > 0){
           this.tabList = this.companyProfileList.tabList;
@@ -193,7 +201,6 @@
           if(this.companyProfileList.tabList[0].letterId){
             this.o_letterId = this.companyProfileList.tabList[0].letterId;
           }
-          console.log('反馈意见', this.tabList)
         }
 // 第一个tab
         if (this.tabList && this.tabList.length == 1) {

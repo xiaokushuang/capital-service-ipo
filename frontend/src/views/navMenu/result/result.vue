@@ -1,7 +1,7 @@
 <template>
     <div class="result">
         <!-- 不是科创版 审核会议展示-->
-        <div class="one" v-if="companyProfileList.headList.isTechBoard==0">
+        <div class="one" v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'">
             <ul v-if="baseList.length == 1" style="padding-left: 0;">
                  <li v-show="baseList.length>0" style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
                     <div class="text">
@@ -16,26 +16,26 @@
                             <span style="font-size:14px;color:#999;">审核结果: </span>
                             <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{baseList[0].companyName}}</span>
                              <span>
-                                <span class="htgResult"  v-if="baseList[0].iecResult=='00'">获通过</span>
-                                <span class="whtgResult" v-if="baseList[0].iecResult=='01'">未获通过</span>
-                                <span class="zhbjResult" v-if="baseList[0].iecResult=='02'">暂缓表决</span>
-                                <span class="qxshResult" v-if="baseList[0].iecResult=='03'">取消审核</span>
-                                <span class="dshResult"  v-if="baseList[0].iecResult=='04'">待上会</span>
-                                <span class="tgResult"   v-if="baseList[0].iecResult=='05'">通过</span>
-                                <span class="wtgResult"  v-if="baseList[0].iecResult=='06'">未通过</span>
+                                <span class="htgResult"   v-if="baseList[0].iecResult=='00'">获通过</span>
+                                <span class="whtgResult"  v-if="baseList[0].iecResult=='01'">未获通过</span>
+                                <span class="zhbjResult"  v-if="baseList[0].iecResult=='02'">暂缓表决</span>
+                                <span class="qxshResult"  v-if="baseList[0].iecResult=='03'">取消审核</span>
+                                <span class="dshResult"   v-if="baseList[0].iecResult=='04'">待上会</span>
+                                <span class="tgResult"    v-if="baseList[0].iecResult=='05'">通过</span>
+                                <span class="wtgResult"   v-if="baseList[0].iecResult=='06'">未通过</span>
                                 <span class="zcsxResult"  v-if="baseList[0].iecResult=='07'">注册生效</span>
-                                <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
-                                <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待上会</span>
-                                <span class="qxshResult" v-if="baseList[0].iecResult=='10'">取消审议</span>
-                               <span class="zhbjResult" v-if="baseList[0].iecResult=='11'">暂缓审议</span>
-                                <span class="qxshResult" v-if="baseList[0].iecResult=='12'">终止注册</span>
+                                <span class="whtgResult"  v-if="baseList[0].iecResult=='08'">不予注册</span>
+                                <span class="dshResult"   v-if="baseList[0].iecResult=='09'">待上会</span>
+                                <span class="qxshResult"  v-if="baseList[0].iecResult=='10'">取消审议</span>
+                                <span class="zhbjResult"  v-if="baseList[0].iecResult=='11'">暂缓审议</span>
+                                <span class="qxshResult"  v-if="baseList[0].iecResult=='12'">终止注册</span>
                             </span>
                         </p>
                     </div>
                     <div class="text ">
                          <p style="font-size:14px;">
-                             <span v-if="companyProfileList.headList.isTechBoard==0" style="color:#999;">发审会委员: </span>
-                             <span v-if="companyProfileList.headList.isTechBoard==1" style="color:#999;">上市会委员: </span>
+                             <span v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" style="color:#999;">发审会委员: </span>
+                             <span v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" style="color:#999;">上市会委员: </span>
                               <span v-if="baseList[0].member&&baseList[0].member.length>0">
                                <span style="color:#333;font-family:'微软雅黑'">{{baseList[0].member}}</span>
                                 <span  style="color:#333;"> ;</span>
@@ -46,13 +46,13 @@
                     </div>
                     <!-- 委员弹窗 -->
                     <el-dialog
-                        :title="companyProfileList.headList.isTechBoard==0?'发审会委员': '上市会委员'"
+                        :title="companyProfileList.headList.isTechBoard==0&&caseType!='register'?'发审会委员': '上市会委员'"
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
-                        <member v-if="companyProfileList.headList.isTechBoard==0" :memberData={memberList:memberList}></member>
+                        <member v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" :memberData={memberList:memberList}></member>
                         <!-- 科创版上市委委员 -->
-                        <kcMember v-if="companyProfileList.headList.isTechBoard==1" :memberData={memberList:memberList}></kcMember>
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList}></kcMember>
                     </el-dialog>
                 </li>
             </ul>
@@ -76,12 +76,12 @@
                                 <span class="qxshResult" v-if="baseList[0].iecResult=='03'">取消审核</span>
                                 <span class="dshResult"  v-if="baseList[0].iecResult=='04'">待上会</span>
                                 <span class="tgResult"   v-if="baseList[0].iecResult=='05'">通过</span>
-                                <span class="wtgResult" v-if="baseList[0].iecResult=='06'">未通过</span>
-                                <span class="zcsxResult"  v-if="baseList[0].iecResult=='07'">注册生效</span>
+                                <span class="wtgResult"  v-if="baseList[0].iecResult=='06'">未通过</span>
+                                <span class="zcsxResult" v-if="baseList[0].iecResult=='07'">注册生效</span>
                                 <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
                                 <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待上会</span>
                                 <span class="qxshResult" v-if="baseList[0].iecResult=='10'">取消审议</span>
-                              <span class="zhbjResult" v-if="baseList[0].iecResult=='11'">暂缓审议</span>
+                                <span class="zhbjResult" v-if="baseList[0].iecResult=='11'">暂缓审议</span>
                                 <span class="qxshResult" v-if="baseList[0].iecResult=='12'">终止注册</span>
                             </span>
                             <!-- <span  :class="{'htgResult' : baseList[0].iecResult == '00','whtgResult' : baseList[0].iecResult == '01','zhbjResult' : baseList[0].iecResult == '02','qxshResult' : baseList[0].iecResult == '03','dshResult' : baseList[0].iecResult == '04'}">{{ baseList[0].iecResultStr}}</span> -->
@@ -89,8 +89,8 @@
                     </div>
                     <div class="text ">
                          <p style="font-size:14px;">
-                             <span v-if="companyProfileList.headList.isTechBoard==0" style="color:#999;">发审会委员: </span>
-                             <span v-if="companyProfileList.headList.isTechBoard==1" style="color:#999;">上市会委员: </span>
+                             <span v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" style="color:#999;">发审会委员: </span>
+                             <span v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" style="color:#999;">上市会委员: </span>
                              <span v-if="baseList[0].member&&baseList[0].member.length>0">
                                 <span style="color:#333;">{{baseList[0].member}}</span>
                                 <span  style="color:#333;"> ;</span>
@@ -101,13 +101,13 @@
                     </div>
                     <!-- 委员弹窗 -->
                     <el-dialog
-                        :title="companyProfileList.headList.isTechBoard==0?'发审会委员':'上市会委员'"
+                        :title="companyProfileList.headList.isTechBoard==0&&caseType!='register'?'发审会委员':'上市会委员'"
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
-                        <member v-if="companyProfileList.headList.isTechBoard==0" :memberData={memberList:memberList}></member>
+                        <member v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" :memberData={memberList:memberList}></member>
                         <!-- 科创版上市委委员 -->
-                        <kcMember v-if="companyProfileList.headList.isTechBoard==1" :memberData={memberList:memberList}></kcMember>
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList}></kcMember>
                     </el-dialog>
                 </li>
                  <li style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
@@ -128,13 +128,13 @@
                                 <span class="zhbjResult" v-if="baseList[1].iecResult=='02'">暂缓表决</span>
                                 <span class="qxshResult" v-if="baseList[1].iecResult=='03'">取消审核</span>
                                 <span class="dshResult"  v-if="baseList[1].iecResult=='04'">待上会</span>
-                                <span class="tgResult"  v-if="baseList[1].iecResult=='05'">通过</span>
-                                <span class="wtgResult" v-if="baseList[1].iecResult=='06'">未通过</span>
-                                <span class="zcsxResult"  v-if="baseList[1].iecResult=='07'">注册生效</span>
+                                <span class="tgResult"   v-if="baseList[1].iecResult=='05'">通过</span>
+                                <span class="wtgResult"  v-if="baseList[1].iecResult=='06'">未通过</span>
+                                <span class="zcsxResult" v-if="baseList[1].iecResult=='07'">注册生效</span>
                                 <span class="whtgResult" v-if="baseList[1].iecResult=='08'">不予注册</span>
                                 <span class="dshResult"  v-if="baseList[1].iecResult=='09'">待上会</span>
-                                <span class="qxshResult"  v-if="baseList[1].iecResult=='10'">取消审议</span>
-                               <span class="zhbjResult" v-if="baseList[1].iecResult=='11'">暂缓审议</span>
+                                <span class="qxshResult" v-if="baseList[1].iecResult=='10'">取消审议</span>
+                                <span class="zhbjResult" v-if="baseList[1].iecResult=='11'">暂缓审议</span>
                                 <span class="qxshResult" v-if="baseList[1].iecResult=='12'">终止注册</span>
                             </span>
                             <!-- <span  :class="{'htgResult' : baseList[1].iecResult == '00','whtgResult' : baseList[1].iecResult == '01','zhbjResult' : baseList[1].iecResult == '02','qxshResult' : baseList[1].iecResult == '03','dshResult' : baseList[1].iecResult == '04'}">{{ baseList[1].iecResultStr}}</span> -->
@@ -142,8 +142,8 @@
                     </div>
                     <div class="text ">
                          <p style="font-size:14px;">
-                              <span v-if="companyProfileList.headList.isTechBoard==0" style="color:#999;">发审会委员: </span>
-                              <span v-if="companyProfileList.headList.isTechBoard==1" style="color:#999;">上市会委员: </span>
+                              <span v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" style="color:#999;">发审会委员: </span>
+                              <span v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" style="color:#999;">上市会委员: </span>
                               <span v-if="baseList[1].member&&baseList[1].member.length>0">
                                 <span style="color:#333;">{{baseList[1].member}}</span>
                                 <span  style="color:#333;"> ;</span>
@@ -154,13 +154,13 @@
                     </div>
                     <!-- 委员弹窗 -->
                    <el-dialog
-                        :title="companyProfileList.headList.isTechBoard==0?'发审会委员':'上市会委员'"
+                        :title="companyProfileList.headList.isTechBoard==0&&caseType!='register'?'发审会委员':'上市会委员'"
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
-                        <member v-if="companyProfileList.headList.isTechBoard==0" :memberData={memberList:memberList}></member>
+                        <member v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" :memberData={memberList:memberList}></member>
                         <!-- 科创版上市委委员 -->
-                        <kcMember v-if="companyProfileList.headList.isTechBoard==1" :memberData={memberList:memberList}></kcMember>
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList}></kcMember>
                     </el-dialog>
                 </li>
             </ul>
@@ -183,9 +183,9 @@
                                 <span class="zhbjResult" v-if="baseList[0].iecResult=='02'">暂缓表决</span>
                                 <span class="qxshResult" v-if="baseList[0].iecResult=='03'">取消审核</span>
                                 <span class="dshResult"  v-if="baseList[0].iecResult=='04'">待上会</span>
-                                <span class="tgResult"  v-if="baseList[0].iecResult=='05'">通过</span>
-                                <span class="wtgResult" v-if="baseList[0].iecResult=='06'">未通过</span>
-                                <span class="zcsxResult"  v-if="baseList[0].iecResult=='07'">注册生效</span>
+                                <span class="tgResult"   v-if="baseList[0].iecResult=='05'">通过</span>
+                                <span class="wtgResult"  v-if="baseList[0].iecResult=='06'">未通过</span>
+                                <span class="zcsxResult" v-if="baseList[0].iecResult=='07'">注册生效</span>
                                 <span class="whtgResult" v-if="baseList[0].iecResult=='08'">不予注册</span>
                                 <span class="dshResult"  v-if="baseList[0].iecResult=='09'">待上会</span>
                                 <span class="qxshResult" v-if="baseList[0].iecResult=='10'">取消审议</span>
@@ -197,8 +197,8 @@
                     </div>
                     <div class="text ">
                          <p style="font-size:14px;">
-                              <span v-if="companyProfileList.headList.isTechBoard==0" style="color:#999;">发审会委员: </span>
-                              <span v-if="companyProfileList.headList.isTechBoard==1" style="color:#999;">上市会委员: </span>
+                              <span v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" style="color:#999;">发审会委员: </span>
+                              <span v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" style="color:#999;">上市会委员: </span>
                               <span v-if="baseList[0].member&&baseList[0].member.length>0">
                                 <span style="color:#333;">{{baseList[0].member}}</span>
                                 <span  style="color:#333;"> ;</span>
@@ -209,13 +209,13 @@
                     </div>
                     <!-- 委员弹窗 -->
                    <el-dialog
-                        :title="companyProfileList.headList.isTechBoard==0?'发审会委员':'上市会委员'"
+                        :title="companyProfileList.headList.isTechBoard==0&&caseType!='register'?'发审会委员':'上市会委员'"
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
-                        <member v-if="companyProfileList.headList.isTechBoard==0" :memberData={memberList:memberList}></member>
+                        <member v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" :memberData={memberList:memberList}></member>
                         <!-- 科创版上市委委员 -->
-                        <kcMember v-if="companyProfileList.headList.isTechBoard==1" :memberData={memberList:memberList}></kcMember>
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList}></kcMember>
                     </el-dialog>
                 </li>
                  <li  style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
@@ -250,8 +250,8 @@
                     </div>
                     <div class="text ">
                          <p style="font-size:14px;">
-                              <span v-if="companyProfileList.headList.isTechBoard==0" style="color:#999;">发审会委员: </span>
-                              <span v-if="companyProfileList.headList.isTechBoard==1" style="color:#999;">上市会委员: </span>
+                              <span v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" style="color:#999;">发审会委员: </span>
+                              <span v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" style="color:#999;">上市会委员: </span>
                               <span v-if="baseList[1].member&&baseList[1].member.length>0">
                                 <span style="color:#333;">{{baseList[1].member}}</span>
                                 <span  style="color:#333;"> ;</span>
@@ -262,13 +262,13 @@
                     </div>
                     <!-- 委员弹窗 -->
                    <el-dialog
-                        :title="companyProfileList.headList.isTechBoard==0?'发审会委员':'上市会委员'"
+                        :title="companyProfileList.headList.isTechBoard==0&&caseType!='register'?'发审会委员':'上市会委员'"
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
-                        <member v-if="companyProfileList.headList.isTechBoard==0" :memberData={memberList:memberList}></member>
+                        <member v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" :memberData={memberList:memberList}></member>
                         <!-- 科创版上市委委员 -->
-                        <kcMember v-if="companyProfileList.headList.isTechBoard==1" :memberData={memberList:memberList}></kcMember>
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList}></kcMember>
                     </el-dialog>
                 </li>
                  <li  style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
@@ -289,9 +289,9 @@
                                 <span class="zhbjResult" v-if="baseList[2].iecResult=='02'">暂缓表决</span>
                                 <span class="qxshResult" v-if="baseList[2].iecResult=='03'">取消审核</span>
                                 <span class="dshResult"  v-if="baseList[2].iecResult=='04'">待上会</span>
-                                <span class="tgResult"  v-if="baseList[2].iecResult=='05'">通过</span>
-                                <span class="wtgResult" v-if="baseList[2].iecResult=='06'">未通过</span>
-                                <span class="zcsxResult"  v-if="baseList[2].iecResult=='07'">注册生效</span>
+                                <span class="tgResult"   v-if="baseList[2].iecResult=='05'">通过</span>
+                                <span class="wtgResult"  v-if="baseList[2].iecResult=='06'">未通过</span>
+                                <span class="zcsxResult" v-if="baseList[2].iecResult=='07'">注册生效</span>
                                 <span class="whtgResult" v-if="baseList[2].iecResult=='08'">不予注册</span>
                                 <span class="dshResult"  v-if="baseList[2].iecResult=='09'">待上会</span>
                                 <span class="qxshResult" v-if="baseList[2].iecResult=='10'">取消审议</span>
@@ -303,8 +303,8 @@
                     </div>
                     <div class="text ">
                          <p style="font-size:14px;">
-                              <span v-if="companyProfileList.headList.isTechBoard==0" style="color:#999;">发审会委员: </span>
-                              <span v-if="companyProfileList.headList.isTechBoard==1" style="color:#999;">上市会委员: </span>
+                              <span v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" style="color:#999;">发审会委员: </span>
+                              <span v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" style="color:#999;">上市会委员: </span>
                               <span v-if="baseList[2].member&&baseList[2].member.length>0">
                                 <span style="color:#333;">{{baseList[2].member}}</span>
                                 <span  style="color:#333;"> ;</span>
@@ -315,22 +315,22 @@
                     </div>
                    <!-- 委员弹窗 -->
                    <el-dialog
-                        :title="companyProfileList.headList.isTechBoard==0?'发审会委员':'上市会委员'"
+                        :title="companyProfileList.headList.isTechBoard==0&&caseType!='register'?'发审会委员':'上市会委员'"
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
-                        <member v-if="companyProfileList.headList.isTechBoard==0" :memberData={memberList:memberList}></member>
+                        <member v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" :memberData={memberList:memberList}></member>
                         <!-- 科创版上市委委员 -->
-                        <kcMember v-if="companyProfileList.headList.isTechBoard==1" :memberData={memberList:memberList}></kcMember>
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList}></kcMember>
                     </el-dialog>
                 </li>
             </ul>
         </div>
         <!-- 是科创版 审核会议展示-->
-        <div class="one" v-if="companyProfileList.headList.isTechBoard==1">
+        <div class="one" v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'">
             <ul style="padding-left: 0;">
               <li v-for="(item,index) in baseList" :key="index">
-                 <div v-if="item.processTypeCode =='35'" style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
+                <div v-if="item.processTypeCode =='35'" style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
                     <div class="text">
                         <p style="font-size:14px;">
                             <span style="font-family:'微软雅黑';font-weight:400;color:#999;">审核会议: </span>
@@ -354,14 +354,14 @@
                                 <span class="whtgResult" v-if="item.iecResult=='08'">不予注册</span>
                                 <span class="dshResult"  v-if="item.iecResult=='09'">待上会</span>
                                 <span class="qxshResult" v-if="item.iecResult=='10'">取消审议</span>
-                               <span class="zhbjResult" v-if="item.iecResult=='11'">暂缓审议</span>
+                                <span class="zhbjResult" v-if="item.iecResult=='11'">暂缓审议</span>
                                 <span class="qxshResult" v-if="item.iecResult=='12'">终止注册</span>
                             </span>
                         </p>
                     </div>
                     <div class="text ">
                          <p style="font-size:14px;">
-                             <span v-if="companyProfileList.headList.isTechBoard==1" style="color:#999;">上市委员会委员: </span>
+                             <span v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" style="color:#999;">上市委员会委员: </span>
                               <span v-if="item.member&&item.member.length>0">
                                <span style="color:#333;font-family:'微软雅黑'">{{item.member}}</span>
                                 <span  style="color:#333;"> ;</span>
@@ -372,13 +372,13 @@
                     </div>
                     <!-- 委员弹窗 -->
                     <el-dialog
-                        :title="companyProfileList.headList.isTechBoard==0?'发审会委员':'上市委员会委员'"
+                        :title="companyProfileList.headList.isTechBoard==0&&caseType!='register'?'发审会委员':'上市委员会委员'"
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
-                        <member v-if="companyProfileList.headList.isTechBoard==0" :memberData={memberList:memberList}></member>
+                        <member v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" :memberData={memberList:memberList}></member>
                         <!-- 科创版上市委委员 -->
-                        <kcMember v-if="companyProfileList.headList.isTechBoard==1" :memberData={memberList:memberList}></kcMember>
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList}></kcMember>
                     </el-dialog>
                 </div>
                 <div v-if="item.processTypeCode =='38'" style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
@@ -424,7 +424,7 @@
                                 <span class="dshResult"  v-if="item.iecResult=='04'">待上会</span>
                                 <span class="tgResult"   v-if="item.iecResult=='05'">通过</span>
                                 <span class="wtgResult"  v-if="item.iecResult=='06'">未通过</span>
-                                <span class="zcsxResult"  v-if="item.iecResult=='07'">注册生效</span>
+                                <span class="zcsxResult" v-if="item.iecResult=='07'">注册生效</span>
                                 <span class="whtgResult" v-if="item.iecResult=='08'">不予注册</span>
                                 <span class="dshResult"  v-if="item.iecResult=='09'">待上会</span>
                                 <span class="qxshResult" v-if="item.iecResult=='10'">取消审议</span>
@@ -435,7 +435,7 @@
                     </div>
                     <div class="text ">
                          <p style="font-size:14px;">
-                             <span v-if="companyProfileList.headList.isTechBoard==1" style="color:#999;">上市委员会委员: </span>
+                             <span v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" style="color:#999;">上市委员会委员: </span>
                               <span v-if="item.member&&item.member.length>0">
                                <span style="color:#333;font-family:'微软雅黑'">{{item.member}}</span>
                                 <span  style="color:#333;"> ;</span>
@@ -446,19 +446,19 @@
                     </div>
                     <!-- 委员弹窗 -->
                     <el-dialog
-                        :title="companyProfileList.headList.isTechBoard==0?'发审会委员':'上市委员会委员'"
+                        :title="companyProfileList.headList.isTechBoard==0&&caseType!='register'?'发审会委员':'上市委员会委员'"
                         :visible.sync="dialogVisible"
                         width="1004px"
                         :before-close="handleClose">
-                        <member v-if="companyProfileList.headList.isTechBoard==0" :memberData={memberList:memberList}></member>
+                        <member v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" :memberData={memberList:memberList}></member>
                         <!-- 科创版上市委委员 -->
-                        <kcMember v-if="companyProfileList.headList.isTechBoard==1" :memberData={memberList:memberList}></kcMember>
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList}></kcMember>
                     </el-dialog>
                 </div>
               </li>
             </ul>
         </div>
-      <div class="one" v-if="companyProfileList.headList.isTechBoard==2">
+        <div class="one" v-if="companyProfileList.headList.isTechBoard==2">
         <ul style="padding-left: 0;">
           <li v-for="(item,index) in baseList" :key="index">
             <div v-if="item.processTypeCode =='72'" style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
@@ -474,28 +474,28 @@
                   <span style="font-size:14px;color:#999;">审核结果: </span>
                   <span style="font-family:'微软雅黑';font-weight:400;color:#333;"> {{item.companyName}}</span>
                   <span>
-                                <span class="htgResult"  v-if="item.iecResult=='00'">获通过</span>
-                                <span class="whtgResult" v-if="item.iecResult=='01'">未获通过</span>
-                                <span class="zhbjResult" v-if="item.iecResult=='02'">暂缓表决</span>
-                                <span class="qxshResult" v-if="item.iecResult=='03'">取消审核</span>
-                                <span class="dshResult"  v-if="item.iecResult=='04'">待上会</span>
-                                <span class="tgResult"   v-if="item.iecResult=='05'">通过</span>
-                                <span class="wtgResult"  v-if="item.iecResult=='06'">未通过</span>
-                                <span class="zcsxResult" v-if="item.iecResult=='07'">注册生效</span>
-                                <span class="whtgResult" v-if="item.iecResult=='08'">不予注册</span>
-                                <span class="dshResult"  v-if="item.iecResult=='09'">待上会</span>
-                                <span class="qxshResult" v-if="item.iecResult=='10'">取消审议</span>
-                               <span class="zhbjResult" v-if="item.iecResult=='11'">暂缓审议</span>
-                                <span class="qxshResult" v-if="item.iecResult=='12'">终止注册</span>
+                      <span class="htgResult"  v-if="item.iecResult=='00'">获通过</span>
+                      <span class="whtgResult" v-if="item.iecResult=='01'">未获通过</span>
+                      <span class="zhbjResult" v-if="item.iecResult=='02'">暂缓表决</span>
+                      <span class="qxshResult" v-if="item.iecResult=='03'">取消审核</span>
+                      <span class="dshResult"  v-if="item.iecResult=='04'">待上会</span>
+                      <span class="tgResult"   v-if="item.iecResult=='05'">通过</span>
+                      <span class="wtgResult"  v-if="item.iecResult=='06'">未通过</span>
+                      <span class="zcsxResult" v-if="item.iecResult=='07'">注册生效</span>
+                      <span class="whtgResult" v-if="item.iecResult=='08'">不予注册</span>
+                      <span class="dshResult"  v-if="item.iecResult=='09'">待上会</span>
+                      <span class="qxshResult" v-if="item.iecResult=='10'">取消审议</span>
+                      <span class="zhbjResult" v-if="item.iecResult=='11'">暂缓审议</span>
+                      <span class="qxshResult" v-if="item.iecResult=='12'">终止注册</span>
 
-                              <span class="tgResult" v-if="item.iecResult==='21'">通过</span>
-                              <span class="wtgResult" v-if="item.iecResult==='22'">未通过</span>
-                              <span class="dshResult" v-if="item.iecResult==='27'">待上会</span>
-                              <span class="qxshResult" v-if="item.iecResult==='23'">取消审议</span>
-                              <span class="zhbjResult" v-if="item.iecResult==='24'">暂缓审议</span>
-                              <span class="tgResult" v-if="item.iecResult==='25'">核准</span>
-                              <span class="whtgResult" v-if="item.iecResult==='26'">不予核准</span>
-                            </span>
+                      <span class="tgResult"   v-if="item.iecResult==='21'">通过</span>
+                      <span class="wtgResult"  v-if="item.iecResult==='22'">未通过</span>
+                      <span class="dshResult"  v-if="item.iecResult==='27'">待上会</span>
+                      <span class="qxshResult" v-if="item.iecResult==='23'">取消审议</span>
+                      <span class="zhbjResult" v-if="item.iecResult==='24'">暂缓审议</span>
+                      <span class="tgResult"   v-if="item.iecResult==='25'">核准</span>
+                      <span class="whtgResult" v-if="item.iecResult==='26'">不予核准</span>
+                  </span>
                 </p>
               </div>
               <div class="text ">
@@ -515,9 +515,9 @@
                 :visible.sync="dialogVisible"
                 width="1004px"
                 :before-close="handleClose">
-                <member v-if="companyProfileList.headList.isTechBoard==0" :memberData={memberList:memberList}></member>
+                <member v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" :memberData={memberList:memberList}></member>
                 <!-- 精选层挂牌委员会委员 -->
-                <kcMember v-if="companyProfileList.headList.isTechBoard==1" :memberData={memberList:memberList}></kcMember>
+                <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList}></kcMember>
               </el-dialog>
             </div>
             <div v-if="item.processTypeCode =='90'" style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
@@ -556,12 +556,12 @@
        <!-- 筛选问题列表 -->
         <div>
            <!-- 非科创版 -->
-            <div v-if="tabList&&tabList.length>0&&tabList[0].questionList&&tabList[0].questionList.length>0&&companyProfileList.headList.isTechBoard==0" class="title">
+            <div v-if="tabList&&tabList.length>0&&tabList[0].questionList&&tabList[0].questionList.length>0&&(companyProfileList.headList.isTechBoard==0&&caseType!='register')" class="title">
                 <span class="littleRectangle"></span>
                 <span class="titleText" id="result">发审委会议关注问题</span>
             </div>
             <!-- 科创版 -->
-            <div v-if="tabList&&tabList.length==1&&tabList[0].questionList&&tabList[0].questionList.length>0&&companyProfileList.headList.isTechBoard==1" class="title">
+            <div v-if="tabList&&tabList.length==1&&tabList[0].questionList&&tabList[0].questionList.length>0&&(companyProfileList.headList.isTechBoard==1||caseType=='register')" class="title">
                 <span class="littleRectangle"></span>
                 <span class="titleText" id="result">{{tabList[0].letterName}}</span>
             </div>
@@ -630,6 +630,7 @@ export default {
   data() {
     return {
          caseId:this.$store.state.app.caseId,
+        caseType:'',
         //  tab列表
         allLabelList:[
           {
@@ -731,12 +732,19 @@ export default {
       }
       // this.$store.commit('CREATE_MESSAGE',param)
       // 日志------------------功能尾
+    this.caseType = this.companyProfileList.tabList.resultType;
     this.initTableData();
     this.isShowAll = true;
   },
   mounted(){
   },
   methods: {
+    setResultType(val){
+      this.tabList = [];
+      this.caseType = val;
+      this.initTableData();
+      this.isShowAll = true;
+    },
      showMoreMethods(){
       if(this.tabList.length==1){
         this.showLength+=15
@@ -928,8 +936,29 @@ export default {
         }
         // 获取会议数据
         getReviewMeeting(param).then(res => {
+          this.baseList = [];
           if(res.data.result&&res.data.result.baseList&&res.data.result.baseList.length>0){
-            this.baseList = res.data.result.baseList
+            if (this.caseType == "ratify" ){//核准制
+              var tmpList = [];
+              for (let i = 0; i < res.data.result.baseList.length; i++) {
+                var tmpDto = res.data.result.baseList[i];
+                if (tmpDto.processTypeCode == "07"){
+                  tmpList.push(tmpDto);
+                }
+              }
+              this.baseList = tmpList;
+            } else if (this.caseType == "register" ){// 注册制
+              var tmpList = [];
+              for (let i = 0; i < res.data.result.baseList.length; i++) {
+                var tmpDto = res.data.result.baseList[i];
+                if (tmpDto.processTypeCode == "35"||tmpDto.processTypeCode == "38"||tmpDto.processTypeCode == "44"){
+                  tmpList.push(tmpDto);
+                }
+              }
+              this.baseList = tmpList;
+            } else {
+              this.baseList = res.data.result.baseList
+            }
             }
           console.log('会议数据',this.baseList )
         })
@@ -938,7 +967,22 @@ export default {
           console.log('审核结果',res)
             if (res.data.result && res.data.result.length > 0) {
             this.o_letterId = res.data.result[0].letterId;
-            this.tabList = res.data.result;
+            this.tabList = [];
+            if (this.caseType != ''&& this.caseType != undefined){
+              console.log("创业板模块",this.caseType,res.data.result);
+              for (let i = 0; i < res.data.result.length; i++) {
+                var tmp = res.data.result[i];
+                //针对创业板
+                if(this.caseType=='ratify' && tmp.letterName == "发审会关注问题"){//核准制
+                    this.tabList.push(tmp);
+                } else if (this.caseType == "register" &&
+                  (tmp.letterName == "上市会关注问题" || tmp.letterName=="复审会关注问题" || tmp.letterName.indexOf("注册反馈意见") != -1)) {// 注册制
+                  this.tabList.push(tmp);
+                }
+              }
+            } else {
+              this.tabList = res.data.result;
+            }
             console.log('审核结果',this.tabList)
             this.activeName = this.tabList[0].letterId;
                // 第一个tab

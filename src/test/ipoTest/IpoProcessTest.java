@@ -102,7 +102,7 @@ public class IpoProcessTest extends BaseTest {
 
     @Test
     public void selectNewFeedbackList(){
-        ipoFeedbackService.selectNewFeedbackList("97952444248599354");
+//        ipoFeedbackService.selectNewFeedbackList("97952444248599354");
     }
 
     @Test

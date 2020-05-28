@@ -21,15 +21,19 @@
                                 <div class="right" >
                                     <div class="border-box">
                                         <span v-if="sortFlag == '0'">
-                                            <span :id="'sign' +  item.progressIndex" :class="{'circle':item.dateCompare=='1','grayCircle':item.dateCompare=='0'}" v-if="boxDataItem.proList.length">
-                                                <!-- 展示序号 【默认时候不加类】-->
-                                                <span :id="'num' +  item.progressIndex">
-                                                    {{item.proSort}}
-                                                </span>
-                                            </span>
+                                          <span v-if="item.progressType == '52'" class="icChange">
+                                          </span>
+                                          <span :id="'sign' +  item.progressIndex" :class="{'circle':item.dateCompare=='1','grayCircle':item.dateCompare=='0'}" v-if="boxDataItem.proList.length && item.progressType != '52'">
+                                              <!-- 展示序号 【默认时候不加类】-->
+                                              <span :id="'num' +  item.progressIndex">
+                                                  {{item.proSort}}
+                                              </span>
+                                          </span>
                                         </span>
                                         <span v-else>
-                                            <span :id="'sign' +  item.progressIndex" :class="{'circle':item.dateCompare=='1','grayCircle':item.dateCompare=='0'}" v-if="boxDataItem.proList.length">
+                                          <span v-if="item.progressType == '52'" class="icChange">
+                                          </span>
+                                            <span :id="'sign' +  item.progressIndex" :class="{'circle':item.dateCompare=='1','grayCircle':item.dateCompare=='0'}" v-if="boxDataItem.proList.length && item.progressType != '52'">
                                             <!-- 展示序号 -->
                                                 <span :id="'num' +  item.progressIndex">
                                                     {{item.proSort}}
@@ -39,7 +43,12 @@
                                     </div>
                                     <div class="border-right">
                                         <div style="height: 19px;">
-                                            <div style="font-size: 16px; color: #333333;display:inline-block;margin-right: 10px;"
+                                            <div v-if="item.progressType == '52'">
+                                                <div v-if="boxDataItem.ipoPlate == '069001002002'" style="color: #999; font-size: 15px;">创业板{{item.progressName}}</div>
+                                                <div v-if="boxDataItem.ipoPlate == '069001002003'" style="color: #999; font-size: 15px;">中小板{{item.progressName}}</div>
+                                                <div v-if="boxDataItem.ipoPlate == '069001003001'" style="color: #999; font-size: 15px;">上交所主板{{item.progressName}}</div>
+                                            </div>
+                                            <div v-else style="font-size: 16px; color: #333333;display:inline-block;margin-right: 10px;"
                                                 v-text='item.progressName'
                                                 @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'title')"
                                                 @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)"
@@ -47,7 +56,7 @@
                                                 class="tinyHand">
                                             </div>
                                             <!-- <span class="tg" style="margin-right:12px"></span> -->
-                                        <!-- 审核结果 -->
+                                            <!-- 审核结果 -->
                                             <span v-if="item.progressType=='07'&&item.iecResult=='00'" :style={background:htg}  class="htg" >获通过</span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='01'" :style={background:whtg} class="whtg">未获通过</span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='02'" :style={background:zhbj} class="zhbj">暂缓表决 </span>
@@ -83,14 +92,14 @@
                                                 <div :ref=' item.progressIndex' :class="'abc'+ item.progressIndex"></div>
                                             </div>
                                           <!--注册制正常---显示公告名-->
-                                            <div v-if="isTechBoard=='0'">
+                                            <div v-if="isTechBoard=='0'&&isCybBoard!='1'">
                                               <p v-if="item.relaList.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></p>
                                               <p v-else v-show="item.flag" @click="gonggaoClick(item.relaList[0])" class="gonggao" style="display: block" :id="'more'+  item.progressIndex">
                                                 <a>{{item.relaList[0].relationFileTitle}}</a>
                                               </p>
                                             </div>
                                           <!--科创版---区分‘中止和终止2个节点的显示，其他节点正常显示’-->
-                                            <div v-else>
+                                            <div v-if="isTechBoard!='0'||isCybBoard=='1'">
                                               <!--终止和中止节点-->
                                               <div v-if="item.isStopOrSuspend">
                                                 <div v-if="item.subtitle&&item.subtitle.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></div>
@@ -112,12 +121,12 @@
                                         <div v-if="item.flag&&item.relaList.length>1" style="margin-bottom: 24px;margin-top: 8px;">
                                             <span>
                                               <!--核准制正常显示-->
-                                                <span v-if="isTechBoard=='0'">
+                                                <span v-if="isTechBoard=='0'&&isCybBoard!='1'">
                                                     <a v-if="boxDataItem.treeTypeCode == '02'" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告 ></a>
                                                     <a v-else @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多文件 ></a>
                                                 </span>
                                               <!--科创版‘中止’和‘终止’2个节点不显示-->
-                                              <span v-else>
+                                              <span v-if="isTechBoard!='0'||isCybBoard=='1'">
                                                     <a v-if="boxDataItem.treeTypeCode == '02'&&!item.isStopOrSuspend" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告 ></a>
                                                     <a v-if="boxDataItem.treeTypeCode != '02'&&!item.isStopOrSuspend" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多文件 ></a>
                                                 </span>
@@ -126,14 +135,14 @@
                                         <div v-if="!item.flag" style="margin-bottom: 14px;margin-top: 8px;">
                                             <span>
                                               <!--核准制正常显示-->
-                                                <span v-if="isTechBoard=='0'">
+                                                <span v-if="isTechBoard=='0'&&isCybBoard!='1'">
                                                      <!-- 第一个进程展示的是‘查看公告’ -->
                                                     <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看公告 ></div>
                                                     <!-- 第二个进程展示的是‘查看文件’ -->
                                                     <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看文件 ></div>
                                                 </span>
                                               <!--科创版  ‘终止和中止显示；‘查看原因’’-->
-                                              <span v-else>
+                                              <span v-if="isTechBoard!='0'||isCybBoard=='1'">
                                                      <!-- 第一个进程展示的是‘查看公告’ -->
                                                     <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="item.isStopOrSuspend" v-show="item.subtitle&&item.subtitle.length>0"   @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看原因 ></div>
                                                 <!-- 第二个进程展示的是‘查看文件’ -->
@@ -163,7 +172,8 @@
                                 <div class="right" >
                                     <div class="border-box">
                                         <span v-if="sortFlag == '0'">
-                                            <span :id="'sign' +  item.progressIndex" :class="{'circle':item.dateCompare=='1','grayCircle':item.dateCompare=='0'}"  v-if="boxDataItem.proList.length">
+                                          <span v-if="item.progressType == '52'" class="icChange"></span>
+                                            <span :id="'sign' +  item.progressIndex" :class="{'circle':item.dateCompare=='1','grayCircle':item.dateCompare=='0'}"  v-if="boxDataItem.proList.length && item.progressType != '52'">
                                                 <!-- 展示序号 【默认时候不加类】-->
                                                 <span :id="'num' +  item.progressIndex">
                                                     {{item.proSort}}
@@ -171,7 +181,8 @@
                                             </span>
                                         </span>
                                         <span v-else>
-                                            <span :id="'sign' +  item.progressIndex" :class="{'circle':item.dateCompare=='1','grayCircle':item.dateCompare=='0'}" v-if="boxDataItem.proList.length">
+                                          <span v-if="item.progressType == '52'" class="icChange"></span>
+                                            <span :id="'sign' +  item.progressIndex" :class="{'circle':item.dateCompare=='1','grayCircle':item.dateCompare=='0'}" v-if="boxDataItem.proList.length && item.progressType != '52'">
                                             <!-- 展示序号 -->
                                                 <span :id="'num' +  item.progressIndex">
                                                     {{item.proSort}}
@@ -181,13 +192,18 @@
                                     </div>
                                     <div class="border-right">
                                         <div style="height: 19px;">
-                                            <div style="font-size: 16px; color: #333333;display:inline-block;margin-right: 10px;"
-                                                v-text='item.progressName'
-                                                @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'title')"
-                                                @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)"
-                                                @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)"
-                                                class="tinyHand">
-                                            </div>
+                                          <div v-if="item.progressType == '52'">
+                                            <div v-if="boxDataItem.ipoPlate == '069001002002'" style="color: #999; font-size: 15px;">创业板{{item.progressName}}</div>
+                                            <div v-if="boxDataItem.ipoPlate == '069001002003'" style="color: #999; font-size: 15px;">中小板{{item.progressName}}</div>
+                                            <div v-if="boxDataItem.ipoPlate == '069001003001'" style="color: #999; font-size: 15px;">上交所主板{{item.progressName}}</div>
+                                          </div>
+                                          <div v-else style="font-size: 16px; color: #333333;display:inline-block;margin-right: 10px;"
+                                              v-text='item.progressName'
+                                              @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'title')"
+                                              @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)"
+                                              @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)"
+                                              class="tinyHand">
+                                          </div>
                                         <!-- 审核结果 -->
                                             <span v-if="item.progressType=='07'&&item.iecResult=='00'" :style={background:htg}  class="htg" >获通过</span>
                                             <span v-if="item.progressType=='07'&&item.iecResult=='01'" :style={background:whtg} class="whtg">未获通过</span>
@@ -216,14 +232,14 @@
                                                 <div :ref=' item.progressIndex' :class="'abc'+ item.progressIndex"></div>
                                             </div>
                                           <!--注册制正常---显示公告名-->
-                                          <div v-if="isTechBoard=='0'">
+                                          <div v-if="isTechBoard=='0'&&isCybBoard!='1'">
                                             <p v-if="item.relaList.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></p>
                                             <p v-else v-show="item.flag" @click="gonggaoClick(item.relaList[0])" class="gonggao" style="display: block" :id="'more'+  item.progressIndex">
                                               <a>{{item.relaList[0].relationFileTitle}}</a>
                                             </p>
                                           </div>
                                           <!--科创版---区分‘中止和终止2个节点的显示，其他节点正常显示’-->
-                                          <div v-else>
+                                          <div v-if="isTechBoard!='0'||isCybBoard=='1'">
                                             <!--终止和中止节点-->
                                             <div v-if="item.isStopOrSuspend">
                                               <div v-if="item.subtitle&&item.subtitle.length===0" class="gonggao"  style="color:#0086A7;font-size:14px;display:none;margin-bottom: 24px;margin-top: 8px;"><a></a></div>
@@ -245,12 +261,12 @@
                                       <div v-if="item.flag&&item.relaList.length>1" style="margin-bottom: 24px;margin-top: 8px;">
                                             <span>
                                               <!--核准制正常显示-->
-                                                <span v-if="isTechBoard=='0'">
+                                                <span v-if="isTechBoard=='0'&&isCybBoard!='1'">
                                                     <a v-if="boxDataItem.treeTypeCode == '02'" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告 ></a>
                                                     <a v-else @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多文件 ></a>
                                                 </span>
                                               <!--科创版‘中止’和‘终止’2个节点不显示-->
-                                              <span v-else>
+                                              <span v-if="isTechBoard!='0'||isCybBoard=='1'">
                                                     <a v-if="boxDataItem.treeTypeCode == '02'&&!item.isStopOrSuspend" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多公告 ></a>
                                                     <a v-if="boxDataItem.treeTypeCode != '02'&&!item.isStopOrSuspend" @click="moreNoticeClick(boxDataItem,item)" class="moreNoticeCss">查看更多文件 ></a>
                                                 </span>
@@ -259,14 +275,14 @@
                                       <div v-if="!item.flag" style="margin-bottom: 14px;margin-top: 8px;">
                                             <span>
                                               <!--核准制正常显示-->
-                                                <span v-if="isTechBoard=='0'">
+                                                <span v-if="isTechBoard=='0'&&isCybBoard!='1'">
                                                      <!-- 第一个进程展示的是‘查看公告’ -->
                                                     <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="boxDataItem.treeTypeCode == '02'"  v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看公告 ></div>
                                                   <!-- 第二个进程展示的是‘查看文件’ -->
                                                     <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-else v-show="item.relaList.length>0" @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看文件 ></div>
                                                 </span>
                                               <!--科创版  ‘终止和中止显示；‘查看原因’’-->
-                                              <span v-else>
+                                              <span v-if="isTechBoard!='0'||isCybBoard=='1'">
                                                      <!-- 第一个进程展示的是‘查看公告’ -->
                                                     <div style="margin-bottom: 14px;margin-top: 8px;cursor: pointer" v-if="item.isStopOrSuspend" v-show="item.subtitle&&item.subtitle.length>0"   @click="showAndHide(boxDataItem,'each' + item.progressIndex,item, 'file')" class="moreNoticeCss">查看原因 ></div>
                                                 <!-- 第二个进程展示的是‘查看文件’ -->
@@ -359,7 +375,7 @@ export default {
         };
     },
     name: "processTree",
-    props:["isTechBoard"],
+    props:["isTechBoard","isCybBoard"],
     created(){
          // 日志--------------------功能头
       let param = {
@@ -394,7 +410,24 @@ export default {
         }
         getRightModuleData(param).then(res => {
             this.flagLoading = false;
+            // 以下对数据进行筛选， 如果碰到 progressType 是 52 的话， 把后面的proSort 数字减一
+            //试点注册制实施 加入， 前后序号 正常走
             if(res.data.result&&res.data.result.treeList&&res.data.result.treeList.length>0){
+              for (var i = 0; i < res.data.result.treeList.length; i++) {
+                var tmp = res.data.result.treeList[i];
+                if (tmp.treeTypeCode == '01'){
+                  var flag = false;
+                  for (var j = tmp.proList.length-1; j >=0; j--) {
+                    var tmpy = tmp.proList[j];
+                    if (flag){
+                      tmpy.proSort = tmpy.proSort - 1 ;
+                    }
+                    if (tmpy.progressType == '52'){
+                      flag = true;
+                    }
+                  }
+                }
+              }
                 this.treeList = res.data.result.treeList
                 console.log('进程树',this.treeList)
                 this.treeTypeCode = res.data.result.treeList[0].treeTypeCode
@@ -653,6 +686,24 @@ export default {
     position: relative;
     left: -10px;
 }
+
+.icChange{
+  display: block;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 12px;
+  position: relative;
+  left: -10px;
+  background-image:  url("../../../assets/images/sdzczss.png");
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+  -moz-background-size:100% 100%;
+}
+
 .grayCircle {
     background: #d7d7d7;
     display: block;
