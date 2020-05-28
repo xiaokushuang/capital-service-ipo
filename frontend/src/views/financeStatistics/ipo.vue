@@ -901,13 +901,16 @@
         // tabs标签页焦点
         this.isActive = isActive;
         // 控制tabs标签的下边边框长度和位置
-        if (isActive === '1' || isActive === '4'|| isActive === '13'|| isActive === '14') {
-          this.tabBarWidth = event.currentTarget.offsetWidth - 30;
+        debugger;
+        if (isActive === '1' || isActive === '4') {
+          this.tabBarWidth = event.currentTarget.offsetWidth - 10;
+        } else if ( isActive === '13'|| isActive === '14'){
+          this.tabBarWidth = event.currentTarget.offsetWidth - 20;
         } else {
-          this.tabBarWidth = event.currentTarget.offsetWidth - 30;
+          this.tabBarWidth = event.currentTarget.offsetWidth - 20;
         }
         if (isActive != '1') {
-          this.tabBarOffset = event.currentTarget.offsetLeft + 15;
+          this.tabBarOffset = event.currentTarget.offsetLeft + 10;
         } else {
           this.tabBarOffset = event.currentTarget.offsetLeft;
         }
