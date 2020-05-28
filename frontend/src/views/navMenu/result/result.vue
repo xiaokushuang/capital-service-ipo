@@ -937,21 +937,22 @@ export default {
         // 获取会议数据
         getReviewMeeting(param).then(res => {
           this.baseList = [];
-          if(res.data.result&&res.data.result.baseList&&res.data.result.baseList.length>0){
-            if (this.caseType == "ratify" ){//核准制
+          if (res.data.result && res.data.result.baseList && res.data.result.baseList.length > 0) {
+            if (this.caseType == "ratify") {//核准制
               var tmpList = [];
               for (let i = 0; i < res.data.result.baseList.length; i++) {
                 var tmpDto = res.data.result.baseList[i];
-                if (tmpDto.processTypeCode == "07"){
+                if (tmpDto.processTypeCode == "07") {
                   tmpList.push(tmpDto);
                 }
               }
               this.baseList = tmpList;
-            } else if (this.caseType == "register" ){// 注册制
+            } else if (this.caseType == "register") {// 注册制
               var tmpList = [];
               for (let i = 0; i < res.data.result.baseList.length; i++) {
                 var tmpDto = res.data.result.baseList[i];
-                if (tmpDto.processTypeCode == "35"||tmpDto.processTypeCode == "38"||tmpDto.processTypeCode == "44"){
+                if (tmpDto.processTypeCode == "35" || tmpDto.processTypeCode == "38"
+                  || tmpDto.processTypeCode == "44") {
                   tmpList.push(tmpDto);
                 }
               }
@@ -959,14 +960,13 @@ export default {
             } else {
               this.baseList = res.data.result.baseList
             }
-            }
-          console.log('会议数据',this.baseList )
+          }
+          console.log('会议数据', this.baseList)
         })
         // 获取筛选问题数据
         getResultInitializeList(param).then(res => {
           console.log('审核结果',res)
             if (res.data.result && res.data.result.length > 0) {
-            this.o_letterId = res.data.result[0].letterId;
             this.tabList = [];
             if (this.caseType != ''&& this.caseType != undefined){
               console.log("创业板模块",this.caseType,res.data.result);
@@ -984,6 +984,7 @@ export default {
             } else {
               this.tabList = res.data.result;
             }
+            this.o_letterId = res.data.result[0].letterId;
             console.log('审核结果',this.tabList)
             this.activeName = this.tabList[0].letterId;
                // 第一个tab
@@ -1698,7 +1699,6 @@ export default {
     },
     // 点击二级菜单过滤出问题列表
     initOnlyQuestionData(letterId, firstLabelId, secondLabelId, onlyResponse) {
-      debugger;
       // 动态传id
       // 将second多选按钮参数用字符串，隔开
       let secondLabel = "";
@@ -1717,7 +1717,6 @@ export default {
         onlyResponse: onlyResponse
       };
       getResultQuestionList(param).then(res => {
-        debugger;
         // 当只有一个tab页时
         if (this.tabList.length == 1) {
           if (res.data.result.length > 0) {
