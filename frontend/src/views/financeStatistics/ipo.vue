@@ -1047,7 +1047,7 @@
               }
               break
             case '12':
-              // 问询与回复【没有锚点定位】说
+              // 问询与回复【没有锚点定位】
               that.tabList=that.tabRegisterList;
               that.showComponent = feedback
               that.$refs.rightModule.treeListMethods(false);

@@ -975,7 +975,8 @@ export default {
                 //针对创业板
                 if(this.caseType=='ratify' && tmp.letterName == "发审会关注问题"){//核准制
                     this.tabList.push(tmp);
-                } else if (this.caseType == "register" && (tmp.letterName == "上市会关注问题" || tmp.letterName=="复审会关注问题")) {// 注册制
+                } else if (this.caseType == "register" &&
+                  (tmp.letterName == "上市会关注问题" || tmp.letterName=="复审会关注问题" || tmp.letterName.indexOf("注册反馈意见") != -1)) {// 注册制
                   this.tabList.push(tmp);
                 }
               }
