@@ -666,26 +666,30 @@ public class IpoFeedbackService extends BaseService {
       if (CollectionUtils.isNotEmpty(questionList)) {
         //添加前台需要展示的函件类型名称
         String letterTypeName = questionList.get(0).getLetterTypeName();
+        String tabName = "反馈意见";
+        if (StringUtils.isNotEmpty(companyOverviewVo.getIpoPlate()) && companyOverviewVo.getIpoPlate().equals("069001003001")){
+            tabName = "问询";
+        }
         if (feedbackCount == 0) {
-          ipoFeedbackResultDto.setLetterName("第一次反馈意见");
+          ipoFeedbackResultDto.setLetterName("第一次"+tabName);
         } else if (feedbackCount == 1) {
-          ipoFeedbackResultDto.setLetterName("第二次反馈意见");
+          ipoFeedbackResultDto.setLetterName("第二次"+tabName);
         } else if (feedbackCount == 2) {
-          ipoFeedbackResultDto.setLetterName("第三次反馈意见");
+          ipoFeedbackResultDto.setLetterName("第三次"+tabName);
         } else if (feedbackCount == 3) {
-          ipoFeedbackResultDto.setLetterName("第四次反馈意见");
+          ipoFeedbackResultDto.setLetterName("第四次"+tabName);
         } else if (feedbackCount == 4) {
-          ipoFeedbackResultDto.setLetterName("第五次反馈意见");
+          ipoFeedbackResultDto.setLetterName("第五次"+tabName);
         } else if (feedbackCount == 5) {
-          ipoFeedbackResultDto.setLetterName("第六次反馈意见");
+          ipoFeedbackResultDto.setLetterName("第六次"+tabName);
         } else if (feedbackCount == 6) {
-          ipoFeedbackResultDto.setLetterName("第七次反馈意见");
+          ipoFeedbackResultDto.setLetterName("第七次"+tabName);
         } else if (feedbackCount == 7) {
-          ipoFeedbackResultDto.setLetterName("第八次反馈意见");
+          ipoFeedbackResultDto.setLetterName("第八次"+tabName);
         } else if (feedbackCount == 8) {
-          ipoFeedbackResultDto.setLetterName("第九次反馈意见");
+          ipoFeedbackResultDto.setLetterName("第九次"+tabName);
         } else if (feedbackCount == 9) {
-          ipoFeedbackResultDto.setLetterName("第十次反馈意见");
+          ipoFeedbackResultDto.setLetterName("第十次"+tabName);
         }
         feedbackCount++;
 
