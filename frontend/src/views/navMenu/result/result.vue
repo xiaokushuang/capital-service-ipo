@@ -980,6 +980,7 @@ export default {
                   this.tabList.push(tmp);
                 }
               }
+              res.data.result = this.tabList;
             } else {
               this.tabList = res.data.result;
             }
@@ -1697,6 +1698,7 @@ export default {
     },
     // 点击二级菜单过滤出问题列表
     initOnlyQuestionData(letterId, firstLabelId, secondLabelId, onlyResponse) {
+      debugger;
       // 动态传id
       // 将second多选按钮参数用字符串，隔开
       let secondLabel = "";
@@ -1715,6 +1717,7 @@ export default {
         onlyResponse: onlyResponse
       };
       getResultQuestionList(param).then(res => {
+        debugger;
         // 当只有一个tab页时
         if (this.tabList.length == 1) {
           if (res.data.result.length > 0) {

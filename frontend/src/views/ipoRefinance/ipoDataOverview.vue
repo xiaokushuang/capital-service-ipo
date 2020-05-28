@@ -238,7 +238,7 @@ export default {
           }
           if(obj.label == "预先披露更新"){
             middle[2]= obj;
-          }obj.l
+          }
           if(obj.label == "已通过发审会" || obj.label == "已通过发审会(上市委会议通过)"){
             middle[3]= obj;
           }

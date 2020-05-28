@@ -177,60 +177,64 @@ public class IpoFeedbackService extends BaseService {
      * 查询二级标签及问题
      */
     public List<IpoFeedbackDto> selectNewQuestionList(String letterId, String firstLabelId, String secondLabelIds, String onlyResponse) {
-        List<IpoFeedbackDto> resultList = new ArrayList<>();
-        IpoFeedbackDto resultDto = new IpoFeedbackDto();
-        //从云端查询标一二级标签
-        Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap("");
-        //如果存在一级标签，则查询一级标签下的二级标签
-        Map<String, Map<String, String>> secondSelLabelMap = ipoFeedbackMapper.selectSecondLabelMap(firstLabelId);
-        //定义问题标签集合
-        List<IpoQuestionLabelDto> secondLabelList = new ArrayList<>();
-        //将二级标签用逗号分隔为数组
-        List<String> secondLabelParamList = Arrays.asList(secondLabelIds.split(","));
-        
-        FacetResult<IpoFeedbackIndexDto> facetResult = new FacetResult<IpoFeedbackIndexDto>();
-        String orderByName = "letter_question_id_t";
-		String orderByOrder = "ASC";
-		
+      List<IpoFeedbackDto> resultList = new ArrayList<>();
+      IpoFeedbackDto resultDto = new IpoFeedbackDto();
+      //从云端查询标一二级标签
+      Map<String, Map<String, String>> secondLabelMap = ipoFeedbackMapper.selectSecondLabelMap("");
+      //如果存在一级标签，则查询一级标签下的二级标签
+      Map<String, Map<String, String>> secondSelLabelMap = ipoFeedbackMapper
+          .selectSecondLabelMap(firstLabelId);
+      //定义问题标签集合
+      List<IpoQuestionLabelDto> secondLabelList = new ArrayList<>();
+      //将二级标签用逗号分隔为数组
+      List<String> secondLabelParamList = Arrays.asList(secondLabelIds.split(","));
+
+      FacetResult<IpoFeedbackIndexDto> facetResult = new FacetResult<IpoFeedbackIndexDto>();
+      String orderByName = "letter_question_id_t";
+      String orderByOrder = "ASC";
+
 //        if(Global.SEARCH_SERVER_LETTER_QA_FLAG.equals("0")) {
-        	String accessToken = commonService.getGuiAccessToken();
-    		String urls = serviceGuiBaseUrl + "/letter/letter/api/searchLetterQaData?access_token=" + accessToken;
-    		ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
-    		};
-    		
-            QueryInfo<Map<String, Object>> queryInfo = new QueryInfo<Map<String, Object>>();
-            Map<String, Object> condition = Maps.newHashMap();
-            
-            if(StringUtils.isNotEmpty(letterId)) {
-    			condition.put("letterId", letterId);
-    		}
-            
-            condition.put("groupFlag", "true");
-            
-            if (StringUtils.isNotEmpty(secondLabelIds) && CollectionUtils.isNotEmpty(secondLabelParamList)) {
-    			condition.put("questionTypeList", secondLabelParamList);
-    			if (StringUtils.isNotEmpty(firstLabelId)) {
-    				condition.put("questionType", firstLabelId);
-    			}
-    		} else if (StringUtils.isNotEmpty(firstLabelId)) {
-    			condition.put("questionType", firstLabelId);
-    		}
-            
-            queryInfo.setQueryId("com.stock.capital.services.letter.api.dao.LetterApiQa.searchLetterQaData");
-            queryInfo.setCondition(condition);
-    		queryInfo.setStartRow(0);
-    		queryInfo.setPageSize(2000);
-    		queryInfo.setOrderByName(orderByName);
-    		queryInfo.setOrderByOrder(orderByOrder);
-    		
-    		String encryptData = restClient.post(urls, queryInfo, responseType);
-    		// 获取解密后的数据
-    		Map<String, Object> index = commonService.getEncryptData(encryptData);
-    		if(!MapUtils.isEmpty(index)) {
-    			ParameterizedTypeReference<FacetResult<IpoFeedbackIndexDto>> map = new ParameterizedTypeReference<FacetResult<IpoFeedbackIndexDto>>() {
-				};
-				facetResult = JsonUtil.fromJson(JsonUtil.toJson(index) ,map);
-    		}
+      String accessToken = commonService.getGuiAccessToken();
+      String urls =
+          serviceGuiBaseUrl + "/letter/letter/api/searchLetterQaData?access_token=" + accessToken;
+      ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
+      };
+
+      QueryInfo<Map<String, Object>> queryInfo = new QueryInfo<Map<String, Object>>();
+      Map<String, Object> condition = Maps.newHashMap();
+
+      if (StringUtils.isNotEmpty(letterId)) {
+        condition.put("letterId", letterId);
+      }
+
+      condition.put("groupFlag", "true");
+
+      if (StringUtils.isNotEmpty(secondLabelIds) && CollectionUtils
+          .isNotEmpty(secondLabelParamList)) {
+        condition.put("questionTypeList", secondLabelParamList);
+        if (StringUtils.isNotEmpty(firstLabelId)) {
+          condition.put("questionType", firstLabelId);
+        }
+      } else if (StringUtils.isNotEmpty(firstLabelId)) {
+        condition.put("questionType", firstLabelId);
+      }
+
+      queryInfo
+          .setQueryId("com.stock.capital.services.letter.api.dao.LetterApiQa.searchLetterQaData");
+      queryInfo.setCondition(condition);
+      queryInfo.setStartRow(0);
+      queryInfo.setPageSize(2000);
+      queryInfo.setOrderByName(orderByName);
+      queryInfo.setOrderByOrder(orderByOrder);
+
+      String encryptData = restClient.post(urls, queryInfo, responseType);
+      // 获取解密后的数据
+      Map<String, Object> index = commonService.getEncryptData(encryptData);
+      if (!MapUtils.isEmpty(index)) {
+        ParameterizedTypeReference<FacetResult<IpoFeedbackIndexDto>> map = new ParameterizedTypeReference<FacetResult<IpoFeedbackIndexDto>>() {
+        };
+        facetResult = JsonUtil.fromJson(JsonUtil.toJson(index), map);
+      }
 //    	} else {
 //    		Map<String, String> condition = Maps.newHashMap();
 //    		StringBuilder conditionsStr = new StringBuilder("index_type_t: \"letterqa\"");
@@ -262,108 +266,111 @@ public class IpoFeedbackService extends BaseService {
 //    		queryInfo.setOrderByOrder(orderByOrder);
 //    		facetResult = searchServer.searchWithFacet("letterqa", queryInfo, IpoFeedbackIndexDto.class);
 //    	}
-        
-        List<StatisticsField> labelList =
-                facetResult.getStatisticsFieldMap().get("letter_question_class_new_id_txt");
-        List<IpoFeedbackIndexDto> questionList = facetResult.getPage().getData();
-        //如果选择一级标签全部，二级标签的全部要特殊处理
-        if (firstLabelId.equals("")) {
-            IpoQuestionLabelDto allLabelDto = new IpoQuestionLabelDto();
-            allLabelDto.setLabelName("全部");
-            allLabelDto.setLabelCount(String.valueOf(questionList.size()));
-            allLabelDto.setSort(0);
-            secondLabelList.add(0, allLabelDto);
-        }
-        //循环标签，将标签个数赋值
-        for (StatisticsField labelDto : labelList) {
-            //如果标签id等于父id,则将此标签统计个数赋值给全部标签
-            if (firstLabelId.equals(labelDto.getFieldId())) {
-                IpoQuestionLabelDto allLabelDto = new IpoQuestionLabelDto();
-                allLabelDto.setLabelName("全部");
-                allLabelDto.setLabelCount(String.valueOf(labelDto.getCount()));
-                allLabelDto.setSort(0);
-                secondLabelList.add(0, allLabelDto);
-            }
 
-            if (null != secondSelLabelMap.get(labelDto.getFieldId())) {
-                IpoQuestionLabelDto questionLabelDto = new IpoQuestionLabelDto();
-                questionLabelDto.setLabelCode(labelDto.getFieldId());
-                questionLabelDto.setLabelName(secondSelLabelMap.get(labelDto.getFieldId()).get("letterClassName"));
-                questionLabelDto.setLabelCount(String.valueOf(labelDto.getCount()));
-                String sort = secondSelLabelMap.get(labelDto.getFieldId()).get("sort");
-                if (StringUtils.isEmpty(sort)) {
-                    sort = "1";
-                }
-                questionLabelDto.setSort(Integer.parseInt(sort));
-                secondLabelList.add(questionLabelDto);
-            }
+      List<StatisticsField> labelList =
+          facetResult.getStatisticsFieldMap().get("letter_question_class_new_id_txt");
+      List<IpoFeedbackIndexDto> questionList = facetResult.getPage().getData();
+      //如果选择一级标签全部，二级标签的全部要特殊处理
+      if (firstLabelId.equals("")) {
+        IpoQuestionLabelDto allLabelDto = new IpoQuestionLabelDto();
+        allLabelDto.setLabelName("全部");
+        allLabelDto.setLabelCount(String.valueOf(questionList.size()));
+        allLabelDto.setSort(0);
+        secondLabelList.add(0, allLabelDto);
+      }
+      //循环标签，将标签个数赋值
+      for (StatisticsField labelDto : labelList) {
+        //如果标签id等于父id,则将此标签统计个数赋值给全部标签
+        if (firstLabelId.equals(labelDto.getFieldId())) {
+          IpoQuestionLabelDto allLabelDto = new IpoQuestionLabelDto();
+          allLabelDto.setLabelName("全部");
+          allLabelDto.setLabelCount(String.valueOf(labelDto.getCount()));
+          allLabelDto.setSort(0);
+          secondLabelList.add(0, allLabelDto);
         }
-        //二级标签排序
-        secondLabelList.sort((IpoQuestionLabelDto c1, IpoQuestionLabelDto c2) ->
-                (c1.getSort() > c2.getSort() ? 1 : (c1.getSort() == c2.getSort() ? 0 : -1)));
-        resultDto.setQuestionLabelList(secondLabelList);
-        //定义一个问题列表数组
-        List<IpoFeedbackQuestionDto> questionResultList = new ArrayList<>();
-        int questionCount = questionList.size();
-        int answerCount = 0;
-        if (CollectionUtils.isNotEmpty(questionList)) {
-            for (IpoFeedbackIndexDto questionDto : questionList) {
-                //定义二级标签集合
-                List<String> belongSecondLabelList = new ArrayList<>();
-                //定义问题、答案DTO
-                //判断是否只显示已回复问题
-                if ("1".equals(onlyResponse)) {
-                    if (StringUtils.isNotEmpty(questionDto.getAnswersContents())) {
-                        IpoFeedbackQuestionDto questionResultDto = new IpoFeedbackQuestionDto();
-                        questionResultDto.setQuestionId(questionDto.getQuestionId());
-                        questionResultDto.setQuestion(questionDto.getQuestContents());
-                        questionResultDto.setAnswer(questionDto.getAnswersContents());
-                        questionResultDto.setFormatQuestion(questionDto.getQuestionLabelContent());
-                        questionResultDto.setFormatAnswer(questionDto.getAnswerLabelContent());
-                        List<String> belongLabel = questionDto.getQuestionClassNewId();
-                        //循环放入问题所属二级标签
-                        if (CollectionUtils.isNotEmpty(belongLabel)) {
-                            for (String belongLabelStr : belongLabel) {
-                                if (null != secondLabelMap.get(belongLabelStr)) {
-                                    belongSecondLabelList.add(secondLabelMap.get(belongLabelStr).get("letterClassName"));
-                                }
-                            }
-                            questionResultDto.setLabelList(belongSecondLabelList);
-                        }
-                        if (StringUtils.isNotEmpty(questionResultDto.getAnswer())) {
-                            answerCount++;
-                        }
-                        questionResultList.add(questionResultDto);
-                    }
-                } else {
-                    IpoFeedbackQuestionDto questionResultDto = new IpoFeedbackQuestionDto();
-                    questionResultDto.setQuestionId(questionDto.getQuestionId());
-                    questionResultDto.setQuestion(questionDto.getQuestContents());
-                    questionResultDto.setAnswer(questionDto.getAnswersContents());
-                    questionResultDto.setFormatQuestion(questionDto.getQuestionLabelContent());
-                    questionResultDto.setFormatAnswer(questionDto.getAnswerLabelContent());
-                    List<String> belongLabel = questionDto.getQuestionClassNewId();
-                    //循环放入问题所属二级标签
-                    if (CollectionUtils.isNotEmpty(belongLabel)) {
-                        for (String belongLabelStr : belongLabel) {
-                            if (null != secondLabelMap.get(belongLabelStr)) {
-                                belongSecondLabelList.add(secondLabelMap.get(belongLabelStr).get("letterClassName"));
-                            }
-                        }
-                        questionResultDto.setLabelList(belongSecondLabelList);
-                    }
-                    if (StringUtils.isNotEmpty(questionResultDto.getAnswer())) {
-                        answerCount++;
-                    }
-                    questionResultList.add(questionResultDto);
-                }
-            }
+
+        if (null != secondSelLabelMap.get(labelDto.getFieldId())) {
+          IpoQuestionLabelDto questionLabelDto = new IpoQuestionLabelDto();
+          questionLabelDto.setLabelCode(labelDto.getFieldId());
+          questionLabelDto
+              .setLabelName(secondSelLabelMap.get(labelDto.getFieldId()).get("letterClassName"));
+          questionLabelDto.setLabelCount(String.valueOf(labelDto.getCount()));
+          String sort = secondSelLabelMap.get(labelDto.getFieldId()).get("sort");
+          if (StringUtils.isEmpty(sort)) {
+            sort = "1";
+          }
+          questionLabelDto.setSort(Integer.parseInt(sort));
+          secondLabelList.add(questionLabelDto);
         }
-        resultDto.setQuestionCount(questionCount);
-        resultDto.setAnswerCount(answerCount);
-        resultDto.setQuestionList(questionResultList);
-        resultList.add(resultDto);
-        return resultList;
+      }
+      //二级标签排序
+      secondLabelList.sort((IpoQuestionLabelDto c1, IpoQuestionLabelDto c2) ->
+          (c1.getSort() > c2.getSort() ? 1 : (c1.getSort() == c2.getSort() ? 0 : -1)));
+      resultDto.setQuestionLabelList(secondLabelList);
+      //定义一个问题列表数组
+      List<IpoFeedbackQuestionDto> questionResultList = new ArrayList<>();
+      int questionCount = questionList.size();
+      int answerCount = 0;
+      if (CollectionUtils.isNotEmpty(questionList)) {
+        for (IpoFeedbackIndexDto questionDto : questionList) {
+          //定义二级标签集合
+          List<String> belongSecondLabelList = new ArrayList<>();
+          //定义问题、答案DTO
+          //判断是否只显示已回复问题
+          if ("1".equals(onlyResponse)) {
+            if (StringUtils.isNotEmpty(questionDto.getAnswersContents())) {
+              IpoFeedbackQuestionDto questionResultDto = new IpoFeedbackQuestionDto();
+              questionResultDto.setQuestionId(questionDto.getQuestionId());
+              questionResultDto.setQuestion(questionDto.getQuestContents());
+              questionResultDto.setAnswer(questionDto.getAnswersContents());
+              questionResultDto.setFormatQuestion(questionDto.getQuestionLabelContent());
+              questionResultDto.setFormatAnswer(questionDto.getAnswerLabelContent());
+              List<String> belongLabel = questionDto.getQuestionClassNewId();
+              //循环放入问题所属二级标签
+              if (CollectionUtils.isNotEmpty(belongLabel)) {
+                for (String belongLabelStr : belongLabel) {
+                  if (null != secondLabelMap.get(belongLabelStr)) {
+                    belongSecondLabelList
+                        .add(secondLabelMap.get(belongLabelStr).get("letterClassName"));
+                  }
+                }
+                questionResultDto.setLabelList(belongSecondLabelList);
+              }
+              if (StringUtils.isNotEmpty(questionResultDto.getAnswer())) {
+                answerCount++;
+              }
+              questionResultList.add(questionResultDto);
+            }
+          } else {
+            IpoFeedbackQuestionDto questionResultDto = new IpoFeedbackQuestionDto();
+            questionResultDto.setQuestionId(questionDto.getQuestionId());
+            questionResultDto.setQuestion(questionDto.getQuestContents());
+            questionResultDto.setAnswer(questionDto.getAnswersContents());
+            questionResultDto.setFormatQuestion(questionDto.getQuestionLabelContent());
+            questionResultDto.setFormatAnswer(questionDto.getAnswerLabelContent());
+            List<String> belongLabel = questionDto.getQuestionClassNewId();
+            //循环放入问题所属二级标签
+            if (CollectionUtils.isNotEmpty(belongLabel)) {
+              for (String belongLabelStr : belongLabel) {
+                if (null != secondLabelMap.get(belongLabelStr)) {
+                  belongSecondLabelList
+                      .add(secondLabelMap.get(belongLabelStr).get("letterClassName"));
+                }
+              }
+              questionResultDto.setLabelList(belongSecondLabelList);
+            }
+            if (StringUtils.isNotEmpty(questionResultDto.getAnswer())) {
+              answerCount++;
+            }
+            questionResultList.add(questionResultDto);
+          }
+        }
+      }
+      resultDto.setQuestionCount(questionCount);
+      resultDto.setAnswerCount(answerCount);
+      resultDto.setQuestionList(questionResultList);
+      resultList.add(resultDto);
+      return resultList;
     }
 
   /**
