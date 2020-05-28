@@ -86,7 +86,7 @@
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)" style="cursor: pointer;"
                                                    @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)" @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')">&nbsp;&nbsp;</span>
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)"
-                                                   @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)" @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')" v-if="item.lastDay != undefined" style="display:inline-block;width: 65%;cursor: pointer;">距离上个进程{{item.lastDay}}天{{'each' + item.progressIndex+'1'}}++{{item.stopFlag}}</span>
+                                                   @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)" @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')" v-if="item.lastDay != undefined" style="display:inline-block;width: 65%;cursor: pointer;">距离上个进程{{item.lastDay}}天</span>
                                             <!-- 前面图标 -->
                                             <div :id="'each' +  item.progressIndex" style="display:none;">
                                                 <div :ref=' item.progressIndex' :class="'abc'+ item.progressIndex"></div>
@@ -238,7 +238,7 @@
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)" style="cursor: pointer;"
                                                    @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)" @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')">&nbsp;&nbsp;</span>
                                             <span  @mouseenter="onMouseOver('each' +  item.progressIndex, item, index)"
-                                                   @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)"  @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')" v-if="item.lastDay != undefined" style="display:inline-block;width: 65%;cursor: pointer;">距离上个进程{{item.lastDay}}天{{'each' + item.progressIndex+'1'}}++{{item.stopFlag}}</span>
+                                                   @mouseleave="onMouseOut('each' +  item.progressIndex, item, index)"  @click="showAndHide(boxDataItem,'each' + item.progressIndex ,item, 'time')" v-if="item.lastDay != undefined" style="display:inline-block;width: 65%;cursor: pointer;">距离上个进程{{item.lastDay}}天</span>
                                             <!-- 前面图标 -->
                                             <div :id="'each' +  item.progressIndex" style="display:none;">
                                                 <div :ref=' item.progressIndex' :class="'abc'+ item.progressIndex"></div>

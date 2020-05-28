@@ -256,9 +256,9 @@
                         </div>
                         <!-- 1是科创版 -->
                         <!--haveFeedbackData是用来判断问询与回复页面的数据是否请求回来，如果还没请求完，就禁止用户点击，等到请求回来之后再正常使用-->
-                        <div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='1'&&!haveFeedbackData&&headList.isCybBoard != '1'" style="color:#adadad"
+                        <div v-if="headList.haveFeedback=='0'&&(headList.isTechBoard =='1' || headList.isTechBoard =='2')&&!haveFeedbackData&&headList.isCybBoard != '1'" style="color:#adadad"
                              aria-controls="pane-third" :class="['el-tabs__item_nohover is-top', {'is-active': isActive === '3'}]">问询与回复</div>
-                        <div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='1'&&haveFeedbackData&&headList.isCybBoard != '1'" style="color:#333"
+                        <div v-if="headList.haveFeedback=='0'&&(headList.isTechBoard =='1' || headList.isTechBoard =='2')&&haveFeedbackData&&headList.isCybBoard != '1'" style="color:#333"
                              aria-controls="pane-third" :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]"  @click="onTabClick('3', $event)">问询与回复</div>
                         <div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='0'&&!haveFeedbackData&&headList.isCybBoard != '1'" style="color:#adadad"
                              aria-controls="pane-third" :class="['el-tabs__item_nohover is-top', {'is-active': isActive === '3'}]">反馈意见</div>
@@ -789,8 +789,8 @@
           id: this.caseId2
         }
           getSelectFeedbackList(param1).then(res =>{
+            this.haveFeedbackData = true;
             if (res.data.result.ratifyList && res.data.result.registerList) {
-              this.haveFeedbackData = true;
               if (res.data.result.ratifyList && res.data.result.ratifyList.length > 0){
                 this.tabRatifyList=res.data.result.ratifyList;
                 this.tabList = res.data.result.ratifyList;
@@ -799,6 +799,10 @@
                 this.tabRegisterList=res.data.result.registerList;
                 this.tabList=res.data.result.registerList;
               }
+            }else if (res.data.result.ratifyList){
+              this.tabList=res.data.result.ratifyList;
+            }else if(res.data.result.registerList){
+              this.tabList=res.data.result.registerList;
             }
           });
       },
