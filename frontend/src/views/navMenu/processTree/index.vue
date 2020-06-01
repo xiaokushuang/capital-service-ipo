@@ -508,7 +508,11 @@ export default {
                          this.$set(obj,'flag',exAllFlag)
                           if (obj.progressType && (obj.progressType == '39' || obj.progressType == '40')){
                            if (exAllFlag){
-                             this.$set(obj,'stopFlag','each' +  obj.progressIndex + "1");
+                             if (obj.subtitle && obj.subtitle.length>0){
+                               this.$set(obj,'stopFlag','each' +  obj.progressIndex + "1");
+                             }else if (obj.relaList && obj.relaList.length>0){
+                               this.$set(obj,'stopFlag','each' +  obj.progressIndex + "2");
+                             }
                            }else {
                              this.$set(obj,'stopFlag','');
                            }
