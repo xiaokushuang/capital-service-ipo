@@ -506,6 +506,13 @@ export default {
                 if(this.treeList[i].proList&&this.treeList[i].proList.length>0){
                      this.treeList[i].proList.map(obj => {
                          this.$set(obj,'flag',exAllFlag)
+                          if (obj.progressType && (obj.progressType == '39' || obj.progressType == '40')){
+                           if (exAllFlag){
+                             this.$set(obj,'stopFlag','each' +  obj.progressIndex + "1");
+                           }else {
+                             this.$set(obj,'stopFlag','');
+                           }
+                          }
                          this.showAndHideParent('each' +  obj.progressIndex, exAllFlag,obj);
                     })
                 }
