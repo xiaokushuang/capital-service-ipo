@@ -618,7 +618,7 @@
                   </el-table-column>-->
                   <el-table-column align="right" prop="raise_fee_sum_d" label="募集资金总额（亿元）" sortable="custom" min-width="12%">
                     <template slot-scope="scope">
-                      <span v-if="scope.row.raiseFeeSum">{{scope.row.raiseFeeSum}}</span>
+                      <span v-if="scope.row.raiseFeeSum">{{scope.row.raiseFeeSum.toFixed(2)}}</span>
                       <span v-else class="noDataColor">--</span>
                     </template>
                   </el-table-column>
