@@ -127,22 +127,22 @@
         <el-col class="chart" style="padding-left: 10px;">
           <div id="table2" style="margin-top: -30px;">
             <!-- 保荐机构 -->
-            <el-tabs v-model="activeName">
+            <el-tabs v-model="activeName" @tab-click="handleClick">
               <el-tab-pane label="保荐机构" name="first">
                 <div>
-                  <ipo-data-overview-table-show ref="ipoDataOverviewShow" :id="tabName1" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
+                  <ipo-data-overview-table-show ref="ipoDataOverviewShow1" :id="tabName1" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
                 </div>
               </el-tab-pane>
               <!-- 律师事务所 -->
               <el-tab-pane label="律师事务所" name="second">
                 <div>
-                  <ipo-data-overview-table-show ref="ipoDataOverviewShow" :id="tabName2" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
+                  <ipo-data-overview-table-show ref="ipoDataOverviewShow2" :id="tabName2" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
                 </div>
               </el-tab-pane>
               <!-- 会计事务所 -->
               <el-tab-pane label="会计事务所" name="third">
                 <div>
-                  <ipo-data-overview-table-show ref="ipoDataOverviewShow" :id="tabName3" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
+                  <ipo-data-overview-table-show ref="ipoDataOverviewShow3" :id="tabName3" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
                 </div>
               </el-tab-pane>
             </el-tabs>
@@ -188,8 +188,8 @@ export default {
       allShow: {colloge: false,},//下拉列表全部展开或收起
       tdStyle:'tdStyle',
       tabName1:'first',
-      tabName2:'second',
-      tabName3:'third',
+      tabName2:'',
+      tabName3:'',
       industrySelect:'',//所属行业选中
       areaSelect:'',//所属地区选中
       allSelect:{colloge: false,},
@@ -270,7 +270,7 @@ export default {
           let url = window.location.href;
           url = url.replace(this.$route.path, '/ipoPopWin');
           iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
-        
+
         } else if (this.fromFlag && !this.feeFlag) {
           let url = window.location.href;
           url = url.replace(this.$route.path, '/ipoOverduePopWin');
@@ -294,10 +294,22 @@ export default {
     handleClick(tab){
       if (tab.name === 'first') {
         this.isFirst = true
+        if (!this.tabName1){
+          this.tabName1 = 'first'
+          this.$refs.ipoDataOverviewShow1.initSearch('first');
+        }
       } else if (tab.name === 'second') {
         this.isSecond = true
+        if (!this.tabName2){
+          this.tabName2 = 'second'
+          this.$refs.ipoDataOverviewShow2.initSearch('second');
+        }
       }else {
         this.isThird = true
+        if (!this.tabName3){
+          this.tabName3 = 'third'
+          this.$refs.ipoDataOverviewShow3.initSearch('third');
+        }
       }
     },
     // 修改table header的背景色

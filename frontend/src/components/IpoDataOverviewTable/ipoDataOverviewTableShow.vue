@@ -126,7 +126,12 @@ export default {
     computed:{//获取getters中方法
 
     },
-    methods : {//正常调用方法
+    methods : {
+	    initSearch(id){
+        this.id = id;
+        this.confirmSearch();
+      },
+	      //正常调用方法
         // tdStyle({row, column, rowIndex, columnIndex}) {//设置单元格样式
         //     if(columnIndex == 5 || columnIndex == 6) {
         //         return 'tdStyle'
@@ -159,6 +164,7 @@ export default {
         },
         search(data){//通过给定条件查询数据
             this.queryParam.pageSize = data.pageSize;
+            alert(this.id)
             if(this.id == 'first') {
                 this.$store.dispatch('sponsorInstitutionGet', data).then((data) => {//(方法名，参数)
                     this.data = data.recommendOrgSttsList;
@@ -181,7 +187,7 @@ export default {
            let url = window.location.href;
            url = url.replace(this.$route.path, '/ipoPopWin');
            iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
-         
+
          } else if (this.fromFlag && !this.feeFlag) {
            let url = window.location.href;
            url = url.replace(this.$route.path, '/ipoOverduePopWin');
