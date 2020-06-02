@@ -164,7 +164,6 @@ export default {
         },
         search(data){//通过给定条件查询数据
             this.queryParam.pageSize = data.pageSize;
-            alert(this.id)
             if(this.id == 'first') {
                 this.$store.dispatch('sponsorInstitutionGet', data).then((data) => {//(方法名，参数)
                     this.data = data.recommendOrgSttsList;
