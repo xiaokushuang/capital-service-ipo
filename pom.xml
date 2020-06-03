@@ -468,6 +468,12 @@
                 <stock-core>0.0.14.RELEASE</stock-core>
             </properties>
         </profile>
+        <profile>
+            <id>sim</id>
+            <properties>
+                <stock-core>0.0.14.RELEASE</stock-core>
+            </properties>
+        </profile>
     </profiles>
 
 </project>
