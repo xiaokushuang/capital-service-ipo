@@ -18,10 +18,18 @@
 </select>
 
 <select id="postDeclareIndexIndustry" resultType="com.stock.core.dto.TreeDto">
-    Select industry_no as id,industry_name as name,p_industry_no as parentId
-    From securities_industry
-    where p_industry_no != '008'
-    GROUP BY industry_no
+    SELECT
+    t.label_name as name,
+    t.label_value as id,
+    CASE WHEN t.p_id = '0' THEN '0'
+    ELSE (SELECT m.label_value FROM maa_conf_label m WHERE m.label_code = 'INDUSTRY_CSRC_2012' and m.id = t.p_id) END as parentId
+    FROM
+    maa_conf_label t
+    WHERE
+    STATUS = '1'
+    AND t.label_code = 'INDUSTRY_CSRC_2012'
+    ORDER BY
+    t.label_sort
 </select>
 
 <select id="getIPOLastTime" resultType="String">
