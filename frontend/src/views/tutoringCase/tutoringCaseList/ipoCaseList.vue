@@ -212,6 +212,7 @@
                 :tree-data="ipoMechanismList"
                 :search-menu="false"
                 :default-props="default_tree"
+                class="minSelCla"
               >
               </el-multiple-selection>
             </el-col>
@@ -2364,6 +2365,10 @@
     /*display: inline-block;*/
     background-size: cover;
     background: url('../../../assets/images/zhbj.png') no-repeat;
+  }
+
+  .minSelCla .el-tree-node__content{
+    height: 30px!important;
   }
 
   .whtgResult {
