@@ -5,7 +5,7 @@
       <div :class="issueDialogSel == '2' ? 'issueSel':'issueSelNormal'"  @click="issueDialogClick('2')" style="cursor:pointer">创业板上市条件</div>
       <div :class="issueDialogSel == '3' ? 'issueSel':'issueSelNormal'"  @click="issueDialogClick('3')" style="cursor:pointer">科创板上市条件</div>
       <div :class="issueDialogSel == '4' ? 'issueSel':'issueSelNormal'"  @click="issueDialogClick('4')" style="cursor:pointer">精选层上市条件</div>
-      <div :class="issueDialogSel == '5' ? 'issueSel':'issueSelNormal'"  @click="issueDialogClick('5')" style="cursor:pointer">红筹企业要求</div>
+      <div :class="issueDialogSel == '5' ? 'issueSel':'issueSelNormal'"  @click="issueDialogClick('5')" style="cursor:pointer">试点企业要求</div>
     </div>
     <div style="display: inline-block;vertical-align: top;width: 650px;padding-top: 20px;padding-left: 20px" class="lawContent">
       <div v-if="issueDialogSel == '1'">
@@ -231,6 +231,5 @@
     line-height: 18px;
     font-size: 12px;
     color: #333333;
-    opacity:0.85;
   }
 </style>
