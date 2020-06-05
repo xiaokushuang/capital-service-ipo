@@ -839,7 +839,38 @@
               _self.strageticIndustriesList = response.data.result.strageticIndustriesList;
             }
             if (response.data.result.issueConditionList && response.data.result.issueConditionList.length > 0) {
-              _self.issueConditionList = response.data.result.issueConditionList;
+              let arr = [
+                {
+                  id:'pid1',
+                  labelName:"创业板上市条件",
+                  labelValue:"2",
+                  name:null,
+                  num: null,
+                  pId: "0",
+                  children:[]
+                },
+                {
+                  id:'pid0',
+                  labelName:"科创板上市条件",
+                  labelValue:"1",
+                  name:null,
+                  num: null,
+                  pId: "0",
+                  children:[]
+                }];
+              for (let i=0;i<response.data.result.issueConditionList.length;i++){
+                if (response.data.result.issueConditionList[i].labelValue != '4' && response.data.result.issueConditionList[i].pId == '0'){
+                  if (response.data.result.issueConditionList[i].labelValue < '4') {
+                    arr[1].children.push(response.data.result.issueConditionList[i])
+                  } else {
+                    arr[0].children.push(response.data.result.issueConditionList[i])
+                  }
+                }else {
+                  response.data.result.issueConditionList[i].id = 'pid2'
+                  arr.push(response.data.result.issueConditionList[i])
+                }
+              }
+              _self.issueConditionList = arr;
             }
             if (response.data.result.companyNatureList && response.data.result.companyNatureList.length > 0) {
               _self.companyNatureList = response.data.result.companyNatureList;
