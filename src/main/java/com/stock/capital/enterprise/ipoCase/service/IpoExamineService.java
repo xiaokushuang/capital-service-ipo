@@ -118,7 +118,7 @@ public class IpoExamineService extends BaseService {
 //            DynamicDataSourceHolder.cleanDataSource();
             //查询发审委委员名单
             String member = ipoExamineMapper.selectLocalExamineMember(orgCode, examineDate);
-            baseDto.setMember("宣雷,侯定海,张发余,唐周俊,徐长俄");
+            baseDto.setMember(member);
         }
 
 
@@ -140,7 +140,7 @@ public class IpoExamineService extends BaseService {
 //        DynamicDataSourceHolder.setDataSource("dongcai");
 //        String member = ipoExamineMapper.selectExamineMember(orgCode, examineDate);
 //        DynamicDataSourceHolder.cleanDataSource();
-        String member = "宣雷,侯定海,张发余,唐周俊,徐长俄";
+        String member = ipoExamineMapper.selectLocalExamineMember(orgCode, examineDate);
 
         List<String> memberList = Arrays.asList(member.split("[,，、]"));
         //根据发审委委员列表和发审会日期，查询委员详细信息
@@ -412,7 +412,7 @@ public class IpoExamineService extends BaseService {
             //DynamicDataSourceHolder.setDataSource("dongcai");
             //String member1 = ipoExamineMapper.selectExamineMember(orgCode, examineDate);
             //DynamicDataSourceHolder.cleanDataSource();
-            baseDto.setMember("宣雷,侯定海,张发余,唐周俊,徐长俄");
+            baseDto.setMember(member);
         }
         ipoFeedbackResultDto.setBaseList(baseList);
         return ipoFeedbackResultDto;
