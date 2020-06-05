@@ -269,8 +269,10 @@ public class IpoCaseOverviewController extends BaseController {
 //        List<IpoExamineBaseDto> baseList = ipoExamineMapper.selectExamineBaseList(id);
         Map<String, List<IpoExamineBaseDto>> examineMap = ipoExamineService.selectExaminList(id);
         if (CollectionUtils.isNotEmpty(examineMap.get("ratifyList")) || CollectionUtils
-            .isNotEmpty(examineMap.get("registerList"))) {
-          if (CollectionUtils.isNotEmpty(examineMap.get("ratifyList"))) {//核准制
+            .isNotEmpty(examineMap.get("registerList")) || CollectionUtils
+                .isNotEmpty(examineMap.get("newList"))) {
+          if (CollectionUtils.isNotEmpty(examineMap.get("ratifyList"))|| CollectionUtils
+                  .isNotEmpty(examineMap.get("newList"))) {//核准制
             headDataVo.setHaveRatifyExamine(0);
             headDataVo.setHaveExamine(0);
           }

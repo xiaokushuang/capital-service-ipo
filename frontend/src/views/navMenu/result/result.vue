@@ -52,7 +52,7 @@
                         :before-close="handleClose">
                         <member v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" :memberData={memberList:memberList}></member>
                         <!-- 科创版上市委委员 -->
-                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList}></kcMember>
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList} :memberType="'上市委'"></kcMember>
                     </el-dialog>
                 </li>
             </ul>
@@ -107,7 +107,7 @@
                         :before-close="handleClose">
                         <member v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" :memberData={memberList:memberList}></member>
                         <!-- 科创版上市委委员 -->
-                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList}></kcMember>
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList} :memberType="'上市委'"></kcMember>
                     </el-dialog>
                 </li>
                  <li style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
@@ -160,7 +160,7 @@
                         :before-close="handleClose">
                         <member v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" :memberData={memberList:memberList}></member>
                         <!-- 科创版上市委委员 -->
-                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList}></kcMember>
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList} :memberType="'上市委'"></kcMember>
                     </el-dialog>
                 </li>
             </ul>
@@ -215,7 +215,7 @@
                         :before-close="handleClose">
                         <member v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" :memberData={memberList:memberList}></member>
                         <!-- 科创版上市委委员 -->
-                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList}></kcMember>
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList} :memberType="'上市委'"></kcMember>
                     </el-dialog>
                 </li>
                  <li  style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
@@ -268,7 +268,7 @@
                         :before-close="handleClose">
                         <member v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" :memberData={memberList:memberList}></member>
                         <!-- 科创版上市委委员 -->
-                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList}></kcMember>
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList} :memberType="'上市委'"></kcMember>
                     </el-dialog>
                 </li>
                  <li  style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
@@ -321,7 +321,7 @@
                         :before-close="handleClose">
                         <member v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" :memberData={memberList:memberList}></member>
                         <!-- 科创版上市委委员 -->
-                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList}></kcMember>
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList} :memberType="'上市委'"></kcMember>
                     </el-dialog>
                 </li>
             </ul>
@@ -378,7 +378,7 @@
                         :before-close="handleClose">
                         <member v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" :memberData={memberList:memberList}></member>
                         <!-- 科创版上市委委员 -->
-                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList}></kcMember>
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList} :memberType="'上市委'"></kcMember>
                     </el-dialog>
                 </div>
                 <div v-if="item.processTypeCode =='38'" style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">
@@ -452,7 +452,7 @@
                         :before-close="handleClose">
                         <member v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" :memberData={memberList:memberList}></member>
                         <!-- 科创版上市委委员 -->
-                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList}></kcMember>
+                        <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList} :memberType="'上市委'"></kcMember>
                     </el-dialog>
                 </div>
               </li>
@@ -517,7 +517,7 @@
                 :before-close="handleClose">
                 <member v-if="companyProfileList.headList.isTechBoard==0&&caseType!='register'" :memberData={memberList:memberList}></member>
                 <!-- 精选层挂牌委员会委员 -->
-                <kcMember v-if="companyProfileList.headList.isTechBoard==1||caseType=='register'" :memberData={memberList:memberList}></kcMember>
+                <kcMember v-if="companyProfileList.headList.isTechBoard==2||caseType=='register'" :memberData={memberList:memberList} :memberType="'挂牌委'"></kcMember>
               </el-dialog>
             </div>
             <div v-if="item.processTypeCode =='90'" style="background:rgba(250, 250, 250, 1);padding-left: 17px; padding-top: 10px; padding-bottom: 10px;margin-top: 32px;">

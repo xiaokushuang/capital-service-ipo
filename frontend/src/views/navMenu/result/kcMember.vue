@@ -6,7 +6,7 @@
                     <span style="text-align:left;font-family: 'Microsoft Tai Le Normal', 'Microsoft Tai Le Regular', 'Microsoft Tai Le'; font-weight: 400;font-style: normal;font-size: 28px;color:#333; line-height: 22px;">{{data.memberName}}</span>
                     <span style="color: #666;margin-left:32px">{{data.memberGender }}</span>
                 </div>
-                
+
                 <span v-if="data.sessionYear" class="position" :title="data.memberPost.length>19?data.memberPost:''" style="background: #14bcf5;
                     font-weight: 400;
                     font-style: normal;
@@ -17,7 +17,7 @@
                     padding-left: 7px;
                     padding-right:7px;
                     margin-top: 6px;
-                    margin-bottom: 16px;">第{{data.sessionYear}}届上市委委员</span>
+                    margin-bottom: 16px;">第{{data.sessionYear}}届{{memberType}}委员</span>
                 <div style="margin-bottom:8px">
                     <span style="color: #666;">工作单位：</span>
                     <span v-if="data.memberCompany!=null" class="danwei" style="color: #666;" :title="data.memberCompany.length>12?data.memberCompany:''" >{{getContent1(data.memberCompany)}}</span>
@@ -36,7 +36,7 @@
 import $ from "jquery";
 export default {
   name: "kcMember",
-  props: ["memberData"],
+  props: ["memberData","memberType"],
   data() {
     return {};
   },

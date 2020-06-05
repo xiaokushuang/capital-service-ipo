@@ -118,7 +118,7 @@ public class IpoExamineService extends BaseService {
 //            DynamicDataSourceHolder.cleanDataSource();
             //查询发审委委员名单
             String member = ipoExamineMapper.selectLocalExamineMember(orgCode, examineDate);
-            baseDto.setMember(member);
+            baseDto.setMember("宣雷,侯定海,张发余,唐周俊,徐长俄");
         }
 
 
@@ -140,7 +140,7 @@ public class IpoExamineService extends BaseService {
 //        DynamicDataSourceHolder.setDataSource("dongcai");
 //        String member = ipoExamineMapper.selectExamineMember(orgCode, examineDate);
 //        DynamicDataSourceHolder.cleanDataSource();
-        String member = ipoExamineMapper.selectLocalExamineMember(orgCode, examineDate);
+        String member = "宣雷,侯定海,张发余,唐周俊,徐长俄";
 
         List<String> memberList = Arrays.asList(member.split("[,，、]"));
         //根据发审委委员列表和发审会日期，查询委员详细信息
@@ -150,6 +150,8 @@ public class IpoExamineService extends BaseService {
         String sessionYear = "";
         //根据发审会日期判断发审会委员届次
         if ("069001001006".equals(belongPlate)) {
+            sessionYear = "1";
+        }else if ("069001003001".equals(belongPlate)){
             sessionYear = "1";
         } else {
             if (processDate.compareTo(eighteenDate) > 0) {
@@ -410,7 +412,7 @@ public class IpoExamineService extends BaseService {
             //DynamicDataSourceHolder.setDataSource("dongcai");
             //String member1 = ipoExamineMapper.selectExamineMember(orgCode, examineDate);
             //DynamicDataSourceHolder.cleanDataSource();
-            baseDto.setMember(member);
+            baseDto.setMember("宣雷,侯定海,张发余,唐周俊,徐长俄");
         }
         ipoFeedbackResultDto.setBaseList(baseList);
         return ipoFeedbackResultDto;
