@@ -1335,7 +1335,7 @@
           h('el-tooltip',{
             props:{
               effect:'light',
-              content:`IPO审核时间，辅导备案时间`,
+              content:`IPO审核时间，辅导备案/意向时间`,
               placement:'top'
             },
           },[
@@ -1343,7 +1343,7 @@
               style:'color:#909399;margin-left:5px;cursor:pointer;font-size:12px'
             })
           ],{
-            content: 'IPO审核时间，辅导备案时间' })
+            content: 'IPO审核时间，辅导备案/意向时间' })
         ]);
       },
       spendTimeRenderHeader (h,{column}) {
