@@ -236,7 +236,7 @@ export default {
           if(obj.label == "已反馈" || obj.label == "已反馈(已问询)"){
             middle[1]= obj;
           }
-          if(obj.label == "预先披露更新"){
+          if(obj.label == "预先披露更新" || obj.label == "预先披露更新(已回复)"){
             middle[2]= obj;
           }
           if(obj.label == "已通过发审会" || obj.label == "已通过发审会(上市委会议通过)"){
@@ -334,6 +334,9 @@ export default {
       }
       if (lable=="预先披露(已受理)"){
         lable = "预先披露<span style='color:#0099cc'>(已受理)</span>";
+      }
+      if (lable=="预先披露更新(已回复)"){
+        lable = "预先披露更新<span style='color:#0099cc'>(已回复)</span>";
       }
       if(lable=="已反馈(已问询)"){
         lable = "已反馈<span style='color:#0099cc'>(已问询)</span>";
