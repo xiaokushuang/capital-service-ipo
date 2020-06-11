@@ -45,8 +45,8 @@
                 END
             ) sort
         FROM
-            vc_dic_rgbalance_ipo t1
-        LEFT JOIN vc_fin_report_base_rgbalance_ipo t2 ON t1.ID = t2.MEASURE_ID
+            vc_dic_rgbalance t1
+        LEFT JOIN vc_fin_report_base_rgbalance t2 ON t1.ID = t2.MEASURE_ID
         AND t2.REPORTDATE = #{date}
         AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
         WHERE
@@ -76,8 +76,8 @@
                 END
             ) sort
         FROM
-            vc_dic_rgbalance_ipo t1
-        LEFT JOIN vc_fin_report_base_rgbalance_ipo t2 ON t1.ID = t2.MEASURE_ID
+            vc_dic_rgbalance t1
+        LEFT JOIN vc_fin_report_base_rgbalance t2 ON t1.ID = t2.MEASURE_ID
         AND t2.REPORTDATE = #{date}
         AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
         WHERE
@@ -103,8 +103,8 @@
                 END
             ) sort
         FROM
-            vc_dic_rgbalance_ipo t1
-        LEFT JOIN vc_fin_report_base_rgbalance_ipo t2 ON t1.ID = t2.MEASURE_ID
+            vc_dic_rgbalance t1
+        LEFT JOIN vc_fin_report_base_rgbalance t2 ON t1.ID = t2.MEASURE_ID
         AND t2.REPORTDATE = #{date}
         AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
         WHERE
@@ -146,8 +146,8 @@
                 END
             ) sort
         FROM
-            vc_dic_rgbalance_ipo t1
-        LEFT JOIN vc_fin_report_base_rgbalance_ipo t2 ON t1.ID = t2.MEASURE_ID
+            vc_dic_rgbalance t1
+        LEFT JOIN vc_fin_report_base_rgbalance t2 ON t1.ID = t2.MEASURE_ID
         AND t2.REPORTDATE = #{date}
         AND T2.COMPANY_ID = (
             SELECT
@@ -174,8 +174,8 @@
                     END
                 ) sort
             FROM
-                vc_dic_rgincome_ipo t1
-            LEFT JOIN vc_fin_report_base_rgincome_ipo t2 ON t1.ID = t2.MEASURE_ID
+                vc_dic_rgincome t1
+            LEFT JOIN vc_fin_report_base_rgincome t2 ON t1.ID = t2.MEASURE_ID
             AND t2.REPORTDATE = #{date}
             AND T2.COMPANY_ID = (
                 SELECT
@@ -201,8 +201,8 @@
                         END
                     ) sort
                 FROM
-                    vc_dic_rgcashflow_ipo t1
-                LEFT JOIN vc_fin_report_base_rgcashflow_ipo t2 ON t1.ID = t2.MEASURE_ID
+                    vc_dic_rgcashflow t1
+                LEFT JOIN vc_fin_report_base_rgcashflow t2 ON t1.ID = t2.MEASURE_ID
                 AND t2.REPORTDATE = #{date}
                 AND T2.COMPANY_ID = (
                     SELECT
@@ -223,8 +223,8 @@
             t1.COLUMN_COMMENT itemName,
             round(t2.CURR_VAL/10000,2) forthYearValue
         FROM
-            vc_dic_rgincome_ipo t1
-        LEFT JOIN vc_fin_report_base_rgincome_ipo t2 ON t1.ID = t2.MEASURE_ID
+            vc_dic_rgincome t1
+        LEFT JOIN vc_fin_report_base_rgincome t2 ON t1.ID = t2.MEASURE_ID
         AND t2.REPORTDATE = #{date}
         AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
         WHERE
@@ -257,8 +257,8 @@ SELECT
                 END
             ) sort
         FROM
-            vc_dic_rgincome_ipo t1
-        LEFT JOIN vc_fin_report_base_rgincome_ipo t2 ON t1.ID = t2.MEASURE_ID
+            vc_dic_rgincome t1
+        LEFT JOIN vc_fin_report_base_rgincome t2 ON t1.ID = t2.MEASURE_ID
         AND t2.REPORTDATE = #{date}
         AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
         where t1.COLUMN_NAME in ('OPERATEEXP','OPERATETAX','SALEEXP','MANAGEEXP','RDEXP'
@@ -282,8 +282,8 @@ SELECT
                 END
             ) sort
         FROM
-            vc_dic_rgincome_ipo t1
-        LEFT JOIN vc_fin_report_base_rgincome_ipo t2 ON t1.ID = t2.MEASURE_ID
+            vc_dic_rgincome t1
+        LEFT JOIN vc_fin_report_base_rgincome t2 ON t1.ID = t2.MEASURE_ID
         AND t2.REPORTDATE = #{date}
         AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
         where t1.COLUMN_NAME in ('OPERATEPROFIT','SUMPROFIT','NETPROFIT')
@@ -296,8 +296,8 @@ SELECT
             round(t2.CURR_VAL/10000,2) forthYearValue,
             4 sort
         FROM
-            vc_dic_generalfina_ipo t1
-        LEFT JOIN vc_fin_report_base_generalfina_ipo t2 ON t1.ID = t2.MEASURE_ID
+            vc_dic_generalfina t1
+        LEFT JOIN vc_fin_report_base_generalfina t2 ON t1.ID = t2.MEASURE_ID
         AND t2.REPORTDATE = #{date}
         AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
         WHERE
@@ -332,8 +332,8 @@ SELECT
                 END
             ) sort
         FROM
-            vc_dic_generalfina_ipo t1
-        LEFT JOIN vc_fin_report_base_generalfina_ipo t2 ON t1.ID = t2.MEASURE_ID
+            vc_dic_generalfina t1
+        LEFT JOIN vc_fin_report_base_generalfina t2 ON t1.ID = t2.MEASURE_ID
         AND t2.REPORTDATE = #{date}
         AND T2.COMPANY_ID = (
             SELECT
@@ -367,8 +367,8 @@ SELECT
                     END
                 ) sort
             FROM
-                vc_dic_rgincome_ipo t1
-            LEFT JOIN vc_fin_report_base_rgincome_ipo t2 ON t1.ID = t2.MEASURE_ID
+                vc_dic_rgincome t1
+            LEFT JOIN vc_fin_report_base_rgincome t2 ON t1.ID = t2.MEASURE_ID
             AND t2.REPORTDATE = #{date}
             AND T2.COMPANY_ID = (
                 SELECT
@@ -399,8 +399,8 @@ SELECT
                         END
                     ) sort
                 FROM
-                    vc_dic_rgbalance_ipo t1
-                LEFT JOIN vc_fin_report_base_rgbalance_ipo t2 ON t1.ID = t2.MEASURE_ID
+                    vc_dic_rgbalance t1
+                LEFT JOIN vc_fin_report_base_rgbalance t2 ON t1.ID = t2.MEASURE_ID
                 AND t2.REPORTDATE = #{date}
                 AND T2.COMPANY_ID = (
                     SELECT
@@ -449,8 +449,8 @@ SELECT
 		END
 	) sort
 FROM
-	vc_dic_rgbalance_ipo t1
-LEFT JOIN vc_fin_report_base_rgbalance_ipo t2 ON t1.ID = t2.MEASURE_ID
+	vc_dic_rgbalance t1
+LEFT JOIN vc_fin_report_base_rgbalance t2 ON t1.ID = t2.MEASURE_ID
 AND t2.REPORTDATE = #{date}
 AND T2.COMPANY_ID = (
 	SELECT
@@ -490,8 +490,8 @@ UNION
 			END
 		) sort
 	FROM
-		vc_dic_rgincome_ipo t1
-	LEFT JOIN vc_fin_report_base_rgincome_ipo t2 ON t1.ID = t2.MEASURE_ID
+		vc_dic_rgincome t1
+	LEFT JOIN vc_fin_report_base_rgincome t2 ON t1.ID = t2.MEASURE_ID
 	AND t2.REPORTDATE = #{date}
 	AND T2.COMPANY_ID = (
 		SELECT
@@ -525,8 +525,8 @@ UNION
 				END
 			) sort
 		FROM
-			vc_dic_rgcashflow_ipo t1
-		LEFT JOIN vc_fin_report_base_rgcashflow_ipo t2 ON t1.ID = t2.MEASURE_ID
+			vc_dic_rgcashflow t1
+		LEFT JOIN vc_fin_report_base_rgcashflow t2 ON t1.ID = t2.MEASURE_ID
 		AND t2.REPORTDATE = #{date}
 		AND T2.COMPANY_ID = (
 			SELECT
@@ -571,8 +571,8 @@ UNION
 					END
 				) sort
 			FROM
-				vc_dic_generalfina_ipo t1
-			LEFT JOIN vc_fin_report_base_generalfina_ipo t2 ON t1.ID = t2.MEASURE_ID
+				vc_dic_generalfina t1
+			LEFT JOIN vc_fin_report_base_generalfina t2 ON t1.ID = t2.MEASURE_ID
 			AND t2.REPORTDATE = #{date}
 			AND T2.COMPANY_ID = (
 				SELECT
@@ -611,8 +611,8 @@ UNION
 						END
 					) sort
 				FROM
-					vc_dic_rgincome_ipo t1
-				LEFT JOIN vc_fin_report_base_rgincome_ipo t2 ON t1.ID = t2.MEASURE_ID
+					vc_dic_rgincome t1
+				LEFT JOIN vc_fin_report_base_rgincome t2 ON t1.ID = t2.MEASURE_ID
 				AND t2.REPORTDATE = #{date}
 				AND T2.COMPANY_ID = (
 					SELECT
