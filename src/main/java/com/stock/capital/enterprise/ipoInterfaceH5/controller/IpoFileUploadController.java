@@ -201,6 +201,7 @@ public class IpoFileUploadController extends BaseController {
     public void ipoDataUploadSpecComById(Map map) {
         //查询科创版所有案例
         logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
+        map.put("ipoPlate","069001001006");
         List<IpoCaseListVo> ipoCaseList = ipoInterfaceService.queryIpoCaseById(map);
         logger.info("#######【将IpoH5的数据生成json文件放到华为云时查询到有" + ipoCaseList.size() + "条科创版数据###########");
         if (ipoCaseList != null) {
@@ -216,16 +217,40 @@ public class IpoFileUploadController extends BaseController {
         }
     }
 
+    @RequestMapping(value = "/ipoCybDataUploadSpecComById")
+    public void ipoCybDataUploadSpecComById(Map map) {
+        //查询科创版所有案例
+        logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
+        map.put("ipoPlate","069001002002");
+        List<IpoCaseListVo> ipoCaseList = ipoInterfaceService.queryIpoCaseById(map);
+        logger.info("#######【将IpoH5的数据生成json文件放到华为云时查询到有" + ipoCaseList.size() + "条科创版数据###########");
+        if (ipoCaseList != null) {
+            for (int i = 0; i < ipoCaseList.size(); i++) {
+                try {
+                    Map<String, Object> data = ipoInterfaceController.ipoCaseH5(ipoCaseList.get(i).getId(),"069001002002");
+                    fileUpload(JsonUtil.toJsonNoNull(data), ipoCaseList.get(i).getId());
+                    logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步" + ipoCaseList.get(i).getId() + "成功###########");
+                } catch (Exception e) {
+                    logger.info("#######【将IpoH5的数据的json文件上传华为云时主键：" + ipoCaseList.get(i).getId() + "数据出错###########");
+                }
+            }
+        }
+    }
+
     @RequestMapping(value = "/ipoDataUploadAllCom")
     public void ipoDataUploadAllCom(@RequestParam(value = "id", required = false, defaultValue = "") String id) {
         ipoCaseDataUpload();
+        ipoCaseCybDataUpload();
         ipoMarchDataUpload();
+        ipoMarchCybDataUpload();
         if (StringUtils.isEmpty(id)) {
             ipoDataUpload();
+            ipoDataCybUpload();
         } else {
             Map tempMap = new HashMap();
             tempMap.put("id", id);
             ipoDataUploadSpecComById(tempMap);
+            ipoCybDataUploadSpecComById(tempMap);
         }
     }
     //每隔一个小时刷一次

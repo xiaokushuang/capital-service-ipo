@@ -144,7 +144,7 @@
         t.company_name companyName,
         t.company_zh_name title
         FROM ipo_case t,case_common_status_info t1
-        where ipo_plate = '069001001006' AND t.id = t1.case_id and t1.release_flag = '1'
+        where ipo_plate = #{ipoPlate} AND t.id = t1.case_id and t1.release_flag = '1'
         <if test="id != null and id != ''">
             and t.id = #{id}
         </if>
