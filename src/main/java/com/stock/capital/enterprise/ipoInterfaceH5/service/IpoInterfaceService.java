@@ -5,6 +5,7 @@ import com.stock.capital.enterprise.common.constant.Global;
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseListMapper;
 import com.stock.capital.enterprise.ipoCase.dto.*;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
+import com.stock.capital.enterprise.ipoCase.service.IpoInvestService;
 import com.stock.capital.enterprise.ipoCase.service.IssueSituationService;
 import com.stock.capital.enterprise.ipoInterfaceH5.dao.IpoInterfaceBizMapper;
 import com.stock.capital.enterprise.ipoInterfaceH5.dao.IpoWechatPermisionBizMapper;
@@ -51,6 +52,9 @@ public class IpoInterfaceService extends BaseService {
     @Autowired
     private IpoWechatPermisionBizMapper ipoWechatPermisionBizMapper;
 
+    @Autowired
+    private IpoInvestService ipoInvestService;
+
     /**
      * dxy
      * 科技创新页面
@@ -81,8 +85,8 @@ public class IpoInterfaceService extends BaseService {
    * @param id
    * @return
    */
-  public IpoH5Dto getPatentSituation(String id) {
-    IpoH5Dto result = ipoInterfaceBizMapper.getPatentSituation(id);
+  public IpoH5Dto getPatentSituation(String id,String ipoPlate) {
+    IpoH5Dto result = ipoInterfaceBizMapper.getPatentSituation(id,ipoPlate);
     return result;
   }
 
@@ -578,7 +582,7 @@ public class IpoInterfaceService extends BaseService {
               incomeDto.setYear(year);//year
               expensesCostDto.setYear(year);//year
 
-                if (ipoCompanyRank.getResearchPlateFiavg() != null){
+                if (ipoCompanyRank != null && ipoCompanyRank.getResearchPlateFiavg() != null){
                     BigDecimal researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateFiavg());//研发投入平均
                     if (ipoCompanyRank.getTakingFiavg() != null){
                         BigDecimal taking = new BigDecimal(ipoCompanyRank.getTakingFiavg());//营业收入平均
@@ -619,7 +623,7 @@ public class IpoInterfaceService extends BaseService {
                 incomeDto.setYear(year);//year
                 expensesCostDto.setYear(year);//year
 
-                if (ipoCompanyRank.getResearchPlateSeavg() != null){
+                if (ipoCompanyRank != null && ipoCompanyRank.getResearchPlateSeavg() != null){
                     BigDecimal researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateSeavg());//研发投入平均
                     if (ipoCompanyRank.getTakingSeavg() != null){
                         BigDecimal taking = new BigDecimal(ipoCompanyRank.getTakingSeavg());//营业收入平均
@@ -659,7 +663,7 @@ public class IpoInterfaceService extends BaseService {
               }
               incomeDto.setYear(year);//year
               expensesCostDto.setYear(year);//year
-                if (ipoCompanyRank.getResearchPlateThavg() != null){
+                if (ipoCompanyRank != null && ipoCompanyRank.getResearchPlateThavg() != null){
                     BigDecimal researchPlate = new BigDecimal(ipoCompanyRank.getResearchPlateThavg());//研发投入平均
                     if (ipoCompanyRank.getTakingThavg() != null){
                         BigDecimal taking = new BigDecimal(ipoCompanyRank.getTakingThavg());//营业收入平均
@@ -855,5 +859,31 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
 
     public IntermediaryOrgDto queryQrgMarketRank(IntermediaryOrgDto intermediaryOrgDto) {
         return ipoInterfaceBizMapper.queryQrgMarketRank(intermediaryOrgDto);
+    }
+
+    public List<IpoCaseListVo> queryAllMatchIpoCaseCyb() {
+        return ipoInterfaceBizMapper.queryAllMatchIpoCaseCyb();
+    }
+
+    public List<IpoInvestItemDto> selectInvestItem(String id) {
+        List<IpoInvestItemDto> list = ipoInvestService.selectInvestItem(id);
+        List<IpoInvestItemDto> result = new ArrayList<>();
+        if (list != null && list.size() >=4){
+            result.addAll(list.subList(0,2));
+            IpoInvestItemDto dto = new IpoInvestItemDto();
+            dto.setItemName("其他");
+            dto.setInvestRateStr("0");
+            for (int i=3;i<list.size()-1;i++){
+                if (StringUtils.isNotEmpty(list.get(i).getInvestRateStr())){
+                    BigDecimal val1 = new BigDecimal(list.get(i).getInvestRateStr());
+                    BigDecimal val2 = new BigDecimal(dto.getInvestRateStr());
+                    dto.setInvestRateStr(val1.add(val2)+"");
+                }
+            }
+            result.add(list.get(list.size()-1));
+        }else {
+            result.addAll(list);
+        }
+        return result;
     }
 }

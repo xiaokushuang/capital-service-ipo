@@ -99,6 +99,30 @@ public class CompanyOverviewVo implements Serializable {
     @ApiModelProperty("国民经济行业")
     private String nationalIndustries;
 
+    private String issueConditionShortName;
+
+    private String caseStatus;
+
+    public String getCaseStatus() {
+        return caseStatus;
+    }
+
+    public void setCaseStatus(String caseStatus) {
+        this.caseStatus = caseStatus;
+    }
+
+    public String getIssueConditionShortName() {
+        return issueConditionShortName;
+    }
+
+    public void setIssueConditionShortName(String issueConditionShortName) {
+        this.issueConditionShortName = issueConditionShortName;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
     public String getPlateCode() {
         return plateCode;
     }
