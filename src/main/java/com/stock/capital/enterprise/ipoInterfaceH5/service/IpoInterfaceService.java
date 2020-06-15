@@ -880,8 +880,8 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
                     dto.setInvestRateStr(val1.add(val2)+"");
                 }
             }
-        }else {
-            result.addAll(list);
+        }else if(list != null && list.size()>1){
+            result.addAll(list.subList(0,list.size()-1));
         }
         return result;
     }
