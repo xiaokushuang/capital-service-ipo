@@ -9,6 +9,7 @@ import com.stock.capital.enterprise.ipoInterfaceH5.dto.IpoH5Dto;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,5 +37,7 @@ public interface IpoInterfaceBizMapper {
 
     IntermediaryOrgDto queryQrgMarketRank(IntermediaryOrgDto intermediaryOrgDto);
 
-    IpoH5Dto getPatentSituation(@Param("id") String id);
+    IpoH5Dto getPatentSituation(@Param("id") String id,@Param("ipoPlate") String ipoPlate);
+
+    List<IpoCaseListVo> queryAllMatchIpoCaseCyb();
 }

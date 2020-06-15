@@ -211,7 +211,7 @@
       WHERE (mt.business_volume+0) > (t.business_volume+0) AND mt.intermediary_type = t.intermediary_type)AS businessVolumeRank,
       (SELECT (COUNT(1)+1) FROM (SELECT * FROM ipo_h5_org m GROUP BY m.intermediary_type,m.passing)AS mt
       WHERE ifnull((mt.passing+0),0) > ifnull((t.passing+0),0) AND mt.intermediary_type = t.intermediary_type)AS passingRank
-      FROM ipo_h5_org t WHERE t.org_code = #{orgCode} AND t.intermediary_type = #{intermediaryType}
+      FROM ipo_h5_org t WHERE t.org_code = #{orgCode} AND t.intermediary_type = #{intermediaryType} and t.ipo_plate = #{ipoPlate}
     </select>
 
     <select id="getPatentSituation" parameterType="java.lang.String"

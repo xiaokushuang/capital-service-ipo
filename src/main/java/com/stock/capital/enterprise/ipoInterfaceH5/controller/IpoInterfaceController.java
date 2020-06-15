@@ -303,14 +303,14 @@ public class IpoInterfaceController extends BaseController {
                 }
                 if (selectNewFeedbackList.get("ratifyList") != null){
                     dataMap = new HashMap<>();
-                    dataMap.put("paramName", "注册制问询情况");
+                    dataMap.put("paramName", "核准制问询情况");
                     dataMap.put("paramData", JsonUtil.toJsonNoNull(selectNewFeedbackList.get("ratifyList")));
-                    resultMap.put("selectNewFeedbackZczList", dataMap);
+                    resultMap.put("selectNewFeedbackHzzList", dataMap);
                 }else {
                     dataMap = new HashMap<>();
-                    dataMap.put("paramName", "注册制问询情况");
+                    dataMap.put("paramName", "核准制问询情况");
                     dataMap.put("paramData", "0");
-                    resultMap.put("selectNewFeedbackZczList", dataMap);
+                    resultMap.put("selectNewFeedbackHzzList", dataMap);
                 }
             } else {
                 dataMap = new HashMap<>();
