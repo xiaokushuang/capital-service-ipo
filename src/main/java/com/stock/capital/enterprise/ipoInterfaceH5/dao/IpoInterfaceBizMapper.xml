@@ -183,7 +183,9 @@
         <if test="intermediaryType == 3 or intermediaryType == 4">
             AND m.org_type = '01'
         </if>
-        AND m.intermediary_type = #{intermediaryType})) AS businessVolume,
+        AND m.intermediary_type = #{intermediaryType})
+        AND (SELECT year(m.process_time) FROM ipo_process m WHERE m.bid = t.id AND m.process_type_code in ('04','31') AND m.table_sort = '1' ORDER BY m.pro_sort DESC LIMIT 1)
+        = (case when DATE_FORMAT(now(),'%Y-%m-%d') >= CONCAT(year(now()),'-04-01') then year(NOW()) ELSE year(NOW())-1 END)) AS businessVolume,
         (SELECT SUM(1) FROM ipo_case t,case_common_status_info t1 WHERE t.id = t1.case_id AND t.ipo_plate =
         #{ipoPlate} AND t1.release_flag = '1' AND EXISTS(SELECT 1 FROM ipo_intermediary_org m WHERE m.bid = t.id AND
         m.valid_flag = '1' AND m.org_code = #{orgCode}
@@ -192,7 +194,8 @@
         </if>
         AND m.intermediary_type = #{intermediaryType})
         AND EXISTS (SELECT 1 FROM ipo_process m WHERE m.bid = t.id AND m.process_type_code = '35' AND m.iec_result =
-        '05')) AS passing,
+        '05') AND (SELECT year(m.process_time) FROM ipo_process m WHERE m.bid = t.id AND m.process_type_code in ('04','31') AND m.table_sort = '1' ORDER BY m.pro_sort DESC LIMIT 1)
+        = (case when DATE_FORMAT(now(),'%Y-%m-%d') >= CONCAT(year(now()),'-04-01') then year(NOW()) ELSE year(NOW())-1 END)) AS passing,
         (SELECT SUM(1) FROM ipo_case t,case_common_status_info t1 WHERE t.id = t1.case_id AND t.ipo_plate =
         #{ipoPlate} AND t1.release_flag = '1' AND EXISTS(SELECT 1 FROM ipo_intermediary_org m WHERE m.bid = t.id AND
         m.valid_flag = '1' AND m.org_code = #{orgCode}
@@ -201,12 +204,13 @@
         </if>
         AND m.intermediary_type = #{intermediaryType})
         AND EXISTS (SELECT 1 FROM ipo_process m WHERE m.bid = t.id AND m.process_type_code = '35' AND m.iec_result !=
-        '09')) AS passingWait
+        '09') AND (SELECT year(m.process_time) FROM ipo_process m WHERE m.bid = t.id AND m.process_type_code in ('04','31') AND m.table_sort = '1' ORDER BY m.pro_sort DESC LIMIT 1)
+        = (case when DATE_FORMAT(now(),'%Y-%m-%d') >= CONCAT(year(now()),'-04-01') then year(NOW()) ELSE year(NOW())-1 END)) AS passingWait
     </select>
 
     <select id="queryQrgMarketRank" parameterType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto"
             resultType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto">
-      SELECT t.org_code,t.business_volume,t.passing,t.passing_wait,t.intermediary_type,
+      SELECT t.org_code,t.business_volume,t.passing,t.passing_wait,t.intermediary_type,t.org_year orgYear,
       (SELECT (COUNT(1)+1) FROM (SELECT * FROM ipo_h5_org m GROUP BY m.intermediary_type,m.business_volume)AS mt
       WHERE (mt.business_volume+0) > (t.business_volume+0) AND mt.intermediary_type = t.intermediary_type)AS businessVolumeRank,
       (SELECT (COUNT(1)+1) FROM (SELECT * FROM ipo_h5_org m GROUP BY m.intermediary_type,m.passing)AS mt

@@ -1817,6 +1817,7 @@ public class IpoInterfaceController extends BaseController {
                             if (dto1 != null){
                                 mainList.get(i).setBusinessVolumeRank(dto1.getBusinessVolumeRank());
                                 mainList.get(i).setPassingRank(dto1.getPassingRank());
+                                mainList.get(i).setOrgYear(dto1.getOrgYear());
                             }
                         }
                     }
