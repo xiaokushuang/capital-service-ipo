@@ -875,7 +875,10 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
             dto.setInvestRateStr("0");
             for (int i=3;i<list.size()-1;i++){
                 if (StringUtils.isNotEmpty(list.get(i).getInvestRateStr())){
-                    BigDecimal val1 = new BigDecimal(list.get(i).getInvestRateStr());
+                    BigDecimal val1 = new BigDecimal("0");
+                    if (StringUtils.isNotEmpty(list.get(i).getInvestRateStr().replace("%",""))){
+                        val1 = new BigDecimal(list.get(i).getInvestRateStr().replace("%",""));
+                    }
                     BigDecimal val2 = new BigDecimal(dto.getInvestRateStr());
                     dto.setInvestRateStr(val1.add(val2)+"");
                 }

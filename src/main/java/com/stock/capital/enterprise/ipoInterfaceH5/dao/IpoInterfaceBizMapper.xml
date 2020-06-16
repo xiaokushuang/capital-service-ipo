@@ -177,7 +177,8 @@
 
     <select id="queryOrgMarketShare" parameterType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto"
             resultType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto">
-        SELECT (SELECT SUM(1) FROM ipo_case t,case_common_status_info t1 WHERE t.id = t1.case_id AND t.ipo_plate =
+        SELECT (case when DATE_FORMAT(now(),'%Y-%m-%d') >= CONCAT(year(now()),'-04-01') then year(NOW()) ELSE year(NOW())-1 END) AS orgYear,
+        (SELECT SUM(1) FROM ipo_case t,case_common_status_info t1 WHERE t.id = t1.case_id AND t.ipo_plate =
         #{ipoPlate} AND t1.release_flag = '1' AND EXISTS(SELECT 1 FROM ipo_intermediary_org m WHERE m.bid = t.id AND
         m.valid_flag = '1' AND m.org_code = #{orgCode}
         <if test="intermediaryType == 3 or intermediaryType == 4">

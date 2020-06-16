@@ -231,6 +231,7 @@ public class IpoInterfaceController extends BaseController {
             dataMap.put("paramName", "前三募集资金");
             dataMap.put("paramData", "0");
             resultMap.put("investListData", dataMap);
+            dataMap = new HashMap<>();
             dataMap.put("paramName", "募集资金总额");
             dataMap.put("paramData", "0");
             resultMap.put("invest", dataMap);
@@ -1814,6 +1815,7 @@ public class IpoInterfaceController extends BaseController {
                             mainList.get(i).setBusinessVolume(dto.getBusinessVolume());
                             mainList.get(i).setPassing(dto.getPassing());
                             mainList.get(i).setPassingWait(dto.getPassingWait());
+                            mainList.get(i).setOrgYear(dto.getOrgYear());
                             if (dto1 != null){
                                 mainList.get(i).setBusinessVolumeRank(dto1.getBusinessVolumeRank());
                                 mainList.get(i).setPassingRank(dto1.getPassingRank());
