@@ -1831,9 +1831,11 @@ public class IpoInterfaceController extends BaseController {
                             mainList.get(i).setBusinessVolume(dto.getBusinessVolume());
                             mainList.get(i).setPassing(dto.getPassing());
                             mainList.get(i).setPassingWait(dto.getPassingWait());
+                            mainList.get(i).setOrgYear(dto.getOrgYear());
                             if (dto1 != null){
                                 mainList.get(i).setBusinessVolumeRank(dto1.getBusinessVolumeRank());
                                 mainList.get(i).setPassingRank(dto1.getPassingRank());
+                                mainList.get(i).setOrgYear(dto1.getOrgYear());
                             }
                         }
                     }
@@ -1845,9 +1847,11 @@ public class IpoInterfaceController extends BaseController {
                             mainList.get(i).setBusinessVolume(dto.getBusinessVolume());
                             mainList.get(i).setPassing(dto.getPassing());
                             mainList.get(i).setPassingWait(dto.getPassingWait());
+                            mainList.get(i).setOrgYear(dto.getOrgYear());
                             if (dto1 != null){
                                 mainList.get(i).setBusinessVolumeRank(dto1.getBusinessVolumeRank());
                                 mainList.get(i).setPassingRank(dto1.getPassingRank());
+                                mainList.get(i).setOrgYear(dto1.getOrgYear());
                             }
                         }
                     }
