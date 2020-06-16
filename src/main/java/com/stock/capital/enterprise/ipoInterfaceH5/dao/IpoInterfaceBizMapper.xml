@@ -172,7 +172,7 @@
         FROM ipo_case t,case_common_status_info t1
         WHERE t.id = t1.case_id and t1.release_flag = '1' and t.ipo_plate = '069001002002'
         AND EXISTS (SELECT 1 FROM ipo_process m WHERE m.bid = t.id AND m.tree_type_code = '01' AND ((m.process_type_code = '35' AND m.iec_result =
-        '05') or (m.process_type_code = '07' AND m.iec_result ='00')))AS tb
+        '05') or (m.process_type_code = '07' AND m.iec_result ='00'))))AS tb
     </select>
 
     <select id="queryOrgMarketShare" parameterType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto"
