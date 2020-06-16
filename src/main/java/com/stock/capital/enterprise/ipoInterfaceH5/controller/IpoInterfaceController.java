@@ -879,21 +879,59 @@ public class IpoInterfaceController extends BaseController {
         try {
             List<IpoFeedbackDto> examineList = selectNewExamineList(id);
             if (examineList != null) {
-                dataMap = new HashMap<>();
-                dataMap.put("paramName", "上市委关注问题");
-                dataMap.put("paramData", JsonUtil.toJsonNoNull(examineList));
-                resultMap.put("examineList", dataMap);
+                List<IpoFeedbackDto> examineHzzList = new ArrayList<>();
+                List<IpoFeedbackDto> examineZczList = new ArrayList<>();
+                for (int i=0;i<examineList.size();i++){
+                    if (StringUtils.isNotEmpty(examineList.get(i).getLetterName())){
+                        if (examineList.get(i).getLetterName().equals("发审会关注问题")){
+                            examineHzzList.add(examineList.get(i));
+                        }
+                        if (examineList.get(i).getLetterName().equals("上市会关注问题")){
+                            examineZczList.add(examineList.get(i));
+                        }
+                    }
+                }
+                if (examineZczList != null && examineHzzList.size()>0){
+                    dataMap = new HashMap<>();
+                    dataMap.put("paramName", "上市委关注问题");
+                    dataMap.put("paramData", JsonUtil.toJsonNoNull(examineZczList));
+                    resultMap.put("examineZczList", dataMap);
+                }else {
+                    dataMap = new HashMap<>();
+                    dataMap.put("paramName", "上市委关注问题");
+                    dataMap.put("paramData", "0");
+                    resultMap.put("examineZczList", dataMap);
+                }
+                if (examineHzzList != null && examineHzzList.size()>0){
+                    dataMap = new HashMap<>();
+                    dataMap.put("paramName", "发审委关注问题");
+                    dataMap.put("paramData", JsonUtil.toJsonNoNull(examineHzzList));
+                    resultMap.put("examineHzzList", dataMap);
+                }else {
+                    dataMap = new HashMap<>();
+                    dataMap.put("paramName", "发审委关注问题");
+                    dataMap.put("paramData", "0");
+                    resultMap.put("examineHzzList", dataMap);
+                }
             } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "上市委关注问题");
                 dataMap.put("paramData", "0");
-                resultMap.put("examineList", dataMap);
+                resultMap.put("examineZczList", dataMap);
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "发审委关注问题");
+                dataMap.put("paramData", "0");
+                resultMap.put("examineHzzList", dataMap);
             }
         } catch (Exception e) {
             dataMap = new HashMap<>();
             dataMap.put("paramName", "上市委关注问题");
             dataMap.put("paramData", "0");
-            resultMap.put("examineList", dataMap);
+            resultMap.put("examineZczList", dataMap);
+            dataMap = new HashMap<>();
+            dataMap.put("paramName", "发审委关注问题");
+            dataMap.put("paramData", "0");
+            resultMap.put("examineHzzList", dataMap);
             logger.error("ipoCaseH5获取上市委关注问题发生错误:{}", Throwables.getStackTraceAsString(e));
         }
         return resultMap;
