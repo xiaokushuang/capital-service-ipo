@@ -135,15 +135,11 @@ import {exportExcelPostWindow1} from '@/utils'
                 return name;
             },
             checkEmpty(label) {//判断空值
-              alert(label)
-              alert(this.getValue(label))
-              alert(this.labelCode)
-              alert(this.getValue(label) == '上市委会议' && this.labelCode == '02')
                 if(this.getValue(label) == '') {
                     label = '--'
                 }
                 if(this.getValue(label) == '上市委会议' && this.labelCode == '02'){
-                  label = '上市委会议<br>待上会'
+                  label = '上市委会议\\n待上会'
                 }
               alert(label)
                 return label;
