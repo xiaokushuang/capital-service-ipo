@@ -34,8 +34,6 @@
                         <span v-if="getValue(scope.row.approveStatus) == '已反馈'">已问询</span>
                         <span v-else-if="getValue(scope.row.approveStatus) == '已通过发审会'">上市委会议通过</span>
                         <span v-else-if="getValue(scope.row.approveStatus) == '中止审查'">中止</span>
-                       <span v-else-if="getValue(scope.row.approveStatus) == '上市委会议' && labelCode=='2'">上市委会议<br>待上会11</span>
-                      <span v-else-if="getValue(scope.row.approveStatus) == '上市委会议'">上市委会议<br>待上会</span>
                         <span v-else>{{checkEmpty(scope.row.approveStatus)}}</span>
                     </span>
                     <span v-else>{{checkEmpty(scope.row.approveStatus)}}</span>
@@ -73,7 +71,6 @@ import {exportExcelPostWindow1} from '@/utils'
         },
         created(){
           this.labelCode = this.$route.query.labelCode
-          alert(this.labelCode)
         },
         mounted() {
             //页面加载完成时查询数据
@@ -138,9 +135,17 @@ import {exportExcelPostWindow1} from '@/utils'
                 return name;
             },
             checkEmpty(label) {//判断空值
+              alert(label)
+              alert(this.getValue(label))
+              alert(this.labelCode)
+              alert(this.getValue(label) == '上市委会议' && this.labelCode == '02')
                 if(this.getValue(label) == '') {
                     label = '--'
                 }
+                if(this.getValue(label) == '上市委会议' && this.labelCode == '02'){
+                  label = '上市委会议<br>待上会'
+                }
+              alert(label)
                 return label;
             },
             exportExcel() {//导出Excel
