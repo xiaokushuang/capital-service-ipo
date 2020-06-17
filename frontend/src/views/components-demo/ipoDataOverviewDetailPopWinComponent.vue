@@ -36,7 +36,7 @@
                         <span v-else-if="getValue(scope.row.approveStatus) == '中止审查'">中止</span>
                         <span v-else>{{checkEmpty(scope.row.approveStatus)}}</span>
                     </span>
-                    <span v-else>{{checkEmpty(scope.row.approveStatus)}}</span>
+                    <span v-else style="white-space: pre-line">{{checkEmpty(scope.row.approveStatus)}}</span>
               </template>
             </el-table-column>
             <el-table-column align="center" prop="lawFirm" label="是否已参加抽查抽签或现场检查"  min-width="11%">
