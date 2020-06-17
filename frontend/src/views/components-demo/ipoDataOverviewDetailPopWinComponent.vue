@@ -29,6 +29,17 @@
             <el-table-column align="center" prop="accountantOffice" label="会计师事务所"  min-width="14%"></el-table-column>
             <el-table-column align="center" prop="lawFirm" label="律师事务所"  min-width="10%"></el-table-column>
             <el-table-column align="center" prop="lawFirm" label="审核状态"  min-width="10%">
+                <template slot-scope="scope">
+                    <span v-if="getValue(scope.row.quasiListedLand) == '04'">
+                        <span v-if="getValue(scope.row.approveStatus) == '已反馈'">已问询</span>
+                        <span v-else-if="getValue(scope.row.approveStatus) == '已通过发审会'">上市委会议通过</span>
+                        <span v-else-if="getValue(scope.row.approveStatus) == '中止审查'">中止</span>
+                       <span v-else-if="getValue(scope.row.approveStatus) == '上市委会议' && labelCode=='2'">上市委会议<br>待上会11</span>
+                      <span v-else-if="getValue(scope.row.approveStatus) == '上市委会议'">上市委会议<br>待上会</span>
+                        <span v-else>{{checkEmpty(scope.row.approveStatus)}}</span>
+                    </span>
+                    <span v-else>{{checkEmpty(scope.row.approveStatus)}}</span>
+              </template>
             </el-table-column>
             <el-table-column align="center" prop="lawFirm" label="是否已参加抽查抽签或现场检查"  min-width="11%">
                 <template slot-scope="scope">
@@ -54,12 +65,15 @@ import {exportExcelPostWindow1} from '@/utils'
         data(){
             return {
                 data:[],
+              labelCode:'',
             }
         },
         computed:{
 
         },
         created(){
+          this.labelCode = this.$route.query.labelCode
+          alert(this.labelCode)
         },
         mounted() {
             //页面加载完成时查询数据
