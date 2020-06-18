@@ -62,7 +62,7 @@ public class IpoInterfaceService extends BaseService {
      * @param id
      * @return
      */
-    public Map getIpoTechnology(String id) {
+    public Map getIpoTechnology(String id,String ipoPlate) {
         Map result = new HashMap();
 //    CompanyOverviewVo companyOverviewVo = companyOverviewService.getIpoCaseDetail(id); // 顶部地位备注
         List<IssuerIndustryStatusDto> industryStatusDtoList = companyOverviewService.getindustryStatusData(id);//发行人的行业地位接口
@@ -73,7 +73,7 @@ public class IpoInterfaceService extends BaseService {
 //    result.put("companyInfo", companyOverviewVo);
         result.put("industryStatusInfo", industryStatusDtoList);
         result.put("mainCompetitorInfo", mainCompetitorInfoDtoList);
-        result.put("technologyInfo", ipoTechnologyDataProcessing(ipoTechnologyVo, id));// 研发投入 核心技术与研发技术人员
+        result.put("technologyInfo", ipoTechnologyDataProcessing(ipoTechnologyVo, id,ipoPlate));// 研发投入 核心技术与研发技术人员
         result.put("industryCompareRateInfo", industryCompareRateDataProcessing(industryCompareRateDtos));//毛利率数据处理加工
         return result;
     }
@@ -393,11 +393,12 @@ public class IpoInterfaceService extends BaseService {
      * @param ipoTechnologyVo
      * @param id
      */
-    private IpoH5TechnologyDto ipoTechnologyDataProcessing(IpoTechnologyVo ipoTechnologyVo, String id) {
+    private IpoH5TechnologyDto ipoTechnologyDataProcessing(IpoTechnologyVo ipoTechnologyVo, String id,String ipoPlate) {
         IpoH5TechnologyDto resultDto = new IpoH5TechnologyDto();
 
     IpoH5Dto dto = new IpoH5Dto();
     dto.setBid(id);
+    dto.setIpoPlate(ipoPlate);
     IpoH5Dto ipoCompanyRank = ipoCompanyRank(dto);
     /**研发投入**/
     Map<String, List> devResult = ipoDevDataProcessing(ipoTechnologyVo,ipoCompanyRank);// 研发营收

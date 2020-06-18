@@ -424,7 +424,7 @@ public class IpoInterfaceController extends BaseController {
 
         //行业与技术接口
         try {
-            Map technology = getTechnology(id);
+            Map technology = getTechnology(id,ipoPlate);
             //行业地位
             if ((List<IssuerIndustryStatusDto>) technology.get("industryStatusInfo") != null){
                 List<IssuerIndustryStatusDto> industryStatusDtoList = (List<IssuerIndustryStatusDto>) technology.get("industryStatusInfo");
@@ -832,6 +832,7 @@ public class IpoInterfaceController extends BaseController {
             IpoH5Dto dto = new IpoH5Dto();
             dto.setBid(id);
             logger.info("#######【公司排名查询条件id："+id+"###########");
+            dto.setIpoPlate(ipoPlate);
             IpoH5Dto ipoCompanyRank = ipoInterfaceService.ipoCompanyRank(dto);
             if (ipoCompanyRank != null) {
                 dataMap = new HashMap<>();
@@ -1676,8 +1677,8 @@ public class IpoInterfaceController extends BaseController {
      * @param id 案例id
      */
     @RequestMapping(value = "/getTechnology", method = RequestMethod.GET)
-    public Map getTechnology(@RequestParam("id") String id) {
-        return ipoInterfaceService.getIpoTechnology(id);
+    public Map getTechnology(@RequestParam("id") String id,@RequestParam("ipoPlate") String ipoPlate) {
+        return ipoInterfaceService.getIpoTechnology(id,ipoPlate);
     }
 
     /**
