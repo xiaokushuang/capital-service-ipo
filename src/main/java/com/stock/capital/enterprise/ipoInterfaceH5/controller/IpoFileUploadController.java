@@ -99,8 +99,8 @@ public class IpoFileUploadController extends BaseController {
     /**
      * 每晚定时把所有创业板版数据生成json文件放到华为云上
      */
-    //@Scheduled(cron = "0 25 02 * * ? ")
-    @Scheduled(initialDelay = 2000, fixedDelay = 20000000)
+    @Scheduled(cron = "0 25 02 * * ? ")
+    //@Scheduled(initialDelay = 2000, fixedDelay = 20000000)
     public void ipoDataCybUpload() {
         //查询科创版所有案例
         logger.info("#######【将IpoH5创业板的数据生成json文件放到华为云的同步开始执行###########");
