@@ -36,7 +36,7 @@
                         <span v-else-if="getValue(scope.row.approveStatus) == '中止审查'">中止</span>
                         <span v-else>{{checkEmpty(scope.row.approveStatus)}}</span>
                     </span>
-                    <span v-else>{{checkEmpty(scope.row.approveStatus)}}</span>
+                    <span v-else style="white-space: pre-line">{{checkEmpty(scope.row.approveStatus)}}</span>
               </template>
             </el-table-column>
             <el-table-column align="center" prop="lawFirm" label="是否已参加抽查抽签或现场检查"  min-width="11%">
@@ -63,12 +63,14 @@ import {exportExcelPostWindow1} from '@/utils'
         data(){
             return {
                 data:[],
+              labelCode:'',
             }
         },
         computed:{
 
         },
         created(){
+          this.labelCode = this.$route.query.labelCode
         },
         mounted() {
             //页面加载完成时查询数据
@@ -135,6 +137,9 @@ import {exportExcelPostWindow1} from '@/utils'
             checkEmpty(label) {//判断空值
                 if(this.getValue(label) == '') {
                     label = '--'
+                }
+                if(this.getValue(label) == '上市委会议' && this.labelCode == '02'){
+                  label = '上市委会议 \n 待上会'
                 }
                 return label;
             },

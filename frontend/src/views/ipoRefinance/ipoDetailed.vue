@@ -67,7 +67,7 @@
                 <span v-else>{{scope.row.reviewed}}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center"  prop="preUpdate" label="预先披露更新" sortable="custom">
+            <el-table-column align="center"  prop="preUpdate" :render-header="renderHeader" label="预先披露更新" sortable="custom">
               <template slot-scope="scope">
                 <span class="spanClass" v-if="getValue(scope.row.preUpdate) != 0 " @click="openDetail(scope.row.registAddr,scope.row.lastUpadteTime,'02','unit')">{{scope.row.preUpdate}}</span>
                 <span v-else>{{scope.row.preUpdate}}</span>
@@ -252,6 +252,8 @@
           label = '(已受理)'
         } else if (name == '已反馈') {
           label = '(已问询)'
+        } else if (name == '预先披露更新') {
+          label = '(已回复)'
         } else if (name == '中止审查') {
           label = '(中止及财报更新)'
         } else if (name == '已通过发审会') {
@@ -400,7 +402,7 @@
                 appLabel = approveStatus.replace("01", "已反馈<span style='color:#0099cc'>(已问询)</span>");
                 break;
               case '02':
-                appLabel = approveStatus.replace("02", "预先披露更新");
+                appLabel = approveStatus.replace("02", "预先披露更新<span style='color:#0099cc'>(已回复)</span>");
                 break;
               case '04':
                 appLabel = approveStatus.replace("04", "中止审查<span style='color:#0099cc'>(中止及财报更新)</span>");

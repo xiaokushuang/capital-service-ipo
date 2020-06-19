@@ -219,7 +219,7 @@ function viewAreaDetail(registAddr,lastUpadteTime,approveStatus,viewType){
 	        break;
 	        case '01': appLabel = approveStatus.replace("01", "已反馈<span style='color:#0099cc'>(已问询)</span>");
 	        break;
-	        case '02': appLabel = approveStatus.replace("02", "预先披露更新");
+	        case '02': appLabel = approveStatus.replace("02", "预先披露更新<span style='color:#0099cc'>(已回复)</span>");
 	        break;
 	        case '04': appLabel = approveStatus.replace("04", "中止审查<span style='color:#0099cc'>(中止)</span>");
 	        break;

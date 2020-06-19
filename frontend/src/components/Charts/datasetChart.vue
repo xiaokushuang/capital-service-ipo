@@ -202,8 +202,11 @@ export default {
       if(lable=="已反馈"){
         lable = "已反馈(已问询)";
       }
-      if(lable=="已通过发审会"){
-        lable = "已通过发审会(上市委会议通过)";
+      if(lable=="已反馈"){
+        lable = "已反馈(已问询)";
+      }
+      if(lable=="预先披露更新"){
+        lable = "预先披露更新(已回复)";
       }
       if(lable=="中止审查"){
         lable = "中止审查(中止及财报更新)";
