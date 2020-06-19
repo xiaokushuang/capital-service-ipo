@@ -93,12 +93,14 @@ import {exportExcelPostWindow1} from '@/utils'
                 return name;
             },
             checkEmpty(label) {//判断空值
+              alert(label)
               if(this.getValue(label) == '') {
                 label = '--'
               }
               if(this.getValue(label) == '上市委会议' && this.labelCode == '02'){
                 label = '上市委会议 \n 待上会'
               }
+              alert(label)
               return label;
             },
             exportExcel() {//导出Excel
