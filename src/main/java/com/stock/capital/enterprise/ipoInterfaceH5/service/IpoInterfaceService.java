@@ -869,7 +869,7 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
     public List<IpoInvestItemDto> selectInvestItem(String id) {
         List<IpoInvestItemDto> list = ipoInvestService.selectInvestItem(id);
         List<IpoInvestItemDto> result = new ArrayList<>();
-        if (list != null && list.size() >=4){
+        if (list != null && list.size() >=5){
             result.addAll(list.subList(0,3));
             IpoInvestItemDto dto = new IpoInvestItemDto();
             dto.setItemName("其他");

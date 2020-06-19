@@ -159,11 +159,15 @@ public class IpoInterfaceController extends BaseController {
 
             }
             dataMap = new HashMap<>();
+            if (StringUtils.isNotEmpty(caseDetaild.getAddrProv()) && "北京,天津,上海,重庆".indexOf(caseDetaild.getAddrProv()) != -1){
+                caseDetaild.setAddrProv("");
+            }
             dataMap.put("paramName", "公司信息");
             dataMap.put("paramData", JsonUtil.toJsonNoNull(caseDetaild));
             resultMap.put("caseDetaild", dataMap);
             dataMap = new HashMap<>();
             if (StringUtils.isNotEmpty(caseDetaild.getIssueCondition())) {
+
                 dataMap.put("paramName", "上市条件");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(caseDetaild));
             } else {
