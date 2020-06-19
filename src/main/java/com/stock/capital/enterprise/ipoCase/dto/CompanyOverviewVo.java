@@ -102,6 +102,15 @@ public class CompanyOverviewVo implements Serializable {
     private String issueConditionShortName;
 
     private String caseStatus;
+    private String greenPassage;
+
+    public String getGreenPassage() {
+        return greenPassage;
+    }
+
+    public void setGreenPassage(String greenPassage) {
+        this.greenPassage = greenPassage;
+    }
 
     public String getCaseStatus() {
         return caseStatus;

@@ -870,7 +870,7 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
         List<IpoInvestItemDto> list = ipoInvestService.selectInvestItem(id);
         List<IpoInvestItemDto> result = new ArrayList<>();
         if (list != null && list.size() >=4){
-            result.addAll(list.subList(0,2));
+            result.addAll(list.subList(0,3));
             IpoInvestItemDto dto = new IpoInvestItemDto();
             dto.setItemName("其他");
             dto.setInvestRateStr("0");
@@ -884,6 +884,7 @@ private List<Map<String, IpoH5CoreDevDto>> coreDevProcessing(IpoH5Dto ipoCompany
                     dto.setInvestRateStr(val1.add(val2)+"");
                 }
             }
+            result.add(dto);
         }else if(list != null && list.size()>1){
             result.addAll(list.subList(0,list.size()-1));
         }

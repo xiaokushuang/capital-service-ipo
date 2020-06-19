@@ -291,7 +291,7 @@ public class IpoInterfaceController extends BaseController {
         try {
             Map<String,List<IpoFeedbackDto>> selectNewFeedbackList = selectNewFeedbackList(id);
             if (selectNewFeedbackList != null) {
-                if (selectNewFeedbackList.get("registerList") != null){
+                if (selectNewFeedbackList.get("registerList") != null && selectNewFeedbackList.get("registerList").size()>0){
                     dataMap = new HashMap<>();
                     dataMap.put("paramName", "注册制问询情况");
                     dataMap.put("paramData", JsonUtil.toJsonNoNull(selectNewFeedbackList.get("registerList")));
@@ -302,7 +302,7 @@ public class IpoInterfaceController extends BaseController {
                     dataMap.put("paramData", "0");
                     resultMap.put("selectNewFeedbackZczList", dataMap);
                 }
-                if (selectNewFeedbackList.get("ratifyList") != null){
+                if (selectNewFeedbackList.get("ratifyList") != null && selectNewFeedbackList.get("ratifyList").size()>0){
                     dataMap = new HashMap<>();
                     dataMap.put("paramName", "核准制问询情况");
                     dataMap.put("paramData", JsonUtil.toJsonNoNull(selectNewFeedbackList.get("ratifyList")));

@@ -27,6 +27,7 @@
     <result column="nationalIndustries" property="nationalIndustries" jdbcType="VARCHAR" />
     <result column="issueConditionShortName" property="issueConditionShortName" jdbcType="VARCHAR" />
     <result column="case_status" property="caseStatus" jdbcType="VARCHAR" />
+    <result column="greenPassage" property="greenPassage" jdbcType="VARCHAR" />
   </resultMap>
 
   <resultMap id="SupCusResultMap" type="com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto" >
@@ -61,6 +62,7 @@
     ic.id,
     ic.case_status,
     (SELECT GROUP_CONCAT(m.label_name) FROM maa_conf_label m WHERE m.label_code = 'IPO_SPECIAL_ARRANGE' AND m.status = '1' AND FIND_IN_SET(m.label_value,ic.special_arrange))AS specialArrange,
+    (SELECT GROUP_CONCAT(m.label_name) FROM maa_conf_label m WHERE m.label_code = 'IPO_GREEN_PASSAGE' AND m.status = '1' AND FIND_IN_SET(m.label_value,ic.green_passage)) AS greenPassage,
     ic.company_zh_name,
     ic.industry_status_overview,
     ic.industry_csrc AS industryCsrcCode,
