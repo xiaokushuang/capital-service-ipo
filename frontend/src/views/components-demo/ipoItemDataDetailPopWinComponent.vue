@@ -30,7 +30,7 @@
             <el-table-column align="center" prop="lawFirm" label="律师事务所"  min-width="10%"></el-table-column>
             <el-table-column align="center" prop="statusLabel" label="审核状态"  min-width="10%">
               <template slot-scope="scope">
-                <span>{{checkEmpty(scope.row.statusLabel)}}</span>
+                <span  style="white-space: pre-line">{{checkEmpty(scope.row.statusLabel)}}</span>
               </template>
             </el-table-column>
             <el-table-column align="center" prop="attendLabel" label="是否已参加抽查抽签或现场检查"  min-width="11%">
@@ -96,8 +96,8 @@ import {exportExcelPostWindow1} from '@/utils'
                 if(this.getValue(label) == '') {
                     label = '--'
                 }
-              if(this.getValue(label) == '上市委会议' && this.$route.query.approveStatus == '02'){
-                label = '上市委会议 \n 待上会'
+              if((this.getValue(label) == '上市委会议' || this.getValue(label) == '发审会审核') && this.$route.query.approveStatus == '02'){
+                label = label+' \n 待上会'
               }
                 return label;
             },
