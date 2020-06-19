@@ -30,7 +30,7 @@
             <el-table-column align="center" prop="lawFirm" label="律师事务所"  min-width="10%"></el-table-column>
             <el-table-column align="center" prop="statusLabel" label="审核状态"  min-width="10%">
               <template slot-scope="scope">
-                <span>{{checkEmpty(scope.row.approveStatus)}}</span>
+                <span>{{checkEmpty(scope.row.statusLabel)}}</span>
               </template>
             </el-table-column>
             <el-table-column align="center" prop="attendLabel" label="是否已参加抽查抽签或现场检查"  min-width="11%">
@@ -93,15 +93,13 @@ import {exportExcelPostWindow1} from '@/utils'
                 return name;
             },
             checkEmpty(label) {//判断空值
-              alert(label)
-              if(this.getValue(label) == '') {
-                label = '--'
-              }
-              if(this.getValue(label) == '上市委会议' && this.labelCode == '02'){
+                if(this.getValue(label) == '') {
+                    label = '--'
+                }
+              if(this.getValue(label) == '上市委会议' && this.$route.query.approveStatus == '02'){
                 label = '上市委会议 \n 待上会'
               }
-              alert(label)
-              return label;
+                return label;
             },
             exportExcel() {//导出Excel
                 let statisticsParamDto = {
