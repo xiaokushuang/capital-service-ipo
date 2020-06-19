@@ -138,8 +138,8 @@ import {exportExcelPostWindow1} from '@/utils'
                 if(this.getValue(label) == '') {
                     label = '--'
                 }
-                if(this.getValue(label) == '上市委会议' && this.labelCode == '02'){
-                  label = '上市委会议 \n 待上会'
+                if((this.getValue(label) == '上市委会议' || this.getValue(label) == '发审会审核') && this.labelCode == '02'){
+                  label = label+' \n 待上会'
                 }
                 return label;
             },
