@@ -78,17 +78,44 @@ public class IpoFileUploadController extends BaseController {
     @Scheduled(cron = "0 15 02 * * ? ")
     public void ipoDataUpload() {
         //查询科创版所有案例
-        logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
-        List<IpoCaseListVo> ipoCaseList = ipoInterfaceService.queryIpoCase(new HashMap());
-        logger.info("#######【将IpoH5的数据生成json文件放到华为云时查询到有" + ipoCaseList.size() + "条科创版数据###########");
+        logger.info("#######【将IpoH5科创板的数据生成json文件放到华为云的同步开始执行###########");
+        Map<String, Object> map = new HashMap<>();
+        map.put("ipoPlate","069001001006");
+        List<IpoCaseListVo> ipoCaseList = ipoInterfaceService.queryIpoCase(map);
+        logger.info("#######【将IpoH5科创板的数据生成json文件放到华为云时查询到有" + ipoCaseList.size() + "条科创版数据###########");
         if (ipoCaseList != null) {
             for (int i = 0; i < ipoCaseList.size(); i++) {
                 try {
-                    Map<String, Object> data = ipoInterfaceController.ipoCaseH5(ipoCaseList.get(i).getId());
+                    Map<String, Object> data = ipoInterfaceController.ipoCaseH5(ipoCaseList.get(i).getId(),"069001001006");
                     fileUpload(JsonUtil.toJsonNoNull(data), ipoCaseList.get(i).getId());
-                    logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步" + ipoCaseList.get(i).getId() + "成功###########");
+                    logger.info("#######【将IpoH5科创板的数据生成json文件放到华为云的同步" + ipoCaseList.get(i).getId() + "成功###########");
                 } catch (Exception e) {
-                    logger.info("#######【将IpoH5的数据的json文件上传华为云时主键：" + ipoCaseList.get(i).getId() + "数据出错###########");
+                    logger.info("#######【将IpoH5科创板的数据的json文件上传华为云时主键：" + ipoCaseList.get(i).getId() + "数据出错###########");
+                }
+            }
+        }
+    }
+
+    /**
+     * 每晚定时把所有创业板版数据生成json文件放到华为云上
+     */
+    @Scheduled(cron = "0 25 02 * * ? ")
+    //@Scheduled(initialDelay = 2000, fixedDelay = 20000000)
+    public void ipoDataCybUpload() {
+        //查询科创版所有案例
+        logger.info("#######【将IpoH5创业板的数据生成json文件放到华为云的同步开始执行###########");
+        Map<String, Object> map = new HashMap<>();
+        map.put("ipoPlate","069001002002");
+        List<IpoCaseListVo> ipoCaseList = ipoInterfaceService.queryIpoCase(map);
+        logger.info("#######【将IpoH5创业板的数据生成json文件放到华为云时查询到有" + ipoCaseList.size() + "条科创版数据###########");
+        if (ipoCaseList != null) {
+            for (int i = 0; i < ipoCaseList.size(); i++) {
+                try {
+                    Map<String, Object> data = ipoInterfaceController.ipoCaseH5(ipoCaseList.get(i).getId(),"069001002002");
+                    fileUpload(JsonUtil.toJsonNoNull(data), ipoCaseList.get(i).getId());
+                    logger.info("#######【将IpoH5创业板的数据生成json文件放到华为云的同步" + ipoCaseList.get(i).getId() + "成功###########");
+                } catch (Exception e) {
+                    logger.info("#######【将IpoH5创业板的数据的json文件上传华为云时主键：" + ipoCaseList.get(i).getId() + "数据出错###########");
                 }
             }
         }
@@ -113,19 +140,59 @@ public class IpoFileUploadController extends BaseController {
     }
 
     /**
+     * 每晚定时把所有创业板数据生成json文件放到华为云上
+     */
+    @Scheduled(cron = "0 28 02 * * ? ")
+    public void ipoMarchCybDataUpload() {
+        //查询科创版所有案例
+        logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
+        List<IpoCaseListVo> ipoCaseCybList = ipoInterfaceService.queryAllMatchIpoCaseCyb();
+        logger.info("#######【将Ipo案例注册生效的数据生成json文件放到华为云时查询到有" + ipoCaseCybList.size() + "条科创版数据###########");
+        if (ipoCaseCybList != null) {
+            try {
+                fileUpload(JsonUtil.toJsonNoNull(ipoCaseCybList), "ipoRandomCybData");
+            } catch (Exception e) {
+                logger.info("#######【将IpoH5的数据的json文件上传华为云时： ipoRandomData 数据出错###########");
+            }
+        }
+    }
+
+    /**
      * 每晚定时把所有科创版数据生成json文件放到华为云上(登录页的联想)
      */
     @Scheduled(cron = "0 10 02 * * ? ")
     public void ipoCaseDataUpload() {
         //查询科创版所有案例
-        logger.info("#######【将IpoH5登录页的联想的数据生成json文件放到华为云的同步开始执行###########");
-        List<IpoCaseListVo> ipoCaseList = ipoInterfaceService.queryIpoCase(new HashMap());
-        logger.info("#######【将IpoH5登录页的联想的数据生成json文件放到华为云时查询到有" + ipoCaseList.size() + "条科创版数据###########");
+        logger.info("#######【将科创板IpoH5登录页的联想的数据生成json文件放到华为云的同步开始执行###########");
+        Map<String, Object> map = new HashMap<>();
+        map.put("ipoPlate","069001001006");
+        List<IpoCaseListVo> ipoCaseList = ipoInterfaceService.queryIpoCase(map);
+        logger.info("#######【将科创板IpoH5登录页的联想的数据生成json文件放到华为云时查询到有" + ipoCaseList.size() + "条科创版数据###########");
         if (ipoCaseList != null) {
             try {
                 fileUpload(JsonUtil.toJsonNoNull(ipoCaseList), "ipoCaseData");
             } catch (Exception e) {
-                logger.info("#######【将IpoH5登录页的联想的数据生成json文件上传华为云时： ipoCaseData 数据出错###########");
+                logger.info("#######【将科创板IpoH5登录页的联想的数据生成json文件上传华为云时： ipoCaseData 数据出错###########");
+            }
+        }
+    }
+
+    /**
+     * 每晚定时把所有创业版数据生成json文件放到华为云上(登录页的联想)
+     */
+    @Scheduled(cron = "0 20 02 * * ? ")
+    public void ipoCaseCybDataUpload() {
+        //查询创业版所有案例
+        logger.info("#######【将创业板IpoH5登录页的联想的数据生成json文件放到华为云的同步开始执行###########");
+        Map<String, Object> map = new HashMap<>();
+        map.put("ipoPlate","069001002002");
+        List<IpoCaseListVo> ipoCaseCybList = ipoInterfaceService.queryIpoCase(map);
+        logger.info("#######【将创业板IpoH5登录页的联想的数据生成json文件放到华为云时查询到有" + ipoCaseCybList.size() + "条科创版数据###########");
+        if (ipoCaseCybList != null) {
+            try {
+                fileUpload(JsonUtil.toJsonNoNull(ipoCaseCybList), "ipoCaseCybData");
+            } catch (Exception e) {
+                logger.info("#######【将创业板IpoH5登录页的联想的数据生成json文件上传华为云时： ipoCaseData 数据出错###########");
             }
         }
     }
@@ -134,12 +201,33 @@ public class IpoFileUploadController extends BaseController {
     public void ipoDataUploadSpecComById(Map map) {
         //查询科创版所有案例
         logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
+        map.put("ipoPlate","069001001006");
         List<IpoCaseListVo> ipoCaseList = ipoInterfaceService.queryIpoCaseById(map);
         logger.info("#######【将IpoH5的数据生成json文件放到华为云时查询到有" + ipoCaseList.size() + "条科创版数据###########");
         if (ipoCaseList != null) {
             for (int i = 0; i < ipoCaseList.size(); i++) {
                 try {
-                    Map<String, Object> data = ipoInterfaceController.ipoCaseH5(ipoCaseList.get(i).getId());
+                    Map<String, Object> data = ipoInterfaceController.ipoCaseH5(ipoCaseList.get(i).getId(),"069001001006");
+                    fileUpload(JsonUtil.toJsonNoNull(data), ipoCaseList.get(i).getId());
+                    logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步" + ipoCaseList.get(i).getId() + "成功###########");
+                } catch (Exception e) {
+                    logger.info("#######【将IpoH5的数据的json文件上传华为云时主键：" + ipoCaseList.get(i).getId() + "数据出错###########");
+                }
+            }
+        }
+    }
+
+    @RequestMapping(value = "/ipoCybDataUploadSpecComById")
+    public void ipoCybDataUploadSpecComById(Map map) {
+        //查询科创版所有案例
+        logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步开始执行###########");
+        map.put("ipoPlate","069001002002");
+        List<IpoCaseListVo> ipoCaseList = ipoInterfaceService.queryIpoCaseById(map);
+        logger.info("#######【将IpoH5的数据生成json文件放到华为云时查询到有" + ipoCaseList.size() + "条科创版数据###########");
+        if (ipoCaseList != null) {
+            for (int i = 0; i < ipoCaseList.size(); i++) {
+                try {
+                    Map<String, Object> data = ipoInterfaceController.ipoCaseH5(ipoCaseList.get(i).getId(),"069001002002");
                     fileUpload(JsonUtil.toJsonNoNull(data), ipoCaseList.get(i).getId());
                     logger.info("#######【将IpoH5的数据生成json文件放到华为云的同步" + ipoCaseList.get(i).getId() + "成功###########");
                 } catch (Exception e) {
@@ -152,13 +240,17 @@ public class IpoFileUploadController extends BaseController {
     @RequestMapping(value = "/ipoDataUploadAllCom")
     public void ipoDataUploadAllCom(@RequestParam(value = "id", required = false, defaultValue = "") String id) {
         ipoCaseDataUpload();
+        ipoCaseCybDataUpload();
         ipoMarchDataUpload();
+        ipoMarchCybDataUpload();
         if (StringUtils.isEmpty(id)) {
             ipoDataUpload();
+            ipoDataCybUpload();
         } else {
             Map tempMap = new HashMap();
             tempMap.put("id", id);
             ipoDataUploadSpecComById(tempMap);
+            ipoCybDataUploadSpecComById(tempMap);
         }
     }
     //每隔一个小时刷一次

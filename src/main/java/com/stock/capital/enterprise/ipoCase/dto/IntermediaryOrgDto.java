@@ -46,6 +46,25 @@ public class IntermediaryOrgDto implements Serializable {
     private String businessVolumeRank;//科创板通过数量
     private String passingRank;//科创板上会企业家数
 
+    private String ipoPlate;
+    private String orgYear;
+
+    public String getOrgYear() {
+        return orgYear;
+    }
+
+    public void setOrgYear(String orgYear) {
+        this.orgYear = orgYear;
+    }
+
+    public String getIpoPlate() {
+        return ipoPlate;
+    }
+
+    public void setIpoPlate(String ipoPlate) {
+        this.ipoPlate = ipoPlate;
+    }
+
     public String getBusinessVolumeRank() {
         return businessVolumeRank;
     }

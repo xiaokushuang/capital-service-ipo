@@ -27,5 +27,6 @@
         INNER JOIN ipo_invest_item t2 ON t1.id = t2.bid
         WHERE
             t1.id = #{id}
+        ORDER BY t2.invest_plan desc
     </select>
 </mapper>

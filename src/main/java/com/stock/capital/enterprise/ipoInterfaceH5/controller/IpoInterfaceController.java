@@ -106,10 +106,9 @@ public class IpoInterfaceController extends BaseController {
     })
     @RequestMapping(value = "ipoCaseH5")
     @ResponseBody
-    public Map<String, Object> ipoCaseH5(String id) {
+    public Map<String, Object> ipoCaseH5(String id,String ipoPlate) {
         Map<String, Object> resultMap = Maps.newHashMap();
         Map<String, Object> dataMap = Maps.newHashMap();
-        String ipoPlate = "069001001006";//科创版
         IpoCaseListBo ipoCaseListBo = new IpoCaseListBo();
         ipoCaseListBo.setIpoPlate(ipoPlate);
 
@@ -160,11 +159,15 @@ public class IpoInterfaceController extends BaseController {
 
             }
             dataMap = new HashMap<>();
+            if (StringUtils.isNotEmpty(caseDetaild.getAddrProv()) && "北京,天津,上海,重庆".indexOf(caseDetaild.getAddrProv()) != -1){
+                caseDetaild.setAddrProv("");
+            }
             dataMap.put("paramName", "公司信息");
             dataMap.put("paramData", JsonUtil.toJsonNoNull(caseDetaild));
             resultMap.put("caseDetaild", dataMap);
             dataMap = new HashMap<>();
             if (StringUtils.isNotEmpty(caseDetaild.getIssueCondition())) {
+
                 dataMap.put("paramName", "上市条件");
                 dataMap.put("paramData", JsonUtil.toJsonNoNull(caseDetaild));
             } else {
@@ -204,6 +207,39 @@ public class IpoInterfaceController extends BaseController {
             dataMap.put("paramData", "0");
             resultMap.put("incomeData", dataMap);
             logger.error("ipoCaseH5获取主营业务构成发生错误:{}", Throwables.getStackTraceAsString(e));
+        }
+        //募集资金
+        try {
+            List<IpoInvestItemDto> investList = ipoInterfaceService.selectInvestItem(id);
+            if (null != investList && investList.size()>0) {
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "前三募集资金");
+                dataMap.put("paramData", JsonUtil.toJsonNoNull(investList));
+                resultMap.put("investListData", dataMap);
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "募集资金总额");
+                dataMap.put("paramData", JsonUtil.toJsonNoNull(investList.get(0).getInvestPlanLimit()));
+                resultMap.put("invest", dataMap);
+            } else {
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "前三募集资金");
+                dataMap.put("paramData", "0");
+                resultMap.put("investListData", dataMap);
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "募集资金总额");
+                dataMap.put("paramData", "0");
+                resultMap.put("invest", dataMap);
+            }
+        } catch (Exception e) {
+            dataMap = new HashMap<>();
+            dataMap.put("paramName", "前三募集资金");
+            dataMap.put("paramData", "0");
+            resultMap.put("investListData", dataMap);
+            dataMap = new HashMap<>();
+            dataMap.put("paramName", "募集资金总额");
+            dataMap.put("paramData", "0");
+            resultMap.put("invest", dataMap);
+            logger.error("ipoCaseH5获取募集资金发生错误:{}", Throwables.getStackTraceAsString(e));
         }
         //股东信息
         try {
@@ -257,28 +293,54 @@ public class IpoInterfaceController extends BaseController {
         }
         //上交所问询情况
         try {
-            List<IpoFeedbackDto> selectNewFeedbackList = selectNewFeedbackList(id);
-            if (CollectionUtils.isNotEmpty(selectNewFeedbackList)) {
-                dataMap = new HashMap<>();
-                dataMap.put("paramName", "上交所问询情况");
-                dataMap.put("paramData", JsonUtil.toJsonNoNull(selectNewFeedbackList));
-                resultMap.put("selectNewFeedbackList", dataMap);
+            Map<String,List<IpoFeedbackDto>> selectNewFeedbackList = selectNewFeedbackList(id);
+            if (selectNewFeedbackList != null) {
+                if (selectNewFeedbackList.get("registerList") != null && selectNewFeedbackList.get("registerList").size()>0){
+                    dataMap = new HashMap<>();
+                    dataMap.put("paramName", "注册制问询情况");
+                    dataMap.put("paramData", JsonUtil.toJsonNoNull(selectNewFeedbackList.get("registerList")));
+                    resultMap.put("selectNewFeedbackZczList", dataMap);
+                }else {
+                    dataMap = new HashMap<>();
+                    dataMap.put("paramName", "注册制问询情况");
+                    dataMap.put("paramData", "0");
+                    resultMap.put("selectNewFeedbackZczList", dataMap);
+                }
+                if (selectNewFeedbackList.get("ratifyList") != null && selectNewFeedbackList.get("ratifyList").size()>0){
+                    dataMap = new HashMap<>();
+                    dataMap.put("paramName", "核准制问询情况");
+                    dataMap.put("paramData", JsonUtil.toJsonNoNull(selectNewFeedbackList.get("ratifyList")));
+                    resultMap.put("selectNewFeedbackHzzList", dataMap);
+                }else {
+                    dataMap = new HashMap<>();
+                    dataMap.put("paramName", "核准制问询情况");
+                    dataMap.put("paramData", "0");
+                    resultMap.put("selectNewFeedbackHzzList", dataMap);
+                }
             } else {
                 dataMap = new HashMap<>();
-                dataMap.put("paramName", "上交所问询情况");
+                dataMap.put("paramName", "注册制问询情况");
                 dataMap.put("paramData", "0");
-                resultMap.put("selectNewFeedbackList", dataMap);
+                resultMap.put("selectNewFeedbackZczList", dataMap);
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "核准制问询情况");
+                dataMap.put("paramData", "0");
+                resultMap.put("selectNewFeedbackHzzList", dataMap);
             }
         } catch (Exception e) {
             dataMap = new HashMap<>();
-            dataMap.put("paramName", "上交所问询情况");
+            dataMap.put("paramName", "注册制问询情况");
             dataMap.put("paramData", "0");
-            resultMap.put("selectNewFeedbackList", dataMap);
-            logger.error("ipoCaseH5获取上交所问询情况发生错误:{}", Throwables.getStackTraceAsString(e));
+            resultMap.put("selectNewFeedbackZczList", dataMap);
+            dataMap = new HashMap<>();
+            dataMap.put("paramName", "核准制问询情况");
+            dataMap.put("paramData", "0");
+            resultMap.put("selectNewFeedbackHzzList", dataMap);
+            logger.error("ipoCaseH5获取问询情况发生错误:{}", Throwables.getStackTraceAsString(e));
         }
         //中介结构
         try {
-            Map<String, List<IntermediaryOrgDto>> intermediaryOrgData = intermediaryOrgData(id, "");
+            Map<String, List<IntermediaryOrgDto>> intermediaryOrgData = intermediaryOrgData(id, "",ipoPlate);
             if (null != intermediaryOrgData && intermediaryOrgData.size() > 0) {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "中介机构");
@@ -304,6 +366,7 @@ public class IpoInterfaceController extends BaseController {
             }
             String orgCode = ipoFeedbackMapper.getOrgCode(id).getOrgCode();
             ipoCaseIndex.setOrgCode(orgCode);
+            ipoCaseIndex.setIpoPlate(ipoPlate);
             List<IpoCaseListVo> otherIpoCase = otherIpoCase(ipoCaseIndex);
             if (otherIpoCase != null) {
                 dataMap = new HashMap<>();
@@ -365,7 +428,7 @@ public class IpoInterfaceController extends BaseController {
 
         //行业与技术接口
         try {
-            Map technology = getTechnology(id);
+            Map technology = getTechnology(id,ipoPlate);
             //行业地位
             if ((List<IssuerIndustryStatusDto>) technology.get("industryStatusInfo") != null){
                 List<IssuerIndustryStatusDto> industryStatusDtoList = (List<IssuerIndustryStatusDto>) technology.get("industryStatusInfo");
@@ -488,7 +551,7 @@ public class IpoInterfaceController extends BaseController {
 
         // 专利情况
         try{
-            IpoH5Dto result = getPatentSituation(id);
+            IpoH5Dto result = getPatentSituation(id,ipoPlate);
             if (result != null && (StringUtils.isNotBlank(result.getPatent()) || StringUtils.isNotBlank(result.getPatentNew()) ||
                 StringUtils.isNotBlank(result.getPatentDesign()) || StringUtils.isNotBlank(result.getPatentInternation()))){
                 dataMap = new HashMap<>();
@@ -773,6 +836,7 @@ public class IpoInterfaceController extends BaseController {
             IpoH5Dto dto = new IpoH5Dto();
             dto.setBid(id);
             logger.info("#######【公司排名查询条件id："+id+"###########");
+            dto.setIpoPlate(ipoPlate);
             IpoH5Dto ipoCompanyRank = ipoInterfaceService.ipoCompanyRank(dto);
             if (ipoCompanyRank != null) {
                 dataMap = new HashMap<>();
@@ -820,21 +884,59 @@ public class IpoInterfaceController extends BaseController {
         try {
             List<IpoFeedbackDto> examineList = selectNewExamineList(id);
             if (examineList != null) {
-                dataMap = new HashMap<>();
-                dataMap.put("paramName", "上市委关注问题");
-                dataMap.put("paramData", JsonUtil.toJsonNoNull(examineList));
-                resultMap.put("examineList", dataMap);
+                List<IpoFeedbackDto> examineHzzList = new ArrayList<>();
+                List<IpoFeedbackDto> examineZczList = new ArrayList<>();
+                for (int i=0;i<examineList.size();i++){
+                    if (StringUtils.isNotEmpty(examineList.get(i).getLetterName())){
+                        if (examineList.get(i).getLetterName().equals("发审会关注问题")){
+                            examineHzzList.add(examineList.get(i));
+                        }
+                        if (examineList.get(i).getLetterName().equals("上市会关注问题")){
+                            examineZczList.add(examineList.get(i));
+                        }
+                    }
+                }
+                if (examineZczList != null && examineHzzList.size()>0){
+                    dataMap = new HashMap<>();
+                    dataMap.put("paramName", "上市委关注问题");
+                    dataMap.put("paramData", JsonUtil.toJsonNoNull(examineZczList));
+                    resultMap.put("examineZczList", dataMap);
+                }else {
+                    dataMap = new HashMap<>();
+                    dataMap.put("paramName", "上市委关注问题");
+                    dataMap.put("paramData", "0");
+                    resultMap.put("examineZczList", dataMap);
+                }
+                if (examineHzzList != null && examineHzzList.size()>0){
+                    dataMap = new HashMap<>();
+                    dataMap.put("paramName", "发审委关注问题");
+                    dataMap.put("paramData", JsonUtil.toJsonNoNull(examineHzzList));
+                    resultMap.put("examineHzzList", dataMap);
+                }else {
+                    dataMap = new HashMap<>();
+                    dataMap.put("paramName", "发审委关注问题");
+                    dataMap.put("paramData", "0");
+                    resultMap.put("examineHzzList", dataMap);
+                }
             } else {
                 dataMap = new HashMap<>();
                 dataMap.put("paramName", "上市委关注问题");
                 dataMap.put("paramData", "0");
-                resultMap.put("examineList", dataMap);
+                resultMap.put("examineZczList", dataMap);
+                dataMap = new HashMap<>();
+                dataMap.put("paramName", "发审委关注问题");
+                dataMap.put("paramData", "0");
+                resultMap.put("examineHzzList", dataMap);
             }
         } catch (Exception e) {
             dataMap = new HashMap<>();
             dataMap.put("paramName", "上市委关注问题");
             dataMap.put("paramData", "0");
-            resultMap.put("examineList", dataMap);
+            resultMap.put("examineZczList", dataMap);
+            dataMap = new HashMap<>();
+            dataMap.put("paramName", "发审委关注问题");
+            dataMap.put("paramData", "0");
+            resultMap.put("examineHzzList", dataMap);
             logger.error("ipoCaseH5获取上市委关注问题发生错误:{}", Throwables.getStackTraceAsString(e));
         }
         return resultMap;
@@ -1543,6 +1645,7 @@ public class IpoInterfaceController extends BaseController {
         if (StringUtils.isNotEmpty(limit)) {
             map.put("limit",limit);
         }
+        map.put("ipoPlate","069001001006");
         List<IpoCaseListVo> ipoCaseListVos = ipoInterfaceService.queryIpoCase(map);
         jsonResponse.setResult(ipoCaseListVos);
         return jsonResponse;
@@ -1578,8 +1681,8 @@ public class IpoInterfaceController extends BaseController {
      * @param id 案例id
      */
     @RequestMapping(value = "/getTechnology", method = RequestMethod.GET)
-    public Map getTechnology(@RequestParam("id") String id) {
-        return ipoInterfaceService.getIpoTechnology(id);
+    public Map getTechnology(@RequestParam("id") String id,@RequestParam("ipoPlate") String ipoPlate) {
+        return ipoInterfaceService.getIpoTechnology(id,ipoPlate);
     }
 
     /**
@@ -1588,8 +1691,8 @@ public class IpoInterfaceController extends BaseController {
      * @param id 案例id
      */
     @RequestMapping(value = "/getPatentSituation", method = RequestMethod.GET)
-    public IpoH5Dto getPatentSituation(@RequestParam("id") String id) {
-        return ipoInterfaceService.getPatentSituation(id);
+    public IpoH5Dto getPatentSituation(@RequestParam("id") String id, String ipoPlate) {
+        return ipoInterfaceService.getPatentSituation(id,ipoPlate);
     }
 
     /**
@@ -1690,18 +1793,17 @@ public class IpoInterfaceController extends BaseController {
      * @param id 案例主键
      */
     @RequestMapping(value = "/selectNewFeedbackList", method = RequestMethod.GET)
-    public List<IpoFeedbackDto> selectNewFeedbackList(String id) {
-
+    public Map<String,List<IpoFeedbackDto>> selectNewFeedbackList(String id) {
+      Map<String,List<IpoFeedbackDto>> map = new HashMap<>();
       List<IpoFeedbackDto> letterList = new ArrayList<>();
       Map<String, List<IpoFeedbackDto>> ipoFeedbackMap= ipoFeedbackService.selectNewFeedbackList(id);
       // 首先判断是不是核准制. 原逻辑是 除了 上交所科创板 都是核准制, 后期变更 深交所创业板为 注册制+核准制
       if (ipoFeedbackMap.containsKey("ratifyList")){//核准制
-        letterList = ipoFeedbackMap.get("ratifyList");
-      }else {//注册制
-        if (ipoFeedbackMap.containsKey("registerList")){
-          letterList = ipoFeedbackMap.get("registerList");
-        }
+          map.put("ratifyList",ipoFeedbackMap.get("ratifyList"));
       }
+        if (ipoFeedbackMap.containsKey("registerList")){
+            map.put("registerList",ipoFeedbackMap.get("registerList"));
+        }
 //      List<IpoFeedbackDto> letterList = ipoFeedbackService.selectNewFeedbackList(id);
 
         for(IpoFeedbackDto dto:letterList){
@@ -1710,7 +1812,7 @@ public class IpoInterfaceController extends BaseController {
                 dto.setQuestionLabelList(questionList.get(0).getQuestionLabelList());
             }
         }
-        return letterList;
+        return map;
     }
 
     /**
@@ -1739,7 +1841,7 @@ public class IpoInterfaceController extends BaseController {
     @RequestMapping(value = "/intermediaryOrgData", method = RequestMethod.GET)
     public Map<String, List<IntermediaryOrgDto>> intermediaryOrgData(
             @RequestParam("id") String id,
-            @RequestParam(value = "validFlag", required = false) String validFlag) {
+            @RequestParam(value = "validFlag", required = false) String validFlag, @RequestParam("ipoPlate") String ipoPlate) {
         Map<String, List<IntermediaryOrgDto>> list = companyOverviewService.getIntermediaryOrgData(id, validFlag);
         if (list != null){
             List<IntermediaryOrgDto> mainList = list.get("mainList");
@@ -1749,41 +1851,50 @@ public class IpoInterfaceController extends BaseController {
 
                     //查询改中介机构的业务量和过会数量
                     if (mainList.get(i).getIntermediaryType().equals("1")){
+                        mainList.get(i).setIpoPlate(ipoPlate);
                         IntermediaryOrgDto dto = ipoInterfaceService.queryOrgMarketShare(mainList.get(i));
                         IntermediaryOrgDto dto1  = ipoInterfaceService.queryQrgMarketRank(mainList.get(i));
                         if (dto != null){
                             mainList.get(i).setBusinessVolume(dto.getBusinessVolume());
                             mainList.get(i).setPassing(dto.getPassing());
                             mainList.get(i).setPassingWait(dto.getPassingWait());
+                            mainList.get(i).setOrgYear(dto.getOrgYear());
                             if (dto1 != null){
                                 mainList.get(i).setBusinessVolumeRank(dto1.getBusinessVolumeRank());
                                 mainList.get(i).setPassingRank(dto1.getPassingRank());
+                                mainList.get(i).setOrgYear(dto1.getOrgYear());
                             }
                         }
                     }
                     if (mainList.get(i).getIntermediaryType().equals("3")){
+                        mainList.get(i).setIpoPlate(ipoPlate);
                         IntermediaryOrgDto dto = ipoInterfaceService.queryOrgMarketShare(mainList.get(i));
                         IntermediaryOrgDto dto1  = ipoInterfaceService.queryQrgMarketRank(mainList.get(i));
                         if (dto != null){
                             mainList.get(i).setBusinessVolume(dto.getBusinessVolume());
                             mainList.get(i).setPassing(dto.getPassing());
                             mainList.get(i).setPassingWait(dto.getPassingWait());
+                            mainList.get(i).setOrgYear(dto.getOrgYear());
                             if (dto1 != null){
                                 mainList.get(i).setBusinessVolumeRank(dto1.getBusinessVolumeRank());
                                 mainList.get(i).setPassingRank(dto1.getPassingRank());
+                                mainList.get(i).setOrgYear(dto1.getOrgYear());
                             }
                         }
                     }
                     if (mainList.get(i).getIntermediaryType().equals("4")){
+                        mainList.get(i).setIpoPlate(ipoPlate);
                         IntermediaryOrgDto dto = ipoInterfaceService.queryOrgMarketShare(mainList.get(i));
                         IntermediaryOrgDto dto1  = ipoInterfaceService.queryQrgMarketRank(mainList.get(i));
                         if (dto != null){
                             mainList.get(i).setBusinessVolume(dto.getBusinessVolume());
                             mainList.get(i).setPassing(dto.getPassing());
                             mainList.get(i).setPassingWait(dto.getPassingWait());
+                            mainList.get(i).setOrgYear(dto.getOrgYear());
                             if (dto1 != null){
                                 mainList.get(i).setBusinessVolumeRank(dto1.getBusinessVolumeRank());
                                 mainList.get(i).setPassingRank(dto1.getPassingRank());
+                                mainList.get(i).setOrgYear(dto1.getOrgYear());
                             }
                         }
                     }

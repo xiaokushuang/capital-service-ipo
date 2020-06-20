@@ -447,7 +447,30 @@ public class IpoFinanceService extends BaseService {
     //计算复合增长率
     private double getGrowthRate(IpoItemDto ipoItemDto) {
         if (null != ipoItemDto.getForthYearValue() && null != ipoItemDto.getSecondYearValue() && ipoItemDto.getSecondYearValue().compareTo(BigDecimal.ZERO) != 0) {
-            double param = ipoItemDto.getForthYearValue().divide(ipoItemDto.getSecondYearValue(), 4, BigDecimal.ROUND_HALF_UP).doubleValue();
+            double rate = 0;
+            DecimalFormat df = new DecimalFormat("#.0000");
+            if (ipoItemDto.getForthYearValue().compareTo(BigDecimal.ZERO) <0 ){
+                if (ipoItemDto.getSecondYearValue().compareTo(BigDecimal.ZERO) <0 ){
+                    double param = ipoItemDto.getForthYearValue().divide(ipoItemDto.getSecondYearValue(), 4, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    rate = Math.pow(param, 1.0 / 2);
+                    Double rateStr = Double.valueOf(df.format(rate));
+                    rate = (new BigDecimal((rateStr - 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue())*-1;
+                }else {
+                    double param = ipoItemDto.getForthYearValue().subtract(ipoItemDto.getForthYearValue()).divide(ipoItemDto.getSecondYearValue(), 4, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    rate = Math.pow(param, 1.0 / 2)*-1;
+                }
+            }else {
+                if (ipoItemDto.getSecondYearValue().compareTo(BigDecimal.ZERO) <0 ){
+                    double param = ipoItemDto.getForthYearValue().subtract(ipoItemDto.getForthYearValue()).divide(ipoItemDto.getSecondYearValue(), 4, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    rate = Math.pow(param, 1.0 / 2);
+                }else {
+                    double param = ipoItemDto.getForthYearValue().divide(ipoItemDto.getSecondYearValue(), 4, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    rate = Math.pow(param, 1.0 / 2);
+                    Double rateStr = Double.valueOf(df.format(rate));
+                    rate = (new BigDecimal((rateStr - 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                }
+            }
+            /*double param = ipoItemDto.getForthYearValue().divide(ipoItemDto.getSecondYearValue(), 4, BigDecimal.ROUND_HALF_UP).doubleValue();
             double rate = 0;
             DecimalFormat df = new DecimalFormat("#.0000");
             if(param <0){
@@ -467,7 +490,7 @@ public class IpoFinanceService extends BaseService {
                 rate = Math.pow(param, 1.0 / 3);
                 Double rateStr = Double.valueOf(df.format(rate));
                 rate = new BigDecimal((rateStr - 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-            }
+            }*/
             return rate;
         } else {
             return 0;
