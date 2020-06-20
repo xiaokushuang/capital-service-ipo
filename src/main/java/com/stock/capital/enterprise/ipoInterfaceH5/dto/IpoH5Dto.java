@@ -56,6 +56,15 @@ public class IpoH5Dto implements Serializable {
     private String researchPeoAll;//研发人员总数
     private String researchPeoCoreAll;//核心研发总数
     private String companyPeoAll;//公司员工总数
+    private String ipoPlate;
+
+    public String getIpoPlate() {
+        return ipoPlate;
+    }
+
+    public void setIpoPlate(String ipoPlate) {
+        this.ipoPlate = ipoPlate;
+    }
 
     public String getResearchPeoAll() {
         return researchPeoAll;

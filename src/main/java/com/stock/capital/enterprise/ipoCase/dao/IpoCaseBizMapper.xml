@@ -25,6 +25,9 @@
       <result column="industryCsrcCode" property="industryCsrcCode" jdbcType="VARCHAR"/>
     <result column="plateCode" property="plateCode" jdbcType="VARCHAR" />
     <result column="nationalIndustries" property="nationalIndustries" jdbcType="VARCHAR" />
+    <result column="issueConditionShortName" property="issueConditionShortName" jdbcType="VARCHAR" />
+    <result column="case_status" property="caseStatus" jdbcType="VARCHAR" />
+    <result column="greenPassage" property="greenPassage" jdbcType="VARCHAR" />
   </resultMap>
 
   <resultMap id="SupCusResultMap" type="com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto" >
@@ -57,7 +60,9 @@
   <select id="getIpoCaseDetail" parameterType="string" resultMap="BaseResultMap">
     SELECT
     ic.id,
+    ic.case_status,
     (SELECT GROUP_CONCAT(m.label_name) FROM maa_conf_label m WHERE m.label_code = 'IPO_SPECIAL_ARRANGE' AND m.status = '1' AND FIND_IN_SET(m.label_value,ic.special_arrange))AS specialArrange,
+    (SELECT GROUP_CONCAT(m.label_name) FROM maa_conf_label m WHERE m.label_code = 'IPO_GREEN_PASSAGE' AND m.status = '1' AND FIND_IN_SET(m.label_value,ic.green_passage)) AS greenPassage,
     ic.company_zh_name,
     ic.industry_status_overview,
     ic.industry_csrc AS industryCsrcCode,
@@ -67,6 +72,9 @@
     ic.company_name,
     ic.company_code,
     ic.issue_condition,
+    (SELECT group_concat(CONCAT((SELECT m1.label_name FROM maa_conf_label m1 WHERE m1.label_code = 'IPO_ISSUE_CONDITION_SIMPLE' AND
+m1.id = m.p_id),' · ',m.label_name))
+FROM maa_conf_label m WHERE m.label_code = 'IPO_ISSUE_CONDITION_SIMPLE' AND find_in_set(m.label_value,ic.issue_condition)) issueConditionShortName,
     (select GROUP_CONCAT(m.label_name) FROM maa_conf_label m where m.label_code = 'IPO_ISSUE_CONDITION'
     AND m.status = '1' and FIND_IN_SET(m.label_value,ic.issue_condition)) AS issueConditionName,
     ( SELECT
