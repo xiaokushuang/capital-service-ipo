@@ -456,12 +456,12 @@ public class IpoFinanceService extends BaseService {
                     Double rateStr = Double.valueOf(df.format(rate));
                     rate = (new BigDecimal((rateStr - 1D) * 100).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue())*-1;
                 }else {
-                    double param = ipoItemDto.getForthYearValue().subtract(ipoItemDto.getForthYearValue()).divide(ipoItemDto.getSecondYearValue(), 4, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    double param = ipoItemDto.getSecondYearValue().subtract(ipoItemDto.getForthYearValue()).divide(ipoItemDto.getSecondYearValue(), 4, BigDecimal.ROUND_HALF_UP).doubleValue();
                     rate = Math.pow(param, 1.0 / 2)*-1;
                 }
             }else {
                 if (ipoItemDto.getSecondYearValue().compareTo(BigDecimal.ZERO) <0 ){
-                    double param = ipoItemDto.getForthYearValue().subtract(ipoItemDto.getForthYearValue()).divide(ipoItemDto.getSecondYearValue(), 4, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    double param = ipoItemDto.getSecondYearValue().subtract(ipoItemDto.getForthYearValue()).divide(ipoItemDto.getSecondYearValue(), 4, BigDecimal.ROUND_HALF_UP).doubleValue();
                     rate = Math.pow(param, 1.0 / 2);
                 }else {
                     double param = ipoItemDto.getForthYearValue().divide(ipoItemDto.getSecondYearValue(), 4, BigDecimal.ROUND_HALF_UP).doubleValue();
