@@ -1799,19 +1799,35 @@ public class IpoInterfaceController extends BaseController {
       Map<String, List<IpoFeedbackDto>> ipoFeedbackMap= ipoFeedbackService.selectNewFeedbackList(id);
       // 首先判断是不是核准制. 原逻辑是 除了 上交所科创板 都是核准制, 后期变更 深交所创业板为 注册制+核准制
       if (ipoFeedbackMap.containsKey("ratifyList")){//核准制
+          if (ipoFeedbackMap.get("ratifyList") != null){
+              for(IpoFeedbackDto dto:ipoFeedbackMap.get("ratifyList")){
+                  List<IpoFeedbackDto> questionList = ipoFeedbackService.selectNewQuestionList(dto.getLetterId(),"","","");
+                  if(CollectionUtils.isNotEmpty(questionList) && questionList.size() > 0){
+                      dto.setQuestionLabelList(questionList.get(0).getQuestionLabelList());
+                  }
+              }
+          }
           map.put("ratifyList",ipoFeedbackMap.get("ratifyList"));
       }
         if (ipoFeedbackMap.containsKey("registerList")){
+            if (ipoFeedbackMap.get("registerList") != null){
+                for(IpoFeedbackDto dto:ipoFeedbackMap.get("registerList")){
+                    List<IpoFeedbackDto> questionList = ipoFeedbackService.selectNewQuestionList(dto.getLetterId(),"","","");
+                    if(CollectionUtils.isNotEmpty(questionList) && questionList.size() > 0){
+                        dto.setQuestionLabelList(questionList.get(0).getQuestionLabelList());
+                    }
+                }
+            }
             map.put("registerList",ipoFeedbackMap.get("registerList"));
         }
 //      List<IpoFeedbackDto> letterList = ipoFeedbackService.selectNewFeedbackList(id);
 
-        for(IpoFeedbackDto dto:letterList){
+        /*for(IpoFeedbackDto dto:letterList){
             List<IpoFeedbackDto> questionList = ipoFeedbackService.selectNewQuestionList(dto.getLetterId(),"","","");
             if(CollectionUtils.isNotEmpty(questionList) && questionList.size() > 0){
                 dto.setQuestionLabelList(questionList.get(0).getQuestionLabelList());
             }
-        }
+        }*/
         return map;
     }
 
