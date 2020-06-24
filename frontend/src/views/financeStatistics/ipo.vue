@@ -402,7 +402,7 @@
                 <!-- 动态加载tab -->
                 <keep-alive :exclude="['feedback']">
                   <component :is="showComponent" id="componentId" v-on:headCallBack="headCall" ref="testRef"
-                             :companyProfileList='{companyProfileList:this.companyProfileList,headList:this.headList,tabList:this.tabList}'
+                             :companyProfileList='{companyProfileList:this.companyProfileList,headList:this.headList,tabList:this.tabList,plateCode:this.plateCode}'
                              ></component>
                 </keep-alive>
               </div>
@@ -519,6 +519,7 @@
     },
     data() {
       return {
+        plateCode:'',
         wordFlag:false,
         timer:'',
         timerTimes:0,
@@ -856,6 +857,7 @@
 
         getCaseDetail(param).then(res => {
           if (res.data.result) {
+            this.plateCode = res.data.result.plateCode
             this.companyProfileList = res.data.result
             if (res.data.result.ipoPlate == '上交所科创板') {
               this.ipoplatetype = true;

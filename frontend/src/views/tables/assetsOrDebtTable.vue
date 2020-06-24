@@ -35,7 +35,7 @@
       </el-table-column>
     </el-table>
     <p v-if="assetsOrDeptTableList[1]&&assetsOrDeptTableList[1].length>0" class="sortProject">资产类项目：</p>
-    <el-table 
+    <el-table
       class="table2"
      :data="assetsOrDeptTableList[1]"
       border
@@ -74,7 +74,7 @@
             <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe;cursor:pointer">查看</span>
           </template>
         </el-table-column>
-     
+
     </el-table>
      <p v-if="assetsOrDeptTableList[2]&&assetsOrDeptTableList[2].length>0" class="sortProject">负债类项目：</p>
     <el-table
@@ -113,10 +113,10 @@
         </el-table-column>
          <el-table-column prop="" align="center"  class-name="table_cell" label="占比" width="135">
           <template slot-scope="scope">
-            <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe;cursor:pointer">查看</span>             
+            <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe;cursor:pointer">查看</span>
           </template>
         </el-table-column>
-     
+
     </el-table>
      <p v-if="assetsOrDeptTableList[3]&&assetsOrDeptTableList[3].length>0" class="sortProject"> 权益类项目：</p>
      <el-table
@@ -155,10 +155,10 @@
         </el-table-column>
          <el-table-column prop="" align="center"  class-name="table_cell" label="占比" width="135">
           <template slot-scope="scope">
-            <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe;cursor:pointer">查看</span>           
+            <span @click="handleShowChart(scope.$index, scope.row)" style="color:#1990fe;cursor:pointer">查看</span>
           </template>
         </el-table-column>
-     
+
     </el-table>
     <!-- 点击放大镜弹出的折线图 -->
     <el-dialog :title="this.zxChartData?'公司最近三年'  +this.zxChartData.itemName+'_趋势':''" :visible.sync="dialogChartVisible" v-if="dialogChartVisible">
@@ -204,7 +204,7 @@ import tanZxChart3  from '@/components/Charts/tanZxChart3'
     props:[ "assetsOrDeptTableList"],
     created(){
       // this.initTableData()
-       
+
     },
     beforeDestroy () {
     },
@@ -214,7 +214,7 @@ import tanZxChart3  from '@/components/Charts/tanZxChart3'
     },
     methods: {
       // 初始化数据
-      initTableData() {
+      /*initTableData() {
             // 动态传id
         const param = {
           id:this.caseId
@@ -225,7 +225,7 @@ import tanZxChart3  from '@/components/Charts/tanZxChart3'
           this.ipoDebtItemList = res.data.result.ipoDebtItemList//负债类项目列表
           this.ipoEquityItemList = res.data.result.ipoEquityItemList//权益类项目列表
         })
-      },
+      },*/
       // 非空判断
       isNotEmpty(param) {
         // debugger

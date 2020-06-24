@@ -16,7 +16,7 @@
         limit 1
     </select>
 
-    <select id="selectFinanceList" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
+    <select id="selectFinanceList" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
         SELECT
             t1.COLUMN_COMMENT itemName,
             round(t2.CURR_VAL/10000,2) forthYearValue,
@@ -54,7 +54,45 @@
         having sort is not null order by sort
     </select>
 
-    <select id="selectDebtFinanceList"
+    <select id="selectFinanceJxcList" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
+        SELECT
+        t1.COLUMN_COMMENT itemName,
+        round(t2.CURR_VAL/10000,2) forthYearValue,
+        (
+        CASE t1.column_name
+        WHEN 'MONETARYFUND' THEN
+        1
+        WHEN 'FVALUEFASSET' THEN
+        2
+        WHEN 'ACCOUNTREC' THEN
+        3
+        WHEN 'OTHERREC' THEN
+        4
+        WHEN 'INVENTORY' THEN
+        5
+        WHEN 'LTEQUITYINV' THEN
+        6
+        WHEN 'FIXEDASSET' THEN
+        7
+        WHEN 'CONSTRUCTIONPROGRESS' THEN
+        8
+        WHEN 'INTANGIBLEASSET' THEN
+        9
+        WHEN 'GOODWILL' THEN
+        10
+        END
+        ) sort
+        FROM
+        vc_dic_rgbalance_semk t1
+        LEFT JOIN vc_fin_report_base_rgbalance_semk t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
+        WHERE
+        t1.IS_USE = '1'
+        having sort is not null order by sort
+    </select>
+
+    <select id="selectDebtFinanceList" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo"
             resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
         SELECT
             t1.COLUMN_COMMENT itemName,
@@ -85,7 +123,38 @@
         having sort is not null order by sort
     </select>
 
-    <select id="selectEquityItemList"
+    <select id="selectDebtFinanceJxcList" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
+        SELECT
+        t1.COLUMN_COMMENT itemName,
+        round(t2.CURR_VAL/10000,2) forthYearValue,
+        (
+        CASE t1.column_name
+        WHEN 'STBORROW' THEN
+        1
+        WHEN 'ACCOUNTPAY' THEN
+        2
+        WHEN 'TAXPAY' THEN
+        3
+        WHEN 'SALARYPAY' THEN
+        4
+        WHEN 'LTBORROW' THEN
+        5
+        WHEN 'LTSALARYPAY' THEN
+        6
+        END
+        ) sort
+        FROM
+        vc_dic_rgbalance_semk t1
+        LEFT JOIN vc_fin_report_base_rgbalance_semk t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
+        WHERE
+        t1.IS_USE = '1'
+        having sort is not null order by sort
+    </select>
+
+    <select id="selectEquityItemList" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo"
             resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
         SELECT
             t1.COLUMN_COMMENT itemName,
@@ -112,7 +181,34 @@
         having sort is not null order by sort
     </select>
 
-    <select id="selectFinanceOverList"
+    <select id="selectEquityItemJxcList" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
+        SELECT
+        t1.COLUMN_COMMENT itemName,
+        round(t2.CURR_VAL/10000,2) forthYearValue,
+        (
+        CASE t1.column_name
+        WHEN 'SHARECAPITAL' THEN
+        1
+        WHEN 'CAPITALRESERVE' THEN
+        2
+        WHEN 'RETAINEDEARNING' THEN
+        3
+        WHEN 'SUMPARENTEQUITY' THEN
+        4
+        END
+        ) sort
+        FROM
+        vc_dic_rgbalance_semk t1
+        LEFT JOIN vc_fin_report_base_rgbalance_semk t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
+        WHERE
+        t1.IS_USE = '1'
+        having sort is not null order by sort
+    </select>
+
+    <select id="selectFinanceOverList" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo"
             resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
         SELECT
             t1.COLUMN_COMMENT itemName,
@@ -217,7 +313,112 @@
                     sort IS NOT NULL order by sort
     </select>
 
-    <select id="selectFinanceProfitList"
+    <select id="selectFinanceOverJxcList" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
+        SELECT
+        t1.COLUMN_COMMENT itemName,
+        round(
+        (
+        CASE
+        WHEN t2.CURR_VAL IS NULL THEN
+        0
+        ELSE
+        t2.curr_val
+        END
+        ) / 10000,
+        2
+        ) forthYearValue,
+        (
+        CASE t1.column_name
+        WHEN 'SUMLASSET' THEN
+        1
+        WHEN 'SUMNONLASSET' THEN
+        2
+        WHEN 'SUMASSET' THEN
+        3
+        WHEN 'SUMLLIAB' THEN
+        4
+        WHEN 'SUMNONLLIAB' THEN
+        5
+        WHEN 'SUMLIAB' THEN
+        6
+        WHEN 'SUMPARENTEQUITY' THEN
+        7
+        END
+        ) sort
+        FROM
+        vc_dic_rgbalance_semk t1
+        LEFT JOIN vc_fin_report_base_rgbalance_semk t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (
+        SELECT
+        org_code
+        FROM
+        ipo_case
+        WHERE
+        ID = #{id}
+        )
+        where t1.column_name in ('SUMLASSET','SUMNONLASSET','SUMASSET','SUMLLIAB','SUMNONLLIAB'
+        ,'SUMLIAB','SUMPARENTEQUITY')
+        HAVING
+        sort IS NOT NULL
+        UNION
+        SELECT
+        t1.COLUMN_COMMENT itemName,
+        round(t2.CURR_VAL / 10000, 2) forthYearValue,
+        (
+        CASE t1.column_name
+        WHEN 'OPERATEREVE' THEN
+        8
+        WHEN 'NETPROFIT' THEN
+        9
+        END
+        ) sort
+        FROM
+        vc_dic_rgincome_semk t1
+        LEFT JOIN vc_fin_report_base_rgincome_semk t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (
+        SELECT
+        org_code
+        FROM
+        ipo_case
+        WHERE
+        ID = #{id}
+        )
+        where t1.COLUMN_NAME in ('OPERATEREVE','NETPROFIT')
+        HAVING
+        sort IS NOT NULL
+        UNION
+        SELECT
+        t1.COLUMN_COMMENT itemName,
+        round(t2.CURR_VAL / 10000, 2) forthYearValue,
+        (
+        CASE t1.column_name
+        WHEN 'NETOPERATECASHFLOW' THEN
+        10
+        WHEN 'NICASHEQUI' THEN
+        11
+        END
+        ) sort
+        FROM
+        vc_dic_rgcashflow_semk t1
+        LEFT JOIN vc_fin_report_base_rgcashflow_semk t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (
+        SELECT
+        org_code
+        FROM
+        ipo_case
+        WHERE
+        ID = #{id}
+        )
+        where t1.COLUMN_NAME in ('NETOPERATECASHFLOW','NICASHEQUI')
+        HAVING
+        sort IS NOT NULL order by sort
+    </select>
+
+    <select id="selectFinanceProfitList" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo"
             resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
         SELECT
             t1.COLUMN_COMMENT itemName,
@@ -232,7 +433,22 @@
          and t1.column_name = 'OPERATEREVE'
     </select>
 
-    <select id="selectCostFinanceList"
+    <select id="selectFinanceProfitJxcList" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
+        SELECT
+        t1.COLUMN_COMMENT itemName,
+        round(t2.CURR_VAL/10000,2) forthYearValue
+        FROM
+        vc_dic_rgincome_semk t1
+        LEFT JOIN vc_fin_report_base_rgincome_semk t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
+        WHERE
+        t1.IS_USE = '1'
+        and t1.column_name = 'OPERATEREVE'
+    </select>
+
+    <select id="selectCostFinanceList" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo"
             resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
 
 SELECT
@@ -266,7 +482,41 @@ SELECT
          having sort is not null order by sort
     </select>
 
-    <select id="selectReturnItemList"
+    <select id="selectCostFinanceJxcList" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
+
+        SELECT
+        t1.COLUMN_COMMENT itemName,
+        round(t2.CURR_VAL/10000,2) forthYearValue,
+        (
+        CASE t1.column_name
+        WHEN 'OPERATEEXP' THEN
+        1
+        WHEN 'OPERATETAX' THEN
+        2
+        WHEN 'SALEEXP' THEN
+        3
+        WHEN 'MANAGEEXP' THEN
+        4
+        WHEN 'RDEXP' THEN
+        5
+        WHEN 'FINANCEEXP' THEN
+        6
+        WHEN 'ASSETDEVALUELOSS' THEN
+        7
+        END
+        ) sort
+        FROM
+        vc_dic_rgincome_semk t1
+        LEFT JOIN vc_fin_report_base_rgincome_semk t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
+        where t1.COLUMN_NAME in ('OPERATEEXP','OPERATETAX','SALEEXP','MANAGEEXP','RDEXP'
+        ,'FINANCEEXP','ASSETDEVALUELOSS')
+        having sort is not null order by sort
+    </select>
+
+    <select id="selectReturnItemList" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo"
             resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
         SELECT
             t1.COLUMN_COMMENT itemName,
@@ -304,7 +554,45 @@ SELECT
             t1.column_name = 'KCFJCXSYJLR' order by sort
     </select>
 
-    <select id="selectMainIndexList"  resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
+    <select id="selectReturnItemJxcList" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo"
+            resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
+        SELECT
+        t1.COLUMN_COMMENT itemName,
+        round(t2.CURR_VAL/10000,2) forthYearValue,
+        (
+        CASE t1.column_name
+        WHEN 'OPERATEPROFIT' THEN
+        1
+        WHEN 'SUMPROFIT' THEN
+        2
+        WHEN 'NETPROFIT' THEN
+        3
+        END
+        ) sort
+        FROM
+        vc_dic_rgincome_semk t1
+        LEFT JOIN vc_fin_report_base_rgincome_semk t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
+        where t1.COLUMN_NAME in ('OPERATEPROFIT','SUMPROFIT','NETPROFIT')
+        having sort is not null
+
+        union
+
+        SELECT
+        t1.COLUMN_COMMENT itemName,
+        round(t2.CURR_VAL/10000,2) forthYearValue,
+        4 sort
+        FROM
+        vc_dic_generalfina_semk t1
+        LEFT JOIN vc_fin_report_base_generalfina_semk t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (select org_code from ipo_case where ID = #{id})
+        WHERE
+        t1.column_name = 'KCFJCXSYJLR' order by sort
+    </select>
+
+    <select id="selectMainIndexList" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo"  resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
           SELECT
 			(
                 CASE t1.column_name
@@ -386,7 +674,89 @@ SELECT
                 sort
     </select>
 
-    <select id="selectRatio" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
+    <select id="selectMainIndexJxcList" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo"  resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
+        SELECT
+        (
+        CASE t1.column_name
+        WHEN 'ROEJQ' THEN
+        '加权平均净资产收益率'
+        ELSE
+        t1.column_comment
+        END
+        ) itemName,
+        t2.CURR_VAL forthYearValue,
+        (
+        CASE t1.column_name
+        WHEN 'LD' THEN
+        1
+        WHEN 'SD' THEN
+        2
+        WHEN 'ZCFZL' THEN
+        3
+        WHEN 'ROEJQ' THEN
+        4
+        WHEN 'YSZKZZL' THEN
+        5
+        WHEN 'XSQCFZ' THEN
+        6
+        END
+        ) sort
+        FROM
+        vc_dic_generalfina_semk t1
+        LEFT JOIN vc_fin_report_base_generalfina_semk t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (
+        SELECT
+        org_code
+        FROM
+        ipo_case
+        WHERE
+        ID = #{id}
+        )
+        WHERE
+        t1.COLUMN_NAME IN (
+        'LD',
+        'SD',
+        'ZCFZL',
+        'ROEJQ',
+        'YSZKZZL',
+        'XSQCFZ'
+        )
+        HAVING
+        sort IS NOT NULL
+        UNION
+        SELECT
+        t1.COLUMN_COMMENT itemName,
+        t2.CURR_VAL forthYearValue,
+        (
+        CASE t1.column_name
+        WHEN 'BASICEPS' THEN
+        7
+        WHEN 'CUTBASICEPS' THEN
+        8
+        END
+        ) sort
+        FROM
+        vc_dic_rgincome_semk t1
+        LEFT JOIN vc_fin_report_base_rgincome_semk t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (
+        SELECT
+        org_code
+        FROM
+        ipo_case
+        WHERE
+        ID = #{id}
+        )
+        WHERE
+        t1.COLUMN_NAME IN ('BASICEPS', 'CUTBASICEPS')
+        HAVING
+        sort IS NOT NULL
+        ORDER BY
+        sort
+    </select>
+
+    <select id="selectRatio" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
         SELECT
                     t1.COLUMN_COMMENT itemName,
                     t2.CURR_VAL forthYearValue,
@@ -417,6 +787,39 @@ SELECT
                     )
                 HAVING
                     sort IS NOT NULL
+    </select>
+
+    <select id="selectJxcRatio" parameterType="com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">
+        SELECT
+        t1.COLUMN_COMMENT itemName,
+        t2.CURR_VAL forthYearValue,
+        (
+        CASE t1.column_name
+        WHEN 'INTANGIBLEASSET' THEN
+        1
+        WHEN 'SUMSHEQUITY' THEN
+        2
+        END
+        ) sort
+        FROM
+        vc_dic_rgbalance_semk t1
+        LEFT JOIN vc_fin_report_base_rgbalance_semk t2 ON t1.ID = t2.MEASURE_ID
+        AND t2.REPORTDATE = #{date}
+        AND T2.COMPANY_ID = (
+        SELECT
+        org_code
+        FROM
+        ipo_case
+        WHERE
+        ID = #{id}
+        )
+        WHERE
+        t1.COLUMN_NAME IN (
+        'INTANGIBLEASSET',
+        'SUMSHEQUITY'
+        )
+        HAVING
+        sort IS NOT NULL
     </select>
 
     <select id="selectFinanceOverListH5" resultType="com.stock.capital.enterprise.ipoCase.dto.IpoItemDto">

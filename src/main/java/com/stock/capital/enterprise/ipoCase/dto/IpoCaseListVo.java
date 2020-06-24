@@ -71,6 +71,15 @@ public class IpoCaseListVo implements Serializable {
 
     private String finYear;//打开财务分析年份
     private String finType;//打开财务分析类型
+    private Date date;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public String getFinYear() {
         return finYear;
