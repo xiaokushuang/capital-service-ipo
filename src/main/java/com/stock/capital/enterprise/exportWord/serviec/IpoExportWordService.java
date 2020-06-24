@@ -1,27 +1,6 @@
 package com.stock.capital.enterprise.exportWord.serviec;
 
-import com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo;
-import com.stock.capital.enterprise.ipoCase.dto.HeadDataVo;
-import com.stock.capital.enterprise.ipoCase.dto.IndustryCompareRateDto;
-import com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoFinanceDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoInvestItemDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoItemDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoProListDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoProgressDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoSplitDto;
-import com.stock.capital.enterprise.ipoCase.dto.IpoTechnologyVo;
-import com.stock.capital.enterprise.ipoCase.dto.IpoValuationDto;
-import com.stock.capital.enterprise.ipoCase.dto.IssueDataDto;
-import com.stock.capital.enterprise.ipoCase.dto.IssueFeeDto;
-import com.stock.capital.enterprise.ipoCase.dto.IssuerIndustryStatusDto;
-import com.stock.capital.enterprise.ipoCase.dto.MainCompetitorInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.MainIncomeVo;
-import com.stock.capital.enterprise.ipoCase.dto.OtherMarketInfoDto;
-import com.stock.capital.enterprise.ipoCase.dto.StrategicPlacementMainDto;
-import com.stock.capital.enterprise.ipoCase.dto.SupplierCustomerMainDto;
-import com.stock.capital.enterprise.ipoCase.dto.TreeTypeProgressDto;
+import com.stock.capital.enterprise.ipoCase.dto.*;
 import com.stock.capital.enterprise.ipoCase.service.CompanyOverviewService;
 import com.stock.capital.enterprise.ipoCase.service.IpoExamineService;
 import com.stock.capital.enterprise.ipoCase.service.IpoFeedbackService;
@@ -138,14 +117,17 @@ public class IpoExportWordService extends BaseService {
 
 //    五、财务信息
 //   财务总体情况：表头日期：dateList 数据（倒序排列）：IpoFinanceOverList
-    IpoFinanceDto ipoFinance = ipoFinanceService.selectFinanceOverList(caseId);
+    IpoCaseListVo dto = new IpoCaseListVo();
+    dto.setId(caseId);
+    dto.setIpoPlate(companyInformation.getPlateCode());
+    IpoFinanceDto ipoFinance = ipoFinanceService.selectFinanceOverList(dto);
 //   资产与负债情况
 //    dateList 资产类项目列表：ipoAssetItemList 负债类项目列表：ipoDebtItemList 权益类项目列表：ipoEquityItemList
-    IpoFinanceDto assetLiability = ipoFinanceService.selectFinanceList(caseId);
+    IpoFinanceDto assetLiability = ipoFinanceService.selectFinanceList(dto);
 //    收入与利润情况 表头日期：dateLis 收入类项目：IpoProfitItemList 成本类项目：IpoCostItemList 利润类项目：IpoReturnOverList
-    IpoFinanceDto incomeProfit = ipoFinanceService.selectFinanceProfitList(caseId);
+    IpoFinanceDto incomeProfit = ipoFinanceService.selectFinanceProfitList(dto);
 //    主要财务指标 表头日期：dateLis  主要财务指标：IpoMainIndexList
-    IpoFinanceDto financialIndex = ipoFinanceService.selectMainIndexList(caseId);
+    IpoFinanceDto financialIndex = ipoFinanceService.selectMainIndexList(dto);
     ipoFinanceHandling(financialIndex);// 对数据进行加工
     resultMap.put("ipoFinance",ipoFinance);
     resultMap.put("assetLiability",assetLiability);

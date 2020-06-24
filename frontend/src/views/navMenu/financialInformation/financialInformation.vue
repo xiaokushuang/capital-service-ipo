@@ -169,6 +169,7 @@ export default {
         compareTable,
         keyFinancialIndicatorTable
     },
+    props:["companyProfileList"],
     created(){
          // 日志--------------------功能头
       let param = {
@@ -285,7 +286,8 @@ export default {
         initTableData() {
             // 动态传id
             const param = {
-             id:this.caseId
+              id:this.caseId,
+              ipoPlate:this.companyProfileList.plateCode
             }
             // 资产总体
              getSelectFinanceOverList(param).then(res => {

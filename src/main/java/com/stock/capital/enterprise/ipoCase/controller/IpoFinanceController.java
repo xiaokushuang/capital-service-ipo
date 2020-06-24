@@ -1,5 +1,6 @@
 package com.stock.capital.enterprise.ipoCase.controller;
 
+import com.stock.capital.enterprise.ipoCase.dto.IpoCaseListVo;
 import com.stock.capital.enterprise.ipoCase.dto.IpoFinanceDto;
 import com.stock.capital.enterprise.ipoCase.service.IpoFinanceService;
 import com.stock.core.controller.BaseController;
@@ -27,9 +28,9 @@ public class IpoFinanceController extends BaseController {
             @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String")
     })
     @RequestMapping(value = "/selectFinanceList", method = RequestMethod.GET)
-    public JsonResponse<IpoFinanceDto> selectFinanceList(String id) {
+    public JsonResponse<IpoFinanceDto> selectFinanceList(IpoCaseListVo ipoCaseListVo) {
         JsonResponse<IpoFinanceDto> response = new JsonResponse<>();
-        IpoFinanceDto ipoFinanceDto = ipoFinanceService.selectFinanceList(id);
+        IpoFinanceDto ipoFinanceDto = ipoFinanceService.selectFinanceList(ipoCaseListVo);
         response.setResult(ipoFinanceDto);
         return response;
     }
@@ -39,9 +40,9 @@ public class IpoFinanceController extends BaseController {
             @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String")
     })
     @RequestMapping(value = "/selectFinanceOverList", method = RequestMethod.GET)
-    public JsonResponse<IpoFinanceDto> selectFinanceOverList(String id) {
+    public JsonResponse<IpoFinanceDto> selectFinanceOverList(IpoCaseListVo ipoCaseListVo) {
         JsonResponse<IpoFinanceDto> response = new JsonResponse<>();
-        IpoFinanceDto ipoFinanceDto = ipoFinanceService.selectFinanceOverList(id);
+        IpoFinanceDto ipoFinanceDto = ipoFinanceService.selectFinanceOverList(ipoCaseListVo);
         response.setResult(ipoFinanceDto);
         return response;
     }
@@ -51,9 +52,9 @@ public class IpoFinanceController extends BaseController {
             @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String")
     })
     @RequestMapping(value = "/selectFinanceProfitList", method = RequestMethod.GET)
-    public JsonResponse<IpoFinanceDto> selectFinanceProfitList(String id) {
+    public JsonResponse<IpoFinanceDto> selectFinanceProfitList(IpoCaseListVo ipoCaseListVo) {
         JsonResponse<IpoFinanceDto> response = new JsonResponse<>();
-        IpoFinanceDto ipoFinanceDto = ipoFinanceService.selectFinanceProfitList(id);
+        IpoFinanceDto ipoFinanceDto = ipoFinanceService.selectFinanceProfitList(ipoCaseListVo);
         response.setResult(ipoFinanceDto);
         return response;
     }
@@ -63,9 +64,9 @@ public class IpoFinanceController extends BaseController {
             @ApiImplicitParam(name = "id", value = "案例id", required = true, paramType = "query", dataType = "String")
     })
     @RequestMapping(value = "/selectMainIndexList", method = RequestMethod.GET)
-    public JsonResponse<IpoFinanceDto> selectMainIndexList(String id) {
+    public JsonResponse<IpoFinanceDto> selectMainIndexList(IpoCaseListVo ipoCaseListVo) {
         JsonResponse<IpoFinanceDto> response = new JsonResponse<>();
-        IpoFinanceDto ipoFinanceDto = ipoFinanceService.selectMainIndexList(id);
+        IpoFinanceDto ipoFinanceDto = ipoFinanceService.selectMainIndexList(ipoCaseListVo);
         response.setResult(ipoFinanceDto);
         return response;
     }
