@@ -53,7 +53,7 @@ CONVERT(lfp.SHAREOVERPLACE/10000,DECIMAL(18,2)) AS shareOverPlace,
   </select>
 
 
-    <select id="getIssueDataFromLocal" parameterType="string"
+    <select id="getIssueDataFromLocal" parameterType="map"
             resultType="com.stock.capital.enterprise.ipoCase.dto.IssueDataDto">
     SELECT
           lfi.share_value AS parValue,
