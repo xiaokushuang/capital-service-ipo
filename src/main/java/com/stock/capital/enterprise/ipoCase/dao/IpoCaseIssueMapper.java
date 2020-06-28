@@ -25,7 +25,7 @@ public interface IpoCaseIssueMapper {
      * @param orgCode
      * @return
      */
-    IssueDataDto getIssueDataFromLocal(String orgCode);
+    IssueDataDto getIssueDataFromLocal(String orgCode,String finType);
 
     StrategicPlacementMainDto getPlacementMainData(@Param("id") String id);
 

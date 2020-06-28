@@ -147,7 +147,7 @@ FROM maa_conf_label m WHERE m.label_code = 'IPO_ISSUE_CONDITION_SIMPLE' AND find
   </select>
 
   <select id="getCodeAndNameById" parameterType="string" resultType="map">
-    SELECT org_code AS orgCode,company_name AS companyName FROM ipo_case WHERE id = #{id} limit 1
+    SELECT org_code AS orgCode,company_name AS companyName,ipo_plate AS ipoPlate FROM ipo_case WHERE id = #{id} limit 1
   </select>
 
   <select id="getIpoShareData" parameterType="string"
