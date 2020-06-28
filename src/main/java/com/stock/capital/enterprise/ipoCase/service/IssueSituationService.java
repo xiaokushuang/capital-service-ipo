@@ -46,7 +46,11 @@ public class IssueSituationService extends BaseService {
 //        DynamicDataSourceHolder.setDataSource("dongcai");
 //        IssueDataDto issueDataDto1 = ipoCaseIssueMapper.getIssueData(orgCode);
 //        DynamicDataSourceHolder.cleanDataSource();
-        IssueDataDto issueDataDto = ipoCaseIssueMapper.getIssueDataFromLocal(orgCode);//测试案例org_code  10092703
+        String finType = "001";
+        if (resultMap.get("ipoPlate") != null && resultMap.get("ipoPlate").equals("069001003001")){
+            finType = "002";
+        }
+        IssueDataDto issueDataDto = ipoCaseIssueMapper.getIssueDataFromLocal(orgCode,finType);//测试案例org_code  10092703
 //        禅道 - 10425 - yangj 增加发行前股本，发行后股本
 //        根据id获取发行前股本 即 注册资本
         CompanyOverviewVo ipoCaseDetail = ipoCaseBizMapper.getIpoCaseDetail(id);
