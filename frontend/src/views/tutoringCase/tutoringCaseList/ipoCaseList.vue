@@ -2464,9 +2464,6 @@
   .noDataColor{
     color:#999999
   }
-  .tutoringCaseList .el-tree-node__content{
-    height: 29px !important;
-  }
 
   /* 受理时间及审核时间日期控件样式 */
   /* .acceptTime .el-range-separator{
