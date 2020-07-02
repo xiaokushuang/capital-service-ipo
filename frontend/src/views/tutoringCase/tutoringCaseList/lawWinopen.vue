@@ -7,7 +7,7 @@
       <div :class="issueDialogSel == '4' ? 'issueSel':'issueSelNormal'"  @click="issueDialogClick('4')" style="cursor:pointer">精选层上市条件</div>
       <div :class="issueDialogSel == '5' ? 'issueSel':'issueSelNormal'"  @click="issueDialogClick('5')" style="cursor:pointer">试点企业要求</div>
     </div>
-    <div style="display: inline-block;vertical-align: top;width: 650px;padding-top: 20px;padding-left: 20px" class="lawContent">
+    <div style="display: inline-block;vertical-align: top;width: 650px;padding-top: 20px;padding-left: 20px;padding-bottom: 20px" class="lawContent">
       <div v-if="issueDialogSel == '1'">
         <div>
           <a style="color: #14bcf5;margin-left: -5px" @click="openLawZbzxb()">《首次公开发行股票并上市管理办法》：</a>
