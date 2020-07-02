@@ -55,6 +55,8 @@ public class HeadDataVo implements Serializable {
     @ApiModelProperty("是否有审核结果数据 0:显示 1:没有发审会进程")
     private Integer haveExamine;
 
+    private Integer haveExamineCyb;
+
     @ApiModelProperty("是否有发审会关注问题 0:显示 1没有发审会关注问题")
     private Integer haveRatifyExamine;
 
@@ -89,6 +91,24 @@ public class HeadDataVo implements Serializable {
     private String caseNote;
 
     private String sdzc;//试点注册进程 1存在，0不存在
+
+    private String fkyjCyb;//1存在，0不存在
+
+    public Integer getHaveExamineCyb() {
+        return haveExamineCyb;
+    }
+
+    public void setHaveExamineCyb(Integer haveExamineCyb) {
+        this.haveExamineCyb = haveExamineCyb;
+    }
+
+    public String getFkyjCyb() {
+        return fkyjCyb;
+    }
+
+    public void setFkyjCyb(String fkyjCyb) {
+        this.fkyjCyb = fkyjCyb;
+    }
 
     public String getSdzc() {
         return sdzc;

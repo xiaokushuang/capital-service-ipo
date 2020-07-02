@@ -244,8 +244,10 @@ public class IpoCaseOverviewController extends BaseController {
           headDataVo.setIsCybBoard(1);// 创业板判断字段
           if(CollectionUtils.isNotEmpty(ratifyList)){
             headDataVo.setHaveFeedbackCyb(0);//反馈意见 核准制
+              headDataVo.setFkyjCyb("1");
           }else{
             headDataVo.setHaveFeedbackCyb(1);
+              headDataVo.setFkyjCyb("0");
           }
           if(CollectionUtils.isNotEmpty(registerList)){
             headDataVo.setHaveReportBackCyb(0);//注册制 回复与问询
@@ -280,7 +282,10 @@ public class IpoCaseOverviewController extends BaseController {
           if (CollectionUtils.isNotEmpty(examineMap.get("ratifyList"))|| CollectionUtils
                   .isNotEmpty(examineMap.get("newList"))) {//核准制
             headDataVo.setHaveRatifyExamine(0);
-            headDataVo.setHaveExamine(0);
+            headDataVo.setHaveExamineCyb(0);
+              headDataVo.setHaveExamine(0);
+          }else {
+              headDataVo.setHaveExamineCyb(1);
           }
           if (CollectionUtils.isNotEmpty(examineMap.get("registerList"))) {//注册制
             headDataVo.setHaveRegisterExamine(0);
