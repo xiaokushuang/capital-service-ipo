@@ -241,14 +241,14 @@
                              @click="onTabClick('2', $event)">财务信息</div>
 
                   <!------------------------------------以下是非创业板块 isCybBoard =1 是创业板--------------------------------->
-                        <div v-if="headList.haveFeedback=='1'&&headList.isTechBoard =='0'&&headList.isCybBoard != '1'" id="tab-third" ref="tab-third" class="el-tabs__item1"
+                        <div v-if="headList.haveFeedback=='1'&&headList.isTechBoard =='0'&&headList.sdzc =='0'" id="tab-third" ref="tab-third" class="el-tabs__item1"
                              aria-controls="pane-third" style="cursor:default;color:#adadad">
                           <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无反馈意见信息" placement="top" effect="light">
                             <el-button class="btnClass">反馈意见</el-button>
                           </el-tooltip>
                         </div>
                         <!-- 1是科创版 -->
-                        <div v-if="headList.haveFeedback=='1'&&(headList.isTechBoard =='1' || headList.isTechBoard =='2')&&headList.isCybBoard != '1'" class="el-tabs__item1"
+                        <div v-if="headList.haveFeedback=='1'&&(headList.isTechBoard =='1' || headList.isTechBoard =='2' || (headList.isCybBoard == '1'&&headList.sdzc =='1'))" class="el-tabs__item1"
                              aria-controls="pane-third" style="cursor:default;color:#adadad">
                           <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无问询与回复信息" placement="top" effect="light">
                             <el-button class="btnClass">问询与回复</el-button>
@@ -264,7 +264,7 @@
                              aria-controls="pane-third" :class="['el-tabs__item_nohover is-top', {'is-active': isActive === '3'}]">反馈意见</div>
                         <div v-if="headList.haveFeedback=='0'&&headList.isTechBoard =='0'&&haveFeedbackData&&headList.isCybBoard != '1'" style="color:#333"
                              aria-controls="pane-third" :class="['el-tabs__item is-top', {'is-active': isActive === '3'}]" @click="onTabClick('3', $event)">反馈意见</div>
-                        <div v-if="headList.haveExamine=='1'&&headList.isCybBoard != '1'" aria-controls="pane-fourth" class="el-tabs__item1"
+                        <div v-if="headList.haveExamine=='1'&&headList.sdzc =='0'" aria-controls="pane-fourth" class="el-tabs__item1"
                              style="padding-right: 0;cursor:default;color:#adadad">
                           <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无审核结果及关注问题信息" placement="top" effect="light">
                             <el-button class="btnClass">审核结果及关注问题</el-button>
@@ -284,19 +284,19 @@
                              @click="onTabClick('13', $event)">发审委关注问题</div>
 
 
-                        <div v-if="headList.isCybBoard=='1'&&headList.haveReportBackCyb=='1'" class="el-tabs__item1"
+                        <!--<div v-if="headList.isCybBoard=='1'&&headList.haveReportBackCyb=='1'" class="el-tabs__item1"
                              aria-controls="pane-third" style="cursor:default;color:#adadad">
                           <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无问询与回复信息" placement="top" effect="light">
                             <el-button class="btnClass">问询与回复</el-button>
                           </el-tooltip>
-                        </div>
+                        </div>-->
 
                         <div v-if="headList.haveReportBackCyb=='0'&&headList.isCybBoard=='1'&&!haveFeedbackData" style="color:#adadad"
                              aria-controls="pane-third" :class="['el-tabs__item_nohover is-top', {'is-active': isActive === '12'}]">问询与回复</div>
                         <div v-if="headList.haveReportBackCyb=='0'&&headList.isCybBoard=='1'&&haveFeedbackData" style="color:#333"
                              aria-controls="pane-third" :class="['el-tabs__item is-top', {'is-active': isActive === '12'}]"  @click="onTabClick('12', $event)">问询与回复</div>
 
-                        <div v-if="headList.haveRegisterExamine=='1'&&headList.isCybBoard=='1'" aria-controls="pane-fourth" class="el-tabs__item1"
+                        <div v-if="headList.haveRegisterExamine=='1'&&headList.isCybBoard=='1'&&headList.sdzc =='1'" aria-controls="pane-fourth" class="el-tabs__item1"
                              style="padding-right: 0;cursor:default;color:#adadad">
                           <el-tooltip style="color:#666" class="ipoTip" content="提示：当前暂无上市委关注问题信息" placement="top" effect="light">
                             <el-button class="btnClass">上市委关注问题</el-button>

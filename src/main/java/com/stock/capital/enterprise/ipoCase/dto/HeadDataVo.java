@@ -88,6 +88,16 @@ public class HeadDataVo implements Serializable {
     @ApiModelProperty("案例笔记")
     private String caseNote;
 
+    private String sdzc;//试点注册进程 1存在，0不存在
+
+    public String getSdzc() {
+        return sdzc;
+    }
+
+    public void setSdzc(String sdzc) {
+        this.sdzc = sdzc;
+    }
+
     public String getTitle() {
         return title;
     }

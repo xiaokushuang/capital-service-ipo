@@ -249,19 +249,25 @@ public class IpoCaseOverviewController extends BaseController {
           }
           if(CollectionUtils.isNotEmpty(registerList)){
             headDataVo.setHaveReportBackCyb(0);//注册制 回复与问询
+              headDataVo.setHaveFeedback(0);
           }else{
             headDataVo.setHaveReportBackCyb(1);
+              headDataVo.setHaveFeedback(1);
           }
         }else if (ipoFeedbackMap.containsKey("ratifyList")){//核准制
           ipoFeedbackList = ipoFeedbackMap.get("ratifyList");
+            if(CollectionUtils.isNotEmpty(ipoFeedbackList)){//问询与回复 反馈意见
+                headDataVo.setHaveFeedback(0);
+            }else{
+                headDataVo.setHaveFeedback(1);
+            }
         }else if (ipoFeedbackMap.containsKey("registerList")){//注册制
           ipoFeedbackList = ipoFeedbackMap.get("registerList");
-        }
-//        List<IpoFeedbackDto> ipoFeedbackList = ipoFeedbackService.selectNewFeedbackList(id);
-        if(CollectionUtils.isNotEmpty(ipoFeedbackList)){//问询与回复 反馈意见
-            headDataVo.setHaveFeedback(0);
-        }else{
-            headDataVo.setHaveFeedback(1);
+            if(CollectionUtils.isNotEmpty(ipoFeedbackList)){//问询与回复 反馈意见
+                headDataVo.setHaveFeedback(0);
+            }else{
+                headDataVo.setHaveFeedback(1);
+            }
         }
 
         //判断是否显示审核结果
