@@ -257,7 +257,7 @@
         } else if (name == '中止审查') {
           label = '(中止及财报更新)'
         } else if (name == '已通过发审会') {
-          label = '(上市委会议通过)'
+          label = '(已通过上市委会议)'
         } else if (name == '终止审查') {
           label = '(终止)'
         } else if (name == '发审会暂缓表决') {
@@ -417,7 +417,7 @@
                 appLabel = approveStatus.replace("10", "<span style='color:#0099cc'>提交注册</span>");
                 break;
               case '03':
-                appLabel = approveStatus.replace("03", "已通过发审会<span style='color:#0099cc'>(上市委会议通过)</span>");
+                appLabel = approveStatus.replace("03", "已通过发审会<span style='color:#0099cc'>(已通过上市委会议)</span>");
                 break;
               case '05':
                 appLabel = approveStatus.replace("05", this.yearShow + "终止审查<span style='color:#0099cc'>(终止)</span>");

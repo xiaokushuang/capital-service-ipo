@@ -141,7 +141,7 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, 
                             <th class="sorting" data-sort-name="preUpdate" style="width: 10%; text-align: center;border-right: 1px solid #fff !important;">预先披露更新<span style="color:#0099cc">(已回复)</span></th>
                             <th class="sorting" data-sort-name="endYet" style="width: 10%; text-align: center;border-right: 1px solid #fff !important;">中止审查<span style="color:#0099cc">(中止)</span></th>
                             <th class="sorting" data-sort-name="processing" style="width: 17%; text-align: center;border-right: 1px solid #fff !important;">已提交发审会讨论，暂缓表决(已提交上市委会议，暂缓审议)</th>
-                            <th class="sorting" data-sort-name="passed" style="width: 6%; text-align: center;border-right: 1px solid #fff !important;">已通过发审会<span style="color:#0099cc">(上市委会议通过)</span></th>
+                            <th class="sorting" data-sort-name="passed" style="width: 6%; text-align: center;border-right: 1px solid #fff !important;">已通过发审会<span style="color:#0099cc">(已通过上市委会议)</span></th>
                             <th class="sorting" data-sort-name="submited" style="width: 8%; text-align: center;border-right: 1px solid #fff !important;"><span style="color:#0099cc">提交注册</span></th>
                             <th class="sorting" data-sort-name="zc" style="width: 8%; text-align: center;border-right: 1px solid #fff !important;"><span style="color:#0099cc">注册生效</span></th>
                             <th class="sorting" data-sort-name="areaCount" style="width: 5%; text-align: center;border-right: 1px solid #fff !important;">合计</th>

@@ -239,7 +239,7 @@ export default {
           if(obj.label == "预先披露更新" || obj.label == "预先披露更新(已回复)"){
             middle[2]= obj;
           }
-          if(obj.label == "已通过发审会" || obj.label == "已通过发审会(上市委会议通过)"){
+          if(obj.label == "已通过发审会" || obj.label == "已通过发审会(已通过上市委会议)"){
             middle[3]= obj;
           }
           if(obj.label == "中止审查" || obj.label == "中止审查(中止及财报更新)"){
@@ -341,8 +341,8 @@ export default {
       if(lable=="已反馈(已问询)"){
         lable = "已反馈<span style='color:#0099cc'>(已问询)</span>";
       }
-      if(lable=="已通过发审会(上市委会议通过)"){
-        lable = "已通过发审会<span style='color:#0099cc'>(上市委会议通过)</span>";
+      if(lable=="已通过发审会(已通过上市委会议)"){
+        lable = "已通过发审会<span style='color:#0099cc'>(已通过上市委会议)</span>";
       }
       if(lable=="中止审查(中止及财报更新)"){
         lable = "中止审查<span style='color:#0099cc'>(中止及财报更新)</span>";

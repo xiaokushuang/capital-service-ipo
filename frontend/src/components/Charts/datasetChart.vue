@@ -205,6 +205,9 @@ export default {
       if(lable=="已反馈"){
         lable = "已反馈(已问询)";
       }
+      if(lable=="已通过发审会"){
+        lable = "已通过发审会(已通过上市委会议)";
+      }
       if(lable=="预先披露更新"){
         lable = "预先披露更新(已回复)";
       }
