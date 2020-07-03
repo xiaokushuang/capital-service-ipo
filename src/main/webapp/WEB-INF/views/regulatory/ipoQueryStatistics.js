@@ -229,7 +229,7 @@ function viewAreaDetail(registAddr,lastUpadteTime,approveStatus,viewType){
 	        break;
 	        case '10': appLabel = approveStatus.replace("10", "<span style='color:#0099cc'>提交注册</span>");
 	        break;
-	        case '03': appLabel = approveStatus.replace("03", "已通过发审会<span style='color:#0099cc'>(上市委会议通过)</span>");
+	        case '03': appLabel = approveStatus.replace("03", "已通过发审会<span style='color:#0099cc'>(已通过上市委会议)</span>");
 	        break;
 	        case '05': appLabel = approveStatus.replace("05", year + "年终止审查<span style='color:#0099cc'>(终止)</span>");
 	        break;

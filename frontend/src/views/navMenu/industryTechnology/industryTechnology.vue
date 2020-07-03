@@ -141,7 +141,7 @@
         </div>
     </div>
     <!-- 专利情况 -->
-    <div  class="patentSituation" v-if="companyProfileList.headList.isTechBoard==1">
+    <div  class="patentSituation" v-if="patentSituationTableData&&patentSituationTableData.length>0">
        <div v-if="patentSituationTableData&&patentSituationTableData.length>0"  class="title" >
             <span class="littleRectangle"></span>
             <span class="titleText" id="patentSituation">专利情况</span>
@@ -602,9 +602,7 @@ export default {
           titleList.push(industryStatus)
           titleList.push(mainCompetitors)
           titleList.push(comparison)
-          if(this.companyProfileList.headList.isTechBoard==1){
-            titleList.push(patentSituation)
-          }
+          titleList.push(patentSituation)
           titleList.push(yfSpending)
           titleList.push(coreTechnology)
           this.$emit('headCallBack', titleList);
