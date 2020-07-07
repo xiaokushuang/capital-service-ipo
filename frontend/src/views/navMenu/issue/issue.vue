@@ -324,6 +324,7 @@
             // 日志------------------功能尾
             this.initTableData()
         },
+        props:["companyProfileList"],
         mounted() {},
         methods: {
             initTableData() {
@@ -605,37 +606,41 @@
             shareholderRenderHeader(h, {
                 column
             }) {
-                var self = this;
-                return h('span', [h('span', column.label), h('el-popover', {
+                if (this.companyProfileList.plateCode != "069001003001"){
+                  var self = this;
+                  return h('span', [h('span', column.label), h('el-popover', {
                     props: {
-                        placement: 'top',
-                        width: '700',
-                        trigger: 'hover'
+                      placement: 'top',
+                      width: '700',
+                      trigger: 'hover'
                     }
-                }, [
+                  }, [
                     h('div', [
-                        h('p', [
-                            h('span', '根据'), h('a', {
-                                style: 'color: #1990FE;',
-                                on: {
-                                    click() {
-                                        self.openNewRule();
-                                    }
-                                }
+                      h('p', [
+                        h('span', '根据'), h('a', {
+                          style: 'color: #1990FE;',
+                          on: {
+                            click() {
+                              self.openNewRule();
+                            }
+                          }
 
-                            }, '《上海证券交易所科创板股票发行与承销业务指引》')
-                        ]), h('p', '第八条'), h('p', '参与发行人战略配售的投资者主要包括：'), h('p', '（一）与发行人经营业务具有战略合作关系或长期合作愿景的大型企业或其下属企业；'),
-                        h('p', '（二）具有长期投资意愿的大型保险公司或其下属企业、国家级大型投资基金或其下属企业；'), h('p',
-                            '（三）以公开募集方式设立，主要投资策略包括投资战略配售股票，且以封闭方式运作的证券投资基金；'), h('p', '（四）参与跟投的保荐机构相关子公司；'), h('p',
-                            '（五）发行人的高级管理人员与核心员工参与本次战略配售设立的专项资产管理计划；'), h('p', '（六）符合法律法规、业务规则规定的其他战略投资者。')
+                        }, '《上海证券交易所科创板股票发行与承销业务指引》')
+                      ]), h('p', '第八条'), h('p', '参与发行人战略配售的投资者主要包括：'), h('p', '（一）与发行人经营业务具有战略合作关系或长期合作愿景的大型企业或其下属企业；'),
+                      h('p', '（二）具有长期投资意愿的大型保险公司或其下属企业、国家级大型投资基金或其下属企业；'), h('p',
+                        '（三）以公开募集方式设立，主要投资策略包括投资战略配售股票，且以封闭方式运作的证券投资基金；'), h('p', '（四）参与跟投的保荐机构相关子公司；'), h('p',
+                        '（五）发行人的高级管理人员与核心员工参与本次战略配售设立的专项资产管理计划；'), h('p', '（六）符合法律法规、业务规则规定的其他战略投资者。')
                     ]), h('i', {
-                        class: 'el-icon-question',
-                        style: 'color:#909399;margin-left:5px;cursor:pointer;font-size:12px !important',
-                        slot: 'reference'
+                      class: 'el-icon-question',
+                      style: 'color:#909399;margin-left:5px;cursor:pointer;font-size:12px !important',
+                      slot: 'reference'
                     })
-                ])
+                  ])
 
-                ]);
+                  ]);
+                }else {
+                  return '股东类型'
+                }
             },
             radioRenderHeader(h, {
                 column
