@@ -111,7 +111,6 @@ import {exportExcelPostWindow1} from '@/utils'
                 exportExcelPostWindow1("/ipo/regulatory_statistics/ipoItemDataDetailExport",statisticsParamDto);
             },
             openDetail(data1){
-                debugger
                 //data1 ="10932245";
                 let param = {
                     stockCode :data1
@@ -123,10 +122,15 @@ import {exportExcelPostWindow1} from '@/utils'
                         if(data != null &&  data.flag == "1" ){
                             if (data.id) {
                                 const _self = this;
+                              let platform = ''
+                              if (this.$route.query.platform){
+                                platform = this.$route.query.platform
+                              }
                                 const { href } = _self.$router.resolve({
                                     name: 'caseDetail',
                                     query: {
                                         caseId: data.id,
+                                        platform:platform,
                                         access_token: _self.$route.query.access_token,
                                         tenant_info: _self.$route.query.tenant_info
                                     }
