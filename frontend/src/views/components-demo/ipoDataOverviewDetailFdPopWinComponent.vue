@@ -145,7 +145,6 @@
                         name: 'tutoringCase',
                         query: {
                             caseId: caseId,
-                            platform:platform,
                             access_token: _self.$route.query.access_token,
                             tenant_info: _self.$route.query.tenant_info
                         }
@@ -157,7 +156,7 @@
                     }
                     this.$store.commit('CREATE_TEMP_MESSAGE', param);
                     // 日志---------------------尾
-                    this.$open(href, '_blank');
+                    this.$open(href+'&platform='+platform, '_blank');
                 } else {
                     let url = window.location.href;
                     url = url.replace(this.$route.path, '/ipoPopWin');

@@ -130,7 +130,6 @@ import {exportExcelPostWindow1} from '@/utils'
                                     name: 'caseDetail',
                                     query: {
                                         caseId: data.id,
-                                        platform:platform,
                                         access_token: _self.$route.query.access_token,
                                         tenant_info: _self.$route.query.tenant_info
                                     }
@@ -141,7 +140,7 @@ import {exportExcelPostWindow1} from '@/utils'
                                 }
                                 this.$store.commit('CREATE_TEMP_MESSAGE', param);
                                 //this.$open(href, '_blank');
-                                nmasOpen.location = href;
+                                nmasOpen.location = href+'&platform='+platform;
                             }
                         }else{
                             nmasOpen.close();
