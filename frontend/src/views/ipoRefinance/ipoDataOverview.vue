@@ -204,7 +204,6 @@ export default {
       this.platform = this.$route.query.platform
     }
     this.platform = 'preipo'
-    alert(platform)
     this.getAllDropDownList();
   },
   mounted() {

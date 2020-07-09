@@ -78,7 +78,11 @@ export default {
         areaSelect:{//选中的地区
             type:String,
             default:'',
-        }
+        },
+    platform:{
+        type:String,
+        default:'',
+      }
 	},
     created() {//加载前默认调用
     },
@@ -192,10 +196,6 @@ export default {
            url = url.replace(this.$route.path, '/ipoOverduePopWin');
            iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
          }else {
-               let platform = ''
-               if (this.$route.query.platform){
-                 platform = this.$route.query.platform
-               }
               let url = window.location.href;
               url = url.replace(this.$route.path,'/ipoDataOverviewDetailPopWin');
               url = url + '&label=' + label + '&quasiListedLand=' + quasiListedLand + '&industry=' + this.industrySelect
