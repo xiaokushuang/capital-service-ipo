@@ -136,7 +136,6 @@
                     if (this.$route.query.platform){
                       platform = this.$route.query.platform
                     }
-                    alert(platform)
                     var caseId = id;
                     const _self = this;
                     const {

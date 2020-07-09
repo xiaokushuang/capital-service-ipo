@@ -358,7 +358,7 @@
             registAddr = this.queryParam.condition.registAddr;
           }
           let url = window.location.href;
-          let platform = 'preipo'
+          let platform = ''
           if (this.$route.query.platform){
             platform = this.$route.query.platform
           }
@@ -390,7 +390,7 @@
             registAddr = this.queryParam.condition.registAddr;
           }
           let url = window.location.href;
-         let platform = 'preipo'
+         let platform = ''
          if (this.$route.query.platform){
            platform = this.$route.query.platform
          }
