@@ -203,7 +203,6 @@ export default {
     if (this.$route.query.platform){
       this.platform = this.$route.query.platform
     }
-    this.platform = 'preipo'
     this.getAllDropDownList();
   },
   mounted() {

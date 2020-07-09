@@ -229,7 +229,7 @@ export default {
            platform = this.$route.query.platform
          }
           url = url.replace(this.$route.path,'/ipoDataOverviewDetailFdPopWin');
-          url = url + '&label=' + label + '&intermediaryType=' + intermediaryType + '&tabFlag=' + this.id + '&labelCode='+labelCode+'&platform='+platform;
+          url = url + '&label=' + label + '&intermediaryType=' + intermediaryType + '&tabFlag=' + this.id + '&labelCode='+labelCode+'&platform='+this.platform;
           //参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
           iframeDoMessage(window.parent,'popWinOut',[label,url,'1200','580']);
         }
