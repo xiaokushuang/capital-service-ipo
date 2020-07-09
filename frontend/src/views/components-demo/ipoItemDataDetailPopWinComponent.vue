@@ -140,7 +140,7 @@ import {exportExcelPostWindow1} from '@/utils'
                                 }
                                 this.$store.commit('CREATE_TEMP_MESSAGE', param);
                                 //this.$open(href, '_blank');
-                                nmasOpen.location = href+'&platform='+platform;
+                                nmasOpen.location = href;
                             }
                         }else{
                             nmasOpen.close();
