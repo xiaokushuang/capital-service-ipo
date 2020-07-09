@@ -130,19 +130,19 @@
             <el-tabs v-model="activeName" @tab-click="handleClick">
               <el-tab-pane label="保荐机构" name="first">
                 <div>
-                  <ipo-data-overview-table-show ref="ipoDataOverviewShow1" :id="tabName1" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
+                  <ipo-data-overview-table-show ref="ipoDataOverviewShow1" :platform="platform" :id="tabName1" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
                 </div>
               </el-tab-pane>
               <!-- 律师事务所 -->
               <el-tab-pane label="律师事务所" name="second">
                 <div>
-                  <ipo-data-overview-table-show ref="ipoDataOverviewShow2" :id="tabName2" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
+                  <ipo-data-overview-table-show ref="ipoDataOverviewShow2" :platform="platform" :id="tabName2" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
                 </div>
               </el-tab-pane>
               <!-- 会计事务所 -->
               <el-tab-pane label="会计事务所" name="third">
                 <div>
-                  <ipo-data-overview-table-show ref="ipoDataOverviewShow3" :id="tabName3" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
+                  <ipo-data-overview-table-show ref="ipoDataOverviewShow3" :platform="platform" :id="tabName3" :industrySelect="industrySelect" :areaSelect="areaSelect"></ipo-data-overview-table-show>
                 </div>
               </el-tab-pane>
             </el-tabs>
@@ -171,6 +171,7 @@ export default {
     Chart, Chart2, getters, papers, IpoDataOverviewTableShow },
   data() {
     return {
+      platform:'',
       lastUpadteTime:'',
       isFirst:true,
       isSecond:false,
@@ -199,6 +200,9 @@ export default {
     };
   },
   created() {//加载前默认调用
+    if (this.$route.query.platform){
+      this.platform = this.$route.query.platform
+    }
     this.getAllDropDownList();
   },
   mounted() {
@@ -286,7 +290,7 @@ export default {
             }
             let url = window.location.href;
             url = url.replace(this.$route.path, '/ipoDataOverviewDetailPopWin');
-            url = url + '&quasiListedLand=' + quasiListedLand + '&tabFlag=four' + '&labelCode=' + labelCode;
+            url = url + '&quasiListedLand=' + quasiListedLand + '&tabFlag=four' + '&labelCode=' + labelCode+'&platform='+this.platform;
             //参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
             iframeDoMessage(window.parent, 'popWinOut', [title, url, '1200', '580']);
         }

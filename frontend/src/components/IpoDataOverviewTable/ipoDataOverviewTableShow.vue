@@ -192,10 +192,14 @@ export default {
            url = url.replace(this.$route.path, '/ipoOverduePopWin');
            iframeDoMessage(window.parent, 'popWinOut', ['提示', url, '427', '217']);
          }else {
+               let platform = ''
+               if (this.$route.query.platform){
+                 platform = this.$route.query.platform
+               }
               let url = window.location.href;
               url = url.replace(this.$route.path,'/ipoDataOverviewDetailPopWin');
               url = url + '&label=' + label + '&quasiListedLand=' + quasiListedLand + '&industry=' + this.industrySelect
-               + '&registAddr=' + this.areaSelect + '&tabFlag=' + this.id + '&labelCode='+labelCode;
+               + '&registAddr=' + this.areaSelect + '&tabFlag=' + this.id + '&labelCode='+labelCode+'&platform='+platform;
             //参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
             iframeDoMessage(window.parent,'popWinOut',[label,url,'1200','580']);
            }
@@ -220,8 +224,12 @@ export default {
             intermediaryType = '4'
           }
           let url = window.location.href;
+         let platform = ''
+         if (this.$route.query.platform){
+           platform = this.$route.query.platform
+         }
           url = url.replace(this.$route.path,'/ipoDataOverviewDetailFdPopWin');
-          url = url + '&label=' + label + '&intermediaryType=' + intermediaryType + '&tabFlag=' + this.id + '&labelCode='+labelCode;
+          url = url + '&label=' + label + '&intermediaryType=' + intermediaryType + '&tabFlag=' + this.id + '&labelCode='+labelCode+'&platform='+platform;
           //参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
           iframeDoMessage(window.parent,'popWinOut',[label,url,'1200','580']);
         }

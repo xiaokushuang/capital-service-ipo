@@ -358,10 +358,14 @@
             registAddr = this.queryParam.condition.registAddr;
           }
           let url = window.location.href;
+          let platform = ''
+          if (this.$route.query.platform){
+            platform = this.$route.query.platform
+          }
           let title = '在审项目数据明细（' + subTitle + " " + label + "）"
           url = url.replace(this.$route.path, '/ipoDataOverviewDetailFdPopWin');
           url = url + '&registAddr=' + registAddr + '&approveStatus=' + approveStatus + '&belongsPlate=' + this.queryParam
-            .condition.belongsPlate;
+            .condition.belongsPlate+'&platform='+platform;
           //参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
           iframeDoMessage(window.parent, 'popWinOut', [title, url, '1200', '580']);
         }
@@ -386,10 +390,14 @@
             registAddr = this.queryParam.condition.registAddr;
           }
           let url = window.location.href;
+         let platform = ''
+         if (this.$route.query.platform){
+           platform = this.$route.query.platform
+         }
           url = url.replace(this.$route.path, '/ipoItemDataDetailPopWin');
           url = url + '&registAddr=' + registAddr + '&lastUpadteTime=' + lastUpadteTime + '&approveStatus=' +
             approveStatus +
-            '&belongsPlate=' + this.queryParam.condition.belongsPlate;
+            '&belongsPlate=' + this.queryParam.condition.belongsPlate+'&platform='+platform;
 
           var title = '在审项目数据明细';
           var appLabel = '';

@@ -1864,6 +1864,10 @@
         this.intermediaryCode = item.labelValue;
       },
       itemClickHandler(row) {
+        let platform = ''
+        if (this.$route.query.platform){
+          platform = this.$route.query.platform
+        }
         let id = row.id;
         if (id == "-----"){
           let url = window.location.href;
@@ -1879,6 +1883,7 @@
             name: row.ipoType=="ipocase"?'caseDetail':'tutoringCase',
             query: {
               caseId: caseId,
+              platform:platform,
               access_token: _self.$route.query.access_token,
               tenant_info: _self.$route.query.tenant_info
             }
