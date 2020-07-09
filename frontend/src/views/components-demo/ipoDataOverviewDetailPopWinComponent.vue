@@ -103,7 +103,7 @@ import {exportExcelPostWindow1} from '@/utils'
               }
               this.$store.commit('CREATE_TEMP_MESSAGE', param);
               // 日志---------------------尾
-              this.$open(href+'&platform='+platform, '_blank');
+              this.$open(href, '_blank');
             } else {
               let url = window.location.href;
               url = url.replace(this.$route.path, '/ipoPopWin');
