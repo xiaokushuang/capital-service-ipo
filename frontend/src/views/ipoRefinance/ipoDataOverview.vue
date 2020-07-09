@@ -201,7 +201,7 @@ export default {
   },
   created() {//加载前默认调用
     if (this.$route.query.platform){
-      this.platform = this.$route.query.platform
+      this.platform = 'preipo'
     }
     this.getAllDropDownList();
   },
