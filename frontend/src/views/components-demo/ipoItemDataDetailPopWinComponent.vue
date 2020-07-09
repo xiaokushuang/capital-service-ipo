@@ -126,6 +126,7 @@ import {exportExcelPostWindow1} from '@/utils'
                               if (this.$route.query.platform){
                                 platform = this.$route.query.platform
                               }
+                              alert(platform)
                                 const { href } = _self.$router.resolve({
                                     name: 'caseDetail',
                                     query: {
