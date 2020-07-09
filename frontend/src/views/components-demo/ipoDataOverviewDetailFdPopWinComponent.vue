@@ -145,6 +145,7 @@
                         name: 'tutoringCase',
                         query: {
                             caseId: caseId,
+                          platform:platform,
                             access_token: _self.$route.query.access_token,
                             tenant_info: _self.$route.query.tenant_info
                         }

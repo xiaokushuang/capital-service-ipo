@@ -130,6 +130,7 @@ import {exportExcelPostWindow1} from '@/utils'
                                     name: 'caseDetail',
                                     query: {
                                         caseId: data.id,
+                                      platform:platform,
                                         access_token: _self.$route.query.access_token,
                                         tenant_info: _self.$route.query.tenant_info
                                     }

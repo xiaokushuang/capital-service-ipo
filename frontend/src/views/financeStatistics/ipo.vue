@@ -8,7 +8,7 @@
 <template>
   <div style="overflow:hidden" >
     <!--上市云-->
-    <div v-if="this.$route.query.platform == 'preipo'" style="width: 100%;height: 46px;background: #343b4a;line-height: 46px;">
+    <div v-if="this.$route.query.platform.indexOf('preipo') != -1" style="width: 100%;height: 46px;background: #343b4a;line-height: 46px;">
       <p style="display:inline-block;margin:0px;padding-left: 50px">
         <span style="color:#ffffff;opacity:0.8;font-size: 14px;margin-left: 16px">IPO详情</span>
       </p>
@@ -1299,7 +1299,7 @@
       caseId(n, o) {}
     },
     created() {
-      if(this.$route.query.platform == 'preipo'){
+      if(this.$route.query.platform.indexOf('preipo') != -1){
         document.title = 'IPO';
         $('[rel="shortcut icon"]').attr("href", require("../../assets/images/preipo.png"));
       }else{
