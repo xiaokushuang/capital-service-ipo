@@ -199,7 +199,7 @@ export default {
               let url = window.location.href;
               url = url.replace(this.$route.path,'/ipoDataOverviewDetailPopWin');
               url = url + '&label=' + label + '&quasiListedLand=' + quasiListedLand + '&industry=' + this.industrySelect
-               + '&registAddr=' + this.areaSelect + '&tabFlag=' + this.id + '&labelCode='+labelCode+'&platform='+platform;
+               + '&registAddr=' + this.areaSelect + '&tabFlag=' + this.id + '&labelCode='+labelCode+'&platform='+this.platform;
             //参数意义：nameSpace：命名空间；action：store中set方法；prompt：提示语
             iframeDoMessage(window.parent,'popWinOut',[label,url,'1200','580']);
            }

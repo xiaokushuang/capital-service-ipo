@@ -289,6 +289,7 @@ export default {
             } else {
                 title = title + "（" + this.lableTurnName(label) + "）"
             }
+            debugger
             let url = window.location.href;
             url = url.replace(this.$route.path, '/ipoDataOverviewDetailPopWin');
             url = url + '&quasiListedLand=' + quasiListedLand + '&tabFlag=four' + '&labelCode=' + labelCode+'&platform='+this.platform;
