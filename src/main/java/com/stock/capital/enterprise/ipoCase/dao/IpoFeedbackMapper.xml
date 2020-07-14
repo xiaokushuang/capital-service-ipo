@@ -5,7 +5,8 @@
 
     <select id="getOrgCode" parameterType="java.lang.String"
             resultType="com.stock.capital.enterprise.ipoCase.dto.CompanyOverviewVo">
-        select org_code orgCode,ipo_plate ipoPlate from ipo_case where id = #{id}
+        select t.org_code orgCode,t.ipo_plate ipoPlate,(select 1 from ipo_process m where m.bid = t.id and m.process_type_code = '31' and m.table_sort = '1' limit 1) zczFlag
+        from ipo_case t where t.id = #{id}
     </select>
 
     <resultMap id="baseResultMap" type="com.stock.capital.enterprise.ipoCase.dto.IpoFeedbackDto">

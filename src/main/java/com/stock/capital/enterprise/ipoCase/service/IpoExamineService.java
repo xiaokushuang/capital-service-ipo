@@ -153,7 +153,9 @@ public class IpoExamineService extends BaseService {
             sessionYear = "1";
         }else if ("069001003001".equals(belongPlate)){
             sessionYear = "1";
-        } else {
+        } else if ("069001002002".equals(belongPlate) && StringUtils.isNotEmpty(companyOverviewVo.getZczFlag()) && "1".equals(companyOverviewVo.getZczFlag())){
+            sessionYear = "1";
+        }else {
             if (processDate.compareTo(eighteenDate) > 0) {
                 sessionYear = "18";
             } else if (processDate.compareTo(seventeenDate) > 0 && processDate.compareTo(eighteenDate) < 0) {

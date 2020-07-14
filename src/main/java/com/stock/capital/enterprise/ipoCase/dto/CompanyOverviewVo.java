@@ -104,6 +104,16 @@ public class CompanyOverviewVo implements Serializable {
     private String caseStatus;
     private String greenPassage;
 
+    private String zczFlag;//判断创业板注册制
+
+    public String getZczFlag() {
+        return zczFlag;
+    }
+
+    public void setZczFlag(String zczFlag) {
+        this.zczFlag = zczFlag;
+    }
+
     public String getGreenPassage() {
         return greenPassage;
     }
