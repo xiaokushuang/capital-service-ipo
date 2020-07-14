@@ -295,6 +295,23 @@
                                         }
                                     }
                                   </#if>
+                                  <#-- 审核/注册结果（包含曾经节点） -->
+                                   <#if condition.apprResultList?? && (condition.apprResultList?size > 0)>
+                                       ,{
+                                        "terms": {
+                                            "ipo_appr_result_list_t": [
+                                                <#list condition.apprResultList as item>
+                                                    <#if !item_has_next>
+                                                        "${item}"
+                                                    <#else>
+                                                        "${item}",
+                                                    </#if>
+                                                </#list>
+                                            ],
+                                            "boost": 1
+                                        }
+                                    }
+                                  </#if>
                                    <#-- 配售机制 -->
                                    <#if condition.placingMechanismList?? && (condition.placingMechanismList?size > 0)>
                                        ,{

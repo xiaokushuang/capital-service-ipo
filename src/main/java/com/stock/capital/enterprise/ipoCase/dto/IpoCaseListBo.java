@@ -36,6 +36,9 @@ public class IpoCaseListBo implements Serializable {
     private String caseStatus;
     private List<String> caseStatusList;
 
+    private String apprResult;
+    private List<String> apprResultList;
+
     private String ipoPlate;
     private List<String> ipoPlateList;
 
@@ -169,6 +172,22 @@ public class IpoCaseListBo implements Serializable {
     private String checkCase;
 
     private String letterNodeId;
+
+    public String getApprResult() {
+        return apprResult;
+    }
+
+    public void setApprResult(String apprResult) {
+        this.apprResult = apprResult;
+    }
+
+    public List<String> getApprResultList() {
+        return apprResultList;
+    }
+
+    public void setApprResultList(List<String> apprResultList) {
+        this.apprResultList = apprResultList;
+    }
 
     public String getLetterNodeId() {
         return letterNodeId;

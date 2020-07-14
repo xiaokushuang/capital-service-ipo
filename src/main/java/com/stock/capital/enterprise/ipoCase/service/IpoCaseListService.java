@@ -300,8 +300,8 @@ public class IpoCaseListService extends BaseService {
             bo.setCaseStatusList(clearEmpty(Arrays.asList(bo.getCaseStatus().trim().split(","))));
         }
 //            审核结果
-        if (StringUtils.isNotEmpty(bo.getIecResult())) {
-            bo.setIecResultList(clearEmpty(Arrays.asList(bo.getIecResult().trim().split(","))));
+        if (StringUtils.isNotEmpty(bo.getApprResult())) {
+            bo.setApprResultList(clearEmpty(Arrays.asList(bo.getApprResult().trim().split(","))));
         }
         //是否拆分上市
         if (StringUtils.isNotEmpty(bo.getIsHidden())) {

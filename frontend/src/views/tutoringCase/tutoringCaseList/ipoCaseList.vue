@@ -138,10 +138,10 @@
             </el-col>
             <el-col :span='4'>
               <el-multiple-selection
-                ref="selectVerifyResult"
-                id="selectVerifyResult"
+                ref="selectApprResult"
+                id="selectApprResult"
                 placeholder="审核/注册结果"
-                @sure-click="sure('selectVerifyResult')"
+                @sure-click="sure('selectApprResult')"
                 :default-all-show="false"
                 size="small full"
                 node-key="id"
@@ -1419,7 +1419,7 @@
             ipoNum: this.$refs.selectIpoNum.selectSpace.map((item)=>{return item.labelValue}).join(','), //申报次数
             placingMechanism: this.$refs.selectPlacingMechanism.selectSpace.map((item)=>{return item.labelValue}).join(','), //配售机制
             caseStatus: this.$refs.selectProcess.selectSpace.map((item)=>{return item.labelValue}).join(','), //IPO进程
-            iecResult: this.$refs.selectVerifyResult.selectSpace.map((item)=>{return item.labelValue}).join(','), //审核结果
+            apprResult: this.$refs.selectApprResult.selectSpace.map((item)=>{return item.labelValue}).join(','), //审核结果
             isHidden:this.$refs.isHiddenRef.selectSpace.map((item)=>{return item.labelValue}).join(','),//是否拆分上市
             codeOrName: _self.codeOrName, //公司名称/代码
             fdProcessTime: _self.fdProcessTime, //辅导时间范围
@@ -1611,7 +1611,7 @@
         this.$refs.selectIpoNum.setCheckedKeys([]); //ipo次数
         this.$refs.selectPlacingMechanism.setCheckedKeys([]); //配售机制
         this.$refs.selectProcess.setCheckedKeys([]);//IPO进程
-        this.$refs.selectVerifyResult.setCheckedKeys([]); //审核结果
+        this.$refs.selectApprResult.setCheckedKeys([]); //审核结果
         this.$refs.isHiddenRef.setCheckedKeys([]);//是否拆分上市
         _self.codeOrName = ''; //公司简称/代码
         _self.intermediary = ''; //中介机构
