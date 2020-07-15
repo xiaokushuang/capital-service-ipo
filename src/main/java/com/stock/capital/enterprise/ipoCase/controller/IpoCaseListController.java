@@ -55,6 +55,9 @@ public class IpoCaseListController extends BaseController {
     @Value("#{app['api.baseUrl']}")
     private String apiBaseUrl;
 
+    @Value("#{app['service.baseUrl']}")
+    private String serviceBaseUrl;
+
 
     @ApiOperation(value = "检索列表接口", notes = "检索列表接口描述")
     @RequestMapping(value = "/listData", method = RequestMethod.POST,
@@ -104,6 +107,8 @@ public class IpoCaseListController extends BaseController {
             }
             map.put("data", list);
         }
+        map.put("signSymbol", signSymbol);
+        map.put("serviceBaseUrl", serviceBaseUrl);
         response.setResult(map);
         return response;
     }

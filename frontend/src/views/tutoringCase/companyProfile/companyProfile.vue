@@ -127,7 +127,6 @@ export default {
       mainList:[],
     };
   },
-  // props:["companyProfileList"],
   created() {
      // 日志--------------------功能头
       let param = {

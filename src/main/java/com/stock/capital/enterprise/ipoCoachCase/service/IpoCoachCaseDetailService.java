@@ -30,6 +30,9 @@ public class IpoCoachCaseDetailService extends BaseService {
     @Value("#{app['file.viewPath']}")
     private String fileViewPath;
 
+    @Value("#{app['service.baseUrl']}")
+    private String serviceBaseUrl;
+
     public IpoCoachCaseDto queryCoachTitleInfo(String id) {
         IpoCoachCaseDto ipoCoachCaseDto = new IpoCoachCaseDto();
         ipoCoachCaseDto = ipoCoachCaseDetailBizMapper.queryCoachBasicInfo(id);

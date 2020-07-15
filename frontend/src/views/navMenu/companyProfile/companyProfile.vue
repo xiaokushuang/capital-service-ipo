@@ -604,7 +604,7 @@
           <span class="littleRectangle"></span>
           <span class="titleText" id="intermediaryInstitutions">中介机构</span>
       </div>
-      <IntermediaryInstitutions v-if="dataFlag"></IntermediaryInstitutions>
+      <IntermediaryInstitutions v-if="dataFlag" :signSymbol="signSymbol" :serviceBaseUrl="serviceBaseUrl"></IntermediaryInstitutions>
     </div>
     <!-- 已经到底了 -->
     <div style="text-align: center;
@@ -687,7 +687,7 @@ export default {
       recentValuationFlag:false
     };
   },
-  props:["companyProfileList"],
+  props:["companyProfileList","signSymbol","serviceBaseUrl"],
   created() {
      // 日志--------------------功能头
       let param = {

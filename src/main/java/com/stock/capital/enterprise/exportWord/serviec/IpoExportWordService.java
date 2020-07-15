@@ -166,7 +166,7 @@ public class IpoExportWordService extends BaseService {
     resultMap.put("strategicPlacementMain",strategicPlacementMain);
 
 //  十二、中介机构
-    Map<String, List<IntermediaryOrgDto>> intermediaryOrgList = companyOverviewService.getIntermediaryOrgData(caseId, "1");//生效的中介机构
+    Map<String, List<IntermediaryOrgDto>> intermediaryOrgList = companyOverviewService.getIntermediaryOrgData(caseId, "1",null);//生效的中介机构
     resultMap.put("intermediaryOrgList",intermediaryOrgList);
     end = System.currentTimeMillis();
 

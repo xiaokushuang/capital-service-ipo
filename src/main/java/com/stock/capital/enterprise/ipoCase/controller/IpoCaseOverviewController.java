@@ -219,9 +219,9 @@ public class IpoCaseOverviewController extends BaseController {
     @RequestMapping(value = "/intermediaryOrgData", method = RequestMethod.GET)
     public JsonResponse<Map<String, List<IntermediaryOrgDto>>> intermediaryOrgData(
         @RequestParam("id") String id,
-        @RequestParam(value = "validFlag", required = false) String validFlag) {
+        @RequestParam(value = "validFlag", required = false) String validFlag,@RequestParam(value ="accessToken", required = false) String accessToken) {
         JsonResponse<Map<String, List<IntermediaryOrgDto>>> response = new JsonResponse<>();
-        response.setResult(companyOverviewService.getIntermediaryOrgData(id, validFlag));
+        response.setResult(companyOverviewService.getIntermediaryOrgData(id, validFlag,accessToken));
         return response;
     }
 

@@ -404,7 +404,7 @@ FROM maa_conf_label m WHERE m.label_code = 'IPO_ISSUE_CONDITION_SIMPLE' AND find
 
   <select id="getIntermediaryOrgData" resultType="com.stock.capital.enterprise.ipoCase.dto.IntermediaryOrgDto">
     SELECT
-    t.*, mcl.label_name AS intermediaryTypeName
+    t.*, mcl.label_name AS intermediaryTypeName,apai.agency_code agyAgencyCode
     FROM
     (
     SELECT
@@ -442,6 +442,11 @@ FROM maa_conf_label m WHERE m.label_code = 'IPO_ISSUE_CONDITION_SIMPLE' AND find
     ) t
     JOIN maa_conf_label mcl ON t.labelCode = mcl.label_code
     AND t.orgType = mcl.label_value
+    left join (
+    select a2.agency_code
+    from agy_ipo_agency_info a2
+    where a2.case_id = #{bid}
+    ) apai on t.orgCode = apai.agency_code
     ORDER BY t.intermediaryType
   </select>
 

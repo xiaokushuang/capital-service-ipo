@@ -678,6 +678,8 @@
   export default {
     data() {
       return {
+        serviceBaseUrl:'',
+        signSymbol:true,
         issueDialogSel:'1',
         // dialogIssueCondition:false,
         radio:0,
@@ -1525,6 +1527,8 @@
               label_code: "SFC",
               children: response.data.result.sfcTreeTag
             }];
+            this.signSymbol = response.data.result.signSymbol
+            this.serviceBaseUrl = response.data.result.serviceBaseUrl
           }
         })
       },
@@ -1884,6 +1888,8 @@
             query: {
               caseId: caseId,
               platform:platform,
+              signSymbol:this.signSymbol,
+              serviceBaseUrl:this.serviceBaseUrl,
               access_token: _self.$route.query.access_token,
               tenant_info: _self.$route.query.tenant_info
             }

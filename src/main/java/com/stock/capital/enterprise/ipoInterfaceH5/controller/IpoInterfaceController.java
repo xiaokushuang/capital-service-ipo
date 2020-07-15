@@ -1858,7 +1858,7 @@ public class IpoInterfaceController extends BaseController {
     public Map<String, List<IntermediaryOrgDto>> intermediaryOrgData(
             @RequestParam("id") String id,
             @RequestParam(value = "validFlag", required = false) String validFlag, @RequestParam("ipoPlate") String ipoPlate) {
-        Map<String, List<IntermediaryOrgDto>> list = companyOverviewService.getIntermediaryOrgData(id, validFlag);
+        Map<String, List<IntermediaryOrgDto>> list = companyOverviewService.getIntermediaryOrgData(id, validFlag,null);
         if (list != null){
             List<IntermediaryOrgDto> mainList = list.get("mainList");
             if (mainList != null){

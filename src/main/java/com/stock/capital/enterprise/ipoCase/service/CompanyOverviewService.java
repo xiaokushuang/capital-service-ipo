@@ -5,6 +5,7 @@ import static java.math.BigDecimal.ROUND_HALF_DOWN;
 import com.stock.capital.enterprise.common.dao.AttachmentMapper;
 import com.stock.capital.enterprise.common.entity.Attachment;
 import com.stock.capital.enterprise.common.entity.AttachmentExample;
+import com.stock.capital.enterprise.common.service.CommonService;
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseBizMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoCaseListMapper;
 import com.stock.capital.enterprise.ipoCase.dao.IpoIssuerIndustryStatusBizMapper;
@@ -58,6 +59,9 @@ public class CompanyOverviewService extends BaseService {
 
     @Autowired
     private RestClient restClient;
+
+    @Autowired
+    private CommonService commonService;
 
     @Value("#{app['file.viewPath']}")
     private String fileViewPath;
@@ -451,13 +455,22 @@ public class CompanyOverviewService extends BaseService {
      * @return map
      */
     public Map<String, List<IntermediaryOrgDto>> getIntermediaryOrgData(
-        String id, String validFlag) {
+        String id, String validFlag,String accessToken) {
         Map<String, List<IntermediaryOrgDto>> result = new HashMap<>();
         List<IntermediaryOrgDto> mainList = new ArrayList<>();
         List<IntermediaryOrgDto> moreList = new ArrayList<>();
         List<IntermediaryOrgDto> intermediaryOrgList =
             ipoCaseBizMapper.getIntermediaryOrgData(id, validFlag);
         if (intermediaryOrgList != null && !intermediaryOrgList.isEmpty()) {
+            accessToken = "a1d1d675-ddc1-42e0-a177-0c7539303e8f";
+            if (StringUtils.isNotEmpty(accessToken)){
+                String url = serviceBaseUrl + "refinancing/agyPortrain/getIpoCaseAgyInfo?access_token="+accessToken+"&caseId="+id;
+                ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
+                };
+                String tempData = restClient.get(url, responseType);
+                Map<String, Object> index = commonService.getEncryptData(tempData);
+                int a=1;
+            }
             for (IntermediaryOrgDto intermediaryOrgDto : intermediaryOrgList) {
                 if (intermediaryOrgDto.getIntermediaryType() != null) {
                     // 保荐机构

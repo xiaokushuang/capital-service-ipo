@@ -49,6 +49,16 @@ public class IntermediaryOrgDto implements Serializable {
     private String ipoPlate;
     private String orgYear;
 
+    private String agyAgencyCode;
+
+    public String getAgyAgencyCode() {
+        return agyAgencyCode;
+    }
+
+    public void setAgyAgencyCode(String agyAgencyCode) {
+        this.agyAgencyCode = agyAgencyCode;
+    }
+
     public String getOrgYear() {
         return orgYear;
     }

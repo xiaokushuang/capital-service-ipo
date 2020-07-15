@@ -407,7 +407,7 @@
               <div class="el-tabs__content">
                 <!-- 动态加载tab -->
                 <keep-alive :exclude="['feedback']">
-                  <component :is="showComponent" id="componentId" v-on:headCallBack="headCall" ref="testRef"
+                  <component :is="showComponent" id="componentId" v-on:headCallBack="headCall" ref="testRef" :signSymbol="signSymbol" :serviceBaseUrl="serviceBaseUrl"
                              :companyProfileList='{companyProfileList:this.companyProfileList,headList:this.headList,tabList:this.tabList,plateCode:this.plateCode}'
                              ></component>
                 </keep-alive>
@@ -525,6 +525,8 @@
     },
     data() {
       return {
+        signSymbol:true,
+        serviceBaseUrl:'',
         platform:'',
         plateCode:'',
         wordFlag:false,
@@ -1300,6 +1302,8 @@
       caseId(n, o) {}
     },
     created() {
+      this.signSymbol = this.$route.query.signSymbol
+      this.serviceBaseUrl = this.$route.query.serviceBaseUrl
       if(this.$route.query.platform){
         if(this.$route.query.platform.indexOf('preipo') != -1){
           this.platform = this.$route.query.platform

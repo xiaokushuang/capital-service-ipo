@@ -30,11 +30,15 @@
                             <div v-if="item.intermediaryType=='6'" class="image l" >
                                  <img src="../../../../assets/images/cuntuo.png" alt>
                             </div>
-                            <div class="text l">
-                                <div>
-                                    <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
-                                    font-style: normal; font-size: 16px; color: #363636">{{item.orgName}}</span>
-                                </div>
+                          <div class="text l">
+                              <div v-if="item.agyAgencyCode && signSymbol == 'true'">
+                                     <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
+                                font-style: normal; font-size: 16px; color: #14bcf5; cursor: pointer" @click="handleOrgDetail(item.orgCode)">{{item.orgName}}</span>
+                              </div>
+                              <div v-else>
+                                      <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
+                                  font-style: normal; font-size: 16px; color: #363636">{{item.orgName}}</span>
+                              </div>
                                 <!-- 保荐机构 -->
                                 <ul v-if="item.intermediaryType=='1'">
                                     <li class="people">
@@ -92,11 +96,11 @@
                                         <span v-else>- -</span>
                                     </li>
                                 </ul>
-                            </div> 
+                          </div>
                             <!-- 已失效标志 -->
                             <span class="failure" v-show="item.validFlag == 0">
                                 已失效
-                            </span>                              
+                            </span>
                         </div>
                     </li>
                     <li v-show="showMoreType" class="clear " v-for="item in moreList">
@@ -121,11 +125,14 @@
                                  <img src="../../../../assets/images/cuntuo.png" alt>
                             </div>
                             <div class="text l">
-                                <div>
-                                    <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
+                              <div v-if="item.agyAgencyCode && signSymbol == 'true'">
+                                         <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
+                                    font-style: normal; font-size: 16px; color: #14bcf5; cursor: pointer" @click="handleOrgDetail(item.orgCode)">{{item.orgName}}</span>
+                              </div>
+                              <div v-else>
+                                        <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
                                     font-style: normal; font-size: 16px; color: #363636">{{item.orgName}}</span>
-                                </div>
-                                
+                              </div>
                                <!-- 保荐机构 -->
                                 <ul v-if="item.intermediaryType=='1'">
                                     <li class="people">
@@ -192,13 +199,13 @@
                                         <span v-else>- -</span>
                                     </li>
                                 </ul>
-                            </div> 
+                            </div>
                             <!-- 已失效标志 -->
                             <span class="failure" v-show="item.validFlag == 0">
                                 已失效
-                            </span>                              
+                            </span>
                         </div>
-                    </li>                    
+                    </li>
                 </ul>
                  <div style=" text-align: center;">
                     <span v-show="moreList&&moreList.length>0" style="color: rgb(25, 144, 254);font-size:14px;text-align:center;cursor:pointer" class="packUp" v-if="showMoreType" @click="packUpMoreType()">收起 <i class="el-icon-arrow-up"></i></span>
@@ -242,7 +249,7 @@ export default {
             agentState: "当前有效",
             showMoreType:false,//点击查看更多机构
             dataFlag:false,
-            options: 
+            options:
                 [
                     {
                         label: "当前有效",
@@ -259,6 +266,7 @@ export default {
               ],
         }
     },
+  props:["signSymbol","serviceBaseUrl"],
       watch: {
         agentState(n, o) {
             switch (n) {
@@ -280,11 +288,18 @@ export default {
      this.initTableAllData()
     },
   methods: {
+    handleOrgDetail(agencyCode){
+      var href = this.serviceBaseUrl + "ui/refinancing/capitalOperationIndex";
+      var url = href + "?access_token=" + this.$route.query.access_token + "&agencyCode=" + agencyCode + '&tenant_info=' + this.$route.query.tenant_info
+        + '&service_gui_base_url=' + this.serviceBaseUrl + '&fromFlag=ipo';
+      window.open(url);
+    },
     initTableData(validFlag) {
       // 动态传id
       const param = {
         id:this.caseId,
-        validFlag:validFlag
+        validFlag:validFlag,
+        accessToken:this.$store.state.app.token
       }
       getIntermediaryOrgDataList(param).then(response => {
           if(response.data.result){
@@ -324,7 +339,7 @@ export default {
         this.showMoreType = false
     },
     // 鼠标移入委员详情弹出窗的列
-    mouseOverSpreadText(title){ 
+    mouseOverSpreadText(title){
         for(let a = 0;a< $(".bj").length;a++){
             if(title.length>38){
                 $(".bj").eq(a).attr("title",title)
@@ -396,6 +411,19 @@ export default {
 }
 .r {
   float: right;
+}
+.rightMain {
+  margin: auto;
+  text-align: center;
+}
+.rightUlBorder {
+  border-right: 1px solid #e4e4e4;
+}
+.rightLiOne {
+  height: 30px;
+}
+.rightLiTwo {
+  height: 40px;
 }
 .clear:after {
   display: block;

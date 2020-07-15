@@ -97,6 +97,16 @@ public class IpoCoachCaseDto implements Serializable {
 
     private String signStatus;
 
+    private String serviceBaseUrl;
+
+    public String getServiceBaseUrl() {
+        return serviceBaseUrl;
+    }
+
+    public void setServiceBaseUrl(String serviceBaseUrl) {
+        this.serviceBaseUrl = serviceBaseUrl;
+    }
+
     public String getId() {
         return id;
     }
