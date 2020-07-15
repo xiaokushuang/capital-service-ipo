@@ -2,6 +2,7 @@ package com.stock.capital.enterprise.ipoCase.service;
 
 import static java.math.BigDecimal.ROUND_HALF_DOWN;
 
+import com.google.common.collect.Maps;
 import com.stock.capital.enterprise.common.dao.AttachmentMapper;
 import com.stock.capital.enterprise.common.entity.Attachment;
 import com.stock.capital.enterprise.common.entity.AttachmentExample;
@@ -12,6 +13,7 @@ import com.stock.capital.enterprise.ipoCase.dao.IpoIssuerIndustryStatusBizMapper
 import com.stock.capital.enterprise.ipoCase.dto.*;
 import com.stock.core.dao.RedisDao;
 import com.stock.core.dto.JsonResponse;
+import com.stock.core.dto.QueryInfo;
 import com.stock.core.rest.RestClient;
 import com.stock.core.service.BaseService;
 import com.stock.core.util.JsonUtil;
@@ -462,13 +464,16 @@ public class CompanyOverviewService extends BaseService {
         List<IntermediaryOrgDto> intermediaryOrgList =
             ipoCaseBizMapper.getIntermediaryOrgData(id, validFlag);
         if (intermediaryOrgList != null && !intermediaryOrgList.isEmpty()) {
-            accessToken = "a1d1d675-ddc1-42e0-a177-0c7539303e8f";
+            accessToken = commonService.getGuiAccessToken();
             if (StringUtils.isNotEmpty(accessToken)){
                 String url = serviceBaseUrl + "refinancing/agyPortrain/getIpoCaseAgyInfo?access_token="+accessToken+"&caseId="+id;
                 ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
                 };
-                String tempData = restClient.get(url, responseType);
+                Map<String, Object> condition = Maps.newHashMap();
+                condition.put("caseId", "98171333342405324");
+                String tempData = restClient.post(url,condition, responseType);
                 Map<String, Object> index = commonService.getEncryptData(tempData);
+                List<Map<String,String>> resultList  = (List<Map<String,String>>)index.get("resultList");
                 int a=1;
             }
             for (IntermediaryOrgDto intermediaryOrgDto : intermediaryOrgList) {
