@@ -11,7 +11,7 @@
                 <ul>
                     <li class="clear " v-for="item in mainList">
                         <p class="institutionTitle">{{item.intermediaryTypeName}}</p>
-                        <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'">
+                        <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'" class="orgclass">
                              <div v-if="item.intermediaryType=='1'" class="image l" style="margin-top:24px">
                                  <img src="../../../../assets/images/coSponsors.png" alt>
                             </div>
@@ -137,7 +137,7 @@
                     </li>
                     <li v-show="showMoreType" class="clear " v-for="item in moreList">
                         <p class="institutionTitle">{{item.intermediaryTypeName}}</p>
-                        <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'">
+                        <div :class="item.validFlag == 0 ?'failureBackground InstitutionsDetailLi clear':'InstitutionsDetailLi clear'" class="orgclass">
                             <div v-if="item.intermediaryType=='1'" class="image l" style="margin-top:24px" >
                                  <img src="../../../../assets/images/coSponsors.png" alt>
                             </div>
@@ -497,6 +497,7 @@ export default {
 .rightMain {
   margin: auto;
   text-align: center;
+  padding: 20px;
 }
 .rightUlBorder {
   border-right: 1px solid #e4e4e4;
@@ -604,6 +605,9 @@ export default {
 .el-select-dropdown__item.selected {
   color: #14bcf5 !important;
 }
+  .orgclass{
+    border: 1px solid #e4e4e4;
+  }
 </style>
 
 
