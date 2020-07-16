@@ -30,7 +30,7 @@
                             <div v-if="item.intermediaryType=='6'" class="image l" >
                                  <img src="../../../../assets/images/cuntuo.png" alt>
                             </div>
-                          <div class="text l">
+                          <el-col :span="10" class="text l">
                               <div v-if="item.agyAgencyCode && signSymbol == 'true'">
                                      <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
                                 font-style: normal; font-size: 16px; color: #14bcf5; cursor: pointer" @click="handleOrgDetail(item.orgCode)">{{item.orgName}}</span>
@@ -96,7 +96,39 @@
                                         <span v-else>- -</span>
                                     </li>
                                 </ul>
-                          </div>
+                          </el-col>
+                          <template v-if="item.passMeetingNum && item.passMeetingNum>0">
+                            <el-col :span="3" class="rightMain">
+                              <ul class="rightUlBorder">
+                                <li class="rightLiOne">
+                                  <span class="rightLiOneSpan"><span class="rightLiOneSpanIndex"> {{item.passMeetingNum}} </span>家</span>
+                                </li>
+                                <li class="rightLiTwo">
+                                  <span class="rightLiTwoSpan">{{item.searchDate}}年<br/>通过公司</span>
+                                </li>
+                              </ul>
+                            </el-col>
+                            <el-col :span="4" class="rightMain">
+                              <ul class="rightUlBorder">
+                                <li class="rightLiOne">
+                                  <span class="rightLiOneSpan">第<span class="rightLiOneSpanIndex"> {{item.rankNo}} </span>名</span>
+                                </li>
+                                <li class="rightLiTwo">
+                                  <span class="rightLiTwoSpan">{{item.searchDate}}年<br/>通过公司排名</span>
+                                </li>
+                              </ul>
+                            </el-col>
+                            <el-col :span="3" class="rightMain">
+                              <ul>
+                                <li class="rightLiOne">
+                                  <span class="rightLiOneSpan"><span class="rightLiOneSpanIndex">{{item.passMeetingRatio}}</span>%</span>
+                                </li>
+                                <li class="rightLiTwo">
+                                  <span class="rightLiTwoSpan">{{item.searchDate}}年<br/>过会率</span>
+                                </li>
+                              </ul>
+                            </el-col>
+                          </template>
                             <!-- 已失效标志 -->
                             <span class="failure" v-show="item.validFlag == 0">
                                 已失效
@@ -124,7 +156,7 @@
                              <div v-if="item.intermediaryType=='6'" class="image l" >
                                  <img src="../../../../assets/images/cuntuo.png" alt>
                             </div>
-                            <div class="text l">
+                            <el-col :span="10" class="text l">
                               <div v-if="item.agyAgencyCode && signSymbol == 'true'">
                                          <span style="font-family: '微软雅黑 Bold', '微软雅黑 Regular', 微软雅黑;font-weight: 700;
                                     font-style: normal; font-size: 16px; color: #14bcf5; cursor: pointer" @click="handleOrgDetail(item.orgCode)">{{item.orgName}}</span>
@@ -199,7 +231,39 @@
                                         <span v-else>- -</span>
                                     </li>
                                 </ul>
-                            </div>
+                            </el-col>
+                          <template v-if="item.passMeetingNum && item.passMeetingNum>0">
+                            <el-col :span="3" class="rightMain">
+                              <ul class="rightUlBorder">
+                                <li class="rightLiOne">
+                                  <span class="rightLiOneSpan"><span class="rightLiOneSpanIndex"> {{item.passMeetingNum}} </span>家</span>
+                                </li>
+                                <li class="rightLiTwo">
+                                  <span class="rightLiTwoSpan">{{item.searchDate}}年<br/>通过公司</span>
+                                </li>
+                              </ul>
+                            </el-col>
+                            <el-col :span="4" class="rightMain">
+                              <ul class="rightUlBorder">
+                                <li class="rightLiOne">
+                                  <span class="rightLiOneSpan">第<span class="rightLiOneSpanIndex"> {{item.rankNo}} </span>名</span>
+                                </li>
+                                <li class="rightLiTwo">
+                                  <span class="rightLiTwoSpan">{{item.searchDate}}年<br/>通过公司排名</span>
+                                </li>
+                              </ul>
+                            </el-col>
+                            <el-col :span="3" class="rightMain">
+                              <ul>
+                                <li class="rightLiOne">
+                                  <span class="rightLiOneSpan"><span class="rightLiOneSpanIndex">{{item.passMeetingRatio}}</span>%</span>
+                                </li>
+                                <li class="rightLiTwo">
+                                  <span class="rightLiTwoSpan">{{item.searchDate}}年<br/>过会率</span>
+                                </li>
+                              </ul>
+                            </el-col>
+                          </template>
                             <!-- 已失效标志 -->
                             <span class="failure" v-show="item.validFlag == 0">
                                 已失效
@@ -429,6 +493,31 @@ export default {
   display: block;
   content: "";
   clear: both;
+}
+.rightMain {
+  margin: auto;
+  text-align: center;
+}
+.rightUlBorder {
+  border-right: 1px solid #e4e4e4;
+}
+.rightLiOne {
+  height: 30px;
+}
+.rightLiOneSpan {
+  font-size:12px;
+  color:#333;
+}
+.rightLiOneSpanIndex {
+  font-size:20px;
+  color:#333;
+}
+.rightLiTwo {
+  height: 40px;
+}
+.rightLiTwoSpan {
+  font-size:14px;
+  color:#333333;
 }
 .title {
     border-bottom: 1px solid;

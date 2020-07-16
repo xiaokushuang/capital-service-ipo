@@ -465,18 +465,26 @@ public class CompanyOverviewService extends BaseService {
             ipoCaseBizMapper.getIntermediaryOrgData(id, validFlag);
         if (intermediaryOrgList != null && !intermediaryOrgList.isEmpty()) {
             accessToken = commonService.getGuiAccessToken();
+            List<Map<String,String>> resultList  = new ArrayList<>();
             if (StringUtils.isNotEmpty(accessToken)){
-                String url = serviceBaseUrl + "refinancing/agyPortrain/getIpoCaseAgyInfo?access_token="+accessToken+"&caseId="+id;
+                String url = serviceBaseUrl + "refinancing/agyPortrain/getIpoCaseAgyInfo?access_token="+accessToken;
                 ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<String>() {
                 };
                 Map<String, Object> condition = Maps.newHashMap();
-                condition.put("caseId", "98171333342405324");
+                condition.put("caseId", id);
                 String tempData = restClient.post(url,condition, responseType);
                 Map<String, Object> index = commonService.getEncryptData(tempData);
-                List<Map<String,String>> resultList  = (List<Map<String,String>>)index.get("resultList");
-                int a=1;
+                resultList  = (List<Map<String,String>>)index.get("resultList");
             }
             for (IntermediaryOrgDto intermediaryOrgDto : intermediaryOrgList) {
+                for (int i=0;i<resultList.size();i++){
+                    if (resultList.get(i).get("agencyCode").equals(intermediaryOrgDto.getOrgCode())){
+                        intermediaryOrgDto.setPassMeetingRatio(resultList.get(i).get("passMeetingRatio"));
+                        intermediaryOrgDto.setPassMeetingNum(resultList.get(i).get("passMeetingNum"));
+                        intermediaryOrgDto.setRankNo(resultList.get(i).get("rankNo"));
+                        intermediaryOrgDto.setSearchDate(resultList.get(i).get("searchDate"));
+                    }
+                }
                 if (intermediaryOrgDto.getIntermediaryType() != null) {
                     // 保荐机构
                     if ("1".equals(intermediaryOrgDto.getIntermediaryType())) {

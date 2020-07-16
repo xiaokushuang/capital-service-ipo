@@ -51,6 +51,46 @@ public class IntermediaryOrgDto implements Serializable {
 
     private String agyAgencyCode;
 
+    private String passMeetingRatio;//过会率
+
+    private String passMeetingNum;//过会家数
+
+    private String rankNo;//排名
+
+    private String searchDate;//年份
+
+    public String getSearchDate() {
+        return searchDate;
+    }
+
+    public void setSearchDate(String searchDate) {
+        this.searchDate = searchDate;
+    }
+
+    public String getPassMeetingRatio() {
+        return passMeetingRatio;
+    }
+
+    public void setPassMeetingRatio(String passMeetingRatio) {
+        this.passMeetingRatio = passMeetingRatio;
+    }
+
+    public String getPassMeetingNum() {
+        return passMeetingNum;
+    }
+
+    public void setPassMeetingNum(String passMeetingNum) {
+        this.passMeetingNum = passMeetingNum;
+    }
+
+    public String getRankNo() {
+        return rankNo;
+    }
+
+    public void setRankNo(String rankNo) {
+        this.rankNo = rankNo;
+    }
+
     public String getAgyAgencyCode() {
         return agyAgencyCode;
     }
