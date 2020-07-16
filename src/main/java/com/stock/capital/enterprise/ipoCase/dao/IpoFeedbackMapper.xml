@@ -289,7 +289,7 @@
         sa_letter t1
         LEFT JOIN letter_class t2 ON t2.id = t1.letter_type
         WHERE
-        t2.letter_class_name in ('科创板上市申请文件审核问询函','审核中心意见落实函')
+        t2.letter_class_name in ('科创板上市申请文件审核问询函','审核中心意见落实函','创业板上市申请文件审核问询函')
         AND t1.rela_code = #{orgId} and t1.post_status = '1' and t1.letter_valid = '0'
         <if test="processDateList != null and processDateList.size()>0">
             and t1.letter_date in

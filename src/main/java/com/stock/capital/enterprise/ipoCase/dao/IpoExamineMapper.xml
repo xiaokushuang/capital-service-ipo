@@ -116,7 +116,7 @@
             sa_letter t1
         LEFT JOIN letter_class t2 ON t2.id = t1.letter_type
         WHERE
-            t2.letter_class_name in ('发审委会议询问的主要问题','上市委会议询问的主要问题')
+            t2.letter_class_name in ('发审委会议询问的主要问题','上市委会议询问的主要问题','上市委会议的审议意见和主要问题')
         AND t1.rela_code = #{orgCode}
         and t1.letter_date in
         <foreach collection="list" separator="," item="item" open="(" close=")" >

@@ -302,6 +302,9 @@ public class IpoExamineService extends BaseService {
                 if ("发审委会议询问的主要问题".equals(letterTypeName)) {
                     ipoFeedbackResultDto.setLetterName("发审会关注问题");
                     ipoFeedbackResultDto.setLetterDate(letterDate);
+                }if ("上市委会议的审议意见和主要问题".equals(letterTypeName)) {
+                    ipoFeedbackResultDto.setLetterName("上市会关注问题");
+                    ipoFeedbackResultDto.setLetterDate(letterDate);
                 } else if ("上市委会议询问的主要问题".equals(letterTypeName)) {
                     if (examineCount == 1) {
                         ipoFeedbackResultDto.setLetterName("上市会关注问题");
